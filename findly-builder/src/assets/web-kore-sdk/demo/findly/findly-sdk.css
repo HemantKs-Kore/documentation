@@ -11012,6 +11012,7 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     white-space: nowrap;
     text-overflow: ellipsis;
     max-width: 86%;
+    text-transform: capitalize;
   }
   .searchAssist-kore-chat-window .custom_checkbox.kr-sg-checkbox .checkbox-custom + .checkbox-custom-label::before {
     content: '';
@@ -11029,6 +11030,7 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     margin-top: 0;
     left: 0;
     top: 0px;
+    text-transform: capitalize;
   }
   .searchAssist-kore-chat-window .custom_checkbox.kr-sg-checkbox .checkbox-custom:hover:not([disabled]):checked + .checkbox-custom-label {
     color: var(--sdk-shark-black-color);
@@ -14964,6 +14966,7 @@ margin-bottom: 15px !important;
         text-overflow: ellipsis;
         padding-right: 0;
         max-width: 86%;
+        text-transform: capitalize;
     }
     .filter-sec-tab .kr-sg-radiobutton .radio-custom+.radio-custom-label{
         padding: 4px 0px 14px 28px !important;
@@ -15016,4 +15019,8 @@ margin-bottom: 15px !important;
      }
      .custom_checkbox.kr-sg-radiobutton .radio-custom:hover + .radio-custom-label::before {
         border:solid 1px var(--sdk-primary-blue-color);
+      }
+
+      .tile-description img{
+        max-width: 100% !important;
       }

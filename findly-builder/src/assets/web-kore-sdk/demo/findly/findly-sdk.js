@@ -21071,15 +21071,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               // } else {
               //   $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
               // }
-              if(data.autoComplete.querySuggestions.length){
-                $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
-                _self.bindPerfectScroll($('#autoSuggestionContainer'), '.bottom-to-top-suggestion', null, 'bottom-up-suggestion');
-                $('.bottom-to-top-suggestion').animate({ scrollTop: ($('.bottom-to-top-suggestion').prop("scrollHeight")) }, 300)
-              } else {
-                $('#autoSuggestionContainer').empty().append('<div class="suggestion-search-data-parent"><div class="noquerySuggestionsFound">No suggestions found</div></div>')
+              if (!$('body').hasClass('top-down')) {
+                if(data.autoComplete.querySuggestions.length){
+                  $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
+                  _self.bindPerfectScroll($('#autoSuggestionContainer'), '.bottom-to-top-suggestion', null, 'bottom-up-suggestion');
+                  $('.bottom-to-top-suggestion').animate({ scrollTop: ($('.bottom-to-top-suggestion').prop("scrollHeight")) }, 300)
+                } else {
+                  $('#autoSuggestionContainer').empty().append('<div class="suggestion-search-data-parent"><div class="noquerySuggestionsFound">No suggestions found</div></div>')
+                }
               }
             }
-            _self.changeSearchContainerBackground();
+            if (!$('body').hasClass('top-down')) {
+              _self.changeSearchContainerBackground();
+            }
             if (searchConfigurationCopy.autocompleteOpt) {
               _self.pubSub.publish('sa-auto-suggest', data.autoComplete.typeAheads);
             }
@@ -21103,8 +21107,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
             }
           } else {
-            $('#autoSuggestionContainer').empty();
-            $('.parent-search-live-auto-suggesition').hide();
+            if (!$('body').hasClass('top-down')) {
+              $('#autoSuggestionContainer').empty();
+              $('.parent-search-live-auto-suggesition').hide();
+            }
+           
           }
         },
         error: function (err) {
@@ -21946,7 +21953,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.all-result-container').removeClass('center-align-filter');
         $('.all-result-container').removeClass('right-align-filter');
         //left align facets top down//
-      } 
+      }
     }
     // top-search-template --end///
 

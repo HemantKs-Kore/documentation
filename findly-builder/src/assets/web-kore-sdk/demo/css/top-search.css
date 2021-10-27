@@ -769,6 +769,7 @@ body.top-down .top-down-wrapper{
   text-overflow: ellipsis;
   padding-right: 0;
   max-width: 86%;
+  text-transform: capitalize;
 }
 
 .sdk-top-down-interface .kr-sg-radiobutton .count{
@@ -815,6 +816,7 @@ body.top-down .top-down-wrapper{
   padding-left: 26px;
   line-height: 20px;
   padding-bottom: 2px;
+  text-transform: capitalize;
 }
 .sdk-top-down-interface .kr-sg-radiobutton .radio-custom + .radio-custom-label::before {
   content: '';
@@ -834,6 +836,7 @@ body.top-down .top-down-wrapper{
   left: 0;
   position: absolute;
   top: 5px;
+  text-transform: capitalize;
 }
 .sdk-top-down-interface .kr-sg-radiobutton .radio-custom:hover:not([disabled]):checked + .radio-custom-label {
   color: var(--sdk-shark-black-color);
