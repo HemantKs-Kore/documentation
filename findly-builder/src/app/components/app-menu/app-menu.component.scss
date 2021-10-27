@@ -60,7 +60,7 @@ app-mainmenu{
 								}
 								&.active{
 									background: #FFFFFF;
-									border: 1px solid #85B7FE;
+									// border: 1px solid #85B7FE;
 								}
 							}
 						}
@@ -321,7 +321,7 @@ app-mainmenu{
 			.linkTitle{
 				font-size: 14px;
 				line-height: 17px;
-				font-weight: normal;
+				font-weight: 500;
 				color: #202124;
 				outline: 0 !important;
 				overflow: hidden;
@@ -330,7 +330,7 @@ app-mainmenu{
 			}			
 			&.active{				
 				background: #FFFFFF;
-				border: 1px solid #85B7FE;
+				// border: 1px solid #85B7FE;
 				box-sizing: border-box;
 				border-radius: 4px;
 				&::before{
@@ -340,8 +340,8 @@ app-mainmenu{
 					left: -1px;
 					top: -1px;
 					border-radius:4px 0px 0px 4px;
-					border:2px solid #07377F;
-					background:#07377F;
+					border:2px solid #0D6EFD;
+					background:#0D6EFD;
 				}
 				.defaultIcon{
 					display: none;
@@ -350,7 +350,7 @@ app-mainmenu{
 					display: inline-block;
 				}	
 				.linkTitle{
-					color: #07377F;
+					color: #0D6EFD;
 				}		
 			}			
 			&:hover{
