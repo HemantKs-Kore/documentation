@@ -85,10 +85,11 @@ export class SettingsComponent implements OnInit {
     // this.getdialog();
     this.getLinkedBot();
     this.prepareChannelData();
-
+    this.enableConfiguration = this.selectedApp.channels[0].enable
   }
+
   prepareChannelData() {
-    // this.getCredential();
+    
     const channels = JSON.parse(JSON.stringify(this.channels))
     channels.forEach((channel) => {
       this.selectedApp.channels.forEach((streamChannel) => {
