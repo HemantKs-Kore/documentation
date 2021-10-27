@@ -140,6 +140,12 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/file',
       method: 'post'
     };
+    // Multiple File Upload
+    this.serviceList['post.multiplefileupload'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/bulk',
+      method: 'post'
+    };
+    //
     this.serviceList['add.sourceMaterial'] = {
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:resourceType',
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source',

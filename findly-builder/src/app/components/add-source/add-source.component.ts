@@ -664,13 +664,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           data.append('Content-Type', fileToRead.type);
           data.append('fileExtension', ext.replace('.', ''));
           this.fileupload(data);
+          // this.multiplefileupload();
+          
         }
         else {
           data.append('file', fileToRead);
           data.append('fileContext', 'findly');
           data.append('Content-Type', fileToRead.type);
           data.append('fileExtension', ext.replace('.', ''));
-          this.fileupload(data);
+           this.fileupload(data);
+          // this.multiplefileupload();
+         
         }
       };
       const fileReader = new FileReader();
@@ -702,6 +706,43 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
   }
+
+  multiplefileupload() {
+    const quaryparms: any = {
+      searchIndexId: this.searchIndexId,
+      "extractionType": "file"
+    };
+    const payload : any ={
+      "type": "bulk",
+      "files": [
+        {
+            "name": this.fileObj.fileName,
+            "fileId": this.fileObj.fileId
+        }
+    ]
+ }
+    this.service.invoke('post.multiplefileupload', quaryparms, payload).subscribe(
+      res => {
+        this.notificationService.notify('File uploaded successfully', 'success');
+        //  this.selectedSourceType.resourceType = 'webdomain';
+        $(".drag-drop-sec").css("border-color", "#BDC1C6");
+      },
+      errRes => {
+        this.fileObj.fileUploadInProgress = false;
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to upload file ', 'error');
+        }
+      }
+    );
+  }
+
+
+
+
+
+
   urlChange(event) {
     if ($('#sourceFileUploader').val() || this.fileObj.fileId) {
       this.removeFile();
