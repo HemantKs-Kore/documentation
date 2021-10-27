@@ -33,11 +33,11 @@ export class SearchInterfaceComponent implements OnInit {
   heading_fieldData: any;
   desc_fieldData: any;
   img_fieldData: any;
-  showAlignment = false ;
+  showAlignment = false;
   url_fieldData: any;
   fieldData: any;
   list: any = [];
-  customList : any = [];
+  customList: any = [];
   //   [{
   //     id : "",
   //     type : 'Actions',
@@ -64,12 +64,12 @@ export class SearchInterfaceComponent implements OnInit {
   selectedSettingResultsObj: selectedSettingResults = new selectedSettingResults();
   allSettings: any;
   subscription: Subscription;
-  searchConfigurationSubscription : Subscription;
-  searchExperienceConfig : any = {};
-  liveSearchResultObj : any = {};
-  conversationalSearchResultObj : any = {};
-  fullSearchResultObj : any = {}
-  searchTemplatesDisabled : boolean = false;
+  searchConfigurationSubscription: Subscription;
+  searchExperienceConfig: any = {};
+  liveSearchResultObj: any = {};
+  conversationalSearchResultObj: any = {};
+  fullSearchResultObj: any = {}
+  searchTemplatesDisabled: boolean = false;
   settingList: any = [
     //   {
     //   id:"searchUi",
@@ -117,7 +117,7 @@ export class SearchInterfaceComponent implements OnInit {
   customizeTemplate: templateResponse = new templateResponse();
   carousel: any = [];
   componentType: string = 'designing';
-  submitted : boolean = false;
+  submitted: boolean = false;
   carouselTemplateCount = 0;
   @ViewChild('customModal') customModal: KRModalComponent;
   @ViewChild('previewModal') previewModal: KRModalComponent;
@@ -127,9 +127,9 @@ export class SearchInterfaceComponent implements OnInit {
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
-    public headerService : SideBarService,
-    public inlineManual : InlineManualService,
-    public mixpanel : MixpanelServiceService
+    public headerService: SideBarService,
+    public inlineManual: InlineManualService,
+    public mixpanel: MixpanelServiceService
   ) { }
 
   ngOnInit(): void {
@@ -152,7 +152,7 @@ export class SearchInterfaceComponent implements OnInit {
       this.loadFiledsData();
     })
     this.searchExperienceConfig = this.headerService.searchConfiguration;
-    this.searchConfigurationSubscription = this.headerService.savedSearchConfiguration.subscribe((res) =>{
+    this.searchConfigurationSubscription = this.headerService.savedSearchConfiguration.subscribe((res) => {
       this.searchExperienceConfig = res;
       this.updateResultTemplateTabsAccess();
     });
@@ -160,7 +160,7 @@ export class SearchInterfaceComponent implements OnInit {
 
     console.log(this.customizeTemplateObj);
     console.log(this.selectedSettingResultsObj);
-    if(!this.inlineManual.checkVisibility('RESULT_TEMPLATE') && false){
+    if (!this.inlineManual.checkVisibility('RESULT_TEMPLATE') && false) {
       this.inlineManual.openHelp('RESULT_TEMPLATE')
       this.inlineManual.visited('RESULT_TEMPLATE')
     }
@@ -193,12 +193,12 @@ export class SearchInterfaceComponent implements OnInit {
     this.preview_title = "Field Mapped for heading will appear here"
     this.preview_desc = "Field mapped for Description will appear here";
     this.selectedSourceType = "File";
-    if(appearencType){
+    if (appearencType) {
       this.selectedSourceType = appearencType;
     }
   }
   copyConfiguration(interfaceType) {
-    if(interfaceType){
+    if (interfaceType) {
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         width: '530px',
         height: 'auto',
@@ -217,13 +217,13 @@ export class SearchInterfaceComponent implements OnInit {
           if (result === 'yes') {
             this.selectedSettingResultsObj.referInterface = interfaceType;
             this.copyResultSettings(interfaceType)
-            if(this.selectedSetting){
-              if(this.selectedSetting == 'liveSearch'){
-                this.mixpanel.postEvent('Result Templates - Updates to Live Search',{})
-              }else if(this.selectedSetting == 'search'){
-                this.mixpanel.postEvent('Result Templates -  Updates to Conversational Search',{})
-              }else if(this.selectedSetting == 'fullSearch') {
-                this.mixpanel.postEvent('Result Templates - Updates to Full Page Results',{})
+            if (this.selectedSetting) {
+              if (this.selectedSetting == 'liveSearch') {
+                this.mixpanel.postEvent('Result Templates - Updates to Live Search', {})
+              } else if (this.selectedSetting == 'search') {
+                this.mixpanel.postEvent('Result Templates -  Updates to Conversational Search', {})
+              } else if (this.selectedSetting == 'fullSearch') {
+                this.mixpanel.postEvent('Result Templates - Updates to Full Page Results', {})
               }
             }
             //this.saveResultSettings(interfaceType);
@@ -239,7 +239,7 @@ export class SearchInterfaceComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       interface: interfaceType,
-      indexPipelineId : this.indexPipelineId
+      indexPipelineId: this.indexPipelineId
     };
     this.service.invoke('get.SI_settingInterface', quaryparms).subscribe(res => {
       if (res) {
@@ -253,14 +253,14 @@ export class SearchInterfaceComponent implements OnInit {
   }
   getAllSettings(setting?) {
     this.selectedSourceType = "File";
-    if((setting && setting.id == 'search') && this.searchTemplatesDisabled){
+    if ((setting && setting.id == 'search') && this.searchTemplatesDisabled) {
       return false;
     }
     this.selectedSetting = setting ? setting.id : 'search';
     this.selectedSettingText = setting ? setting.text : 'Conversational Search';
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      indexPipelineId : this.indexPipelineId
+      indexPipelineId: this.indexPipelineId
     };
     this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
       this.allSettings = res;
@@ -268,18 +268,18 @@ export class SearchInterfaceComponent implements OnInit {
       this.customList = [];
       res.settings.forEach(element => {
         if (element.interface == this.selectedSetting) {
-          if(this.searchExperienceConfig.experienceConfig.searchBarPosition === 'top' && this.selectedSetting == "fullSearch"){
-            if(element.facets.aligned == "right")
-            element.facets.aligned = "left"
+          if (this.searchExperienceConfig.experienceConfig.searchBarPosition === 'top' && this.selectedSetting == "fullSearch") {
+            if (element.facets.aligned == "right")
+              element.facets.aligned = "left"
           }
           this.selectedSettingResultsObj = element;
           this.sourcelist(element)
         }
-        if(element.interface == 'liveSearch'){
+        if (element.interface == 'liveSearch') {
           this.liveSearchResultObj = element;
-        }else if(element.interface == 'search'){
+        } else if (element.interface == 'search') {
           this.conversationalSearchResultObj = element;
-        }else if(element.interface == 'fullSearch') {
+        } else if (element.interface == 'fullSearch') {
           this.fullSearchResultObj = element;
         }
       });
@@ -316,14 +316,14 @@ export class SearchInterfaceComponent implements OnInit {
       });
     }
   }
-  getTemplate(templateId , modal?) {
+  getTemplate(templateId, modal?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       templateId: templateId,
-      indexPipelineId : this.indexPipelineId
+      indexPipelineId: this.indexPipelineId
     };
     this.service.invoke('get.SI_searchResultTemplate', quaryparms).subscribe(res => {
-      this.templateBind(res , modal)
+      this.templateBind(res, modal)
       this.selectByDefaultValBindToTemplatae(res.mapping)
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch Template');
@@ -371,22 +371,22 @@ export class SearchInterfaceComponent implements OnInit {
       }
     });
     this.resultLayoutChange(res.layout.layoutType)
-    if(modal == 'openModal'){
+    if (modal == 'openModal') {
       this.submitted = false;
       this.customModalRef = this.customModal.open();
     }
   }
-  sourceElementlist(settingObj){
+  sourceElementlist(settingObj) {
     settingObj.appearance.forEach(element => {
-      if(element.type == 'action' || element.type == 'Action'){
+      if (element.type == 'action' || element.type == 'Action') {
         element.type = "Action"
-      }else if(element.type == 'faq' || element.type == 'FAQs'){
+      } else if (element.type == 'faq' || element.type == 'FAQs') {
         element.type = "FAQs"
-      }else if(element.type == 'page' || element.type == 'Web'){
+      } else if (element.type == 'page' || element.type == 'Web') {
         element.type = "Web"
-      }else if(element.type == 'structuredData' || element.type == 'Structured Data'){
+      } else if (element.type == 'structuredData' || element.type == 'Structured Data') {
         element.type = "Structured Data"
-      }else if(element.type == 'document' || element.type == 'File'){
+      } else if (element.type == 'document' || element.type == 'File') {
         element.type = "File"
       }
       this.list.forEach(listElement => {
@@ -403,8 +403,8 @@ export class SearchInterfaceComponent implements OnInit {
       });
     });
     this.list.forEach(element => {
-      if(element.type === this.selectedSourceType){
-        if(element.id){
+      if (element.type === this.selectedSourceType) {
+        if (element.id) {
           this.selectedTemplatedId = element.id;
           if (this.selectedTemplatedId) {
             this.getTemplate(this.selectedTemplatedId);
@@ -453,8 +453,8 @@ export class SearchInterfaceComponent implements OnInit {
       }
     });
     this.list.forEach(element => {
-      if(element.type === this.selectedSourceType){
-        if(element.id){
+      if (element.type === this.selectedSourceType) {
+        if (element.id) {
           this.selectedTemplatedId = element.id;
           if (this.selectedTemplatedId) {
             this.getTemplate(this.selectedTemplatedId);
@@ -484,7 +484,7 @@ export class SearchInterfaceComponent implements OnInit {
     //this.
   }
 
-  buildCarousel(){
+  buildCarousel() {
     setTimeout(() => {
       $('.carousel:last').addClass("carousel" + this.carouselTemplateCount);
       var count = $(".carousel" + this.carouselTemplateCount).children().length;
@@ -508,7 +508,7 @@ export class SearchInterfaceComponent implements OnInit {
     //this.customizeTemplateObj.template.searchResultlayout = new searchResultlayout();
     //this.customizeTemplateObj.template.resultMapping = new resultMapping();
     this.customizeTemplateObj.template.searchResultlayout.layout = layout;
-    if (layout == 'tileWithHeader') { 
+    if (layout == 'tileWithHeader') {
       this.showDescription = false;
     } else {
       this.showDescription = true;
@@ -523,7 +523,7 @@ export class SearchInterfaceComponent implements OnInit {
         this.buildCarousel();
       }
     }
-  
+
   }
   resultLayoutclickBehavior(type) {
     this.customizeTemplateObj.template.searchResultlayout.behaviour = type;
@@ -544,8 +544,8 @@ export class SearchInterfaceComponent implements OnInit {
       if (!event.target.checked) {
         this.selectedSettingResultsObj.facets.aligned = "left";
         this.saveResultSettings();
-      }else{
-        this.selectedSettingResultsObj.facets.aligned ? this.selectedSettingResultsObj.facets.aligned  : "left";
+      } else {
+        this.selectedSettingResultsObj.facets.aligned ? this.selectedSettingResultsObj.facets.aligned : "left";
         this.saveResultSettings();
       }
     }
@@ -556,16 +556,16 @@ export class SearchInterfaceComponent implements OnInit {
       this.saveResultSettings();
     }
   }
-  selectResultAppearnceList(list,type){
+  selectResultAppearnceList(list, type) {
     this.selectedSourceType = list.type;
     let templateId;
-    if(type == 'list'){
+    if (type == 'list') {
       this.list.forEach(element => {
         if (element.type == this.selectedSourceType) {
           templateId = element.id
         }
       });
-    }else{
+    } else {
       this.customList.forEach(element => {
         if (element.type == this.selectedSourceType) {
           templateId = element.id
@@ -575,14 +575,14 @@ export class SearchInterfaceComponent implements OnInit {
     this.selectedTemplatedId = templateId;
     if (templateId) {
       this.getTemplate(templateId);
-    }else{
+    } else {
       this.defaultTemplate('Structured Data')
     }
   }
   openCustomModal() {
     this.customModel('openModal');
   }
-  customModel(modalSwitch?){
+  customModel(modalSwitch?) {
     let templateId;
     this.list.forEach(element => {
       if (element.type == this.selectedSourceType) {
@@ -592,16 +592,16 @@ export class SearchInterfaceComponent implements OnInit {
     this.selectedTemplatedId = templateId;
     this.customizeTemplateObj = new customizeTemplate();
     if (templateId) {
-      this.getTemplate(templateId,modalSwitch);
+      this.getTemplate(templateId, modalSwitch);
     } else {
       //this.customizeTemplateObj = new customizeTemplate();
       this.defaultTemplate(this.selectedSourceType);
       this.submitted = false;
-      if(modalSwitch != 'closeModal'){
+      if (modalSwitch != 'closeModal') {
         this.customModalRef = this.customModal.open();
         this.resultLayoutChange('tileWithText')
       }
-      
+
     }
   }
   closeCustomModal() {
@@ -662,7 +662,7 @@ export class SearchInterfaceComponent implements OnInit {
       this.customizeTemplateObj.template.resultMapping.description = field.fieldName;
       this.customizeTemplateObj.template.resultMapping.descriptionId = field._id;
       this.preview_desc = field.fieldName;
-      this.desc_fieldData= [...this.allFieldData];
+      this.desc_fieldData = [...this.allFieldData];
     } else if (type == 'image') {
       this.customizeTemplateObj.template.resultMapping.image = field.fieldName;
       this.customizeTemplateObj.template.resultMapping.imageId = field._id;
@@ -673,42 +673,42 @@ export class SearchInterfaceComponent implements OnInit {
       this.url_fieldData = [...this.allFieldData];
     }
   }
-  copyResultSettings(interfaceType){
+  copyResultSettings(interfaceType) {
     let queryparams = {
       searchIndexId: this.serachIndexId,
-      indexPipelineId : this.indexPipelineId
+      indexPipelineId: this.indexPipelineId
     };
     let payload = {
       "interface": this.selectedSetting,
       "referInterface": interfaceType
-  }
+    }
     //payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
-    this.service.invoke('put.SI_copyResultSettings', queryparams, payload).subscribe(res => {
+    this.service.invoke('put.SI_copyResultSettings', queryparams).subscribe(res => {
       this.notificationService.notify('Result copied successfully', 'success');
       this.selectedTemplatedId = "";
       this.selectedSettingResultsObj.referInterface = "";
-      this.getAllSettings({id:this.selectedSetting,text: this.selectedSettingText});
+      this.getAllSettings({ id: this.selectedSetting, text: this.selectedSettingText });
       this.getSettings(this.selectedSetting);
       this.closeCustomModal();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to copy settings');
     });
-    
+
   }
   saveResultSettings(interfaceType?) {
     let payload = {};
     let _self = this;
-    let setPayload = function(copedInterfaceResultsObj){
+    let setPayload = function (copedInterfaceResultsObj) {
       copedInterfaceResultsObj.appearance.forEach(element => {
         if (element.type == 'Action') {
-          element.type= 'action';
+          element.type = 'action';
         } else if (element.type == 'FAQs') {
           element.type = 'faq';
         } else if (element.type == 'Pages' || element.type == 'Web') {
           element.type = 'page';
         } else if (element.type == 'Structured Data') {
           element.type = 'structuredData';
-        }else if (element.type == 'Document' || element.type == 'File') {
+        } else if (element.type == 'Document' || element.type == 'File') {
           element.type = 'document';
         }
       });
@@ -728,38 +728,38 @@ export class SearchInterfaceComponent implements OnInit {
         "appearance": copedInterfaceResultsObj.appearance //this.list ,  Binding the Selected appearance
       }
       payloadBody['referInterface'] = _self.selectedSettingResultsObj.referInterface; // Binding the Selected Setting referInterface
-  
+
       return payloadBody;
     }
     let queryparams = {
       searchIndexId: this.serachIndexId,
-      indexPipelineId : this.indexPipelineId
+      indexPipelineId: this.indexPipelineId
     };
-    
+
     this.selectedSettingResultsObj.appearance.forEach(element => {
       if (element.type == 'Action') {
-        element.type= 'action';
+        element.type = 'action';
       } else if (element.type == 'FAQs') {
         element.type = 'faq';
       } else if (element.type == 'Pages' || element.type == 'Web') {
         element.type = 'page';
       } else if (element.type == 'Structured Data') {
         element.type = 'structuredData';
-      }else if (element.type == 'Document' || element.type == 'File') {
+      } else if (element.type == 'Document' || element.type == 'File') {
         element.type = 'document';
       }
     });
-    if(interfaceType){
-      if(interfaceType == 'livesearch'){
+    if (interfaceType) {
+      if (interfaceType == 'livesearch') {
         payload = setPayload(this.liveSearchResultObj)
-      }else if(interfaceType == 'search'){
+      } else if (interfaceType == 'search') {
         payload = setPayload(this.conversationalSearchResultObj)
-      }else if(interfaceType == 'fullsearch') {
+      } else if (interfaceType == 'fullsearch') {
         payload = setPayload(this.fullSearchResultObj)
       }
-      
-    }else{
-       payload = {
+
+    } else {
+      payload = {
         "_id": this.selectedSettingResultsObj._id,
         "resultClassification": {
           "isEnabled": this.selectedSettingResultsObj.resultClassification.isEnabled,
@@ -785,63 +785,63 @@ export class SearchInterfaceComponent implements OnInit {
       this.notificationService.notify('Result setting saved successfully', 'success');
       this.selectedTemplatedId = "";
       this.selectedSettingResultsObj.referInterface = "";
-      this.getAllSettings({id:this.selectedSetting,text: this.selectedSettingText});
+      this.getAllSettings({ id: this.selectedSetting, text: this.selectedSettingText });
       this.getSettings(this.selectedSetting);
       this.closeCustomModal();
-      if(this.selectedSetting){
-        if(this.selectedSetting == 'liveSearch'){
-          this.mixpanel.postEvent('Result Templates - Updates to Live Search',{})
-        }else if(this.selectedSetting == 'search'){
-          this.mixpanel.postEvent('Result Templates -  Updates to Conversational Search',{})
-        }else if(this.selectedSetting == 'fullSearch') {
-          this.mixpanel.postEvent('Result Templates - Updates to Full Page Results',{})
+      if (this.selectedSetting) {
+        if (this.selectedSetting == 'liveSearch') {
+          this.mixpanel.postEvent('Result Templates - Updates to Live Search', {})
+        } else if (this.selectedSetting == 'search') {
+          this.mixpanel.postEvent('Result Templates -  Updates to Conversational Search', {})
+        } else if (this.selectedSetting == 'fullSearch') {
+          this.mixpanel.postEvent('Result Templates - Updates to Full Page Results', {})
         }
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to save result settings');
     });
   }
-  validateTemplate(){
-    if(this.selectedSourceType == 'Structured Data'){
-      if(this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader'){
-        if(this.customizeTemplateObj.template.resultMapping.heading.length){
-          if(this.customizeTemplateObj.template.searchResultlayout.clickable && this.customizeTemplateObj.template.resultMapping.url.length){
+  validateTemplate() {
+    if (this.selectedSourceType == 'Structured Data') {
+      if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader') {
+        if (this.customizeTemplateObj.template.resultMapping.heading.length) {
+          if (this.customizeTemplateObj.template.searchResultlayout.clickable && this.customizeTemplateObj.template.resultMapping.url.length) {
             return true;
           }
-          else if(!this.customizeTemplateObj.template.searchResultlayout.clickable){
+          else if (!this.customizeTemplateObj.template.searchResultlayout.clickable) {
             return true;
           }
-          else{
+          else {
             return false;
           }
         }
-        else{
+        else {
           return false;
         }
       }
-      else if(this.customizeTemplateObj.template.resultMapping.heading.length && this.customizeTemplateObj.template.resultMapping.description.length){
-        if(this.customizeTemplateObj.template.searchResultlayout.clickable && this.customizeTemplateObj.template.resultMapping.url.length){
-          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.image.length)){
+      else if (this.customizeTemplateObj.template.resultMapping.heading.length && this.customizeTemplateObj.template.resultMapping.description.length) {
+        if (this.customizeTemplateObj.template.searchResultlayout.clickable && this.customizeTemplateObj.template.resultMapping.url.length) {
+          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.image.length)) {
             return true;
           }
-          else if ((this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText') || (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader')){
+          else if ((this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText') || (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader')) {
             return true;
           }
-          else{
+          else {
             return false;
           }
         }
-        else if (this.customizeTemplateObj.template.searchResultlayout.clickable && !this.customizeTemplateObj.template.resultMapping.url.length){
+        else if (this.customizeTemplateObj.template.searchResultlayout.clickable && !this.customizeTemplateObj.template.resultMapping.url.length) {
           return false;
         }
-        else{
-          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.image.length)){
+        else {
+          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.image.length)) {
             return true;
           }
-          else if ((this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText') || (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader')){
+          else if ((this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText') || (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader')) {
             return true;
           }
-          else{
+          else {
             return false;
           }
         }
@@ -850,22 +850,22 @@ export class SearchInterfaceComponent implements OnInit {
         return false;
       }
     }
-    else if (this.customizeTemplateObj.template.searchResultlayout.clickable && this.customizeTemplateObj.template.resultMapping.url.length){
-      if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && this.customizeTemplateObj.template.resultMapping.heading.length){
+    else if (this.customizeTemplateObj.template.searchResultlayout.clickable && this.customizeTemplateObj.template.resultMapping.url.length) {
+      if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && this.customizeTemplateObj.template.resultMapping.heading.length) {
         return true;
       }
-      else if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && !this.customizeTemplateObj.template.resultMapping.heading.length){
+      else if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && !this.customizeTemplateObj.template.resultMapping.heading.length) {
         return false;
       }
-      else{
-        if(this.customizeTemplateObj.template.resultMapping.heading.length && this.customizeTemplateObj.template.resultMapping.description.length){
-          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.image.length)){
+      else {
+        if (this.customizeTemplateObj.template.resultMapping.heading.length && this.customizeTemplateObj.template.resultMapping.description.length) {
+          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.image.length)) {
             return true;
           }
-          else if((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (!this.customizeTemplateObj.template.resultMapping.image.length)){
+          else if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (!this.customizeTemplateObj.template.resultMapping.image.length)) {
             return false;
           }
-          else{
+          else {
             return true;
           }
         }
@@ -874,22 +874,22 @@ export class SearchInterfaceComponent implements OnInit {
         }
       }
     }
-    else if(!this.customizeTemplateObj.template.searchResultlayout.clickable){
-      if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && this.customizeTemplateObj.template.resultMapping.heading.length){
+    else if (!this.customizeTemplateObj.template.searchResultlayout.clickable) {
+      if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && this.customizeTemplateObj.template.resultMapping.heading.length) {
         return true;
       }
-      else if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && !this.customizeTemplateObj.template.resultMapping.heading.length){
+      else if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && !this.customizeTemplateObj.template.resultMapping.heading.length) {
         return false;
       }
-      else{
-        if(this.customizeTemplateObj.template.resultMapping.heading.length && this.customizeTemplateObj.template.resultMapping.description.length){
-          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.image.length)){
+      else {
+        if (this.customizeTemplateObj.template.resultMapping.heading.length && this.customizeTemplateObj.template.resultMapping.description.length) {
+          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.image.length)) {
             return true;
           }
-          else if((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (!this.customizeTemplateObj.template.resultMapping.image.length)){
+          else if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (!this.customizeTemplateObj.template.resultMapping.image.length)) {
             return false;
           }
-          else{
+          else {
             return true;
           }
         }
@@ -898,14 +898,14 @@ export class SearchInterfaceComponent implements OnInit {
         }
       }
     }
-    else if (this.customizeTemplateObj.template.searchResultlayout.clickable && !this.customizeTemplateObj.template.resultMapping.url.length){
+    else if (this.customizeTemplateObj.template.searchResultlayout.clickable && !this.customizeTemplateObj.template.resultMapping.url.length) {
       return false;
     }
   }
 
   saveTemplate() {
     this.submitted = true;
-    if(this.validateTemplate()){
+    if (this.validateTemplate()) {
       let url: any;
       let payload: any;
       let queryparams: any;
@@ -919,7 +919,7 @@ export class SearchInterfaceComponent implements OnInit {
         appearnce = 'page';
       } else if (this.selectedSourceType == 'Structured Data') {
         appearnce = 'structuredData';
-      }else if (this.selectedSourceType == 'Document' || this.selectedSourceType == 'File') {
+      } else if (this.selectedSourceType == 'Document' || this.selectedSourceType == 'File') {
         appearnce = 'document';
       }
       payload = {
@@ -943,42 +943,42 @@ export class SearchInterfaceComponent implements OnInit {
         queryparams = {
           searchIndexId: this.serachIndexId,
           templateId: this.selectedTemplatedId,
-          indexPipelineId : this.indexPipelineId
+          indexPipelineId: this.indexPipelineId
         }
         // delete payload['appearanceType'];
         message = "Template Updated Successfully"
       }
-      else{
+      else {
         url = "post.SI_saveTemplate";
         queryparams = {
-          searchIndexId : this.serachIndexId,
-          interface  : this.selectedSetting,
-          indexPipelineId : this.indexPipelineId
+          searchIndexId: this.serachIndexId,
+          interface: this.selectedSetting,
+          indexPipelineId: this.indexPipelineId
         }
         message = "Template Added Successfully"
       }
       this.service.invoke(url, queryparams, payload).subscribe(res => {
-        if(this.selectedSourceType == 'Structured Data'){
+        if (this.selectedSourceType == 'Structured Data') {
           this.headerService.updateResultTemplateMapping(true);
         }
         this.notificationService.notify(message, 'success');
         this.selectedTemplatedId = "";
         this.getSettings(this.selectedSetting);
         this.closeCustomModal();
-        if(this.selectedSetting){
-          if(this.selectedSetting == 'liveSearch'){
-            this.mixpanel.postEvent('Result Templates - Updates to Live Search',{})
-          }else if(this.selectedSetting == 'search'){
-            this.mixpanel.postEvent('Result Templates -  Updates to Conversational Search',{})
-          }else if(this.selectedSetting == 'fullSearch') {
-            this.mixpanel.postEvent('Result Templates - Updates to Full Page Results',{})
+        if (this.selectedSetting) {
+          if (this.selectedSetting == 'liveSearch') {
+            this.mixpanel.postEvent('Result Templates - Updates to Live Search', {})
+          } else if (this.selectedSetting == 'search') {
+            this.mixpanel.postEvent('Result Templates -  Updates to Conversational Search', {})
+          } else if (this.selectedSetting == 'fullSearch') {
+            this.mixpanel.postEvent('Result Templates - Updates to Full Page Results', {})
           }
         }
       }, errRes => {
         this.errorToaster(errRes, 'Failed to get fields');
       });
     }
-    else{
+    else {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
@@ -1010,35 +1010,35 @@ export class SearchInterfaceComponent implements OnInit {
     }
   }
 
-  updateResultTemplateTabsAccess(){
-    if(this.searchExperienceConfig && Object.values(this.searchExperienceConfig).length){
+  updateResultTemplateTabsAccess() {
+    if (this.searchExperienceConfig && Object.values(this.searchExperienceConfig).length) {
       console.log(this.searchExperienceConfig);
-      if(this.searchExperienceConfig && this.searchExperienceConfig.experienceConfig && this.searchExperienceConfig.experienceConfig.searchBarPosition){
-        if(this.searchExperienceConfig.experienceConfig.searchBarPosition === 'top'){
+      if (this.searchExperienceConfig && this.searchExperienceConfig.experienceConfig && this.searchExperienceConfig.experienceConfig.searchBarPosition) {
+        if (this.searchExperienceConfig.experienceConfig.searchBarPosition === 'top') {
           this.searchTemplatesDisabled = true;
-          this.getAllSettings({id: "fullSearch",text: "Full Page Result"});
+          this.getAllSettings({ id: "fullSearch", text: "Full Page Result" });
         }
-        else{
+        else {
           this.searchTemplatesDisabled = false;
         }
       }
     }
-    else{
+    else {
       this.searchTemplatesDisabled = false;
     }
   }
 
-  getConfigurationName(referInterface){
-    if(referInterface === 'livesearch'){
+  getConfigurationName(referInterface) {
+    if (referInterface === 'livesearch') {
       return 'Live Search';
     }
-    else if(referInterface === 'search'){
+    else if (referInterface === 'search') {
       return 'Conversational Search';
     }
-    else if(referInterface === 'fullsearch'){
+    else if (referInterface === 'fullsearch') {
       return 'Full Page Result';
     }
-    else{
+    else {
       return referInterface;
     }
   }
