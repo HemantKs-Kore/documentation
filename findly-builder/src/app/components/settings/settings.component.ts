@@ -80,15 +80,21 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-
     // this.getCredential();
     // this.getdialog();
     this.getLinkedBot();
     this.prepareChannelData();
-
+    this.credentialsSelection()
+  }
+  credentialsSelection(){
+    if(this.selectedApp && this.selectedApp.channels.length){
+      this.selectedApp.channels.forEach(element => {
+          this.enableConfiguration = element.enable;
+      });
+    }
   }
   prepareChannelData() {
-    // this.getCredential();
+    
     const channels = JSON.parse(JSON.stringify(this.channels))
     channels.forEach((channel) => {
       this.selectedApp.channels.forEach((streamChannel) => {
@@ -257,7 +263,14 @@ export class SettingsComponent implements OnInit {
 
           //   });
           // }
-          this.listData = this.channnelConguired.apps[this.channnelConguired.apps.length - 1];
+          if(this.channnelConguired && this.channnelConguired.apps.length){
+            this.channnelConguired.apps.forEach(element => {
+              if(element.appUsage){
+                this.listData = element;
+              }
+            });
+          }
+          //this.listData = this.channnelConguired.apps[this.channnelConguired.apps.length - 1];
           this.slider = 3
           this.configFlag = true;
         }
