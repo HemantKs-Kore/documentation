@@ -2862,7 +2862,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(evet.target).next().parent().next().show();
         }
         setTimeout(() => {
-          if ($(evet.target).closest('#searchChatContainer')) {
+          if ($(evet.target).closest('#searchChatContainer') && $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().length) {
             if ($('#searchChatContainer').prop('offsetHeight') >= $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top) {
               $('.more-results').css('display', 'none');
             }
@@ -5365,7 +5365,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   // searchResults: searchResults,
                   recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
                   recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-                  popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5)
+                  popularSearches: _self.vars.searchObject.popularSearches?_self.vars.searchObject.popularSearches.slice(0, 5):[]
                 };
                 _self.pubSub.publish('sa-freq-data', freqDataTop);
                 if (freqDataTop.recents.length) {
@@ -20556,36 +20556,36 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.bindAllResultRankingOperations = function () {
       var _self = this;
-
-      setTimeout(function () {
-        $(".results-wrap").sortable({
-          items: "li:not(.ui-state-disabled)",
-          cancel: ".ui-state-disabled",
-          stop: function (event, ui) {
-            var element = ui.item[0];
-            if ($(element).find('.pinning').length) {
-              var pinningElement = $(element).find('.pinning')[0];
-              if (pinningElement) {
-                $(pinningElement).closest('.pinning').attr('type', 'Pin');
-                $(pinningElement).trigger("click");
+      if(_self.vars.customizeView){
+        setTimeout(function () {
+          $(".results-wrap").sortable({
+            items: "li:not(.ui-state-disabled)",
+            cancel: ".ui-state-disabled",
+            stop: function (event, ui) {
+              var element = ui.item[0];
+              if ($(element).find('.pinning').length) {
+                var pinningElement = $(element).find('.pinning')[0];
+                if (pinningElement) {
+                  $(pinningElement).closest('.pinning').attr('type', 'Pin');
+                  $(pinningElement).trigger("click");
+                }
+              }
+              else if ($(element).attr('manuallyadded') == "true") {
+                var pinIndex = 0;
+                var _selectedElement = ui.item[0];
+                var _parentElement = $(event.target).closest('.results-wrap');
+                var childNodes = Array.prototype.slice.call(_parentElement[0].children);
+                pinIndex = childNodes.indexOf(_selectedElement);
+                if (pinIndex >= 0) {
+                  // console.log("pinIndex ", pinIndex);
+                  _self.performRankActionsOnFullPage(ui.item, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning', true);
+                  //
+                }
               }
             }
-            else if ($(element).attr('manuallyadded') == "true") {
-              var pinIndex = 0;
-              var _selectedElement = ui.item[0];
-              var _parentElement = $(event.target).closest('.results-wrap');
-              var childNodes = Array.prototype.slice.call(_parentElement[0].children);
-              pinIndex = childNodes.indexOf(_selectedElement);
-              if (pinIndex >= 0) {
-                // console.log("pinIndex ", pinIndex);
-                _self.performRankActionsOnFullPage(ui.item, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning', true);
-                //
-              }
-            }
-          }
-        });
-      }, 200);
-
+          });
+        }, 200);
+      }
       $('.customization').off('click', '.visibility').on('click', '.visibility', function (event) {
         // if (parseInt($(event.target).closest('.data-wrap').attr('pinindex')) == -1) {
         if ($(event.target).closest('.data-wrap').attr('visible') == "true") {
