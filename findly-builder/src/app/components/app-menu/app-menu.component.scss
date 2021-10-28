@@ -190,7 +190,7 @@ app-mainmenu{
 					.search-config-elipse-block{
 						display: flex;
 						align-items: center;
-						justify-content: space-between;
+						// justify-content: space-between;
 						border-radius: 4px;
 						margin: 0;
 						padding: 0 15px;
@@ -252,7 +252,7 @@ app-mainmenu{
 						&.show {
 							.dropdown-open{
 								.dropdown-input{
-									background: #F8F9FA;
+									background: #FFFFFF;
 								}
 							}
 						}
@@ -272,7 +272,7 @@ app-mainmenu{
 									}
 								}
 								&:hover{
-									background: #F8F9FA;
+									background: #FFFFFF;
 								}
 							}
 						}
