@@ -3140,6 +3140,10 @@ nouislider{
             &.nostars{
                 .config_name{
                     width: 102px;
+                    font-weight: normal;
+                    font-size: 12px;
+                    line-height: 15px;
+                    color: #000000;
                 }
                 &:hover{
                     background: #EFF0F1;
@@ -3205,10 +3209,10 @@ nouislider{
             color: #0D6EFD;
             cursor: pointer;
             border-top: 0px solid #EFF0F1;
-            font-weight: normal;
-            font-size: 14px;
-            line-height: 17px;
             display: inline-block;
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 15px;
         }
         .edit-name{
             width: 100%;
