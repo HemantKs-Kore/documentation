@@ -673,7 +673,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       data.append('fileExtension', ext.replace('.', ''));
       if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
         data.append('fileContext', 'bulkImport');
-        this.getFileId(data);
+        if(files.length === 1 ){
+          this.fileupload(data);
+        }
+        else {
+          this.getFileId(data);
+          if(this.multipleData.files.length === files.length){
+            this.multiplefileupload(this.multipleData);
+          }
+        }
+       
       }
       else {
         data.append('fileContext', 'findly');
@@ -686,20 +695,18 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     fileReader.onload = onFileLoad;
     fileReader.readAsText(fileToRead, 'UTF-8');
   }
-
+  multipleData: any = {};
 // Payload for multiple file Upload //
   multipleFileRequestBody(input, ext, files, resourceType_import) {
-    const multipleData: any = {};
-    multipleData.type = "bulk";
-    multipleData.files = [];
+   
+   this.multipleData.type = "bulk";
+   this.multipleData.files = [];
     const filesListData = Array.from(input.files)
     filesListData.forEach(fileDataElement => {
       this.fileRequestBody(input, ext, files, resourceType_import);
-      multipleData.files.push(this.fileDataObj);
+      this.multipleData.files.push(this.fileDataObj);
     });
-    if(this.fileDataObj){
-      this.multiplefileupload(multipleData);
-    }
+   
   }
  
   getFileId(payload) {
