@@ -72,7 +72,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   useCookies = true;
   respectRobotTxtDirectives = true;
   crawlBeyondSitemaps = false;
-  isJavaScriptRendered = true;
+  isJavaScriptRendered = false;
   blockHttpsMsgs = false;
   crwalOptionLabel = "Crawl Everything";
   crawlDepth: number;
@@ -629,11 +629,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
         else {
-          if (this.extension != '.pdf') {
+          if (this.extension === '.csv' || this.extension === '.json') {
             showProg = true;
           }
           else {
-            this.notificationService.notify('Please select a valid csv and json file', 'error');
+            this.notificationService.notify('Please select a valid csv or json file', 'error');
           }
         }
       }
@@ -1457,7 +1457,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.openStatusModal();
       this.addSourceModalPopRef.close();
       // this.closeStatusModal();
-      //this.dockService.trigger(true)
+      //this.dockService.trigger(true);
+      this.getDocStatus(res._id);
     },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -1468,9 +1469,35 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
       });
     // this.service.invoke('get.dockStatus', quaryparms, payload).subscribe(res1 => {
-
     // });
-
+  }
+  getDocStatus(jobId) {
+    if (this.pollingSubscriber) {
+      this.pollingSubscriber.unsubscribe();
+    }
+    const queryParms = {
+      searchIndexId: this.workflowService.selectedSearchIndexId
+    }
+    this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
+      this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
+        console.log("res", res);
+        const response = res;
+        const jobStatus = response.dockStatuses.filter(ele => ele._id === jobId);
+        if (jobStatus[0].status === "SUCCESS") {
+          this.pollingSubscriber.unsubscribe();
+          jobStatus[0] = Object.assign({ ...jobStatus[0], status: 'success' })
+          this.statusObject = jobStatus[0];
+        }
+      }, errRes => {
+        this.pollingSubscriber.unsubscribe();
+        if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to get Status of Docker.', 'error');
+        }
+      });
+    }
+    )
   }
   //popup for crawling confirmation
   // confirmCrawl() {
@@ -1526,12 +1553,15 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     )
   }
-  checkValue(value) {
+  checkValue(value , valueFrom) {
     console.log()
     if (value <= -1) {
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
     }
+    // if(value < 500 && valueFrom == 'maxUrlLimit'){
+    //   this.maxUrlLimit = 500;
+    // }
   }
   copy(val) {
     const selBox = document.createElement('textarea');

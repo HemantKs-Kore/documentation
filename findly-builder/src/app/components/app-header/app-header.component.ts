@@ -13,8 +13,8 @@ import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { from, interval, Subject, Subscription } from 'rxjs';
-import { startWith, elementAt, filter } from 'rxjs/operators';
 import { environment } from '@kore.environment';
+import { startWith, elementAt, filter } from 'rxjs/operators';
 import * as moment from 'moment';
 
 declare const $: any;
@@ -328,7 +328,9 @@ export class AppHeaderComponent implements OnInit {
         setTimeout(() => {
           // self.training = false;
           this.trainingInitiated = true;
-          self.notificationService.notify('Training has been Initiated', 'success');
+          if (this.training) {
+            self.notificationService.notify('Training has been Initiated', 'success');
+          }
           this.appSelectionService.updateTourConfig('indexing');
           this.poling();
         }, 5000)
@@ -344,9 +346,15 @@ export class AppHeaderComponent implements OnInit {
       return_to: this.appUrlsService.completeAppPath(),
       showLogin: 'true',
       // comingFromKey: 'isFindlyApp',
+      checkSwitchfrom: 'business-app',
       hideSSOButtons: 'true',
       hideResourcesPageLink: 'true'
     }));
+    let jStoarge = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')) : {}
+    if (jStoarge.currentAccount.accountConf) {
+      jStoarge.currentAccount['accountConf'] = false;
+      window[this.storageType].setItem('jStorage', JSON.stringify(jStoarge))
+    }
     window.location.href = this.appUrlsService.marketURL();
   }
 
@@ -375,13 +383,17 @@ export class AppHeaderComponent implements OnInit {
         this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
         if (this.trainingInitiated && this.dockersList[0].status === 'SUCCESS' && this.dockersList[0].action === "TRAIN") {
           this.trainingInitiated = false;
+          if (this.training) {
+            this.notificationService.notify('Training Completed', 'success');
+          }
           this.training = false;
-          this.notificationService.notify('Training Completed', 'success');
         }
         if (this.trainingInitiated && this.dockersList[0].status === 'FAILURE' && this.dockersList[0].action === "TRAIN") {
           this.trainingInitiated = false;
+          if (this.training) {
+            this.notificationService.notify(this.dockersList[0].message, 'error');
+          }
           this.training = false;
-          this.notificationService.notify(this.dockersList[0].message, 'error');
         }
         this.dockersList.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
@@ -629,12 +641,37 @@ export class AppHeaderComponent implements OnInit {
   // }
   //open app
   openApp(app) {
+    this.training = false;
     this.appSelectionService.openApp(app);
     //this.appSelectionService.refreshSummaryPage.next('changed');
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     setTimeout(() => {
       this.workflowService.mainMenuRouter$.next('');
-    }, 100)
+    }, 100);
+    this.checkTrainingProgress();
+  }
+  //check training in progress
+  checkTrainingProgress() {
+    const queryParms = {
+      searchIndexId: this.workflowService.selectedSearchIndexId
+    }
+    const appId = JSON.parse(localStorage.krPreviousState);
+    this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
+      const docStatus = res.dockStatuses.filter(data => data.action === 'TRAIN' && data.status === 'IN_PROGRESS');
+      if (docStatus !== undefined && docStatus.length !== 0) {
+        this.training = true;
+      }
+      else {
+        this.training = false;
+      }
+    }, errRes => {
+      this.pollingSubscriber.unsubscribe();
+      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed to get Status of Docker.', 'error');
+      }
+    });
   }
   //create new app
   openCreateApp() {

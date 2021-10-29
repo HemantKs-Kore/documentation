@@ -19,23 +19,29 @@
         <img src="assets/icons/editor/alphabits.svg">
       </span> -->
       <span (click)="onSelected('bold')" class="edit-action">
-        <img src="assets/icons/editor/bold.svg">
+        <img src="assets/icons/editor/bold.png">
       </span>
       <span (click)="onSelected('italic')" class="edit-action">
         <img src="assets/icons/editor/italic.svg">
       </span>
-      <span  class="edit-action" (click)="onSelected('link')">
+      <span  class="edit-action d-none">
+        <img src="assets/icons/editor/strikeoff.png">
+      </span>
+      <span  class="edit-action d-none" (click)="onSelected('underline')">
+        <img src="assets/icons/editor/underline.png">
+      </span>
+      <!-- <span  class="edit-action" (click)="onSelected('link')">
         <img src="assets/icons/editor/link.svg">
-      </span>
-      <span (click)="onSelected('indentLeft')" class="edit-action">
+      </span> -->
+      <!-- <span (click)="onSelected('indentLeft')" class="edit-action">
         <img src="assets/icons/editor/align-left.svg">
-      </span>
+      </span> -->
       <!-- <span class="edit-action">
         <img src="assets/icons/editor/align-center.svg">
       </span> -->
-      <span (click)="onSelected('indentRight')" class="edit-action">
+      <!-- <span (click)="onSelected('indentRight')" class="edit-action">
         <img src="assets/icons/editor/align-right.svg">
-      </span>
+      </span> -->
       <span class="edit-action" (click)="onSelected('ordered')">
         <img src="assets/images/markup/list-ordered.svg">
       </span>
@@ -134,7 +140,7 @@
     <div class="desc">Reorder the conditioned responses to execute in specific order</div>
   </div> -->
   <ng-container *ngFor="let faqObj of faqResponse.defaultAnswers ; let index = index">
-    <div class="body-top-content pointer" title="Click to edit this response" (click)="currentEditIndex = index">
+    <div class="body-top-content pointer"  (click)="currentEditIndex = index">
       <div class="question-content">
         <div class="label-text" *ngIf="index==0">Response <span *ngIf="faqData && faqResponse.defaultAnswers.length>1">({{faqResponse.defaultAnswers.length}})</span>  <div class="deleteResponseDiv red" *ngIf="faqResponse.defaultAnswers.length == 1" (click)="$event.stopPropagation();delete(index)" ngbTooltip="Delete"><img src="assets/images/delete_response.svg"></div></div>
        
@@ -213,7 +219,8 @@
         </div>
       </div>   
     </div>
-    <div class="col-12 p-0 pointer body_sec" title="Click to edit this response" [hidden]="currentEditIndex == index">
+    <!-- title="Click to edit this response" -->
+    <div class="col-12 p-0 pointer body_sec"  [hidden]="currentEditIndex == index">
       <div class="previewResponseMod">
       <div class="responsePreviewBlock">
       <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>

@@ -181,7 +181,7 @@
                                 </li>
                                 <li class="add-custom" (click)="newCredential()"><a>{{"settings.add_new_credential" | translate}} </a>
                                 </li>
-                            </ul>S
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -206,10 +206,10 @@
                         </div>
                     </div>
                     <div class="input-data">
-                        <div class="label-text">{{"settings.Client_ID" | translate}} </div>
+                        <div class="label-text">{{"settings.client_id" | translate}} </div>
                         <div class="input-box mb-4">
                             <div class="kr-sg-input-text">
-                                <input type="text" class="input-text" [value]="listData.clientId" readonly>
+                                <input type="text" class="input-text" [value]="listData?.clientId" readonly>
                             </div>
                             <div class="copy-btn" (click)="copy(listData.clientId,clipClientId)"><img
                                     src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
@@ -220,7 +220,7 @@
                         <div class="input-box mb-4">
                             <div class="kr-sg-input-text" >
                                 <input type="password" id="password"  class="input-text"
-                                    [value]="listData.clientSecret" readonly>
+                                    [value]="listData?.clientSecret" readonly>
                                 <img  (click)="showPasword()" *ngIf="!showPassword" src="assets/images/icons/eye.svg" class="eye" type="eye" >
                                 <img  (click)="showPasword()"   *ngIf="showPassword" src="assets/images/icons/viewPw.svg.svg"class="eye" type="eye" >
                             </div>

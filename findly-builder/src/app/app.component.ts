@@ -9,6 +9,8 @@ import { EndPointsService } from '@kore.services/end-points.service';
 import { environment } from '@kore.environment';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { AppHeaderComponent } from './components/app-header/app-header.component';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service'; 
+
 // import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
 // declare const KoreWidgetSDK: any;
@@ -71,10 +73,11 @@ export class AppComponent implements OnInit, OnDestroy {
     private endpointservice: EndPointsService,
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
-    public inlineManual: InlineManualService
+    public inlineManual : InlineManualService,
+    public mixpanel : MixpanelServiceService
     // private translate: TranslateService
   ) {
-
+    this.mixpanel.init();
     router.events.subscribe((event: RouterEvent) => {
       this.navigationInterceptor(event);
     });
@@ -377,7 +380,14 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     const findlyConfig: any = {
       botOptions: botOptionsFindly,
-      viaSocket: true
+      viaSocket: true,
+      pickersConfig: {
+        showDatePickerIcon: false, //set true to show datePicker icon
+        showDateRangePickerIcon: false, //set true to show dateRangePicker icon
+        showClockPickerIcon: false, //set true to show clockPicker icon
+        showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
+        showradioOptionMenuPickerIcon: false //set true to show Radio Option Template icon
+        }
     };
     this.findlyBusinessConfig = this;
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
@@ -566,7 +576,14 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     const findlyConfig: any = {
       botOptions: botOptionsFindly,
-      viaSocket: true
+      viaSocket: true,
+      pickersConfig: {
+          showDatePickerIcon: false, //set true to show datePicker icon
+          showDateRangePickerIcon: false, //set true to show dateRangePicker icon
+          showClockPickerIcon: false, //set true to show clockPicker icon
+          showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
+          showradioOptionMenuPickerIcon: false //set true to show Radio Option Template icon
+          }
     };
     this.findlyBusinessConfig = this;
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
