@@ -11,6 +11,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { E } from '@angular/cdk/keycodes';
 declare const $: any;
 @Component({
   selector: 'app-facets',
@@ -19,6 +20,7 @@ declare const $: any;
 })
 export class FacetsComponent implements OnInit, OnDestroy {
   facetModalRef: any;
+  facetModalRef1: any;
   facets: any = [];
   fieldAutoSuggestion: any = [];
   selectedApp;
@@ -80,6 +82,46 @@ export class FacetsComponent implements OnInit, OnDestroy {
   selectTypeArr: any = [];
   componentType: string = 'configure';
   submitted: boolean = false;
+  //new code from here
+  filterFacetObj: any = {
+    fieldId: "",
+    name: "",
+    type: "filter",
+    subtype: "value",
+    multiselect: false,
+    size: 0,
+    sortConfig: {
+      sortBy: "",
+      order: ""
+    },
+    ranges: [
+      {
+        name: "",
+        from: 0,
+        to: 0
+      }]
+  };
+  sortableFacetObj: any = {
+    fieldId: "",
+    name: "",
+    type: "sortable",
+    sortConfig: {
+      sortBy: "",
+      order: ""
+    }
+  }
+  tabFacetObj: any = {
+    fieldId: "",
+    type: 'tab',
+    multiselect: false,
+    tabs: []
+  };
+  configuredTabValues: any = [{ bucketName: '', fieldValue: 'faq', name: 'FAQs', selected: false }, { bucketName: '', fieldValue: 'web', name: 'Web', selected: false }, { bucketName: '', fieldValue: 'actions', name: 'Actions', selected: false }, { bucketName: '', fieldValue: 'data', name: 'Structured Data', selected: false }, { bucketName: '', fieldValue: 'file', name: 'Files', selected: false }]
+  showConfiguredFacet: boolean = false;
+  currentFacetObj: any = null;
+  currentFacetTab: string = 'filter';
+  selectAllConfigure: boolean = false;
+  facetType: any = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
   constructor(
@@ -91,6 +133,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     public inlineManual: InlineManualService
   ) { }
   @ViewChild('facetModalPouup') facetModalPouup: KRModalComponent;
+  @ViewChild('facetModalPopupNew') facetModalPopupNew: KRModalComponent;
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -258,14 +301,14 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
     }
   }
-  createNewFacet() {
-    this.addEditFacetObj = JSON.parse(JSON.stringify(this.facetDefaultValueObj.facet));
-    if (this.selectedField && this.selectedField.fieldDataType) {
-      this.selectedField.fieldDataType = null;
-    }
-    this.openModal();
-    this.getFieldAutoComplete('');
-  }
+  // createNewFacet() {
+  //   this.addEditFacetObj = JSON.parse(JSON.stringify(this.facetDefaultValueObj.facet));
+  //   if (this.selectedField && this.selectedField.fieldDataType) {
+  //     this.selectedField.fieldDataType = null;
+  //   }
+  //   this.openModal();
+  //   this.getFieldAutoComplete('');
+  // }
   editFacetModal(facet) {
     this.getRecordDetails(facet)
   }
@@ -344,20 +387,20 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.filedTypeShow = true;
     }
   }
-  switchType(type) {
-    if (type === 'value') {
-      if (this.addEditFacetObj.facetRange) {
-        delete this.addEditFacetObj.facetRange;
-      }
-      this.addEditFacetObj.facetValue = {};
-    } else {
-      if (this.addEditFacetObj.facetValue) {
-        delete this.addEditFacetObj.facetValue;
-      }
-      this.addEditFacetObj.facetRange = [];
-    }
-    this.addEditFacetObj.facetType = type;
-  }
+  // switchType(type) {
+  //   if (type === 'value') {
+  //     if (this.addEditFacetObj.facetRange) {
+  //       delete this.addEditFacetObj.facetRange;
+  //     }
+  //     this.addEditFacetObj.facetValue = {};
+  //   } else {
+  //     if (this.addEditFacetObj.facetValue) {
+  //       delete this.addEditFacetObj.facetValue;
+  //     }
+  //     this.addEditFacetObj.facetRange = [];
+  //   }
+  //   this.addEditFacetObj.facetType = type;
+  // }
   removeRange(index) {
     this.addEditFacetObj.facetRange.splice(index, 1);
   }
@@ -392,6 +435,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }, errRes => {
     });
   }
+  //list of facets method
   getFacts(offset?) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
@@ -403,7 +447,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.service.invoke('get.allFacets', quaryparms).subscribe(res => {
       this.facets = [];
       this.statusArr = [];
-      this.docTypeArr =[];
+      this.docTypeArr = [];
       this.selectTypeArr = [];
       this.facets = res || [];
       this.facets.forEach(element => {
@@ -454,62 +498,62 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.addEditFacetObj.facetName = suggesition.fieldName;
   }
 
-  createFacet() {
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId: this.queryPipelineId
-    };
-    const payload = this.addEditFacetObj;
-    if (this.addEditFacetObj.fieldName) {
-      delete payload.fieldName;
-    }
-    if (!this.selectField) {
-      this.notificationService.notify('Please select the valid Field', 'erroe');
-      return
-    }
-    // if(this.selectedField.fieldDataType === 'number'){
-    //   payload.fieldName = parseInt(this.selectedField.fieldName,10);
-    // } else {
-    //   payload.fieldName = this.selectedField.fieldName;
-    // }
-    payload.fieldId = this.selectedField._id;
-    payload.isFacetActive = this.addEditFacetObj.isFacetActive || false;
-    this.service.invoke('create.facet', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Added Successfully', 'success');
-      if (this.facets.length == 0) { this.appSelectionService.updateTourConfig(this.componentType) }
-      //this.facets.push(res);
-      this.getFacts();
-      this.closeModal();
-      this.addEditFacetObj = null;
-      this.selectedFieldId = null;
-    }, errRes => {
-      this.getFieldAutoComplete('');
-      this.errorToaster(errRes, 'Failed to create facet');
-    });
-  }
-  editFacet() {
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      facetId: this.addEditFacetObj._id,
-      queryPipelineId: this.queryPipelineId
-    };
-    const payload = this.addEditFacetObj;
-    if (this.addEditFacetObj.fieldName) {
-      delete payload.fieldName;
-    }
-    this.service.invoke('update.facet', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Updated Successfully', 'success');
-      this.getFacts();
-      this.closeModal();
-      this.addEditFacetObj = null;
-      this.selectedFieldId = null;
-    }, errRes => {
-      this.getFieldAutoComplete('');
-      this.errorToaster(errRes, 'Failed to update facet');
-    });
-  }
+  // createFacet() {
+  //   const quaryparms: any = {
+  //     searchIndexID: this.serachIndexId,
+  //     indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+  //     queryPipelineId: this.queryPipelineId
+  //   };
+  //   const payload = this.addEditFacetObj;
+  //   if (this.addEditFacetObj.fieldName) {
+  //     delete payload.fieldName;
+  //   }
+  //   if (!this.selectField) {
+  //     this.notificationService.notify('Please select the valid Field', 'erroe');
+  //     return
+  //   }
+  //   // if(this.selectedField.fieldDataType === 'number'){
+  //   //   payload.fieldName = parseInt(this.selectedField.fieldName,10);
+  //   // } else {
+  //   //   payload.fieldName = this.selectedField.fieldName;
+  //   // }
+  //   payload.fieldId = this.selectedField._id;
+  //   payload.isFacetActive = this.addEditFacetObj.isFacetActive || false;
+  //   this.service.invoke('create.facet', quaryparms, payload).subscribe(res => {
+  //     this.notificationService.notify('Added Successfully', 'success');
+  //     if (this.facets.length == 0) { this.appSelectionService.updateTourConfig(this.componentType) }
+  //     //this.facets.push(res);
+  //     this.getFacts();
+  //     this.closeModal();
+  //     this.addEditFacetObj = null;
+  //     this.selectedFieldId = null;
+  //   }, errRes => {
+  //     this.getFieldAutoComplete('');
+  //     this.errorToaster(errRes, 'Failed to create facet');
+  //   });
+  // }
+  // editFacet() {
+  //   const quaryparms: any = {
+  //     searchIndexID: this.serachIndexId,
+  //     indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+  //     facetId: this.addEditFacetObj._id,
+  //     queryPipelineId: this.queryPipelineId
+  //   };
+  //   const payload = this.addEditFacetObj;
+  //   if (this.addEditFacetObj.fieldName) {
+  //     delete payload.fieldName;
+  //   }
+  //   this.service.invoke('update.facet', quaryparms, payload).subscribe(res => {
+  //     this.notificationService.notify('Updated Successfully', 'success');
+  //     this.getFacts();
+  //     this.closeModal();
+  //     this.addEditFacetObj = null;
+  //     this.selectedFieldId = null;
+  //   }, errRes => {
+  //     this.getFieldAutoComplete('');
+  //     this.errorToaster(errRes, 'Failed to update facet');
+  //   });
+  // }
   deleteFacets(facet?, bulk?) {
     const modalData: any = {
       newTitle: 'Are you sure you want to delete ?',
@@ -604,29 +648,20 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }
   }
 
-  validateAddEditFacet() {
-    if (this.addEditFacetObj.fieldId.length && this.addEditFacetObj.facetName) {
-      this.submitted;
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-  addOrUpdate() {
-    this.submitted = true;
-    if (this.validateAddEditFacet()) {
-      this.addFiled();
-      if (this.addEditFacetObj && this.addEditFacetObj._id) {
-        this.editFacet();
-      } else {
-        this.createFacet();
-      }
-    }
-    else {
-      this.notificationService.notify('Enter the required fields to proceed', 'error');
-    }
-  }
+  // addOrUpdate() {
+  //   this.submitted = true;
+  //   if (this.validateAddEditFacet()) {
+  //     this.addFiled();
+  //     if (this.addEditFacetObj && this.addEditFacetObj._id) {
+  //       this.editFacet();
+  //     } else {
+  //       //this.createFacet();
+  //     }
+  //   }
+  //   else {
+  //     this.notificationService.notify('Enter the required fields to proceed', 'error');
+  //   }
+  // }
   openModal(isFields?) {
     this.submitted = false;
     if (!isFields) {
@@ -827,5 +862,182 @@ export class FacetsComponent implements OnInit, OnDestroy {
     } else {
       return false;
     }
+  }
+  //new code from here
+  addNewRange(type, index?) {
+    if (type === 'add') {
+      this.currentFacetObj.ranges.push({ name: "", from: 0, to: 0 });
+    }
+    else if (type === 'remove') {
+      this.currentFacetObj.ranges.splice(index, 1);
+    }
+  }
+  //new modal open
+  createNewFacet(data?) {
+    if (data) {
+      this.currentFacetObj = Object.assign({}, data);
+      this.currentFacetTab = data.type;
+      this.facetType = this.facetType.filter(ele => ele.type === data.type);
+      if (data.type === 'tab') {
+        this.configuredTabValues.map(tab => {
+          this.currentFacetObj.tabs.map(tab1 => {
+            if (tab.fieldValue === tab1.fieldValue) {
+              tab.selected = true;
+            }
+            return tab
+          })
+        })
+      }
+    }
+    else {
+      this.currentTab('filter');
+    }
+    this.facetModalRef1 = this.facetModalPopupNew.open();
+  }
+  //new modal close
+  closeFacetDialog() {
+    if (this.showConfiguredFacet) {
+      this.showConfiguredFacet = false;
+    }
+    else {
+      if (this.facetModalRef1 && this.facetModalRef1.close) {
+        this.facetModalRef1.close();
+        this.currentFacetObj = null;
+        this.submitted = false;
+        this.facetType = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
+      }
+    }
+  }
+  //current tab
+  currentTab(type) {
+    this.currentFacetTab = type;
+    this.currentFacetObj = null;
+    this.submitted = false;
+    if (type === 'filter') {
+      this.currentFacetObj = Object.assign({}, this.filterFacetObj);
+    }
+    else if (type === 'sortable') {
+      this.currentFacetObj = Object.assign({}, this.sortableFacetObj);
+    }
+    else if (type === 'tab') {
+      this.currentFacetObj = Object.assign({}, this.tabFacetObj);
+    }
+  }
+  //selectAll ConfiguredFacets checkbox
+  selectAllConfiguredFacets(type) {
+    if (type === 'all') {
+      setTimeout(() => {
+        this.configuredTabValues.forEach(element => {
+          return element.selected = this.selectAllConfigure ? true : false
+        });
+      }, 100)
+    }
+    else if (type === 'individual') {
+      setTimeout(() => {
+        const all_checked = this.configuredTabValues.every(element => element.selected === true);
+        this.selectAllConfigure = all_checked ? true : false;
+      }, 100)
+    }
+  }
+  //sort configured facets array in tabs
+  sortConfiguredFacets(event: CdkDragDrop<string[]>, list) {
+    if (event.previousIndex !== event.currentIndex) {
+      moveItemInArray(list, event.previousIndex, event.currentIndex);
+    }
+  }
+  //validate fields
+  validateAddEditFacet() {
+    if (this.currentFacetTab === 'filter') {
+      if (this.currentFacetObj?.subtype === 'value') {
+        this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.name && this.currentFacetObj?.sortConfig?.sortBy && this.currentFacetObj?.sortConfig?.order) ? false : true;
+      }
+      else if (this.currentFacetObj?.subtype === 'range') {
+        this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.name) ? false : true;
+      }
+    }
+    else if (this.currentFacetTab === 'sortable') {
+      this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.name && this.currentFacetObj?.sortConfig?.sortBy && this.currentFacetObj?.sortConfig?.order) ? false : true;
+    }
+    else if (this.currentFacetTab === 'tab') {
+      this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.tabs) ? false : true;
+    }
+    return this.submitted ? false : true;
+  }
+  //save facet
+  saveFacet() {
+    if (this.showConfiguredFacet) {
+      this.showConfiguredFacet = false;
+      this.currentFacetObj.tabs = [];
+      this.configuredTabValues.forEach(element => {
+        if (element.selected) {
+          this.currentFacetObj.tabs.push({ fieldValue: element.fieldValue, bucketName: element.bucketName });
+        }
+      });
+    } else {
+      if (this.validateAddEditFacet()) {
+        let quaryparms: any = {
+          searchIndexID: this.serachIndexId,
+          indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+          queryPipelineId: this.queryPipelineId
+        };
+        const url = this.currentFacetObj?._id ? 'update.facet' : 'create.facet';
+        if (this.currentFacetObj?.type === 'filter') {
+          if (this.currentFacetObj?.subtype === 'value') {
+            delete this.currentFacetObj?.ranges
+          }
+          else if (this.currentFacetObj?.subtype === 'range') {
+            delete this.currentFacetObj?.sortConfig;
+            delete this.currentFacetObj?.size;
+          }
+        }
+        if (this.currentFacetObj?._id) {
+          quaryparms = Object.assign({ ...quaryparms, facetId: this.currentFacetObj?._id });
+        }
+        else {
+          delete this.currentFacetObj.fieldName;
+        }
+        const payload = this.currentFacetObj;
+        this.service.invoke(url, quaryparms, payload).subscribe(res => {
+          this.notificationService.notify(`${this.currentFacetObj?._id ? 'Updated' : 'Added'} Successfully`, 'success');
+          if (this.facets.length == 0) { this.appSelectionService.updateTourConfig(this.componentType) }
+          this.getFacts();
+          this.closeFacetDialog();
+        }, errRes => {
+          this.errorToaster(errRes, 'Failed to create facet');
+        });
+      }
+      else {
+        this.notificationService.notify('Enter the required fields to proceed', 'error');
+      }
+    }
+  }
+  //edit facet for status
+  editFacet(data, event) {
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      facetId: data._id,
+      queryPipelineId: this.queryPipelineId
+    };
+    data.active = event.target.checked;
+    this.service.invoke('update.facet', quaryparms, data).subscribe(res => {
+      this.notificationService.notify('Updated Successfully', 'success');
+      this.getFacts();
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to update facet');
+    });
+  }
+  //get values based on field
+  getFieldValues(id) {
+    const quaryparms: any = {
+      sidx: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      fieldId: id
+    };
+    this.service.invoke('get.facetValues', quaryparms).subscribe(res => {
+      console.log("getFieldValues res", res)
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get field values');
+    });
   }
 }
