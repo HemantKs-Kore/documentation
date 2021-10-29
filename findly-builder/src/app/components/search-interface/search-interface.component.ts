@@ -1,5 +1,4 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AppSelectionService } from '@kore.services/app.selection.service';
@@ -11,7 +10,6 @@ import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { InlineManualService } from '@kore.services/inline-manual.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 
 // import * as PureJSCarousel from 'src/assets/web-kore-sdk/libs/purejscarousel.js';

@@ -93,7 +93,8 @@
     --sdk-border-ghost-color: #c4c4d1;
     --sdk-border-gallery-color: #f0f0f0;
     --sdk-border-downriver-color: #0c335b;
-  
+    --sdk-border-filter-color: #5F6368;
+
     --sdk-scrollbar-thumb-bg-color: #aaa;
   
     --sdk-white-bg: #ffffff;
@@ -7370,15 +7371,15 @@ body{
 }
 .searchAssist-kore-chat-window.search-container.conversation #autoSuggestionContainer .suggestion-search-data-parent .noquerySuggestionsFound{
 text-align: center;
-padding:53px 0px;
+padding: 32px 0px;
 color: #9aa0a6;
 }
 .searchAssist-kore-chat-window.search-container.conversation .search-body{
     border-radius: 6px;
     background: #FFFFFF;
     margin: 5px;
-    max-height: 250px;
-    min-height: 250px;
+    max-height: 280px;
+    min-height: 280px;
     bottom: 0;
     position: relative;
     width: auto !important;
@@ -10054,7 +10055,7 @@ body::-webkit-scrollbar {
   .searchAssist-kore-chat-window .button_secondary.w-100 {
     width: 100%;
   }
-  .searchAssist-kore-chat-window .finalResults .task-wrp.faq-highlight, .search-body-full .faqs-wrp-content.faq-highlight{
+  .searchAssist-kore-chat-window .finalResults .task-wrp.faq-highlight,.show-all-results-outer-wrap .finalResults .task-wrp.faq-highlight, .search-body-full .faqs-wrp-content.faq-highlight,.live_search_result_box .task-wrp.faq-highlight,.all-product-details .task-wrp.faq-highlight{
     border: 1px solid var(--sdk-border-french-gray-color);
   }
 
@@ -10069,7 +10070,7 @@ body::-webkit-scrollbar {
       -webkit-box-shadow: none;
     }
   }
-  .searchAssist-kore-chat-window .finalResults .task-wrp.faq-highlight,.search-body-full .faqs-wrp-content.faq-highlight{
+  .searchAssist-kore-chat-window .finalResults .task-wrp.faq-highlight,.show-all-results-outer-wrap .task-wrp.faq-highlight,.search-body-full .faqs-wrp-content.faq-highlight,.live_search_result_box .task-wrp.faq-highlight,.all-product-details .task-wrp.faq-highlight{
     animation-name: glowKeyFrame;
     animation-duration: 3s;
   }
@@ -11012,6 +11013,7 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     white-space: nowrap;
     text-overflow: ellipsis;
     max-width: 86%;
+    text-transform: capitalize;
   }
   .searchAssist-kore-chat-window .custom_checkbox.kr-sg-checkbox .checkbox-custom + .checkbox-custom-label::before {
     content: '';
@@ -11024,17 +11026,18 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     margin-right: 12px;
     text-align: center;
     border-radius: 2px;
-    border: solid 1px var(--sdk-border-silver-sand-color);
+    border: solid 1px var(--sdk-border-filter-color);
     background-color: var(--sdk-white-font-color);
     margin-top: 0;
     left: 0;
     top: 0px;
+    text-transform: capitalize;
   }
   .searchAssist-kore-chat-window .custom_checkbox.kr-sg-checkbox .checkbox-custom:hover:not([disabled]):checked + .checkbox-custom-label {
     color: var(--sdk-shark-black-color);
   }
   .searchAssist-kore-chat-window .custom_checkbox.kr-sg-checkbox .checkbox-custom:hover:not([disabled]):checked + .checkbox-custom-label::before {
-    border: solid 1px var(--sdk-border-silver-sand-color);
+    border: solid 1px var(--sdk-border-filter-color);
   }
   .searchAssist-kore-chat-window .custom_checkbox.kr-sg-checkbox .checkbox-custom:hover:not([disabled]) + .checkbox-custom-label {
     color: var(--sdk-primary-blue-color);
@@ -11060,7 +11063,7 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     background-color: var(--sdk-checkbox-label-morning-glory-color);
   }
   .searchAssist-kore-chat-window .custom_checkbox.kr-sg-checkbox .checkbox-custom:disabled + .checkbox-custom-label::before {
-    border: solid 1px var(--sdk-border-silver-sand-color);
+    border: solid 1px var(--sdk-border-filter-color);
   }
   .searchAssist-kore-chat-window .custom_checkbox.kr-sg-checkbox .checkbox-custom:focus + .checkbox-custom-label {
     color: var(--sdk-primary-blue-color);
@@ -11961,6 +11964,9 @@ padding-right: 0;
     line-height: 20px;
     margin-bottom: 0px;
 }
+.searchAssist-kore-chat-window .accordion .tile-description img{
+display: block;
+}
 .searchAssist-kore-chat-window .tile-with-text-parent .tile-with-text .tile-description {
     /* color: var(--sdk-gray-color); */
     color: #494a4b;
@@ -11970,14 +11976,7 @@ padding-right: 0;
     cursor: default;
     word-wrap: break-word;
 }
-.searchAssist-kore-chat-window .tile-with-text-parent .tile-with-text .tile-description img{
-    width: 90%;
-}
-.searchAssist-kore-chat-window .tile-description img{
-    width: 90%;
-    display: block;
-    margin: auto;
-}
+searchAssist-kore-chat-window .tile-with-text-parent .tile-with-text .tile-description img
 .searchAssist-kore-chat-window .tile-description  {
     height: 16px;
 }
@@ -13839,9 +13838,9 @@ border: 0;
     margin: 0px 5px;
 
     border: 0;
-    padding: 20px;
-    max-height: 166px;
-    min-height: 166px;
+    padding: 12px 20px;
+    max-height: 110px;
+    min-height: 110px;
     overflow: auto;
     border-radius: 6px;
     background: #FFFFFF;
@@ -13871,14 +13870,25 @@ border: 0;
     border-bottom: 1px solid var(--sdk-border-iron-color);
     display: none;
 }
+.searchAssist-kore-chat-window .suggestion-search-data-parent .bottom-to-top-suggestion{
+    position: absolute;
+    bottom: 6px;
+    width: 100%;
+    left: 0;
+    overflow: auto;
+    max-height: 70px;
+}
 .searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title {    
     cursor: pointer;
     width: 100%;
     position: relative;
+    padding: 0 20px;
+    margin: 5px 0px;
 }
 
 .searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title .suggestion-list-item{    
-    padding: 7px 0px;
+    padding: 4px 0px;
+    padding-left: 21px;
     cursor: pointer;
     box-sizing: border-box;
     display: inline-block;
@@ -13889,6 +13899,12 @@ border: 0;
     color: #3C4043;
     margin: 0;
     border: 0;
+    position: relative;
+}
+.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title .suggestion-list-item img{
+    position: absolute;
+    left: 0;
+    top: 8px;
 }
 /* .searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title .suggestion-list-item:hover {
     background: var(--sdk-bg-zumthor-color);
@@ -13896,13 +13912,21 @@ border: 0;
     box-sizing: border-box;
     border-radius: 20px;
 } */
-.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion .suggestion-list-item {
+.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion,.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title:hover {
+    padding: 0 10px;
+}
+.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion .suggestion-list-item ,.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title:hover .suggestion-list-item{
     background: var(--sdk-bg-zumthor-color);
     border: 1px solid var(--sdk-border-malibu-color);
     box-sizing: border-box;
     border-radius: 20px;
-    padding: 7px 7px;
-    margin: 0px -7px;
+    padding: 4px 7px 4px 30px;
+    margin: 0px;
+}
+.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion .suggestion-list-item img,.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title:hover .suggestion-list-item img{
+    position: absolute;
+    left: 8px;
+    top: 8px;
 }
 .searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title .type-select-suggestion{
     position: absolute;
@@ -14083,7 +14107,7 @@ border: 0;
     top: 5px;
 }
 /* HightLighting */
-.searchAssist-kore-chat-window .structure-data-wrp.task-wrp.faq-highlight, .search-body-full .faqs-wrp-content.faq-highlight {
+.searchAssist-kore-chat-window .structure-data-wrp.task-wrp.faq-highlight, .search-body-full .faqs-wrp-content.faq-highlight, .show-all-results-outer-wrap .structure-data-wrp.task-wrp.faq-highlight,.live_search_result_box .structure-data-wrp.task-wrp.faq-highlight,.all-product-details .structure-data-wrp.task-wrp.faq-highlight {
     border: 0px !important;
 }
 .searchAssist-kore-chat-window .documents-full-search-container{
@@ -14943,6 +14967,7 @@ margin-bottom: 15px !important;
         text-overflow: ellipsis;
         padding-right: 0;
         max-width: 86%;
+        text-transform: capitalize;
     }
     .filter-sec-tab .kr-sg-radiobutton .radio-custom+.radio-custom-label{
         padding: 4px 0px 14px 28px !important;
@@ -14977,7 +15002,7 @@ margin-bottom: 15px !important;
         margin-right: 12px;
         text-align: center;
         border-radius: 2px;
-        border: solid 1px var(--sdk-border-silver-sand-color);
+        border: solid 1px var(--sdk-border-filter-color);
         background-color: var(--sdk-white-bg);
         margin-top: -3px;
         border-radius: 100px;
@@ -14995,4 +15020,8 @@ margin-bottom: 15px !important;
      }
      .custom_checkbox.kr-sg-radiobutton .radio-custom:hover + .radio-custom-label::before {
         border:solid 1px var(--sdk-primary-blue-color);
+      }
+
+      .tile-description img{
+        max-width: 100% !important;
       }

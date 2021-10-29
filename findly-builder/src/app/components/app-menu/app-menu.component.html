@@ -115,13 +115,14 @@
 			</div>
 
 			<div class="index-config-nav-block">
-				<div class="index-title">Index Configuration</div>
+				<div class="index-title text-truncate">Index Configuration</div>				
+
 
 				<div mat-button class="mat-button" [routerLink]="['/FieldManagementComponent']" skipLocationChange
 					routerLinkActive="active" (click)="preview('index')" mat-button>
 					<span class="inlineIconBox">
 						<img src="assets/icons/sidemenu/new-icons/fields.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/fields.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/fields-active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">Fields</span>
 				</div>
@@ -130,7 +131,7 @@
 					routerLinkActive="active" (click)="preview('traits')" mat-button>
 					<span class="inlineIconBox leftAdjust">
 						<img src="assets/icons/sidemenu/new-icons/traits.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/traits.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/traits-active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">Traits</span>
 				</div>
@@ -139,7 +140,7 @@
 					routerLinkActive="active" (click)="preview('index')" mat-button>
 					<span class="inlineIconBox">
 						<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/index.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/index-active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">Workbench</span>
 				</div>
@@ -147,31 +148,24 @@
 
 			<div class="search-config-nav-block mb-2">
 
-				<div class="search-config-title">Search Configuration</div>
+				<div class="search-config-title text-truncate">Search Configuration</div>
 
-				<div class="search-config-elipse-block">
-					<div class="title text-truncate"
-						title="{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default Search':configObj[selectedConfig].name:'Loading..'}}">
-						{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default
-						Search':configObj[selectedConfig].name:'Loading..'}} </div>
-					<div class="kr-sg-dropdowns kr_sg_dropdowns" #selectSearchConfigDrop='ngbDropdown' ngbDropdown
-						[container]="'body'" [placement]="'bottom-left'">
+				<div class="search-config-elipse-block pr-0">
+					<div class="title text-truncate" title="{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default Search':configObj[selectedConfig].name:'Loading..'}}">{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default Search':configObj[selectedConfig].name:'Loading..'}} </div>
+					<div class="kr-sg-dropdowns kr_sg_dropdowns" #selectSearchConfigDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-left'">
 						<div class="dropdown dropdown-open">
 							<button class="dropdown-toggle dropdown-input before-none" ngbDropdownToggle>
-								<img src="assets/icons/sidemenu/overflow.svg">
+								<img src="assets/icons/sidemenu/dropdownup.svg">
 							</button>
 							<ul class="dropdown-menu content-menu queryPipelineConfig" ngbDropdownMenu>
+								<div class="title-main">Search Profile</div>
+								<div class="create-new" (click)="openModalPopup('default');selectSearchConfigDrop.close();">
+									<img class="mr-2"src="assets\images\plus-add.svg">New Profile
+								</div>
 								<perfect-scrollbar>
-									<li class="list-name text-truncate"
-										[ngClass]="{'nostars': !config.default|| (config.default)}"
-										(click)="selectQueryPipelineId(config,selectSearchConfigDrop)"
-										*ngFor="let config of queryConfigs">
-										<img src="assets/icons/star.svg" *ngIf="config.default" class="star"
-											[container]="'body'" ngbTooltip='Default' placement="top-center">
-										<img src="assets/icons/start-black.svg" [container]="'body'"
-											(click)="$event.stopPropagation();markAsDefault(config)"
-											*ngIf="!config.default && !editName" class="star-black"
-											ngbTooltip='Make as Default' placement="top-center" [container]="'body'">
+									<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default|| (config.default)}" (click)="selectQueryPipelineId(config,selectSearchConfigDrop)" *ngFor="let config of queryConfigs">
+										<img src="assets/icons/sidemenu/pin.svg" *ngIf="config.default" class="star" [container]="'body'" ngbTooltip='Default' placement="top-center">
+										<img src="assets/icons/sidemenu/unpin.svg" [container]="'body'" (click)="$event.stopPropagation();markAsDefault(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-center" [container]="'body'">
 										<span *ngIf="selectedConfig == config._id && editName; else name">
 											<input type="text" class="edit-name" name="editName"
 												[(ngModel)]="editNameVal" id="editNameID"
@@ -185,27 +179,18 @@
 												Search':config.name}}</span>
 										</ng-template>
 										<div class="action-icons-data">
-											<div class="clone" *ngIf="!editName"
-												(click)="$event.stopPropagation();openModalPopup('clone',config);selectSearchConfigDrop.close();"
-												ngbTooltip='Clone' placement="top-center" [container]="'body'">
-												<img src="assets/icons/clone.svg">
+											<div class="clone" *ngIf="!editName" (click)="$event.stopPropagation();openModalPopup('clone',config);selectSearchConfigDrop.close();" ngbTooltip='Clone' placement="top-center" [container]="'body'">
+												<img src="assets/icons/sidemenu/copy.svg">
 											</div>
-											<div class="edit-black" *ngIf="!editName&&!(config.default)"
-												(click)="$event.stopPropagation();editConfig(config,'edit')"
-												ngbTooltip='Edit' placement="top-center" [container]="'body'">
-												<img src="assets/icons/edit-pencil.svg">
-											</div>
-											<div class="delete" *ngIf="!editName&&!(config.default)"
-												(click)="$event.stopPropagation();checkExistInExperiment(config,'search')"
-												ngbTooltip='Delete' placement="top-center" [container]="'body'">
-												<img src="assets/icons/delete.svg">
-											</div>
+											<div class="edit-black" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();editConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
+												<img src="assets/icons/sidemenu/edit.svg">
+											</div>																
+											<div class="delete" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();checkExistInExperiment(config,'search')" ngbTooltip='Delete' placement="top-center" [container]="'body'">
+												<img src="assets/icons/sidemenu/delete.svg">
+											</div>											
 										</div>
 									</li>
 								</perfect-scrollbar>
-								<div class="create-new"
-									(click)="openModalPopup('default');selectSearchConfigDrop.close();"><img
-										class="mr-2" src="assets\images\plus-add.svg"> Create New</div>
 							</ul>
 						</div>
 					</div>
@@ -215,7 +200,7 @@
 					routerLinkActive="active" (click)="preview('weights')" mat-button>
 					<span class="inlineIconBox leftAdjust">
 						<img src="assets/icons/sidemenu/new-icons/weights.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/weights.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/weights-active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">Weights</span>
 				</div>
@@ -224,7 +209,7 @@
 					routerLinkActive="active" (click)="preview('synonyms')" mat-button>
 					<span class="inlineIconBox">
 						<img src="assets/icons/sidemenu/new-icons/synonyms.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/synonyms.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/synonyms-active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">Synonyms</span>
 				</div>
@@ -233,7 +218,7 @@
 					routerLinkActive="active" (click)="preview('stopWords')" mat-button>
 					<span class="inlineIconBox leftAdjust">
 						<img src="assets/icons/sidemenu/new-icons/stop-words.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/stop-words.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/stop-words-active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">Stop Words</span>
 				</div>
@@ -242,7 +227,7 @@
 					routerLinkActive="active" (click)="preview('resultranking')" mat-button>
 					<span class="inlineIconBox leftAdjust">
 						<img src="assets/icons/sidemenu/new-icons/results.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/results.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/results-active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">Results Ranking</span>
 				</div>
@@ -251,7 +236,7 @@
 					routerLinkActive="active" (click)="preview('synonyms')" mat-button>
 					<span class="inlineIconBox">
 						<img src="assets/icons/sidemenu/new-icons/facets.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/facets.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/facets-active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">Facets</span>
 				</div>
@@ -260,7 +245,7 @@
 					routerLinkActive="active" (click)="preview('synonyms')" mat-button>
 					<span class="inlineIconBox">
 						<img src="assets/icons/sidemenu/new-icons/rules.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/rules.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/rules-active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">Business Rules</span>
 				</div>
@@ -268,7 +253,7 @@
 			</div>
 
 			<div class="search-experience-nav-block mb-2">
-				<div class="search-experience-title">SEARCH EXPERIENCE</div>
+				<div class="search-experience-title text-truncate">SEARCH EXPERIENCE</div>
 
 				<div mat-button class="mat-button" [routerLink]="['/search-experience']" skipLocationChange
 					routerLinkActive="active" (click)="preview('index')" mat-button>
@@ -276,7 +261,7 @@
 						<!-- <img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon"> -->
 						<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/search-interface-active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">Search Interface</span>
 				</div>
@@ -292,10 +277,8 @@
 				<div mat-button class="mat-button" [routerLink]="['/resultTemplate']" skipLocationChange
 					routerLinkActive="active" (click)="preview('index')" mat-button>
 					<span class="inlineIconBox">
-						<!-- <img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="activeIcon"> -->
 						<img src="assets/icons/sidemenu/new-icons/result-template.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/result-template.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/result-template-active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">Result Templates </span>
 				</div>
@@ -306,11 +289,10 @@
 		<div class="list-group list-group-flush" *ngIf="!settingMainMenu && sourceMenu">
 
 			<div class="sources-block-nav-items">
-				<div class="link-side-menu">
+				<div class="link-side-menu add-sources-btn pr-2">
 					<div class="source_title">Sources</div>
-					<div class="add-sources" [routerLink]="['/source']" skipLocationChange routerLinkActive="active"
-						(click)="preview('Source')">
-						<img src="assets/icons/sidemenu/source-add.svg">
+					<div class="add-sources" [routerLink]="['/source']" skipLocationChange routerLinkActive="active" (click)="preview('Source')">
+						<img src="assets/icons/sidemenu/new-icons/add-source.svg">
 					</div>
 				</div>
 
@@ -318,7 +300,7 @@
 					routerLinkActive="active" (click)="preview('Content')" mat-button>
 					<span class="inlineIconBox">
 						<img src="assets/icons/sidemenu/new-icons/page.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/page.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/page-active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">Content</span>
 				</div>
@@ -327,7 +309,7 @@
 					(click)="preview('Faqs')" mat-button>
 					<span class="inlineIconBox">
 						<img src="assets/icons/sidemenu/new-icons/faq.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/faq.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/faq-active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">FAQs</span>
 				</div>
@@ -336,7 +318,7 @@
 					routerLinkActive="active" (click)="preview('Bot Actions')" mat-button>
 					<span class="inlineIconBox">
 						<img src="assets/icons/sidemenu/new-icons/actions.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/actions.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/actions-active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">Actions</span>
 				</div>
@@ -346,7 +328,7 @@
 					routerLinkActive="active" (click)="preview('Structured Data')" mat-button>
 					<span class="inlineIconBox">
 						<img src="assets/icons/sidemenu/structured_data.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/structured_data.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/structured_data_active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">{{'structuredData.structured_data' | translate}}</span>
 				</div>
@@ -397,7 +379,7 @@
 				routerLinkActive="active" (click)="preview('traits')" mat-button>
 				<span class="inlineIconBox leftAdjust">
 					<img src="assets/icons/sidemenu/new-icons/Settings.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/Settings.svg" class="activeIcon">
+					<img src="assets/icons/sidemenu/new-icons/Settings-active.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">General Settings</span>
 			</div>
@@ -407,7 +389,7 @@
 				(click)="preview('traits')" mat-button>
 				<span class="inlineIconBox leftAdjust">
 					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon">
+					<img src="assets/icons/sidemenu/new-icons/channels-active.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Channels</span>
 			</div>
@@ -415,7 +397,7 @@
 				routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
+					<img src="assets/icons/sidemenu/new-icons/credentials-active.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Credentials</span>
 			</div>
@@ -423,17 +405,16 @@
 				routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/team_management.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/team_management.svg" class="activeIcon">
+					<img src="assets/icons/sidemenu/new-icons/team_management-active.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Team</span>
 			</div>
 
-			<div class="inside-menu-title">BILLING & USAGE</div>
-			<div mat-button class="mat-button" [routerLink]="['/pricing']" skipLocationChange routerLinkActive="active"
-				(click)="preview('index')" mat-button>
+			<div class="inside-menu-title mt-3">BILLING & USAGE</div>
+			<div mat-button class="mat-button" [routerLink]="['/pricing']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox leftAdjust">
 					<img src="assets/icons/sidemenu/new-icons/plandetails.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/plandetails.svg" class="activeIcon">
+					<img src="assets/icons/sidemenu/new-icons/plandetails-active.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Plan Details</span>
 			</div>
@@ -441,7 +422,7 @@
 				(click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/usagelog.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/usagelog.svg" class="activeIcon">
+					<img src="assets/icons/sidemenu/new-icons/usagelog-active.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Usage Log</span>
 			</div>
@@ -449,7 +430,7 @@
 				(click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/invoice.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/invoice.svg" class="activeIcon">
+					<img src="assets/icons/sidemenu/new-icons/invoice-active.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Invoices</span>
 			</div>
