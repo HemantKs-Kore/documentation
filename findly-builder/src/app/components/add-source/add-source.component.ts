@@ -657,15 +657,15 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       data.append('file', fileToRead);
       data.append('Content-Type', fileToRead.type);
       data.append('fileExtension', ext.replace('.', ''));
-      this.getFileId(data);
+      this.fileupload(data);
     }
     const fileReader = new FileReader();
     fileReader.onload = onFileLoad;
     fileReader.readAsText(fileToRead, 'UTF-8');
 
   }
-  fileRequestBody(input, ext, files, resourceType_import) {
-    const fileToRead = files[0];
+  fileRequestBody(input, ext, files, resourceType_import,fileDataElement?) {
+    const fileToRead = fileDataElement;
     const onFileLoad = (fileLoadedEvent) => {
       const data = new FormData();
       data.append('file', fileToRead);
@@ -673,20 +673,22 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       data.append('fileExtension', ext.replace('.', ''));
       if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
         data.append('fileContext', 'bulkImport');
-        if(files.length === 1 ){
-          this.fileupload(data);
-        }
-        else {
-          this.getFileId(data);
-          if(this.multipleData.files.length === files.length){
-            this.multiplefileupload(this.multipleData);
-          }
-        }
-       
       }
       else {
         data.append('fileContext', 'findly');
-        this.getFileId(data);
+      }
+      if(files.length === 1 ){
+        this.fileupload(data);
+      }
+      else {
+        this.fileupload(data);
+        // if(this.multipleData.files.length === files.length){
+        //   this.multiplefileupload(this.multipleData);
+        // }
+        // else {
+        //   this.multipleFileRequestBody(input, ext, files, resourceType_import) 
+    
+        // }
       }
       // this.fileupload(data);
       
@@ -703,34 +705,38 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
    this.multipleData.files = [];
     const filesListData = Array.from(input.files)
     filesListData.forEach(fileDataElement => {
-      this.fileRequestBody(input, ext, files, resourceType_import);
-      this.multipleData.files.push(this.fileDataObj);
+      this.fileRequestBody(input, ext, files, resourceType_import,fileDataElement);
+      // this.multipleData.files.push(this.fileDataObj);
     });
+    this.multipleData.files.push(this.fileDataObj);
+    // if(this.multipleData.files.length === files.length){
+    //   this.multiplefileupload(this.multipleData);
+    // }
    
   }
  
-  getFileId(payload) {
-    const quaryparms: any = {
-      userId: this.userInfo.id
-    };
-    this.service.invoke('post.fileupload', quaryparms, payload).subscribe(
-      res => {
-        this.fileObj.fileId = res.fileId;
-         this.fileDataObj  ={
-            name : this.fileObj.fileName,
-            fileId : this.fileObj.fileId
-          }
-      },
-      errRes => {
-        this.fileObj.fileUploadInProgress = false;
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed to upload file ', 'error');
-        }
-      }
-    );
-  }
+  // getFileId(payload) {
+  //   const quaryparms: any = {
+  //     userId: this.userInfo.id
+  //   };
+  //   this.service.invoke('post.fileupload', quaryparms, payload).subscribe(
+  //     res => {
+  //       this.fileObj.fileId = res.fileId;
+  //        this.fileDataObj  ={
+  //           name : this.fileObj.fileName,
+  //           fileId : this.fileObj.fileId
+  //         }
+  //     },
+  //     errRes => {
+  //       this.fileObj.fileUploadInProgress = false;
+  //       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+  //         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+  //       } else {
+  //         this.notificationService.notify('Failed to upload file ', 'error');
+  //       }
+  //     }
+  //   );
+  // }
 
   onFileSelect(input: HTMLInputElement, ext) {
     const files = input.files;
@@ -778,11 +784,19 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       res => {
         this.fileObj.fileAdded = true;
         this.fileObj.fileId = res.fileId;
+        this.fileDataObj  ={
+          name : this.fileObj.fileName,
+          fileId : this.fileObj.fileId
+        }
         this.fileObj.fileUploadInProgress = false;
         this.notificationService.notify('File uploaded successfully', 'success');
         this.selectedSourceType.resourceAdded = true;
         //  this.selectedSourceType.resourceType = 'webdomain';
         $(".drag-drop-sec").css("border-color", "#BDC1C6");
+        
+        // if(this.multipleData.files.length ){
+          this.multiplefileupload(this.multipleData);
+        // }
       },
       errRes => {
         this.fileObj.fileUploadInProgress = false;
