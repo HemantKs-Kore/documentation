@@ -1999,7 +1999,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var freqData = '<script type="text/x-jqury-tmpl" >\
       <div class="searchBox Search-BG-Copy">\
       <div class="recentContainer">\
-        <div class="recent-conversations hide">\
+        <!--<div class="recent-conversations hide">\
           <div class="mb-30">\
               <span class="search-heads mb-0">RECENT CONVERSATIONS</span>\
               <div class="conversations-list">\
@@ -2030,7 +2030,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 </div>\
               </div>\
             </div>\
-        </div>\
+        </div>-->\
       {{if popularSearches && popularSearches.length}}\
           <div class="search-heads">POPULAR SEARCHES</div>\
             <div class="search-recent-column" >\
