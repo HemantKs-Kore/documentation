@@ -16,7 +16,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
 
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog';
 import { ThrowStmt } from '@angular/compiler';
 import { RangySelectionService } from '../annotool/services/rangy-selection.service';
 //import { DockStatusService } from '../../services/dock.status.service';
@@ -89,6 +89,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     clientSecret: '',
     clientId: ''
   }
+  fileDataObj : any ={};
   importFaqInprogress = false;
   selectedLinkBotConfig: any;
   @Input() inputClass: string;
@@ -649,39 +650,119 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.fileObj.file_ext = this.extension.replace(".", "");
     }
   }
+  prepareFileUploadData(input, ext, files, resourceType_import, fileDataElement) {
+    const fileToRead = fileDataElement
+    const onFileLoad = (fileLoadedEvent) => {
+      const data = new FormData();
+      data.append('file', fileToRead);
+      data.append('Content-Type', fileToRead.type);
+      data.append('fileExtension', ext.replace('.', ''));
+      this.getFileId(data);
+    }
+    const fileReader = new FileReader();
+    fileReader.onload = onFileLoad;
+    fileReader.readAsText(fileToRead, 'UTF-8');
+
+  }
+  fileRequestBody(input, ext, files, resourceType_import) {
+    const fileToRead = files[0];
+    const onFileLoad = (fileLoadedEvent) => {
+      const data = new FormData();
+      data.append('file', fileToRead);
+      data.append('Content-Type', fileToRead.type);
+      data.append('fileExtension', ext.replace('.', ''));
+      if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
+        data.append('fileContext', 'bulkImport');
+        this.getFileId(data);
+      }
+      else {
+        data.append('fileContext', 'findly');
+        this.getFileId(data);
+      }
+      // this.fileupload(data);
+      
+    }
+    const fileReader = new FileReader();
+    fileReader.onload = onFileLoad;
+    fileReader.readAsText(fileToRead, 'UTF-8');
+  }
+
+// Payload for multiple file Upload //
+  multipleFileRequestBody(input, ext, files, resourceType_import) {
+    const multipleData: any = {};
+    multipleData.type = "bulk";
+    multipleData.files = [];
+    const filesListData = Array.from(input.files)
+    filesListData.forEach(fileDataElement => {
+      this.fileRequestBody(input, ext, files, resourceType_import);
+      multipleData.files.push(this.fileDataObj);
+    });
+    if(this.fileDataObj){
+      this.multiplefileupload(multipleData);
+    }
+  }
+ 
+  getFileId(payload) {
+    const quaryparms: any = {
+      userId: this.userInfo.id
+    };
+    this.service.invoke('post.fileupload', quaryparms, payload).subscribe(
+      res => {
+        this.fileObj.fileId = res.fileId;
+         this.fileDataObj  ={
+            name : this.fileObj.fileName,
+            fileId : this.fileObj.fileId
+          }
+      },
+      errRes => {
+        this.fileObj.fileUploadInProgress = false;
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to upload file ', 'error');
+        }
+      }
+    );
+  }
+
   onFileSelect(input: HTMLInputElement, ext) {
     const files = input.files;
     const content = this.csvContent;
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
-    if (files && files.length) {
-      const fileToRead = files[0];
-      const onFileLoad = (fileLoadedEvent) => {
-        const data = new FormData();
-        if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
-          data.append('file', fileToRead);
-          data.append('fileContext', 'bulkImport');
-          data.append('Content-Type', fileToRead.type);
-          data.append('fileExtension', ext.replace('.', ''));
-          this.fileupload(data);
-          // this.multiplefileupload();
-          
-        }
-        else {
-          data.append('file', fileToRead);
-          data.append('fileContext', 'findly');
-          data.append('Content-Type', fileToRead.type);
-          data.append('fileExtension', ext.replace('.', ''));
-           this.fileupload(data);
-          // this.multiplefileupload();
-         
-        }
-      };
-      const fileReader = new FileReader();
-      fileReader.onload = onFileLoad;
-      fileReader.readAsText(fileToRead, 'UTF-8');
+    if (files && files.length === 1) {
+      this.fileRequestBody(input, ext, files, resourceType_import);
     }
+    else {
+      this.multipleFileRequestBody(input, ext, files, resourceType_import);
+    }
+
+      // if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
+      //   data.append('file', fileToRead);
+      //   data.append('fileContext', 'bulkImport');
+      //   data.append('Content-Type', fileToRead.type);
+      //   data.append('fileExtension', ext.replace('.', ''));
+      //   this.fileupload(data);
+      //   // this.multiplefileupload();
+
+      // }
+      // else {
+      //   data.append('file', fileToRead);
+      //   data.append('fileContext', 'findly');
+      //   data.append('Content-Type', fileToRead.type);
+      //   data.append('fileExtension', ext.replace('.', ''));
+      //    this.fileupload(data);
+      //   // this.multiplefileupload();
+
+      // }
+      // };
+      // const fileReader = new FileReader();
+      // fileReader.onload = onFileLoad;
+      // fileReader.readAsText(fileToRead, 'UTF-8');
+   
   }
+  
+
   fileupload(payload) {
     const quaryparms: any = {
       userId: this.userInfo.id
@@ -707,25 +788,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-  multiplefileupload() {
+  multiplefileupload(payload) {
     const quaryparms: any = {
       searchIndexId: this.searchIndexId,
       "extractionType": "file"
     };
-    const payload : any ={
-      "type": "bulk",
-      "files": [
-        {
-            "name": this.fileObj.fileName,
-            "fileId": this.fileObj.fileId
-        }
-    ]
- }
     this.service.invoke('post.multiplefileupload', quaryparms, payload).subscribe(
       res => {
-        this.notificationService.notify('File uploaded successfully', 'success');
-        //  this.selectedSourceType.resourceType = 'webdomain';
-        $(".drag-drop-sec").css("border-color", "#BDC1C6");
+        this.notificationService.notify('Files uploaded successfully', 'success');
       },
       errRes => {
         this.fileObj.fileUploadInProgress = false;
