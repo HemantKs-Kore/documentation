@@ -9,6 +9,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-result-templates',
@@ -104,7 +105,7 @@ export class ResultTemplatesComponent implements OnInit {
       this.searchExperienceConfig = res;
       this.updateResultTemplateTabsAccess();
     });
-    this.updateResultTemplateTabsAccess();
+    //this.updateResultTemplateTabsAccess();
     /** Inline Not yet Registered */
     if (!this.inlineManual.checkVisibility('RESULT_TEMPLATE') && false) {
       this.inlineManual.openHelp('RESULT_TEMPLATE')
@@ -118,6 +119,11 @@ export class ResultTemplatesComponent implements OnInit {
       this.getFieldAutoComplete();
       // this.getAllSettings(this.selectedTab)
     }
+  }
+  //selected tab method
+  tabSelection(id) {
+    this.getAllSettings(id);
+    this.selectedTab = id;
   }
   /** Fields Data for options  */
   getFieldAutoComplete() {
@@ -194,15 +200,9 @@ export class ResultTemplatesComponent implements OnInit {
   /** Chat SDK approach and by-default Data */
   updateResultTemplateTabsAccess() {
     if (this.searchExperienceConfig && Object.values(this.searchExperienceConfig).length) {
-      console.log(this.searchExperienceConfig);
       if (this.searchExperienceConfig && this.searchExperienceConfig.experienceConfig && this.searchExperienceConfig.experienceConfig.searchBarPosition) {
-        if (this.searchExperienceConfig.experienceConfig.searchBarPosition === 'top') {
-          this.searchTemplatesDisabled = true;
-          this.getAllSettings(this.selectedTab);
-        }
-        else {
-          this.searchTemplatesDisabled = false;
-        }
+        this.searchTemplatesDisabled = this.searchExperienceConfig.experienceConfig.searchBarPosition === 'top' ? true : false;
+        this.getAllSettings(this.selectedTab);
       }
     }
     else {
@@ -231,7 +231,7 @@ export class ResultTemplatesComponent implements OnInit {
     // get.templateById
     // update.template
   }
-  getTemplate(templateData) {
+  getTemplate(templateData, type) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       templateId: templateData.templateId,
@@ -239,10 +239,12 @@ export class ResultTemplatesComponent implements OnInit {
     };
     this.service.invoke('get.templateById', quaryparms).subscribe((res: any) => {
       this.templateDataBind = res;
-      this.templateDatalistext = res.layout.listType == "classic" ? 'Classic List' : 'Plain List';
-      this.fieldsDisplay(res.mapping);
-      this.openTemplateModal();
-      this.templateTypeSelection(res.layout.layoutType);
+      if (type === 'modal') {
+        this.templateDatalistext = res.layout.listType == "classic" ? 'Classic List' : 'Plain List';
+        this.fieldsDisplay(res.mapping);
+        this.openTemplateModal();
+        this.templateTypeSelection(res.layout.layoutType);
+      }
       this.customtemplateBtndisable = false;
     }, errRes => {
       this.customtemplateBtndisable = false;
@@ -278,6 +280,7 @@ export class ResultTemplatesComponent implements OnInit {
   /** type selection */
   templateTypeSelection(layoutType) {
     this.templateDataBind.layout.layoutType = layoutType;
+    this.submitted = false;
   }
   renderTitleChange() {
     this.templateDataBind.layout.renderTitle = !this.templateDataBind.layout.renderTitle;
@@ -289,11 +292,18 @@ export class ResultTemplatesComponent implements OnInit {
     this.templateDataBind.layout.behaviour = behaviour;
   }
   //Open Template Modal
-  openTemplateConatiner(templateData) {
+  openTemplateConatiner(templateData, type) {
     this.customtemplateBtndisable = true;
-    this.getTemplate(templateData)
+    if (templateData?.templateId) {
+      this.getTemplate(templateData, type)
+    }
+    else {
+      this.getTemplate({ templateId: templateData }, type);
+    }
   }
-
+  clickedShow() {
+    console.log("templateDataBind", this.templateDataBind)
+  }
   //open add/edit fields dialog
   openCustomModal(type) {
     this.fieldPopupType = type;
@@ -423,6 +433,7 @@ export class ResultTemplatesComponent implements OnInit {
       settingsId: this.settingsId,
       indexPipelineId: this.indexPipelineId
     };
+    this.resultListObj.resultsLimit = 20;
     this.service.invoke('update.settings', quaryparms, this.resultListObj).subscribe((res: any) => {
       if (res) {
         this.notificationService.notify('Result setting saved successfully', 'success');
@@ -493,8 +504,10 @@ export class ResultTemplatesComponent implements OnInit {
       const payload = this.resultListObj;
       this.service.invoke('copy.settings', quaryparms, payload).subscribe(res => {
         this.copyConfigObj.loader = false;
-        this.copyConfigObj.message = 'Configurations applied from Live Search | 10 Jul 2020, 10:00 a.m.'
-        this.notificationService.notify(' Result copied successfully', 'success')
+        const date = moment(res.createdOn).format('dddd, MMMM Do YYYY, h:mm:ss a');
+        this.copyConfigObj.message = `Configurations applied from ${tab} | ${date}.`;
+        this.notificationService.notify(' Result copied successfully', 'success');
+        this.getAllSettings(this.selectedTab);
       }, errRes => {
         this.copyConfigObj.loader = false;
         this.errorToaster(errRes, 'Failed to get field values');

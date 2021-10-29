@@ -37,8 +37,9 @@
   <div class="body_content">
     <div class="search-interface-left-sec">
       <div class="left-tabs" *ngFor="let tab of tabList">
-        <div class="tab-name" [ngClass]="{'active-tab':tab.id === selectedTab}"
-          (click)="getAllSettings(tab.id);selectedTab=tab.id">
+        <div class="tab-name"
+          [ngClass]="{'active-tab':tab.id === selectedTab,'disabled':searchTemplatesDisabled&&tab.id==='conversationalSearch'}"
+          (click)="(searchTemplatesDisabled&&tab.id==='conversationalSearch')?'':(tabSelection(tab.id))">
           {{tab.name}}</div>
       </div>
     </div>
@@ -114,19 +115,23 @@
                       <div class="customize-btn" tooltipClass="tooltip-global-" [container]="'body'"
                         ngbTooltip='Customize Template' placement="top-center"
                         [ngStyle]="{'background':value.templateType!==''?'white':'#EFF0F1'}"
-                        (click)="value.templateType!==''?customtemplateBtndisable?null:openTemplateConatiner(value):null">
+                        (click)="value.templateType!==''?customtemplateBtndisable?null:openTemplateConatiner(value,'modal'):null">
                         <img src="assets/icons/result-template/rangeslider.svg">
                       </div>
 
                       <div class="kr-sg-dropdowns see-templates" ngbDropdown [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
                           <button class="dropdown-toggle dropdown-input eye-btn" data-toggle="dropdown"
-                            ngbDropdownToggle [disabled]="value.templateType==''">
+                            ngbDropdownToggle [disabled]="value.templateType==''"
+                            (click)="openTemplateConatiner(value,'preview')">
                             <img src="assets/icons/result-template/eye.svg" [container]="'body'"
                               tooltipClass="tooltip-global-" ngbTooltip='Preview Template' placement="top-center">
                           </button>
                           <ul class="dropdown-menu content-menu" ngbDropdownMenu>
-                            <h1>Test</h1>
+                            <perfect-scrollbar>
+                              <ng-container [ngTemplateOutlet]="itemTemplate">
+                              </ng-container>
+                            </perfect-scrollbar>
                           </ul>
                         </div>
                       </div>
@@ -135,51 +140,6 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="table-body-templates col-12 row">
-                    <div class="value-sec col-5">
-                      <div class="kr-sg-dropdowns">
-                        <div class="dropdown dropdown-open">
-                          <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an
-                            option</button>
-                          <ul class="dropdown-menu content-menu">
-                            <li><a>Option 1</a></li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="template-sec col-7">
-                      <div class="kr-sg-dropdowns">
-                        <div class="dropdown dropdown-open">
-                          <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an
-                            option</button>
-                          <ul class="dropdown-menu content-menu">
-                            <li><a>Option 1</a></li>
-                            <li><a>Option 2</a></li>
-                            <li><a>Option 3</a></li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="customize-btn" tooltipClass="tooltip-global-" [container]="'body'"
-                        ngbTooltip='Customize Template' placement="top-center">
-                        <img src="assets/icons/result-template/rangeslider.svg">
-                      </div>
-                      <div class="kr-sg-dropdowns see-templates" ngbDropdown [placement]="'bottom-right'">
-                        <div class="dropdown dropdown-open">
-                          <button class="dropdown-toggle dropdown-input eye-btn" data-toggle="dropdown"
-                            ngbDropdownToggle [container]="'body'" tooltipClass="tooltip-global-"
-                            ngbTooltip='Preview Template' placement="top-center">
-                            <img src="assets/icons/result-template/eye.svg">
-                          </button>
-                          <ul class="dropdown-menu content-menu" ngbDropdownMenu>
-                            <h1>Test</h1>
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="delete-template">
-                        <img src="assets/icons/delete-table.svg">
-                      </div>
-                    </div>
-                  </div> -->
                   <div class="add_filed_btn" (click)="addNewTemplateValues('add')">
                     <img src="assets/icons/result-template/add.svg">Add
                   </div>
@@ -209,7 +169,8 @@
               </div>
             </div>
             <div class="customize-btn" tooltipClass="tooltip-global-" [container]="'body'"
-              ngbTooltip='Customize Template' placement="top-center">
+              ngbTooltip='Customize Template' placement="top-center"
+              (click)="openTemplateConatiner(resultListObj.defaultTemplateId,'modal')">
               <img src="assets/icons/result-template/rangeslider.svg">
             </div>
             <div class="kr-sg-dropdowns see-templates" ngbDropdown [placement]="'bottom-center'">
@@ -220,7 +181,10 @@
                   <img src="assets/icons/result-template/eye.svg">
                 </button>
                 <ul class="dropdown-menu content-menu" ngbDropdownMenu>
-                  <h1>Test</h1>
+                  <perfect-scrollbar>
+                    <ng-container [ngTemplateOutlet]="itemTemplate">
+                    </ng-container>
+                  </perfect-scrollbar>
                 </ul>
               </div>
             </div>
@@ -318,78 +282,100 @@
   </div>
 </kr-modal>
 
-<ng-container *ngIf="templateDataBind">
-  <kr-modal modalType="center" #templateModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
-    <div class="modal-header">
-      <div class="title breadcrum">Customize <img src="assets/icons/search-interface/carrot_right.svg"> <span>Products |
-          Full page Result</span> </div>
-      <div class="close_icon" (click)="closeTemplateModal()"><img src="assets/icons/modal-close.svg"></div>
-    </div>
-    <div class="modal-body">
-      <div class="customize-templates">
-        <div class="template-type-sec">
-          <perfect-scrollbar>
-            <div class="scroll-data">
-              <div class="title">Template Type</div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l1'}"
-                (click)="templateTypeSelection('l1')">
-                <img src="assets/icons/resultTemplate/type-1.svg">
-              </div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l2'}"
-                (click)="templateTypeSelection('l2')">
-                <img src="assets/icons/resultTemplate/type-2.svg">
-              </div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l3'}"
-                (click)="templateTypeSelection('l3')">
-                <img src="assets/icons/resultTemplate/type-3.svg">
-              </div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l4'}"
-                (click)="templateTypeSelection('l4')">
-                <img src="assets/icons/resultTemplate/type-4.svg">
-              </div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l5'}"
-                (click)="templateTypeSelection('l5')" *ngIf="templateDataBind.type !='list'">
-                <img src="assets/icons/resultTemplate/type-5.svg">
-              </div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l6'}"
-                (click)="templateTypeSelection('l6')">
-                <img src="assets/icons/resultTemplate/type-6.svg">
-              </div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l7'}"
-                (click)="templateTypeSelection('l7')" *ngIf="templateDataBind.type !='list'">
-                <img src="assets/icons/resultTemplate/type-7.svg">
-              </div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l8'}"
-                (click)="templateTypeSelection('l8')" *ngIf="templateDataBind.type !='list'">
-                <img src="assets/icons/resultTemplate/type-8.svg">
-              </div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l9'}"
-                (click)="templateTypeSelection('l9')" *ngIf="templateDataBind.type !='list'">
-                <img src="assets/icons/resultTemplate/type-9.svg">
+<kr-modal modalType="center" #templateModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
+  <div class="modal-header">
+    <div class="title breadcrum">Customize <img src="assets/icons/search-interface/carrot_right.svg"> <span>Products |
+        Full page Result</span> </div>
+    <div class="close_icon" (click)="closeTemplateModal()"><img src="assets/icons/modal-close.svg"></div>
+  </div>
+  <div class="modal-body">
+    <div class="customize-templates">
+      <div class="template-type-sec">
+        <perfect-scrollbar>
+          <div class="scroll-data">
+            <div class="title">Template Type</div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l1'}"
+              (click)="templateTypeSelection('l1')">
+              <img src="assets/icons/resultTemplate/type-1.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l2'}"
+              (click)="templateTypeSelection('l2')">
+              <img src="assets/icons/resultTemplate/type-2.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l3'}"
+              (click)="templateTypeSelection('l3')">
+              <img src="assets/icons/resultTemplate/type-3.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l4'}"
+              (click)="templateTypeSelection('l4')">
+              <img src="assets/icons/resultTemplate/type-4.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l5'}"
+              (click)="templateTypeSelection('l5')" *ngIf="templateDataBind.type !='list'">
+              <img src="assets/icons/resultTemplate/type-5.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l6'}"
+              (click)="templateTypeSelection('l6')">
+              <img src="assets/icons/resultTemplate/type-6.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l7'}"
+              (click)="templateTypeSelection('l7')" *ngIf="templateDataBind.type !='list'">
+              <img src="assets/icons/resultTemplate/type-7.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l8'}"
+              (click)="templateTypeSelection('l8')" *ngIf="templateDataBind.type !='list'">
+              <img src="assets/icons/resultTemplate/type-8.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l9'}"
+              (click)="templateTypeSelection('l9')" *ngIf="templateDataBind.type !='list'">
+              <img src="assets/icons/resultTemplate/type-9.svg">
+            </div>
+          </div>
+        </perfect-scrollbar>
+      </div>
+      <div class="template-preview-customize">
+        <perfect-scrollbar class="customize-scroll-left">
+          <div class="scroll-data-list">
+            <div class="kr-sg-dropdowns col-6 p-0 mb-3" *ngIf="templateDataBind.type == 'list'">
+              <div class="label-text">List Type</div>
+              <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{templateDatalistext}}</button>
+                <ul class="dropdown-menu content-menu">
+                  <li><a
+                      (click)="templateDatalistDisplay('Plain List');templateDataBind.layout.listType = 'plain'">Plain
+                      List</a></li>
+                  <li><a
+                      (click)="templateDatalistDisplay('Classic List');templateDataBind.layout.listType = 'classic'">Classic
+                      List</a></li>
+                </ul>
               </div>
             </div>
-          </perfect-scrollbar>
-        </div>
-        <div class="template-preview-customize">
-          <perfect-scrollbar class="customize-scroll-left">
-            <div class="scroll-data-list">
-              <div class="kr-sg-dropdowns col-6 p-0 mb-3" *ngIf="templateDataBind.type == 'list'">
-                <div class="label-text">List Type</div>
-                <div class="dropdown dropdown-open">
-                  <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{templateDatalistext}}</button>
-                  <ul class="dropdown-menu content-menu">
-                    <li><a
-                        (click)="templateDatalistDisplay('Plain List');templateDataBind.layout.listType = 'plain'">Plain
-                        List</a></li>
-                    <li><a
-                        (click)="templateDatalistDisplay('Classic List');templateDataBind.layout.listType = 'classic'">Classic
-                        List</a></li>
-                  </ul>
+
+            <ng-container *ngIf="templateDataBind.type == 'list'&&templateDataBind.layout.layoutType !== 'l6'">
+              <div class="group-radiobutton mb-3">
+                <div class="label-text">Text alignment for template</div>
+                <div class="kr-sg-radiobutton">
+                  <input id="radio-text-left" name="radio-text" class="radio-custom" type="radio"
+                    (change)="templateDataBind.layout.textAlignment = 'left'"
+                    [checked]="templateDataBind.layout.textAlignment == 'left'">
+                  <label for="radio-text-left" class="radio-custom-label">Left</label>
+                </div>
+                <div class="kr-sg-radiobutton">
+                  <input id="radio-text-center" name="radio-text" class="radio-custom" type="radio"
+                    (change)="templateDataBind.layout.textAlignment = 'center'"
+                    [checked]="templateDataBind.layout.textAlignment == 'center'">
+                  <label for="radio-text-center" class="radio-custom-label">Center</label>
                 </div>
               </div>
+            </ng-container>
 
-              <ng-container *ngIf="templateDataBind.type == 'list'&&templateDataBind.layout.layoutType !== 'l6'">
-                <div class="group-radiobutton mb-3">
+            <div class="template-preview-content">
+              <div class="label_text mb-1">Template Preview</div>
+              <div class="desc-text">Preview of the chosen template with the mapped fields will be shown here</div>
+              <ng-container *ngIf="['grid','carousel'].includes(templateDataBind.type)">
+                <br />
+                <div class="group-radiobutton mb-3"
+                  *ngIf="!(['l4','l5','l9'].includes(templateDataBind.layout.layoutType))">
                   <div class="label-text">Text alignment for template</div>
                   <div class="kr-sg-radiobutton">
                     <input id="radio-text-left" name="radio-text" class="radio-custom" type="radio"
@@ -405,29 +391,9 @@
                   </div>
                 </div>
               </ng-container>
-
-              <div class="template-preview-content">
-                <div class="label_text mb-1">Template Preview</div>
-                <div class="desc-text">Preview of the chosen template with the mapped fields will be shown here</div>
-                <ng-container *ngIf="['grid','carousel'].includes(templateDataBind.type)">
-                  <br />
-                  <div class="group-radiobutton mb-3"
-                    *ngIf="!(['l4','l5','l9'].includes(templateDataBind.layout.layoutType))">
-                    <div class="label-text">Text alignment for template</div>
-                    <div class="kr-sg-radiobutton">
-                      <input id="radio-text-left" name="radio-text" class="radio-custom" type="radio"
-                        (change)="templateDataBind.layout.textAlignment = 'left'"
-                        [checked]="templateDataBind.layout.textAlignment == 'left'">
-                      <label for="radio-text-left" class="radio-custom-label">Left</label>
-                    </div>
-                    <div class="kr-sg-radiobutton">
-                      <input id="radio-text-center" name="radio-text" class="radio-custom" type="radio"
-                        (change)="templateDataBind.layout.textAlignment = 'center'"
-                        [checked]="templateDataBind.layout.textAlignment == 'center'">
-                      <label for="radio-text-center" class="radio-custom-label">Center</label>
-                    </div>
-                  </div>
-                </ng-container>
+              <ng-container [ngTemplateOutlet]="itemTemplate">
+              </ng-container>
+              <ng-template #itemTemplate let-item>
                 <!-- Template 1 -->
                 <div *ngIf="templateDataBind.type == 'list'">
                   <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l1'">
@@ -1805,144 +1771,142 @@
                   </ng-container>
 
                 </div>
-
-                <div class="kr-sg-checkbox mb-2">
-                  <input id="checkbox-addToTitle" class="checkbox-custom" type="checkbox" (change)="renderTitleChange()"
-                    [checked]="templateDataBind.layout.renderTitle">
-                  <label for="checkbox-addToTitle" class="checkbox-custom-label">Add title to template</label>
-                </div>
-                <div class="kr-sg-input-text mb-2" *ngIf="templateDataBind.layout.renderTitle">
-                  <div class="label-text">Template title</div>
-                  <input type="text" placeholder="Placeholder text" class="input-text"
-                    [(ngModel)]="templateDataBind.layout.title">
-                </div>
+              </ng-template>
+              <div class="kr-sg-checkbox mb-2">
+                <input id="checkbox-addToTitle" class="checkbox-custom" type="checkbox" (change)="renderTitleChange()"
+                  [checked]="templateDataBind.layout.renderTitle">
+                <label for="checkbox-addToTitle" class="checkbox-custom-label">Add title to template</label>
               </div>
+              <div class="kr-sg-input-text mb-2" *ngIf="templateDataBind.layout.renderTitle">
+                <div class="label-text">Template title</div>
+                <input type="text" placeholder="Placeholder text" class="input-text"
+                  [(ngModel)]="templateDataBind.layout.title">
+              </div>
+            </div>
 
-              <div class="search-result-mapping">
-                <div class="label-text">Search Result Mapping</div>
-                <div class="desc-text">Map the existing or custom added fields here</div>
-                <div class="search_block"
-                  *ngIf="['l1','l3','l4','l6','l7','l9'].includes(templateDataBind.layout.layoutType)">
-                  <div class="label-text mb-1">Heading</div>
-                  <div class="row m-0 align-items-center">
-                    <div class="kr-sg-dropdowns">
-                      <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
-                      <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
-                        <img src="assets/icons/search_gray.svg" class="search-icon">
-                        <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
-                          data-toggle="dropdown"></button>
-                        <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
-                        <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
-                          class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
-                          [class.err-block]="(!(preview_title?.length) && submitted)"
-                          (keyup)="searchlist('heading',$event.target.value,fieldData)"
-                          (focus)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="preview_title">
-                        <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
-                          <perfect-scrollbar class="scroll-search-field">
-                            <li *ngFor="let field of heading_fieldData" [id]="field._id"
-                              (click)="filedSelect('heading',field)"><a>{{field.fieldName}}</a></li>
-                          </perfect-scrollbar>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Description Fields-->
-                <div class="search_block"
-                  *ngIf="['l2','l3','l4','l6','l7','l8','l9'].includes(templateDataBind.layout.layoutType)">
-                  <div class="label-text mb-1">Description</div>
-                  <div class="row m-0 align-items-center">
-                    <div class="kr-sg-dropdowns">
-                      <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
-                      <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
-                        <img src="assets/icons/search_gray.svg" class="search-icon">
-                        <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
-                          data-toggle="dropdown"></button>
-                        <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
-                        <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
-                          class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
-                          [class.err-block]="(!(preview_desc?.length) && submitted)"
-                          (keyup)="searchlist('description',$event.target.value,fieldData)"
-                          (focus)="searchlist('description',$event.target.value,fieldData)" [(ngModel)]="preview_desc">
-                        <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
-                          <perfect-scrollbar class="scroll-search-field">
-                            <li *ngFor="let field of desc_fieldData" [id]="field._id"
-                              (click)="filedSelect('description',field)"><a>{{field.fieldName}}</a></li>
-                          </perfect-scrollbar>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Image  Fields -->
-                <div class="search_block"
-                  *ngIf="['l4','l5','l6','l7','l8','l9'].includes(templateDataBind.layout.layoutType)">
-                  <div class="label-text mb-1">Image</div>
-                  <div class="row m-0 align-items-center">
-                    <div class="kr-sg-dropdowns">
-                      <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
-                      <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
-                        <img src="assets/icons/search_gray.svg" class="search-icon">
-                        <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
-                          data-toggle="dropdown"></button>
-                        <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
-                        <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
-                          class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
-                          [class.err-block]="(!(preview_img?.length) && submitted)"
-                          (keyup)="searchlist('image',$event.target.value,fieldData)"
-                          (focus)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="preview_img">
-                        <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
-                          <perfect-scrollbar class="scroll-search-field">
-                            <li *ngFor="let field of img_fieldData" [id]="field._id"
-                              (click)="filedSelect('image',field)"><a>{{field.fieldName}}</a></li>
-                          </perfect-scrollbar>
-                        </ul>
-                      </div>
+            <div class="search-result-mapping">
+              <div class="label-text">Search Result Mapping</div>
+              <div class="desc-text">Map the existing or custom added fields here</div>
+              <div class="search_block"
+                *ngIf="['l1','l3','l4','l6','l7','l9'].includes(templateDataBind.layout.layoutType)">
+                <div class="label-text mb-1">Heading</div>
+                <div class="row m-0 align-items-center">
+                  <div class="kr-sg-dropdowns">
+                    <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
+                    <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                      <img src="assets/icons/search_gray.svg" class="search-icon">
+                      <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
+                        data-toggle="dropdown"></button>
+                      <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
+                      <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
+                        class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
+                        [class.err-block]="(!(preview_title?.length) && submitted)"
+                        (keyup)="searchlist('heading',$event.target.value,fieldData)"
+                        (focus)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="preview_title">
+                      <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
+                        <perfect-scrollbar class="scroll-search-field">
+                          <li *ngFor="let field of heading_fieldData" [id]="field._id"
+                            (click)="filedSelect('heading',field)"><a>{{field.fieldName}}</a></li>
+                        </perfect-scrollbar>
+                      </ul>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <div class="search-results-click-settings">
-                <div class="label-text">Search Result click Settings</div>
-                <div class="desc-text mb-3">Define the click behaviour for the search results</div>
-                <div class="label-text">Clickable</div>
-                <label class="kr-sg-toggle">
-                  <input type="checkbox" (change)="clickableChange()" [checked]="templateDataBind.layout.isClickable">
-                  <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
-                </label>
-                <div class="label-text mt-3" *ngIf="templateDataBind.layout.isClickable">Click Behaviour</div>
-                <div class="kr-sg-radiobutton" *ngIf="templateDataBind.layout.isClickable">
-                  <input id="radio-open-webpage" name="radio" class="radio-custom" type="radio"
-                    (change)="clickBehaviorChange('webpage')"
-                    [checked]="templateDataBind.layout.behaviour == 'webpage'">
-                  <label for="radio-open-webpage" class="radio-custom-label">Open a Webpage</label>
+              <!-- Description Fields-->
+              <div class="search_block"
+                *ngIf="['l2','l3','l4','l6','l7','l8','l9'].includes(templateDataBind.layout.layoutType)">
+                <div class="label-text mb-1">Description</div>
+                <div class="row m-0 align-items-center">
+                  <div class="kr-sg-dropdowns">
+                    <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
+                    <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                      <img src="assets/icons/search_gray.svg" class="search-icon">
+                      <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
+                        data-toggle="dropdown"></button>
+                      <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
+                      <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
+                        class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
+                        [class.err-block]="(!(preview_desc?.length) && submitted)"
+                        (keyup)="searchlist('description',$event.target.value,fieldData)"
+                        (focus)="searchlist('description',$event.target.value,fieldData)" [(ngModel)]="preview_desc">
+                      <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
+                        <perfect-scrollbar class="scroll-search-field">
+                          <li *ngFor="let field of desc_fieldData" [id]="field._id"
+                            (click)="filedSelect('description',field)"><a>{{field.fieldName}}</a></li>
+                        </perfect-scrollbar>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-
-                <div class="kr-sg-radiobutton" *ngIf="templateDataBind.layout.isClickable">
-                  <input id="radio-postback" name="radio" class="radio-custom" type="radio"
-                    (change)="clickBehaviorChange('postback')"
-                    [checked]="templateDataBind.layout.behaviour != 'webpage'">
-                  <label for="radio-postback" class="radio-custom-label">Postback</label>
-                </div>
-                <div class="kr-sg-input-text mt-3" *ngIf="templateDataBind.layout.isClickable">
-                  <div class="search_block">
-                    <div class="label-text mb-1">URL</div>
-                    <div class="row m-0 align-items-center">
-                      <input type="text" maxlength="60" placeholder="Enter Target URL" id="facets-search-input"
-                        class="input-search dropdown-toggle dropdown-input" [(ngModel)]="templateDataBind.mapping.url">
+              </div>
+              <!-- Image  Fields -->
+              <div class="search_block"
+                *ngIf="['l4','l5','l6','l7','l8','l9'].includes(templateDataBind.layout.layoutType)">
+                <div class="label-text mb-1">Image</div>
+                <div class="row m-0 align-items-center">
+                  <div class="kr-sg-dropdowns">
+                    <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
+                    <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                      <img src="assets/icons/search_gray.svg" class="search-icon">
+                      <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
+                        data-toggle="dropdown"></button>
+                      <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
+                      <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
+                        class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
+                        [class.err-block]="(!(preview_img?.length) && submitted)"
+                        (keyup)="searchlist('image',$event.target.value,fieldData)"
+                        (focus)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="preview_img">
+                      <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
+                        <perfect-scrollbar class="scroll-search-field">
+                          <li *ngFor="let field of img_fieldData" [id]="field._id" (click)="filedSelect('image',field)">
+                            <a>{{field.fieldName}}</a>
+                          </li>
+                        </perfect-scrollbar>
+                      </ul>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </perfect-scrollbar>
-        </div>
+
+            <div class="search-results-click-settings">
+              <div class="label-text">Search Result click Settings</div>
+              <div class="desc-text mb-3">Define the click behaviour for the search results</div>
+              <div class="label-text">Clickable</div>
+              <label class="kr-sg-toggle">
+                <input type="checkbox" (change)="clickableChange()" [checked]="templateDataBind.layout.isClickable">
+                <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+              </label>
+              <div class="label-text mt-3" *ngIf="templateDataBind.layout.isClickable">Click Behaviour</div>
+              <div class="kr-sg-radiobutton" *ngIf="templateDataBind.layout.isClickable">
+                <input id="radio-open-webpage" name="radio" class="radio-custom" type="radio"
+                  (change)="clickBehaviorChange('webpage')" [checked]="templateDataBind.layout.behaviour == 'webpage'">
+                <label for="radio-open-webpage" class="radio-custom-label">Open a Webpage</label>
+              </div>
+
+              <div class="kr-sg-radiobutton" *ngIf="templateDataBind.layout.isClickable">
+                <input id="radio-postback" name="radio" class="radio-custom" type="radio"
+                  (change)="clickBehaviorChange('postback')" [checked]="templateDataBind.layout.behaviour != 'webpage'">
+                <label for="radio-postback" class="radio-custom-label">Postback</label>
+              </div>
+              <div class="kr-sg-input-text mt-3" *ngIf="templateDataBind.layout.isClickable">
+                <div class="search_block">
+                  <div class="label-text mb-1">URL</div>
+                  <div class="row m-0 align-items-center">
+                    <input type="text" maxlength="60" placeholder="Enter Target URL" id="facets-search-input"
+                      class="input-search dropdown-toggle dropdown-input" [(ngModel)]="templateDataBind.mapping.url">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </perfect-scrollbar>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="kr-sg-button-primary btn_lg" (click)="updateTemplate()">Save</button>
-      <button class="kr-sg-button-secondary btn_lg" (click)="closeTemplateModal()">Cancel</button>
-    </div>
-  </kr-modal>
-</ng-container>
+  </div>
+  <div class="modal-footer">
+    <button class="kr-sg-button-primary btn_lg" (click)="updateTemplate()">Save</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="closeTemplateModal()">Cancel</button>
+  </div>
+</kr-modal>
