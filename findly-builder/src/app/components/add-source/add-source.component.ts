@@ -90,6 +90,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     clientId: ''
   }
   fileDataObj : any ={};
+  multipleData: any = {};
+  files;
+  filesListData:any=[];
   importFaqInprogress = false;
   selectedLinkBotConfig: any;
   @Input() inputClass: string;
@@ -600,11 +603,25 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   fileChangeListener(event) {
     this.newSourceObj.url = '';
     let fileName = '';
-    if (event && event.target && event.target.files && event.target.files.length && event.target.files[0].name) {
-      fileName = event.target.files[0].name;
-    } else {
-      return;
+    // if (event && event.target && event.target.files && event.target.files.length && event.target.files[0].name) {
+    //   fileName = event.target.files[0].name;
+    // } 
+    // else  
+    //  {
+    //   return;
+    // }
+    if (event && event.target && event.target.files && event.target.files.length <= 10) {
+      for(let i=0 ; i<= event.target.files.length ;i++){
+        if (event && event.target && event.target.files && event.target.files.length && event.target.files[i] && event.target.files[i].name){
+          fileName = event.target.files[i].name;
+        }
+      }
+      
+    } 
+    else{
+      this.notificationService.notify("More than 10 files cannot be uploaded at one" , 'error' );
     }
+    
     let showProg: boolean = false;
     const _ext = fileName.substring(fileName.lastIndexOf('.'));
     this.extension = _ext
@@ -650,22 +667,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.fileObj.file_ext = this.extension.replace(".", "");
     }
   }
-  prepareFileUploadData(input, ext, files, resourceType_import, fileDataElement) {
-    const fileToRead = fileDataElement
-    const onFileLoad = (fileLoadedEvent) => {
-      const data = new FormData();
-      data.append('file', fileToRead);
-      data.append('Content-Type', fileToRead.type);
-      data.append('fileExtension', ext.replace('.', ''));
-      this.fileupload(data);
-    }
-    const fileReader = new FileReader();
-    fileReader.onload = onFileLoad;
-    fileReader.readAsText(fileToRead, 'UTF-8');
-
-  }
-  fileRequestBody(input, ext, files, resourceType_import,fileDataElement?) {
-    const fileToRead = fileDataElement;
+  prepareFileUploadData(input, ext, files, resourceType_import) {
+    const fileToRead = files[0];
     const onFileLoad = (fileLoadedEvent) => {
       const data = new FormData();
       data.append('file', fileToRead);
@@ -677,102 +680,59 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       else {
         data.append('fileContext', 'findly');
       }
-      if(files.length === 1 ){
-        this.fileupload(data);
+      this.fileupload(data);
+    }
+    const fileReader = new FileReader();
+    fileReader.onload = onFileLoad;
+    fileReader.readAsText(fileToRead, 'UTF-8');
+
+  }
+  fileRequestBody(input, ext, files, resourceType_import,fileDataElement?) {
+    const fileToRead = fileDataElement ;
+    const onFileLoad = (fileLoadedEvent) => {
+      const data = new FormData();
+      data.append('file', fileToRead);
+      data.append('Content-Type', fileToRead.type);
+      data.append('fileExtension', ext.replace('.', ''));
+      if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
+        data.append('fileContext', 'bulkImport');
       }
       else {
-        this.fileupload(data);
-        // if(this.multipleData.files.length === files.length){
-        //   this.multiplefileupload(this.multipleData);
-        // }
-        // else {
-        //   this.multipleFileRequestBody(input, ext, files, resourceType_import) 
-    
-        // }
+        data.append('fileContext', 'findly');
       }
-      // this.fileupload(data);
+      this.fileupload(data);
       
     }
     const fileReader = new FileReader();
     fileReader.onload = onFileLoad;
     fileReader.readAsText(fileToRead, 'UTF-8');
   }
-  multipleData: any = {};
+
 // Payload for multiple file Upload //
   multipleFileRequestBody(input, ext, files, resourceType_import) {
-   
+    this.filesListData = Array.from(input.files)
    this.multipleData.type = "bulk";
    this.multipleData.files = [];
-    const filesListData = Array.from(input.files)
-    filesListData.forEach(fileDataElement => {
+    
+    this.filesListData.forEach(fileDataElement => {
       this.fileRequestBody(input, ext, files, resourceType_import,fileDataElement);
-      // this.multipleData.files.push(this.fileDataObj);
     });
-    this.multipleData.files.push(this.fileDataObj);
-    // if(this.multipleData.files.length === files.length){
-    //   this.multiplefileupload(this.multipleData);
-    // }
    
   }
  
-  // getFileId(payload) {
-  //   const quaryparms: any = {
-  //     userId: this.userInfo.id
-  //   };
-  //   this.service.invoke('post.fileupload', quaryparms, payload).subscribe(
-  //     res => {
-  //       this.fileObj.fileId = res.fileId;
-  //        this.fileDataObj  ={
-  //           name : this.fileObj.fileName,
-  //           fileId : this.fileObj.fileId
-  //         }
-  //     },
-  //     errRes => {
-  //       this.fileObj.fileUploadInProgress = false;
-  //       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-  //         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-  //       } else {
-  //         this.notificationService.notify('Failed to upload file ', 'error');
-  //       }
-  //     }
-  //   );
-  // }
+ 
 
   onFileSelect(input: HTMLInputElement, ext) {
-    const files = input.files;
+     this.files = input.files;
     const content = this.csvContent;
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
-    if (files && files.length === 1) {
-      this.fileRequestBody(input, ext, files, resourceType_import);
+    if (this.files && this.files.length === 1) {
+      this.prepareFileUploadData(input, ext, this.files, resourceType_import);
     }
     else {
-      this.multipleFileRequestBody(input, ext, files, resourceType_import);
+      this.multipleFileRequestBody(input, ext, this.files, resourceType_import);
     }
-
-      // if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
-      //   data.append('file', fileToRead);
-      //   data.append('fileContext', 'bulkImport');
-      //   data.append('Content-Type', fileToRead.type);
-      //   data.append('fileExtension', ext.replace('.', ''));
-      //   this.fileupload(data);
-      //   // this.multiplefileupload();
-
-      // }
-      // else {
-      //   data.append('file', fileToRead);
-      //   data.append('fileContext', 'findly');
-      //   data.append('Content-Type', fileToRead.type);
-      //   data.append('fileExtension', ext.replace('.', ''));
-      //    this.fileupload(data);
-      //   // this.multiplefileupload();
-
-      // }
-      // };
-      // const fileReader = new FileReader();
-      // fileReader.onload = onFileLoad;
-      // fileReader.readAsText(fileToRead, 'UTF-8');
-   
   }
   
 
@@ -788,15 +748,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           name : this.fileObj.fileName,
           fileId : this.fileObj.fileId
         }
+        this.multipleData.files.push(this.fileDataObj);
         this.fileObj.fileUploadInProgress = false;
         this.notificationService.notify('File uploaded successfully', 'success');
         this.selectedSourceType.resourceAdded = true;
         //  this.selectedSourceType.resourceType = 'webdomain';
         $(".drag-drop-sec").css("border-color", "#BDC1C6");
-        
-        // if(this.multipleData.files.length ){
-          this.multiplefileupload(this.multipleData);
-        // }
       },
       errRes => {
         this.fileObj.fileUploadInProgress = false;
@@ -1129,6 +1086,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       // this.callWebCraller(this.crwalObject,searchIndex)
     }
+    if(this.files && this.files.length > 1){
+      this.multiplefileupload(this.multipleData);
+    }
+    
   }
   //upgrade plan
   upgrade() {

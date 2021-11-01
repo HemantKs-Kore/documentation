@@ -300,7 +300,7 @@
                         <ng-container *ngIf="!fileObj.fileName">
                           <input type="file" id="sourceFileUploader" class="custom-file-input "
                             (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01"
-                            accept=".csv,.pdf,.json,.doc,.ppt,.xlsx,.txt,.docx" multiple>
+                            accept=".csv,.pdf,.json,.doc,.ppt,.xlsx,.txt,.docx" max-size="15" multiple>
                           <div class="imageDiv">
                             <img src="assets/images/source-icos/drog_frop.svg">
                           </div>
@@ -326,7 +326,7 @@
                             <img src="assets/icons/info.svg"> Supports: pdf, docx, ppt, xlsx, txt file types</div>
                         </ng-container>
 
-                        <ng-container *ngIf="fileObj.fileName">
+                        <ng-container *ngIf="fileObj.fileName && selectedSourceType.sourceType=='faq'">
                           <div class="kr-sg-file-drag-drop w-100">
                             <div class="uploaded-file-name"
                               [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
@@ -343,6 +343,39 @@
                                   <img *ngIf="fileObj.file_ext === 'ppt'" class="type_img"
                                     src="assets/icons/ppt_logo.png">
                                   <div class="file-name" [innerHTML]="fileObj.fileName"></div>
+                                </div>
+                                <img src="assets/images/close.svg" class="close-file adjust_z_index"
+                                  (click)="removeFile()">
+                              </div>
+                              <div class="progress-status">
+                                <img *ngIf="fileObj.fileUploadInProgress" class="progSpinner"
+                                  src="assets/icons/spinner.svg">
+                                <img *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress"
+                                  src="assets/icons/info.svg">
+                              </div>
+                            </div>
+                            <div class="error-text" *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress">
+                              Error in
+                              uploading file</div>
+                          </div>
+                        </ng-container>
+                        <ng-container *ngIf="fileObj.fileName && selectedSourceType.sourceType=='content'">
+                          <div class="kr-sg-file-drag-drop w-100">
+                            <div class="uploaded-file-name" *ngFor="let file of filesListData"
+                              [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
+                              <div class="file-close-text">
+                                <div class="d-flex align-items-center">
+                                  <img *ngIf="fileObj.file_ext === 'pdf'" class="type_img"
+                                    src="assets/icons/file_type_image.svg">
+                                  <img *ngIf="fileObj.file_ext === 'docx'" class="type_img"
+                                    src="assets/icons/doc_logo.png">
+                                  <img *ngIf="fileObj.file_ext === 'txt'" class="type_img"
+                                    src="assets/icons/txt_icon.png">
+                                  <img *ngIf="fileObj.file_ext === 'xlsx'" class="type_img"
+                                    src="assets/icons/excel_logo.svg">
+                                  <img *ngIf="fileObj.file_ext === 'ppt'" class="type_img"
+                                    src="assets/icons/ppt_logo.png">
+                                  <div class="file-name" [innerHTML]="file.name"></div>
                                 </div>
                                 <img src="assets/images/close.svg" class="close-file adjust_z_index"
                                   (click)="removeFile()">
