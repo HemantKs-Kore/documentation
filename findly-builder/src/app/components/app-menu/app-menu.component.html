@@ -86,13 +86,6 @@
 			<div class="index-config-nav-block">
 				<div class="index-title text-truncate">Index Configuration</div>				
 
-				<div mat-button class="mat-button" [routerLink]="['/index']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
-					<span class="inlineIconBox">
-						<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/index-active.svg" class="activeIcon">
-					</span>
-					<span class="linkTitle">Workbench</span>
-				</div>
 
 				<div mat-button class="mat-button" [routerLink]="['/FieldManagementComponent']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 					<span class="inlineIconBox">
@@ -109,24 +102,36 @@
 					</span>
 					<span class="linkTitle">Traits</span>
 				</div>
+
+				<div mat-button class="mat-button" [routerLink]="['/index']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/index-active.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Workbench</span>
+				</div>
 			</div>
 
 			<div class="search-config-nav-block mb-2">									
 
 				<div class="search-config-title text-truncate">Search Configuration</div>
 
-				<div class="search-config-elipse-block">
+				<div class="search-config-elipse-block pr-0">
 					<div class="title text-truncate" title="{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default Search':configObj[selectedConfig].name:'Loading..'}}">{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default Search':configObj[selectedConfig].name:'Loading..'}} </div>
 					<div class="kr-sg-dropdowns kr_sg_dropdowns" #selectSearchConfigDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-left'">
 						<div class="dropdown dropdown-open">
 							<button class="dropdown-toggle dropdown-input before-none" ngbDropdownToggle>
-								<img src="assets/icons/sidemenu/overflow.svg">
+								<img src="assets/icons/sidemenu/dropdownup.svg">
 							</button>
 							<ul class="dropdown-menu content-menu queryPipelineConfig" ngbDropdownMenu>
+								<div class="title-main">Search Profile</div>
+								<div class="create-new" (click)="openModalPopup('default');selectSearchConfigDrop.close();">
+									<img class="mr-2"src="assets\images\plus-add.svg">New Profile
+								</div>
 								<perfect-scrollbar>
 									<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default|| (config.default)}" (click)="selectQueryPipelineId(config,selectSearchConfigDrop)" *ngFor="let config of queryConfigs">
-										<img src="assets/icons/star.svg" *ngIf="config.default" class="star" [container]="'body'" ngbTooltip='Default' placement="top-center">
-										<img src="assets/icons/start-black.svg" [container]="'body'" (click)="$event.stopPropagation();markAsDefault(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-center" [container]="'body'">
+										<img src="assets/icons/sidemenu/pin.svg" *ngIf="config.default" class="star" [container]="'body'" ngbTooltip='Default' placement="top-center">
+										<img src="assets/icons/sidemenu/unpin.svg" [container]="'body'" (click)="$event.stopPropagation();markAsDefault(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-center" [container]="'body'">
 										<span *ngIf="selectedConfig == config._id && editName; else name">
 											<input type ="text" class="edit-name" name="editName" [(ngModel)]="editNameVal" id="editNameID" (click)="$event.stopPropagation()" (keypress)="onKeypressEvent($event,config)">
 										</span>
@@ -135,18 +140,17 @@
 										</ng-template>
 										<div class="action-icons-data">
 											<div class="clone" *ngIf="!editName" (click)="$event.stopPropagation();openModalPopup('clone',config);selectSearchConfigDrop.close();" ngbTooltip='Clone' placement="top-center" [container]="'body'">
-												<img src="assets/icons/clone.svg">
+												<img src="assets/icons/sidemenu/copy.svg">
 											</div>
 											<div class="edit-black" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();editConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
-												<img src="assets/icons/edit-pencil.svg">
+												<img src="assets/icons/sidemenu/edit.svg">
 											</div>																
 											<div class="delete" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();checkExistInExperiment(config,'search')" ngbTooltip='Delete' placement="top-center" [container]="'body'">
-												<img src="assets/icons/delete.svg">
+												<img src="assets/icons/sidemenu/delete.svg">
 											</div>											
 										</div>
 									</li>
 								</perfect-scrollbar>
-								<div class="create-new" (click)="openModalPopup('default');selectSearchConfigDrop.close();"><img  class="mr-2"src="assets\images\plus-add.svg"> Create New</div>
 							</ul>
 						</div>
 					</div>				
@@ -210,7 +214,7 @@
 						<!-- <img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon"> -->
 						<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/search-interface-active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">Search Interface</span>
 				</div>

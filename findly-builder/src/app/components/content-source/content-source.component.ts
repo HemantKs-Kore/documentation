@@ -527,6 +527,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   getCrawledPages(limit, skip) {
+    this.docContent = {};
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
@@ -1759,7 +1760,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   downloadDoc(url) {
     FileSaver.saveAs(url + '&DownloadPdf=true');
   }
-  checkValue(value , valueFrom) {
+  checkValue(value, valueFrom) {
     if (value <= -1) {
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;

@@ -684,7 +684,7 @@ body.top-down .top-down-wrapper{
   margin-right: 8px;
   text-align: center;
   border-radius: 2px;
-  border: solid 1px var(--sdk-border-silver-sand-color);
+  border: solid 1px var(--sdk-border-filter-color);
   background-color: var(--sdk-white-bg);
   margin-top: -3px;
 }
@@ -692,7 +692,7 @@ body.top-down .top-down-wrapper{
   color: var(--sdk-shark-black-color);
 }
 .sdk-top-down-interface .kr-sg-checkbox .checkbox-custom:hover:not([disabled]):checked + .checkbox-custom-label::before {
-  border: solid 1px var(--sdk-border-silver-sand-color);
+  border: solid 1px var(--sdk-border-filter-color);
 }
 .sdk-top-down-interface .kr-sg-checkbox .checkbox-custom:hover:not([disabled]) + .checkbox-custom-label {
   color: var(--sdk-primary-blue-color);
@@ -718,7 +718,7 @@ body.top-down .top-down-wrapper{
   background-color: var(--sdk-border-morning-glory-color);
 }
 .sdk-top-down-interface .kr-sg-checkbox .checkbox-custom:disabled + .checkbox-custom-label::before {
-  border: solid 1px var(--sdk-border-silver-sand-color);
+  border: solid 1px var(--sdk-border-filter-color);
 }
 .sdk-top-down-interface .kr-sg-checkbox .checkbox-custom:focus + .checkbox-custom-label {
   color: var(--sdk-primary-blue-color);
@@ -829,7 +829,7 @@ body.top-down .top-down-wrapper{
   margin-right: 12px;
   text-align: center;
   border-radius: 2px;
-  border: solid 1px var(--sdk-border-silver-sand-color);
+  border: solid 1px var(--sdk-border-filter-color);
   background-color: var(--sdk-white-bg);
   margin-top: -3px;
   border-radius: 100px;
@@ -1466,7 +1466,7 @@ float: right;
   height: 12px;
 }
 .sdk-top-down-interface .category-wise-container .group-checkbox.filters-content-top-down .input-div{
-  border-bottom: 1px solid var(--sdk-border-silver-sand-color) !important;
+  border-bottom: 1px solid var(--sdk-border-filter-color) !important;
   margin-bottom: 19px;
 }
 
