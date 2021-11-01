@@ -323,7 +323,8 @@
                           </label><br />
                           <div class="info_help_text"
                             *ngIf="(selectedSourceType.sourceType=='content'&&selectedSourceType.resourceType =='file')">
-                            <img src="assets/icons/info.svg"> Supports: pdf, docx, ppt, xlsx, txt file types</div>
+                            <img src="assets/icons/info.svg"> Supports: pdf, docx, ppt, xlsx, txt file types
+                          </div>
                         </ng-container>
 
                         <ng-container *ngIf="fileObj.fileName && selectedSourceType.sourceType=='faq'">
@@ -726,7 +727,8 @@
                           </div>
                         </div>
                         <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0"
-                          (keyup)="checkValue(crawlDepth , 'crawlDepth')" maxlength="60" [(ngModel)]="crawlDepth" class="input-text">
+                          (keyup)="checkValue(crawlDepth , 'crawlDepth')" maxlength="60" [(ngModel)]="crawlDepth"
+                          class="input-text">
                       </div>
                     </div>
                     <div class="col-1 p-0"></div>

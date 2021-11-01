@@ -93,7 +93,8 @@
     --sdk-border-ghost-color: #c4c4d1;
     --sdk-border-gallery-color: #f0f0f0;
     --sdk-border-downriver-color: #0c335b;
-  
+    --sdk-border-filter-color: #5F6368;
+
     --sdk-scrollbar-thumb-bg-color: #aaa;
   
     --sdk-white-bg: #ffffff;
@@ -7378,7 +7379,7 @@ color: #9aa0a6;
     background: #FFFFFF;
     margin: 5px;
     max-height: 280px;
-    min-height: 250px;
+    min-height: 280px;
     bottom: 0;
     position: relative;
     width: auto !important;
@@ -11025,7 +11026,7 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     margin-right: 12px;
     text-align: center;
     border-radius: 2px;
-    border: solid 1px var(--sdk-border-silver-sand-color);
+    border: solid 1px var(--sdk-border-filter-color);
     background-color: var(--sdk-white-font-color);
     margin-top: 0;
     left: 0;
@@ -11036,7 +11037,7 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     color: var(--sdk-shark-black-color);
   }
   .searchAssist-kore-chat-window .custom_checkbox.kr-sg-checkbox .checkbox-custom:hover:not([disabled]):checked + .checkbox-custom-label::before {
-    border: solid 1px var(--sdk-border-silver-sand-color);
+    border: solid 1px var(--sdk-border-filter-color);
   }
   .searchAssist-kore-chat-window .custom_checkbox.kr-sg-checkbox .checkbox-custom:hover:not([disabled]) + .checkbox-custom-label {
     color: var(--sdk-primary-blue-color);
@@ -11062,7 +11063,7 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     background-color: var(--sdk-checkbox-label-morning-glory-color);
   }
   .searchAssist-kore-chat-window .custom_checkbox.kr-sg-checkbox .checkbox-custom:disabled + .checkbox-custom-label::before {
-    border: solid 1px var(--sdk-border-silver-sand-color);
+    border: solid 1px var(--sdk-border-filter-color);
   }
   .searchAssist-kore-chat-window .custom_checkbox.kr-sg-checkbox .checkbox-custom:focus + .checkbox-custom-label {
     color: var(--sdk-primary-blue-color);
@@ -13911,10 +13912,10 @@ border: 0;
     box-sizing: border-box;
     border-radius: 20px;
 } */
-.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion {
+.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion,.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title:hover {
     padding: 0 10px;
 }
-.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion .suggestion-list-item {
+.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion .suggestion-list-item ,.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title:hover .suggestion-list-item{
     background: var(--sdk-bg-zumthor-color);
     border: 1px solid var(--sdk-border-malibu-color);
     box-sizing: border-box;
@@ -13922,7 +13923,7 @@ border: 0;
     padding: 4px 7px 4px 30px;
     margin: 0px;
 }
-.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion .suggestion-list-item img{
+.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion .suggestion-list-item img,.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title:hover .suggestion-list-item img{
     position: absolute;
     left: 8px;
     top: 8px;
@@ -15001,7 +15002,7 @@ margin-bottom: 15px !important;
         margin-right: 12px;
         text-align: center;
         border-radius: 2px;
-        border: solid 1px var(--sdk-border-silver-sand-color);
+        border: solid 1px var(--sdk-border-filter-color);
         background-color: var(--sdk-white-bg);
         margin-top: -3px;
         border-radius: 100px;
