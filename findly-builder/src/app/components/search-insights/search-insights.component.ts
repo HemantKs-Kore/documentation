@@ -138,7 +138,7 @@ export class SearchInsightsComponent implements OnInit {
       queryparams = {
         ...queryparams,
         offset: this.QWNR_skipPage || 0,
-        limit:  10
+        limit: 10
       };
     }
     else if (type == 'QueriesWithResults') {

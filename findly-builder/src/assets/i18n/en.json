@@ -352,8 +352,8 @@
             "Feedback_Received": "Feedback  Received",
             "Number_of_Clicks": "Number of Clicks",
             "Feedback": "Feedback",
-            "Useful_Result": "Useful Result",
-            "Not_Useful_Result": "Not Useful Result"
+            "Useful_Result": "Positive Feedback",
+            "Not_Useful_Result": "Negative Feedback"
         },
         "user_engagement": {
             "User_Engagement": "User Engagement",
@@ -378,7 +378,7 @@
             "Search_query": "Search Query",
             "Search_results": "Search Results",
             "Count": "Count",
-            "No_of_Clicks": "No of Clicks",
+            "No_of_Clicks": "Clicks",
             "Search_Queries_for": "Search Queries for",
             "Search_Results_for": "Search Results for",
             "Appearances": "Appearances",

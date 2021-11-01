@@ -335,7 +335,7 @@ export class DashboardComponent implements OnInit {
     for (var i = 0; i < this.searchHistogram.length; i++) {
       summaryData.push(Math.max(this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks));
       if (this.dateType == 'hour' && i > 0 && i <= 24) {
-        totaldata.push([i + 'hr', this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks,i + 'hr'])
+        totaldata.push([i + 'hr', this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks, i + 'hr'])
       } else if (this.dateType == 'week' || this.dateType == 'custom') {
         let date = new Date(this.searchHistogram[i].date);
         // xAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
@@ -418,8 +418,8 @@ export class DashboardComponent implements OnInit {
         type: 'value',
         name: 'Count',
         nameLocation: 'middle',
-        min : 0,
-        max : 5,
+        min: 0,
+        max: 5,
         nameGap: 50,
         nameTextStyle: {
           color: "#9AA0A6",
@@ -452,14 +452,14 @@ export class DashboardComponent implements OnInit {
         showSymbol: false,
         data: valueList2,
         lineStyle: { color: '#7027E5' }
-        }, {
-          type: 'line',
-          showSymbol: false,
-          data: dateTooltipList,
-          lineStyle: { color: '#7027E5' }
-        }]
+      }, {
+        type: 'line',
+        showSymbol: false,
+        data: dateTooltipList,
+        lineStyle: { color: '#7027E5' }
+      }]
     };
-    if(Math.max(...summaryData) > 5){
+    if (Math.max(...summaryData) > 5) {
       delete this.chartOption.yAxis[0].min;
       delete this.chartOption.yAxis[0].max;
     }
@@ -569,7 +569,7 @@ export class DashboardComponent implements OnInit {
     }
 
     this.mostClickBar = {
-      grid : {
+      grid: {
         containLabel: true,
         left: "5%"
       },
@@ -592,8 +592,8 @@ export class DashboardComponent implements OnInit {
       },
       xAxis: {
         type: 'value',
-        min : 0,
-        max : 5,
+        min: 0,
+        max: 5,
         axisLine: {
           show: false, // Hide full Line
         },
@@ -636,7 +636,7 @@ export class DashboardComponent implements OnInit {
         barWidth: '90%',
       }]
     };
-    if(Math.max(...xAxisData) > 5){
+    if (Math.max(...xAxisData) > 5) {
       delete this.mostClickBar.xAxis.min;
       delete this.mostClickBar.xAxis.max;
     }
@@ -646,15 +646,13 @@ export class DashboardComponent implements OnInit {
     var colorPaletteSearch = ['#28A745', '#EAF6EC'];
     var colorPaletteResult = ['#FF784B', '#FFF1ED'];
     this.feedbackPieSearches = {
-
       series: [{
-
         type: 'pie',
         radius: 90,
         color: colorPaletteSearch,
         hoverAnimation: false,
         center: ['50%', '50%'],
-        data: [this.feedbackStats.thumbsDownCount + this.feedbackStats.thumbsUpCount, this.feedbackStats.totalSearches],//[30,70],
+        data: [30, 70],//[this.feedbackStats.thumbsDownCount + this.feedbackStats.thumbsUpCount, this.feedbackStats.totalSearches]
         label: {
           show: true,
           position: 'inner',
@@ -667,14 +665,13 @@ export class DashboardComponent implements OnInit {
       ]
     };
     this.feedbackPieResult = {
-
       series: [{
         type: 'pie',
         radius: 90,
         color: colorPaletteResult,
         hoverAnimation: false,
         center: ['50%', '50%'],
-        data: [this.feedbackStats.feedBackReceived, this.feedbackStats.notUsefulResult], //[30,70]
+        data: [60, 40], //[this.feedbackStats.feedBackReceived, this.feedbackStats.notUsefulResult]
         label: {
           show: true,
           position: 'inner',

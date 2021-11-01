@@ -409,23 +409,25 @@
                 <div class="col-6 box-content">
                     <div class="full-card pb-4">
                         <div class="title-card">{{'metrics.dash_board_view.Feedback'| translate}}</div>
-                        <div class="empty-feedback">
+                        <!-- <div class="empty-feedback">
                             <div class="position-relative">
                                 <img src="assets/icons/overview/comming-soon.svg">
                                 <div class="title-empty">Coming Soon</div>
                             </div>
-                        </div>
-                        <!-- <div class="row col-12 m-0 p-0">
+                        </div> -->
+                        <div class="row col-12 m-0 p-0">
                             <div class="col-6 m-0 p-0 legends_sec_piechart">
                                 <div echarts [options]="feedbackPieSearches" class="pie-chart-graph"></div>
                                 <div class="legend-data col-12 p-0">
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="indication total"></span>
-                                        <span class="title">{{'metrics.dash_board_view.total_searches'| translate}}</span>
+                                        <span class="title">{{'metrics.dash_board_view.total_searches'|
+                                            translate}}</span>
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="indication feedback"></span>
-                                        <span class="title">{{'metrics.dash_board_view.Feedback_Received'| translate}}</span>
+                                        <span class="title">{{'metrics.dash_board_view.Feedback_Received'|
+                                            translate}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -433,14 +435,17 @@
                                 <div echarts [options]="feedbackPieResult" class="pie-chart-graph"></div>
                                 <div class="legend-data col-12 p-0">
                                     <div class="d-flex align-items-center mb-2">
-                                        <span class="indication usefull"></span><span class="title">{{'metrics.dash_board_view.Useful_Result'| translate}}</span>
+                                        <span class="indication usefull"></span><span
+                                            class="title">{{'metrics.dash_board_view.Useful_Result'| translate}}</span>
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
-                                        <span class="indication notusefull"></span><span class="title">{{'metrics.dash_board_view.Not_Useful_Result'| translate}}</span>
+                                        <span class="indication notusefull"></span><span
+                                            class="title">{{'metrics.dash_board_view.Not_Useful_Result'|
+                                            translate}}</span>
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
