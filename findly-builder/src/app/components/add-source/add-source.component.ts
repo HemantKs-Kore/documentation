@@ -668,6 +668,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   prepareFileUploadData(input, ext, files, resourceType_import) {
+    this.filesListData = Array.from(input.files);
     const fileToRead = files[0];
     const onFileLoad = (fileLoadedEvent) => {
       const data = new FormData();
@@ -713,10 +714,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filesListData = Array.from(input.files)
    this.multipleData.type = "bulk";
    this.multipleData.files = [];
-    
     this.filesListData.forEach(fileDataElement => {
       this.fileRequestBody(input, ext, files, resourceType_import,fileDataElement);
+      this.multipleData.files.push(this.fileDataObj);
     });
+   
    
   }
  
@@ -748,7 +750,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           name : this.fileObj.fileName,
           fileId : this.fileObj.fileId
         }
-        this.multipleData.files.push(this.fileDataObj);
         this.fileObj.fileUploadInProgress = false;
         this.notificationService.notify('File uploaded successfully', 'success');
         this.selectedSourceType.resourceAdded = true;
