@@ -7195,7 +7195,7 @@ body{
 }
 .searchAssist-kore-chat-window.search-container #searchChatContainer{
     display: none;
-    height: calc(100vh - 166px);
+    height: calc(100vh - 157px);
 }
 .searchAssist-kore-chat-window.search-container.conversation.active{
    height: calc(100% - 55px);
@@ -7373,6 +7373,12 @@ body{
 text-align: center;
 padding: 32px 0px;
 color: #9aa0a6;
+}
+.searchAssist-kore-chat-window.search-container.conversation .search-body.recent-search-show{
+    max-height: 110px;
+    min-height: 110px;
+    overflow: auto;
+    padding-top: 0px;
 }
 .searchAssist-kore-chat-window.search-container.conversation .search-body{
     border-radius: 6px;
@@ -8328,7 +8334,46 @@ html , body{
     margin-left: 25px;
 }
 .searchAssist-kore-chat-window .search-recent-column {
+    position: absolute;
+    bottom: 6px;
+    width: 100%;
+    left: 0;
+    max-height: 70px;
     /* column-count: 2; */
+}
+.searchAssist-kore-chat-window .search-recent-column .recentSearch.tile_with_header{
+    cursor: pointer;
+    width: 100%;
+    position: relative;
+    padding: 0 20px;
+    margin: 5px 0px;
+}
+.searchAssist-kore-chat-window .search-recent-column .recentSearch.tile_with_header:hover .recentText{
+    background: #EFF0F1;
+    border: 0px solid var(--sdk-border-malibu-color);
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 6px 7px 6px 30px;
+    margin: 0px;
+}
+.searchAssist-kore-chat-window .search-recent-column .recentSearch.tile_with_header .recentText{
+    padding: 6px 10px 6px 30px;
+    cursor: pointer;
+    box-sizing: border-box;
+    display: block;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    max-width: 100%;
+    color: #3C4043;
+    margin: 0;
+    border: 0;
+    position: relative;
+}
+.searchAssist-kore-chat-window .search-recent-column .recentSearch.tile_with_header .recentText img{
+    position: absolute;
+    left: 7px;
+    top: 8px;
 }
 
 /* .Search-BG-Copy {
@@ -11121,6 +11166,9 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     left: 0px;
     top: 10px;
 }
+span .highlightText {
+    font-weight: bolder !important;
+}
 .searchAssist-kore-chat-window .accordion .highlightText {
     text-decoration: underline !important;
 }
@@ -12874,6 +12922,7 @@ border: 0;
 .searchAssist-kore-chat-window .structured-data-header{
     display: inline-block;
     width: 100%;
+    color: #202124 !important;
 }
 .searchAssist-kore-chat-window .actions-search-container .structured-data-header{
     display: inline-block;
@@ -12883,6 +12932,7 @@ border: 0;
     font-size: 12px;
     margin-bottom: 5px;
     display: block;
+    cursor: pointer;
 }
 .searchAssist-kore-chat-window .actions-search-container .structured-data-header .search-heads{
     margin-bottom: 5px !important;
@@ -13887,11 +13937,10 @@ border: 0;
 }
 
 .searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title .suggestion-list-item{    
-    padding: 4px 0px;
-    padding-left: 21px;
+    padding: 6px 10px 6px 30px;
     cursor: pointer;
     box-sizing: border-box;
-    display: inline-block;
+    display: block;
     font-weight: normal;
     font-size: 14px;
     line-height: 20px;
@@ -13903,8 +13952,8 @@ border: 0;
 }
 .searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title .suggestion-list-item img{
     position: absolute;
-    left: 0;
-    top: 8px;
+    left: 7px;
+    top: 10px;
 }
 /* .searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title .suggestion-list-item:hover {
     background: var(--sdk-bg-zumthor-color);
@@ -13912,22 +13961,22 @@ border: 0;
     box-sizing: border-box;
     border-radius: 20px;
 } */
-.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion,.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title:hover {
+/* .searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion,.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title:hover {
     padding: 0 10px;
-}
+} */
 .searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion .suggestion-list-item ,.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title:hover .suggestion-list-item{
-    background: var(--sdk-bg-zumthor-color);
-    border: 1px solid var(--sdk-border-malibu-color);
+    background: #EFF0F1;
+    border: 0px solid var(--sdk-border-malibu-color);
     box-sizing: border-box;
-    border-radius: 20px;
-    padding: 4px 7px 4px 30px;
+    border-radius: 5px;
+    padding: 6px 7px 6px 30px;
     margin: 0px;
 }
-.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion .suggestion-list-item img,.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title:hover .suggestion-list-item img{
+/* .searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion .suggestion-list-item img,.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title:hover .suggestion-list-item img{
     position: absolute;
     left: 8px;
     top: 8px;
-}
+} */
 .searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title .type-select-suggestion{
     position: absolute;
     top: 13px;
@@ -15025,3 +15074,263 @@ margin-bottom: 15px !important;
       .tile-description img{
         max-width: 100% !important;
       }
+
+
+/* //Default styles page */
+
+
+.default-data-show-not-loaded {
+    height:calc(100vh - 156px);
+    padding: 20px;
+    background: #FFFFFF;
+    position: absolute;
+    bottom: 40px;
+}
+.default-data-show-not-loaded .defalut-message-babble {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.default-data-show-not-loaded .defalut-message-babble .icon-block {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+.default-data-show-not-loaded .defalut-message-babble .icon-block img {
+    width: 100%;
+    height: 100%;
+}
+.default-data-show-not-loaded .defalut-message-babble .bubble-text {
+    background: #F8F9FA;
+    border: 1px solid #E0E1E9;
+    box-sizing: border-box;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #161620;
+    margin-left: 20px;
+}
+.default-data-show-not-loaded .default-suggestions-content {
+    padding-left: 35px;
+    margin: 10px 0;
+}
+.default-data-show-not-loaded .default-suggestions-content .pl-5{
+    padding-left: 5px;
+}
+.default-data-show-not-loaded .default-suggestions-content .suggestion-text {
+    background: #FFFFFF;
+    border: 1px solid #E4E5E7;
+    box-sizing: border-box;
+    border-radius: 8px;
+    padding: 9px 10px 9px 35px;
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    margin: 0px 0px 5px 0px;
+}
+.default-data-show-not-loaded .default-suggestions-content .suggestion-text img {
+    position: absolute;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
+    cursor: pointer;
+    left: 10px;
+    top: 10px;
+}
+.default-data-show-not-loaded .default-suggestions-content .suggestion-text span {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
+}
+.default-data-show-not-loaded .store-updates-block {
+    margin-bottom: 30px;
+    font-size: 14px;
+    line-height: 17px;
+    color: #161620;
+    cursor: pointer;
+}
+.default-data-show-not-loaded .store-updates-block .main-title {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    color: #161620;
+    margin: 10px 0px;
+}
+.default-data-show-not-loaded .store-updates-block .tags-updates {
+    padding-left: 35px;
+}
+.default-data-show-not-loaded .store-updates-block .tags-updates .store-tag-names {
+    background: #FFFFFF;
+    border: 1px solid #E4E5E7;
+    box-sizing: border-box;
+    border-radius: 8px;
+    display: inline-block;
+    margin: 5px 4px;
+    padding: 9px 10px;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #161620;
+}
+.default-data-show-not-loaded .default-add {
+    margin: 20px 0;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 30px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    padding: 0px 10px;
+    font-size: 12px;
+    line-height: 15px;
+    color: #202124;
+    /* width: 132px; */
+}
+.default-data-show-not-loaded .default-add .close-add {
+    position: absolute;
+    top: 10px;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    right: 10px;
+}
+.default-data-show-not-loaded .default-add .close-add img {
+    margin-right: 4px;
+}
+.default-data-show-not-loaded .default-add .close-add span {
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+    color: #9AA0A6;
+}
+.default-data-show-not-loaded .default-add .img-block {
+    width: 161px;
+    height: 162px;
+    flex-shrink: 0;
+}
+.default-data-show-not-loaded .default-add .img-block img {
+    width: 100%;
+    height: 100%;
+}
+.default-data-show-not-loaded .default-add .content-block {
+    padding: 25px 10px 20px 20px;
+    width: 100%;
+}
+.default-data-show-not-loaded .default-add .content-block .title {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.05em;
+    color: #202124;
+}
+.default-data-show-not-loaded .default-add .content-block .title.mb-10 {
+    margin-bottom: 10px;
+}
+.default-data-show-not-loaded .default-add .content-block .info-text {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    color: #5F6368;
+    margin-bottom: 5px;
+}
+
+
+/* Multiple card live suggestion */
+
+
+.live-search-multi-card-data {
+    padding: 0px 20px;
+    margin: 10px 0;
+}
+.live-search-multi-card-data .live-search-cards {
+    background: #FFFFFF;
+    box-shadow: 0px 0px 30px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.live-search-multi-card-data .live-search-cards .img-block {
+    border-radius: 8px;
+    width: 70px;
+    flex-shrink: 0;
+}
+.live-search-multi-card-data .live-search-cards .img-block img {
+    width: 100%;
+    border-radius: 5px;
+}
+.live-search-multi-card-data .live-search-cards .content-sec {
+    padding: 0 15px;
+    width: 205px;
+}
+.live-search-multi-card-data .live-search-cards .content-sec .desc-text {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    color: #202124;
+}
+.live-search-multi-card-data .live-search-cards .content-sec .desc-text .new{
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 12px;
+    color: #DD3646;
+    padding-left: 5px;
+}
+.live-search-multi-card-data .live-search-cards .content-sec .stars-block img {
+    margin-right: 6px;
+}
+.live-search-multi-card-data .live-search-cards .actions-block {
+    display: flex;
+    align-items: center;
+    width: 210px;
+    justify-content: flex-end;
+    padding-right: 10px;
+}
+.live-search-multi-card-data .live-search-cards .actions-block .amount-data .amount {
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+    color: #202124;
+}
+.live-search-multi-card-data .live-search-cards .actions-block .amount-data .amount-strike {
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 12px;
+    color: #9AA0A6;
+    text-align: center;
+    /* text-decoration: line-through; */
+}
+.live-search-multi-card-data .live-search-cards .actions-block .add- {
+    background: #FCEAED;
+    border-radius: 10px;
+    padding: 3px 10px;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 14px;
+    color: #B74C67;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.live-search-multi-card-data .live-search-cards .actions-block .buy- {
+    background: #D98399;
+    border-radius: 10px;
+    padding: 3px 10px;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 14px;
+    color: #FFFFFF;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.searchAssist-kore-chat-window.search-container.conversation.active.no-history .default-data-show-not-loaded{
+    display: none;
+}

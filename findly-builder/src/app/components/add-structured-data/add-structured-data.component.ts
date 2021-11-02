@@ -79,12 +79,12 @@ export class AddStructuredDataComponent implements OnInit {
 
   ngOnChanges(changes) {
     setTimeout(() => {
-      this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop();
+      this.perfectScroll?.directiveRef?.update();
+      this.perfectScroll?.directiveRef?.scrollToTop();
     }, 500);
     if (changes && changes.selectedSourceType) {
       this.submitted = false;
-      this.selectedSourceType.resourceAdded = false;
+      // this.selectedSourceType.resourceAdded = false;
       if (changes.selectedSourceType.currentValue && changes.selectedSourceType.currentValue.resourceType === 'structuredDataManual') {
         this.setRequirementsForManualInput(changes);
       }
