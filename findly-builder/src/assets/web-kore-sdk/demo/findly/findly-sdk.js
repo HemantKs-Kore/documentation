@@ -3371,7 +3371,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (Object.values(selectedTopFacet).length) {
             if (!payload.filters || !payload.filters.length) {
               payload.filters = [];
-            }
+            } 
             payload.filters.push(selectedTopFacet);
           }
         } else {
