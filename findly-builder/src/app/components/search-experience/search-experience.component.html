@@ -84,7 +84,7 @@
                                     </div>
                                     <input #elasticInput maxlength="60" class="placeholder-custom-search"
                                         value="{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}"
-                                        placeholder="search" [ngClass]="{'activeBox':selectSearch=='placeholderText'}"
+                                        [ngClass]="{'activeBox':selectSearch=='placeholderText'}"
                                         [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor,'width.px': width,'background':'none'}"
                                         #data (change)="onEventLog('placeholderText',data.value);" (input)="resize()">
                                 </div>
@@ -113,63 +113,6 @@
                                 <div class="hover-overlay-btn-img" (click)="buttonDisabled=false"
                                     *ngIf="buttonDisabled"><img src="assets/icons/search-experience/edit.svg"></div>
                             </button>
-                            <!-- <div [ngSwitch]="tourGuide">
-                            <div class="tour-guide-data" *ngSwitchCase="'step1'">
-                                <div class="close-guide" (click)="tourGuide=''">
-                                    <img src="assets/icons/search-experience/close-tour.svg">
-                                </div>
-                                <div class="title-info">{{'searchexperience.click_on_searchbox' | translate}}</div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="tour-length">{{'searchexperience.1_of_4' | translate}}</div>
-                                    <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step2'">{{'searchexperience.next' | translate}}</button>
-                                       
-                                    </div>
-                                </div>
-                            </div>  
-                            
-                            <div class="tour-guide-data search-tour-icon" *ngSwitchCase="'step2'">
-                                <div class="close-guide" (click)="tourGuide=''">
-                                    <img src="assets/icons/search-experience/close-tour.svg">
-                                </div>
-                                <div class="title-info">{{'searchexperience.click_search_icon' | translate}}</div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="tour-length">{{'searchexperience.2_of_4' | translate}}</div>
-                                    <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step3'">{{'searchexperience.next' | translate}}</button>
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step1'">{{'searchexperience.previous' | translate}}</button>
-                                    </div>
-                                </div>
-                            </div> 
-    
-                            <div class="tour-guide-data place-holder-text-tour" *ngSwitchCase="'step3'">
-                                <div class="close-guide" (click)="tourGuide=''">
-                                    <img src="assets/icons/search-experience/close-tour.svg">
-                                </div>
-                                <div class="title-info">{{'searchexperience.click_on_text' | translate}}</div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="tour-length">{{'searchexperience.3_of_4' | translate}}</div>
-                                    <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step4'">{{'searchexperience.next' | translate}}</button>
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step2'">{{'searchexperience.previous' | translate}}</button>
-                                    </div>
-                                </div>
-                            </div> 
-    
-                            <div class="tour-guide-data" *ngSwitchCase="'step4'" [ngClass]="[searchObject.searchExperienceConfig.searchBarPosition=='top'?'button-tour-top':'button-tour-bottom']">
-                                <div class="close-guide" (click)="updateTourConfig();tourGuide=''">
-                                    <img src="assets/icons/search-experience/close-tour.svg">
-                                </div>
-                                <div class="title-info">{{'searchexperience.click_on_button' | translate}}</div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="tour-length">{{'searchexperience.4_of_4' | translate}}</div>
-                                    <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="updateTourConfig()">{{'searchexperience.got_it' | translate}}</button>
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step3'">{{'searchexperience.previous' | translate}}</button>
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>                                                   -->
                         </div>
                         <div [ngSwitch]="selectSearch">
                             <div class="fill-colors-block" *ngSwitchCase="'inputBox'">
