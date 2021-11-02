@@ -362,7 +362,7 @@
                         </ng-container>
                         <ng-container *ngIf="fileObj.fileName && selectedSourceType.sourceType=='content'">
                           <div class="kr-sg-file-drag-drop w-100">
-                            <div class="uploaded-file-name" *ngFor="let file of filesListData"
+                            <div class="uploaded-file-name" *ngFor="let file of filesListData ;let i = index"
                               [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
                               <div class="file-close-text">
                                 <div class="d-flex align-items-center">
@@ -379,7 +379,7 @@
                                   <div class="file-name" [innerHTML]="file.name"></div>
                                 </div>
                                 <img src="assets/images/close.svg" class="close-file adjust_z_index"
-                                  (click)="removeFile()">
+                                  (click)="removeFile(file.name)">
                               </div>
                               <div class="progress-status">
                                 <img *ngIf="fileObj.fileUploadInProgress" class="progSpinner"

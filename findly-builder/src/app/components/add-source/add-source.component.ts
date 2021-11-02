@@ -701,7 +701,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       else {
         data.append('fileContext', 'findly');
       }
-      this.fileupload(data);
+      this.getFileId(data);
       
     }
     const fileReader = new FileReader();
@@ -721,9 +721,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
    
    
   }
- 
- 
-
   onFileSelect(input: HTMLInputElement, ext) {
      this.files = input.files;
     const content = this.csvContent;
@@ -736,6 +733,28 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.multipleFileRequestBody(input, ext, this.files, resourceType_import);
     }
   }
+  getFileId(payload) {
+    const quaryparms: any = {
+      userId: this.userInfo.id
+    };
+    this.service.invoke('post.fileupload', quaryparms, payload).subscribe(
+      res => {
+        this.fileObj.fileId = res.fileId;
+         this.fileDataObj  ={
+            name : this.fileObj.fileName,
+            fileId : this.fileObj.fileId
+          }
+      },
+      errRes => {
+        this.fileObj.fileUploadInProgress = false;
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to upload file ', 'error');
+        }
+      }
+    );
+  }
   
 
   fileupload(payload) {
@@ -746,10 +765,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       res => {
         this.fileObj.fileAdded = true;
         this.fileObj.fileId = res.fileId;
-        this.fileDataObj  ={
-          name : this.fileObj.fileName,
-          fileId : this.fileObj.fileId
-        }
         this.fileObj.fileUploadInProgress = false;
         this.notificationService.notify('File uploaded successfully', 'success');
         this.selectedSourceType.resourceAdded = true;
@@ -812,8 +827,19 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       fileUploadError: false,
     }
   }
-  removeFile() {
+  removeFile(msg?) {
     $('#sourceFileUploader').val('');
+    if(this.filesListData){
+      this.filesListData.forEach((element,indexElement) => {
+        if(element.name === msg){
+          this.filesListData.splice(indexElement, 1);
+        }
+      });
+    }
+    //   index = this.filesListData.indexOf(msg);
+    // if (index !== -2) {
+    //     this.filesListData.splice(index, 1);
+    // }     
     // $('#sourceFileUploader').replaceWith($('#sourceFileUploader').val('').clone(true));
     this.resetfileSource()
     // this.service.invoke('post.fileupload').subscribe().unsubscribe();
