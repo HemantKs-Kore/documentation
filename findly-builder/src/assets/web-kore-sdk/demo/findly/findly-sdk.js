@@ -7120,7 +7120,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           $('.suggestion-search-data-parent').css('display', 'block');
         }
-        if ($(event.target).closest('#searchChatContainer').length && !$(event.target).closest('#search').length) {
+        if ($(event.target).closest('#searchChatContainer').length && !$(event.target).closest('#search').length && !$(event.target).closest('.default-data-show-not-loaded').length) {
           event.stopPropagation();
           if ($('.search-container').hasClass('conversation')) {
             $('.search-body').addClass('hide');
@@ -7138,11 +7138,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.search-body').addClass('hide');
           $('.suggestion-search-data-parent').css('display', 'none');
           $('.parent-search-live-auto-suggesition').hide();
-          if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history')) {
-            $('.search-container').addClass('no-history');
-          }
+          // if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history')) {
+          //   $('.search-container').addClass('no-history');
+          // }
         } else {
-          if (!$(event.target).closest('.search-body').length && !$(event.target).closest('.show-all-results-outer-wrap').length && !$(event.target).closest('#search').length) {
+          if (!$(event.target).closest('.search-body').length && !$(event.target).closest('.show-all-results-outer-wrap').length && !$(event.target).closest('#search').length && !$(event.target).closest('.default-data-show-not-loaded').length) {
             if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
               if (!window.isBotLocked) {
                 $('.search-body').addClass('hide');
