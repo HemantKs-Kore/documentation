@@ -93,6 +93,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   multipleData: any = {};
   files;
   filesListData:any=[];
+ multipleFileArr = [];
   importFaqInprogress = false;
   selectedLinkBotConfig: any;
   @Input() inputClass: string;
@@ -225,6 +226,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   noAssociatedBots: boolean = true;
   associatedBots: any = [];
   streamID: any;
+  showProgressBar:boolean;
   searchAssociatedBots: any;
   addStructuredDataModalPopRef: any;
   structuredData: any = {};
@@ -599,39 +601,38 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   openImageLink(url) {
     window.open(url, '_blank');
   }
+  showProgValidation(element,event,index){
 
-  fileChangeListener(event) {
-    this.newSourceObj.url = '';
-    let fileName = '';
-    // if (event && event.target && event.target.files && event.target.files.length && event.target.files[0].name) {
-    //   fileName = event.target.files[0].name;
-    // } 
-    // else  
-    //  {
-    //   return;
+    let showProg: boolean = false;
+    // if (this.selectedSourceType.sourceType === "content" && this.multipleFileArr.length > 1) {
+    //   showProg = true;
     // }
-    if (event && event.target && event.target.files && event.target.files.length <= 10) {
-      for(let i=0 ; i<= event.target.files.length ;i++){
-        if (event && event.target && event.target.files && event.target.files.length && event.target.files[i] && event.target.files[i].name){
-          fileName = event.target.files[i].name;
+    // const _ext = element.fileName.substring(element.fileName.lastIndexOf('.'));
+
+    this.extension = '.'+ element.file_ext
+    if(this.selectedSourceType.sourceType === "content"){
+      if (['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx'].includes(this.extension)) {
+        if(this.multipleFileArr.length >= 1 ){
+          if(index == this.multipleFileArr.length-1)
+          showProg = true;
         }
       }
-      
-    } 
-    else{
-      this.notificationService.notify("More than 10 files cannot be uploaded at one" , 'error' );
+      else {
+        $('#sourceFileUploader').val(null);
+        this.notificationService.notify('Please select a valid file', 'error');
+        showProg = false;
+      }
     }
-    
-    let showProg: boolean = false;
-    const _ext = fileName.substring(fileName.lastIndexOf('.'));
-    this.extension = _ext
-    if (this.selectedSourceType.sourceType != "faq") {
+
+    else if (this.selectedSourceType.sourceType != "faq" && this.selectedSourceType.sourceType != "content") {
+
       if (['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx'].includes(this.extension)) {
         showProg = true;
       }
       else {
         $('#sourceFileUploader').val(null);
         this.notificationService.notify('Please select a valid file', 'error');
+        // this.multipleFileArr
         // return;
       }
     }
@@ -660,11 +661,111 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
     }
-    if (showProg) {
-      this.onFileSelect(event.target, this.extension);
-      this.fileObj.fileUploadInProgress = true;
-      this.fileObj.fileName = fileName;
-      this.fileObj.file_ext = this.extension.replace(".", "");
+    if (showProg) { // check!
+      this.onFileSelect(event.target,this.multipleFileArr);
+      // this.fileObj.fileUploadInProgress = true; // unknown binding
+      this.fileObj.fileName = element.fileName; // for  single file 
+      // this.fileObj.file_ext = this.extension.replace(".", "");
+    }
+  }
+  multipleFileChangeListner(event){
+   let fileArr=[];
+   
+    if (event && event.target && event.target.files && event.target.files.length <= 10) {
+      for(let i=0 ; i<= event.target.files.length ;i++){
+        if (event && event.target && event.target.files && event.target.files.length && event.target.files[i] && event.target.files[i].name){
+          const _ext = event.target.files[i].name.substring(event.target.files[i].name.lastIndexOf('.'));
+          // this.extension = _ext
+          let fileObj = {
+            fileUploadInProgress : true,
+            fileName :event.target.files[i].name,
+            file_ext : _ext.replace(".", "") // Check this.
+          };
+      
+          fileArr.push(fileObj);
+     
+        }
+      }
+     
+    } 
+     this.multipleFileArr = [...fileArr] ;
+    fileArr.forEach((element,index) => {
+      this.showProgValidation(element,event,index)
+        
+    });
+  }
+  fileChangeListener(event) {
+    this.newSourceObj.url = '';
+    let fileName = '';
+    if (event && event.target && event.target.files && event.target.files.length && event.target.files[0].name) {
+      // fileName = event.target.files[0].name;
+      this.multipleFileChangeListner(event)
+    } 
+    else if(event && event.target && event.target.files && event.target.files.length <= 10 && event.target.files.length > 1)
+     {
+      this.multipleFileChangeListner(event)
+    }else if(event && event.target && event.target.files && event.target.files.length > 10){
+      this.notificationService.notify("More than 10 files cannot be uploaded at one" , 'error' );
+    }else{
+      return;
+    }
+    
+    // let showProg: boolean = false;
+    // const _ext = fileName.substring(fileName.lastIndexOf('.'));
+    // this.extension = _ext
+    // if (this.selectedSourceType.sourceType != "faq") {
+    //   if (['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx'].includes(this.extension)) {
+    //     showProg = true;
+    //   }
+    //   else {
+    //     $('#sourceFileUploader').val(null);
+    //     this.notificationService.notify('Please select a valid file', 'error');
+    //     // return;
+    //   }
+    // }
+    // else {
+
+    //   if (this.selectedSourceType.sourceType == "faq") {
+    //     if (this.selectedSourceType.resourceType == '') {
+    //       if (this.extension === '.pdf') {
+    //         showProg = true;
+    //       }
+    //       else {
+    //         this.notificationService.notify('Please select a valid pdf file', 'error');
+    //       }
+    //     }
+    //     else {
+    //       if (this.extension === '.csv' || this.extension === '.json') {
+    //         showProg = true;
+    //       }
+    //       else {
+    //         this.notificationService.notify('Please select a valid csv or json file', 'error');
+    //       }
+    //     }
+    //   }
+    //   else {
+    //     showProg = true;
+    //   }
+
+    // }
+    // if (showProg) {
+    //   this.onFileSelect(event.target, this.extension);
+    //   this.fileObj.fileUploadInProgress = true; // unknown binding
+    //   this.fileObj.fileName = fileName; // for  single file 
+    //   this.fileObj.file_ext = this.extension.replace(".", "");
+    // }
+  }
+
+  onFileSelect(input: HTMLInputElement, ext) {
+     this.files = input.files;
+    const content = this.csvContent;
+    let resourceType = this.selectedSourceType.resourceType;
+    let resourceType_import = resourceType;
+    if (this.files && this.files.length === 1) {
+      this.prepareFileUploadData(input, ext, this.files, resourceType_import);
+    }
+    else {
+      this.multipleFileRequestBody(input, ext, this.files, resourceType_import);
     }
   }
   prepareFileUploadData(input, ext, files, resourceType_import) {
@@ -674,7 +775,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       const data = new FormData();
       data.append('file', fileToRead);
       data.append('Content-Type', fileToRead.type);
-      data.append('fileExtension', ext.replace('.', ''));
+      data.append('fileExtension', ext[0].file_ext);
       if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
         data.append('fileContext', 'bulkImport');
       }
@@ -688,51 +789,34 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     fileReader.readAsText(fileToRead, 'UTF-8');
 
   }
-  fileRequestBody(input, ext, files, resourceType_import,fileDataElement?) {
-    const fileToRead = fileDataElement ;
+  
+// Payload for multiple file Upload //
+  multipleFileRequestBody(input, ext, files, resourceType_import) {
+    this.filesListData= [];
+    this.filesListData = Array.from(input.files)
+   this.multipleData.type = "bulk";
+   this.multipleData.files = [];
+    this.filesListData.forEach(fileDataElement => {
+        const _ext =fileDataElement.name.substring(fileDataElement.name.lastIndexOf('.'));
+      this.fileRequestBody(input, _ext.replace('.',''), files, resourceType_import,fileDataElement);
+    });
+  }
+  
+  fileRequestBody(input, ext, files, resourceType_import,fileDataElement) {
+    const fileToRead = fileDataElement;
     const onFileLoad = (fileLoadedEvent) => {
       const data = new FormData();
-      data.append('file', fileToRead);
-      data.append('Content-Type', fileToRead.type);
-      data.append('fileExtension', ext.replace('.', ''));
-      if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
-        data.append('fileContext', 'bulkImport');
-      }
-      else {
+        data.append('file', fileToRead);
+        data.append('Content-Type', fileToRead.type);
+        data.append('fileExtension', ext);
         data.append('fileContext', 'findly');
-      }
-      this.getFileId(data);
-      
+        this.getFileId(data);
     }
     const fileReader = new FileReader();
     fileReader.onload = onFileLoad;
     fileReader.readAsText(fileToRead, 'UTF-8');
   }
 
-// Payload for multiple file Upload //
-  multipleFileRequestBody(input, ext, files, resourceType_import) {
-    this.filesListData = Array.from(input.files)
-   this.multipleData.type = "bulk";
-   this.multipleData.files = [];
-    this.filesListData.forEach(fileDataElement => {
-      this.fileRequestBody(input, ext, files, resourceType_import,fileDataElement);
-      this.multipleData.files.push(this.fileDataObj);
-    });
-   
-   
-  }
-  onFileSelect(input: HTMLInputElement, ext) {
-     this.files = input.files;
-    const content = this.csvContent;
-    let resourceType = this.selectedSourceType.resourceType;
-    let resourceType_import = resourceType;
-    if (this.files && this.files.length === 1) {
-      this.prepareFileUploadData(input, ext, this.files, resourceType_import);
-    }
-    else {
-      this.multipleFileRequestBody(input, ext, this.files, resourceType_import);
-    }
-  }
   getFileId(payload) {
     const quaryparms: any = {
       userId: this.userInfo.id
@@ -744,6 +828,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             name : this.fileObj.fileName,
             fileId : this.fileObj.fileId
           }
+          this.multipleData.files.push(this.fileDataObj);
+          this.notificationService.notify('File uploaded successfully', 'success');
       },
       errRes => {
         this.fileObj.fileUploadInProgress = false;
@@ -766,7 +852,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.fileObj.fileAdded = true;
         this.fileObj.fileId = res.fileId;
         this.fileObj.fileUploadInProgress = false;
+        this.showProgressBar= true;
         this.notificationService.notify('File uploaded successfully', 'success');
+        // this.showProgressBar= false;
         this.selectedSourceType.resourceAdded = true;
         //  this.selectedSourceType.resourceType = 'webdomain';
         $(".drag-drop-sec").css("border-color", "#BDC1C6");

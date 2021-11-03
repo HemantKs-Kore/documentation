@@ -242,7 +242,7 @@
         <div class="modal-body">
           <div *ngIf="selectedSourceType" class="crerateWebCrawl" [ngClass]="{'pr-0': resourceIDToOpen}">
             <div class="crawl-form-title" *ngIf="!resourceIDToOpen"></div>
-            <div class="kr-sg-input-text mb-4" *ngIf="selectedSourceType.resourceType !== 'file'">
+            <div class="kr-sg-input-text mb-4">
               <div class="label-text">Source Title</div>
               <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput" name="sourceTitle"
                 placeholder="Enter Title" [(ngModel)]="newSourceObj.name" (change)="inputChanged('title')"
@@ -250,7 +250,7 @@
               <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
                 width="12" />
             </div>
-            <div class="kr-sg-input-text-area mb-3" *ngIf="!(selectedSourceType.sourceType==='faq')">
+            <div class="kr-sg-input-text-area mb-3 d-none" *ngIf="!(selectedSourceType.sourceType==='faq')">
               <div class="label-text">Description</div>
               <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc" maxlength="250"
                 placeholder="Enter Description" class="input-text"></textarea>
@@ -329,7 +329,7 @@
                             *ngIf="(selectedSourceType.sourceType=='content'&&selectedSourceType.resourceType =='file')">
                             <img src="assets/icons/info.svg"> Supports: pdf, docx, ppt, xlsx, txt file types
                           </div>
-                          <div class="not-limit-size">Note: Maximum upload limit is 10 files not exceeding 15 MB per file.</div>
+                          <div *ngIf="selectedSourceType.sourceType=='content'" class="not-limit-size">Note: Maximum upload limit is 10 files not exceeding 15 MB per file.</div>
                         </ng-container>
 
                         <ng-container *ngIf="fileObj.fileName && selectedSourceType.sourceType=='faq'">
@@ -382,15 +382,18 @@
                             <div class="uploaded-file-name" *ngFor="let file of filesListData" [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
                               <div class="file-close-text">
                                 <div class="d-flex align-items-center img-block-data">
-                                  <img *ngIf="fileObj.file_ext === 'pdf'" class="type_img" src="assets/icons/file_type_image.svg">
-                                  <img *ngIf="fileObj.file_ext === 'docx'" class="type_img" src="assets/icons/doc_logo.svg">
-                                  <img *ngIf="fileObj.file_ext === 'txt'" class="type_img" src="assets/icons/txt_icon.svg">
-                                  <img *ngIf="fileObj.file_ext === 'xlsx'" class="type_img" src="assets/icons/excel_logo.svg">
-                                  <img *ngIf="fileObj.file_ext === 'ppt'" class="type_img" src="assets/icons/ppt_logo.svg">
+                                  <img *ngIf="file.type  === 'application/pdf'" class="type_img" src="assets/icons/file_type_image.svg">
+                                  <img *ngIf="file.type === ' '" class="type_img" src="assets/icons/doc_logo.svg">
+                                  <img *ngIf="file.type === 'txt/plain'" class="type_img" src="assets/icons/txt_icon.svg">
+                                  <img *ngIf="file.name.replace('.', ' ') === 'xlsx'" class="type_img" src="assets/icons/excel_logo.svg">
+                                  <img *ngIf="file.name.replace('.', ' ') === 'ppt'" class="type_img" src="assets/icons/ppt_logo.svg">
                                 </div>
                                 <div class="text-content">
                                   <div class="file-name" [innerHTML]="file.name"></div>
-                                  <div class="progress-bar-data"></div>
+                                  <div *ngIf="showProgressBar" class="progress-bar-data">
+                                    <img src="assets/images/progressBar.gif">
+                                  </div>
+                                  <!-- <mat-progress-bar mode="indeterminate" class="progress-bar-data"></mat-progress-bar> -->
                                 </div>
                                 <img src="assets/images/close.svg" class="close-file adjust_z_index" (click)="removeFile()">
                               </div>
