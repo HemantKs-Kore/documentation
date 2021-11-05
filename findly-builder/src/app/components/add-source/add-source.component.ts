@@ -226,7 +226,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   noAssociatedBots: boolean = true;
   associatedBots: any = [];
   streamID: any;
-  showProgressBar:boolean;
+  showProgressBar: boolean;
   searchAssociatedBots: any;
   addStructuredDataModalPopRef: any;
   structuredData: any = {};
@@ -245,7 +245,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
-    
+
   ) { }
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -614,15 +614,15 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
       //For deleting unacceptable files while uploading
-     else if(this.extension != ['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx']){
+      else if (this.extension != ['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx']) {
         this.filesListData.forEach(element => {
-          if(element.file_ext != ['pdf', 'doc', 'ppt', 'xlsx', 'txt', 'docx']){
-            if(index === this.filesListData.indexOf(element)){
-              this.filesListData.splice(element,1);
+          if (element.file_ext != ['pdf', 'doc', 'ppt', 'xlsx', 'txt', 'docx']) {
+            if (index === this.filesListData.indexOf(element)) {
+              this.filesListData.splice(element, 1);
             }
-          showProg = true
-          }  
-         
+            showProg = true
+          }
+
         });
 
       }
@@ -677,7 +677,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   //Triggers while selecting multiple files
-  multipleFileChangeListner(event){
+  multipleFileChangeListner(event) {
     let fileArr = [];
 
     if (event && event.target && event.target.files && event.target.files.length <= 10) {
@@ -692,16 +692,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           };
 
           fileArr.push(fileObj);
-          
+
 
         }
 
-        
+
       }
 
     }
     else {
-      this.notificationService.notify('More than 10 files can not be uploaded at once.','error')
+      this.notificationService.notify('More than 10 files can not be uploaded at once.', 'error')
     }
     this.multipleFileArr = [...fileArr];
     fileArr.forEach((element, index) => {
@@ -719,15 +719,15 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       // fileName = event.target.files[0].name;
       this.multipleFileChangeListner(event)
     }
-    else 
-    if (event && event.target && event.target.files && event.target.files.length <= 10 && event.target.files.length > 1) {
-      this.multipleFileChangeListner(event)
-    } else if (event && event.target && event.target.files && event.target.files.length > 10) {
-      this.notificationService.notify("More than 10 files cannot be uploaded at one", 'error');
-    } else {
-      return;
-    }
-// OLD CODE //
+    else
+      if (event && event.target && event.target.files && event.target.files.length <= 10 && event.target.files.length > 1) {
+        this.multipleFileChangeListner(event)
+      } else if (event && event.target && event.target.files && event.target.files.length > 10) {
+        this.notificationService.notify("More than 10 files cannot be uploaded at one", 'error');
+      } else {
+        return;
+      }
+    // OLD CODE //
     // let showProg: boolean = false;
     // const _ext = fileName.substring(fileName.lastIndexOf('.'));
     // this.extension = _ext
@@ -809,8 +809,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     fileReader.readAsText(fileToRead, 'UTF-8');
 
   }
-  
-// Payload for multiple file Upload //
+
+  // Payload for multiple file Upload //
   multipleFileRequestBody(input, ext, files, resourceType_import) {
     this.filesListData = [];
     this.filesListData = Array.from(input.files)
@@ -837,7 +837,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.getFileId(data, fileDataElement);
   }
 
-//To get FileId for multiple file upload
+  //To get FileId for multiple file upload
   getFileId(payload, fileDataElement) {
     const quaryparms: any = {
       userId: this.userInfo.id
@@ -850,9 +850,22 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           fileId: this.fileObj.fileId
         }
         this.multipleData.files.push(obj);
-        let statusMessage = this.multipleFileArr.length +'files uploaded successfully'
-        this.notificationService.notify(statusMessage, 'success');
-        this.showProgressBar = false;
+        // To show the notification after all the files are uploaded
+        // for (let i = 0; i <= this.multipleFileArr.length; i++) {
+          // this.multipleData.files.forEach(element => {
+          //   if(element.fileId){
+          //     this.showProgressBar = false;
+          //   }
+          //  else if(!element.fileId){
+          //   this.showProgressBar = true;
+          //  }
+          // });
+           // To show the notification after all the files are uploaded
+          if (this.multipleData.files.length === this.multipleFileArr.length) {
+            let statusMessage = this.multipleFileArr.length + ' files uploaded successfully'
+            this.notificationService.notify(statusMessage, 'success');
+            this.showProgressBar = false;
+          }
       },
       errRes => {
         this.fileObj.fileUploadInProgress = false;
@@ -864,7 +877,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
   }
-  
+
 
   fileupload(payload) {
     const quaryparms: any = {
@@ -893,7 +906,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-//API for multiple file upload
+  //API for multiple file upload
   multiplefileupload(payload) {
     const quaryparms: any = {
       searchIndexId: this.searchIndexId,
@@ -934,7 +947,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   removeFile(index?) {
-   this.filesListData.splice(index,1)
+    this.filesListData.splice(index, 1)
     // $('#sourceFileUploader').replaceWith($('#sourceFileUploader').val('').clone(true));
     // this.resetfileSource()
     // this.service.invoke('post.fileupload').subscribe().unsubscribe();
@@ -998,27 +1011,27 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     else if (this.selectedSourceType.resourceType == "file" || this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == "") {
       // if (this.newSourceObj.name) {
-        if (this.selectExtractType == 'file') {
-          if (this.fileObj.fileId || this.multipleFileArr.length) {
-            this.proceedSource()
-          }
-          else {
-            this.btnDisabled = false;
-            $(".drag-drop-sec").css("border-color", "#DD3646");
-            this.notificationService.notify('Please upload the file to continue', 'error');
-          }
+      if (this.selectExtractType == 'file') {
+        if (this.fileObj.fileId || this.multipleFileArr.length) {
+          this.proceedSource()
         }
-        else if (this.selectExtractType == 'url') {
-          if (this.newSourceObj.url && this.newSourceObj.name) {
-            this.proceedSource()
-          }
-          else {
-            this.btnDisabled = false;
-            $("#extractUrl").css("border-color", "#DD3646");
-            $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-            this.notificationService.notify('Enter the required fields to proceed', 'error');
-          }
+        else {
+          this.btnDisabled = false;
+          $(".drag-drop-sec").css("border-color", "#DD3646");
+          this.notificationService.notify('Please upload the file to continue', 'error');
         }
+      }
+      else if (this.selectExtractType == 'url') {
+        if (this.newSourceObj.url && this.newSourceObj.name) {
+          this.proceedSource()
+        }
+        else {
+          this.btnDisabled = false;
+          $("#extractUrl").css("border-color", "#DD3646");
+          $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+          this.notificationService.notify('Enter the required fields to proceed', 'error');
+        }
+      }
       // }
       else {
         this.btnDisabled = false;
@@ -1208,10 +1221,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       // this.callWebCraller(this.crwalObject,searchIndex)
     }
-    if(this.files && this.files.length > 1){
+    if (this.files && this.files.length > 1) {
       this.multiplefileupload(this.multipleData);
     }
-    
+
   }
   //upgrade plan
   upgrade() {
@@ -1768,7 +1781,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     )
   }
-  checkValue(value , valueFrom) {
+  checkValue(value, valueFrom) {
     console.log()
     if (value <= -1) {
       this.crawlDepth = 0;
