@@ -1022,7 +1022,12 @@ export class FacetsComponent implements OnInit, OnDestroy {
     data.active = event.target.checked;
     this.service.invoke('update.facet', quaryparms, data).subscribe(res => {
       this.notificationService.notify('Updated Successfully', 'success');
-      this.getFacts();
+      // this.getFacts();
+      this.facets.map(res => {
+        if (res._id === data._id) {
+          return res.active = event.target.checked
+        }
+      })
     }, errRes => {
       this.errorToaster(errRes, 'Failed to update facet');
     });

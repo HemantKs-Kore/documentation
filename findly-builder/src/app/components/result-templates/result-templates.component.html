@@ -21,7 +21,8 @@
             <div class="main-title">Apply configurations from</div>
             <div class="btnactions">
               <button class="kr-sg-button-secondary btn_lg mr-3" *ngFor="let tab of tabList"
-                [hidden]="tab.id===selectedTab" (click)="copyConfiguration('open',tab.id)">{{tab.name}}</button>
+                [hidden]="tab.id===selectedTab" (click)="copyConfiguration('open',tab.id)"
+                [disabled]="tab.id==='conversationalSearch'&&searchTemplatesDisabled">{{tab.name}}</button>
             </div>
             <div class="apply-config-text" *ngIf="copyConfigObj.loader">Applying configurations from Live Search <span
                 class="loading-spin-progress ml-2"></span></div>
@@ -103,7 +104,7 @@
                           <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
                             [disabled]="value.fieldValue===''"
                             [ngStyle]="{'background':value.fieldValue!==''?'white':'#EFF0F1'}">{{value.templateType===''?'Select
-                            Template':value.templateType}}</button>
+                            Template':(value.templateType|titlecase)}}</button>
                           <ul class="dropdown-menu content-menu">
                             <li *ngFor="let template of templateNames"
                               (click)="value.templateType=template;getTemplateData(template,i)">
@@ -161,9 +162,10 @@
             <div class="kr-sg-dropdowns">
               <div class="dropdown dropdown-open">
                 <button class="dropdown-toggle dropdown-input"
-                  data-toggle="dropdown">{{resultListObj?.defaultTemplateType}}</button>
+                  data-toggle="dropdown">{{resultListObj?.defaultTemplateType|titlecase}}</button>
                 <ul class="dropdown-menu content-menu">
-                  <li *ngFor="let template of templateNames" (click)="getTemplateData(template)"><a>{{template}}</a>
+                  <li *ngFor="let template of templateNames" (click)="getTemplateData(template)">
+                    <a>{{template|titlecase}}</a>
                   </li>
                 </ul>
               </div>
@@ -214,15 +216,19 @@
                   <label [for]="facet.type" class="radio-custom-label">{{facet.name}}</label>
                 </div>
               </div>
-              <div class="img-info">
+              <div class="img-info" *ngIf="!searchTemplatesDisabled">
                 <img src="assets/icons/resultTemplate/top-aligned.png"
                   *ngIf="resultListObj.facetsSetting.aligned==='top'">
                 <img src="assets/icons/resultTemplate/lef-aligned.png"
                   *ngIf="resultListObj.facetsSetting.aligned==='left'">
                 <img src="assets/icons/resultTemplate/right-aligned.png"
                   *ngIf="resultListObj.facetsSetting.aligned==='right'">
-                <!-- <img src="assets/icons/resultTemplate/top-down-left-aligned.png">
-                <img src="assets/icons/resultTemplate/top-down-top-aligned.png"> -->
+              </div>
+              <div class="img-info" *ngIf="searchTemplatesDisabled">
+                <img src="assets/icons/resultTemplate/top-down-left-aligned.png"
+                  *ngIf="resultListObj.facetsSetting.aligned==='left'">
+                <img src="assets/icons/resultTemplate/top-down-top-aligned.png"
+                  *ngIf="resultListObj.facetsSetting.aligned==='top'">
               </div>
             </div>
           </ng-container>

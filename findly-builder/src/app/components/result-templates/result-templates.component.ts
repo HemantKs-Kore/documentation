@@ -170,10 +170,17 @@ export class ResultTemplatesComponent implements OnInit {
   searchlist(type, valToSearch, filedData) {
     let data = []
     filedData.filter(element => {
-      if (element.fieldName.includes(valToSearch)) {
+      var filedNamelower = element.fieldName.toLocaleLowerCase();
+      var valToSearchlower = valToSearch.toLocaleLowerCase();
+      if (filedNamelower.includes(valToSearchlower)) {
         data.push(element)
       }
     });
+    // filedData.filter(element => {
+    //   if (element.fieldName.includes(valToSearch)) {
+    //     data.push(element)
+    //   }
+    // });
     if (valToSearch) {
       if (type == 'heading') {
         this.heading_fieldData = [...data]
@@ -203,6 +210,9 @@ export class ResultTemplatesComponent implements OnInit {
       if (this.searchExperienceConfig && this.searchExperienceConfig.experienceConfig && this.searchExperienceConfig.experienceConfig.searchBarPosition) {
         this.searchTemplatesDisabled = this.searchExperienceConfig.experienceConfig.searchBarPosition === 'top' ? true : false;
         this.getAllSettings(this.selectedTab);
+        if (this.searchTemplatesDisabled) {
+          this.filterFacets = this.filterFacets.filter(res => res.type !== 'right');
+        }
       }
     }
     else {
