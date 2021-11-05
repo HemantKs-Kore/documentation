@@ -11166,7 +11166,7 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     left: 0px;
     top: 10px;
 }
-span .highlightText {
+span.highlightText,.highlightText {
     font-weight: bolder !important;
 }
 .searchAssist-kore-chat-window .accordion .highlightText {
@@ -11607,7 +11607,9 @@ padding: 0;
     display: inline-block;
     width: 100%;
 }
-
+.searchAssist-kore-chat-window.search-container li.fromOtherUsers.with-icon .buttonTmplContent{
+    margin-top: 25px;
+}
 .searchAssist-kore-chat-window.search-container .buttonTmplContent .buttonTmplContentHeading.quickReply {
     display: table;
     font-size: 14px;
