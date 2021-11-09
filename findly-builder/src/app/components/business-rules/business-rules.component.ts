@@ -681,6 +681,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
   }
   getFieldAutoComplete(event, outcomeObj) {
+    if($('#searchBoxId') && $('#searchBoxId').length){
+      $('#searchBoxId')[0].value = "";
+    }
     let query: any = '';
     if (event) {
       query = $(event.currentTarget).val();

@@ -63,7 +63,7 @@
                 box-sizing: border-box;
                 box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
                 border-radius: 6px;
-                padding: 18px;
+                padding: 14px;
                 min-height: 119px;
                 position: relative;
                 .title{
@@ -73,6 +73,9 @@
                     margin-bottom: 10px;
                     span{
                         color: #9AA0A6;
+                    }
+                    img{
+                        cursor: pointer;
                     }
                 }
                 .count-graph-data{
