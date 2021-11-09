@@ -527,6 +527,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   getCrawledPages(limit, skip) {
+    this.pagingData = [];
     this.docContent = {};
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
