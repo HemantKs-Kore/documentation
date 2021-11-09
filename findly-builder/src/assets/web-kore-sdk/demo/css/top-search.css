@@ -757,6 +757,7 @@ body.top-down .top-down-wrapper{
   text-overflow: ellipsis;
   padding-right: 0;
   max-width: 86%;
+  text-transform: capitalize;
 }
 
 .sdk-top-down-interface .category-wise-container .kr-sg-checkbox .checkbox-custom + .checkbox-custom-label::before{
@@ -986,31 +987,38 @@ body.top-down .top-down-wrapper{
   background: #fff;
 }
 .topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box .suggestion-box.highlightSuggestion {
-  background: var(--sdk-white-bg);
-  border: 1px solid var(--sdk-border-silver-sand-color);
-  box-sizing: border-box;
-  border-radius: 20px;
+  background: #EFF0F1;
 }
-.topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box .suggestion-box:hover {
-  background: var(--sdk-white-bg);
-  border: 1px solid var(--sdk-border-silver-sand-color);
+.topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box .suggestion-box:hover .sugg-query-box {
+  /* background: var(--sdk-white-bg);
+  border: 1px solid var(--sdk-border-silver-sand-color); */
   box-sizing: border-box;
-  border-radius: 20px;
+  /* border-radius: 20px; */
+  background: #EFF0F1;
+
 }
 .topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box .suggestion-box {
-  padding: 1px 0px 1px 11px;
-  margin: 10px 0;
+  /* padding: 1px 0px 1px 11px; */
+  margin: 5px 0;
   position: relative;
   color: var(--sdk-dusty-gray-color);
   cursor: pointer;
   border: 1px solid var(--sdk-white-bg);
 }
 .topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box .suggestion-box .sugg-query-box {
-  color: var(--sdk-shark-black-color);
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 22px;
   margin: 0;
+  position: relative;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: #3C4043;
+  padding: 6px 10px 6px 30px;
+  border-radius: 5px;
+}
+.topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box .suggestion-box .sugg-query-box img{
+  position: absolute;
+  left: 7px;
+  top: 10px;
 }
 .topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box .suggestion-box .query-box {
   font-weight: normal;
@@ -1227,6 +1235,7 @@ body.top-down .top-down-wrapper{
   font-size: 12px;
   line-height: 20px;
   margin-right: 10px;
+  text-transform: capitalize;
 }
 
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .filters-added-data .filter-tag-content .close-filter-tag{
