@@ -9142,6 +9142,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.attachment').html('');
         $('.kore-chat-window').removeClass('kore-chat-attachment');
         document.getElementById("captureAttachmnts").value = "";
+        _self.vars.searchObject.searchText = chatInput.text();
       } else {
         attachmentInfo = {};
         msgData = {
@@ -9153,6 +9154,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }],
           "createdOn": clientMessageId
         };
+        _self.vars.searchObject.searchText = chatInput;
       }
 
       var messageToBot = {};
