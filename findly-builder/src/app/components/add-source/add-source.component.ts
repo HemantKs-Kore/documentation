@@ -78,6 +78,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   crawlDepth: number;
   maxUrlLimit: number;
   botsConfigurationModalRef: any;
+  removedArr=[];
   submitted = false;
   showPassword = false;
   url_failed: boolean = false;
@@ -614,18 +615,19 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
       //For deleting unacceptable files while uploading
-      else if (this.extension != ['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx']) {
-        this.filesListData.forEach(element => {
-          if (element.file_ext != ['pdf', 'doc', 'ppt', 'xlsx', 'txt', 'docx']) {
-            if (index === this.filesListData.indexOf(element)) {
-              this.filesListData.splice(element, 1);
-            }
-            showProg = true
-          }
+      // else if (!['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx'].includes(this.extension)) {
+      //   this.multipleFileArr.forEach(element => {
+      //     if (!['pdf', 'doc', 'ppt', 'xlsx', 'txt', 'docx'].includes(element.file_ext)) {
+      //       this.multipleFileArr.splice(element, 1);
+      //     }
+      //   });
+      //   this.notificationService.notify(this.extension + ' file is not valid. Hence rejecting.', 'error')
+      //   showProg = true
+      //   // if (element.file_ext != ['pdf', 'doc', 'ppt', 'xlsx', 'txt', 'docx']) {
+      //   // if (index === this.multipleFileArr.indexOf(element)) {
+      //   // }
 
-        });
-
-      }
+      // }
       else {
         $('#sourceFileUploader').val(null);
         this.notificationService.notify('Please select a valid file', 'error');
@@ -683,6 +685,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (event && event.target && event.target.files && event.target.files.length <= 10) {
       for (let i = 0; i <= event.target.files.length; i++) {
         if (event && event.target && event.target.files && event.target.files.length && event.target.files[i] && event.target.files[i].name) {
+          this.showProgressBar =true
           const _ext = event.target.files[i].name.substring(event.target.files[i].name.lastIndexOf('.'));
           // this.extension = _ext
           let fileObj = {
@@ -700,9 +703,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
     }
-    else {
-      this.notificationService.notify('More than 10 files can not be uploaded at once.', 'error')
-    }
+    // else {
+    //   this.notificationService.notify('More than 10 files can not be uploaded at once.', 'error')
+    // }
     this.multipleFileArr = [...fileArr];
     fileArr.forEach((element, index) => {
       this.showProgValidation(element, event, index)
@@ -714,7 +717,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   fileChangeListener(event) {
     this.newSourceObj.url = '';
     let fileName = '';
-    this.showProgressBar = true;
+    console.log(this.filesListData, this.multipleData)
+    // this.showProgressBar = true;
     if (event && event.target && event.target.files && event.target.files.length && event.target.files[0].name) {
       // fileName = event.target.files[0].name;
       this.multipleFileChangeListner(event)
@@ -816,12 +820,51 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filesListData = Array.from(input.files)
     this.multipleData.type = "bulk";
     this.multipleData.files = [];
-    this.filesListData.forEach(fileDataElement => {
-      // while (!this.multipleFileFlag){
-      const _ext = fileDataElement.name.substring(fileDataElement.name.lastIndexOf('.'));
-      this.fileRequestBody(input, _ext.replace('.', ''), files, resourceType_import, fileDataElement);
+    this.filesListData.forEach(element => {
+        if(element.size > 15728640){  //Size is in bytes (1 byte = 9.5367431640625×10-7 MB => 15728640 bytes = 15MB)
+          this.filesListData =[];
+          this.notificationService.notify('Individual file size cannot be more than 15 MB','error')
+        }
+      });
+    //For deleting unacceptable files while uploading
+    // if (this.multipleFileArr.length != this.filesListData.length) {
+    //   this.filesListData.forEach(filesListDataElement => {
+    //     let filesListDataElement_ext = filesListDataElement.name.substring(filesListDataElement.name.lastIndexOf('.'))
+    //     if (!['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx'].includes(filesListDataElement_ext)) {
+    //       // if(filesListDataElement.name.substring(filesListDataElement.name.lastIndexOf('.')) === 'csv' || filesListDataElement.name.substring(filesListDataElement.name.lastIndexOf('.')) === 'json'){
+    //       // if(multipleArrElement.fileName != filesListDataElement.name){
+    //       this.filesListData.splice(filesListDataElement, 1);
+    //     }
+      //    if(index){
+      //   this.filesListData.splice(index, 1)
+      //   // this.multipleFilePayloadForRemovalOfFile(this.filesListData);
+      //   this.notificationService.notify('Selected file is removed.','success')
       // }
-    });
+
+        // this.filesListData.splice(filesListDataElement, 1);
+
+    //   });
+    // }
+    if (this.multipleFileArr.length === this.filesListData.length) {
+      this.filesListData.forEach(fileDataElement => {
+        const _ext = fileDataElement.name.substring(fileDataElement.name.lastIndexOf('.'));
+        this.fileRequestBody(input, _ext.replace('.', ''), files, resourceType_import, fileDataElement);
+        //Independant file loader
+        if(this.multipleData.files.length != 0){
+          this.multipleData.files.forEach(dataElement => {
+            if(fileDataElement.name === dataElement.name){
+              if(dataElement.fileId){
+                this.showProgressBar = false;
+              }
+            }
+            
+          });
+        }
+        
+        
+      });
+    }
+
   }
 
   //payload for single file upload to loop while uploading multiple files//
@@ -845,27 +888,30 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.service.invoke('post.fileupload', quaryparms, payload).subscribe(
       res => {
         this.fileObj.fileId = res.fileId;
+       
+        
         let obj = {
           name: fileDataElement.name,
           fileId: this.fileObj.fileId
         }
         this.multipleData.files.push(obj);
+        //Independent file loader
+        // this.filesListData.forEach(listElement => {
+        //   this.multipleData.files.forEach(dataElement => {
+        //     if(listElement.name === dataElement.name){
+        //       if(dataElement.fileId){
+        //         this.showProgressBar = false;
+        //       }
+        //     }
+        //   });
+          
+        // });
         // To show the notification after all the files are uploaded
-        // for (let i = 0; i <= this.multipleFileArr.length; i++) {
-          // this.multipleData.files.forEach(element => {
-          //   if(element.fileId){
-          //     this.showProgressBar = false;
-          //   }
-          //  else if(!element.fileId){
-          //   this.showProgressBar = true;
-          //  }
-          // });
-           // To show the notification after all the files are uploaded
-          if (this.multipleData.files.length === this.multipleFileArr.length) {
-            let statusMessage = this.multipleFileArr.length + ' files uploaded successfully'
-            this.notificationService.notify(statusMessage, 'success');
-            this.showProgressBar = false;
-          }
+        if (this.multipleData.files.length === this.multipleFileArr.length) {
+          let statusMessage = this.multipleFileArr.length + ' files uploaded successfully'
+          this.notificationService.notify(statusMessage, 'success');
+          this.showProgressBar = false;
+        }
       },
       errRes => {
         this.fileObj.fileUploadInProgress = false;
@@ -946,8 +992,25 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       fileUploadError: false,
     }
   }
+
   removeFile(index?) {
-    this.filesListData.splice(index, 1)
+     //To remove multiple files (In content)
+     if(this.multipleFileArr.length > 1){
+      if(index){
+        this.removedArr.push(this.filesListData[index])
+        this.filesListData.splice(index, 1)
+        // this.multipleFilePayloadForRemovalOfFile(this.filesListData);
+        this.removedArr.forEach(removedElement=> {
+          this.notificationService.notify(removedElement.name +' is removed.','success')
+        })
+        
+      }
+     }
+    //To remove single file
+    else{
+      $('#sourceFileUploader').val('');
+      this.resetfileSource()
+    }
     // $('#sourceFileUploader').replaceWith($('#sourceFileUploader').val('').clone(true));
     // this.resetfileSource()
     // this.service.invoke('post.fileupload').subscribe().unsubscribe();
@@ -1012,8 +1075,32 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     else if (this.selectedSourceType.resourceType == "file" || this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == "") {
       // if (this.newSourceObj.name) {
       if (this.selectExtractType == 'file') {
-        if (this.fileObj.fileId || this.multipleFileArr.length) {
-          this.proceedSource()
+        if (this.multipleFileArr.length === 1) {
+          if (this.fileObj.fileId) {               //|| this.multipleFileArr.length
+            this.proceedSource()
+          }
+        }
+
+         //For deleting unacceptable files while uploading
+        else if (this.multipleFileArr.length > 1) {
+          if (this.multipleData.files.length != this.filesListData.length) {
+            let parentArr = [...this.removedArr];
+            let childArr = [...this.multipleData.files];
+            parentArr.forEach(parentArrElement => {
+              childArr.forEach((childElement, index) => {
+                if (parentArrElement.name === childElement.name) {
+                  childArr.splice(index, 1)
+                }
+
+              })
+
+
+            })
+            this.multipleData.files = [...childArr]
+            console.log(this.multipleData.files)
+          }
+
+          this.multiplefileupload(this.multipleData)
         }
         else {
           this.btnDisabled = false;
@@ -1052,6 +1139,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       $("#extractUrl").css("border-color", this.newSourceObj.url != '' ? "#BDC1C6" : "#DD3646");
     }
   }
+
   proceedSource() {
     let payload: any = {};
     let schdVal = true;
@@ -1152,10 +1240,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       if (resourceType === 'file') {
-        if (this.fileObj.fileId) {
-          payload.fileId = this.fileObj.fileId;
-          if (payload.url == '') delete payload.url;
+        if(this.filesListData.length === 1){
+          if (this.fileObj.fileId) {
+            payload.fileId = this.fileObj.fileId;
+            if (payload.url == '') delete payload.url;
+          }
         }
+        else {
+          this.multiplefileupload(this.multipleData);
+        }
+       
         if (this.selectedSourceType.sourceType === 'faq') {
           payload.extractionType = "basic";
           if (payload.hasOwnProperty('url')) delete payload.url;
@@ -1221,10 +1315,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       // this.callWebCraller(this.crwalObject,searchIndex)
     }
-    if (this.files && this.files.length > 1) {
-      this.multiplefileupload(this.multipleData);
-    }
-
   }
   //upgrade plan
   upgrade() {
