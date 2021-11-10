@@ -429,7 +429,7 @@
                                 <div class="row m-0 response-content-sec">
                                     <div class="col-2 p-0 title">Response</div>
                                     <div class="col-10 row m-0 align-items-center right-side-sec pr-0" [ngClass]="{activeDrop: currentEditInex === index}">
-                                        <div class="kr-sg-dropdowns col-4 pl-0" ngbDropdown (click)="currentEditInex = index;getFieldAutoComplete(null, null)">
+                                        <div class="kr-sg-dropdowns col-4 pl-0" ngbDropdown (click)="currentEditInex = index;getFieldAutoComplete(null, null,'clearText')">
                                             <div class="dropdown dropdown-open">
                                                 <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
                           {{outcomeObj.fieldName? outcomeObj.fieldName : "Choose field"}}
@@ -437,7 +437,7 @@
                                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu style="overflow-y: hidden;">
                                                     
                                                     <li class="search-box">
-                                                        <input id="searchBoxId" autocomplete = "false" type="text" (keydown)="$event.stopPropagation()" (keyup)="getFieldAutoComplete($event,outcomeObj)" placeholder="Search" class="seach-input" />
+                                                        <input id="searchBoxId" autocomplete="off" type="text" (keydown)="$event.stopPropagation()" (keyup)="getFieldAutoComplete($event,outcomeObj)" placeholder="Search" class="seach-input" />
                                                     </li>
                                                     <perfect-scrollbar class="empty-scroll" style="max-height: 189px !important;">
                                                     <ng-container *ngIf="fieldAutoSuggestion && fieldAutoSuggestion.length">
