@@ -226,7 +226,7 @@ export class StructuredDataComponent implements OnInit {
       element.objectValues = [];
       Object.keys(element._source).forEach((key: any, index) => {
         let nested = false;
-        if (key && (typeof element._source[key] === 'object')) {
+        if (key && (typeof element._source[key] === 'object') && (typeof element._source[key] != null)) {
           nested = true;
         }
         else {
@@ -251,7 +251,7 @@ export class StructuredDataComponent implements OnInit {
             expandedValue: element._source[key],
             nested: nested,
             expanded: false,
-            valuesLength: nested ? (Object.values(element._source[key]).length) : 1
+            valuesLength: nested ? element._source[key] ? (Object.values(element._source[key]).length) :null : 1
           });
         }
       });
@@ -261,7 +261,7 @@ export class StructuredDataComponent implements OnInit {
 
   getNestedElements(element) {
     let objectValues = [];
-    if ((typeof element === 'object'))
+    if ((typeof element === 'object') && element != null)
       Object.keys(element).forEach((key: any, index) => {
         let nested = false;
         if (key && (typeof element[key] === 'object')) {
