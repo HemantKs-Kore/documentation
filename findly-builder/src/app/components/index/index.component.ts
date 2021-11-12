@@ -95,6 +95,19 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     },
   }
   entityNlp = [
+    // { title: 'Date', value: 'DATE', isDepricated: false },
+    // { title: 'Time', value: 'TIME', isDepricated: false },
+    // { title: 'URL', value: 'URL', isDepricated: false },
+    // { title: 'Email', value: 'EMAIL', isDepricated: false },
+    // { title: 'Location', value: 'LOCATION', isDepricated: false },
+    // { title: 'City', value: 'CITY', isDepricated: false },
+    // { title: 'Country', value: 'COUNTRY', isDepricated: false },
+    // { title: 'Company Name or Organization', value: 'ORGANIZATION', isDepricated: false },
+    // { title: 'Currency', value: 'MONEY', isDepricated: false },
+    // { title: 'Person Name', value: 'PERSON', isDepricated: false },
+    // { title: 'Number', value: 'NUMBER', isDepricated: false },
+    // { title: 'Percentage', value: 'PERCENTAGE', isDepricated: false },
+/** Existing  */
     { title: 'Date', value: 'date', isDepricated: false },
     { title: 'Time', value: 'time', isDepricated: false },
     { title: 'Date Time', value: 'datetime', isDepricated: false },
@@ -115,7 +128,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     { title: 'Quantity', value: 'quantityv2', isDepricated: false },
     { title: 'Address', value: 'address', isDepricated: false },
     { title: 'Airport', value: 'airport', isDepricated: false },
-
+/** Existing  */
     // { title: 'Attachment(Image / File)', value: 'attachment', isDepricated: false },
     // {"title": "City (Advanced)", "value": "cityAdv", "isDepricated": false},
     // {"title": "City with Geo Coordinates", "value": "city_coordinates"},
