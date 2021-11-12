@@ -408,14 +408,35 @@
                 </div>
                 <div class="col-6 box-content">
                     <div class="full-card pb-4">
-                        <div class="title-card">{{'metrics.dash_board_view.Feedback'| translate}}</div>
-                        <!-- <div class="empty-feedback">
-                            <div class="position-relative">
-                                <img src="assets/icons/overview/comming-soon.svg">
-                                <div class="title-empty">Coming Soon</div>
+                        <div class="row col-12">
+                            <div class="title-card">{{'metrics.dash_board_view.Feedback'| translate}}
+                                <img src="assets/icons/help.svg" placement="top-center"
+                                    ngbTooltip="{{'metrics.dash_board_view.feedback_tooltip' | translate}}"
+                                    [container]="'body'" tooltipClass="dashboard-custom-tooltips" />
                             </div>
-                        </div> -->
-                        <div class="row col-12 m-0 p-0">
+                            <div class="slider">
+                                <label class="kr-sg-toggle">
+                                    <input type="checkbox" (change)="updateFeedback()"
+                                        [(ngModel)]="searchExperienceConfig?.interactionsConfig.feedbackExperience.queryLevel">
+                                    <div class="slider"><span class="enabled">{{'metrics.dash_board_view.enable' |
+                                            translate}}</span><span class="disabled">{{'metrics.dash_board_view.disable'
+                                            |
+                                            translate}}</span></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="empty-feedback"
+                            *ngIf="!(searchExperienceConfig?.interactionsConfig?.feedbackExperience?.queryLevel)">
+                            <div class="position-relative">
+                                <img src="assets/icons/dashboard/feedback_empty.png">
+                            </div>
+                            <div class="title-empty">
+                                <span>No user feedback available as of now,</span>
+                                <p>Try enabling feedback for start receiving feedback.</p>
+                            </div>
+                        </div>
+                        <div class="row col-12 m-0 p-0"
+                            *ngIf="(searchExperienceConfig?.interactionsConfig?.feedbackExperience?.queryLevel)">
                             <div class="col-6 m-0 p-0 legends_sec_piechart">
                                 <div echarts [options]="feedbackPieSearches" class="pie-chart-graph"></div>
                                 <div class="legend-data col-12 p-0">

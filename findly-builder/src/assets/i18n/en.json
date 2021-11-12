@@ -330,6 +330,8 @@
             "total_searches": "Total Searches",
             "search_trends": "Search Trends",
             "result_rate": "Searches with Results",
+            "enable": "Enable",
+            "disable": "Disable",
             "ctr": "Click-Through Rate",
             "clicks": "Clicks",
             "24_Hrs": "24 Hrs",
@@ -353,7 +355,8 @@
             "Number_of_Clicks": "Number of Clicks",
             "Feedback": "Feedback",
             "Useful_Result": "Positive Feedback",
-            "Not_Useful_Result": "Negative Feedback"
+            "Not_Useful_Result": "Negative Feedback",
+            "feedback_tooltip": "Enabling Result feedback allows your end users rate the relevancy of results provided for a search query.Once enabled insights will be available in 'Search Insights' under the Analytics Section"
         },
         "user_engagement": {
             "User_Engagement": "User Engagement",
@@ -1145,7 +1148,11 @@
         "experience": "Experience",
         "search_widget": "Search Widget",
         "interactions": "Interactions",
+        "feedback": "Results Feedback",
+        "enabled": "Enabled",
+        "disabled": "Disabled",
         "top_down": "Top Down",
+        "feedback_tooltip": "Enabling Result feedback allows your end users rate the relevancy of results provided for a search query.Once enabled insights will be available in 'Search Insights' under the Analytics Section",
         "searchBar_at_the_top": "Search Bar at the top",
         "bottom_up": "Bottom Up",
         "search_bar": "Search Bar",

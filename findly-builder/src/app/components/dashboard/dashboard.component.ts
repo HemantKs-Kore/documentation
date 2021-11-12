@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
@@ -7,13 +7,16 @@ import { Router } from '@angular/router';
 import { Moment } from 'moment';
 import * as moment from 'moment-timezone';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
+import { Subscription } from 'rxjs';
+import { SideBarService } from '@kore.services/header.service';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 declare const $: any;
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   selectedApp;
   serachIndexId;
   pageLimit = 5;
@@ -73,18 +76,27 @@ export class DashboardComponent implements OnInit {
   defaultSelectedDay = 7;
   showDateRange: boolean = false;
   componentType: string = 'addData';
+  searchExperienceConfig: any;
+  searchConfigurationSubscription: Subscription;
+  appSubscription: Subscription;
+  indexPipelineId: string;
   selected: { startDate: Moment, endDate: Moment } = { startDate: this.startDate, endDate: this.endDate }
   @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
   @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private router: Router,
+    public headerService: SideBarService,
+    private appSelectionService: AppSelectionService,
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    this.appSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+      this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    })
     //this.userEngagementChart();
 
     // this.feedback();
@@ -99,9 +111,9 @@ export class DashboardComponent implements OnInit {
     this.getQueries("TopSearchResults");
     this.getQueries("MostClickedPositions");
     this.getQueries("FeedbackStats");
-
-
-
+    this.searchConfigurationSubscription = this.headerService.savedSearchConfiguration.subscribe((res) => {
+      this.searchExperienceConfig = res;
+    });
   }
   viewAll(route, searchType?) {
     this.workflowService.mainMenuRouter$.next(route);
@@ -652,7 +664,7 @@ export class DashboardComponent implements OnInit {
         color: colorPaletteSearch,
         hoverAnimation: false,
         center: ['50%', '50%'],
-        data: [30, 70],//[this.feedbackStats.thumbsDownCount + this.feedbackStats.thumbsUpCount, this.feedbackStats.totalSearches]
+        data: [this.feedbackStats.percentages.totalSearchesPercent, this.feedbackStats.percentages.feedbackReceivedPercent],
         label: {
           show: true,
           position: 'inner',
@@ -671,7 +683,7 @@ export class DashboardComponent implements OnInit {
         color: colorPaletteResult,
         hoverAnimation: false,
         center: ['50%', '50%'],
-        data: [60, 40], //[this.feedbackStats.feedBackReceived, this.feedbackStats.notUsefulResult]
+        data: [this.feedbackStats.percentages.negativeFeedbackPercent, this.feedbackStats.percentages.postitiveFeedbackPercent],
         label: {
           show: true,
           position: 'inner',
@@ -683,6 +695,27 @@ export class DashboardComponent implements OnInit {
       ]
     };
 
+  }
+  //feedback slider update
+  updateFeedback() {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId
+    };
+    const payload = this.searchExperienceConfig;
+    this.service.invoke('put.searchexperience', quaryparms, payload).subscribe(res => {
+      this.notificationService.notify('Updated successfully', 'success');
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
+  }
+  ngOnDestroy() {
+    this.searchConfigurationSubscription ? this.searchConfigurationSubscription.unsubscribe() : false;
+    this.appSubscription ? this.appSubscription.unsubscribe() : false;
   }
   // busyHours(){
   //   let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];

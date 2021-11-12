@@ -45,7 +45,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       "buttonPlacementPosition": 'inside'
     },
     "searchInteractionsConfig": {
-      "feedbackExperience": { resultLevel: true, queryLevel: false },
+      "feedbackExperience": { queryLevel: false },
       "welcomeMsg": "Hi, How can I help you",
       "welcomeMsgColor": "#000080",
       "welcomeMsgFillColor": "#EFF0F1",
@@ -92,6 +92,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   show_tab_color: boolean = false;
   show_tab_color1: boolean = false;
   show_tab_color2: boolean = false;
+  show_tab_color3: boolean = false;
   minWidth: number = 200;
   width: number = this.minWidth;
   componentType: string = 'designing';
@@ -114,159 +115,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       6: 'Dark Skin Tone',
     }
   }
-  emojiList = [
-    { img_src: 'assets/icons/search-experience/emojis/smile.png', value: "smile" },
-    { img_src: 'assets/icons/search-experience/emojis/smile-2.png', value: 'smile-2' },
-    { img_src: 'assets/icons/search-experience/emojis/smile-3.png', value: 'smile-3' },
-    { img_src: 'assets/icons/search-experience/emojis/smile-4.png', value: 'smile-4' },
-    { img_src: 'assets/icons/search-experience/emojis/smile-5.png', value: 'smile-5' },
-    { img_src: 'assets/icons/search-experience/emojis/smile-6.png', value: 'smile-6' },
-    { img_src: 'assets/icons/search-experience/emojis/cat-img.png', value: 'cat' },
-    { img_src: 'assets/icons/search-experience/emojis/love.png', value: 'love' },
-    {
-      img_src: 'assets/icons/search-experience/emojis/hand.png',
-      selected: 'assets/icons/search-experience/emojis/hand.png',
-      value: 'hand',
-      multiple: true,
-      emoji_set: [
-        'assets/icons/search-experience/emojis/hand.png',
-        'assets/icons/search-experience/emojis/hand-varient-2.png',
-        'assets/icons/search-experience/emojis/hand-varient-3.png',
-        'assets/icons/search-experience/emojis/hand-varient-4.png',
-        'assets/icons/search-experience/emojis/hand-varient-5.png',
-        'assets/icons/search-experience/emojis/hand-varient-6.png',
-      ]
-    },
-    {
-      img_src: 'assets/icons/search-experience/emojis/hand-1.png',
-      selected: 'assets/icons/search-experience/emojis/hand-1.png',
-      value: 'hand-1',
-      multiple: true,
-      emoji_set: [
-        'assets/icons/search-experience/emojis/hand-1.png',
-        'assets/icons/search-experience/emojis/hand-1-varient-2.png',
-        'assets/icons/search-experience/emojis/hand-1-varient-3.png',
-        'assets/icons/search-experience/emojis/hand-1-varient-4.png',
-        'assets/icons/search-experience/emojis/hand-1-varient-5.png',
-        'assets/icons/search-experience/emojis/hand-1-varient-6.png',
-      ]
-    },
-    {
-      img_src: 'assets/icons/search-experience/emojis/hand-2.png',
-      selected: 'assets/icons/search-experience/emojis/hand-2.png',
-      value: 'hand-2',
-      multiple: true,
-      emoji_set: [
-        'assets/icons/search-experience/emojis/hand-2.png',
-        'assets/icons/search-experience/emojis/hand-2-varient-2.png',
-        'assets/icons/search-experience/emojis/hand-2-varient-3.png',
-        'assets/icons/search-experience/emojis/hand-2-varient-4.png',
-        'assets/icons/search-experience/emojis/hand-2-varient-5.png',
-        'assets/icons/search-experience/emojis/hand-2-varient-6.png',
-      ]
-    },
-    {
-      img_src: 'assets/icons/search-experience/emojis/poke.png',
-      selected: 'assets/icons/search-experience/emojis/poke.png',
-      value: 'poke',
-      multiple: true,
-      emoji_set: [
-        'assets/icons/search-experience/emojis/poke.png',
-        'assets/icons/search-experience/emojis/poke-varient-2.png',
-        'assets/icons/search-experience/emojis/poke-varient-3.png',
-        'assets/icons/search-experience/emojis/poke-varient-4.png',
-        'assets/icons/search-experience/emojis/poke-varient-5.png',
-        'assets/icons/search-experience/emojis/poke-varient-6.png',
-      ]
-    },
-    {
-      img_src: 'assets/icons/search-experience/emojis/thubsup.png',
-      selected: 'assets/icons/search-experience/emojis/thubsup.png',
-      value: 'thumsup',
-      multiple: true,
-      emoji_set: [
-        'assets/icons/search-experience/emojis/thubsup.png',
-        'assets/icons/search-experience/emojis/thubsup-varient-2.png',
-        'assets/icons/search-experience/emojis/thubsup-varient-3.png',
-        'assets/icons/search-experience/emojis/thubsup-varient-3.png',
-        'assets/icons/search-experience/emojis/thubsup-varient-4.png',
-        'assets/icons/search-experience/emojis/thubsup-varient-5.png',
-      ]
-    },
-    {
-      img_src: 'assets/icons/search-experience/emojis/welcome.png',
-      selected: 'assets/icons/search-experience/emojis/welcome.png',
-      value: 'welcome',
-      multiple: true,
-      emoji_set: [
-        'assets/icons/search-experience/emojis/welcome.png',
-        'assets/icons/search-experience/emojis/welcome-varient-2.png',
-        'assets/icons/search-experience/emojis/welcome-varient-3.png',
-        'assets/icons/search-experience/emojis/welcome-varient-4.png',
-        'assets/icons/search-experience/emojis/welcome-varient-5.png',
-        'assets/icons/search-experience/emojis/welcome-varient-6.png',
-      ]
-    },
-    {
-      img_src: 'assets/icons/search-experience/emojis/men-avatar.png',
-      selected: 'assets/icons/search-experience/emojis/men-avatar.png',
-      value: 'men-avatar',
-      multiple: true,
-      emoji_set: [
-        'assets/icons/search-experience/emojis/men-avatar.png',
-        'assets/icons/search-experience/emojis/men-avatar-varient-2.png',
-        'assets/icons/search-experience/emojis/men-avatar-varient-3.png',
-        'assets/icons/search-experience/emojis/men-avatar-varient-4.png',
-        'assets/icons/search-experience/emojis/men-avatar-varient-5.png',
-        'assets/icons/search-experience/emojis/men-avatar-varient-6.png',
-      ]
-    },
-    {
-      img_src: 'assets/icons/search-experience/emojis/women-avatar.png',
-      selected: 'assets/icons/search-experience/emojis/women-avatar.png',
-      value: 'women-avatar',
-      multiple: true,
-      emoji_set: [
-        'assets/icons/search-experience/emojis/women-avatar.png',
-        'assets/icons/search-experience/emojis/women-avatar-varient-2.png',
-        'assets/icons/search-experience/emojis/women-avatar-varient-3.png',
-        'assets/icons/search-experience/emojis/women-avatar-varient-4.png',
-        'assets/icons/search-experience/emojis/women-avatar-varient-5.png',
-        'assets/icons/search-experience/emojis/women-avatar-varient-6.png',
-      ]
-    },
-    {
-      img_src: 'assets/icons/search-experience/emojis/old-women.png',
-      selected: 'assets/icons/search-experience/emojis/old-women.png',
-      value: 'old-women',
-      multiple: true,
-      emoji_set: [
-        'assets/icons/search-experience/emojis/old-women.png',
-        'assets/icons/search-experience/emojis/old-women-varient-2.png',
-        'assets/icons/search-experience/emojis/old-women-varient-3.png',
-        'assets/icons/search-experience/emojis/old-women-varient-4.png',
-        'assets/icons/search-experience/emojis/old-women-varient-5.png',
-        'assets/icons/search-experience/emojis/old-women-varient-6.png',
-      ]
-    },
-    {
-      img_src: 'assets/icons/search-experience/emojis/old-men.png',
-      selected: 'assets/icons/search-experience/emojis/old-men.png',
-      value: 'old-men',
-      multiple: true,
-      emoji_set: [
-        'assets/icons/search-experience/emojis/old-men.png',
-        'assets/icons/search-experience/emojis/old-men-varient-2.png',
-        'assets/icons/search-experience/emojis/old-men-varient-3.png',
-        'assets/icons/search-experience/emojis/old-men-varient-4.png',
-        'assets/icons/search-experience/emojis/old-men-varient-5.png',
-        'assets/icons/search-experience/emojis/old-men-varient-6.png',
-      ]
-    },
-    { img_src: 'assets/icons/search-experience/emojis/monkey.png', value: 'monkey' },
-    { img_src: 'assets/icons/search-experience/emojis/monkey-1.png', value: 'monkey-1' },
-    { img_src: 'assets/icons/search-experience/emojis/monkey-2.png', value: 'monkey-2' }
-  ];
+
   submitted: boolean = false;
   searchSDKSubscription: Subscription;
   @ViewChild('hiddenText') textEl: ElementRef;
@@ -312,6 +161,9 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     } else if (this.selectedTab === 'experience') {
       this.show_tab_color = true;
     }
+    else if (this.selectedTab === 'feedback') {
+      this.show_tab_color3 = true;
+    }
     this.selectedTab = type;
     if (this.selectedTab === 'searchwidget') {
       this.show_tab_color1 = false;
@@ -320,6 +172,9 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.show_tab_color2 = false;
     } else if (this.selectedTab === 'experience') {
       this.show_tab_color = false;
+    }
+    else if (this.selectedTab === 'feedback') {
+      this.show_tab_color3 = false;
     }
   }
   closeAllBoxs(type) {
@@ -445,6 +300,11 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
         this.show_tab_color2 = true;
         this.selectedTab = 'searchwidget';
       }
+      else if (this.selectedTab === 'feedback') {
+        this.show_tab_color3 = false;
+        this.show_tab_color2 = true;
+        this.selectedTab = 'interactions';
+      }
     }
     else {
       if (this.selectedTab === 'experience') {
@@ -462,6 +322,11 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
         else {
           this.notificationService.notify('Enter the required fields to proceed', 'error');
         }
+      }
+      else if (this.selectedTab === 'interactions') {
+        this.show_tab_color2 = true;
+        this.show_tab_color3 = false;
+        this.selectedTab = 'feedback';
       }
     }
   }
@@ -764,7 +629,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   //based on searchicon and emoji send data method
   addSearchExperience() {
     this.closeAllBoxs('all');
-    this.show_tab_color2 = true;
+    this.show_tab_color3 = true;
     if (this.searchObject.searchExperienceConfig.searchBarPosition == 'top') {
       delete this.searchObject.searchInteractionsConfig.defaultStatus;
       delete this.searchObject.searchInteractionsConfig.welcomeMsgFillColor;

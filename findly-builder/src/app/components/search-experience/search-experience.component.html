@@ -21,6 +21,12 @@
                         [ngStyle]="show_tab_color2?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">3</span><span
                         class="name">{{'searchexperience.interactions' | translate}}</span></a>
             </li>
+            <li class="nav-item" (click)="selectTab('feedback')">
+                <a class="nav-link" [ngClass]="{'active':selectedTab==='feedback'}" data-toggle="tab"><span
+                        class="active-steps"
+                        [ngStyle]="show_tab_color3?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">4</span><span
+                        class="name">{{'searchexperience.feedback' | translate}}</span></a>
+            </li>
         </ul>
         <perfect-scrollbar class="scroll-data">
             <div class="tab-content" [ngSwitch]="selectedTab">
@@ -113,63 +119,6 @@
                                 <div class="hover-overlay-btn-img" (click)="buttonDisabled=false"
                                     *ngIf="buttonDisabled"><img src="assets/icons/search-experience/edit.svg"></div>
                             </button>
-                            <!-- <div [ngSwitch]="tourGuide">
-                            <div class="tour-guide-data" *ngSwitchCase="'step1'">
-                                <div class="close-guide" (click)="tourGuide=''">
-                                    <img src="assets/icons/search-experience/close-tour.svg">
-                                </div>
-                                <div class="title-info">{{'searchexperience.click_on_searchbox' | translate}}</div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="tour-length">{{'searchexperience.1_of_4' | translate}}</div>
-                                    <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step2'">{{'searchexperience.next' | translate}}</button>
-                                       
-                                    </div>
-                                </div>
-                            </div>  
-                            
-                            <div class="tour-guide-data search-tour-icon" *ngSwitchCase="'step2'">
-                                <div class="close-guide" (click)="tourGuide=''">
-                                    <img src="assets/icons/search-experience/close-tour.svg">
-                                </div>
-                                <div class="title-info">{{'searchexperience.click_search_icon' | translate}}</div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="tour-length">{{'searchexperience.2_of_4' | translate}}</div>
-                                    <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step3'">{{'searchexperience.next' | translate}}</button>
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step1'">{{'searchexperience.previous' | translate}}</button>
-                                    </div>
-                                </div>
-                            </div> 
-    
-                            <div class="tour-guide-data place-holder-text-tour" *ngSwitchCase="'step3'">
-                                <div class="close-guide" (click)="tourGuide=''">
-                                    <img src="assets/icons/search-experience/close-tour.svg">
-                                </div>
-                                <div class="title-info">{{'searchexperience.click_on_text' | translate}}</div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="tour-length">{{'searchexperience.3_of_4' | translate}}</div>
-                                    <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step4'">{{'searchexperience.next' | translate}}</button>
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step2'">{{'searchexperience.previous' | translate}}</button>
-                                    </div>
-                                </div>
-                            </div> 
-    
-                            <div class="tour-guide-data" *ngSwitchCase="'step4'" [ngClass]="[searchObject.searchExperienceConfig.searchBarPosition=='top'?'button-tour-top':'button-tour-bottom']">
-                                <div class="close-guide" (click)="updateTourConfig();tourGuide=''">
-                                    <img src="assets/icons/search-experience/close-tour.svg">
-                                </div>
-                                <div class="title-info">{{'searchexperience.click_on_button' | translate}}</div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="tour-length">{{'searchexperience.4_of_4' | translate}}</div>
-                                    <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="updateTourConfig()">{{'searchexperience.got_it' | translate}}</button>
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step3'">{{'searchexperience.previous' | translate}}</button>
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>                                                   -->
                         </div>
                         <div [ngSwitch]="selectSearch">
                             <div class="fill-colors-block" *ngSwitchCase="'inputBox'">
@@ -476,16 +425,6 @@
                                                                 [i18n]="configEmoji">
                                                             </emoji-mart>
                                                         </perfect-scrollbar>
-
-                                                        <!-- <li class="emoji-type" *ngFor="let emoji of emojiList">
-                                                        <img [src]="emoji.img_src" *ngIf="!emoji.multiple" [alt]="emoji.value" (click)="emojiIcon = emoji.img_src; emojiIconUpload('update')">
-                                                        <img [src]="emoji.selected" *ngIf="emoji.multiple" [alt]="emoji.value" (click)="emojiIcon = emoji.selected; emojiIconUpload('update')">
-                                                        <div class="nestead-emojies" *ngIf="emoji.multiple">
-                                                            <div class="img-block" *ngFor="let emoji_varient of emoji.emoji_set">
-                                                                <img [src]="emoji_varient" [alt]="emoji.value" (click)="emojiIcon = emoji_varient; emoji.selected = emoji_varient;emojiIconUpload('update')">
-                                                            </div>
-                                                        </div>
-                                                    </li> -->
                                                     </div>
                                                 </ul>
                                             </div>
@@ -493,10 +432,6 @@
                                     </div>
                                 </div>
                                 <div class="emojis-block">
-                                    <!-- <div class="emoji-img"><label for="myFileInput"><img [src]="emojiIcon" width="18" height="18">
-                                    <input type="file" style="display: none;" id="myFileInput" (change)="selectIcon($event,'emoji','auto')" /></label>
-                                </div>                                 -->
-
                                     <div class="d-flex">
                                         <div class="fill-colors-block mr-4 ml-4">
                                             <div class="fill-color">
@@ -758,19 +693,44 @@
                                             </app-range-slider-search-experience>
                                         </div>
                                     </div>
-
-                                    <!-- <div class="border-with-padding group-checkbox">
-                                    <div class="heading-title">Feedback Experience </div>
-                                    <div class="kr-sg-checkbox">
-                                        <input id="checkbox_grpb" class="checkbox-custom" type="checkbox" [checked]="searchObject.searchInteractionsConfig.feedbackExperience.resultLevel" [(ngModel)]="searchObject.searchInteractionsConfig.feedbackExperience.resultLevel">
-                                        <label for="checkbox_grpb" class="checkbox-custom-label">Result Level</label>
-                                    </div>
-                                    <div class="kr-sg-checkbox">
-                                        <input id="checkbox_grpc" class="checkbox-custom" type="checkbox" disabled>
-                                        <label for="checkbox_grpc" class="checkbox-custom-label">Query Level</label>
-                                    </div>
-                                </div> -->
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngSwitchCase="'feedback'">
+                    <div class="interactins-content col-12 p-0 row m-0">
+                        <div class="left-sec col-12 p-0 row m-0">
+                            <div class="col-3 pr-0">
+                                <div class="border-with-padding pt-0" style="border-bottom: none;">
+                                    <div class="label_text" style="margin-bottom: 15px;">
+                                        {{'searchexperience.feedback' | translate}}
+                                        <img src="assets/icons/help.svg"
+                                            ngbTooltip="{{'searchexperience.feedback_tooltip' | translate}}"
+                                            placement="bottom" [container]="'body'" />
+                                    </div>
+                                    <label class="kr-sg-toggle">
+                                        <input type="checkbox"
+                                            [(ngModel)]="searchObject.searchInteractionsConfig.feedbackExperience.queryLevel"
+                                            (change)="recentSearches()">
+                                        <div class="slider"><span class="enabled">{{'searchexperience.enabled' |
+                                                translate}}</span><span class="disabled">{{'searchexperience.disabled' |
+                                                translate}}</span></div>
+                                    </label>
+
+                                </div>
+                                <div>
+                                    <img src="assets/icons/search-experience/bottom-up-help.png"
+                                        *ngIf="searchObject.searchInteractionsConfig.feedbackExperience.queryLevel&&searchObject.searchExperienceConfig.searchBarPosition==='bottom'" />
+                                    <img src="assets/icons/search-experience/top-down-help.png"
+                                        *ngIf="searchObject.searchInteractionsConfig.feedbackExperience.queryLevel&&searchObject.searchExperienceConfig.searchBarPosition==='top'" />
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <img src="assets/icons/search-experience/top-down-feedback.png"
+                                    *ngIf="searchObject.searchInteractionsConfig.feedbackExperience.queryLevel&&searchObject.searchExperienceConfig.searchBarPosition==='top'" />
+                                <img src="assets/icons/search-experience/bottom-up-feedback.png"
+                                    *ngIf="searchObject.searchInteractionsConfig.feedbackExperience.queryLevel&&searchObject.searchExperienceConfig.searchBarPosition==='bottom'" />
                             </div>
                         </div>
                     </div>
@@ -782,9 +742,9 @@
         <button class="kr-sg-button-secondary btn_lg" (click)="nextTab('pre');closeAllBoxs('all');"
             *ngIf="selectedTab!='experience'">{{'searchexperience.previous' | translate}}</button>
         <button class="kr-sg-button-primary btn_lg" (click)="nextTab('nex');closeAllBoxs('all');"
-            *ngIf="selectedTab!=='interactions'">{{'searchexperience.next' | translate}}</button>
+            *ngIf="selectedTab!=='feedback'">{{'searchexperience.next' | translate}}</button>
         <button class="kr-sg-button-primary btn_lg" (click)="saveSearchExperience();closeAllBoxs('all');"
-            *ngIf="selectedTab=='interactions'">{{'searchexperience.done' | translate}}</button>
+            *ngIf="selectedTab=='feedback'">{{'searchexperience.done' | translate}}</button>
     </div>
 </div>
 
