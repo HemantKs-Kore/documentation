@@ -614,20 +614,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             showProg = true;
         }
       }
-      //For deleting unacceptable files while uploading
-      // else if (!['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx'].includes(this.extension)) {
-      //   this.multipleFileArr.forEach(element => {
-      //     if (!['pdf', 'doc', 'ppt', 'xlsx', 'txt', 'docx'].includes(element.file_ext)) {
-      //       this.multipleFileArr.splice(element, 1);
-      //     }
-      //   });
-      //   this.notificationService.notify(this.extension + ' file is not valid. Hence rejecting.', 'error')
-      //   showProg = true
-      //   // if (element.file_ext != ['pdf', 'doc', 'ppt', 'xlsx', 'txt', 'docx']) {
-      //   // if (index === this.multipleFileArr.indexOf(element)) {
-      //   // }
 
-      // }
       else {
         $('#sourceFileUploader').val(null);
         this.notificationService.notify('Please select a valid file', 'error');
@@ -672,7 +659,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
     }
-    if (showProg) { // check!
+    if (showProg) { 
       this.onFileSelect(event.target, this.multipleFileArr);
       this.fileObj.fileName = element.fileName; // for  single file 
     }
@@ -681,11 +668,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   //Triggers while selecting multiple files
   multipleFileChangeListner(event) {
     let fileArr = [];
-
     if (event && event.target && event.target.files && event.target.files.length <= 10) {
       for (let i = 0; i <= event.target.files.length; i++) {
         if (event && event.target && event.target.files && event.target.files.length && event.target.files[i] && event.target.files[i].name) {
-          this.showProgressBar =true
           const _ext = event.target.files[i].name.substring(event.target.files[i].name.lastIndexOf('.'));
           // this.extension = _ext
           let fileObj = {
@@ -713,12 +698,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  //Triggers on selecting a file 
+  //Triggers on select of a file 
   fileChangeListener(event) {
     this.newSourceObj.url = '';
     let fileName = '';
     console.log(this.filesListData, this.multipleData)
-    // this.showProgressBar = true;
     if (event && event.target && event.target.files && event.target.files.length && event.target.files[0].name) {
       // fileName = event.target.files[0].name;
       this.multipleFileChangeListner(event)
@@ -821,53 +805,28 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.multipleData.type = "bulk";
     this.multipleData.files = [];
     this.filesListData.forEach(element => {
-        if(element.size > 15728640){  //Size is in bytes (1 byte = 9.5367431640625×10-7 MB => 15728640 bytes = 15MB)
-          this.filesListData =[];
-          this.notificationService.notify('Individual file size cannot be more than 15 MB','error')
-        }
-      });
-    //For deleting unacceptable files while uploading
-    // if (this.multipleFileArr.length != this.filesListData.length) {
-    //   this.filesListData.forEach(filesListDataElement => {
-    //     let filesListDataElement_ext = filesListDataElement.name.substring(filesListDataElement.name.lastIndexOf('.'))
-    //     if (!['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx'].includes(filesListDataElement_ext)) {
-    //       // if(filesListDataElement.name.substring(filesListDataElement.name.lastIndexOf('.')) === 'csv' || filesListDataElement.name.substring(filesListDataElement.name.lastIndexOf('.')) === 'json'){
-    //       // if(multipleArrElement.fileName != filesListDataElement.name){
-    //       this.filesListData.splice(filesListDataElement, 1);
-    //     }
-      //    if(index){
-      //   this.filesListData.splice(index, 1)
-      //   // this.multipleFilePayloadForRemovalOfFile(this.filesListData);
-      //   this.notificationService.notify('Selected file is removed.','success')
-      // }
+      if (element.size > 15728640) {  //Size is in bytes (1 byte = 9.5367431640625×10-7 MB => 15728640 bytes = 15MB)
+        this.filesListData = [];
+        this.notificationService.notify('Individual file size cannot be more than 15 MB', 'error')
+      }
 
-        // this.filesListData.splice(filesListDataElement, 1);
-
-    //   });
-    // }
+      else {
+        element['showProgressBar'] = true;
+      }
+    });
     if (this.multipleFileArr.length === this.filesListData.length) {
       this.filesListData.forEach(fileDataElement => {
         const _ext = fileDataElement.name.substring(fileDataElement.name.lastIndexOf('.'));
         this.fileRequestBody(input, _ext.replace('.', ''), files, resourceType_import, fileDataElement);
-        //Independant file loader
-        if(this.multipleData.files.length != 0){
-          this.multipleData.files.forEach(dataElement => {
-            if(fileDataElement.name === dataElement.name){
-              if(dataElement.fileId){
-                this.showProgressBar = false;
-              }
-            }
-            
-          });
-        }
-        
-        
+
       });
+
+
+
     }
 
   }
-
-  //payload for single file upload to loop while uploading multiple files//
+  //Payload for single file upload to loop while uploading multiple files//
   fileRequestBody(input, ext, files, resourceType_import, fileDataElement) {
     const fileToRead = fileDataElement;
     const data = new FormData();
@@ -888,29 +847,25 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.service.invoke('post.fileupload', quaryparms, payload).subscribe(
       res => {
         this.fileObj.fileId = res.fileId;
-       
-        
         let obj = {
-          name: fileDataElement.name,
+          name: fileDataElement.name.replace(fileDataElement.name.substring(fileDataElement.name.lastIndexOf('.')), ''),
           fileId: this.fileObj.fileId
         }
         this.multipleData.files.push(obj);
-        //Independent file loader
-        // this.filesListData.forEach(listElement => {
-        //   this.multipleData.files.forEach(dataElement => {
-        //     if(listElement.name === dataElement.name){
-        //       if(dataElement.fileId){
-        //         this.showProgressBar = false;
-        //       }
-        //     }
-        //   });
-          
-        // });
+
+        //Independant file loader
+        this.filesListData.forEach(element => {
+          let elementName = element.name.replace(element.name.substring(element.name.lastIndexOf('.')), '')
+          if (elementName === obj.name) {
+            element['showProgressBar'] = false;
+          }
+
+        });
+
         // To show the notification after all the files are uploaded
         if (this.multipleData.files.length === this.multipleFileArr.length) {
           let statusMessage = this.multipleFileArr.length + ' files uploaded successfully'
           this.notificationService.notify(statusMessage, 'success');
-          this.showProgressBar = false;
         }
       },
       errRes => {
