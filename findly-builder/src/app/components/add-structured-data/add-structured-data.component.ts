@@ -46,12 +46,12 @@ export class AddStructuredDataComponent implements OnInit {
   previousDataIndex: any;
   nextDataIndex: any;
   allStructuredData: any = [];
-  submitted : boolean = false;
-  isInvalidJSON : boolean = false;;
+  submitted: boolean = false;
+  isInvalidJSON: boolean = false;;
 
   @Output() closeStructuredDataModal = new EventEmitter();
   @Input('selectedSourceType') selectedSourceType: any;
-  @ViewChild('sourceCreation') sourceCreation : any;
+  @ViewChild('sourceCreation') sourceCreation: any;
   @ViewChild('codemirror') codemirror: any;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
@@ -79,12 +79,12 @@ export class AddStructuredDataComponent implements OnInit {
 
   ngOnChanges(changes) {
     setTimeout(() => {
-      this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop();
+      this.perfectScroll?.directiveRef?.update();
+      this.perfectScroll?.directiveRef?.scrollToTop();
     }, 500);
     if (changes && changes.selectedSourceType) {
       this.submitted = false;
-      this.selectedSourceType.resourceAdded = false;
+      // this.selectedSourceType.resourceAdded = false;
       if (changes.selectedSourceType.currentValue && changes.selectedSourceType.currentValue.resourceType === 'structuredDataManual') {
         this.setRequirementsForManualInput(changes);
       }
@@ -329,13 +329,13 @@ export class AddStructuredDataComponent implements OnInit {
     };
     let endPoint = 'add.structuredData';
     this.submitted = true;
-    if(this.validateStructuredData()) {
+    if (this.validateStructuredData()) {
       if (this.selectedSourceType && this.selectedSourceType.resourceType === 'structuredData') {
         // File Upload
         quaryparms.file = 'file';
         payload.fileId = this.fileObj.fileId;
         this.jsonInvoke(payload, endPoint, quaryparms);
-  
+
       }
       else if (this.selectedSourceType && this.selectedSourceType.resourceType === 'structuredDataManual') {
         try {
@@ -355,18 +355,18 @@ export class AddStructuredDataComponent implements OnInit {
         }
       }
     }
-    else{
-      if(this.selectedSourceType.resourceType == "structuredDataManual"){
+    else {
+      if (this.selectedSourceType.resourceType == "structuredDataManual") {
         this.notificationService.notify('Please enter valid JSON', 'error');
       }
-      else{
+      else {
         this.notificationService.notify('Enter the required fields to proceed', 'error');
       }
     }
   }
 
-  validateStructuredData(){
-    if(this.selectedSourceType.resourceType == "structuredDataManual"){
+  validateStructuredData() {
+    if (this.selectedSourceType.resourceType == "structuredDataManual") {
       let payload_temp;
       try {
         payload_temp = JSON.parse(this.structuredData.payload);
@@ -374,19 +374,19 @@ export class AddStructuredDataComponent implements OnInit {
           this.isInvalidJSON = true;
           return false;
         }
-        else{
+        else {
           return true;
         }
       }
-      catch{
+      catch {
         this.isInvalidJSON = true;
         return false;
       }
     }
-    else if(!this.selectedSourceType.resourceAdded){
+    else if (!this.selectedSourceType.resourceAdded) {
       return false;
     }
-    else{
+    else {
       return true;
     }
   }

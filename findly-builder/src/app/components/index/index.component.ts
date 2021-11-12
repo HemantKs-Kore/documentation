@@ -32,6 +32,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   activeClose = false;
   showSearch = false;
   searchSimulator: any = '';
+
   savingConfig;
   reIndexing;
   simulating;
@@ -184,17 +185,16 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectable = true;
   removable = true;
   containCtrl = new FormControl();
-  operators = ['Exists', 'Does Not Exist', 'Equals to', 'Not Equals to', 'Contains', 'Doesnot Contain'];
+  operators = [{ name: 'Exists', value: 'exists' }, { name: 'Does Not Exist', value: 'doesNotExist' }, { name: 'Equals to', value: 'equalsTo' }, { name: 'Not Equals to', value: 'notEqualsTo' }, { name: 'Contains', value: 'contains' }, { name: 'Doesnot Contain', value: 'doesNotContain' }];
   conditionArray: any = [];
-  conditionObj: any = { field: '', operator: '', containCondition: [] };
+  conditionObj: any = { fieldId: '', operator: '', value: [] };
   selectedConditionType = 'basic';
-  selectedScript: any = '';
   modifiedStages = {
     createdStages: [],
     deletedStages: []
   }
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-
+  entityName: string;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -203,7 +203,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
-    public mixpanel : MixpanelServiceService
+    public mixpanel: MixpanelServiceService
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -228,7 +228,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
       this.getSystemStages();
-      this.getIndexPipline();
+      //this.getIndexPipline();
       this.getFileds();
       this.setResetNewMappingsObj();
       this.addcode({});
@@ -255,20 +255,20 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   //add condition dynamically
   addCondition(type, index, field?, data?) {
     if (type === 'add') {
-      this.conditionObj = { field: '', operator: '', containCondition: [] };
-      this.conditionArray.push(this.conditionObj);
+      this.conditionObj = { fieldId: '', operator: '', value: [] };
+      this.selectedStage.condition.mappings.push(this.conditionObj);
     }
     else if (type === 'remove') {
-      this.conditionArray.splice(index, 1);
+      this.selectedStage.condition.mappings.splice(index, 1);
     }
     else if (type === 'update') {
       if (field === 'field') {
-        this.conditionArray[index] = { ...this.conditionArray[index], field: data };
+        this.selectedStage.condition.mappings[index] = { ...this.selectedStage.condition.mappings[index], fieldId: data };
       }
       else if (field === 'operator') {
-        this.conditionArray[index] = { ...this.conditionArray[index], operator: data };
-        if (data !== 'Contains') {
-          delete this.conditionArray[index].containCondition;
+        this.selectedStage.condition.mappings[index] = { ...this.selectedStage.condition.mappings[index], operator: data };
+        if (['exists', 'doesNotExist'].includes(data)) {
+          this.selectedStage.condition.mappings[index].value = [];
         }
       }
     }
@@ -306,17 +306,18 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   selectedTag(data: MatAutocompleteSelectedEvent, list) {
+    this.entityName = '';
     if (!this.checkDuplicateTags((data.option.value || '').trim(), list)) {
       this.notificationService.notify('Duplicate tags are not allowed', 'warning');
       return;
     } else {
       list.push(data.option.value);
       this.suggestedInput.nativeElement.value = '';
-      this.suggestedInput.nativeElement.blur();
-      setTimeout(() => {
-        this.suggestedInput.nativeElement.focus();
-      }, 100)
     }
+    this.suggestedInput.nativeElement.blur();
+    setTimeout(() => {
+      this.suggestedInput.nativeElement.focus();
+    }, 100)
   }
   setResetNewMappingsObj(ignoreSimulate?, saveConfig?) {
     if (!ignoreSimulate) {
@@ -488,7 +489,23 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.payloadValidationObj.valid = true;
     this.pipeline.forEach(stage => {
       const tempStageObj = JSON.parse(JSON.stringify(stage));
+      if (tempStageObj.condition.type === 'script') {
+        tempStageObj.condition.mappings = [];
+      }
+      else {
+        delete tempStageObj.condition.value;
+        tempStageObj.condition.mappings.forEach(el => { delete el.autocomplete_text; delete el.fieldName })
+      }
       if (tempStageObj && tempStageObj.type === 'field_mapping') {
+        // if (tempStageObj.condition.type === 'script') {
+        //   tempStageObj.condition.mappings = [];
+        //   tempStageObj.condition.value = this.selectedScript;
+        // }
+        // else {
+        //   tempStageObj.condition.mappings.forEach(el => { delete el.autocomplete_text; delete el.fieldName })
+        // }
+        // const obj = { type: this.selectedConditionType, mappings: this.conditionArray };
+        // tempStageObj.condition = obj;
         if (tempStageObj.config && tempStageObj.config.mappings && tempStageObj.config.mappings.length) {
           const tempConfig: any = [];
           tempStageObj.config.mappings.forEach(config => {
@@ -640,9 +657,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           for (let i = 0; i < indexArrayLength; i++) {
             let index = this.pipeline.findIndex((p) => !p.condition);
             if (index > -1) {
-              let index2 = this.modifiedStages.createdStages.findIndex((d)=>d.type == this.pipeline[index].type);
-              if(index2>-1){
-                this.modifiedStages.createdStages.splice(index2,1);
+              let index2 = this.modifiedStages.createdStages.findIndex((d) => d.type == this.pipeline[index].type);
+              if (index2 > -1) {
+                this.modifiedStages.createdStages.splice(index2, 1);
               }
               this.pipeline.splice(index, 1);
             }
@@ -666,40 +683,38 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       })
   }
-  mixpanelForStages(){
-    if(this.modifiedStages.createdStages.length){
+  mixpanelForStages() {
+    if (this.modifiedStages.createdStages.length) {
       this.mixpanel.postEvent('Workbench - Rule Created', {});
-      this.modifiedStages.createdStages.forEach((s)=>{
-        if(s.type === 'field_mapping'){
+      this.modifiedStages.createdStages.forEach((s) => {
+        if (s.type === 'field_mapping') {
           this.mixpanel.postEvent('Workbench - Rule Created - Field Mapping', {});
-        } else if(s.type === 'entity_extraction'){
+        } else if (s.type === 'entity_extraction') {
           this.mixpanel.postEvent('Workbench - Rule Created - Entity Extraction', {});
-        } else if(s.type === 'traits_extraction'){
+        } else if (s.type === 'traits_extraction') {
           this.mixpanel.postEvent('Workbench - Rule Created - Traits Extraction', {});
-        } else if(s.type === 'custom_script'){
+        } else if (s.type === 'custom_script') {
           this.mixpanel.postEvent('Workbench - Rule Created - Custom Script', {});
-        } else if(s.type === 'position'){
-        } else if(s.type === 'cluster'){
-        } else if(s.type === 'indexer'){
-        } else if(s.type === 'keyword_extraction'){
+        } else if (s.type === 'position') {
+        } else if (s.type === 'cluster') {
+        } else if (s.type === 'indexer') {
+        } else if (s.type === 'keyword_extraction') {
           this.mixpanel.postEvent('Workbench - Rule Created - Keyword Extraction', {});
-        } else if(s.type === 'exclude_document'){
+        } else if (s.type === 'exclude_document') {
           this.mixpanel.postEvent('Workbench - Rule Created - Exclude Document', {});
-        } else if(s.type === 'semantic_meaning'){
+        } else if (s.type === 'semantic_meaning') {
           this.mixpanel.postEvent('Workbench - Rule Created - Semantic Meaning', {});
-        } 
+        }
       })
     }
-    if(this.modifiedStages.deletedStages.length){
+    if (this.modifiedStages.deletedStages.length) {
       this.mixpanel.postEvent('Workbench - Rule Deleted', {});
     }
-    if(!this.modifiedStages.createdStages.length && !this.modifiedStages.deletedStages.length){
+    if (!this.modifiedStages.createdStages.length && !this.modifiedStages.deletedStages.length) {
       this.mixpanel.postEvent('Workbench - Rule Updated', {});
     }
   }
   saveConfig(index?, dialogRef?) {
-    console.log("conditionArray", this.conditionArray, this.selectedConditionType)
-    console.log("selectedScript", this.selectedScript)
     let indexArrayLength: any = this.validateConditionForRD();
     if (indexArrayLength) {
       this.removeExcludeDocumentStage(indexArrayLength, true);
@@ -926,16 +941,16 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          if(this.pipeline[i]._id){
+          if (this.pipeline[i]._id) {
             this.modifiedStages.deletedStages.push(this.pipeline[i]);
-          }else{
-            if(this.modifiedStages.createdStages.length){
-              let index = this.modifiedStages.createdStages.findIndex((d)=>d.type == this.pipeline[i].type);
-              if(index>-1){
-                this.modifiedStages.createdStages.splice(index,1);
+          } else {
+            if (this.modifiedStages.createdStages.length) {
+              let index = this.modifiedStages.createdStages.findIndex((d) => d.type == this.pipeline[i].type);
+              if (index > -1) {
+                this.modifiedStages.createdStages.splice(index, 1);
               }
             }
-            
+
           }
           this.pipeline.splice(i, 1);
           dialogRef.close();
@@ -994,6 +1009,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     // let serviceId ='get.allField';
     this.service.invoke(serviceId, quaryparms).subscribe(res => {
       this.fields = res.fields || [];
+      this.getIndexPipline();
       this.loadingFields = false;
     }, errRes => {
       this.loadingFields = false;
@@ -1047,6 +1063,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     console.log("index queryparams", quaryparms);
     this.service.invoke('get.indexpipelineStages', quaryparms).subscribe(res => {
+      res.stages.map(data => {
+        return data.condition.mappings.map(data1 => {
+          let obj = this.fields.find(da => da._id === data1.fieldId);
+          data1.fieldName = obj.fieldName
+        })
+      })
       this.pipeline = res.stages || [];
       this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
       if (res.stages && res.stages.length) {
@@ -1119,6 +1141,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   clearDirtyObj(cancel?) {
     this.pipeline = JSON.parse(JSON.stringify(this.pipelineCopy));
+    this.pipeline.map(data => {
+      return data.condition.mappings.map(data1 => {
+        let obj = this.fields.find(da => da._id === data1.fieldId);
+        data1.fieldName = obj.fieldName
+      })
+    })
     if (this.selectedStage && !this.selectedStage._id) {
       if (this.pipeline && this.pipeline.length) {
         this.selectStage(this.pipeline[0], 0);
@@ -1314,7 +1342,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedStage.type = this.defaultStageTypes[i].type;
     this.selectedStage.category = this.defaultStageTypes[i].category;
     this.selectedStage.name = this.defaultStageTypesObj[systemStage.type].name;
-    this.selectedStage.config = {}
+    this.selectedStage.config = {};
+    this.selectedStage.condition = { type: '', mappings: [] }
     if (systemStage && systemStage.type === 'custom_script') {
       if (!this.newMappingObj.custom_script) {
         this.newMappingObj.custom_script = {
@@ -1448,7 +1477,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     const input = event.input;
     const value = event.value;
     if ((value || '').trim()) {
-      this.conditionArray[index].containCondition.push(value.trim());
+      this.selectedStage.condition.mappings[index].value.push(value.trim());
     }
     if (input) {
       input.value = '';
@@ -1457,8 +1486,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   //remove matchip data
   remove(member: string, i): void {
-    const index = this.conditionArray[i].containCondition.indexOf(member);
-    if (index >= 0) this.conditionArray[i].containCondition.splice(index, 1);
+    const index = this.selectedStage.condition.mappings[i].value.indexOf(member);
+    if (index >= 0) this.selectedStage.condition.mappings[i].value.splice(index, 1);
   }
   // selected(event: MatAutocompleteSelectedEvent): void {
   //   this.containCondition.push(event.option.viewValue);

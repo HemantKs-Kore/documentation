@@ -848,7 +848,7 @@
                           </div>
                         </div>
                         <input type="text" maxlength="60" autocomplete="off" id="crawlDepth" name="crawlDepth"
-                          placeholder="0" min="0" (keyup)="checkValue(crawlDepth)" [(ngModel)]="crawlDepth"
+                          placeholder="0" min="0" (keyup)="checkValue(crawlDepth,'crawlDepth')" [(ngModel)]="crawlDepth"
                           class="input-text">
                       </div>
                     </div>
@@ -864,8 +864,9 @@
                             </span>
                           </div>
                         </div>
-                        <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0"
-                          (keyup)="checkValue(maxUrlLimit)" [(ngModel)]="maxUrlLimit" class="input-text">
+                        <input type="number" autocomplete="off" id="maxUrlLimit" maxlength="60" name="maxUrlLimit"
+                          placeholder="500" (keyup)="checkValue(maxUrlLimit,'maxUrlLimit')" [(ngModel)]="maxUrlLimit"
+                          class="input-text maxUrlLimit-class">
                       </div>
                     </div>
                   </div>
@@ -1000,8 +1001,7 @@
             <!-- Conf Configuration-->
 
           </div>
-          <div class="accordion-content-info text-left"
-            *ngIf="page && (sourceStatus == 'success' || (sourceStatus == 'running' && totalRecord != 0))">
+          <div class="accordion-content-info text-left" *ngIf="page && totalRecord > 0">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
               
@@ -1095,8 +1095,7 @@
             </div>
 
           </div>
-          <div class="empty-page-data-container"
-            *ngIf="page && (sourceStatus == 'failed'  || (sourceStatus == 'running' && totalRecord == 0) || sourceStatus == 'configured' || sourceStatus == 'stopped')">
+          <div class="empty-page-data-container" *ngIf="page &&  totalRecord == 0">
             <img src="assets\images\emptyList.png">
             <div class="title">Sorry! No Pages available yet!! Please <span> crawl</span> the web domain again</div>
           </div>

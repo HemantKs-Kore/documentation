@@ -31,7 +31,7 @@
                                 <input id="radio-2" name="topdown" value='top' class="radio-custom" type="radio"
                                     [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition"
                                     (click)="changeSlider('top')">
-                                <label for="radio-2" class="radio-custom-label">{{'searchexperience.top_down' |
+                                <label for="radio-2" class="radio-custom-label">{{'searchexperience.search_bar' |
                                     translate}}</label>
                                 <div class="desc-tect">{{'searchexperience.searchBar_at_the_top' | translate}}</div>
                             </div>
@@ -39,7 +39,7 @@
                                 <input id="radio-22" name="bottomup" value='bottom' class="radio-custom" type="radio"
                                     [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition"
                                     (click)="changeSlider('bottom')">
-                                <label for="radio-22" class="radio-custom-label">{{'searchexperience.bottom_up' |
+                                <label for="radio-22" class="radio-custom-label">{{'searchexperience.assistant' |
                                     translate}}</label>
                                 <div class="desc-tect">{{'searchexperience.search_bar_at_the_bottom' | translate}}</div>
                             </div>
@@ -84,7 +84,7 @@
                                     </div>
                                     <input #elasticInput maxlength="60" class="placeholder-custom-search"
                                         value="{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}"
-                                        placeholder="search" [ngClass]="{'activeBox':selectSearch=='placeholderText'}"
+                                        [ngClass]="{'activeBox':selectSearch=='placeholderText'}"
                                         [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor,'width.px': width,'background':'none'}"
                                         #data (change)="onEventLog('placeholderText',data.value);" (input)="resize()">
                                 </div>
@@ -113,63 +113,6 @@
                                 <div class="hover-overlay-btn-img" (click)="buttonDisabled=false"
                                     *ngIf="buttonDisabled"><img src="assets/icons/search-experience/edit.svg"></div>
                             </button>
-                            <!-- <div [ngSwitch]="tourGuide">
-                            <div class="tour-guide-data" *ngSwitchCase="'step1'">
-                                <div class="close-guide" (click)="tourGuide=''">
-                                    <img src="assets/icons/search-experience/close-tour.svg">
-                                </div>
-                                <div class="title-info">{{'searchexperience.click_on_searchbox' | translate}}</div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="tour-length">{{'searchexperience.1_of_4' | translate}}</div>
-                                    <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step2'">{{'searchexperience.next' | translate}}</button>
-                                       
-                                    </div>
-                                </div>
-                            </div>  
-                            
-                            <div class="tour-guide-data search-tour-icon" *ngSwitchCase="'step2'">
-                                <div class="close-guide" (click)="tourGuide=''">
-                                    <img src="assets/icons/search-experience/close-tour.svg">
-                                </div>
-                                <div class="title-info">{{'searchexperience.click_search_icon' | translate}}</div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="tour-length">{{'searchexperience.2_of_4' | translate}}</div>
-                                    <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step3'">{{'searchexperience.next' | translate}}</button>
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step1'">{{'searchexperience.previous' | translate}}</button>
-                                    </div>
-                                </div>
-                            </div> 
-    
-                            <div class="tour-guide-data place-holder-text-tour" *ngSwitchCase="'step3'">
-                                <div class="close-guide" (click)="tourGuide=''">
-                                    <img src="assets/icons/search-experience/close-tour.svg">
-                                </div>
-                                <div class="title-info">{{'searchexperience.click_on_text' | translate}}</div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="tour-length">{{'searchexperience.3_of_4' | translate}}</div>
-                                    <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step4'">{{'searchexperience.next' | translate}}</button>
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step2'">{{'searchexperience.previous' | translate}}</button>
-                                    </div>
-                                </div>
-                            </div> 
-    
-                            <div class="tour-guide-data" *ngSwitchCase="'step4'" [ngClass]="[searchObject.searchExperienceConfig.searchBarPosition=='top'?'button-tour-top':'button-tour-bottom']">
-                                <div class="close-guide" (click)="updateTourConfig();tourGuide=''">
-                                    <img src="assets/icons/search-experience/close-tour.svg">
-                                </div>
-                                <div class="title-info">{{'searchexperience.click_on_button' | translate}}</div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="tour-length">{{'searchexperience.4_of_4' | translate}}</div>
-                                    <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="updateTourConfig()">{{'searchexperience.got_it' | translate}}</button>
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step3'">{{'searchexperience.previous' | translate}}</button>
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>                                                   -->
                         </div>
                         <div [ngSwitch]="selectSearch">
                             <div class="fill-colors-block" *ngSwitchCase="'inputBox'">
@@ -472,6 +415,7 @@
                                                                 [enableSearch]="false" [totalFrequentLines]="19"
                                                                 include=[people] [showSingleCategory]="false"
                                                                 [hideObsolete]="true" (emojiClick)="addEmoji($event)"
+                                                                [emojisToShowFilter]="filterEmojis"
                                                                 [i18n]="configEmoji">
                                                             </emoji-mart>
                                                         </perfect-scrollbar>
@@ -678,7 +622,12 @@
                                     <div class="avatar-with-greeting-text">
                                         <div class="greeting-message-avatar"
                                             [ngStyle]="{'background':searchObject.searchInteractionsConfig.welcomeMsgFillColor,'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">
-                                            {{searchObject.searchInteractionsConfig.welcomeMsg}}</div>
+                                            {{searchObject.searchInteractionsConfig.welcomeMsg}}
+                                            <div class="arrow-bottom-"
+                                                [ngStyle]="{'background':searchObject.searchInteractionsConfig.welcomeMsgFillColor,'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">
+
+                                            </div>
+                                        </div>
                                         <div class="avatar-img">
                                             <img src="assets/icons/search-interface/avatar-sdk.svg">
                                         </div>
@@ -859,7 +808,8 @@
                     <div class="desc-text">{{'searchexperience.enhances_users' | translate}}</div>
                     <div class="info-text">{{'searchexperience.here' | translate}}
                         <span>{{'searchexperience.Query_suggestions' | translate}}</span> {{'searchexperience.are' |
-                        translate}} <span>{{'searchexperience.set_to_zero' | translate}}</span></div>
+                        translate}} <span>{{'searchexperience.set_to_zero' | translate}}</span>
+                    </div>
                 </div>
                 <div class="right-content">
                     <img src="assets/icons/search-experience/guide/livesearch-suggestion.svg">
@@ -882,7 +832,8 @@
                         <span>{{'searchexperience.Query_suggestions' | translate}}</span> {{'searchexperience.and' |
                         translate}} <span>{{'searchexperience.liv_search' | translate}}</span>,
                         {{'searchexperience.both_enabled' | translate}} <span>{{'searchexperience.set_to_three' |
-                            translate}}</span></div>
+                            translate}}</span>
+                    </div>
                 </div>
             </div>
 
@@ -943,7 +894,8 @@
                         {{'searchexperience.are' | translate}} <span>{{'searchexperience.set_to_three' |
                             translate}}</span> {{'searchexperience.and' | translate}}
                         <span>{{'searchexperience.live_search' | translate}}</span> {{'searchexperience.set_to_three' |
-                        translate}} <span>{{'searchexperience.set_to_zero' | translate}}</span></div>
+                        translate}} <span>{{'searchexperience.set_to_zero' | translate}}</span>
+                    </div>
                 </div>
             </div>
 
@@ -958,7 +910,8 @@
                     <div class="desc-text">{{'searchexperience.enhances_users' | translate}}</div>
                     <div class="info-text">{{'searchexperience.here' | translate}}
                         <span>{{'searchexperience.Query_suggestions' | translate}}</span> {{'searchexperience.are' |
-                        translate}} <span>{{'searchexperience.set_to_zero' | translate}}</span></div>
+                        translate}} <span>{{'searchexperience.set_to_zero' | translate}}</span>
+                    </div>
                 </div>
                 <div class="right-content">
                     <img src="assets/icons/search-experience/guide/topdown/liveseach.svg">
@@ -982,7 +935,8 @@
                         translate}} <span>{{'searchexperience.liv_search' | translate}}</span>,
                         {{'searchexperience.both_enabled' | translate}} <span>{{'searchexperience.set_to_three' |
                             translate}}</span> {{'searchexperience.and' | translate}}
-                        <span>{{'searchexperience.five_respectively' | translate}}</span></div>
+                        <span>{{'searchexperience.five_respectively' | translate}}</span>
+                    </div>
                 </div>
             </div>
 

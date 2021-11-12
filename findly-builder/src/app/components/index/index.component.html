@@ -112,8 +112,8 @@
               <div class="dropdown dropdown-open">
                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
                   {{
-                  (selectedStage.type
-                  ? selectedStage.type
+                  (selectedStage?.type
+                  ? selectedStage?.type
                   : "choose_stage_type"
                   ) | translate
                   }}
@@ -124,7 +124,7 @@
                       let index = index
                     " (click)="switchStage(systemStage, index);">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
-                      systemStage.type | translate
+                      systemStage?.type | translate
                       }}</a>
                   </li>
                 </ul>
@@ -148,8 +148,8 @@
               <div class="dropdown dropdown-open" [ngClass]="{ disabled: selectedStage._id }">
                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
                   {{
-                  (selectedStage.type
-                  ? selectedStage.type
+                  (selectedStage?.type
+                  ? selectedStage?.type
                   : "choose_stage_type"
                   ) | translate
                   }}
@@ -160,7 +160,7 @@
                       let index = index
                     " (click)="switchStage(systemStage, index)">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
-                      systemStage.type | translate
+                      systemStage?.type | translate
                       }}</a>
                   </li>
                 </ul>
@@ -183,7 +183,7 @@
                 ngbTooltip="{{'workbench.give_stage_name_of_your_choice_to_create_multiple' | translate}}"
                 tooltipClass="workbench_tolltips m-0" class="pl-1" src="assets/icons/help_gray.svg" />
             </div>
-            <input type="text" placeholder="{{'workbench.please_enter_stage_name' | translate}}" maxlength="60"
+            <input type="text" placeholder="{{'workbench.please_enter_stage_name' | translate}}" 
               (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name" />
           </div>
           <!-- <div class="kr-sg-input-text mb-2">
@@ -200,7 +200,7 @@
                 </span>
               </span>
             </div>
-            <input type="text" placeholder="{{'workbench.define_condition' | translate}}" maxlength="60"
+            <input type="text" placeholder="{{'workbench.define_condition' | translate}}" 
               (keyup)="changesDetected = true" autocomplete="off" class="input-text"
               [(ngModel)]="selectedStage.condition" />
              <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div>
@@ -218,56 +218,57 @@
               <div class="desc-text"></div>
               <div class="kr-sg-radiobutton">
                 <input id="radio-22" name="radio" class="radio-custom" type="radio" value="basic"
-                  [(ngModel)]="selectedConditionType">
+                  [(ngModel)]="selectedStage.condition.type">
                 <label for="radio-22" class="radio-custom-label">Basic</label>
               </div>
               <div class="kr-sg-radiobutton">
                 <input id="radio-23" name="radio" class="radio-custom" type="radio" value="script"
-                  [(ngModel)]="selectedConditionType">
+                  [(ngModel)]="selectedStage.condition.type">
                 <label for="radio-23" class="radio-custom-label">Script</label>
               </div>
             </div>
-            <div class="conditions-input-sec" *ngFor="let basic of conditionArray;let i=index;"
-              [hidden]="selectedConditionType=='script'">
+            <div class="conditions-input-sec" *ngFor="let basic of selectedStage.condition.mappings;let i=index;"
+              [hidden]="selectedStage.condition.type=='script'">
               <div class="conditions-types">
-                <div class="and-seperator" *ngIf="conditionArray.length>1&&i>0">And</div>
-                <div class="kr-sg-input-text">
+                <div class="and-seperator" *ngIf="selectedStage.condition.mappings.length>1&&i>0">And</div>
+                <div class="kr-sg-input-text col-8">
                   <div class="position-relative">
-                    <input type="text" placeholder="Enter Field" maxlength="60" (keyup)="changesDetected = true"
-                      class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown"
-                      [(ngModel)]="basic.field" />
+                    <input type="text" placeholder="Enter the field name here" maxlength="60"
+                      (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
+                      data-toggle="dropdown" [(ngModel)]="basic.fieldName" />
                     <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                       [ngClass]="{'no-data-match-border-0':!(fields | filter : [basic.source_field, 'fieldName']).length}">
                       <perfect-scrollbar class="scroll-search-field">
-                        <li *ngFor="let suggesition of fields| filter : [basic.field, 'fieldName']"
-                          (click)="basic.field=suggesition.fieldName;addCondition('update',i,'field',basic.field);"><a
-                            *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a>
+                        <li *ngFor="let suggesition of fields| filter : [basic.fieldName, 'fieldName']"
+                          (click)="basic.fieldId=suggesition._id;basic.fieldName=suggesition.fieldName;addCondition('update',i,'field',suggesition._id);">
+                          <a>{{suggesition.fieldName}}</a>
                         </li>
                       </perfect-scrollbar>
                     </ul>
                   </div>
                 </div>
-                <div class="kr-sg-dropdowns">
+                <div class="kr-sg-dropdowns col-4">
                   <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input"
-                      data-toggle="dropdown">{{basic.operator==''?'Operator':basic.operator}}</button>
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{basic.operator==''?'Select
+                      Operator':basic.operator}}</button>
                     <ul class="dropdown-menu content-menu">
                       <li *ngFor="let operator of operators"
-                        (click)="basic.operator=operator;addCondition('update',i,'operator',basic.operator);">
-                        <a>{{operator}}</a>
+                        (click)="basic.operator=operator.value;addCondition('update',i,'operator',basic.operator);">
+                        <a>{{operator.value}}</a>
                       </li>
                     </ul>
                   </div>
                 </div>
                 <div class="delete-condition" *ngIf="i>0">
-                  <img src="assets/icons/delete-table.svg" (click)="addCondition('remove',index)">
+                  <img src="assets/icons/delete-table.svg" (click)="addCondition('remove',i)">
                 </div>
               </div>
-              <div class="kr-sg-input-text col-12 input-box" *ngIf="basic.operator==='Contains'">
+              <div class="kr-sg-input-text col-12 input-box"
+                *ngIf="['contains','doesNotContain','equalsTo','notEqualsTo'].includes(basic.operator)">
                 <mat-form-field class="example-chip-list" [floatLabel]="'never'">
                   <mat-chip-list #chipList [attr.aria-label]="'contain selection'">
-                    <mat-chip *ngFor="let contain of basic.containCondition" [selectable]="selectable"
-                      [removable]="removable" (removed)="remove(contain,i)">
+                    <mat-chip *ngFor="let contain of basic.value" [selectable]="selectable" [removable]="removable"
+                      (removed)="remove(contain,i)">
                       <span class="mat-val">{{contain}}</span>
                       <mat-icon matChipRemove><img src="assets/icons/Workbench/close-mat.svg"></mat-icon>
                     </mat-chip>
@@ -279,18 +280,18 @@
                 </mat-form-field>
               </div>
             </div>
-            <div class="add-condition-btn" (click)="addCondition('add')" *ngIf="selectedConditionType=='basic'">
-              <img src="assets/icons/Workbench/add-blue.svg" class="blue-add">
-              <img src="assets/icons/Workbench/add-grey.svg" class="grey-add">
-              Add Condition
-            </div>
+
+            <button  class="kr-sg-button-secondary btn_lg" (click)="addCondition('add')" *ngIf="selectedStage.condition.type=='basic'">
+              <img src="assets/icons/pricing/plus-small.svg">
+              <span>AND</span>
+            </button>
             <div>
-              <div *ngIf="selectedConditionType=='script'">
+              <div *ngIf="selectedStage.condition.type=='script'">
                 <div class="clear">
-                  <span (click)="selectedScript=''">Clear</span>
+                  <span (click)="selectedStage.condition.value=''">Clear</span>
                 </div>
                 <div class="painless-script-wrapper col-12">
-                  <ngx-codemirror #customScriptCodeMirror [(ngModel)]="selectedScript"
+                  <ngx-codemirror #customScriptCodeMirror [(ngModel)]="selectedStage.condition.value"
                     (ngModelChange)="painlessScriptChanged($event)" [options]="customScriptCodeMirrorOptions">
                   </ngx-codemirror>
                 </div>
@@ -989,7 +990,7 @@
             <div class="kr-sg-input-text-area">
               <div class="label-text">&lt;/&gt;{{'workbench.painless' | translate}}</div>
               <textarea placeholder="{{'workbench.please_enter_script' | translate}}" class="input- d-none"
-                maxlength="250" (keyup)="
+                (keyup)="
                   addCustomScript(
                     newMappingObj.custom_script.defaultValue.script
                   )
@@ -1021,7 +1022,7 @@
       </div>
       <div class="d-flex">
         <div class="kr-sg-input-search ml-2" [ngClass]="{'d-none': !showSearch}">
-          <input type="text" placeholder="{{'search' | translate}}" maxlength="60" class="input-search"
+          <input type="text" placeholder="{{'search' | translate}}"  class="input-search"
             (keyup)="searchBySimulator()" [ngClass]="{'pl-33':!searchSimulator,'pl-2':searchSimulator}"
             autocomplete="off" id="fieldSearchId" [(ngModel)]="searchSimulator"
             (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"

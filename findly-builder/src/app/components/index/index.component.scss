@@ -368,6 +368,16 @@
         }
         .condition-block{
           margin: 20px 0 8px 0;
+          button{
+            img{
+              height: 11px;;
+              margin-right: 5px;
+              margin-top: -5px;
+            }
+            span{
+              font-size: 14px;
+            }
+          }
           .clear{
             text-align: right;
             color: #0D6EFD;
@@ -400,39 +410,46 @@
               margin-bottom: 10px;
               color: #9AA0A6;
             }
+            .radio-custom-label{
+              max-width: none;
+            }
           }
           .conditions-input-sec{
             background: #FFFFFF;
             box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.05);
             .conditions-types{
-              padding: 12px 38px;
+              padding: 20px 25px 20px 0px;
               display: flex;
               align-items: center;
               position: relative;
               .and-seperator{
                 position: absolute;
-                left: 2px;
-                top: 19px;
-                font-weight: 500;
+                left: 0;
+                top: -11px;
+                font-weight: normal;
                 font-size: 14px;
+                background: #fff;
                 line-height: 20px;
-                color: #5F6368;
+                color: #202124;
+                text-transform: uppercase;
+                z-index: 1;
+                padding: 0 10px 0 6px;
               }
               .kr-sg-input-text{
-                margin-right: 5px;
+                padding: 0 5px 0 0;
               }
               .kr-sg-dropdowns{
-                margin-left: 5px;
+                padding: 0 0px 0 5px;
               }
               .delete-condition{
                 position: absolute;
-                right: 10px;
+                right: 5px;
                 cursor: pointer;
-                top: 19px;
+                top: 25px;
               }
             }
             .input-box{
-              padding: 0 36px 12px 36px;
+              padding: 0 25px 20px 0px;
             }
           }
           .add-condition-btn{
@@ -741,7 +758,7 @@
         border: 0;
         .mat-chip-list {
           .mat-chip-list-wrapper {
-            border-radius: 3px;
+            border-radius: 4px;
             border: solid 1px #bdc1c6;
             margin: 0;
             font-family: Inter !important;
