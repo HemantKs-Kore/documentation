@@ -3,12 +3,8 @@
         <div id="open-chat-window-no-clicks" class="open-chat-window-no-clicks"></div>
         <div class="container-fluid p-0">
             <div class="logoTabsContainer align-items-center">
-                <img src="assets/images/logos/findly-logo.svg" class="logoKoreIcon landing-screen"
-                    [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange
-                    (click)="analyticsClick('apps',true)">
-                <img src="assets/images/logos/findly-logo-small.svg" class="logoKoreIcon no-landing-screen"
-                    [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange
-                    (click)="analyticsClick('apps',true)">
+                <img src="assets/images/logos/searchassisst_logo.svg" class="logoKoreIcon landing-screen" [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange (click)="analyticsClick('apps',true)">
+                <img src="assets/images/logos/searchassisst_logo-small.svg" class="logoKoreIcon no-landing-screen" [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange (click)="analyticsClick('apps',true)">
                 <!-- <div class="myappname" *ngIf="appName">
                     <div container="body" ngbTooltip="{{appName}}" class="name">{{appName}}</div>
                 </div> -->
