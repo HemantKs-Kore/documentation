@@ -155,7 +155,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       interface: interfaceType,
       indexPipelineId: this.indexPipelineId
     };
-    this.service.invoke('get.SI_settingInterface', quaryparms).subscribe(res => {
+    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
       if (res && res.appearance) {
         let isStructured = '';
         res.appearance.forEach(element => {

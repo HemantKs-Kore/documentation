@@ -32,7 +32,7 @@ export class AddResultComponent implements OnInit {
   structuredDataDes: any = '';
   fieldData: any = [];
   searchSDKSubscription: Subscription;
-  mappingSubscription : Subscription;
+  mappingSubscription: Subscription;
   @Input() query: any;
   @Input() addNew;
   @Input() structure;
@@ -58,7 +58,7 @@ export class AddResultComponent implements OnInit {
       }
     });
 
-    this.mappingSubscription = this.headerService.updatedResultTemplateMapping.subscribe( (res : any) => {
+    this.mappingSubscription = this.headerService.updatedResultTemplateMapping.subscribe((res: any) => {
       this.getFieldAutoComplete();
     });
   }

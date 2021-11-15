@@ -260,7 +260,7 @@ export class SearchInterfaceComponent implements OnInit {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId
     };
-    this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
+    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
       this.allSettings = res;
       this.list = [];
       this.customList = [];
