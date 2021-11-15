@@ -916,6 +916,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.service.invoke('post.multiplefileupload', quaryparms, payload).subscribe(
       res => {
         this.notificationService.notify('Files uploaded successfully', 'success');
+        // this.addSourceModalPopRef.close();
+        this.cancleSourceAddition();
       },
       errRes => {
         this.fileObj.fileUploadInProgress = false;
