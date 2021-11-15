@@ -1772,7 +1772,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   drop(event: CdkDragDrop<string[]>) {
     let faqDragData: any = {}
       faqDragData = {
-        question: this.selectedFaq._source.faq_question,
+        question: this.selectedFaq._source.faq_question, 
         // defaultAnswers: event.container.data ,
         // conditionalAnswers: event.previousContainer.data ,
         alternateQuestions: this.selectedFaq._source.faq_alt_questions || [],
