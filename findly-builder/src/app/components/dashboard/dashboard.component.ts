@@ -63,6 +63,12 @@ export class DashboardComponent implements OnInit {
   chartOption: EChartOption;
   chartOption1: EChartOption;
   userEngagementChartData: EChartOption;
+  selectedSort = '';
+  sortedObject = {
+    'type': 'fieldName',
+    'position':'up',
+    "value": 'asc',
+  }
   isAsc = true;
   slider = 0;
   dateType = "hour";
@@ -164,7 +170,7 @@ export class DashboardComponent implements OnInit {
     this.getQueries("MostClickedPositions");
     this.getQueries("FeedbackStats");
   }
-  getQueries(type) {
+  getQueries(type,sortHeaderOption?,sortValue?,navigate?,request?) {
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
     var week = new Date(Date.now() - (6 * 864e5));
@@ -207,7 +213,9 @@ export class DashboardComponent implements OnInit {
         from: this.startDate.toJSON(),//from.toJSON(),
         to: this.endDate.toJSON()
       },
-
+    }
+    if(sortHeaderOption){
+      payload = request
     }
     if (type == "TotalUsersStats" || type == "TotalSearchesStats") {
       //payload.group = this.group 
@@ -275,7 +283,164 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+  sortAnalytics(type?, sortHeaderOption?,sortValue?,navigate?){
+    if(sortValue){
+      this.sortedObject = {
+        type : sortHeaderOption,
+        value : sortValue,
+        position: navigate
+      }
+    }
+    // const quaryparms: any = {
+    //   searchIndexID: this.serachIndexId,
+    //   indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+    //   queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+    //   offset: 0,
+    //   limit: 10
+    // };
+    let request:any={}
+    // if(!sortValue){
+    //   request = {
+    //     "extractionType": "content",
+    //     "sort":{
+    //       "name":1
+    //     }    
+    // }   
+    // }
+    if(sortValue){
+      const sort :any ={}
+      request= {
+        sort
+      }
+    }
+    // else {
+    // request={}
+    // }
+    if(sortValue){  
+      this.getSortIconVisibility(sortHeaderOption,navigate);
+       //Sort start
+       if(type === 'TotalSearchesStats' || type === 'TopQuriesWithNoResults'){
+        if(sortHeaderOption === 'query' ){
+          request.sort.order = sortValue
+          request.sort.by = sortHeaderOption
+        }
+        if(sortHeaderOption === 'count' ){
+          request.sort.order = sortValue
+          request.sort.by = sortHeaderOption
+        }
+       }
+      
 
+       if (type === 'TopSearchResults'){
+        if(sortHeaderOption === 'answer' ){
+          request.sort.order = sortValue
+          request.sort.by = sortHeaderOption
+        }
+        if(sortHeaderOption === 'clicks' ){
+          request.sort.order = sortValue
+          request.sort.by = sortHeaderOption
+        }
+        if(sortHeaderOption === 'appearances' ){
+          request.sort.order = sortValue
+          request.sort.by = sortHeaderOption
+        }
+        if(sortHeaderOption === 'clickThroughRate' ){
+          request.sort.order = sortValue
+          request.sort.by = sortHeaderOption
+        }
+        if(sortHeaderOption === 'avgPosition' ){
+          request.sort.order = sortValue
+          request.sort.by = sortHeaderOption
+        }
+       }
+   
+    
+    // end
+    }
+    this.getQueries(type,sortHeaderOption,sortValue,navigate,request)
+    // this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
+    
+  }
+  sortByApi(type,sort){
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    var naviagtionArrow ='';
+    var checkSortValue= '';
+    if(this.isAsc){
+      naviagtionArrow= 'up';
+      checkSortValue = 'asc';
+    }
+    else{
+      naviagtionArrow ='down';
+      checkSortValue = 'desc';
+    }
+    this.sortAnalytics(type,sort,checkSortValue,naviagtionArrow)
+    // this.fieldsFilter(null,null,null,null,sort,checkSortValue,naviagtionArrow)
+  }
+  getSortIconVisibility(sortingField: string, type: string) {
+    switch (this.selectedSort) {
+      case "answer": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "clicks": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "appearances": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "clickThroughRate": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      } 
+      case "avgPosition": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+
+    }
+  }
 
   pagination(data, type) {
     if (type == 'MostSearchedQuries') {

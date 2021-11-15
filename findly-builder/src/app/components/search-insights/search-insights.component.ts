@@ -37,7 +37,13 @@ export class SearchInsightsComponent implements OnInit {
   SQR_totalRecord: number;
   SQR_limitPage: number = 10;
   SQR_skipPage: number = 0;
-
+  selectedSort = '';
+  isAsc = true;
+  sortedObject = {
+    'type': 'fieldName',
+    'position':'up',
+    "value": 'asc',
+  }
   startDate: any = moment().subtract({ days: 7 });
   endDate: any = moment();
   defaultSelectedDay = 7;
@@ -105,7 +111,7 @@ export class SearchInsightsComponent implements OnInit {
     this.getQueries("QueriesWithNoResults");
     this.getQueries("QueriesWithResults");
   }
-  getQueries(type) {
+  getQueries(type,sortHeaderOption?,sortValue?,navigate?,request?) {
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
     var week = new Date(Date.now() - (6 * 864e5));
@@ -163,7 +169,22 @@ export class SearchInsightsComponent implements OnInit {
         from: this.startDate.toJSON(),//from.toJSON(),
         to: this.endDate.toJSON()
       },
+      if(sortHeaderOption){
+        request
+      }
     }
+    // if(sortHeaderOption){
+    //   let payload: any = {
+    //     type: type,
+    //     group: this.group,
+    //     filters: {
+    //       from: this.startDate.toJSON(),//from.toJSON(),
+    //       to: this.endDate.toJSON()
+    //     },
+    //       request
+        
+    //   }
+    // }
     if (type == 'SearchQueryResults') {
       payload.query = this.selectedQuery;
     }
@@ -188,6 +209,145 @@ export class SearchInsightsComponent implements OnInit {
         this.notificationService.notify('Failed ', 'error');
       }
     });
+  }
+  sortAnalytics(type?, sortHeaderOption?,sortValue?,navigate?){
+    if(sortValue){
+      this.sortedObject = {
+        type : sortHeaderOption,
+        value : sortValue,
+        position: navigate
+      }
+    }
+    // const quaryparms: any = {
+    //   searchIndexID: this.serachIndexId,
+    //   indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+    //   queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+    //   offset: 0,
+    //   limit: 10
+    // };
+    let request:any={}
+    // if(!sortValue){
+    //   request = {
+    //     "extractionType": "content",
+    //     "sort":{
+    //       "name":1
+    //     }    
+    // }   
+    // }
+    if(sortValue){
+      const sort :any ={}
+      request= {
+        sort
+      }
+    }
+    // else {
+    // request={}
+    // }
+    if(sortValue){  
+      this.getSortIconVisibility(sortHeaderOption,navigate);
+       //Sort start
+       if(type === 'QueriesWithResults'){
+        if(sortHeaderOption === 'query' ){
+          request.sort.order = sortValue
+          request.sort.by = sortHeaderOption
+        }
+        if(sortHeaderOption === 'clicks' ){
+          request.sort.order = sortValue
+          request.sort.by = sortHeaderOption
+        }
+        if(sortHeaderOption === 'searches' ){
+          request.sort.order = sortValue
+          request.sort.by = sortHeaderOption
+        }
+       }
+       else if (type === 'QueriesWithNoResults'){
+        if(sortHeaderOption === 'query' ){
+          request.sort.order = sortValue
+          request.sort.by = sortHeaderOption
+        }
+        if(sortHeaderOption === 'clicks' ){
+          request.sort.order = sortValue
+          request.sort.by = sortHeaderOption
+        }
+       }
+       if(this.searchSources){
+        request.search = this.searchSources;
+      }
+   
+    
+    // end
+    }
+    this.getQueries(type,sortHeaderOption,sortValue,navigate,request)
+    // this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
+    
+  }
+  sortByApi(type,sort){
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    var naviagtionArrow ='';
+    var checkSortValue= '';
+    if(this.isAsc){
+      naviagtionArrow= 'up';
+      checkSortValue = 'asc';
+    }
+    else{
+      naviagtionArrow ='down';
+      checkSortValue = 'desc';
+    }
+    this.sortAnalytics(type,sort,checkSortValue,naviagtionArrow)
+    // this.fieldsFilter(null,null,null,null,sort,checkSortValue,naviagtionArrow)
+  }
+  getSortIconVisibility(sortingField: string, type: string) {
+    switch (this.selectedSort) {
+      case "query": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "clicks": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "searches": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "count": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+    }
   }
 
   paginate(event, type) {
