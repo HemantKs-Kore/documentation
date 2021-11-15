@@ -236,10 +236,10 @@
                             <div class="table_header row m-0">
                                 <div class="col-10 header-title pl-0">{{'metrics.dash_board_view.Searched_Intent'|
                                     translate}}</div>
-                                <div class="col-2 header-title text-right">
+                                <div class="col-2 header-title text-right" (click)="sortByApi('TotalSearchesStats','count')">
                                     <span class="d-flex align-items-center flex-column mr-1">
-                                        <img src="assets/icons/caretDown.svg" class="sortImg downArrow">
-                                        <img src="assets/icons/caretDown.svg" class="sortImg upArrow">
+                                        <img src="assets/icons/caretDown.svg"  (click)="getSortIconVisibility('count','asc')" class="sortImg downArrow">
+                                        <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('count','asc')" class="sortImg upArrow">
                                     </span>
                                     {{'metrics.dash_board_view.Count'| translate}}
                                 </div>
@@ -265,10 +265,10 @@
                             <div class="table_header row m-0">
                                 <div class="col-10 header-title  pl-0">{{'metrics.dash_board_view.Searched_Intent'|
                                     translate}}</div>
-                                <div class="col-2 header-title text-right">
+                                <div class="col-2 header-title text-right" (click)="sortByApi('TopQuriesWithNoResults','count')">
                                     <span class="d-flex align-items-center flex-column mr-1">
-                                        <img src="assets/icons/caretDown.svg" class="sortImg downArrow">
-                                        <img src="assets/icons/caretDown.svg" class="sortImg upArrow">
+                                        <img src="assets/icons/caretDown.svg"  (click)="getSortIconVisibility('count','asc')" class="sortImg downArrow">
+                                        <img src="assets/icons/caretDown.svg"  (click)="getSortIconVisibility('count','desc')" class="sortImg upArrow">
                                     </span>
                                     {{'metrics.dash_board_view.Count'| translate}}
                                 </div>
@@ -317,40 +317,40 @@
                         <div class="title-card">{{'metrics.dash_board_view.Top_Search_Results'| translate}} </div>
                         <div class="table-content-data">
                             <div class="table_header row m-0">
-                                <div class="col-4 header-title  pl-0">
+                                <div class="col-4 header-title  pl-0" (click)="sortByApi('TopSearchResults','answer')">
                                     <span class="d-flex align-items-center flex-column mr-1">
-                                        <img src="assets/icons/caretDown.svg" class="sortImg downArrow">
-                                        <img src="assets/icons/caretDown.svg" class="sortImg upArrow">
+                                        <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('answer','asc')" class="sortImg downArrow">
+                                        <img src="assets/icons/caretDown.svg"  (click)="getSortIconVisibility('answer','desc')" class="sortImg upArrow">
                                     </span>
                                     {{'metrics.dash_board_view.Searched_Intent'|translate}}
                                 </div>
                                 <!-- <div class="col-1 header-title text-right"><img src="assets/icons/sort_up_down.svg"></div> -->
-                                <div class="col-2 header-title">
+                                <div class="col-2 header-title" (click)="sortByApi('TopSearchResults','appearances')" >
                                     <span class="d-flex align-items-center flex-column mr-1">
-                                        <img src="assets/icons/caretDown.svg" class="sortImg downArrow">
-                                        <img src="assets/icons/caretDown.svg" class="sortImg upArrow">
+                                        <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('appearances','asc')"  class="sortImg downArrow">
+                                        <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('appearances','desc')"  class="sortImg upArrow">
                                     </span>
                                     {{'metrics.dash_board_view.Appearances'| translate}}
                                 </div>
-                                <div class="col-2 header-title">
+                                <div class="col-2 header-title" (click)="sortByApi('TopSearchResults','clicks')">
                                     <span class="d-flex align-items-center flex-column mr-1">
-                                        <img src="assets/icons/caretDown.svg" class="sortImg downArrow">
-                                        <img src="assets/icons/caretDown.svg" class="sortImg upArrow">
+                                        <img src="assets/icons/caretDown.svg"  (click)="getSortIconVisibility('clicks','asc')" class="sortImg downArrow">
+                                        <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('clicks','desc')" class="sortImg upArrow">
                                     </span>
                                     {{'metrics.dash_board_view.Clicks'| translate}}
                                 </div>
-                                <div class="col-2 header-title">
+                                <div class="col-2 header-title" (click)="sortByApi('TopSearchResults','clickThroughRate')">
                                     <span class="d-flex align-items-center flex-column mr-1">
-                                        <img src="assets/icons/caretDown.svg" class="sortImg downArrow">
-                                        <img src="assets/icons/caretDown.svg" class="sortImg upArrow">
+                                        <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('clickThroughRate','asc')" class="sortImg downArrow">
+                                        <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('clickThroughRate','desc')" class="sortImg upArrow">
                                     </span>
                                     {{'metrics.dash_board_view.ctr'| translate}}
                                 </div>
                                 <!--  ngbTooltip='Click-Through Rate' -->
-                                <div class="col-2 header-title">
+                                <div class="col-2 header-title" (click)="sortByApi('TopSearchResults','avgPosition')">
                                     <span class="d-flex align-items-center flex-column mr-1">
-                                        <img src="assets/icons/caretDown.svg" class="sortImg downArrow">
-                                        <img src="assets/icons/caretDown.svg" class="sortImg upArrow">
+                                        <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('avgPosition','asc')" class="sortImg downArrow">
+                                        <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('avgPosition','desc')" class="sortImg upArrow">
                                     </span>{{'metrics.dash_board_view.Avg_Position'| translate}}
                                 </div>
                                 <!-- <div class="col-1 header-title text-center"><img src="assets/icons/pos-thumb.svg"></div>
