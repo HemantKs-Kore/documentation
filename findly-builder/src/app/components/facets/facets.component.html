@@ -341,7 +341,8 @@
                                         <input type="text" maxlength="60" placeholder="Search For Field"
                                             id="facets-search-input" class="input-search dropdown-toggle dropdown-input"
                                             [class.err-block]="((!currentFacetObj?.fieldName?.length) && submitted)"
-                                            data-toggle="dropdown" [(ngModel)]="currentFacetObj.fieldName">
+                                            data-toggle="dropdown" [(ngModel)]="currentFacetObj.fieldName"
+                                            autocomplete="off">
                                         <img src="assets/images/search_gray.svg" class="search-icon">
                                         <img *ngIf="(!currentFacetObj?.fieldName?.length) && submitted"
                                             id="fieldWarning" src="assets/icons/warning_escalation.svg"
@@ -482,7 +483,8 @@
                                         <input type="text" maxlength="60" placeholder="Search For Field"
                                             id="facets-search-input" class="input-search dropdown-toggle dropdown-input"
                                             data-toggle="dropdown" [(ngModel)]="currentFacetObj.fieldName"
-                                            [class.err-block]="((!currentFacetObj?.fieldName?.length) && submitted)">
+                                            [class.err-block]="((!currentFacetObj?.fieldName?.length) && submitted)"
+                                            autocomplete="off">
                                         <img src="assets/images/search_gray.svg" class="search-icon">
                                         <img *ngIf="(!currentFacetObj?.fieldName?.length) && submitted"
                                             id="fieldWarning" src="assets/icons/warning_escalation.svg"
@@ -572,7 +574,8 @@
                                                 id="facets-search-input"
                                                 class="input-search dropdown-toggle dropdown-input"
                                                 data-toggle="dropdown" [(ngModel)]="currentFacetObj.fieldName"
-                                                [class.err-block]="((!currentFacetObj?.fieldName?.length) && submitted)">
+                                                [class.err-block]="((!currentFacetObj?.fieldName?.length) && submitted)"
+                                                autocomplete="off">
                                             <img src="assets/images/search_gray.svg" class="search-icon">
                                             <img *ngIf="(!currentFacetObj?.fieldName?.length) && submitted"
                                                 id="fieldWarning" src="assets/icons/warning_escalation.svg"
@@ -590,7 +593,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="filter-btn" (click)="showConfiguredFacet=true">
+                                <div class="filter-btn"
+                                    (click)="currentFacetObj.fieldName?showConfiguredFacet=true:null">
                                     <img src="assets/icons/facets/rangeslider.svg">
                                 </div>
                             </div>
@@ -658,12 +662,12 @@
                             [ngClass]="{'selected':configure.selected}">
                             <div class="checkbox-with-label col-6">
                                 <div class="kr-sg-checkbox">
-                                    <input [id]="configure.name" class="checkbox-custom" type="checkbox"
+                                    <input [id]="configure.fieldValue" class="checkbox-custom" type="checkbox"
                                         [(ngModel)]="configure.selected"
                                         (click)="selectAllConfiguredFacets('individual')">
-                                    <label [htmlFor]="configure.name" class="checkbox-custom-label"></label>
+                                    <label [htmlFor]="configure.fieldValue" class="checkbox-custom-label"></label>
                                 </div>
-                                <div class="title-checkbox">{{configure.name}}</div>
+                                <div class="title-checkbox">{{configure.fieldValue}}</div>
                             </div>
                             <div class="display-name col-6">
                                 <div class="kr-sg-input-text">

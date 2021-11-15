@@ -60,6 +60,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   selcectionObj: any = {
     selectAll: false,
     selectedItems: [],
+    selectedCount: 0
   };
   fieldWarnings: any = {
     NOT_INDEXED: 'Indexed property has been set to False for this field',
@@ -116,7 +117,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     multiselect: false,
     tabs: []
   };
-  configuredTabValues: any = [{ bucketName: '', fieldValue: 'faq', name: 'FAQs', selected: false }, { bucketName: '', fieldValue: 'web', name: 'Web', selected: false }, { bucketName: '', fieldValue: 'actions', name: 'Actions', selected: false }, { bucketName: '', fieldValue: 'data', name: 'Structured Data', selected: false }, { bucketName: '', fieldValue: 'file', name: 'Files', selected: false }]
+  configuredTabValues: any = []
   showConfiguredFacet: boolean = false;
   currentFacetObj: any = null;
   currentFacetTab: string = 'filter';
@@ -458,6 +459,11 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.statusArr = [...new Set(this.statusArr)];
       this.docTypeArr = [...new Set(this.docTypeArr)];
       this.selectTypeArr = [...new Set(this.selectTypeArr)];
+      this.facets.forEach((ele) => {
+        if (ele.type === 'tab') {
+          this.getFieldValues(ele.fieldId);
+        }
+      })
       this.loadingContent = false;
       this.addRemovefacetFromSelection(null, null, true);
       if (res.length > 0) {
@@ -498,62 +504,6 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.addEditFacetObj.facetName = suggesition.fieldName;
   }
 
-  // createFacet() {
-  //   const quaryparms: any = {
-  //     searchIndexID: this.serachIndexId,
-  //     indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-  //     queryPipelineId: this.queryPipelineId
-  //   };
-  //   const payload = this.addEditFacetObj;
-  //   if (this.addEditFacetObj.fieldName) {
-  //     delete payload.fieldName;
-  //   }
-  //   if (!this.selectField) {
-  //     this.notificationService.notify('Please select the valid Field', 'erroe');
-  //     return
-  //   }
-  //   // if(this.selectedField.fieldDataType === 'number'){
-  //   //   payload.fieldName = parseInt(this.selectedField.fieldName,10);
-  //   // } else {
-  //   //   payload.fieldName = this.selectedField.fieldName;
-  //   // }
-  //   payload.fieldId = this.selectedField._id;
-  //   payload.isFacetActive = this.addEditFacetObj.isFacetActive || false;
-  //   this.service.invoke('create.facet', quaryparms, payload).subscribe(res => {
-  //     this.notificationService.notify('Added Successfully', 'success');
-  //     if (this.facets.length == 0) { this.appSelectionService.updateTourConfig(this.componentType) }
-  //     //this.facets.push(res);
-  //     this.getFacts();
-  //     this.closeModal();
-  //     this.addEditFacetObj = null;
-  //     this.selectedFieldId = null;
-  //   }, errRes => {
-  //     this.getFieldAutoComplete('');
-  //     this.errorToaster(errRes, 'Failed to create facet');
-  //   });
-  // }
-  // editFacet() {
-  //   const quaryparms: any = {
-  //     searchIndexID: this.serachIndexId,
-  //     indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-  //     facetId: this.addEditFacetObj._id,
-  //     queryPipelineId: this.queryPipelineId
-  //   };
-  //   const payload = this.addEditFacetObj;
-  //   if (this.addEditFacetObj.fieldName) {
-  //     delete payload.fieldName;
-  //   }
-  //   this.service.invoke('update.facet', quaryparms, payload).subscribe(res => {
-  //     this.notificationService.notify('Updated Successfully', 'success');
-  //     this.getFacts();
-  //     this.closeModal();
-  //     this.addEditFacetObj = null;
-  //     this.selectedFieldId = null;
-  //   }, errRes => {
-  //     this.getFieldAutoComplete('');
-  //     this.errorToaster(errRes, 'Failed to update facet');
-  //   });
-  // }
   deleteFacets(facet?, bulk?) {
     const modalData: any = {
       newTitle: 'Are you sure you want to delete ?',
@@ -1034,13 +984,16 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
   //get values based on field
   getFieldValues(id) {
+    this.configuredTabValues = [];
     const quaryparms: any = {
       sidx: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       fieldId: id
     };
     this.service.invoke('get.facetValues', quaryparms).subscribe(res => {
-      console.log("getFieldValues res", res)
+      for (let i in res.values) {
+        this.configuredTabValues.push({ bucketName: '', fieldValue: res.values[i], selected: false });
+      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get field values');
     });
