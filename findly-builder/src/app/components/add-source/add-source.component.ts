@@ -688,9 +688,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
     }
-    // else {
-    //   this.notificationService.notify('More than 10 files can not be uploaded at once.', 'error')
-    // }
+    else {
+      this.notificationService.notify('More than 10 files can not be uploaded at once.', 'error')
+    }
     this.multipleFileArr = [...fileArr];
     fileArr.forEach((element, index) => {
       this.showProgValidation(element, event, index)
@@ -911,7 +911,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   multiplefileupload(payload) {
     const quaryparms: any = {
       searchIndexId: this.searchIndexId,
-      "extractionType": "file"
+      type: 'file'
     };
     this.service.invoke('post.multiplefileupload', quaryparms, payload).subscribe(
       res => {

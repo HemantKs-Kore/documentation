@@ -142,7 +142,7 @@ export class EndPointsService {
     };
     // Multiple File Upload
     this.serviceList['post.multiplefileupload'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/bulk',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/bulk?extractionType=:type',
       method: 'post'
     };
     //

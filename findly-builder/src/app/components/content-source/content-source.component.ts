@@ -406,12 +406,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
       }
       _.map(this.resources, (source) => {
-        if(source.extractionType==='file'){
-          source.name = source.fileMeta.fileName; // source title for upload file (considerig fileName)
-        }
-        else{
-          source.name = source.name || source.title;
-        }
+        source.name = source.name || source.title;
+        // if(source.extractionType==='file'){
+        //   source.name = source.fileMeta.fileName; // source title for upload file (considerig fileName)
+        // }
+        // else{
+         
+        // }
         
       });
       this.resources = this.resources.reverse();
