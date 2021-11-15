@@ -281,6 +281,10 @@
                         color: #202124;
                         padding: 0 10px;
                     }
+                    .link:hover{
+                        color: blue;
+                        cursor: pointer;
+                    }
                 }
                 .goto-sources{
                     display: inline-block;
