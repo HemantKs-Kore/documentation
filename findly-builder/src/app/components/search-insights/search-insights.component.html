@@ -62,9 +62,25 @@
                         <div id="querieswithresults" class="tab-pane tab-data-content " [ngClass]="{'active show': querieswithresults }">
                             <div class="table_data_content">
                                 <div class="table_header row m-0">
-                                    <div class="col-8 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Search_results'| translate}} </div>
-                                    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Count'| translate}} <span class="info-icon" placement="top-center" ngbTooltip="Number of times the query was searched for by the end-users" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img src="assets/icons/Info_gray.svg"></span></div>
-                                    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.No_of_Clicks'| translate}} <span class="info-icon" placement="top-center" ngbTooltip="Number of times where at least one result of the query was clicked on by the end-users" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img src="assets/icons/Info_gray.svg"></span></div>
+                                    <div class="col-8 title">
+                                        <span class="d-flex align-items-center flex-column mr-1">
+                                            <img src="assets/icons/caretDown.svg" class="sortImg downArrow">
+                                            <img src="assets/icons/caretDown.svg" class="sortImg upArrow">
+                                        </span>
+                                        {{'metrics.search_insights.Search_results'| translate}} 
+                                    </div>
+                                    <div class="col-2 title">
+                                        <span class="d-flex align-items-center flex-column mr-1">
+                                            <img src="assets/icons/caretDown.svg" class="sortImg downArrow">
+                                            <img src="assets/icons/caretDown.svg" class="sortImg upArrow">
+                                        </span>
+                                        {{'metrics.search_insights.Count'| translate}} <span class="info-icon" placement="top-center" ngbTooltip="Number of times the query was searched for by the end-users" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img src="assets/icons/Info_gray.svg"></span></div>
+                                    <div class="col-2 title">
+                                        <span class="d-flex align-items-center flex-column mr-1">
+                                            <img src="assets/icons/caretDown.svg" class="sortImg downArrow">
+                                            <img src="assets/icons/caretDown.svg" class="sortImg upArrow">
+                                        </span>
+                                        {{'metrics.search_insights.No_of_Clicks'| translate}} <span class="info-icon" placement="top-center" ngbTooltip="Number of times where at least one result of the query was clicked on by the end-users" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img src="assets/icons/Info_gray.svg"></span></div>
                                 </div>
                                 <div class="table_body row m-0" *ngFor="let result of getQueriesWithResults | filter: [ searchSources , 'query']">
                                     <div class="col-8 title">{{result.query}}</div>
@@ -83,9 +99,19 @@
                         <div id="querieswithoutresults" class="tab-pane fade tab-data-content" [ngClass]="{'active show': !querieswithresults }">
                             <div class="table_data_content">
                                 <div class="table_header row m-0">
-                                    <div class="col-10 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Search_results'| translate}}</div>
+                                    <div class="col-10 title">
+                                        <span class="d-flex align-items-center flex-column mr-1">
+                                            <img src="assets/icons/caretDown.svg" class="sortImg downArrow">
+                                            <img src="assets/icons/caretDown.svg" class="sortImg upArrow">
+                                        </span>
+                                        {{'metrics.search_insights.Search_results'| translate}}</div>
                                     <!-- <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Appearances <span class="info-icon" placement="top-center" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div> -->
-                                    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Count'| translate}} <span class="info-icon" placement="top-center" ngbTooltip="Number of times the query was searched for by the end-users" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img src="assets/icons/Info_gray.svg"></span></div>
+                                    <div class="col-2 title">
+                                        <span class="d-flex align-items-center flex-column mr-1">
+                                            <img src="assets/icons/caretDown.svg" class="sortImg downArrow">
+                                            <img src="assets/icons/caretDown.svg" class="sortImg upArrow">
+                                        </span>
+                                        {{'metrics.search_insights.Count'| translate}} <span class="info-icon" placement="top-center" ngbTooltip="Number of times the query was searched for by the end-users" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img src="assets/icons/Info_gray.svg"></span></div>
                                 </div>
                                 <div class="table_body row m-0" *ngFor="let result of topQuriesWithNoResults | filter: [ searchSources , 'query']">
                                     <div class="col-10 title">{{result.query}}</div>
