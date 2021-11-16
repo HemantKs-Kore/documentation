@@ -119,7 +119,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   };
   configuredTabValues: any = []
   showConfiguredFacet: boolean = false;
-  currentFacetObj: any = null;
+  currentFacetObj: any = {};
   currentFacetTab: string = 'filter';
   selectAllConfigure: boolean = false;
   facetType: any = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];

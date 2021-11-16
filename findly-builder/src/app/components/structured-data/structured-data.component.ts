@@ -838,10 +838,11 @@ export class StructuredDataComponent implements OnInit {
   getAllSettings() {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
+      interface: 'fullSearch'
     };
     this.isResultTemplateLoading = true;
-    this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
+    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
       this.isResultTemplateLoading = false;
       if (res.settings) {
         res.settings.forEach((_interface) => {
