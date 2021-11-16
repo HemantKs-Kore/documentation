@@ -623,7 +623,9 @@ export class SearchInterfaceComponent implements OnInit {
   searchlist(type, valToSearch, filedData) {
     let data = []
     filedData.filter(element => {
-      if (element.fieldName.includes(valToSearch)) {
+      var filedNamelower = element.fieldName.toLocaleLowerCase();
+      var valToSearchlower = valToSearch.toLocaleLowerCase();
+      if (filedNamelower.includes(valToSearchlower)) {
         data.push(element)
       }
     });
