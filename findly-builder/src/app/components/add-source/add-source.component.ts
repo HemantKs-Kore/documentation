@@ -703,7 +703,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.newSourceObj.url = '';
     let fileName = '';
     console.log(this.filesListData, this.multipleData)
-    if (event && event.target && event.target.files && event.target.files.length && event.target.files[0].name) {
+    if(event && event.target && event.target.files && event.target.files.length && event.target.files[0].size > 15728640){
+      this.filesListData = [];
+      this.notificationService.notify('Individual file size cannot be more than 15 MB', 'error')
+      $('#sourceFileUploader').val(' ');
+    }
+    else if (event && event.target && event.target.files && event.target.files.length && event.target.files[0].size <= 15728640) {
       // fileName = event.target.files[0].name;
       this.multipleFileChangeListner(event)
     }
@@ -768,7 +773,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
     if (this.files && this.files.length === 1) {
-      this.prepareFileUploadData(input, ext, this.files, resourceType_import);
+        this.prepareFileUploadData(input, ext, this.files, resourceType_import);
+     
     }
     else {
       this.multipleFileRequestBody(input, ext, this.files, resourceType_import);
@@ -807,7 +813,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filesListData.forEach(element => {
       if (element.size > 15728640) {  //Size is in bytes (1 byte = 9.5367431640625×10-7 MB => 15728640 bytes = 15MB)
         this.filesListData = [];
+        // this.removeFile();
         this.notificationService.notify('Individual file size cannot be more than 15 MB', 'error')
+        $('#sourceFileUploader').val(' ');
+        
       }
 
       else {
@@ -949,25 +958,30 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       fileUploadError: false,
     }
   }
-
-  removeFile(index?) {
-     //To remove multiple files (In content)
-     if(this.multipleFileArr.length > 1){
-      if(index){
-        this.removedArr.push(this.filesListData[index])
-        this.filesListData.splice(index, 1)
-        // this.multipleFilePayloadForRemovalOfFile(this.filesListData);
-        this.removedArr.forEach(removedElement=> {
-          this.notificationService.notify(removedElement.name +' is removed.','success')
-        })
-        
-      }
+  removeMultipleFile(index){
+    let name;
+    //To remove multiple files (In content)
+    if(this.multipleFileArr.length){
+     if(index>=0){
+       this.removedArr.push(this.filesListData[index])
+       this.filesListData.splice(index, 1)
+       // this.multipleFilePayloadForRemovalOfFile(this.filesListData);
+       this.removedArr.forEach(removedElement=> {   
+        name = removedElement.name 
+       })
+       this.notificationService.notify(name +' is removed.','success')
+       
      }
-    //To remove single file
-    else{
+    }
+    if(this.multipleFileArr.length === this.removedArr.length){
+      this.removeFile()
+    }
+  }
+ //To remove single file
+  removeFile() {
       $('#sourceFileUploader').val('');
       this.resetfileSource()
-    }
+    
     // $('#sourceFileUploader').replaceWith($('#sourceFileUploader').val('').clone(true));
     // this.resetfileSource()
     // this.service.invoke('post.fileupload').subscribe().unsubscribe();
@@ -1197,17 +1211,21 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       if (resourceType === 'file') {
+        if (this.selectedSourceType.sourceType === 'content') {
         if(this.filesListData.length === 1){
           if (this.fileObj.fileId) {
             payload.fileId = this.fileObj.fileId;
+            payload.name = this.fileObj.fileName;
             if (payload.url == '') delete payload.url;
           }
         }
+       
         else {
           this.multiplefileupload(this.multipleData);
         }
-       
+      }
         if (this.selectedSourceType.sourceType === 'faq') {
+          payload.fileId = this.fileObj.fileId;
           payload.extractionType = "basic";
           if (payload.hasOwnProperty('url')) delete payload.url;
         }

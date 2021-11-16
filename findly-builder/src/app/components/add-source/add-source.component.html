@@ -326,7 +326,7 @@
                           </label>
                           <br/>
                           <div class="info_help_text"
-                            *ngIf="(selectedSourceType.sourceType=='content'&&selectedSourceType.resourceType =='file')">
+                            *ngIf="(selectedSourceType.sourceType=='content' && selectedSourceType.resourceType =='file')">
                             <img src="assets/icons/info.svg"> Supports: pdf, docx, ppt, xlsx, txt file types
                           </div>
                           <div *ngIf="selectedSourceType.sourceType=='content'" class="not-limit-size">Note: Maximum upload limit is 10 files not exceeding 15 MB per file.</div>
@@ -337,16 +337,16 @@
                             <div class="uploaded-file-name"
                               [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
                               <div class="file-close-text">
-                                <div class="d-flex align-items-center">
-                                  <img *ngIf="fileObj.file_ext === 'pdf'" class="type_img"
+                                <div class="d-flex align-items-center"> {{fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) | json}}
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.pdf'" class="type_img" 
                                     src="assets/icons/file_type_image.svg">
-                                  <img *ngIf="fileObj.file_ext === 'docx'" class="type_img"
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.docx'" class="type_img"
                                     src="assets/icons/doc_logo.svg">
-                                  <img *ngIf="fileObj.file_ext === 'txt'" class="type_img"
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.txt'" class="type_img"
                                     src="assets/icons/txt_icon.svg">
-                                  <img *ngIf="fileObj.file_ext === 'xlsx'" class="type_img"
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.xlsx'" class="type_img"
                                     src="assets/icons/excel_logo.svg">
-                                  <img *ngIf="fileObj.file_ext === 'ppt'" class="type_img"
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.ppt'" class="type_img"
                                     src="assets/icons/ppt_logo.svg">
                                   <div class="file-name" [innerHTML]="fileObj.fileName"></div>
                                 </div>
@@ -384,6 +384,7 @@
                                 <div class="d-flex align-items-center img-block-data">
                                   <img *ngIf="file.name.substring(file.name.lastIndexOf('.'))=== '.pdf'" class="type_img" src="assets/icons/file_type_image.svg">
                                   <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.doc'" class="type_img" src="assets/icons/doc_logo.svg">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.docx'" class="type_img" src="assets/icons/doc_logo.svg">
                                   <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.txt'" class="type_img" src="assets/icons/txt_icon.svg">
                                   <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.xlsx'" class="type_img" src="assets/icons/excel_logo.svg">
                                   <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.ppt'" class="type_img" src="assets/icons/ppt_logo.svg">
@@ -395,7 +396,7 @@
                                   </div>
                                   <!-- <mat-progress-bar mode="indeterminate" class="progress-bar-data"></mat-progress-bar> -->
                                 </div>
-                                <img src="assets/images/close.svg" class="close-file adjust_z_index" (click)="removeFile(index)">
+                                <img src="assets/images/close.svg" class="close-file adjust_z_index" (click)="removeMultipleFile(index)">
                               </div>
                               <!-- <div class="progress-status">
                                 <img *ngIf="fileObj.fileUploadInProgress" class="progSpinner"
@@ -462,7 +463,7 @@
                 <div class="drag-drop-sec">
                   <input type="file" id="sourceFileUploader" class="custom-file-input"
                     (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01"
-                    accept=".csv,.pdf,.json" multiple>
+                    accept=".csv,.pdf,.json">
                   <div _ngcontent-gpv-c11="" class="imageDiv">
                     <img _ngcontent-gpv-c11="" src="assets/images/source-icos/drog_frop.svg">
                   </div>
