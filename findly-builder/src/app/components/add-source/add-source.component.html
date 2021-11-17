@@ -242,7 +242,7 @@
         <div class="modal-body">
           <div *ngIf="selectedSourceType" class="crerateWebCrawl" [ngClass]="{'pr-0': resourceIDToOpen}">
             <div class="crawl-form-title" *ngIf="!resourceIDToOpen"></div>
-            <div class="kr-sg-input-text mb-4" *ngIf="!(selectedSourceType.resourceType==='file')">
+            <div class="kr-sg-input-text mb-4" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='web')|| (showSourceTitle)">
               <div class="label-text">Source Title</div>
               <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput" name="sourceTitle"
                 placeholder="Enter Title" [(ngModel)]="newSourceObj.name" (change)="inputChanged('title')"
@@ -250,7 +250,7 @@
               <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
                 width="12" />
             </div>
-            <div class="kr-sg-input-text-area mb-3 d-none" *ngIf="!(selectedSourceType.sourceType==='faq')">
+            <div class="kr-sg-input-text-area mb-3 " *ngIf="(selectedSourceType.resourceType === 'web') || showDesc">
               <div class="label-text">Description</div>
               <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc" maxlength="250"
                 placeholder="Enter Description" class="input-text"></textarea>

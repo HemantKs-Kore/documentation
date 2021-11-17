@@ -93,6 +93,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   fileDataObj: any = {};
   multipleData: any = {};
   files;
+  showDesc=false
   filesListData: any = [];
   multipleFileArr = [];
   importFaqInprogress = false;
@@ -223,6 +224,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   addManualFaqModalPopRef: any;
   addSourceModalPopRef: any;
   crawlModalPopRef: any;
+  showSourceTitle=false
   linkBotsModalPopRef: any;
   noAssociatedBots: boolean = true;
   associatedBots: any = [];
@@ -1016,9 +1018,21 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (type == 'file') {
       $("#extractUrl").css("border-color", "#BDC1C6");
       $("#infoWarning1").hide();
+      if(this.selectedSourceType.name === 'Upload File'){
+        this.showSourceTitle = false;
+        this.showDesc = false;
+        }
+        else{
+          this.showSourceTitle = true;
+          
+        }
     }
     else if (type == 'url') {
       $(".drag-drop-sec").css("border-color", "#BDC1C6");
+      this.showSourceTitle = true;
+      if(this.selectedSourceType.name === 'Upload File'){
+      this.showDesc = true;
+      }
     }
   }
   //Form validation
