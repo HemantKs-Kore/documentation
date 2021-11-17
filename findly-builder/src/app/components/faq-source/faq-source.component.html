@@ -452,19 +452,12 @@
                             <!-- <app-add-faq (editFaq)="editFaq($event)" [faqData]="selectedFaq" (cancelfaqEvent)="faqCancle()" *ngIf="editfaq && selectedFaq"></app-add-faq> -->
                             <div class="body-top-content" *ngIf="!editfaq">
                                 <div class="question-content">
-                                    <div class="shadow-div">
-                                        <div class="title-que">
-                                            <span class="">{{selectedFaq._source.faq_question}}</span>                                       
-                                            <button  class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
-                                        </div>
-                                        <!-- <div class="keywords">
-                                            <span class="keys" *ngFor="let keyword of selectedFaq._source.keywords">{{keyword}}</span>
-                                        </div>  -->
-                                    </div> 
-                                    <div cdkDropListGroup class="pad-div">
-                                        <div  cdkDropList 
-                                        [cdkDropListData]="selectedFaq._source.faq_answer"
-                                       class="bot-response-view-mode"  (cdkDropListDropped)="drop($event)"  >
+                                    <div class="title-que">
+                                        <span>{{selectedFaq._source.faq_question}}</span>                                       
+                                        <button class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
+                                    </div>
+                                    <div cdkDropListGroup class="pad-div d-none">
+                                        <div cdkDropList [cdkDropListData]="selectedFaq._source.faq_answer" class="bot-response-view-mode"  (cdkDropListDropped)="drop($event)"  >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.faq_answer && selectedFaq._source.faq_answer.length">
                                                 <!-- <ng-container *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index;"> -->
                                                    
@@ -504,13 +497,9 @@
                                                         </div> 
                                             </ng-container>   
                                         </div>
-                                        <div cdkDropList   
-                                        [cdkDropListData]="selectedFaq._source.faq_cond_answers"
-                                          class="conditionalBlock bot-response-view-mode" (cdkDropListDropped)="drop($event)" >
+                                        <div cdkDropList [cdkDropListData]="selectedFaq._source.faq_cond_answers" class="conditionalBlock bot-response-view-mode" (cdkDropListDropped)="drop($event)" >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source.faq_cond_answers && selectedFaq._source.faq_cond_answers.length">
                                             <div  cdkDrag *ngFor="let consitionalAnswer of selectedFaq._source.faq_cond_answers; let i = index;" >
-
-                                                
                                                 <div class="response-title-bg row">
                                                     <div  class="bot-response-title col-6">{{'faqSource.response' | translate}}<span>{{ ' ' + (i + 1 + (selectedFaq._source.faq_answer?selectedFaq._source.faq_answer.length:0))}}</span></div>
                                                     <div class="response-likes-views-sec d-flex col-6">
@@ -577,6 +566,132 @@
                                         </div>
                                         <!-- <div class="added-answer" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(selectedFaq.answer)'></div> -->
                                     </div>
+
+                                    <ng-container>
+                                        <div class="conditional-responses-new">
+                                            <div class="conditional-res-main-heading">
+                                                <span class="title">Conditional Responses</span>
+                                                <img src="assets/icons/faq/help.svg">
+                                                <span class="count-conditions">2</span>
+                                            </div>
+                                            <div class="response-block if-morethan-one">
+                                                <div class="response-count">1</div>
+                                                <div class="response-data"> 
+                                                    <div class="header-data">
+                                                        <div class="title col-8"><img src="assets/icons/faq/move.svg">Conditional Responses</div>
+                                                        <div class="count-clicks col-4">
+                                                            <div class="views">
+                                                                <img src="assets/icons/faq/views.svg">872
+                                                            </div>
+                                                            <div class="clicks">
+                                                                <img src="assets/icons/faq/likes.svg">764
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="data-inner-content">
+                                                        <div class="response-text">To access Citibank Online as a first time user, you will need to create a User ID and Internet Password.</div>
+                                                        <div class="conditions-list">
+                                                            <div class="titles-sec">
+                                                                <div class="title">Conditions</div>
+                                                                <div class="show-more" data-toggle="collapse" data-target="#demo">Show More <img src="assets/icons/faq/carrotup.svg"></div>
+                                                            </div>
+                                                            <div id="demo" class="collapse show">
+                                                                devendar
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="response-block if-morethan-one">
+                                                <div class="response-count">2</div>
+                                                <div class="response-data"> 
+                                                    <div class="header-data">
+                                                        <div class="title col-8"><img src="assets/icons/faq/move.svg">Conditional Responses</div>
+                                                        <div class="count-clicks col-4">
+                                                            <div class="views">
+                                                                <img src="assets/icons/faq/views.svg">872
+                                                            </div>
+                                                            <div class="clicks">
+                                                                <img src="assets/icons/faq/likes.svg">764
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="data-inner-content">
+                                                        <div class="response-text">To access Citibank Online as a first time user, you will need to create a User ID and Internet Password.</div>
+                                                        <div class="conditions-list">
+                                                            <div class="titles-sec">
+                                                                <div class="title">Conditions</div>
+                                                                <div class="show-more" data-toggle="collapse" data-target="#demo1">Show More <img src="assets/icons/faq/carrotup.svg"></div>
+                                                            </div>
+                                                            <div id="demo1" class="collapse show">
+                                                                <div class="condition-container">
+                                                                    <div class="condition-sec-data col-7 pl-0">
+                                                                        <div class="title">WHEN</div>
+                                                                        <div class="type-condition">
+                                                                            <span class="left-name">SearchContext :</span>
+                                                                            <span class="right-name">RecentSearches</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="condition-sec-data col-5 p-0">
+                                                                        <div class="title">Contains</div>
+                                                                        <div class="name-condition ml-2">Credit</div>
+                                                                        <div class="condition-type">OR</div>
+                                                                        <div class="name-condition">Loan</div>
+                                                                    </div>                                                                
+                                                                </div>
+                                                                <div class="condition-container">
+                                                                    <div class="condition-sec-data col-7 pl-0">
+                                                                        <div class="title">AND</div>
+                                                                        <div class="type-condition">
+                                                                            <span class="left-name">UserContext :</span>
+                                                                            <span class="right-name">CustomerType</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="condition-sec-data col-5 p-0">
+                                                                        <div class="title">Contains</div>
+                                                                        <div class="name-condition ml-2">Gold</div>
+                                                                        <div class="condition-type">OR</div>
+                                                                        <div class="name-condition">Premium</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="default-responses-block">
+                                            <div class="header-data">
+                                                <span class="title">Conditional Responses</span>
+                                                <img src="assets/icons/faq/help.svg">
+                                                <span class="count-conditions">2</span>
+                                            </div>
+                                            <ng-container>
+                                                <div class="default-res-data row">
+                                                    <div class="default-desc col-8">To access Citibank Online as a first time user, you will need to create a User ID and Internet Password.</div>
+                                                    <div class="count-clicks col-4">
+                                                        <div class="views">
+                                                            <img src="assets/icons/faq/views.svg">872
+                                                        </div>
+                                                        <div class="clicks">
+                                                            <img src="assets/icons/faq/likes.svg">764
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="default-res-data row">
+                                                    <div class="default-desc col-8">To access Citibank Online as a first time user, you will need to create a User ID and Internet Password.</div>
+                                                    <div class="count-clicks col-4">
+                                                        <div class="views">
+                                                            <img src="assets/icons/faq/views.svg">872
+                                                        </div>
+                                                        <div class="clicks">
+                                                            <img src="assets/icons/faq/likes.svg">764
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </ng-container>                                    
                                 </div>
                                 <div class="appearences-info row" *ngIf="selectedFaq && selectedFaq.feedback">
                                     <div class="col-4 p-0">
@@ -597,32 +712,31 @@
                                     </div> -->
                                 </div>
                             </div>
-                            <div class="add-alternative-questions row bg-white"  *ngIf="selectedFaq._source.faq_alt_questions?.length">
-                                <div class="col-10 pl-0 pr-2">
-                                    <div class="question-name text-truncate">{{'faqSource.alternate_questions' | translate}}
-                                        <span>{{selectedFaq._source.faq_alt_questions?.length>0?'('+selectedFaq._source.faq_alt_questions?.length+')':''}}</span>
-                                        <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
-                                    </div>
+                            <div class="add-alternative-questions row"  *ngIf="selectedFaq._source.faq_alt_questions?.length">
+                                <div class="header-data">
+                                    <span class="title">{{'faqSource.alternate_questions' | translate}}</span>
+                                    <img src="assets/icons/faq/help.svg">
+                                    <span class="count-conditions">{{selectedFaq._source.faq_alt_questions?.length>0?''+selectedFaq._source.faq_alt_questions?.length+'':''}}</span>
                                 </div>
-                                <!-- <div class="col-2 p-0 text-right">
-                                    <button class="kr-sg-button-primary btn_lg" (click)="addAlternate()">Add</button>
-                                </div> -->
+                                <ng-container *ngFor="let alternateQuestion of selectedFaq._source?.faq_alt_questions">
+                                    <div class="col-12 question-name">{{alternateQuestion}}</div>
+                                </ng-container>
                             </div>
                             <div *ngIf="selectedFaq.isAlt" class="alternate-question-bg">
                                 <app-add-alternate-question [faqServ]="faqServiceAlt"></app-add-alternate-question>
                             </div>
-                            <ng-container *ngIf="selectedFaq._source.faq_alt_questions?.length">
-                            <div class="added-questions-list py-0" *ngFor="let alternateQuestion of selectedFaq._source?.faq_alt_questions">
-                                <div class="content-body-question row" >
-                                <div class="col-12 group-name question-name text-truncate">{{alternateQuestion}}</div>
+                            <!-- <ng-container *ngIf="selectedFaq._source.faq_alt_questions?.length">
+                                <div class="added-questions-list py-0" *ngFor="let alternateQuestion of selectedFaq._source?.faq_alt_questions">
+                                    <div class="content-body-question row">
+                                        <div class="col-12 group-name question-name text-truncate">{{alternateQuestion}}</div>
+                                    </div>
+                                    <div class="added-tags text-truncate">
+                                        <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
+                                    </div>
+                                    
+                                        <img src="assets/icons/delete-table.svg" (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}">
                                 </div>
-                                <!-- <div class="added-tags text-truncate">
-                                    <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
-                                </div> -->
-                                <!-- 
-                                    <img src="assets/icons/delete-table.svg" (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}"> -->
-                            </div>
-                           </ng-container>
+                           </ng-container> -->
                             <!-- <div class="add-alternative-questions row followup_questions">
                                 <div class="col-10 pl-0 pr-2">
                                     <div class="question-name text-truncate">Followup Questions 

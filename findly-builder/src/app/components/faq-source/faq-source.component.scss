@@ -764,33 +764,386 @@
                     .body-content{      
                         padding-bottom: 50px;                  
                         .body-top-content{
-                            padding: 20px 0px 0 0px;
+                            padding: 0px 0px 0 0px;
                         }
                         .question-content{
-                            .shadow-div{                               
-                                box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-                                padding: 0 30px;
-                            }
                             .pad-div{
                                 padding: 0 30px;
+                            }
+                            .conditional-responses-new{
+                                background: #F8F9FA;
+                                padding: 20px;
+                                .conditional-res-main-heading{
+                                    display: flex;
+                                    align-items: center;
+                                    margin-bottom: 15px;
+                                    .title{
+                                        font-weight: 600;
+                                        font-size: 12px;
+                                        line-height: 15px;
+                                        color: #5F6368;
+                                        text-transform: uppercase;
+                                    }
+                                    img{
+                                        margin: 0 10px 0 10px;
+                                        cursor: pointer;
+                                    }
+                                    .count-conditions{
+                                        background: #E4E5E7;
+                                        padding: 2px;
+                                        height: auto;
+                                        font-weight: normal;
+                                        font-size: 10px;
+                                        line-height: 12px;
+                                        text-align: center;
+                                        border-radius: 100%;
+                                        min-width: 16px;
+                                        min-height: 16px;
+                                        position: relative;
+                                        margin-left: 10px;
+                                        &::before{
+                                            content: "";
+                                            position: absolute;
+                                            height: 100%;
+                                            background:#E4E5E7;
+                                            width:2px;
+                                            top: 0;
+                                            left: -10px;
+                                        }
+                                    }
+                                }
+                                .response-block{
+                                    position: relative;
+                                    margin-bottom: 10px;
+                                    &:last-child{
+                                        margin-bottom: 0;
+                                        &::after{
+                                            display: none !important;
+                                        }
+                                    }
+                                    &.if-morethan-one{
+                                        &::before{
+                                            content: "";
+                                            position: absolute;
+                                            width: 14px;
+                                            height: 1px;
+                                            z-index: 9999;
+                                            background: #BDC1C6;
+                                            left: 26px;
+                                            top: 12px;
+                                        }
+                                        &::after{
+                                            content: "";
+                                            position: absolute;
+                                            height: 100%;
+                                            border-left: 1px dashed #BDC1C6;
+                                            top: 10px;
+                                            left: 13px;
+                                        }
+                                        .response-data{
+                                            margin-left: 40px;
+                                        }
+                                    }
+                                    .response-count{
+                                        position: absolute;
+                                        left: 0;
+                                        top: 0;
+                                        background: #FFFFFF;
+                                        border: 1px solid #BDC1C6;
+                                        box-sizing: border-box;
+                                        border-radius: 20px;
+                                        width: 26px;
+                                        height: 26px;
+                                        display: flex;
+                                        flex-direction: column;
+                                        justify-content: center;
+                                        align-items: center;
+                                        font-weight: 600;
+                                        font-size: 12px;
+                                        line-height: 15px;
+                                        color: #5F6368;
+                                        text-transform: uppercase;
+                                        z-index: 1;
+                                    }
+                                    .response-data{
+                                        background: #FFFFFF;
+                                        border: 1px solid #BDC1C6;
+                                        box-sizing: border-box;
+                                        border-radius: 4px;
+                                        border: 0;
+                                        .header-data{
+                                            display: flex;
+                                            align-items: center;
+                                            padding: 6px 15px;
+                                            background: #EFF0F1;
+                                            border: 1px solid #BDC1C6;
+                                            box-sizing: border-box;
+                                            border-radius: 4px 4px 0px 0px;
+                                            min-height: 35px;
+                                            .title{
+                                                font-weight: 600;
+                                                font-size: 10px;
+                                                line-height: 12px;
+                                                color: #9AA0A6;
+                                                display: flex;
+                                                align-items: center;
+                                                padding: 0 10px 0 0;
+                                                img{
+                                                    margin-right: 10px;
+                                                    cursor: move;
+                                                }
+                                            }
+                                            .count-clicks{
+                                                display: flex;
+                                                align-items: center;
+                                                justify-content: end;
+                                                padding: 0;
+                                                .views{
+                                                    font-weight: 600;
+                                                    font-size: 12px;
+                                                    line-height: 15px;
+                                                    text-transform: uppercase;
+                                                    color: #5F6368;
+                                                    margin-right: 15px;
+                                                    cursor: pointer;
+                                                    display: flex;
+                                                    align-items: center;
+                                                    img{
+                                                        margin-right: 7px;
+                                                    }
+                                                }
+                                                .clicks{
+                                                    font-weight: 600;
+                                                    font-size: 12px;
+                                                    line-height: 15px;
+                                                    text-transform: uppercase;
+                                                    color: #5F6368;
+                                                    cursor: pointer;
+                                                    display: flex;
+                                                    align-items: center;
+                                                    img{
+                                                        margin-right: 7px;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        .data-inner-content{
+                                            padding: 10px 15px 15px 15px;
+                                            border: 1px solid #BDC1C6;
+                                            box-sizing: border-box;
+                                            border-radius: 0px 0px 4px 4px;
+                                            border-top: 0;
+                                            .response-text{
+                                                font-weight: normal;
+                                                font-size: 12px;
+                                                line-height: 15px;
+                                                color: #202124;
+                                            }
+                                            .conditions-list{
+                                                background: #F8F9FA;
+                                                border: 1px solid #E4E5E7;
+                                                box-sizing: border-box;
+                                                border-radius: 2px;
+                                                padding: 12px 15px;
+                                                margin-top: 10px;
+                                                .titles-sec{
+                                                    display: flex;
+                                                    align-items: center;
+                                                    justify-content: space-between;
+                                                    .title{
+                                                        font-weight: 500;
+                                                        font-size: 10px;
+                                                        line-height: 12px;
+                                                        color: #5F6368;
+                                                    }
+                                                    .show-more{
+                                                        font-weight: 500;
+                                                        font-size: 10px;
+                                                        line-height: 12px;
+                                                        color: #5F6368;
+                                                        cursor: pointer;
+                                                        &[aria-expanded="false"]{
+                                                            img{
+                                                                transform: rotate(180deg);
+                                                            } 
+                                                        }
+                                                        img{
+                                                            
+                                                        }
+                                                    }
+                                                }
+                                                .condition-container{
+                                                    display: flex;
+                                                    flex-wrap: wrap;
+                                                    margin-top: 10px;
+                                                    .condition-sec-data{
+                                                        display: flex;
+                                                        align-items: center;
+                                                        padding-right:11px;
+                                                        .title{
+                                                            font-weight: 600;
+                                                            font-size: 10px;
+                                                            line-height: 12px;
+                                                            color: #9AA0A6;
+                                                            width: 45px;
+                                                            flex-shrink:0px;
+                                                        }
+                                                        .name-condition{
+                                                            border: 1px solid #BDC1C6;
+                                                            box-sizing: border-box;
+                                                            border-radius: 2px;
+                                                            padding: 2px 6px;
+                                                            font-weight: 500;
+                                                            font-size: 10px;
+                                                            line-height: 12px;
+                                                            color: #5F6368;
+                                                            max-width: 60px;
+                                                            overflow: hidden;
+                                                            text-overflow: ellipsis;
+                                                            white-space: nowrap;
+                                                        }
+                                                        .condition-type{
+                                                            font-weight: 600;
+                                                            font-size: 10px;
+                                                            line-height: 12px;
+                                                            color: #9AA0A6;
+                                                            margin: 0 5px;
+                                                        }
+
+                                                        .type-condition{
+                                                            display: flex;
+                                                            align-items: center;
+                                                            border: 1px solid #BDC1C6;
+                                                            box-sizing: border-box;
+                                                            border-radius: 2px;
+                                                            padding: 2px 6px;
+                                                            .left-name{
+                                                                font-weight: 500;
+                                                                font-size: 10px;
+                                                                line-height: 12px;
+                                                                color: #9AA0A6;
+                                                            }
+                                                            .right-name{
+                                                                font-weight: 500;
+                                                                font-size: 10px;
+                                                                line-height: 12px;
+                                                                color: #5F6368;
+                                                                padding-left: 3px;
+                                                                max-width: 96px;
+                                                                overflow: hidden;
+                                                                text-overflow: ellipsis;
+                                                                white-space: nowrap;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            .default-responses-block{
+                                padding: 30px 20px;
+                                border-bottom: 1px solid #E4E5E7;
+                                .header-data{
+                                    display: flex;
+                                    align-items: center;
+                                    margin-bottom: 5px;
+                                    .title{
+                                        font-weight: 600;
+                                        font-size: 12px;
+                                        line-height: 15px;
+                                        color: #5F6368;
+                                        text-transform: uppercase;
+                                    }
+                                    img{
+                                        margin: 0 10px 0 10px;
+                                        cursor: pointer;
+                                    }
+                                    .count-conditions{
+                                        background: #E4E5E7;
+                                        padding: 2px;
+                                        height: auto;
+                                        font-weight: normal;
+                                        font-size: 10px;
+                                        line-height: 12px;
+                                        text-align: center;
+                                        border-radius: 100%;
+                                        min-width: 16px;
+                                        min-height: 16px;
+                                        position: relative;
+                                        margin-left: 10px;
+                                        &::before{
+                                            content: "";
+                                            position: absolute;
+                                            height: 100%;
+                                            background:#E4E5E7;
+                                            width:2px;
+                                            top: 0;
+                                            left: -10px;
+                                        }
+                                    }
+                                }
+                                .default-res-data{
+                                    margin: 5px  0 0 0;
+                                    padding: 13px 10px;
+                                    border-bottom:1px solid #E4E5E7;
+                                    .default-desc{
+                                        font-weight: normal;
+                                        font-size: 12px;
+                                        line-height: 15px;
+                                        color: #202124;
+                                        padding: 0;
+                                    }
+                                    .count-clicks{
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: end;
+                                        padding-right: 0;
+                                        .views{
+                                            font-weight: 600;
+                                            font-size: 12px;
+                                            line-height: 15px;
+                                            text-transform: uppercase;
+                                            color: #5F6368;
+                                            margin-right: 15px;
+                                            cursor: pointer;
+                                            display: flex;
+                                            align-items: center;
+                                            img{
+                                                margin-right: 7px;
+                                            }
+                                        }
+                                        .clicks{
+                                            font-weight: 600;
+                                            font-size: 12px;
+                                            line-height: 15px;
+                                            text-transform: uppercase;
+                                            color: #5F6368;
+                                            cursor: pointer;
+                                            display: flex;
+                                            align-items: center;
+                                            img{
+                                                margin-right: 7px;
+                                            }
+                                        }
+                                    }
+                                }
                             }
                             .title-que{
                                 color: #202124;
                                 font-weight: 500;
                                 font-size: 14px;
+                                line-height:17px;
                                 display: flex;
                                 align-items: center;
                                 justify-content: space-between;
+                                padding:12px 20px;
                                 span{
                                     display: inline-block;
                                     max-width: 100%;
-                                    // white-space: nowrap;
-                                    // overflow: hidden;
-                                    // text-overflow: ellipsis;
                                     padding-right: 10px;
-                                }
-                                img{
-                                   cursor: pointer;
+                                    width: 85%;
                                 }
                             }
                             .keywords{
@@ -804,7 +1157,7 @@
                                     padding: 0 0 0 8px;
                                 }
                             }     
-                            .response-title-bg                       {
+                            .response-title-bg{
                                 background: #F8F9FA;
                                 margin: 0 -30px;
                                 padding: 15px 30px;
@@ -947,14 +1300,6 @@
                                     }                                    
                                 }
                             }
-                            // .bot-response-title{
-                            //     color: #9AA0A6;
-                            //     font-weight: 500;
-                            //     font-size: 12px;
-                            //     text-transform: uppercase;
-                            //     margin-bottom: 2px;
-                            //     margin-top: 15px;
-                            // }
                             .condition-tags{
                                 color: #9AA0A6;
                                 font-weight: normal;
@@ -1007,20 +1352,67 @@
                             }
                         }
                         .add-alternative-questions{
-                            padding: 14px 30px 10px;
+                            padding: 30px 20px;
                             align-items: center;
                             background:transparent;
-                            margin: 40px 0 0 0;
+                            margin: 0px 0 0 0;
+                            .header-data{
+                                display: flex;
+                                align-items: center;
+                                margin-bottom: 15px;
+                                .title{
+                                    font-weight: 600;
+                                    font-size: 12px;
+                                    line-height: 15px;
+                                    color: #5F6368;
+                                    text-transform: uppercase;
+                                }
+                                img{
+                                    margin: 0 10px 0 10px;
+                                    cursor: pointer;
+                                }
+                                .count-conditions{
+                                    background: #E4E5E7;
+                                    padding: 2px;
+                                    height: auto;
+                                    font-weight: normal;
+                                    font-size: 10px;
+                                    line-height: 12px;
+                                    text-align: center;
+                                    border-radius: 100%;
+                                    min-width: 16px;
+                                    min-height: 16px;
+                                    position: relative;
+                                    margin-left: 10px;
+                                    &::before{
+                                        content: "";
+                                        position: absolute;
+                                        height: 100%;
+                                        background:#E4E5E7;
+                                        width:2px;
+                                        top: 0;
+                                        left: -10px;
+                                    }
+                                }
+                            }
                             &.followup_questions{
                                 margin-top: 22px;
                                 border-top: 1px solid #BDC1C6;
                                 padding-top: 25px;
                             }
                             .question-name{
+                                background: #FFFFFF;
+                                box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
+                                font-weight: normal;
+                                font-size: 12px;
+                                line-height: 15px;
                                 color: #202124;
-                                font-size: 18px;
-                                font-weight: 600;
-                                line-height: 22px;
+                                padding: 10px 6px;
+                                min-height: 50px;
+                                align-items: center;
+                                display: flex;
+                                word-break: break-word;
+                                margin-bottom: 1px;                                
                             }
                             .que-desc{
                                 color: #8A959F;
