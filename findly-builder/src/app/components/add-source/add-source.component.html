@@ -337,7 +337,7 @@
                             <div class="uploaded-file-name"
                               [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
                               <div class="file-close-text">
-                                <div class="d-flex align-items-center"> {{fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) | json}}
+                                <div class="d-flex align-items-center">
                                   <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.pdf'" class="type_img" 
                                     src="assets/icons/file_type_image.svg">
                                   <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.docx'" class="type_img"
