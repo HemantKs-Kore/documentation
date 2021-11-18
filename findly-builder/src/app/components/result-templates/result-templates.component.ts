@@ -63,6 +63,7 @@ export class ResultTemplatesComponent implements OnInit {
   fieldPopup: boolean = false;
   submitted: boolean = false;
   selectedTab: string = 'fullSearch';
+  postback: string = '';
   tabList: any = [{ id: "liveSearch", name: "Live Search" }, { id: "conversationalSearch", name: "Conversational Search" }, { id: "fullSearch", name: "Full Page Result" }]
   resultListObj: any = {
     facetsSetting: {
@@ -254,6 +255,9 @@ export class ResultTemplatesComponent implements OnInit {
         this.fieldsDisplay(res.mapping);
         this.openTemplateModal();
         this.templateTypeSelection(res.layout.layoutType);
+        if (this.templateDataBind.layout.behaviour === 'postback') {
+          this.postback = this.templateDataBind.layout.postbackUrl;
+        }
       }
       this.customtemplateBtndisable = false;
     }, errRes => {
@@ -296,7 +300,8 @@ export class ResultTemplatesComponent implements OnInit {
     this.templateDataBind.layout.renderTitle = !this.templateDataBind.layout.renderTitle;
   }
   clickableChange() {
-    this.templateDataBind.layout.isClickable = !this.templateDataBind.layout.isClickable
+    this.templateDataBind.layout.isClickable = !this.templateDataBind.layout.isClickable;
+    this.templateDataBind.layout.behaviour = 'webpage';
   }
   clickBehaviorChange(behaviour) {
     this.templateDataBind.layout.behaviour = behaviour;
@@ -469,6 +474,13 @@ export class ResultTemplatesComponent implements OnInit {
       if (this.templateDataBind.layout.renderTitle === false) {
         this.templateDataBind.layout.title = '';
       }
+      if (this.templateDataBind.layout.behaviour === 'postback') {
+        this.templateDataBind.layout.postbackUrl = this.postback;
+        this.templateDataBind.mapping.url = '';
+      }
+      else if (this.templateDataBind.layout.behaviour === 'webpage') {
+        this.templateDataBind.layout.postbackUrl = '';
+      }
       this.service.invoke('update.template', quaryparms, this.templateDataBind).subscribe((res: any) => {
         if (res) {
           this.closeTemplateModal();
@@ -493,6 +505,9 @@ export class ResultTemplatesComponent implements OnInit {
     }
     else if (this.templateDataBind.layout.layoutType === 'l3') {
       return (this.preview_title.length && this.preview_desc.length) ? true : false;
+    }
+    else if (this.templateDataBind.layout.layoutType === 'l5') {
+      return (this.preview_img.length) ? true : false;
     }
     else if (['l4', 'l6', 'l7', 'l9'].includes(this.templateDataBind.layout.layoutType)) {
       return (this.preview_title.length && this.preview_desc.length && this.preview_img.length) ? true : false;

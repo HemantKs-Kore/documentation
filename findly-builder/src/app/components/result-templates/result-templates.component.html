@@ -1885,13 +1885,16 @@
               </div>
               <div class="kr-sg-input-text mt-3" *ngIf="templateDataBind.layout.isClickable">
                 <div class="search_block">
-                  <div class="label-text mb-1">URL</div>
+                  <div class="label-text mb-1">
+                    {{templateDataBind.layout.isClickable&&templateDataBind.layout.behaviour==='webpage'?'URL':'Postback'}}
+                  </div>
                   <div class="row m-0 align-items-center"
                     *ngIf="templateDataBind.layout.isClickable&&templateDataBind.layout.behaviour==='webpage'">
                     <div class="kr-sg-dropdowns">
                       <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                         <img src="assets/icons/search_gray.svg" class="search-icon">
-                        <button id="btn_select_facet_field" class="position-absolute border-0 dropdown-toggle dropdown-input search-with-dropdown"
+                        <button id="btn_select_facet_field"
+                          class="position-absolute border-0 dropdown-toggle dropdown-input search-with-dropdown"
                           data-toggle="dropdown"></button>
                         <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
                           class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
@@ -1911,7 +1914,7 @@
                   <div class="row m-0 align-items-center"
                     *ngIf="templateDataBind.layout.isClickable&&templateDataBind.layout.behaviour==='postback'">
                     <input type="text" maxlength="60" placeholder="Enter Postback" id="facets-search-input"
-                      class="input-search dropdown-toggle dropdown-input" [(ngModel)]="templateDataBind.mapping.url">
+                      class="input-search dropdown-toggle dropdown-input" [(ngModel)]="postback">
                   </div>
                 </div>
               </div>
