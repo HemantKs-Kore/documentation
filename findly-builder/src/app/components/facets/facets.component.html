@@ -296,7 +296,7 @@
 <kr-modal modalType="center" modalClass="modal_popups_ facetModalPouup" #facetModalPopupNew>
     <div class="modal-header">
         <ng-container>
-            <div class="title">{{(showConfiguredFacet?'configure_facets':(currentFacetObj?._id)?
+            <div class="title">{{(showConfiguredFacet?'configure_facets':(enable_Edit_Facet)?
                 'facets.edit_facet':'facets.add_facet')|translate}}</div>
         </ng-container>
         <div class="close_icon" (click)="closeFacetDialog()"><img id='btn_close_tab' src="assets/icons/modal-close.svg">
@@ -306,7 +306,7 @@
         <div class="modal-body scroll-data-content-tabs">
             <ng-container *ngIf="!showConfiguredFacet">
                 <ul class="nav nav-tabs">
-                    <li *ngFor="let nav of facetType" (click)="(currentFacetObj?._id)?null:currentTab(nav.type)">
+                    <li *ngFor="let nav of facetType" (click)="(enable_Edit_Facet)?null:currentTab(nav.type)">
                         <a [ngClass]="{'active':nav.type===currentFacetTab}">
                             <img src="assets/icons/facets/{{nav.type==='sortable'?'sort':nav.type}}.svg">{{nav.name}}
                         </a>
@@ -682,7 +682,7 @@
     </perfect-scrollbar>
     <div class="modal-footer">
         <button type="button" class="kr-sg-button-primary btn_lg float-right"
-            (click)="saveFacet()">{{(showConfiguredFacet||currentFacetObj?._id)?'Save':'Add'}}</button>
+            (click)="saveFacet()">{{(showConfiguredFacet||enable_Edit_Facet)?'Save':'Add'}}</button>
         <button type="button" class="kr-sg-button-secondary btn_lg float-right"
             (click)="closeFacetDialog()">Cancel</button>
     </div>

@@ -122,6 +122,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   currentFacetObj: any = {};
   currentFacetTab: string = 'filter';
   selectAllConfigure: boolean = false;
+  enable_Edit_Facet: boolean = false;
   facetType: any = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
@@ -825,6 +826,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   //new modal open
   createNewFacet(data?) {
     if (data) {
+      this.enable_Edit_Facet = true;
       this.currentFacetObj = Object.assign({}, data);
       this.currentFacetTab = data.type;
       this.facetType = this.facetType.filter(ele => ele.type === data.type);
@@ -852,7 +854,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     else {
       if (this.facetModalRef1 && this.facetModalRef1.close) {
         this.facetModalRef1.close();
-        this.currentFacetObj = null;
+        this.currentFacetObj = {};
         this.submitted = false;
         this.facetType = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
       }
@@ -861,7 +863,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   //current tab
   currentTab(type) {
     this.currentFacetTab = type;
-    this.currentFacetObj = null;
+    this.currentFacetObj = {};
     this.submitted = false;
     if (type === 'filter') {
       this.currentFacetObj = Object.assign({}, this.filterFacetObj);
@@ -942,16 +944,27 @@ export class FacetsComponent implements OnInit, OnDestroy {
         }
         if (this.currentFacetObj?._id) {
           quaryparms = Object.assign({ ...quaryparms, facetId: this.currentFacetObj?._id });
+          delete this.currentFacetObj?._id;
+          delete this.currentFacetObj?.showFieldWarning;
+          delete this.currentFacetObj?.queryPipelineId;
+          delete this.currentFacetObj?.searchIndexId;
+          delete this.currentFacetObj?.indexPipelineId;
+          delete this.currentFacetObj?.streamId;
+          delete this.currentFacetObj?.createdBy;
+          delete this.currentFacetObj?.createdOn;
+          delete this.currentFacetObj?.lMod;
+          delete this.currentFacetObj?.__v;
+          delete this.currentFacetObj?.lModBy;
         }
-        else {
-          delete this.currentFacetObj.fieldName;
-        }
+        delete this.currentFacetObj.fieldName;
         const payload = this.currentFacetObj;
         this.service.invoke(url, quaryparms, payload).subscribe(res => {
-          this.notificationService.notify(`${this.currentFacetObj?._id ? 'Updated' : 'Added'} Successfully`, 'success');
-          if (this.facets.length == 0) { this.appSelectionService.updateTourConfig(this.componentType) }
+          if (this.facets.length == 0) { this.appSelectionService.updateTourConfig(this.componentType) };
+          const message = `${this.enable_Edit_Facet ? 'Updated' : 'Added'} Successfully`;
+          this.notificationService.notify(message, 'success');
           this.getFacts();
           this.closeFacetDialog();
+          this.enable_Edit_Facet = false;
         }, errRes => {
           this.errorToaster(errRes, 'Failed to create facet');
         });
