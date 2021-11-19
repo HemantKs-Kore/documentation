@@ -66,8 +66,11 @@
                         <div class="col-12 row ml-0 mr-0 p-0 mb-3 align-items-center justify-content-end">
                             <div class="title">{{ selectedJsonForEdit ? '' : ('structuredData.add_manually' | translate)}}</div>
                             <div class="navigation-block mr-3" *ngIf="selectedJsonForEdit" [class.disabled]="!selectedSourceType.viewMode">
-                                <img src="assets/icons/arrow-previous.svg" class="navigation-btn" [class.disabled]="(!previousDataIndex && (previousDataIndex != 0))" (click)="navigateToRecord(false)" alt="prevoius" placement="top-center" ngbTooltip="Previous" container='body' tooltipClass="ngb_tooltip_custom_class sampleJson">
-                                <img src="assets/icons/arrow-next.svg" (click)="navigateToRecord(true)" class="navigation-btn" [class.disabled]="(!nextDataIndex && (nextDataIndex != 0))" alt="next" placement="top-center" container='body' ngbTooltip="Next" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                               <span placement="top-center" container="body" ngbTooltip="Previous" tooltipClass="ngb_tooltip_custom_class sampleJson"> 
+                                   <img src="assets/icons/arrow-previous.svg" class="navigation-btn" [class.disabled]="(!previousDataIndex && (previousDataIndex != 0))" (click)="navigateToRecord(false)" alt="prevoius" >
+                                </span>
+                            <span placement="top-center"  container="body" ngbTooltip="Next" tooltipClass="ngb_tooltip_custom_class sampleJson"> 
+                                <img src="assets/icons/arrow-next.svg" (click)="navigateToRecord(true)" class="navigation-btn" [class.disabled]="(!nextDataIndex && (nextDataIndex != 0))" alt="next"></span>
                             </div>
                             <div class="indent" placement="top-center" container='body' ngbTooltip="Indent" tooltipClass="ngb_tooltip_custom_class sampleJson" id="btn_indent_add_structured_data" (click)="indentObj()"><img src="assets/icons/content/indent.svg"></div>                        
                         </div>

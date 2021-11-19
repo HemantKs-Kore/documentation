@@ -1057,61 +1057,129 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.notificationService.notify('Enter the required fields to proceed', 'error');
       }
     }
-    else if (this.selectedSourceType.resourceType == "file" || this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == "") {
-      // if (this.newSourceObj.name) {
-      if (this.selectExtractType == 'file') {
-        if (this.multipleFileArr.length === 1) {
-          if (this.fileObj.fileId) {               //|| this.multipleFileArr.length
-            this.proceedSource()
+    // NEW CODE containing multiple file upload in Content and single file upload in FAQ
+    else{
+      if(this.selectedSourceType.resourceType == "file"){
+        if (this.selectExtractType == 'file') {
+          if (this.multipleFileArr.length === 1) {
+            if (this.fileObj.fileId) {               //|| this.multipleFileArr.length
+              this.proceedSource()
+            }
           }
-        }
-
-         //For deleting unacceptable files while uploading
-        else if (this.multipleFileArr.length > 1) {
-          if (this.multipleData.files.length != this.filesListData.length) {
-            let parentArr = [...this.removedArr];
-            let childArr = [...this.multipleData.files];
-            parentArr.forEach(parentArrElement => {
-              childArr.forEach((childElement, index) => {
-                if (parentArrElement.name === childElement.name) {
-                  childArr.splice(index, 1)
-                }
-
+           //For deleting unacceptable files while uploading
+          else if (this.multipleFileArr.length > 1) {
+            if (this.multipleData.files.length != this.filesListData.length) {
+              let parentArr = [...this.removedArr];
+              let childArr = [...this.multipleData.files];
+              parentArr.forEach(parentArrElement => {
+                childArr.forEach((childElement, index) => {
+                  if (parentArrElement.name.replace(parentArrElement.name.substring(parentArrElement.name.lastIndexOf('.')), '') === childElement.name) {
+                    childArr.splice(index, 1)
+                  }
+  
+                })
+  
+  
               })
-
-
-            })
-            this.multipleData.files = [...childArr]
-            console.log(this.multipleData.files)
+              this.multipleData.files = [...childArr]
+              console.log(this.multipleData.files)
+            }
+  
+            this.multiplefileupload(this.multipleData)
           }
-
-          this.multiplefileupload(this.multipleData)
-        }
-        else {
-          this.btnDisabled = false;
-          $(".drag-drop-sec").css("border-color", "#DD3646");
-          this.notificationService.notify('Please upload the file to continue', 'error');
         }
       }
-      else if (this.selectExtractType == 'url') {
-        if (this.newSourceObj.url && this.newSourceObj.name) {
-          this.proceedSource()
+        else if(this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == ""){
+          if (this.newSourceObj.name) {
+            if (this.selectExtractType == 'file') {
+              if (this.fileObj.fileId) {
+                this.proceedSource()
+              }
+          else {
+            this.btnDisabled = false;
+            $(".drag-drop-sec").css("border-color", "#DD3646");
+            this.notificationService.notify('Please upload the file to continue', 'error');
+          }
         }
-        else {
-          this.btnDisabled = false;
-          $("#extractUrl").css("border-color", "#DD3646");
-          $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-          this.notificationService.notify('Enter the required fields to proceed', 'error');
+          else if (this.selectExtractType == 'url') {
+                if (this.newSourceObj.url && this.newSourceObj.name) {
+                  this.proceedSource()
+                }
+                else {
+                  this.btnDisabled = false;
+                  $("#extractUrl").css("border-color", "#DD3646");
+                  $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+                  this.notificationService.notify('Enter the required fields to proceed', 'error');
+                }
+              }
+              }
+              else {
+                this.btnDisabled = false;
+                $("#addSourceTitleInput").css("border-color", "#DD3646");
+                $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+                this.notificationService.notify('Enter the required fields to proceed', 'error');
+              }
+           
+        
         }
-      }
-      // }
-      else {
-        this.btnDisabled = false;
-        $("#addSourceTitleInput").css("border-color", "#DD3646");
-        $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-        this.notificationService.notify('Enter the required fields to proceed', 'error');
-      }
+     
     }
+
+    //OLD CODE //
+    // else if (this.selectedSourceType.resourceType == "file" || this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == "") {
+    //   // if (this.newSourceObj.name) {
+    //   if (this.selectExtractType == 'file') {
+    //     if (this.multipleFileArr.length === 1) {
+    //       if (this.fileObj.fileId) {               //|| this.multipleFileArr.length
+    //         this.proceedSource()
+    //       }
+    //     }
+    //      //For deleting unacceptable files while uploading
+    //     else if (this.multipleFileArr.length > 1) {
+    //       if (this.multipleData.files.length != this.filesListData.length) {
+    //         let parentArr = [...this.removedArr];
+    //         let childArr = [...this.multipleData.files];
+    //         parentArr.forEach(parentArrElement => {
+    //           childArr.forEach((childElement, index) => {
+    //             if (parentArrElement.name.replace(parentArrElement.name.substring(parentArrElement.name.lastIndexOf('.')), '') === childElement.name) {
+    //               childArr.splice(index, 1)
+    //             }
+
+    //           })
+
+
+    //         })
+    //         this.multipleData.files = [...childArr]
+    //         console.log(this.multipleData.files)
+    //       }
+
+    //       this.multiplefileupload(this.multipleData)
+    //     }
+    //     else {
+    //       this.btnDisabled = false;
+    //       $(".drag-drop-sec").css("border-color", "#DD3646");
+    //       this.notificationService.notify('Please upload the file to continue', 'error');
+    //     }
+    //   }
+    //   else if (this.selectExtractType == 'url') {
+    //     if (this.newSourceObj.url && this.newSourceObj.name) {
+    //       this.proceedSource()
+    //     }
+    //     else {
+    //       this.btnDisabled = false;
+    //       $("#extractUrl").css("border-color", "#DD3646");
+    //       $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+    //       this.notificationService.notify('Enter the required fields to proceed', 'error');
+    //     }
+    //   }
+    //   // }
+    //   else {
+    //     this.btnDisabled = false;
+    //     $("#addSourceTitleInput").css("border-color", "#DD3646");
+    //     $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+    //     this.notificationService.notify('Enter the required fields to proceed', 'error');
+    //   }
+    // }
   }
   //track changing of input
   inputChanged(type) {
