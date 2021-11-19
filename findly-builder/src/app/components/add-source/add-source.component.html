@@ -301,7 +301,13 @@
                     <div class="kr-sg-file-drag-drop">
                       <div class="drag-drop-sec" [ngClass]="{'after-selection-items':(fileObj.fileName && selectedSourceType.sourceType=='content')}">
                         <ng-container *ngIf="!fileObj.fileName">
-                          <input type="file" id="sourceFileUploader" class="custom-file-input "
+                          <input *ngIf="(selectedSourceType.resourceType ==='')"  type="file" id="sourceFileUploader" class="custom-file-input "
+                          (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01"
+                          accept=".pdf" >
+                          <input *ngIf="(selectedSourceType.resourceType ==='importfaq')"  type="file" id="sourceFileUploader" class="custom-file-input "
+                          (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01"
+                          accept=".csv,.json" >
+                          <input  *ngIf="(selectedSourceType.sourceType=='content' && selectedSourceType.resourceType =='file')" type="file" id="sourceFileUploader" class="custom-file-input "
                             (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01"
                             accept=".pdf,.doc,.ppt,.xlsx,.txt,.docx" multiple>
                           <div class="imageDiv">
