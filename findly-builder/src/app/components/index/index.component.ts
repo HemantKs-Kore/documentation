@@ -1065,8 +1065,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.service.invoke('get.indexpipelineStages', quaryparms).subscribe(res => {
       res.stages.map(data => {
         return data.condition.mappings.map(data1 => {
-          let obj = this.fields.find(da => da._id === data1.fieldId);
-          data1.fieldName = obj.fieldName
+          let obj = this.fields.find(da => da._id === data1?.fieldId);
+          data1.fieldName = obj?.fieldName
         })
       })
       this.pipeline = res.stages || [];
@@ -1343,7 +1343,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedStage.category = this.defaultStageTypes[i].category;
     this.selectedStage.name = this.defaultStageTypesObj[systemStage.type].name;
     this.selectedStage.config = {};
-    this.selectedStage.condition = { type: '', mappings: [] }
+    if (systemStage?.type !== 'custom_script') {
+      this.selectedStage.condition = { type: 'basic', mappings: [{ fieldId: '', operator: '', value: [] }] }
+    }
     if (systemStage && systemStage.type === 'custom_script') {
       if (!this.newMappingObj.custom_script) {
         this.newMappingObj.custom_script = {

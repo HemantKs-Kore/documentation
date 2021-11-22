@@ -66,11 +66,10 @@
                 placement="top-left">
             </div>
             <ng-container>
-              <div class="field-name-with-edit" [ngClass]="{'d-none':resultListObj.groupSetting.fieldName===''}">
+              <div class="field-name-with-edit" [ngClass]="{'d-none':defaultFieldName===''}">
                 <div class="kr-sg-input-text">
-                  <input type="text" placeholder="Field Name" class="input-text"
-                    [(ngModel)]="resultListObj.groupSetting.fieldName"
-                    [disabled]="resultListObj.groupSetting.fieldName">
+                  <input type="text" placeholder="Field Name" class="input-text" [(ngModel)]="defaultFieldName"
+                    [disabled]="defaultFieldName">
                 </div>
                 <div class="edit-field-name" (click)="openCustomModal('edit')">
                   <img src="assets/icons/result-template/editpencil.svg">
@@ -154,7 +153,7 @@
           </div>
         </ng-container>
 
-        <ng-container *ngIf="true">
+        <ng-container>
           <div class="label-text">Default Template</div>
           <div class="desc-text mb-2">Default Template will display the results individually as per the default template
             you choose</div>
@@ -164,7 +163,7 @@
                 <button class="dropdown-toggle dropdown-input"
                   data-toggle="dropdown">{{resultListObj?.defaultTemplateType|titlecase}}</button>
                 <ul class="dropdown-menu content-menu">
-                  <li *ngFor="let template of templateNames" (click)="getTemplateData(template)">
+                  <li *ngFor="let template of templateNames" (click)="getTemplateData(template,'default')">
                     <a>{{template|titlecase}}</a>
                   </li>
                 </ul>
@@ -172,7 +171,7 @@
             </div>
             <div class="customize-btn" tooltipClass="tooltip-global-" [container]="'body'"
               ngbTooltip='Customize Template' placement="top-center"
-              (click)="openTemplateConatiner(resultListObj.defaultTemplateId,'modal')">
+              (click)="openTemplateConatiner(resultListObj,'modal')">
               <img src="assets/icons/result-template/rangeslider.svg">
             </div>
             <div class="kr-sg-dropdowns see-templates" ngbDropdown [placement]="'bottom-center'">
@@ -257,7 +256,7 @@
                 data-toggle="dropdown"></button>
               <input type="text" maxlength="60" placeholder="Enter Field Name" id="facets-search-input"
                 class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown"
-                [(ngModel)]="resultListObj.groupSetting.fieldName">
+                [(ngModel)]="resultListObj.groupSetting.fieldName" autocomplete="off">
               <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
                 <perfect-scrollbar class="scroll-search-field">
                   <li *ngFor="let field of allFieldData | filter : [resultListObj.groupSetting.fieldName, 'fieldName'] "
@@ -290,8 +289,10 @@
 
 <kr-modal modalType="center" #templateModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
   <div class="modal-header">
-    <div class="title breadcrum">Customize <img src="assets/icons/search-interface/carrot_right.svg"> <span>Products |
-        Full page Result</span> </div>
+    <div class="title breadcrum">Customize <img src="assets/icons/search-interface/carrot_right.svg">
+      <span>{{selectedGroupName}} |
+        {{selectedTemplateName}}</span>
+    </div>
     <div class="close_icon" (click)="closeTemplateModal()"><img src="assets/icons/modal-close.svg"></div>
   </div>
   <div class="modal-body">
@@ -1914,7 +1915,7 @@
                   <div class="row m-0 align-items-center"
                     *ngIf="templateDataBind.layout.isClickable&&templateDataBind.layout.behaviour==='postback'">
                     <input type="text" maxlength="60" placeholder="Enter Postback" id="facets-search-input"
-                      class="input-search dropdown-toggle dropdown-input" [(ngModel)]="postback">
+                      class="input-search dropdown-toggle dropdown-input" [(ngModel)]="postback" autocomplete="off">
                   </div>
                 </div>
               </div>

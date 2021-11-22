@@ -63,6 +63,7 @@ export class ResultTemplatesComponent implements OnInit {
   fieldPopup: boolean = false;
   submitted: boolean = false;
   selectedTab: string = 'fullSearch';
+  selectedTemplateName: string;
   postback: string = '';
   tabList: any = [{ id: "liveSearch", name: "Live Search" }, { id: "conversationalSearch", name: "Conversational Search" }, { id: "fullSearch", name: "Full Page Result" }]
   resultListObj: any = {
@@ -78,6 +79,8 @@ export class ResultTemplatesComponent implements OnInit {
   };
   fieldValues: any;
   settingsId: string;
+  selectedGroupName: string;
+  defaultFieldName: string;
   templateNames: any = ['list', 'carousel', 'grid'];
   filterFacets: any = [{ name: 'Left Aligned', type: 'left' }, { name: 'Right Aligned', type: 'right' }, { name: 'Top Aligned', type: 'top' }]
   @ViewChild('customModal') customModal: KRModalComponent;
@@ -229,6 +232,7 @@ export class ResultTemplatesComponent implements OnInit {
     };
     this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
       this.resultListObj = res;
+      this.defaultFieldName = this.resultListObj.groupSetting.fieldName;
       this.settingsId = res._id;
       const obj = { _id: this.resultListObj.groupSetting.fieldId, fieldName: this.resultListObj.groupSetting.fieldName };
       this.getFieldValues(obj);
@@ -308,16 +312,16 @@ export class ResultTemplatesComponent implements OnInit {
   }
   //Open Template Modal
   openTemplateConatiner(templateData, type) {
+    const templateName = this.tabList.filter(data => data.id == this.selectedTab);
+    this.selectedTemplateName = templateName[0].name;
+    this.selectedGroupName = templateData?.templateId ? (templateData?.fieldValue) : (templateData?.defaultTemplateType);
     this.customtemplateBtndisable = true;
     if (templateData?.templateId) {
       this.getTemplate(templateData, type)
     }
     else {
-      this.getTemplate({ templateId: templateData }, type);
+      this.getTemplate({ templateId: templateData?.defaultTemplateId }, type);
     }
-  }
-  clickedShow() {
-    console.log("templateDataBind", this.templateDataBind)
   }
   //open add/edit fields dialog
   openCustomModal(type) {
@@ -392,17 +396,19 @@ export class ResultTemplatesComponent implements OnInit {
   }
   //new result template based on template type
   getTemplateData(type, index?) {
-    this.resultListObj.defaultTemplateType = type;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     const payload = { type: type };
     this.service.invoke('post.templates', quaryparms, payload).subscribe(res => {
-      if (index) {
+      if (index === 'default') {
+        this.resultListObj.defaultTemplateType = type;
+        this.resultListObj.defaultTemplateId = res._id;
+      }
+      else {
         this.resultListObj.groupSetting.conditions[index].templateId = res._id;
       }
-      this.resultListObj.defaultTemplateId = res._id;
       this.updateSettings();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get field values');

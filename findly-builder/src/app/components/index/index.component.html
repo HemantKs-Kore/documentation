@@ -183,7 +183,7 @@
                 ngbTooltip="{{'workbench.give_stage_name_of_your_choice_to_create_multiple' | translate}}"
                 tooltipClass="workbench_tolltips m-0" class="pl-1" src="assets/icons/help_gray.svg" />
             </div>
-            <input type="text" placeholder="{{'workbench.please_enter_stage_name' | translate}}" 
+            <input type="text" placeholder="{{'workbench.please_enter_stage_name' | translate}}"
               (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name" />
           </div>
           <!-- <div class="kr-sg-input-text mb-2">
@@ -212,7 +212,7 @@
           </div> -->
 
 
-          <div class="condition-block">
+          <div class="condition-block" *ngIf="selectedStage.type !== 'custom_script'">
             <div class="group-radiobutton">
               <div class="heading-title">Condition</div>
               <div class="desc-text"></div>
@@ -259,7 +259,7 @@
                     </ul>
                   </div>
                 </div>
-                <div class="delete-condition" *ngIf="i>0">
+                <div class="delete-condition" *ngIf="selectedStage.condition.mappings.length>1">
                   <img src="assets/icons/delete-table.svg" (click)="addCondition('remove',i)">
                 </div>
               </div>
@@ -281,7 +281,8 @@
               </div>
             </div>
 
-            <button  class="kr-sg-button-secondary btn_lg" (click)="addCondition('add')" *ngIf="selectedStage.condition.type=='basic'">
+            <button class="kr-sg-button-secondary btn_lg" (click)="addCondition('add')"
+              *ngIf="selectedStage.condition.type=='basic'">
               <img src="assets/icons/pricing/plus-small.svg">
               <span>AND</span>
             </button>
@@ -989,8 +990,7 @@
           <div class="customScript">
             <div class="kr-sg-input-text-area">
               <div class="label-text">&lt;/&gt;{{'workbench.painless' | translate}}</div>
-              <textarea placeholder="{{'workbench.please_enter_script' | translate}}" class="input- d-none"
-                (keyup)="
+              <textarea placeholder="{{'workbench.please_enter_script' | translate}}" class="input- d-none" (keyup)="
                   addCustomScript(
                     newMappingObj.custom_script.defaultValue.script
                   )
@@ -1022,9 +1022,9 @@
       </div>
       <div class="d-flex">
         <div class="kr-sg-input-search ml-2" [ngClass]="{'d-none': !showSearch}">
-          <input type="text" placeholder="{{'search' | translate}}"  class="input-search"
-            (keyup)="searchBySimulator()" [ngClass]="{'pl-33':!searchSimulator,'pl-2':searchSimulator}"
-            autocomplete="off" id="fieldSearchId" [(ngModel)]="searchSimulator"
+          <input type="text" placeholder="{{'search' | translate}}" class="input-search" (keyup)="searchBySimulator()"
+            [ngClass]="{'pl-33':!searchSimulator,'pl-2':searchSimulator}" autocomplete="off" id="fieldSearchId"
+            [(ngModel)]="searchSimulator"
             (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
             (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
