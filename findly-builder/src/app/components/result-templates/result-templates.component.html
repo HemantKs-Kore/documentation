@@ -24,11 +24,12 @@
                 [hidden]="tab.id===selectedTab" (click)="copyConfiguration('open',tab.id)"
                 [disabled]="tab.id==='conversationalSearch'&&searchTemplatesDisabled">{{tab.name}}</button>
             </div>
-            <div class="apply-config-text" *ngIf="copyConfigObj.loader">Applying configurations from Live Search <span
-                class="loading-spin-progress ml-2"></span></div>
-            <div class="apply-config-text" [ngStyle]="{'color':copyConfigObj.message!==''?'#28A745':'#202124'}"
-              *ngIf="copyConfigObj.message!==''"><img src="assets/icons/content/success.svg"
-                style="margin-right:3px;" />{{copyConfigObj.message}}</div>
+            <div class="apply-config-text" *ngIf="copyConfigObj.loader">Applying configurations from Live Search 
+              <span class="loading-spin-progress ml-2"></span>
+            </div>
+            <div class="apply-config-text" [ngStyle]="{'color':copyConfigObj.message!==''?'#28A745':'#202124'}" *ngIf="copyConfigObj.message!==''">
+              <img src="assets/icons/content/success.svg"/>{{copyConfigObj.message}}
+            </div>
           </ul>
         </div>
       </div>
@@ -37,11 +38,13 @@
   </div>
   <div class="body_content">
     <div class="search-interface-left-sec">
-      <div class="left-tabs" *ngFor="let tab of tabList">
-        <div class="tab-name"
+      <div class="left-tabs">
+        <ng-container *ngFor="let tab of tabList">
+          <div class="tab-name"
           [ngClass]="{'active-tab':tab.id === selectedTab,'disabled':searchTemplatesDisabled&&tab.id==='conversationalSearch'}"
           (click)="(searchTemplatesDisabled&&tab.id==='conversationalSearch')?'':(tabSelection(tab.id))">
           {{tab.name}}</div>
+        </ng-container>
       </div>
     </div>
     <perfect-scrollbar class="scroll-interface w-100">
@@ -155,48 +158,49 @@
         </ng-container>
 
         <ng-container *ngIf="true">
-          <div class="label-text">Default Template</div>
-          <div class="desc-text mb-2">Default Template will display the results individually as per the default template
-            you choose</div>
-          <div class="default-template-sec mb-3">
-            <div class="kr-sg-dropdowns">
-              <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input"
-                  data-toggle="dropdown">{{resultListObj?.defaultTemplateType|titlecase}}</button>
-                <ul class="dropdown-menu content-menu">
-                  <li *ngFor="let template of templateNames" (click)="getTemplateData(template)">
-                    <a>{{template|titlecase}}</a>
-                  </li>
-                </ul>
+          <div class="border-top-line-section mt-2 pb-0">
+            <div class="label-text">Default Template</div>
+            <div class="desc-text mb-2">Default Template will display the results individually as per the default template you choose</div>
+            <div class="default-template-sec mb-3">
+              <div class="kr-sg-dropdowns">
+                <div class="dropdown dropdown-open">
+                  <button class="dropdown-toggle dropdown-input"
+                    data-toggle="dropdown">{{resultListObj?.defaultTemplateType|titlecase}}</button>
+                  <ul class="dropdown-menu content-menu">
+                    <li *ngFor="let template of templateNames" (click)="getTemplateData(template)">
+                      <a>{{template|titlecase}}</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="customize-btn" tooltipClass="tooltip-global-" [container]="'body'"
+                ngbTooltip='Customize Template' placement="top-center"
+                (click)="openTemplateConatiner(resultListObj.defaultTemplateId,'modal')">
+                <img src="assets/icons/result-template/rangeslider.svg">
+              </div>
+              <div class="kr-sg-dropdowns see-templates" ngbDropdown [placement]="'bottom-center'">
+                <div class="dropdown dropdown-open">
+                  <button class="dropdown-toggle dropdown-input eye-btn" data-toggle="dropdown" ngbDropdownToggle
+                    [container]="'body'" tooltipClass="tooltip-global-" ngbTooltip='Preview Template'
+                    placement="top-center">
+                    <img src="assets/icons/result-template/eye.svg">
+                  </button>
+                  <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+                    <perfect-scrollbar>
+                      <ng-container [ngTemplateOutlet]="itemTemplate">
+                      </ng-container>
+                    </perfect-scrollbar>
+                  </ul>
+                </div>
               </div>
             </div>
-            <div class="customize-btn" tooltipClass="tooltip-global-" [container]="'body'"
-              ngbTooltip='Customize Template' placement="top-center"
-              (click)="openTemplateConatiner(resultListObj.defaultTemplateId,'modal')">
-              <img src="assets/icons/result-template/rangeslider.svg">
-            </div>
-            <div class="kr-sg-dropdowns see-templates" ngbDropdown [placement]="'bottom-center'">
-              <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input eye-btn" data-toggle="dropdown" ngbDropdownToggle
-                  [container]="'body'" tooltipClass="tooltip-global-" ngbTooltip='Preview Template'
-                  placement="top-center">
-                  <img src="assets/icons/result-template/eye.svg">
-                </button>
-                <ul class="dropdown-menu content-menu" ngbDropdownMenu>
-                  <perfect-scrollbar>
-                    <ng-container [ngTemplateOutlet]="itemTemplate">
-                    </ng-container>
-                  </perfect-scrollbar>
-                </ul>
-              </div>
-            </div>
+            <!-- <div class="label-text">Exception</div>
+            <div class="desc-text">Exceptions are for results which you need to display in different template than default
+              template</div>
+            <div class="add-filed-btn mb-3 mt-2">
+              <img src="assets/icons/result-template/add.svg">Exception
+            </div> -->
           </div>
-          <!-- <div class="label-text">Exception</div>
-          <div class="desc-text">Exceptions are for results which you need to display in different template than default
-            template</div>
-          <div class="add-filed-btn mb-3 mt-2">
-            <img src="assets/icons/result-template/add.svg">Exception
-          </div> -->
         </ng-container>
 
         <div class="filter-facets-block">
@@ -402,7 +406,7 @@
               </ng-container>
               <ng-template #itemTemplate let-item>
                 <!-- Template 1 -->
-                <div *ngIf="templateDataBind.type == 'list'">
+                <ng-container *ngIf="templateDataBind.type == 'list'">
                   <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l1'">
                     <!-- Template 1 Classic -->
                     <!--no Result Group-->
@@ -435,7 +439,7 @@
                       <!-- Result Group Template 1 -->
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-1-classic-list-result-group mb-3 col-6">
+                      <div class="template-1-classic-list-result-group mb-3 col-6" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="classic-list-result-item" *ngFor="let data of [0,1,2]">The All Rounder</div>
                         <div class="show-more-list">
                           Show more <img src="assets/icons/resultTemplate/carrotup.svg">
@@ -448,7 +452,7 @@
                     && templateDataBind.layout.layoutType == 'l1'">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-1-plain-list-result-group mb-3 col-6">
+                      <div class="template-1-plain-list-result-group mb-3 col-6" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="plain-list-result-item" *ngFor="let data of [0,1,2]">The All Rounder</div>
                         <div class="show-more-list">
                           Show more <img src="assets/icons/resultTemplate/carrotup.svg">
@@ -1128,9 +1132,9 @@
                       </div>
                     </div>
                   </ng-container>
-                </div>
+                </ng-container>
                 <!-- Grid Template start-->
-                <div *ngIf="templateDataBind.type == 'grid'">
+                <ng-container *ngIf="templateDataBind.type == 'grid'">
                   <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l1'">
                     <ng-container>
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
@@ -1319,451 +1323,453 @@
                       </div>
                     </ng-container>
                   </div>
-                </div>
+                </ng-container>
                 <!-- Grid Template end-->
 
                 <!-- Carousel Templates -->
-                <div class="template-preview-box carousel-preview" *ngIf="templateDataBind.type == 'carousel'">
-                  <!-- Template 1 Carousel -->
-                  <ng-container *ngIf="templateDataBind.layout.layoutType == 'l1'">
-                    <div class="title-text-heading pl-2 m-0" *ngIf="templateDataBind.layout.renderTitle">
-                      {{templateDataBind?.layout?.title}}</div>
-                    <div id="demo-c-t-1" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
-                      data-interval="false" data-ride="carousel">
-                      <!-- The slideshow -->
-                      <div class="carousel-inner">
-                        <div class="carousel-item active">
-                          <div class="template-1-classic-list row col-12 m-0 p-2">
-                            <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
-                              <div class="classic-list-item">Heading comes here</div>
+                <ng-container *ngIf="templateDataBind.type == 'carousel'">
+                  <div class="template-preview-box carousel-preview">
+                    <!-- Template 1 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l1'">
+                      <div class="title-text-heading pl-2 m-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-1" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template-1-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">Heading comes here</div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="template-1-classic-list row col-12 m-0 p-2">
-                            <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,4]">
-                              <div class="classic-list-item">Heading comes here</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Left and right controls -->
-                      <!-- <a class="carousel-control-prev" href="#demo-c-t-1" data-slide="prev">
-                        <span class="carousel-control-prev-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a> -->
-                      <a class="carousel-control-next" href="#demo-c-t-1" data-slide="next">
-                        <span class="carousel-control-next-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a>
-                    </div>
-                  </ng-container>
-                  <!-- Template 2 Carousel -->
-                  <ng-container *ngIf="templateDataBind.layout.layoutType == 'l2'">
-                    <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
-                      {{templateDataBind?.layout?.title}}</div>
-                    <div id="demo-c-t-2" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
-                      data-interval="false" data-ride="carousel">
-                      <!-- The slideshow -->
-                      <div class="carousel-inner">
-                        <div class="carousel-item active">
-                          <div class="template-2-classic-list row col-12 m-0 p-2">
-                            <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
-                              <div class="classic-list-item">Description comes here, descrip tion comes here,
-                                description comes here, description comes here, description comes here, description
-                                comes here, description comes here, description comes here, description comes...</div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="template-2-classic-list row col-12 m-0 p-2">
-                            <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
-                              <div class="classic-list-item">Description comes here, descrip tion comes here,
-                                description comes here, description comes here, description comes here, description
-                                comes here, description comes here, description comes here, description comes...</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Left and right controls -->
-                      <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
-                        <span class="carousel-control-prev-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a> -->
-                      <a class="carousel-control-next" href="#demo-c-t-2" data-slide="next">
-                        <span class="carousel-control-next-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a>
-                    </div>
-                  </ng-container>
-
-                  <!-- Template 3 Carousel -->
-                  <ng-container *ngIf="templateDataBind.layout.layoutType == 'l3'">
-                    <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
-                      {{templateDataBind?.layout?.title}}</div>
-                    <div id="demo-c-t-3" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
-                      data-interval="false" data-ride="carousel">
-                      <!-- The slideshow -->
-                      <div class="carousel-inner">
-                        <div class="carousel-item active">
-                          <div class="template-3-classic-list row col-12 m-0 p-2">
-                            <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
-                              <div class="classic-list-item">
-                                <div class="heading-text">Heading comes here</div>
-                                <div class="text-desc">Description comes here, description comes here, description comes
-                                  here, description comes here, description comes here, des...</div>
+                          <div class="carousel-item">
+                            <div class="template-1-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,4]">
+                                <div class="classic-list-item">Heading comes here</div>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="carousel-item">
-                          <div class="template-3-classic-list row col-12 m-0 p-2">
-                            <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
-                              <div class="classic-list-item">
-                                <div class="heading-text">Heading comes here</div>
-                                <div class="text-desc">Description comes here, description comes here, description comes
-                                  here, description comes here, description comes here, des...</div>
+  
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-1" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-1" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+                    <!-- Template 2 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l2'">
+                      <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-2" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template-2-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">Description comes here, descrip tion comes here,
+                                  description comes here, description comes here, description comes here, description
+                                  comes here, description comes here, description comes here, description comes...</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="template-2-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">Description comes here, descrip tion comes here,
+                                  description comes here, description comes here, description comes here, description
+                                  comes here, description comes here, description comes here, description comes...</div>
                               </div>
                             </div>
                           </div>
                         </div>
+  
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-2" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
                       </div>
-
-                      <!-- Left and right controls -->
-                      <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
-                        <span class="carousel-control-prev-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a> -->
-                      <a class="carousel-control-next" href="#demo-c-t-3" data-slide="next">
-                        <span class="carousel-control-next-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a>
-                    </div>
-                  </ng-container>
-
-                  <!-- Template 4 Carousel -->
-                  <ng-container *ngIf="templateDataBind.layout.layoutType == 'l4'">
-                    <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
-                      {{templateDataBind?.layout?.title}}</div>
-                    <div id="demo-c-t-4" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
-                      data-interval="false" data-ride="carousel">
-                      <!-- The slideshow -->
-                      <div class="carousel-inner">
-                        <div class="carousel-item active">
-                          <div class="template-4-classic-list row col-12 m-0 p-2">
-                            <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
-                              <div class="classic-list-item">
-                                <div class="img-with-heading">
-                                  <div class="img-block">
-                                    <img src="assets/icons/resultTemplate/dummyimg.svg">
+                    </ng-container>
+  
+                    <!-- Template 3 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l3'">
+                      <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-3" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template-3-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">
+                                  <div class="heading-text">Heading comes here</div>
+                                  <div class="text-desc">Description comes here, description comes here, description comes
+                                    here, description comes here, description comes here, des...</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="template-3-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">
+                                  <div class="heading-text">Heading comes here</div>
+                                  <div class="text-desc">Description comes here, description comes here, description comes
+                                    here, description comes here, description comes here, des...</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+  
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-3" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+  
+                    <!-- Template 4 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l4'">
+                      <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-4" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template-4-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">
+                                  <div class="img-with-heading">
+                                    <div class="img-block">
+                                      <img src="assets/icons/resultTemplate/dummyimg.svg">
+                                    </div>
+                                    <div class="heading-">Heading comes here. </div>
                                   </div>
-                                  <div class="heading-">Heading comes here. </div>
-                                </div>
-                                <div class="content_sec">
-                                  <div class="text_desc">Men wardrobes the most special pieces of cloths are there
-                                    jackets, same as women love to have small trench coats or c...</div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="template-4-classic-list row col-12 m-0 p-2">
-                            <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
-                              <div class="classic-list-item">
-                                <div class="img-with-heading">
-                                  <div class="img-block">
-                                    <img src="assets/icons/resultTemplate/dummyimg.svg">
+                                  <div class="content_sec">
+                                    <div class="text_desc">Men wardrobes the most special pieces of cloths are there
+                                      jackets, same as women love to have small trench coats or c...</div>
                                   </div>
-                                  <div class="heading-">Heading comes here. </div>
-                                </div>
-                                <div class="content_sec">
-                                  <div class="text_desc">Men wardrobes the most special pieces of cloths are there
-                                    jackets, same as women love to have small trench coats or c...</div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-
-                      <!-- Left and right controls -->
-                      <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
-                        <span class="carousel-control-prev-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a> -->
-                      <a class="carousel-control-next" href="#demo-c-t-4" data-slide="next">
-                        <span class="carousel-control-next-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a>
-                    </div>
-                  </ng-container>
-
-                  <!-- Template 5 Carousel -->
-                  <ng-container *ngIf="templateDataBind.layout.layoutType == 'l5'">
-                    <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
-                      {{templateDataBind?.layout?.title}}</div>
-                    <div id="demo-c-t-5" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
-                      data-interval="false" data-ride="carousel">
-                      <!-- The slideshow -->
-                      <div class="carousel-inner">
-                        <div class="carousel-item active">
-                          <div class="template-5-classic-list row col-12 m-0 p-2">
-                            <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
-                              <div class="classic-list-item">
-                                <div class="img-block">
-                                  <img src="assets/icons/resultTemplate/skelton-large.svg">
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="template-5-classic-list row col-12 m-0 p-2">
-                            <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
-                              <div class="classic-list-item">
-                                <div class="img-block">
-                                  <img src="assets/icons/resultTemplate/skelton-large.svg">
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Left and right controls -->
-                      <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
-                        <span class="carousel-control-prev-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a> -->
-                      <a class="carousel-control-next" href="#demo-c-t-5" data-slide="next">
-                        <span class="carousel-control-next-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a>
-                    </div>
-                  </ng-container>
-
-                  <!-- Template 6 Carousel -->
-                  <ng-container *ngIf="templateDataBind.layout.layoutType == 'l6'">
-                    <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
-                      {{templateDataBind?.layout?.title}}</div>
-                    <div id="demo-c-t-6" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
-                      data-interval="false" data-ride="carousel">
-                      <!-- The slideshow -->
-                      <div class="carousel-inner">
-                        <div class="carousel-item active">
-                          <div class="template-6-classic-list row col-12 m-0 p-2">
-                            <div class="col-4 pl-1 pr-1" *ngFor="let data of [0,1,2]">
-                              <div class="classic-list-item">
-                                <div class="title-main">Heading comes here</div>
-                                <div class="img-with-text">
-                                  <div class="img-block">
-                                    <img src="assets/icons/resultTemplate/dummyimg.svg">
+                          <div class="carousel-item">
+                            <div class="template-4-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">
+                                  <div class="img-with-heading">
+                                    <div class="img-block">
+                                      <img src="assets/icons/resultTemplate/dummyimg.svg">
+                                    </div>
+                                    <div class="heading-">Heading comes here. </div>
                                   </div>
-                                  <div class="info-text">Men wardrobes there most special piecesa...</div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="template-6-classic-list row col-12 m-0 p-2">
-                            <div class="col-4 pl-1 pr-1" *ngFor="let data of [0,1,2]">
-                              <div class="classic-list-item">
-                                <div class="title-main">Heading comes here</div>
-                                <div class="img-with-text" *ngFor="let data of [0,1,2]">
-                                  <div class="img-block">
-                                    <img src="assets/icons/resultTemplate/dummyimg.svg">
+                                  <div class="content_sec">
+                                    <div class="text_desc">Men wardrobes the most special pieces of cloths are there
+                                      jackets, same as women love to have small trench coats or c...</div>
                                   </div>
-                                  <div class="info-text">Men wardrobes there most special piecesa...</div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
+  
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-4" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
                       </div>
-
-                      <!-- Left and right controls -->
-                      <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
-                        <span class="carousel-control-prev-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a> -->
-                      <a class="carousel-control-next" href="#demo-c-t-6" data-slide="next">
-                        <span class="carousel-control-next-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a>
-                    </div>
-                  </ng-container>
-
-                  <!-- Template 7 Carousel -->
-                  <ng-container *ngIf="templateDataBind.layout.layoutType == 'l7'">
-                    <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
+                    </ng-container>
+  
+                    <!-- Template 5 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l5'">
+                      <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-5" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template-5-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">
+                                  <div class="img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-large.svg">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="template-5-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">
+                                  <div class="img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-large.svg">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+  
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-5" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+  
+                    <!-- Template 6 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l6'">
+                      <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-6" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template-6-classic-list row col-12 m-0 p-2">
+                              <div class="col-4 pl-1 pr-1" *ngFor="let data of [0,1,2]">
+                                <div class="classic-list-item">
+                                  <div class="title-main">Heading comes here</div>
+                                  <div class="img-with-text">
+                                    <div class="img-block">
+                                      <img src="assets/icons/resultTemplate/dummyimg.svg">
+                                    </div>
+                                    <div class="info-text">Men wardrobes there most special piecesa...</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="template-6-classic-list row col-12 m-0 p-2">
+                              <div class="col-4 pl-1 pr-1" *ngFor="let data of [0,1,2]">
+                                <div class="classic-list-item">
+                                  <div class="title-main">Heading comes here</div>
+                                  <div class="img-with-text" *ngFor="let data of [0,1,2]">
+                                    <div class="img-block">
+                                      <img src="assets/icons/resultTemplate/dummyimg.svg">
+                                    </div>
+                                    <div class="info-text">Men wardrobes there most special piecesa...</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+  
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-6" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+  
+                    <!-- Template 7 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l7'">
+                      <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-7" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template-7-grid-list row col-12 m-0 p-2">
+                              <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
+                                <div class="inner-content-list">
+                                  <div class="main-img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                  </div>
+                                  <div class="heading">Heading comes here</div>
+                                  <div class="desc-text-info">Description text comes here, Description text comes here.
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="template-7-grid-list row col-12 m-0 p-2">
+                              <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
+                                <div class="inner-content-list">
+                                  <div class="main-img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                  </div>
+                                  <div class="heading">Heading comes here</div>
+                                  <div class="desc-text-info">Description text comes here, Description text comes here.
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+  
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-7" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+  
+                    <!-- Template 8 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l8'">
+                      <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-8" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template-8-grid-list row col-12 m-0 p-2">
+                              <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
+                                <div class="inner-content-list">
+                                  <div class="main-img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                  </div>
+                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="template-8-grid-list row col-12 m-0 p-2">
+                              <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
+                                <div class="inner-content-list">
+                                  <div class="main-img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                  </div>
+                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+  
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-8" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+  
+                    <!-- Template 9 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l9'">
+                      <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
                       {{templateDataBind?.layout?.title}}</div>
-                    <div id="demo-c-t-7" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
-                      data-interval="false" data-ride="carousel">
-                      <!-- The slideshow -->
-                      <div class="carousel-inner">
-                        <div class="carousel-item active">
-                          <div class="template-7-grid-list row col-12 m-0 p-2">
-                            <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
-                              <div class="inner-content-list">
-                                <div class="main-img-block">
-                                  <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                      <div id="demo-c-t-9" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template-9-grid-list row col-12 m-0 p-2">
+                              <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
+                                <div class="inner-content-list">
+                                  <div class="main-img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                  </div>
+                                  <div class="heading">Heading comes here</div>
+                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                                  <div class="price-count">$156</div>
                                 </div>
-                                <div class="heading">Heading comes here</div>
-                                <div class="desc-text-info">Description text comes here, Description text comes here.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="template-9-grid-list row col-12 m-0 p-2">
+                              <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
+                                <div class="inner-content-list">
+                                  <div class="main-img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                  </div>
+                                  <div class="heading">Heading comes here</div>
+                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                                  <div class="price-count">$156</div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="carousel-item">
-                          <div class="template-7-grid-list row col-12 m-0 p-2">
-                            <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
-                              <div class="inner-content-list">
-                                <div class="main-img-block">
-                                  <img src="assets/icons/resultTemplate/skelton-medium.svg">
-                                </div>
-                                <div class="heading">Heading comes here</div>
-                                <div class="desc-text-info">Description text comes here, Description text comes here.
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+  
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-9" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
                       </div>
-
-                      <!-- Left and right controls -->
-                      <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
-                        <span class="carousel-control-prev-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a> -->
-                      <a class="carousel-control-next" href="#demo-c-t-7" data-slide="next">
-                        <span class="carousel-control-next-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a>
-                    </div>
-                  </ng-container>
-
-                  <!-- Template 8 Carousel -->
-                  <ng-container *ngIf="templateDataBind.layout.layoutType == 'l8'">
-                    <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
-                      {{templateDataBind?.layout?.title}}</div>
-                    <div id="demo-c-t-8" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
-                      data-interval="false" data-ride="carousel">
-                      <!-- The slideshow -->
-                      <div class="carousel-inner">
-                        <div class="carousel-item active">
-                          <div class="template-8-grid-list row col-12 m-0 p-2">
-                            <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
-                              <div class="inner-content-list">
-                                <div class="main-img-block">
-                                  <img src="assets/icons/resultTemplate/skelton-medium.svg">
-                                </div>
-                                <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                                <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="template-8-grid-list row col-12 m-0 p-2">
-                            <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
-                              <div class="inner-content-list">
-                                <div class="main-img-block">
-                                  <img src="assets/icons/resultTemplate/skelton-medium.svg">
-                                </div>
-                                <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                                <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Left and right controls -->
-                      <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
-                        <span class="carousel-control-prev-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a> -->
-                      <a class="carousel-control-next" href="#demo-c-t-8" data-slide="next">
-                        <span class="carousel-control-next-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a>
-                    </div>
-                  </ng-container>
-
-                  <!-- Template 9 Carousel -->
-                  <ng-container *ngIf="templateDataBind.layout.layoutType == 'l9'">
-                    <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
-                      {{templateDataBind?.layout?.title}}</div>
-                    <div id="demo-c-t-9" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
-                      data-interval="false" data-ride="carousel">
-                      <!-- The slideshow -->
-                      <div class="carousel-inner">
-                        <div class="carousel-item active">
-                          <div class="template-9-grid-list row col-12 m-0 p-2">
-                            <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
-                              <div class="inner-content-list">
-                                <div class="main-img-block">
-                                  <img src="assets/icons/resultTemplate/skelton-medium.svg">
-                                </div>
-                                <div class="heading">Heading comes here</div>
-                                <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                                <div class="price-count">$156</div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="template-9-grid-list row col-12 m-0 p-2">
-                            <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
-                              <div class="inner-content-list">
-                                <div class="main-img-block">
-                                  <img src="assets/icons/resultTemplate/skelton-medium.svg">
-                                </div>
-                                <div class="heading">Heading comes here</div>
-                                <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                                <div class="price-count">$156</div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Left and right controls -->
-                      <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
-                        <span class="carousel-control-prev-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a> -->
-                      <a class="carousel-control-next" href="#demo-c-t-9" data-slide="next">
-                        <span class="carousel-control-next-icon">
-                          <img src="assets/icons/resultTemplate/carrotright.svg">
-                        </span>
-                      </a>
-                    </div>
-                  </ng-container>
-
-                </div>
+                    </ng-container>
+  
+                  </div>
+                </ng-container>
               </ng-template>
               <div class="kr-sg-checkbox mb-2">
                 <input id="checkbox-addToTitle" class="checkbox-custom" type="checkbox" (change)="renderTitleChange()"

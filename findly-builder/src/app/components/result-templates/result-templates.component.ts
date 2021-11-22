@@ -429,7 +429,7 @@ export class ResultTemplatesComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
-      panelClass: 'delete-popup',
+      panelClass: 'delete-popup-result',
       data: modalData,
     });
     dialogRef.componentInstance.onSelect
