@@ -64,7 +64,7 @@
                                 <div class="kr-sg-checkbox p-0 mb-0 select-all-checkbox adjust-checkbox-padding" *ngIf="(selectedStructuredData.length == structuredDataItemsList.length) || (selectedStructuredData.length == 0)">
                                     <input id="selectAllStructuredData" class="checkbox-custom" type="checkbox" (change)="selectAll(allSelected)"  [(ngModel)]="allSelected">
                                     <label for="selectAllStructuredData" class="checkbox-custom-label"></label>
-                                    <div *ngIf="showSelectAllQues">Select all {{totalCount}} questions</div>
+                                    <div  class="d-none" *ngIf="showSelectAllQues">Select all {{totalCount}} questions</div>
                                 </div>
                                 <div class="kr-sg-checkbox pr-2 pl-0 mb-0 adjust-checkbox-padding partial-select-checkbox" *ngIf="(selectedStructuredData.length > 0) && (selectedStructuredData.length != structuredDataItemsList.length)">
                                     <img (click)="selectAll(true)" src="assets/icons/resultranking/selected-checkbox.svg" class="pointer">
