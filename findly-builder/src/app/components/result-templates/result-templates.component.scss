@@ -134,7 +134,13 @@
                         line-height: 20px;
                         color: #202124;
                         display: flex;
-                        align-items: center;
+                        align-items: flex-start;
+                        line-height: normal;
+                        img{
+                            position: relative;
+                            top: 2px;
+                            margin-right: 6px !important;
+                        }
                     }
                 }
             }
@@ -148,13 +154,13 @@
             flex-shrink: 0;
             height: calc(100vh - 114px);
             .left-tabs{
-                padding: 15px 8px 0 45px;
+                padding: 20px 8px 0 45px;
                 .tab-name{
-                    color: #5F6368;
+                    color: #202124;
                     font-weight: normal;
                     font-size: 14px;
                     line-height: 20px;
-                    padding: 10px 13px;
+                    padding: 8px 13px;
                     position: relative;
                     cursor: pointer;
                     &::before{
@@ -240,6 +246,9 @@
                     height: 190px;
                     background: #FFFFFF;
                     box-shadow: 0px 5px 26px rgba(32, 33, 36, 0.25);
+                    .template-preview-box{
+                        padding: 15px 15px 0 15px;
+                    }
                 }
             }
             .result-group-{
@@ -369,6 +378,10 @@
                     }
                 }
             }
+            .border-top-line-section{
+                padding: 15px 0;
+                border-top: 1px solid #E4E5E7;
+            }
             .default-template-sec{
                 display: flex;
                 align-items: center;
@@ -403,6 +416,17 @@
             .filter-facets-block{
                 padding: 15px 0;
                 border-top: 1px solid #E4E5E7;
+                .kr-sg-toggle {
+                    .slider {
+                        span{
+                            font-weight: normal;
+                            font-size: 14px;
+                            line-height: 20px;
+                            color: #202124;
+                            top: -1px;
+                        }
+                    }
+                }
             }
         }
     }
