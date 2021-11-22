@@ -297,6 +297,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.closeAddsourceModal();
     // this.closeStatusModal()
     this.showSourceAddition = null;
+    this.getSourceList();
   }
   closeSourcePopupEvent() {
     this.closeAddsourceModal();
