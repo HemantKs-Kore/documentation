@@ -402,7 +402,7 @@
     },
     "structuredData": {
         "structuredData": "Structured Data",
-        "structuredDataImport": "Import Structured Data",
+        "structuredDataImport": "Add Structured Data",
         "upload_json": "Upload JSON / CSV File",
         "drag_drop": "Drag and drop file anywhere on this screen",
         "browse": "Browse",

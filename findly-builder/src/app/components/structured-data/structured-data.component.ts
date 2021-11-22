@@ -104,6 +104,7 @@ export class StructuredDataComponent implements OnInit {
   searchFocusIn = false;
   search: any;
   formatter: any;
+  showSelectAllQues: boolean
   enableSearchBlock: boolean = false;
   indexPipelineId: any;
   subscription: Subscription;
@@ -657,6 +658,7 @@ export class StructuredDataComponent implements OnInit {
     if (!key) {
       this.structuredDataItemsList.forEach(data => {
         data.isChecked = false;
+        this.showSelectAllQues = false;
       });
       this.selectedStructuredData = [];
       this.allSelected = false;
@@ -664,6 +666,7 @@ export class StructuredDataComponent implements OnInit {
     else {
       this.structuredDataItemsList.forEach(data => {
         data.isChecked = true;
+        this.showSelectAllQues =true
       });
       this.selectedStructuredData = JSON.parse(JSON.stringify(this.structuredDataItemsList));
       this.allSelected = true;
