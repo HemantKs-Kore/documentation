@@ -64,7 +64,7 @@
                                 <div class="kr-sg-checkbox p-0 mb-0 select-all-checkbox adjust-checkbox-padding" *ngIf="(selectedStructuredData.length == structuredDataItemsList.length) || (selectedStructuredData.length == 0)">
                                     <input id="selectAllStructuredData" class="checkbox-custom" type="checkbox" (change)="selectAll(allSelected)"  [(ngModel)]="allSelected">
                                     <label for="selectAllStructuredData" class="checkbox-custom-label"></label>
-                                    <div  class="d-none" *ngIf="showSelectAllQues">Select all {{totalCount}} questions</div>
+                                  
                                 </div>
                                 <div class="kr-sg-checkbox pr-2 pl-0 mb-0 adjust-checkbox-padding partial-select-checkbox" *ngIf="(selectedStructuredData.length > 0) && (selectedStructuredData.length != structuredDataItemsList.length)">
                                     <img (click)="selectAll(true)" src="assets/icons/resultranking/selected-checkbox.svg" class="pointer">
@@ -77,7 +77,8 @@
                                         <button id="btn_delete_all_structured_data" class="kr-sg-button-danger btn_lg" *ngIf="selectedStructuredData.length" (click)="deleteStructuredDataPopup()">{{'structuredData.delete' | translate}}</button>
                                         <!-- <button id="btn_change_view_structured_data" class="kr-sg-button-secondary btn_lg ml-2"  *ngIf="!noItems" (click)="defaultView = !defaultView">{{ defaultView ? ('structuredData.switch_to_json' | translate) : ('structuredData.switch_to_default' | translate)}}</button>                             -->
                                     </div>
-                                </div>                                                        
+                                </div>  
+                                <div  class="selectAll" *ngIf="showSelectAllQues" (change)="selectAllData()">Select all {{totalCount}} questions</div>                                                      
                             </div>
                             <div class="structured-data" *ngFor="let data of structuredDataItemsList;let d_index = index">
                                     <div class="kr-sg-checkbox d-block" [ngClass]="{'isChecked' : data.isChecked}">
