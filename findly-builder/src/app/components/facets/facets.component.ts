@@ -392,6 +392,18 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }, errRes => {
     });
   }
+  defaultSortingAFacet(arr){
+    arr.sort(function(a, b) {
+      var keyA =a.facetValue.size,
+        keyB = b.facetValue.size;
+      // Compare the 2 dates
+      if (keyA < keyB) return -1;
+      if (keyA > keyB) return 1;
+      return 0;
+    });
+    console.log(arr);
+    return arr.reverse() // Revercing for Decending
+  }
   getFacts(offset?) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
@@ -406,11 +418,13 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.docTypeArr =[];
       this.selectTypeArr = [];
       this.facets = res || [];
+      this.facets = this.defaultSortingAFacet(this.facets);
       this.facets.forEach(element => {
         this.statusArr.push(element.isFacetActive);
         this.docTypeArr.push(element.facetType);
         this.selectTypeArr.push(element.isMultiSelect);
       });
+     
       this.statusArr = [...new Set(this.statusArr)];
       this.docTypeArr = [...new Set(this.docTypeArr)];
       this.selectTypeArr = [...new Set(this.selectTypeArr)];
