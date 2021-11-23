@@ -1084,9 +1084,26 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
               this.multipleData.files = [...childArr]
               console.log(this.multipleData.files)
             }
-  
-            this.multiplefileupload(this.multipleData)
+       if(this.filesListData.length > 1){
+        this.multiplefileupload(this.multipleData)
+       }
+       else{
+        this.proceedSource()
+       }
+            
           }
+        }
+        else if(this.selectExtractType == "url"){
+          if (this.newSourceObj.url && this.newSourceObj.name) {
+            this.proceedSource()
+          }
+          else {
+            this.btnDisabled = false;
+            $("#extractUrl").css("border-color", "#DD3646");
+            $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+            this.notificationService.notify('Enter the required fields to proceed', 'error');
+          }
+
         }
       }
         else if(this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == ""){
@@ -1302,7 +1319,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
        
-        else {
+        else if(this.filesListData.length > 1) {
           this.multiplefileupload(this.multipleData);
         }
       }
