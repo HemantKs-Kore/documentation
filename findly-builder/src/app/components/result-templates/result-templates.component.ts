@@ -352,6 +352,9 @@ export class ResultTemplatesComponent implements OnInit {
         this.resultListObj.groupSetting.fieldName = '';
         this.resultListObj.groupSetting.fieldId = '';
       }
+     else if (this.fieldPopupType === 'edit') {
+        this.resultListObj.groupSetting.fieldName = this.defaultFieldName;
+      }
     }
   }
   //get all templates
