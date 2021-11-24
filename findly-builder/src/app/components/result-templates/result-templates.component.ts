@@ -322,6 +322,10 @@ export class ResultTemplatesComponent implements OnInit {
     else {
       this.getTemplate({ templateId: templateData?.defaultTemplateId }, type);
     }
+    this.preview_title = '';
+    this.preview_desc = '';
+    this.preview_img = '';
+    this.preview_url = '';
   }
   //open add/edit fields dialog
   openCustomModal(type) {
@@ -535,7 +539,7 @@ export class ResultTemplatesComponent implements OnInit {
       const payload = this.resultListObj;
       this.service.invoke('copy.settings', quaryparms, payload).subscribe(res => {
         this.copyConfigObj.loader = false;
-        const date = moment(res.createdOn).format('dddd, MMMM Do YYYY, h:mm:ss a');
+        const date = moment(res.copiedOn).format('dddd, MMMM Do YYYY, h:mm:ss a');
         this.copyConfigObj.message = `Configurations applied from ${tab} | ${date}.`;
         this.notificationService.notify(' Result copied successfully', 'success');
         this.getAllSettings(this.selectedTab);
