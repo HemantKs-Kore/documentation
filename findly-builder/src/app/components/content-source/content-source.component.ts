@@ -451,6 +451,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
       _.map(this.resources, (source) => {
         source.name = source.name || source.title;
+        // if(source.extractionType==='file'){
+        //   source.name = source.fileMeta.fileName; // source title for upload file (considerig fileName)
+        // }
+        // else{
+         
+        // }
+        
       });
       this.resources = this.resources.reverse();
       if (this.resources && this.resources.length && !nxt) {
@@ -571,6 +578,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   getCrawledPages(limit, skip) {
+    this.pagingData = [];
     this.docContent = {};
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -1137,6 +1145,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.selectedSource.pages.splice(deleteIndex, 1);
         this.getCrawledPages(this.limitpage, this.recordStr - 1);
       }
+      this.getSourceList();
     }, errRes => {
     });
   }
