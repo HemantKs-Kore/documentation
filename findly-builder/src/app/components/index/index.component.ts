@@ -824,6 +824,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filteredSimulatorRes = JSON.stringify(data, null, ' ');
   }
   simulate() {
+    let plainScriptTxt : any;
+    if(this.newMappingObj && this.newMappingObj.custom_script && 
+      this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
+      plainScriptTxt = this.newMappingObj.custom_script.defaultValue.script;
+    }
     let indexArrayLength: any = this.validateConditionForRD();
     if (indexArrayLength) {
       this.removeExcludeDocumentStage(indexArrayLength, false);
@@ -869,6 +874,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.simulteObj.currentSimulateAnimi = -1;
         this.simulteObj.simulationInprogress = false;
+        /** Workbench plain text temp */
+        if(this.newMappingObj && this.newMappingObj.custom_script && 
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
+         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
       }, errRes => {
         this.simulating = false;
         this.simulteObj.simulating = false;
@@ -882,6 +892,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           this.pollingSubscriber.unsubscribe();
         }
         this.simulteObj.currentSimulateAnimi = -1;
+        /** Workbench plain text temp */
+        if(this.newMappingObj && this.newMappingObj.custom_script && 
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
+         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
         this.errorToaster(errRes, 'Failed to get stop words');
       });
     }
