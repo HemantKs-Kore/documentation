@@ -9,7 +9,7 @@ import { EndPointsService } from '@kore.services/end-points.service';
 import { environment } from '@kore.environment';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { AppHeaderComponent } from './components/app-header/app-header.component';
-import { MixpanelServiceService } from '@kore.services/mixpanel-service.service'; 
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 
 // import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
@@ -61,6 +61,7 @@ export class AppComponent implements OnInit, OnDestroy {
   };
   topDownSearchInstance: any;
   searchExperienceConfig: any;
+  searchExperinceLoading: boolean = false;
   indexPipelineId: any;
   @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(private router: Router,
@@ -73,8 +74,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private endpointservice: EndPointsService,
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
-    public inlineManual : InlineManualService,
-    public mixpanel : MixpanelServiceService
+    public inlineManual: InlineManualService,
+    public mixpanel: MixpanelServiceService
     // private translate: TranslateService
   ) {
     this.mixpanel.init();
@@ -332,7 +333,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   loadSearchExperience() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId) {
+    if (this.indexPipelineId && this.searchExperinceLoading === false) {
       this.getSearchExperience();
     }
   }
@@ -387,7 +388,7 @@ export class AppComponent implements OnInit, OnDestroy {
         showClockPickerIcon: false, //set true to show clockPicker icon
         showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
         showradioOptionMenuPickerIcon: false //set true to show Radio Option Template icon
-        }
+      }
     };
     this.findlyBusinessConfig = this;
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
@@ -578,12 +579,12 @@ export class AppComponent implements OnInit, OnDestroy {
       botOptions: botOptionsFindly,
       viaSocket: true,
       pickersConfig: {
-          showDatePickerIcon: false, //set true to show datePicker icon
-          showDateRangePickerIcon: false, //set true to show dateRangePicker icon
-          showClockPickerIcon: false, //set true to show clockPicker icon
-          showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
-          showradioOptionMenuPickerIcon: false //set true to show Radio Option Template icon
-          }
+        showDatePickerIcon: false, //set true to show datePicker icon
+        showDateRangePickerIcon: false, //set true to show dateRangePicker icon
+        showClockPickerIcon: false, //set true to show clockPicker icon
+        showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
+        showradioOptionMenuPickerIcon: false //set true to show Radio Option Template icon
+      }
     };
     this.findlyBusinessConfig = this;
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
@@ -625,6 +626,7 @@ export class AppComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
       this.searchExperienceConfig = res;
+      this.searchExperinceLoading = true;
       this.headerService.updateSearchConfigurationValue(res);
       this.headerService.searchConfiguration = res;
     }, errRes => {

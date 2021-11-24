@@ -118,16 +118,20 @@
             </div>
             <div class="title width-19"
               *ngIf="feature[1].access!='none'&&['full','custom'].includes(feature[1].access)&&['-',undefined].includes(feature[1].fullDisplayText)">
-              <img src="assets/icons/pricing/check.svg"></div>
+              <img src="assets/icons/pricing/check.svg">
+            </div>
             <div class="title width-19"
               *ngIf="feature[2].access!='none'&&['full','custom'].includes(feature[2].access)&&['-',undefined].includes(feature[2].fullDisplayText)">
-              <img src="assets/icons/pricing/check.svg"></div>
+              <img src="assets/icons/pricing/check.svg">
+            </div>
             <div class="title width-19"
               *ngIf="feature[3].access!='none'&&['full','custom'].includes(feature[3].access)&&['-',undefined].includes(feature[3].fullDisplayText)">
-              <img src="assets/icons/pricing/check.svg"></div>
+              <img src="assets/icons/pricing/check.svg">
+            </div>
             <div class="title width-19"
               *ngIf="feature[4].access!='none'&&['full','custom'].includes(feature[4].access)&&['-',undefined].includes(feature[4].fullDisplayText)">
-              <img src="assets/icons/pricing/check.svg"></div>
+              <img src="assets/icons/pricing/check.svg">
+            </div>
           </div>
         </div>
       </div>
@@ -251,7 +255,8 @@
           src="assets/icons/warning_escalation.svg" /> <span>Please select valid quantity for document and query overage
           to pay</span></div>
       <div class="note-text" *ngIf="selectedPlan?.planName!='Free'&&selectedPlan?.status!='expired'">
-        <span>{{"plan.note"| translate}}:</span> {{"plan.same_payment_method"| translate}}.</div>
+        <span>{{"plan.note"| translate}}:</span> {{"plan.same_payment_method"| translate}}.
+      </div>
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">

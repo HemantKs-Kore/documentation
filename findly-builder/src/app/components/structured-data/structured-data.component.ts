@@ -866,7 +866,7 @@ export class StructuredDataComponent implements OnInit {
   }
 
   navigateToSearchInterface() {
-    this.router.navigate(['/searchInterface'], { skipLocationChange: true });
+    this.router.navigate(['/resultTemplate'], { skipLocationChange: true });
     this.headerService.updateShowHideSettingsMenu(false);
     this.headerService.updateShowHideSourceMenu(false);
   }
