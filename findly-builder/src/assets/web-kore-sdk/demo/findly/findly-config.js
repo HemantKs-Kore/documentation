@@ -3,6 +3,7 @@
     var KoreSDK = KoreSDK || {};
 
     var botOptionsFindly = {};
+
     botOptionsFindly.logLevel = 'debug';
     botOptionsFindly.koreAPIUrl = "https://searchassist-qa.kore.ai/searchassistapi/";
 
