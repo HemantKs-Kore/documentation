@@ -1062,7 +1062,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       if(this.selectedSourceType.resourceType == "file"){
         if (this.selectExtractType == 'file') {
           if (this.multipleFileArr.length === 1) {
-            if (this.fileObj.fileId) {               //|| this.multipleFileArr.length
+            if (this.fileObj.fileId) {            
               this.proceedSource()
             }
           }
