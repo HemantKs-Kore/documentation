@@ -256,6 +256,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   addCondition(type, index, field?, data?) {
     if (type === 'add') {
       this.conditionObj = { fieldId: '', operator: '', value: [] };
+      if (this.selectedStage.condition.mappings === undefined) {
+        this.selectedStage.condition.mappings = [];
+      }
       this.selectedStage.condition.mappings.push(this.conditionObj);
     }
     else if (type === 'remove') {
@@ -490,7 +493,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.pipeline.forEach(stage => {
       const tempStageObj = JSON.parse(JSON.stringify(stage));
       if (tempStageObj.condition.type === 'script') {
-        tempStageObj.condition.mappings = [];
+        delete tempStageObj.condition.mappings
       }
       else {
         delete tempStageObj.condition.value;
@@ -720,7 +723,6 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.removeExcludeDocumentStage(indexArrayLength, true);
     }
     else {
-      console.log("outside dialog");
       this.savingConfig = true;
       const quaryparms: any = {
         searchIndexID: this.serachIndexId,
