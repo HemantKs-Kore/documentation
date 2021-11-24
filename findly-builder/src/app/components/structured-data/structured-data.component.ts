@@ -104,6 +104,7 @@ export class StructuredDataComponent implements OnInit {
   searchFocusIn = false;
   search: any;
   formatter: any;
+  showSelectAllQues: boolean
   enableSearchBlock: boolean = false;
   indexPipelineId: any;
   subscription: Subscription;
@@ -226,7 +227,7 @@ export class StructuredDataComponent implements OnInit {
       element.objectValues = [];
       Object.keys(element._source).forEach((key: any, index) => {
         let nested = false;
-        if (key && (typeof element._source[key] === 'object')) {
+        if (key && (typeof element._source[key] === 'object') && (typeof element._source[key] != null)) {
           nested = true;
         }
         else {
@@ -251,7 +252,7 @@ export class StructuredDataComponent implements OnInit {
             expandedValue: element._source[key],
             nested: nested,
             expanded: false,
-            valuesLength: nested ? (Object.values(element._source[key]).length) : 1
+            valuesLength: nested ? element._source[key] ? (Object.values(element._source[key]).length) :null : 1
           });
         }
       });
@@ -261,7 +262,7 @@ export class StructuredDataComponent implements OnInit {
 
   getNestedElements(element) {
     let objectValues = [];
-    if ((typeof element === 'object'))
+    if ((typeof element === 'object') && element != null)
       Object.keys(element).forEach((key: any, index) => {
         let nested = false;
         if (key && (typeof element[key] === 'object')) {
@@ -657,6 +658,7 @@ export class StructuredDataComponent implements OnInit {
     if (!key) {
       this.structuredDataItemsList.forEach(data => {
         data.isChecked = false;
+        this.showSelectAllQues = false;
       });
       this.selectedStructuredData = [];
       this.allSelected = false;
@@ -664,6 +666,7 @@ export class StructuredDataComponent implements OnInit {
     else {
       this.structuredDataItemsList.forEach(data => {
         data.isChecked = true;
+        this.showSelectAllQues =true
       });
       this.selectedStructuredData = JSON.parse(JSON.stringify(this.structuredDataItemsList));
       this.allSelected = true;

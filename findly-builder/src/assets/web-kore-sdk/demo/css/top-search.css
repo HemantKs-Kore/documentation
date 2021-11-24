@@ -757,6 +757,7 @@ body.top-down .top-down-wrapper{
   text-overflow: ellipsis;
   padding-right: 0;
   max-width: 86%;
+  text-transform: capitalize;
 }
 
 .sdk-top-down-interface .category-wise-container .kr-sg-checkbox .checkbox-custom + .checkbox-custom-label::before{
@@ -1234,6 +1235,7 @@ body.top-down .top-down-wrapper{
   font-size: 12px;
   line-height: 20px;
   margin-right: 10px;
+  text-transform: capitalize;
 }
 
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .filters-added-data .filter-tag-content .close-filter-tag{

@@ -503,6 +503,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     outcomeObj.fieldDataType = data.fieldDataType
     outcomeObj.fieldName = data.fieldName
     outcomeObj.fieldId = data._id;
+    // if($('#searchBoxId') && $('#searchBoxId').length){
+    //   $('#searchBoxId')[0].value = "";
+    // }
+    // this.getFieldAutoComplete(null,null)
     //this.fieldAutoSuggestion = [];
   }
   checkDuplicateTags(suggestion: string, alltTags): boolean {
@@ -680,7 +684,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
-  getFieldAutoComplete(event, outcomeObj) {
+  getFieldAutoComplete(event, outcomeObj,clearText?) {
+    if(clearText && $('#searchBoxId') && $('#searchBoxId').length){
+      $('#searchBoxId')[0].value = "";
+    }
     let query: any = '';
     if (event) {
       query = $(event.currentTarget).val();
