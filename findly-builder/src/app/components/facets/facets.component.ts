@@ -303,14 +303,6 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
     }
   }
-  // createNewFacet() {
-  //   this.addEditFacetObj = JSON.parse(JSON.stringify(this.facetDefaultValueObj.facet));
-  //   if (this.selectedField && this.selectedField.fieldDataType) {
-  //     this.selectedField.fieldDataType = null;
-  //   }
-  //   this.openModal();
-  //   this.getFieldAutoComplete('');
-  // }
   editFacetModal(facet) {
     this.getRecordDetails(facet)
   }
@@ -389,20 +381,6 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.filedTypeShow = true;
     }
   }
-  // switchType(type) {
-  //   if (type === 'value') {
-  //     if (this.addEditFacetObj.facetRange) {
-  //       delete this.addEditFacetObj.facetRange;
-  //     }
-  //     this.addEditFacetObj.facetValue = {};
-  //   } else {
-  //     if (this.addEditFacetObj.facetValue) {
-  //       delete this.addEditFacetObj.facetValue;
-  //     }
-  //     this.addEditFacetObj.facetRange = [];
-  //   }
-  //   this.addEditFacetObj.facetType = type;
-  // }
   removeRange(index) {
     this.addEditFacetObj.facetRange.splice(index, 1);
   }
@@ -437,9 +415,9 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }, errRes => {
     });
   }
-  defaultSortingAFacet(arr){
-    arr.sort(function(a, b) {
-      var keyA =a.facetValue.size,
+  defaultSortingAFacet(arr) {
+    arr.sort(function (a, b) {
+      var keyA = a.facetValue.size,
         keyB = b.facetValue.size;
       // Compare the 2 dates
       if (keyA < keyB) return -1;
@@ -469,7 +447,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
         this.docTypeArr.push(element.facetType);
         this.selectTypeArr.push(element.isMultiSelect);
       });
-     
+
       this.statusArr = [...new Set(this.statusArr)];
       this.docTypeArr = [...new Set(this.docTypeArr)];
       this.selectTypeArr = [...new Set(this.selectTypeArr)];
@@ -611,21 +589,6 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-
-  // addOrUpdate() {
-  //   this.submitted = true;
-  //   if (this.validateAddEditFacet()) {
-  //     this.addFiled();
-  //     if (this.addEditFacetObj && this.addEditFacetObj._id) {
-  //       this.editFacet();
-  //     } else {
-  //       //this.createFacet();
-  //     }
-  //   }
-  //   else {
-  //     this.notificationService.notify('Enter the required fields to proceed', 'error');
-  //   }
-  // }
   openModal(isFields?) {
     this.submitted = false;
     if (!isFields) {
@@ -844,6 +807,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.currentFacetTab = data.type;
       this.facetType = this.facetType.filter(ele => ele.type === data.type);
       if (data.type === 'tab') {
+        this.configuredTabValues = this.currentFacetObj.tabs;
         this.configuredTabValues.map(tab => {
           this.currentFacetObj.tabs.map(tab1 => {
             if (tab.fieldValue === tab1.fieldValue) {
@@ -924,7 +888,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.name && this.currentFacetObj?.sortConfig?.sortBy && this.currentFacetObj?.sortConfig?.order) ? false : true;
     }
     else if (this.currentFacetTab === 'tab') {
-      this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.tabs) ? false : true;
+      this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.tabs.length > 0) ? false : true;
     }
     return this.submitted ? false : true;
   }
@@ -957,20 +921,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
         }
         if (this.currentFacetObj?._id) {
           quaryparms = Object.assign({ ...quaryparms, facetId: this.currentFacetObj?._id });
-          delete this.currentFacetObj?._id;
-          delete this.currentFacetObj?.showFieldWarning;
-          delete this.currentFacetObj?.queryPipelineId;
-          delete this.currentFacetObj?.searchIndexId;
-          delete this.currentFacetObj?.indexPipelineId;
-          delete this.currentFacetObj?.streamId;
-          delete this.currentFacetObj?.createdBy;
-          delete this.currentFacetObj?.createdOn;
-          delete this.currentFacetObj?.lMod;
-          delete this.currentFacetObj?.__v;
-          delete this.currentFacetObj?.lModBy;
         }
-        delete this.currentFacetObj.fieldName;
-        const payload = this.currentFacetObj;
+        const payload = this.deleteListData(this.currentFacetObj);
         this.service.invoke(url, quaryparms, payload).subscribe(res => {
           if (this.facets.length == 0) { this.appSelectionService.updateTourConfig(this.componentType) };
           const message = `${this.enable_Edit_Facet ? 'Updated' : 'Added'} Successfully`;
@@ -983,7 +935,12 @@ export class FacetsComponent implements OnInit, OnDestroy {
         });
       }
       else {
-        this.notificationService.notify('Enter the required fields to proceed', 'error');
+        if (this.currentFacetTab === 'tab') {
+          this.notificationService.notify('One or more tabs required to be configured', 'error');
+        }
+        else {
+          this.notificationService.notify('Enter the required fields to proceed', 'error');
+        }
       }
     }
   }
@@ -995,8 +952,10 @@ export class FacetsComponent implements OnInit, OnDestroy {
       facetId: data._id,
       queryPipelineId: this.queryPipelineId
     };
+    const obj = { active: event.target.checked };
     data.active = event.target.checked;
-    this.service.invoke('update.facet', quaryparms, data).subscribe(res => {
+    const payload = this.deleteListData(data);
+    this.service.invoke('update.facet', quaryparms, payload).subscribe(res => {
       this.notificationService.notify('Updated Successfully', 'success');
       // this.getFacts();
       this.facets.map(res => {
@@ -1007,6 +966,22 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }, errRes => {
       this.errorToaster(errRes, 'Failed to update facet');
     });
+  }
+  //delete data based on api request
+  deleteListData(data) {
+    delete data?._id;
+    delete data?.showFieldWarning;
+    delete data?.queryPipelineId;
+    delete data?.searchIndexId;
+    delete data?.indexPipelineId;
+    delete data?.streamId;
+    delete data?.createdBy;
+    delete data?.createdOn;
+    delete data?.lMod;
+    delete data?.__v;
+    delete data?.lModBy;
+    delete data?.fieldName;
+    return data;
   }
   //get values based on field
   getFieldValues(id) {
