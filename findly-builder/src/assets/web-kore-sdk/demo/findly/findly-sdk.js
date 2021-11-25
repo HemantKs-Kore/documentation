@@ -15828,7 +15828,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           </div>\
           {{/if}}\
           {{/each}}\
-        </div>\
         <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
         Show more <img src="assets/web-kore-sdk/demo/images/show_more.png" height="6" width="10" />\
        </div>\
@@ -15884,12 +15883,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{if structuredData.length}}\
            <div class="template-6-classic-list mb-15">\
            {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-           <div class="title-main">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+           <div class="title-main text-trucate">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
             <div class="img-with-text">\
            <div class="img-block">\
            <img src="${data.img}">\
          </div>\
-           <div class="info-text">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+           <div class="info-text two-line-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
             </div>\
               {{/each}}\
               <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
@@ -15908,12 +15907,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
           <div class="grid-data-item click-to-navigate-url"  href="${data.url}" target="_blank">\
-            <div class="title-item">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+            <div class="title-item two-line-description">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
           </div>\
           {{/if}}\
           {{if isClickable == false}}\
           <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-          <div class="title-item">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+          <div class="title-item two-line-description">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
         </div>\
           {{/if}}\
           {{/each}}\
@@ -15932,16 +15931,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{if isClickable == true}}\
           <div class="grid-data-item click-to-navigate-url" href="${data.url}" target="_blank">\
             <div class="inner-content-list">\
-              <div class="heading-text">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-              <div class="title-item">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+              <div class="heading-text text-truncate">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+              <div class="title-item two-line-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
             </div>\
           </div>\
           {{/if}}\
           {{if isClickable == false}}\
           <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
             <div class="inner-content-list">\
-              <div class="heading-text">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-              <div class="title-item">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+              <div class="heading-text text-truncate">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+              <div class="title-item two-line-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
             </div>\
           </div>\
           {{/if}}\
@@ -15965,9 +15964,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="img-block">\
                  <img src="${data.img}">\
                 </div>\
-                <div class="info-title">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                <div class="info-title text-truncate">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                 </div>\
-                <div class="title-item">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                <div class="title-item two-line-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
               </div>\
             </div>\
             {{/if}}\
@@ -15978,9 +15977,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="img-block">\
                  <img src=${data.img}>\
                 </div>\
-                <div class="info-title">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                <div class="info-title text-truncate">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                 </div>\
-                <div class="title-item">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                <div class="title-item two-line-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
               </div>\
             </div>\
             {{/if}}\
@@ -16026,13 +16025,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           <div class="grid-data-item">\
               <div class="inner-content-list">\
-                  <div class="heading-main">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                  <div class="heading-main text-truncate">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                   {{each(key, res) [0,1,2]}}\
                   <div class="image-with-text">\
                    <div class="img-block">\
                       <img src="${data.img}" />\
                    </div>\
-                  <div class="image-info">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                  <div class="image-info two-line-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                   </div>\
                   {{/each}}\
               </div>\
@@ -16060,8 +16059,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="main-img-block">\
                     <img src="${data.img}">\
                   </div>\
-                  <div class="heading-">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                  <div class="desc-text-info">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                  <div class="heading- text-truncate">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                  <div class="desc-text-info four-line-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                 </div>\
               </div>\
           {{/each}}\
@@ -16086,8 +16085,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="main-img-block">\
                     <img src="${data.img}">\
                   </div>\
-                  <!-- <div class="heading-">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                  <div class="desc-text-info">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                  <!-- <div class="heading-">{{html helpers.convertMDtoHTML(data.heading)}}</div>-->\
+                  <div class="desc-text-info eight-line-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                 </div>\
               </div>\
           {{/each}}\
@@ -16112,8 +16111,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="main-img-block">\
                      <img src="${data.img}">\
                   </div>\
-                  <div class="heading-">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                  <div class="desc-text-info">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                  <div class="heading- text-truncate">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                  <div class="desc-text-info  four-line-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                   <div class="price-count">$156</div>\
                 </div>\
               </div>\
@@ -16181,8 +16180,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
             {{/if}}\
                     <div class="inner-content-list">\
-                        <div class="heading-text">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                        <div class="title-item">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                        <div class="heading-text text-truncate">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                        <div class="title-item two-line-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                     </div>\
                 </div>\
                 {{/each}}\

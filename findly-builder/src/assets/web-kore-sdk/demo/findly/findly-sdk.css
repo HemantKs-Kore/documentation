@@ -15867,6 +15867,7 @@ a.tile-heading{
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    max-height: 18px;
 }
 .template-3-plain-list-collapse .collapse-item-list::before {
     content: "";
@@ -15885,6 +15886,7 @@ a.tile-heading{
 .template-3-plain-list-collapse .collapse-item-list.acc-active .text-desc- {
     white-space: inherit;
     overflow: initial;
+    max-height: fit-content;
 }
 
 /* // */
@@ -16025,6 +16027,30 @@ a.tile-heading{
     font-size: 12px;
     line-height: 15px;
     color: #9AA0A6;
+}
+.two-line-description{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    margin-bottom: 5px;
+    min-height: 30px;
+}
+.four-line-description{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    margin-bottom: 5px;
+    min-height: 30px;
+}
+.eight-line-description{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 8;
+    overflow: hidden;
+    margin-bottom: 5px;
+    min-height: 30px;
 }
 .template-3-grid-list .grid-data-item .inner-content-list .heading-text {
     color: #202124;
@@ -16297,7 +16323,9 @@ a.tile-heading{
     font-size: 12px;
     line-height: 16px;
 }
-
+.template-4-plain-list .plain-list-item .content_sec .text_desc.text-truncate{
+    max-height: 18px;
+}
 .text-center{
     text-align: center;
 }
@@ -16420,6 +16448,7 @@ a.tile-heading{
     height: auto !important;
     color: #9AA0A6;
     margin-top: 4px;
+    max-height: 18px;
 }
 .template-4-plain-list-collapse .collapse-item-list-parent .collapse-item-list.acc-active .text-description{
     display: none;
@@ -16586,6 +16615,9 @@ a.tile-heading{
     .template-6-classic-list .img-with-text {
     display: flex;
     margin: 15px 0;
+    }
+    .template-6-classic-list .img-with-text .info-text{
+    padding-left: 15px;
     }
     .template-6-classic-list .img-with-text .img-block {
     width: 35px;
