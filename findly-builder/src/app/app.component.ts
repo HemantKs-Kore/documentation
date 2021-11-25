@@ -61,6 +61,7 @@ export class AppComponent implements OnInit, OnDestroy {
   };
   topDownSearchInstance: any;
   searchExperienceConfig: any;
+  searchExperinceLoading: boolean = false;
   indexPipelineId: any;
   @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(private router: Router,
@@ -332,7 +333,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   loadSearchExperience() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId) {
+    if (this.indexPipelineId && this.searchExperinceLoading === false) {
       this.getSearchExperience();
     }
   }
@@ -625,6 +626,7 @@ export class AppComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
       this.searchExperienceConfig = res;
+      this.searchExperinceLoading = true;
       this.headerService.updateSearchConfigurationValue(res);
       this.headerService.searchConfiguration = res;
     }, errRes => {

@@ -109,7 +109,7 @@ export class ResultTemplatesComponent implements OnInit {
       this.searchExperienceConfig = res;
       this.updateResultTemplateTabsAccess();
     });
-    //this.updateResultTemplateTabsAccess();
+    this.updateResultTemplateTabsAccess();
     /** Inline Not yet Registered */
     if (!this.inlineManual.checkVisibility('RESULT_TEMPLATE') && false) {
       this.inlineManual.openHelp('RESULT_TEMPLATE')
@@ -210,6 +210,7 @@ export class ResultTemplatesComponent implements OnInit {
   }
   /** Chat SDK approach and by-default Data */
   updateResultTemplateTabsAccess() {
+    console.log("searchExperienceConfig", this.searchExperienceConfig)
     if (this.searchExperienceConfig && Object.values(this.searchExperienceConfig).length) {
       if (this.searchExperienceConfig && this.searchExperienceConfig.experienceConfig && this.searchExperienceConfig.experienceConfig.searchBarPosition) {
         this.searchTemplatesDisabled = this.searchExperienceConfig.experienceConfig.searchBarPosition === 'top' ? true : false;
@@ -352,7 +353,7 @@ export class ResultTemplatesComponent implements OnInit {
         this.resultListObj.groupSetting.fieldName = '';
         this.resultListObj.groupSetting.fieldId = '';
       }
-     else if (this.fieldPopupType === 'edit') {
+      else if (this.fieldPopupType === 'edit') {
         this.resultListObj.groupSetting.fieldName = this.defaultFieldName;
       }
     }
