@@ -1220,16 +1220,21 @@ body.showFullResults.top-down .top-down-wrapper{
   color: var(--sdk-shark-black-color);
   font-weight: normal;
   font-size: 14px;
-  line-height: 40px;
+  /* line-height: 40px; */
   margin-right: 25px;
   position: relative;
   cursor: pointer;
-  max-width: 100px;
-  padding-right: 27px;
+  max-width: 150px;
+  height: 33px;
+  display: inline-flex;
+}
+.topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .tab-sec .tab-name .tab-title {
+  line-height: 20px;
+  max-width: 75%;
+  padding-right: 5px;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .tab-sec .tab-name .tab-count {
-position: absolute;
-right: 6px;
+  max-width: 35px;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .tab-sec .tab-name.active-tab::before {
   content: "";
