@@ -681,6 +681,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   saveConfig(index?, dialogRef?) {
+    let plainScriptTxt : any;
+    if(this.newMappingObj && this.newMappingObj.custom_script && 
+      this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
+      plainScriptTxt = this.newMappingObj.custom_script.defaultValue.script;
+    }
     let indexArrayLength: any = this.validateConditionForRD();
     if (indexArrayLength) {
       this.removeExcludeDocumentStage(indexArrayLength, true);
@@ -728,9 +733,19 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.clearDirtyObj();
         this.setResetNewMappingsObj(null, true);
+         /** Workbench plain text temp */
+         if(this.newMappingObj && this.newMappingObj.custom_script && 
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
+         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
       }, errRes => {
         this.savingConfig = false;
         this.errorToaster(errRes, 'Failed to save configurations');
+         /** Workbench plain text temp */
+         if(this.newMappingObj && this.newMappingObj.custom_script && 
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
+         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
       });
     }
 
