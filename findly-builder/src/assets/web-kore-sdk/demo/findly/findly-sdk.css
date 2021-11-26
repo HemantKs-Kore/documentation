@@ -17361,3 +17361,6 @@ a.tile-heading{
 .searchAssist-kore-chat-window.search-container.conversation.active.no-history .default-data-show-not-loaded{
     display: none;
 }
+.show-more-list {
+    cursor: pointer;
+}
