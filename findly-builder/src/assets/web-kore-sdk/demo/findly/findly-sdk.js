@@ -21155,7 +21155,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.checkIsPreviousLiveSearchDataExists = function () {
       var _self = this;
       if ($('body').hasClass('top-down')) {
-        if ($('.data-container .structured-data-header').length) {
+        if ($('.live-search-data-container').children().length>0) {
           if (_self.vars.enterIsClicked || !$(".search-top-down").val()) {
             $('#live-search-result-box').hide();
             return;
