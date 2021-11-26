@@ -260,6 +260,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.userContextData = {};
       vars.indexPipelineId = '';
       vars.tabsList = [];
+      vars.defaultTabsList = [];
       vars.tabFacetFieldName = '';
       vars.experimentsObject = {}; // Local Object for Storing Experiments-Related Data (QueryPipelineID, Relay, RequestID)
 
@@ -3576,6 +3577,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.vars.totalNumOfResults = totalResultsCount;
               facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults, name: 'ALL' });
               facets = facets.concat((res.tabFacet || {}).buckets || [])
+              facets = _self.rearrangeTabsList(facets);
               _self.vars.tabsList = facets;
               _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
               _self.pubSub.publish('sa-source-type', facets);
@@ -5343,7 +5345,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (availableGroups && availableGroups.length) {
               availableGroups.forEach((group) => {
                 var results = res.results[group].data;
-                totalResultsCount = totalResultsCount + res.results[group].data.length;
+                totalResultsCount = totalResultsCount + res.results[group].doc_count;
                 var groupName = group == 'default_group' ? 'defaultTemplate' : group;
                 var dataObj = {
                   facets: facets,
@@ -5359,6 +5361,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 var publishSearchData = 'sa-' + groupName + '-search-data';
                 _self.pubSub.publish(publishSearchData, { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
               });
+              res.results = results;
             } else {
               var dataObj = {
                 facets: facets || [],
@@ -5372,7 +5375,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.empty-full-results-container').removeClass('hide');
             }
 
-            res.results = results;
+            
           } else {
             var results = res.results.data;
             if (!(res.tabFacet || {}).buckets) {
@@ -5399,7 +5402,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           _self.vars.totalNumOfResults = totalResultsCount;
           facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults, name: 'ALL' });
-          facets = facets.concat((res.tabFacet || {}).buckets || [])
+          facets = facets.concat((res.tabFacet || {}).buckets || []);
+          facets = _self.rearrangeTabsList(facets);
           _self.vars.tabsList = facets;
           _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
           _self.pubSub.publish('sa-source-type', facets);
@@ -7412,6 +7416,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.showMoreClick();
           facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults, name: 'ALL' });
           facets = facets.concat((res.tabFacet || {}).buckets || [])
+          facets = _self.rearrangeTabsList(facets);
           _self.vars.tabsList = facets;
           if (!_self.vars.searchObject.liveData) {
             _self.vars.searchObject.liveData = { facets: facets };
@@ -15422,7 +15427,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         dataType: 'json',
         headers: headers,
         success: function (data) {
-          _self.vars.tabsList = data.tabs || [];
+          _self.vars.defaultTabsList = data.tabs || [];
           //tab facets list  
           //list of tabs div container create
         },
@@ -21565,6 +21570,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     }
 
+    FindlySDK.prototype.rearrangeTabsList= function (facets) {
+      var  _self = this;
+      var rearrangeList = [];
+      if(_self.vars.defaultTabsList.length){
+        var allResultObj = facets.find(t=> t.key=== 'all results');
+        rearrangeList.push(allResultObj)
+        _self.vars.defaultTabsList.forEach((tab)=>{
+         var facetObj = facets.find(t=> t.key=== tab.fieldValue);
+         rearrangeList.push(facetObj);
+        })
+      }else{
+        rearrangeList = facets;
+      }
+      return rearrangeList;
+    };
+     
     return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);
 });
