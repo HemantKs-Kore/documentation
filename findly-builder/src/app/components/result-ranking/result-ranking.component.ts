@@ -156,10 +156,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       indexPipelineId: this.indexPipelineId
     };
     this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
-      if (res && res.appearance) {
+      if (res && res.groupSetting) {
         let isStructured = '';
-        res.appearance.forEach(element => {
-          if (element.type == 'structuredData' && element.templateId) {
+        res.groupSetting.conditions.forEach(element => {
+          if (element.fieldValue == 'data' && element.templateId) {
             isStructured = element.templateId;
           }
         });

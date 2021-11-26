@@ -461,9 +461,9 @@ export class FacetsComponent implements OnInit, OnDestroy {
       if (res.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
-        if (!this.inlineManual.checkVisibility('FACETS_OVERVIEW')) {
-          this.inlineManual.openHelp('FACETS_OVERVIEW')
-          this.inlineManual.visited('FACETS_OVERVIEW')
+        if (!this.inlineManual?.checkVisibility('FACETS_OVERVIEW')) {
+          this.inlineManual?.openHelp('FACETS_OVERVIEW')
+          this.inlineManual?.visited('FACETS_OVERVIEW')
         }
       }
       else {
@@ -952,17 +952,18 @@ export class FacetsComponent implements OnInit, OnDestroy {
       facetId: data._id,
       queryPipelineId: this.queryPipelineId
     };
-    const obj = { active: event.target.checked };
     data.active = event.target.checked;
     const payload = this.deleteListData(data);
     this.service.invoke('update.facet', quaryparms, payload).subscribe(res => {
       this.notificationService.notify('Updated Successfully', 'success');
+      this.getFacts();
       // this.getFacts();
-      this.facets.map(res => {
-        if (res._id === data._id) {
-          return res.active = event.target.checked
-        }
-      })
+      // this.facets.map(res => {
+      //   if (facet_id === res._id) {
+      //     res = Object.assign({ ...res, active: event.target.checked, _id: facet_id });
+      //   }
+      //   return res;
+      // })
     }, errRes => {
       this.errorToaster(errRes, 'Failed to update facet');
     });

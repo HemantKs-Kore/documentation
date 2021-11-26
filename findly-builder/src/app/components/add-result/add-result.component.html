@@ -1,4 +1,3 @@
-
 <div class="add-result d-none" *ngIf="!addNew">
     <div class="header">
         <span class="head-txt">ADD NEW RESULT</span>
@@ -11,15 +10,22 @@
             <div class="kr-sg-dropdowns">
                 <div class="label-text">Result Type</div>
                 <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{searchRadioTypeTxt}}</button>                                            
+                    <button class="dropdown-toggle dropdown-input"
+                        data-toggle="dropdown">{{searchRadioTypeTxt}}</button>
                     <ul class="dropdown-menu content-menu">
-                      <li (click) = "resultClick('faq')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'FAQ'}">FAQ</a></li>
-                      <li (click) = "resultClick('content')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Content'}">Content</a></li>
-                      <li (click) = "resultClick('task')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Bot Action'}">Bot Action</a></li>
-                      <li (click) = "resultClick('data')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Structured Data'}">Structured Data</a></li>
-                      <li (click) = "resultClick('all')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Any'}">Any</a></li>
+                        <li (click)="resultClick('faq')"><a
+                                [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'FAQ'}">FAQ</a></li>
+                        <li (click)="resultClick('content')"><a
+                                [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Content'}">Content</a></li>
+                        <li (click)="resultClick('task')"><a
+                                [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Bot Action'}">Bot Action</a></li>
+                        <li (click)="resultClick('data')"><a
+                                [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Structured Data'}">Structured Data</a>
+                        </li>
+                        <li (click)="resultClick('all')"><a
+                                [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Any'}">Any</a></li>
                     </ul>
-                  </div>
+                </div>
             </div>
             <!-- <div class="group-radiobutton">
                 <div class="heading-title txt">Result Type</div>
@@ -43,156 +49,171 @@
             <!-- BUTTONS ENDS HERE -->
         </div>
     </div>
-  
+
     <div class="search">
-        <input type="text" class= "search-box" name ="searchTxt" [(ngModel)] = "searchTxt" placeholder="Search by title,description or url" (keyup)="keyFunc(searchTxt)">
+        <input type="text" class="search-box" name="searchTxt" [(ngModel)]="searchTxt"
+            placeholder="Search by title,description or url" (keyup)="keyFunc(searchTxt)">
         <img class="closeCross" src="assets/images/close.svg" (click)="clearReocrd()">
     </div>
 
     <perfect-scrollbar class="accor-scroll-add" #fqasScrollContainer>
         <ng-container>
-            <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+            <div class="mainLoadingSpinner" *ngIf="loadingContent">
                 <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
                 <span class="please-wait-message">Please Wait!</span>
             </div>
             <div id="accordion" class="accordion-content">
                 <!-- <div *ngIf ="extractedResults; else loading"> -->
-                    <div *ngFor="let result of extractedResults;let i = index">
-                        <div class="card-content" *ngIf="searchType == 'faq'">
-                            <div class="card_link collapsed">      
-                                <div class="d-flex align-items-center">
-                                    <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
-                                        <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
-                                        <label [attr.for]="i" class="checkbox-custom-label"></label>
-                                    </div>
-                                    <div class="title-desc-sec" *ngIf="searchType == 'faq'">
-                                        <div class="title">{{ result.faq_question}}</div>
-                                        <div class="desc" >{{ result.faq_answer}}</div>
-                                    </div>
+                <div *ngFor="let result of extractedResults;let i = index">
+                    <div class="card-content" *ngIf="searchType == 'faq'">
+                        <div class="card_link collapsed">
+                            <div class="d-flex align-items-center">
+                                <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                    <input [attr.id]="i" [attr.custumId]="result.contentId"
+                                        class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off"
+                                        (click)="addRecord(result,i,$event)">
+                                    <label [attr.for]="i" class="checkbox-custom-label"></label>
                                 </div>
-                                
+                                <div class="title-desc-sec" *ngIf="searchType == 'faq'">
+                                    <div class="title">{{ result.faq_question}}</div>
+                                    <div class="desc">{{ result.faq_answer}}</div>
+                                </div>
                             </div>
+
                         </div>
-                        <div class="card-content" *ngIf="searchType == 'task'">
-                            <div class="card_link collapsed">      
+                    </div>
+                    <div class="card-content" *ngIf="searchType == 'task'">
+                        <div class="card_link collapsed">
+                            <div class="d-flex align-items-center">
+                                <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                    <input [attr.id]="i" [attr.custumId]="result.contentId"
+                                        class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off"
+                                        (click)="addRecord(result,i,$event)">
+                                    <label [attr.for]="i" class="checkbox-custom-label"></label>
+                                </div>
+                                <div class="title-desc-sec">
+                                    <div class="title">{{ result.title}}</div>
+                                    <div class="desc">{{ result.searchResultPreview}}</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-content" *ngIf="searchType == 'data'">
+                        <div class="card_link collapsed">
+                            <div class="d-flex align-items-center">
+                                <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                    <input [attr.id]="i" [attr.custumId]="result.contentId"
+                                        class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off"
+                                        (click)="addRecord(result,i,$event)">
+                                    <label [attr.for]="i" class="checkbox-custom-label"></label>
+                                </div>
+                                <div class="tiltles-sec" *ngIf="result.sys_content_type == 'data'">
+                                    <div class="primary-tiitle">{{ result.heading}}</div>
+                                    <div class="secondary-title">{{ result.description}}</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-content" *ngIf="searchType == 'all'">
+                        <div class="card_link collapsed">
+                            <div class="d-flex align-items-center">
+                                <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                    <input [attr.id]="i" [attr.custumId]="result.contentId"
+                                        class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off"
+                                        (click)="addRecord(result,i,$event)">
+                                    <label [attr.for]="i" class="checkbox-custom-label"></label>
+                                </div>
+                                <div class="title-desc-sec" *ngIf="result.sys_content_type == 'web'">
+                                    <div class="title">{{ result.page_title}}</div>
+                                    <div class="desc">{{ result.searchResultPreview}}</div>
+                                </div>
+                                <div class="title-desc-sec" *ngIf="result.sys_content_type == 'faq'">
+                                    <div class="title">{{ result.faq_question}}</div>
+                                    <div class="desc">{{ result.faq_answer[0].text}}</div>
+                                </div>
+                                <div class="title-desc-sec" *ngIf="result.sys_content_type == 'task'">
+                                    <div class="title">{{ result.title}}</div>
+                                    <div class="desc">{{ result.searchResultPreview}}</div>
+                                </div>
+                                <div class="tiltles-sec" *ngIf="result.sys_content_type == 'data'">
+                                    <div class="primary-tiitle">{{ result.heading}}</div>
+                                    <div class="secondary-title">{{ result.description}}</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div *ngIf="searchType == 'content'">
+                        <!-- <div *ngFor="let data of result.data ;let j = index"> -->
+                        <div class="card-content">
+                            <div class="card_link collapsed">
                                 <div class="d-flex align-items-center">
-                                    <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
-                                        <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
+                                    <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                        <input [attr.id]="i" [attr.custumId]="result.contentId"
+                                            class="checkbox-custom selectEachfaqInput" type="checkbox"
+                                            autocomplete="off" (click)="addRecord(result,i,$event)">
                                         <label [attr.for]="i" class="checkbox-custom-label"></label>
                                     </div>
                                     <div class="title-desc-sec">
-                                        <div class="title">{{ result.title}}</div>
-                                        <div class="desc">{{ result.searchResultPreview}}</div>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                        <div class="card-content" *ngIf="searchType == 'data'">
-                            <div class="card_link collapsed">      
-                                <div class="d-flex align-items-center">
-                                    <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
-                                        <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
-                                        <label [attr.for]="i" class="checkbox-custom-label"></label>
-                                    </div>
-                                    <div class="tiltles-sec" *ngIf="result.sys_content_type == 'data'">
-                                        <div class="primary-tiitle">{{ result.heading}}</div>
-                                        <div class="secondary-title" >{{ result.description}}</div>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                        <div class="card-content" *ngIf="searchType == 'all'">
-                            <div class="card_link collapsed">      
-                                <div class="d-flex align-items-center">
-                                    <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
-                                        <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
-                                        <label [attr.for]="i" class="checkbox-custom-label"></label>
-                                    </div>
-                                    <div class="title-desc-sec" *ngIf="result.sys_content_type == 'web'">
-                                        <div class="title">{{ result.page_title}}</div>
-                                        <div class="desc" >{{ result.searchResultPreview}}</div>
-                                    </div>
-                                    <div class="title-desc-sec" *ngIf="result.sys_content_type == 'faq'">
-                                        <div class="title">{{ result.faq_question}}</div>
-                                        <div class="desc" >{{ result.faq_answer}}</div>
-                                    </div>
-                                    <div class="title-desc-sec" *ngIf="result.sys_content_type == 'task'">
-                                        <div class="title">{{ result.title}}</div>
-                                        <div class="desc" >{{ result.searchResultPreview}}</div>
-                                    </div>
-                                    <div class="tiltles-sec" *ngIf="result.sys_content_type == 'data'">
-                                        <div class="primary-tiitle">{{ result.heading}}</div>
-                                        <div class="secondary-title" >{{ result.description}}</div>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                        <div *ngIf="searchType == 'content'">
-                            <!-- <div *ngFor="let data of result.data ;let j = index"> -->
-                                <div class="card-content" >
-                                    <div class="card_link collapsed">      
-                                        <div class="d-flex align-items-center">
-                                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
-                                                <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
-                                                <label [attr.for]="i" class="checkbox-custom-label"></label>
-                                            </div>
-                                            <div class="title-desc-sec">
-                                                <!-- <div class="title">{{ data._source.page_title}}</div> -->
-                                                <div class="title">{{ result.page_title }}</div>
-                                                <div class="desc" *ngIf="result.page_preview;else body">{{ result.page_preview}}</div>
-                                                <ng-template #body>
-                                                    <div class="desc">{{result.searchResultPreview}}</div>
-                                                </ng-template>
-                                            </div>
+                                        <!-- <div class="title">{{ data._source.page_title}}</div> -->
+                                        <div class="title">{{ result.page_title }}</div>
+                                        <div class="desc" *ngIf="result.page_preview;else body">{{ result.page_preview}}
                                         </div>
-                                        
+                                        <ng-template #body>
+                                            <div class="desc">{{result.searchResultPreview}}</div>
+                                        </ng-template>
                                     </div>
                                 </div>
-                            <!-- </div> -->
-                        </div>                        
-                    </div>                                        
+
+                            </div>
+                        </div>
+                        <!-- </div> -->
+                    </div>
+                </div>
                 <!-- </div> -->
                 <ng-template #empty>
-                    <div  class="empty-questions-selected divBlockEmptylastChild">
+                    <div class="empty-questions-selected divBlockEmptylastChild">
                         <div class="heading">No search results</div>
                     </div>
                 </ng-template>
             </div>
-       </ng-container>
+        </ng-container>
     </perfect-scrollbar>
-         <!-- record position -->
-         <div class="group-radiobutton" *ngIf="recordArray.length">
-            <div class="kr-sg-radiobutton">
-                <input id="radio-last" name="radio" class="radio-custom" type="radio" [checked] = "positionRecord == 'top'" (click)="positionRecord = 'top'">
-                <label for="radio-last" class="radio-custom-label">Add to the top</label>
-            </div>
-            <div class="kr-sg-radiobutton">
-                <input id="radio-top" name="radio" class="radio-custom" type="radio" [checked] = "positionRecord == 'bottom'" (click)="positionRecord = 'bottom'">
-                <label for="radio-top" class="radio-custom-label">Add to the last</label>
-            </div>
-        </div> 
-        <!--record position -->
-        <div class="footer row">
-            <div class="col-7">
-                <span class="desc" *ngIf="recordArray.length" >{{ recordArray.length }} results selected</span>
-            </div>
-            <div class="col-2">
-                <button class="bef-add" [ngClass] = "{'add' : recordArray.length > 0}" (click) = "pushRecord()" [disabled] = "!recordArray.length">Add</button>
-            </div>
-            <div class="col-2">
-                <button class="cancel col3" (click) = "cancelRecord()">Cancel</button>
-            </div>
+    <!-- record position -->
+    <div class="group-radiobutton" *ngIf="recordArray.length">
+        <div class="kr-sg-radiobutton">
+            <input id="radio-last" name="radio" class="radio-custom" type="radio" [checked]="positionRecord == 'top'"
+                (click)="positionRecord = 'top'">
+            <label for="radio-last" class="radio-custom-label">Add to the top</label>
         </div>
+        <div class="kr-sg-radiobutton">
+            <input id="radio-top" name="radio" class="radio-custom" type="radio" [checked]="positionRecord == 'bottom'"
+                (click)="positionRecord = 'bottom'">
+            <label for="radio-top" class="radio-custom-label">Add to the last</label>
+        </div>
+    </div>
+    <!--record position -->
+    <div class="footer row">
+        <div class="col-7">
+            <span class="desc" *ngIf="recordArray.length">{{ recordArray.length }} results selected</span>
+        </div>
+        <div class="col-2">
+            <button class="bef-add" [ngClass]="{'add' : recordArray.length > 0}" (click)="pushRecord()"
+                [disabled]="!recordArray.length">Add</button>
+        </div>
+        <div class="col-2">
+            <button class="cancel col3" (click)="cancelRecord()">Cancel</button>
+        </div>
+    </div>
 </div>
 
 
 
 
 <!-- New HTML Layout -->
-<div class="add-new-result-container " *ngIf="!addNew"  [ngClass]="{'top-down-add-new-result' : structure == 'top'}">
+<div class="add-new-result-container " *ngIf="!addNew" [ngClass]="{'top-down-add-new-result' : structure == 'top'}">
     <div class="result-container">
         <div class="header-sec">
             <div class="title">ADD NEW RESULT</div>
@@ -200,109 +221,130 @@
                 <img src="assets/images/close.svg">
             </div>
         </div>
-        <span class="info-new-result"><img src="assets/icons/Info_blue.svg"><span>Results will be pinned at the top </span></span>   
+        <span class="info-new-result"><img src="assets/icons/Info_blue.svg"><span>Results will be pinned at the top
+            </span></span>
         <div class="result-type-content">
             <div class="kr-sg-dropdowns mb-20">
                 <div class="label-text">Result Type</div>
                 <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{searchRadioTypeTxt}}</button>                                            
+                    <button class="dropdown-toggle dropdown-input"
+                        data-toggle="dropdown">{{searchRadioTypeTxt}}</button>
                     <ul class="dropdown-menu content-menu">
-                      <li (click) = "resultClick('faq')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'FAQ'}">FAQ</a></li>
-                      <li (click) = "resultClick('content')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Content'}">Content</a></li>
-                      <li (click) = "resultClick('task')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Bot Action'}">Bot Action</a></li>
-                      <li (click) = "resultClick('data')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Structured Data'}">Structured Data</a></li>
-                      <li (click) = "resultClick('all')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Any'}">Any</a></li>
+                        <li (click)="resultClick('faq')"><a
+                                [ngClass]="{'selected' : searchRadioTypeTxt == 'FAQ'}">FAQ</a></li>
+                        <li (click)="resultClick('content')"><a
+                                [ngClass]="{'selected' : searchRadioTypeTxt == 'Content'}">Content</a></li>
+                        <li (click)="resultClick('task')"><a
+                                [ngClass]="{'selected' : searchRadioTypeTxt == 'Bot Action'}">Bot Action</a></li>
+                        <li (click)="resultClick('data')"><a
+                                [ngClass]="{'selected' : searchRadioTypeTxt == 'Structured Data'}">Structured Data</a>
+                        </li>
+                        <li (click)="resultClick('all')"><a
+                                [ngClass]="{'selected' : searchRadioTypeTxt == 'Any'}">Any</a></li>
                     </ul>
-                  </div>
-            </div>     
+                </div>
+            </div>
 
-            <div class="kr-sg-input-search">                               
-                <input type="text" name="searchTxt" [(ngModel)]="searchTxt" placeholder="Search by title,description or url" (keyup)="keyFunc(searchTxt)" class="input-search">
+            <div class="kr-sg-input-search">
+                <input type="text" name="searchTxt" [(ngModel)]="searchTxt"
+                    placeholder="Search by title,description or url" (keyup)="keyFunc(searchTxt)" class="input-search">
                 <img src="assets/icons/close.svg" class="search-icon" (click)="clearReocrd()">
             </div>
-        </div> 
+        </div>
         <perfect-scrollbar class="scoll-data" #fqasScrollContainer>
             <ng-container>
-                <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+                <div class="mainLoadingSpinner" *ngIf="loadingContent">
                     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
                     <span class="please-wait-message">Please Wait!</span>
                 </div>
                 <div class="result-data">
-                    
+
                     <ng-container *ngFor="let result of extractedResults;let i = index">
-                        <div class="row-with-checkbox selected" *ngIf="searchType == 'faq'">                                                                
-                            <div class="kr-sg-checkbox d-block p-0 m-0" (click)="$event.stopImmediatePropagation();" >
-                                <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
+                        <div class="row-with-checkbox selected" *ngIf="searchType == 'faq'">
+                            <div class="kr-sg-checkbox d-block p-0 m-0" (click)="$event.stopImmediatePropagation();">
+                                <input [attr.id]="i" [attr.custumId]="result.contentId"
+                                    class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off"
+                                    (click)="addRecord(result,i,$event)">
                                 <label [attr.for]="i" class="checkbox-custom-label"></label>
                             </div>
                             <div class="tiltles-sec">
                                 <div class="primary-tiitle">{{ result.faq_question}}</div>
                                 <div class="secondary-title">{{ result.faq_answer}}</div>
-                            </div>                                                
+                            </div>
                         </div>
-                        <div class="row-with-checkbox selected" *ngIf="searchType == 'task'">                                                                                            
-                            <div class="kr-sg-checkbox d-block p-0 m-0" (click)="$event.stopImmediatePropagation();" >
-                                <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
+                        <div class="row-with-checkbox selected" *ngIf="searchType == 'task'">
+                            <div class="kr-sg-checkbox d-block p-0 m-0" (click)="$event.stopImmediatePropagation();">
+                                <input [attr.id]="i" [attr.custumId]="result.contentId"
+                                    class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off"
+                                    (click)="addRecord(result,i,$event)">
                                 <label [attr.for]="i" class="checkbox-custom-label"></label>
                             </div>
                             <div class="tiltles-sec">
                                 <div class="primary-tiitle">{{ result.title}}</div>
                                 <div class="secondary-title">{{ result.searchResultPreview}}</div>
-                            </div>                                                
+                            </div>
                         </div>
-                        <div class="row-with-checkbox selected" *ngIf="searchType == 'data'">                                                                                            
-                            <div class="kr-sg-checkbox d-block p-0 m-0" (click)="$event.stopImmediatePropagation();" >
-                                <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
+                        <div class="row-with-checkbox selected" *ngIf="searchType == 'data'">
+                            <div class="kr-sg-checkbox d-block p-0 m-0" (click)="$event.stopImmediatePropagation();">
+                                <input [attr.id]="i" [attr.custumId]="result.contentId"
+                                    class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off"
+                                    (click)="addRecord(result,i,$event)">
                                 <label [attr.for]="i" class="checkbox-custom-label"></label>
                             </div>
                             <div class="tiltles-sec">
                                 <div class="primary-tiitle">{{ result.heading}}</div>
-                                <div class="secondary-title" >{{ result.description}}</div>
-                            </div>                                                
+                                <div class="secondary-title">{{ result.description}}</div>
+                            </div>
                         </div>
-                        <div class="row-with-checkbox selected" *ngIf="searchType == 'all'">                                                                
+                        <div class="row-with-checkbox selected" *ngIf="searchType == 'all'">
                             <div class="kr-sg-checkbox d-block p-0 m-0">
-                                <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
+                                <input [attr.id]="i" [attr.custumId]="result.contentId"
+                                    class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off"
+                                    (click)="addRecord(result,i,$event)">
                                 <label [attr.for]="i" class="checkbox-custom-label"></label>
-                            </div>    
+                            </div>
                             <div class="tiltles-sec" *ngIf="result.sys_content_type == 'file'">
                                 <div class="primary-tiitle">{{result.file_title}}</div>
-                            </div>                                                      
+                            </div>
                             <div class="tiltles-sec" *ngIf="result.sys_content_type == 'web'">
                                 <div class="primary-tiitle">{{result.page_title}}</div>
-                                <div class="secondary-title" *ngIf="result.page_preview;else webPre">{{result.page_preview}}</div>
+                                <div class="secondary-title" *ngIf="result.page_preview;else webPre">
+                                    {{result.page_preview}}</div>
                                 <ng-template #webPre>
                                     <div class="secondary-title">{{result.searchResultPreview}}</div>
                                 </ng-template>
                             </div>
                             <div class="tiltles-sec" *ngIf="result.sys_content_type == 'faq'">
                                 <div class="primary-tiitle">{{ result.faq_question}}</div>
-                                <div class="secondary-title" >{{ result.faq_answer}}</div>
+                                <div class="secondary-title">{{ result.faq_answer[0].text}}</div>
                             </div>
                             <div class="tiltles-sec" *ngIf="result.sys_content_type == 'task'">
                                 <div class="primary-tiitle">{{ result.title}}</div>
-                                <div class="secondary-title" >{{ result.searchResultPreview}}</div>
+                                <div class="secondary-title">{{ result.searchResultPreview}}</div>
                             </div>
                             <div class="tiltles-sec" *ngIf="result.sys_content_type == 'data'">
                                 <div class="primary-tiitle">{{ result.heading}}</div>
-                                <div class="secondary-title" >{{ result.description}}</div>
+                                <div class="secondary-title">{{ result.description}}</div>
                             </div>
                         </div>
-                        <div class="row-with-checkbox selected" *ngIf="searchType == 'content'">                                                                
-                            <div class="kr-sg-checkbox d-block p-0 m-0" (click)="$event.stopImmediatePropagation();" >
-                                <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
+                        <div class="row-with-checkbox selected" *ngIf="searchType == 'content'">
+                            <div class="kr-sg-checkbox d-block p-0 m-0" (click)="$event.stopImmediatePropagation();">
+                                <input [attr.id]="i" [attr.custumId]="result.contentId"
+                                    class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off"
+                                    (click)="addRecord(result,i,$event)">
                                 <label [attr.for]="i" class="checkbox-custom-label"></label>
                             </div>
                             <div class="tiltles-sec" *ngIf="result.sys_content_type=='file'">
-                                <div class="primary-tiitle">{{ result.file_title }}</div>                               
-                            </div>   
+                                <div class="primary-tiitle">{{ result.file_title }}</div>
+                            </div>
                             <div class="tiltles-sec" *ngIf="result.sys_content_type=='web'">
                                 <div class="primary-tiitle">{{ result.page_title }}</div>
-                                <div class="secondary-title" *ngIf="result.page_preview;else body">{{ result.page_preview}}</div>                               
+                                <div class="secondary-title" *ngIf="result.page_preview;else body">{{
+                                    result.page_preview}}</div>
                                 <ng-template #body>
                                     <div class="secondary-title">{{result.searchResultPreview}}</div>
                                 </ng-template>
-                            </div>                                                
+                            </div>
                         </div>
                     </ng-container>
                     <!-- <div class="row-with-checkbox selected">
@@ -318,7 +360,7 @@
                 </div>
             </ng-container>
         </perfect-scrollbar>
-        
+
         <!-- <div class="group-radiobutton">
             <div class="kr-sg-radiobutton">
                 <input id="radio-last" name="radio" class="radio-custom" type="radio"  [checked] = "positionRecord == 'top'" (change)="positionRecord = 'top'">
@@ -331,10 +373,12 @@
         </div>  -->
 
         <div class="footer-info">
-            <div class="selected-length"><span *ngIf="recordArray.length > 0">{{ recordArray.length }} result{{(recordArray.length > 1) ? 's' : '' }} selected </span></div>
+            <div class="selected-length"><span *ngIf="recordArray.length > 0">{{ recordArray.length }}
+                    result{{(recordArray.length > 1) ? 's' : '' }} selected </span></div>
             <div class="btns-sec">
-                <button class="kr-sg-button-secondary btn_lg" (click) = "cancelRecord()">Cancel</button>
-                <button class="kr-sg-button-primary btn_lg" [ngClass] = "{'add' : recordArray.length > 0}" (click) = "pushRecord()" [disabled] = "!recordArray.length">Pin Results</button>
+                <button class="kr-sg-button-secondary btn_lg" (click)="cancelRecord()">Cancel</button>
+                <button class="kr-sg-button-primary btn_lg" [ngClass]="{'add' : recordArray.length > 0}"
+                    (click)="pushRecord()" [disabled]="!recordArray.length">Pin Results</button>
             </div>
         </div>
     </div>

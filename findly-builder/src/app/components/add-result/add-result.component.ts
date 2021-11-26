@@ -97,28 +97,46 @@ export class AddResultComponent implements OnInit {
   getAllSettings() {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
+      interface: 'fullSearch',
     };
-    this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
-      if (res.settings) {
-        res.settings.forEach((_interface) => {
-          _interface.appearance.forEach(element => {
-            if (!this.isResultTemplate) {
-              if (element.type === 'structuredData') {
-                if (element.templateId && element.templateId.length) {
-                  this.isResultTemplate = true;
-                  this.getTemplate(element.templateId);
-                }
-                else {
-                  this.structuredDataHeading = '';
-                  this.structuredDataDes = '';
-                  this.isResultTemplate = false;
-                }
+    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
+      if (res && res.groupSetting) {
+        res.groupSetting.conditions.forEach(element => {
+          if (!this.isResultTemplate) {
+            if (element.fieldValue === 'data') {
+              if (element.templateId && element.templateId.length) {
+                this.isResultTemplate = true;
+                this.getTemplate(element.templateId);
+              }
+              else {
+                this.structuredDataHeading = '';
+                this.structuredDataDes = '';
+                this.isResultTemplate = false;
               }
             }
-          });
-        });
+          }
+        })
       }
+      // if (res.settings) {
+      //   res.settings.forEach((_interface) => {
+      //     _interface.appearance.forEach(element => {
+      //       if (!this.isResultTemplate) {
+      //         if (element.type === 'structuredData') {
+      //           if (element.templateId && element.templateId.length) {
+      //             this.isResultTemplate = true;
+      //             this.getTemplate(element.templateId);
+      //           }
+      //           else {
+      //             this.structuredDataHeading = '';
+      //             this.structuredDataDes = '';
+      //             this.isResultTemplate = false;
+      //           }
+      //         }
+      //       }
+      //     });
+      //   });
+      // }
     }, errRes => {
       this.notificationService.notify('Failed to fetch all Setting Informations', 'error');
     });
