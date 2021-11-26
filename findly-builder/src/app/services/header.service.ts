@@ -17,6 +17,7 @@ export class SideBarService {
   @Output() savedSearchConfiguration : EventEmitter<any> = new EventEmitter();
   @Output() updatedResultTemplateMapping : EventEmitter<any> = new EventEmitter();
   isOnboardingPage = false;
+  openJourneyForfirstTime = false
   searchConfiguration: any;
   isSDKCached: boolean = false;
   isSDKOpen: boolean = false;
