@@ -5741,6 +5741,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.enterIsClicked = false;
           } else if ($('body').hasClass('top-down') && keyCode == 13) {
             _self.vars.enterIsClicked = true;
+            $('.skelton-load-img').show();
             $('#live-search-result-box').hide();
             $('#frequently-searched-box').hide();
           } else if (!$('body').hasClass('top-down') && keyCode == 13) {
@@ -19432,6 +19433,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('#suggestion').val('');
         $(".top-down-suggestion").val('');
         $(".search-top-down").val('');
+        $('.full-search-data-container').empty();
+        $('.skelton-load-img').show();
         _self.destroy();
       });
       _self.navLinkDemoClick();
@@ -20023,7 +20026,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             <div class="all-result-container">
             <div class="skelton-load-img">
-              <img alt="" src="assets/web-kore-sdk/demo/images/skeletonImage.png" />
+              <img alt="" class="isDevLoader" src="assets/web-kore-sdk/demo/images/skeletonImage.png" />
+              <img alt="" class="isEndUserLoader"src="./../demo/images/skeletonImage.png" />
             </div>
             <div id="conversation-container" class="conversation-container">
                     <div class="conversation-title">

@@ -17364,3 +17364,9 @@ a.tile-heading{
 .show-more-list {
     cursor: pointer;
 }
+.bodybg .isDevLoader, .isEndUserLoader{
+    display: none;
+}
+.isDevLoader,.bodybg .isEndUserLoader{
+display: block;
+}
