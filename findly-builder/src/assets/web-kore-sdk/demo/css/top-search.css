@@ -1535,7 +1535,7 @@ float: right;
   position: absolute;
   height: auto;
   right: 25px;
-  top: 130px;
+  top: 60px;
   z-index: 999990;
   background: var(--sdk-white-bg);
   box-shadow: -7px 4px 30px rgb(18 61 101 / 10%), inset -8px -6px 80px rgb(255 255 255 / 18%);

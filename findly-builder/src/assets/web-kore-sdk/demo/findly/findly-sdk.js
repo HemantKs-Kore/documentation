@@ -3492,6 +3492,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 setTimeout(() => {
                   _self.bindCustomizeAction();
                 }, 300);
+                dataObj.tasks = res.tasks || [];
                 _self.pubSub.publish('sa-search-full-results', { container: container, isFullResults: true, selectedFacet: 'all', isLiveSearch: false, isSearch: false, facetData: searchFacets, dataObj });
                 setTimeout(() => {
                   _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
@@ -3575,9 +3576,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 }
               }
               _self.vars.totalNumOfResults = totalResultsCount;
-              facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults, name: 'ALL' });
+              facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks ||[]).length, name: 'ALL' });
               facets = facets.concat((res.tabFacet || {}).buckets || [])
               facets = _self.rearrangeTabsList(facets);
+              facets.push({ key: "task", doc_count: (res.tasks ||[]).length, name: 'Actions' });
               _self.vars.tabsList = facets;
               _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
               _self.pubSub.publish('sa-source-type', facets);
@@ -5401,9 +5403,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           }
           _self.vars.totalNumOfResults = totalResultsCount;
-          facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults, name: 'ALL' });
-          facets = facets.concat((res.tabFacet || {}).buckets || []);
+          facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks ||[]).length, name: 'ALL' });
+          facets = facets.concat((res.tabFacet || {}).buckets || [])
           facets = _self.rearrangeTabsList(facets);
+          facets.push({ key: "task", doc_count: (res.tasks ||[]).length, name: 'Actions' });
           _self.vars.tabsList = facets;
           _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
           _self.pubSub.publish('sa-source-type', facets);
@@ -6992,7 +6995,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var dataObj = {
               faqs: [],
               web: [],
-              tasks: [],
+              tasks: res.tasks || [],
               facets: [],
               files: [],
               searchFacets: searchFacets,
@@ -7078,7 +7081,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 groupName: 'defaultTemplate'
               }
               // _self.pubSub.publish('sa-defaultTemplate-search-data', { container: searchContainerName, isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-              $('.empty-full-results-container').removeClass('hide');
+              if(!(res.tasks||[]).length){
+                $('.empty-full-results-container').removeClass('hide');
+              }
             }
           } else {
             var results = res.results.data;
@@ -7102,11 +7107,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('.empty-full-results-container').addClass('hide');
               }
             } else {
-              $('.empty-full-results-container').removeClass('hide');
+              if(!(res.tasks||[]).length){
+                $('.empty-full-results-container').removeClass('hide');
+              }
             }
           }
-
-
+          if((res.tasks || []).length){
+            var dataObj = {
+              facets: facets || [],
+              searchFacets: searchFacets || [],
+              originalQuery: res.originalQuery || '',
+              customSearchResult: _self.customSearchResult,
+              tasks : res.tasks ||[]
+            }
+            _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet :(_self.vars.isFromTopDownKeyDown?'data':'all results') } });
+          }
 
           var liveResult = res.results;
           var topMatch;
@@ -7401,7 +7416,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         } else {
           if ($('body').hasClass('top-down')) {
-            $('.empty-full-results-container').removeClass('hide');
+            if((res.tasks || []).length){
+              dataObj.tasks = res.tasks ||[];
+              _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet :(_self.vars.isFromTopDownKeyDown?'data':'all results') } });
+            } else {
+              $('.empty-full-results-container').removeClass('hide');
+            }
+          }else{
+            if ((res.tasks || []).length) {
+              dataObj.tasks = res.tasks || [];
+             setTimeout(function () {
+               _self.appendActionsContainerForBottomUp('search');
+               _self.pubSub.publish('sa-action-full-search', { container: '.actions-search-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
+             }, 300);
+             setTimeout(function () {
+               _self.bindSearchActionEvents();
+             }, 500);
+           }
           }
           if ($('.search-container').hasClass('conversation')) {
             $('.search-body').addClass('hide');
@@ -7412,11 +7443,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           _self.vars.totalNumOfResults = 0;
         }
+       
         if ($('body').hasClass('top-down')) {
           _self.showMoreClick();
-          facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults, name: 'ALL' });
+          facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks ||[]).length, name: 'ALL' });
           facets = facets.concat((res.tabFacet || {}).buckets || [])
           facets = _self.rearrangeTabsList(facets);
+          facets.push({ key: "task", doc_count: (res.tasks ||[]).length, name: 'Actions' });
           _self.vars.tabsList = facets;
           if (!_self.vars.searchObject.liveData) {
             _self.vars.searchObject.liveData = { facets: facets };
@@ -8621,7 +8654,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if ((((_self.vars || {}).searchObject || {}).liveData || {}).facets) {
           var facets = _self.vars.searchObject.liveData.facets;
           facets.forEach(function (facet) {
-            $('.' + facet.key.replaceAll(" ", "-")).removeClass(config.selectedClass).addClass(config.unSelectedClass);
+            if(facet && facet.key){
+              $('.' + facet.key.replaceAll(" ", "-")).removeClass(config.selectedClass).addClass(config.unSelectedClass);
+            }
           })
           $('.' + data.selectedFacet.replaceAll(" ", "-")).removeClass(config.unSelectedClass).addClass(config.selectedClass);
           if (!data.selectedFacet || data.selectedFacet === "all results") {
@@ -8634,7 +8669,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.pubSub.unsubscribe('sa-source-type');
       _self.pubSub.subscribe('sa-source-type', (msg, data) => {
         data.forEach((tab) => {
-          tab['className'] = tab.key.replaceAll(" ", "-");
+          if(tab && tab.key){
+            tab['className'] = tab.key.replaceAll(" ", "-");
+          }
         });
         var facets = data;
         if (config.templateId) {
@@ -8735,7 +8772,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (actionsPosition == 'top') {
           $('.content-data-sec').prepend(actionParentContainer);
         } else {
-          $('.files-search-data-container').after(actionParentContainer);
+          $('.full-search-data-container').after(actionParentContainer);
         }
       }
       _self.pubSub.unsubscribe('sa-search-result');
@@ -15538,6 +15575,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.initilizeTemplateConfig(_self[group + 'Config'], customConfig, config.interface, selected, group);
             });
           }, 200);
+          _self.initilizeActionTemplateConfig();
         });
         console.log(_self);
       }
@@ -16375,6 +16413,30 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "carousel"
         }
       ]
+    }
+    FindlySDK.prototype.initilizeActionTemplateConfig = function () {
+    var _self = this;
+    _self.pubSub.unsubscribe('sa-action-full-search');
+    _self.pubSub.subscribe('sa-action-full-search', (msg, data) => {
+      var actionContainer = '#actions-full-search-container';
+      if (data.isFullResults && data.dataObj && data.dataObj.tasks && (data.dataObj.tasks.length || data.dataObj.tasks.length == 0)) {
+        var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
+        var devMode = _self.isDev ? true : false;
+        var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy({ 'selectedFacet': _self.vars.selectedFacetFromSearch || 'all results', 'tasks': data.dataObj.tasks, 'isFullResults': data.isFullResults, appearanceType: 'task', 'devMode': devMode, 'viewType': viewType });
+        $(actionContainer).empty().append(dataHTML);
+        _self.bindCarouselForActionsTemplate(actionContainer);
+      }
+      else if (data.isSearch) {
+        if (data.container) {
+          actionContainer = data.container;
+        }
+        var viewType = 'Preview';
+        var devMode = false;
+        var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy({ 'selectedFacet': _self.vars.selectedFacetFromSearch || 'all results', 'tasks': data.dataObj.tasks, 'isFullResults': data.isFullResults, appearanceType: 'task', 'devMode': devMode, 'viewType': viewType });
+        $(actionContainer).last().empty().append(dataHTML);
+        _self.bindCarouselForActionsTemplate(actionContainer);
+      }
+    });
     }
     FindlySDK.prototype.initilizeTemplateConfig = function (templateConfig, customTemplateConfig, templateInterface, selected, groupName) {
       var _self = this;
@@ -17444,8 +17506,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 groupName: 'defaultTemplate'
               }
               // _self.pubSub.publish('sa-defaultTemplate-search-data', { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-              $('.empty-full-results-container').removeClass('hide');
-
+              if(!((res.tasks ||[]).length && selectedFacet == 'task')){
+                $('.empty-full-results-container').removeClass('hide');
+              }
             }
 
             res.results = results;
@@ -20570,7 +20633,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (from && from == 'search') {
         actionParentContainer = `<div class="actions-search-container"></div>`;
         if (actionsPosition === 'top') {
-          $('.faqs-data-container').last().before(actionParentContainer);
+          $('.search-data-container').last().before(actionParentContainer);
         } else {
           $('.bottom-search-show-all-results').last().before(actionParentContainer);
         }
@@ -21575,10 +21638,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var rearrangeList = [];
       if(_self.vars.defaultTabsList.length){
         var allResultObj = facets.find(t=> t.key=== 'all results');
-        rearrangeList.push(allResultObj)
+        if(allResultObj){
+          rearrangeList.push(allResultObj)
+        }
         _self.vars.defaultTabsList.forEach((tab)=>{
          var facetObj = facets.find(t=> t.key=== tab.fieldValue);
-         rearrangeList.push(facetObj);
+         if(facetObj){
+          rearrangeList.push(facetObj);
+         }
         })
       }else{
         rearrangeList = facets;
