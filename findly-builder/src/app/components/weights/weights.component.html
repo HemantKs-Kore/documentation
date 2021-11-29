@@ -42,7 +42,7 @@
                                 <app-range-slider [customClass]='"weightsSlider"'  [allData]='weightModal.sliderObj' (valueEvent)="valueEvent($event,weightModal)"></app-range-slider>
                             </div>
                             <div class="sliderVal">{{weightModal.sliderObj.default}}</div>
-                            <div class="action_links" *ngIf="weightModal.isField  && (currentEditIndex !== i)">
+                            <div class="action_links" *ngIf="(currentEditIndex !== i)">
                                 <span class="actions-links pr-4" id="btn_editWeight" (click)="editWeight(weightModal,i)"><img class="action_icon" [container]="'body'" ngbTooltip='Edit' src="assets/images/edit-pencil.svg"></span>
                                 <span class="actions-links" id="btn_deleteWeight" ngbTooltip='Delete' [container]="'body'" (click)="deleteWeight(weightModal,$event,i)"><img class="action_icon" src="assets/icons/trashIcon.svg"></span>
                             </div>
