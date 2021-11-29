@@ -278,9 +278,9 @@
                   <div class="label-text" *ngIf="map.operation === 'rename'">
                     {{'workbench.field_name' | translate}}
                   </div>
-                  <div class="position-relative">
+                  <div class="position-relative" #poistionRelative>
                     <input type="text" placeholder="{{'workbench.enter_target' | translate}}" 
-                      (keyup)="changesDetected = true"  class="input-text dropdown-toggle dropdown-input"
+                      (keyup)="changesDetected = true"  (change)="onSourcefieldChange($event,poistionRelative,1)"class="input-text dropdown-toggle dropdown-input"
                       data-toggle="dropdown" [(ngModel)]="map.source_field" />
                     <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                       [ngClass]="{'no-data-match-border-0':!(fields | filter : [map.source_field, 'fieldName']).length}">
@@ -410,9 +410,9 @@
                 ">
                 {{'workbench.field_name' | translate}}
               </div>
-              <div class="position-relative ">
+              <div class="position-relative " #poistionRelative>
                 <input type="text" placeholder="{{'workbench.enter_source_field' | translate}}" 
-                  (keyup)="changesDetected = true"  class="input-text dropdown-toggle dropdown-input"
+                  (keyup)="changesDetected = true"(change)="onSourcefieldChange($event,poistionRelative,2)"class="input-text dropdown-toggle dropdown-input"
                   data-toggle="dropdown" [(ngModel)]="
                   newMappingObj.field_mapping.defaultValue.source_field
                 " />
@@ -525,9 +525,9 @@
                 <div class="kr-sg-input-text col-4 input-box"
                   [ngClass]="{'col-6': selectedStage.type == 'keyword_extraction' || selectedStage.type === 'semantic_meaning'}">
                   <div class="label-text">{{'workbench.source_field' | translate}}</div>
-                  <div class="position-relative ">
+                  <div class="position-relative " #poistionRelative>
                     <input type="text" placeholder="{{'workbench.value' | translate}}" 
-                      (keyup)="changesDetected = true"  class="input-text dropdown-toggle dropdown-input"
+                      (keyup)="changesDetected = true" (change)="onSourcefieldChange($event,poistionRelative,3)" class="input-text dropdown-toggle dropdown-input"
                       data-toggle="dropdown" [(ngModel)]="map.source_field" />
                     <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                       [ngClass]="{'no-data-match-border-0':!(fields | filter : [map.source_field, 'fieldName']).length}">
@@ -669,8 +669,8 @@
             <div class="kr-sg-input-text col-4 input-box"
               [ngClass]="{'col-6': selectedStage.type == 'keyword_extraction' || selectedStage.type === 'semantic_meaning'}">
               <div class="label-text">{{'workbench.source_field' | translate}}</div>
-              <div class="position-relative ">
-                <input type="text" placeholder="{{'workbench.value' | translate}}"
+              <div class="position-relative " #poistionRelative>
+                <input type="text" placeholder="{{'workbench.value' | translate}}"  (keyup)="changesDetected = true" (change)="onSourcefieldChange($event,poistionRelative,4)"
                   class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown"  [(ngModel)]="
                     newMappingObj[selectedStage.type].defaultValue.source_field
                   " />

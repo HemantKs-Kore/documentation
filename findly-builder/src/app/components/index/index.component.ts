@@ -1285,6 +1285,14 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     return true;
   }
+  onSourcefieldChange(event,parent,no,e){
+    // console.log(event,parent,no)
+    // e.stopPropagation();
+    // $(this).next('.dropdown-toggle').find('[data-toggle=dropdown]').dropdown('toggle');
+    // parent.classList.add('show')
+    // parent.children[1].classList.add('show');
+    // parent.children[1].style.top ="0px";
+  }
   addFiledmappings(map, isNotDefault?) {
     this.changesDetected = true;
     if (!this.selectedStage.config) {
