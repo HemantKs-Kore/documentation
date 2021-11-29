@@ -99,7 +99,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.SearchConfigurationSubscription = this.headerService.resetSearchConfiguration.subscribe(res => {
       this.distroySearch();
       this.loadSearchExperience();
-      //this.getSearchExperience();
+      this.getSearchExperience();
     });
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       if (this.searchExperienceConfig) {

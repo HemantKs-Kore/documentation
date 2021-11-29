@@ -714,6 +714,7 @@
                 .search-with-dropdown {
                     position: absolute;
                     border: 0;
+                    cursor: auto;
                     &::before {
                         display: none;
                     }

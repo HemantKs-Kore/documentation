@@ -261,6 +261,11 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.saveSortedList();
     }
   }
+  dropTabs(event: CdkDragDrop<string[]>, list) {
+    if (event.previousIndex !== event.currentIndex) {
+      moveItemInArray(list, event.previousIndex, event.currentIndex);
+    }
+  }
   saveSortedList() {
     const payload: any = [];
     const quaryparms: any = {
@@ -918,6 +923,9 @@ export class FacetsComponent implements OnInit, OnDestroy {
             delete this.currentFacetObj?.sortConfig;
             delete this.currentFacetObj?.size;
           }
+        }
+        else if (this.currentFacetObj?.type === 'tab') {
+          this.currentFacetObj?.tabs.forEach(res => delete res?.selected);
         }
         if (this.currentFacetObj?._id) {
           quaryparms = Object.assign({ ...quaryparms, facetId: this.currentFacetObj?._id });

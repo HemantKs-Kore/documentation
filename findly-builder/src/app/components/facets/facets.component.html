@@ -222,7 +222,7 @@
                 <ng-container *ngIf="(facets && facets.length)">
                     <div cdkDropList (cdkDropListDropped)="drop($event,facets)">
                         <div class="body_sec row m-0" cdkDrag
-                            *ngFor="let facet of facets | filter : [searchfacet, 'facetName']"
+                            *ngFor="let facet of facets | filter : [searchfacet, 'name']"
                             [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[facet._id])}">
                             <div class="field_data" *cdkDragPreview>
                                 <div class="title text-truncate"></div>
@@ -306,7 +306,8 @@
         <div class="modal-body scroll-data-content-tabs">
             <ng-container *ngIf="!showConfiguredFacet">
                 <ul class="nav nav-tabs">
-                    <li *ngFor="let nav of facetType" (click)="(enable_Edit_Facet)?null:currentTab(nav.type)">
+                    <li *ngFor="let nav of facetType"
+                        (click)="(enable_Edit_Facet||nav.type===currentFacetTab)?null:currentTab(nav.type)">
                         <a [ngClass]="{'active':nav.type===currentFacetTab}">
                             <img src="assets/icons/facets/{{nav.type==='sortable'?'sort':nav.type}}.svg">{{nav.name}}
                         </a>
@@ -416,7 +417,9 @@
                                         <div class="kr-sg-input-text">
                                             <div class="label-text">Facet Size <img class="cursor-pointer"
                                                     src="assets/icons/facets/info.svg" tooltipClass="tooltip-global-"
-                                                    [container]="'body'" ngbTooltip='Info text' placement="top-center">
+                                                    [container]="'body'"
+                                                    ngbTooltip='Maximum number of facet values to be displayed'
+                                                    placement="top-center">
                                             </div>
                                             <input type="text" placeholder="0" class="input-text"
                                                 [(ngModel)]="currentFacetObj.size">
@@ -573,22 +576,7 @@
                                                 id="facets-search-input"
                                                 class="input-search dropdown-toggle dropdown-input"
                                                 data-toggle="dropdown" [(ngModel)]="currentFacetObj.fieldName"
-                                                [class.err-block]="((!currentFacetObj?.fieldName?.length) && submitted)"
-                                                autocomplete="off">
-                                            <img src="assets/images/search_gray.svg" class="search-icon">
-                                            <img *ngIf="(!currentFacetObj?.fieldName?.length) && submitted"
-                                                id="fieldWarning" src="assets/icons/warning_escalation.svg"
-                                                style="top: 29%; position: absolute; right: 1.5%; display: block;"
-                                                height="12" width="12" />
-                                            <ul class="dropdown-menu content-menu"
-                                                id="facets-search-with-dropdown-menu">
-                                                <perfect-scrollbar class="scroll-search-field h-200">
-                                                    <li *ngFor="let field of fieldAutoSuggestion | filter : [currentFacetObj.fieldName, 'fieldName']"
-                                                        (click)="currentFacetObj.fieldId=field._id;currentFacetObj.fieldName=field.fieldName;getFieldValues(field._id);">
-                                                        <a>{{field.fieldName}}</a>
-                                                    </li>
-                                                </perfect-scrollbar>
-                                            </ul>
+                                                autocomplete="off" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -604,13 +592,15 @@
                                     <div class="col-6 title">Display Name</div>
                                 </div>
                                 <ng-container>
-                                    <div class="body-sec-config-facet col-12 row"
-                                        *ngFor="let tab of currentFacetObj?.tabs">
-                                        <div class="col-6 title values-data">
-                                            <!-- <img src="assets/icons/facets/move.svg"> -->
-                                            <span class="title-value">{{tab.fieldValue}}</span>
+                                    <div cdkDropList (cdkDropListDropped)="dropTabs($event,currentFacetObj?.tabs)">
+                                        <div class="body-sec-config-facet col-12 row" cdkDrag
+                                            *ngFor="let tab of currentFacetObj?.tabs">
+                                            <div class="col-6 title values-data">
+                                                <img src="assets/icons/facets/move.svg">
+                                                <span class="title-value">{{tab.fieldValue}}</span>
+                                            </div>
+                                            <div class="col-6 title">{{tab.bucketName}}</div>
                                         </div>
-                                        <div class="col-6 title">{{tab.bucketName}}</div>
                                     </div>
                                 </ng-container>
                             </div>
@@ -631,15 +621,22 @@
                                 data-toggle="dropdown"></button>
                             <input type="text" maxlength="60" placeholder="Search For Field" id="facets-search-input"
                                 class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown"
-                                [(ngModel)]="currentFacetObj.fieldName" disabled>
-                            <!-- <img src="assets/images/search_gray.svg" class="search-icon"> -->
-                            <!-- <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
+                                [(ngModel)]="currentFacetObj.fieldName"
+                                [class.err-block]="((!currentFacetObj?.fieldName?.length) && submitted)"
+                                autocomplete="off">
+                            <img src="assets/images/search_gray.svg" class="search-icon">
+                            <img *ngIf="(!currentFacetObj?.fieldName?.length) && submitted" id="fieldWarning"
+                                src="assets/icons/warning_escalation.svg"
+                                style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12"
+                                width="12" />
+                            <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
                                 <perfect-scrollbar class="scroll-search-field h-200">
-                                    <li>
-                                        <a>Option1</a>
+                                    <li *ngFor="let field of fieldAutoSuggestion | filter : [currentFacetObj.fieldName, 'fieldName']"
+                                        (click)="currentFacetObj.fieldId=field._id;currentFacetObj.fieldName=field.fieldName;getFieldValues(field._id);">
+                                        <a>{{field.fieldName}}</a>
                                     </li>
                                 </perfect-scrollbar>
-                            </ul> -->
+                            </ul>
                         </div>
                     </div>
                 </div>
