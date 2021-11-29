@@ -402,7 +402,7 @@
     },
     "structuredData": {
         "structuredData": "Structured Data",
-        "structuredDataImport": "Import Structured Data",
+        "structuredDataImport": "Add Structured Data",
         "upload_json": "Upload JSON / CSV File",
         "drag_drop": "Drag and drop file anywhere on this screen",
         "browse": "Browse",
@@ -1032,7 +1032,7 @@
         "viewInsights": "View Insights",
         "totalSearches": "Total Searches",
         "resultRate": "Searches with Results",
-        "clicks": "Clicks",
+        "clicks": "Searches with Click",
         "CTR": "CTR",
         "Result_rate": "Result Rate",
         "Sources": "Sources",

@@ -104,6 +104,8 @@ export class StructuredDataComponent implements OnInit {
   searchFocusIn = false;
   search: any;
   formatter: any;
+  showSelectedData: boolean;
+  showSelectAllQues: boolean
   enableSearchBlock: boolean = false;
   indexPipelineId: any;
   subscription: Subscription;
@@ -174,12 +176,18 @@ export class StructuredDataComponent implements OnInit {
       this.isLoading = false;
       this.totalCount = JSON.parse(JSON.stringify(res.total));
       this.selectedStructuredData = [];
-      this.allSelected = false;
+      // this.allSelected = false; // To be sent true for selectionAll during pagination
       if (res.data) {
         this.structuredDataItemsList = res.data;
       }
       else {
         this.structuredDataItemsList = [];
+      }
+      if(this.allSelected){
+        this.showSelectedData = true // To show number of records selected
+        this.structuredDataItemsList.forEach(data => {
+          data.isChecked = true;
+        });
       }
       if (res.length > 0) {
         this.isLoading = false;
@@ -226,7 +234,7 @@ export class StructuredDataComponent implements OnInit {
       element.objectValues = [];
       Object.keys(element._source).forEach((key: any, index) => {
         let nested = false;
-        if (key && (typeof element._source[key] === 'object')) {
+        if (key && (typeof element._source[key] === 'object') && (typeof element._source[key] != null)) {
           nested = true;
         }
         else {
@@ -251,7 +259,7 @@ export class StructuredDataComponent implements OnInit {
             expandedValue: element._source[key],
             nested: nested,
             expanded: false,
-            valuesLength: nested ? (Object.values(element._source[key]).length) : 1
+            valuesLength: nested ? element._source[key] ? (Object.values(element._source[key]).length) :null : 1
           });
         }
       });
@@ -261,7 +269,7 @@ export class StructuredDataComponent implements OnInit {
 
   getNestedElements(element) {
     let objectValues = [];
-    if ((typeof element === 'object'))
+    if ((typeof element === 'object') && element != null)
       Object.keys(element).forEach((key: any, index) => {
         let nested = false;
         if (key && (typeof element[key] === 'object')) {
@@ -653,10 +661,19 @@ export class StructuredDataComponent implements OnInit {
     }
   }
 
+ selectAllData(){
+   this.showSelectAllQues = false;
+   this.allSelected = true;
+   this.structuredDataItemsList.forEach(data => {
+    data.isChecked = true;
+  });
+  //  this.selectAll(true);
+ }
   selectAll(key) {
     if (!key) {
       this.structuredDataItemsList.forEach(data => {
         data.isChecked = false;
+        this.showSelectAllQues = false;
       });
       this.selectedStructuredData = [];
       this.allSelected = false;
@@ -664,10 +681,12 @@ export class StructuredDataComponent implements OnInit {
     else {
       this.structuredDataItemsList.forEach(data => {
         data.isChecked = true;
+        this.showSelectAllQues =true
       });
       this.selectedStructuredData = JSON.parse(JSON.stringify(this.structuredDataItemsList));
       this.allSelected = true;
     }
+    this.allSelected = false;
   }
 
   searchItems() {
@@ -794,10 +813,15 @@ export class StructuredDataComponent implements OnInit {
     let payload: any = {};
     quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     if (this.selectedStructuredData.length) {
-      payload.docIds = [];
-      this.selectedStructuredData.forEach((data: any) => {
-        payload.docIds.push(data._id);
-      });
+      if(this.allSelected){
+        payload.allStructuredData = true;
+      }
+      else {
+        payload.docIds = [];
+        this.selectedStructuredData.forEach((data: any) => {
+          payload.docIds.push(data._id);
+        });
+      }
       this.service.invoke('delete.clearAllStructureData', quaryparms, payload).subscribe(res => {
         if (res) {
           this.selectedStructuredData = [];
@@ -812,6 +836,9 @@ export class StructuredDataComponent implements OnInit {
             this.getStructuredDataList();
           }
           this.notificationService.notify('Deleted Successfully', 'success');
+          // To hide deleted and show all buttons after deletion //
+          this.showSelectAllQues= false;
+          this.showSelectedData = false;
         }
       }, errRes => {
         console.log("error", errRes);

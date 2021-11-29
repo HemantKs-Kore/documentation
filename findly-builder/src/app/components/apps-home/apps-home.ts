@@ -141,6 +141,13 @@ export class AppsListingComponent implements OnInit {
         this.emptyApp = false;
       }
       else {
+        if(localStorage.getItem('krPreviousState')){
+          let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
+          prDetails.route = "/home";
+
+          localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
+          this.router.navigate(['/home'], { skipLocationChange: true });
+        }
         this.emptyApp = true;
         // if(!this.inlineManual.checkVisibility('CREATE_APP')){
         //   this.inlineManual.openHelp('CREATE_APP')
