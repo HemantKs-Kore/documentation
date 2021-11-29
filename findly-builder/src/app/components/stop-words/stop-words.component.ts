@@ -349,7 +349,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         stopwords: this.stopwords
       },
       options: {
-        stopWordsRemovalEnabled: this.enabled
+        stopWordsRemovalEnabled: !this.enabled
       }
     }
     if (enableOrDisable) {
