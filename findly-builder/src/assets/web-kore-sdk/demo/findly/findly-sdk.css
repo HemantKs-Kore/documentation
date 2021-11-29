@@ -16034,7 +16034,7 @@ a.tile-heading{
     -webkit-line-clamp: 2;
     overflow: hidden;
     margin-bottom: 5px;
-    min-height: 30px;
+    min-height: 64px;
 }
 .four-line-description{
     display: -webkit-box;
@@ -16042,7 +16042,7 @@ a.tile-heading{
     -webkit-line-clamp: 4;
     overflow: hidden;
     margin-bottom: 5px;
-    min-height: 30px;
+    min-height: 128px;
 }
 .eight-line-description{
     display: -webkit-box;
@@ -16050,7 +16050,7 @@ a.tile-heading{
     -webkit-line-clamp: 8;
     overflow: hidden;
     margin-bottom: 5px;
-    min-height: 30px;
+    min-height: 156px;
 }
 .template-3-grid-list .grid-data-item .inner-content-list .heading-text {
     color: #202124;
@@ -16116,7 +16116,7 @@ a.tile-heading{
     top: -2px;
     width: calc(100% - 35px);
 }
-.template-4-classic-list .classic-list-item .content_sec .heading {
+.template-4-classic-list .classic-list-item .content_sec .heading- {
     font-weight: 500;
     font-size: 14px;
     line-height: 20px;
