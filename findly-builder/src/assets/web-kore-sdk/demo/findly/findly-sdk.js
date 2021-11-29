@@ -260,6 +260,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.userContextData = {};
       vars.indexPipelineId = '';
       vars.tabsList = [];
+      vars.availableGroupsList = {};
       vars.defaultTabsList = [];
       vars.tabFacetFieldName = '';
       vars.experimentsObject = {}; // Local Object for Storing Experiments-Related Data (QueryPipelineID, Relay, RequestID)
@@ -3378,6 +3379,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               'facetValue': [showMoreData.groupName]
             }
           }
+        } else if(showMoreData.groupName == 'defaultTemplate'){
+          payload['defaultGroups'] = _self.vars.availableGroupsList ;
         }
         payload['pageNumber'] = showMoreData.pageNumber;
       }
@@ -3393,14 +3396,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         payload.filters = JSON.parse(JSON.stringify(_self.vars.filterObject));
       }
 
-      if ($('body').hasClass('top-down')) {
-        var contentTypeFilter = {
-          "fieldName": "sys_content_type",
-          "name": "facetContentType",
-          "subtype": "value",
-          "isMultiSelect": false,
-          "buckets": []
-        }
         if (_self.vars.selectedFacetFromSearch && _self.vars.selectedFacetFromSearch !== 'all results') {
           // selectedTopFacet = {
           //   "fieldName": contentTypeFilter.fieldName,
@@ -3429,7 +3424,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           }
         }
-      }
 
       if (_self.vars.resultRankingActionPerformed == true) {
         _self.vars.resultRankingActionPerformed = false;
@@ -15557,7 +15551,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             availableGroupNames = config.groupSetting.conditions.map(function (group) {
               return group.fieldValue;
             })
+            if(config.interface === "fullSearch"){
+              _self.vars.availableGroupsList = {
+                'filter': {
+                  'fieldName': config.groupSetting.fieldName,
+                  'facetValue': availableGroupNames
+                }
+              }
+            }
           }
+
           availableGroupNames.push('defaultTemplate');
           availableGroupNames.forEach((group) => {
             if (!_self[group + 'Config']) {
