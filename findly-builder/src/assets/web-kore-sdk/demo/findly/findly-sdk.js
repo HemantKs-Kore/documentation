@@ -7571,14 +7571,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 if (!$('#search').val()) {
                   $('.search-body').addClass('hide');
                   $('.parent-search-live-auto-suggesition').hide();
-                  if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history')) {
+                  if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history') && !$(event.target).closest('.parent-search-live-auto-suggesition').length) {
                     $('.search-container').addClass('no-history');
                   }
                 }
               }
               $('.parent-search-live-auto-suggesition').hide();
               $('.suggestion-search-data-parent').css('display', 'none');
-              if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history')) {
+              if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history') && !$(event.target).closest('.parent-search-live-auto-suggesition')) {
                 $('.search-container').addClass('no-history');
               }
             }

@@ -17156,6 +17156,7 @@ a.tile-heading{
     display: inline-block;
     max-width: 100%;
     margin: 0px 0px 5px 0px;
+    cursor: pointer;
 }
 .default-data-show-not-loaded .default-suggestions-content .suggestion-text img {
     position: absolute;
@@ -17369,4 +17370,7 @@ a.tile-heading{
 }
 .isDevLoader,.bodybg .isEndUserLoader{
 display: block;
+}
+.default-data-show-not-loaded .default-add, .default-data-show-not-loaded .store-updates-block{
+    display: none;
 }
