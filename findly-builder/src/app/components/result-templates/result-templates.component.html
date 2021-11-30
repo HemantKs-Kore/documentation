@@ -79,7 +79,7 @@
                   <img src="assets/icons/result-template/editpencil.svg">
                 </div>
               </div>
-              <div class="values-templates-table" *ngIf="(resultListObj?.groupSetting?.conditions.length)">
+              <div class="values-templates-table" *ngIf="(resultListObj?.groupSetting?.fieldId.length)">
                 <div class="table-header-sec row col-12">
                   <div class="title col-5">Values</div>
                   <div class="title col-7">TEMPLATE</div>
@@ -94,10 +94,12 @@
                           <button class="dropdown-toggle dropdown-input"
                             data-toggle="dropdown">{{value.fieldValue===''?'Select Value':value.fieldValue}}</button>
                           <ul class="dropdown-menu content-menu">
-                            <li *ngFor="let val of fieldValues"
-                              (click)="value.fieldValue=val;value.templateType!==''?updateSettings():null;">
-                              <a>{{val}}</a>
-                            </li>
+                            <perfect-scrollbar class="scroll-search-field">
+                              <li *ngFor="let val of fieldValues"
+                                (click)="value.fieldValue=val;value.templateType!==''?updateSettings():null;">
+                                <a>{{val}}</a>
+                              </li>
+                            </perfect-scrollbar>
                           </ul>
                         </div>
                       </div>
@@ -152,7 +154,7 @@
               </div>
             </ng-container>
             <div class="add-filed-btn mb-3" (click)="openCustomModal('add')"
-              *ngIf="(resultListObj?.groupSetting?.conditions.length===0)">
+              *ngIf="(resultListObj?.groupSetting?.fieldId.length===0)">
               <img src="assets/icons/result-template/add.svg">Add Field
             </div>
           </div>
@@ -274,7 +276,7 @@
           </div>
         </div>
       </div>
-      <ng-container *ngIf="resultListObj.groupSetting.conditions.length">
+      <ng-container *ngIf="resultListObj?.groupSetting?.fieldId?.length">
         <div class="valuse-available-fileds">
           <div class="col-12 heading">Values Available</div>
           <ng-container>
@@ -1927,7 +1929,7 @@
                           (focus)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="preview_url">
                         <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
                           <perfect-scrollbar class="scroll-search-field">
-                            <li *ngFor="let field of img_fieldData" [id]="field._id" (click)="filedSelect('url',field)">
+                            <li *ngFor="let field of url_fieldData" [id]="field._id" (click)="filedSelect('url',field)">
                               <a>{{field.fieldName}}</a>
                             </li>
                           </perfect-scrollbar>

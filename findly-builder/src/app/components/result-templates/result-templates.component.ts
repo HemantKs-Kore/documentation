@@ -532,6 +532,7 @@ export class ResultTemplatesComponent implements OnInit {
   }
   //copy configuration method
   copyConfiguration(type, tab?) {
+    this.copyConfigObj.message = '';
     if (type === 'open') {
       this.copyConfigObj.loader = true;
       const quaryparms: any = {
