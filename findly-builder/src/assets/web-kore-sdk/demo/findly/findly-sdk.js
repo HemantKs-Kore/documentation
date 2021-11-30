@@ -3379,8 +3379,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               'facetValue': [showMoreData.groupName]
             }
           }
-        } else if(showMoreData.groupName == 'defaultTemplate'){
-          payload['defaultGroups'] = _self.vars.availableGroupsList ;
+        } else if (showMoreData.groupName == 'defaultTemplate') {
+          payload['defaultGroups'] = _self.vars.availableGroupsList;
         }
         payload['pageNumber'] = showMoreData.pageNumber;
       }
@@ -3396,34 +3396,34 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         payload.filters = JSON.parse(JSON.stringify(_self.vars.filterObject));
       }
 
-        if (_self.vars.selectedFacetFromSearch && _self.vars.selectedFacetFromSearch !== 'all results') {
-          // selectedTopFacet = {
-          //   "fieldName": contentTypeFilter.fieldName,
-          //   "subtype": contentTypeFilter.subtype,
-          //   "facetValue": [_self.vars.selectedFacetFromSearch],
-          //   "name": contentTypeFilter.name
-          // }
-          // if (Object.values(selectedTopFacet).length) {
-          //   if (!payload.filters || !payload.filters.length) {
-          //     payload.filters = [];
-          //   }
-          //   payload.filters.push(selectedTopFacet);
-          // }
-          var tabConfig = {
-            "filter": {
-              "fieldName": _self.vars.tabFacetFieldName,
-              "facetValue": [_self.vars.selectedFacetFromSearch]
-            }
-          }
-          payload.tabConfig = tabConfig;
-        } else {
-          let filters = payload.filters;
-          for (let i = (filters || []).length - 1; i >= 0; i--) {
-            if (filters[i].facetValue[0] == 'faq' || filters[i].facetValue[0] == 'task' || filters[i].facetValue[0] == 'web' || filters[i].facetValue[0] == 'file' || filters[i].facetValue[0] == 'data') {
-              payload.filters.splice(i, 1);
-            }
+      if (_self.vars.selectedFacetFromSearch && _self.vars.selectedFacetFromSearch !== 'all results') {
+        // selectedTopFacet = {
+        //   "fieldName": contentTypeFilter.fieldName,
+        //   "subtype": contentTypeFilter.subtype,
+        //   "facetValue": [_self.vars.selectedFacetFromSearch],
+        //   "name": contentTypeFilter.name
+        // }
+        // if (Object.values(selectedTopFacet).length) {
+        //   if (!payload.filters || !payload.filters.length) {
+        //     payload.filters = [];
+        //   }
+        //   payload.filters.push(selectedTopFacet);
+        // }
+        var tabConfig = {
+          "filter": {
+            "fieldName": _self.vars.tabFacetFieldName,
+            "facetValue": [_self.vars.selectedFacetFromSearch]
           }
         }
+        payload.tabConfig = tabConfig;
+      } else {
+        let filters = payload.filters;
+        for (let i = (filters || []).length - 1; i >= 0; i--) {
+          if (filters[i].facetValue[0] == 'faq' || filters[i].facetValue[0] == 'task' || filters[i].facetValue[0] == 'web' || filters[i].facetValue[0] == 'file' || filters[i].facetValue[0] == 'data') {
+            payload.filters.splice(i, 1);
+          }
+        }
+      }
 
       if (_self.vars.resultRankingActionPerformed == true) {
         _self.vars.resultRankingActionPerformed = false;
@@ -3480,7 +3480,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 _self.vars.searchObject.liveData.facets = facets;
                 var dataObj = _self.vars.searchObject.liveData;
                 var facetdata = _self.vars.searchFacetFilters;
-                _self.vars.totalNumOfResults = totalResultsCount +  (res.tasks || []).length
+                _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length
                 // $('#loaderDIV').show();
                 _self.showAllResults();
                 setTimeout(() => {
@@ -3541,9 +3541,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     doc_count: 0
                   }
                   // _self.pubSub.publish('sa-defaultTemplate-search-data', { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-                  if(!(res.tasks || []).length){
+                  if (!(res.tasks || []).length) {
                     $('.empty-full-results-container').removeClass('hide');
-                  }else  {
+                  } else {
                     if (!$('.empty-full-results-container').hasClass('hide')) {
                       $('.empty-full-results-container').addClass('hide');
                     }
@@ -3572,9 +3572,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('.empty-full-results-container').addClass('hide');
                   }
                 } else {
-                  if(!(res.tasks || []).length){
+                  if (!(res.tasks || []).length) {
                     $('.empty-full-results-container').removeClass('hide');
-                  }else  {
+                  } else {
                     if (!$('.empty-full-results-container').hasClass('hide')) {
                       $('.empty-full-results-container').addClass('hide');
                     }
@@ -3582,10 +3582,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 }
               }
               _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
-              facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks ||[]).length, name: 'ALL' });
+              facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
               facets = facets.concat((res.tabFacet || {}).buckets || [])
               facets = _self.rearrangeTabsList(facets);
-              facets.push({ key: "task", doc_count: (res.tasks ||[]).length, name: 'Actions' });
+              facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
               _self.vars.tabsList = facets;
               _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
               _self.pubSub.publish('sa-source-type', facets);
@@ -5344,7 +5344,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.empty-full-results-container').removeClass('hide');
             }
 
-            
+
           } else {
             var results = res.results.data;
             if (!(res.tabFacet || {}).buckets) {
@@ -5370,10 +5370,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           }
           _self.vars.totalNumOfResults = totalResultsCount;
-          facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks ||[]).length, name: 'ALL' });
+          facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
           facets = facets.concat((res.tabFacet || {}).buckets || [])
           facets = _self.rearrangeTabsList(facets);
-          facets.push({ key: "task", doc_count: (res.tasks ||[]).length, name: 'Actions' });
+          facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
           _self.vars.tabsList = facets;
           _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
           _self.pubSub.publish('sa-source-type', facets);
@@ -7049,7 +7049,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 groupName: 'defaultTemplate'
               }
               // _self.pubSub.publish('sa-defaultTemplate-search-data', { container: searchContainerName, isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-              if(!(res.tasks||[]).length){
+              if (!(res.tasks || []).length) {
                 $('.empty-full-results-container').removeClass('hide');
               }
             }
@@ -7075,20 +7075,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('.empty-full-results-container').addClass('hide');
               }
             } else {
-              if(!(res.tasks||[]).length){
+              if (!(res.tasks || []).length) {
                 $('.empty-full-results-container').removeClass('hide');
               }
             }
           }
-          if((res.tasks || []).length){
+          if ((res.tasks || []).length) {
             var dataObj = {
               facets: facets || [],
               searchFacets: searchFacets || [],
               originalQuery: res.originalQuery || '',
               customSearchResult: _self.customSearchResult,
-              tasks : res.tasks ||[]
+              tasks: res.tasks || []
             }
-            _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet :(_self.vars.isFromTopDownKeyDown?'data':'all results') } });
+            _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: (_self.vars.isFromTopDownKeyDown ? 'data' : 'all results') } });
           }
 
           var liveResult = res.results;
@@ -7364,78 +7364,78 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         } else {
           if ($('body').hasClass('top-down')) {
-            if((res.tasks || []).length){
-                var dataObj = {
-                  tasks: res.tasks || [],
-                  searchFacets: searchFacets,
-                  originalQuery: res.originalQuery || '',
-                  customSearchResult: _self.customSearchResult,
-                }
-              _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet :(_self.vars.isFromTopDownKeyDown?'data':'all results') } });
+            if ((res.tasks || []).length) {
+              var dataObj = {
+                tasks: res.tasks || [],
+                searchFacets: searchFacets,
+                originalQuery: res.originalQuery || '',
+                customSearchResult: _self.customSearchResult,
+              }
+              _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: (_self.vars.isFromTopDownKeyDown ? 'data' : 'all results') } });
             } else {
               $('.empty-full-results-container').removeClass('hide');
             }
-          }else{
+          } else {
             if ((res.tasks || []).length) {
+              var dataObj = {
+                tasks: res.tasks || [],
+                searchFacets: searchFacets,
+                originalQuery: res.originalQuery || '',
+                customSearchResult: _self.customSearchResult,
+              }
+              if (!$('body').hasClass('top-down')) {
                 var dataObj = {
+                  faqs: [],
+                  web: [],
                   tasks: res.tasks || [],
+                  facets: [],
+                  files: [],
                   searchFacets: searchFacets,
                   originalQuery: res.originalQuery || '',
                   customSearchResult: _self.customSearchResult,
+                  data: []
                 }
-                 if (!$('body').hasClass('top-down')) {
-            var dataObj = {
-              faqs: [],
-              web: [],
-              tasks: res.tasks || [],
-              facets: [],
-              files: [],
-              searchFacets: searchFacets,
-              originalQuery: res.originalQuery || '',
-              customSearchResult: _self.customSearchResult,
-              data: []
-            }
-            if (_self.isDev) {
-              var responseObject = { 'type': 'onboardingjourney', data: 'test', query: _self.vars.searchObject.searchText, bottomUp: true, requestId: _self.vars.previousSearchObj.requestId }
-              _self.parentEvent(responseObject);
-            }
-            if (dataObj.smallTalk) {
-              _self.sendMessageToSearch('bot', dataObj.smallTalk);
-            } else {
-              var _botMessage = 'Sure, please find the matched results below';
-              searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
-                faqs: [],
-                web: [],
-                tasks: res.tasks || [],
-                showAllResults: true,
-                noResults: false,
-                taskPrefix: 'MATCHED',
-                viewType: viewType,
-                customSearchResult: _self.customSearchResult,
-                totalSearchResults:  (res.tasks || []).length
-              });
-              setTimeout(function () {
-                _self.appendActionsContainerForBottomUp('search');
-                _self.pubSub.publish('sa-action-full-search', { container: '.actions-search-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-              }, 300);
-              setTimeout(function () {
-                _self.bindSearchActionEvents();
-              }, 500);
-              $(searchData).data(dataObj);
-              if (!_self.customSearchResult) {
-                // if (!topMatchTask && !_self.customSearchResult) {
-                _self.sendMessageToSearch('bot', _botMessage, null, (_self.isDev == true) ? true : false);
                 if (_self.isDev) {
-                  setTimeout(() => {
-                    _self.pubSub.publish('sa-handle-customize-option-view');
+                  var responseObject = { 'type': 'onboardingjourney', data: 'test', query: _self.vars.searchObject.searchText, bottomUp: true, requestId: _self.vars.previousSearchObj.requestId }
+                  _self.parentEvent(responseObject);
+                }
+                if (dataObj.smallTalk) {
+                  _self.sendMessageToSearch('bot', dataObj.smallTalk);
+                } else {
+                  var _botMessage = 'Sure, please find the matched results below';
+                  searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
+                    faqs: [],
+                    web: [],
+                    tasks: res.tasks || [],
+                    showAllResults: true,
+                    noResults: false,
+                    taskPrefix: 'MATCHED',
+                    viewType: viewType,
+                    customSearchResult: _self.customSearchResult,
+                    totalSearchResults: (res.tasks || []).length
+                  });
+                  setTimeout(function () {
+                    _self.appendActionsContainerForBottomUp('search');
+                    _self.pubSub.publish('sa-action-full-search', { container: '.actions-search-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
+                  }, 300);
+                  setTimeout(function () {
+                    _self.bindSearchActionEvents();
                   }, 500);
+                  $(searchData).data(dataObj);
+                  if (!_self.customSearchResult) {
+                    // if (!topMatchTask && !_self.customSearchResult) {
+                    _self.sendMessageToSearch('bot', _botMessage, null, (_self.isDev == true) ? true : false);
+                    if (_self.isDev) {
+                      setTimeout(() => {
+                        _self.pubSub.publish('sa-handle-customize-option-view');
+                      }, 500);
+                    }
+                  }
+                  $('#searchChatContainer').append(searchData);
                 }
               }
-              $('#searchChatContainer').append(searchData);
-            }
-          }
 
-           }
+            }
           }
           if ($('.search-container').hasClass('conversation') && !(res.tasks || []).length) {
             $('.search-body').addClass('hide');
@@ -7446,13 +7446,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           _self.vars.totalNumOfResults = 0;
         }
-       
+
         if ($('body').hasClass('top-down')) {
           _self.showMoreClick();
-          facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks ||[]).length, name: 'ALL' });
+          facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
           facets = facets.concat((res.tabFacet || {}).buckets || [])
           facets = _self.rearrangeTabsList(facets);
-          facets.push({ key: "task", doc_count: (res.tasks ||[]).length, name: 'Actions' });
+          facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
           _self.vars.tabsList = facets;
           if (!_self.vars.searchObject.liveData) {
             _self.vars.searchObject.liveData = { facets: facets };
@@ -8657,7 +8657,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if ((((_self.vars || {}).searchObject || {}).liveData || {}).facets) {
           var facets = _self.vars.searchObject.liveData.facets;
           facets.forEach(function (facet) {
-            if(facet && facet.key){
+            if (facet && facet.key) {
               $('.' + facet.key.replaceAll(" ", "-")).removeClass(config.selectedClass).addClass(config.unSelectedClass);
             }
           })
@@ -8672,7 +8672,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.pubSub.unsubscribe('sa-source-type');
       _self.pubSub.subscribe('sa-source-type', (msg, data) => {
         data.forEach((tab) => {
-          if(tab && tab.key){
+          if (tab && tab.key) {
             tab['className'] = tab.key.replaceAll(" ", "-");
           }
         });
@@ -15551,7 +15551,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             availableGroupNames = config.groupSetting.conditions.map(function (group) {
               return group.fieldValue;
             })
-            if(config.interface === "fullSearch"){
+            if (config.interface === "fullSearch") {
               _self.vars.availableGroupsList = {
                 'filter': {
                   'fieldName': config.groupSetting.fieldName,
@@ -15895,6 +15895,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 5,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
            <div class="template-4-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list{{if isClickable==false}}-collapse{{/if}} {{if isClickable==false}}template-4-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-collapse-result{{/if}} mb-15">\
            {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
            {{if isClickable == true}}\
@@ -15936,6 +15937,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 6,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
            <div class="template-6-classic-list mb-15">\
            {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
            <div class="title-main text-trucate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
@@ -15959,6 +15961,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 7,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           <div class="template-2-grid-list mb-15">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
@@ -15982,6 +15985,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 8,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           <div class="template-3-grid-list mb-15">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
@@ -16011,6 +16015,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 9,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           <div class="template-4-grid-list mb-15">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
@@ -16050,6 +16055,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 10,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           <div class="template-5-grid-list mb-15">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
@@ -16077,6 +16083,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 11,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           <div class="template-6-grid-list">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           <div class="grid-data-item">\
@@ -16104,6 +16111,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 12,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           <div class="template-7-grid-list mb-15" >\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
@@ -16130,6 +16138,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 13,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           <div class="template-9-grid-list mb-15">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
@@ -16156,6 +16165,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 14,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           <div class="template-9-grid-list mb-15">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
@@ -16183,6 +16193,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 15,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
             <div class="template-2-carousel-list mb-15">\
             <div class="carousel">\
             {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
@@ -16205,6 +16216,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 16,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           <div class="template-2-carousel-list mb-15">\
           <div class="carousel">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
@@ -16227,6 +16239,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 17,
           "template": '<script type="text/x-jqury-tmpl">\
             {{if structuredData.length}}\
+            <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
             <div class="template-3-carousel-list mb-15">\
             <div class="carousel">\
             {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
@@ -16252,6 +16265,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 18,
           "template": '<script type="text/x-jqury-tmpl">\
             {{if structuredData.length}}\
+            <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
             <div class="template-4-carousel-list mb-15">\
             <div class="carousel">\
                 {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
@@ -16283,6 +16297,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 19,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           <div class="template-5-carousel-list mb-15">\
           <div class="carousel">\
               {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
@@ -16308,6 +16323,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 20,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           <div class="template-6-carousel-list mb-15">\
           <div class="carousel">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
@@ -16340,6 +16356,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 21,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           <div class="template-7-carousel-list mb-15">\
           <div class="carousel">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
@@ -16369,6 +16386,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 22,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           <div class="template-7-carousel-list mb-15">\
           <div class="carousel">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
@@ -16399,6 +16417,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 23,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           <div class="template-7-carousel-list mb-15">\
           <div class="carousel">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
@@ -16427,28 +16446,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       ]
     }
     FindlySDK.prototype.initilizeActionTemplateConfig = function () {
-    var _self = this;
-    _self.pubSub.unsubscribe('sa-action-full-search');
-    _self.pubSub.subscribe('sa-action-full-search', (msg, data) => {
-      var actionContainer = '#actions-full-search-container';
-      if (data.isFullResults && data.dataObj && data.dataObj.tasks && (data.dataObj.tasks.length || data.dataObj.tasks.length == 0)) {
-        var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
-        var devMode = _self.isDev ? true : false;
-        var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy({ 'selectedFacet': _self.vars.selectedFacetFromSearch || 'all results', 'tasks': data.dataObj.tasks, 'isFullResults': data.isFullResults, appearanceType: 'task', 'devMode': devMode, 'viewType': viewType });
-        $(actionContainer).empty().append(dataHTML);
-        _self.bindCarouselForActionsTemplate(actionContainer);
-      }
-      else if (data.isSearch) {
-        if (data.container) {
-          actionContainer = data.container;
+      var _self = this;
+      _self.pubSub.unsubscribe('sa-action-full-search');
+      _self.pubSub.subscribe('sa-action-full-search', (msg, data) => {
+        var actionContainer = '#actions-full-search-container';
+        if (data.isFullResults && data.dataObj && data.dataObj.tasks && (data.dataObj.tasks.length || data.dataObj.tasks.length == 0)) {
+          var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
+          var devMode = _self.isDev ? true : false;
+          var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy({ 'selectedFacet': _self.vars.selectedFacetFromSearch || 'all results', 'tasks': data.dataObj.tasks, 'isFullResults': data.isFullResults, appearanceType: 'task', 'devMode': devMode, 'viewType': viewType });
+          $(actionContainer).empty().append(dataHTML);
+          _self.bindCarouselForActionsTemplate(actionContainer);
         }
-        var viewType = 'Preview';
-        var devMode = false;
-        var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy({ 'selectedFacet': _self.vars.selectedFacetFromSearch || 'all results', 'tasks': data.dataObj.tasks, 'isFullResults': data.isFullResults, appearanceType: 'task', 'devMode': devMode, 'viewType': viewType });
-        $(actionContainer).last().empty().append(dataHTML);
-        _self.bindCarouselForActionsTemplate(actionContainer);
-      }
-    });
+        else if (data.isSearch) {
+          if (data.container) {
+            actionContainer = data.container;
+          }
+          var viewType = 'Preview';
+          var devMode = false;
+          var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy({ 'selectedFacet': _self.vars.selectedFacetFromSearch || 'all results', 'tasks': data.dataObj.tasks, 'isFullResults': data.isFullResults, appearanceType: 'task', 'devMode': devMode, 'viewType': viewType });
+          $(actionContainer).last().empty().append(dataHTML);
+          _self.bindCarouselForActionsTemplate(actionContainer);
+        }
+      });
     }
     FindlySDK.prototype.initilizeTemplateConfig = function (templateConfig, customTemplateConfig, templateInterface, selected, groupName) {
       var _self = this;
@@ -17518,7 +17537,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 groupName: 'defaultTemplate'
               }
               // _self.pubSub.publish('sa-defaultTemplate-search-data', { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-              if((!(res.tasks ||[]).length && selectedFacet == 'all results') && !((res.tasks ||[]).length && selectedFacet == 'task') ){
+              if ((!(res.tasks || []).length && selectedFacet == 'all results') && !((res.tasks || []).length && selectedFacet == 'task')) {
                 $('.empty-full-results-container').removeClass('hide');
               }
             }
@@ -21233,7 +21252,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.checkIsPreviousLiveSearchDataExists = function () {
       var _self = this;
       if ($('body').hasClass('top-down')) {
-        if ($('.live-search-data-container').children().length>0) {
+        if ($('.live-search-data-container').children().length > 0) {
           if (_self.vars.enterIsClicked || !$(".search-top-down").val()) {
             $('#live-search-result-box').hide();
             return;
@@ -21648,26 +21667,26 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     }
 
-    FindlySDK.prototype.rearrangeTabsList= function (facets) {
-      var  _self = this;
+    FindlySDK.prototype.rearrangeTabsList = function (facets) {
+      var _self = this;
       var rearrangeList = [];
-      if(_self.vars.defaultTabsList.length){
-        var allResultObj = facets.find(t=> t.key=== 'all results');
-        if(allResultObj){
+      if (_self.vars.defaultTabsList.length) {
+        var allResultObj = facets.find(t => t.key === 'all results');
+        if (allResultObj) {
           rearrangeList.push(allResultObj)
         }
-        _self.vars.defaultTabsList.forEach((tab)=>{
-         var facetObj = facets.find(t=> t.key=== tab.fieldValue);
-         if(facetObj){
-          rearrangeList.push(facetObj);
-         }
+        _self.vars.defaultTabsList.forEach((tab) => {
+          var facetObj = facets.find(t => t.key === tab.fieldValue);
+          if (facetObj) {
+            rearrangeList.push(facetObj);
+          }
         })
-      }else{
+      } else {
         rearrangeList = facets;
       }
       return rearrangeList;
     };
-     
+
     return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);
 });
