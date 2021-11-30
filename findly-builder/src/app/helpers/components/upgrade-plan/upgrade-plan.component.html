@@ -44,10 +44,16 @@
               </div>
               <div class="card-desc" *ngFor="let info of plan.featureData" [hidden]="!(info.displayOnBanner)">
                 {{info.displayText}}</div>
-              <button class="kr-sg-button-secondary btn_lg" *ngIf="selectedPlan?.planName=='Free'"
+                <button class="kr-sg-button-secondary btn_lg"
+                (click)="openContactusModel(plan.name)">{{("plan.contact_us"|
+                translate)}}</button>
+                 <!-- Commented as part of FLY-3643 -->
+              <!-- <button class="kr-sg-button-secondary btn_lg" *ngIf="selectedPlan?.planName=='Free'"
                 (click)="plan.name==='Enterprise'?openContactusModel(plan.name):openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"|
-                translate):("plan.choose_plan"| translate)}}</button>
-              <button class="kr-sg-button-secondary btn_lg" *ngIf="selectedPlan?.planName=='Standard'"
+                translate):("plan.choose_plan"| translate)}}</button> -->
+                <!-- <button class="kr-sg-button-secondary btn_lg" > Contact Us</button> -->
+                <!-- <button class="kr-sg-button-secondary btn_lg"   > Contact Us</button> -->
+              <!-- <button class="kr-sg-button-secondary btn_lg" *ngIf="selectedPlan?.planName=='Standard'"
                 [ngStyle]="{'display':(selectedPlan?.planName==plan.name&&selectedPlan?.billingUnit==termPlan)?'none':'block'}"
                 (click)="plan.name==='Enterprise'?openContactusModel(plan.name):openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"|
                 translate):(selectedPlan?.billingUnit=='Monthly'&&selectedPlan.planName=='Standard'&&plan.name=="Standard")?'Switch
@@ -58,7 +64,7 @@
                 [ngStyle]="{'display':(selectedPlan?.planName==plan.name&&selectedPlan?.billingUnit==termPlan)?'none':'block'}"
                 (click)="plan.name==='Enterprise'||plan.name=='Standard'?openContactusModel(plan.name):openOrderConfPopup(plan)">{{plan.name==='Enterprise'||plan.name=='Standard'?("plan.contact_us"|
                 translate):(selectedPlan?.billingUnit=='Monthly'&&selectedPlan.planName=='Pro'&&plan.name=="Pro")?'Switch
-                to Annually':("plan.choose_plan"| translate)}}</button>
+                to Annually':("plan.choose_plan"| translate)}}</button> -->
             </div>
             <div class="goto_details" (click)="gotoDetails(plan.name)">{{"plan.go_to_details"| translate}}</div>
           </div>
