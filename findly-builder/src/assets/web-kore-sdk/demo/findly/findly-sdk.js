@@ -9684,7 +9684,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // "facetValue": ["sbi"]
         }
       }
-
+      messageToBot["interface"] = $('body').hasClass('top-down')?'fullSearch':'conversationalSearch';
       //payload end//
       if (!$('body').hasClass('demo')) {
         messageToBot.indexPipelineId = _self.API.indexpipelineId;
@@ -21667,6 +21667,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     }
 
+    
     FindlySDK.prototype.rearrangeTabsList = function (facets) {
       var _self = this;
       var rearrangeList = [];
