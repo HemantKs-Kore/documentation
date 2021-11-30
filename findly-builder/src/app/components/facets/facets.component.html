@@ -422,11 +422,12 @@
                                                     placement="top-center">
                                             </div>
                                             <input type="text" placeholder="0" class="input-text"
-                                                [(ngModel)]="currentFacetObj.size">
-                                            <div class="minus" (click)="currentFacetObj.size=currentFacetObj.size-1">
+                                                [(ngModel)]="currentFacetObj.size"
+                                                (change)="restrictFacetSize('input')">
+                                            <div class="minus" (click)="restrictFacetSize('minus')">
                                                 <img src="assets/icons/facets/minus.svg">
                                             </div>
-                                            <div class="plus" (click)="currentFacetObj.size=currentFacetObj.size+1">
+                                            <div class="plus" (click)="restrictFacetSize('plus')">
                                                 <img src="assets/icons/facets/plus.svg">
                                             </div>
                                         </div>
@@ -580,8 +581,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="filter-btn"
-                                    (click)="currentFacetObj.fieldName?showConfiguredFacet=true:null">
+                                <div class="filter-btn" (click)="showConfiguredFacet=true">
                                     <img src="assets/icons/facets/rangeslider.svg">
                                 </div>
                             </div>

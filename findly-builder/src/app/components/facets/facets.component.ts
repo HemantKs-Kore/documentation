@@ -456,11 +456,6 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.statusArr = [...new Set(this.statusArr)];
       this.docTypeArr = [...new Set(this.docTypeArr)];
       this.selectTypeArr = [...new Set(this.selectTypeArr)];
-      this.facets.forEach((ele) => {
-        if (ele.type === 'tab') {
-          this.getFieldValues(ele.fieldId);
-        }
-      })
       this.loadingContent = false;
       this.addRemovefacetFromSelection(null, null, true);
       if (res.length > 0) {
@@ -812,14 +807,10 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.currentFacetTab = data.type;
       this.facetType = this.facetType.filter(ele => ele.type === data.type);
       if (data.type === 'tab') {
-        this.configuredTabValues = this.currentFacetObj.tabs;
-        this.configuredTabValues.map(tab => {
-          this.currentFacetObj.tabs.map(tab1 => {
-            if (tab.fieldValue === tab1.fieldValue) {
-              tab.selected = true;
-            }
-            return tab
-          })
+        this.facets.forEach((ele) => {
+          if (ele.type === 'tab') {
+            this.getFieldValues(ele.fieldId);
+          }
         })
       }
     }
@@ -835,6 +826,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }
     else {
       if (this.facetModalRef1 && this.facetModalRef1.close) {
+        this.configuredTabValues = [];
+        this.enable_Edit_Facet = false;
         this.facetModalRef1.close();
         this.currentFacetObj = {};
         this.submitted = false;
@@ -992,6 +985,18 @@ export class FacetsComponent implements OnInit, OnDestroy {
     delete data?.fieldName;
     return data;
   }
+  //restirct facet negative values in filter facet
+  restrictFacetSize(type) {
+    if (type === 'minus') {
+      this.currentFacetObj.size = (this.currentFacetObj.size > 1) ? this.currentFacetObj.size - 1 : 0;
+    }
+    else if (type === 'plus') {
+      this.currentFacetObj.size = Number(this.currentFacetObj.size) + 1
+    }
+    else if (type === 'input') {
+      this.currentFacetObj.size = (this.currentFacetObj.size >= 1) ? this.currentFacetObj.size : 0;
+    }
+  }
   //get values based on field
   getFieldValues(id) {
     this.configuredTabValues = [];
@@ -1004,6 +1009,19 @@ export class FacetsComponent implements OnInit, OnDestroy {
       for (let i in res.values) {
         this.configuredTabValues.push({ bucketName: '', fieldValue: res.values[i], selected: false });
       }
+      // this.configuredTabValues = this.currentFacetObj.tabs;
+      this.configuredTabValues.map(tab => {
+        this.currentFacetObj.tabs.map(tab1 => {
+          if (tab.fieldValue === tab1.fieldValue) {
+            tab.selected = true;
+          }
+          return tab
+        })
+      })
+      setTimeout(() => {
+        const all_checked = this.configuredTabValues.every(element => element.selected === true);
+        this.selectAllConfigure = all_checked ? true : false;
+      }, 100)
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get field values');
     });
