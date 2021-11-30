@@ -183,8 +183,8 @@
                 ngbTooltip="{{'workbench.give_stage_name_of_your_choice_to_create_multiple' | translate}}"
                 tooltipClass="workbench_tolltips m-0" class="pl-1" src="assets/icons/help_gray.svg" />
             </div>
-            <input type="text" placeholder="{{'workbench.please_enter_stage_name' | translate}}"
-              (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name" />
+            <input type="text" placeholder="{{'workbench.please_enter_stage_name' | translate}}" 
+              (keyup)="changesDetected = true"  autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name" />
           </div>
           <!-- <div class="kr-sg-input-text mb-2">
             <div class="label-text">
@@ -201,7 +201,7 @@
               </span>
             </div>
             <input type="text" placeholder="{{'workbench.define_condition' | translate}}" 
-              (keyup)="changesDetected = true" autocomplete="off" class="input-text"
+              (keyup)="changesDetected = true"  autocomplete="off" class="input-text"
               [(ngModel)]="selectedStage.condition" />
              <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div>
           </div> -->
@@ -233,7 +233,7 @@
                 <div class="and-seperator" *ngIf="selectedStage.condition.mappings.length>1&&i>0">And</div>
                 <div class="kr-sg-input-text col-8">
                   <div class="position-relative">
-                    <input type="text" placeholder="Enter the field name here" maxlength="60"
+                    <input type="text" placeholder="Enter the field name here" 
                       (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                       data-toggle="dropdown" [(ngModel)]="basic.fieldName" />
                     <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
@@ -275,7 +275,7 @@
                     <input type="text" placeholder="Type value and press enter" #containInput
                       [formControl]="containCtrl" [matChipInputFor]="chipList" [matChipInputAddOnBlur]="addOnBlur"
                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event,i)"
-                      [(ngModel)]="basic.autocomplete_text" maxlength="60" autocomplete="off">
+                      [(ngModel)]="basic.autocomplete_text"  autocomplete="off">
                   </mat-chip-list>
                 </mat-form-field>
               </div>
@@ -399,7 +399,7 @@
                       {{'workbench.field_name' | translate}}
                     </div>
                     <div class="position-relative">
-                      <input type="text" placeholder="{{'workbench.enter_target' | translate}}" maxlength="60"
+                      <input type="text" placeholder="{{'workbench.enter_target' | translate}}" 
                         (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                         data-toggle="dropdown" [(ngModel)]="map.source_field" />
                       <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
@@ -425,7 +425,7 @@
                       {{'workbench.field_name' | translate}}
                     </div>
                     <div class="position-relative ">
-                      <input type="text" placeholder="{{'workbench.enter_target' | translate}}" maxlength="60"
+                      <input type="text" placeholder="{{'workbench.enter_target' | translate}}" 
                         (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                         data-toggle="dropdown" [(ngModel)]="map.target_field" />
                       <ul class="source-field-dropdown dropdown-menu content-menu"
@@ -446,7 +446,7 @@
                       map.operation !== 'rename'
                     ">
                     <div class="label-text">{{'workbench.value' | translate}}</div>
-                    <input type="text" placeholder="{{'workbench.value' | translate}}" maxlength="60" class="input-text"
+                    <input type="text" placeholder="{{'workbench.value' | translate}}"  class="input-text"
                       [(ngModel)]="map.value" />
                   </div>
                   <!-- <div class="kr-sg-dropdowns col-4 input-box">
@@ -542,7 +542,7 @@
                   {{'workbench.field_name' | translate}}
                 </div>
                 <div class="position-relative ">
-                  <input type="text" placeholder="{{'workbench.enter_source_field' | translate}}" maxlength="60"
+                  <input type="text" placeholder="{{'workbench.enter_source_field' | translate}}" 
                     (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                     data-toggle="dropdown" [(ngModel)]="
                     newMappingObj.field_mapping.defaultValue.source_field
@@ -580,7 +580,7 @@
                 </div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench.enter_name' | translate}}"
-                    class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" maxlength="60" [(ngModel)]="
+                    class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown"  [(ngModel)]="
                     newMappingObj.field_mapping.defaultValue.target_field
                   " />
                   <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
@@ -619,7 +619,7 @@
                   ">
                   {{'workbench.new_name' | translate}}
                 </div>
-                <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" maxlength="60"
+                <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" 
                   [(ngModel)]="newMappingObj.field_mapping.defaultValue.value" />
               </div>
               <div class="colse_form">
@@ -656,7 +656,7 @@
                   <div class="kr-sg-input-text col-6 input-box">
                     <div class="label-text">{{'workbench.source_field' | translate}}</div>
                     <div class="position-relative ">
-                      <input type="text" placeholder="{{'workbench.value' | translate}}" maxlength="60"
+                      <input type="text" placeholder="{{'workbench.value' | translate}}" 
                         (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                         data-toggle="dropdown" [(ngModel)]="map.source_field" />
                       <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
@@ -782,7 +782,7 @@
                   </div>
                   <div class="kr-sg-input-text col-6 input-box">
                     <div class="label-text">{{'workbench.target_field' | translate}}</div>
-                    <input type="text" placeholder="{{'workbench.value' | translate}}" maxlength="60"
+                    <input type="text" placeholder="{{'workbench.value' | translate}}" 
                       (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field" />
                   </div>
                   <!-- <div class="kr-sg-dropdowns col-4 input-box">
@@ -811,7 +811,7 @@
                 <div class="label-text">{{'workbench.source_field' | translate}}</div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench.value' | translate}}"
-                    class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" maxlength="60" [(ngModel)]="
+                    class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown"  [(ngModel)]="
                       newMappingObj[selectedStage.type].defaultValue.source_field
                     " />
                   <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
@@ -968,7 +968,7 @@
               </div>
               <div class="kr-sg-input-text col-6 input-box">
                 <div class="label-text">{{'workbench.target_field' | translate}}</div>
-                <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" maxlength="60"
+                <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" 
                   [(ngModel)]="
                     newMappingObj[selectedStage.type].defaultValue.target_field
                   " />

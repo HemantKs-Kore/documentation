@@ -933,7 +933,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       errRes => {
         this.fileObj.fileUploadInProgress = false;
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+          if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessDenied' || errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
+            this.upgrade();
+            this.errorToaster(errRes, errRes.error.errors[0].msg);
+            setTimeout(() => {
+              this.btnDisabled = false;
+            }, 500)
+          } 
+          // this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed to upload file ', 'error');
         }
@@ -1062,7 +1069,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       if(this.selectedSourceType.resourceType == "file"){
         if (this.selectExtractType == 'file') {
           if (this.multipleFileArr.length === 1) {
-            if (this.fileObj.fileId) {               //|| this.multipleFileArr.length
+            if (this.fileObj.fileId) {            
               this.proceedSource()
             }
           }
@@ -1084,9 +1091,26 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
               this.multipleData.files = [...childArr]
               console.log(this.multipleData.files)
             }
-  
-            this.multiplefileupload(this.multipleData)
+       if(this.filesListData.length > 1){
+        this.multiplefileupload(this.multipleData)
+       }
+       else{
+        this.proceedSource()
+       }
+            
           }
+        }
+        else if(this.selectExtractType == "url"){
+          if (this.newSourceObj.url && this.newSourceObj.name) {
+            this.proceedSource()
+          }
+          else {
+            this.btnDisabled = false;
+            $("#extractUrl").css("border-color", "#DD3646");
+            $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+            this.notificationService.notify('Enter the required fields to proceed', 'error');
+          }
+
         }
       }
         else if(this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == ""){
@@ -1302,7 +1326,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
        
-        else {
+        else if(this.filesListData.length > 1) {
           this.multiplefileupload(this.multipleData);
         }
       }
