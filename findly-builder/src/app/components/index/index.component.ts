@@ -505,12 +505,14 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.payloadValidationObj.valid = true;
     this.pipeline.forEach(stage => {
       const tempStageObj = JSON.parse(JSON.stringify(stage));
-      if (tempStageObj.condition.type === 'script') {
+      if (tempStageObj && tempStageObj.condition && tempStageObj.condition.type === 'script') {
         delete tempStageObj.condition.mappings
       }
       else {
-        delete tempStageObj.condition.value;
-        tempStageObj.condition.mappings.forEach(el => { delete el.autocomplete_text; delete el.fieldName })
+        if (tempStageObj && tempStageObj.condition ){
+          delete tempStageObj.condition.value;
+          tempStageObj.condition.mappings.forEach(el => { delete el.autocomplete_text; delete el.fieldName })
+        }
       }
       if (tempStageObj && tempStageObj.type === 'field_mapping') {
         // if (tempStageObj.condition.type === 'script') {
