@@ -1504,6 +1504,9 @@ and open the template in the editor.
         padding: 0;
         margin: 0;
         z-index: 999999;
+        &.if-shadow-box{
+            box-shadow: 0px 10px 30px rgba(32, 33, 36, 0.3);
+        }
         .kr-sg-checkbox{
             margin: 0;
             padding: 9.5px 10px 9.05px 10px;
@@ -1545,6 +1548,10 @@ and open the template in the editor.
             }
         }            
         li{
+            &:active{
+                background: transparent !important;
+                color: #202124 !important;
+            }
             a{
                 line-height: 40px;
                 padding: 0 10px;
