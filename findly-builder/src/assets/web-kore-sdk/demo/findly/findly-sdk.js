@@ -15966,12 +15966,36 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
           <div class="grid-data-item click-to-navigate-url"  href="${data.url}" target="_blank">\
-            <div class="title-item two-line-description" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+            <div class="title-item-bold two-line-description {{if textAlignment=="center"}}text-center{{/if}}" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
           </div>\
           {{/if}}\
           {{if isClickable == false}}\
           <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-          <div class="title-item two-line-description" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+          <div class="title-item-bold two-line-description {{if textAlignment=="center"}}text-center{{/if}}" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+        </div>\
+          {{/if}}\
+          {{/each}}\
+        </div>\
+        {{/if}}\
+          </script>',
+          "layoutType": "l1",
+          "templateType": "grid"
+        },
+        {
+          "id": 8,
+          "template": '<script type="text/x-jqury-tmpl">\
+          {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
+          <div class="template-2-grid-list mb-15">\
+          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
+          {{if isClickable == true}}\
+          <div class="grid-data-item click-to-navigate-url"  href="${data.url}" target="_blank">\
+            <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+          </div>\
+          {{/if}}\
+          {{if isClickable == false}}\
+          <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
+          <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
         </div>\
           {{/if}}\
           {{/each}}\
@@ -15982,7 +16006,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "grid"
         },
         {
-          "id": 8,
+          "id": 9,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
@@ -16012,7 +16036,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "grid"
         },
         {
-          "id": 9,
+          "id": 10,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
@@ -16052,7 +16076,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "grid"
         },
         {
-          "id": 10,
+          "id": 11,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
@@ -16080,7 +16104,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "grid"
         },
         {
-          "id": 11,
+          "id": 12,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
@@ -16108,7 +16132,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "grid"
         },
         {
-          "id": 12,
+          "id": 13,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
@@ -16135,7 +16159,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "grid"
         },
         {
-          "id": 13,
+          "id": 14,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
@@ -16162,7 +16186,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "grid"
         },
         {
-          "id": 14,
+          "id": 15,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
@@ -16190,7 +16214,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "grid"
         },
         {
-          "id": 15,
+          "id": 16,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
@@ -16213,7 +16237,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "carousel"
         },
         {
-          "id": 16,
+          "id": 17,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
@@ -16236,7 +16260,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "carousel"
         },
         {
-          "id": 17,
+          "id": 18,
           "template": '<script type="text/x-jqury-tmpl">\
             {{if structuredData.length}}\
             <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
@@ -16262,7 +16286,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "carousel"
         },
         {
-          "id": 18,
+          "id": 19,
           "template": '<script type="text/x-jqury-tmpl">\
             {{if structuredData.length}}\
             <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
@@ -16294,7 +16318,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "carousel"
         },
         {
-          "id": 19,
+          "id": 20,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
@@ -16320,7 +16344,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "carousel"
         },
         {
-          "id": 20,
+          "id": 21,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
@@ -16353,7 +16377,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "carousel"
         },
         {
-          "id": 21,
+          "id": 22,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
@@ -16383,7 +16407,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "carousel"
         },
         {
-          "id": 22,
+          "id": 23,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
@@ -16414,7 +16438,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "templateType": "carousel"
         },
         {
-          "id": 23,
+          "id": 24,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\

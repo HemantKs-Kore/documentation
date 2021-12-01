@@ -382,11 +382,11 @@
                                                             [class.err-block]="((!currentFacetObj?.sortConfig?.sortBy?.length) && submitted)">{{currentFacetObj.sortConfig.sortBy==''?'Select':(currentFacetObj.sortConfig.sortBy|titlecase)}}</button>
                                                         <ul class="dropdown-menu content-menu">
                                                             <perfect-scrollbar class="scroll-search-field h-200">
-                                                                <li (click)="currentFacetObj.sortConfig.sortBy='value'">
-                                                                    <a>{{'facets.value'| translate}}</a>
+                                                                <li (click)="currentFacetObj.sortConfig.sortBy='label'">
+                                                                    <a>{{'facets.label'| translate}}</a>
                                                                 </li>
-                                                                <li (click)="currentFacetObj.sortConfig.sortBy='range'">
-                                                                    <a>{{'facets.range'|translate}}</a>
+                                                                <li (click)="currentFacetObj.sortConfig.sortBy='count'">
+                                                                    <a>{{'facets.count'|translate}}</a>
                                                                 </li>
                                                             </perfect-scrollbar>
                                                         </ul>
@@ -527,11 +527,11 @@
                                                             [class.err-block]="((!currentFacetObj?.sortConfig?.sortBy?.length) && submitted)">{{currentFacetObj.sortConfig.sortBy==''?'Select':(currentFacetObj.sortConfig.sortBy|titlecase)}}</button>
                                                         <ul class="dropdown-menu content-menu">
                                                             <perfect-scrollbar class="scroll-search-field h-200">
-                                                                <li (click)="currentFacetObj.sortConfig.sortBy='value'">
-                                                                    <a>{{'facets.value'| translate}}</a>
+                                                                <li (click)="currentFacetObj.sortConfig.sortBy='label'">
+                                                                    <a>{{'facets.label'|translate}}</a>
                                                                 </li>
-                                                                <li (click)="currentFacetObj.sortConfig.sortBy='range'">
-                                                                    <a>{{'facets.range'|translate}}</a>
+                                                                <li (click)="currentFacetObj.sortConfig.sortBy='count'">
+                                                                    <a>{{'facets.count'|translate}}</a>
                                                                 </li>
                                                             </perfect-scrollbar>
                                                         </ul>

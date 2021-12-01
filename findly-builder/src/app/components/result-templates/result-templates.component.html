@@ -79,7 +79,7 @@
                   <img src="assets/icons/result-template/editpencil.svg">
                 </div>
               </div>
-              <div class="values-templates-table" *ngIf="(resultListObj?.groupSetting?.fieldId.length)">
+              <div class="values-templates-table mb-2" *ngIf="(resultListObj?.groupSetting?.fieldId.length)">
                 <div class="table-header-sec row col-12">
                   <div class="title col-5">Values</div>
                   <div class="title col-7">TEMPLATE</div>
@@ -185,7 +185,7 @@
               <div class="dropdown dropdown-open">
                 <button class="dropdown-toggle dropdown-input eye-btn" data-toggle="dropdown" ngbDropdownToggle
                   [container]="'body'" tooltipClass="tooltip-global-" ngbTooltip='Preview Template'
-                  placement="top-center">
+                  placement="top-center" (click)="openTemplateConatiner(resultListObj,'preview')">
                   <img src="assets/icons/result-template/eye.svg">
                 </button>
                 <ul class="dropdown-menu content-menu" ngbDropdownMenu>
@@ -1798,7 +1798,7 @@
               </div>
               <div class="kr-sg-input-text mb-2" *ngIf="templateDataBind.layout.renderTitle">
                 <div class="label-text">Template title</div>
-                <input type="text" placeholder="Placeholder text" class="input-text"
+                <input type="text" placeholder="Enter a template title" class="input-text"
                   [(ngModel)]="templateDataBind.layout.title">
               </div>
             </div>
@@ -1822,10 +1822,12 @@
                         [class.err-block]="(!(preview_title?.length) && submitted)"
                         (keyup)="searchlist('heading',$event.target.value,fieldData)"
                         (focus)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="preview_title">
-                      <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
+                      <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu">
                         <perfect-scrollbar class="scroll-search-field">
                           <li *ngFor="let field of heading_fieldData" [id]="field._id"
-                            (click)="filedSelect('heading',field)"><a>{{field.fieldName}}</a></li>
+                            (click)="filedSelect('heading',field)" class="p-0">
+                            <a>{{field.fieldName}}</a>
+                          </li>
                         </perfect-scrollbar>
                       </ul>
                     </div>
@@ -1849,10 +1851,10 @@
                         [class.err-block]="(!(preview_desc?.length) && submitted)"
                         (keyup)="searchlist('description',$event.target.value,fieldData)"
                         (focus)="searchlist('description',$event.target.value,fieldData)" [(ngModel)]="preview_desc">
-                      <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
+                      <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu">
                         <perfect-scrollbar class="scroll-search-field">
                           <li *ngFor="let field of desc_fieldData" [id]="field._id"
-                            (click)="filedSelect('description',field)"><a>{{field.fieldName}}</a></li>
+                            (click)="filedSelect('description',field)" class="p-0"><a>{{field.fieldName}}</a></li>
                         </perfect-scrollbar>
                       </ul>
                     </div>

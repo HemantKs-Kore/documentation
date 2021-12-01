@@ -15514,6 +15514,18 @@ a.tile-heading{
     padding: 5px;
     width: 50%;
 }
+.template-2-grid-list .grid-data-item .title-item-bold{
+    background: #FFFFFF;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 15px 12px;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 17px;
+    color: #3C4043;
+}
 .template-2-grid-list .grid-data-item .title-item {
     background: #FFFFFF;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
