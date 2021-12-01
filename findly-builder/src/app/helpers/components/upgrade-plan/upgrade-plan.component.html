@@ -34,9 +34,9 @@
               <img src="assets/icons/pricing/enterprise.png" class="enterprise-img" *ngIf="plan.name == 'Enterprise'">
               <div class="title-sec">
                 <div class="title">{{plan.name}}</div>
-                <div class="price" [ngClass]='{"d-none":plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/
+                <div class="price" [ngClass]='{"d-none":plan.name=="Enterprise" || true}'>${{plan.planAmount}} <span>/
                     {{termPlan==='Monthly'?("plan.month"| translate):("plan.year"| translate)}}</span></div>
-                <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise"}'>{{"plan.custom"| translate}}</div>
+                <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise" || true}'>{{"plan.custom"| translate}}</div>
                 <div class="current-plan-title"
                   *ngIf="selectedPlan.planName===plan.name&&selectedPlan?.billingUnit==termPlan"><img
                     [src]="selectedPlan.status!='expired'?'assets/icons/pricing/check-round.svg':'assets/icons/pricing/Vector.svg'">{{selectedPlan.status!="expired"?("plan.current_plan"|
