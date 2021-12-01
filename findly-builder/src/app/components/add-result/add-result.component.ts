@@ -147,7 +147,7 @@ export class AddResultComponent implements OnInit {
       templateId: templateId,
       indexPipelineId: this.indexPipelineId
     };
-    this.service.invoke('get.SI_searchResultTemplate', quaryparms).subscribe(res => {
+    this.service.invoke('get.templateById', quaryparms).subscribe(res => {
       this.fieldData.forEach(element => {
         if (element._id == res.mapping.heading) {
           this.structuredDataHeading = element.fieldName;

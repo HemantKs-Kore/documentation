@@ -252,7 +252,7 @@ export class StructuredDataComponent implements OnInit {
             expandedValue: element._source[key],
             nested: nested,
             expanded: false,
-            valuesLength: nested ? element._source[key] ? (Object.values(element._source[key]).length) :null : 1
+            valuesLength: nested ? element._source[key] ? (Object.values(element._source[key]).length) : null : 1
           });
         }
       });
@@ -666,7 +666,7 @@ export class StructuredDataComponent implements OnInit {
     else {
       this.structuredDataItemsList.forEach(data => {
         data.isChecked = true;
-        this.showSelectAllQues =true
+        this.showSelectAllQues = true
       });
       this.selectedStructuredData = JSON.parse(JSON.stringify(this.structuredDataItemsList));
       this.allSelected = true;
@@ -847,20 +847,18 @@ export class StructuredDataComponent implements OnInit {
     this.isResultTemplateLoading = true;
     this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
       this.isResultTemplateLoading = false;
-      if (res.settings) {
-        res.settings.forEach((_interface) => {
-          _interface.appearance.forEach(element => {
-            if (!this.isResultTemplate) {
-              if (element.type === 'structuredData') {
-                if (element.templateId && element.templateId.length) {
-                  this.isResultTemplate = true;
-                }
-                else {
-                  this.isResultTemplate = false;
-                }
+      if (res.groupSetting) {
+        res.groupSetting.conditions.forEach(element => {
+          if (!this.isResultTemplate) {
+            if (element.fieldValue === 'data') {
+              if (element?.templateId?.length) {
+                this.isResultTemplate = true;
+              }
+              else {
+                this.isResultTemplate = false;
               }
             }
-          });
+          }
         });
       }
     }, errRes => {

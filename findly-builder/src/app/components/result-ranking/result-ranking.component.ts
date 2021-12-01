@@ -180,7 +180,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       templateId: templateId,
       indexPipelineId: this.indexPipelineId
     };
-    this.service.invoke('get.SI_searchResultTemplate', quaryparms).subscribe(res => {
+    this.service.invoke('get.templateById', quaryparms).subscribe(res => {
       let strucDataHeadingId = res.mapping.heading;
       this.fieldData.forEach(element => {
         if (element._id == res.mapping.heading) {

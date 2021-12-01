@@ -185,7 +185,7 @@
               <div class="dropdown dropdown-open">
                 <button class="dropdown-toggle dropdown-input eye-btn" data-toggle="dropdown" ngbDropdownToggle
                   [container]="'body'" tooltipClass="tooltip-global-" ngbTooltip='Preview Template'
-                  placement="top-center">
+                  placement="top-center" (click)="openTemplateConatiner(resultListObj,'preview')">
                   <img src="assets/icons/result-template/eye.svg">
                 </button>
                 <ul class="dropdown-menu content-menu" ngbDropdownMenu>
@@ -1798,7 +1798,7 @@
               </div>
               <div class="kr-sg-input-text mb-2" *ngIf="templateDataBind.layout.renderTitle">
                 <div class="label-text">Template title</div>
-                <input type="text" placeholder="Placeholder text" class="input-text"
+                <input type="text" placeholder="Enter a template title" class="input-text"
                   [(ngModel)]="templateDataBind.layout.title">
               </div>
             </div>
