@@ -153,8 +153,6 @@ export class ResultTemplatesComponent implements OnInit {
   filedSelect(type, field) {
     if (type == 'heading') {
       this.templateDataBind.mapping.heading = field._id
-      // this.customizeTemplateObj.template.resultMapping.heading = field.fieldName;
-      // this.customizeTemplateObj.template.resultMapping.headingId = field._id;
       this.preview_title = field.fieldName;
       this.heading_fieldData = [...this.allFieldData];
     } else if (type == 'description') {
@@ -519,21 +517,29 @@ export class ResultTemplatesComponent implements OnInit {
   //validate template fields
   validateTemplate() {
     if (this.templateDataBind.layout.layoutType === 'l1') {
+      this.templateDataBind.mapping.description = '';
+      this.templateDataBind.mapping.img = '';
       return this.preview_title.length ? true : false;
     }
     else if (this.templateDataBind.layout.layoutType === 'l2') {
+      this.templateDataBind.mapping.heading = '';
+      this.templateDataBind.mapping.img = '';
       return this.preview_desc.length ? true : false;
     }
     else if (this.templateDataBind.layout.layoutType === 'l3') {
+      this.templateDataBind.mapping.img = '';
       return (this.preview_title.length && this.preview_desc.length) ? true : false;
     }
     else if (this.templateDataBind.layout.layoutType === 'l5') {
+      this.templateDataBind.mapping.heading = '';
+      this.templateDataBind.mapping.description = '';
       return (this.preview_img.length) ? true : false;
     }
     else if (['l4', 'l6', 'l7', 'l9'].includes(this.templateDataBind.layout.layoutType)) {
       return (this.preview_title.length && this.preview_desc.length && this.preview_img.length) ? true : false;
     }
     else if (this.templateDataBind.layout.layoutType === 'l8') {
+      this.templateDataBind.mapping.heading = '';
       return (this.preview_desc.length && this.preview_img.length) ? true : false;
     }
   }

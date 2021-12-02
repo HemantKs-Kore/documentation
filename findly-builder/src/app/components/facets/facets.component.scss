@@ -674,6 +674,23 @@
                     }
                 }
             }
+            .tabfacet-info{
+                background: #EFF0F1;
+                padding: 20px;
+                span{
+                    font-weight: normal;
+                    font-size: 12px;
+                    line-height: 18px;
+                    display: flex;
+                    align-items: center;
+                }
+                p{
+                    position: absolute;
+                    right: 0;
+                    margin-right: 20px;
+                    color: #0D6EFD;
+                }
+            }
         }
         .search_block {
             border-bottom: 1px solid #f5f5f5;
@@ -754,7 +771,7 @@
                     line-height: 16px;
                     color: #9AA0A6;
                     text-transform: uppercase;
-                }
+                }                
             }
             .table-body-facet{
                 padding: 8px 0;
@@ -785,6 +802,14 @@
                     .kr-sg-input-text{
                         width: 250px;
                     }
+                }
+            }
+            .add-value{
+                cursor: pointer;
+                padding-top: 14px;
+                span{
+                    color: #0D6EFD;
+                    margin-left: 10px;
                 }
             }
         }

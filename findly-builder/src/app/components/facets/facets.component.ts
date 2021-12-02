@@ -122,7 +122,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   currentFacetTab: string = 'filter';
   selectAllConfigure: boolean = false;
   enable_Edit_Facet: boolean = false;
-  tab_configure_filed_name: string;
+  tab_configure_filed_name: string = 'Search';
+  disableSaveBtn: boolean = true;
   facetType: any = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
@@ -803,6 +804,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   createNewFacet(data?) {
     if (data) {
       this.enable_Edit_Facet = true;
+      this.disableSaveBtn = false;
       this.tab_configure_filed_name = data.fieldName;
       this.currentFacetObj = Object.assign({}, data);
       this.currentFacetTab = data.type;
@@ -818,6 +820,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     else {
       this.currentTab('filter');
     }
+    this.tab_configure_filed_name = 'Search';
     this.facetModalRef1 = this.facetModalPopupNew.open();
   }
   //new modal close
@@ -858,12 +861,16 @@ export class FacetsComponent implements OnInit, OnDestroy {
         this.configuredTabValues.forEach(element => {
           return element.selected = this.selectAllConfigure ? true : false
         });
+        const selected_value = this.configuredTabValues.some(element => element.selected === true);
+        this.disableSaveBtn = selected_value ? false : true;
       }, 100)
     }
     else if (type === 'individual') {
       setTimeout(() => {
         const all_checked = this.configuredTabValues.every(element => element.selected === true);
         this.selectAllConfigure = all_checked ? true : false;
+        const selected_value = this.configuredTabValues.some(element => element.selected === true);
+        this.disableSaveBtn = selected_value ? false : true;
       }, 100)
     }
   }
@@ -947,6 +954,10 @@ export class FacetsComponent implements OnInit, OnDestroy {
       }
     }
   }
+  //add custom value
+  addCustomValue() {
+    this.configuredTabValues.push({ bucketName: '', fieldValue: '', selected: false, type: 'custom' });
+  }
   //edit facet for status
   editFacet(data, event) {
     const quaryparms: any = {
@@ -1009,17 +1020,26 @@ export class FacetsComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.facetValues', quaryparms).subscribe(res => {
       for (let i in res.values) {
-        this.configuredTabValues.push({ bucketName: '', fieldValue: res.values[i], selected: false });
+        this.configuredTabValues.push({ bucketName: '', fieldValue: res.values[i], selected: false, type: 'predefine' });
       }
       // this.configuredTabValues = this.currentFacetObj.tabs;
-      this.configuredTabValues.map(tab => {
-        this.currentFacetObj.tabs.map(tab1 => {
-          if (tab.fieldValue === tab1.fieldValue) {
-            tab.selected = true;
+      // this.configuredTabValues.map(tab => {
+      //   this.currentFacetObj.tabs.map(tab1 => {
+      //     if (tab.fieldValue === tab1.fieldValue) {
+      //       tab.selected = true;
+      //     }
+      //     return tab
+      //   })
+      // })
+      let config_data = [];
+      for (const arr1 of this.configuredTabValues) {
+        for (let arr2 of this.currentFacetObj.tabs) {
+          if (arr1.id === arr2.id) {
+            config_data.push({ ...arr1, ...arr2 });
           }
-          return tab
-        })
-      })
+        }
+      }
+      this.configuredTabValues = [...new Map(config_data.map(item => [item.fieldValue, item])).values()];;
       setTimeout(() => {
         const all_checked = this.configuredTabValues.every(element => element.selected === true);
         this.selectAllConfigure = all_checked ? true : false;

@@ -565,6 +565,10 @@
                     </div>
                     <div id="tabfacet" class="tab-pane fade in show active"
                         *ngIf="currentFacetTab==='tab'&&!showConfiguredFacet">
+                        <div class="tabfacet-info col-12 row" [ngClass]="{'d-none':(enable_Edit_Facet)}">
+                            <span>Maximum 20 facets can be added.</span>
+                            <p>Ok</p>
+                        </div>
                         <div class="tabfacet-data">
                             <div class="label-text">Field</div>
                             <div class="search-filter-btn mb-20">
@@ -579,6 +583,7 @@
                                                 class="input-search dropdown-toggle dropdown-input"
                                                 data-toggle="dropdown" [(ngModel)]="tab_configure_filed_name"
                                                 autocomplete="off" disabled>
+                                            <img src="assets/images/search_gray.svg" class="search-icon">
                                         </div>
                                     </div>
                                 </div>
@@ -659,12 +664,15 @@
                             [ngClass]="{'selected':configure.selected}">
                             <div class="checkbox-with-label col-6">
                                 <div class="kr-sg-checkbox">
-                                    <input [id]="configure.fieldValue" class="checkbox-custom" type="checkbox"
+                                    <input [id]="i" class="checkbox-custom" type="checkbox"
                                         [(ngModel)]="configure.selected"
                                         (click)="selectAllConfiguredFacets('individual')">
-                                    <label [htmlFor]="configure.fieldValue" class="checkbox-custom-label"></label>
+                                    <label [htmlFor]="i" class="checkbox-custom-label"></label>
                                 </div>
-                                <div class="title-checkbox">{{configure.fieldValue}}</div>
+                                <div class="title-checkbox" *ngIf="configure.type=='predefine'">{{configure.fieldValue}}
+                                </div>
+                                <div class="title-checkbox" *ngIf="configure.type=='custom'"><input type="text"
+                                        placeholder="Enter Value" [(ngModel)]="configure.fieldValue" /></div>
                             </div>
                             <div class="display-name col-6">
                                 <div class="kr-sg-input-text">
@@ -674,13 +682,16 @@
                             </div>
                         </div>
                     </ng-container>
+                    <div class="add-value" (click)="addCustomValue()">
+                        <img src="assets/images/plus-add.svg" /> <span>Custom Value</span>
+                    </div>
                 </div>
             </ng-container>
         </div>
     </perfect-scrollbar>
     <div class="modal-footer">
-        <button type="button" class="kr-sg-button-primary btn_lg float-right"
-            (click)="saveFacet()">{{(showConfiguredFacet||enable_Edit_Facet)?'Save':'Add'}}</button>
+        <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="saveFacet()"
+            [disabled]="(disableSaveBtn&&showConfiguredFacet)">{{(showConfiguredFacet||enable_Edit_Facet)?'Save':'Add'}}</button>
         <button type="button" class="kr-sg-button-secondary btn_lg float-right"
             (click)="closeFacetDialog()">Cancel</button>
     </div>
