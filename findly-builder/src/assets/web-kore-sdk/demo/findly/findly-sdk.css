@@ -13492,6 +13492,7 @@ border: 0;
     font-size: 12px;
     line-height: 24px;
     margin-bottom: 6px;
+    max-height: 18px;
 }
 .searchAssist-kore-chat-window .show-all-results-outer-wrap .customization .customization-tile .appearences-count {
     float: left;
@@ -15208,7 +15209,7 @@ a.tile-heading{
     background: #FFFFFF;
     box-shadow: 0px 0px 11px rgba(0,0,0,0.1);
     border-radius: 8px;
-    padding: 8px 15px 41px;
+    padding: 8px 15px 10px;
 }
 .template-1-plain-list-result-group .plain-list-result-item {
     background: #FFFFFF;
@@ -15220,7 +15221,7 @@ a.tile-heading{
     padding: 10px 0;
 }
 .template-1-plain-list-result-group .show-more-list {
-    display: flex;
+    display: block;
     align-items: center;
     cursor: pointer;
     font-weight: 500;
@@ -15269,7 +15270,7 @@ a.tile-heading{
     background: #FFFFFF;
     box-shadow: 0px 0px 11px rgba(0,0,0,0.1);
     border-radius: 8px;
-    padding: 18px 20px;
+    padding: 18px 20px 10px;
 }
 .template-2-classic-list-result .classic-list-item-result {
     background: #FFFFFF;
@@ -15296,7 +15297,7 @@ a.tile-heading{
     color: #3C4043;
 }
 .template-2-classic-list-result .show-more-list {
-    display: inline-flex;
+    display: block;
     align-items: center;
     cursor: pointer;
     font-weight: 500;
@@ -15360,10 +15361,10 @@ a.tile-heading{
     background: #FFFFFF;
     box-shadow: 0px 0px 11px rgba(0,0,0,0.1);
     border-radius: 8px;
-    padding: 18px 20px;
+    padding: 18px 20px 10px;
 }
 .template-2-classic-list-collapse-result .show-more-list {
-    display: inline-flex;
+    display:block;
     align-items: center;
     cursor: pointer;
     font-weight: 500;
@@ -15400,7 +15401,7 @@ a.tile-heading{
     background: #FFFFFF;
     box-shadow: 0px 0px 11px rgba(0,0,0,0.1);
     border-radius: 8px;
-    padding: 10px 20px 40px 20px;
+    padding: 10px 20px 10px 20px;
 }
 .template-2-plain-list-result .plain-list-item-result {
     border-bottom: 1px solid #E4E5E7;
@@ -15482,10 +15483,10 @@ a.tile-heading{
     background: #FFFFFF;
     box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    padding: 10px 15px 40px 15px;
+    padding: 10px 15px 10px 15px;
 }
 .template-2-plain-list-collapse-result .show-more-list {
-    display: inline-flex;
+    display: block;
     align-items: center;
     cursor: pointer;
     font-weight: 500;
@@ -15591,7 +15592,7 @@ a.tile-heading{
     background: #FFFFFF;
     box-shadow: 0px 0px 11px rgba(0,0,0,0.1);
     border-radius: 8px;
-    padding: 18px 20px 40px;
+    padding: 18px 20px 10px;
 }
 .template-3-classic-list-result .classic-list-item-result {
     background: #FFFFFF;
@@ -15620,7 +15621,7 @@ a.tile-heading{
     line-height: 16px;
 }
 .template-3-classic-list-result .show-more-list {
-    display: inline-flex;
+    display: block;
     align-items: center;
     cursor: pointer;
     font-weight: 500;
@@ -15690,7 +15691,7 @@ a.tile-heading{
     background: #FFFFFF;
     box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    padding: 18px 20px 40px;
+    padding: 18px 20px 10px;
 }
 .template-3-classic-list-collapse-result .collapse-item-list {
     background: #FFFFFF;
@@ -15738,7 +15739,7 @@ a.tile-heading{
 }
 
 .template-3-classic-list-collapse-result  .show-more-list {
-    display: inline-flex;
+    display: block;
     align-items: center;
     cursor: pointer;
     font-weight: 500;
@@ -15778,7 +15779,7 @@ a.tile-heading{
     background: #FFFFFF;
     box-shadow: 0px 0px 11px rgba(0,0,0,0.1);
     border-radius: 8px;
-    padding: 10px 20px 40px 20px;
+    padding: 10px 20px 10px 20px;
 }
 .template-3-plain-list-result .plain-list-item-result {
     padding: 9px 0;
@@ -15798,7 +15799,7 @@ a.tile-heading{
     color: #5F6368;
 }
 .template-3-plain-list-result .show-more-list {
-    display: inline-flex;
+    display: block;
     align-items: center;
     cursor: pointer;
     font-weight: 500;
@@ -15910,7 +15911,7 @@ a.tile-heading{
     background: #FFFFFF;
     box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    padding: 6px 15px 40px;
+    padding: 6px 15px 10px;
 }
 .template-3-plain-list-collapse-result .collapse-item-list {
     background: #FFFFFF;
@@ -16002,7 +16003,7 @@ a.tile-heading{
 }
 
 .template-3-plain-list-collapse-result .show-more-list {
-    display: inline-flex;
+    display: block;
     align-items: center;
     cursor: pointer;
     font-weight: 500;
@@ -16043,7 +16044,7 @@ a.tile-heading{
     line-height: 15px;
     color: #9AA0A6;
 }
-.text-truncate{
+.one-line-hight{
     min-height: 18px;
     max-height: 18px;
 }
@@ -16166,7 +16167,7 @@ a.tile-heading{
     background: #FFFFFF;
     box-shadow: 0px 0px 11px rgba(0,0,0,0.1);
     border-radius: 8px;
-    padding: 18px 20px;
+    padding: 18px 20px 10px;
 }
 .template-4-classic-list-result .classic-list-item-result {
     background: #FFFFFF;
@@ -16210,7 +16211,7 @@ a.tile-heading{
     color: #979797;
 }
 .template-4-classic-list-result .show-more-list {
-    display: inline-flex;
+    display: block;
     align-items: center;
     cursor: pointer;
     font-weight: 500;
@@ -16230,11 +16231,11 @@ a.tile-heading{
     background: #FFFFFF;
     box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    padding: 18px 20px;
+    padding: 18px 20px 10px;
 }
 
 .template-4-classic-list-collapse .show-more-list {
-    display: inline-flex;
+    display: block;
     align-items: center;
     cursor: pointer;
     font-weight: 500;
@@ -16406,7 +16407,7 @@ a.tile-heading{
     line-height: 16px;
 }
 .template-4-plain-list-result .show-more-list {
-    display: inline-flex;
+    display: block;
     align-items: center;
     cursor: pointer;
     font-weight: 500;
@@ -16429,7 +16430,7 @@ a.tile-heading{
 }
 
 .template-4-plain-list-collapse .show-more-list {
-    display: inline-flex;
+    display: block;
     align-items: center;
     cursor: pointer;
     font-weight: 500;
@@ -17414,15 +17415,14 @@ a.tile-heading{
     display: none;
 }
 .show-more-list {
-    display: flex;
-    align-items: center;
+    display: block;
+    align-items: end;
     cursor: pointer;
     font-weight: 500;
     font-size: 12px;
     line-height: 20px;
     color: #5F6368;
-    text-align: left;
-    float: right;
+    text-align: right !important;
     color: var(--sdk-primary-blue-color) !important;
     margin: 10px 0 6px 0px;
 }

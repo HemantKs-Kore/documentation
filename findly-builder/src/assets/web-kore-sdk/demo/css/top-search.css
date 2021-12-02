@@ -2205,6 +2205,7 @@ body.top-down .top-down-search-background-div .top-down-wrapper{
   font-size: 12px;
   line-height: 24px;
   margin-bottom: 6px;
+  max-height: 18px;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec .customization .customization-tile .appearences-count {
   float: left;
