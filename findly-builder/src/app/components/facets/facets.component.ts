@@ -90,7 +90,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     type: "filter",
     subtype: "value",
     multiselect: false,
-    size: 0,
+    size: 1,
     sortConfig: {
       sortBy: "",
       order: ""
@@ -988,13 +988,13 @@ export class FacetsComponent implements OnInit, OnDestroy {
   //restirct facet negative values in filter facet
   restrictFacetSize(type) {
     if (type === 'minus') {
-      this.currentFacetObj.size = (this.currentFacetObj.size > 1) ? this.currentFacetObj.size - 1 : 0;
+      this.currentFacetObj.size = (this.currentFacetObj.size > 2) ? this.currentFacetObj.size - 1 : 1;
     }
     else if (type === 'plus') {
       this.currentFacetObj.size = Number(this.currentFacetObj.size) + 1
     }
     else if (type === 'input') {
-      this.currentFacetObj.size = (this.currentFacetObj.size >= 1) ? this.currentFacetObj.size : 0;
+      this.currentFacetObj.size = (this.currentFacetObj.size >= 1) ? this.currentFacetObj.size : 1;
     }
   }
   //get values based on field

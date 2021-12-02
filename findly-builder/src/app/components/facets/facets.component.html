@@ -296,8 +296,9 @@
 <kr-modal modalType="center" modalClass="modal_popups_ facetModalPouup" #facetModalPopupNew>
     <div class="modal-header">
         <ng-container>
-            <div class="title">{{(showConfiguredFacet?'configure_facets':(enable_Edit_Facet)?
-                'facets.edit_facet':'facets.add_facet')|translate}}</div>
+            <div class="title">
+                {{showConfiguredFacet?('facets.configure_facets'|translate):enable_Edit_Facet?('facets.edit_facet'|translate):('facets.add_facet'|translate)}}
+            </div>
         </ng-container>
         <div class="close_icon" (click)="closeFacetDialog()"><img id='btn_close_tab' src="assets/icons/modal-close.svg">
         </div>

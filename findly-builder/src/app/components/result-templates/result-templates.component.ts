@@ -225,7 +225,7 @@ export class ResultTemplatesComponent implements OnInit {
     }
   }
   /** Call for All Setting Templates */
-  getAllSettings(setting) {
+  getAllSettings(setting, type?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
@@ -237,6 +237,9 @@ export class ResultTemplatesComponent implements OnInit {
       this.settingsId = res._id;
       const obj = { _id: this.resultListObj.groupSetting.fieldId, fieldName: this.resultListObj.groupSetting.fieldName };
       this.getFieldValues(obj);
+      if (type === 'emptycondition') {
+        this.addNewTemplateValues('add');
+      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch all Setting Informations');
     });
@@ -463,13 +466,16 @@ export class ResultTemplatesComponent implements OnInit {
       indexPipelineId: this.indexPipelineId
     };
     this.resultListObj.resultsLimit = 20;
+    if (dialogRef) {
+      this.resultListObj.groupSetting.conditions = [];
+    }
     this.service.invoke('update.settings', quaryparms, this.resultListObj).subscribe((res: any) => {
       if (res) {
         this.notificationService.notify('Result setting saved successfully', 'success');
         if (dialogRef) {
           dialogRef.close();
           this.closeCustomModal();
-          this.getAllSettings(this.selectedTab);
+          this.getAllSettings(this.selectedTab, 'emptycondition');
         }
       }
     }, errRes => {
