@@ -968,7 +968,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             </div>\
           </div>\
           <div id="searchBox" >\
-            <div class="heading {{if koreWidgetSDKInstance.isDev==true}}display-none{{/if}}">\
+            <div class="box-header heading {{if koreWidgetSDKInstance.isDev==true}}display-none{{/if}}">\
               <div class="logo-sec-title">\
                 <img class="show-in-findly logo-img" src="data:image/png;base64,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">\
                 <img class="search-logo hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAAARCAYAAABq+XSZAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAANmSURBVHgB3VddUuJAEO6J2XduYFzZZ/UExBOIJzCcADiBegL1BngC8QTGE8g+q+V4AtlnIr1fz0zCJEuALaG07CqG+e3p7vn6J0QrUhT92qdvRiqKmmf1y6y1fh5EP5sXxNTDRKpfng7pgxRFu21cLcYca/10GYGIwsSuZgNcqmmDFO0070jRKERzWruLVYp2QFNukFIY05jWQ23cewIDaPQvoXhUyMFhilbTJompQcwq9KZSTN5Xdmlp8fodIOQarzKib0BA24H8z5SH4pg8m7cZ/p5QQC2ahgJVwLQZU6BOzOJ00qcg7KKHNTXG+LwKW7jNqV2X/VmfllCVP9iNnRz7kKPr5s/r3KM4zyyIgkwKex9HJXmm/BrSSjSN4QIiTEoGpioC48SubYnhXJ+xFCYQ8iC/DBfdYLpdsFJhjHYJgjIN+CeOv6Bx4OToQo7ExiLdmXfSKMZ0BuWGGN47AzzAIId43NSJCeMEeqa84hMEglaJE6u+b7G5pBC4mI+NQRRdOCETND0T2HLFma+wRwSKF8YZElhqDVlSszcIWoXyCmPzH6S1h6f0B21fAmk+BV7bIg/ZxyvIe3kIj31lTgh0y4hVBxeN3CWCDoH/nluN3T+i+nPP9VNn5HgxX7o1yjKL8To2IxgZoSBf1x3zlTYyyTmBvgS5Cnk+LwzVoLy8PMAplb15w2o2aDhFynyYf+NgTAspG0A8QVLD1Rj7xq1s+k3rTrm02QWSJZ02jAw2S/2ji//yuvCJdZNSUWVie9kRCXIF9InFVY7MgiBi4V1bdySPwME50SQ1fQoFda3q1oA2SspZmyMTgSmHIa9WLeaKWsVjO/l+WbfdIkRF1hUfTbHkMsXevP0bVl6g61xB0Y2J/Cp8cHD8n/Oxmxj56U0MKdUaDOviycSuBXw027MrBVV7HveNKm+sztxxxVLDRH7xf+bblc/7vmoyhk8/xIgxfkez+6gvqQ5GeZOfyUCqGssshcTZjusvKF3feyZ3FjQZYpxK70Xr15lw2TFROaoiOEl6G1rYq7GkTrxXw+cnsUbecK4cedS3cqRl3obXjn/GfSsMTcls7nuy9/lyiZxSktAXJffx04KECVnUpFDkwx9VPq1Y4X0GoaIsfFXc5r1Da6YvrDxdIWrfOsVHeX2/TvoL5IWKplAqwt0AAAAASUVORK5CYII=">\
@@ -1152,7 +1152,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             </div>\
           </div>\
           <div id="searchBox" >\
-            <div class="heading {{if koreWidgetSDKInstance.isDev==true}}display-none{{/if}}">\
+            <div class="box-header heading {{if koreWidgetSDKInstance.isDev==true}}display-none{{/if}}">\
               <div class="logo-sec-title">\
                 <img class="show-in-findly logo-img" src="data:image/png;base64,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">\
                 <img class="search-logo hide" src="data:image/png;base64,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">\
@@ -15821,10 +15821,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div class="template-1-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list{{if groupResults}}-result-group{{/if}} mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
-          <div class="{{if listType=="classic"}}classic{{else}}plain{{/if}}-list{{if groupResults}}-result{{/if}}-item {{if textAlignment=="classic"}}text-center{{/if}} click-to-navigate-url" href="${data.url}" target="_blank">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+          <div class="{{if listType=="classic"}}classic{{else}}plain{{/if}}-list{{if groupResults}}-result{{/if}}-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url" href="${data.url}" target="_blank">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
           {{/if}}\
           {{if isClickable == false}}\
-          <div class="{{if listType=="classic"}}classic{{else}}plain{{/if}}-list{{if groupResults}}-result{{/if}}-item {{if textAlignment=="classic"}}text-center{{/if}} click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+          <div class="{{if listType=="classic"}}classic{{else}}plain{{/if}}-list{{if groupResults}}-result{{/if}}-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
           {{/if}}\
            {{/each}}\
            <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
@@ -15844,7 +15844,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div class="template-2-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list{{if isClickable}}-collapse{{/if}}{{if groupResults}}-result{{/if}} mb-15">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
-          <div class="{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-item click-to-navigate-url" href="${data.url}" target="_blank">\
+          <div class="{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-item{{if groupResults}}-result{{/if}} click-to-navigate-url" href="${data.url}" target="_blank">\
               <span>{{html helpers.convertMDtoHTML(data.description)}}</span>\
           </div>\
           {{/if}}\
@@ -15878,7 +15878,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{if isClickable == false}}\
           <div class="template-3-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-collapse mb-15 click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
             <div class="collapse-item-list accordion" id="1">\
-            {{html helpers.convertMDtoHTML(data.heading)}}<div class="text-desc-">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+            <div class="text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div><div class="text-desc-">{{html helpers.convertMDtoHTML(data.description)}}</div>\
             </div>\
           </div>\
           {{/if}}\
@@ -15904,22 +15904,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <img src="${data.img}">\
                 </div>\
                 <div class="content_sec">\
-                  <div class="heading" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                  <div class="text_desc text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                  <div class="heading text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                  <div class="text_desc text-truncate" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                 </div>\
                 </div>\
                 {{/if}}\
                 {{if isClickable == false}}\
                 <div class="collapse-item-list-parent click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
                 <div class="collapse-item-list accordion" id="1">\
-                {{html helpers.convertMDtoHTML(data.heading)}}<div class="text-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                <div class="text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div><div class="text-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                 </div>\
                 <div class="panel">\
                   <div class="content_sec">\
                   <div class="img-block">\
                   <img src="${data.img}">\
                   </div>\
-                  <div class="text-desc">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                  <div class="text-desc four-line-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
               </div>\
             </div>\
             </div>\
@@ -15966,12 +15966,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
           <div class="grid-data-item click-to-navigate-url"  href="${data.url}" target="_blank">\
-            <div class="title-item-bold two-line-description {{if textAlignment=="center"}}text-center{{/if}}" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+            <div class="title-item-bold {{if textAlignment=="center"}}text-center{{/if}}" ><div class="text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div></div>\
           </div>\
           {{/if}}\
           {{if isClickable == false}}\
           <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-          <div class="title-item-bold two-line-description {{if textAlignment=="center"}}text-center{{/if}}" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+          <div class="title-item-bold {{if textAlignment=="center"}}text-center{{/if}}"><div class="text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div></div>\
         </div>\
           {{/if}}\
           {{/each}}\
@@ -15990,12 +15990,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
           <div class="grid-data-item click-to-navigate-url"  href="${data.url}" target="_blank">\
-            <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+            <div class="title-item" ><div class="two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div></div>\
           </div>\
           {{/if}}\
           {{if isClickable == false}}\
           <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-          <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+          <div class="title-item"><div class="two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div></div>\
         </div>\
           {{/if}}\
           {{/each}}\
@@ -16049,7 +16049,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="img-block">\
                  <img src="${data.img}">\
                 </div>\
-                <div class="info-title text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                <div class="info-title two-line-heading" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                 </div>\
                 <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
               </div>\
@@ -16062,7 +16062,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="img-block">\
                  <img src=${data.img}>\
                 </div>\
-                <div class="info-title text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                <div class="info-title two-line-heading" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                 </div>\
                 <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
               </div>\
@@ -16148,7 +16148,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <img src="${data.img}">\
                   </div>\
                   <div class="heading- text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                  <div class="desc-text-info four-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                  <div class="desc-text-info two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                 </div>\
               </div>\
           {{/each}}\
@@ -16174,8 +16174,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="main-img-block">\
                     <img src="${data.img}">\
                   </div>\
-                  <!-- <div class="heading-" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>-->\
-                  <div class="desc-text-info eight-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                  <!-- <div class="heading- text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>-->\
+                  <div class="desc-text-info two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                 </div>\
               </div>\
           {{/each}}\
@@ -16202,7 +16202,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                      <img src="${data.img}">\
                   </div>\
                   <div class="heading- text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                  <div class="desc-text-info  four-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                  <div class="desc-text-info  two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                   <div class="price-count">$156</div>\
                 </div>\
               </div>\
@@ -16226,7 +16226,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{else}}\
                 <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}"">\
                 {{/if}}\
-                  <div class="text-template text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                  <div class="text-template" title="${data.heading}"><div class="text-truncate">{{html helpers.convertMDtoHTML(data.heading)}}</div></div>\
                 </div>\
               {{/each}}\
               </div>\
@@ -16249,7 +16249,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{else}}\
               <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
               {{/if}}\
-                <div class="text-template text-truncate" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+              <div class="text-template" ><div class="two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div></div>\
               </div>\
             {{/each}}\
             </div>\
@@ -16303,9 +16303,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                 <div class="img-block">\
                                     <img src="${data.img}">\
                                 </div>\
-                                <div class="info-title text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                                <div class="info-title two-line-heading" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                             </div>\
-                            <div class="title-item">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                            <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                         </div>\
                     </div>\
                     {{/each}}\
@@ -16363,7 +16363,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="img-block">\
                   <img src="${data.img}">\
                   </div>\
-                  <div class="info-text" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                  <div class="info-text two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                 </div>\
                 {{/each}}\
               </div>\
@@ -16394,9 +16394,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <img src="${data.img}">\
                 </div>\
                 <div class="heading- text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                <div class="desc-text-info" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                <div class="desc-text-info four-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
               </div>\
-            </div>\
             </div>\
             {{/each}}\
           </div>\
@@ -16424,10 +16423,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <img src="${data.img}">\
                 </div>\
                 {{each(key, res) [0,1]}}\
-                <div class="desc-text-info" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                <div class="desc-text-info two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                 {{/each}}\
               </div>\
-            </div>\
             </div>\
             {{/each}}\
           </div>\
@@ -16454,10 +16452,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="main-img-block">\
                 <img src="${data.img}">\
                 </div>\
-                <div class="heading-" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                <div class="desc-text-info" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                <div class="heading- text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                <div class="desc-text-info two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
               </div>\
-            </div>\
             </div>\
             {{/each}}\
           </div>\
@@ -18543,57 +18540,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         </div>\
         </script>'
       return template
-      var temp = `<div class="display-none">
-      <div class="tile-with-text-parent grid_view_template">
-        <a class="tile-with-text">
-          <div class="tile-heading">How do I request a refund for my credit card account?</div>
-          <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
-        </a>
-        <a class="tile-with-text">
-          <div class="tile-heading">How do I request a refund for my credit card account?</div>
-          <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
-        </a>
-        <a class="tile-with-text">
-          <div class="tile-heading">How do I request a refund for my credit card account?</div>
-          <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
-        </a>
-        <a class="tile-with-text">
-          <div class="tile-heading">How do I request a refund for my credit card account?</div>
-          <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
-        </a>
-      </div>
-      <div class="tile-with-text-parent with-accordion">
-        <div class="tile-with-text">
-          <div class="tile-heading accordion p-0" id="1">
-            How do I request a refund for my credit card account?
-              <div class="tile-description defalut-show text-truncate">Contact your customer service representati 7 days a week</div>
-          </div>
-          <div class="panel">
-              <div class="tile-description">Contact your customer service representati 7 days a week oe email us at xtcred@cred.com. You can contact us through our toll free number 1800-9890-9878 too.</div>
-          </div>
-        </div>
-        <div class="tile-with-text">
-          <div class="tile-heading accordion p-0" id="1">
-            How do I request a refund for my credit card account?
-              <div class="tile-description defalut-show text-truncate">Contact your customer service representati 7 days a week</div>
-          </div>
-          <div class="panel">
-              <div class="tile-description">Contact your customer service representati 7 days a week oe email us at xtcred@cred.com. You can contact us through our toll free number 1800-9890-9878 too.</div>
-          </div>
-        </div>
-        <div class="tile-with-text">
-          <div class="tile-heading accordion p-0" id="1">
-            How do I request a refund for my credit card account?
-              <div class="tile-description defalut-show text-truncate">Contact your customer service representati 7 days a week</div>
-          </div>
-          <div class="panel">
-              <div class="tile-description">Contact your customer service representati 7 days a week oe email us at xtcred@cred.com. You can contact us through our toll free number 1800-9890-9878 too.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>
-  </div>`
     }
     FindlySDK.prototype.fullResultRanking = function () {
       var template =
@@ -21691,7 +21637,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     }
 
-    
+
     FindlySDK.prototype.rearrangeTabsList = function (facets) {
       var _self = this;
       var rearrangeList = [];
