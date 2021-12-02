@@ -27,6 +27,8 @@ body::-webkit-scrollbar {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  min-height: inherit;
+    max-height: inherit;
 }
 
 .searchAssist-kore-chat-window .panel {
