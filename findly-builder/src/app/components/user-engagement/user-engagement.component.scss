@@ -292,12 +292,10 @@
             outline: 0 !important;
             &::after{
                 background-color: #fff !important;
-                display: none !important;
             }
-            &:hover {
+            &:hover{
                 &::after{
                     background-color: #fff !important;
-                    display: none !important;
                 }
             }
         }
