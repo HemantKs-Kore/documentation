@@ -743,7 +743,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }, errRes => {
         this.savingConfig = false;
-        this.errorToaster(errRes, 'Failed to save configurations');
+        // this.errorToaster(errRes, 'Failed to save configurations');
         if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessDenied' || errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
           this.upgrade();
           this.errorToaster(errRes, errRes.error.errors[0].msg);
