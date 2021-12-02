@@ -15437,7 +15437,7 @@ a.tile-heading{
 /* // */
 
 .template-2-plain-list-collapse{
-    padding: 10px 11px 40px 10px;
+    padding: 10px 11px 10px 10px;
     border-bottom: 1px solid #E4E5E7;
     position: relative;
     cursor: pointer;
@@ -16063,7 +16063,7 @@ a.tile-heading{
     overflow: hidden;
     margin-bottom: 5px;
     min-height: 30px;
-    max-height: 30px;
+    max-height: 31px;
 }
 .four-line-description{
     display: -webkit-box;
@@ -17420,7 +17420,7 @@ a.tile-heading{
     color: #5F6368;
     text-align: left;
     float: right;
-    color: blue !important;
+    color: var(--sdk-primary-blue-color) !important;
     margin: 10px 0 6px 0px;
 }
 .bodybg .isDevLoader, .isEndUserLoader{
