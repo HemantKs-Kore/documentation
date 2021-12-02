@@ -1403,9 +1403,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedStage.category = this.defaultStageTypes[i].category;
     this.selectedStage.name = this.defaultStageTypesObj[systemStage.type].name;
     this.selectedStage.config = {};
-    if (systemStage?.type !== 'custom_script') {
+    //if (systemStage?.type !== 'custom_script') {
       this.selectedStage.condition = { type: 'basic', mappings: [{ fieldId: '', operator: '', value: [] }] }
-    }
+    //}
     if (systemStage && systemStage.type === 'custom_script') {
       if (!this.newMappingObj.custom_script) {
         this.newMappingObj.custom_script = {

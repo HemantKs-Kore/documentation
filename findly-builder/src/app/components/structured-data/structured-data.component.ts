@@ -104,6 +104,7 @@ export class StructuredDataComponent implements OnInit {
   searchFocusIn = false;
   search: any;
   formatter: any;
+  showSelectedData: boolean;
   showSelectAllQues: boolean
   enableSearchBlock: boolean = false;
   indexPipelineId: any;
@@ -175,12 +176,18 @@ export class StructuredDataComponent implements OnInit {
       this.isLoading = false;
       this.totalCount = JSON.parse(JSON.stringify(res.total));
       this.selectedStructuredData = [];
-      this.allSelected = false;
+      // this.allSelected = false; // To be sent true for selectionAll during pagination
       if (res.data) {
         this.structuredDataItemsList = res.data;
       }
       else {
         this.structuredDataItemsList = [];
+      }
+      if(this.allSelected){
+        this.showSelectedData = true // To show number of records selected
+        this.structuredDataItemsList.forEach(data => {
+          data.isChecked = true;
+        });
       }
       if (res.length > 0) {
         this.isLoading = false;
@@ -654,6 +661,14 @@ export class StructuredDataComponent implements OnInit {
     }
   }
 
+ selectAllData(){
+   this.showSelectAllQues = false;
+   this.allSelected = true;
+   this.structuredDataItemsList.forEach(data => {
+    data.isChecked = true;
+  });
+  //  this.selectAll(true);
+ }
   selectAll(key) {
     if (!key) {
       this.structuredDataItemsList.forEach(data => {
@@ -671,6 +686,7 @@ export class StructuredDataComponent implements OnInit {
       this.selectedStructuredData = JSON.parse(JSON.stringify(this.structuredDataItemsList));
       this.allSelected = true;
     }
+    this.allSelected = false;
   }
 
   searchItems() {
@@ -797,10 +813,15 @@ export class StructuredDataComponent implements OnInit {
     let payload: any = {};
     quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     if (this.selectedStructuredData.length) {
-      payload.docIds = [];
-      this.selectedStructuredData.forEach((data: any) => {
-        payload.docIds.push(data._id);
-      });
+      if(this.allSelected){
+        payload.allStructuredData = true;
+      }
+      else {
+        payload.docIds = [];
+        this.selectedStructuredData.forEach((data: any) => {
+          payload.docIds.push(data._id);
+        });
+      }
       this.service.invoke('delete.clearAllStructureData', quaryparms, payload).subscribe(res => {
         if (res) {
           this.selectedStructuredData = [];
@@ -815,6 +836,9 @@ export class StructuredDataComponent implements OnInit {
             this.getStructuredDataList();
           }
           this.notificationService.notify('Deleted Successfully', 'success');
+          // To hide deleted and show all buttons after deletion //
+          this.showSelectAllQues= false;
+          this.showSelectedData = false;
         }
       }, errRes => {
         console.log("error", errRes);

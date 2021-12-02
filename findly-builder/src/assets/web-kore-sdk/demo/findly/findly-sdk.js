@@ -1517,7 +1517,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       <div class="tasks-wrp action-wrp btn_block_actions main-content-title-grid-data">\
                         {{each(key, task) tasks}}\
                           <div class="task-wrp action-wrp title-box-data">\
-                          <button id="${key}" class="faq search-task title-name text-truncate " title="${task.taskName}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}" contentId="${task.taskId}">\
+                          <button id="${key}" class="faq search-task title-name text-truncate one-line-height " title="${task.taskName}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}" contentId="${task.taskId}">\
                           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
                           ${task.taskName}\
                       </button>\
@@ -15636,14 +15636,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           {{if isClickable == true}}\
                             {{if viewType!="Customize" && (isFullResults == true ||  isSearch == true || isLiveSearch == true)}}\
                               <div class="click-to-navigate-url tile-with-text structured-data-wrp-content" href="${data.url}" target="_blank">\
-                                <div class="tile-heading text-truncate"  title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                                <div class="tile-description text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                                <div class="tile-heading text-truncate one-line-height"  title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                                <div class="tile-description text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
                             {{/if}}\
                             {{if viewType=="Customize" && (isFullResults != true &&  (isSearch == true || isLiveSearch == true))}}\
                               <div class="click-to-navigate-url tile-with-text structured-data-wrp-content"  href="${data.url}" target="_blank">\
-                                <div class="tile-heading text-truncate"  title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                                <div class="tile-description text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                                <div class="tile-heading text-truncate one-line-height"  title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                                <div class="tile-description text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
                             {{/if}}\
                             {{if viewType=="Customize" && isFullResults == true}}\
@@ -15702,8 +15702,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         </span>\
                                       </div>\
                                     {{/if}}\
-                                    <div class="title text-truncate">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                                    <div class="desc_text text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                                    <div class="title text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                                    <div class="desc_text text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                                     <div class="appearences-count count">\
                                       <span class="tooltip-appearnces">\
                                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADqSURBVHgBTU/BTcNAEJzxnRDiAyVQAukASuALj+APPG0qcFIB+BVFPI4IIp4pAVMBLbgE54eSnIc9FKPs47Q7M7czS+xrFt4uPV0l6ALgGYFG0uI+v31NfJael8VH5ZiteukrajPaSqOdiUBWiUsazsLyzhkQxStgd24fxmljVKwB3zr231H9debJMaTpXrSCuJawdnSfCbO+tr7yKdMWeDyiezLr+iG/mSSreVi2hC97oHRQYRnZnGDTCujsgBb/pc5Rp8f46WxoOMDz8F6SWWHZ8jSbXUiRhquJgzK7CYnib584tRjPA/cLSnRp8KbGJuoAAAAASUVORK5CYII=">\
@@ -15745,16 +15745,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         <span class="count">MANUALLY ADDED</span>\
                                       </div>\
                                     {{/if}}\
-                                    {{if appearanceType === "faq"}}\
+                                    {{if data.sys_content_type === "faq"}}\
                                       <div class="tag-ref">FAQ Response</div>\
                                     {{/if}}\
-                                    {{if appearanceType === "web"}}\
+                                    {{if data.sys_content_type === "web"}}\
                                       <div class="tag-ref">WEB Response</div>\
                                     {{/if}}\
-                                    {{if appearanceType === "file"}}\
+                                    {{if data.sys_content_type === "file"}}\
                                       <div class="tag-ref">FILE Response</div>\
                                     {{/if}}\
-                                    {{if appearanceType === "data"}}\
+                                    {{if data.sys_content_type === "data"}}\
                                       <div class="tag-ref">DATA Response</div>\
                                     {{/if}}\
                                 </div>\
@@ -15764,8 +15764,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           {{if isClickable == false}}\
                             <div class="tile-with-text faqs-wrp-content structured-data-wrp-content">\
                             <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active best-match{{/if}}\" id="1">\
-                               <div title="${data.heading}" class="text-truncate" >{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description, null,null,true)}}</div>\
+                               <div title="${data.heading}" class="text-truncate one-line-height" >{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                                  <div class="tile-description defalut-show text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.description, null,null,true)}}</div>\
                               </div>\
                               <div class="panel">\
                                   <div class="tile-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
@@ -15828,7 +15828,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{/if}}\
            {{/each}}\
            <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-           Show more <img src="images/show_more.png" height="6" width="10" />\
+           <div>Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
        </div>\
           </div>\
           {{/if}}\
@@ -15855,7 +15855,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{/if}}\
           {{/each}}\
           <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-          Show more <img src="images/show_more.png" height="6" width="10" />\
+          <div>Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
       </div>\
         {{/if}}\
           </script>',
@@ -15878,13 +15878,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{if isClickable == false}}\
           <div class="template-3-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-collapse mb-15 click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
             <div class="collapse-item-list accordion" id="1">\
-            <div class="text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div><div class="text-desc-">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+            <div class="text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div><div class="text-desc-">{{html helpers.convertMDtoHTML(data.description)}}</div>\
             </div>\
           </div>\
           {{/if}}\
           {{/each}}\
         <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-        Show more <img src="images/show_more.png" height="6" width="10" />\
+        <div>Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
        </div>\
         {{/if}}\
           </script>',
@@ -15904,7 +15904,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <img src="${data.img}">\
                 </div>\
                 <div class="content_sec">\
-                  <div class="heading text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                  <div class="heading text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                   <div class="text_desc two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                 </div>\
                 </div>\
@@ -15912,7 +15912,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isClickable == false}}\
                 <div class="collapse-item-list-parent click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
                 <div class="collapse-item-list accordion" id="1">\
-                <div class="text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div><div class="text-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                <div class="text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div><div class="text-description defalut-show text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                 </div>\
                 <div class="panel">\
                   <div class="content_sec">\
@@ -15926,7 +15926,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{/if}}\
               {{/each}}\
               <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-              Show more <img src="images/show_more.png" height="6" width="10" />\
+              <div>Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
           </div>\
         {{/if}}\
           </script>',
@@ -15949,7 +15949,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             </div>\
               {{/each}}\
               <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-              Show more <img src="images/show_more.png" height="6" width="10" />\
+              <div>Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
           </div>\
           </div>\
         {{/if}}\
@@ -15966,12 +15966,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
           <div class="grid-data-item click-to-navigate-urlfaqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}"  href="${data.url}" target="_blank">\
-            <div class="title-item-bold {{if textAlignment=="center"}}text-center{{/if}}" ><div class="text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div></div>\
+            <div class="title-item-bold {{if textAlignment=="center"}}text-center{{/if}}" ><div class="text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div></div>\
           </div>\
           {{/if}}\
           {{if isClickable == false}}\
           <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-          <div class="title-item-bold {{if textAlignment=="center"}}text-center{{/if}}"><div class="text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div></div>\
+          <div class="title-item-bold {{if textAlignment=="center"}}text-center{{/if}}"><div class="text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div></div>\
         </div>\
           {{/if}}\
           {{/each}}\
@@ -16015,7 +16015,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{if isClickable == true}}\
           <div class="grid-data-item click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
             <div class="inner-content-list">\
-              <div class="heading-text text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+              <div class="heading-text text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
               <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
             </div>\
           </div>\
@@ -16023,7 +16023,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{if isClickable == false}}\
           <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
             <div class="inner-content-list">\
-              <div class="heading-text text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+              <div class="heading-text text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
               <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
             </div>\
           </div>\
@@ -16112,7 +16112,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           <div class="grid-data-item faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
               <div class="inner-content-list">\
-                  <div class="heading-main text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                  <div class="heading-main text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                   {{each(key, res) [0,1,2]}}\
                   <div class="image-with-text">\
                    <div class="img-block">\
@@ -16147,7 +16147,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="main-img-block">\
                     <img src="${data.img}">\
                   </div>\
-                  <div class="heading- text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                  <div class="heading- text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                   <div class="desc-text-info two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                 </div>\
               </div>\
@@ -16174,7 +16174,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="main-img-block">\
                     <img src="${data.img}">\
                   </div>\
-                  <!-- <div class="heading- text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>-->\
+                  <!-- <div class="heading- text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>-->\
                   <div class="desc-text-info two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                 </div>\
               </div>\
@@ -16201,7 +16201,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="main-img-block">\
                      <img src="${data.img}">\
                   </div>\
-                  <div class="heading- text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                  <div class="heading- text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                   <div class="desc-text-info  two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                   <div class="price-count">$156</div>\
                 </div>\
@@ -16226,7 +16226,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{else}}\
                 <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}"">\
                 {{/if}}\
-                  <div class="text-template" title="${data.heading}"><div class="text-truncate">{{html helpers.convertMDtoHTML(data.heading)}}</div></div>\
+                  <div class="text-template" title="${data.heading}"><div class="text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.heading)}}</div></div>\
                 </div>\
               {{/each}}\
               </div>\
@@ -16273,7 +16273,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
             {{/if}}\
                     <div class="inner-content-list">\
-                        <div class="heading-text text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                        <div class="heading-text text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                         <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                     </div>\
                 </div>\
@@ -16357,7 +16357,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
                   {{/if}}\
               <div class="inner-content-list">\
-                <div class="title-main text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                <div class="title-main text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                 {{each(key, res) [0,1,2]}}\
                 <div class="img-with-text">\
                   <div class="img-block">\
@@ -16393,7 +16393,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="main-img-block">\
                 <img src="${data.img}">\
                 </div>\
-                <div class="heading- text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                <div class="heading- text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                 <div class="desc-text-info four-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
               </div>\
             </div>\
@@ -16452,7 +16452,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="main-img-block">\
                 <img src="${data.img}">\
                 </div>\
-                <div class="heading- text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                <div class="heading- text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                 <div class="desc-text-info two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
               </div>\
             </div>\
@@ -16791,7 +16791,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.contentId = obj.contentId;
           item.addedResult = (obj.addedResult || (obj.addedResult == false)) ? obj.addedResult : false;
           item.bestMatch = (obj.bestMatch || (obj.bestMatch == false)) ? obj.bestMatch : false;
-          dataArr.push(item);
+          if(item.heading || item.description || item.img || item.url){
+            dataArr.push(item);
+          }
         });
         return dataArr;
       }
@@ -19032,8 +19034,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="bottom-to-top-suggestion">\
               {{each(i, suggestion) suggestions.slice(0, querySuggestionsLimit)}}\
                   <div class="search-suggested-title" suggestion="${suggestion}" id="${i}">\
-                    <div title="${suggestion}" class="suggestion-list-item text-truncate"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik02LjI5NzYgMC44MDAwMDNDMy4yNjEzNiAwLjgwMDAwMyAwLjgwMDAwMyAzLjI2Nzk0IDAuODAwMDAzIDYuMzEyMjlDMC44MDAwMDMgOS4zNTY2NCAzLjI2MTM2IDExLjgyNDYgNi4yOTc2IDExLjgyNDZDNy42MjUzOCAxMS44MjQ2IDguODQzMjEgMTEuMzUyNiA5Ljc5MzM0IDEwLjU2NjlMMTIuMzQyMiAxMy4wOTExTDEyLjM4MDIgMTMuMTI1NEMxMi41ODk0IDEzLjI5NjQgMTIuODk4IDEzLjI4MyAxMy4wOTE2IDEzLjA4NjVDMTMuMjk3MiAxMi44Nzc3IDEzLjI5NTEgMTIuNTQxMyAxMy4wODY5IDEyLjMzNTFMMTAuNTQyNSA5LjgxNTI5QzExLjMyNTIgOC44NjI5MyAxMS43OTUyIDcuNjQyNjQgMTEuNzk1MiA2LjMxMjI5QzExLjc5NTIgMy4yNjc5NCA5LjMzMzg0IDAuODAwMDAzIDYuMjk3NiAwLjgwMDAwM1pNNi4yOTc2IDEuODYyNjFDOC43NDg1NCAxLjg2MjYxIDEwLjczNTQgMy44NTQ4IDEwLjczNTQgNi4zMTIyOUMxMC43MzU0IDguNzY5NzcgOC43NDg1NCAxMC43NjIgNi4yOTc2IDEwLjc2MkMzLjg0NjY2IDEwLjc2MiAxLjg1OTc4IDguNzY5NzcgMS44NTk3OCA2LjMxMjI5QzEuODU5NzggMy44NTQ4IDMuODQ2NjYgMS44NjI2MSA2LjI5NzYgMS44NjI2MVoiIGZpbGw9IiM5QUEwQTYiLz4KPC9zdmc+Cg==" />${suggestion}</div>\
-                    <!-- <div class="text-truncate type-select-suggestion" title="${suggestion}">${suggestion}</div> -->\
+                    <div title="${suggestion}" class="suggestion-list-item text-truncate one-line-height"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik02LjI5NzYgMC44MDAwMDNDMy4yNjEzNiAwLjgwMDAwMyAwLjgwMDAwMyAzLjI2Nzk0IDAuODAwMDAzIDYuMzEyMjlDMC44MDAwMDMgOS4zNTY2NCAzLjI2MTM2IDExLjgyNDYgNi4yOTc2IDExLjgyNDZDNy42MjUzOCAxMS44MjQ2IDguODQzMjEgMTEuMzUyNiA5Ljc5MzM0IDEwLjU2NjlMMTIuMzQyMiAxMy4wOTExTDEyLjM4MDIgMTMuMTI1NEMxMi41ODk0IDEzLjI5NjQgMTIuODk4IDEzLjI4MyAxMy4wOTE2IDEzLjA4NjVDMTMuMjk3MiAxMi44Nzc3IDEzLjI5NTEgMTIuNTQxMyAxMy4wODY5IDEyLjMzNTFMMTAuNTQyNSA5LjgxNTI5QzExLjMyNTIgOC44NjI5MyAxMS43OTUyIDcuNjQyNjQgMTEuNzk1MiA2LjMxMjI5QzExLjc5NTIgMy4yNjc5NCA5LjMzMzg0IDAuODAwMDAzIDYuMjk3NiAwLjgwMDAwM1pNNi4yOTc2IDEuODYyNjFDOC43NDg1NCAxLjg2MjYxIDEwLjczNTQgMy44NTQ4IDEwLjczNTQgNi4zMTIyOUMxMC43MzU0IDguNzY5NzcgOC43NDg1NCAxMC43NjIgNi4yOTc2IDEwLjc2MkMzLjg0NjY2IDEwLjc2MiAxLjg1OTc4IDguNzY5NzcgMS44NTk3OCA2LjMxMjI5QzEuODU5NzggMy44NTQ4IDMuODQ2NjYgMS44NjI2MSA2LjI5NzYgMS44NjI2MVoiIGZpbGw9IiM5QUEwQTYiLz4KPC9zdmc+Cg==" />${suggestion}</div>\
+                    <!-- <div class="text-truncate one-line-height type-select-suggestion" title="${suggestion}">${suggestion}</div> -->\
                   </div>\
               {{/each}}\
             </div>\
@@ -19506,7 +19508,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         {{each(index, msgItem) suggestions.slice(0, maxCount)}} \
                                         {{if msgItem}}\
                                             <div class="suggestion-box">\
-                                              <div class="sugg-query-box text-truncate"  id="${msgItem||index}">\
+                                              <div class="sugg-query-box text-truncate one-line-height"  id="${msgItem||index}">\
                                                 <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik02LjI5NzYgMC44MDAwMDNDMy4yNjEzNiAwLjgwMDAwMyAwLjgwMDAwMyAzLjI2Nzk0IDAuODAwMDAzIDYuMzEyMjlDMC44MDAwMDMgOS4zNTY2NCAzLjI2MTM2IDExLjgyNDYgNi4yOTc2IDExLjgyNDZDNy42MjUzOCAxMS44MjQ2IDguODQzMjEgMTEuMzUyNiA5Ljc5MzM0IDEwLjU2NjlMMTIuMzQyMiAxMy4wOTExTDEyLjM4MDIgMTMuMTI1NEMxMi41ODk0IDEzLjI5NjQgMTIuODk4IDEzLjI4MyAxMy4wOTE2IDEzLjA4NjVDMTMuMjk3MiAxMi44Nzc3IDEzLjI5NTEgMTIuNTQxMyAxMy4wODY5IDEyLjMzNTFMMTAuNTQyNSA5LjgxNTI5QzExLjMyNTIgOC44NjI5MyAxMS43OTUyIDcuNjQyNjQgMTEuNzk1MiA2LjMxMjI5QzExLjc5NTIgMy4yNjc5NCA5LjMzMzg0IDAuODAwMDAzIDYuMjk3NiAwLjgwMDAwM1pNNi4yOTc2IDEuODYyNjFDOC43NDg1NCAxLjg2MjYxIDEwLjczNTQgMy44NTQ4IDEwLjczNTQgNi4zMTIyOUMxMC43MzU0IDguNzY5NzcgOC43NDg1NCAxMC43NjIgNi4yOTc2IDEwLjc2MkMzLjg0NjY2IDEwLjc2MiAxLjg1OTc4IDguNzY5NzcgMS44NTk3OCA2LjMxMjI5QzEuODU5NzggMy44NTQ4IDMuODQ2NjYgMS44NjI2MSA2LjI5NzYgMS44NjI2MVoiIGZpbGw9IiM5QUEwQTYiLz4KPC9zdmc+Cg==">${msgItem}\
                                               </div> \
                                             <!-- <div class="query-box">\
@@ -20318,7 +20320,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var topDownFacetsTabs = '<script id="top-down-tabs-template" type="text/x-jqury-tmpl">\
                                 <div class="tab-sec">\
                                   {{each(key, facet) facets }}\
-                                   <div class="tab-name capital un-selected-type facet {{= facet.className}}" id="{{= facet.key}}" apperance="{{= facet.key}}" title="{{= facet.name}} ({{= facet.doc_count}})"><span class="tab-title text-truncate"> {{= facet.name}}</span> <span class="tab-count text-truncate"> ({{= facet.doc_count}}</span>)</div>\
+                                   <div class="tab-name capital un-selected-type facet {{= facet.className}}" id="{{= facet.key}}" apperance="{{= facet.key}}" title="{{= facet.name}} ({{= facet.doc_count}})"><span class="tab-title text-truncate one-line-height"> {{= facet.name}}</span> <span class="tab-count text-truncate one-line-height"> ({{= facet.doc_count}}</span>)</div>\
                                   {{/each}}\
                                   </div>\
                               </script>'
@@ -20352,7 +20354,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         <div class="action-results-container btn_block_actions main-content-title-grid-data new-grid-search-data">\
                                           {{each(key, task) tasks}}\
                                             <div class="title-box-data">\
-                                                <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}" seqLogId="${task.seqLogId}">\
+                                                <div id="${key}" class="search-task search-grid-item text-truncate one-line-height" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}" seqLogId="${task.seqLogId}">\
                                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
                                                 <div class="name-title">${task.titleText}</div>\
                                                 {{if task.childBotName !=="" && task.childBotName !== undefined}}\
@@ -20400,7 +20402,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                       <div class="action-results-container btn_block_actions main-content-title-grid-data new-grid-search-data list-view-data-search">\
                                         {{each(key, task) tasks}}\
                                           <div class="title-box-data">\
-                                              <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}" seqLogId="${task.seqLogId}">\
+                                              <div id="${key}" class="search-task search-grid-item text-truncate one-line-height" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}" seqLogId="${task.seqLogId}">\
                                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
                                               <div class="name-title">${task.titleText}</div>\
                                               {{if task.childBotName !=="" && task.childBotName !== undefined}}\
@@ -20448,8 +20450,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         <div class="carousel action-results-container carousel-search-data-items">\
                                           {{each(key, task) tasks}}\
                                             <div class="slide">\
-                                              <div class="title-box-data text-truncate">\
-                                                  <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}" seqLogId="${task.seqLogId}">${task.titleText}</div>\
+                                              <div class="title-box-data text-truncate one-line-height">\
+                                                  <div id="${key}" class="search-task search-grid-item text-truncate one-line-height" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}" seqLogId="${task.seqLogId}">${task.titleText}</div>\
                                                   {{if task.childBotName !=="" && task.childBotName !== undefined}}\
                                                     <div class="child-bot">${task.childBotName}</div>\
                                                   {{/if}}\
