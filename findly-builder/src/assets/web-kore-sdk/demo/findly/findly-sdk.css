@@ -16618,7 +16618,7 @@ a.tile-heading{
     padding: 20px;
     }
     .template-6-classic-list .title-main {
-    font-weight: 500;
+    font-weight: bold;
     font-size: 14px;
     line-height: 20px;
     color: #202124;
@@ -16630,6 +16630,9 @@ a.tile-heading{
     }
     .template-6-classic-list .img-with-text .info-text{
     padding-left: 15px;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: normal;
     }
     .template-6-classic-list .img-with-text .img-block {
     width: 35px;

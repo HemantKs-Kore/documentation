@@ -11,7 +11,6 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { E } from '@angular/cdk/keycodes';
 declare const $: any;
 @Component({
   selector: 'app-facets',
@@ -123,6 +122,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   currentFacetTab: string = 'filter';
   selectAllConfigure: boolean = false;
   enable_Edit_Facet: boolean = false;
+  tab_configure_filed_name: string;
   facetType: any = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
@@ -803,6 +803,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   createNewFacet(data?) {
     if (data) {
       this.enable_Edit_Facet = true;
+      this.tab_configure_filed_name = data.fieldName;
       this.currentFacetObj = Object.assign({}, data);
       this.currentFacetTab = data.type;
       this.facetType = this.facetType.filter(ele => ele.type === data.type);
@@ -895,6 +896,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     if (this.showConfiguredFacet) {
       this.showConfiguredFacet = false;
       this.currentFacetObj.tabs = [];
+      this.tab_configure_filed_name = this.currentFacetObj.fieldName;
       this.configuredTabValues.forEach(element => {
         if (element.selected) {
           this.currentFacetObj.tabs.push({ fieldValue: element.fieldValue, bucketName: element.bucketName });

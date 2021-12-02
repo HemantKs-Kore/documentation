@@ -198,7 +198,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectable = true;
   removable = true;
   containCtrl = new FormControl();
-  operators = [{ name: 'Exists', value: 'exists' }, { name: 'Does Not Exist', value: 'doesNotExist' }, { name: 'Equals to', value: 'equalsTo' }, { name: 'Not Equals to', value: 'notEqualsTo' }, { name: 'Contains', value: 'contains' }, { name: 'Doesnot Contain', value: 'doesNotContain' }];
+  operators = [{ name: 'Exists', value: 'exists' }, { name: 'Does Not Exist', value: 'doesNotExist' }, { name: 'EqualsTo', value: 'equalsTo' }, { name: 'Not Equals To', value: 'notEqualsTo' }, { name: 'Contains', value: 'contains' }, { name: 'DoesNot Contain', value: 'doesNotContain' }];
   conditionArray: any = [];
   conditionObj: any = { fieldId: '', operator: '', value: [] };
   selectedConditionType = 'basic';
@@ -264,6 +264,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     });
+  }
+  //camelcase names in operators
+  camelCaseNames(operator) {
+    const camel_name = this.operators.filter(data => data.value == operator);
+    return camel_name[0].name;
   }
   //add condition dynamically
   addCondition(type, index, field?, data?) {
@@ -509,7 +514,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         delete tempStageObj.condition.mappings
       }
       else {
-        if (tempStageObj && tempStageObj.condition ){
+        if (tempStageObj && tempStageObj.condition) {
           delete tempStageObj.condition.value;
           tempStageObj.condition.mappings.forEach(el => { delete el.autocomplete_text; delete el.fieldName })
         }
@@ -733,9 +738,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   saveConfig(index?, dialogRef?) {
-    let plainScriptTxt : any;
-    if(this.newMappingObj && this.newMappingObj.custom_script && 
-      this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
+    let plainScriptTxt: any;
+    if (this.newMappingObj && this.newMappingObj.custom_script &&
+      this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
       plainScriptTxt = this.newMappingObj.custom_script.defaultValue.script;
     }
     let indexArrayLength: any = this.validateConditionForRD();
@@ -784,18 +789,18 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.clearDirtyObj();
         this.setResetNewMappingsObj(null, true);
-         /** Workbench plain text temp */
-         if(this.newMappingObj && this.newMappingObj.custom_script && 
-          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
-         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        /** Workbench plain text temp */
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
         }
       }, errRes => {
         this.savingConfig = false;
         this.errorToaster(errRes, 'Failed to save configurations');
-         /** Workbench plain text temp */
-         if(this.newMappingObj && this.newMappingObj.custom_script && 
-          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
-         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        /** Workbench plain text temp */
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
         }
       });
     }
@@ -890,9 +895,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filteredSimulatorRes = JSON.stringify(data, null, ' ');
   }
   simulate() {
-    let plainScriptTxt : any;
-    if(this.newMappingObj && this.newMappingObj.custom_script && 
-      this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
+    let plainScriptTxt: any;
+    if (this.newMappingObj && this.newMappingObj.custom_script &&
+      this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
       plainScriptTxt = this.newMappingObj.custom_script.defaultValue.script;
     }
     let indexArrayLength: any = this.validateConditionForRD();
@@ -941,9 +946,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         this.simulteObj.currentSimulateAnimi = -1;
         this.simulteObj.simulationInprogress = false;
         /** Workbench plain text temp */
-        if(this.newMappingObj && this.newMappingObj.custom_script && 
-          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
-         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
         }
       }, errRes => {
         this.simulating = false;
@@ -959,9 +964,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.simulteObj.currentSimulateAnimi = -1;
         /** Workbench plain text temp */
-        if(this.newMappingObj && this.newMappingObj.custom_script && 
-          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
-         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
         }
         this.errorToaster(errRes, 'Failed to get stop words');
       });
@@ -1349,7 +1354,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     return true;
   }
-  onSourcefieldChange(event,parent,no,e){
+  onSourcefieldChange(event, parent, no, e) {
     // console.log(event,parent,no)
     // e.stopPropagation();
     // $(this).next('.dropdown-toggle').find('[data-toggle=dropdown]').dropdown('toggle');
