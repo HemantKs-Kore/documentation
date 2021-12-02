@@ -18,6 +18,7 @@ import { JsonPipe } from '@angular/common';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 declare const $: any;
 @Component({
   selector: 'app-index',
@@ -62,6 +63,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('customScriptCodeMirror') codemirror: any;
+ 
   newStage: any = {
     name: 'My Mapping'
   }
@@ -208,6 +210,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService
   ) { }
+  @ViewChild('plans') plans: UpgradePlanComponent;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     console.log("this.selectedApp", this.selectedApp)
@@ -741,14 +744,25 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       }, errRes => {
         this.savingConfig = false;
         this.errorToaster(errRes, 'Failed to save configurations');
+        if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessDenied' || errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
+          this.upgrade();
+          this.errorToaster(errRes, errRes.error.errors[0].msg);
+          setTimeout(() => {
+            // this.btnDisabled = false;
+          }, 500)
+        }
          /** Workbench plain text temp */
          if(this.newMappingObj && this.newMappingObj.custom_script && 
           this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
         }
+       
       });
     }
 
+  }
+  upgrade() {
+    this.plans.openChoosePlanPopup('choosePlans');
   }
   openModalPopup() {
     this.loadingFields = true;
