@@ -515,6 +515,7 @@ export class ResultTemplatesComponent implements OnInit {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
+
   //validate template fields
   validateTemplate() {
     if (this.templateDataBind.layout.layoutType === 'l1') {
