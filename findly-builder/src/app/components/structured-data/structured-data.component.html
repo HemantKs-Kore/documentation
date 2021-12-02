@@ -59,26 +59,26 @@
                             </ng-container>
                         </div>                      
                     </div>
-                    <ng-container *ngIf="structuredDataItemsList.length"> {{showSelectedCount | json }} {{ totalCount | json}} {{allSelected | json}}
+                    <ng-container *ngIf="structuredDataItemsList.length">
                             <div class="structure-data-list header align-items-center row m-0">
                                 <div class="kr-sg-checkbox p-0 mb-0 select-all-checkbox adjust-checkbox-padding" *ngIf="allSelected || !showSelectAllQues">
                                     <input id="selectAllStructuredData" class="checkbox-custom" type="checkbox" (change)="selectAll(allSelected)"  [(ngModel)]="allSelected">
                                     <label for="selectAllStructuredData" class="checkbox-custom-label"></label>
                                   
                                 </div>
-                                <div class="kr-sg-checkbox pr-2 pl-0 mb-0 adjust-checkbox-padding partial-select-checkbox" *ngIf="(showSelectedCount > 0 && showSelectedCount < totalCount)">
-                                    <img (click)="partialSelection()" src="assets/icons/resultranking/selected-checkbox.svg" class="pointer">
+                                <div class="kr-sg-checkbox pr-2 pl-0 mb-0 adjust-checkbox-padding partial-select-checkbox" *ngIf="selectedStructuredData.length > 0  && !allSelected">
+                                    <img (click)="selectAll(allSelected)" src="assets/icons/resultranking/selected-checkbox.svg" class="pointer">
                                 </div> 
                                 <div class="row m-0 col-12 p-0 align-items-center">
                                     <div class="col-5 title">{{'structuredData.key_caps' | translate}}</div>
                                     <div class="col-3 title">{{'structuredData.value_caps' | translate}}</div>
                                     <div class="text-right col-4 p-0" *ngIf="!noItems || emptySearchResults">
-                                        <span *ngIf="showSelectedCount > 0 || allSelected" class="selected-count">{{(allSelected? 'All' : showSelectedCount)}} {{'structuredData.selected' | translate}}</span>
-                                        <button id="btn_delete_all_structured_data" class="kr-sg-button-danger btn_lg" *ngIf="showSelectedCount > 0 || allSelected" (click)="deleteStructuredDataPopup()">{{'structuredData.delete' | translate}}</button>
+                                        <span *ngIf="selectedStructuredData.length || showSelectedData" class="selected-count">{{(allSelected? 'All' : selectedStructuredData.length)}} {{'structuredData.selected' | translate}}</span>
+                                        <button id="btn_delete_all_structured_data" class="kr-sg-button-danger btn_lg" *ngIf="selectedStructuredData.length || allSelected" (click)="deleteStructuredDataPopup()">{{'structuredData.delete' | translate}}</button>
                                         <!-- <button id="btn_change_view_structured_data" class="kr-sg-button-secondary btn_lg ml-2"  *ngIf="!noItems" (click)="defaultView = !defaultView">{{ defaultView ? ('structuredData.switch_to_json' | translate) : ('structuredData.switch_to_default' | translate)}}</button>                             -->
                                     </div>
                                 </div>  
-                                <div  class="selectAll" *ngIf="(showSelectedCount > 0 && showSelectedCount < totalCount)" (click)="selectAllData()">Select all {{totalCount}} questions</div>                                                      
+                                <div  class="selectAll" *ngIf="showSelectAllQues" (click)="selectAllData()">Select all {{totalCount}} questions</div>                                                      
                             </div>
                             <div class="structured-data" *ngFor="let data of structuredDataItemsList;let d_index = index">
                                     <div class="kr-sg-checkbox d-block" [ngClass]="{'isChecked' : data.isChecked}">
@@ -180,7 +180,7 @@
                             </div>
                     </ng-container>
                 </div>
-                <app-record-pagination *ngIf="totalCount && totalCount > limitpage" id="pagination_structured_data" class="pagination" [totalRecord]='totalCount' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
+                <app-record-pagination *ngIf="totalCount && totalCount > 10" id="pagination_structured_data" class="pagination" [totalRecord]='totalCount' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
             <!-- <div class="empty_records d-flex text-center col-12 row d-none" *ngIf="noItems">
                 <div class="col-12">
                     <img class="action_icon" src="assets/images/structured-data-empty.svg" >
