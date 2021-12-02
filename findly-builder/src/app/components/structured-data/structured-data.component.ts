@@ -15,6 +15,7 @@ import { SideBarService } from './../../services/header.service';
 import { InlineManualService } from '../../services/inline-manual.service';
 import { AppSelectionService } from './../../services/app.selection.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-structured-data',
@@ -94,6 +95,7 @@ export class StructuredDataComponent implements OnInit {
   totalCount: any;
   defaultView: boolean = true;
   fields: any = [];
+  limitpage=10
   searchField;
   advancedSearch: any = {};
   tempAdvancedSearch: any = {};
@@ -110,6 +112,8 @@ export class StructuredDataComponent implements OnInit {
   indexPipelineId: any;
   subscription: Subscription;
   activeClose = false;
+  paginateEvent:any;
+  showSelectedCount = 0 ;
   componentType: string = 'addData';
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
@@ -175,7 +179,7 @@ export class StructuredDataComponent implements OnInit {
     this.service.invoke('get.structuredData', quaryparms).subscribe((res: any) => {
       this.isLoading = false;
       this.totalCount = JSON.parse(JSON.stringify(res.total));
-      this.selectedStructuredData = [];
+      // this.selectedStructuredData = []; 
       // this.allSelected = false; // To be sent true for selectionAll during pagination
       if (res.data) {
         this.structuredDataItemsList = res.data;
@@ -183,12 +187,23 @@ export class StructuredDataComponent implements OnInit {
       else {
         this.structuredDataItemsList = [];
       }
-      if(this.allSelected){
-        this.showSelectedData = true // To show number of records selected
-        this.structuredDataItemsList.forEach(data => {
-          data.isChecked = true;
+      this.structuredDataItemsList.forEach(responseElement => { //next page array
+        this.selectedStructuredData.forEach(selectedElement => { //current page array
+          if(responseElement._id === selectedElement._id && selectedElement.isChecked){  // id's will never be same as above two are different arrays
+            responseElement.isChecked = true;
+          }
+
         });
+      });
+      if(quaryparms && quaryparms.skip){
+
       }
+      // if(this.allSelected){
+      //   this.showSelectedData = true // To show number of records selected
+      //   this.structuredDataItemsList.forEach(data => {
+      //     data.isChecked = true;
+      //   });
+      // }
       if (res.length > 0) {
         this.isLoading = false;
         this.isLoading1 = true;
@@ -314,6 +329,7 @@ export class StructuredDataComponent implements OnInit {
 
   paginate(event) {
     console.log("event", event);
+    this.paginateEvent =event
     if (event.skip) {
       this.getStructuredDataList(event.skip);
     }
@@ -643,12 +659,14 @@ export class StructuredDataComponent implements OnInit {
     if (!item.isChecked) {
       this.selectedStructuredData.push(item);
       item.isChecked = true;
+      this.showSelectedCount = this.showSelectedCount + 1 ;
     }
     else {
       for (let i = 0; i < this.selectedStructuredData.length; i++) {
         if (this.selectedStructuredData[i]._id === item._id) {
           item.isChecked = false;
           this.selectedStructuredData.splice(i, 1);
+          this.showSelectedCount = this.showSelectedCount - 1 ;
         }
       }
     }
@@ -660,15 +678,161 @@ export class StructuredDataComponent implements OnInit {
       this.allSelected = false;
     }
   }
-
+/** Individual checbox selection */
  selectAllData(){
    this.showSelectAllQues = false;
-   this.allSelected = true;
    this.structuredDataItemsList.forEach(data => {
     data.isChecked = true;
   });
+  this.allSelected = true;
+  this.showSelectedCount = this.totalCount
   //  this.selectAll(true);
  }
+ checkForAllBoolean(arr):any{
+
+   let count = 0
+   arr.forEach(element => {
+     if(element.isChecked){
+      count++;
+     }
+   });
+   return count;
+ }
+
+ /** 'Key' checkbox partial selection */
+ partialSelection(){
+   let count = this.checkForAllBoolean(this.structuredDataItemsList)
+   if(count > 0 && count < this.limitpage){
+    this.showSelectedCount = this.showSelectedCount + (this.limitpage -count)// this.limitpage is obtained from pagination count
+    this.checkUncheckData(true) 
+   }
+   else if(count == 0 ){
+    this.showSelectedCount = this.showSelectedCount + this.limitpage;
+    this.checkUncheckData(true)
+   }
+   else if(count == this.limitpage){
+    this.showSelectedCount = this.showSelectedCount - this.limitpage;
+    
+   /** Unselecting the view list in a page because  */
+    // this.structuredDataItemsList.forEach(data => {
+    //   data.isChecked = false;
+    // });
+   
+    this.checkUncheckData(false) 
+   }
+  
+ }
+ /** Selection and Deselection of data  */
+ checkUncheckData(bool){
+   //  old referance code START
+
+  /** Comparing the 2 arrays of the same page , if id is same data is pushed  */
+  if( this.showSelectedCount > 0 && this.showSelectedCount < this.totalCount){
+    this.structuredDataItemsList.forEach((data,index) => {
+      this.selectedStructuredData.forEach(selElement => {
+      if(data._id === selElement._id){
+        this.selectedStructuredData.push(data)
+      }     
+      });
+      /** To check or uncheck  */
+      if(bool){
+        data.isChecked = true;
+      }
+      else{
+        data.isChecked = false;
+        // if(this.paginateEvent && this.paginateEvent.skip){
+        //   if(index >= this.paginateEvent.skip){
+        //     data.isChecked =false;
+        //   }
+        // }   
+      }
+      /** To show or hide SELECT ALL button*/
+      if(bool){
+        this.showSelectAllQues = bool
+      }
+      else{
+        if(this.showSelectedCount){
+          this.showSelectAllQues = true;
+        }
+        else{
+          this.showSelectAllQues = false;
+    
+        }
+      }     
+    });
+    // this.selectedStructuredData = JSON.parse(JSON.stringify(this.structuredDataItemsList));
+
+   }
+   else if(this.showSelectedCount === 0){
+    this.structuredDataItemsList.forEach(data => {
+      data.isChecked = bool;
+      if(bool){
+        this.showSelectAllQues = bool
+      }
+      else{
+        if(this.showSelectedCount){
+          this.showSelectAllQues = true;
+        }
+        else{
+          this.showSelectAllQues = false;
+    
+        }
+      }     
+    });
+   }
+    //  old referance code END
+  //  if(bool ){
+  //   if( this.showSelectedCount > 0 && this.showSelectedCount < this.totalCount){
+  //     this.structuredDataItemsList.forEach((data,index) => {
+  //       this.selectedStructuredData.forEach(selElement => {
+  //       if(data._id === selElement._id){
+  //       data.isChecked = true;
+  //       this.selectedStructuredData.push(data)
+  //       }     
+  //       });
+  //     });
+  //     this.showSelectAllQues = bool
+  //   }
+  //   else if(this.showSelectedCount === 0){
+  //     this.structuredDataItemsList.forEach(data => {
+  //       data.isChecked = bool;
+  //     });
+  //     if(bool){
+  //       this.showSelectAllQues = bool
+  //     }   
+  //    }
+  //  }
+  //  else{
+  //    // Once unchecked the array is spliced
+  //   if( this.showSelectedCount > 0 && this.showSelectedCount < this.totalCount){
+  //     this.structuredDataItemsList.forEach((data,index) => {
+  //       this.selectedStructuredData.forEach((selElement, selIndex) => {
+  //       if(data._id === selElement._id){
+  //       data.isChecked = false;
+  //       this.selectedStructuredData.splice(selIndex , 1)
+  //       }     
+  //       });
+  //     });
+  //       if (this.showSelectedCount) {
+  //         this.showSelectAllQues = true;
+  //       }
+  //       else {
+  //         this.showSelectAllQues = false;
+  //       }
+
+  //   }
+  //   else if(this.showSelectedCount === 0){
+  //     this.structuredDataItemsList.forEach(data => {
+  //       data.isChecked = bool;
+  //     });
+  //     if(bool){
+  //       this.showSelectAllQues = bool
+  //     }   
+  //    }
+  //  }
+  
+ }
+ /** 'Key' Checkbox Selection */
   selectAll(key) {
     if (!key) {
       this.structuredDataItemsList.forEach(data => {
@@ -679,10 +843,11 @@ export class StructuredDataComponent implements OnInit {
       this.allSelected = false;
     }
     else {
-      this.structuredDataItemsList.forEach(data => {
-        data.isChecked = true;
-        this.showSelectAllQues =true
-      });
+      this.partialSelection();
+      // this.structuredDataItemsList.forEach(data => {
+      //   data.isChecked = true;
+      //   this.showSelectAllQues =true
+      // });
       this.selectedStructuredData = JSON.parse(JSON.stringify(this.structuredDataItemsList));
       this.allSelected = true;
     }
