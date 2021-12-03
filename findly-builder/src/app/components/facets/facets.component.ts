@@ -827,6 +827,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }
     this.facetModalRef1 = this.facetModalPopupNew.open();
   }
+
   //new modal close
   closeFacetDialog() {
     if (this.showConfiguredFacet) {
