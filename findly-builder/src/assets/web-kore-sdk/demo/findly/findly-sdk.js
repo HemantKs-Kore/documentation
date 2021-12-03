@@ -8497,6 +8497,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.all-results .tab-count-right-bracket').hide();
             $('.active-tab .sdk-facet-count').hide();
           }
+        } else if(!$('.full-search-data-container').children().length && !doc_count){
+          $('.empty-full-results-container').removeClass('hide');
+        }else {
+          if(!$('.empty-full-results-container').hasClass('hide')){
+            $('.empty-full-results-container').addClass('hide');
+          }
         }
 
       });
@@ -15901,7 +15907,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-6-grid-list">\
+          <div class="template-6-grid-list {{if textAlignment=="center"}}text-center{{/if}}">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           <div class="grid-data-item faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
               <div class="inner-content-list">\
@@ -15931,7 +15937,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-7-grid-list mb-15" >\
+          <div class="template-7-grid-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}" >\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
               <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
@@ -15960,7 +15966,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-9-grid-list mb-15">\
+          <div class="template-9-grid-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
             <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
@@ -16019,7 +16025,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-            <div class="template-2-carousel-list mb-15">\
+            <div class="template-2-carousel-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
             <div class="carousel">\
             {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
             {{if isClickable == true}}\
@@ -16042,7 +16048,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-2-carousel-list mb-15">\
+          <div class="template-2-carousel-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
           <div class="carousel">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
@@ -16065,7 +16071,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
             {{if structuredData.length}}\
             <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-            <div class="template-3-carousel-list mb-15">\
+            <div class="template-3-carousel-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
             <div class="carousel">\
             {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
             {{if isClickable == true}}\
@@ -16091,7 +16097,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
             {{if structuredData.length}}\
             <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-            <div class="template-4-carousel-list mb-15">\
+            <div class="template-4-carousel-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
             <div class="carousel">\
                 {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                 {{if isClickable == true}}\
@@ -16123,7 +16129,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-5-carousel-list mb-15">\
+          <div class="template-5-carousel-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
           <div class="carousel">\
               {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
               {{if isClickable == true}}\
@@ -16149,7 +16155,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-6-carousel-list mb-15">\
+          <div class="template-6-carousel-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
           <div class="carousel">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
@@ -16182,7 +16188,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-7-carousel-list mb-15">\
+          <div class="template-7-carousel-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
           <div class="carousel">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
@@ -16211,7 +16217,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-7-carousel-list mb-15">\
+          <div class="template-7-carousel-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
           <div class="carousel">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
@@ -16241,7 +16247,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-7-carousel-list mb-15">\
+          <div class="template-7-carousel-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
           <div class="carousel">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
