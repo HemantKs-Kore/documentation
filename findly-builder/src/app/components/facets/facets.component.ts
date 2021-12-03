@@ -859,7 +859,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }
     else if (type === 'tab') {
       const tab = this.facets.filter(item => item.type === 'tab');
-      if (tab) {
+      if (tab.length > 0) {
         this.currentFacetObj = Object.assign({}, tab[0]);
         this.currentFieldId = tab[0].fieldId;
         this.tab_configure_filed_name = tab[0].fieldName;
