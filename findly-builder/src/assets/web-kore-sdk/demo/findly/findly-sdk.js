@@ -5310,11 +5310,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.full-search-data-container').empty();
           if (res && res.results && res.resultType == "grouped") {
             var availableGroups = Object.keys(res.results);
-            totalResultsCount = 0;
+            if (!(res.tabFacet || {}).buckets) {
+              totalResultsCount = 0;
+            }
             if (availableGroups && availableGroups.length) {
               availableGroups.forEach((group) => {
                 var results = res.results[group].data;
-                totalResultsCount = totalResultsCount + res.results[group].doc_count;
+                if (!(res.tabFacet || {}).buckets) {
+                  totalResultsCount = totalResultsCount + res.results[group].doc_count;
+                }
                 var groupName = group == 'default_group' ? 'defaultTemplate' : group;
                 var dataObj = {
                   facets: facets,
@@ -5322,7 +5326,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   originalQuery: res.originalQuery || '',
                   customSearchResult: _self.customSearchResult,
                   data: results,
-                  groupName: groupName
+                  groupName: groupName,
+                  doc_count: res.results[group].doc_count
                 }
                 if (!$('.empty-full-results-container').hasClass('hide')) {
                   $('.empty-full-results-container').addClass('hide');
@@ -5330,6 +5335,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 var publishSearchData = 'sa-' + groupName + '-search-data';
                 _self.pubSub.publish(publishSearchData, { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
               });
+              _self.vars.totalNumOfResults = totalResultsCount;
               res.results = results;
             } else {
               var dataObj = {
@@ -5357,7 +5363,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               originalQuery: res.originalQuery || '',
               customSearchResult: _self.customSearchResult,
               data: res.results.doc_count,
-              groupName: 'defaultTemplate'
+              groupName: 'defaultTemplate',
+              doc_count: res.results.doc_count
             }
             res.results = results;
             if (totalResultsCount) {
