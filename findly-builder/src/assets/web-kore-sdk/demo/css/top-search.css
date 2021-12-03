@@ -27,8 +27,6 @@ body::-webkit-scrollbar {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  min-height: inherit;
-    max-height: inherit;
 }
 
 .searchAssist-kore-chat-window .panel {
@@ -841,6 +839,7 @@ body.showFullResults.top-down .top-down-wrapper{
   cursor: pointer;
   margin: 0;
   height: auto;
+  z-index: 5;
 }
 .sdk-top-down-interface .kr-sg-radiobutton .radio-custom + .radio-custom-label {
   display: inline-block;
@@ -1234,6 +1233,7 @@ body.showFullResults.top-down .top-down-wrapper{
   line-height: 20px;
   max-width: 75%;
   padding-right: 5px;
+  min-width: 41px;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .tab-sec .tab-name .tab-count {
   max-width: 35px;
@@ -2913,3 +2913,11 @@ display: none !important;
   margin: 0 auto;
   background-position: center;
   }
+  .sdk-top-down-interface .grid-data-item {
+    padding: 5px;
+    width: 33% !important;
+  }
+  .sdk-top-down-interface .purejscarousel-slide{
+    padding: 6px;
+    width: 280px !important;
+}

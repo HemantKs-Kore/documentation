@@ -17416,6 +17416,7 @@ a.tile-heading{
 }
 .show-more-list {
     display: block;
+    width: 100%;
     align-items: end;
     cursor: pointer;
     font-weight: 500;
@@ -17433,5 +17434,11 @@ a.tile-heading{
 display: block;
 }
 .default-data-show-not-loaded .default-add, .default-data-show-not-loaded .store-updates-block{
+    display: none;
+}
+.no-data-mapped{
+    content: url(../images/data-not-match.png); 
+}
+.no-templates-defined-full-results-container{
     display: none;
 }
