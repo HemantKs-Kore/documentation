@@ -565,9 +565,14 @@
                     </div>
                     <div id="tabfacet" class="tab-pane fade in show active"
                         *ngIf="currentFacetTab==='tab'&&!showConfiguredFacet">
-                        <div class="tabfacet-info col-12 row" [ngClass]="{'d-none':(enable_Edit_Facet)}">
-                            <span>Maximum 20 facets can be added.</span>
-                            <p>Ok</p>
+                        <div class="tab-facet-info-content" [ngClass]="{'d-none':(enable_Edit_Facet)}">
+                            <div class="content-data">
+                                <div class="warning-icon">
+                                    <img src="assets/images/warning.svg">
+                                </div>
+                                <div class="text-content">Maximum 20 facets can be added.</div>
+                            </div>
+                            <div class="ok-btn">OK</div>
                         </div>
                         <div class="tabfacet-data">
                             <div class="label-text">Field</div>
