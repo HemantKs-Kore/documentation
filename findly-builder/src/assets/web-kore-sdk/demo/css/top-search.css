@@ -841,6 +841,7 @@ body.showFullResults.top-down .top-down-wrapper{
   cursor: pointer;
   margin: 0;
   height: auto;
+  z-index: 5;
 }
 .sdk-top-down-interface .kr-sg-radiobutton .radio-custom + .radio-custom-label {
   display: inline-block;
@@ -2912,4 +2913,8 @@ display: none !important;
   left: 7px;
   margin: 0 auto;
   background-position: center;
+  }
+  .sdk-top-down-interface .grid-data-item {
+    padding: 5px;
+    width: 33% !important;
   }

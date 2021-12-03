@@ -17416,6 +17416,7 @@ a.tile-heading{
 }
 .show-more-list {
     display: block;
+    width: 100%;
     align-items: end;
     cursor: pointer;
     font-weight: 500;
