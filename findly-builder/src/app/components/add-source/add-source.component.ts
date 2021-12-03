@@ -984,6 +984,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if(this.multipleFileArr.length === this.removedArr.length){
       this.removeFile()
+      this.removedArr = []; //The array should be cleared as it is restoring the previously removed items aswell
     }
   }
  //To remove single file
