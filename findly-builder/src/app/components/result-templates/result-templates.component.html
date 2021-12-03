@@ -14,6 +14,9 @@
             <img src="assets/icons/resultTemplate/copy.svg">
             <span class="title">Copy Configuration</span>
           </button>
+          <button class = "kr-sg-button-primary btn_lg" (click)="$event.stopPropagation();updateSettings()">
+            <span class="title">Save</span>
+          </button>
           <ul class="dropdown-menu content-menu copy-config-dropdown-content" ngbDropdownMenu>
             <div class="overlay-div"></div>
             <div class="info-copy">Choose whether to apply the same configurations as per previous settings or configure
