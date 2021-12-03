@@ -12,6 +12,7 @@ import { NONE_TYPE } from '@angular/compiler';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 declare const $: any;
+declare var PureJSCarousel: any;
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'apps-home',
@@ -32,6 +33,8 @@ export class AppsListingComponent implements OnInit {
   showSearch = false;
   activeClose = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
+  carousel: any = [];
+  carouselTemplateCount = 0;
   searchFocusIn = false;
   newApp: any = {
     name: '',
@@ -69,6 +72,7 @@ export class AppsListingComponent implements OnInit {
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
+    // this.buildCarousel();
   }
   //call mixpanel api for tellmemore button
   callMixPanel() {
