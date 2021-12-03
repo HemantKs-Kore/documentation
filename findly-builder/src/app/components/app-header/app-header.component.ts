@@ -58,6 +58,10 @@ export class AppHeaderComponent implements OnInit {
   serachIndexId;
   queryPipelineId;
   indexPipelineId;
+  domain = '';
+  selectAccountDetails : any = {};
+  associatedAccounts : any = {};
+  private storageType = 'localStorage';
   indexSubscription: Subscription;
   subscription: Subscription;
   routeChanged: Subscription;
@@ -103,7 +107,6 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Invoices', routeId: '/invoices', quaryParms: {} },
     { displayName: 'Results Ranking', routeId: '/resultranking', quaryParms: {} }
   ]
-  private storageType = 'localStorage';
   public dockersList: Array<any> = [];
   public pollingSubscriber: any;
   public dockServiceSubscriber: any;
@@ -187,6 +190,14 @@ export class AppHeaderComponent implements OnInit {
     this.workflowService.mainMenuRouter$.subscribe(route => {
       this.mainMenu = route;
     });
+    this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
+    this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
+    this.domain =  window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
+  }
+  switchAccountInternal(account){
+    window[this.storageType].setItem('selectedAccount',JSON.stringify(account))
+    this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
+    this.router.navigate([''], { skipLocationChange: true })
   }
   loadHeader() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
