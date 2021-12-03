@@ -327,6 +327,18 @@
                         }
                         .value-sec{
                             padding: 0 20px 0 10px;
+                            .kr-sg-dropdowns {
+                                .search-with-dropdown {
+                                    position: absolute;
+                                    border: 0;
+                                    &::before {
+                                        display: none;
+                                    }
+                                }
+                                input {
+                                    padding-left: 10px;
+                                }                      
+                            }
                         }
                         .template-sec{
                             padding: 0 10px 0 20px;

@@ -86,7 +86,7 @@
               <div class="values-templates-table mb-2" *ngIf="(resultListObj?.groupSetting?.fieldId.length)">
                 <div class="table-header-sec row col-12">
                   <div class="title col-5">Values</div>
-                  <div class="title col-7">TEMPLATE</div>
+                  <div class="title col-7">Layout</div>
                 </div>
 
                 <ng-container>
@@ -94,12 +94,16 @@
                     *ngFor="let value of resultListObj?.groupSetting?.conditions;let i=index;">
                     <div class="value-sec col-5">
                       <div class="kr-sg-dropdowns">
-                        <div class="dropdown dropdown-open">
-                          <button class="dropdown-toggle dropdown-input"
-                            data-toggle="dropdown">{{value.fieldValue===''?'Select Value':value.fieldValue}}</button>
-                          <ul class="dropdown-menu content-menu">
+                        <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                          <img src="assets/icons/search_gray.svg" class="search-icon">
+                          <button id="btn_select_facet_field"
+                            class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
+                          <input type="text" maxlength="60" placeholder="Select Value" id="facets-search-input"
+                            class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown"
+                            autocomplete="off" [(ngModel)]="value.fieldValue">
+                          <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu">
                             <perfect-scrollbar class="scroll-search-field">
-                              <li *ngFor="let val of fieldValues"
+                              <li *ngFor="let val of fieldValues|filter : [value.fieldValue, val]" [id]="val.fieldValue"
                                 (click)="value.fieldValue=val;value.templateType!==''?updateSettings():null;">
                                 <a>{{val}}</a>
                               </li>
@@ -311,7 +315,7 @@
       <div class="template-type-sec">
         <perfect-scrollbar>
           <div class="scroll-data">
-            <div class="title">Layout Type</div>
+            <div class="title">Template Type</div>
             <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l1'}"
               (click)="templateTypeSelection('l1')">
               <img src="assets/icons/resultTemplate/type-1.svg">
@@ -1821,11 +1825,10 @@
                       <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
                         data-toggle="dropdown"></button>
                       <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
-                      <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
+                      <input type="text" placeholder="Search Field" id="facets-search-input"
                         class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
                         [class.err-block]="(!(preview_title?.length) && submitted)"
-                        (keyup)="searchlist('heading',$event.target.value,fieldData)"
-                        (focus)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="preview_title">
+                        (change)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="preview_title">
                       <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu">
                         <perfect-scrollbar class="scroll-search-field">
                           <li *ngFor="let field of heading_fieldData" [id]="field._id"

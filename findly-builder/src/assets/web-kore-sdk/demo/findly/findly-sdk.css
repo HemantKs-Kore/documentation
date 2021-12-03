@@ -17436,3 +17436,9 @@ display: block;
 .default-data-show-not-loaded .default-add, .default-data-show-not-loaded .store-updates-block{
     display: none;
 }
+.no-data-mapped{
+    content: url(../images/data-not-match.png); 
+}
+.no-templates-defined-full-results-container{
+    display: none;
+}

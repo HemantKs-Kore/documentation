@@ -814,6 +814,18 @@
                         line-height: 16px;
                         color: #202124;
                         padding-left: 20px;
+                        .kr-sg-dropdowns {
+                            .search-with-dropdown {
+                                position: absolute;
+                                border: 0;
+                                &::before {
+                                    display: none;
+                                }
+                            }
+                            input {
+                                padding-left: 10px;
+                            }                      
+                        }
                     }
                 }
                 .display-name{
@@ -821,6 +833,10 @@
                     .kr-sg-input-text{
                         width: 250px;
                     }
+                }
+                .delete{
+                    margin-top: 5px;
+                    cursor: pointer;
                 }
             }
             .add-value{
