@@ -124,6 +124,9 @@ export class FacetsComponent implements OnInit, OnDestroy {
   enable_Edit_Facet: boolean = false;
   tab_configure_filed_name: string = 'Search';
   disableSaveBtn: boolean = true;
+  hide_facet_info: boolean = false;
+  fieldsData: any;
+  currentFieldId: string;
   facetType: any = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
@@ -802,13 +805,15 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
   //new modal open
   createNewFacet(data?) {
+    this.disableSaveBtn = false;
     if (data) {
       this.enable_Edit_Facet = true;
-      this.disableSaveBtn = false;
       this.tab_configure_filed_name = data.fieldName;
       this.currentFacetObj = Object.assign({}, data);
       this.currentFacetTab = data.type;
+      this.currentFieldId = data.fieldId;
       this.facetType = this.facetType.filter(ele => ele.type === data.type);
+      this.configuredTabValues = this.currentFacetObj?.tabs;
       if (data.type === 'tab') {
         this.facets.forEach((ele) => {
           if (ele.type === 'tab') {
@@ -820,7 +825,6 @@ export class FacetsComponent implements OnInit, OnDestroy {
     else {
       this.currentTab('filter');
     }
-    this.tab_configure_filed_name = 'Search';
     this.facetModalRef1 = this.facetModalPopupNew.open();
   }
   //new modal close
@@ -835,6 +839,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
         this.facetModalRef1.close();
         this.currentFacetObj = {};
         this.submitted = false;
+        this.hide_facet_info = false;
+        this.selectAllConfigure = false;
         this.facetType = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
       }
     }
@@ -851,28 +857,44 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.currentFacetObj = Object.assign({}, this.sortableFacetObj);
     }
     else if (type === 'tab') {
-      this.currentFacetObj = Object.assign({}, this.tabFacetObj);
+      const tab = this.facets.filter(item => item.type === 'tab');
+      if (tab) {
+        this.currentFacetObj = Object.assign({}, tab[0]);
+        this.currentFieldId = tab[0].fieldId;
+        this.tab_configure_filed_name = tab[0].fieldName;
+        this.configuredTabValues = tab[0].tabs;
+        this.getFieldValues(tab[0].fieldId);
+      }
+      else {
+        this.currentFacetObj = Object.assign({}, this.tabFacetObj);
+      }
     }
   }
   //selectAll ConfiguredFacets checkbox
   selectAllConfiguredFacets(type) {
-    if (type === 'all') {
-      setTimeout(() => {
+    let count = 0;
+    setTimeout(() => {
+      if (type === 'all') {
         this.configuredTabValues.forEach(element => {
           return element.selected = this.selectAllConfigure ? true : false
         });
-        const selected_value = this.configuredTabValues.some(element => element.selected === true);
-        this.disableSaveBtn = selected_value ? false : true;
-      }, 100)
-    }
-    else if (type === 'individual') {
-      setTimeout(() => {
+      }
+      else if (type === 'individual') {
         const all_checked = this.configuredTabValues.every(element => element.selected === true);
         this.selectAllConfigure = all_checked ? true : false;
-        const selected_value = this.configuredTabValues.some(element => element.selected === true);
-        this.disableSaveBtn = selected_value ? false : true;
-      }, 100)
-    }
+      }
+      const selected_value = this.configuredTabValues.some(element => element.selected === true);
+      this.configuredTabValues.forEach(data => {
+        if (data.selected === true) {
+          count = count + 1;
+        }
+      });
+      console.log("cunt", count)
+      this.disableSaveBtn = selected_value ? count > 20 ? true : false : true;
+      if (count > 20) {
+        this.notificationService.notify('Not more than 20 facets can be configured,uncheck some of the facets to continue.', 'error');
+      }
+    }, 100)
   }
   //sort configured facets array in tabs
   sortConfiguredFacets(event: CdkDragDrop<string[]>, list) {
@@ -905,9 +927,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.currentFacetObj.tabs = [];
       this.tab_configure_filed_name = this.currentFacetObj.fieldName;
       this.configuredTabValues.forEach(element => {
-        if (element.selected) {
-          this.currentFacetObj.tabs.push({ fieldValue: element.fieldValue, bucketName: element.bucketName });
-        }
+        this.currentFacetObj.tabs.push({ fieldValue: element.fieldValue, bucketName: element.bucketName });
       });
     } else {
       if (this.validateAddEditFacet()) {
@@ -955,8 +975,17 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }
   }
   //add custom value
-  addCustomValue() {
-    this.configuredTabValues.push({ bucketName: '', fieldValue: '', selected: false, type: 'custom' });
+  addCustomValue(type, index?) {
+    if (type === 'add') {
+      this.configuredTabValues.push({ bucketName: '', fieldValue: '' });
+    }
+    else if (type === 'remove') {
+      this.configuredTabValues.splice(index, 1);
+    }
+    this.disableSaveBtn = (this.configuredTabValues.length > 0 && this.configuredTabValues.length < 20) ? false : true;
+    if (this.configuredTabValues.length > 20) {
+      this.notificationService.notify('Not more than 20 facets can be configured,uncheck some of the facets to continue.', 'error');
+    }
   }
   //edit facet for status
   editFacet(data, event) {
@@ -1011,48 +1040,24 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }
   }
   //get values based on field
-  getFieldValues(id) {
-    this.configuredTabValues = [];
+  getFieldValues(id, type?) {
+    this.fieldsData = [];
     const quaryparms: any = {
       sidx: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       fieldId: id
     };
     this.service.invoke('get.facetValues', quaryparms).subscribe(res => {
-      for (let i in res.values) {
-        this.configuredTabValues.push({ bucketName: '', fieldValue: res.values[i], selected: false, type: 'predefine' });
-      }
-      // this.configuredTabValues = this.currentFacetObj.tabs;
-      // this.configuredTabValues.map(tab => {
-      //   this.currentFacetObj.tabs.map(tab1 => {
-      //     if (tab.fieldValue === tab1.fieldValue) {
-      //       tab.selected = true;
-      //     }
-      //     return tab
-      //   })
-      // })
-      let config_data = [];
-      if (this.enable_Edit_Facet) {
-        if (this.configuredTabValues.length) {
-          for (const arr1 of this.configuredTabValues) {
-            for (let arr2 of this.currentFacetObj.tabs) {
-              if (arr1.id === arr2.id) {
-                config_data.push({ ...arr1, ...arr2 });
-              }
-            }
-          }
-          this.configuredTabValues = [...new Map(config_data.map(item => [item.fieldValue, item])).values()];
+      this.fieldsData = res.values;
+      if (this.enable_Edit_Facet && type == 'input') {
+        if (this.currentFieldId === id) {
+          this.configuredTabValues = [];
+          this.configuredTabValues = this.currentFacetObj?.tabs;
         }
         else {
-          for (let data of this.currentFacetObj.tabs) {
-            this.configuredTabValues.push({ bucketName: data.bucketName, fieldValue: data.fieldValue, selected: true, type: 'predefine' });
-          }
+          this.configuredTabValues = [];
         }
       }
-      setTimeout(() => {
-        const all_checked = this.configuredTabValues.every(element => element.selected === true);
-        this.selectAllConfigure = all_checked ? true : false;
-      }, 100)
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get field values');
     });

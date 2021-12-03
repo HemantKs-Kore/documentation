@@ -380,7 +380,7 @@
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input"
                                                             data-toggle="dropdown"
-                                                            [class.err-block]="((!currentFacetObj?.sortConfig?.sortBy?.length) && submitted)">{{currentFacetObj.sortConfig.sortBy==''?'Select':(currentFacetObj.sortConfig.sortBy|titlecase)}}</button>
+                                                            [class.err-block]="((!currentFacetObj?.sortConfig?.sortBy?.length) && submitted)">{{currentFacetObj?.sortConfig?.sortBy==''?'Select':(currentFacetObj.sortConfig.sortBy|titlecase)}}</button>
                                                         <ul class="dropdown-menu content-menu">
                                                             <perfect-scrollbar class="scroll-search-field h-200">
                                                                 <li (click)="currentFacetObj.sortConfig.sortBy='label'">
@@ -398,7 +398,7 @@
                                                         <button class="dropdown-toggle dropdown-input"
                                                             data-toggle="dropdown"
                                                             [class.err-block]="((!currentFacetObj?.sortConfig?.order?.length) && submitted)">{{currentFacetObj.sortConfig.order==''?'Select
-                                                            order':(currentFacetObj.sortConfig.order=='asc'?'Ascending':'Descending')}}</button>
+                                                            order':(currentFacetObj?.sortConfig?.order=='asc'?'Ascending':'Descending')}}</button>
                                                         <ul class="dropdown-menu content-menu">
                                                             <perfect-scrollbar class="scroll-search-field h-200">
                                                                 <li (click)="currentFacetObj.sortConfig.order='asc'">
@@ -565,14 +565,14 @@
                     </div>
                     <div id="tabfacet" class="tab-pane fade in show active"
                         *ngIf="currentFacetTab==='tab'&&!showConfiguredFacet">
-                        <div class="tab-facet-info-content" [ngClass]="{'d-none':(enable_Edit_Facet)}">
+                        <div class="tab-facet-info-content" [ngClass]="{'d-none':(enable_Edit_Facet||hide_facet_info)}">
                             <div class="content-data">
                                 <div class="warning-icon">
                                     <img src="assets/images/warning.svg">
                                 </div>
                                 <div class="text-content">Maximum 20 facets can be added.</div>
                             </div>
-                            <div class="ok-btn">OK</div>
+                            <div class="ok-btn" (click)="hide_facet_info=true;">OK</div>
                         </div>
                         <div class="tabfacet-data">
                             <div class="label-text">Field</div>
@@ -643,7 +643,7 @@
                             <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
                                 <perfect-scrollbar class="scroll-search-field h-200">
                                     <li *ngFor="let field of fieldAutoSuggestion | filter : [currentFacetObj.fieldName, 'fieldName']"
-                                        (click)="currentFacetObj.fieldId=field._id;currentFacetObj.fieldName=field.fieldName;getFieldValues(field._id);">
+                                        (click)="currentFacetObj.fieldId=field._id;currentFacetObj.fieldName=field.fieldName;getFieldValues(field._id,'input');">
                                         <a>{{field.fieldName}}</a>
                                     </li>
                                 </perfect-scrollbar>
@@ -654,11 +654,11 @@
                 <div class="config-facet-table">
                     <div class="table-header-facet col-12 row">
                         <div class="checkbox-with-label col-6">
-                            <div class="kr-sg-checkbox">
+                            <!-- <div class="kr-sg-checkbox">
                                 <input id="checkbox-1" class="checkbox-custom" type="checkbox"
                                     [(ngModel)]="selectAllConfigure" (click)="selectAllConfiguredFacets('all')">
                                 <label for="checkbox-1" class="checkbox-custom-label"></label>
-                            </div>
+                            </div> -->
                             <div class="title-checkbox">Values</div>
                         </div>
                         <div class="display-name col-6">Display Name (Optional)</div>
@@ -668,27 +668,50 @@
                             *ngFor="let configure of configuredTabValues;let i=index;"
                             [ngClass]="{'selected':configure.selected}">
                             <div class="checkbox-with-label col-6">
-                                <div class="kr-sg-checkbox">
+                                <!-- <div class="kr-sg-checkbox">
                                     <input [id]="i" class="checkbox-custom" type="checkbox"
                                         [(ngModel)]="configure.selected"
                                         (click)="selectAllConfiguredFacets('individual')">
                                     <label [htmlFor]="i" class="checkbox-custom-label"></label>
+                                </div> -->
+                                <div class="title-checkbox">
+                                    <div class="kr-sg-dropdowns">
+                                        <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                                            <img src="assets/icons/search_gray.svg" class="search-icon">
+                                            <button id="btn_select_facet_field"
+                                                class="dropdown-toggle dropdown-input search-with-dropdown"
+                                                data-toggle="dropdown"></button>
+                                            <input type="text" placeholder="Enter Value" id="facets-search-input"
+                                                class="input-search dropdown-toggle dropdown-input"
+                                                data-toggle="dropdown" autocomplete="off"
+                                                [(ngModel)]="configure.fieldValue">
+                                            <ul class="dropdown-menu content-menu if-shadow-box"
+                                                id="facets-search-with-dropdown-menu">
+                                                <perfect-scrollbar class="scroll-search-field">
+                                                    <li *ngFor="let val of fieldsData| filter : [configure.fieldValue, val]"
+                                                        [id]="val" (click)="configure.fieldValue=val">
+                                                        <a>{{val}}</a>
+                                                    </li>
+                                                </perfect-scrollbar>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="title-checkbox" *ngIf="configure.type=='predefine'">{{configure.fieldValue}}
-                                </div>
-                                <div class="title-checkbox" *ngIf="configure.type=='custom'"><input type="text"
-                                        placeholder="Enter Value" [(ngModel)]="configure.fieldValue" /></div>
                             </div>
-                            <div class="display-name col-6">
+                            <div class="display-name col-5">
                                 <div class="kr-sg-input-text">
                                     <input type="text" placeholder="Enter display name" class="input-text"
                                         [(ngModel)]="configure.bucketName">
                                 </div>
                             </div>
+                            <div class="delete col-1">
+                                <img src="assets/icons/delete-table.svg" (click)="addCustomValue('remove',i)"
+                                    ngbTooltip="Delete" placement="top-center">
+                            </div>
                         </div>
                     </ng-container>
-                    <div class="add-value" (click)="addCustomValue()">
-                        <img src="assets/images/plus-add.svg" /> <span>Custom Value</span>
+                    <div class="add-value" (click)="addCustomValue('add')">
+                        <img src="assets/images/plus-add.svg" /> <span>Add Value</span>
                     </div>
                 </div>
             </ng-container>
