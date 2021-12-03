@@ -1032,14 +1032,23 @@ export class FacetsComponent implements OnInit, OnDestroy {
       //   })
       // })
       let config_data = [];
-      for (const arr1 of this.configuredTabValues) {
-        for (let arr2 of this.currentFacetObj.tabs) {
-          if (arr1.id === arr2.id) {
-            config_data.push({ ...arr1, ...arr2 });
+      if (this.enable_Edit_Facet) {
+        if (this.configuredTabValues.length) {
+          for (const arr1 of this.configuredTabValues) {
+            for (let arr2 of this.currentFacetObj.tabs) {
+              if (arr1.id === arr2.id) {
+                config_data.push({ ...arr1, ...arr2 });
+              }
+            }
+          }
+          this.configuredTabValues = [...new Map(config_data.map(item => [item.fieldValue, item])).values()];
+        }
+        else {
+          for (let data of this.currentFacetObj.tabs) {
+            this.configuredTabValues.push({ bucketName: data.bucketName, fieldValue: data.fieldValue, selected: true, type: 'predefine' });
           }
         }
       }
-      this.configuredTabValues = [...new Map(config_data.map(item => [item.fieldValue, item])).values()];;
       setTimeout(() => {
         const all_checked = this.configuredTabValues.every(element => element.selected === true);
         this.selectAllConfigure = all_checked ? true : false;
