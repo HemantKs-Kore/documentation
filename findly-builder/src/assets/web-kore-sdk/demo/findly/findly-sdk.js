@@ -6985,11 +6985,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('.no-templates-defined-full-results-container').hide();
               }
             }
-            if(!$('body').hasClass('top-down') && !$('.search-data-container').last().children().length){
-              $('#searchChatContainer .messageBubble').last().remove();
-              $('#searchChatContainer .finalResults').last().remove();
-              _self.sendMessageToSearch('bot', 'Unable to find results at this moment');
-            }
+            // if(!$('body').hasClass('top-down') && !$('.search-data-container').last().children().length){
+            //   $('#searchChatContainer .messageBubble').last().remove();
+            //   $('#searchChatContainer .finalResults').last().remove();
+            //   _self.sendMessageToSearch('bot', 'Unable to find results at this moment');
+            // }
           } else {
             var results = res.results.data;
             if (!(res.tabFacet || {}).buckets) {
@@ -7093,21 +7093,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             topMatch = false;
           }
 
-
-          // if ($('body').hasClass('top-down')) {
-          //   _self.previousDataobj = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
-          //   _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true } });
-          // } else {
-          //   _self.pubSub.publish('sa-search-result', dataObj);
-          // }
-
-          // _self.pubSub.publish('sa-source-type', facets);
-          // _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
           if (!$('body').hasClass('top-down')) {
-            // _self.pubSub.publish('sa-faq-search', { container: '.faqs-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-            // _self.pubSub.publish('sa-web-search', { container: '.web-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-            // _self.pubSub.publish('sa-st-data-search', { container: '.structured-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-            // _self.pubSub.publish('sa-file-search', { container: '.files-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
             setTimeout(() => {
               if ($('.messageBubble .userMessage span').last().text() == _self.vars.searchObject.searchText && $('.messageBubble .messageBubble-content .botMessage span:nth-child(2)').last().text() === 'Sure, please find the matched results below') {
                 if ($('#searchChatContainer').prop('offsetHeight') < $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top) {
@@ -7121,6 +7107,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   $('.more-results').css('display', 'block');
                 }
               }
+              if(!$('.search-data-container').last().children().length){
+              $('#searchChatContainer .messageBubble').last().remove();
+              $('#searchChatContainer .finalResults').last().remove();
+              _self.sendMessageToSearch('bot', 'Unable to find results at this moment');
+            }
             }, 500)
           }
           else {
