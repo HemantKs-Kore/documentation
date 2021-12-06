@@ -8473,7 +8473,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.facet:first').addClass(config.selectedClass);
           }
         }
-        if(!$('.full-search-data-container').children().length && doc_count){
+        if((!$('.full-search-data-container').children().length && doc_count && data.selectedFacet !== 'task') || (!$('.full-search-data-container').children().length && doc_count && data.selectedFacet == 'task' && !$('.actions-full-search-container .structured-data-header').length)){
           if(_self.isDev){
             $('.no-templates-defined-full-results-container').show();
           }else{
@@ -8599,7 +8599,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (searchConfigurationCopy && searchConfigurationCopy.botConfig) {
           actionsPosition = searchConfigurationCopy.botConfig.botActionResultsExperience;
         }
-        let actionParentContainer = `<div id="actions-container" class="quick-actions-container"></div>`;
+        let actionParentContainer = `<div id="actions-container" class="quick-actions-container actions-full-search-container"></div>`;
         if (actionsPosition == 'top') {
           $('.content-data-sec').prepend(actionParentContainer);
         } else {
@@ -17378,7 +17378,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
 
           }
-          if(Object.keys(res.results).length === 0){
+          if(Object.keys(res.results).length === 0 && res.tasks.length == 0){
             $('.empty-full-results-container').removeClass('hide');
             $('.no-templates-defined-full-results-container').hide();
           }
@@ -20150,7 +20150,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
       else {
-        actionParentContainer = `<div id="actions-full-search-container" class="quick-actions-full-search-container"></div>`;
+        actionParentContainer = `<div id="actions-full-search-container" class="quick-actions-full-search-container actions-full-search-container"></div>`;
         if (actionsPosition === 'top') {
           $('.data-body-sec').prepend(actionParentContainer);
         } else {
