@@ -369,7 +369,6 @@ export class AppExperimentsComponent implements OnInit {
       limit: 100
     };
     this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
-      console.log("get.indexPipeline", res)
       this.indexConfig = res;
       this.getQueryPipeline(res[0]._id);
     }, errRes => {
@@ -807,17 +806,16 @@ export class AppExperimentsComponent implements OnInit {
         this.filterExperiments = this.filterExperiments.map(data => {
           let hours = moment().diff(moment(data.end), 'hours');
           let days = moment().diff(moment(data.end), 'days');
-          console.log("hours", hours, "days", days)
           let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
           return { ...data, total_days: days_result, time_result: Math.abs(hours) };
         })
       }
       this.listOfExperiments = this.filterExperiments;
       this.countExperiment(this.listOfExperiments);
-      this.selectedTab(this.setTab);
+      const currentStatus = this.setTab == 'all' ? 'all' : status;
+      this.selectedTab(currentStatus);
       this.statusList(this.filterExperiments);
       this.notificationService.notify(`Experiment ${status} `, 'success');
-      console.log("filterExperiments", this.filterExperiments)
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');

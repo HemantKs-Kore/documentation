@@ -318,6 +318,9 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       this.router.navigate(['/resultInsights'], { skipLocationChange: true });
     }, 100)
   }
+  redirectToActions() {
+    this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/botActions' });
+  }
   openExp() {
     $('#experimentsTab').trigger('click')
   }

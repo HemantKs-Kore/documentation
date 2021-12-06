@@ -187,7 +187,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'Failed to get weights');
     });
   }
-  valueEvent(val, weight) {
+  valueEvent(val, weight) { 
     if (!this.sliderOpen) {
       this.disableCancle = false;
     }

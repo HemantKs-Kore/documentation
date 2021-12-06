@@ -97,27 +97,40 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     },
   }
   entityNlp = [
-    { title: 'Date', value: 'date', isDepricated: false },
-    { title: 'Time', value: 'time', isDepricated: false },
-    { title: 'Date Time', value: 'datetime', isDepricated: false },
-    { title: 'Date Period', value: 'dateperiod', isDepricated: false },
-    { title: 'URL', value: 'url', isDepricated: false },
-    { title: 'Email', value: 'email', isDepricated: false },
-    { title: 'Location', value: 'location', isDepricated: false },
-    { title: 'City', value: 'city', isDepricated: false },
-    { title: 'Country', value: 'country', isDepricated: false },
-    { title: 'Color', value: 'color', isDepricated: false },
-    { title: 'Company Name or Organization Name', value: 'company_name', isDepricated: false },
-    { title: 'Currency', value: 'currencyv2', isDepricated: false },
-    { title: 'Person Name', value: 'person_name', isDepricated: false },
-    { title: 'Number', value: 'number', isDepricated: false },
-    { title: 'Percentage', value: 'percentage', isDepricated: false },
-    { title: 'Phone Number', value: 'phone_number', isDepricated: false },
-    { title: 'Zip Code', value: 'zipcode', isDepricated: false },
-    { title: 'Quantity', value: 'quantityv2', isDepricated: false },
-    { title: 'Address', value: 'address', isDepricated: false },
-    { title: 'Airport', value: 'airport', isDepricated: false },
-
+    { title: 'Date', value: 'DATE', isDepricated: false },
+    { title: 'Time', value: 'TIME', isDepricated: false },
+    { title: 'URL', value: 'URL', isDepricated: false },
+    { title: 'Email', value: 'EMAIL', isDepricated: false },
+    { title: 'Location', value: 'LOCATION', isDepricated: false },
+    { title: 'City', value: 'CITY', isDepricated: false },
+    { title: 'Country', value: 'COUNTRY', isDepricated: false },
+    { title: 'Company Name or Organization', value: 'ORGANIZATION', isDepricated: false },
+    { title: 'Currency', value: 'MONEY', isDepricated: false },
+    { title: 'Person Name', value: 'PERSON', isDepricated: false },
+    { title: 'Number', value: 'NUMBER', isDepricated: false },
+    { title: 'Percentage', value: 'PERCENTAGE', isDepricated: false },
+    /** Existing  */
+    // { title: 'Date', value: 'date', isDepricated: false },
+    // { title: 'Time', value: 'time', isDepricated: false },
+    // { title: 'Date Time', value: 'datetime', isDepricated: false },
+    // { title: 'Date Period', value: 'dateperiod', isDepricated: false },
+    // { title: 'URL', value: 'url', isDepricated: false },
+    // { title: 'Email', value: 'email', isDepricated: false },
+    // { title: 'Location', value: 'location', isDepricated: false },
+    // { title: 'City', value: 'city', isDepricated: false },
+    // { title: 'Country', value: 'country', isDepricated: false },
+    // { title: 'Color', value: 'color', isDepricated: false },
+    // { title: 'Company Name or Organization Name', value: 'company_name', isDepricated: false },
+    // { title: 'Currency', value: 'currencyv2', isDepricated: false },
+    // { title: 'Person Name', value: 'person_name', isDepricated: false },
+    // { title: 'Number', value: 'number', isDepricated: false },
+    // { title: 'Percentage', value: 'percentage', isDepricated: false },
+    // { title: 'Phone Number', value: 'phone_number', isDepricated: false },
+    // { title: 'Zip Code', value: 'zipcode', isDepricated: false },
+    // { title: 'Quantity', value: 'quantityv2', isDepricated: false },
+    // { title: 'Address', value: 'address', isDepricated: false },
+    // { title: 'Airport', value: 'airport', isDepricated: false },
+    /** Existing  */
     // { title: 'Attachment(Image / File)', value: 'attachment', isDepricated: false },
     // {"title": "City (Advanced)", "value": "cityAdv", "isDepricated": false},
     // {"title": "City with Geo Coordinates", "value": "city_coordinates"},
@@ -715,6 +728,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   saveConfig(index?, dialogRef?) {
+    let plainScriptTxt : any;
+    if(this.newMappingObj && this.newMappingObj.custom_script && 
+      this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
+      plainScriptTxt = this.newMappingObj.custom_script.defaultValue.script;
+    }
     let indexArrayLength: any = this.validateConditionForRD();
     if (indexArrayLength) {
       this.removeExcludeDocumentStage(indexArrayLength, true);
@@ -762,9 +780,19 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.clearDirtyObj();
         this.setResetNewMappingsObj(null, true);
+         /** Workbench plain text temp */
+         if(this.newMappingObj && this.newMappingObj.custom_script && 
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
+         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
       }, errRes => {
         this.savingConfig = false;
         this.errorToaster(errRes, 'Failed to save configurations');
+         /** Workbench plain text temp */
+         if(this.newMappingObj && this.newMappingObj.custom_script && 
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
+         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
       });
     }
 
@@ -858,6 +886,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filteredSimulatorRes = JSON.stringify(data, null, ' ');
   }
   simulate() {
+    let plainScriptTxt : any;
+    if(this.newMappingObj && this.newMappingObj.custom_script && 
+      this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
+      plainScriptTxt = this.newMappingObj.custom_script.defaultValue.script;
+    }
     let indexArrayLength: any = this.validateConditionForRD();
     if (indexArrayLength) {
       this.removeExcludeDocumentStage(indexArrayLength, false);
@@ -903,6 +936,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.simulteObj.currentSimulateAnimi = -1;
         this.simulteObj.simulationInprogress = false;
+        /** Workbench plain text temp */
+        if(this.newMappingObj && this.newMappingObj.custom_script && 
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
+         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
       }, errRes => {
         this.simulating = false;
         this.simulteObj.simulating = false;
@@ -916,6 +954,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           this.pollingSubscriber.unsubscribe();
         }
         this.simulteObj.currentSimulateAnimi = -1;
+        /** Workbench plain text temp */
+        if(this.newMappingObj && this.newMappingObj.custom_script && 
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
+         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
         this.errorToaster(errRes, 'Failed to get stop words');
       });
     }
@@ -1301,6 +1344,14 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     return true;
+  }
+  onSourcefieldChange(event,parent,no,e){
+    // console.log(event,parent,no)
+    // e.stopPropagation();
+    // $(this).next('.dropdown-toggle').find('[data-toggle=dropdown]').dropdown('toggle');
+    // parent.classList.add('show')
+    // parent.children[1].classList.add('show');
+    // parent.children[1].style.top ="0px";
   }
   addFiledmappings(map, isNotDefault?) {
     this.changesDetected = true;
