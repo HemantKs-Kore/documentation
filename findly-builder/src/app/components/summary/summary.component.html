@@ -257,7 +257,7 @@
               <div class="query-type border-">
                 <div class="title-query"><img src="assets/icons/overview/question.svg">{{'plan.queries' | translate}}
                 </div>
-                <div class="range-data">
+                <div class="range-data" *ngIf="usageDetails?.searchCount">
                   <div class="count-type">{{usageDetails?.searchCount | valueFormat}} /
                     <span>{{usageDetails?.searchLimit| valueFormat}}</span>
                   </div>
@@ -270,7 +270,7 @@
               <div class="query-type">
                 <div class="title-query"><img src="assets/icons/overview/document.svg">{{'plan.documents' | translate}}
                 </div>
-                <div class="range-data">
+                <div class="range-data" *ngIf="usageDetails?.ingestCount">
                   <div class="count-type">{{usageDetails?.ingestCount| valueFormat}} /
                     <span>{{usageDetails?.ingestLimit| valueFormat}}</span>
                   </div>
