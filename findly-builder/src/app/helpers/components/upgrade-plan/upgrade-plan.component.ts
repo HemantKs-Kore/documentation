@@ -285,7 +285,7 @@ export class UpgradePlanComponent implements OnInit {
   submitEnterpriseRequest() {
     this.btnDisable = true;
     this.selectedApp = this.workflowService.selectedApp();
-    const queryParams = { "streamId": this.selectedApp._id };
+    const queryParams = { "streamId": this.selectedApp?._id };
     const enterpriseRequest = this.service.invoke('post.enterpriseRequest', queryParams, this.enterpriseForm);
     enterpriseRequest.subscribe(res => {
       this.btnDisable = false;
