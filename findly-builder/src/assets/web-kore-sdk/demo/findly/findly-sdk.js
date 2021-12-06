@@ -15558,6 +15558,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           {{/if}}\
                       </li>\
                     {{/each}}\
+                    <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
+                        <div>Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+                  </div>\
                   </ul>\
                   <!-- <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div> -->\
                 {{/if}}\
@@ -16497,8 +16500,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(container).last().append(dataHTML);
         } else {
           if (data.dataObj.ShowMoreData) {
+            if (viewType === 'Customize' && devMode && data.isFullResults) {
+              $(dataHTML).find(".show-more-list").remove();
+              $(".full-search-data-container [templateName=" + data.dataObj.ShowMoreData.templateName + "]").before($(dataHTML).find(".tile-with-text-parent").children());
+            } else {
             $(dataHTML).children(".show-more-list").remove();
             $(".full-search-data-container [templateName=" + data.dataObj.ShowMoreData.templateName + "]").before($(dataHTML).children());
+            }
+            
             if ((Number($(".full-search-data-container [templateName=" + data.dataObj.ShowMoreData.templateName + "]").attr('pageNumber')) + 1) * 5 >= doc_count) {
               $(".full-search-data-container [templateName=" + data.dataObj.ShowMoreData.templateName + "]").hide();
             }
