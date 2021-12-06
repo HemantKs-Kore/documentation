@@ -151,7 +151,7 @@ export class ResultInsightsComponent implements OnInit {
     this.dateType = type;
     this.getQueries('Results');
   }
-  getQueries(type,sortHeaderOption?,sortValue?,navigate?,request?) {
+  getQueries(type,sortHeaderOption?,sortValue?,navigate?,request?,searchSource?) {
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
     var week = new Date(Date.now() - (6 * 864e5));
@@ -191,10 +191,18 @@ export class ResultInsightsComponent implements OnInit {
         from: this.startDate.toJSON(),//from.toJSON(),
         to: this.endDate.toJSON()
       },
-      if(sortHeaderOption){
-        request
-      }
     }
+
+    if(sortHeaderOption){
+        payload.sort ={
+         order : sortValue,
+         by: sortHeaderOption
+        }
+     }
+     if(searchSource){
+       payload.search =searchSource
+     }
+
     if (type == 'SearchQueriesForResult') {
       payload.result = this.resultQueryAnswer;
     }
@@ -216,7 +224,7 @@ export class ResultInsightsComponent implements OnInit {
       }
     });
   }
-  sortAnalytics(type?, sortHeaderOption?,sortValue?,navigate?){
+  sortAnalytics(type?, sortHeaderOption?,sortValue?,navigate?,searchSource?,searchValue?){
     if(sortValue){
       this.sortedObject = {
         type : sortHeaderOption,
@@ -273,14 +281,14 @@ export class ResultInsightsComponent implements OnInit {
           request.sort.by = sortHeaderOption
         }
        
-       if(this.searchSources){
-        request.search = this.searchSources;
+       if(searchSource){
+        request.search = searchSource;
       }
    
     
     // end
     }
-    this.getQueries(type,sortHeaderOption,sortValue,navigate,request)
+    this.getQueries(type,sortHeaderOption,sortValue,navigate,request,searchSource)
   }
   sortByApi(type,sort){
     this.selectedSort = sort;

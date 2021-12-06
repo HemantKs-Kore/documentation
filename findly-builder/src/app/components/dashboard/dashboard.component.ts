@@ -215,7 +215,10 @@ export class DashboardComponent implements OnInit {
       },
     }
     if(sortHeaderOption){
-      payload = request
+      payload.sort ={
+        order : sortValue,
+        by: sortHeaderOption
+       }
     }
     if (type == "TotalUsersStats" || type == "TotalSearchesStats") {
       //payload.group = this.group 
