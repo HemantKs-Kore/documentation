@@ -15127,6 +15127,9 @@ a.tile-heading{
     color: #202124;
     margin-bottom: 8px;
     text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Template 1 */
