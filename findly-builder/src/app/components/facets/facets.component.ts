@@ -452,9 +452,9 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.facets = res || [];
       //this.facets = this.defaultSortingAFacet(this.facets);
       this.facets.forEach(element => {
-        this.statusArr.push(element.isFacetActive);
-        this.docTypeArr.push(element.facetType);
-        this.selectTypeArr.push(element.isMultiSelect);
+        this.statusArr.push(element.active);
+        this.docTypeArr.push(element.type);
+        this.selectTypeArr.push(element.multiselect);
       });
 
       this.statusArr = [...new Set(this.statusArr)];
@@ -715,7 +715,6 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
 
   filterTable(source, headerOption) {
-    console.log(this.facets, source, headerOption);
     this.filterSystem.typefilter = 'all';
     this.filterSystem.selectFilter = 'all';
     this.filterSystem.statusFilter = 'all';
@@ -734,17 +733,17 @@ export class FacetsComponent implements OnInit, OnDestroy {
     let tempFacets = this.beforeFilterFacets.filter((facet: any) => {
       if (source !== 'all') {
         if (headerOption === 'facetType') {
-          if (facet.facetType === source) {
+          if (facet.type === source) {
             return facet;
           }
         }
         if (headerOption === 'isMultiSelect') {
-          if (facet.isMultiSelect === source) {
+          if (facet.multiselect === source) {
             return facet;
           }
         }
         if (headerOption === 'statusType') {
-          if (facet.isFacetActive === source) {
+          if (facet.active === source) {
             return facet;
           }
         }
@@ -813,7 +812,10 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.currentFacetTab = data.type;
       this.currentFieldId = data.fieldId;
       this.facetType = this.facetType.filter(ele => ele.type === data.type);
-      this.configuredTabValues = this.currentFacetObj?.tabs;
+      // this.configuredTabValues = this.currentFacetObj?.tabs;
+      for (let item of this.currentFacetObj?.tabs) {
+        this.configuredTabValues.push(item);
+      }
       if (data.type === 'tab') {
         this.facets.forEach((ele) => {
           if (ele.type === 'tab') {
@@ -824,6 +826,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }
     else {
       this.currentTab('filter');
+      this.tab_configure_filed_name = 'Search';
     }
     this.facetModalRef1 = this.facetModalPopupNew.open();
   }

@@ -430,7 +430,7 @@ export class ResultTemplatesComponent implements OnInit {
     }
     else if (type === 'delete') {
       this.resultListObj.groupSetting.conditions.splice(index, 1);
-      this.updateSettings();
+      this.updateSettings('', 'delete');
     }
   }
   //result group configuration popup
@@ -457,7 +457,7 @@ export class ResultTemplatesComponent implements OnInit {
       })
   }
   //update settings
-  updateSettings(dialogRef?) {
+  updateSettings(dialogRef?, type?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       settingsId: this.settingsId,
@@ -469,7 +469,7 @@ export class ResultTemplatesComponent implements OnInit {
     }
     this.service.invoke('update.settings', quaryparms, this.resultListObj).subscribe((res: any) => {
       if (res) {
-        this.notificationService.notify('Result setting saved successfully', 'success');
+        this.notificationService.notify(`Result setting ${type === 'delete' ? 'deleted' : 'saved'} successfully`, 'success');
         if (dialogRef) {
           dialogRef.close();
           this.closeCustomModal();

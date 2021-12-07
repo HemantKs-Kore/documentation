@@ -7,16 +7,20 @@
   <div class="header_sec">
     <div class="title">Result Templates</div>
     <div class="right-side-copy-configs">
-      <div class="kr-sg-dropdowns copy-config-dropdown" ngbDropdown [placement]="'bottom-right'">
+      <div class="kr-sg-dropdowns copy-config-dropdown" ngbDropdown [placement]="'bottom-right'" autoClose="outside"
+        #myDrop="ngbDropdown">
         <div class="dropdown dropdown-open">
           <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
             (click)="$event.stopPropagation();copyConfiguration('close');">
             <img src="assets/icons/resultTemplate/copy.svg">
             <span class="title">Copy Configuration</span>
           </button>
-          
+
           <ul class="dropdown-menu content-menu copy-config-dropdown-content" ngbDropdownMenu>
-            <div class="overlay-div"></div>
+            <!-- <div class="overlay-div"></div> -->
+            <div class="close-icon" (click)="$event.stopPropagation();myDrop.close();"><img src="assets/icons/close.svg"
+                height="11">
+            </div>
             <div class="info-copy">Choose whether to apply the same configurations as per previous settings or configure
               the templates separately here</div>
             <div class="main-title">Apply configurations from</div>
@@ -37,7 +41,7 @@
       </div>
       <!-- <button class="kr-sg-button-primary btn_lg">Preview</button> -->
     </div>
-    <button class = "kr-sg-button-primary btn_lg" (click)="$event.stopPropagation();updateSettings()">
+    <button class="kr-sg-button-primary btn_lg" (click)="$event.stopPropagation();updateSettings()">
       <span class="">Save</span>
     </button>
   </div>
@@ -484,8 +488,7 @@
                   && templateDataBind.layout.layoutType == 'l2' && templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-2-classic-list col-11 mb-3 p-0"
-                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="template-2-classic-list col-11 mb-3 p-0">
                         <div class="classic-list-item" *ngFor="let data of [0,1]">
                           <span>Description comes here, description comes here, description comes here, description
                             comes
@@ -498,8 +501,7 @@
                     && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-2-classic-list-collapse col-11 mb-3 p-0"
-                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="template-2-classic-list-collapse col-11 mb-3 p-0">
                         <div class="collapse-item-list" *ngFor="let data of [0,1]">
                           <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo">
                             Description
@@ -515,8 +517,7 @@
                   && templateDataBind.layout.layoutType == 'l2' && templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-2-plain-list col-11 mb-3 p-0"
-                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="template-2-plain-list col-11 mb-3 p-0">
                         <div class="plain-list-item" *ngFor="let data of [0,1]">
                           <span>Description comes here, description comes here, description comes here, description
                             comes
@@ -530,8 +531,7 @@
                   && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-2-plain-list-collapse col-11 mb-3 p-0"
-                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="template-2-plain-list-collapse col-11 mb-3 p-0">
                         <div class="collapse-item-list" *ngFor="let data of [0,1]">
                           <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo3">Description
                             comes here, description comes here, description comes here, description comes here,
@@ -695,8 +695,7 @@
                   && templateDataBind.layout.layoutType == 'l3' && templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-3-classic-list col-11 mb-3 p-0"
-                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="template-3-classic-list col-11 mb-3 p-0">
                         <!-- <div class="title-text-heading">{{templateDataBind?.layout?.title}}</div> -->
                         <div class="classic-list-item" *ngFor="let data of [0,1]">
                           <div class="heading-text">Heading comes here</div>
@@ -711,8 +710,7 @@
                   && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-3-classic-list-collapse col-11 mb-3 p-0"
-                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="template-3-classic-list-collapse col-11 mb-3 p-0">
                         <!-- <div class="title-text-heading">Template title comes here</div> -->
                         <div class="collapse-item-list" *ngFor="let data of [0,1]">
                           <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo20">
@@ -733,8 +731,7 @@
                 && templateDataBind.layout.layoutType == 'l3' && templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-3-plain-list col-11 mb-3 p-0"
-                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="template-3-plain-list col-11 mb-3 p-0">
                         <!-- <div class="title-text-heading mb-1">Template title comes here</div> -->
                         <div class="plain-list-item" *ngFor="let data of [0,1]">
                           <div class="heading-text">Heading comes here</div>
@@ -749,8 +746,7 @@
                 && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-3-plain-list-collapse col-11 mb-3 p-0"
-                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="template-3-plain-list-collapse col-11 mb-3 p-0">
                         <!-- <div class="title-text-heading mb-1">Template title comes here</div> -->
                         <div class="collapse-item-list" *ngFor="let data of [0,1]">
                           <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo22">
@@ -868,8 +864,7 @@
                   && templateDataBind.layout.layoutType == 'l4' && templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-4-classic-list col-11 mb-3 p-0"
-                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="template-4-classic-list col-11 mb-3 p-0">
                         <div class="classic-list-item">
                           <div class="img-block">
                             <img src="assets/icons/resultTemplate/skelton-small.svg">
@@ -899,8 +894,7 @@
                   && templateDataBind.layout.layoutType == 'l4' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-4-classic-list-collapse col-11 mb-3 p-0"
-                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="template-4-classic-list-collapse col-11 mb-3 p-0">
                         <div class="collapse-item-list" *ngFor="let data of [0,1]">
                           <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo31">
                             <div class="heading-text">Heading comes here</div>
@@ -926,8 +920,7 @@
                   && templateDataBind.layout.layoutType == 'l4' && templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-4-plain-list col-11 mb-3 p-0"
-                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="template-4-plain-list col-11 mb-3 p-0">
                         <div class="plain-list-item" *ngFor="let data of [0,1]">
                           <div class="img-block">
                             <img src="assets/icons/resultTemplate/skelton-small.svg">
@@ -946,8 +939,7 @@
                   && templateDataBind.layout.layoutType == 'l4' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-4-plain-list-collapse col-11 mb-3 p-0"
-                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="template-4-plain-list-collapse col-11 mb-3 p-0">
                         <div class="collapse-item-list" *ngFor="let data of [0,1]">
                           <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo33">
                             <div class="heading-text">Heading comes here</div>
@@ -1828,7 +1820,8 @@
                       <input type="text" placeholder="Search Field" id="facets-search-input"
                         class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
                         [class.err-block]="(!(preview_title?.length) && submitted)"
-                        (change)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="preview_title">
+                        (keyup)="searchlist('heading',$event.target.value,fieldData)"
+                        (focus)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="preview_title">
                       <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu">
                         <perfect-scrollbar class="scroll-search-field">
                           <li *ngFor="let field of heading_fieldData" [id]="field._id"

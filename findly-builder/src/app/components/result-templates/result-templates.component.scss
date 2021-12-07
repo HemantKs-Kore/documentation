@@ -84,15 +84,21 @@
                     right: 0 !important;
                     top: 32px !important;
                     will-change: auto !important;
-                    .overlay-div{
-                        position: fixed;
-                        width: calc(100% - 485px);
-                        height: calc(100% - 120px);
-                        right: 0;
-                        top: 120px;
-                        background: #FFFFFF;
-                        opacity: 0.5;
-                        z-index: -1;
+                    // .overlay-div{
+                    //     position: fixed;
+                    //     width: calc(100% - 485px);
+                    //     height: calc(100% - 120px);
+                    //     right: 0;
+                    //     top: 120px;
+                    //     background: #FFFFFF;
+                    //     opacity: 0.5;
+                    //     z-index: -1;
+                    // }
+                    .close-icon{
+                        right: 20px;
+                        top: 15px;
+                        position: absolute;
+                        cursor: pointer;
                     }
                     &::before{
                         content: "";
@@ -453,6 +459,9 @@
     line-height: 17px;
     color: #202124;
     margin-bottom: 8px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 // Template 1
@@ -588,7 +597,7 @@
     }
 }
 
-.template-2-classic-list-collapse{
+.template-2-classic-list-collapses{
     .collapse-item-list{
         background: #FFFFFF;
         box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);

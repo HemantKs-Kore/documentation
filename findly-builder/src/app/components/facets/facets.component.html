@@ -137,8 +137,7 @@
                                         src="assets/icons/check-blue.svg"></li>
                                 <li *ngFor="let docType of docTypeArr"
                                     (click)="typeFilter.close();filterTable(docType,'facetType')">
-                                    <span class="list-name">{{docType == 'value' ? 'Value' : (docType == 'range' ?
-                                        'Range' : 'Other')}}</span><img
+                                    <span class="list-name">{{docType|titlecase}}</span><img
                                         [ngClass]="{'hide': filterSystem.typefilter !== docType}"
                                         src="assets/icons/check-blue.svg">
                                 </li>
@@ -169,8 +168,8 @@
                                         src="assets/icons/check-blue.svg"></li>
                                 <li *ngFor="let docType of selectTypeArr"
                                     (click)="selectFilter.close();filterTable(docType,'isMultiSelect')">
-                                    <span class="list-name">{{docType == false ? 'No' :(docType == true? 'Yes':
-                                        '')}}</span><img [ngClass]="{'hide': filterSystem.selectFilter !== docType}"
+                                    <span class="list-name">{{docType == false ? 'No' :'Yes'}}</span><img
+                                        [ngClass]="{'hide': filterSystem.selectFilter !== docType}"
                                         src="assets/icons/check-blue.svg">
                                 </li>
                             </ul>
@@ -245,7 +244,7 @@
                                 </div>
                             </div>
                             <div class="col-2 content pl-pr-17">{{(facet.type|titlecase) | translate}}</div>
-                            <div class="col-2 content pl-pr-17">{{facet.isMultiSelect?'Yes':'No' | translate}}</div>
+                            <div class="col-2 content pl-pr-17">{{facet.multiselect?'Yes':'No' | translate}}</div>
                             <div class="col-3 content pl-pr-17">
                                 <!-- <span [class.inActive]="!facet.isFacetActive"
                                     [class.active]="facet.isFacetActive">{{(facet.isFacetActive?'facets.active':'facets.inactive')
