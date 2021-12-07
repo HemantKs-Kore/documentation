@@ -7463,7 +7463,7 @@ color: #9aa0a6;
     padding: 30px 20px 50px 20px;
     position: absolute;
     bottom: 41px; */
-    z-index: 1;
+    z-index: 10;
     /* background: var(--sdk-white-bg); */
     /* border-radius: 15px 15px 0 0;  */
     /* box-shadow: -7px 4px 30px rgba(18, 61, 101, 0.2), inset -8px -6px 80px rgba(255, 255, 255, 0.18); */
