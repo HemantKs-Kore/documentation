@@ -3586,7 +3586,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
               facets = facets.concat((res.tabFacet || {}).buckets || [])
               facets = _self.rearrangeTabsList(facets);
-              facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+              if((res.tasks || []).length){
+            facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+          }
               _self.vars.tabsList = facets;
               _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
               _self.pubSub.publish('sa-source-type', facets);
@@ -5354,7 +5356,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
           facets = facets.concat((res.tabFacet || {}).buckets || [])
           facets = _self.rearrangeTabsList(facets);
-          facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+          if((res.tasks || []).length){
+            facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+          }
           _self.vars.tabsList = facets;
           _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
           _self.pubSub.publish('sa-source-type', facets);
@@ -7308,7 +7312,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
           facets = facets.concat((res.tabFacet || {}).buckets || [])
           facets = _self.rearrangeTabsList(facets);
-          facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+          if((res.tasks || []).length){
+            facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+          }
           _self.vars.tabsList = facets;
           if (!_self.vars.searchObject.liveData) {
             _self.vars.searchObject.liveData = { facets: facets };
