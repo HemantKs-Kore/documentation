@@ -2921,3 +2921,14 @@ display: none !important;
     padding: 6px;
     width: 280px !important;
 }
+.sdk-top-down-interface .scroll-top-container{
+  position: fixed;
+  bottom: 15px;
+  width: 100%;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  display: none;
+}
