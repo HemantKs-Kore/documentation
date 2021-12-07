@@ -501,7 +501,7 @@
                     && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-2-classic-list-collapse col-11 mb-3 p-0">
+                      <div class="template_2_classic_list_collapse col-11 mb-3 p-0">
                         <div class="collapse-item-list" *ngFor="let data of [0,1]">
                           <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo">
                             Description
@@ -531,7 +531,7 @@
                   && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-2-plain-list-collapse col-11 mb-3 p-0">
+                      <div class="template_2_plain_list_collapse col-11 mb-3 p-0">
                         <div class="collapse-item-list" *ngFor="let data of [0,1]">
                           <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo3">Description
                             comes here, description comes here, description comes here, description comes here,
@@ -563,13 +563,14 @@
                   && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-2-classic-list-collapse-result col-11 mb-3">
-                        <div class="collapse-item-list-result">
-                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo11">
+                      <div class="template_2_classic_list_collapse_result col-11 mb-3">
+                        <div class="collapse-item-list-result" *ngFor="let data of [0,1];let i=index;">
+                          <div class="classic-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demo' + i">
                             Description comes here, description comes here, description comes here, description comes
                             here, description comes here, des cription comes here, description comes here, description
                             comes here, description comes here, description comes here, descri...</div>
-                          <div id="demo11" class="collapse"></div>
+                          <div id="demo{{i}}" class="collapse"></div>
                         </div>
                         <div class="show-more-list">
                           Show more <img src="assets/icons/resultTemplate/carrotup.svg">
@@ -598,14 +599,15 @@
                   && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-2-plain-list-collapse-result col-11 mb-3">
-                        <div class="collapse-item-list-result" *ngFor="let data of [0,1]">
-                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo12">
+                      <div class="template_2_plain_list_collapse_result col-11 mb-3">
+                        <div class="collapse-item-list-result" *ngFor="let data of [0,1];let i=index;">
+                          <div class="plain-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demol2' + i">
                             Description
                             comes here, description comes here, description comes here, description comes here,
                             description comes here, des cription comes here, description comes here, description comes
                             here, description comes here, description comes here, descri...</div>
-                          <div id="demo12" class="collapse"></div>
+                          <div id="demol2{{i}}" class="collapse"></div>
                         </div>
                         <div class="show-more-list">
                           Show more <img src="assets/icons/resultTemplate/carrotup.svg">
@@ -710,7 +712,7 @@
                   && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-3-classic-list-collapse col-11 mb-3 p-0">
+                      <div class="template_3_classic_list_collapse col-11 mb-3 p-0">
                         <!-- <div class="title-text-heading">Template title comes here</div> -->
                         <div class="collapse-item-list" *ngFor="let data of [0,1]">
                           <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo20">
@@ -746,7 +748,7 @@
                 && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-3-plain-list-collapse col-11 mb-3 p-0">
+                      <div class="template_3_plain_list_collapse col-11 mb-3 p-0">
                         <!-- <div class="title-text-heading mb-1">Template title comes here</div> -->
                         <div class="collapse-item-list" *ngFor="let data of [0,1]">
                           <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo22">
@@ -785,9 +787,10 @@
                 && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-3-classic-list-collapse-result col-11 mb-3">
-                        <div class="collapse-item-list-result" *ngFor="let data of [0,1]">
-                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo26">
+                      <div class="template_3_classic_list_collapse_result col-11 mb-3">
+                        <div class="collapse-item-list-result" *ngFor="let data of [0,1];let i=index;">
+                          <div class="classic-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demol3' + i">
                             <div class="heading-text">Heading comes here</div>
                             <div class="text-desc">Description comes here, description comes here, description comes
                               here,
@@ -796,7 +799,7 @@
                               ion comes here, description comes here, description comes here, description comes here,
                               description comes here, description...</div>
                           </div>
-                          <div id="demo26" class="collapse"></div>
+                          <div id="demol3{{i}}" class="collapse"></div>
                         </div>
                         <div class="show-more-list">
                           Show more <img src="assets/icons/resultTemplate/carrotup.svg">
@@ -825,7 +828,7 @@
                 && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-3-plain-list-collapse-result col-11 mb-3">
+                      <div class="template_3_plain_list_collapse_result col-11 mb-3">
                         <div class="collapse-item-list-result">
                           <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo29">
                             <div class="heading-text">Heading comes here</div>
@@ -895,8 +898,9 @@
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
                       <div class="template-4-classic-list-collapse col-11 mb-3 p-0">
-                        <div class="collapse-item-list" *ngFor="let data of [0,1]">
-                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo31">
+                        <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
+                          <div class="classic-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demol4' + i">
                             <div class="heading-text">Heading comes here</div>
                             <div class="content_sec">
                               <div class="img-block">
@@ -911,7 +915,7 @@
                                 here, description comes here, description...</div>
                             </div>
                           </div>
-                          <div id="demo31" class="collapse"></div>
+                          <div id="demol4{{i}}" class="collapse"></div>
                         </div>
                       </div>
                     </ng-container>
@@ -988,8 +992,9 @@
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
                       <div class="template-4-classic-list-collapse-result col-11 mb-3">
-                        <div class="collapse-item-list-result" *ngFor="let data of [0,1]">
-                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo41">
+                        <div class="collapse-item-list-result" *ngFor="let data of [0,1];let i=index;">
+                          <div class="classic-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demol41' + i">
                             <div class="heading-text">Heading comes here</div>
                             <div class="content_sec">
                               <div class="img-block">
@@ -1004,7 +1009,7 @@
                                 here, description comes here, description...</div>
                             </div>
                           </div>
-                          <div id="demo41" class="collapse"></div>
+                          <div id="demol41{{i}}" class="collapse"></div>
                         </div>
                         <div class="show-more-list">
                           Show more <img src="assets/icons/resultTemplate/carrotup.svg">
@@ -1039,8 +1044,9 @@
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
                       <div class="template-4-plain-list-collapse-result col-11 mb-3">
-                        <div class="collapse-item-list-result" *ngFor="let data of [0,1]">
-                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo43">
+                        <div class="collapse-item-list-result" *ngFor="let data of [0,1];let i=index;">
+                          <div class="plain-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demo43' + i">
                             <div class="heading-text">Heading comes here</div>
                             <div class="content_sec">
                               <div class="img-block">
@@ -1055,7 +1061,7 @@
                                 here, description comes here, description...</div>
                             </div>
                           </div>
-                          <div id="demo43" class="collapse"></div>
+                          <div id="demo43{{i}}" class="collapse"></div>
                         </div>
                         <div class="show-more-list">
                           Show more <img src="assets/icons/resultTemplate/carrotup.svg">
@@ -1210,7 +1216,7 @@
                     <ng-container>
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-5-grid-list row col-11 mb-3"
+                      <div class="template_5_grid_list row col-11 mb-3"
                         [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="grid-data-item col-4" *ngFor="let data of [0,1,2]">
                           <div class="inner-content-list">
@@ -1278,7 +1284,7 @@
                     <ng-container>
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-7-grid-list row col-11 mb-3"
+                      <div class="template_7_grid_list row col-11 mb-3"
                         [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="grid-data-item col-4" *ngFor="let data of [0,1,2]">
                           <div class="inner-content-list">
@@ -1314,7 +1320,7 @@
                     <ng-container>
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-9-grid-list row col-11 mb-3"
+                      <div class="template_9_grid_list row col-11 mb-3"
                         [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="grid-data-item col-4" *ngFor="let data of [0,1,2]">
                           <div class="inner-content-list">
@@ -1643,7 +1649,7 @@
                         <!-- The slideshow -->
                         <div class="carousel-inner">
                           <div class="carousel-item active">
-                            <div class="template-7-grid-list row col-12 m-0 p-2">
+                            <div class="template_7_grid_list row col-12 m-0 p-2">
                               <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
                                 <div class="inner-content-list">
                                   <div class="main-img-block">
@@ -1657,7 +1663,7 @@
                             </div>
                           </div>
                           <div class="carousel-item">
-                            <div class="template-7-grid-list row col-12 m-0 p-2">
+                            <div class="template_7_grid_list row col-12 m-0 p-2">
                               <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
                                 <div class="inner-content-list">
                                   <div class="main-img-block">
@@ -1745,7 +1751,7 @@
                         <!-- The slideshow -->
                         <div class="carousel-inner">
                           <div class="carousel-item active">
-                            <div class="template-9-grid-list row col-12 m-0 p-2">
+                            <div class="template_9_grid_list row col-12 m-0 p-2">
                               <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
                                 <div class="inner-content-list">
                                   <div class="main-img-block">
@@ -1759,7 +1765,7 @@
                             </div>
                           </div>
                           <div class="carousel-item">
-                            <div class="template-9-grid-list row col-12 m-0 p-2">
+                            <div class="template_9_grid_list row col-12 m-0 p-2">
                               <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
                                 <div class="inner-content-list">
                                   <div class="main-img-block">
@@ -1810,8 +1816,7 @@
                 *ngIf="['l1','l3','l4','l6','l7','l9'].includes(templateDataBind.layout.layoutType)">
                 <div class="label-text mb-1">Heading</div>
                 <div class="row m-0 align-items-center">
-                  <div class="kr-sg-dropdowns">
-                    <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
+                  <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'" #headDrop="ngbDropdown">
                     <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                       <img src="assets/icons/search_gray.svg" class="search-icon">
                       <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
@@ -1820,12 +1825,14 @@
                       <input type="text" placeholder="Search Field" id="facets-search-input"
                         class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
                         [class.err-block]="(!(preview_title?.length) && submitted)"
-                        (keyup)="searchlist('heading',$event.target.value,fieldData)"
-                        (focus)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="preview_title">
-                      <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu">
+                        (keyup)="searchlist('heading',$event.target.value,fieldData)" (keypress)="headDrop.open();"
+                        (focus)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="preview_title"
+                        ngbDropdownToggle>
+                      <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu"
+                        ngbDropdownMenu>
                         <perfect-scrollbar class="scroll-search-field">
                           <li *ngFor="let field of heading_fieldData" [id]="field._id"
-                            (click)="filedSelect('heading',field)" class="p-0">
+                            (click)="filedSelect('heading',field);headDrop.close();" class="p-0">
                             <a>{{field.fieldName}}</a>
                           </li>
                         </perfect-scrollbar>
@@ -1839,7 +1846,7 @@
                 *ngIf="['l2','l3','l4','l6','l7','l8','l9'].includes(templateDataBind.layout.layoutType)">
                 <div class="label-text mb-1">Description</div>
                 <div class="row m-0 align-items-center">
-                  <div class="kr-sg-dropdowns">
+                  <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'" #descDrop="ngbDropdown">
                     <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
                     <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                       <img src="assets/icons/search_gray.svg" class="search-icon">
@@ -1850,11 +1857,15 @@
                         class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
                         [class.err-block]="(!(preview_desc?.length) && submitted)"
                         (keyup)="searchlist('description',$event.target.value,fieldData)"
-                        (focus)="searchlist('description',$event.target.value,fieldData)" [(ngModel)]="preview_desc">
-                      <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu">
+                        (focus)="searchlist('description',$event.target.value,fieldData)" (keypress)="descDrop.open();"
+                        [(ngModel)]="preview_desc" ngbDropdownToggle>
+                      <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu"
+                        ngbDropdownMenu>
                         <perfect-scrollbar class="scroll-search-field">
                           <li *ngFor="let field of desc_fieldData" [id]="field._id"
-                            (click)="filedSelect('description',field)" class="p-0"><a>{{field.fieldName}}</a></li>
+                            (click)="filedSelect('description',field);descDrop.close();" class="p-0">
+                            <a>{{field.fieldName}}</a>
+                          </li>
                         </perfect-scrollbar>
                       </ul>
                     </div>
@@ -1866,7 +1877,7 @@
                 *ngIf="['l4','l5','l6','l7','l8','l9'].includes(templateDataBind.layout.layoutType)">
                 <div class="label-text mb-1">Image</div>
                 <div class="row m-0 align-items-center">
-                  <div class="kr-sg-dropdowns">
+                  <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'" #imgDrop="ngbDropdown">
                     <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
                     <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                       <img src="assets/icons/search_gray.svg" class="search-icon">
@@ -1877,10 +1888,13 @@
                         class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
                         [class.err-block]="(!(preview_img?.length) && submitted)"
                         (keyup)="searchlist('image',$event.target.value,fieldData)"
-                        (focus)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="preview_img">
-                      <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
+                        (focus)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="preview_img"
+                        (keypress)="imgDrop.open();" ngbDropdownToggle>
+                      <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu"
+                        ngbDropdownMenu>
                         <perfect-scrollbar class="scroll-search-field">
-                          <li *ngFor="let field of img_fieldData" [id]="field._id" (click)="filedSelect('image',field)">
+                          <li *ngFor="let field of img_fieldData" [id]="field._id"
+                            (click)="filedSelect('image',field);imgDrop.close();">
                             <a>{{field.fieldName}}</a>
                           </li>
                         </perfect-scrollbar>
@@ -1918,7 +1932,7 @@
                   </div>
                   <div class="row m-0 align-items-center"
                     *ngIf="templateDataBind.layout.isClickable&&templateDataBind.layout.behaviour==='webpage'">
-                    <div class="kr-sg-dropdowns">
+                    <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'" #urlDrop="ngbDropdown">
                       <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                         <img src="assets/icons/search_gray.svg" class="search-icon">
                         <button id="btn_select_facet_field"
@@ -1928,10 +1942,13 @@
                           class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
                           [class.err-block]="(!(preview_url?.length) && submitted)"
                           (keyup)="searchlist('url',$event.target.value,fieldData)"
-                          (focus)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="preview_url">
-                        <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
+                          (focus)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="preview_url"
+                          (keypress)="urlDrop.open();" ngbDropdownToggle>
+                        <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu"
+                          ngbDropdownMenu>
                           <perfect-scrollbar class="scroll-search-field">
-                            <li *ngFor="let field of url_fieldData" [id]="field._id" (click)="filedSelect('url',field)">
+                            <li *ngFor="let field of url_fieldData" [id]="field._id"
+                              (click)="filedSelect('url',field);urlDrop.close();">
                               <a>{{field.fieldName}}</a>
                             </li>
                           </perfect-scrollbar>
