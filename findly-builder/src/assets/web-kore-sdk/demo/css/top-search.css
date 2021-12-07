@@ -2917,7 +2917,21 @@ display: none !important;
     padding: 5px;
     width: 33% !important;
   }
-  .sdk-top-down-interface .purejscarousel-slide{
+.sdk-top-down-interface .carousel{
+    padding: 2px;
+}
+  .sdk-top-down-interface .slide{
     padding: 6px;
     width: 280px !important;
+}
+.sdk-top-down-interface .scroll-top-container{
+  position: fixed;
+  bottom: 15px;
+  width: 100%;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  display: none;
 }

@@ -16040,6 +16040,7 @@ a.tile-heading{
     border-radius: 4px;
     box-sizing: border-box;
     padding: 15px 12px;
+    object-fit: contain;
 }
 .template-3-grid-list .grid-data-item .inner-content-list .title-item {
     font-weight: normal;
@@ -16068,6 +16069,13 @@ a.tile-heading{
     margin-bottom: 5px;
     min-height: 30px;
     max-height: 31px;
+}
+.single-line-description{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-height: 18px;
+    max-height: 18px;
 }
 .four-line-description{
     display: -webkit-box;
@@ -16103,6 +16111,7 @@ a.tile-heading{
     border-radius: 4px;
     padding: 15px;
     text-align: left;
+    object-fit: contain;
 }
 .template-3-carousel-list .carousel .slide .inner-content-list .heading-text {
     font-weight: 600;
@@ -16533,6 +16542,7 @@ a.tile-heading{
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     padding: 12px;
+    object-fit: contain;
 }
 .template-4-grid-list .grid-data-item .inner-content-list .image-with-title {
     display: flex;
@@ -16571,6 +16581,7 @@ a.tile-heading{
     box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
     border-radius: 4px;
     padding: 15px;
+    object-fit: contain;
 }
 .template-4-carousel-list .carousel .slide .inner-content-list .image-with-title {
     display: flex;
@@ -16621,7 +16632,7 @@ a.tile-heading{
     width: 50%;
 }
 .template-5-grid-list .grid-data-item .inner-content-list img{
-    height: 118px;
+    height: 120px;
 }
 .template-5-grid-list .grid-data-item .inner-content-list {
     box-sizing: border-box;
@@ -16634,7 +16645,8 @@ a.tile-heading{
     background: #FFFFFF;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
-    height: 118px;
+    height: 120px;
+    object-fit: contain;
 }
 
 /* Template 6*/
@@ -16680,11 +16692,12 @@ a.tile-heading{
     box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
     border-radius: 4px;
     padding: 8px;
+    object-fit: contain;
 }
 .template-5-carousel-list .carousel .slide .inner-content-list img {
     width: 100%;
     float: none;
-    height: 118px;
+    height: 120px;
 }
 
 /* Template 6 */
@@ -16696,6 +16709,7 @@ a.tile-heading{
     box-shadow: 0px 0px 80px rgba(0,0,0,0.07), 0px 0px 10.0172px rgba(0,0,0,0.035);
     border-radius: 8px;
     padding: 15px;
+    object-fit: contain;
 }
 .template-6-carousel-list .carousel .slide .inner-content-list .title-main {
     font-weight: 600;
@@ -16753,6 +16767,7 @@ a.tile-heading{
     box-shadow: 0px 0px 80px rgba(0,0,0,0.07), 0px 0px 10.0172px rgba(0,0,0,0.035);
     border-radius: 8px;
     padding: 10px;
+    object-fit: contain;
     }
     .template-6-grid-list .grid-data-item .inner-content-list .heading-main {
     font-weight: 600;
@@ -16812,9 +16827,10 @@ a.tile-heading{
     border-radius: 8px;
     width: 100%;
     min-height: 250px;
+    object-fit: contain;
 }
 .template-7-grid-list .grid-data-item .inner-content-list .main-img-block img{
-    height: 118px;
+    height: 120px;
 }
 .template-7-grid-list .grid-data-item .inner-content-list .main-img-block {
     padding: 0;
@@ -16828,7 +16844,7 @@ a.tile-heading{
     justify-content: center;
     margin-bottom: 16px;
     border: 10px solid #fff;
-    height: 118px;
+    height: 120px;
 }
 .template-7-grid-list .grid-data-item .inner-content-list .heading- {
     font-weight: bold;
@@ -16859,6 +16875,7 @@ a.tile-heading{
     border-radius: 8px;
     width: 100%;
     min-height: 250px;
+    object-fit: contain;
 }
 .template-7-carousel-list .carousel .slide .inner-content-list .main-img-block {
     padding: 0;
@@ -16923,9 +16940,10 @@ a.tile-heading{
     border-radius: 8px;
     width: 100%;
     min-height: 280px;
+    object-fit: contain;
 }
 .template-9-grid-list .grid-data-item .inner-content-list .main-img-block img{
-    height: 118px;
+    height: 120px;
 }
 .template-9-grid-list .grid-data-item .inner-content-list .main-img-block {
     padding: 0;
@@ -16939,7 +16957,7 @@ a.tile-heading{
     justify-content: center;
     margin-bottom: 16px;
     border: 10px solid #fff;
-    height: 118px;
+    height: 120px;
 }
 .template-9-grid-list .grid-data-item .inner-content-list .heading- {
     font-weight: bold;
@@ -17444,4 +17462,42 @@ display: block;
 }
 .no-templates-defined-full-results-container{
     display: none;
+}
+
+.scroll-top-container{
+    position: fixed;
+    bottom: 44px;
+    width: 100%;
+    left: 0;
+    display: flex;
+    align-items: start;
+    justify-content: left;
+    z-index: 1;
+    display: none;
+}
+.scroll-top-container .title-scroll-top{
+    background: #ECFFFF;
+    border: 1px solid #AEDCDC;
+    box-sizing: border-box;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+    color: #009999;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.scroll-top-container .title-scroll-top img{
+    margin-right: 5px;
+}
+.data-body-sec .carousel{
+    width: 100%;
+    padding: 2px;
+}
+.data-body-sec .carousel .slide{
+    width:230px;
+    padding: 5px;
 }
