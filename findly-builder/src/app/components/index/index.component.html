@@ -227,6 +227,10 @@
                 <label for="radio-23" class="radio-custom-label">Script</label>
               </div>
             </div>
+            <div class="info-data-">
+              <img src="assets/icons/Info_gray.svg">
+              <span class="text_info">On choosing the Script Option, conditions defined here will only be applied.</span>
+              </div>
             <div class="conditions-input-sec" *ngFor="let basic of selectedStage.condition.mappings;let i=index;"
               [hidden]="selectedStage.condition.type=='script'">
               <div class="conditions-types">
