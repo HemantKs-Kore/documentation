@@ -848,6 +848,13 @@
   }
 }
 .customScript {
+  .clear{
+    text-align: right;
+    color: #0D6EFD;
+    font-size: 14px;
+    line-height: 20px;
+    cursor: pointer;
+  }
   textarea {
     width: 600px;
     height: 400px;
