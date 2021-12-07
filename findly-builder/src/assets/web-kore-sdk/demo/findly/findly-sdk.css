@@ -16069,6 +16069,13 @@ a.tile-heading{
     min-height: 30px;
     max-height: 31px;
 }
+.single-line-description{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-height: 18px;
+    max-height: 18px;
+}
 .four-line-description{
     display: -webkit-box;
     -webkit-box-orient: vertical;

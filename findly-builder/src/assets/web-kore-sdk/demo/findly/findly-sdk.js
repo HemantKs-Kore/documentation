@@ -261,6 +261,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.indexPipelineId = '';
       vars.tabsList = [];
       vars.availableGroupsList = {};
+      vars.availableGroupsOrder = [];
       vars.defaultTabsList = [];
       vars.tabFacetFieldName = '';
       vars.experimentsObject = {}; // Local Object for Storing Experiments-Related Data (QueryPipelineID, Relay, RequestID)
@@ -3504,6 +3505,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.full-search-data-container').empty();
               if (res && res.results && res.resultType == "grouped") {
                 var availableGroups = Object.keys(res.results);
+                var reArrangeAvailableGroups=[];
+                _self.vars.availableGroupsOrder.forEach((d)=>{
+                  let group = availableGroups.find(g => g === d)
+                  if(group){
+                    reArrangeAvailableGroups.push(group)
+                  }
+                })
+                availableGroups = reArrangeAvailableGroups;
                 if (!(res.tabFacet || {}).buckets) {
                   totalResultsCount = 0;
                 }
@@ -5289,6 +5298,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (!(res.tabFacet || {}).buckets) {
               totalResultsCount = 0;
             }
+            var reArrangeAvailableGroups=[];
+            _self.vars.availableGroupsOrder.forEach((d)=>{
+              let group = availableGroups.find(g => g === d)
+              if(group){
+                reArrangeAvailableGroups.push(group)
+              }
+            })
+                availableGroups = reArrangeAvailableGroups;
             if (availableGroups && availableGroups.length) {
               availableGroups.forEach((group) => {
                 var results = res.results[group].data;
@@ -6940,6 +6957,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if (res && res.results && res.resultType == "grouped") {
             var availableGroups = Object.keys(res.results);
+            _self.vars.availableGroupsOrder = availableGroups;
             if (!(res.tabFacet || {}).buckets) {
               totalResultsCount = 0;
             }
@@ -17295,6 +17313,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (!(res.tabFacet || {}).buckets) {
               totalResultsCount = 0;
             }
+            var reArrangeAvailableGroups=[];
+            _self.vars.availableGroupsOrder.forEach((d)=>{
+              let group = availableGroups.find(g => g === d)
+              if(group){
+                reArrangeAvailableGroups.push(group)
+              }
+            })
+                availableGroups = reArrangeAvailableGroups;
             if (availableGroups && availableGroups.length) {
               availableGroups.forEach((group) => {
                 var results = res.results[group].data;
