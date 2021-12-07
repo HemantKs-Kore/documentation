@@ -15663,7 +15663,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 </div>\
                 <div class="content_sec">\
                   <div class="heading text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                  <div class="text_desc two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                  <div class="text_desc single-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                 </div>\
                 </div>\
                 {{/if}}\
