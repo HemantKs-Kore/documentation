@@ -1109,7 +1109,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       res.stages.map(data => {
         return data.condition.mappings.map(data1 => {
           let obj = this.fields.find(da => da._id === data1.fieldId);
-          data1.fieldName = obj.fieldName
+          if (obj && obj.fieldName){
+            data1.fieldName = obj.fieldName
+          }
+          
         })
       })
       this.pipeline = res.stages || [];
