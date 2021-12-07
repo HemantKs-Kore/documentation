@@ -414,6 +414,21 @@
               max-width: none;
             }
           }
+          .info-data-{
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            img{
+            
+            }
+            .text_info{
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 20px;
+            color: #3C4043;
+            padding-left: 8px;
+            }
+            }
           .conditions-input-sec{
             background: #FFFFFF;
             box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.05);
