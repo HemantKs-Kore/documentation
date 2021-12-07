@@ -3332,7 +3332,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }, 100);
     }
-    FindlySDK.prototype.invokeSearch = function (showMoreData) {
+    FindlySDK.prototype.invokeSearch = function (showMoreData,fromBottomUP) {
       if ($('body').hasClass('top-down')) {
         // $('#loaderDIV').show();
       }
@@ -3505,14 +3505,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.full-search-data-container').empty();
               if (res && res.results && res.resultType == "grouped") {
                 var availableGroups = Object.keys(res.results);
-                var reArrangeAvailableGroups=[];
-                _self.vars.availableGroupsOrder.forEach((d)=>{
-                  let group = availableGroups.find(g => g === d)
-                  if(group){
-                    reArrangeAvailableGroups.push(group)
-                  }
-                })
-                availableGroups = reArrangeAvailableGroups;
+                if(fromBottomUP){
+                  _self.vars.availableGroupsOrder = availableGroups;
+                } else {
+                  var reArrangeAvailableGroups=[];
+                  _self.vars.availableGroupsOrder.forEach((d)=>{
+                    let group = availableGroups.find(g => g === d)
+                    if(group){
+                      reArrangeAvailableGroups.push(group)
+                    }
+                  })
+                  availableGroups = reArrangeAvailableGroups;
+                }
+               
                 if (!(res.tabFacet || {}).buckets) {
                   totalResultsCount = 0;
                 }
@@ -3878,7 +3883,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.vars.showingMatchedResults = true;
         e.preventDefault();
         e.stopImmediatePropagation();
-        _self.invokeSearch();
+        _self.invokeSearch(false, true);
         // $('#loaderDIV').show()
       })
       // $('.full-search-close').off('click').on('click', function (e)
