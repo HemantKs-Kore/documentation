@@ -15295,8 +15295,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (data && data.length) {
           data.forEach((interface) => {
             if (interface.interface === 'fullSearch') {
-              if (interface.facets) {
-                _self.vars.filterConfiguration = interface.facets;
+              if (interface.facetsSetting) {
+                _self.vars.filterConfiguration = {aligned:interface.facetsSetting.aligned, isEnabled : interface.facetsSetting.enabled};
               }
               else {
                 _self.vars.filterConfiguration = { aligned: "left", isEnabled: true };
