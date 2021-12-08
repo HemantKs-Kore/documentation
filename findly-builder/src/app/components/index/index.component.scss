@@ -848,6 +848,13 @@
   }
 }
 .customScript {
+  .clear{
+    text-align: right;
+    color: #0D6EFD;
+    font-size: 14px;
+    line-height: 20px;
+    cursor: pointer;
+  }
   textarea {
     width: 600px;
     height: 400px;
@@ -1046,9 +1053,9 @@
 .source-field-dropdown.dropdown-menu.content-menu{
   width: 100%;
 }
-.source-field-dropdown .scroll-search-field {
-  max-height: 178px;
-}
+// .source-field-dropdown .scroll-search-field {
+//   max-height: 178px;
+// }
 .source-field-dropdown{
   transform: translate3d(0px, 34px, 0px) !important;
   padding: 0px !important;
