@@ -18635,6 +18635,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "lang": "en",
         "isDev": _self.isDev
       }
+      payload.userId = this.bot.userInfo.userInfo.userId;
       if (!$('body').hasClass('demo')) {
         payload.indexPipelineId = _self.API.indexpipelineId;
       }
