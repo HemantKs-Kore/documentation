@@ -658,7 +658,7 @@
                   </div>
                   <div class="kr-sg-input-text col-6 input-box">
                     <div class="label-text">{{'workbench.source_field' | translate}}</div>
-                    <div class="position-relative ">
+                   <div class="position-relative ">
                       <input type="text" placeholder="{{'workbench.value' | translate}}" 
                         (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                         data-toggle="dropdown" [(ngModel)]="map.source_field" />
@@ -785,9 +785,20 @@
                   </div>
                   <div class="kr-sg-input-text col-6 input-box">
                     <div class="label-text">{{'workbench.target_field' | translate}}</div>
+                    <div class="position-relative ">
                     <input type="text" placeholder="{{'workbench.value' | translate}}" 
-                      (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field" />
+                      (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input" 
+                      data-toggle="dropdown" [(ngModel)]="map.target_field" />
+                      <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
+                        [ngClass]="{'no-data-match-border-0':!(fields | filter : [map.target_field, 'fieldName']).length}">
+                        <perfect-scrollbar class="scroll-search-field">
+                          <li *ngFor="let suggesition of fields | filter : [map.target_field, 'fieldName'] "
+                            (click)="map.target_field = suggesition.fieldName"><a
+                              *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
+                        </perfect-scrollbar>
+                      </ul>
                   </div>
+                </div>
                   <!-- <div class="kr-sg-dropdowns col-4 input-box">
                     <div class="label-text">Label</div>
                     <div class="dropdown dropdown-open">
@@ -799,6 +810,7 @@
                       </ul>
                     </div>
                   </div> -->
+                  
                   <div class="delete_icon" (click)="removeConfig(i, selectedStage.config.mappings)">
                     <img src="assets/icons/delete-table.svg" />
                   </div>
@@ -971,10 +983,20 @@
               </div>
               <div class="kr-sg-input-text col-6 input-box">
                 <div class="label-text">{{'workbench.target_field' | translate}}</div>
-                <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" 
-                  [(ngModel)]="
-                    newMappingObj[selectedStage.type].defaultValue.target_field
+                <div class="position-relative ">
+                <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text dropdown-toggle dropdown-input"
+                data-toggle="dropdown"  [(ngModel)]= "newMappingObj[selectedStage.type].defaultValue.target_field
                   " />
+                  <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
+                    [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj[selectedStage.type].defaultValue.target_field, 'fieldName']).length}">
+                    <perfect-scrollbar class="scroll-search-field">
+                      <li
+                        *ngFor="let suggesition of fields | filter : [newMappingObj[selectedStage.type].defaultValue.target_field, 'fieldName'] "
+                        (click)="newMappingObj[selectedStage.type].defaultValue.target_field = suggesition.fieldName"><a
+                          *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
+                    </perfect-scrollbar>
+                  </ul>
+              </div>
               </div>
               <div class="colse_form">
                 <img (click)="setResetNewMappingsObj()" src="assets/images/close-cross.svg" />
