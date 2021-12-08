@@ -227,6 +227,10 @@
                 <label for="radio-23" class="radio-custom-label">Script</label>
               </div>
             </div>
+            <div class="info-data-">
+              <img src="assets/icons/Info_gray.svg">
+              <span class="text_info">On choosing the Script Option, conditions defined here will only be applied.</span>
+              </div>
             <div class="conditions-input-sec" *ngFor="let basic of selectedStage.condition.mappings;let i=index;"
               [hidden]="selectedStage.condition.type=='script'">
               <div class="conditions-types">
@@ -238,7 +242,7 @@
                       [(ngModel)]="basic.fieldName" />
                     <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                       [ngClass]="{'no-data-match-border-0':!(fields | filter : [basic.source_field, 'fieldName']).length}">
-                      <perfect-scrollbar class="scroll-search-field">
+                      <perfect-scrollbar class="scroll-search-field h-178">
                         <li *ngFor="let suggesition of fields| filter : [basic.fieldName, 'fieldName']"
                           (click)="basic.fieldId=suggesition._id;basic.fieldName=suggesition.fieldName;addCondition('update',i,'field',suggesition._id);">
                           <a>{{suggesition.fieldName}}</a>
@@ -404,7 +408,7 @@
                         data-toggle="dropdown" [(ngModel)]="map.source_field" />
                       <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                         [ngClass]="{'no-data-match-border-0':!(fields | filter : [map.source_field, 'fieldName']).length}">
-                        <perfect-scrollbar class="scroll-search-field">
+                        <perfect-scrollbar class="scroll-search-field h-178">
                           <li *ngFor="let suggesition of fields | filter : [map.source_field, 'fieldName'] "
                             (click)="map.source_field = suggesition.fieldName"><a
                               *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
@@ -432,7 +436,7 @@
                         *ngIf="map.operation !== 'copy' && map.operation !== 'rename'"
                         id="fields-search-with-dropdown-menu"
                         [ngClass]="{'no-data-match-border-0':!(fields | filter : [map.target_field, 'fieldName']).length}">
-                        <perfect-scrollbar class="scroll-search-field">
+                        <perfect-scrollbar class="scroll-search-field h-178">
                           <li *ngFor="let suggesition of fields | filter : [map.target_field, 'fieldName'] "
                             (click)="map.target_field = suggesition.fieldName"><a
                               *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
@@ -549,7 +553,7 @@
                   " />
                   <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                     [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj.field_mapping.defaultValue.source_field, 'fieldName']).length}">
-                    <perfect-scrollbar class="scroll-search-field">
+                    <perfect-scrollbar class="scroll-search-field h-178">
                       <li
                         *ngFor="let suggesition of fields | filter : [newMappingObj.field_mapping.defaultValue.source_field, 'fieldName'] "
                         (click)="newMappingObj.field_mapping.defaultValue.source_field = suggesition.fieldName"><a
@@ -590,7 +594,7 @@
                 newMappingObj.field_mapping.defaultValue.operation !==
                   'rename'
               " [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj.field_mapping.defaultValue.target_field, 'fieldName']).length}">
-                    <perfect-scrollbar class="scroll-search-field">
+                    <perfect-scrollbar class="scroll-search-field h-178">
                       <li
                         *ngFor="let suggesition of fields | filter : [newMappingObj.field_mapping.defaultValue.target_field, 'fieldName'] "
                         (click)="newMappingObj.field_mapping.defaultValue.target_field = suggesition.fieldName"><a
@@ -661,7 +665,7 @@
                         data-toggle="dropdown" [(ngModel)]="map.source_field" />
                       <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                         [ngClass]="{'no-data-match-border-0':!(fields | filter : [map.source_field, 'fieldName']).length}">
-                        <perfect-scrollbar class="scroll-search-field">
+                        <perfect-scrollbar class="scroll-search-field h-178">
                           <li *ngFor="let suggesition of fields | filter : [map.source_field, 'fieldName'] "
                             (click)="map.source_field = suggesition.fieldName"><a
                               *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
@@ -816,7 +820,7 @@
                     " />
                   <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                     [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj[selectedStage.type].defaultValue.source_field, 'fieldName']).length}">
-                    <perfect-scrollbar class="scroll-search-field">
+                    <perfect-scrollbar class="scroll-search-field h-178">
                       <li
                         *ngFor="let suggesition of fields | filter : [newMappingObj[selectedStage.type].defaultValue.source_field, 'fieldName'] "
                         (click)="newMappingObj[selectedStage.type].defaultValue.source_field = suggesition.fieldName"><a
@@ -989,7 +993,14 @@
           <div class="customScript">
             <div class="kr-sg-input-text-area">
               <div class="label-text">&lt;/&gt;{{'workbench.painless' | translate}}</div>
+<<<<<<< HEAD
               <textarea placeholder="{{'workbench.please_enter_script' | translate}}" class="input- d-none" (keyup)="
+=======
+              <div class="clear">
+              <span (click)="newMappingObj.custom_script.defaultValue.script=''">Clear</span></div>
+              <textarea placeholder="{{'workbench.please_enter_script' | translate}}" class="input- d-none"
+                (keyup)="
+>>>>>>> Search_UI/Patch_Release
                   addCustomScript(
                     newMappingObj.custom_script.defaultValue.script
                   )
@@ -1215,3 +1226,4 @@
     </div>
   </ng-container>
 </kr-modal>
+<app-upgrade-plan #plans></app-upgrade-plan>

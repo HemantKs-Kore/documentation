@@ -626,7 +626,18 @@ export class SearchInterfaceComponent implements OnInit {
   drop(event: CdkDragDrop<string[]>, list) {
     moveItemInArray(list, event.previousIndex, event.currentIndex);
   }
-  searchlist(type, valToSearch, filedData) {
+  searchlist(type, valToSearch,event, parentElement ,filedData) {
+    //Add Listerner to close
+    // console.log(event)
+    // if(parentElement && event && event.srcElement && event.srcElement.ariaExpanded){
+    //   event.srcElement.ariaExpanded = "true";
+    //   if(parentElement.children)
+    //   for(let i =0; i< parentElement.children.length; i++){
+    //     if(parentElement.children[i].className.includes("dropdown-menu content-menu")){
+    //       parentElement.children[i].classList.add("show");
+    //     }
+    //   }
+    // }
     let data = []
     filedData.filter(element => {
       var filedNamelower = element.fieldName.toLocaleLowerCase();
