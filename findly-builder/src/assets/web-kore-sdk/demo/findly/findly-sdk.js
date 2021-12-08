@@ -5258,13 +5258,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         payload.tabConfig = tabConfig;
       } else {
         let filters = payload.filters;
-        for (let i = (filters || []).length - 1; i >= 0; i--) {
-          if (filters[i].subtype !== 'range') {
-            if (filters[i].facetValue[0] == 'faq' || filters[i].facetValue[0] == 'task' || filters[i].facetValue[0] == 'web' || filters[i].facetValue[0] == 'file' || filters[i].facetValue[0] == 'data') {
-              payload.filters.splice(i, 1);
-            }
-          }
-        }
+        // for (let i = (filters || []).length - 1; i >= 0; i--) {
+        //   if (filters[i].subtype !== 'range') {
+        //     if (filters[i].facetValue[0] == 'faq' || filters[i].facetValue[0] == 'task' || filters[i].facetValue[0] == 'web' || filters[i].facetValue[0] == 'file' || filters[i].facetValue[0] == 'data') {
+        //       payload.filters.splice(i, 1);
+        //     }
+        //   }
+        // }
       }
 
     
