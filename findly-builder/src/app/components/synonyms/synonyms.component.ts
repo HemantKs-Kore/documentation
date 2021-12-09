@@ -499,18 +499,14 @@ export class SynonymsComponent implements OnInit, OnDestroy {
             this.addOrUpddate(synonyms, dialogRef, this.showFlag);
             this.notificationService.notify('Deleted Successfully', 'success')
           }
+          this.filterSynonym = false;
+          this.filteroneWaySynonym = false;
           synonyms.forEach(element => {
             if (element.type === 'oneWaySynonym') {
               this.filteroneWaySynonym = true;
             }
-            else {
-              this.filteroneWaySynonym = false;
-            }
             if (element.type === 'synonym') {
               this.filterSynonym = true;
-            }
-            else {
-              this.filterSynonym = false;
             }
           });
         } else if (result === 'no') {

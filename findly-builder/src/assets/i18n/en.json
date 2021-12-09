@@ -231,8 +231,8 @@
     },
     "stopWords": {
         "stop_words": "Stop Words",
-        "enable_stop_word_removal": "Enable StopWords ",
-        "disable_stop_word_removal": "Disable StopWords",
+        "enable_stop_word_removal": "Stop Words ",
+        "disable_stop_word_removal": "Stop Words",
         "add_stop_word": "Add Stop Word",
         "stop_word_already_added": "Stop word already added",
         "stop_word_should_not_have_space_in_between": "Stop word should not have space in between",
@@ -402,7 +402,7 @@
     },
     "structuredData": {
         "structuredData": "Structured Data",
-        "structuredDataImport": "Add Structured Data",
+        "structuredDataImport": "Import Structured Data",
         "upload_json": "Upload JSON / CSV File",
         "drag_drop": "Drag and drop file anywhere on this screen",
         "browse": "Browse",

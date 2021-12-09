@@ -939,8 +939,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             setTimeout(() => {
               this.btnDisabled = false;
             }, 500)
+          }
+          else if (errRes && errRes.error && errRes.error.errors[0].code == '400'){
+            this.notificationService.notify(errRes.error.errors[0].msg, 'error');
           } 
-          // this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+         
         } else {
           this.notificationService.notify('Failed to upload file ', 'error');
         }
@@ -984,6 +987,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if(this.multipleFileArr.length === this.removedArr.length){
       this.removeFile()
+      this.removedArr = []; //The array should be cleared as it is restoring the previously removed items aswell
     }
   }
  //To remove single file
@@ -1321,7 +1325,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         if(this.filesListData.length === 1){
           if (this.fileObj.fileId) {
             payload.fileId = this.fileObj.fileId;
-            payload.name = this.fileObj.fileName;
+            payload.name = this.filesListData[0].name
+            // payload.name = this.fileObj.fileName;
             if (payload.url == '') delete payload.url;
           }
         }
