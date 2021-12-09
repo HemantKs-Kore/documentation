@@ -6210,6 +6210,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       if (res.templateType === 'liveSearch') {
                         // $('.search-body').show();
                         $('#searchChatContainer').removeClass('bgfocus-override');
+                        $('.live-search-data-container').empty();
                         res = res.template;
                         var faqs = [], web = [], tasks = [], files = [], data = [], facets, viewType = "Preview";
                         if (!$('.search-container').hasClass('active')) {
@@ -19811,6 +19812,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.vars.enterIsClicked) {
           $('#live-search-result-box').hide();
           return;
+        }
+        if($('.live-search-data-container').children().length()|| $('.auto-query-box').children().length()){
+          $('#live-search-result-box').show();
+        }else{
+          $('#live-search-result-box').hide();
         }
      
       });
