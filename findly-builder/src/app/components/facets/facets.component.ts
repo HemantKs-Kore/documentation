@@ -812,9 +812,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.currentFacetTab = data.type;
       this.currentFieldId = data.fieldId;
       this.facetType = this.facetType.filter(ele => ele.type === data.type);
-      // this.configuredTabValues = this.currentFacetObj?.tabs;
       for (let item of this.currentFacetObj?.tabs) {
-        this.configuredTabValues.push(item);
+        this.configuredTabValues.push({ Name: item.bucketName, Value: item.fieldValue })
       }
       if (data.type === 'tab') {
         this.facets.forEach((ele) => {
@@ -866,7 +865,9 @@ export class FacetsComponent implements OnInit, OnDestroy {
         this.currentFacetObj = Object.assign({}, tab[0]);
         this.currentFieldId = tab[0].fieldId;
         this.tab_configure_filed_name = tab[0].fieldName;
-        this.configuredTabValues = tab[0].tabs;
+        for (let item of tab[0].tabs) {
+          this.configuredTabValues.push({ Name: item.bucketName, Value: item.fieldValue })
+        }
         this.getFieldValues(tab[0].fieldId);
       }
       else {
@@ -931,7 +932,9 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.currentFacetObj.tabs = [];
       this.tab_configure_filed_name = this.currentFacetObj.fieldName;
       this.configuredTabValues.forEach(element => {
-        this.currentFacetObj.tabs.push({ fieldValue: element.fieldValue, bucketName: element.bucketName });
+        if (element.Value !== '') {
+          this.currentFacetObj.tabs.push({ fieldValue: element.Value, bucketName: element.Name });
+        }
       });
     } else {
       if (this.validateAddEditFacet()) {
@@ -981,7 +984,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   //add custom value
   addCustomValue(type, index?) {
     if (type === 'add') {
-      this.configuredTabValues.push({ bucketName: '', fieldValue: '' });
+      this.configuredTabValues.push({ Name: '', Value: '' });
     }
     else if (type === 'remove') {
       this.configuredTabValues.splice(index, 1);
@@ -1056,7 +1059,10 @@ export class FacetsComponent implements OnInit, OnDestroy {
       if (this.enable_Edit_Facet && type == 'input') {
         if (this.currentFieldId === id) {
           this.configuredTabValues = [];
-          this.configuredTabValues = this.currentFacetObj?.tabs;
+          for (let item of this.currentFacetObj?.tabs) {
+            this.configuredTabValues.push({ Name: item.bucketName, Value: item.fieldValue })
+          }
+          // this.configuredTabValues = this.currentFacetObj?.tabs;
         }
         else {
           this.configuredTabValues = [];
