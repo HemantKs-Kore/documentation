@@ -558,7 +558,8 @@ export class ResultTemplatesComponent implements OnInit {
       this.service.invoke('copy.settings', quaryparms, payload).subscribe(res => {
         this.copyConfigObj.loader = false;
         const date = moment(res.copiedOn).format('dddd, MMMM Do YYYY, h:mm:ss a');
-        this.copyConfigObj.message = `Configurations applied from ${tab} | ${date}.`;
+        const tabData = this.tabList.filter(item => item.id === tab);
+        this.copyConfigObj.message = `Configurations applied from ${tabData[0].name} | ${date}.`;
         this.notificationService.notify(' Result copied successfully', 'success');
         this.getAllSettings(this.selectedTab);
       }, errRes => {

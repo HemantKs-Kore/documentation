@@ -682,13 +682,12 @@
                                                 data-toggle="dropdown"></button>
                                             <input type="text" placeholder="Enter Value" id="facets-search-input"
                                                 class="input-search dropdown-toggle dropdown-input"
-                                                data-toggle="dropdown" autocomplete="off"
-                                                [(ngModel)]="configure.fieldValue">
+                                                data-toggle="dropdown" autocomplete="off" [(ngModel)]="configure.Value">
                                             <ul class="dropdown-menu content-menu if-shadow-box"
                                                 id="facets-search-with-dropdown-menu">
                                                 <perfect-scrollbar class="scroll-search-field">
-                                                    <li *ngFor="let val of fieldsData| filter : [configure.fieldValue, val]"
-                                                        [id]="val" (click)="configure.fieldValue=val">
+                                                    <li *ngFor="let val of fieldsData| filter : [configure.Value, val]"
+                                                        [id]="val" (click)="configure.Value=val">
                                                         <a>{{val}}</a>
                                                     </li>
                                                 </perfect-scrollbar>
@@ -700,7 +699,7 @@
                             <div class="display-name col-5">
                                 <div class="kr-sg-input-text">
                                     <input type="text" placeholder="Enter display name" class="input-text"
-                                        [(ngModel)]="configure.bucketName">
+                                        [(ngModel)]="configure.Name">
                                 </div>
                             </div>
                             <div class="delete col-1">

@@ -51,7 +51,10 @@
         <ng-container *ngFor="let tab of tabList">
           <div class="tab-name"
             [ngClass]="{'active-tab':tab.id === selectedTab,'disabled':searchTemplatesDisabled&&tab.id==='conversationalSearch'}"
-            (click)="(searchTemplatesDisabled&&tab.id==='conversationalSearch')?'':(tabSelection(tab.id))">
+            (click)="(searchTemplatesDisabled&&tab.id==='conversationalSearch')?'':(tabSelection(tab.id))"
+            tooltipClass="dashboard-custom-tooltips" [container]="'body'"
+            ngbTooltip='Conversational Search Customization is not needed for Search Bar Experience'
+            [disableTooltip]="!(searchTemplatesDisabled&&tab.id=='conversationalSearch')" placement="right">
             {{tab.name}}</div>
         </ng-container>
       </div>
@@ -1350,7 +1353,8 @@
                         <!-- The slideshow -->
                         <div class="carousel-inner">
                           <div class="carousel-item active">
-                            <div class="template-1-classic-list row col-12 m-0 p-2" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                            <div class="template-1-classic-list row col-12 m-0 p-2"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                               <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
                                 <div class="classic-list-item">Heading comes here</div>
                               </div>
