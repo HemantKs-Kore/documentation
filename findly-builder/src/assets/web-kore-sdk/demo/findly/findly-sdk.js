@@ -8486,6 +8486,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.pubSub.unsubscribe('facet-selected');
       _self.pubSub.subscribe('facet-selected', (topic, data) => {
         var doc_count = 0;
+        var isAction = false;
         $('.active-tab .tab-count').show();
         $('.active-tab .tab-count-right-bracket').show();
         $('.no-templates-defined-full-results-container').hide();
@@ -8497,6 +8498,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if(data.selectedFacet == facet.key){
                 doc_count  = facet.doc_count;
               }
+              if(facet.key == 'task'){
+                isAction = true;
+              }
               $('.' + facet.key.replaceAll(" ", "-")).removeClass(config.selectedClass).addClass(config.unSelectedClass);
             }
           })
@@ -8506,7 +8510,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.facet:first').addClass(config.selectedClass);
           }
         }
-        if((!$('.full-search-data-container').children().length && doc_count && data.selectedFacet !== 'task') || (!$('.full-search-data-container').children().length && doc_count && data.selectedFacet == 'task' && !$('.actions-full-search-container .structured-data-header').length)){
+        if((!$('.full-search-data-container').children().length && doc_count && ((data.selectedFacet == 'all results' && !isAction) || (data.selectedFacet !== 'task' && data.selectedFacet !== 'all results'))) || (!$('.full-search-data-container').children().length && doc_count && data.selectedFacet == 'task' && !$('.actions-full-search-container .structured-data-header').length)){
           if(_self.isDev){
             $('.no-templates-defined-full-results-container').show();
           }else{
