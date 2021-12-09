@@ -17502,3 +17502,6 @@ display: block;
     width:230px;
     padding: 5px;
 }
+.slide{
+    float: left !important;
+}
