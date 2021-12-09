@@ -2923,6 +2923,7 @@ display: none !important;
   .sdk-top-down-interface .slide{
     padding: 6px;
     width: 280px !important;
+    float: left;
 }
 .sdk-top-down-interface .scroll-top-container{
   position: fixed;

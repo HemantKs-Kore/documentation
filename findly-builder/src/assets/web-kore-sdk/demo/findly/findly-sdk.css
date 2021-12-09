@@ -17492,6 +17492,7 @@ display: block;
 }
 .scroll-top-container .title-scroll-top img{
     margin-right: 5px;
+    content: url(../images/scroll-top.svg);
 }
 .data-body-sec .carousel{
     width: 100%;
@@ -17500,4 +17501,10 @@ display: block;
 .data-body-sec .carousel .slide{
     width:230px;
     padding: 5px;
+}
+.slide{
+    float: left !important;
+}
+.sdk-body .carousel{
+    margin: 0 !important;
 }
