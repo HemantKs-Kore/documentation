@@ -19813,10 +19813,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('#live-search-result-box').hide();
           return;
         }
-        if($('.live-search-data-container').children().length|| $('.auto-query-box').children().length){
-          $('#live-search-result-box').show();
-        }else{
-          $('#live-search-result-box').hide();
+        if($('body').hasClass('top-down')){
+          if($('.live-search-data-container').children().length|| $('#auto-query-box').children().length){
+            $('#live-search-result-box').show();
+          }else{
+            $('#live-search-result-box').hide();
+          }
         }
      
       });
