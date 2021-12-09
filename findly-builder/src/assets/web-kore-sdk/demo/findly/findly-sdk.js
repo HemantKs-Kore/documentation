@@ -933,8 +933,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div id="searchBox" >\
               </div>\
             <div id="searchChatContainer" class="search-chat-container"></div>\
-              <div class="search-body">\
-            </div>\
+              <!--<div class="search-body">\
+            </div>-->\
             <div id="myPreviewModal" class="modalImagePreview">\
             <span class="closeElePreview">&times;</span>\
            <div class="largePreviewContent"></div>\
@@ -16523,17 +16523,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
         if (data.isLiveSearch) {
-          // if ($('body').hasClass('top-down') && container == '.live-data-container') {
-          //   $(container).each(function () {
-          //     if ($(this).is(':visible')) {
-          //       $(this).empty().append(dataHTML);
-          //     } else {
-          //       $(this).empty();
-          //     }
-          //   })
-          // } else {
           $(container).append(dataHTML);
-          // }
         } else if (data.isSearch) {
           $(container).last().append(dataHTML);
         } else {
@@ -16623,7 +16613,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     var newCarouselEles = [];
     FindlySDK.prototype.bindCarouselActions = function (dataHTML) {
       var _self = this;
-      setTimeout(function () {
+      newCarouselTemplateCount += 1;
         dataHTML.find('.carousel:last').addClass("carouselTemplate" + newCarouselTemplateCount);
         var count = dataHTML.find(".carouselTemplate" + newCarouselTemplateCount).children().length;
         if (count > 1) {
@@ -16646,9 +16636,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var evt = document.createEvent("HTMLEvents");
           evt.initEvent('resize', true, false);
           window.dispatchEvent(evt);
-          newCarouselTemplateCount += 1;
         }
-      });
     }
 
     FindlySDK.prototype.bindStructuredDataTriggeringOptions = function () {
@@ -18244,7 +18232,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       </div>\
         <div class="scroll-top-container">\
          <div class="title-scroll-top">\
-           <img src="images/scroll-top.svg">Scroll to top\
+           <img>Scroll to top\
           </div>\
         </div>\
         <div class="empty-full-results-container hide" id="top-down-all-tab-empty-state">\
@@ -19581,8 +19569,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             <div class="all-result-container">
             <div class="skelton-load-img">
-              <img alt="" class="isDevLoader" src="assets/web-kore-sdk/demo/images/skeletonImage.png" />
-              <img alt="" class="isEndUserLoader"src="./../demo/images/skeletonImage.png" />
+              <img alt="" />
             </div>
             <div id="conversation-container" class="conversation-container">
                     <div class="conversation-title">
@@ -19627,7 +19614,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         <div class="content-data-sec">
                         <div class="scroll-top-container">
                           <div class="title-scroll-top">
-                            <img src="images/scroll-top.svg">Scroll to top
+                            <img>Scroll to top
                           </div>
                         </div>
                           <div class="no-templates-defined-full-results-container">\

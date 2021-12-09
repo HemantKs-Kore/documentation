@@ -11603,7 +11603,7 @@ button.purejscarousel-btn.purejscarousel-btn-next.fa.fa-sort-asc::after {
     top: -55px;
     opacity: 1;
     transform: translateZ(-10px);
-    display: none;
+    display: table;
 }
 button.purejscarousel-btn.purejscarousel-btn-prev.fa.fa-sort-asc::after {
     content: "";
@@ -11630,7 +11630,7 @@ button.purejscarousel-btn.purejscarousel-btn-prev.fa.fa-sort-asc::after {
     top: -55px;
     opacity: 1;
     transform: translateZ(-10px);
-    display: none;
+    display: table;
 }
 #searchChatContainer button.purejscarousel-btn.purejscarousel-btn-prev.fa.fa-sort-asc::after {
     content: "";
@@ -11718,7 +11718,7 @@ padding: 0;
     margin-right: 0;
 }
 .searchAssist-kore-chat-window.search-container .carousel{
-    width: 445px !important;
+    width: 100% !important;
 }
 .searchAssist-kore-chat-window.search-container .barchart .barchartDiv{
     margin-left: 0;
@@ -17507,4 +17507,7 @@ display: block;
 }
 .sdk-body .carousel{
     margin: 0 !important;
+}
+.skelton-load-img img{
+    content: url(../images/skeletonImage.png);
 }

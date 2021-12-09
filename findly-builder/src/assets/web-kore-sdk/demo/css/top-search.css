@@ -2883,11 +2883,11 @@ display: none !important;
   .searchAssist-kore-chat-window .purejscarousel-btn.purejscarousel-btn-next.hideNow {
   display: none !important;
   }
-  .searchAssist-kore-chat-window .purejscarousel-btn {
+  .searchAssist-kore-chat-window .purejscarousel-btn,.searchAssist-kore-chat-window .purejscarousel-btn:hover {
     width: 20px !important;
     height: 20px !important;
     border-radius: 2px !important;
-    background-color: #3C4043;
+    background-color: #3C4043 !important;
     border: 0px;
     z-index: 1;
     color: var(--sdk-chat-widow-primary-font-color) !important;
