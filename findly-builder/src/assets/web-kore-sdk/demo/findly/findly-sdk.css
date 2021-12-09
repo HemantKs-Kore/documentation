@@ -17505,3 +17505,6 @@ display: block;
 .slide{
     float: left !important;
 }
+.sdk-body .carousel{
+    margin: 0 !important;
+}
