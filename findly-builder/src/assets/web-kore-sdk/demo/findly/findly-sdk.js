@@ -9469,7 +9469,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       messageToBot["timeDateDay"] = dateTime;
       messageToBot["currentPage"] = window.location.href;
       messageToBot["country"] = _self.vars.locationObject.country;
-
+      if( _self.vars.customizeView){
+        messageToBot["customize"] =true;
+        messageToBot["isDev"] =true;
+      }
       if (_self.bot.options) {
         messageToBot["client"] = _self.bot.options.client || "sdk";
         messageToBot["botInfo"] = {};
