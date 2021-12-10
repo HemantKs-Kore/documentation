@@ -17466,6 +17466,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       } else {
         $('#topFacetFilterId').empty().append(facetTemplateTop);
         $('#topFacetIcon').empty().append(facetTemplateTopIcon);
+        if (facetObj.show) {
+          if(!$('.iffilteristop').hasClass('isTopAlignFilterAdded')){
+            $('.iffilteristop').addClass('isTopAlignFilterAdded');
+          }
+        } else {
+          $('.iffilteristop').removeClass('isTopAlignFilterAdded');
+        }
       }
       if (!$('body').hasClass('top-down')) {
         if (facetObj.show) {
