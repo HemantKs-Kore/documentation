@@ -15891,7 +15891,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
           <div class="grid-data-item click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-            <div class="inner-content-list">\
+            <div class="inner-content-list ">\
               <img src="${data.img}">\
             </div>\
           </div>\
@@ -15917,7 +15917,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-6-grid-list {{if textAlignment=="center"}}text-center{{/if}}">\
+          <div class="template-6-grid-list">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           <div class="grid-data-item faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
               <div class="inner-content-list">\
@@ -15947,12 +15947,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-7-grid-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}" >\
+          <div class="template-7-grid-list mb-15 " >\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
-              <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
+              <div class="grid-data-item  click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
           {{else}}\
-            <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
+            <div class="grid-data-item  click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
           {{/if}}\
                 <div class="inner-content-list">\
                   <div class="main-img-block">\
@@ -15976,14 +15976,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-9-grid-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
+          <div class="template-9-grid-list mb-15 ">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
-            <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
+            <div class="grid-data-item  click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
           {{else}}\
-            <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
+            <div class="grid-data-item  click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
           {{/if}}\
-                <div class="inner-content-list">\
+                <div class="inner-content-list ">\
                   <div class="main-img-block">\
                     <img src="${data.img}">\
                   </div>\
@@ -16008,11 +16008,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div class="template-9-grid-list mb-15">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
-            <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
+            <div class="grid-data-item  click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
           {{else}}\
-            <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
+            <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
           {{/if}}\
-                <div class="inner-content-list">\
+                <div class="inner-content-list ">\
                   <div class="main-img-block">\
                      <img src="${data.img}">\
                   </div>\
@@ -16043,7 +16043,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{else}}\
                 <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}"">\
                 {{/if}}\
-                  <div class="text-template" title="${data.heading}"><div class="text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.heading)}}</div></div>\
+                  <div class="text-template {{if textAlignment=="center"}}text-center{{/if}}" title="${data.heading}"><div class="text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.heading)}}</div></div>\
                 </div>\
               {{/each}}\
               </div>\
@@ -16066,7 +16066,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{else}}\
               <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
               {{/if}}\
-              <div class="text-template" ><div class="two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div></div>\
+              <div class="text-template {{if textAlignment=="center"}}text-center{{/if}}" ><div class="two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div></div>\
               </div>\
             {{/each}}\
             </div>\
@@ -16089,7 +16089,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{else}}\
             <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
             {{/if}}\
-                    <div class="inner-content-list">\
+                    <div class="inner-content-list {{if textAlignment=="center"}}text-center{{/if}}">\
                         <div class="heading-text text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                         <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                     </div>\
@@ -16107,7 +16107,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
             {{if structuredData.length}}\
             <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-            <div class="template-4-carousel-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
+            <div class="template-4-carousel-list mb-15">\
             <div class="carousel">\
                 {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                 {{if isClickable == true}}\
@@ -16139,7 +16139,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-5-carousel-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
+          <div class="template-5-carousel-list mb-15">\
           <div class="carousel">\
               {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
               {{if isClickable == true}}\
@@ -16173,7 +16173,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{else}}\
               <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
                   {{/if}}\
-              <div class="inner-content-list">\
+              <div class="inner-content-list {{if textAlignment=="center"}}text-center{{/if}}">\
                 <div class="title-main text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                 {{each(key, res) [0,1,2]}}\
                 <div class="img-with-text">\
@@ -16206,7 +16206,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{else}}\
               <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
                   {{/if}}\
-              <div class="inner-content-list">\
+              <div class="inner-content-list {{if textAlignment=="center"}}text-center{{/if}}">\
                 <div class="main-img-block">\
                 <img src="${data.img}">\
                 </div>\
@@ -16235,7 +16235,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{else}}\
               <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
                   {{/if}}\
-              <div class="inner-content-list">\
+              <div class="inner-content-list {{if textAlignment=="center"}}text-center{{/if}}">\
                 <div class="main-img-block">\
                 <img src="${data.img}">\
                 </div>\
@@ -16257,7 +16257,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-7-carousel-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
+          <div class="template-7-carousel-list mb-15">\
           <div class="carousel">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
