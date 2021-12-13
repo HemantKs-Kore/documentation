@@ -127,6 +127,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   hide_facet_info: boolean = false;
   fieldsData: any;
   currentFieldId: string;
+  createNewTab: boolean = false;
   facetType: any = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
@@ -850,6 +851,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
         this.submitted = false;
         this.hide_facet_info = false;
         this.selectAllConfigure = false;
+        this.createNewTab = false;
         this.facetType = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
       }
     }
@@ -868,6 +870,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     else if (type === 'tab') {
       const tab = this.facets.filter(item => item.type === 'tab');
       if (tab.length > 0) {
+        this.createNewTab = true;
         this.currentFacetObj = Object.assign({}, tab[0]);
         this.currentFieldId = tab[0].fieldId;
         this.tab_configure_filed_name = tab[0].fieldName;
@@ -931,17 +934,53 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }
     return this.submitted ? false : true;
   }
+  //overwrite field configuration popup
+  overwriteConfiguration() {
+    const modalData: any = {
+      newTitle: 'Existing Field configurations will be overwritten with the field you chose.',
+      body: 'Are you sure you want to continue ?',
+      buttons: [{ key: 'yes', label: 'Continue', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+      confirmationPopUp: true
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup-result',
+      data: modalData,
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.updateConfiguredFacets(dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+        }
+      })
+  }
+  //update currentFacetObj
+  updateConfiguredFacets(dialogRef?) {
+    this.showConfiguredFacet = false;
+    this.currentFacetObj.tabs = [];
+    this.tab_configure_filed_name = this.currentFacetObj.fieldName;
+    this.configuredTabValues.forEach(element => {
+      if (element.Value !== '') {
+        this.currentFacetObj.tabs.push({ fieldValue: element.Value, bucketName: element.Name });
+      }
+    });
+    if (dialogRef) {
+      this.currentFacetObj.active = true;
+      dialogRef.close();
+    }
+  }
   //save facet
   saveFacet() {
     if (this.showConfiguredFacet) {
-      this.showConfiguredFacet = false;
-      this.currentFacetObj.tabs = [];
-      this.tab_configure_filed_name = this.currentFacetObj.fieldName;
-      this.configuredTabValues.forEach(element => {
-        if (element.Value !== '') {
-          this.currentFacetObj.tabs.push({ fieldValue: element.Value, bucketName: element.Name });
-        }
-      });
+      if (this.createNewTab === true && this.currentFacetObj.fieldName != this.tab_configure_filed_name) {
+        this.overwriteConfiguration();
+      }
+      else {
+        this.updateConfiguredFacets();
+      }
     } else {
       if (this.validateAddEditFacet()) {
         let quaryparms: any = {

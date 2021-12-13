@@ -87,6 +87,7 @@ export class ResultTemplatesComponent implements OnInit {
   settingsId: string;
   selectedGroupName: string;
   defaultFieldName: string;
+  tabData: any;
   templateNames: any = ['list', 'carousel', 'grid'];
   filterFacets: any = [{ name: 'Left Aligned', type: 'left' }, { name: 'Right Aligned', type: 'right' }, { name: 'Top Aligned', type: 'top' }]
   @ViewChild('customModal') customModal: KRModalComponent;
@@ -493,8 +494,8 @@ export class ResultTemplatesComponent implements OnInit {
   //update template
   updateTemplate() {
     this.submitted = true;
-    let validateText = this.validateFieldValues();
-    if (this.validateTemplate() && !validateText) {
+    //let validateText = this.validateFieldValues();
+    if (this.validateTemplate()) {
       const quaryparms: any = {
         searchIndexId: this.serachIndexId,
         templateId: this.templateDataBind._id,
@@ -520,11 +521,9 @@ export class ResultTemplatesComponent implements OnInit {
         this.errorToaster(errRes, 'Failed to update template');
       });
     }
-    // else {
-    //   if (this.preview_title.length == 0 || this.preview_desc.length == 0 || this.preview_img.length == 0 || this.preview_url.length == 0) {
-    //     this.notificationService.notify('Enter the required fields to proceed', 'error');
-    //   }
-    // }
+    else {
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
   }
 
   //validate template fields
@@ -557,53 +556,78 @@ export class ResultTemplatesComponent implements OnInit {
     }
   }
 
-  validateFieldValues() {
-    let hasFalseKeys = true;
-    this.templateFieldValidateObj = {
-      heading: true,
-      description: true,
-      image: true,
-      url: true
-    }
-    if (this.allFieldData) {
-      this.allFieldData.forEach(element => {
-        if (element._id == this.templateDataBind.mapping.heading) {
-          if (element.fieldName != this.preview_title) {
-            this.notificationService.notify('Heading field is not matching,Please select the option to proceed', 'error');
-            this.templateFieldValidateObj.heading = false;
-          }
-        } else if (element._id == this.templateDataBind.mapping.description) {
-          if (element.fieldName != this.preview_desc) {
-            this.notificationService.notify('Description field is not matching,Please select the option to proceed', 'error');
-            this.templateFieldValidateObj.description = false;
-          }
-        }
-        else if (element._id == this.templateDataBind.mapping.img) {
-          if (element.fieldName != this.preview_img) {
-            this.notificationService.notify('Image field is not matching,Please select the option to proceed', 'error');
-            this.templateFieldValidateObj.image = false;
-          }
-        }
-        else if (element._id == this.templateDataBind.mapping.url) {
-          if (element.fieldName != this.preview_url) {
-            this.notificationService.notify('Url field is not matching,Please select the option to proceed', 'error');
-            this.templateFieldValidateObj.url = false;
-          }
-        }
-      });
-      hasFalseKeys = Object.keys(this.templateFieldValidateObj).some(k => !this.templateFieldValidateObj[k]);
-      if (hasFalseKeys) {
-        return true
-      } else {
-        return false
-      }
-    } else {
-      return false
-    }
-  }
+  // validateFieldValues() {
+  //   let hasFalseKeys = true;
+  //   this.templateFieldValidateObj = {
+  //     heading: true,
+  //     description: true,
+  //     image: true,
+  //     url: true
+  //   }
+  //   if (this.allFieldData) {
+  //     this.allFieldData.forEach(element => {
+  //       if (element._id == this.templateDataBind.mapping.heading) {
+  //         if (element.fieldName != this.preview_title) {
+  //           this.notificationService.notify('Heading field is not matching,Please select the option to proceed', 'error');
+  //           this.templateFieldValidateObj.heading = false;
+  //         }
+  //       } else if (element._id == this.templateDataBind.mapping.description) {
+  //         if (element.fieldName != this.preview_desc) {
+  //           this.notificationService.notify('Description field is not matching,Please select the option to proceed', 'error');
+  //           this.templateFieldValidateObj.description = false;
+  //         }
+  //       }
+  //       else if (element._id == this.templateDataBind.mapping.img) {
+  //         if (element.fieldName != this.preview_img) {
+  //           this.notificationService.notify('Image field is not matching,Please select the option to proceed', 'error');
+  //           this.templateFieldValidateObj.image = false;
+  //         }
+  //       }
+  //       else if (element._id == this.templateDataBind.mapping.url) {
+  //         if (element.fieldName != this.preview_url) {
+  //           this.notificationService.notify('Url field is not matching,Please select the option to proceed', 'error');
+  //           this.templateFieldValidateObj.url = false;
+  //         }
+  //       }
+  //       else if (element.fieldName == this.preview_desc) {
+  //         if (element._id != this.templateDataBind.mapping.description) {
+  //           this.notificationService.notify('Description field is not matching,Please select the option to proceed', 'error');
+  //           this.templateFieldValidateObj.description = false;
+  //         }
+  //       }
+  //       else if (element.fieldName == this.preview_title) {
+  //         if (element._id != this.templateDataBind.mapping.heading) {
+  //           this.notificationService.notify('Heading field is not matching,Please select the option to proceed', 'error');
+  //           this.templateFieldValidateObj.heading = false;
+  //         }
+  //       }
+  //       else if (element.fieldName == this.preview_img) {
+  //         if (element._id != this.templateDataBind.mapping.img) {
+  //           this.notificationService.notify('Image field is not matching,Please select the option to proceed', 'error');
+  //           this.templateFieldValidateObj.image = false;
+  //         }
+  //       }
+  //       else if (element.fieldName == this.preview_url) {
+  //         if (element._id != this.templateDataBind.mapping.url) {
+  //           this.notificationService.notify('Url field is not matching,Please select the option to proceed', 'error');
+  //           this.templateFieldValidateObj.url = false;
+  //         }
+  //       }
+  //     });
+  //     hasFalseKeys = Object.keys(this.templateFieldValidateObj).some(k => !this.templateFieldValidateObj[k]);
+  //     if (hasFalseKeys) {
+  //       return true
+  //     } else {
+  //       return false
+  //     }
+  //   } else {
+  //     return false
+  //   }
+  // }
   //copy configuration method
   copyConfiguration(type, tab?) {
     this.copyConfigObj.message = '';
+    this.tabData = this.tabList.filter(item => item.id === tab);
     if (type === 'open') {
       this.copyConfigObj.loader = true;
       const quaryparms: any = {
@@ -616,8 +640,7 @@ export class ResultTemplatesComponent implements OnInit {
       this.service.invoke('copy.settings', quaryparms, payload).subscribe(res => {
         this.copyConfigObj.loader = false;
         const date = moment(res.copiedOn).format('dddd, MMMM Do YYYY, h:mm:ss a');
-        const tabData = this.tabList.filter(item => item.id === tab);
-        this.copyConfigObj.message = `Configurations applied from ${tabData[0].name} | ${date}.`;
+        this.copyConfigObj.message = `Configurations applied from ${this.tabData[0].name} | ${date}.`;
         this.notificationService.notify(' Result copied successfully', 'success');
         this.getAllSettings(this.selectedTab);
       }, errRes => {
