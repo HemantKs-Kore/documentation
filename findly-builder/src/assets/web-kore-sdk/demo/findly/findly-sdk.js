@@ -3332,7 +3332,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }, 100);
     }
-    FindlySDK.prototype.invokeSearch = function (showMoreData,fromBottomUP) {
+    FindlySDK.prototype.invokeSearch = function (showMoreData, fromBottomUP) {
       if ($('body').hasClass('top-down')) {
         // $('#loaderDIV').show();
       }
@@ -3505,19 +3505,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.full-search-data-container').empty();
               if (res && res.results && res.resultType == "grouped") {
                 var availableGroups = Object.keys(res.results);
-                if(fromBottomUP){
+                if (fromBottomUP) {
                   _self.vars.availableGroupsOrder = availableGroups;
                 } else {
-                  var reArrangeAvailableGroups=[];
-                  _self.vars.availableGroupsOrder.forEach((d)=>{
+                  var reArrangeAvailableGroups = [];
+                  _self.vars.availableGroupsOrder.forEach((d) => {
                     let group = availableGroups.find(g => g === d)
-                    if(group){
+                    if (group) {
                       reArrangeAvailableGroups.push(group)
                     }
                   })
                   availableGroups = reArrangeAvailableGroups;
                 }
-               
+
                 if (!(res.tabFacet || {}).buckets) {
                   totalResultsCount = 0;
                 }
@@ -3600,9 +3600,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
               facets = facets.concat((res.tabFacet || {}).buckets || [])
               facets = _self.rearrangeTabsList(facets);
-              if((res.tasks || []).length){
-            facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
-          }
+              if ((res.tasks || []).length) {
+                facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+              }
               _self.vars.tabsList = facets;
               _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
               _self.pubSub.publish('sa-source-type', facets);
@@ -3678,7 +3678,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
             _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' });
           }
-          
+
         })
       }
       else {
@@ -4113,17 +4113,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var facetIndex = _self.vars.selectedFacetsList.findIndex(x => x.value === $(this).attr("name"));
             if (facetIndex > -1) {
               _self.vars.selectedFiltersArr.splice(facetIndex, 1, $(this).attr("id"));
-              _self.vars.selectedFacetsList.splice(facetIndex, 1, { id: $(this).attr("id"), value: $(this).attr("type") == 'radio'? $(this).attr("name"): $(this).attr("value"), name: $(this).attr("type") == 'radio'?$(this).attr("value"):$(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
+              _self.vars.selectedFacetsList.splice(facetIndex, 1, { id: $(this).attr("id"), value: $(this).attr("type") == 'radio' ? $(this).attr("name") : $(this).attr("value"), name: $(this).attr("type") == 'radio' ? $(this).attr("value") : $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
               _self.filterResultsTopDown(event, false);
             } else {
               _self.vars.selectedFiltersArr.push($(this).attr("id"));
-              _self.vars.selectedFacetsList.push({ id: $(this).attr("id"), value: $(this).attr("type") == 'radio'? $(this).attr("name"): $(this).attr("value"), name: $(this).attr("type") == 'radio'?$(this).attr("value"):$(this).attr("name") , fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
+              _self.vars.selectedFacetsList.push({ id: $(this).attr("id"), value: $(this).attr("type") == 'radio' ? $(this).attr("name") : $(this).attr("value"), name: $(this).attr("type") == 'radio' ? $(this).attr("value") : $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
               _self.vars.countOfSelectedFilters += 1;
               _self.filterResultsTopDown(event, true);
             }
           } else {
             _self.vars.selectedFiltersArr.push($(this).attr("id"));
-            _self.vars.selectedFacetsList.push({ id: $(this).attr("id"),  value: $(this).attr("type") == 'radio'? $(this).attr("name"): $(this).attr("value"), name: $(this).attr("type") == 'radio'?$(this).attr("value"):$(this).attr("name") , fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
+            _self.vars.selectedFacetsList.push({ id: $(this).attr("id"), value: $(this).attr("type") == 'radio' ? $(this).attr("name") : $(this).attr("value"), name: $(this).attr("type") == 'radio' ? $(this).attr("value") : $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
             _self.vars.countOfSelectedFilters += 1;
             _self.filterResultsTopDown(event, true);
           }
@@ -5267,7 +5267,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // }
       }
 
-    
+
 
       // payload.isDev = _self.isDev;
 
@@ -5286,7 +5286,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             customSearchResult: _self.customSearchResult
             // searchFacets: searchFacets,
           }
-         
+
           facets = [];
           var totalResultsCount = 0;
           if (res.tabFacet && res.tabFacet.buckets && res.tabFacet.buckets.length) {
@@ -5305,14 +5305,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (!(res.tabFacet || {}).buckets) {
               totalResultsCount = 0;
             }
-            var reArrangeAvailableGroups=[];
-            _self.vars.availableGroupsOrder.forEach((d)=>{
+            var reArrangeAvailableGroups = [];
+            _self.vars.availableGroupsOrder.forEach((d) => {
               let group = availableGroups.find(g => g === d)
-              if(group){
+              if (group) {
                 reArrangeAvailableGroups.push(group)
               }
             })
-                availableGroups = reArrangeAvailableGroups;
+            availableGroups = reArrangeAvailableGroups;
             if (availableGroups && availableGroups.length) {
               availableGroups.forEach((group) => {
                 var results = res.results[group].data;
@@ -5380,7 +5380,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
           facets = facets.concat((res.tabFacet || {}).buckets || [])
           facets = _self.rearrangeTabsList(facets);
-          if((res.tasks || []).length){
+          if ((res.tasks || []).length) {
             facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
           }
           _self.vars.tabsList = facets;
@@ -5390,14 +5390,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' });
           _self.pubSub.publish('sa-search-facets', searchFacets);
           if (!$('body').hasClass('top-down')) {
-            
+
             var container = $('#show-all-results-container');
             var dataObj = _self.vars.searchObject.liveData;
             var facetdata = _self.vars.searchFacetFilters;
             _self.pubSub.publish('sa-search-full-results', { container: container, isFullResults: true, selectedFacet: 'all', isLiveSearch: false, isSearch: false, facetData: facetdata, dataObj });
           }
           else {
-           
+
             if (_self.isDev) {
               $('.custom-header-container-center').removeClass('display-none');
               if (_self.vars.customizeView) {
@@ -6271,7 +6271,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           //     var liveSearchStructuredDataMapping = _self.structuredDataConfig.liveSearchInterface.mapping;
 
                           _self.closeGreetingMsg();
-                    
+
 
                           facets = res.facets;
                           var dataObj = {
@@ -6284,7 +6284,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             originalQuery: res.originalQuery,
                             customSearchResult: _self.customSearchResult
                           }
-                          
+
                           setTimeout(function () {
                             $('.search-body').scrollTop(2);
                           }, 100);
@@ -6321,7 +6321,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           scoreArray.forEach((obj, index) => {
                             $('.' + obj.name).css("order", index + 1);
                           })
-                          
+
                           //live search hightlight faq start//
                           setTimeout(() => {
                             var topMatchLivesearchFAQ = faqs.filter(function (faq) {
@@ -6994,11 +6994,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               });
               _self.vars.totalNumOfResults = totalResultsCount;
               res.results = results;
-              if(!$('.full-search-data-container').children().length){
-                if(_self.isDev){
+              if (!$('.full-search-data-container').children().length) {
+                if (_self.isDev) {
                   $('.no-templates-defined-full-results-container').show();
-                }else{
-                    $('.empty-full-results-container').removeClass('hide');
+                } else {
+                  $('.empty-full-results-container').removeClass('hide');
                 }
               }
             } else {
@@ -7043,11 +7043,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('.empty-full-results-container').addClass('hide');
               }
 
-              if(!$('.full-search-data-container').children().length){
-                if(_self.isDev){
+              if (!$('.full-search-data-container').children().length) {
+                if (_self.isDev) {
                   $('.no-templates-defined-full-results-container').show();
-                }else{
-                    $('.empty-full-results-container').removeClass('hide');
+                } else {
+                  $('.empty-full-results-container').removeClass('hide');
                 }
               }
             } else {
@@ -7138,11 +7138,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   $('.more-results').css('display', 'block');
                 }
               }
-              if(!$('.search-data-container').last().children().length){
-              $('#searchChatContainer .messageBubble').last().remove();
-              $('#searchChatContainer .finalResults').last().remove();
-              _self.sendMessageToSearch('bot', 'Unable to find results at this moment');
-            }
+              if (!$('.search-data-container').last().children().length) {
+                $('#searchChatContainer .messageBubble').last().remove();
+                $('#searchChatContainer .finalResults').last().remove();
+                _self.sendMessageToSearch('bot', 'Unable to find results at this moment');
+              }
             }, 500)
           }
           else {
@@ -7150,7 +7150,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('#frequently-searched-box').hide();
             $('#live-search-result-box').hide();
 
-           
+
             if (_self.isDev) {
               $('.custom-header-container-center').removeClass('display-none');
               if (_self.vars.customizeView) {
@@ -7181,7 +7181,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
 
           if (((res.results || {}).data || []).length) {
-           
+
             if (_self.vars.customizeView == true) {
               $(searchData).find(".tasks-wrp").sortable();
             }
@@ -7205,7 +7205,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
               $(".divfeedback").css('display', 'none');
 
-             
+
             }
             else {
 
@@ -7218,11 +7218,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             }
 
-           
+
           }
           setTimeout(function () {
             if (_self.isDev == false) {
-             
+
               if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && !$('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
                 $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
               } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
@@ -7234,7 +7234,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
             }
             else {
-             
+
               if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && !$('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
                 $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
               } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
@@ -7339,7 +7339,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
           facets = facets.concat((res.tabFacet || {}).buckets || [])
           facets = _self.rearrangeTabsList(facets);
-          if((res.tasks || []).length){
+          if ((res.tasks || []).length) {
             facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
           }
           _self.vars.tabsList = facets;
@@ -8218,7 +8218,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       $('.recordingMicrophone').css('display', 'none');
       $('.notRecordingMicrophone').css('display', 'block');
-     
+
       if (recognizing) {
         recognition.stop();
         recognizing = false;
@@ -8496,10 +8496,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var facets = _self.vars.searchObject.liveData.facets;
           facets.forEach(function (facet) {
             if (facet && facet.key) {
-              if(data.selectedFacet == facet.key){
-                doc_count  = facet.doc_count;
+              if (data.selectedFacet == facet.key) {
+                doc_count = facet.doc_count;
               }
-              if(facet.key == 'task'){
+              if (facet.key == 'task') {
                 isAction = true;
               }
               $('.' + facet.key.replaceAll(" ", "-")).removeClass(config.selectedClass).addClass(config.unSelectedClass);
@@ -8511,25 +8511,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.facet:first').addClass(config.selectedClass);
           }
         }
-        if((!$('.full-search-data-container').children().length && doc_count && ((data.selectedFacet == 'all results' && !isAction) || (data.selectedFacet !== 'task' && data.selectedFacet !== 'all results'))) || (!$('.full-search-data-container').children().length && doc_count && data.selectedFacet == 'task' && !$('.actions-full-search-container .structured-data-header').length)){
-          if(_self.isDev){
+        if ((!$('.full-search-data-container').children().length && doc_count && ((data.selectedFacet == 'all results' && !isAction) || (data.selectedFacet !== 'task' && data.selectedFacet !== 'all results'))) || (!$('.full-search-data-container').children().length && doc_count && data.selectedFacet == 'task' && !$('.actions-full-search-container .structured-data-header').length)) {
+          if (_self.isDev) {
             $('.no-templates-defined-full-results-container').show();
-          }else{
-              $('.empty-full-results-container').removeClass('hide');
+          } else {
+            $('.empty-full-results-container').removeClass('hide');
           }
-          if(data.selectedFacet){
-            $('.' + data.selectedFacet.replaceAll(" ", "-")+' .tab-count').hide();
-            $('.' + data.selectedFacet.replaceAll(" ", "-")+' .tab-count-right-bracket').hide();
+          if (data.selectedFacet) {
+            $('.' + data.selectedFacet.replaceAll(" ", "-") + ' .tab-count').hide();
+            $('.' + data.selectedFacet.replaceAll(" ", "-") + ' .tab-count-right-bracket').hide();
             $('.active-tab .sdk-facet-count').hide();
-          }else{
+          } else {
             $('.all-results .tab-count').hide();
             $('.all-results .tab-count-right-bracket').hide();
             $('.active-tab .sdk-facet-count').hide();
           }
-        } else if(!$('.full-search-data-container').children().length && !doc_count){
+        } else if (!$('.full-search-data-container').children().length && !doc_count) {
           $('.empty-full-results-container').removeClass('hide');
-        }else {
-          if(!$('.empty-full-results-container').hasClass('hide')){
+        } else {
+          if (!$('.empty-full-results-container').hasClass('hide')) {
             $('.empty-full-results-container').addClass('hide');
           }
         }
@@ -9334,7 +9334,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var tempData = JSON.parse(message.data);
 
         if (tempData.from === "bot" && tempData.type === "bot_response") {
-        
+
           if ((tempData || {}).message && (tempData || {}).message[0].component.payload) {
             if (tempData.message[0].cInfo) {
               tempData.message[0].component.payload.cInfo = tempData.message[0].cInfo;
@@ -9505,7 +9505,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       messageToBot["defaultGroups"] = { // required
         "filter": {}
       }
-      messageToBot["interface"] = $('body').hasClass('top-down')?'fullSearch':'conversationalSearch';
+      messageToBot["interface"] = $('body').hasClass('top-down') ? 'fullSearch' : 'conversationalSearch';
       //payload end//
       if (!$('body').hasClass('demo')) {
         messageToBot.indexPipelineId = _self.API.indexpipelineId;
@@ -15301,7 +15301,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           data.forEach((interface) => {
             if (interface.interface === 'fullSearch') {
               if (interface.facetsSetting) {
-                _self.vars.filterConfiguration = {aligned:interface.facetsSetting.aligned, isEnabled : interface.facetsSetting.enabled};
+                _self.vars.filterConfiguration = { aligned: interface.facetsSetting.aligned, isEnabled: interface.facetsSetting.enabled };
               }
               else {
                 _self.vars.filterConfiguration = { aligned: "left", isEnabled: true };
@@ -15417,6 +15417,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "id": 1,
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           <div class="tpt-1-tle-wt-txt {{if devMode== false || viewType != "Customize"}}display-none{{/if}}">\
             <div class="total-structured-data-wrap {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customization{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}">\
               {{if tour && isFullResults == true && viewType=="Customize"&&devMode==true}}\
@@ -16542,10 +16543,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $(dataHTML).find(".show-more-list").remove();
               $(".full-search-data-container [templateName=" + data.dataObj.ShowMoreData.templateName + "]").before($(dataHTML).find(".tile-with-text-parent").children());
             } else {
-            $(dataHTML).children(".show-more-list").remove();
-            $(".full-search-data-container [templateName=" + data.dataObj.ShowMoreData.templateName + "]").before($(dataHTML).children());
+              $(dataHTML).children(".show-more-list").remove();
+              $(".full-search-data-container [templateName=" + data.dataObj.ShowMoreData.templateName + "]").before($(dataHTML).children());
             }
-            
+
             if ((Number($(".full-search-data-container [templateName=" + data.dataObj.ShowMoreData.templateName + "]").attr('pageNumber')) + 1) * 5 >= doc_count) {
               $(".full-search-data-container [templateName=" + data.dataObj.ShowMoreData.templateName + "]").hide();
             }
@@ -16611,7 +16612,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.contentId = obj.contentId;
           item.addedResult = (obj.addedResult || (obj.addedResult == false)) ? obj.addedResult : false;
           item.bestMatch = (obj.bestMatch || (obj.bestMatch == false)) ? obj.bestMatch : false;
-          if(item.heading || item.description || item.img || item.url){
+          if (item.heading || item.description || item.img || item.url) {
             dataArr.push(item);
           }
         });
@@ -17327,14 +17328,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (!(res.tabFacet || {}).buckets) {
               totalResultsCount = 0;
             }
-            var reArrangeAvailableGroups=[];
-            _self.vars.availableGroupsOrder.forEach((d)=>{
+            var reArrangeAvailableGroups = [];
+            _self.vars.availableGroupsOrder.forEach((d) => {
               let group = availableGroups.find(g => g === d)
-              if(group){
+              if (group) {
                 reArrangeAvailableGroups.push(group)
               }
             })
-                availableGroups = reArrangeAvailableGroups;
+            availableGroups = reArrangeAvailableGroups;
             if (availableGroups && availableGroups.length) {
               availableGroups.forEach((group) => {
                 var results = res.results[group].data;
@@ -17357,11 +17358,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 }
                 _self.pubSub.publish(publishSearchData, { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
               });
-              if(!$('.full-search-data-container').children().length){
-                if(_self.isDev){
+              if (!$('.full-search-data-container').children().length) {
+                if (_self.isDev) {
                   $('.no-templates-defined-full-results-container').show();
-                }else{
-                    $('.empty-full-results-container').removeClass('hide');
+                } else {
+                  $('.empty-full-results-container').removeClass('hide');
                 }
               }
             } else {
@@ -17378,7 +17379,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('.empty-full-results-container').removeClass('hide');
                 $('.no-templates-defined-full-results-container').hide();
               }
-              
+
             }
 
             // res.results = results;
@@ -17408,7 +17409,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
 
           }
-          if(Object.keys(res.results).length === 0 && res.tasks.length == 0){
+          if (Object.keys(res.results).length === 0 && res.tasks.length == 0) {
             $('.empty-full-results-container').removeClass('hide');
             $('.no-templates-defined-full-results-container').hide();
           }
@@ -17562,7 +17563,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         else {
           _self.vars.isClearAllClickedInBottomUp = false;
         }
-        
+
         _self.facetReset(facetObj, facetData);
         _self.bindShowAllResultsTrigger(showAllHTML, facetData, null, true);
       });
@@ -17580,7 +17581,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.sdk-clear-all-facet').off('click').on('click', function (event) {
         event.stopPropagation();
         event.stopImmediatePropagation();
-   
+
         if (_self.vars.selectedFiltersArr.length > 0) {
           _self.vars.selectedFiltersArr.forEach(function (filter) {
             $("#" + filter).prop('checked', false);
@@ -17645,7 +17646,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (related == 'child') {
           $(event.target.parentNode).addClass('active-tab')
         }
-       
+
         if (classificationselected == 'all results' || classificationselected == 'task') {
           $('#actions-full-search-container').show();
         } else {
@@ -18545,7 +18546,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var responseObject = { 'type': 'onboardingjourney', data: 'optimize', query: _self.vars.searchObject.searchText, bottomUp: true }
           _self.parentEvent(responseObject);
         }
-        
+
         _self.refreshFullResultsPage();
         // }
       },
@@ -19813,12 +19814,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('#live-search-result-box').hide();
           return;
         }
-        if($('.live-search-data-container').children().length|| $('.auto-query-box').children().length){
+        if ($('.live-search-data-container').children().length || $('.auto-query-box').children().length) {
           $('#live-search-result-box').show();
-        }else{
+        } else {
           $('#live-search-result-box').hide();
         }
-     
+
       });
 
       _self.pubSub.unsubscribe('sa-show-all-results-top-down');
@@ -21082,27 +21083,27 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       setTimeout(function () {
         $('.click-to-navigate-url').off('click').on('click', function (e) {
           _self.captureClickAnalytics(e, $(e.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(e.currentTarget).closest('.faqs-shadow').attr('contentId'), $(e.currentTarget).closest('.faqs-shadow').attr('id'), $(e.currentTarget).attr('title'));
-         if($(e.currentTarget).hasClass('isClickable')){
-          if ($(e.target).is('a')) {
-            if ($(e.target).attr('href')) {
-              // window.open($(e.target).attr('href'), '_blank');
-              var link = document.createElement('a');
-              link.href = $(e.target).attr('href');
-              link.target = "_blank",
-                link.click();
-              link.remove();
-            }
-          } else {
-            if ($(e.target).closest('.click-to-navigate-url').attr('href')) {
-              // window.open($(e.target).closest('.click-to-navigate-url').attr('href'), '_blank');
-              var link = document.createElement('a');
-              link.href = $(e.target).closest('.click-to-navigate-url').attr('href');
-              link.target = "_blank",
-                link.click();
-              link.remove();
+          if ($(e.currentTarget).hasClass('isClickable')) {
+            if ($(e.target).is('a')) {
+              if ($(e.target).attr('href')) {
+                // window.open($(e.target).attr('href'), '_blank');
+                var link = document.createElement('a');
+                link.href = $(e.target).attr('href');
+                link.target = "_blank",
+                  link.click();
+                link.remove();
+              }
+            } else {
+              if ($(e.target).closest('.click-to-navigate-url').attr('href')) {
+                // window.open($(e.target).closest('.click-to-navigate-url').attr('href'), '_blank');
+                var link = document.createElement('a');
+                link.href = $(e.target).closest('.click-to-navigate-url').attr('href');
+                link.target = "_blank",
+                  link.click();
+                link.remove();
+              }
             }
           }
-         }
         })
       }, 1000);
     }
@@ -21217,7 +21218,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if ($('body').hasClass('top-down')) {
         $(".content-data-sec").off('scroll').on('scroll', function () {
           if ($('.content-data-sec').scrollTop() > 50) {
-            $('.scroll-top-container').css('display','flex');
+            $('.scroll-top-container').css('display', 'flex');
           } else {
             $('.scroll-top-container').css('display', 'none');
           }
@@ -21228,8 +21229,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       } else {
         $(".data-body-sec").off('scroll').on('scroll', function () {
           if ($('.data-body-sec').scrollTop() > 50) {
-            $('.scroll-top-container').css('left',($('.show-all-results-outer-wrap').width()/2) + $('.show-all-results-outer-wrap').position().left)
-            $('.scroll-top-container').css('display','flex');
+            $('.scroll-top-container').css('left', ($('.show-all-results-outer-wrap').width() / 2) + $('.show-all-results-outer-wrap').position().left)
+            $('.scroll-top-container').css('display', 'flex');
           } else {
             $('.scroll-top-container').css('display', 'none');
           }

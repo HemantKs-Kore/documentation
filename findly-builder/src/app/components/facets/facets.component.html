@@ -199,8 +199,7 @@
                                         src="assets/icons/check-blue.svg"></li>
                                 <li *ngFor="let docType of statusArr"
                                     (click)="statusFilter.close();filterTable(docType,'statusType')">
-                                    <span class="list-name">{{docType == true ? 'Active' :(docType == false ?
-                                        'Inactive': '')}}</span><img
+                                    <span class="list-name">{{docType == true ? 'Active':'Inactive'}}</span><img
                                         [ngClass]="{'hide': filterSystem.statusFilter !== docType}"
                                         src="assets/icons/check-blue.svg">
                                 </li>

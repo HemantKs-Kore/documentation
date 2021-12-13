@@ -1828,7 +1828,7 @@
                       <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
                       <input type="text" placeholder="Search Field" id="facets-search-input"
                         class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
-                        [class.err-block]="(!(preview_title?.length) && submitted)"
+                        [class.err-block]="((!(preview_title?.length) && submitted)||!(templateFieldValidateObj.heading))"
                         (keyup)="searchlist('heading',$event.target.value,fieldData)" (keypress)="headDrop.open();"
                         (focus)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="preview_title"
                         ngbDropdownToggle>
@@ -1859,7 +1859,7 @@
                       <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
                       <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
                         class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
-                        [class.err-block]="(!(preview_desc?.length) && submitted)"
+                        [class.err-block]="((!(preview_desc?.length) && submitted)||!(templateFieldValidateObj.description))"
                         (keyup)="searchlist('description',$event.target.value,fieldData)"
                         (focus)="searchlist('description',$event.target.value,fieldData)" (keypress)="descDrop.open();"
                         [(ngModel)]="preview_desc" ngbDropdownToggle>
@@ -1890,7 +1890,7 @@
                       <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
                       <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
                         class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
-                        [class.err-block]="(!(preview_img?.length) && submitted)"
+                        [class.err-block]="((!(preview_img?.length) && submitted)||!(templateFieldValidateObj.image))"
                         (keyup)="searchlist('image',$event.target.value,fieldData)"
                         (focus)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="preview_img"
                         (keypress)="imgDrop.open();" ngbDropdownToggle>
@@ -1944,7 +1944,7 @@
                           data-toggle="dropdown"></button>
                         <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
                           class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
-                          [class.err-block]="(!(preview_url?.length) && submitted)"
+                          [class.err-block]="((!(preview_url?.length) && submitted)||!(templateFieldValidateObj.url))"
                           (keyup)="searchlist('url',$event.target.value,fieldData)"
                           (focus)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="preview_url"
                           (keypress)="urlDrop.open();" ngbDropdownToggle>
