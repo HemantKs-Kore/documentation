@@ -21,6 +21,7 @@ declare var PureJSCarousel: any;
 })
 export class AppsListingComponent implements OnInit {
   authInfo: any;
+  openJourney = false;
   saveInProgress = false;
   toShowAppHeader: boolean;
   appsData: any;
@@ -91,6 +92,7 @@ export class AppsListingComponent implements OnInit {
     this.appSelectionService.openApp(app);
   }
   openBoradingJourney() {
+    this.headerService.openJourneyForfirstTime = true;
     this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
     this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
   }
@@ -145,13 +147,26 @@ export class AppsListingComponent implements OnInit {
         this.emptyApp = false;
       }
       else {
-        this.emptyApp = true;
+        if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
+          let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
+          prDetails.route = "/home";
+
+          localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
+          this.router.navigate(['/home'], { skipLocationChange: true });
+        }
+        
         // if(!this.inlineManual.checkVisibility('CREATE_APP')){
         //   this.inlineManual.openHelp('CREATE_APP')
         //   this.inlineManual.visited('CREATE_APP')
         // }
-        this.showBoarding = true;
-        this.openBoradingJourney();
+        
+        /** Issue Fix for multiple onboarding function called */
+        if(!this.headerService.openJourneyForfirstTime){
+          this.emptyApp = true;
+          this.showBoarding = true;
+          this.headerService.openJourneyForfirstTime = true;
+          this.openBoradingJourney();
+        }
       }
     }, errRes => {
       console.log(errRes);

@@ -27,9 +27,9 @@
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle p-0 border-0 three-dots" ngbDropdownToggle> <img _ngcontent-aif-c18="" class="ng-tns-c18-5" src="assets/icons/elipse.svg"></button>                                            
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                          <li (click)='exportFaq("json")' *ngIf="(faqs && faqs.length) || viewDetails">{{'faqSource.export_to_json' | translate}}</li>
+                          <li (click)='exportFaq("json")' *ngIf="(faqs && faqs.length) || (extractedResources && extractedResources.length) || viewDetails">{{'faqSource.export_to_json' | translate}}</li>
                           <li (click)='exportFaq("csv")' *ngIf="(faqs && faqs.length) || (extractedResources && extractedResources.length) || viewDetails">{{'faqSource.export_to_csv' | translate}}</li>                         
-                          <li (click)="openStatusModal()" *ngIf="(faqs && faqs.length) ||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) || viewDetails">{{'faqSource.manage_extracts' | translate}}</li>
+                          <li (click)="openStatusModal()" *ngIf="(faqs && faqs.length) || (extractedResources && extractedResources.length)||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) || viewDetails">{{'faqSource.manage_extracts' | translate}}</li>
                         </ul>
                     </div>
                 </div>
@@ -262,7 +262,7 @@
                                                     <div class="footer-data">
                                                         <div class="left_sec d-none"><img src="assets/icons/emoji-black.svg"></div>
                                                         <div class="btn_sec">
-                                                            <button class="kr-sg-button-secondary btn_lg" (click)="commentBox.close()">{{'faqSource. cancel' | translate}}</button>
+                                                            <button class="kr-sg-button-secondary btn_lg" (click)="commentBox.close()">{{'faqSource.cancel' | translate}}</button>
                                                             <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">{{'faqSource.post' | translate}} </button>                                           
                                                         </div>
                                                     </div>

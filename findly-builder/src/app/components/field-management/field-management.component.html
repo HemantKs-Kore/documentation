@@ -213,7 +213,7 @@
                         <div class="col-2 title">{{field.isRequired?'Yes':'No'}}</div>
                         <div class="col-2 title">{{field.isStored?'Yes':'No'}}</div>
                         <div class="col-2 title">{{field.isIndexed?'Yes':'No'}}
-                            <div class=" action_links text-right" style="margin-top:-15px;" *ngIf="!field.auto">
+                            <div class=" action_links text-right" style="margin-top:-15px;">
                                 <img src="assets/images/edit-pencil.svg" ngbTooltip="{{'fields.edit' | translate}}"
                                     [container]="'body'" placement="{{i==0?'bottom':'top'}}"
                                     (click)="addEditFiled(field)">

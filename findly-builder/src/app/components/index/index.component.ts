@@ -19,6 +19,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { FormControl } from '@angular/forms';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 declare const $: any;
 @Component({
   selector: 'app-index',
@@ -97,27 +98,40 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     },
   }
   entityNlp = [
-    { title: 'Date', value: 'date', isDepricated: false },
-    { title: 'Time', value: 'time', isDepricated: false },
-    { title: 'Date Time', value: 'datetime', isDepricated: false },
-    { title: 'Date Period', value: 'dateperiod', isDepricated: false },
-    { title: 'URL', value: 'url', isDepricated: false },
-    { title: 'Email', value: 'email', isDepricated: false },
-    { title: 'Location', value: 'location', isDepricated: false },
-    { title: 'City', value: 'city', isDepricated: false },
-    { title: 'Country', value: 'country', isDepricated: false },
-    { title: 'Color', value: 'color', isDepricated: false },
-    { title: 'Company Name or Organization Name', value: 'company_name', isDepricated: false },
-    { title: 'Currency', value: 'currencyv2', isDepricated: false },
-    { title: 'Person Name', value: 'person_name', isDepricated: false },
-    { title: 'Number', value: 'number', isDepricated: false },
-    { title: 'Percentage', value: 'percentage', isDepricated: false },
-    { title: 'Phone Number', value: 'phone_number', isDepricated: false },
-    { title: 'Zip Code', value: 'zipcode', isDepricated: false },
-    { title: 'Quantity', value: 'quantityv2', isDepricated: false },
-    { title: 'Address', value: 'address', isDepricated: false },
-    { title: 'Airport', value: 'airport', isDepricated: false },
-
+    { title: 'Date', value: 'DATE', isDepricated: false },
+    { title: 'Time', value: 'TIME', isDepricated: false },
+    { title: 'URL', value: 'URL', isDepricated: false },
+    { title: 'Email', value: 'EMAIL', isDepricated: false },
+    { title: 'Location', value: 'LOCATION', isDepricated: false },
+    { title: 'City', value: 'CITY', isDepricated: false },
+    { title: 'Country', value: 'COUNTRY', isDepricated: false },
+    { title: 'Company Name or Organization', value: 'ORGANIZATION', isDepricated: false },
+    { title: 'Currency', value: 'MONEY', isDepricated: false },
+    { title: 'Person Name', value: 'PERSON', isDepricated: false },
+    { title: 'Number', value: 'NUMBER', isDepricated: false },
+    { title: 'Percentage', value: 'PERCENTAGE', isDepricated: false },
+    /** Existing  */
+    // { title: 'Date', value: 'date', isDepricated: false },
+    // { title: 'Time', value: 'time', isDepricated: false },
+    // { title: 'Date Time', value: 'datetime', isDepricated: false },
+    // { title: 'Date Period', value: 'dateperiod', isDepricated: false },
+    // { title: 'URL', value: 'url', isDepricated: false },
+    // { title: 'Email', value: 'email', isDepricated: false },
+    // { title: 'Location', value: 'location', isDepricated: false },
+    // { title: 'City', value: 'city', isDepricated: false },
+    // { title: 'Country', value: 'country', isDepricated: false },
+    // { title: 'Color', value: 'color', isDepricated: false },
+    // { title: 'Company Name or Organization Name', value: 'company_name', isDepricated: false },
+    // { title: 'Currency', value: 'currencyv2', isDepricated: false },
+    // { title: 'Person Name', value: 'person_name', isDepricated: false },
+    // { title: 'Number', value: 'number', isDepricated: false },
+    // { title: 'Percentage', value: 'percentage', isDepricated: false },
+    // { title: 'Phone Number', value: 'phone_number', isDepricated: false },
+    // { title: 'Zip Code', value: 'zipcode', isDepricated: false },
+    // { title: 'Quantity', value: 'quantityv2', isDepricated: false },
+    // { title: 'Address', value: 'address', isDepricated: false },
+    // { title: 'Airport', value: 'airport', isDepricated: false },
+    /** Existing  */
     // { title: 'Attachment(Image / File)', value: 'attachment', isDepricated: false },
     // {"title": "City (Advanced)", "value": "cityAdv", "isDepricated": false},
     // {"title": "City with Geo Coordinates", "value": "city_coordinates"},
@@ -205,6 +219,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService
   ) { }
+  @ViewChild('plans') plans: UpgradePlanComponent;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     console.log("this.selectedApp", this.selectedApp)
@@ -272,6 +287,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     }
+  }
+  //camelcase names in operators
+  camelCaseNames(operator) {
+    const camel_name = this.operators.filter(data => data.value == operator);
+    return camel_name[0].name;
   }
   getTraitGroups(initial?) {
     const quaryparms: any = {
@@ -715,6 +735,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   saveConfig(index?, dialogRef?) {
+    let plainScriptTxt: any;
+    if (this.newMappingObj && this.newMappingObj.custom_script &&
+      this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+      plainScriptTxt = this.newMappingObj.custom_script.defaultValue.script;
+    }
     let indexArrayLength: any = this.validateConditionForRD();
     if (indexArrayLength) {
       this.removeExcludeDocumentStage(indexArrayLength, true);
@@ -762,12 +787,33 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.clearDirtyObj();
         this.setResetNewMappingsObj(null, true);
+        /** Workbench plain text temp */
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
       }, errRes => {
         this.savingConfig = false;
-        this.errorToaster(errRes, 'Failed to save configurations');
+        // this.errorToaster(errRes, 'Failed to save configurations');
+        if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessDenied' || errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
+          this.upgrade();
+          this.errorToaster(errRes, errRes.error.errors[0].msg);
+          setTimeout(() => {
+            // this.btnDisabled = false;
+          }, 500)
+        }
+        /** Workbench plain text temp */
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
+
       });
     }
 
+  }
+  upgrade() {
+    this.plans.openChoosePlanPopup('choosePlans');
   }
   openModalPopup() {
     this.loadingFields = true;
@@ -858,6 +904,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filteredSimulatorRes = JSON.stringify(data, null, ' ');
   }
   simulate() {
+    let plainScriptTxt: any;
+    if (this.newMappingObj && this.newMappingObj.custom_script &&
+      this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+      plainScriptTxt = this.newMappingObj.custom_script.defaultValue.script;
+    }
     let indexArrayLength: any = this.validateConditionForRD();
     if (indexArrayLength) {
       this.removeExcludeDocumentStage(indexArrayLength, false);
@@ -903,6 +954,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.simulteObj.currentSimulateAnimi = -1;
         this.simulteObj.simulationInprogress = false;
+        /** Workbench plain text temp */
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
       }, errRes => {
         this.simulating = false;
         this.simulteObj.simulating = false;
@@ -916,6 +972,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           this.pollingSubscriber.unsubscribe();
         }
         this.simulteObj.currentSimulateAnimi = -1;
+        /** Workbench plain text temp */
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
         this.errorToaster(errRes, 'Failed to get stop words');
       });
     }
@@ -1066,7 +1127,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       res.stages.map(data => {
         return data.condition.mappings.map(data1 => {
           let obj = this.fields.find(da => da._id === data1.fieldId);
-          data1.fieldName = obj.fieldName
+          if (obj && obj.fieldName) {
+            data1.fieldName = obj.fieldName
+          }
+
         })
       })
       this.pipeline = res.stages || [];
@@ -1301,6 +1365,14 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     return true;
+  }
+  onSourcefieldChange(event, parent, no, e) {
+    // console.log(event,parent,no)
+    // e.stopPropagation();
+    // $(this).next('.dropdown-toggle').find('[data-toggle=dropdown]').dropdown('toggle');
+    // parent.classList.add('show')
+    // parent.children[1].classList.add('show');
+    // parent.children[1].style.top ="0px";
   }
   addFiledmappings(map, isNotDefault?) {
     this.changesDetected = true;

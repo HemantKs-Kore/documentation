@@ -16,7 +16,11 @@
         <div class="inner-content">
           <ng-container *ngIf="!loading_skelton">
             <div class="title">{{'overview.totalUsers' | translate}} <span>({{'overview.last_24hrs' |
-                translate}})</span></div>
+                translate}})</span>
+              <img src="assets/icons/gray_info.svg"
+                ngbTooltip="Number of unique users performed search during the selected period" placement="top-center"
+                [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
+            </div>
             <div class="count-graph-data">
               <div class="count-sec">
                 <div class="count">{{totalUsersStats?.totalUsers}}</div>
@@ -48,7 +52,11 @@
         <div class="inner-content">
           <ng-container *ngIf="!loading_skelton">
             <div class="title">{{'overview.totalSearches'| translate}} <span>({{'overview.last_24hrs' |
-                translate}})</span></div>
+                translate}})</span>
+              <img src="assets/icons/gray_info.svg"
+                ngbTooltip="Total number of searches performed during the selected period" placement="top-center"
+                [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
+            </div>
             <div class="count-graph-data">
               <div class="count-sec">
                 <div class="count">{{totalSearchesStats?.totalSearches}}</div>
@@ -80,7 +88,11 @@
         <div class="inner-content">
           <ng-container *ngIf="!loading_skelton">
             <div class="title">{{'overview.resultRate' | translate}} <span>({{'overview.last_24hrs' |
-                translate}})</span></div>
+                translate}})</span>
+              <img src="assets/icons/gray_info.svg" placement="top-center"
+                ngbTooltip="Total number of searches that returned at least one result" [container]="'body'"
+                tooltipClass="dashboard-custom-tooltips" class="pl-1">
+            </div>
             <div class="count-graph-data">
               <div class="count-sec">
                 <div class="count">
@@ -118,6 +130,9 @@
         <div class="inner-content" style="min-height: 123px;">
           <ng-container *ngIf="!loading_skelton">
             <div class="title">{{'overview.clicks' | translate}} <span>({{'overview.last_24hrs' | translate}})</span>
+              <img src="assets/icons/gray_info.svg" placement="top-right"
+                ngbTooltip="No. of searches where at least one result was clicked on by the search user"
+                [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
             </div>
             <div class="count-graph-data">
               <div class="count-sec">
@@ -203,8 +218,9 @@
                   *ngIf="indices?.botActions?.linked_bot_name!=null&&indices?.botActions?.tasks!=0">
                   {{indices?.botActions?.linked_bot_name}} | {{indices?.botActions?.tasks}} {{'overview.Tasks' |
                   translate}}</div>
-                <div class="col-7 data-count"
-                  *ngIf="indices?.botActions?.linked_bot_name==null&&indices?.botActions?.tasks==0">
+                <div class="col-7 data-count link"
+                  *ngIf="indices?.botActions?.linked_bot_name==null&&indices?.botActions?.tasks==0"
+                  (click)="redirectToActions()">
                   {{'overview.link_bot' | translate}}</div>
               </div>
             </ng-container>
@@ -241,7 +257,7 @@
               <div class="query-type border-">
                 <div class="title-query"><img src="assets/icons/overview/question.svg">{{'plan.queries' | translate}}
                 </div>
-                <div class="range-data">
+                <div class="range-data" *ngIf="usageDetails?.searchCount">
                   <div class="count-type">{{usageDetails?.searchCount | valueFormat}} /
                     <span>{{usageDetails?.searchLimit| valueFormat}}</span>
                   </div>
@@ -254,7 +270,7 @@
               <div class="query-type">
                 <div class="title-query"><img src="assets/icons/overview/document.svg">{{'plan.documents' | translate}}
                 </div>
-                <div class="range-data">
+                <div class="range-data" *ngIf="usageDetails?.ingestCount">
                   <div class="count-type">{{usageDetails?.ingestCount| valueFormat}} /
                     <span>{{usageDetails?.ingestLimit| valueFormat}}</span>
                   </div>
