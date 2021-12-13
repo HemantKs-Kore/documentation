@@ -461,7 +461,7 @@
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.faq_answer && selectedFaq._source.faq_answer.length">
                                                 <!-- <ng-container *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index;"> -->
                                                    
-                                                        <div  *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index; " cdkDrag>
+                                                        <div  *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index; " cdkDrag> {{selectedFaq._source.faq_answer | json}}
                                                             <!-- <div cdkDrag>
                                                         </div> -->
 
@@ -496,7 +496,7 @@
                                                
                                                         </div> 
                                             </ng-container>   
-                                        </div>
+                                        </div>  {{selectedFaq._source.faq_cond_answers | json}}
                                         <div cdkDropList [cdkDropListData]="selectedFaq._source.faq_cond_answers" class="conditionalBlock bot-response-view-mode" (cdkDropListDropped)="drop($event)" >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source.faq_cond_answers && selectedFaq._source.faq_cond_answers.length">
                                             <div  cdkDrag *ngFor="let consitionalAnswer of selectedFaq._source.faq_cond_answers; let i = index;" >
@@ -567,42 +567,76 @@
                                         <!-- <div class="added-answer" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(selectedFaq.answer)'></div> -->
                                     </div>
 
-                                    <ng-container>
-                                        <div class="conditional-responses-new">
+                                    <ng-container >
+                                        <div cdkDropListGroup>
+                                        <!-- New UI for ond Resp  Start-->
+                                        <div cdkDropList [cdkDropListData]="selectedFaq._source.faq_cond_answers"  (cdkDropListDropped)="drop($event)"class="conditional-responses-new"  >
+                                            <ng-container *ngIf="selectedFaq && selectedFaq._source.faq_cond_answers && selectedFaq._source.faq_cond_answers.length">
                                             <div class="conditional-res-main-heading">
-                                                <span class="title">Conditional Responses</span>
+                                                <span class="title">Conditional Responses</span> 
                                                 <img src="assets/icons/faq/help.svg">
-                                                <span class="count-conditions">2</span>
+                                                <span class="count-conditions">{{selectedFaq._source.faq_cond_answers.length}}</span>
                                             </div>
-                                            <div class="response-block if-morethan-one">
-                                                <div class="response-count">1</div>
+                                            <div class="response-block if-morethan-one" *ngFor="let consitionalAnswer of selectedFaq._source.faq_cond_answers; let i = index;" cdkDrag>
+                                                <div class="response-count">{{ ' ' + (i + 1 + (selectedFaq._source.faq_cond_answers?selectedFaq._source.faq_cond_answers.length:0))}}</div>  
                                                 <div class="response-data"> 
                                                     <div class="header-data">
-                                                        <div class="title col-8"><img src="assets/icons/faq/move.svg">Conditional Responses</div>
+                                                        <div class="title col-8"><img src="assets/icons/faq/move.svg">Conditional Responses</div> 
                                                         <div class="count-clicks col-4">
                                                             <div class="views">
-                                                                <img src="assets/icons/faq/views.svg">872
+                                                                <img src="assets/icons/faq/views.svg"placement="top" container='body' ngbTooltip="Views">{{selectedFaq?.stats?.appearances?selectedFaq?.stats?.appearances[0][0]: 0}}
                                                             </div>
                                                             <div class="clicks">
-                                                                <img src="assets/icons/faq/likes.svg">764
+                                                                <img src="assets/icons/faq/likes.svg" placement="top" container='body' ngbTooltip="Clicks">{{selectedFaq?.stats?.clicks ||0}}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="data-inner-content">
-                                                        <div class="response-text">To access Citibank Online as a first time user, you will need to create a User ID and Internet Password.</div>
+                                                    <div class="data-inner-content" >
+                                                        <div class="response-text">{{consitionalAnswer.answers[0].text}}</div>
+                                          
                                                         <div class="conditions-list">
                                                             <div class="titles-sec">
                                                                 <div class="title">Conditions</div>
                                                                 <div class="show-more" data-toggle="collapse" data-target="#demo">Show More <img src="assets/icons/faq/carrotup.svg"></div>
                                                             </div>
                                                             <div id="demo" class="collapse show">
-                                                                devendar
+                                                                <div class="d-flex col-12 conditions-response-block">
+                                                                    <!-- <div class="title col-2 px-0">{{'faqSource.conditions' | translate}} :</div> -->
+                                                                    <div class="right-content col-10 px-0 condition-content">
+                                                                        <!-- if-lenthfour -->
+                                                                        <div class="row added-conditions" *ngFor="let rule of consitionalAnswer.conditions | slice:0:2; let ruleIndex = index" >
+                                                                            <ng-container *ngIf="showConditions(consitionalAnswer.conditions,ruleIndex)">
+                                                                               <div class="col-2  d-inline px-0 vertical-align-top">
+                                                                                <div class="rule-title pr-10" *ngIf="ruleIndex == 0">{{'faqSource.when_caps' | translate}}</div>
+                                                                                <div class="rule-title pr-20" *ngIf="ruleIndex > 0">{{'faqSource.and_caps' | translate}}</div>
+                                                                               </div>
+                                                                            <div class="col-10 d-inline-block px-0"[ngStyle]="{'margin-bottom':(showSeeAll(consitionalAnswer.conditions) && ruleIndex==0)?'10px':'0px'}" >
+                                                                                <div class="rule-dropdown-data">
+                                                                                    <span class="rule-dropdown-key">{{ "businessRules." + rule.contextType | translate}} :</span>
+                                                                                    <span class="rule-dropdown-value" title='{{ "businessRules." + rule.contextCategory | translate }}'>{{ "businessRules." + rule.contextCategory | translate }}</span>
+                                                                                </div>
+                                                                                <div class="rule-contains">{{ rule.operator | titlecase}}</div>
+                                                                                <ng-container  *ngFor="let value of rule.value | slice:0:(ruleIndex==0?(rule.operator !=='between'?4:2):2); let valueIndex = index">
+                                                                                    <div class="rule-value" *ngIf="rule.dataType=== 'date' && rule.operator !=='between'" title="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value | dateFormatPipe: 'DD MMM YYYY'}}</div>
+                                                                                    <div class="rule-value" *ngIf="rule.dataType=== 'date'  && rule.operator =='between'" title="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value[0] | dateFormatPipe: 'DD MMM YYYY'}} - {{value[1] | dateFormatPipe: 'DD MMM YYYY'}}</div>
+                                                                                    <div class="rule-value" *ngIf="rule.dataType!== 'date'" title="{{value}}">{{value}}</div>
+                                                                                    <div class="or-rule" *ngIf="(valueIndex < 3 && valueIndex!== (rule.value.length>3?3:(rule.value.length-1)) && ruleIndex==0 && rule.operator !=='between')||(valueIndex < 1 && ruleIndex==1 && valueIndex!== 1) || (valueIndex < 1 && valueIndex!== (rule.value.length>2?2:(rule.value.length-1)) && ruleIndex==0 && rule.operator =='between') ">{{ "or_caps" | translate}}</div>
+                                                                                </ng-container> 
+                                                                                <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div>
+                                                                            </div>
+                                                                            </ng-container>                                                             
+                                                                        </div>
+                                                                        <div class="d-block"><a (click)="editThisQa()" class="see-all-anchor" *ngIf="showSeeAll(consitionalAnswer.conditions)">See All</a></div>
+                                                                       
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="response-block if-morethan-one">
+                                        </ng-container>
+                                            <!-- <div class="response-block if-morethan-one">
                                                 <div class="response-count">2</div>
                                                 <div class="response-data"> 
                                                     <div class="header-data">
@@ -658,16 +692,30 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
-                                        <div class="default-responses-block">
+                                         <!-- New UI for Cond Resp  End-->
+                                          <!-- New UI for DefResp  Start-->
+                                        <div cdkDropList [cdkDropListData]="selectedFaq._source.faq_answer"   class="default-responses-block" (cdkDropListDropped)="drop($event)"  >
+                                        <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.faq_answer && selectedFaq._source.faq_answer.length">
                                             <div class="header-data">
-                                                <span class="title">Conditional Responses</span>
+                                                <span class="title">Default Responses</span>
                                                 <img src="assets/icons/faq/help.svg">
-                                                <span class="count-conditions">2</span>
+                                                <span class="count-conditions">{{selectedFaq._source.faq_answer.length}}</span>
                                             </div>
-                                            <ng-container>
-                                                <div class="default-res-data row">
+                                            <ng-container >
+                                                <div class="default-res-data row" *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index;" cdkDrag>
+                                                    <div  class="default-desc col-8"> {{answer.text}}</div>
+                                                    <div class="count-clicks col-4">
+                                                        <div class="views">
+                                                            <img src="assets/icons/faq/views.svg"(click)="clicksViews()" placement="top" container='body' ngbTooltip="Views">{{numberOf.appearances}}
+                                                        </div>
+                                                        <div class="clicks">
+                                                            <img src="assets/icons/faq/likes.svg"(click)="clicksViews()" placement="top" container='body' ngbTooltip="Clicks">{{numberOf.clicks}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="default-res-data row">
                                                     <div class="default-desc col-8">To access Citibank Online as a first time user, you will need to create a User ID and Internet Password.</div>
                                                     <div class="count-clicks col-4">
                                                         <div class="views">
@@ -677,20 +725,12 @@
                                                             <img src="assets/icons/faq/likes.svg">764
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="default-res-data row">
-                                                    <div class="default-desc col-8">To access Citibank Online as a first time user, you will need to create a User ID and Internet Password.</div>
-                                                    <div class="count-clicks col-4">
-                                                        <div class="views">
-                                                            <img src="assets/icons/faq/views.svg">872
-                                                        </div>
-                                                        <div class="clicks">
-                                                            <img src="assets/icons/faq/likes.svg">764
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                </div> -->
                                             </ng-container>
+                                        </ng-container>
                                         </div>
+                                        <!-- New UI for DefResp  Start-->
+                                    </div>
                                     </ng-container>                                    
                                 </div>
                                 <div class="appearences-info row" *ngIf="selectedFaq && selectedFaq.feedback">
