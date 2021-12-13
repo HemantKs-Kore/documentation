@@ -17514,3 +17514,11 @@ display: block;
 .skelton-load-img img{
     content: url(../images/skeletonImage.png);
 }
+
+.sdk-body .purejscarousel-dots-container {
+display: none !important;
+}
+
+.sdk-body .kore-chat-window .slide {
+    border: 5px solid var(--sdk-chat-widow-default-white);
+}
