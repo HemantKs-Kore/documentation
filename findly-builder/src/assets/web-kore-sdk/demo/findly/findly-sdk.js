@@ -933,8 +933,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div id="searchBox" >\
               </div>\
             <div id="searchChatContainer" class="search-chat-container"></div>\
-              <div class="search-body">\
-            </div>\
+              <!--<div class="search-body">\
+            </div>-->\
             <div id="myPreviewModal" class="modalImagePreview">\
             <span class="closeElePreview">&times;</span>\
            <div class="largePreviewContent"></div>\
@@ -9469,7 +9469,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       messageToBot["timeDateDay"] = dateTime;
       messageToBot["currentPage"] = window.location.href;
       messageToBot["country"] = _self.vars.locationObject.country;
-
+      if (_self.vars.customizeView) {
+        messageToBot["customize"] = true;
+        messageToBot["isDev"] = true;
+      }
       if (_self.bot.options) {
         messageToBot["client"] = _self.bot.options.client || "sdk";
         messageToBot["botInfo"] = {};
@@ -15889,7 +15892,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
           <div class="grid-data-item click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-            <div class="inner-content-list">\
+            <div class="inner-content-list ">\
               <img src="${data.img}">\
             </div>\
           </div>\
@@ -15915,7 +15918,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-6-grid-list {{if textAlignment=="center"}}text-center{{/if}}">\
+          <div class="template-6-grid-list">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           <div class="grid-data-item faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
               <div class="inner-content-list">\
@@ -15945,12 +15948,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-7-grid-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}" >\
+          <div class="template-7-grid-list mb-15 " >\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
-              <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
+              <div class="grid-data-item  click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
           {{else}}\
-            <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
+            <div class="grid-data-item  click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
           {{/if}}\
                 <div class="inner-content-list">\
                   <div class="main-img-block">\
@@ -15974,14 +15977,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-9-grid-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
+          <div class="template-9-grid-list mb-15 ">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
-            <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
+            <div class="grid-data-item  click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
           {{else}}\
-            <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
+            <div class="grid-data-item  click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
           {{/if}}\
-                <div class="inner-content-list">\
+                <div class="inner-content-list ">\
                   <div class="main-img-block">\
                     <img src="${data.img}">\
                   </div>\
@@ -16006,11 +16009,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div class="template-9-grid-list mb-15">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
-            <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
+            <div class="grid-data-item  click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
           {{else}}\
-            <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
+            <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
           {{/if}}\
-                <div class="inner-content-list">\
+                <div class="inner-content-list ">\
                   <div class="main-img-block">\
                      <img src="${data.img}">\
                   </div>\
@@ -16041,7 +16044,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{else}}\
                 <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}"">\
                 {{/if}}\
-                  <div class="text-template" title="${data.heading}"><div class="text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.heading)}}</div></div>\
+                  <div class="text-template {{if textAlignment=="center"}}text-center{{/if}}" title="${data.heading}"><div class="text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.heading)}}</div></div>\
                 </div>\
               {{/each}}\
               </div>\
@@ -16064,7 +16067,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{else}}\
               <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
               {{/if}}\
-              <div class="text-template" ><div class="two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div></div>\
+              <div class="text-template {{if textAlignment=="center"}}text-center{{/if}}" ><div class="two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div></div>\
               </div>\
             {{/each}}\
             </div>\
@@ -16087,7 +16090,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{else}}\
             <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
             {{/if}}\
-                    <div class="inner-content-list">\
+                    <div class="inner-content-list {{if textAlignment=="center"}}text-center{{/if}}">\
                         <div class="heading-text text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                         <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                     </div>\
@@ -16105,7 +16108,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
             {{if structuredData.length}}\
             <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-            <div class="template-4-carousel-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
+            <div class="template-4-carousel-list mb-15">\
             <div class="carousel">\
                 {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                 {{if isClickable == true}}\
@@ -16137,7 +16140,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-5-carousel-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
+          <div class="template-5-carousel-list mb-15">\
           <div class="carousel">\
               {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
               {{if isClickable == true}}\
@@ -16171,7 +16174,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{else}}\
               <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
                   {{/if}}\
-              <div class="inner-content-list">\
+              <div class="inner-content-list {{if textAlignment=="center"}}text-center{{/if}}">\
                 <div class="title-main text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                 {{each(key, res) [0,1,2]}}\
                 <div class="img-with-text">\
@@ -16204,7 +16207,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{else}}\
               <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
                   {{/if}}\
-              <div class="inner-content-list">\
+              <div class="inner-content-list {{if textAlignment=="center"}}text-center{{/if}}">\
                 <div class="main-img-block">\
                 <img src="${data.img}">\
                 </div>\
@@ -16233,7 +16236,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{else}}\
               <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
                   {{/if}}\
-              <div class="inner-content-list">\
+              <div class="inner-content-list {{if textAlignment=="center"}}text-center{{/if}}">\
                 <div class="main-img-block">\
                 <img src="${data.img}">\
                 </div>\
@@ -16255,7 +16258,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           {{if structuredData.length}}\
           <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-7-carousel-list mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
+          <div class="template-7-carousel-list mb-15">\
           <div class="carousel">\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
           {{if isClickable == true}}\
@@ -16524,17 +16527,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
         if (data.isLiveSearch) {
-          // if ($('body').hasClass('top-down') && container == '.live-data-container') {
-          //   $(container).each(function () {
-          //     if ($(this).is(':visible')) {
-          //       $(this).empty().append(dataHTML);
-          //     } else {
-          //       $(this).empty();
-          //     }
-          //   })
-          // } else {
           $(container).append(dataHTML);
-          // }
         } else if (data.isSearch) {
           $(container).last().append(dataHTML);
         } else {
@@ -16624,32 +16617,30 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     var newCarouselEles = [];
     FindlySDK.prototype.bindCarouselActions = function (dataHTML) {
       var _self = this;
-      setTimeout(function () {
-        dataHTML.find('.carousel:last').addClass("carouselTemplate" + newCarouselTemplateCount);
-        var count = dataHTML.find(".carouselTemplate" + newCarouselTemplateCount).children().length;
-        if (count > 1) {
-          var carouselOneByOne = new PureJSCarousel({
-            carousel: '.carouselTemplate' + newCarouselTemplateCount,
-            slide: '.slide',
-            oneByOne: true,
-            jq: $,
-          });
-          $('.carousel' + newCarouselTemplateCount).parent().show();
-          newCarouselEles.push(carouselOneByOne);
-          if ($('.carouselTemplate' + newCarouselTemplateCount).width() >= ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container').children().length * $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container .slide:first').width())) {
-            $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev').hide();
-            $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next').hide();
-          }
-          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev::after').css('height', $('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height() + 'px');
-          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next::after').css('height', $('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height() + 'px');
-          $("body").append("<style>.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-next::after,.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-prev::after {height:" + ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container').height() - 8) + "px !important; top:-" + ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next').position().top - 27.5) + "px !important;}</style>");
-
-          var evt = document.createEvent("HTMLEvents");
-          evt.initEvent('resize', true, false);
-          window.dispatchEvent(evt);
-          newCarouselTemplateCount += 1;
+      newCarouselTemplateCount += 1;
+      dataHTML.find('.carousel:last').addClass("carouselTemplate" + newCarouselTemplateCount);
+      var count = dataHTML.find(".carouselTemplate" + newCarouselTemplateCount).children().length;
+      if (count > 1) {
+        var carouselOneByOne = new PureJSCarousel({
+          carousel: '.carouselTemplate' + newCarouselTemplateCount,
+          slide: '.slide',
+          oneByOne: true,
+          jq: $,
+        });
+        $('.carousel' + newCarouselTemplateCount).parent().show();
+        newCarouselEles.push(carouselOneByOne);
+        if ($('.carouselTemplate' + newCarouselTemplateCount).width() >= ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container').children().length * $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container .slide:first').width())) {
+          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev').hide();
+          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next').hide();
         }
-      });
+        $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev::after').css('height', $('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height() + 'px');
+        $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next::after').css('height', $('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height() + 'px');
+        $("body").append("<style>.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-next::after,.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-prev::after {height:" + ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container').height() - 8) + "px !important; top:-" + ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next').position().top - 27.5) + "px !important;}</style>");
+
+        var evt = document.createEvent("HTMLEvents");
+        evt.initEvent('resize', true, false);
+        window.dispatchEvent(evt);
+      }
     }
 
     FindlySDK.prototype.bindStructuredDataTriggeringOptions = function () {
@@ -17479,6 +17470,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       } else {
         $('#topFacetFilterId').empty().append(facetTemplateTop);
         $('#topFacetIcon').empty().append(facetTemplateTopIcon);
+        if (facetObj.show) {
+          if (!$('.iffilteristop').hasClass('isTopAlignFilterAdded')) {
+            $('.iffilteristop').addClass('isTopAlignFilterAdded');
+          }
+        } else {
+          $('.iffilteristop').removeClass('isTopAlignFilterAdded');
+        }
       }
       if (!$('body').hasClass('top-down')) {
         if (facetObj.show) {
@@ -18245,7 +18243,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       </div>\
         <div class="scroll-top-container">\
          <div class="title-scroll-top">\
-           <img src="images/scroll-top.svg">Scroll to top\
+           <img>Scroll to top\
           </div>\
         </div>\
         <div class="empty-full-results-container hide" id="top-down-all-tab-empty-state">\
@@ -19582,8 +19580,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             <div class="all-result-container">
             <div class="skelton-load-img">
-              <img alt="" class="isDevLoader" src="assets/web-kore-sdk/demo/images/skeletonImage.png" />
-              <img alt="" class="isEndUserLoader"src="./../demo/images/skeletonImage.png" />
+              <img alt="" />
             </div>
             <div id="conversation-container" class="conversation-container">
                     <div class="conversation-title">
@@ -19628,7 +19625,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         <div class="content-data-sec">
                         <div class="scroll-top-container">
                           <div class="title-scroll-top">
-                            <img src="images/scroll-top.svg">Scroll to top
+                            <img>Scroll to top
                           </div>
                         </div>
                           <div class="no-templates-defined-full-results-container">\
@@ -19814,10 +19811,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('#live-search-result-box').hide();
           return;
         }
-        if ($('.live-search-data-container').children().length || $('.auto-query-box').children().length) {
-          $('#live-search-result-box').show();
-        } else {
-          $('#live-search-result-box').hide();
+        if ($('body').hasClass('top-down')) {
+          if ($('.live-search-data-container').children().length || $('#auto-query-box').children().length) {
+            $('#live-search-result-box').show();
+          } else {
+            $('#live-search-result-box').hide();
+          }
         }
 
       });

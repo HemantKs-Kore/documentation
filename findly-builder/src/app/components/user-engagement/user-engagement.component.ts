@@ -550,7 +550,7 @@ export class UserEngagementComponent implements OnInit {
             <div class="title new">${params[1].value}</div>
         </div>
         <div class="data-content border-0">
-            <div class="main-title">Repeat Users</div>
+            <div class="main-title">Return Users</div>
             <div class="title return">${params[0].value}</div>
         </div>
     </div> 

@@ -1233,8 +1233,7 @@
                     <ng-container>
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-6-grid-list row col-11 mb-3"
-                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="template-6-grid-list row col-11 mb-3">
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
                             <div class="heading-main">Heading comes here</div>
@@ -1391,7 +1390,7 @@
                         <!-- The slideshow -->
                         <div class="carousel-inner">
                           <div class="carousel-item active">
-                            <div class="template-2-classic-list row col-12 m-0 p-2">
+                            <div class="template-2-classic-list row col-12 m-0 p-2" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                               <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
                                 <div class="classic-list-item">Description comes here, descrip tion comes here,
                                   description comes here, description comes here, description comes here, description
@@ -1433,7 +1432,7 @@
                         <!-- The slideshow -->
                         <div class="carousel-inner">
                           <div class="carousel-item active">
-                            <div class="template-3-classic-list row col-12 m-0 p-2">
+                            <div class="template-3-classic-list row col-12 m-0 p-2" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                               <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
                                 <div class="classic-list-item">
                                   <div class="heading-text">Heading comes here</div>
@@ -1587,7 +1586,7 @@
                         <!-- The slideshow -->
                         <div class="carousel-inner">
                           <div class="carousel-item active">
-                            <div class="template-6-classic-list row col-12 m-0 p-2">
+                            <div class="template-6-classic-list row col-12 m-0 p-2" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                               <div class="col-4 pl-1 pr-1" *ngFor="let data of [0,1,2]">
                                 <div class="classic-list-item">
                                   <div class="title-main">Heading comes here</div>
@@ -1653,7 +1652,7 @@
                         <!-- The slideshow -->
                         <div class="carousel-inner">
                           <div class="carousel-item active">
-                            <div class="template_7_grid_list row col-12 m-0 p-2">
+                            <div class="template_7_grid_list row col-12 m-0 p-2" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                               <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
                                 <div class="inner-content-list">
                                   <div class="main-img-block">
@@ -1705,7 +1704,7 @@
                         <!-- The slideshow -->
                         <div class="carousel-inner">
                           <div class="carousel-item active">
-                            <div class="template-8-grid-list row col-12 m-0 p-2">
+                            <div class="template-8-grid-list row col-12 m-0 p-2" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                               <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
                                 <div class="inner-content-list">
                                   <div class="main-img-block">

@@ -267,11 +267,6 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
   }
-  //camelcase names in operators
-  camelCaseNames(operator) {
-    const camel_name = this.operators.filter(data => data.value == operator);
-    return camel_name[0].name;
-  }
   //add condition dynamically
   addCondition(type, index, field?, data?) {
     if (type === 'add') {
@@ -295,6 +290,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     }
+  }
+  //camelcase names in operators
+  camelCaseNames(operator) {
+    const camel_name = this.operators.filter(data => data.value == operator);
+    return camel_name[0].name;
   }
   getTraitGroups(initial?) {
     const quaryparms: any = {
@@ -806,12 +806,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
             // this.btnDisabled = false;
           }, 500)
         }
-         /** Workbench plain text temp */
-         if(this.newMappingObj && this.newMappingObj.custom_script && 
-          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
-         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        /** Workbench plain text temp */
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
         }
-       
+
       });
     }
 
