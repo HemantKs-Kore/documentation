@@ -62,7 +62,7 @@
                         <div id="querieswithresults" class="tab-pane tab-data-content " [ngClass]="{'active show': querieswithresults }">
                             <div class="table_data_content">
                                 <div class="table_header row m-0">
-                                    <div class="col-8 title" click)="sortByApi('QueriesWithResults','query')">
+                                    <div class="col-8 title" (click)="sortByApi('QueriesWithResults','query')">
                                         <span class="d-flex align-items-center flex-column mr-1">
                                             <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('query','asc')"class="sortImg downArrow">
                                             <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('query','desc')" class="sortImg upArrow">
@@ -75,7 +75,7 @@
                                             <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('searches','desc')" class="sortImg upArrow">
                                         </span>
                                         {{'metrics.search_insights.Count'| translate}} <span class="info-icon" placement="top-center" ngbTooltip="Number of times the query was searched for by the end-users" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img src="assets/icons/Info_gray.svg"></span></div>
-                                    <div class="col-2 title" click)="sortByApi('QueriesWithResults','count')">
+                                    <div class="col-2 title" (click)="sortByApi('QueriesWithResults','count')">
                                         <span class="d-flex align-items-center flex-column mr-1">
                                             <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('count','asc')" class="sortImg downArrow">
                                             <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('count','asc')" class="sortImg upArrow">
