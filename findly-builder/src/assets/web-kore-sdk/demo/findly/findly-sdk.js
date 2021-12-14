@@ -6234,7 +6234,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
                           $(searchData).data(dataObj);
                           $('.search-body').html(searchData);
-
+                          $('.search-body').show();
+                          $('.search-body').removeClass('hide');
                           $('.live-search-data-container').empty();
                           if (res && res.results && res.resultType == "grouped") {
                             var availableGroups = Object.keys(res.results);
