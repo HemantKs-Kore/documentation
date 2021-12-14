@@ -20713,13 +20713,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         d += performance.now(); //use high-precision timer if available
       }
       var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = (d + Math.random() * 16) % 16 | 0;
+        var r = (d + generateRandomNum() * 16) % 16 | 0;
         d = Math.floor(d / 16);
         return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
       });
       return uuid;
     }
-
+    function generateRandomNum() {
+      var dateObj = new Date();
+      var month = dateObj.getUTCMonth() + 1; 
+      var day = dateObj.getUTCDate();
+      var year = dateObj.getUTCFullYear();
+      var seconds = dateObj.getSeconds();
+      var minutes = dateObj.getMinutes();
+      var hour = dateObj.getHours();
+      var generatedNum = (year *month * day) * (hour + (minutes * seconds));
+      return generatedNum; 
+  }
     function b64EncodeUnicode(str) {
       // first we use encodeURIComponent to get percent-encoded UTF-8,
       // then we convert the percent encodings into raw bytes which
