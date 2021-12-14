@@ -426,8 +426,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
   defaultSortingAFacet(arr) {
     arr.sort(function (a, b) {
-      var keyA = a.facetValue.size,
-        keyB = b.facetValue.size;
+      var keyA = a.size ? a.size : -1, // a.facetValue.size,
+        keyB = b.size; //b.facetValue.size;
       // Compare the 2 dates
       if (keyA < keyB) return -1;
       if (keyA > keyB) return 1;
@@ -450,7 +450,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.docTypeArr = [];
       this.selectTypeArr = [];
       this.facets = res || [];
-      //this.facets = this.defaultSortingAFacet(this.facets);
+      this.facets = this.defaultSortingAFacet(this.facets);
       this.facets.forEach(element => {
         this.statusArr.push(element.active);
         this.docTypeArr.push(element.type);
