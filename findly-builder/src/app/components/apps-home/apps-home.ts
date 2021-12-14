@@ -12,6 +12,7 @@ import { NONE_TYPE } from '@angular/compiler';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 declare const $: any;
+declare var PureJSCarousel: any;
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'apps-home',
@@ -20,6 +21,7 @@ declare const $: any;
 })
 export class AppsListingComponent implements OnInit {
   authInfo: any;
+  openJourney = false;
   saveInProgress = false;
   toShowAppHeader: boolean;
   appsData: any;
@@ -31,6 +33,8 @@ export class AppsListingComponent implements OnInit {
   showSearch = false;
   activeClose = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
+  carousel: any = [];
+  carouselTemplateCount = 0;
   searchFocusIn = false;
   newApp: any = {
     name: '',
@@ -68,6 +72,7 @@ export class AppsListingComponent implements OnInit {
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
+    // this.buildCarousel();
   }
   //call mixpanel api for tellmemore button
   callMixPanel() {
@@ -87,6 +92,7 @@ export class AppsListingComponent implements OnInit {
     this.appSelectionService.openApp(app);
   }
   openBoradingJourney() {
+    this.headerService.openJourneyForfirstTime = true;
     this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
     this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
   }
@@ -141,13 +147,26 @@ export class AppsListingComponent implements OnInit {
         this.emptyApp = false;
       }
       else {
-        this.emptyApp = true;
+        if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
+          let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
+          prDetails.route = "/home";
+
+          localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
+          this.router.navigate(['/home'], { skipLocationChange: true });
+        }
+        
         // if(!this.inlineManual.checkVisibility('CREATE_APP')){
         //   this.inlineManual.openHelp('CREATE_APP')
         //   this.inlineManual.visited('CREATE_APP')
         // }
-        this.showBoarding = true;
-        this.openBoradingJourney();
+        
+        /** Issue Fix for multiple onboarding function called */
+        if(!this.headerService.openJourneyForfirstTime){
+          this.emptyApp = true;
+          this.showBoarding = true;
+          this.headerService.openJourneyForfirstTime = true;
+          this.openBoradingJourney();
+        }
       }
     }, errRes => {
       console.log(errRes);

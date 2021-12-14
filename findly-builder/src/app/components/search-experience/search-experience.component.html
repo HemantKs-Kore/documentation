@@ -540,6 +540,7 @@
                                         <div class="search-widget-if-bottom-up"
                                             *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
                                             <div class="greeting-block"
+                                                [ngClass]="{'d-none':searchObject.searchInteractionsConfig.welcomeMsg===''}"
                                                 [ngStyle]="{'background':searchObject.searchInteractionsConfig.welcomeMsgFillColor}">
                                                 <!-- <img [src]="emojiIcon"> -->
                                                 <span class="greeting-title"
@@ -602,7 +603,8 @@
                                                     </button>
                                                 </ng-container>
                                             </div>
-                                            <div class="greeting-block">
+                                            <div class="greeting-block"
+                                                [ngClass]="{'d-none':searchObject.searchInteractionsConfig.welcomeMsg===''}">
                                                 <!-- <img [src]="emojiIcon"> -->
                                                 <span class="greeting-title"
                                                     [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
@@ -621,6 +623,7 @@
                                 <ng-container *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
                                     <div class="avatar-with-greeting-text">
                                         <div class="greeting-message-avatar"
+                                            [ngClass]="{'d-none':searchObject.searchInteractionsConfig.welcomeMsg===''}"
                                             [ngStyle]="{'background':searchObject.searchInteractionsConfig.welcomeMsgFillColor,'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">
                                             {{searchObject.searchInteractionsConfig.welcomeMsg}}
                                             <div class="arrow-bottom-"

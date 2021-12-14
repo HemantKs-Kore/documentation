@@ -24,7 +24,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   searchFocusIn = false;
   activeClose = false;
   checkStopwords = false;
-  enabled = true;
+  enabled = false;
   validation: any = {
     duplicate: false,
     spaceFound: false
@@ -201,7 +201,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     this.service.invoke('post.restoreStopWord', quaryparms).subscribe(res => {
       this.newStopWord = '';
       this.pipeline = res.pipeline || {};
-      res.pipeline.stages[2].options.stopWordsRemovalEnabled = true
+      // res.pipeline.stages[2].options.stopWordsRemovalEnabled = true
       if (this.pipeline.stages && this.pipeline.stages.length) {
         this.pipeline.stages.forEach(stage => {
           if (stage && stage.type === 'stopwords') {
@@ -349,7 +349,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         stopwords: this.stopwords
       },
       options: {
-        stopWordsRemovalEnabled: this.enabled
+        stopWordsRemovalEnabled: !this.enabled
       }
     }
     if (enableOrDisable) {

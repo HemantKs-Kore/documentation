@@ -106,7 +106,13 @@ export class SearchInterfaceComponent implements OnInit {
   {
     'id': 'carousel',
     'value': 'Carousel'
-  }]
+  }];
+  templateFieldValidateObj = {
+    heading : true,
+    description : true,
+    image : true,
+    url : true
+  }
   showDescription: boolean = true;
   showImage: boolean = false;
   clickableDisabled: boolean = false;
@@ -620,7 +626,18 @@ export class SearchInterfaceComponent implements OnInit {
   drop(event: CdkDragDrop<string[]>, list) {
     moveItemInArray(list, event.previousIndex, event.currentIndex);
   }
-  searchlist(type, valToSearch, filedData) {
+  searchlist(type, valToSearch,event, parentElement ,filedData) {
+    //Add Listerner to close
+    // console.log(event)
+    // if(parentElement && event && event.srcElement && event.srcElement.ariaExpanded){
+    //   event.srcElement.ariaExpanded = "true";
+    //   if(parentElement.children)
+    //   for(let i =0; i< parentElement.children.length; i++){
+    //     if(parentElement.children[i].className.includes("dropdown-menu content-menu")){
+    //       parentElement.children[i].classList.add("show");
+    //     }
+    //   }
+    // }
     let data = []
     filedData.filter(element => {
       var filedNamelower = element.fieldName.toLocaleLowerCase();
@@ -902,10 +919,55 @@ export class SearchInterfaceComponent implements OnInit {
       return false;
     }
   }
-
+  validateFeildTextCompare(){
+    let hasFalseKeys = true;
+    this.templateFieldValidateObj =  {
+      heading : true,
+      description : true,
+      image : true,
+      url : true
+    }
+    if(this.allFieldData){
+    this.allFieldData.forEach(element => {
+      if(element._id == this.customizeTemplateObj.template.resultMapping.headingId){
+        if(element.fieldName != this.customizeTemplateObj.template.resultMapping.heading){
+          this.notificationService.notify('Heading field is not matching,Please select the option to proceed', 'error');
+          this.templateFieldValidateObj.heading = false;
+        }
+      }else if(element._id == this.customizeTemplateObj.template.resultMapping.descriptionId){
+        if(element.fieldName != this.customizeTemplateObj.template.resultMapping.description){
+          this.notificationService.notify('Description field is not matching,Please select the option to proceed', 'error');
+          this.templateFieldValidateObj.description = false;
+        }
+      }
+      else if(element._id == this.customizeTemplateObj.template.resultMapping.imageId){
+        if(element.fieldName != this.customizeTemplateObj.template.resultMapping.image){
+          this.notificationService.notify('Image field is not matching,Please select the option to proceed', 'error');
+          this.templateFieldValidateObj.image = false;
+        }
+      }
+      else if(element._id == this.customizeTemplateObj.template.resultMapping.urlId){
+        if(element.fieldName != this.customizeTemplateObj.template.resultMapping.url){
+          this.notificationService.notify('Url field is not matching,Please select the option to proceed', 'error');
+          this.templateFieldValidateObj.url = false;
+        }
+      }
+    });
+    hasFalseKeys = Object.keys(this.templateFieldValidateObj).some(k => !this.templateFieldValidateObj[k]);
+    if(hasFalseKeys){
+      return true
+    }else{
+      return false
+    }
+  }else{
+    return false
+  }
+  }
   saveTemplate() {
     this.submitted = true;
-    if (this.validateTemplate()) {
+    let validateText = this.validateFeildTextCompare();
+
+    if (this.validateTemplate() && !validateText) {
       let url: any;
       let payload: any;
       let queryparams: any;
@@ -978,7 +1040,7 @@ export class SearchInterfaceComponent implements OnInit {
         this.errorToaster(errRes, 'Failed to get fields');
       });
     }
-    else {
+    else if(!this.validateTemplate()){
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }

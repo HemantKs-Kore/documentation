@@ -77,7 +77,7 @@
             </div>
             <div class="queries">
               <div class="queries-title">{{"plan.queries"| translate}}</div>
-              <div class="queries-count"><span class="">{{(usageDetails.searchQueries?.used)| valueFormat}}</span> /
+              <div class="queries-count" *ngIf="usageDetails && usageDetails.searchQueries && usageDetails.searchQueries.used"><span class="">{{(usageDetails.searchQueries?.used)| valueFormat}}</span> /
                 {{(usageDetails.searchQueries?.limit)|valueFormat}}</div>
             </div>
             <!-- <div class="bg_queries"></div> -->
@@ -86,7 +86,7 @@
             </ngb-progressbar>
             <div class="queries">
               <div class="queries-title">{{"plan.documents"| translate}}</div>
-              <div class="queries-count"><span class="">{{usageDetails.ingestDocs?.used | valueFormat}}</span> /
+              <div class="queries-count" *ngIf="usageDetails && usageDetails.ingestDocs && usageDetails.ingestDocs.used"><span class="">{{usageDetails.ingestDocs?.used | valueFormat}}</span> /
                 {{(usageDetails.ingestDocs?.limit)| valueFormat}}</div>
             </div>
             <!-- <div class="bg_queries"></div> -->
@@ -147,9 +147,13 @@
                 <div class="card-desc">Scheduled Crawling</div>
                 <div class="card-desc">Experiments</div>
                 <div class="card-desc">Community Support</div> -->
-            <button class="kr-sg-button-secondary btn_lg"
+                <button class="kr-sg-button-secondary btn_lg"
+                (click)="enterpriseContactus()">{{("plan.contact_us"|
+                translate)}}</button>
+                <!-- Commented as part of FLY-3643 -->
+            <!-- <button class="kr-sg-button-secondary btn_lg"
               (click)="plan.name==='Enterprise'?enterpriseContactus():compare('order',plan)">{{plan.name==='Enterprise'?("plan.contact_us"|
-              translate):("plan.choose_plan"| translate)}}</button>
+              translate):("plan.choose_plan"| translate)}}</button> -->
           </div>
         </div>
 

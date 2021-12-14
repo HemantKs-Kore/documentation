@@ -23,8 +23,8 @@ export class EndPointsService {
       this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX;
       this.API_SERVER_URL_PLATFORM = environment.API_SERVER_URL + this.API_URL_PREFIX //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
       // this.API_SERVER_URL_PLATFORM = "https://50b6e8fd7c49.ngrok.io" + "/api/1.1"
-      // this.API_SERVER_URL = "https://50b6e8fd7c49.ngrok.io" + "/api/1.1"
-      // this.API_SERVER_URL_PLATFORM = "https://bca0530495c7.ngrok.io" + this.API_URL_PREFIX
+      // this.API_SERVER_URL = "http://3cbe-2401-4900-1c0a-1381-4677-75fc-9139-453.ngrok.io" + "/searchassistapi"
+      // this.API_SERVER_URL_PLATFORM = "http://3cbe-2401-4900-1c0a-1381-4677-75fc-9139-453.ngrok.io" + this.API_URL_PREFIX
       // this.API_SERVER_URL = "https://bca0530495c7.ngrok.io" + this.API_URL_PREFIX
     }
     this.init();
@@ -140,6 +140,12 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/file',
       method: 'post'
     };
+    // Multiple File Upload
+    this.serviceList['post.multiplefileupload'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/bulk?extractionType=:type',
+      method: 'post'
+    };
+    //
     this.serviceList['add.sourceMaterial'] = {
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:resourceType',
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source',

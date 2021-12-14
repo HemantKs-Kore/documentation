@@ -17,7 +17,9 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { JsonPipe } from '@angular/common';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+import { FormControl } from '@angular/forms';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 declare const $: any;
 @Component({
   selector: 'app-index',
@@ -62,6 +64,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('customScriptCodeMirror') codemirror: any;
+  @ViewChild('containInput') containInput: ElementRef<HTMLInputElement>;
   newStage: any = {
     name: 'My Mapping'
   }
@@ -95,27 +98,40 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     },
   }
   entityNlp = [
-    { title: 'Date', value: 'date', isDepricated: false },
-    { title: 'Time', value: 'time', isDepricated: false },
-    { title: 'Date Time', value: 'datetime', isDepricated: false },
-    { title: 'Date Period', value: 'dateperiod', isDepricated: false },
-    { title: 'URL', value: 'url', isDepricated: false },
-    { title: 'Email', value: 'email', isDepricated: false },
-    { title: 'Location', value: 'location', isDepricated: false },
-    { title: 'City', value: 'city', isDepricated: false },
-    { title: 'Country', value: 'country', isDepricated: false },
-    { title: 'Color', value: 'color', isDepricated: false },
-    { title: 'Company Name or Organization Name', value: 'company_name', isDepricated: false },
-    { title: 'Currency', value: 'currencyv2', isDepricated: false },
-    { title: 'Person Name', value: 'person_name', isDepricated: false },
-    { title: 'Number', value: 'number', isDepricated: false },
-    { title: 'Percentage', value: 'percentage', isDepricated: false },
-    { title: 'Phone Number', value: 'phone_number', isDepricated: false },
-    { title: 'Zip Code', value: 'zipcode', isDepricated: false },
-    { title: 'Quantity', value: 'quantityv2', isDepricated: false },
-    { title: 'Address', value: 'address', isDepricated: false },
-    { title: 'Airport', value: 'airport', isDepricated: false },
-
+    { title: 'Date', value: 'DATE', isDepricated: false },
+    { title: 'Time', value: 'TIME', isDepricated: false },
+    { title: 'URL', value: 'URL', isDepricated: false },
+    { title: 'Email', value: 'EMAIL', isDepricated: false },
+    { title: 'Location', value: 'LOCATION', isDepricated: false },
+    { title: 'City', value: 'CITY', isDepricated: false },
+    { title: 'Country', value: 'COUNTRY', isDepricated: false },
+    { title: 'Company Name or Organization', value: 'ORGANIZATION', isDepricated: false },
+    { title: 'Currency', value: 'MONEY', isDepricated: false },
+    { title: 'Person Name', value: 'PERSON', isDepricated: false },
+    { title: 'Number', value: 'NUMBER', isDepricated: false },
+    { title: 'Percentage', value: 'PERCENTAGE', isDepricated: false },
+    /** Existing  */
+    // { title: 'Date', value: 'date', isDepricated: false },
+    // { title: 'Time', value: 'time', isDepricated: false },
+    // { title: 'Date Time', value: 'datetime', isDepricated: false },
+    // { title: 'Date Period', value: 'dateperiod', isDepricated: false },
+    // { title: 'URL', value: 'url', isDepricated: false },
+    // { title: 'Email', value: 'email', isDepricated: false },
+    // { title: 'Location', value: 'location', isDepricated: false },
+    // { title: 'City', value: 'city', isDepricated: false },
+    // { title: 'Country', value: 'country', isDepricated: false },
+    // { title: 'Color', value: 'color', isDepricated: false },
+    // { title: 'Company Name or Organization Name', value: 'company_name', isDepricated: false },
+    // { title: 'Currency', value: 'currencyv2', isDepricated: false },
+    // { title: 'Person Name', value: 'person_name', isDepricated: false },
+    // { title: 'Number', value: 'number', isDepricated: false },
+    // { title: 'Percentage', value: 'percentage', isDepricated: false },
+    // { title: 'Phone Number', value: 'phone_number', isDepricated: false },
+    // { title: 'Zip Code', value: 'zipcode', isDepricated: false },
+    // { title: 'Quantity', value: 'quantityv2', isDepricated: false },
+    // { title: 'Address', value: 'address', isDepricated: false },
+    // { title: 'Airport', value: 'airport', isDepricated: false },
+    /** Existing  */
     // { title: 'Attachment(Image / File)', value: 'attachment', isDepricated: false },
     // {"title": "City (Advanced)", "value": "cityAdv", "isDepricated": false},
     // {"title": "City with Geo Coordinates", "value": "city_coordinates"},
@@ -179,6 +195,14 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   simulateJson;
   filteredSimulatorRes: any;
   componentType: string = 'addData';
+  // containCondition: any[] = [];
+  selectable = true;
+  removable = true;
+  containCtrl = new FormControl();
+  operators = [{ name: 'Exists', value: 'exists' }, { name: 'Does Not Exist', value: 'doesNotExist' }, { name: 'Equals to', value: 'equalsTo' }, { name: 'Not Equals to', value: 'notEqualsTo' }, { name: 'Contains', value: 'contains' }, { name: 'Doesnot Contain', value: 'doesNotContain' }];
+  conditionArray: any = [];
+  conditionObj: any = { fieldId: '', operator: '', value: [] };
+  selectedConditionType = 'basic';
   modifiedStages = {
     createdStages: [],
     deletedStages: []
@@ -195,6 +219,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService
   ) { }
+  @ViewChild('plans') plans: UpgradePlanComponent;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     console.log("this.selectedApp", this.selectedApp)
@@ -218,7 +243,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
       this.getSystemStages();
-      this.getIndexPipline();
+      //this.getIndexPipline();
       this.getFileds();
       this.setResetNewMappingsObj();
       this.addcode({});
@@ -241,6 +266,32 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     });
+  }
+  //add condition dynamically
+  addCondition(type, index, field?, data?) {
+    if (type === 'add') {
+      this.conditionObj = { fieldId: '', operator: '', value: [] };
+      this.selectedStage.condition.mappings.push(this.conditionObj);
+    }
+    else if (type === 'remove') {
+      this.selectedStage.condition.mappings.splice(index, 1);
+    }
+    else if (type === 'update') {
+      if (field === 'field') {
+        this.selectedStage.condition.mappings[index] = { ...this.selectedStage.condition.mappings[index], fieldId: data };
+      }
+      else if (field === 'operator') {
+        this.selectedStage.condition.mappings[index] = { ...this.selectedStage.condition.mappings[index], operator: data };
+        if (['exists', 'doesNotExist'].includes(data)) {
+          this.selectedStage.condition.mappings[index].value = [];
+        }
+      }
+    }
+  }
+  //camelcase names in operators
+  camelCaseNames(operator) {
+    const camel_name = this.operators.filter(data => data.value == operator);
+    return camel_name[0].name;
   }
   getTraitGroups(initial?) {
     const quaryparms: any = {
@@ -458,7 +509,23 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.payloadValidationObj.valid = true;
     this.pipeline.forEach(stage => {
       const tempStageObj = JSON.parse(JSON.stringify(stage));
+      if (tempStageObj.condition.type === 'script') {
+        tempStageObj.condition.mappings = [];
+      }
+      else {
+        delete tempStageObj.condition.value;
+        tempStageObj.condition.mappings.forEach(el => { delete el.autocomplete_text; delete el.fieldName })
+      }
       if (tempStageObj && tempStageObj.type === 'field_mapping') {
+        // if (tempStageObj.condition.type === 'script') {
+        //   tempStageObj.condition.mappings = [];
+        //   tempStageObj.condition.value = this.selectedScript;
+        // }
+        // else {
+        //   tempStageObj.condition.mappings.forEach(el => { delete el.autocomplete_text; delete el.fieldName })
+        // }
+        // const obj = { type: this.selectedConditionType, mappings: this.conditionArray };
+        // tempStageObj.condition = obj;
         if (tempStageObj.config && tempStageObj.config.mappings && tempStageObj.config.mappings.length) {
           const tempConfig: any = [];
           tempStageObj.config.mappings.forEach(config => {
@@ -668,6 +735,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   saveConfig(index?, dialogRef?) {
+    let plainScriptTxt: any;
+    if (this.newMappingObj && this.newMappingObj.custom_script &&
+      this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+      plainScriptTxt = this.newMappingObj.custom_script.defaultValue.script;
+    }
     let indexArrayLength: any = this.validateConditionForRD();
     if (indexArrayLength) {
       this.removeExcludeDocumentStage(indexArrayLength, true);
@@ -715,12 +787,33 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.clearDirtyObj();
         this.setResetNewMappingsObj(null, true);
+        /** Workbench plain text temp */
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
       }, errRes => {
         this.savingConfig = false;
-        this.errorToaster(errRes, 'Failed to save configurations');
+        // this.errorToaster(errRes, 'Failed to save configurations');
+        if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessDenied' || errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
+          this.upgrade();
+          this.errorToaster(errRes, errRes.error.errors[0].msg);
+          setTimeout(() => {
+            // this.btnDisabled = false;
+          }, 500)
+        }
+        /** Workbench plain text temp */
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
+
       });
     }
 
+  }
+  upgrade() {
+    this.plans.openChoosePlanPopup('choosePlans');
   }
   openModalPopup() {
     this.loadingFields = true;
@@ -811,6 +904,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filteredSimulatorRes = JSON.stringify(data, null, ' ');
   }
   simulate() {
+    let plainScriptTxt: any;
+    if (this.newMappingObj && this.newMappingObj.custom_script &&
+      this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+      plainScriptTxt = this.newMappingObj.custom_script.defaultValue.script;
+    }
     let indexArrayLength: any = this.validateConditionForRD();
     if (indexArrayLength) {
       this.removeExcludeDocumentStage(indexArrayLength, false);
@@ -856,6 +954,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.simulteObj.currentSimulateAnimi = -1;
         this.simulteObj.simulationInprogress = false;
+        /** Workbench plain text temp */
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
       }, errRes => {
         this.simulating = false;
         this.simulteObj.simulating = false;
@@ -869,6 +972,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           this.pollingSubscriber.unsubscribe();
         }
         this.simulteObj.currentSimulateAnimi = -1;
+        /** Workbench plain text temp */
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
         this.errorToaster(errRes, 'Failed to get stop words');
       });
     }
@@ -962,6 +1070,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     // let serviceId ='get.allField';
     this.service.invoke(serviceId, quaryparms).subscribe(res => {
       this.fields = res.fields || [];
+      this.getIndexPipline();
       this.loadingFields = false;
     }, errRes => {
       this.loadingFields = false;
@@ -1015,6 +1124,15 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     console.log("index queryparams", quaryparms);
     this.service.invoke('get.indexpipelineStages', quaryparms).subscribe(res => {
+      res.stages.map(data => {
+        return data.condition.mappings.map(data1 => {
+          let obj = this.fields.find(da => da._id === data1.fieldId);
+          if (obj && obj.fieldName) {
+            data1.fieldName = obj.fieldName
+          }
+
+        })
+      })
       this.pipeline = res.stages || [];
       this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
       if (res.stages && res.stages.length) {
@@ -1087,6 +1205,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   clearDirtyObj(cancel?) {
     this.pipeline = JSON.parse(JSON.stringify(this.pipelineCopy));
+    this.pipeline.map(data => {
+      return data.condition.mappings.map(data1 => {
+        let obj = this.fields.find(da => da._id === data1.fieldId);
+        data1.fieldName = obj.fieldName
+      })
+    })
     if (this.selectedStage && !this.selectedStage._id) {
       if (this.pipeline && this.pipeline.length) {
         this.selectStage(this.pipeline[0], 0);
@@ -1242,6 +1366,14 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     return true;
   }
+  onSourcefieldChange(event, parent, no, e) {
+    // console.log(event,parent,no)
+    // e.stopPropagation();
+    // $(this).next('.dropdown-toggle').find('[data-toggle=dropdown]').dropdown('toggle');
+    // parent.classList.add('show')
+    // parent.children[1].classList.add('show');
+    // parent.children[1].style.top ="0px";
+  }
   addFiledmappings(map, isNotDefault?) {
     this.changesDetected = true;
     if (!this.selectedStage.config) {
@@ -1282,7 +1414,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedStage.type = this.defaultStageTypes[i].type;
     this.selectedStage.category = this.defaultStageTypes[i].category;
     this.selectedStage.name = this.defaultStageTypesObj[systemStage.type].name;
-    this.selectedStage.config = {}
+    this.selectedStage.config = {};
+    this.selectedStage.condition = { type: '', mappings: [] }
     if (systemStage && systemStage.type === 'custom_script') {
       if (!this.newMappingObj.custom_script) {
         this.newMappingObj.custom_script = {
@@ -1411,6 +1544,28 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     let count = this.codemirror.codeMirror.lineCount();
     console.log("lines", this.codemirror.codeMirror.lineCount());
   }
+  //matchip method
+  add(event: MatChipInputEvent, index): void {
+    const input = event.input;
+    const value = event.value;
+    if ((value || '').trim()) {
+      this.selectedStage.condition.mappings[index].value.push(value.trim());
+    }
+    if (input) {
+      input.value = '';
+    }
+    this.containCtrl.setValue(null);
+  }
+  //remove matchip data
+  remove(member: string, i): void {
+    const index = this.selectedStage.condition.mappings[i].value.indexOf(member);
+    if (index >= 0) this.selectedStage.condition.mappings[i].value.splice(index, 1);
+  }
+  // selected(event: MatAutocompleteSelectedEvent): void {
+  //   this.containCondition.push(event.option.viewValue);
+  //   this.containInput.nativeElement.value = '';
+  //   this.containCtrl.setValue(null);
+  // }
   ngOnDestroy() {
     const self = this;
     if (this.pollingSubscriber) {
