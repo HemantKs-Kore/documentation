@@ -1207,9 +1207,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   clearDirtyObj(cancel?) {
     this.pipeline = JSON.parse(JSON.stringify(this.pipelineCopy));
     this.pipeline.map(data => {
-      return data.condition.mappings.map(data1 => {
+      return data?.condition?.mappings?.map(data1 => {
         let obj = this.fields.find(da => da._id === data1.fieldId);
-        data1.fieldName = obj.fieldName
+        if (obj && obj.fieldName) {
+          data1.fieldName = obj.fieldName
+        }
       })
     })
     if (this.selectedStage && !this.selectedStage._id) {
