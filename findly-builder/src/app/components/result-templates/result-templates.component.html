@@ -29,7 +29,8 @@
                 [hidden]="tab.id===selectedTab" (click)="copyConfiguration('open',tab.id)"
                 [disabled]="tab.id==='conversationalSearch'&&searchTemplatesDisabled">{{tab.name}}</button>
             </div>
-            <div class="apply-config-text" *ngIf="copyConfigObj.loader">Applying configurations from Live Search
+            <div class="apply-config-text" *ngIf="copyConfigObj.loader">Applying configurations from
+              {{tabData&&tabData[0].name}}
               <span class="loading-spin-progress ml-2"></span>
             </div>
             <div class="apply-config-text" [ngStyle]="{'color':copyConfigObj.message!==''?'#28A745':'#202124'}"
@@ -40,10 +41,8 @@
         </div>
       </div>
       <!-- <button class="kr-sg-button-primary btn_lg">Preview</button> -->
+      <button class="kr-sg-button-primary btn_lg" (click)="$event.stopPropagation();updateSettings()">Save</button>
     </div>
-    <button class="kr-sg-button-primary btn_lg" (click)="$event.stopPropagation();updateSettings()">
-      <span class="">Save</span>
-    </button>
   </div>
   <div class="body_content">
     <div class="search-interface-left-sec">
@@ -1233,8 +1232,7 @@
                     <ng-container>
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-6-grid-list row col-11 mb-3"
-                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="template-6-grid-list row col-11 mb-3">
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
                             <div class="heading-main">Heading comes here</div>
@@ -1391,7 +1389,8 @@
                         <!-- The slideshow -->
                         <div class="carousel-inner">
                           <div class="carousel-item active">
-                            <div class="template-2-classic-list row col-12 m-0 p-2">
+                            <div class="template-2-classic-list row col-12 m-0 p-2"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                               <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
                                 <div class="classic-list-item">Description comes here, descrip tion comes here,
                                   description comes here, description comes here, description comes here, description
@@ -1433,7 +1432,8 @@
                         <!-- The slideshow -->
                         <div class="carousel-inner">
                           <div class="carousel-item active">
-                            <div class="template-3-classic-list row col-12 m-0 p-2">
+                            <div class="template-3-classic-list row col-12 m-0 p-2"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                               <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
                                 <div class="classic-list-item">
                                   <div class="heading-text">Heading comes here</div>
@@ -1587,7 +1587,8 @@
                         <!-- The slideshow -->
                         <div class="carousel-inner">
                           <div class="carousel-item active">
-                            <div class="template-6-classic-list row col-12 m-0 p-2">
+                            <div class="template-6-classic-list row col-12 m-0 p-2"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                               <div class="col-4 pl-1 pr-1" *ngFor="let data of [0,1,2]">
                                 <div class="classic-list-item">
                                   <div class="title-main">Heading comes here</div>
@@ -1653,7 +1654,8 @@
                         <!-- The slideshow -->
                         <div class="carousel-inner">
                           <div class="carousel-item active">
-                            <div class="template_7_grid_list row col-12 m-0 p-2">
+                            <div class="template_7_grid_list row col-12 m-0 p-2"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                               <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
                                 <div class="inner-content-list">
                                   <div class="main-img-block">
@@ -1705,7 +1707,8 @@
                         <!-- The slideshow -->
                         <div class="carousel-inner">
                           <div class="carousel-item active">
-                            <div class="template-8-grid-list row col-12 m-0 p-2">
+                            <div class="template-8-grid-list row col-12 m-0 p-2"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                               <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
                                 <div class="inner-content-list">
                                   <div class="main-img-block">
@@ -1828,7 +1831,7 @@
                       <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
                       <input type="text" placeholder="Search Field" id="facets-search-input"
                         class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
-                        [class.err-block]="(!(preview_title?.length) && submitted)"
+                        [class.err-block]="((!(preview_title?.length) && submitted)||!(templateFieldValidateObj.heading))"
                         (keyup)="searchlist('heading',$event.target.value,fieldData)" (keypress)="headDrop.open();"
                         (focus)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="preview_title"
                         ngbDropdownToggle>
@@ -1859,7 +1862,7 @@
                       <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
                       <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
                         class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
-                        [class.err-block]="(!(preview_desc?.length) && submitted)"
+                        [class.err-block]="((!(preview_desc?.length) && submitted)||!(templateFieldValidateObj.description))"
                         (keyup)="searchlist('description',$event.target.value,fieldData)"
                         (focus)="searchlist('description',$event.target.value,fieldData)" (keypress)="descDrop.open();"
                         [(ngModel)]="preview_desc" ngbDropdownToggle>
@@ -1876,6 +1879,7 @@
                   </div>
                 </div>
               </div>
+
               <!-- Image  Fields -->
               <div class="search_block"
                 *ngIf="['l4','l5','l6','l7','l8','l9'].includes(templateDataBind.layout.layoutType)">
@@ -1890,7 +1894,7 @@
                       <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
                       <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
                         class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
-                        [class.err-block]="(!(preview_img?.length) && submitted)"
+                        [class.err-block]="((!(preview_img?.length) && submitted)||!(templateFieldValidateObj.image))"
                         (keyup)="searchlist('image',$event.target.value,fieldData)"
                         (focus)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="preview_img"
                         (keypress)="imgDrop.open();" ngbDropdownToggle>
@@ -1944,7 +1948,7 @@
                           data-toggle="dropdown"></button>
                         <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
                           class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
-                          [class.err-block]="(!(preview_url?.length) && submitted)"
+                          [class.err-block]="((!(preview_url?.length) && submitted)||!(templateFieldValidateObj.url))"
                           (keyup)="searchlist('url',$event.target.value,fieldData)"
                           (focus)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="preview_url"
                           (keypress)="urlDrop.open();" ngbDropdownToggle>

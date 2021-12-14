@@ -41,7 +41,7 @@
         .right-side-copy-configs{
             display: flex;
             align-items: center;
-            padding-left: 54%;
+            justify-content: flex-end;
             .copy-config-dropdown{
                 margin-right: 20px;
                 &.show {
@@ -441,7 +441,7 @@
                             font-weight: normal;
                             font-size: 14px;
                             line-height: 20px;
-                            color: #202124;
+                            // color: #202124;
                             top: -1px;
                         }
                     }
@@ -2326,6 +2326,8 @@ padding: 10px 20px 10px 20px;
                                     background: #F8F9FA;
                                     border-radius: 6px;
                                     padding: 15px;
+                                    display: inline-block;
+                                    width: 100%;
                                     &.carousel-preview{
                                         padding: 12px 3px;
                                     }

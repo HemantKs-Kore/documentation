@@ -47,6 +47,12 @@ export class ResultTemplatesComponent implements OnInit {
     },
     type: ''
   };
+  templateFieldValidateObj = {
+    heading: true,
+    description: true,
+    image: true,
+    url: true
+  }
   templateDatalistext: any;
   customtemplateBtndisable: boolean = false;
   heading_fieldData: any;
@@ -81,6 +87,7 @@ export class ResultTemplatesComponent implements OnInit {
   settingsId: string;
   selectedGroupName: string;
   defaultFieldName: string;
+  tabData: any;
   templateNames: any = ['list', 'carousel', 'grid'];
   filterFacets: any = [{ name: 'Left Aligned', type: 'left' }, { name: 'Right Aligned', type: 'right' }, { name: 'Top Aligned', type: 'top' }]
   @ViewChild('customModal') customModal: KRModalComponent;
@@ -155,18 +162,22 @@ export class ResultTemplatesComponent implements OnInit {
       this.templateDataBind.mapping.heading = field._id
       this.preview_title = field.fieldName;
       this.heading_fieldData = [...this.allFieldData];
+      this.templateFieldValidateObj.heading = true;
     } else if (type == 'description') {
       this.templateDataBind.mapping.description = field._id;
       this.preview_desc = field.fieldName;
       this.desc_fieldData = [...this.allFieldData];
+      this.templateFieldValidateObj.description = true;
     } else if (type == 'image') {
       this.templateDataBind.mapping.img = field._id;
       this.preview_img = field.fieldName;
       this.img_fieldData = [...this.allFieldData];
+      this.templateFieldValidateObj.image = true;
     } else if (type == 'url') {
       this.templateDataBind.mapping.url = field._id;
       this.preview_url = field.fieldName;
       this.url_fieldData = [...this.allFieldData];
+      this.templateFieldValidateObj.url = true;
     }
   }
   searchlist(type, valToSearch, filedData) {
@@ -483,6 +494,7 @@ export class ResultTemplatesComponent implements OnInit {
   //update template
   updateTemplate() {
     this.submitted = true;
+    //let validateText = this.validateFieldValues();
     if (this.validateTemplate()) {
       const quaryparms: any = {
         searchIndexId: this.serachIndexId,
@@ -543,9 +555,79 @@ export class ResultTemplatesComponent implements OnInit {
       return (this.preview_desc.length && this.preview_img.length) ? true : false;
     }
   }
+
+  // validateFieldValues() {
+  //   let hasFalseKeys = true;
+  //   this.templateFieldValidateObj = {
+  //     heading: true,
+  //     description: true,
+  //     image: true,
+  //     url: true
+  //   }
+  //   if (this.allFieldData) {
+  //     this.allFieldData.forEach(element => {
+  //       if (element._id == this.templateDataBind.mapping.heading) {
+  //         if (element.fieldName != this.preview_title) {
+  //           this.notificationService.notify('Heading field is not matching,Please select the option to proceed', 'error');
+  //           this.templateFieldValidateObj.heading = false;
+  //         }
+  //       } else if (element._id == this.templateDataBind.mapping.description) {
+  //         if (element.fieldName != this.preview_desc) {
+  //           this.notificationService.notify('Description field is not matching,Please select the option to proceed', 'error');
+  //           this.templateFieldValidateObj.description = false;
+  //         }
+  //       }
+  //       else if (element._id == this.templateDataBind.mapping.img) {
+  //         if (element.fieldName != this.preview_img) {
+  //           this.notificationService.notify('Image field is not matching,Please select the option to proceed', 'error');
+  //           this.templateFieldValidateObj.image = false;
+  //         }
+  //       }
+  //       else if (element._id == this.templateDataBind.mapping.url) {
+  //         if (element.fieldName != this.preview_url) {
+  //           this.notificationService.notify('Url field is not matching,Please select the option to proceed', 'error');
+  //           this.templateFieldValidateObj.url = false;
+  //         }
+  //       }
+  //       else if (element.fieldName == this.preview_desc) {
+  //         if (element._id != this.templateDataBind.mapping.description) {
+  //           this.notificationService.notify('Description field is not matching,Please select the option to proceed', 'error');
+  //           this.templateFieldValidateObj.description = false;
+  //         }
+  //       }
+  //       else if (element.fieldName == this.preview_title) {
+  //         if (element._id != this.templateDataBind.mapping.heading) {
+  //           this.notificationService.notify('Heading field is not matching,Please select the option to proceed', 'error');
+  //           this.templateFieldValidateObj.heading = false;
+  //         }
+  //       }
+  //       else if (element.fieldName == this.preview_img) {
+  //         if (element._id != this.templateDataBind.mapping.img) {
+  //           this.notificationService.notify('Image field is not matching,Please select the option to proceed', 'error');
+  //           this.templateFieldValidateObj.image = false;
+  //         }
+  //       }
+  //       else if (element.fieldName == this.preview_url) {
+  //         if (element._id != this.templateDataBind.mapping.url) {
+  //           this.notificationService.notify('Url field is not matching,Please select the option to proceed', 'error');
+  //           this.templateFieldValidateObj.url = false;
+  //         }
+  //       }
+  //     });
+  //     hasFalseKeys = Object.keys(this.templateFieldValidateObj).some(k => !this.templateFieldValidateObj[k]);
+  //     if (hasFalseKeys) {
+  //       return true
+  //     } else {
+  //       return false
+  //     }
+  //   } else {
+  //     return false
+  //   }
+  // }
   //copy configuration method
   copyConfiguration(type, tab?) {
     this.copyConfigObj.message = '';
+    this.tabData = this.tabList.filter(item => item.id === tab);
     if (type === 'open') {
       this.copyConfigObj.loader = true;
       const quaryparms: any = {
@@ -558,8 +640,7 @@ export class ResultTemplatesComponent implements OnInit {
       this.service.invoke('copy.settings', quaryparms, payload).subscribe(res => {
         this.copyConfigObj.loader = false;
         const date = moment(res.copiedOn).format('dddd, MMMM Do YYYY, h:mm:ss a');
-        const tabData = this.tabList.filter(item => item.id === tab);
-        this.copyConfigObj.message = `Configurations applied from ${tabData[0].name} | ${date}.`;
+        this.copyConfigObj.message = `Configurations applied from ${this.tabData[0].name} | ${date}.`;
         this.notificationService.notify(' Result copied successfully', 'success');
         this.getAllSettings(this.selectedTab);
       }, errRes => {

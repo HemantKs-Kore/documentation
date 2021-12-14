@@ -127,6 +127,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   hide_facet_info: boolean = false;
   fieldsData: any;
   currentFieldId: string;
+  createNewTab: boolean = false;
   facetType: any = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
@@ -462,6 +463,11 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.selectTypeArr = [...new Set(this.selectTypeArr)];
       this.loadingContent = false;
       this.addRemovefacetFromSelection(null, null, true);
+      this.filterSystem = {
+        typefilter: 'all',
+        selectFilter: 'all',
+        statusFilter: 'all'
+      };
       if (res.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
@@ -578,6 +584,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.facets.splice(deleteIndex, 1);
       dialogRef.close();
       this.closeModal();
+      this.getFacts();
       this.notificationService.notify('Deleted Successfully', 'success');
     }, errRes => {
       this.loadingContent = false;
@@ -812,10 +819,10 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.currentFacetTab = data.type;
       this.currentFieldId = data.fieldId;
       this.facetType = this.facetType.filter(ele => ele.type === data.type);
-      for (let item of this.currentFacetObj?.tabs) {
-        this.configuredTabValues.push({ Name: item.bucketName, Value: item.fieldValue })
-      }
       if (data.type === 'tab') {
+        for (let item of this.currentFacetObj?.tabs) {
+          this.configuredTabValues.push({ Name: item.bucketName, Value: item.fieldValue })
+        }
         this.facets.forEach((ele) => {
           if (ele.type === 'tab') {
             this.getFieldValues(ele.fieldId);
@@ -844,6 +851,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
         this.submitted = false;
         this.hide_facet_info = false;
         this.selectAllConfigure = false;
+        this.createNewTab = false;
         this.facetType = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
       }
     }
@@ -862,6 +870,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     else if (type === 'tab') {
       const tab = this.facets.filter(item => item.type === 'tab');
       if (tab.length > 0) {
+        this.createNewTab = true;
         this.currentFacetObj = Object.assign({}, tab[0]);
         this.currentFieldId = tab[0].fieldId;
         this.tab_configure_filed_name = tab[0].fieldName;
@@ -925,17 +934,60 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }
     return this.submitted ? false : true;
   }
+  //overwrite field configuration popup
+  overwriteConfiguration() {
+    const modalData: any = {
+      newTitle: 'Existing Field configurations will be overwritten with the field you chose.',
+      body: 'Are you sure you want to continue ?',
+      buttons: [{ key: 'yes', label: 'Continue', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+      confirmationPopUp: true
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup-result',
+      data: modalData,
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.updateConfiguredFacets(dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+        }
+      })
+  }
+  //update currentFacetObj
+  updateConfiguredFacets(dialogRef?) {
+    this.showConfiguredFacet = false;
+    this.currentFacetObj.tabs = [];
+    this.tab_configure_filed_name = this.currentFacetObj.fieldName;
+    this.configuredTabValues.forEach(element => {
+      if (element.Value !== '') {
+        this.currentFacetObj.tabs.push({ fieldValue: element.Value, bucketName: element.Name });
+      }
+    });
+    if (dialogRef) {
+      this.currentFacetObj.active = true;
+      dialogRef.close();
+    }
+  }
   //save facet
   saveFacet() {
     if (this.showConfiguredFacet) {
-      this.showConfiguredFacet = false;
-      this.currentFacetObj.tabs = [];
-      this.tab_configure_filed_name = this.currentFacetObj.fieldName;
-      this.configuredTabValues.forEach(element => {
-        if (element.Value !== '') {
-          this.currentFacetObj.tabs.push({ fieldValue: element.Value, bucketName: element.Name });
+      const valueArr = this.configuredTabValues.map((item) => item.Value);
+      const isDuplicate = valueArr.some((item, idx) => valueArr.indexOf(item) != idx);
+      if (isDuplicate) {
+        this.notificationService.notify('Duplicate values should not be allowed', 'error');
+      }
+      else {
+        if (this.createNewTab === true && this.currentFacetObj.fieldName != this.tab_configure_filed_name) {
+          this.overwriteConfiguration();
         }
-      });
+        else {
+          this.updateConfiguredFacets();
+        }
+      }
     } else {
       if (this.validateAddEditFacet()) {
         let quaryparms: any = {
