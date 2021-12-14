@@ -975,11 +975,18 @@ export class FacetsComponent implements OnInit, OnDestroy {
   //save facet
   saveFacet() {
     if (this.showConfiguredFacet) {
-      if (this.createNewTab === true && this.currentFacetObj.fieldName != this.tab_configure_filed_name) {
-        this.overwriteConfiguration();
+      const valueArr = this.configuredTabValues.map((item) => item.Value);
+      const isDuplicate = valueArr.some((item, idx) => valueArr.indexOf(item) != idx);
+      if (isDuplicate) {
+        this.notificationService.notify('Duplicate values should not be allowed', 'error');
       }
       else {
-        this.updateConfiguredFacets();
+        if (this.createNewTab === true && this.currentFacetObj.fieldName != this.tab_configure_filed_name) {
+          this.overwriteConfiguration();
+        }
+        else {
+          this.updateConfiguredFacets();
+        }
       }
     } else {
       if (this.validateAddEditFacet()) {

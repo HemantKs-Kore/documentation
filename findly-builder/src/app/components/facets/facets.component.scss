@@ -333,6 +333,30 @@
                 }
             }
         }
+        .kr-sg-toggle{
+            .slider {
+                background-color: #fff;
+                border: 1px solid #BDC1C6;
+                &::before{
+                    background-color: #BDC1C6;
+                }
+                span{
+                    top: 0px !important;
+                }
+            }
+            input{
+                &:checked {
+                    + .slider{
+                        border: 1px solid #0D6EFD;
+                        background-color: #0D6EFD;
+                        box-shadow: 0 0 1px #0d6efd;
+                        &::before{
+                            background-color: #fff;
+                        }
+                    }
+                }
+            }                        
+        }
     }
 }
 
