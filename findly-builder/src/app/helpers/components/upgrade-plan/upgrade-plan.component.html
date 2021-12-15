@@ -82,14 +82,21 @@
             <div class="plan-duration" *ngIf="plan.name!='Enterprise'&&plan.type!='free'">${{plan.planAmount}} /
               {{termPlan==='Monthly'?("plan.month"| translate):("plan.year"| translate)}}</div>
             <div class="plan-duration" *ngIf="plan.name=='Enterprise'">{{"plan.custom_pricing"| translate}}</div>
-
-            <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'&&selectedPlan?.planName=='Free'"
-              (click)="plan.name==='Enterprise'?openContactusModel(plan.name):openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"|
-              translate):("plan.choose_plan"| translate)}}</button>
+            <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'&&selectedPlan?.planName=='Free'" (click)="openContactusModel(plan.name)"
+              > {{("plan.contact_us"|
+              translate)}}</button>
+              <!-- Commentd as pricing is disabled -->
+              <!-- (click)="plan.name==='Enterprise'?openContactusModel(plan.name):openOrderConfPopup(plan)" -->
+              <!-- {{plan.name==='Enterprise'?("plan.contact_us"| -->
+              <!-- translate):("plan.choose_plan"| translate)}} -->
             <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'&&selectedPlan?.planName=='Standard'"
-              (click)="plan.name==='Enterprise'?openContactusModel(plan.name):(plan.name==selectedPlan.planName&&termPlan==selectedPlan.billingUnit)?null:openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"|
-              translate):(selectedPlan?.billingUnit=='Monthly'&&selectedPlan.planName=='Standard'&&plan.name=="Standard"&&selectedPlan?.billingUnit!=termPlan)?'Switch
-              to Annually':("plan.choose_plan"| translate)}}</button>
+            (click)="openContactusModel(plan.name)"> {{("plan.contact_us"|
+            translate)}}</button> 
+             <!-- Commentd as pricing is disabled -->
+            <!-- {{plan.name==='Enterprise'?("plan.contact_us"|
+              translate):(selectedPlan?.billingUnit=='Monthly'&&selectedPlan.planName=='Standard'&&plan.name=="Standard"&&selectedPlan?.billingUnit!=termPlan)?'Switch -->
+              <!-- to Annually':("plan.choose_plan"| translate)}} -->
+               <!-- (click)="plan.name==='Enterprise'?openContactusModel(plan.name):(plan.name==selectedPlan.planName&&termPlan==selectedPlan.billingUnit)?null:openOrderConfPopup(plan)" -->
             <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'&&selectedPlan?.planName=='Pro'"
               (click)="plan.name==='Enterprise'||plan.name=='Standard'?openContactusModel(plan.name):(plan.name==selectedPlan.planName&&termPlan==selectedPlan.billingUnit)?null:openOrderConfPopup(plan)"
               placement="top-center"
