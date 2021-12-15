@@ -142,12 +142,12 @@
   <ng-container *ngFor="let faqObj of faqResponse.defaultAnswers ; let index = index">
     <div class="body-top-content pointer"  (click)="currentEditIndex = index">
       <div class="question-content">
-        <div class="label-text" *ngIf="index==0">Response <span *ngIf="faqData && faqResponse.defaultAnswers.length>1">({{faqResponse.defaultAnswers.length}})</span>  <div class="deleteResponseDiv red" *ngIf="faqResponse.defaultAnswers.length == 1" (click)="$event.stopPropagation();delete(index)" ngbTooltip="Delete"><img src="assets/images/delete_response.svg"></div></div>
+        <div class="label-text" *ngIf="index==0">Response <span *ngIf="faqData && faqResponse.defaultAnswers.length>1">({{faqResponse.defaultAnswers.length}})</span>  <div class="deleteResponseDiv red" *ngIf="faqResponse.defaultAnswers.length == 1" (click)="$event.stopPropagation();delete(index)" ngbTooltip="Delete"><img src="assets/icons/delete.svg"></div></div>
        
         
         <div class="conditionalBlock bot-response-view-mode" [ngClass]="{'pl-2':faqResponse.defaultAnswers.length>1}">
           <div class="bot-response-title"  *ngIf="faqResponse.defaultAnswers.length > 1" [ngClass]="{'text-black':currentEditIndex == index}"> {{"addFaq.response" | translate}}<span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span>
-            <div class="deleteResponseDiv red" (click)="$event.stopPropagation();delete(index)" ngbTooltip="Delete"><img src="assets/images/delete_response.svg"></div>
+            <div class="deleteResponseDiv red" (click)="$event.stopPropagation();delete(index)" ngbTooltip="Delete"><img src="assets/icons/delete.svg"></div>
           </div>
          
         </div>
