@@ -1205,6 +1205,7 @@
                                         line-height: 15px;
                                         color: #202124;
                                         padding: 0;
+                                        word-break: break-word;
                                     }
                                     .count-clicks{
                                         display: flex;
@@ -1900,11 +1901,11 @@
 }
 ::ng-deep .editfaqSourceModalPop{
      .modal-header{
-        height: 43px !important;
+        height: 50px !important;
         padding: 11px 30px;
          .close_icon{
-            height: 26px !important;
-            line-height: 22px !important;
+            // height: 26px !important;
+            // line-height: 22px !important;
         }
     }
     .modal-body{
@@ -2044,11 +2045,11 @@
 }
 ::ng-deep .addfaq{
      .modal-header{
-        height: 43px !important;
+        height: 50px !important;
         padding: 11px 30px;
          .close_icon{
-            height: 26px !important;
-            line-height: 22px !important;
+            // height: 26px !important;
+            // line-height: 22px !important;
         }
     }
     .modal-body{
@@ -2273,4 +2274,36 @@
 .px-12px{
     padding-left:12px !important;
     padding-right:12px !important;
+}
+
+.tabs-faqs-modal{
+    border-bottom: 2px solid #F4F4F4;
+    margin-bottom: 30px;
+    .nav-item {
+        margin: 0;
+        .nav-link{
+            border: 0;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 14px;
+            padding: 10px 0;
+            text-transform: uppercase;
+            margin-right: 30px;
+            position: relative;
+            color: #26344A;
+            outline: 0 !important;
+            &.active{
+                color: #0D6EFD;
+                &::before{
+                    content: "";
+                    position: absolute;
+                    height: 2px;
+                    background: #0D6EFD;
+                    width: 100%;
+                    bottom: -2px;
+                    left: 0;
+                }
+            }
+        }
+    }
 }
