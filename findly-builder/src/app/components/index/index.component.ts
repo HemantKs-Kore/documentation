@@ -19,6 +19,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { FormControl } from '@angular/forms';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 declare const $: any;
 @Component({
   selector: 'app-index',
@@ -218,6 +219,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService
   ) { }
+  @ViewChild('plans') plans: UpgradePlanComponent;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     console.log("this.selectedApp", this.selectedApp)
@@ -285,6 +287,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     }
+  }
+  //camelcase names in operators
+  camelCaseNames(operator) {
+    const camel_name = this.operators.filter(data => data.value == operator);
+    return camel_name[0].name;
   }
   getTraitGroups(initial?) {
     const quaryparms: any = {
@@ -728,9 +735,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   saveConfig(index?, dialogRef?) {
-    let plainScriptTxt : any;
-    if(this.newMappingObj && this.newMappingObj.custom_script && 
-      this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
+    let plainScriptTxt: any;
+    if (this.newMappingObj && this.newMappingObj.custom_script &&
+      this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
       plainScriptTxt = this.newMappingObj.custom_script.defaultValue.script;
     }
     let indexArrayLength: any = this.validateConditionForRD();
@@ -780,22 +787,51 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.clearDirtyObj();
         this.setResetNewMappingsObj(null, true);
-         /** Workbench plain text temp */
-         if(this.newMappingObj && this.newMappingObj.custom_script && 
-          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
-         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        /** Workbench plain text temp */
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
         }
+        // setTimeout(()=>{
+        //   //this.selectedStage.condition.value = ""
+        //   if(this.selectedStage && this.selectedStage.condition && this.selectedStage.condition.value){
+        //     let greaterThan = "&gt;";
+        //     let lessThan = "&lt;";
+        //     let greaterThanSymbol= ">";
+        //     let lessThanSymbol = "<";
+        //     if(this.selectedStage.condition.value.includes(greaterThan)){
+        //       this.selectedStage.condition.value.replace(greaterThan, greaterThanSymbol); 
+        //       let elemenet = document.getElementsByTagName("ngx-codemirror")[0] as HTMLBaseElement
+        //       elemenet.innerText.replace(greaterThan, greaterThanSymbol);
+        //     }else if(this.selectedStage.condition.value.includes(lessThan)){
+        //       this.selectedStage.condition.value.replace(lessThan,lessThanSymbol);
+        //       let elemenet = document.getElementsByTagName("ngx-codemirror")[0] as HTMLBaseElement
+        //       elemenet.innerText.replace(lessThan, lessThanSymbol); 
+        //     }
+        //   }
+        // },1)
       }, errRes => {
         this.savingConfig = false;
-        this.errorToaster(errRes, 'Failed to save configurations');
-         /** Workbench plain text temp */
-         if(this.newMappingObj && this.newMappingObj.custom_script && 
-          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
-         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        // this.errorToaster(errRes, 'Failed to save configurations');
+        if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessDenied' || errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
+          this.upgrade();
+          this.errorToaster(errRes, errRes.error.errors[0].msg);
+          setTimeout(() => {
+            // this.btnDisabled = false;
+          }, 500)
         }
+        /** Workbench plain text temp */
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
+
       });
     }
 
+  }
+  upgrade() {
+    this.plans.openChoosePlanPopup('choosePlans');
   }
   openModalPopup() {
     this.loadingFields = true;
@@ -886,9 +922,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filteredSimulatorRes = JSON.stringify(data, null, ' ');
   }
   simulate() {
-    let plainScriptTxt : any;
-    if(this.newMappingObj && this.newMappingObj.custom_script && 
-      this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
+    let plainScriptTxt: any;
+    if (this.newMappingObj && this.newMappingObj.custom_script &&
+      this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
       plainScriptTxt = this.newMappingObj.custom_script.defaultValue.script;
     }
     let indexArrayLength: any = this.validateConditionForRD();
@@ -937,9 +973,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         this.simulteObj.currentSimulateAnimi = -1;
         this.simulteObj.simulationInprogress = false;
         /** Workbench plain text temp */
-        if(this.newMappingObj && this.newMappingObj.custom_script && 
-          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
-         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
         }
       }, errRes => {
         this.simulating = false;
@@ -955,9 +991,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.simulteObj.currentSimulateAnimi = -1;
         /** Workbench plain text temp */
-        if(this.newMappingObj && this.newMappingObj.custom_script && 
-          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script){
-         this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
         }
         this.errorToaster(errRes, 'Failed to get stop words');
       });
@@ -1109,7 +1145,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       res.stages.map(data => {
         return data.condition.mappings.map(data1 => {
           let obj = this.fields.find(da => da._id === data1.fieldId);
-          data1.fieldName = obj.fieldName
+          if (obj && obj.fieldName) {
+            data1.fieldName = obj.fieldName
+          }
+
         })
       })
       this.pipeline = res.stages || [];
@@ -1182,12 +1221,14 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.changesDetected = true;
     list.splice(index, 1);
   }
-  clearDirtyObj(cancel?) {
+  clearDirtyObj(cancel?) { 
     this.pipeline = JSON.parse(JSON.stringify(this.pipelineCopy));
     this.pipeline.map(data => {
-      return data.condition.mappings.map(data1 => {
+      return data?.condition?.mappings?.map(data1 => {
         let obj = this.fields.find(da => da._id === data1.fieldId);
-        data1.fieldName = obj.fieldName
+        if (obj && obj.fieldName) {
+          data1.fieldName = obj.fieldName
+        }
       })
     })
     if (this.selectedStage && !this.selectedStage._id) {
@@ -1345,7 +1386,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     return true;
   }
-  onSourcefieldChange(event,parent,no,e){
+  onSourcefieldChange(event, parent, no, e) {
     // console.log(event,parent,no)
     // e.stopPropagation();
     // $(this).next('.dropdown-toggle').find('[data-toggle=dropdown]').dropdown('toggle');

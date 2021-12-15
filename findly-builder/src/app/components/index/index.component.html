@@ -183,8 +183,8 @@
                 ngbTooltip="{{'workbench.give_stage_name_of_your_choice_to_create_multiple' | translate}}"
                 tooltipClass="workbench_tolltips m-0" class="pl-1" src="assets/icons/help_gray.svg" />
             </div>
-            <input type="text" placeholder="{{'workbench.please_enter_stage_name' | translate}}" 
-              (keyup)="changesDetected = true"  autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name" />
+            <input type="text" placeholder="{{'workbench.please_enter_stage_name' | translate}}"
+              (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name" />
           </div>
           <!-- <div class="kr-sg-input-text mb-2">
             <div class="label-text">
@@ -212,8 +212,8 @@
           </div> -->
 
 
-          <div class="condition-block">
-            <div class="group-radiobutton">
+          <div class="condition-block" > <!-- *ngIf="selectedStage.type !== 'custom_script'" -->
+            <div class="group-radiobutton"> 
               <div class="heading-title">Condition</div>
               <div class="desc-text"></div>
               <div class="kr-sg-radiobutton">
@@ -227,18 +227,22 @@
                 <label for="radio-23" class="radio-custom-label">Script</label>
               </div>
             </div>
+            <div class="info-data-">
+              <img src="assets/icons/Info_gray.svg">
+              <span class="text_info">On choosing the Script Option, conditions defined here will only be applied.</span>
+              </div>
             <div class="conditions-input-sec" *ngFor="let basic of selectedStage.condition.mappings;let i=index;"
               [hidden]="selectedStage.condition.type=='script'">
               <div class="conditions-types">
                 <div class="and-seperator" *ngIf="selectedStage.condition.mappings.length>1&&i>0">And</div>
                 <div class="kr-sg-input-text col-8">
                   <div class="position-relative">
-                    <input type="text" placeholder="Enter the field name here" 
-                      (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
-                      data-toggle="dropdown" [(ngModel)]="basic.fieldName" />
+                    <input type="text" placeholder="Enter the field name here" (keyup)="changesDetected = true"
+                      class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown"
+                      [(ngModel)]="basic.fieldName" />
                     <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                       [ngClass]="{'no-data-match-border-0':!(fields | filter : [basic.source_field, 'fieldName']).length}">
-                      <perfect-scrollbar class="scroll-search-field">
+                      <perfect-scrollbar class="scroll-search-field h-178">
                         <li *ngFor="let suggesition of fields| filter : [basic.fieldName, 'fieldName']"
                           (click)="basic.fieldId=suggesition._id;basic.fieldName=suggesition.fieldName;addCondition('update',i,'field',suggesition._id);">
                           <a>{{suggesition.fieldName}}</a>
@@ -250,16 +254,16 @@
                 <div class="kr-sg-dropdowns col-4">
                   <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{basic.operator==''?'Select
-                      Operator':basic.operator}}</button>
+                      Operator':camelCaseNames(basic.operator)}}</button>
                     <ul class="dropdown-menu content-menu">
                       <li *ngFor="let operator of operators"
                         (click)="basic.operator=operator.value;addCondition('update',i,'operator',basic.operator);">
-                        <a>{{operator.value}}</a>
+                        <a>{{operator.name}}</a>
                       </li>
                     </ul>
                   </div>
                 </div>
-                <div class="delete-condition" *ngIf="i>0">
+                <div class="delete-condition" *ngIf="selectedStage.condition.mappings.length>1">
                   <img src="assets/icons/delete-table.svg" (click)="addCondition('remove',i)">
                 </div>
               </div>
@@ -275,13 +279,14 @@
                     <input type="text" placeholder="Type value and press enter" #containInput
                       [formControl]="containCtrl" [matChipInputFor]="chipList" [matChipInputAddOnBlur]="addOnBlur"
                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event,i)"
-                      [(ngModel)]="basic.autocomplete_text"  autocomplete="off">
+                      [(ngModel)]="basic.autocomplete_text" autocomplete="off">
                   </mat-chip-list>
                 </mat-form-field>
               </div>
             </div>
 
-            <button  class="kr-sg-button-secondary btn_lg" (click)="addCondition('add')" *ngIf="selectedStage.condition.type=='basic'">
+            <button class="kr-sg-button-secondary btn_lg" (click)="addCondition('add')"
+              *ngIf="selectedStage.condition.type=='basic'">
               <img src="assets/icons/pricing/plus-small.svg">
               <span>AND</span>
             </button>
@@ -398,12 +403,12 @@
                       {{'workbench.field_name' | translate}}
                     </div>
                     <div class="position-relative">
-                      <input type="text" placeholder="{{'workbench.enter_target' | translate}}" 
+                      <input type="text" placeholder="{{'workbench.enter_target' | translate}}"
                         (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                         data-toggle="dropdown" [(ngModel)]="map.source_field" />
                       <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                         [ngClass]="{'no-data-match-border-0':!(fields | filter : [map.source_field, 'fieldName']).length}">
-                        <perfect-scrollbar class="scroll-search-field">
+                        <perfect-scrollbar class="scroll-search-field h-178">
                           <li *ngFor="let suggesition of fields | filter : [map.source_field, 'fieldName'] "
                             (click)="map.source_field = suggesition.fieldName"><a
                               *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
@@ -424,14 +429,14 @@
                       {{'workbench.field_name' | translate}}
                     </div>
                     <div class="position-relative ">
-                      <input type="text" placeholder="{{'workbench.enter_target' | translate}}" 
+                      <input type="text" placeholder="{{'workbench.enter_target' | translate}}"
                         (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                         data-toggle="dropdown" [(ngModel)]="map.target_field" />
                       <ul class="source-field-dropdown dropdown-menu content-menu"
                         *ngIf="map.operation !== 'copy' && map.operation !== 'rename'"
                         id="fields-search-with-dropdown-menu"
                         [ngClass]="{'no-data-match-border-0':!(fields | filter : [map.target_field, 'fieldName']).length}">
-                        <perfect-scrollbar class="scroll-search-field">
+                        <perfect-scrollbar class="scroll-search-field h-178">
                           <li *ngFor="let suggesition of fields | filter : [map.target_field, 'fieldName'] "
                             (click)="map.target_field = suggesition.fieldName"><a
                               *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
@@ -445,7 +450,7 @@
                       map.operation !== 'rename'
                     ">
                     <div class="label-text">{{'workbench.value' | translate}}</div>
-                    <input type="text" placeholder="{{'workbench.value' | translate}}"  class="input-text"
+                    <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text"
                       [(ngModel)]="map.value" />
                   </div>
                   <!-- <div class="kr-sg-dropdowns col-4 input-box">
@@ -541,14 +546,14 @@
                   {{'workbench.field_name' | translate}}
                 </div>
                 <div class="position-relative ">
-                  <input type="text" placeholder="{{'workbench.enter_source_field' | translate}}" 
+                  <input type="text" placeholder="{{'workbench.enter_source_field' | translate}}"
                     (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                     data-toggle="dropdown" [(ngModel)]="
                     newMappingObj.field_mapping.defaultValue.source_field
                   " />
                   <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                     [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj.field_mapping.defaultValue.source_field, 'fieldName']).length}">
-                    <perfect-scrollbar class="scroll-search-field">
+                    <perfect-scrollbar class="scroll-search-field h-178">
                       <li
                         *ngFor="let suggesition of fields | filter : [newMappingObj.field_mapping.defaultValue.source_field, 'fieldName'] "
                         (click)="newMappingObj.field_mapping.defaultValue.source_field = suggesition.fieldName"><a
@@ -579,7 +584,7 @@
                 </div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench.enter_name' | translate}}"
-                    class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown"  [(ngModel)]="
+                    class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" [(ngModel)]="
                     newMappingObj.field_mapping.defaultValue.target_field
                   " />
                   <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
@@ -589,7 +594,7 @@
                 newMappingObj.field_mapping.defaultValue.operation !==
                   'rename'
               " [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj.field_mapping.defaultValue.target_field, 'fieldName']).length}">
-                    <perfect-scrollbar class="scroll-search-field">
+                    <perfect-scrollbar class="scroll-search-field h-178">
                       <li
                         *ngFor="let suggesition of fields | filter : [newMappingObj.field_mapping.defaultValue.target_field, 'fieldName'] "
                         (click)="newMappingObj.field_mapping.defaultValue.target_field = suggesition.fieldName"><a
@@ -618,7 +623,7 @@
                   ">
                   {{'workbench.new_name' | translate}}
                 </div>
-                <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" 
+                <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text"
                   [(ngModel)]="newMappingObj.field_mapping.defaultValue.value" />
               </div>
               <div class="colse_form">
@@ -655,12 +660,12 @@
                   <div class="kr-sg-input-text col-6 input-box">
                     <div class="label-text">{{'workbench.source_field' | translate}}</div>
                     <div class="position-relative ">
-                      <input type="text" placeholder="{{'workbench.value' | translate}}" 
+                      <input type="text" placeholder="{{'workbench.value' | translate}}"
                         (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                         data-toggle="dropdown" [(ngModel)]="map.source_field" />
                       <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                         [ngClass]="{'no-data-match-border-0':!(fields | filter : [map.source_field, 'fieldName']).length}">
-                        <perfect-scrollbar class="scroll-search-field">
+                        <perfect-scrollbar class="scroll-search-field h-178">
                           <li *ngFor="let suggesition of fields | filter : [map.source_field, 'fieldName'] "
                             (click)="map.source_field = suggesition.fieldName"><a
                               *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
@@ -781,8 +786,8 @@
                   </div>
                   <div class="kr-sg-input-text col-6 input-box">
                     <div class="label-text">{{'workbench.target_field' | translate}}</div>
-                    <input type="text" placeholder="{{'workbench.value' | translate}}" 
-                      (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field" />
+                    <input type="text" placeholder="{{'workbench.value' | translate}}" (keyup)="changesDetected = true"
+                      class="input-text" [(ngModel)]="map.target_field" />
                   </div>
                   <!-- <div class="kr-sg-dropdowns col-4 input-box">
                     <div class="label-text">Label</div>
@@ -810,12 +815,12 @@
                 <div class="label-text">{{'workbench.source_field' | translate}}</div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench.value' | translate}}"
-                    class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown"  [(ngModel)]="
+                    class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" [(ngModel)]="
                       newMappingObj[selectedStage.type].defaultValue.source_field
                     " />
                   <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                     [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj[selectedStage.type].defaultValue.source_field, 'fieldName']).length}">
-                    <perfect-scrollbar class="scroll-search-field">
+                    <perfect-scrollbar class="scroll-search-field h-178">
                       <li
                         *ngFor="let suggesition of fields | filter : [newMappingObj[selectedStage.type].defaultValue.source_field, 'fieldName'] "
                         (click)="newMappingObj[selectedStage.type].defaultValue.source_field = suggesition.fieldName"><a
@@ -967,8 +972,7 @@
               </div>
               <div class="kr-sg-input-text col-6 input-box">
                 <div class="label-text">{{'workbench.target_field' | translate}}</div>
-                <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" 
-                  [(ngModel)]="
+                <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" [(ngModel)]="
                     newMappingObj[selectedStage.type].defaultValue.target_field
                   " />
               </div>
@@ -989,6 +993,8 @@
           <div class="customScript">
             <div class="kr-sg-input-text-area">
               <div class="label-text">&lt;/&gt;{{'workbench.painless' | translate}}</div>
+              <div class="clear">
+              <span (click)="newMappingObj.custom_script.defaultValue.script=''">Clear</span></div>
               <textarea placeholder="{{'workbench.please_enter_script' | translate}}" class="input- d-none"
                 (keyup)="
                   addCustomScript(
@@ -1022,9 +1028,9 @@
       </div>
       <div class="d-flex">
         <div class="kr-sg-input-search ml-2" [ngClass]="{'d-none': !showSearch}">
-          <input type="text" placeholder="{{'search' | translate}}"  class="input-search"
-            (keyup)="searchBySimulator()" [ngClass]="{'pl-33':!searchSimulator,'pl-2':searchSimulator}"
-            autocomplete="off" id="fieldSearchId" [(ngModel)]="searchSimulator"
+          <input type="text" placeholder="{{'search' | translate}}" class="input-search" (keyup)="searchBySimulator()"
+            [ngClass]="{'pl-33':!searchSimulator,'pl-2':searchSimulator}" autocomplete="off" id="fieldSearchId"
+            [(ngModel)]="searchSimulator"
             (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
             (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
@@ -1216,3 +1222,4 @@
     </div>
   </ng-container>
 </kr-modal>
+<app-upgrade-plan #plans></app-upgrade-plan>

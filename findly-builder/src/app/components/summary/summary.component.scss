@@ -331,6 +331,7 @@
                 .queries-documents{
                     display: flex;
                     align-items: center;
+                    padding-top: 25px;
                     padding-bottom: 10px;
                     .query-type{
                         width: 50%;                        
@@ -345,7 +346,7 @@
                                 height: 66px;
                                 background: #EFF0F1;
                                 right: -3px;
-                                bottom: -8px;
+                                bottom: -20px;
                             }
                         }                        
                         .title-query{
