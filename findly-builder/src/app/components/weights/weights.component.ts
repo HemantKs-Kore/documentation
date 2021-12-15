@@ -149,13 +149,13 @@ export class WeightsComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
-      panelClass: 'delete-popup',
+      panelClass: 'delete-popup-weights',
       data: {
         title: 'Restore weights',
         text: 'Are you sure you want to restore weights?',
-        newTitle: 'Are you sure you want to reset ?',
-        body: 'Searchable fields and their weights will be reset to system-defined values. ',
-        buttons: [{ key: 'yes', label: 'Reset' }, { key: 'no', label: 'Cancel' }],
+        newTitle: 'Resetting to default will reset the values of System defined fields to default values.',
+        body: 'Are you sure you want to continue ?',
+        buttons: [{ key: 'yes', label: 'Continue' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });

@@ -1221,7 +1221,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.changesDetected = true;
     list.splice(index, 1);
   }
-  clearDirtyObj(cancel?) {
+  clearDirtyObj(cancel?) { 
     this.pipeline = JSON.parse(JSON.stringify(this.pipelineCopy));
     this.pipeline.map(data => {
       return data?.condition?.mappings?.map(data1 => {
