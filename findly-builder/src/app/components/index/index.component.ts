@@ -792,10 +792,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         this.clearDirtyObj();
         this.setResetNewMappingsObj(null, true);
         /** Workbench plain text temp */
-        if (this.newMappingObj && this.newMappingObj.custom_script &&
-          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
-          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
-        }
+        // if (this.newMappingObj && this.newMappingObj.custom_script &&
+        //   this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+        //   this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        // }
         // setTimeout(()=>{
         //   //this.selectedStage.condition.value = ""
         //   if(this.selectedStage && this.selectedStage.condition && this.selectedStage.condition.value){
@@ -825,10 +825,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           }, 500)
         }
         /** Workbench plain text temp */
-        if (this.newMappingObj && this.newMappingObj.custom_script &&
-          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
-          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
-        }
+        // if (this.newMappingObj && this.newMappingObj.custom_script &&
+        //   this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+        //   this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        // }
 
       });
     }
