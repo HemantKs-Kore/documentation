@@ -198,12 +198,12 @@ export class StructuredDataComponent implements OnInit {
       if(quaryparms && quaryparms.skip){
 
       }
-      // if(this.allSelected){
-      //   this.showSelectedData = true // To show number of records selected
-      //   this.structuredDataItemsList.forEach(data => {
-      //     data.isChecked = true;
-      //   });
-      // }
+      if(this.allSelected){
+        this.showSelectedData = true // To show number of records selected
+        this.structuredDataItemsList.forEach(data => {
+          data.isChecked = true;
+        });
+      }
       if (res.length > 0) {
         this.isLoading = false;
         this.isLoading1 = true;
