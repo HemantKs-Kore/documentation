@@ -9262,7 +9262,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       attachmentInfo = {};
-
+      websockeRrefreshed = false;
       _self.checkWbInitialized(messageToBot, clientMessageId);
 
       // if (_self.isDev == false) {
@@ -9273,6 +9273,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
     FindlySDK.prototype.checkWbInitialized = function (messageToBot, clientMessageId) {
       var _self = this;
+      if(websockeRrefreshed){
+        return;
+      }
       var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 2000 : 0;
       // $('.typingIndicatorContent').css('display', 'block');
       _self.showTypingIndicator();
@@ -11222,6 +11225,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     var _pingTimer, _pingTime = 30000;
     var _disconnectBotTimer, _disconnectTime = 900000;
     var indicatorTimer;
+    var websockeRrefreshed = false;
     var mainTemplateBdr,
       localPanelDetail = {},
       makeAPICall = true;
@@ -14528,6 +14532,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.refresh-sdk').off('click').on('click', function (e) {
         $('#show-all-results-container').hide();
         $('.search-container').removeClass('bottom-up-results-showing');
+        websockeRrefreshed = true;
+        clearTimeout(indicatorTimer);
         $('.typingIndicatorContent').css('display', 'none');
         $('.search-container').removeClass('active');
         _self.vars.selectedFacetFromSearch = "all results"
@@ -14537,7 +14543,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.kore-search-container-close-icon').off('click').on('click', function (e) {
         $('#show-all-results-container').hide();
         $('.search-container').removeClass('bottom-up-results-showing');
+        websockeRrefreshed = true;
+        clearTimeout(indicatorTimer);
         $('.typingIndicatorContent').css('display', 'none');
+
         $('.search-container').removeClass('active');
         _self.vars.selectedFacetFromSearch = "all results"
         var responseObject = { 'type': 'closeSearchContainer', data: false, query: _self.vars.searchObject.searchText, bottomUp: true }
