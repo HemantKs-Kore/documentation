@@ -8058,7 +8058,6 @@ a.tile-heading{
 /* Carousel View Templaet 2 */
 
 .template-2-carousel-list .carousel .slide {
-    border: 6px solid #fff;
     width: 230px;
 }
 .template-2-carousel-list .carousel .slide .text-template {
@@ -9729,7 +9728,7 @@ a.tile-heading{
     margin: 10px 0;
 }
 .default-data-show-not-loaded .default-suggestions-content .pl-5{
-    padding-left: 5px;
+    padding-left: 5px !important;
 }
 .default-data-show-not-loaded .default-suggestions-content .suggestion-text {
     background: #FFFFFF;
@@ -9978,8 +9977,8 @@ display: block;
 
 .scroll-top-container{
     position: fixed;
-    bottom: 44px;
-    width: 100%;
+    bottom: 31px;
+    width: 8%;
     left: 0;
     display: flex;
     align-items: start;
