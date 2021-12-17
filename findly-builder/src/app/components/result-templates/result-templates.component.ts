@@ -494,8 +494,12 @@ export class ResultTemplatesComponent implements OnInit {
   //update template
   updateTemplate() {
     this.submitted = true;
+    let checkTitle: boolean = true;
+    if (this.templateDataBind.layout.renderTitle) {
+      checkTitle = (this.templateDataBind.layout.title.length > 0) ? true : false;
+    }
     //let validateText = this.validateFieldValues();
-    if (this.validateTemplate()) {
+    if (this.validateTemplate() && checkTitle) {
       const quaryparms: any = {
         searchIndexId: this.serachIndexId,
         templateId: this.templateDataBind._id,

@@ -957,6 +957,15 @@ export class FacetsComponent implements OnInit, OnDestroy {
         }
       })
   }
+  //clicked on configured facet icon
+  clickConfiguredFacet() {
+    this.configuredTabValues = [];
+    for (let item of this.currentFacetObj?.tabs) {
+      this.configuredTabValues.push({ Name: item.bucketName, Value: item.fieldValue })
+    }
+    this.showConfiguredFacet = true
+
+  }
   //update currentFacetObj
   updateConfiguredFacets(dialogRef?) {
     this.showConfiguredFacet = false;
@@ -1059,10 +1068,9 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.service.invoke('update.facet', quaryparms, payload).subscribe(res => {
       this.notificationService.notify('Updated Successfully', 'success');
       this.getFacts();
-      // this.getFacts();
       // this.facets.map(res => {
-      //   if (facet_id === res._id) {
-      //     res = Object.assign({ ...res, active: event.target.checked, _id: facet_id });
+      //   if (data._id === res._id) {
+      //     res = Object.assign({ ...res, active: event.target.checked, _id: data._id });
       //   }
       //   return res;
       // })

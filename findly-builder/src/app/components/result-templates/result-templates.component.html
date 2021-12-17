@@ -499,18 +499,20 @@
                         </div>
                       </div>
                     </ng-container>
+
                     <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
                     && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template_2_classic_list_collapse col-11 mb-3 p-0">
-                        <div class="collapse-item-list" *ngFor="let data of [0,1]">
-                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo">
+                      <div class="template_2_classic_list_collapse col-11 mb-3">
+                        <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
+                          <div class="classic-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demol2' + i">
                             Description
                             comes here, description comes here, description comes here, description comes here,
                             description comes here, des cription comes here, description comes here, description comes
                             here, description comes here, description comes here, descri...</div>
-                          <div id="demo" class="collapse"></div>
+                          <div id="demol2{{i}}" class="collapse"></div>
                         </div>
                       </div>
                     </ng-container>
@@ -533,13 +535,14 @@
                   && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template_2_plain_list_collapse col-11 mb-3 p-0">
-                        <div class="collapse-item-list" *ngFor="let data of [0,1]">
-                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo3">Description
+                      <div class="template_2_plain_list_collapse col-11 mb-3">
+                        <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
+                          <div class="plain-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demol22' + i">Description
                             comes here, description comes here, description comes here, description comes here,
                             description comes here, des cription comes here, description comes here, description comes
                             here, description comes here, description comes here, descri...</div>
-                          <div id="demo3" class="collapse"></div>
+                          <div id="demol22{{i}}" class="collapse"></div>
                         </div>
                       </div>
                     </ng-container>
@@ -714,10 +717,11 @@
                   && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template_3_classic_list_collapse col-11 mb-3 p-0">
+                      <div class="template_3_classic_list_collapse col-11 mb-3">
                         <!-- <div class="title-text-heading">Template title comes here</div> -->
-                        <div class="collapse-item-list" *ngFor="let data of [0,1]">
-                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo20">
+                        <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
+                          <div class="classic-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demo20' + i">
                             <div class="heading-text">Heading comes here</div>
                             <div class="text-desc">Description comes here, description comes here, description comes
                               here,
@@ -726,7 +730,7 @@
                               ion comes here, description comes here, description comes here, description comes here,
                               description comes here, description...</div>
                           </div>
-                          <div id="demo20" class="collapse"></div>
+                          <div id="demo20{{i}}" class="collapse"></div>
                         </div>
                       </div>
                     </ng-container>
@@ -750,10 +754,11 @@
                 && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template_3_plain_list_collapse col-11 mb-3 p-0">
+                      <div class="template_3_plain_list_collapse col-11 mb-3">
                         <!-- <div class="title-text-heading mb-1">Template title comes here</div> -->
-                        <div class="collapse-item-list" *ngFor="let data of [0,1]">
-                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo22">
+                        <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
+                          <div class="plain-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demo22' + i">
                             <div class="heading-text">Heading comes here</div>
                             <div class="text-desc">Description comes here, description comes here, description comes
                               here,
@@ -762,7 +767,7 @@
                               ion comes here, description comes here, description comes here, description comes here,
                               description comes here, description...</div>
                           </div>
-                          <div id="demo22" class="collapse"></div>
+                          <div id="demo22{{i}}" class="collapse"></div>
                         </div>
                       </div>
                     </ng-container>
@@ -899,7 +904,7 @@
                   && templateDataBind.layout.layoutType == 'l4' && !templateDataBind.layout.isClickable">
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
-                      <div class="template-4-classic-list-collapse col-11 mb-3 p-0">
+                      <div class="template-4-classic-list-collapse col-11 mb-3">
                         <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
                           <div class="classic-list-collapse-title" data-toggle="collapse"
                             [attr.data-target]="'#demol4' + i">
@@ -946,8 +951,9 @@
                       <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
                         {{templateDataBind?.layout?.title}}</div>
                       <div class="template-4-plain-list-collapse col-11 mb-3 p-0">
-                        <div class="collapse-item-list" *ngFor="let data of [0,1]">
-                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo33">
+                        <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
+                          <div class="plain-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demo33' + i">
                             <div class="heading-text">Heading comes here</div>
                             <div class="content_sec">
                               <div class="img-block">
@@ -962,7 +968,7 @@
                                 here, description comes here, description...</div>
                             </div>
                           </div>
-                          <div id="demo33" class="collapse"></div>
+                          <div id="demo33{{i}}" class="collapse"></div>
                         </div>
                       </div>
                     </ng-container>
@@ -1812,7 +1818,8 @@
               <div class="kr-sg-input-text mb-2" *ngIf="templateDataBind.layout.renderTitle">
                 <div class="label-text">Template title</div>
                 <input type="text" placeholder="Enter a template title" class="input-text"
-                  [(ngModel)]="templateDataBind.layout.title">
+                  [(ngModel)]="templateDataBind.layout.title"
+                  [class.err-block]="(!(templateDataBind.layout.title?.length) && submitted)">
               </div>
             </div>
 

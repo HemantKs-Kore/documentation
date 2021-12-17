@@ -1062,11 +1062,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{/if}}\
             {{/if}}\
             <input autocomplete="off" id="search" name="search"\
-            {{if searchConfig.searchBarPlaceholderText}}\
             placeholder="${searchConfig.searchBarPlaceholderText}" \
-            {{else}}\
-              placeholder="Search here"\
-            {{/if}}\
             class="search-top-down search chatInputBox\
             {{if classes}}\
               ${classes}"\
@@ -4042,7 +4038,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             _self.filterResults(event, false);
           }
-          
+
         });
       } else {
         $('.sdk-filter-checkbox-top-down').off('change').on('change', function (event) {
@@ -4167,7 +4163,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
 
       $('.live-search-close-icon').off('click').on('click', function (e) {
-      
+
         _self.vars.showingMatchedResults = true;
         _self.vars.searchObject.searchText = $('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val();
         _self.vars.scrollPageNumber = 0;
@@ -6364,7 +6360,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.search-body').addClass('hide');
             $('#searchChatContainer').removeClass('bgfocus');
             $('.parent-search-live-auto-suggesition').hide();
-            }
+          }
           clearTimeout(_self.vars.searchObject.clearGreetingTimeOut);
 
           if ($('.search-container').hasClass('full-page')) {
@@ -9030,13 +9026,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getGreetingMsgTemplate = function () {
       var greetingMsg = '<script type="text/x-jqury-tmpl">\
+      {{if searchConfig.welcomeMsg}}\
         <div class="search-greeting-box" style="background:${searchConfig.welcomeMsgFillColor};">\
           <span class="search-greeting-text" style="color : ${searchConfig.welcomeMsgColor}">\
-          {{if searchConfig.welcomeMsg}}\
             ${searchConfig.welcomeMsg}\
-          {{else}}\
-            Hello! How can I help you today?\
-          {{/if}}\
           </span>\
         </div>\
         <div class="search-greeting-close-container pointer" >\
@@ -9044,6 +9037,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <img src="./libs/images/close.svg" class="search-greeting-close-icon ">\
           </span>\
         </div>\
+        {{/if}}\
       </script> ';
       return greetingMsg;
     }
@@ -18987,15 +18981,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getGreetingMsgTopDownTemplate = function () {
       var greetingMsgTemplate = '<script id="greeting-msg-top-down-template" type="text/x-jqury-tmpl">\
+                                         {{if searchConfig.welcomeMsg}}\
                                         <div class="search-greeting-box-top-down">\
                                           <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">\
-                                          {{if searchConfig.welcomeMsg}}\
                                               ${searchConfig.welcomeMsg}\
-                                            {{else}}\
-                                              Hello! How can I help you today?\
-                                            {{/if}}\
-                                          </span>\
-                                        </div>\
+                                              </span>\
+                                              </div>\
+                                      {{/if}}\
                                  </script>'
       return greetingMsgTemplate;
     }
@@ -19643,15 +19635,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     function generateRandomNum() {
       var dateObj = new Date();
-      var month = dateObj.getUTCMonth() + 1; 
+      var month = dateObj.getUTCMonth() + 1;
       var day = dateObj.getUTCDate();
       var year = dateObj.getUTCFullYear();
       var seconds = dateObj.getSeconds();
       var minutes = dateObj.getMinutes();
       var hour = dateObj.getHours();
-      var generatedNum = (year *month * day) * (hour + (minutes * seconds));
-      return generatedNum; 
-  }
+      var generatedNum = (year * month * day) * (hour + (minutes * seconds));
+      return generatedNum;
+    }
     function b64EncodeUnicode(str) {
       // first we use encodeURIComponent to get percent-encoded UTF-8,
       // then we convert the percent encodings into raw bytes which
