@@ -9977,8 +9977,8 @@ display: block;
 
 .scroll-top-container{
     position: fixed;
-    bottom: 44px;
-    width: 100%;
+    bottom: 31px;
+    width: 8%;
     left: 0;
     display: flex;
     align-items: start;
