@@ -360,9 +360,9 @@
                     <div class="accordion_sec" *ngIf="customizeLog">
                         <div id="accordion">
                             <div class="card-acc">
-                                <div class="card-header-acc" *ngIf="log.action != 'restored' && log.target">
+                                <div class="card-header-acc" *ngIf="log && log.action != 'restored' && log.target">
                                     <a class="card-link-acc link-block" data-toggle="collapse"
-                                        href="#collapse_log_{{i}}" *ngIf="log.target.contentInfo._source">
+                                        href="#collapse_log_{{i}}" *ngIf="log.target.contentinfo && log.target.contentInfo._source">
                                         {{log.displayMessage }} - {{ log.target.contentType}}</a>
                                     <a class="card-link-acc link-block" data-toggle="collapse"
                                         href="#collapse_log_{{i}}"
@@ -376,20 +376,20 @@
                                 <div id="collapse_log_{{i}}" class="collapse" data-parent="#accordion"
                                     *ngIf="log.action != 'restored'">
                                     <div class="card-body-acc" *ngIf="log.target">
-                                        <div class="question-text" *ngIf="log.target.contentInfo._source">
+                                        <div class="question-text" *ngIf="log.target.contentinfo && log.target.contentInfo._source">
                                             {{log.target.contentInfo._source.faq_question ||
                                             log.target.contentInfo._source.page_title ||
                                             log.target.contentInfo._source.file_title ||
                                             log.target.contentInfo._source.strucDataHeadingDis}}</div>
                                         <div class="question-text"
-                                            *ngIf="log.target.contentType && log.target.contentType == 'task'">
+                                            *ngIf="log.target.contentinfo && log.target.contentType && log.target.contentType == 'task'">
                                             {{log.target.contentInfo.lname}}</div>
 
-                                        <div class="ans-info" *ngIf="log.target.contentInfo._source">
+                                        <div class="ans-info" *ngIf="log.target.contentinfo && log.target.contentInfo._source">
                                             {{log.target.contentInfo._source.page_preview ||
                                             log.target.contentInfo._source.file_preview }}</div>
                                         <div class="ans-info"
-                                            *ngIf="log.target.contentType && log.target.contentType == 'task'">
+                                            *ngIf="log.target.contentinfo && log.target.contentType && log.target.contentType == 'task'">
                                             {{log.target.contentInfo.shortDesc}}</div>
                                     </div>
                                 </div>
