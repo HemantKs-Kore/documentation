@@ -1062,11 +1062,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{/if}}\
             {{/if}}\
             <input autocomplete="off" id="search" name="search"\
-            {{if searchConfig.searchBarPlaceholderText}}\
             placeholder="${searchConfig.searchBarPlaceholderText}" \
-            {{else}}\
-              placeholder="Search here"\
-            {{/if}}\
             class="search-top-down search chatInputBox\
             {{if classes}}\
               ${classes}"\
@@ -8947,13 +8943,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getGreetingMsgTemplate = function () {
       var greetingMsg = '<script type="text/x-jqury-tmpl">\
+      {{if searchConfig.welcomeMsg}}\
         <div class="search-greeting-box" style="background:${searchConfig.welcomeMsgFillColor};">\
           <span class="search-greeting-text" style="color : ${searchConfig.welcomeMsgColor}">\
-          {{if searchConfig.welcomeMsg}}\
             ${searchConfig.welcomeMsg}\
-          {{else}}\
-            Hello! How can I help you today?\
-          {{/if}}\
           </span>\
         </div>\
         <div class="search-greeting-close-container pointer" >\
@@ -8961,6 +8954,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <img src="./libs/images/close.svg" class="search-greeting-close-icon ">\
           </span>\
         </div>\
+        {{/if}}\
       </script> ';
       return greetingMsg;
     }
@@ -18812,15 +18806,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getGreetingMsgTopDownTemplate = function () {
       var greetingMsgTemplate = '<script id="greeting-msg-top-down-template" type="text/x-jqury-tmpl">\
+                                      {{if searchConfig.welcomeMsg}}\
                                         <div class="search-greeting-box-top-down">\
                                           <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">\
-                                          {{if searchConfig.welcomeMsg}}\
                                               ${searchConfig.welcomeMsg}\
-                                            {{else}}\
-                                              Hello! How can I help you today?\
-                                            {{/if}}\
                                           </span>\
                                         </div>\
+                                        {{/if}}\
                                  </script>'
       return greetingMsgTemplate;
     }
