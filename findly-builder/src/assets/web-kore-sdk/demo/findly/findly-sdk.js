@@ -3605,6 +3605,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 }
               }, 600)
               _self.fullResultsScrollTop();
+              $(".content-data-sec").scrollTop(0);
+              $(".data-body-sec").scrollTop(0);
             } else {
               var dataObj = {
                 facets: facets || [],
@@ -5038,49 +5040,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // var activeFacet = '';
       var facetActive = '';
       var url = _self.API.searchUrl;
-
-      /*var currentDate = new Date();
-      var dateTime = currentDate.getDate() + "/"
-        + (currentDate.getMonth() + 1) + "/"
-        + currentDate.getFullYear() + ", "
-        + currentDate.getHours() + ":"
-        + currentDate.getMinutes() + ":"
-        + currentDate.getSeconds();*/
-
       var payload = {
         "query": _self.vars.searchObject.searchText,
         // "maxNumOfResults": 9,
         "maxNumOfResults": 5,
-        /*"userId": _self.API.uuid,
-        "streamId": _self.API.streamId,*/
         "lang": "en",
         // "isDev": true,
         "isDev": _self.isDev,
-        /*"messagePayload": {
-          "clientMessageId": new Date().getTime(),
-          "message": {
-            "body": _self.vars.searchObject.searchText,
-          }
-        },
-        "resourceId": '/bot.message',
-        "timeDateDay": dateTime,
-        "currentPage": window.location.href,
-        "meta": {
-          "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
-          "locale": window.navigator.userLanguage || window.navigator.language,
-        },*/
       }
 
       if (_self.isDev) {
         payload['customize'] = _self.vars.customizeView;
       }
-
-      /*if (_self.bot.options) {
-        payload["client"] = _self.bot.options.client || "sdk";
-        payload["botInfo"] = {};
-        payload["botInfo"].chatBot = _self.bot.options.botInfo.chatBot;
-        payload["botInfo"].taskBotId = _self.bot.options.botInfo.taskBotId;
-      }*/
 
       if (filterObject.length > 0) {
         payload.filters = JSON.parse(JSON.stringify(filterObject));
@@ -5099,12 +5070,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "facetValue": [_self.vars.selectedFacetFromSearch],
           "name": contentTypeFilter.name
         }
-        // if (Object.values(selectedTopFacet).length) {
-        //   if (!payload.filters || !payload.filters.length) {
-        //     payload.filters = [];
-        //   }
-        //   payload.filters.push(selectedTopFacet);
-        // }
         var tabConfig = {
           "filter": {
             "fieldName": _self.vars.tabFacetFieldName,
@@ -5115,23 +5080,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         payload.tabConfig = tabConfig;
       } else {
         let filters = payload.filters;
-        // for (let i = (filters || []).length - 1; i >= 0; i--) {
-        //   if (filters[i].subtype !== 'range') {
-        //     if (filters[i].facetValue[0] == 'faq' || filters[i].facetValue[0] == 'task' || filters[i].facetValue[0] == 'web' || filters[i].facetValue[0] == 'file' || filters[i].facetValue[0] == 'data') {
-        //       payload.filters.splice(i, 1);
-        //     }
-        //   }
-        // }
       }
-
-
-
       // payload.isDev = _self.isDev;
 
       _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
         var faqs = [], web = [], tasks = [], files = [], facets = {}, searchFacets = [];
-
-
         if (res.template) {
           res = res.template;
           searchFacets = res.facets;
@@ -5277,6 +5230,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.markSelectedFilters();
         }
         _self.fullResultsScrollTop();
+        $(".content-data-sec").scrollTop(0);
+        $(".data-body-sec").scrollTop(0);
       });
     }
 
@@ -7101,6 +7056,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
         }
         _self.fullResultsScrollTop();
+        $(".content-data-sec").scrollTop(0);
+        $(".data-body-sec").scrollTop(0);
       } else if (res.templateType === 'botAction') {
         // debugger;
         res = res.template;
@@ -16146,6 +16103,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // }, 400);
         }
         _self.fullResultsScrollTop();
+        $(".content-data-sec").scrollTop(0);
+        $(".data-body-sec").scrollTop(0);
       })
 
     }
@@ -19906,7 +19865,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.scroll-top-container').css('display', 'none');
           }
         });
-        $(".scroll-top-container").off('click').on('click', function () {
+        $(".title-scroll-top").off('click').on('click', function () {
           $(".content-data-sec").scrollTop(0);
         });
       } else {
@@ -19918,7 +19877,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.scroll-top-container').css('display', 'none');
           }
         })
-        $(".scroll-top-container").off('click').on('click', function () {
+        $(".title-scroll-top").off('click').on('click', function () {
           $(".data-body-sec").scrollTop(0);
         });
       }
