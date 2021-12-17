@@ -9729,7 +9729,7 @@ a.tile-heading{
     margin: 10px 0;
 }
 .default-data-show-not-loaded .default-suggestions-content .pl-5{
-    padding-left: 5px;
+    padding-left: 5px !important;
 }
 .default-data-show-not-loaded .default-suggestions-content .suggestion-text {
     background: #FFFFFF;
