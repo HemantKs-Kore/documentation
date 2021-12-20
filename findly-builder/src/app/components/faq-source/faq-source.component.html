@@ -114,7 +114,7 @@
                         <div class="col-4 p-0 d-flex align-items-center">
                             <div class="kr-sg-checkbox" [hidden]="!((selectedtab === 'draft' && faqSelectionObj.selectedCount == faqSelectionObj.stats.draft) || (selectedtab === 'in_review' && faqSelectionObj.selectedCount == faqSelectionObj.stats.in_review) || (selectedtab === 'approved' && faqSelectionObj.selectedCount == faqSelectionObj.stats.approved ) || faqSelectionObj.selectAll) ">
                                 <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll" autocomplete="off">
-                                <label for="selectAllFaqs" class="checkbox-custom-label"></label>
+                                <label for="selectAllFaqs" class="checkbox-custom-label"></label> 
                             </div>  
                             <div class="mr-3" *ngIf="(faqSelectionObj.selectedCount>0 && ((selectedtab === 'draft' && faqSelectionObj.selectedCount !== faqSelectionObj.stats.draft) || (selectedtab === 'in_review' && faqSelectionObj.selectedCount !== faqSelectionObj.stats.in_review) || (selectedtab === 'approved' && faqSelectionObj.selectedCount !== faqSelectionObj.stats.approved ))) && !faqSelectionObj.selectAll">
                                 <img (click) = "selectAllPartially();" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
