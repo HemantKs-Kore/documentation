@@ -1251,3 +1251,25 @@
         }
     }
 }
+
+.with-conditional-block{
+    padding-bottom: 15px;
+    border-bottom: 1px solid #E4E5E7;
+    margin-bottom: 20px;
+}
+.condition-res-titles-block{
+    margin-bottom: 30px;
+    .label-text{
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 15px;
+        color: #202124;
+        margin-bottom: 8px;
+    }
+    .label-info{
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        color: #8A959F;
+    }
+}
