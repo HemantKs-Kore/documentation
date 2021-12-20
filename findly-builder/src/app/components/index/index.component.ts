@@ -407,7 +407,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
       }
-      this.newMappingObj.custom_script.defaultValue.script = this.selectedStage.config.mappings[0].script || '';
+      this.newMappingObj.custom_script.defaultValue.script = this.selectedStage.config.mappings.length > 1 ? this.selectedStage.config.mappings[1].script : this.selectedStage.config.mappings[0].script || '';
     }
   }
   checkNewAddition() {
@@ -825,10 +825,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           }, 500)
         }
         /** Workbench plain text temp */
-        // if (this.newMappingObj && this.newMappingObj.custom_script &&
-        //   this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
-        //   this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
-        // }
+        if (this.newMappingObj && this.newMappingObj.custom_script &&
+          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        }
 
       });
     }
@@ -977,10 +977,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         this.simulteObj.currentSimulateAnimi = -1;
         this.simulteObj.simulationInprogress = false;
         /** Workbench plain text temp */
-        if (this.newMappingObj && this.newMappingObj.custom_script &&
-          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
-          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
-        }
+        // if (this.newMappingObj && this.newMappingObj.custom_script &&
+        //   this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+        //   this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        // }
       }, errRes => {
         this.simulating = false;
         this.simulteObj.simulating = false;

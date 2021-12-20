@@ -382,12 +382,12 @@
               {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
               {{if isClickable == true}}\
               <div class="grid-data-item click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}"  href="${data.url}" target="_blank">\
-                <div class="title-item" ><div class="two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div></div>\
+                <div class="title-item {{if textAlignment=="center"}}text-center{{/if}}" ><div class="two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div></div>\
               </div>\
               {{/if}}\
               {{if isClickable == false}}\
               <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-              <div class="title-item"><div class="two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div></div>\
+              <div class="title-item {{if textAlignment=="center"}}text-center{{/if}}"><div class="two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div></div>\
             </div>\
               {{/if}}\
               {{/each}}\
@@ -408,7 +408,7 @@
               {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
               {{if isClickable == true}}\
               <div class="grid-data-item click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-                <div class="inner-content-list">\
+                <div class="inner-content-list {{if textAlignment=="center"}}text-center{{/if}}">\
                   <div class="heading-text text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                   <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                 </div>\
@@ -416,7 +416,7 @@
               {{/if}}\
               {{if isClickable == false}}\
               <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-                <div class="inner-content-list">\
+                <div class="inner-content-list {{if textAlignment=="center"}}text-center{{/if}}">\
                   <div class="heading-text text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                   <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                 </div>\
@@ -511,7 +511,7 @@
               <div class="template-6-grid-list">\
               {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
               <div class="grid-data-item faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-                  <div class="inner-content-list">\
+                  <div class="inner-content-list {{if textAlignment=="center"}}text-center{{/if}}">\
                       <div class="heading-main text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                       {{each(key, res) [0,1,2]}}\
                       <div class="image-with-text">\
@@ -546,7 +546,7 @@
               {{else}}\
                 <div class="grid-data-item  click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
               {{/if}}\
-                    <div class="inner-content-list">\
+                    <div class="inner-content-list {{if textAlignment=="center"}}text-center{{/if}}">\
                       <div class="main-img-block">\
                         <img src="${data.img}">\
                       </div>\
@@ -575,7 +575,7 @@
               {{else}}\
                 <div class="grid-data-item  click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
               {{/if}}\
-                    <div class="inner-content-list ">\
+                    <div class="inner-content-list {{if textAlignment=="center"}}text-center{{/if}}">\
                       <div class="main-img-block">\
                         <img src="${data.img}">\
                       </div>\
