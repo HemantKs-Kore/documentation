@@ -109,7 +109,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     { title: 'Currency', value: 'MONEY', isDepricated: false },
     { title: 'Person Name', value: 'PERSON', isDepricated: false },
     { title: 'Number', value: 'NUMBER', isDepricated: false },
-    { title: 'Percentage', value: 'PERCENTAGE', isDepricated: false },
+    { title: 'Percentage', value: 'PERCENTAGE', isDepricated: false }
     /** Existing  */
     // { title: 'Date', value: 'date', isDepricated: false },
     // { title: 'Time', value: 'time', isDepricated: false },
@@ -581,6 +581,26 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
             if ((tempStageObj.type === 'entity_extraction')) {
               if (!(config && config.entity_types && config.entity_types.length)) {
                 this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
+                
+              }
+              else if (config && config.entity_types && config.entity_types.length){
+                // let localEntitytype=[...config.entity_types]
+                // config.entity_types.forEach(typeElement => {
+                //   this.entityNlp.forEach(nlpElement=> {
+                //     if(nlpElement.title==typeElement){
+                //       typeElement=nlpElement.value
+                //     }
+
+                    
+                //   });
+                // });
+                for(let i=0;i<config.entity_types.length;i++){
+                  for(let j=0;j<this.entityNlp.length;j++){
+                    if(this.entityNlp[j].title == config.entity_types[i]){
+                      config.entity_types[i]=this.entityNlp[j].value
+                    }
+                  }
+                }
               }
               if (config.trait_groups) {
                 delete config.trait_groups;
