@@ -577,8 +577,8 @@
                                                 <img src="assets/icons/faq/help.svg">
                                                 <span class="count-conditions">{{selectedFaq._source.faq_cond_answers.length}}</span>
                                             </div>
-                                            <div class="response-block if-morethan-one" *ngFor="let consitionalAnswer of selectedFaq._source.faq_cond_answers; let i = index;" cdkDrag>
-                                                <div class="response-count">{{ ' ' + (i + 1 + (selectedFaq._source.faq_cond_answers?selectedFaq._source.faq_cond_answers.length:0))}}</div>  
+                                            <div class="response-block if-morethan-one" *ngFor="let consitionalAnswer of selectedFaq._source.faq_cond_answers; let i = index;" cdkDrag> 
+                                                <div class="response-count">{{ ' ' + (i + 1)}}</div>  
                                                 <div class="response-data"> 
                                                     <div class="header-data">
                                                         <div class="title col-8"><img src="assets/icons/faq/move.svg">Conditional Responses</div> 
@@ -586,7 +586,7 @@
                                                             <div class="views">
                                                                 <img src="assets/icons/faq/views.svg"placement="top" container='body' ngbTooltip="Views">{{selectedFaq?.stats?.appearances?selectedFaq?.stats?.appearances[0][0]: 0}}
                                                             </div>
-                                                            <div class="clicks">
+                                                            <div class="clicks">    
                                                                 <img src="assets/icons/faq/likes.svg" placement="top" container='body' ngbTooltip="Clicks">{{selectedFaq?.stats?.clicks ||0}}
                                                             </div>
                                                         </div>

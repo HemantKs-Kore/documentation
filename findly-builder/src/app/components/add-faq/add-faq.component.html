@@ -153,35 +153,41 @@
           <div class="heading">Answer(s)</div>
           <div class="desc">Reorder the conditioned responses to execute in specific order</div>
         </div> -->
-        <ng-container *ngFor="let faqObj of faqResponse.defaultAnswers ; let index = index">
-          <div class="with-conditional-block">
+        <ng-container >
+          <div class="with-conditional-block" >
             <div class="condition-res-titles-block">
               <div class="label-text">Conditional Response</div>
               <div class="label-info">Displays responses to users based on the conditions provided.</div>
-              <button class="kr-sg-button-secondary btn_lg mt-4">
+              <div class="btn-sec">
+                <div class="left-btns">
+                  <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('conditional')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >{{"addFaq.response" | translate}}</button>
+                </div>
+              </div>
+              <!-- <button class="kr-sg-button-secondary btn_lg mt-4">
                 <img src="assets/icons/editor/add-black.svg" class="mr-2">Response
-              </button>
+              </button> -->
             </div>
-
+            <div *ngFor="let faqObj of faqResponse.conditionalAnswers ; let index = index">
+            <!-- <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('conditional')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >{{"addFaq.response" | translate}}</button> -->
             <div class="body-top-content pointer"  (click)="currentEditIndex = index">
               <div class="question-content">
-                <div class="label-text" *ngIf="index==0">Response <span *ngIf="faqData && faqResponse.defaultAnswers.length>1">({{faqResponse.defaultAnswers.length}})</span>  <div class="deleteResponseDiv red" *ngIf="faqResponse.defaultAnswers.length == 1" (click)="$event.stopPropagation();delete(index)" ngbTooltip="Delete"><img src="assets/icons/delete.svg"></div></div>
+                <div class="label-text" *ngIf="index==0">Response <span *ngIf="faqData && faqResponse.conditionalAnswers.length>1">({{faqResponse.conditionalAnswers.length}})</span>  <div class="deleteResponseDiv red" *ngIf="faqResponse.conditionalAnswers.length == 1" (click)="$event.stopPropagation();delete(index)" ngbTooltip="Delete"><img src="assets/icons/delete.svg"></div></div>
               
                 
-                <div class="conditionalBlock bot-response-view-mode" [ngClass]="{'pl-2':faqResponse.defaultAnswers.length>1}">
-                  <div class="bot-response-title"  *ngIf="faqResponse.defaultAnswers.length > 1" [ngClass]="{'text-black':currentEditIndex == index}"> {{"addFaq.response" | translate}}<span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span>
+                <div class="conditionalBlock bot-response-view-mode" [ngClass]="{'pl-2':faqResponse.conditionalAnswers.length>1}">
+                  <div class="bot-response-title"  *ngIf="faqResponse.conditionalAnswers.length > 1" [ngClass]="{'text-black':currentEditIndex == index}"> {{"addFaq.response" | translate}}<span *ngIf="faqResponse.conditionalAnswers.length > 1">{{index + 1}}</span>
                     <div class="deleteResponseDiv red" (click)="$event.stopPropagation();delete(index)" ngbTooltip="Delete"><img src="assets/icons/delete.svg"></div>
                   </div>
                 
                 </div>
               </div>
             </div>
-            <div class="responseEditorContainer" [ngClass]="{'bg-transparent px-0 py-0':currentEditIndex !== index, 'ml-2':faqResponse.defaultAnswers.length>1}">
+            <div class="responseEditorContainer" [ngClass]="{'bg-transparent px-0 py-0':currentEditIndex !== index, 'ml-2':faqResponse.conditionalAnswers.length>1}">
             <div  [hidden]="currentEditIndex !== index">
               <div class="bottom_sec ">
                 <div class="col-12 left_sec editResponseMode">        
                   <div class="content-data">
-                      <ng-container *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+                      <ng-container *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.conditionalAnswers,responseObj:faqObj,reponseType:'conditional',id:'conditional_',index:index }"> </ng-container>
                   </div>
                 </div>  
                 <div class="col-12 right_sec previewResponseMode d-none"> 
@@ -189,7 +195,7 @@
                       <div class="preview-response-title"> {{"addFaq.response_preview" | translate}} </div>
                     <div class="responsePreviewBlock">
                       <perfect-scrollbar>
-                        <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+                        <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.conditionalAnswers,responseObj:faqObj,reponseType:'conditional',id:'conditional_',index:index }"> </ng-container>
                       </perfect-scrollbar>
                     </div>
                   </div>  
@@ -246,7 +252,7 @@
             <div class="col-12 p-0 pointer body_sec"  [hidden]="currentEditIndex == index">
               <div class="previewResponseMod">
                 <div class="responsePreviewBlock">
-                  <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+                  <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.conditionalAnswers,responseObj:faqObj,reponseType:'conditional',id:'conditional_',index:index }"> </ng-container>
                 </div>
               </div>
             </div>
@@ -444,21 +450,118 @@
               
             </div>
           </div>
-          <div class="without-condition-block">
-            <div class="condition-res-titles-block">
-              <div class="label-text">Default Responses </div>
-              <div class="label-info">Displays responses to users without any condition.</div>
-              <button class="kr-sg-button-secondary btn_lg mt-4">
-                <img src="assets/icons/editor/add-black.svg" class="mr-2">Response
-              </button>
-            </div>
+          </div>
+          <!-- Default Response -->
+          <div class="without-condition-block" >
+            <!-- <div class="with-conditional-block"> -->
+              <div class="condition-res-titles-block">
+                <div class="label-text">Default Responses </div>
+                <div class="label-info">Displays responses to users without any condition.</div>
+                <div class="btn-sec">
+                  <div class="left-btns">
+                    <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >{{"addFaq.response" | translate}}</button>
+                  </div>
+                </div>
+                <!-- <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >{{"addFaq.response" | translate}}</button> -->
+                <!-- <button class="kr-sg-button-secondary btn_lg mt-4">
+                  <img src="assets/icons/editor/add-black.svg" class="mr-2">Response
+                </button> -->
+              </div>
+         <div *ngFor="let faqObj of faqResponse.defaultAnswers ; let index = index">
+              <div class="body-top-content pointer"  (click)="currentEditIndex = index">
+                <div class="question-content">
+                  <div class="label-text" *ngIf="index==0">Response <span *ngIf="faqData && faqResponse.defaultAnswers.length>1">({{faqResponse.defaultAnswers.length}})</span>  <div class="deleteResponseDiv red" *ngIf="faqResponse.defaultAnswers.length == 1" (click)="$event.stopPropagation();delete(index)" ngbTooltip="Delete"><img src="assets/icons/delete.svg"></div></div>
+                
+                  
+                  <div class="conditionalBlock bot-response-view-mode" [ngClass]="{'pl-2':faqResponse.defaultAnswers.length>1}">
+                    <div class="bot-response-title"  *ngIf="faqResponse.defaultAnswers.length > 1" [ngClass]="{'text-black':currentEditIndex == index}"> {{"addFaq.response" | translate}}<span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span>
+                      <div class="deleteResponseDiv red" (click)="$event.stopPropagation();delete(index)" ngbTooltip="Delete"><img src="assets/icons/delete.svg"></div>
+                    </div>
+                  
+                  </div>
+                </div>
+              </div>
+              <div class="responseEditorContainer" [ngClass]="{'bg-transparent px-0 py-0':currentEditIndex !== index, 'ml-2':faqResponse.defaultAnswers.length>1}">
+              <div  [hidden]="currentEditIndex !== index">
+                <div class="bottom_sec ">
+                  <div class="col-12 left_sec editResponseMode">        
+                    <div class="content-data">
+                        <ng-container *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+                    </div>
+                  </div>  
+                  <div class="col-12 right_sec previewResponseMode d-none"> 
+                    <div class="content-data">
+                        <div class="preview-response-title"> {{"addFaq.response_preview" | translate}} </div>
+                      <div class="responsePreviewBlock">
+                        <perfect-scrollbar>
+                          <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+                        </perfect-scrollbar>
+                      </div>
+                    </div>  
+                  </div>
+                </div>   
+                <div class="bottom_sec d-flex">
+                  <div class="col-6 left_sec d-none">  
+                    <!--          
+                    <div class="multi-select mb-2">         
+                      <label class="kr-sg-toggle">                                       
+                        <input type="checkbox" class="h-auto" [(ngModel)]="uploadImage.slide">
+                        <div class="slider">
+                          <span class="enabled">Yes</span>
+                          <span class="disabled">No</span>
+                        </div>
+                      </label>
+                    </div> -->
+                    <div class="kr-sg-input-text mb-2 mt-3 "> 
+                      <!-- image optional preview related changes -->
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="label-text w-100">{{"addFaq.image_optional" | translate}} </div>
+                        <div class="know-more-data" (click)="openPreviewImgModal(faqObj.image_url);">{{"addFaq.preview" | translate}} </div>
+                      </div>
+                      <!-- image optional preview related changes -->
+                      <input type="text" autocomplete="off" placeholder="http(s)://" class="input-text"  [(ngModel)]="faqObj.image_url" name="appName">         
+                    </div>
+                    <!-- <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div> -->
+                  </div>
+                  <div class="col-12 right_sec p-0" *ngIf="bubblePopUp">        
+                    <div class="content-data p-0 bg-transparent mt-3 h-auto">
+                      <!-- <ng-container *ngIf="image && image.url">
+                        <div class="preview-title mt-3 pt-1">IMAGE</div>
+                        <div class="responsePreviewBlock adjust-height">
+                          <perfect-scrollbar>
+                              <img [src]="image.url">
+                          </perfect-scrollbar>
+                        </div>  
+                      </ng-container>              -->
+                        <div class="info-bubble-faq my-0">
+                          <div class="info_img">
+                            <img src="assets/icons/faq/Info.svg">
+                          </div>
+                          <div class="bubnle-info" >
+                            {{"addFaq.template_outlook" | translate}} 
+                          </div>
+                          <img class="close-info"(click)="closebubblePopUp()"src="assets/icons/modal-close.svg">                
+                          <!-- <div class="know-more-data">Know more</div> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>   
+              </div>
+              <!-- title="Click to edit this response" -->
+              <div class="col-12 p-0 pointer body_sec"  [hidden]="currentEditIndex == index">
+                <div class="previewResponseMod">
+                  <div class="responsePreviewBlock">
+                    <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+                  </div>
+                </div>
+              </div>
+                
+              </div>
+            <!-- </div> -->
+          </div>
           </div>
         </ng-container>
-        <div class="btn-sec">
-          <div class="left-btns">
-            <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >{{"addFaq.response" | translate}}</button>
-          </div>
-        </div>
+       
         <div class="btn-sec" *ngIf="!faqData && false">
           <div class="left-btns">
             <button class="kr-sg-button-primary btn_lg" (click)="save()">{{loading ? 'Saving..' : 'Save'}}</button>
