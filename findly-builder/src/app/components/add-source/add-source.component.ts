@@ -1095,6 +1095,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
               this.multipleData.files = [...childArr]
               console.log(this.multipleData.files)
             }
+            else{
+              this.btnDisabled = false;
+            }
        if(this.filesListData.length > 1){
         this.multiplefileupload(this.multipleData)
        }
