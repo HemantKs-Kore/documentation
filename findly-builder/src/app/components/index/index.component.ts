@@ -792,6 +792,24 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
           this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
         }
+        // setTimeout(()=>{
+        //   //this.selectedStage.condition.value = ""
+        //   if(this.selectedStage && this.selectedStage.condition && this.selectedStage.condition.value){
+        //     let greaterThan = "&gt;";
+        //     let lessThan = "&lt;";
+        //     let greaterThanSymbol= ">";
+        //     let lessThanSymbol = "<";
+        //     if(this.selectedStage.condition.value.includes(greaterThan)){
+        //       this.selectedStage.condition.value.replace(greaterThan, greaterThanSymbol); 
+        //       let elemenet = document.getElementsByTagName("ngx-codemirror")[0] as HTMLBaseElement
+        //       elemenet.innerText.replace(greaterThan, greaterThanSymbol);
+        //     }else if(this.selectedStage.condition.value.includes(lessThan)){
+        //       this.selectedStage.condition.value.replace(lessThan,lessThanSymbol);
+        //       let elemenet = document.getElementsByTagName("ngx-codemirror")[0] as HTMLBaseElement
+        //       elemenet.innerText.replace(lessThan, lessThanSymbol); 
+        //     }
+        //   }
+        // },1)
       }, errRes => {
         this.savingConfig = false;
         // this.errorToaster(errRes, 'Failed to save configurations');
@@ -1203,12 +1221,14 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.changesDetected = true;
     list.splice(index, 1);
   }
-  clearDirtyObj(cancel?) {
+  clearDirtyObj(cancel?) { 
     this.pipeline = JSON.parse(JSON.stringify(this.pipelineCopy));
     this.pipeline.map(data => {
-      return data.condition.mappings.map(data1 => {
+      return data?.condition?.mappings?.map(data1 => {
         let obj = this.fields.find(da => da._id === data1.fieldId);
-        data1.fieldName = obj.fieldName
+        if (obj && obj.fieldName) {
+          data1.fieldName = obj.fieldName
+        }
       })
     })
     if (this.selectedStage && !this.selectedStage._id) {
