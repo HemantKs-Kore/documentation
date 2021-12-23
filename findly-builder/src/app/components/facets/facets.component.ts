@@ -21,6 +21,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   facetModalRef: any;
   facetModalRef1: any;
   facets: any = [];
+  field_name:string;
   fieldAutoSuggestion: any = [];
   selectedApp;
   serachIndexId;
@@ -451,7 +452,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.docTypeArr = [];
       this.selectTypeArr = [];
       this.facets = res || [];
-      this.facets = this.defaultSortingAFacet(this.facets);
+      //this.facets = this.defaultSortingAFacet(this.facets);
       this.facets.forEach(element => {
         this.statusArr.push(element.active);
         this.docTypeArr.push(element.type);
@@ -1132,4 +1133,12 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'Failed to get field values');
     });
   }
+  clearcontent(){
+      
+      if($('#searchBoxId') && $('#searchBoxId').length){
+      $('#searchBoxId')[0].value = "";
+      this.field_name='';
+    }
+    }
 }
+

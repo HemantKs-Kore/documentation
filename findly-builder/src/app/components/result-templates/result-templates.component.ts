@@ -10,7 +10,7 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as moment from 'moment';
-
+declare const $: any;
 @Component({
   selector: 'app-result-templates',
   templateUrl: './result-templates.component.html',
@@ -20,6 +20,7 @@ export class ResultTemplatesComponent implements OnInit {
   customModalRef: any;
   templateModalRef: any;
   selectedApp: any;
+  field_name:string;
   copyConfigObj: any = { loader: false, message: '' };
   serachIndexId: any;
   indexPipelineId: any;
@@ -530,6 +531,7 @@ export class ResultTemplatesComponent implements OnInit {
     }
   }
 
+  
   //validate template fields
   validateTemplate() {
     if (this.templateDataBind.layout.layoutType === 'l1') {
@@ -657,10 +659,21 @@ export class ResultTemplatesComponent implements OnInit {
     }
   }
 
+ 
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
     this.searchConfigurationSubscription ? this.searchConfigurationSubscription.unsubscribe() : false;
   }
+
+  clearcontent(){
+      
+    if($('#searchBoxId') && $('#searchBoxId').length){
+    $('#searchBoxId')[0].value = "";
+    this.field_name='';
+  }
+  }
 }
+  
+

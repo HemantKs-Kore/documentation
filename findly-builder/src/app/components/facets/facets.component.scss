@@ -982,7 +982,7 @@
             }
         }
         .type_sort_dropdown .dropdown-open .dropdown-input img {
-            top: unset;
+            top: unset;                         
         }
     }
 }
@@ -1057,3 +1057,16 @@
   ::ng-deep .text-left-warning .tooltip-inner {
     text-align: left !important;
   }
+
+  .activeDrop{
+      padding-left: 0px;
+  }
+  .highlight{
+
+    font-weight:bold;
+}
+
+.faq-filter-add{
+    max-width: 97.8%;
+    margin-left: 17px;
+}

@@ -330,31 +330,30 @@
                                     <label for="radio-12" class="radio-custom-label">Range</label>
                                 </div>
                             </div>
-                            <div class="search_block mb-20">
-                                <div class="label-text">Field</div>
-                                <div class="kr-sg-dropdowns">
-                                    <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
-                                        <button id="btn_select_facet_field"
-                                            class="dropdown-toggle dropdown-input search-with-dropdown"
-                                            data-toggle="dropdown"></button>
-                                        <input type="text" maxlength="60" placeholder="Search For Field"
-                                            id="facets-search-input" class="input-search dropdown-toggle dropdown-input"
-                                            [class.err-block]="((!currentFacetObj?.fieldName?.length) && submitted)"
-                                            data-toggle="dropdown" [(ngModel)]="currentFacetObj.fieldName"
-                                            autocomplete="off">
-                                        <img src="assets/images/search_gray.svg" class="search-icon">
-                                        <img *ngIf="(!currentFacetObj?.fieldName?.length) && submitted"
-                                            id="fieldWarning" src="assets/icons/warning_escalation.svg"
-                                            style="top: 29%; position: absolute; right: 1.5%; display: block;"
-                                            height="12" width="12" />
-                                        <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
-                                            <perfect-scrollbar class="scroll-search-field h-200">
-                                                <li *ngFor="let field of fieldAutoSuggestion | filter : [currentFacetObj.fieldName, 'fieldName']"
-                                                    (click)="currentFacetObj.fieldId=field._id;currentFacetObj.fieldName=field.fieldName">
-                                                    <a>{{field.fieldName}}</a>
-                                                </li>
-                                            </perfect-scrollbar>
-                                        </ul>
+                            <div class="kr-sg-input-text mb-20"></div>
+                            <div class="label-text">Field</div>
+                            <div class="col-14 row mb-3 pr-3 align-items-center right-side-sec pr-1" [ngClass]="{activeDrop: currentEditInex === index}">
+                                <div class="kr-sg-dropdowns col-12 pr-0" ngbDropdown ngbDropdown (click)="currentEditInex = index;clearcontent()">
+                                    <div class="dropdown dropdown-open">
+                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
+											
+                                            {{currentFacetObj.fieldName? currentFacetObj.fieldName : "Choose field"}}							
+                                                                        
+                                        </button>
+                                        <ul class="dropdown-menu content-menu faq-filter-add col-12" ngbDropdownMenu style="overflow-y: hidden;">
+                                            <li class="search-box">
+                                                       <input id="searchBoxId" [(ngModel)]="field_name" autocomplete="off" type="text" (keydown)="$event.stopPropagation()" placeholder="Search" class="seach-input" />
+                                            </li>
+
+                                           <perfect-scrollbar class="scroll-search-field h-178" style="max-height: 189px !important;">
+                                             <ng-container *ngIf="fieldAutoSuggestion && fieldAutoSuggestion.length">
+                                             <li ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion | filter : [field_name, 'fieldName']" (click)="currentFacetObj.fieldId=suggestion._id;currentFacetObj.fieldName=suggestion.fieldName" [ngClass]="{'highlight':currentFacetObj.fieldName===suggestion.fieldName}">                            
+                                             {{ suggestion.fieldName }}</li>                                               
+                                           </ng-container>
+                                               
+                                           </perfect-scrollbar>
+                                       </ul>
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -475,33 +474,33 @@
                     </div>
                     <div id="sortablefacet" class="tab-pane fade  in show active" *ngIf="currentFacetTab==='sortable'">
                         <div class="filterfacet-content">
-                            <div class="search_block mb-20">
+                            <div class="search_block mb-10">
                                 <div class="label-text">Field</div>
-                                <div class="kr-sg-dropdowns">
-                                    <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
-                                        <button id="btn_select_facet_field"
-                                            class="dropdown-toggle dropdown-input search-with-dropdown"
-                                            data-toggle="dropdown"></button>
-                                        <input type="text" maxlength="60" placeholder="Search For Field"
-                                            id="facets-search-input" class="input-search dropdown-toggle dropdown-input"
-                                            data-toggle="dropdown" [(ngModel)]="currentFacetObj.fieldName"
-                                            [class.err-block]="((!currentFacetObj?.fieldName?.length) && submitted)"
-                                            autocomplete="off">
-                                        <img src="assets/images/search_gray.svg" class="search-icon">
-                                        <img *ngIf="(!currentFacetObj?.fieldName?.length) && submitted"
-                                            id="fieldWarning" src="assets/icons/warning_escalation.svg"
-                                            style="top: 29%; position: absolute; right: 1.5%; display: block;"
-                                            height="12" width="12" />
-                                        <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
-                                            <perfect-scrollbar class="scroll-search-field h-200">
-                                                <li *ngFor="let field of fieldAutoSuggestion | filter : [currentFacetObj.fieldName, 'fieldName']"
-                                                    (click)="currentFacetObj.fieldId=field._id;currentFacetObj.fieldName=field.fieldName">
-                                                    <a>{{field.fieldName}}</a>
+                                <div class="col-14 row mb-3 pr-3 align-items-center right-side-sec pr-1" [ngClass]="{activeDrop: currentEditInex === index}">
+                                    <div class="kr-sg-dropdowns col-12 pr-0" ngbDropdown ngbDropdown (click)="currentEditInex = index;clearcontent()">
+                                        <div class="dropdown dropdown-open">
+                                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
+                                                
+                                                {{currentFacetObj.fieldName? currentFacetObj.fieldName : "Choose field"}}							
+                                                                            
+                                            </button>
+                                            <ul class="dropdown-menu content-menu faq-filter-add col-12" ngbDropdownMenu style="overflow-y: hidden;">
+                                                <li class="search-box">
+                                                           <input id="searchBoxId" [(ngModel)]="field_name" autocomplete="off" type="text" (keydown)="$event.stopPropagation()" placeholder="Search" class="seach-input" />
                                                 </li>
-                                            </perfect-scrollbar>
-                                        </ul>
+    
+                                               <perfect-scrollbar class="scroll-search-field h-178" style="max-height: 189px !important;">
+                                                 <ng-container *ngIf="fieldAutoSuggestion && fieldAutoSuggestion.length">
+                                                 <li ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion | filter : [field_name, 'fieldName']" (click)="currentFacetObj.fieldId=suggestion._id;currentFacetObj.fieldName=suggestion.fieldName" [ngClass]="{'highlight':currentFacetObj.fieldName===suggestion.fieldName}">                            
+                                                 {{ suggestion.fieldName }}</li>                                               
+                                               </ng-container>
+                                                   
+                                               </perfect-scrollbar>
+                                           </ul>
+                                           
+                                        </div>
                                     </div>
-                                </div>
+                                    </div>   
                             </div>
                             <div class="kr-sg-input-text mb-20">
                                 <div class="label-text">Facet Name</div>
@@ -618,37 +617,65 @@
                 </div>
             </ng-container>
             <ng-container *ngIf="showConfiguredFacet">
-                <div class="search_block mb-20">
+                <div class="search_block mb-10">
                     <div class="label-text">Field Name <img class="cursor-pointer" src="assets/icons/facets/info.svg"
                             tooltipClass="tooltip-global-" [container]="'body'"
                             ngbTooltip='Only search results for the values configured here will be displayed, other results will be discarded'
                             placement="right-center"></div>
-                    <div class="kr-sg-dropdowns">
-                        <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
-                            <button id="btn_select_facet_field"
-                                class="dropdown-toggle dropdown-input search-with-dropdown"
-                                data-toggle="dropdown"></button>
-                            <input type="text" maxlength="60" placeholder="Search For Field" id="facets-search-input"
-                                class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown"
-                                [(ngModel)]="currentFacetObj.fieldName"
-                                [class.err-block]="((!currentFacetObj?.fieldName?.length) && submitted)"
-                                autocomplete="off">
-                            <img src="assets/images/search_gray.svg" class="search-icon">
-                            <img *ngIf="(!currentFacetObj?.fieldName?.length) && submitted" id="fieldWarning"
-                                src="assets/icons/warning_escalation.svg"
-                                style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12"
-                                width="12" />
-                            <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
-                                <perfect-scrollbar class="scroll-search-field h-200">
-                                    <li *ngFor="let field of fieldAutoSuggestion | filter : [currentFacetObj.fieldName, 'fieldName']"
-                                        (click)="currentFacetObj.fieldId=field._id;currentFacetObj.fieldName=field.fieldName;getFieldValues(field._id,'input');">
-                                        <a>{{field.fieldName}}</a>
-                                    </li>
-                                </perfect-scrollbar>
-                            </ul>
+                            <!-- <div class="kr-sg-dropdowns">
+                                <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                                    <button id="btn_select_facet_field"
+                                        class="dropdown-toggle dropdown-input search-with-dropdown"
+                                        data-toggle="dropdown"></button>
+                                    <input type="text" maxlength="60" placeholder="Search For Field" id="facets-search-input"
+                                        class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown"
+                                        [(ngModel)]="currentFacetObj.fieldName"
+                                        [class.err-block]="((!currentFacetObj?.fieldName?.length) && submitted)"
+                                        autocomplete="off">
+                                    <img src="assets/images/search_gray.svg" class="search-icon">
+                                    <img *ngIf="(!currentFacetObj?.fieldName?.length) && submitted" id="fieldWarning"
+                                        src="assets/icons/warning_escalation.svg"
+                                        style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12"
+                                        width="12" />
+                                    <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
+                                        <perfect-scrollbar class="scroll-search-field h-200">
+                                            <li *ngFor="let field of fieldAutoSuggestion | filter : [currentFacetObj.fieldName, 'fieldName']"
+                                                (click)="currentFacetObj.fieldId=field._id;currentFacetObj.fieldName=field.fieldName;getFieldValues(field._id,'input');">
+                                                <a>{{field.fieldName}}</a>
+                                            </li>
+                                        </perfect-scrollbar>
+                                    </ul>
+                                </div>
+                            </div> -->
+
+
+                            <div class="col-14 row mb-3 pr-3 align-items-center right-side-sec pr-1" [ngClass]="{activeDrop: currentEditInex === index}">
+                                <div class="kr-sg-dropdowns col-12 pr-0" ngbDropdown ngbDropdown (click)="currentEditInex = index;clearcontent()">
+                                    <div class="dropdown dropdown-open">
+                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
+											
+                                            {{currentFacetObj.fieldName? currentFacetObj.fieldName : "Choose field"}}							
+                                                                        
+                                        </button>
+                                        <ul class="dropdown-menu content-menu faq-filter-add col-12" ngbDropdownMenu style="overflow-y: hidden;">
+                                            <li class="search-box">
+                                                       <input id="searchBoxId" [(ngModel)]="field_name" autocomplete="off" type="text" (keydown)="$event.stopPropagation()" placeholder="Search" class="seach-input" />
+                                            </li>
+
+                                           <perfect-scrollbar class="scroll-search-field h-178" style="max-height: 189px !important;">
+                                             <ng-container *ngIf="fieldAutoSuggestion && fieldAutoSuggestion.length">
+                                             <li ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion | filter : [field_name, 'fieldName']" (click)="currentFacetObj.fieldId=suggestion._id;currentFacetObj.fieldName=suggestion.fieldName;getFieldValues(suggestion._id,'input')" [ngClass]="{'highlight':currentFacetObj.fieldName===suggestion.fieldName}">                            
+                                             {{ suggestion.fieldName }}</li>                                               
+                                           </ng-container>
+                                               
+                                           </perfect-scrollbar>
+                                       </ul>
+
+                                    </div>
+                                </div>
+                            </div>
+                        
                         </div>
-                    </div>
-                </div>
                 <div class="config-facet-table">
                     <div class="table-header-facet col-12 row">
                         <div class="checkbox-with-label col-6">
