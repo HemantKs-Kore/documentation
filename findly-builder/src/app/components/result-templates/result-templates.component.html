@@ -127,7 +127,7 @@
                             Template':(value.templateType|titlecase)}}</button>
                           <ul class="dropdown-menu content-menu">
                             <li *ngFor="let template of templateNames"
-                              (click)="value.templateType=template;getTemplateData(template,i)">
+                              (click)="value.templateType=template;getTemplateData(template,i,value)">
                               <a>{{template|titlecase}}</a>
                             </li>
                           </ul>
@@ -1241,7 +1241,9 @@
                       <div class="template-6-grid-list row col-11 mb-3">
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
-                            <div class="heading-main">Heading comes here</div>
+                            <div class="heading-main"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">Heading
+                              comes here</div>
                             <div class="image-with-text" *ngFor="let data of [0,1,2]">
                               <div class="img-block">
                                 <img src="assets/icons/resultTemplate/skelton-small.svg">
@@ -1256,7 +1258,9 @@
                         </div>
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
-                            <div class="heading-main">Heading comes here</div>
+                            <div class="heading-main"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">Heading
+                              comes here</div>
                             <div class="image-with-text" *ngFor="let data of [0,1,2]">
                               <div class="img-block">
                                 <img src="assets/icons/resultTemplate/skelton-small.svg">
@@ -1271,7 +1275,9 @@
                         </div>
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
-                            <div class="heading-main">Heading comes here</div>
+                            <div class="heading-main"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">Heading
+                              comes here</div>
                             <div class="image-with-text" *ngFor="let data of [0,1,2]">
                               <div class="img-block">
                                 <img src="assets/icons/resultTemplate/skelton-small.svg">

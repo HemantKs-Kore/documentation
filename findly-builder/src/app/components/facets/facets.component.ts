@@ -1005,11 +1005,11 @@ export class FacetsComponent implements OnInit, OnDestroy {
   //clicked on configured facet icon
   clickConfiguredFacet() {
     this.configuredTabValues = [];
+    this.currentFacetObj.fieldName = this.tab_configure_filed_name;
     for (let item of this.currentFacetObj?.tabs) {
       this.configuredTabValues.push({ Name: item.bucketName, Value: item.fieldValue })
     }
-    this.showConfiguredFacet = true
-
+    this.showConfiguredFacet = true;
   }
   //update currentFacetObj
   updateConfiguredFacets(dialogRef?) {

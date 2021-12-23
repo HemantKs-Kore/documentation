@@ -415,7 +415,7 @@ export class ResultTemplatesComponent implements OnInit {
     }
   }
   //new result template based on template type
-  getTemplateData(type, index?) {
+  getTemplateData(type, index?, value?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
