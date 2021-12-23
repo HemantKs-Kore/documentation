@@ -622,7 +622,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     // }
   }
   validateRules() {
-    if (this.addEditRuleObj && this.addEditRuleObj.ruleName.length) {
+    if (this.addEditRuleObj && this.addEditRuleObj.ruleName.length && this.rulesArrayforAddEdit.values.length) {
       this.submitted = false;
       return true;
     }
@@ -651,6 +651,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       if (!payload.outcomes.length) {
         this.errorToaster(null, 'Atleast one outcome is required');
         return;
+        
       }
       this.service.invoke('create.businessRules', quaryparms, payload).subscribe(res => {
         if (this.filterSystem.isRuleActiveFilter == 'all') {
