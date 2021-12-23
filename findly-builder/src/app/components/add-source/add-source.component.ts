@@ -798,6 +798,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       else {
         data.append('fileContext', 'findly');
       }
+      this.filesListData.forEach(element => {
+        element['showProgressBar'] = true; //To show loader while file upload inProgress in Content
+      });
+      this.fileObj.fileUploadInProgress = true; //To show loader while file upload inProgress in FAQ
       this.fileupload(data);
     }
     const fileReader = new FileReader();
@@ -900,9 +904,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.fileObj.fileAdded = true;
         this.fileObj.fileId = res.fileId;
         this.fileObj.fileUploadInProgress = false;
-        this.showProgressBar = true;
         this.notificationService.notify('File uploaded successfully', 'success');
-        this.showProgressBar = false;
+        this.filesListData.forEach(element => {
+          element['showProgressBar'] = false;
+        });
         this.selectedSourceType.resourceAdded = true;
         //  this.selectedSourceType.resourceType = 'webdomain';
         $(".drag-drop-sec").css("border-color", "#BDC1C6");
@@ -1094,6 +1099,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
               })
               this.multipleData.files = [...childArr]
               console.log(this.multipleData.files)
+            }
+            else{
+              this.btnDisabled = false;
             }
        if(this.filesListData.length > 1){
         this.multiplefileupload(this.multipleData)
