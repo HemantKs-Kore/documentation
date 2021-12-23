@@ -795,7 +795,8 @@ export class TraitsComponent implements OnInit {
         this.add = {
           traitName: ''
         };
-        const tempTraitKey = traitName.toLowerCase();
+        // const tempTraitKey = traitName.toLowerCase(); // Commented as its always taking lower case even if upper case is entered
+        const tempTraitKey = traitName;
         // const alreadyExist = this.traits.addEditTraits.traits.some(ele => ele === tempTraitKey);
         // console.log(alreadyExist)
         if (!this.traits.addEditTraits.traits[(tempTraitKey)]) {
