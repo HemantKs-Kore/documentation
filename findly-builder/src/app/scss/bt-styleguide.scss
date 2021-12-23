@@ -87,10 +87,12 @@ and open the template in the editor.
             + .slider{
                 background-color: $hoverBlue;
                 box-shadow: 0 0 1px $hoverBlue;
+                border: 1px solid $hoverBlue;
                 &::before{
                     -webkit-transform: translateX(20px);
                     -ms-transform: translateX(20px);
                     transform: translateX(20px);
+                    background-color: #FFFFFF;
                 }
                 span{
                     &.yes{
@@ -132,11 +134,11 @@ and open the template in the editor.
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: #dcdfe2;
+        background-color: #FFFFFF;
         -webkit-transition: .4s;
         transition: .4s;
         border-radius: 18px;
-        border: 1px solid transparent;
+        border: 1px solid #BDC1C6;
         span{
             font-size: 12px;
             color: $secondaryColor;
@@ -170,7 +172,7 @@ and open the template in the editor.
             width: 12px;
             left: 3px;
             right: 0;
-            background-color: $whiteColor;
+            background-color: #BDC1C6;
             transition: .4s;
             border-radius: 50%;
         }

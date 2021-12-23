@@ -416,7 +416,7 @@ export class ResultTemplatesComponent implements OnInit {
     }
   }
   //new result template based on template type
-  getTemplateData(type, index?) {
+  getTemplateData(type, index?, value?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
@@ -497,7 +497,7 @@ export class ResultTemplatesComponent implements OnInit {
     this.submitted = true;
     let checkTitle: boolean = true;
     if (this.templateDataBind.layout.renderTitle) {
-      checkTitle = (this.templateDataBind.layout.title.length > 0) ? true : false;
+      checkTitle = (this.templateDataBind.layout?.title?.length > 0) ? true : false;
     }
     //let validateText = this.validateFieldValues();
     if (this.validateTemplate() && checkTitle) {

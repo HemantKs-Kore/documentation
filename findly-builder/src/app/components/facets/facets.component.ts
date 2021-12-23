@@ -862,11 +862,12 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.currentFacetTab = type;
     this.currentFacetObj = {};
     this.submitted = false;
+    const obj = this.clearFacetData(type);
     if (type === 'filter') {
-      this.currentFacetObj = Object.assign({}, this.filterFacetObj);
+      this.currentFacetObj = Object.assign({}, obj);
     }
     else if (type === 'sortable') {
-      this.currentFacetObj = Object.assign({}, this.sortableFacetObj);
+      this.currentFacetObj = Object.assign({}, obj);
     }
     else if (type === 'tab') {
       const tab = this.facets.filter(item => item.type === 'tab');
@@ -881,9 +882,53 @@ export class FacetsComponent implements OnInit, OnDestroy {
         this.getFieldValues(tab[0].fieldId);
       }
       else {
-        this.currentFacetObj = Object.assign({}, this.tabFacetObj);
+        this.currentFacetObj = Object.assign({}, obj);
       }
     }
+  }
+  //clear facet data
+  clearFacetData(type) {
+    let Obj;
+    if (type === 'filter') {
+      Obj = {
+        fieldId: "",
+        name: "",
+        type: "filter",
+        subtype: "value",
+        multiselect: false,
+        size: 1,
+        sortConfig: {
+          sortBy: "",
+          order: ""
+        },
+        ranges: [
+          {
+            name: "",
+            from: 0,
+            to: 0
+          }]
+      };
+    }
+    else if (type === 'sortable') {
+      Obj = {
+        fieldId: "",
+        name: "",
+        type: "sortable",
+        sortConfig: {
+          sortBy: "",
+          order: ""
+        }
+      }
+    }
+    else if (type === 'tab') {
+      Obj = {
+        fieldId: "",
+        type: 'tab',
+        multiselect: false,
+        tabs: []
+      };
+    }
+    return Obj
   }
   //selectAll ConfiguredFacets checkbox
   selectAllConfiguredFacets(type) {
@@ -961,11 +1006,11 @@ export class FacetsComponent implements OnInit, OnDestroy {
   //clicked on configured facet icon
   clickConfiguredFacet() {
     this.configuredTabValues = [];
+    this.currentFacetObj.fieldName = this.tab_configure_filed_name;
     for (let item of this.currentFacetObj?.tabs) {
       this.configuredTabValues.push({ Name: item.bucketName, Value: item.fieldValue })
     }
-    this.showConfiguredFacet = true
-
+    this.showConfiguredFacet = true;
   }
   //update currentFacetObj
   updateConfiguredFacets(dialogRef?) {
