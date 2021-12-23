@@ -153,19 +153,19 @@ export class AppsListingComponent implements OnInit {
 
           localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
           this.router.navigate(['/home'], { skipLocationChange: true });
-        }
-        
-        // if(!this.inlineManual.checkVisibility('CREATE_APP')){
+        }else {
+          // if(!this.inlineManual.checkVisibility('CREATE_APP')){
         //   this.inlineManual.openHelp('CREATE_APP')
         //   this.inlineManual.visited('CREATE_APP')
         // }
         
         /** Issue Fix for multiple onboarding function called */
-        if(!this.headerService.openJourneyForfirstTime){
-          this.emptyApp = true;
-          this.showBoarding = true;
-          this.headerService.openJourneyForfirstTime = true;
-          this.openBoradingJourney();
+          if(!this.headerService.openJourneyForfirstTime){
+            this.emptyApp = true;
+            this.showBoarding = true;
+            this.headerService.openJourneyForfirstTime = true;
+            this.openBoradingJourney();
+          }
         }
       }
     }, errRes => {
