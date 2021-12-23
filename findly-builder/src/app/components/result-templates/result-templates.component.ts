@@ -496,7 +496,7 @@ export class ResultTemplatesComponent implements OnInit {
     this.submitted = true;
     let checkTitle: boolean = true;
     if (this.templateDataBind.layout.renderTitle) {
-      checkTitle = (this.templateDataBind.layout.title.length > 0) ? true : false;
+      checkTitle = (this.templateDataBind.layout?.title?.length > 0) ? true : false;
     }
     //let validateText = this.validateFieldValues();
     if (this.validateTemplate() && checkTitle) {
