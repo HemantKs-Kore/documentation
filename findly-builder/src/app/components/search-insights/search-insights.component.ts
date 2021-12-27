@@ -215,5 +215,6 @@ export class SearchInsightsComponent implements OnInit {
   }
   closeModalPopup() {
     this.viewQueriesRef.close();
+    this.getSearchQueriesResults=[];
   }
 }
