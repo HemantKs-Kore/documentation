@@ -752,7 +752,7 @@
                         <mat-autocomplete #suggestedItems="matAutocomplete"
                           (optionSelected)="selectedTag($event, map.entity_types)">
                           <ng-container *ngFor="let suggestion of entityNlp">
-                            <mat-option [value]="suggestion.value">
+                            <mat-option [value]="suggestion.title">
                               {{ suggestion.title }}
                             </mat-option>
                           </ng-container>
@@ -934,7 +934,7 @@
                       ">
                       <ng-container *ngFor="let suggestion of entityNlp | filter : [entityName, 'value']"
                         (click)="entityName = suggesition.value">
-                        <mat-option [value]="suggestion.value">
+                        <mat-option [value]="suggestion.title">
                           {{ suggestion.title }}
                         </mat-option>
                       </ng-container>
