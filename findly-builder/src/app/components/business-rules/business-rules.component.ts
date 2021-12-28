@@ -622,7 +622,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     // }
   }
   validateRules() {
-    if (this.addEditRuleObj && this.addEditRuleObj.ruleName.length && this.rulesArrayforAddEdit.values.length) {
+    if (this.addEditRuleObj && this.addEditRuleObj.ruleName.length) {
       this.submitted = false;
       return true;
     }
