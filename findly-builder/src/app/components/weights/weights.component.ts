@@ -13,6 +13,7 @@ import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } f
 import { of } from 'rxjs/internal/observable/of';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+declare const $: any;
 @Component({
   selector: 'app-weights',
   templateUrl: './weights.component.html',
@@ -27,6 +28,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
   sliderMax = 10;
   currentEditIndex: any = -1
   fields: any = [];
+  field_name:string;
   searchModel;
   deleteFlag;
   indexPipelineId;
@@ -368,6 +370,13 @@ export class WeightsComponent implements OnInit, OnDestroy {
     }else{
       return false;
     }
+  }
+  clearcontent(){
+      
+    if($('#searchBoxId') && $('#searchBoxId').length){
+    $('#searchBoxId')[0].value = "";
+    this.field_name='';
+  }
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;

@@ -76,7 +76,7 @@
             <div class="search_block" *ngIf="!addEditWeighObj._id">
                 <div class="row m-0 align-items-center">
                     <div class="kr-sg-dropdowns col-12 p-0" [ngClass]="{'disabled': addEditWeighObj._id}">
-                        <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                        <div class="kr-sg-input-search dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
                             <input [class.err-block]="((!addEditWeighObj.fieldName || !addEditWeighObj.fieldName.length) && submitted)" type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" [ngClass]="{'pl-33':!addEditWeighObj.fieldName}"  [(ngModel)]="addEditWeighObj.fieldName" maxlength="60">
                             <!-- <input [class.err-block]="((!addEditWeighObj.fieldName || !addEditWeighObj.fieldName.length) && submitted)" type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" [ngClass]="{'pl-33':!addEditWeighObj.fieldName}" (keyup)="getFieldAutoComplete(addEditWeighObj.fieldName)" [(ngModel)]="addEditWeighObj.fieldName" maxlength="60"> -->

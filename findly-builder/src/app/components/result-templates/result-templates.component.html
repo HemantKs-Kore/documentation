@@ -1837,15 +1837,15 @@
               <div class="desc-text">Map the existing or custom added fields here</div>
               <div class="search_block"
                 *ngIf="['l1','l3','l4','l6','l7','l9'].includes(templateDataBind.layout.layoutType)">
-                <div class="label-text mb-1">Heading</div>
+                <!-- <div class="label-text mb-1">Heading</div>
                 <div class="row m-0 align-items-center">
                   <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'" #headDrop="ngbDropdown">
                     <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                       <img src="assets/icons/search_gray.svg" class="search-icon">
                       <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
                         data-toggle="dropdown"></button>
-                      <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
-                      <input type="text" placeholder="Search Field" id="facets-search-input"
+                      <!- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
+                     <!-- <input type="text" placeholder="Search Field" id="facets-search-input"
                         class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
                         [class.err-block]="((!(preview_title?.length) && submitted)||!(templateFieldValidateObj.heading))"
                         (keyup)="searchlist('heading',$event.target.value,fieldData)" (keypress)="headDrop.open();"
@@ -1862,8 +1862,33 @@
                       </ul>
                     </div>
                   </div>
+                </div> -->
+                <div class="label-text mb-1">{{'resultTemplate.heading'|translate}}</div>
+                <div class="col-14 row mb-3 pr-3 align-items-center right-side-sec pr-1">
+                    <div class="kr-sg-dropdowns col-12 pr-0" ngbDropdown ngbDropdown (click)="clearcontent()">
+                        <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" [class.err-block]="((!(preview_title?.length) && submitted)||!(templateFieldValidateObj.heading))"
+                                 [class.err-block]="((!(preview_title?.length) && submitted)||!(templateFieldValidateObj.heading))" ngbDropdownToggle>
+                                 {{preview_title ? preview_title :"Choose field"}} 		
+                                </button>						
+                                <ul class="dropdown-menu content-menu faq-filter-add col-12" ngbDropdownMenu style="overflow-y: hidden;">
+                                  <li class="search-box">
+                                      <input id="searchBoxId"  autocomplete="off" type="text" (keydown)="$event.stopPropagation()" 
+                                        placeholder="Search" class="seach-input" (keyup)="searchlist('heading',$event.target.value,fieldData)" (keypress)="headDrop.open();"
+                                        (focus)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="preview_title"
+                                        />
+                                  </li>
+                                      <perfect-scrollbar class="scroll-search-field h-178" style="max-height: 189px !important;">
+                                                          <ng-container *ngIf="heading_fieldData && heading_fieldData.length">
+                                                            <li ngbDropdownItem *ngFor="let field of heading_fieldData" (click)="filedSelect('heading',field)" [ngClass]="{'highlight':preview_title===field.fieldName}">                            
+                                                            {{ field.fieldName }}</li>   
+                                                          </ng-container>                                               
+                                       </perfect-scrollbar>
+                                 </ul>                    
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
               <!-- Description Fields-->
               <div class="search_block"
                 *ngIf="['l2','l3','l4','l6','l7','l8','l9'].includes(templateDataBind.layout.layoutType)">
