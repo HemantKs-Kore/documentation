@@ -20,7 +20,7 @@ export class ResultTemplatesComponent implements OnInit {
   customModalRef: any;
   templateModalRef: any;
   selectedApp: any;
-  field_name:string;
+  field_name: string;
   copyConfigObj: any = { loader: false, message: '' };
   serachIndexId: any;
   indexPipelineId: any;
@@ -531,7 +531,7 @@ export class ResultTemplatesComponent implements OnInit {
     }
   }
 
-  
+
   //validate template fields
   validateTemplate() {
     if (this.templateDataBind.layout.layoutType === 'l1') {
@@ -659,7 +659,7 @@ export class ResultTemplatesComponent implements OnInit {
     }
   }
 
- 
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
@@ -667,13 +667,13 @@ export class ResultTemplatesComponent implements OnInit {
     this.searchConfigurationSubscription ? this.searchConfigurationSubscription.unsubscribe() : false;
   }
 
-  clearcontent(){
-      
-    if($('#searchBoxId') && $('#searchBoxId').length){
-    $('#searchBoxId')[0].value = "";
-    this.field_name='';
-  }
+  clearcontent() {
+    if ($('#searchBoxId') && $('#searchBoxId').length) {
+      $('#searchBoxId')[0].value = "";
+      this.searchlist('heading', '', this.fieldData);
+      this.field_name = '';
+    }
   }
 }
-  
+
 
