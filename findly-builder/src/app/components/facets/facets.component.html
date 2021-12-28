@@ -332,20 +332,20 @@
                             </div>
                             <div class="kr-sg-input-text mb-20"></div>
                             <div class="label-text">Field</div>
-                            <div class="col-14 row mb-3 pr-3 align-items-center right-side-sec pr-1" [ngClass]="{activeDrop: currentEditInex === index}">
-                                <div class="kr-sg-dropdowns col-12 pr-0" ngbDropdown ngbDropdown (click)="currentEditInex = index;clearcontent()">
+                            <div class="col-12 row ml-0 mr-0 mb-3 pr-3 align-items-center right-side-sec p-0" [ngClass]="{activeDrop: currentEditInex === index}">
+                                <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown ngbDropdown (click)="currentEditInex = index;clearcontent()">
                                     <div class="dropdown dropdown-open">
                                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
 											
                                             {{currentFacetObj.fieldName? currentFacetObj.fieldName : "Choose field"}}							
                                                                         
                                         </button>
-                                        <ul class="dropdown-menu content-menu faq-filter-add col-12" ngbDropdownMenu style="overflow-y: hidden;">
+                                        <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" ngbDropdownMenu style="overflow-y: hidden;">
                                             <li class="search-box">
                                                        <input id="searchBoxId" [(ngModel)]="field_name" autocomplete="off" type="text" (keydown)="$event.stopPropagation()" placeholder="Search" class="seach-input" />
                                             </li>
 
-                                           <perfect-scrollbar class="scroll-search-field h-178" style="max-height: 189px !important;">
+                                           <perfect-scrollbar class="scroll-search-field h-189">
                                              <ng-container *ngIf="fieldAutoSuggestion && fieldAutoSuggestion.length">
                                              <li ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion | filter : [field_name, 'fieldName']" (click)="currentFacetObj.fieldId=suggestion._id;currentFacetObj.fieldName=suggestion.fieldName" [ngClass]="{'highlight':currentFacetObj.fieldName===suggestion.fieldName}">                            
                                              {{ suggestion.fieldName }}</li>                                               
@@ -476,20 +476,20 @@
                         <div class="filterfacet-content">
                             <div class="search_block mb-10">
                                 <div class="label-text">Field</div>
-                                <div class="col-14 row mb-3 pr-3 align-items-center right-side-sec pr-1" [ngClass]="{activeDrop: currentEditInex === index}">
-                                    <div class="kr-sg-dropdowns col-12 pr-0" ngbDropdown ngbDropdown (click)="currentEditInex = index;clearcontent()">
+                                <div class="col-12 row ml-0 mr-0 mb-3 pr-3 align-items-center right-side-sec p-0" [ngClass]="{activeDrop: currentEditInex === index}">
+                                    <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown ngbDropdown (click)="currentEditInex = index;clearcontent()">
                                         <div class="dropdown dropdown-open">
                                             <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
                                                 
                                                 {{currentFacetObj.fieldName? currentFacetObj.fieldName : "Choose field"}}							
                                                                             
                                             </button>
-                                            <ul class="dropdown-menu content-menu faq-filter-add col-12" ngbDropdownMenu style="overflow-y: hidden;">
+                                            <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" ngbDropdownMenu style="overflow-y: hidden;">
                                                 <li class="search-box">
                                                            <input id="searchBoxId" [(ngModel)]="field_name" autocomplete="off" type="text" (keydown)="$event.stopPropagation()" placeholder="Search" class="seach-input" />
                                                 </li>
     
-                                               <perfect-scrollbar class="scroll-search-field h-178" style="max-height: 189px !important;">
+                                               <perfect-scrollbar class="scroll-search-field h-189">
                                                  <ng-container *ngIf="fieldAutoSuggestion && fieldAutoSuggestion.length">
                                                  <li ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion | filter : [field_name, 'fieldName']" (click)="currentFacetObj.fieldId=suggestion._id;currentFacetObj.fieldName=suggestion.fieldName" [ngClass]="{'highlight':currentFacetObj.fieldName===suggestion.fieldName}">                            
                                                  {{ suggestion.fieldName }}</li>                                               
@@ -649,20 +649,20 @@
                             </div> -->
 
 
-                            <div class="col-14 row mb-3 pr-3 align-items-center right-side-sec pr-1" [ngClass]="{activeDrop: currentEditInex === index}">
-                                <div class="kr-sg-dropdowns col-12 pr-0" ngbDropdown ngbDropdown (click)="currentEditInex = index;clearcontent()">
+                            <div class="col-12 row ml-0 mr-0 mb-3 pr-3 align-items-center right-side-sec p-0" [ngClass]="{activeDrop: currentEditInex === index}">
+                                <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown ngbDropdown (click)="currentEditInex = index;clearcontent()">
                                     <div class="dropdown dropdown-open">
                                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
 											
                                             {{currentFacetObj.fieldName? currentFacetObj.fieldName : "Choose field"}}							
                                                                         
                                         </button>
-                                        <ul class="dropdown-menu content-menu faq-filter-add col-12" ngbDropdownMenu style="overflow-y: hidden;">
+                                        <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" ngbDropdownMenu style="overflow-y: hidden;">
                                             <li class="search-box">
                                                        <input id="searchBoxId" [(ngModel)]="field_name" autocomplete="off" type="text" (keydown)="$event.stopPropagation()" placeholder="Search" class="seach-input" />
                                             </li>
 
-                                           <perfect-scrollbar class="scroll-search-field h-178" style="max-height: 189px !important;">
+                                           <perfect-scrollbar class="scroll-search-field h-189">
                                              <ng-container *ngIf="fieldAutoSuggestion && fieldAutoSuggestion.length">
                                              <li ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion | filter : [field_name, 'fieldName']" (click)="currentFacetObj.fieldId=suggestion._id;currentFacetObj.fieldName=suggestion.fieldName;getFieldValues(suggestion._id,'input')" [ngClass]="{'highlight':currentFacetObj.fieldName===suggestion.fieldName}">                            
                                              {{ suggestion.fieldName }}</li>                                               

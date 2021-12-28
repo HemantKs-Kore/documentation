@@ -269,19 +269,19 @@
     <div class="modal-body">
       <div class="search_block">
         <div class="label-text mb-1">Field Name</div>
-        <div class="col-14 row mb-3 pr-3 align-items-center right-side-sec pr-1">
-          <div class="kr-sg-dropdowns col-12 pr-0" ngbDropdown ngbDropdown (click)="clearcontent()">
+        <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+          <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown ngbDropdown (click)="clearcontent()">
             <div class="dropdown dropdown-open">
               <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
                 {{resultListObj.groupSetting.fieldName? resultListObj.groupSetting.fieldName : "Choose field"}}
 
               </button>
-              <ul class="dropdown-menu content-menu faq-filter-add col-12" ngbDropdownMenu style="overflow-y: hidden;">
+              <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" ngbDropdownMenu style="overflow-y: hidden;">
                 <li class="search-box">
                   <input id="searchBoxId" [(ngModel)]="field_name" autocomplete="off" type="text"
                     (keydown)="$event.stopPropagation()" placeholder="Search" class="seach-input pl-3" />
                 </li>
-                <perfect-scrollbar class="scroll-search-field h-178" style="max-height: 189px !important;">
+                <perfect-scrollbar class="scroll-search-field h-189">
                   <ng-container *ngIf="allFieldData && allFieldData.length">
                     <li ngbDropdownItem *ngFor="let field of allFieldData | filter : [field_name, 'fieldName']"
                       (click)="getFieldValues(field);resultListObj.groupSetting.fieldId=field._id;resultListObj.groupSetting.fieldName=field.fieldName"
@@ -1867,8 +1867,8 @@
                   </div>
                 </div> -->
                 <div class="label-text mb-1">{{'resultTemplate.heading'|translate}}</div>
-                <div class="col-14 row mb-3 pr-3 align-items-center right-side-sec pr-1">
-                  <div class="kr-sg-dropdowns col-12 pr-0" ngbDropdown #headDrop="ngbDropdown">
+                <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                  <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown #headDrop="ngbDropdown">
                     <div class="dropdown dropdown-open">
                       <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
                         [class.err-block]="((!(preview_title?.length) && submitted)||!(templateFieldValidateObj.heading))"
@@ -1876,7 +1876,7 @@
                         data-toggle="dropdown" (click)="clearcontent();" ngbDropdownToggle>
                         {{preview_title ? preview_title :"Choose field"}}
                       </button>
-                      <ul class="dropdown-menu content-menu faq-filter-add col-12" style="overflow-y: hidden;"
+                      <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
                         ngbDropdownMenu>
                         <li class="search-box">
                           <input id="searchBoxId" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
@@ -1884,7 +1884,7 @@
                             (keyup)="searchlist('heading',$event.target.value,fieldData)"
                             (focus)="searchlist('heading',$event.target.value,fieldData);" autofocus />
                         </li>
-                        <perfect-scrollbar class="scroll-search-field h-178" style="max-height: 189px !important;">
+                        <perfect-scrollbar class="scroll-search-field h-189">
                           <ng-container *ngIf="heading_fieldData && heading_fieldData.length">
                             <li ngbDropdownItem *ngFor="let field of heading_fieldData"
                               (click)="filedSelect('heading',field)"
@@ -1925,8 +1925,8 @@
                         </perfect-scrollbar>
                       </ul> -->
                       <div class="label-text mb-1">{{'resultTemplate.description'|translate}}</div>
-                      <div class="col-14 row mb-3 pr-3 align-items-center right-side-sec pr-1">
-                        <div class="kr-sg-dropdowns col-12 pr-0" ngbDropdown (click)="clearcontentdesc()" #descDrop="ngbDropdown">
+                      <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                        <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentdesc()" #descDrop="ngbDropdown">
                           <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
                               [class.err-block]="((!(preview_desc?.length) && submitted)||!(templateFieldValidateObj.description))"
@@ -1934,7 +1934,7 @@
                               data-toggle="dropdown" (click)="clearcontentdesc();" ngbDropdownToggle>
                               {{preview_desc ? preview_desc :"Choose field"}}
                             </button>
-                            <ul class="dropdown-menu content-menu faq-filter-add col-12" style="overflow-y: hidden;"
+                            <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
                               ngbDropdownMenu>
                               <li class="search-box">
                                 <input id="searchBoxId1" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
@@ -1942,7 +1942,7 @@
                                   (keyup)="searchlist('description',$event.target.value,fieldData)"
                                   (focus)="searchlist('description',$event.target.value,fieldData);" autofocus />
                               </li>
-                              <perfect-scrollbar class="scroll-search-field h-178" style="max-height: 189px !important;">
+                              <perfect-scrollbar class="scroll-search-field h-189">
                                 <ng-container *ngIf="desc_fieldData && desc_fieldData.length">
                                   <li ngbDropdownItem *ngFor="let field of desc_fieldData"
                                     (click)="filedSelect('description',field)"
@@ -1984,7 +1984,7 @@
                         </perfect-scrollbar> 
                       </ul> -->
                       <div class="label-text mb-1">{{'resultTemplate.image'|translate}}</div>
-                      <div class="col-14 row mb-3 pr-3 align-items-center right-side-sec pr-1">
+                      <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
                         <div class="kr-sg-dropdowns col-12 pr-0" ngbDropdown (click)="clearcontentimage();" #imgDrop="ngbDropdown">
                           <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
@@ -1992,7 +1992,7 @@
                               data-toggle="dropdown" (click)="clearcontentimage();" ngbDropdownToggle>
                               {{preview_img ? preview_img :"Choose field"}}
                             </button>
-                            <ul class="dropdown-menu content-menu faq-filter-add col-12" style="overflow-y: hidden;"
+                            <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
                               ngbDropdownMenu>
                               <li class="search-box">
                                 <input id="searchBoxId2" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
@@ -2000,7 +2000,7 @@
                                   (keyup)="searchlist('image',$event.target.value,fieldData)"
                                   (focus)="searchlist('image',$event.target.value,fieldData);" autofocus />
                               </li>
-                              <perfect-scrollbar class="scroll-search-field h-178" style="max-height: 189px !important;">
+                              <perfect-scrollbar class="scroll-search-field h-189">
                                 <ng-container *ngIf="img_fieldData && img_fieldData.length">
                                   <li ngbDropdownItem *ngFor="let field of img_fieldData"
                                     (click)="filedSelect('image',field)"
@@ -2010,8 +2010,8 @@
                               </perfect-scrollbar>
                             </ul>      
                     </div>
-                  </div>
-                </div>
+                        </div>
+                      </div>
               </div>
             </div>
 
@@ -2070,7 +2070,7 @@
                               data-toggle="dropdown" (click)="clearcontenturl();" ngbDropdownToggle>
                               {{preview_url ? preview_url :"Choose field"}}
                             </button>
-                            <ul class="dropdown-menu content-menu faq-filter-add  col-12" style="overflow-y: hidden;"
+                            <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
                               ngbDropdownMenu>
                               <li class="search-box">
                                 <input id="searchBoxId3" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
@@ -2078,7 +2078,7 @@
                                   (keyup)="searchlist('url',$event.target.value,fieldData)"
                                   (focus)="searchlist('url',$event.target.value,fieldData);" autofocus />
                               </li>
-                              <perfect-scrollbar class="scroll-search-field h-178" style="max-height: 189px !important;">
+                              <perfect-scrollbar class="scroll-search-field h-189">
                                 <ng-container *ngIf="url_fieldData && url_fieldData.length">
                                   <li ngbDropdownItem *ngFor="let field of url_fieldData"
                                     (click)="filedSelect('url',field)"
