@@ -673,7 +673,38 @@ export class ResultTemplatesComponent implements OnInit {
       this.searchlist('heading', '', this.fieldData);
       this.field_name = '';
     }
+
   }
+  // clear content for desc
+  clearcontentdesc() {
+    if ($('#searchBoxId1') && $('#searchBoxId1').length) {
+      $('#searchBoxId1')[0].value = "";
+      this.searchlist('description', '', this.fieldData);
+      this.field_name = '';
+    }
+
+  }
+  
+  // clear content for image
+  clearcontentimage() {
+    if ($('#searchBoxId2') && $('#searchBoxId2').length) {
+      $('#searchBoxId2')[0].value = "";
+      this.searchlist('image', '', this.fieldData);
+      this.field_name = '';
+    }
+
+  }
+
+  // clear content for URL
+  clearcontenturl() {
+    if ($('#searchBoxId3') && $('#searchBoxId3').length) {
+      $('#searchBoxId3')[0].value = "";
+      this.searchlist('url', '', this.fieldData);
+      this.field_name = '';
+    }
+
+  }
+
 }
 
 
