@@ -1500,7 +1500,7 @@ and open the template in the editor.
     .content-menu{
         border: 0;
         border-radius: 2px;
-        // box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
        // box-shadow: 0px 10px 30px rgba(32, 33, 36, 0.3);
         width: 100%;
         padding: 0;
@@ -1550,6 +1550,10 @@ and open the template in the editor.
             }
         }            
         li{
+            &.dropdown-item{
+                // padding: 0;
+                outline: 0;                
+            }
             &:active{
                 background: transparent !important;
                 color: #202124 !important;
