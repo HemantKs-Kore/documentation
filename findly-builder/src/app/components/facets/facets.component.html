@@ -332,10 +332,11 @@
                             </div>
                             <div class="kr-sg-input-text mb-20"></div>
                             <div class="label-text">Field</div>
-                            <div class="col-12 row ml-0 mr-0 mb-3 pr-3 align-items-center right-side-sec p-0" [ngClass]="{activeDrop: currentEditInex === index}">
+                            <div class="col-12 row ml-0 mr-0 mb-3 align-items-center right-side-sec p-0" [ngClass]="{activeDrop: currentEditInex === index}">
                                 <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown ngbDropdown (click)="currentEditInex = index;clearcontent()">
                                     <div class="dropdown dropdown-open">
-                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
+                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
+                                        [class.err-block]="((!currentFacetObj?.fieldName?.length) && submitted)" ngbDropdownToggle>
 											
                                             {{currentFacetObj.fieldName? currentFacetObj.fieldName : "Choose field"}}							
                                                                         
@@ -476,10 +477,11 @@
                         <div class="filterfacet-content">
                             <div class="search_block mb-10">
                                 <div class="label-text">Field</div>
-                                <div class="col-12 row ml-0 mr-0 mb-3 pr-3 align-items-center right-side-sec p-0" [ngClass]="{activeDrop: currentEditInex === index}">
+                                <div class="col-12 row ml-0 mr-0 mb-3 align-items-center right-side-sec p-0" [ngClass]="{activeDrop: currentEditInex === index}">
                                     <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown ngbDropdown (click)="currentEditInex = index;clearcontent()">
                                         <div class="dropdown dropdown-open">
-                                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
+                                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" 
+                                            [class.err-block]="((!currentFacetObj?.fieldName?.length) && submitted)" ngbDropdownToggle>
                                                 
                                                 {{currentFacetObj.fieldName? currentFacetObj.fieldName : "Choose field"}}							
                                                                             
@@ -582,7 +584,7 @@
                                                 data-toggle="dropdown"></button>
                                             <input type="text" maxlength="60" placeholder="Search For Field"
                                                 id="facets-search-input"
-                                                class="input-search dropdown-toggle dropdown-input"
+                                                class="input-search dropdown-toggle dropdown-input pl-35"
                                                 data-toggle="dropdown" [(ngModel)]="tab_configure_filed_name"
                                                 autocomplete="off" disabled>
                                             <img src="assets/images/search_gray.svg" class="search-icon">
@@ -649,7 +651,7 @@
                             </div> -->
 
 
-                            <div class="col-12 row ml-0 mr-0 mb-3 pr-3 align-items-center right-side-sec p-0" [ngClass]="{activeDrop: currentEditInex === index}">
+                            <div class="col-12 row ml-0 mr-0 mb-3 align-items-center right-side-sec p-0" [ngClass]="{activeDrop: currentEditInex === index}">
                                 <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown ngbDropdown (click)="currentEditInex = index;clearcontent()">
                                     <div class="dropdown dropdown-open">
                                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>

@@ -779,9 +779,9 @@
                         display: none;
                     }
                 }
-                input {
-                    padding-left: 35px;
-                }
+                // input {
+                //     padding-left: 35px;
+                // }
             }
         }
         .config-facet-table{
@@ -1064,4 +1064,7 @@
   .highlight{
 
     font-weight:bold;
+}
+.pl-35{
+    padding-left:35px !important;
 }
