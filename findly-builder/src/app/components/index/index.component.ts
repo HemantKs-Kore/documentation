@@ -33,12 +33,14 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   activeClose = false;
   showSearch = false;
   searchSimulator: any = '';
-
+  basic_fieldName: any='';
+  search_basic_fieldName:any='';
   savingConfig;
   reIndexing;
   simulating;
   serachIndexId;
   indexPipelineId;
+  search_basic_fieldName1:any='';
   pipeline;
   addFieldModalPopRef: any;
   loadingContent = true;
@@ -1609,6 +1611,19 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   //   this.containInput.nativeElement.value = '';
   //   this.containCtrl.setValue(null);
   // }
+  clearcontent() {
+    if ($('#searchBoxId') && $('#searchBoxId').length) {
+      $('#searchBoxId')[0].value = "";
+      this.search_basic_fieldName = '';
+    }
+  }
+    // to clear source field content.
+    clearcontentSrc() {
+      if ($('#searchBoxId1') && $('#searchBoxId1').length) {
+        $('#searchBoxId1')[0].value = "";
+        this.search_basic_fieldName1 = '';
+      }
+  }
   ngOnDestroy() {
     const self = this;
     if (this.pollingSubscriber) {
