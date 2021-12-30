@@ -247,6 +247,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.filterObject = [];
       vars.searchFacetFilters = [];
       vars.enterIsClicked = false;
+      vars.requestId = '';
       vars.previousLivesearchData = null;
       vars.previousAutosuggestionData = '';
       vars.previousDataobj = '';
@@ -3352,6 +3353,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "lang": "en",
         // "isDev": true,
         "isDev": _self.isDev,
+        "searchRequestId":_self.vars.requestId
       }
       if (_self.isDev) {
         payload['customize'] = _self.vars.customizeView;
@@ -5048,6 +5050,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "lang": "en",
         // "isDev": true,
         "isDev": _self.isDev,
+        "searchRequestId":_self.vars.requestId
       }
 
       if (_self.isDev) {
@@ -5245,6 +5248,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "event": eventType,
         "streamId": _self.API.streamId,
         "isDev": _self.isDev,
+        "searchRequestId":_self.vars.requestId
       }
 
       if (!payload.query || (payload.query && !payload.query.length)) {
@@ -6621,7 +6625,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
       if (res.templateType === 'search') {
-
+        _self.vars.requestId = res.requestId;
         if (res.queryPipelineId && res.relay) {
 
           _self.vars.experimentsObject = {};
@@ -15906,7 +15910,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "lang": "en",
         // "isDev": true,
         "isDev": _self.isDev,
-        "filters": []
+        "filters": [],
+        "searchRequestId":_self.vars.requestId
       }
 
       if (_self.isDev) {
