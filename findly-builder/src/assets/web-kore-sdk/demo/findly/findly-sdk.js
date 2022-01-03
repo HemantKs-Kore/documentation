@@ -4281,8 +4281,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var taskName = e.currentTarget.title.toLowerCase();
         var payload;
         if (_self.vars.searchObject && _self.vars.searchObject.searchText && _self.vars.searchObject.searchText.length) {
-          payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
-          // payload = _self.vars.searchObject.searchText;
+          // payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
+          payload = _self.vars.searchObject.searchText;
         }
         else {
           payload = $(e.currentTarget).attr('payload');
@@ -16569,8 +16569,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // var payload = $(e.target).attr('payload');
         var payload;
         if (_self.vars.searchObject && _self.vars.searchObject.searchText && _self.vars.searchObject.searchText.length) {
-          payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
-          // payload = _self.vars.searchObject.searchText;
+          // payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
+          payload = _self.vars.searchObject.searchText;
         }
         else {
           payload = $(e.currentTarget).attr('payload');
