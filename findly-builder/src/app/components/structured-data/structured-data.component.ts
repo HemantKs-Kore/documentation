@@ -199,7 +199,7 @@ export class StructuredDataComponent implements OnInit {
       if(quaryparms && quaryparms.skip){
 
       }
-      if(this.allSelected && !this.unselecteditems.length){
+      if(this.allSelected){
         this.showSelectedData = true // To show number of records selected
         this.structuredDataItemsList.forEach(data => {
           data.isChecked = true;
@@ -207,24 +207,28 @@ export class StructuredDataComponent implements OnInit {
         this.selectedStructuredData=[...this.structuredDataItemsList]//To have a same session data and server data
       }
       //if partial selection or data coming from paginate
-      if(skip)
+      if(skip || this.skip===0)
       {
+        /**partial selection with pagination record**/
+      if(this.showSelectedCount > 0 && this.showSelectedCount < this.totalCount)
+      { 
         this.selectedStructuredData=[...this.structuredDataItemsList]//To have a same session data and server data
-      }
-      
-      if(this.showSelectedCount && (this.skip-10 < this.showSelectedCount < this.skip))
-      {
-        for(let i=0;i<10;i++){
-
-          if(i<this.showSelectedCount){
-            this.structuredDataItemsList[i].isChecked=true;
-            //console.log(this.structuredDataItemsList[i])
-          }
         }
+      else{
+        this.showSelectedData = true // To show number of records selected
+        this.structuredDataItemsList.forEach(data => {
+          data.isChecked = true;
+        });
+        this.selectedStructuredData=[...this.structuredDataItemsList]//To have a same session data and server data
         
-  
       }
+    }
+      /*check if user unselected items in select all scenario  and call unselectcompare function*/
+      if(this.unselecteditems.length){
+        this.unselectcompare();    
+        }  
       
+            
       if (res.length > 0) {
         this.isLoading = false;
         this.isLoading1 = true;
@@ -351,12 +355,9 @@ export class StructuredDataComponent implements OnInit {
   paginate(event) {
     console.log("event", event);
     this.paginateEvent =event     
-    if (event.skip) {       
+    if (event.skip || event.skip===0) {       
        this.getStructuredDataList(event.skip);        
-    }  
-    if(this.unselecteditems.length){
-      this.unselectcompare();    
-      }     
+    }       
   }
 
   
@@ -689,7 +690,7 @@ export class StructuredDataComponent implements OnInit {
     else {
       for (let i = 0; i < this.selectedStructuredData.length; i++) {
         if (this.selectedStructuredData[i]._id === item._id) {
-          this.unselecteditems.push(item);
+          this.unselecteditems.push(item); // After select all clicked,and user unselects some items those are saved in unselecteditems array.
           item.isChecked = false;
           this.selectedStructuredData.splice(i, 1);
           this.showSelectedCount = this.showSelectedCount - 1 ;
@@ -704,7 +705,7 @@ export class StructuredDataComponent implements OnInit {
       this.allSelected = false;
     }
   }
-  
+  /** to compare the unselect items and update the ischecked flag to false and with page items(structureddataitems list) */
   unselectcompare(){
     for (let i = 0; i < this.unselecteditems.length; i++) 
     {
