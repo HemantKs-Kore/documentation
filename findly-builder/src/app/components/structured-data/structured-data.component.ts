@@ -705,7 +705,8 @@ export class StructuredDataComponent implements OnInit {
       this.allSelected = false;
     }
   }
-  /** to compare the unselect items and update the ischecked flag to false and with page items(structureddataitems list) */
+  /** in select all scenario,when user unselects in one page and comes back to same page the items has not be highlighted
+   * ,to compare the unselect items  and update the ischecked flag to false and with page items(structureddataitems list) */
   unselectcompare(){
     for (let i = 0; i < this.unselecteditems.length; i++) 
     {
