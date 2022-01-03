@@ -24,7 +24,7 @@ export class PaginationComponent implements OnInit , OnChanges{
     }
   }
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
+    // console.log(changes);
     if(this.totalRecord < this.limitpage || this.totalRecord < this.recordEnd){
       this.recordEnd = this.totalRecord;
       this.pageObj.disableNext = true;

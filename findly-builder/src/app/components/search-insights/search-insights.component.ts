@@ -139,7 +139,7 @@ export class SearchInsightsComponent implements OnInit
       from = custom;
       var duration = moment.duration(Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()), 'milliseconds');
       var days = duration.asDays();
-      console.log(days);
+      // console.log(days);
       if (days > 28)
       {
         this.group = "week";

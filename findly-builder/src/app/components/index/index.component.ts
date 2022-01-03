@@ -227,7 +227,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
   ngOnInit(): void
   {
     this.selectedApp = this.workflowService.selectedApp();
-    console.log("this.selectedApp", this.selectedApp)
+    // console.log("this.selectedApp", this.selectedApp)
     if ((this.selectedApp || {}).searchIndexes && (this.selectedApp || {}).searchIndexes.length)
     {
       this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -572,7 +572,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         this.simulteObj.currentSimulateAnimi = -1;
       }
       this.simulteObj.currentSimulateAnimi = this.simulteObj.currentSimulateAnimi + 1;
-      console.log('hilight ' + this.simulteObj.currentSimulateAnimi);
+      // console.log('hilight ' + this.simulteObj.currentSimulateAnimi);
     }
     )
   }
@@ -787,7 +787,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         } else if (result === 'no')
         {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }
@@ -843,7 +843,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
               this.pipeline.splice(index, 1);
             }
           }
-          console.log("inside dialog");
+          // console.log("inside dialog");
           dialogRef.close();
           if (this.pipeline && this.pipeline.length)
           {
@@ -1081,7 +1081,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
           } else if (result === 'no')
           {
             dialogRef.close();
-            console.log('deleted')
+            // console.log('deleted')
           }
         })
     } else
@@ -1278,7 +1278,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         } else if (result === 'no')
         {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }
@@ -1385,7 +1385,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         } else if (result === 'no')
         {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }
@@ -1395,7 +1395,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId
     };
-    console.log("index queryparams", quaryparms);
+    // console.log("index queryparams", quaryparms);
     this.service.invoke('get.indexpipelineStages', quaryparms).subscribe(res =>
     {
       res.stages.map(data =>
@@ -1483,7 +1483,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         } else if (result === 'no')
         {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }

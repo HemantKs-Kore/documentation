@@ -118,7 +118,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
           sliderObj: new RangeSlider(0, 10, 1, element.value, name + i)
         }
         this.weights.push(obj);
-        console.log("weight noe ", this.weights);
+        // console.log("weight noe ", this.weights);
        
       });
     }
@@ -357,7 +357,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
           dialogRef.close();
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }

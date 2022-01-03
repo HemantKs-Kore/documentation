@@ -1237,7 +1237,7 @@ export class UserEngagementComponent implements OnInit {
               xAxisData.push(hourConversion[busyChartArrayData[0][j].hour])
               //toolTipData.push([hourConversion[busyChartArrayData[0][j].hour]])
             }
-            console.log(toolTipData)
+            // console.log(toolTipData)
             heatData.push([i, secondIndex, busyChartArrayData[i][j].totalUsers])
             if (i != checkIndex) {
               checkData = [];
@@ -1283,9 +1283,9 @@ export class UserEngagementComponent implements OnInit {
       }
       source.push(sourceObj);
     }
-    console.log(dimensions);
-    console.log(source);
-    console.log(heatData)
+    // console.log(dimensions);
+    // console.log(source);
+    // console.log(heatData)
 
 
 
