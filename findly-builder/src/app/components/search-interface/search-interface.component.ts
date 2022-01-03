@@ -266,7 +266,7 @@ export class SearchInterfaceComponent implements OnInit {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId
     };
-    this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
+    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
       this.allSettings = res;
       this.list = [];
       this.customList = [];
@@ -700,7 +700,7 @@ export class SearchInterfaceComponent implements OnInit {
       "referInterface": interfaceType
     }
     //payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
-    this.service.invoke('put.SI_copyResultSettings', queryparams, payload).subscribe(res => {
+    this.service.invoke('put.SI_copyResultSettings', queryparams).subscribe(res => {
       this.notificationService.notify('Result copied successfully', 'success');
       this.selectedTemplatedId = "";
       this.selectedSettingResultsObj.referInterface = "";

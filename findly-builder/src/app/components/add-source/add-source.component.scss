@@ -63,7 +63,7 @@
 .contentContainer{
     padding-left: 65px;
     // padding-top: 30px;
-    height: calc(100vh - 123px);
+    height: calc(100vh - 65px);
     background: #fff;
     overflow: hidden;
     &.modalBody{
@@ -78,7 +78,7 @@
         left: 10px;    
     }
     &.fullHeight{
-        height: calc(100vh - 5px) !important;
+        height: calc(100vh - 65px) !important;
         .fullHeightPS{
             height: calc(100vh - 65px) !important;
         }

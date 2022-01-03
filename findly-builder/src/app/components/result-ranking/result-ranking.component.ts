@@ -56,6 +56,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   strucDataDec = '';
   strucDataHeadingDis = '';
   strucDataDecDis = '';
+  loadImageText: boolean = false;
+  loadingContent1: boolean;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -97,8 +99,6 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       this.loadCustomRankingList();
     })
   }
-  loadImageText: boolean = false;
-  loadingContent1: boolean
   imageLoad() {
     this.loadingContent = false;
     this.loadingContent1 = true;
@@ -155,11 +155,11 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       interface: interfaceType,
       indexPipelineId: this.indexPipelineId
     };
-    this.service.invoke('get.SI_settingInterface', quaryparms).subscribe(res => {
-      if (res && res.appearance) {
+    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
+      if (res && res.groupSetting) {
         let isStructured = '';
-        res.appearance.forEach(element => {
-          if (element.type == 'structuredData' && element.templateId) {
+        res.groupSetting.conditions.forEach(element => {
+          if (element.fieldValue == 'data' && element.templateId) {
             isStructured = element.templateId;
           }
         });
@@ -180,7 +180,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       templateId: templateId,
       indexPipelineId: this.indexPipelineId
     };
-    this.service.invoke('get.SI_searchResultTemplate', quaryparms).subscribe(res => {
+    this.service.invoke('get.templateById', quaryparms).subscribe(res => {
       let strucDataHeadingId = res.mapping.heading;
       this.fieldData.forEach(element => {
         if (element._id == res.mapping.heading) {

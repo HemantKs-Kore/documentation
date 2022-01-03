@@ -59,8 +59,8 @@ export class AppHeaderComponent implements OnInit {
   queryPipelineId;
   indexPipelineId;
   domain = '';
-  selectAccountDetails : any = {};
-  associatedAccounts : any = {};
+  selectAccountDetails: any = {};
+  associatedAccounts: any = {};
   private storageType = 'localStorage';
   indexSubscription: Subscription;
   subscription: Subscription;
@@ -192,10 +192,10 @@ export class AppHeaderComponent implements OnInit {
     });
     this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
     this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
-    this.domain =  window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
+    this.domain = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
   }
-  switchAccountInternal(account){
-    window[this.storageType].setItem('selectedAccount',JSON.stringify(account))
+  switchAccountInternal(account) {
+    window[this.storageType].setItem('selectedAccount', JSON.stringify(account))
     this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
     this.router.navigate([''], { skipLocationChange: true })
   }

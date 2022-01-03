@@ -199,7 +199,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectable = true;
   removable = true;
   containCtrl = new FormControl();
-  operators = [{ name: 'Exists', value: 'exists' }, { name: 'Does Not Exist', value: 'doesNotExist' }, { name: 'Equals to', value: 'equalsTo' }, { name: 'Not Equals to', value: 'notEqualsTo' }, { name: 'Contains', value: 'contains' }, { name: 'Doesnot Contain', value: 'doesNotContain' }];
+  operators = [{ name: 'Exists', value: 'exists' }, { name: 'Does Not Exist', value: 'doesNotExist' }, { name: 'EqualsTo', value: 'equalsTo' }, { name: 'Not Equals To', value: 'notEqualsTo' }, { name: 'Contains', value: 'contains' }, { name: 'DoesNot Contain', value: 'doesNotContain' }];
   conditionArray: any = [];
   conditionObj: any = { fieldId: '', operator: '', value: [] };
   selectedConditionType = 'basic';
@@ -271,6 +271,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   addCondition(type, index, field?, data?) {
     if (type === 'add') {
       this.conditionObj = { fieldId: '', operator: '', value: [] };
+      if (this.selectedStage.condition.mappings === undefined) {
+        this.selectedStage.condition.mappings = [];
+      }
       this.selectedStage.condition.mappings.push(this.conditionObj);
     }
     else if (type === 'remove') {
@@ -404,7 +407,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
       }
-      this.newMappingObj.custom_script.defaultValue.script = this.selectedStage.config.mappings[0].script || '';
+      this.newMappingObj.custom_script.defaultValue.script = this.selectedStage.config.mappings.length > 1 ? this.selectedStage.config.mappings[1].script : this.selectedStage.config.mappings[0].script || '';
     }
   }
   checkNewAddition() {
@@ -509,12 +512,14 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.payloadValidationObj.valid = true;
     this.pipeline.forEach(stage => {
       const tempStageObj = JSON.parse(JSON.stringify(stage));
-      if (tempStageObj.condition.type === 'script') {
-        tempStageObj.condition.mappings = [];
+      if (tempStageObj && tempStageObj.condition && tempStageObj.condition.type === 'script') {
+        delete tempStageObj.condition.mappings
       }
       else {
-        delete tempStageObj.condition.value;
-        tempStageObj.condition.mappings.forEach(el => { delete el.autocomplete_text; delete el.fieldName })
+        if (tempStageObj && tempStageObj.condition) {
+          delete tempStageObj.condition.value;
+          tempStageObj.condition.mappings.forEach(el => { delete el.autocomplete_text; delete el.fieldName })
+        }
       }
       if (tempStageObj && tempStageObj.type === 'field_mapping') {
         // if (tempStageObj.condition.type === 'script') {
@@ -765,7 +770,6 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.removeExcludeDocumentStage(indexArrayLength, true);
     }
     else {
-      console.log("outside dialog");
       this.savingConfig = true;
       const quaryparms: any = {
         searchIndexID: this.serachIndexId,
@@ -808,10 +812,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         this.clearDirtyObj();
         this.setResetNewMappingsObj(null, true);
         /** Workbench plain text temp */
-        if (this.newMappingObj && this.newMappingObj.custom_script &&
-          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
-          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
-        }
+        // if (this.newMappingObj && this.newMappingObj.custom_script &&
+        //   this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+        //   this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        // }
         // setTimeout(()=>{
         //   //this.selectedStage.condition.value = ""
         //   if(this.selectedStage && this.selectedStage.condition && this.selectedStage.condition.value){
@@ -993,10 +997,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         this.simulteObj.currentSimulateAnimi = -1;
         this.simulteObj.simulationInprogress = false;
         /** Workbench plain text temp */
-        if (this.newMappingObj && this.newMappingObj.custom_script &&
-          this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
-          this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
-        }
+        // if (this.newMappingObj && this.newMappingObj.custom_script &&
+        //   this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
+        //   this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+        // }
       }, errRes => {
         this.simulating = false;
         this.simulteObj.simulating = false;
@@ -1163,12 +1167,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log("index queryparams", quaryparms);
     this.service.invoke('get.indexpipelineStages', quaryparms).subscribe(res => {
       res.stages.map(data => {
-        return data.condition.mappings.map(data1 => {
-          let obj = this.fields.find(da => da._id === data1.fieldId);
-          if (obj && obj.fieldName) {
-            data1.fieldName = obj.fieldName
-          }
-
+        return data?.condition?.mappings?.map(data1 => {
+          let obj = this.fields.find(da => da._id === data1?.fieldId);
+          data1.fieldName = obj?.fieldName
         })
       })
       this.pipeline = res.stages || [];
@@ -1455,7 +1456,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedStage.category = this.defaultStageTypes[i].category;
     this.selectedStage.name = this.defaultStageTypesObj[systemStage.type].name;
     this.selectedStage.config = {};
-    this.selectedStage.condition = { type: '', mappings: [] }
+    //if (systemStage?.type !== 'custom_script') {
+      this.selectedStage.condition = { type: 'basic', mappings: [{ fieldId: '', operator: '', value: [] }] }
+    //}
     if (systemStage && systemStage.type === 'custom_script') {
       if (!this.newMappingObj.custom_script) {
         this.newMappingObj.custom_script = {
