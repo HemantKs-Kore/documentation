@@ -98,6 +98,7 @@ export class ResultInsightsComponent implements OnInit {
   }
   closeModalPopup() {
     this.viewQueriesRef.close();
+    this.resultsSearchData =[];
   }
 
   ngOnInit(): void {
