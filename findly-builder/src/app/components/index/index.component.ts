@@ -1432,11 +1432,16 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     this.service.invoke('get.platformStages', quaryparms).subscribe(res =>
     {
       // removing Duplicate value - temporary
-      for (let index = 0; index < res.stages.length; index++)
+      if (!this.defaultStageTypes.length)
       {
-        if (index < 11 && res.stages[index].name !== 'FAQ Keyword Extraction')
-          this.defaultStageTypes.push(res.stages[index])
+
+        for (let index = 0; index < res.stages.length; index++)
+        {
+          if (index < 11 && res.stages[index].name !== 'FAQ Keyword Extraction')
+            this.defaultStageTypes.push(res.stages[index])
+        }
       }
+
       setTimeout(() =>
       {
         $('#addToolTo').click();
