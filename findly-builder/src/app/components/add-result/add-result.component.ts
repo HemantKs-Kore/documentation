@@ -330,7 +330,7 @@ export class AddResultComponent implements OnInit {
           this.extractedResults.push(element)
         });
         //this.extractedResults = res.contents[0].results;
-        console.log(this.extractedResults);
+        // console.log(this.extractedResults);
         //console.log(res.contents);
       } else if (this.searchType == "faq") {
         this.extractedResults = res.faq;
@@ -341,7 +341,7 @@ export class AddResultComponent implements OnInit {
         res.content.web.forEach(element => {
           this.extractedResults.push(element)
         });
-        console.log(this.extractedResults)
+        // console.log(this.extractedResults)
         //this.extractedResults = res.content;
       } else if (this.searchType == "task") {
         this.extractedResults = res.task;
@@ -357,7 +357,7 @@ export class AddResultComponent implements OnInit {
       this.loadingContent = false;
 
     }, errRes => {
-      console.log(errRes);
+      // console.log(errRes);
       this.loadingContent = false;
     });
   }

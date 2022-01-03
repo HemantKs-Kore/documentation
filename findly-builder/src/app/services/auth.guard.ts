@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
   public getAccountConf() {
     this.service.invoke('app.account-configuratuion').subscribe(res => {
     }, errRes => {
-      console.log(errRes);
+      // console.log(errRes);
     });
   }
 

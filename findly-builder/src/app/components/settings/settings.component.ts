@@ -113,7 +113,7 @@ export class SettingsComponent implements OnInit {
       })
     })
     this.channels = channels
-    console.log(this.channels);
+    // console.log(this.channels);
   }
   copy(val, elementID) {
     const selBox = document.createElement('textarea');
@@ -220,7 +220,7 @@ export class SettingsComponent implements OnInit {
 
     this.service.invoke('create.createCredential', queryParams, payload).subscribe(
       res => {
-        console.log(res);
+        // console.log(res);
         // this.listData={};
         this.listData = res;
         this.botID = res.bots[0];
@@ -279,7 +279,7 @@ export class SettingsComponent implements OnInit {
           this.slider = 1
         }
 
-        console.log(res)
+        // console.log(res)
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -344,7 +344,7 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('get.streamData', queryParams).subscribe(
       res => {
         if (res.configuredBots.length) this.configuredBot_streamId = res.configuredBots[0]._id
-        console.log(res);
+        // console.log(res);
         if (res && res.configuredBots) {
           res.configuredBots.forEach(element => {
             let obj = {
@@ -400,7 +400,7 @@ export class SettingsComponent implements OnInit {
         if (this.allBotArray.length > 0) {
           this.universalPublish();
         }
-        console.log(res);
+        // console.log(res);
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -433,7 +433,7 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('universal.publish', queryParams, payload).subscribe(
       res => {
         this.notificationService.notify('Universal Published', 'success');
-        console.log(res);
+        // console.log(res);
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -452,7 +452,7 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('get.dialog', queryParams).subscribe(
       res => {
         this.refId = res[0]._id;
-        console.log(res)
+        // console.log(res)
         //this.notificationService.notify('Credential Configuered', 'success');
       },
       errRes => {
@@ -498,7 +498,7 @@ export class SettingsComponent implements OnInit {
         //this.standardPublish();
         this.configFlag = true;
         this.delChannel = false;
-        console.log(res);
+        // console.log(res);
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -607,7 +607,7 @@ export class SettingsComponent implements OnInit {
     }
     this.service.invoke('configure.credential', queryParams, payload).subscribe(
       res => {
-        console.log(res);
+        // console.log(res);
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

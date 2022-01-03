@@ -222,7 +222,7 @@ export class StructuredDataComponent implements OnInit {
         }
       }
     }, errRes => {
-      console.log("error", errRes);
+      // console.log("error", errRes);
       this.isLoading = false;
       this.notificationService.notify('Fetching Structured Data has gone wrong.', 'error');
     });
@@ -264,7 +264,7 @@ export class StructuredDataComponent implements OnInit {
         }
       });
     });
-    console.log("structuredDataItemsList", this.structuredDataItemsList);
+    // console.log("structuredDataItemsList", this.structuredDataItemsList);
   }
 
   getNestedElements(element) {
@@ -306,14 +306,14 @@ export class StructuredDataComponent implements OnInit {
   }
 
   selectedField(suggesition, index) {
-    console.log("test", suggesition);
+    // console.log("test", suggesition);
     if (this.advancedSearch.rules[index]) {
       this.advancedSearch.rules[index].fieldName = suggesition.fieldName;
     }
   }
 
   paginate(event) {
-    console.log("event", event);
+    // console.log("event", event);
     if (event.skip) {
       this.getStructuredDataList(event.skip);
     }
@@ -345,7 +345,7 @@ export class StructuredDataComponent implements OnInit {
 
   openAddStructuredData(key) {
     this.selectedSourceType = this.availableSources.find((s) => { if (s.resourceType === key) { return s } });
-    console.log("this.selectedSourceType", this.selectedSourceType);
+    // console.log("this.selectedSourceType", this.selectedSourceType);
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
     if (this.selectedSourceType.id == "contentStucturedDataImport") {
       if (!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')) {
@@ -413,7 +413,7 @@ export class StructuredDataComponent implements OnInit {
       value: '',
       type: ''
     });
-    console.log(this.advancedSearch);
+    // console.log(this.advancedSearch);
     this.getFieldAutoComplete('');
   }
 
@@ -492,7 +492,7 @@ export class StructuredDataComponent implements OnInit {
   }
 
   applyAdvancedSearch() {
-    console.log("advanced Search", this.advancedSearch);
+    // console.log("advanced Search", this.advancedSearch);
     this.appliedAdvancedSearch = this.advancedSearch;
     if (this.checkAdvancedSearchValidation()) {
       this.applyAdvancedSearchCall();
@@ -592,7 +592,7 @@ export class StructuredDataComponent implements OnInit {
         this.emptySearchResults = true;
       }
     }, errRes => {
-      console.log("error", errRes);
+      // console.log("error", errRes);
       this.tempAdvancedSearch = {};
       this.isLoading = false;
       this.emptySearchResults = false;
@@ -736,7 +736,7 @@ export class StructuredDataComponent implements OnInit {
         this.emptySearchResults = true;
       }
     }, errRes => {
-      console.log("error", errRes);
+      // console.log("error", errRes);
       this.isLoading = false;
       this.emptySearchResults = false;
       this.notificationService.notify('Fetching Structured Data has gone wrong.', 'error');
@@ -802,7 +802,7 @@ export class StructuredDataComponent implements OnInit {
           } this.notificationService.notify('Deleted Successfully', 'success');
         }
       }, errRes => {
-        console.log("error", errRes);
+        // console.log("error", errRes);
         this.notificationService.notify('Deletion has gone wrong.', 'error');
       });
     }
@@ -841,7 +841,7 @@ export class StructuredDataComponent implements OnInit {
           this.showSelectedData = false;
         }
       }, errRes => {
-        console.log("error", errRes);
+        // console.log("error", errRes);
         this.notificationService.notify('Deletion has gone wrong.', 'error');
       });
     }
