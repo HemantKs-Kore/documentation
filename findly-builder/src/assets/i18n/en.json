@@ -252,6 +252,7 @@
         "facets": "Facets",
         "add_facet": "Add Facet",
         "edit_facet": "Edit Facet",
+        "configure_facets": "Configure Facets",
         "deselect": "Deselect",
         "delete_facets": "Delete Facets",
         "facet_caps_Name": "FACET NAME",

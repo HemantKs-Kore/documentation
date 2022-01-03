@@ -3,6 +3,7 @@
     var KoreSDK = KoreSDK || {};
 
     var botOptionsFindly = {};
+
     botOptionsFindly.logLevel = 'debug';
     botOptionsFindly.koreAPIUrl = "https://searchassist-qa.kore.ai/searchassistapi/";
 
@@ -28,9 +29,9 @@
     botOptionsFindly.clientId = "cs-30d2773b-0131-5e3f-b6d5-ed93cbae67c6";
     botOptionsFindly.clientSecret = "UdsX+q2hBSNVttzDoARy05zCluj9b0Ns0f2LRjmFwow=";
     botOptionsFindly.searchIndexID = "sidx-810d6e38-b522-54d3-8f2b-cdee7667fb34";
-    
-    
- // To modify the web socket url use the following option
+
+
+    // To modify the web socket url use the following option
     // For Socket Connection
     botOptionsFindly.reWriteSocketURL = {
         protocol: 'wss',
@@ -78,9 +79,9 @@
             showClockPickerIcon: false, //set true to show clockPicker icon
             showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
             showradioOptionMenuPickerIcon: false //set true to show Radio Option Template icon
-            }
+        }
     };
-    
+
     KoreSDK.findlyConfig = findlyConfig
     window.findlyConfig = findlyConfig
 })(window.KoreSDK);

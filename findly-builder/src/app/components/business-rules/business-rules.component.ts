@@ -651,6 +651,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       if (!payload.outcomes.length) {
         this.errorToaster(null, 'Atleast one outcome is required');
         return;
+        
       }
       this.service.invoke('create.businessRules', quaryparms, payload).subscribe(res => {
         if (this.filterSystem.isRuleActiveFilter == 'all') {
