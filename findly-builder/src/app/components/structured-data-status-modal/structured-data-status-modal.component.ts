@@ -55,7 +55,7 @@ export class StructuredDataStatusModalComponent implements OnInit {
           return (source._id === payload._id);
         });
         if (queuedDoc && (queuedDoc.status)) {
-          console.log(queuedDoc);
+          // console.log(queuedDoc);
           this.docStatusObject = JSON.parse(JSON.stringify(queuedDoc));
           if(queuedDoc.status === 'FAILURE' || queuedDoc.status === 'SUCCESS'){
             if(queuedDoc.status === 'SUCCESS'){

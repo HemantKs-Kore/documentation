@@ -104,7 +104,7 @@ export class InsightsComponent implements OnInit {
     this.ctrVal = Math.floor(this.analystic['clicks'] / this.analystic['searches']) * 100;
 
     this.service.invoke('get.QueryLevelAnalytics', quaryparms, payload,header).subscribe(res => {
-      console.log(res)
+      // console.log(res)
       this.analyticGraph(res)
       this.analystic = res;
       if (this.analystic['searches'] == 0 || this.analystic['clicks'] == 0) {
@@ -113,7 +113,7 @@ export class InsightsComponent implements OnInit {
         this.ctrVal = Math.floor(this.analystic['clicks'] / this.analystic['searches']) * 100;
       }
     }, error => {
-      console.log(error);
+      // console.log(error);
     });
   }
   ngOnInit(): void {
@@ -345,7 +345,7 @@ export class InsightsComponent implements OnInit {
       $('.tab-act').addClass('active')
       $('.tab-ana').removeClass('active')
     }
-    console.log('button clicked')
+    // console.log('button clicked')
   }
 
   getcustomizeList() {
@@ -385,7 +385,7 @@ export class InsightsComponent implements OnInit {
         //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
         // }
       }
-      console.log(res);
+      // console.log(res);
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');

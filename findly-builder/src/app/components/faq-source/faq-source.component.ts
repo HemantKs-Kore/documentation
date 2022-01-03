@@ -468,7 +468,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.getStats('manual');
   }
   selectResourceFilter(source?) {
-    console.log("source", source)
+    // console.log("source", source)
     this.loadingTab = true;
     this.manualFilterSelected = false;
     if (source) {
@@ -523,7 +523,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updateFaq(this.selectedFaq, 'updateQA', _payload)
   }
   addManualFaq(event) {
-    console.log(event);
+    // console.log(event);
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       type: 'faq',
@@ -606,7 +606,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
   getStats(resourceId?, isInitialFaqCall?) {
-    console.log("resourceId", resourceId)
+    // console.log("resourceId", resourceId)
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
     };
@@ -624,7 +624,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.statsApiLoading = true;
     this.service.invoke(endPoint, quaryparms).subscribe(res => {
       this.statsApiLoading = false;
-      console.log("manula issu", res)
+      // console.log("manula issu", res)
       this.faqSelectionObj.stats = res.countByState;
       // this.faqSelectionObj.stats = res.countBySource; 
       this.faqSelectionObj.loadingStats = false;
@@ -674,7 +674,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.getfaqsBy();
       this.searchFaq = ''
     }
-    console.log(this.searchFaq, 'search');
+    // console.log(this.searchFaq, 'search');
 
   }
   getJobStatusForMessages() {
@@ -720,7 +720,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
   faqsApiService(serviceId, params?, concat?) {
-    console.log("serviceID", serviceId, params)
+    // console.log("serviceID", serviceId, params)
     // if ((this.apiLoading && !params.searchQuary) || ((this.previousSearchQuery == this.searchFaq) && this.searchFaq && this.previousSearchQuery && !params.offset)) {
     if ((this.apiLoading)) {
       return;
@@ -733,7 +733,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.service.invoke(serviceId, params).subscribe((res: any) => {
       this.initialFaqCall = false;
-      console.log("service res", res);
+      // console.log("service res", res);
       this.loading = false;
       this.isNotSearching = false;
       this.faqs = ((res || {}).faqs || []);
@@ -968,7 +968,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   filterTable(source, headerOption) {
-    console.log(this.resources, source)
+    // console.log(this.resources, source)
     this.filterTableSource = source;
     this.filterTableheaderOption = headerOption;
     let firstFilterDataBack = [];
@@ -1015,11 +1015,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.firstFilter = { 'header': this.filterSystem.typeHeader, 'source': this.filterSystem.typefilter };
       }
       const firstResourceData = this.extractedResources.filter((data) => {
-        console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
+        // console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
         return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
       })
       const secondResourceData = firstResourceData.filter((data) => {
-        console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
+        // console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
         return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
       })
       if (secondResourceData.length) this.resources = [...secondResourceData];
@@ -1090,7 +1090,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           return ((source.status === 'running') || (source.status === 'queued'));
         });
         if (queuedJobs && queuedJobs.length) {
-          console.log(queuedJobs);
+          // console.log(queuedJobs);
         } else {
           this.getStats(null, true);
           this.pollingSubscriber.unsubscribe();
@@ -1182,7 +1182,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   updateFaq(faq, action, params, isFollowUpUpdate?) {
-    console.log("faq, action, params", faq, action, params)
+    // console.log("faq, action, params", faq, action, params)
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       faqId: faq._id,
@@ -1418,7 +1418,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           this.deleteIndFAQ(record, dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }
@@ -1445,7 +1445,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           this.deleteSrcAQ(record, dialogRef);   
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }
@@ -1471,7 +1471,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }
@@ -1492,10 +1492,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(result => {
         if (result === 'yes') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
 

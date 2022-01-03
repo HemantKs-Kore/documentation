@@ -390,7 +390,7 @@ export class TraitsComponent implements OnInit {
           }
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }

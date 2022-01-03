@@ -123,7 +123,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     simpleBar.getScrollElement().addEventListener('scroll', this.onScrollEvent);
   }
   ngAfterViewInit() {
-    console.log(this.pdfComponent);
+    // console.log(this.pdfComponent);
   }
   ngOnChanges() {
 
@@ -178,7 +178,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
         autoFocus: false
       });
       dialogRef.afterClosed().subscribe(res => {
-        console.log(payload);
+        // console.log(payload);
         if (payload && payload.backToSource) {
           if (res) {
             this.closeModal(res);
@@ -346,7 +346,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
 
   pageRendered(event: any) {
-    console.log(event);
+    // console.log(event);
     this.pdfForm.get("pdfHeight").setValue(event.source.viewport.height || 0);
     this.pdfForm.get("pdfWidth").setValue(event.source.viewport.width || 0);
     // this.pdfConfig.currentPage = event.pageNumber;
@@ -362,7 +362,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   // PDF error handling
   onError(error: any) {
-    console.log(error);
+    // console.log(error);
     this.notificationService.notify("Something went wrong with pdf", "error");
   }
   // Onprogress pdf percentage
@@ -397,7 +397,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   // After PDF load completes
   afterLoadComplete(pdfData: any) {
-    console.log(pdfData);
+    // console.log(pdfData);
     if (pdfData && pdfData.loadingTask && pdfData.loadingTask._transport && pdfData.loadingTask._transport._lastProgress) {
       let _size = pdfData.loadingTask._transport._lastProgress.total;
       let fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),
@@ -480,7 +480,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
         this.pdfPayload.ignoreTextPageno.splice(index, 1);
         this.cancelSerializationData(selectedText);
       } else {
-        console.log("No selected text found with Orginal data");
+        // console.log("No selected text found with Orginal data");
         return false;
       }
       this.autoSaveAnno(); // Autosave annotation
@@ -570,7 +570,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.loaderFlag = false;
       this.notificationService.notify(error.error.errors[0].msg, "error");
     });
-    console.log(listData);
+    // console.log(listData);
   }
   // Check user guide info from api
   getSavedAnnotatedDataForStream() {
@@ -807,7 +807,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       }
       let contentHtml = this.rangeService.rangeSelectionHtml();
       if (contentHtml && checkDuplicateClasses(contentHtml)) { // check duplicate selection
-        console.log("It's already annotated!");
+        // console.log("It's already annotated!");
         this.hostRectangle = null;
         return false;
       } else if (!this.selectedText) {

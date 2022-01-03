@@ -161,7 +161,7 @@ export class ResultInsightsComponent implements OnInit {
       from = custom;
       var duration = moment.duration(Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()), 'milliseconds');
       var days = duration.asDays();
-      console.log(days);
+      // console.log(days);
       if (days > 28) {
         this.group = "week";
       } else if (days == 1) {
@@ -197,7 +197,7 @@ export class ResultInsightsComponent implements OnInit {
       else if (type == 'SearchQueriesForResult') {
         this.resultsSearchData = res.results;
         this.Q_totalRecord = res.totalCount;
-        console.log("Q_totalRecord", this.Q_totalRecord)
+        // console.log("Q_totalRecord", this.Q_totalRecord)
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

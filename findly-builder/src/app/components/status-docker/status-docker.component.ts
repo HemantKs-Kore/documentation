@@ -69,7 +69,7 @@ export class StatusDockerComponent implements OnInit {
         });
        
         if (queuedJobs && queuedJobs.length) {
-          console.log(queuedJobs);
+          // console.log(queuedJobs);
         } else {
           this.pollingSubscriber.unsubscribe();
         }
