@@ -692,12 +692,12 @@
                     <div class="label-text">{{'workbench.source_field' | translate}}</div>
                     <div class="dropdown dropdown-open">
                       <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
-                        ngbDropdownToggle (click)="clearcontentSrc()">
+                        ngbDropdownAnchor (click)="clearcontentSrc()">
 
                         {{map.source_field? map.source_field :"Choose feild"}}
 
                       </button>
-                      <ul class="dropdown-menu content-menu faq-filter-add col-12" style="overflow-y: hidden;"
+                      <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
                         ngbDropdownMenu>
                         <li class="search-box" ngbDropdownItem>
                           <input id="searchBoxId1" autocomplete="off" type="text" placeholder="Search"
@@ -873,11 +873,11 @@
                 <div class="label-text">{{'workbench.source_field' | translate}}</div>
                 <div class="dropdown dropdown-open">
                   <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
-                    ngbDropdownToggle (click)="clearcontentsrc1()">
+                    ngbDropdownToggle (click)="clearcontentSrcD()">
                     {{newMappingObj[selectedStage.type].defaultValue.source_field?newMappingObj[selectedStage.type].defaultValue.source_field:"Choose
                     source field"}}
                   </button>
-                  <ul class="dropdown-menu content-menu faq-filter-add col-12" style="overflow-y: hidden;"
+                  <ul class="dropdown-menu content-menu faq-filter-add  mw-100" style="overflow-y: hidden;"
                     ngbDropdownMenu>
                     <li class="search-box">
                       <input id="searchBoxId2" autocomplete="off" type="text" [(ngModel)]="search_basic_fieldName2"

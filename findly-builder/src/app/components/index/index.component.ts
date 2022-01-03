@@ -1983,7 +1983,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       this.search_basic_fieldName1 = '';
     }
   }
-  clearcontentSrc1()
+  clearcontentSrcD()
   {
     if ($('#searchBoxId2') && $('#searchBoxId2').length)
     {
