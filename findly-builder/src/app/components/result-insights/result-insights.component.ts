@@ -60,6 +60,7 @@ export class ResultInsightsComponent implements OnInit {
   // chartOption : EChartOption;
   // chartOption1 : EChartOption;
   // userEngagementChartData : EChartOption;
+  loadingQueries =true;
   isAsc = true;
   slider = 2;
   resultsData: any;
@@ -93,6 +94,7 @@ export class ResultInsightsComponent implements OnInit {
   openModalPopup(result) {
     this.searchQueryanswerType = result.answerType;
     this.resultQueryAnswer = result.answer;
+    this.loadingQueries=true;
     this.getQueries('SearchQueriesForResult')
     this.viewQueriesRef = this.viewQueries.open();
   }
@@ -191,11 +193,13 @@ export class ResultInsightsComponent implements OnInit {
       payload.result = this.resultQueryAnswer;
     }
     this.service.invoke('get.queries', quaryparms, payload, header).subscribe(res => {
-      if (type == 'Results') {
+      if (type == 'Results') 
+     {
         this.resultsData = res.results;
         this.totalRecord = res.totalCount;
       }
       else if (type == 'SearchQueriesForResult') {
+        this.loadingQueries=false;
         this.resultsSearchData = res.results;
         this.Q_totalRecord = res.totalCount;
         // console.log("Q_totalRecord", this.Q_totalRecord)
@@ -206,6 +210,7 @@ export class ResultInsightsComponent implements OnInit {
       } else {
         this.notificationService.notify('Failed ', 'error');
       }
+      this.loadingQueries=false;
     });
   }
 
