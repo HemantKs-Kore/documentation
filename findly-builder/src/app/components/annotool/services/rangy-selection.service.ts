@@ -57,7 +57,7 @@ export class RangySelectionService implements OnInit, OnDestroy {
             href: "#",
             onclick: function () {
               var highlight = highlighter.getHighlightForElement(this);
-              console.log("Hightlight" + highlight);
+              // console.log("Hightlight" + highlight);
               if (window.confirm("Delete this note (ID " + highlight.id + ")?")) {
                 highlighter.removeHighlights([highlight]);
               }
@@ -70,7 +70,7 @@ export class RangySelectionService implements OnInit, OnDestroy {
         rangy.getSelection().removeAllRanges();
       }
     } else {
-      console.log("Class applier not supports");
+      // console.log("Class applier not supports");
     }
     return highlighter;
   }
@@ -79,12 +79,12 @@ export class RangySelectionService implements OnInit, OnDestroy {
     if (highlighter && highlighter.highlights) {
       highlighter.removeHighlights(highlighter.highlights); // specific highlight
     } else {
-      console.log("No highlighter found");
+      // console.log("No highlighter found");
     }
   }
   // remove classes 
   removeClasses(className) {
-    console.log(this)
+    // console.log(this)
     let query = document.querySelectorAll(className);
     query.forEach((item, index) => {
       item.remove(className);
@@ -108,7 +108,7 @@ export class RangySelectionService implements OnInit, OnDestroy {
               try {
                 var loop = rangy.deserializeSelection(highlighterval.coords);
               } catch (ex) {
-                console.log('ERROR: failed deserialization');
+                // console.log('ERROR: failed deserialization');
               }
               if (loop) {
                 let applier = rangy.createClassApplier(highlighterval.className || 'no-title');
@@ -122,8 +122,8 @@ export class RangySelectionService implements OnInit, OnDestroy {
               applier.toggleSelection();
               rangy.getSelection().removeAllRanges();
             } else {
-              console.log("Deserilization not rendered ");
-              console.log(rangy.canDeserializeSelection(highlighterval.coords));
+              // console.log("Deserilization not rendered ");
+              // console.log(rangy.canDeserializeSelection(highlighterval.coords));
             }
           }
         });
@@ -150,8 +150,8 @@ export class RangySelectionService implements OnInit, OnDestroy {
               applier.toggleSelection();
               rangy.getSelection().removeAllRanges();
             } else {
-              console.log("Deserilization not rendered ");
-              console.log(rangy.canDeserializeSelection(highlighterval.coords));
+              // console.log("Deserilization not rendered ");
+              // console.log(rangy.canDeserializeSelection(highlighterval.coords));
             }
           }
         });
@@ -182,7 +182,7 @@ export class RangySelectionService implements OnInit, OnDestroy {
       applier.toggleSelection();
       rangy.getSelection().removeAllRanges();
     } else {
-      console.log(rangy.canDeserializeSelection(serializeRange.coords));
+      // console.log(rangy.canDeserializeSelection(serializeRange.coords));
     }
   }
   // Save selection

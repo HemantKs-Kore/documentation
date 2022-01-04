@@ -67,7 +67,7 @@ export class MetricsComponent implements OnInit {
     private route : ActivatedRoute) { }
 
   ngOnInit(): void {
-   console.log(this.route.snapshot.paramMap.get('index') );
+  //  console.log(this.route.snapshot.paramMap.get('index') );
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     
@@ -89,7 +89,7 @@ export class MetricsComponent implements OnInit {
     }
   }
   paginate(event){
-    console.log(event)
+    // console.log(event)
   }
   getQueries(type){
     var today = new Date();

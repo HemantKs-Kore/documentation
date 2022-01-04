@@ -94,7 +94,7 @@ export class AddStructuredDataComponent implements OnInit {
   setRequirementsForManualInput(changes) {
     if (changes.selectedSourceType.currentValue.payload) {
       // this.selectedJsonForEdit = changes.selectedSourceType.currentValue.payload;
-      console.log("source", changes.selectedSourceType.currentValue);
+      // console.log("source", changes.selectedSourceType.currentValue);
       // this.structuredData.payload = JSON.stringify(this.selectedJsonForEdit._source.jsonData,null,1);
       // this.structuredData.payload = this.selectedJsonForEdit.parsedData;
       if (changes.selectedSourceType.currentValue.viewMode) {
@@ -214,7 +214,7 @@ export class AddStructuredDataComponent implements OnInit {
           this.cancleSourceAddition();
         }
       }, errRes => {
-        console.log("error", errRes);
+        // console.log("error", errRes);
         this.notificationService.notify('Deletion has gone wrong.', 'error');
       });
     }
@@ -340,7 +340,7 @@ export class AddStructuredDataComponent implements OnInit {
       else if (this.selectedSourceType && this.selectedSourceType.resourceType === 'structuredDataManual') {
         try {
           let payload_temp = JSON.parse(this.structuredData.payload);
-          console.log("payload", payload);
+          // console.log("payload", payload);
           if (this.selectedJsonForEdit) {
             // edit
             this.updateStructuredData(payload_temp);
@@ -351,7 +351,7 @@ export class AddStructuredDataComponent implements OnInit {
           }
         }
         catch (e) {
-          console.log("error", e);
+          // console.log("error", e);
         }
       }
     }
@@ -404,7 +404,7 @@ export class AddStructuredDataComponent implements OnInit {
           this.notificationService.notify('Updated Successfully', 'success');
         }
       }, errRes => {
-        console.log("error", errRes);
+        // console.log("error", errRes);
         this.notificationService.notify('Updation has gone wrong.', 'error');
       });
     }

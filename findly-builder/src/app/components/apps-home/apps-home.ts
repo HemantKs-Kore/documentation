@@ -169,11 +169,11 @@ export class AppsListingComponent implements OnInit {
         }
       }
     }, errRes => {
-      console.log(errRes);
+      // console.log(errRes);
     });
   }
   imageLoad() {
-    console.log("image loaded now")
+    // console.log("image loaded now")
     this.emptyApp = true;
   }
   //create app
