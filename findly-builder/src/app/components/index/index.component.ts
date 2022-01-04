@@ -985,7 +985,21 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         indexPipelineId: this.indexPipelineId
       };
       this.searchSimulator = '';
+       /** Workbench plain text temp */
+       if (this.newMappingObj && this.newMappingObj.custom_script &&
+        this.newMappingObj.custom_script.defaultValue && 
+        this.newMappingObj.custom_script.defaultValue.script && 
+        this.newMappingObj.custom_script.defaultValue.script != plainScriptTxt) {
+        this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+      }
       this.service.invoke('post.simulate', quaryparms, payload).subscribe(res => {
+        /** Workbench plain text temp */
+          // if (this.newMappingObj && this.newMappingObj.custom_script &&
+          //   this.newMappingObj.custom_script.defaultValue && 
+          //   this.newMappingObj.custom_script.defaultValue.script && 
+          //   this.newMappingObj.custom_script.defaultValue.script != plainScriptTxt) {
+          //   this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+          // }
         this.simulteObj.simulating = false;
         this.addcode(res);
         this.mixpanel.postEvent('Initiated Simulator', {});
@@ -996,11 +1010,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.simulteObj.currentSimulateAnimi = -1;
         this.simulteObj.simulationInprogress = false;
-        /** Workbench plain text temp */
-        // if (this.newMappingObj && this.newMappingObj.custom_script &&
-        //   this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
-        //   this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
-        // }
+        
       }, errRes => {
         this.simulating = false;
         this.simulteObj.simulating = false;
