@@ -285,7 +285,7 @@ export class FieldManagementComponent implements OnInit {
             this.deleteIndField(record, dialogRef);
           } else if (result === 'no') {
             dialogRef.close();
-            console.log('deleted')
+            // console.log('deleted')
           }
         })
     }, errRes => {
@@ -594,7 +594,7 @@ export class FieldManagementComponent implements OnInit {
   //   }
   // }
   filterTable(source, headerOption) {
-    console.log(this.filelds, source, headerOption);
+    // console.log(this.filelds, source, headerOption);
     this.filterSystem.typefilter = 'all';
     this.filterSystem.isMultiValuedFilter = 'all';
     this.filterSystem.isRequiredFilter = 'all';

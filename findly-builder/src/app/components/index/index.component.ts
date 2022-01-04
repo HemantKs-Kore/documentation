@@ -222,7 +222,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('plans') plans: UpgradePlanComponent;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
-    console.log("this.selectedApp", this.selectedApp)
+    // console.log("this.selectedApp", this.selectedApp)
     if ((this.selectedApp || {}).searchIndexes && (this.selectedApp || {}).searchIndexes.length) {
       this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
       //this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
@@ -496,7 +496,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         this.simulteObj.currentSimulateAnimi = -1;
       }
       this.simulteObj.currentSimulateAnimi = this.simulteObj.currentSimulateAnimi + 1;
-      console.log('hilight ' + this.simulteObj.currentSimulateAnimi);
+      // console.log('hilight ' + this.simulteObj.currentSimulateAnimi);
     }
     )
   }
@@ -664,7 +664,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           this.openModalPopup();
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }
@@ -709,7 +709,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
               this.pipeline.splice(index, 1);
             }
           }
-          console.log("inside dialog");
+          // console.log("inside dialog");
           dialogRef.close();
           if (this.pipeline && this.pipeline.length) {
             this.selectStage(this.pipeline[0], 0);
@@ -903,7 +903,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
             dialogRef.close();
           } else if (result === 'no') {
             dialogRef.close();
-            console.log('deleted')
+            // console.log('deleted')
           }
         })
     } else {
@@ -1075,7 +1075,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }
@@ -1165,7 +1165,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           this.deleteIndField(record, dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }
@@ -1174,7 +1174,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId
     };
-    console.log("index queryparams", quaryparms);
+    // console.log("index queryparams", quaryparms);
     this.service.invoke('get.indexpipelineStages', quaryparms).subscribe(res => {
       res.stages.map(data => {
         return data?.condition?.mappings?.map(data1 => {
@@ -1244,7 +1244,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           dialogRef.close();
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }

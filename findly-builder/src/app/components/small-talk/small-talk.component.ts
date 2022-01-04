@@ -53,7 +53,7 @@ export class SmallTalkComponent implements OnInit {
         searchIndexID: this.searchIndexId
       };
       this.service.invoke('get.AssociatedBotTasks', queryParams, null, { "state": "published" }).subscribe(res => {
-        console.log("getAllTasks API response payload", res);
+        // console.log("getAllTasks API response payload", res);
         this.enable = this.selectedApp.smallTalk.enable;
       },
     
@@ -82,7 +82,7 @@ export class SmallTalkComponent implements OnInit {
      }
 
 
-     console.log(res);
+    //  console.log(res);
    },
      (err) => { this.notificationService.notify("Task Enabling Failed", 'error') });
 

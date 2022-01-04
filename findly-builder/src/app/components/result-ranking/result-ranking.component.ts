@@ -268,7 +268,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       // ball.click()
       let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
       testButtun.click()
-      console.log(this.headerService.searchConfiguration);
+      // console.log(this.headerService.searchConfiguration);
       if (this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top') {
         setTimeout(() => {
           if (this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top') {
@@ -418,7 +418,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     //     this.collectedRecord = [];
     //   }
     // }
-    console.log(this.collectedRecord)
+    // console.log(this.collectedRecord)
   }
   clickCustomizeRecord(record, event?) {
     if (event) {
