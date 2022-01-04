@@ -61,11 +61,13 @@ export class StructuredDataComponent implements OnInit {
     scrollbarStyle: 'null'
   };
   searchActive: boolean = false;
+  actionforcheckbox:any='';//flag which returns 'all' as value in select all scenario/'partial' value in partial select scenario
   searchText: any = '';
   selectedStructuredData: any = [];
   allSelected: boolean = false;
   adwancedSearchModalPopRef: any;
   advancedSearchInput = '';
+  selecteditems: any=[];//array to capture the selected checkboxes info from items list
   unselecteditems: any= [];
   appliedAdvancedSearch: any = {};
   advancedSearchOperators = [
@@ -207,27 +209,29 @@ export class StructuredDataComponent implements OnInit {
         this.selectedStructuredData=[...this.structuredDataItemsList]//To have a same session data and server data
       }
       //if partial selection or data coming from paginate
-      if(skip || this.skip===0)
-      {
-        /**partial selection with pagination record**/
-      if(this.showSelectedCount > 0 && this.showSelectedCount < this.totalCount)
-      { 
-        this.selectedStructuredData=[...this.structuredDataItemsList]//To have a same session data and server data
+      if ((skip || this.skip === 0) && (this.showSelectedCount > 0 && this.showSelectedCount < this.totalCount)) {
+        if(this.actionforcheckbox==='all')
+        {
+           this.showSelectedData = true // To show number of records selected
+          this.structuredDataItemsList.forEach(data => {
+            data.isChecked = true;
+          });
         }
-      else{
-        this.showSelectedData = true // To show number of records selected
-        this.structuredDataItemsList.forEach(data => {
-          data.isChecked = true;
-        });
-        this.selectedStructuredData=[...this.structuredDataItemsList]//To have a same session data and server data
-        
+        else if(this.actionforcheckbox==='partial') 
+        {
+           /**compare select array with items and write function for
+           selectcompare and compare select list and update checked to true **/
+        }      
+        this.selectedStructuredData = [...this.structuredDataItemsList]//To have a same session data and server data
       }
-    }
+      // if(this.showSelectedCount > 0 && this.showSelectedCount < this.totalCount)
+      //   { 
+      //     this.selectedStructuredData=[...this.structuredDataItemsList]//To have a same session data and server data
+      //   }
       /*check if user unselected items in select all scenario  and call unselectcompare function*/
       if(this.unselecteditems.length){
         this.unselectcompare();    
-        }  
-      
+        }       
             
       if (res.length > 0) {
         this.isLoading = false;
@@ -684,6 +688,7 @@ export class StructuredDataComponent implements OnInit {
   selectData(item, index) {
     if (!item.isChecked) {
       this.selectedStructuredData.push(item);
+      this.selecteditems.push(item);//capturing selected checkbox items in selected items array
       item.isChecked = true;
       this.showSelectedCount = this.showSelectedCount + 1 ;
     }
@@ -696,6 +701,10 @@ export class StructuredDataComponent implements OnInit {
           this.showSelectedCount = this.showSelectedCount - 1 ;
         }
       }
+      // for(let k=0;k<this.selecteditems.length;k++)
+      // {
+          //compare the selecteditems array with items array and splice 
+      // }
     }
 
     if (this.selectedStructuredData.length === this.structuredDataItemsList.length) {
@@ -732,9 +741,10 @@ export class StructuredDataComponent implements OnInit {
   //  this.selectAll(true);
  }
  checkForAllBoolean(arr):any{
-
    let count = 0
+   this.selecteditems=[];//emptying the selecteditems array
    arr.forEach(element => {
+     this.selecteditems.push(element);//when partial selection is done, selected checkbox elements are pushed into selected items list.
      if(element.isChecked){
       count++;
      }

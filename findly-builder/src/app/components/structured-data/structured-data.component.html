@@ -67,7 +67,7 @@
                                   
                                 </div>
                                 <div class="kr-sg-checkbox pr-2 pl-0 mb-0 adjust-checkbox-padding partial-select-checkbox" *ngIf="(showSelectedCount > 0 && showSelectedCount < totalCount)">
-                                    <img (click)="partialSelection()" src="assets/icons/resultranking/selected-checkbox.svg" class="pointer">
+                                    <img (click)="partialSelection();actionforcheckbox='partial'" src="assets/icons/resultranking/selected-checkbox.svg" class="pointer"><!--actionforcheckbox flag value is partial  in partial select scenario -->
                                 </div> 
                                 <div class="row m-0 col-12 p-0 align-items-center">
                                     <div class="col-5 title">{{'structuredData.key_caps' | translate}}</div>
@@ -78,7 +78,7 @@
                                         <!-- <button id="btn_change_view_structured_data" class="kr-sg-button-secondary btn_lg ml-2"  *ngIf="!noItems" (click)="defaultView = !defaultView">{{ defaultView ? ('structuredData.switch_to_json' | translate) : ('structuredData.switch_to_default' | translate)}}</button>                             -->
                                     </div>
                                 </div>  
-                                <div  class="selectAll" *ngIf="(showSelectedCount > 0 && showSelectedCount < totalCount)" (click)="selectAllData()">Select all {{totalCount}} questions</div>                                                      
+                                <div  class="selectAll" *ngIf="(showSelectedCount > 0 && showSelectedCount < totalCount)" (click)="selectAllData();actionforcheckbox='all'">Select all {{totalCount}} questions</div> <!--actionforcheckbox flag value is all in select all scenario -->                                                   
                             </div>
                             <div class="structured-data" *ngFor="let data of structuredDataItemsList;let d_index = index">
                                     <div class="kr-sg-checkbox d-block" [ngClass]="{'isChecked' : data.isChecked}">
