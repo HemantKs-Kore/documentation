@@ -219,8 +219,11 @@ export class StructuredDataComponent implements OnInit {
         }
         else if(this.actionforcheckbox==='partial') 
         {
-           /**compare select array with items and write function for
+           /**updted 05/01 compare select array with items and write function for
            selectcompare and compare select list and update checked to true **/
+           if(this.selecteditems.length){
+            this.selectcompare();    
+            }  
         }      
         this.selectedStructuredData = [...this.structuredDataItemsList]//To have a same session data and server data
       }
@@ -690,8 +693,10 @@ export class StructuredDataComponent implements OnInit {
       this.selectedStructuredData.push(item);
       this.selecteditems.push(item);//capturing selected checkbox items in selected items array
       item.isChecked = true;
-      this.showSelectedCount = this.showSelectedCount + 1 ;
+      this.showSelectedCount = this.showSelectedCount + 1 ;      
     }
+
+    
     else {
       for (let i = 0; i < this.selectedStructuredData.length; i++) {
         if (this.selectedStructuredData[i]._id === item._id) {
@@ -701,11 +706,17 @@ export class StructuredDataComponent implements OnInit {
           this.showSelectedCount = this.showSelectedCount - 1 ;
         }
       }
-      // for(let k=0;k<this.selecteditems.length;k++)
-      // {
-          //compare the selecteditems array with items array and splice 
-      // }
     }
+      // /** new code on 05/01 **/
+      //  for(let k=0;k<this.selecteditems.length;k++)
+      //  {
+      //     //compare the selecteditems array with items array and splice 
+      //     if (this.selecteditems[k]._id === item._id){
+      //       this.selecteditems.splice(k, 1);
+
+      //     }
+      // }
+    
 
     if (this.selectedStructuredData.length === this.structuredDataItemsList.length) {
       this.allSelected = true;
@@ -730,6 +741,21 @@ export class StructuredDataComponent implements OnInit {
       }      
       }
     }
+    /***code updates on 05/01 */
+    selectcompare(){
+      for (let i = 0; i < this.selecteditems.length; i++) 
+      {
+        for(let j=0;j< this.structuredDataItemsList.length;j++)
+        {          
+          if(this.selecteditems[i]._id===this.structuredDataItemsList[j]._id)
+          {
+            this.structuredDataItemsList[j].isChecked = true;
+            console.log("inside unselect compare");
+          }
+  
+        }      
+        }
+      }
 /** Individual checbox selection */
  selectAllData(){
    this.showSelectAllQues = false;
