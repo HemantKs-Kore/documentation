@@ -151,7 +151,7 @@ export class ResultTemplatesComponent implements OnInit {
       this.url_fieldData = [...res];
       this.fieldData = [...res];
       this.allFieldData = res;
-      console.log('Field Data ....', res)
+      // console.log('Field Data ....', res)
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get fields');
     });
@@ -219,7 +219,7 @@ export class ResultTemplatesComponent implements OnInit {
   }
   /** Chat SDK approach and by-default Data */
   updateResultTemplateTabsAccess() {
-    console.log("searchExperienceConfig", this.searchExperienceConfig)
+    // console.log("searchExperienceConfig", this.searchExperienceConfig)
     if (this.searchExperienceConfig && Object.values(this.searchExperienceConfig).length) {
       if (this.searchExperienceConfig && this.searchExperienceConfig.experienceConfig && this.searchExperienceConfig.experienceConfig.searchBarPosition) {
         this.searchTemplatesDisabled = this.searchExperienceConfig.experienceConfig.searchBarPosition === 'top' ? true : false;
@@ -293,7 +293,7 @@ export class ResultTemplatesComponent implements OnInit {
     //   this.url_fieldData
 
     for (const property in mapping) {
-      console.log(`${property}: ${mapping[property]}`);
+      // console.log(`${property}: ${mapping[property]}`);
       this.fieldData.forEach(element => {
         if (`${property}` == 'heading' && element._id == `${mapping[property]}`) {
           this.preview_title = element.fieldName;

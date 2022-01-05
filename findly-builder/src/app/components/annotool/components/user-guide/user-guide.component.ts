@@ -38,10 +38,10 @@ export class UserGuideComponent implements OnInit {
       jobId : this.jobId
     }
     this.service.invoke('put.cancelAnnotation',quaryparms, payload).subscribe(res => {
-      console.log(res)
+      // console.log(res)
 
     }, errRes => {
-      console.log(errRes)
+      // console.log(errRes)
     });
 
     this.dialogData.pdfResponse.backToSource = true;

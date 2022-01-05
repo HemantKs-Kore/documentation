@@ -217,7 +217,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.service.invoke('get.credential', queryParams).subscribe(
       res => {
-        console.log(res.channels[0].app.name)
+        // console.log(res.channels[0].app.name)
         if (res.apps.length) {
           this.channelExist = true;
         }

@@ -9,7 +9,7 @@ export class ScrollSpyDirective {
     private currentSection: string;
 
     constructor(private _el: ElementRef) {
-        console.log("scroll spy constructor");
+        // console.log("scroll spy constructor");
     }
 
     @HostListener('scroll', ['$event'])
