@@ -451,7 +451,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.docTypeArr = [];
       this.selectTypeArr = [];
       this.facets = res || [];
-      this.facets = this.defaultSortingAFacet(this.facets);
+      //this.facets = this.defaultSortingAFacet(this.facets);
       this.facets.forEach(element => {
         this.statusArr.push(element.active);
         this.docTypeArr.push(element.type);
