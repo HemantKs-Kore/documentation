@@ -1194,8 +1194,19 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       }
     }  
   }
+  
+  scriptTextFlow(plainScriptTxt){
+    if(plainScriptTxt){
+      if (this.newMappingObj && this.newMappingObj.custom_script &&
+        this.newMappingObj.custom_script.defaultValue && 
+        this.newMappingObj.custom_script.defaultValue.script && 
+        this.newMappingObj.custom_script.defaultValue.script != plainScriptTxt) {
+        this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+      }
+    }
+  }
   simulate(warningmessage?)
-  { 
+  {
     let plainScriptTxt: any;
     if (this.newMappingObj && this.newMappingObj.custom_script &&
       this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script)
@@ -1243,22 +1254,16 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         indexPipelineId: this.indexPipelineId
       };
       this.searchSimulator = '';
-      this.service.invoke('post.simulate', quaryparms, payload).subscribe(res =>
-      { 
-        // if((!(this.search_basic_fieldName))&&(this.newMappingObj.field_mapping.defaultValue.source_field)
-        //  &&(this.newMappingObj.field_mapping.defaultValue.target_field)&&(this.newMappingObj.field_mapping.defaultValue.value)
-        //  &&(this.search_basic_fieldName2)&&(this.newMappingObj[this.selectedStage.type].defaultValue.source_field)&&
-        //  (this.newMappingObj[this.selectedStage.type].defaultValue.entity_types)&&(this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups)
-        //  &&(this.newMappingObj[this.selectedStage.type].defaultValue.target_field)     
-        //  ){
-        //   this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided', 'warning')
-        //  }
-        // if ((this.selectedStage && this.selectedStage.type === 'field_mapping')&&(!(this.search_basic_fieldName))
-        // &&(this.newMappingObj.field_mapping.defaultValue.target_field)&&(this.newMappingObj.field_mapping.defaultValue.value))
-        // {
-        //   this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided', 'warning')
-        // }
-        // this.submitted = false;
+       /** Workbench plain text temp */
+       this.scriptTextFlow(plainScriptTxt);
+      this.service.invoke('post.simulate', quaryparms, payload).subscribe(res => {
+        /** Workbench plain text temp */
+          // if (this.newMappingObj && this.newMappingObj.custom_script &&
+          //   this.newMappingObj.custom_script.defaultValue && 
+          //   this.newMappingObj.custom_script.defaultValue.script && 
+          //   this.newMappingObj.custom_script.defaultValue.script != plainScriptTxt) {
+          //   this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+          // }
         this.simulteObj.simulating = false;
         this.addcode(res);
         this.mixpanel.postEvent('Initiated Simulator', {});
@@ -1273,13 +1278,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         }
         this.simulteObj.currentSimulateAnimi = -1;
         this.simulteObj.simulationInprogress = false;
-        /** Workbench plain text temp */
-        // if (this.newMappingObj && this.newMappingObj.custom_script &&
-        //   this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
-        //   this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
-        // }
-      }, errRes =>
-      {
+        
+      }, errRes => {
         this.simulating = false;
         this.simulteObj.simulating = false;
         this.addcode({});
@@ -1394,6 +1394,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       //this.notificationService.notify('Fields added successfully','success');
       this.notificationService.notify('New Fields have been added. Please train to re-index the configuration', 'success');
       this.closeModalPopup();
+      this.getFileds();
     }, errRes =>
     {
       this.errorToaster(errRes, 'Failed to create field');
@@ -1510,11 +1511,16 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     this.service.invoke('get.platformStages', quaryparms).subscribe(res =>
     {
       // removing Duplicate value - temporary
-      for (let index = 0; index < res.stages.length; index++)
+      if (!this.defaultStageTypes.length)
       {
-        if (index < 11 && res.stages[index].name !== 'FAQ Keyword Extraction')
-          this.defaultStageTypes.push(res.stages[index])
+
+        for (let index = 0; index < res.stages.length; index++)
+        {
+          if (index < 11 && res.stages[index].name !== 'FAQ Keyword Extraction')
+            this.defaultStageTypes.push(res.stages[index])
+        }
       }
+
       setTimeout(() =>
       {
         $('#addToolTo').click();

@@ -430,6 +430,7 @@ export class ResultTemplatesComponent implements OnInit {
         this.resultListObj.groupSetting.conditions[index].templateId = res._id;
       }
       this.updateSettings();
+      this.openTemplateConatiner(value, 'modal')
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get field values');
     });
