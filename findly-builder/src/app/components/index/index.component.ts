@@ -1145,54 +1145,80 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       this.newMappingObj.field_mapping.defaultValue.value != '' ? $("#infoWarning1").hide() : $("#infoWarning1").show();
       $("#set_value").css("border-color", this.newMappingObj.field_mapping.defaultValue.value != '' ? "#BDC1C6" : "#DD3646");
     }
-    else if (type == 'rename_newname') {
+    else if (type == 'rename_sourcefield') {
       this.newMappingObj.field_mapping.defaultValue.source_field != '' ? $("#infoWarnin2").hide() : $("#infoWarning2").show();
-      $("#rename_newname").css("border-color", this.newMappingObj.field_mapping.defaultValue.source_field != '' ? "#BDC1C6" : "#DD3646");
+      $("#rename_sourcefield").css("border-color", this.newMappingObj.field_mapping.defaultValue.source_field != '' ? "#BDC1C6" : "#DD3646");
     }
   }
   validation(){
-    if((this.selectedStage.condition.mappings)){    
-      
-      for(let i=0;i<=this.selectedStage.condition.mappings.length;i++)
-      {
-        if(((this.selectedStage.condition.mappings[i].operator==='')||(this.basic_fieldName==='')) && 
-        (((this.newMappingObj.field_mapping.defaultValue.target_field) && (this.newMappingObj.field_mapping.defaultValue.value))))
-        
-        {
-          let warningmessage='Chosen stage will be applied on all documents since there are no conditions provided'
-          // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
-          this.simulate(warningmessage);
-        }
-      else if(this.newMappingObj.field_mapping.defaultValue.target_field===''|| this.newMappingObj.field_mapping.defaultValue.value===''
-              || this.newMappingObj.field_mapping.defaultValue.source_field==='')
-        {
-          if((this.newMappingObj.field_mapping.defaultValue.value==='')
-          &&(this.newMappingObj.field_mapping.defaultValue.target_field==='')){
-          $("#fieldname").css("border-color", "#DD3646");
-          $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-          $("#set_value").css("border-color", "#DD3646");
-          $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" }); 
+    if ((this.selectedStage.condition.mappings)) {
+
+      if (this.newMappingObj.field_mapping.defaultValue.operation === "set") {
+        for (let i = 0; i <= this.selectedStage.condition.mappings.length; i++) {
+          if (((this.selectedStage.condition.mappings[i].operator === '') || (this.basic_fieldName === '')) &&
+            (((this.newMappingObj.field_mapping.defaultValue.target_field) && (this.newMappingObj.field_mapping.defaultValue.value)))) {
+            let warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided'
+            // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+            this.simulate(warningmessage);
           }
-          else if(this.newMappingObj.field_mapping.defaultValue.target_field===''){
-          $("#fieldname").css("border-color", "#DD3646");
-          $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+          else if (this.newMappingObj.field_mapping.defaultValue.target_field === '' || this.newMappingObj.field_mapping.defaultValue.value === '') {
+            if ((this.newMappingObj.field_mapping.defaultValue.value === '')
+              && (this.newMappingObj.field_mapping.defaultValue.target_field === '')) {
+              $("#fieldname").css("border-color", "#DD3646");
+              $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+              $("#set_value").css("border-color", "#DD3646");
+              $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+            }
+            else if (this.newMappingObj.field_mapping.defaultValue.target_field === '') {
+              $("#fieldname").css("border-color", "#DD3646");
+              $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+            }
+            else if (this.newMappingObj.field_mapping.defaultValue.value === '') {
+              $("#set_value").css("border-color", "#DD3646");
+              $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+            }
+            this.notificationService.notify('Enter the required fields to proceed', 'error');
           }
-          else if(this.newMappingObj.field_mapping.defaultValue.value===''){
-          $("#set_value").css("border-color", "#DD3646");
-          $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+          else {
+            this.simulate();
           }
-          else if(this.newMappingObj.field_mapping.defaultValue.source_field===''){
-          $("#rename_newname").css("border-color", "#DD3646");
-          $("#infoWarning2").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });          
-          }
-          this.notificationService.notify('Enter the required fields to proceed', 'error');
-        }    
-      
-      else{
-          this.simulate();
         }
       }
-    }  
+
+      else if (this.newMappingObj.field_mapping.defaultValue.operation === "rename") {
+        for (let i = 0; i <= this.selectedStage.condition.mappings.length; i++) {
+          if (((this.selectedStage.condition.mappings[i].operator === '') || (this.basic_fieldName === '')) &&
+            (((this.newMappingObj.field_mapping.defaultValue.source_field) && (this.newMappingObj.field_mapping.defaultValue.target_field)))) {
+            let warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided'
+            // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+            this.simulate(warningmessage);
+          }
+          else if (this.newMappingObj.field_mapping.defaultValue.source_field === '' || this.newMappingObj.field_mapping.defaultValue.target_field === '') {
+            if ((this.newMappingObj.field_mapping.defaultValue.source_field === '')
+              && (this.newMappingObj.field_mapping.defaultValue.target_field === '')) {
+              $("#rename_sourcefield").css("border-color", "#DD3646");
+              $("#infoWarning2").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+              $("#fieldname").css("border-color", "#DD3646");
+              $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+            }
+            else if (this.newMappingObj.field_mapping.defaultValue.source_field === '') {
+              $("#rename_sourcefield").css("border-color", "#DD3646");
+              $("#infoWarning2").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+            }
+            else if (this.newMappingObj.field_mapping.defaultValue.target_field === '') {
+              $("#fieldname").css("border-color", "#DD3646");
+              $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+            }
+             this.notificationService.notify('Enter the required fields to proceed', 'error');
+          }
+
+          else {
+            this.simulate();
+          }
+        }
+      }
+
+    }
   }
   
   scriptTextFlow(plainScriptTxt){
@@ -1280,6 +1306,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         this.simulteObj.simulationInprogress = false;
         
       }, errRes => {
+        if(warningmessage){
+          this.notificationService.notify(warningmessage,'warning');
+        }
         this.simulating = false;
         this.simulteObj.simulating = false;
         this.addcode({});
