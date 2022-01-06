@@ -1076,7 +1076,7 @@
             <div class="kr-sg-input-text-area">
               <div class="label-text">&lt;/&gt;{{'workbench.painless' | translate}}</div>
               <div class="clear">
-                <span (click)="newMappingObj.custom_script.defaultValue.script=''">Clear</span>
+                <span (click)="newMappingObj.custom_script.defaultValue.script='';plainScriptTxt =''">Clear</span>
               </div>
               <textarea placeholder="{{'workbench.please_enter_script' | translate}}" class="input- d-none" (keyup)="
                   addCustomScript(

@@ -1133,6 +1133,16 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     // this.simulateJson = JSON.stringify(data, null, ' ');
     this.filteredSimulatorRes = JSON.stringify(data, null, ' ');
   }
+  scriptTextFlow(plainScriptTxt){
+    if(plainScriptTxt){
+      if (this.newMappingObj && this.newMappingObj.custom_script &&
+        this.newMappingObj.custom_script.defaultValue && 
+        this.newMappingObj.custom_script.defaultValue.script && 
+        this.newMappingObj.custom_script.defaultValue.script != plainScriptTxt) {
+        this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
+      }
+    }
+  }
   simulate()
   {
     let plainScriptTxt: any;
@@ -1183,12 +1193,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       };
       this.searchSimulator = '';
        /** Workbench plain text temp */
-       if (this.newMappingObj && this.newMappingObj.custom_script &&
-        this.newMappingObj.custom_script.defaultValue && 
-        this.newMappingObj.custom_script.defaultValue.script && 
-        this.newMappingObj.custom_script.defaultValue.script != plainScriptTxt) {
-        this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
-      }
+       this.scriptTextFlow(plainScriptTxt);
       this.service.invoke('post.simulate', quaryparms, payload).subscribe(res => {
         /** Workbench plain text temp */
           // if (this.newMappingObj && this.newMappingObj.custom_script &&
