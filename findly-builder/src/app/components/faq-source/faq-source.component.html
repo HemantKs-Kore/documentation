@@ -530,7 +530,7 @@
                                                                 <div class="col-10 d-inline-block px-0"[ngStyle]="{'margin-bottom':(showSeeAll(consitionalAnswer.conditions) && ruleIndex==0)?'10px':'0px'}" >
                                                                     <div class="rule-dropdown-data">
                                                                         <span class="rule-dropdown-key">{{ "businessRules." + rule.contextType | translate}} :</span>
-                                                                        <span class="rule-dropdown-value" title='{{ "businessRules." + rule.contextCategory | translate }}'>{{ rule.contextCategory | translate }}</span>
+                                                                        <span class="rule-dropdown-value" title='{{ "businessRules." + rule.contextCategory | translate }}'>{{ "businessRules." + rule.contextCategory | translate }}</span>
                                                                     </div>
                                                                     <div class="rule-contains">{{ rule.operator | titlecase}}</div>
                                                                     <ng-container  *ngFor="let value of rule.value | slice:0:(ruleIndex==0?(rule.operator !=='between'?4:2):2); let valueIndex = index">
