@@ -165,7 +165,6 @@ export class AppSelectionService {
   }
   selectIndexConfig(config) {
     this.workflowService.selectedIndexPipeline(config._id)
-    // console.log(config._id)
   }
   selectQueryConfig(config) {
     this.res_length = this.queryList.length;

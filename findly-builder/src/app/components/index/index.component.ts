@@ -1329,6 +1329,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       //this.notificationService.notify('Fields added successfully','success');
       this.notificationService.notify('New Fields have been added. Please train to re-index the configuration', 'success');
       this.closeModalPopup();
+      this.getFileds();
     }, errRes =>
     {
       this.errorToaster(errRes, 'Failed to create field');

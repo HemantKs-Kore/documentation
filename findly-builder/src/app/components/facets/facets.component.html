@@ -590,7 +590,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="filter-btn" (click)="clickConfiguredFacet()">
+                                <div class="filter-btn" (click)="clickConfiguredFacet()" tooltipClass="tooltip-global-"
+                                    [container]="'body'" ngbTooltip='Click here to configure field'
+                                    placement="top-right">
                                     <img src="assets/icons/facets/rangeslider.svg">
                                 </div>
                             </div>
