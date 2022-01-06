@@ -62,6 +62,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
   currentEditIndex: any = -1;
   selectedStageIndex: any = -1;
   pollingSubscriber: any = null;
+  submitted: boolean = false;
   showNewStageType: boolean = false;
   subscription: Subscription;
   @ViewChild('tleft') public tooltip: NgbTooltip;
@@ -1133,8 +1134,68 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     // this.simulateJson = JSON.stringify(data, null, ' ');
     this.filteredSimulatorRes = JSON.stringify(data, null, ' ');
   }
-  simulate()
-  {
+
+  inputChanged(type) {
+
+    if (type == 'fieldname') {
+      this.newMappingObj.field_mapping.defaultValue.target_field != '' ? $("#infoWarning").hide() : $("#infoWarning").show();
+      $("#fieldname").css("border-color", this.newMappingObj.field_mapping.defaultValue.target_field != '' ? "#BDC1C6" : "#DD3646");
+    }
+    else if (type == 'set_value') {
+      this.newMappingObj.field_mapping.defaultValue.value != '' ? $("#infoWarning1").hide() : $("#infoWarning1").show();
+      $("#set_value").css("border-color", this.newMappingObj.field_mapping.defaultValue.value != '' ? "#BDC1C6" : "#DD3646");
+    }
+    else if (type == 'rename_newname') {
+      this.newMappingObj.field_mapping.defaultValue.source_field != '' ? $("#infoWarnin2").hide() : $("#infoWarning2").show();
+      $("#rename_newname").css("border-color", this.newMappingObj.field_mapping.defaultValue.source_field != '' ? "#BDC1C6" : "#DD3646");
+    }
+  }
+  validation(){
+    if((this.selectedStage.condition.mappings)){    
+      
+      for(let i=0;i<=this.selectedStage.condition.mappings.length;i++)
+      {
+        if(((this.selectedStage.condition.mappings[i].operator==='')||(this.basic_fieldName==='')) && 
+        (((this.newMappingObj.field_mapping.defaultValue.target_field) && (this.newMappingObj.field_mapping.defaultValue.value))))
+        
+        {
+          let warningmessage='Chosen stage will be applied on all documents since there are no conditions provided'
+          // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+          this.simulate(warningmessage);
+        }
+      else if(this.newMappingObj.field_mapping.defaultValue.target_field===''|| this.newMappingObj.field_mapping.defaultValue.value===''
+              || this.newMappingObj.field_mapping.defaultValue.source_field==='')
+        {
+          if((this.newMappingObj.field_mapping.defaultValue.value==='')
+          &&(this.newMappingObj.field_mapping.defaultValue.target_field==='')){
+          $("#fieldname").css("border-color", "#DD3646");
+          $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+          $("#set_value").css("border-color", "#DD3646");
+          $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" }); 
+          }
+          else if(this.newMappingObj.field_mapping.defaultValue.target_field===''){
+          $("#fieldname").css("border-color", "#DD3646");
+          $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+          }
+          else if(this.newMappingObj.field_mapping.defaultValue.value===''){
+          $("#set_value").css("border-color", "#DD3646");
+          $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+          }
+          else if(this.newMappingObj.field_mapping.defaultValue.source_field===''){
+          $("#rename_newname").css("border-color", "#DD3646");
+          $("#infoWarning2").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });          
+          }
+          this.notificationService.notify('Enter the required fields to proceed', 'error');
+        }    
+      
+      else{
+          this.simulate();
+        }
+      }
+    }  
+  }
+  simulate(warningmessage?)
+  { 
     let plainScriptTxt: any;
     if (this.newMappingObj && this.newMappingObj.custom_script &&
       this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script)
@@ -1183,11 +1244,28 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       };
       this.searchSimulator = '';
       this.service.invoke('post.simulate', quaryparms, payload).subscribe(res =>
-      {
+      { 
+        // if((!(this.search_basic_fieldName))&&(this.newMappingObj.field_mapping.defaultValue.source_field)
+        //  &&(this.newMappingObj.field_mapping.defaultValue.target_field)&&(this.newMappingObj.field_mapping.defaultValue.value)
+        //  &&(this.search_basic_fieldName2)&&(this.newMappingObj[this.selectedStage.type].defaultValue.source_field)&&
+        //  (this.newMappingObj[this.selectedStage.type].defaultValue.entity_types)&&(this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups)
+        //  &&(this.newMappingObj[this.selectedStage.type].defaultValue.target_field)     
+        //  ){
+        //   this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided', 'warning')
+        //  }
+        // if ((this.selectedStage && this.selectedStage.type === 'field_mapping')&&(!(this.search_basic_fieldName))
+        // &&(this.newMappingObj.field_mapping.defaultValue.target_field)&&(this.newMappingObj.field_mapping.defaultValue.value))
+        // {
+        //   this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided', 'warning')
+        // }
+        // this.submitted = false;
         this.simulteObj.simulating = false;
         this.addcode(res);
         this.mixpanel.postEvent('Initiated Simulator', {});
         this.notificationService.notify('Simulated Successfully', 'success')
+        if(warningmessage){
+          this.notificationService.notify(warningmessage,'warning');
+        }
         this.simulating = false;
         if (this.pollingSubscriber)
         {
