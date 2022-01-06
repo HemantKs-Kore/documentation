@@ -210,6 +210,10 @@ export class StructuredDataComponent implements OnInit {
       }
       //if partial selection or data coming from paginate
       if ((skip || this.skip === 0) && (this.showSelectedCount > 0 && this.showSelectedCount < this.totalCount)) {
+        /* code changes made on 06/01 checking if action checkbox is empty,if so updating checkbox value to partial*/
+         if(!this.actionforcheckbox){ 
+          this.actionforcheckbox='partial'
+         }
         if(this.actionforcheckbox==='all')
         {
            this.showSelectedData = true // To show number of records selected
