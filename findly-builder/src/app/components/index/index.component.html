@@ -58,8 +58,8 @@
         </ng-container>
         <ng-container *ngIf="pipeline && pipeline.length">
           <div cdkDropList (cdkDropListDropped)="drop($event, pipeline)">
-            <div (click)="selectStage(pipe, i)" class="field_data" *ngFor="let pipe of pipeline; let i = index" cdkDrag
-              [ngClass]="{
+            <div (click)="showNewStageType=false;selectStage(pipe, i)" class="field_data"
+              *ngFor="let pipe of pipeline; let i = index" cdkDrag [ngClass]="{
                 active: selectedStage && selectedStage?.name === pipe?.name,
                 runningActive:
                   simulteObj &&
@@ -122,7 +122,7 @@
                   <li *ngFor="
                       let systemStage of defaultStageTypes;
                       let index = index
-                    " (click)="switchStage(systemStage, index);">
+                    " (click)="switchStage(systemStage, index,'true');">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
                       systemStage?.type | translate
                       }}</a>
@@ -157,7 +157,7 @@
                   <li *ngFor="
                       let systemStage of defaultStageTypes;
                       let index = index
-                    " (click)="switchStage(systemStage, index)">
+                    " (click)="switchStage(systemStage, index,'false')">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
                       systemStage?.type | translate
                       }}</a>
@@ -876,7 +876,7 @@
                   <div class="label-text">{{'workbench.source_field' | translate}}</div>
                   <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
-                    ngbDropdownAnchor (click)="clearcontentSrcD()">
+                      ngbDropdownAnchor (click)="clearcontentSrcD()">
                       {{newMappingObj[selectedStage.type].defaultValue.source_field?newMappingObj[selectedStage.type].defaultValue.source_field:"Choose
                       source field"}}
                     </button>
@@ -892,14 +892,14 @@
                             *ngFor="let suggesition of fields | filter : [search_basic_fieldName2, 'fieldName']"
                             (click)="newMappingObj[selectedStage.type].defaultValue.source_field = suggesition.fieldName"
                             [ngClass]="{'highlight':newMappingObj[selectedStage.type].defaultValue.source_field== suggesition.fieldName}">
-  
+
                             {{ suggesition.fieldName }}
                           </li>
                         </ng-container>
                       </perfect-scrollbar>
                     </ul>
-  
-  
+
+
                   </div>
                 </div>
               </div>
