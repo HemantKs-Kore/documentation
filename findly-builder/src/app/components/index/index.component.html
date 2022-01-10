@@ -973,9 +973,9 @@
                   {{'workbench.choose_keywords' | translate}}
                 </div>
                 <ng-container *ngIf="selectedStage.type === 'entity_extraction'">
-                  <mat-form-field class="example-chip-list" [floatLabel]="'never'">
+                  <mat-form-field class="example-chip-list error" [floatLabel]="'never'">
                     <mat-chip-list #chipList>
-                      <mat-chip id="addentity" *ngFor="
+                      <mat-chip *ngFor="
                           let entity of newMappingObj[selectedStage.type]
                             .defaultValue.entity_types
                         " [selectable]="true" [removable]="true" (removed)="
@@ -988,7 +988,7 @@
                           }}</span>
                         <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                       </mat-chip>
-                      <input placeholder="{{'workbench.type_and_enter' | translate}}" 
+                      <input  id="addentity" placeholder="{{'workbench.type_and_enter' | translate}}" 
                        (change)="inputChanged('addentity')"
                       [matChipInputFor]="chipList"
                         [matAutocomplete]="suggestedItems" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"

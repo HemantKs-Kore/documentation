@@ -1166,13 +1166,14 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     
     
       $("#infoWarning3").hide();
-      $("#addentity").css("border-color", ((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length) != 0) ? "#BDC1C6" : "#DD3646");
+      $("#addentity").parents('div').css("border-color","#BDC1C6");
+      //$("#addentity").css("border-color", ((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length) != 0) ? "#BDC1C6" : "#DD3646");
       
       
    
       $("#infoWarning5").hide() 
-      $("#traitsgroup").css("border-color", ((this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups).length!=0)? "#BDC1C6" : "#DD3646");
-    
+      //$("#traitsgroup").css("border-color", ((this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups).length!=0)? "#BDC1C6" : "#DD3646");
+      $("#traitsgroup").parents('div').css("border-color","#BDC1C6");
   }
 
   inputChanged(type) {
@@ -1193,6 +1194,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       $("#dropdownBasic1entity").css("border-color", this.newMappingObj[this.selectedStage.type].defaultValue.source_field != '' ? "#BDC1C6" : "#DD3646");
     }
     else if (type == 'addentity') {
+      console.log((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length));
       ((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length)!= 0) ? $("#infoWarning3").hide() : $("#infoWarning3").show();
       $("#addentity").css("border-color", ((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length) != 0) ? "#BDC1C6" : "#DD3646");
     }
@@ -1203,6 +1205,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     else if (type == 'traitsgroup') {
       ((this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups).length!=0) ? $("#infoWarning5").hide() : $("#infoWarning5").show();
       $("#traitsgroup").css("border-color", ((this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups).length!=0)? "#BDC1C6" : "#DD3646");
+      
     }
     
   }
@@ -1227,6 +1230,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             else if (this.newMappingObj.field_mapping.defaultValue.target_field === '' || this.newMappingObj.field_mapping.defaultValue.value === '') {
               if ((this.newMappingObj.field_mapping.defaultValue.value === '')
                 && (this.newMappingObj.field_mapping.defaultValue.target_field === '')) {
+
                 $("#fieldname").css("border-color", "#DD3646");
                 $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
                 $("#set_value").css("border-color", "#DD3646");
@@ -1338,7 +1342,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
               
               {
               $("#dropdownBasic1entity").css("border-color", "#DD3646");
-              $("#addentity").css("border-color", "#DD3646");
+              // $("#addentity").css("border-color", "#DD3646");
+              $("#addentity").parents('div').css("border-color", "#DD3646");
               $("#infoWarning3").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
               $("#entitytarget").css("border-color", "#DD3646");
               $("#infoWarning4").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
@@ -1348,12 +1353,14 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
                 &&(this.newMappingObj[this.selectedStage.type].defaultValue.target_field))
             {
               $("#dropdownBasic1entity").css("border-color", "#DD3646");
-              $("#addentity").css("border-color", "#DD3646");
+              //$("#addentity").css("border-color", "#DD3646");
+              $("#addentity").parents('div').css("border-color", "#DD3646");
               $("#infoWarning3").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
             }
             else if (((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length)==0) && (this.newMappingObj[this.selectedStage.type].defaultValue.target_field==='')
                  &&(this.newMappingObj[this.selectedStage.type].defaultValue.source_field)) {
-              $("#addentity").css("border-color", "#DD3646");
+             // $("#addentity").css("border-color", "#DD3646");
+             $("#addentity").parents('div').css("border-color", "#DD3646");
               $("#infoWarning3").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
               $("#entitytarget").css("border-color", "#DD3646");
               $("#infoWarning4").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
@@ -1371,7 +1378,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             }
             else if (((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types).length==0) && (this.newMappingObj[this.selectedStage.type].defaultValue.source_field)
                  &&((this.newMappingObj[this.selectedStage.type].defaultValue.target_field)) ) {
-              $("#addentity").css("border-color", "#DD3646");
+              //$("#addentity").css("border-color", "#DD3646");
+              $("#addentity").parents('div').css("border-color", "#DD3646");
               $("#infoWarning3").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
             }
             else if (((this.newMappingObj[this.selectedStage.type].defaultValue.target_field==''))) {
@@ -1407,7 +1415,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
               
               {
               $("#dropdownBasic1entity").css("border-color", "#DD3646");
-              $("#traitsgroup").css("border-color", "#DD3646");
+              //$("#traitsgroup").css("border-color", "#DD3646");
+              $("#traitsgroup").parents('div').css("border-color", "#DD3646");
               $("#infoWarning5").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
               $("#entitytarget").css("border-color", "#DD3646");
               $("#infoWarning4").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
@@ -1415,11 +1424,13 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             }
             else if (((this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '')&&(this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups.length)==0)) {
               $("#dropdownBasic1entity").css("border-color", "#DD3646");
-              $("#traitsgroup").css("border-color", "#DD3646");
+              //$("#traitsgroup").css("border-color", "#DD3646");
+              $("#traitsgroup").parents('div').css("border-color", "#DD3646");
               $("#infoWarning5").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
             }
             else if (((this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups.length)==0) && (this.newMappingObj[this.selectedStage.type].defaultValue.target_field==='')) {
-              $("#traitsgroup").css("border-color", "#DD3646");
+              //$("#traitsgroup").css("border-color", "#DD3646");
+              $("#traitsgroup").parents('div').css("border-color", "#DD3646");
               $("#infoWarning5").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
               $("#entitytarget").css("border-color", "#DD3646");
               $("#infoWarning4").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
@@ -1433,7 +1444,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
               $("#dropdownBasic1entity").css("border-color", "#DD3646");
             }
             else if ((this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups).length==0) {
-              $("#traitsgroup").css("border-color", "#DD3646");
+              //$("#traitsgroup").css("border-color", "#DD3646");
+              $("#traitsgroup").parents('div').css("border-color", "#DD3646");
               $("#infoWarning5").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
             }
             else if (this.newMappingObj[this.selectedStage.type].defaultValue.target_field==='') {
