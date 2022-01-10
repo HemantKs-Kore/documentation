@@ -880,8 +880,8 @@
               <div class="kr-sg-dropdowns col-6" ngbDropdown>
                 <div class="label-text">{{'workbench.source_field' | translate}}</div>
                 <div class="dropdown dropdown-open">
-                  <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
-                  [class.err-block]="((!(search_basic_fieldName2?.length) && submitted)||!(newMappingObj[selectedStage.type].defaultValue.source_field))"
+                  <button class="dropdown-toggle dropdown-input" id="dropdownBasic1entity" data-toggle="dropdown"
+                  (change)="inputChanged('dropdownBasic1entity')"
                     ngbDropdownToggle (click)="clearcontentSrcD()">
                     {{newMappingObj[selectedStage.type].defaultValue.source_field?newMappingObj[selectedStage.type].defaultValue.source_field:"Choose
                     source field"}}
@@ -986,7 +986,7 @@
                         <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                       </mat-chip>
                       <input placeholder="{{'workbench.type_and_enter' | translate}}" 
-                      [class.err-block]="((submitted)||!(newMappingObj[selectedStage.type].defaultValue.entity_types))" 
+                      id="addentity" (change)="inputChanged('addentity')"
                       [matChipInputFor]="chipList"
                         [matAutocomplete]="suggestedItems" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                         [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="
@@ -995,6 +995,8 @@
                             newMappingObj[selectedStage.type].defaultValue
                           ) 
                         " #suggestedInput />
+                        <img id="infoWarning3" src="assets/icons/warning_escalation.svg" style="display: none;"
+                        height="12" width="12" /> 
                     </mat-chip-list>
                     <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="
                         selectedTag(
@@ -1027,7 +1029,7 @@
                         <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                       </mat-chip>
                       <input placeholder="{{'workbench.type_and_enter' | translate}}" [matChipInputFor]="chipList"
-                      [class.err-block]="((!(newMappingObj[selectedStage.type].defaultValue.trait_groups?.length) && submitted))"
+                        id="traitsgroup" (change)="inputChanged('traitsgroup')"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matAutocomplete]="suggestedItems"
                         [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="
                           addTraitsList(
@@ -1035,6 +1037,8 @@
                             newMappingObj[selectedStage.type].defaultValue
                           )
                         " #suggestedInput />
+                        <img id="infoWarning5" src="assets/icons/warning_escalation.svg" style="display: none;"
+                        height="12" width="12" />
                     </mat-chip-list>
                     <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="
                         selectedTag(
@@ -1056,10 +1060,12 @@
                 <div class="label-text">{{'workbench.target_field' | translate}}</div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench.value' | translate}}"
-                  [class.err-block]="((!(newMappingObj[selectedStage.type].defaultValue.target_field?.length) && submitted))"
+                  id="entitytarget" (change)="inputChanged('entitytarget')"
                     class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" [(ngModel)]="
                       newMappingObj[selectedStage.type].defaultValue.target_field
-                    " />
+                   " />
+                   <img id="infoWarning4" src="assets/icons/warning_escalation.svg" style="display: none;"
+                   height="12" width="12"/>
                   <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                     [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj[selectedStage.type].defaultValue.target_field, 'fieldName']).length}">
                     <perfect-scrollbar class="scroll-search-field h-178">
