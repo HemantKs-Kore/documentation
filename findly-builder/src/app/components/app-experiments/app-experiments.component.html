@@ -433,7 +433,7 @@
               experimentObj?.duration.days =
                 experimentObj?.duration.days > 1
                   ? experimentObj?.duration.days - 1
-                  : 30
+                  : 0
             " />
           <img src="assets/icons/add_plus.svg" class="plus"
             [hidden]="exp_status !== 'configured' && form_type === 'edit'" (click)="

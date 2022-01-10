@@ -139,14 +139,14 @@ export class SettingsComponent implements OnInit {
     this.listData = channel;
     this.botID = channel.bots[0]._id;
     // this.slider = this.slider + 1;
-    var div = document.getElementsByClassName('dropdown-menu content-menu');
-    for (var i = 0; i < div.length; i++) {
-      for (var j = 0; j < div[i].children.length; j++) {
-        div[i].children[j].addEventListener('click', function () {
-          this.parentNode.previousElementSibling.innerHTML = this.innerHTML;
-        })
-      }
-    }
+    // var div = document.getElementsByClassName('dropdown-menu content-menu');
+    // for (var i = 0; i < div.length; i++) {
+    //   for (var j = 0; j < div[i].children.length; j++) {
+    //     div[i].children[j].addEventListener('click', function () {
+    //       this.parentNode.previousElementSibling.innerHTML = this.innerHTML;
+    //     })
+    //   }
+    // }
   }
   cancel() {
     if (this.slider > 0)
@@ -222,10 +222,10 @@ export class SettingsComponent implements OnInit {
       res => {
         // console.log(res);
         // this.listData={};
-        this.listData = res;
+        // this.listData = res;
         this.botID = res.bots[0];
         // this.slider = this.slider + 1;
-        this.listData != this.credntial.name;
+        // this.listData != this.credntial.name;
         if (this.slider == 3 && this.existingCredential) {
           this.slider = 3
         }
