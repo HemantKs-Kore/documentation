@@ -914,9 +914,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       this.mixpanel.postEvent('Workbench - Rule Updated', {});
     }
   }
-  saveConfig(index?, dialogRef?)
+
+  
+  saveConfig(warningmessage?,index?, dialogRef?)
   { 
-    //this.validation();
+    
     let plainScriptTxt: any;
     if (this.newMappingObj && this.newMappingObj.custom_script &&
       this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script)
@@ -942,6 +944,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         // this.appSelectionService.updateTourConfig('addData');
         this.mixpanelForStages();
         this.notificationService.notify('Configurations Saved Successfully', 'success');
+        if(warningmessage){
+          this.notificationService.notify(warningmessage,'warning');
+        }
         this.modifiedStages = {
           createdStages: [],
           deletedStages: []
@@ -1136,6 +1141,40 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     this.filteredSimulatorRes = JSON.stringify(data, null, ' ');
   }
 
+  clearvalidation(){
+    
+   
+      $("#infoWarning").hide();
+      $("#fieldname").css("border-color","#BDC1C6");
+    
+    
+      $("#infoWarning1").hide();
+      $("#set_value").css("border-color","#BDC1C6");
+   
+  
+      $("#infoWarning2").hide() 
+      $("#rename_sourcefield").css("border-color","#BDC1C6");
+    
+
+      $("#dropdownBasic1entity").css("border-color","#BDC1C6");
+
+      
+        $("#infoWarning4").hide();
+        $("#entitytarget").css("border-color","#BDC1C6");
+        
+        
+    
+    
+      $("#infoWarning3").hide();
+      $("#addentity").css("border-color", ((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length) != 0) ? "#BDC1C6" : "#DD3646");
+      
+      
+   
+      $("#infoWarning5").hide() 
+      $("#traitsgroup").css("border-color", ((this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups).length!=0)? "#BDC1C6" : "#DD3646");
+    
+  }
+
   inputChanged(type) {
 
     if (type == 'fieldname') {
@@ -1167,7 +1206,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     }
     
   }
-  validation(){
+  validation(save){
     if ((this.selectedStage.condition.mappings)) {
 
      if(this.selectedStage.type === 'field_mapping')
@@ -1178,7 +1217,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
               (((this.newMappingObj.field_mapping.defaultValue.target_field) && (this.newMappingObj.field_mapping.defaultValue.value)))) {
               let warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided'
               // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+              if(save===true){
+                this.saveConfig(warningmessage);
+              }  
+              else{            
               this.simulate(warningmessage);
+              }
             }
             else if (this.newMappingObj.field_mapping.defaultValue.target_field === '' || this.newMappingObj.field_mapping.defaultValue.value === '') {
               if ((this.newMappingObj.field_mapping.defaultValue.value === '')
@@ -1210,7 +1254,13 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
               (((this.newMappingObj.field_mapping.defaultValue.source_field) && (this.newMappingObj.field_mapping.defaultValue.target_field)))) {
               let warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided'
               // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+              if(save===true){
+                this.saveConfig(warningmessage);
+              }  
+              else{            
               this.simulate(warningmessage);
+              }
+              
             }
             else if (this.newMappingObj.field_mapping.defaultValue.source_field === '' || this.newMappingObj.field_mapping.defaultValue.source_field === undefined || this.newMappingObj.field_mapping.defaultValue.target_field === '') {
               if ((this.newMappingObj.field_mapping.defaultValue.source_field === '' || this.newMappingObj.field_mapping.defaultValue.source_field === undefined)
@@ -1243,7 +1293,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
               (((this.newMappingObj.field_mapping.defaultValue.target_field)))) {
               let warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided'
               // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+              if(save===true){
+                this.saveConfig(warningmessage);
+              }  
+              else{            
               this.simulate(warningmessage);
+              }
             }
             else if (this.newMappingObj.field_mapping.defaultValue.target_field === '') {
               if (this.newMappingObj.field_mapping.defaultValue.target_field === '') {
@@ -1268,7 +1323,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             ((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length)!=0) && (this.newMappingObj[this.selectedStage.type].defaultValue.target_field)))) {
             let warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided'
             // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+            if(save===true){
+              this.saveConfig(warningmessage);
+            }  
+            else{            
             this.simulate(warningmessage);
+            }
           }
           else if (this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '' || (this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length==0)
                     || this.newMappingObj[this.selectedStage.type].defaultValue.target_field === '' ) {
@@ -1333,7 +1393,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             ((this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups.length)!=0) && (this.newMappingObj[this.selectedStage.type].defaultValue.target_field)))) {
             let warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided'
             // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+            if(save===true){
+              this.saveConfig(warningmessage);
+            }  
+            else{            
             this.simulate(warningmessage);
+            }
           }
           else if (this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '' || (this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups.length==0)
                     || this.newMappingObj[this.selectedStage.type].defaultValue.target_field === '' ) {
@@ -1389,7 +1454,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
               (this.newMappingObj[this.selectedStage.type].defaultValue.target_field)))) {
             let warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided'
             // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+            if(save===true){
+              this.saveConfig(warningmessage);
+            }  
+            else{            
             this.simulate(warningmessage);
+            }
           }
           else if (this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '' 
                     || this.newMappingObj[this.selectedStage.type].defaultValue.target_field === '' ) {
@@ -1423,7 +1493,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
               (this.newMappingObj[this.selectedStage.type].defaultValue.target_field)))) {
             let warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided'
             // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+            if(save===true){
+              this.saveConfig(warningmessage);
+            }  
+            else{            
             this.simulate(warningmessage);
+            }
           }
           else if (this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '' 
                     || this.newMappingObj[this.selectedStage.type].defaultValue.target_field === '' ) {
@@ -2094,7 +2169,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
 
   }
   switchStage(systemStage, i)
-  {
+  {  
+    
     if (this.showNewStageType)
     {
       const obj: any = new StageClass();

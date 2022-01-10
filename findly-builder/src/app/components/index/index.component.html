@@ -9,7 +9,7 @@
     <!-- <div class="title">Index Configuration</div> -->
     <div class="title">{{'workbench.workbench' | translate}}</div> <!-- (click)="openModalPopup()" -->
     <div class="btn_sec">
-      <button class="kr-sg-button-secondary btn_lg" [disabled]="savingConfig" (click)="saveConfig()">
+      <button class="kr-sg-button-secondary btn_lg" [disabled]="savingConfig" (click)="validation(true)">
         {{ savingConfig ? ('workbench.saving' | translate) : ('workbench.save_configuration' | translate) }}
       </button>
       <!-- <button class="kr-sg-button-primary btn_lg" [disabled]='reIndexing' (click)="reindex()">{{(reIndexing)?'Re-Indexing..':'Re-Index'}}</button> -->
@@ -118,11 +118,11 @@
                   ) | translate
                   }}
                 </button>
-                <ul class="dropdown-menu content-menu">
+                <ul class="dropdown-menu content-menu" click="clearvalidation()">
                   <li *ngFor="
                       let systemStage of defaultStageTypes;
                       let index = index
-                    " (click)="switchStage(systemStage, index,'true');">
+                    " (click)="switchStage(systemStage, index,'true')">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
                       systemStage?.type | translate
                       }}</a>
@@ -157,7 +157,7 @@
                   <li *ngFor="
                       let systemStage of defaultStageTypes;
                       let index = index
-                    " (click)="switchStage(systemStage, index,'false')">
+                    " (click)="switchStage(systemStage, index,'false');clearvalidation()">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
                       systemStage?.type | translate
                       }}</a>
@@ -508,7 +508,7 @@
                 <div class="kr-sg-dropdowns">
                   <div class="label-text">{{'workbench.action' | translate}}</div>
                   <div class="dropup dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" (click)="clearvalidation()">
                       {{
                       (newMappingObj.field_mapping.defaultValue.operation
                       ? newMappingObj.field_mapping.defaultValue.operation
@@ -525,7 +525,7 @@
                             'field_mapping'
                           )
                         ">
-                        <a>{{'workbench.set' | translate}}</a>
+                        <a>{{'workbench.set' | translate}} </a>
                       </li>
                       <li (click)="
                           setRuleObj(
@@ -880,7 +880,7 @@
                 newMappingObj[selectedStage.type].defaultValue
               ">
               <div class="col-6 mb-2">
-                <div class="kr-sg-dropdowns col-6" ngbDropdown>
+                <div class="kr-sg-dropdowns" ngbDropdown>
                   <div class="label-text">{{'workbench.source_field' | translate}}</div>
                   <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" id="dropdownBasic1entity" data-toggle="dropdown"
@@ -975,7 +975,7 @@
                 <ng-container *ngIf="selectedStage.type === 'entity_extraction'">
                   <mat-form-field class="example-chip-list" [floatLabel]="'never'">
                     <mat-chip-list #chipList>
-                      <mat-chip *ngFor="
+                      <mat-chip id="addentity" *ngFor="
                           let entity of newMappingObj[selectedStage.type]
                             .defaultValue.entity_types
                         " [selectable]="true" [removable]="true" (removed)="
@@ -989,7 +989,7 @@
                         <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                       </mat-chip>
                       <input placeholder="{{'workbench.type_and_enter' | translate}}" 
-                      id="addentity" (change)="inputChanged('addentity')"
+                       (change)="inputChanged('addentity')"
                       [matChipInputFor]="chipList"
                         [matAutocomplete]="suggestedItems" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                         [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="
@@ -1116,7 +1116,7 @@
         </div>
       </perfect-scrollbar>
       <div class="footer-simulate-form simulatebtnContainer">
-        <span class="float-right"><button class="kr-sg-button-primary btn_lg mr-0" id="simulateBtn" (click)="validation()"
+        <span class="float-right"><button class="kr-sg-button-primary btn_lg mr-0" id="simulateBtn" (click)="validation(false)"
             placement="top-right" tooltipClass="workbench_tolltips m-0" [disabled]="simulteObj.simulating"
             ngbTooltip="{{'workbench.simulate_to_check_how_the_changes_reflect' | translate}}">
             <img src="assets/images/simulate.svg" class="mr-1" />{{simulteObj.simulating ?('workbench.simulating' |
