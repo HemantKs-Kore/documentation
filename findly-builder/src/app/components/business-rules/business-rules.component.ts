@@ -621,24 +621,34 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     //   $('#selectAllRules')[0].checked = false;
     // }
   }
-  validateRules() {
-    if (this.addEditRuleObj && this.addEditRuleObj.ruleName.length) {
-      if(this.rulesArrayforAddEdit.length != 0){
-        this.rulesArrayforAddEdit.forEach(rule => {
-            if(rule.value.length != 0){
-              this.submitted = false;
-              return true;
-            }
-            else{
-              return false;
-            }
-        });
-      }
-    }
-    else {
-      return false;
-    }
+  // validateRules() {
+  //   if (this.addEditRuleObj && this.addEditRuleObj.ruleName.length) {
+  //     if(this.rulesArrayforAddEdit.length != 0){
+  //       this.rulesArrayforAddEdit.forEach(rule => {
+  //           if(rule.value.length != 0){
+  //             this.submitted = false;
+  //             return true;
+  //           }
+  //           else{
+  //             return false;
+  //           }
+  //       });
+  //     }
+  //   }
+  //   else {
+  //     return false;
+  //   }
+  // }
+  
+validateRules() {
+  if (this.addEditRuleObj && this.addEditRuleObj.ruleName.length) {
+    this.submitted = false;
+    return true;
   }
+  else {
+    return false;
+  }
+}
   createRule() {
     this.submitted = true;
     if (this.validateRules()) {
