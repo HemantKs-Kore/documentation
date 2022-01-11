@@ -261,6 +261,11 @@ html{
     border-radius: 4px;
     opacity: 0.95;
     padding-left: 7% !important;
+    display: flex;
+    align-items: center;
+    .please-wait-message{
+        padding-left: 10px;
+    }
 }
 .manage-findlyion-exp-popup{   
     .mat-dialog-container{

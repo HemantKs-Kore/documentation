@@ -124,6 +124,10 @@
     <!-- <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Positive_Feedback'| translate}}</span></div>
     <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Negative_Feedback'| translate}}</span></div> -->
     </div>
+    <div class="mainLoadingSpinner" *ngIf="loadingQueries">
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
+      </div>
   <perfect-scrollbar class="perfect-scroll-modal-body">
     <div class="modal-body">
         <div class="table_data_content">            

@@ -330,7 +330,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.fieldAutoSuggestion = res.fields || [];
       res.fields.forEach(element => {
         if (element._id === data.fieldId) {
-          console.log(element)
+          // console.log(element)
           this.addEditFacetObj = JSON.parse(JSON.stringify(data));
           this.selectedFieldId = element._id;
           // this.getFieldAutoComplete(element.fieldName);
@@ -435,7 +435,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       if (keyA > keyB) return 1;
       return 0;
     });
-    console.log(arr);
+    // console.log(arr);
     return arr.reverse() // Revercing for Decending
   }
   getFacts(offset?) {
@@ -537,7 +537,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
           }
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }
@@ -949,7 +949,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
           count = count + 1;
         }
       });
-      console.log("cunt", count)
+      // console.log("cunt", count)
       this.disableSaveBtn = selected_value ? count > 20 ? true : false : true;
       if (count > 20) {
         this.notificationService.notify('Not more than 20 facets can be configured,uncheck some of the facets to continue.', 'error');

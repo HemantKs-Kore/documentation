@@ -219,7 +219,7 @@
           </div>
         </ng-container>
 
-        <div class="filter-facets-block">
+        <div class="filter-facets-block" *ngIf="selectedTab==='fullSearch'">
           <div class="label-text">Filter Facets</div>
           <div class="desc-text mb-2">Customize the placement of filter facets for the full page result page</div>
           <label class="kr-sg-toggle">

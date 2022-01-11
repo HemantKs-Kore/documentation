@@ -1038,6 +1038,10 @@
                                 font-size: 14px;
                                 line-height: 20px;
                                 padding-left: 10px;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                max-width: 700px;
                             }
                         }
                         .search-widget-if-bottom-up{

@@ -388,12 +388,12 @@
                             <div class="greeting-message border-with-padding border-0 pb-0 pt-0">
                                 <div class="kr-sg-input-text-area w-auto">
                                     <div class="label-text">{{'searchexperience.customize_launch' | translate}}</div>
-                                    <textarea class="input-text" maxlength="60" #box (keyup)="0"
+                                    <textarea class="input-text" maxlength="150" #box (keyup)="0"
                                         [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg"
                                         [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}"
                                         (change)="testInputLength($event)" (keyup)="findIndex($event)"
                                         (click)="findIndex($event)"></textarea>
-                                    <div class="count-length">{{box.value.length}} / {{'searchexperience.60' |
+                                    <div class="count-length">{{box.value.length}} / {{'searchexperience.150' |
                                         translate}} characters</div>
                                     <div class="emoji-img">
                                         <div class="kr-sg-dropdowns" ngbDropdown [placement]="'right-top'"
@@ -607,6 +607,7 @@
                                                 [ngClass]="{'d-none':searchObject.searchInteractionsConfig.welcomeMsg===''}">
                                                 <!-- <img [src]="emojiIcon"> -->
                                                 <span class="greeting-title"
+                                                    [attr.title]="searchObject.searchInteractionsConfig.welcomeMsg"
                                                     [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
                                             </div>
                                         </div>

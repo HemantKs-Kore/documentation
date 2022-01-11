@@ -453,7 +453,7 @@ export class AppHeaderComponent implements OnInit {
         }
 
         if (queuedJobs && queuedJobs.length) {
-          console.log(queuedJobs);
+          // console.log(queuedJobs);
           this.isAnyRecordInprogress = true;
           this.isAnyRecordCompleted = false;
           this.isAnyRecordFailed = false;
@@ -632,7 +632,7 @@ export class AppHeaderComponent implements OnInit {
         this.recentApps = res.filter(app => app._id != app_id._id).slice(0, 5)
       }
     }, errRes => {
-      console.log(errRes);
+      // console.log(errRes);
     });
   }
   //sort apps

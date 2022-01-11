@@ -199,7 +199,7 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       let paramsExist: any;
       this.activatedRoute.queryParams.subscribe(params => {
-        console.log("params", params);
+        // console.log("params", params);
         paramsExist = params;
       });
       this.router.navigate(['/apps'], { skipLocationChange: true });
@@ -270,7 +270,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     }
     if (event instanceof NavigationEnd) {
-      console.log("event.url", event.url)
+      // console.log("event.url", event.url)
       if (event.url == '/summary') {
         this.showMainMenu = false;
       }
@@ -292,7 +292,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.showHideSearch(false);
         this.showHideTopDownSearch(false);
         this.selectApp(false);
-        console.log('navigated to apps throught navigator and closed preview ball');
+        // console.log('navigated to apps throught navigator and closed preview ball');
       } else {
         if (this.workflowService.selectedApp()) {
           this.appSelectionService.getStreamData(this.workflowService.selectedApp())
@@ -306,12 +306,12 @@ export class AppComponent implements OnInit, OnDestroy {
           this.searchExperienceSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
             this.loadSearchExperience();
           })
-          console.log('navigated to path throught navigator and shown preview ball');
+          // console.log('navigated to path throught navigator and shown preview ball');
         } else {
           // this.showHideSearch(false);
           // this.showHideTopDownSearch(false);
           this.selectApp(false);
-          console.log('failed to detect path throught navigator and closed preview ball');
+          // console.log('failed to detect path throught navigator and closed preview ball');
         }
       }
       this.authService.findlyApps.subscribe((res) => {
@@ -434,7 +434,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   sdkBridge(parms) {  // can be converted as service for common Use
     const _self = this;
-    console.log(parms);
+    // console.log(parms);
     // this.bridgeDataInsights = !parms.data;
     let call = false;
     if (parms.type == 'onboardingjourney') {
@@ -630,8 +630,8 @@ export class AppComponent implements OnInit, OnDestroy {
       this.headerService.updateSearchConfigurationValue(res);
       this.headerService.searchConfiguration = res;
     }, errRes => {
-      console.log("getSearchExperience failed happen");
-      console.log(errRes);
+      // console.log("getSearchExperience failed happen");
+      // console.log(errRes);
     });
   }
 
