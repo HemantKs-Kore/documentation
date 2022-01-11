@@ -708,6 +708,7 @@ export class StructuredDataComponent implements OnInit {
           item.isChecked = false;
           this.selectedStructuredData.splice(i, 1);
           this.showSelectedCount = this.showSelectedCount - 1 ;
+          break;
         }
       }
     }
@@ -754,7 +755,7 @@ export class StructuredDataComponent implements OnInit {
           if(this.selecteditems[i]._id===this.structuredDataItemsList[j]._id)
           {
             this.structuredDataItemsList[j].isChecked = true;
-            console.log("inside unselect compare");
+            console.log("inside select compare block");
           }
   
         }      
@@ -1018,6 +1019,8 @@ export class StructuredDataComponent implements OnInit {
           dialogRef.close();
           this.deleteStructuredData(record);
         }
+
+        this.showSelectedCount=0;
       }
       else if (res === 'no') {
         dialogRef.close();
