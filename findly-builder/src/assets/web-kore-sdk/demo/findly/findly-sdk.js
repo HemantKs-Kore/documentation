@@ -3345,6 +3345,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var payload = {
         "query": _self.vars.searchObject.searchText,
+        
         // "maxNumOfResults": 9,
         "maxNumOfResults": 5,
         "userId": _self.API.uuid,
