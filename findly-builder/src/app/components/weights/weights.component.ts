@@ -29,6 +29,7 @@ export class WeightsComponent implements OnInit, OnDestroy
   sliderMax = 10;
   currentEditIndex: any = -1
   fields: any = [];
+  field_name:string;
   searchModel;
   deleteFlag;
   indexPipelineId;
