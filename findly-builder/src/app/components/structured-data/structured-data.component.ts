@@ -1020,7 +1020,7 @@ export class StructuredDataComponent implements OnInit {
           this.deleteStructuredData(record);
         }
 
-        this.showSelectedCount=0;
+         this.showSelectedCount=0;
       }
       else if (res === 'no') {
         dialogRef.close();
@@ -1067,12 +1067,20 @@ export class StructuredDataComponent implements OnInit {
       if(this.allSelected){
         payload.allStructuredData = true;
       }
+      else if(this.unselecteditems.length){
+        payload.excludeDocIds=[];
+        this.unselecteditems.forEach((data: any) => {
+          payload.excludeDocIds.push(data._id);
+        });
+
+      }
       else {
         payload.docIds = [];
         this.selectedStructuredData.forEach((data: any) => {
           payload.docIds.push(data._id);
         });
       }
+      
       this.service.invoke('delete.clearAllStructureData', quaryparms, payload).subscribe(res => {
         if (res) {
           this.selectedStructuredData = [];
@@ -1097,6 +1105,8 @@ export class StructuredDataComponent implements OnInit {
       });
     }
   }
+
+  
 
   openStructuredDataStatusModal() {
     this.structuredDataStatusModalRef = this.structuredDataStatusModalPop.open();
