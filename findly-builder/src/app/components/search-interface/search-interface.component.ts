@@ -162,8 +162,8 @@ export class SearchInterfaceComponent implements OnInit {
     });
     this.updateResultTemplateTabsAccess();
 
-    console.log(this.customizeTemplateObj);
-    console.log(this.selectedSettingResultsObj);
+    // console.log(this.customizeTemplateObj);
+    // console.log(this.selectedSettingResultsObj);
     if (!this.inlineManual.checkVisibility('RESULT_TEMPLATE') && false) {
       this.inlineManual.openHelp('RESULT_TEMPLATE')
       this.inlineManual.visited('RESULT_TEMPLATE')
@@ -1074,7 +1074,7 @@ export class SearchInterfaceComponent implements OnInit {
 
   updateResultTemplateTabsAccess() {
     if (this.searchExperienceConfig && Object.values(this.searchExperienceConfig).length) {
-      console.log(this.searchExperienceConfig);
+      // console.log(this.searchExperienceConfig);
       if (this.searchExperienceConfig && this.searchExperienceConfig.experienceConfig && this.searchExperienceConfig.experienceConfig.searchBarPosition) {
         if (this.searchExperienceConfig.experienceConfig.searchBarPosition === 'top') {
           this.searchTemplatesDisabled = true;

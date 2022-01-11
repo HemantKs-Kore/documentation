@@ -312,7 +312,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       }
       this.service.invoke('create.queryPipeline', queryParms, payload).subscribe(
         res => {
-          console.log("search config", res)
+          // console.log("search config", res)
           this.appSelectionService.getQureryPipelineIds();
           if (res && res._id) {
             this.selectQueryPipelineId(res);
@@ -343,7 +343,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     }
   }
   selectQueryPipelineId(queryConfigs, event?, type?) {
-    console.log("queryConfigs", queryConfigs)
+    // console.log("queryConfigs", queryConfigs)
     if (event && !this.editName) {
       event.close();
     }

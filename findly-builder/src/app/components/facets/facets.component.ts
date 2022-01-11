@@ -21,6 +21,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   facetModalRef: any;
   facetModalRef1: any;
   facets: any = [];
+  field_name:string;
   fieldAutoSuggestion: any = [];
   selectedApp;
   serachIndexId;
@@ -329,7 +330,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.fieldAutoSuggestion = res.fields || [];
       res.fields.forEach(element => {
         if (element._id === data.fieldId) {
-          console.log(element)
+          // console.log(element)
           this.addEditFacetObj = JSON.parse(JSON.stringify(data));
           this.selectedFieldId = element._id;
           // this.getFieldAutoComplete(element.fieldName);
@@ -434,7 +435,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       if (keyA > keyB) return 1;
       return 0;
     });
-    console.log(arr);
+    // console.log(arr);
     return arr.reverse() // Revercing for Decending
   }
   getFacts(offset?) {
@@ -451,7 +452,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.docTypeArr = [];
       this.selectTypeArr = [];
       this.facets = res || [];
-      this.facets = this.defaultSortingAFacet(this.facets);
+      //this.facets = this.defaultSortingAFacet(this.facets);
       this.facets.forEach(element => {
         this.statusArr.push(element.active);
         this.docTypeArr.push(element.type);
@@ -536,7 +537,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
           }
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }
@@ -948,7 +949,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
           count = count + 1;
         }
       });
-      console.log("cunt", count)
+      // console.log("cunt", count)
       this.disableSaveBtn = selected_value ? count > 20 ? true : false : true;
       if (count > 20) {
         this.notificationService.notify('Not more than 20 facets can be configured,uncheck some of the facets to continue.', 'error');
@@ -1177,4 +1178,12 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'Failed to get field values');
     });
   }
+  clearcontent(){
+      
+      if($('#searchBoxId') && $('#searchBoxId').length){
+      $('#searchBoxId')[0].value = "";
+      this.field_name='';
+    }
+    }
 }
+
