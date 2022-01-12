@@ -267,7 +267,7 @@
                                                                     </div>
                                                                 </ng-container>
                                                                 <ng-container
-                                                                    *ngIf="actLog.target.contentType && actLog.target.contentType == 'task'">
+                                                                    *ngIf="actLog.target.contentType && actLog.target.contentInfo && actLog.target.contentType == 'task'">
                                                                     <div class="title">
                                                                         {{actLog.target.contentInfo.lname}}</div>
                                                                 </ng-container>
@@ -288,13 +288,13 @@
                                                                     actLog.target.contentInfo._source.file_preview}}
                                                                 </div>
                                                             </ng-container>
-                                                            <ng-container *ngIf="actLog.target.contentType == 'faq'">
+                                                            <ng-container *ngIf="actLog.target.contentType == 'faq' && actLog.target.contentInfo">
                                                                 <div class="desc-text-ranking">
                                                                     {{actionLogData[i].target.contentInfo._source.faqDesc}}
                                                                 </div>
                                                             </ng-container>
                                                             <ng-container
-                                                                *ngIf="actLog.target.contentType && actLog.target.contentType == 'task'">
+                                                                *ngIf="actLog.target.contentType && actLog.target.contentType == 'task' && actLog.target.contentInfo">
                                                                 <div class="desc-text-ranking">
                                                                     {{actLog.target.contentInfo.shortDesc}}</div>
                                                             </ng-container>
@@ -302,7 +302,7 @@
                                                                 *ngIf="actLog.target.contentType && actLog.target.contentInfo && actLog.target.contentType == 'data'"> -->
                                                             
                                                              <ng-container
-                                                            *ngIf="actLog.target.contentType && actLog.target.contentType == 'data'">
+                                                            *ngIf="actLog.target.contentType && actLog.target.contentType == 'data' && actLog.target.contentInfo">
 
                                                                 <div class="desc-text-ranking">
                                                                     {{actLog.target.contentInfo._source.strucDataDecDis}}

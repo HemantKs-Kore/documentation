@@ -583,7 +583,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         this.customizeLog[i].createdOn = moment(time).fromNow()
         this.customizeLog[i]['selected'] = false;
         if (this.customizeLog[i].target.contentType == 'data') {
-          if (this.customizeLog[i].target.contentInfo._source) {
+          if (this.customizeLog[i].target.contentInfo && this.customizeLog[i].target.contentInfo._source) {
             this.customizeLog[i].target.contentInfo._source['strucDataHeadingDis'] = this.customizeLog[i].target.contentInfo._source[this.strucDataHeading];
             this.customizeLog[i].target.contentInfo._source['strucDataDecDis'] = this.customizeLog[i].target.contentInfo._source[this.strucDataDec];
           }
