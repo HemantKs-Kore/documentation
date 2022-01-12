@@ -18,6 +18,7 @@ import { FaqsService } from '../../services/faqsService/faqs.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+import { CdkDragDrop, moveItemInArray ,transferArrayItem} from '@angular/cdk/drag-drop';
 // import {  DockStatusService } from '../../services/dock.status.service';
 // import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 
@@ -1790,4 +1791,42 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }, errRes => {
     });
   }
+  drop(event: CdkDragDrop<string[]>) {
+    let faqDragData: any = {}
+      faqDragData = {
+        question: this.selectedFaq._source.faq_question, 
+        // defaultAnswers: event.container.data ,
+        // conditionalAnswers: event.previousContainer.data ,
+        alternateQuestions: this.selectedFaq._source.faq_alt_questions || [],
+        // followupQuestions: event.followupQuestions || [],
+        keywords: this.selectedFaq._source.keywords,
+        state: this.selectedFaq._meta.state
+      };
+
+      if(event.previousContainer === event.container){
+        if(event.container.data === this.selectedFaq._source.faq_answer){
+          faqDragData.defaultAnswers = event.container.data
+          faqDragData.conditionalAnswers = this.selectedFaq._source.faq_cond_answers
+        }
+        else if (event.container.data === this.selectedFaq._source.faq_cond_answers){
+          faqDragData.defaultAnswers = this.selectedFaq._source.faq_answer
+          faqDragData.conditionalAnswers =  event.container.data
+        }
+      }
+      else {
+        faqDragData.defaultAnswers = event.container.data || this.selectedFaq._source.faq_answer
+        faqDragData.conditionalAnswers =  event.container.data || this.selectedFaq._source.faq_cond_answers
+      }
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      this.updateFaq(this.selectedFaq, 'updateQA',faqDragData);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+                        event.container.data,
+                        event.previousIndex,
+                        event.currentIndex);
+                        this.updateFaq(this.selectedFaq, 'updateQA',faqDragData);
+    }
+  }
+ 
 }

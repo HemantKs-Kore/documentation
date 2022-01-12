@@ -452,20 +452,18 @@
                             <!-- <app-add-faq (editFaq)="editFaq($event)" [faqData]="selectedFaq" (cancelfaqEvent)="faqCancle()" *ngIf="editfaq && selectedFaq"></app-add-faq> -->
                             <div class="body-top-content" *ngIf="!editfaq">
                                 <div class="question-content">
-                                    <div class="shadow-div">
-                                        <div class="title-que">
-                                            <span class="">{{selectedFaq._source.faq_question}}</span>                                       
-                                            <button  class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
-                                        </div>
-                                        <!-- <div class="keywords">
-                                            <span class="keys" *ngFor="let keyword of selectedFaq._source.keywords">{{keyword}}</span>
-                                        </div>  -->
-                                    </div> 
-                                    <div class="pad-div">
-                                        <div class="bot-response-view-mode" >
+                                    <div class="title-que">
+                                        <span>{{selectedFaq._source.faq_question}}</span>                                       
+                                        <button class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
+                                    </div>
+                                    <div cdkDropListGroup class="pad-div d-none">
+                                        <div cdkDropList [cdkDropListData]="selectedFaq._source.faq_answer" class="bot-response-view-mode"  (cdkDropListDropped)="drop($event)"  >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.faq_answer && selectedFaq._source.faq_answer.length">
-                                                <ng-container *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index;">
-                                                    
+                                                <!-- <ng-container *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index;"> -->
+                                                   
+                                                        <div  *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index; " cdkDrag> {{selectedFaq._source.faq_answer | json}}
+                                                            <!-- <div cdkDrag>
+                                                        </div> -->
 
                                                     <div class="response-title-bg row">
                                                         <div class="bot-response-title col-6">{{'faqSource.response' | translate}}<span *ngIf="(selectedFaq._source.faq_answer.length > 1) || (selectedFaq._source.faq_cond_answers && selectedFaq._source.faq_cond_answers.length)">{{ ' ' + (i + 1)}}</span></div>
@@ -491,18 +489,19 @@
                                                     <div class="img-view-mode" *ngIf="answer && answer.imgurl">
                                                         <img src="{{answer.imgurl}}">
                                                     </div>
-                                                    <div class="desc-info" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.text)'></div>
+                                                    <!-- <div> -->
+                                                        <div class="desc-info" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.text)'></div>
+                                                    <!-- </div> -->
                                                     <!-- <div class="desc-info desc-info-javascript-message" *ngIf="answer.type==='javascript'">Javascript message</div> -->
-                                                </ng-container> 
+                                               
+                                                        </div> 
                                             </ng-container>   
-                                        </div>
-                                        <div class="conditionalBlock bot-response-view-mode" >
+                                        </div>  {{selectedFaq._source.faq_cond_answers | json}}
+                                        <div cdkDropList [cdkDropListData]="selectedFaq._source.faq_cond_answers" class="conditionalBlock bot-response-view-mode" (cdkDropListDropped)="drop($event)" >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source.faq_cond_answers && selectedFaq._source.faq_cond_answers.length">
-                                            <ng-container *ngFor="let consitionalAnswer of selectedFaq._source.faq_cond_answers; let i = index;">
-
-                                                
+                                            <div  cdkDrag *ngFor="let consitionalAnswer of selectedFaq._source.faq_cond_answers; let i = index;" >
                                                 <div class="response-title-bg row">
-                                                    <div class="bot-response-title col-6">{{'faqSource.response' | translate}}<span>{{ ' ' + (i + 1 + (selectedFaq._source.faq_answer?selectedFaq._source.faq_answer.length:0))}}</span></div>
+                                                    <div  class="bot-response-title col-6">{{'faqSource.response' | translate}}<span>{{ ' ' + (i + 1 + (selectedFaq._source.faq_answer?selectedFaq._source.faq_answer.length:0))}}</span></div>
                                                     <div class="response-likes-views-sec d-flex col-6">
                                                         <div class="count-sec" >
                                                             <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{selectedFaq?.stats?.appearances?selectedFaq?.stats?.appearances[0][0]: 0}}
@@ -530,7 +529,7 @@
                                                                 <div class="col-10 d-inline-block px-0"[ngStyle]="{'margin-bottom':(showSeeAll(consitionalAnswer.conditions) && ruleIndex==0)?'10px':'0px'}" >
                                                                     <div class="rule-dropdown-data">
                                                                         <span class="rule-dropdown-key">{{ "businessRules." + rule.contextType | translate}} :</span>
-                                                                        <span class="rule-dropdown-value" title='{{ "businessRules." + rule.contextCategory | translate }}'>{{ rule.contextCategory | translate }}</span>
+                                                                        <span class="rule-dropdown-value" title='{{ "businessRules." + rule.contextCategory | translate }}'>{{ "businessRules." + rule.contextCategory | translate }}</span>
                                                                     </div>
                                                                     <div class="rule-contains">{{ rule.operator | titlecase}}</div>
                                                                     <ng-container  *ngFor="let value of rule.value | slice:0:(ruleIndex==0?(rule.operator !=='between'?4:2):2); let valueIndex = index">
@@ -562,11 +561,177 @@
                                                         </ng-container> 
                                                     </div>
                                                 </div>
-                                            </ng-container>
+                                            </div>
                                                 </ng-container> 
                                         </div>
                                         <!-- <div class="added-answer" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(selectedFaq.answer)'></div> -->
                                     </div>
+
+                                    <ng-container >
+                                        <div cdkDropListGroup>
+                                        <!-- New UI for ond Resp  Start-->
+                                        <div cdkDropList [cdkDropListData]="selectedFaq._source.faq_cond_answers"  (cdkDropListDropped)="drop($event)"class="conditional-responses-new"  >
+                                            <ng-container *ngIf="selectedFaq && selectedFaq._source.faq_cond_answers && selectedFaq._source.faq_cond_answers.length">
+                                            <div class="conditional-res-main-heading">
+                                                <span class="title">Conditional Responses</span> 
+                                                <img src="assets/icons/faq/help.svg">
+                                                <span class="count-conditions">{{selectedFaq._source.faq_cond_answers.length}}</span>
+                                            </div>
+                                            <div class="response-block if-morethan-one" *ngFor="let consitionalAnswer of selectedFaq._source.faq_cond_answers; let i = index;" cdkDrag> 
+                                                <div class="response-count">{{ ' ' + (i + 1)}}</div>  
+                                                <div class="response-data"> 
+                                                    <div class="header-data">
+                                                        <div class="title col-8"><img src="assets/icons/faq/move.svg">Conditional Responses</div> 
+                                                        <div class="count-clicks col-4">
+                                                            <div class="views">
+                                                                <img src="assets/icons/faq/views.svg"placement="top" container='body' ngbTooltip="Views">{{selectedFaq?.stats?.appearances?selectedFaq?.stats?.appearances[0][0]: 0}}
+                                                            </div>
+                                                            <div class="clicks">    
+                                                                <img src="assets/icons/faq/likes.svg" placement="top" container='body' ngbTooltip="Clicks">{{selectedFaq?.stats?.clicks ||0}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="data-inner-content" >
+                                                        <div class="response-text">{{consitionalAnswer.answers[0].text}}</div>
+                                          
+                                                        <div class="conditions-list">
+                                                            <div class="titles-sec">
+                                                                <div class="title">Conditions</div>
+                                                                <div class="show-more" data-toggle="collapse" data-target="#demo">Show More <img src="assets/icons/faq/carrotup.svg"></div>
+                                                            </div>
+                                                            <div id="demo" class="collapse show">
+                                                                <div class="d-flex col-12 conditions-response-block">
+                                                                    <!-- <div class="title col-2 px-0">{{'faqSource.conditions' | translate}} :</div> -->
+                                                                    <div class="right-content col-10 px-0 condition-content">
+                                                                        <!-- if-lenthfour -->
+                                                                        <div class="row added-conditions" *ngFor="let rule of consitionalAnswer.conditions | slice:0:2; let ruleIndex = index" >
+                                                                            <ng-container *ngIf="showConditions(consitionalAnswer.conditions,ruleIndex)">
+                                                                               <div class="col-2  d-inline px-0 vertical-align-top">
+                                                                                <div class="rule-title pr-10" *ngIf="ruleIndex == 0">{{'faqSource.when_caps' | translate}}</div>
+                                                                                <div class="rule-title pr-20" *ngIf="ruleIndex > 0">{{'faqSource.and_caps' | translate}}</div>
+                                                                               </div>
+                                                                            <div class="col-10 d-inline-block px-0"[ngStyle]="{'margin-bottom':(showSeeAll(consitionalAnswer.conditions) && ruleIndex==0)?'10px':'0px'}" >
+                                                                                <div class="rule-dropdown-data">
+                                                                                    <span class="rule-dropdown-key">{{ "businessRules." + rule.contextType | translate}} :</span>
+                                                                                    <span class="rule-dropdown-value" title='{{ "businessRules." + rule.contextCategory | translate }}'>{{ "businessRules." + rule.contextCategory | translate }}</span>
+                                                                                </div>
+                                                                                <div class="rule-contains">{{ rule.operator | titlecase}}</div>
+                                                                                <ng-container  *ngFor="let value of rule.value | slice:0:(ruleIndex==0?(rule.operator !=='between'?4:2):2); let valueIndex = index">
+                                                                                    <div class="rule-value" *ngIf="rule.dataType=== 'date' && rule.operator !=='between'" title="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value | dateFormatPipe: 'DD MMM YYYY'}}</div>
+                                                                                    <div class="rule-value" *ngIf="rule.dataType=== 'date'  && rule.operator =='between'" title="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value[0] | dateFormatPipe: 'DD MMM YYYY'}} - {{value[1] | dateFormatPipe: 'DD MMM YYYY'}}</div>
+                                                                                    <div class="rule-value" *ngIf="rule.dataType!== 'date'" title="{{value}}">{{value}}</div>
+                                                                                    <div class="or-rule" *ngIf="(valueIndex < 3 && valueIndex!== (rule.value.length>3?3:(rule.value.length-1)) && ruleIndex==0 && rule.operator !=='between')||(valueIndex < 1 && ruleIndex==1 && valueIndex!== 1) || (valueIndex < 1 && valueIndex!== (rule.value.length>2?2:(rule.value.length-1)) && ruleIndex==0 && rule.operator =='between') ">{{ "or_caps" | translate}}</div>
+                                                                                </ng-container> 
+                                                                                <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div>
+                                                                            </div>
+                                                                            </ng-container>                                                             
+                                                                        </div>
+                                                                        <div class="d-block"><a (click)="editThisQa()" class="see-all-anchor" *ngIf="showSeeAll(consitionalAnswer.conditions)">See All</a></div>
+                                                                       
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                            <!-- <div class="response-block if-morethan-one">
+                                                <div class="response-count">2</div>
+                                                <div class="response-data"> 
+                                                    <div class="header-data">
+                                                        <div class="title col-8"><img src="assets/icons/faq/move.svg">Conditional Responses</div>
+                                                        <div class="count-clicks col-4">
+                                                            <div class="views">
+                                                                <img src="assets/icons/faq/views.svg">872
+                                                            </div>
+                                                            <div class="clicks">
+                                                                <img src="assets/icons/faq/likes.svg">764
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="data-inner-content">
+                                                        <div class="response-text">To access Citibank Online as a first time user, you will need to create a User ID and Internet Password.</div>
+                                                        <div class="conditions-list">
+                                                            <div class="titles-sec">
+                                                                <div class="title">Conditions</div>
+                                                                <div class="show-more" data-toggle="collapse" data-target="#demo1">Show More <img src="assets/icons/faq/carrotup.svg"></div>
+                                                            </div>
+                                                            <div id="demo1" class="collapse show">
+                                                                <div class="condition-container">
+                                                                    <div class="condition-sec-data col-7 pl-0">
+                                                                        <div class="title">WHEN</div>
+                                                                        <div class="type-condition">
+                                                                            <span class="left-name">SearchContext :</span>
+                                                                            <span class="right-name">RecentSearches</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="condition-sec-data col-5 p-0">
+                                                                        <div class="title">Contains</div>
+                                                                        <div class="name-condition ml-2">Credit</div>
+                                                                        <div class="condition-type">OR</div>
+                                                                        <div class="name-condition">Loan</div>
+                                                                    </div>                                                                
+                                                                </div>
+                                                                <div class="condition-container">
+                                                                    <div class="condition-sec-data col-7 pl-0">
+                                                                        <div class="title">AND</div>
+                                                                        <div class="type-condition">
+                                                                            <span class="left-name">UserContext :</span>
+                                                                            <span class="right-name">CustomerType</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="condition-sec-data col-5 p-0">
+                                                                        <div class="title">Contains</div>
+                                                                        <div class="name-condition ml-2">Gold</div>
+                                                                        <div class="condition-type">OR</div>
+                                                                        <div class="name-condition">Premium</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                         <!-- New UI for Cond Resp  End-->
+                                          <!-- New UI for DefResp  Start-->
+                                        <div cdkDropList [cdkDropListData]="selectedFaq._source.faq_answer"   class="default-responses-block" (cdkDropListDropped)="drop($event)"  >
+                                        <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.faq_answer && selectedFaq._source.faq_answer.length">
+                                            <div class="header-data">
+                                                <span class="title">Default Responses</span>
+                                                <img src="assets/icons/faq/help.svg">
+                                                <span class="count-conditions">{{selectedFaq._source.faq_answer.length}}</span>
+                                            </div>
+                                            <ng-container >
+                                                <div class="default-res-data row" *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index;" cdkDrag>
+                                                    <div  class="default-desc col-8"> {{answer.text}}</div>
+                                                    <div class="count-clicks col-4">
+                                                        <div class="views">
+                                                            <img src="assets/icons/faq/views.svg"(click)="clicksViews()" placement="top" container='body' ngbTooltip="Views">{{numberOf.appearances}}
+                                                        </div>
+                                                        <div class="clicks">
+                                                            <img src="assets/icons/faq/likes.svg"(click)="clicksViews()" placement="top" container='body' ngbTooltip="Clicks">{{numberOf.clicks}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="default-res-data row">
+                                                    <div class="default-desc col-8">To access Citibank Online as a first time user, you will need to create a User ID and Internet Password.</div>
+                                                    <div class="count-clicks col-4">
+                                                        <div class="views">
+                                                            <img src="assets/icons/faq/views.svg">872
+                                                        </div>
+                                                        <div class="clicks">
+                                                            <img src="assets/icons/faq/likes.svg">764
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+                                            </ng-container>
+                                        </ng-container>
+                                        </div>
+                                        <!-- New UI for DefResp  Start-->
+                                    </div>
+                                    </ng-container>                                    
                                 </div>
                                 <div class="appearences-info row" *ngIf="selectedFaq && selectedFaq.feedback">
                                     <div class="col-4 p-0">
@@ -587,32 +752,31 @@
                                     </div> -->
                                 </div>
                             </div>
-                            <div class="add-alternative-questions row bg-white"  *ngIf="selectedFaq._source.faq_alt_questions?.length">
-                                <div class="col-10 pl-0 pr-2">
-                                    <div class="question-name text-truncate">{{'faqSource.alternate_questions' | translate}}
-                                        <span>{{selectedFaq._source.faq_alt_questions?.length>0?'('+selectedFaq._source.faq_alt_questions?.length+')':''}}</span>
-                                        <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
-                                    </div>
+                            <div class="add-alternative-questions row"  *ngIf="selectedFaq._source.faq_alt_questions?.length">
+                                <div class="header-data">
+                                    <span class="title">{{'faqSource.alternate_questions' | translate}}</span>
+                                    <img src="assets/icons/faq/help.svg">
+                                    <span class="count-conditions">{{selectedFaq._source.faq_alt_questions?.length>0?''+selectedFaq._source.faq_alt_questions?.length+'':''}}</span>
                                 </div>
-                                <!-- <div class="col-2 p-0 text-right">
-                                    <button class="kr-sg-button-primary btn_lg" (click)="addAlternate()">Add</button>
-                                </div> -->
+                                <ng-container *ngFor="let alternateQuestion of selectedFaq._source?.faq_alt_questions">
+                                    <div class="col-12 question-name">{{alternateQuestion}}</div>
+                                </ng-container>
                             </div>
                             <div *ngIf="selectedFaq.isAlt" class="alternate-question-bg">
                                 <app-add-alternate-question [faqServ]="faqServiceAlt"></app-add-alternate-question>
                             </div>
-                            <ng-container *ngIf="selectedFaq._source.faq_alt_questions?.length">
-                            <div class="added-questions-list py-0" *ngFor="let alternateQuestion of selectedFaq._source?.faq_alt_questions">
-                                <div class="content-body-question row" >
-                                <div class="col-12 group-name question-name text-truncate">{{alternateQuestion}}</div>
+                            <!-- <ng-container *ngIf="selectedFaq._source.faq_alt_questions?.length">
+                                <div class="added-questions-list py-0" *ngFor="let alternateQuestion of selectedFaq._source?.faq_alt_questions">
+                                    <div class="content-body-question row">
+                                        <div class="col-12 group-name question-name text-truncate">{{alternateQuestion}}</div>
+                                    </div>
+                                    <div class="added-tags text-truncate">
+                                        <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
+                                    </div>
+                                    
+                                        <img src="assets/icons/delete-table.svg" (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}">
                                 </div>
-                                <!-- <div class="added-tags text-truncate">
-                                    <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
-                                </div> -->
-                                <!-- 
-                                    <img src="assets/icons/delete-table.svg" (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}"> -->
-                            </div>
-                           </ng-container>
+                           </ng-container> -->
                             <!-- <div class="add-alternative-questions row followup_questions">
                                 <div class="col-10 pl-0 pr-2">
                                     <div class="question-name text-truncate">Followup Questions 
@@ -796,7 +960,7 @@
             </div>
            <!-- <div style="margin-right: 10px;"> <app-record-pagination *ngIf="!isNotSearching && !loadingTab && faqSelectionObj.stats[selectedtab] && faqSelectionObj.stats[selectedtab]>0" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' (pageChanged)="paginate($event)"></app-record-pagination></div> PAGINATION -->
         </ng-container>
-        <ng-container  *ngIf="currentView === 'grid'">
+        <ng-container  *ngIf="currentView === 'grid'"> 
             <perfect-scrollbar class="faqScurceListScroll">
                 <div class="list-view-data">
                     <div class="row row_list">

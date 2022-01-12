@@ -13,12 +13,14 @@ import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } f
 import { of } from 'rxjs/internal/observable/of';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+declare const $: any;
 @Component({
   selector: 'app-weights',
   templateUrl: './weights.component.html',
   styleUrls: ['./weights.component.scss']
 })
-export class WeightsComponent implements OnInit, OnDestroy {
+export class WeightsComponent implements OnInit, OnDestroy
+{
   addEditWeighObj: any = null;
   loadingContent = true;
   addDditWeightPopRef: any;
@@ -27,9 +29,11 @@ export class WeightsComponent implements OnInit, OnDestroy {
   sliderMax = 10;
   currentEditIndex: any = -1
   fields: any = [];
+  field_name:string;
   searchModel;
   deleteFlag;
   indexPipelineId;
+  search_FieldName: any = '';
   searching;
   searchField;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
@@ -39,7 +43,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
     NOT_INDEXED: 'Indexed property has been set to False for this field',
     NOT_EXISTS: 'Associated field has been deleted'
   }
-  submitted : boolean = false;
+  submitted: boolean = false;
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef<HTMLInputElement>;
   @ViewChild('addDditWeightPop') addDditWeightPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
@@ -49,7 +53,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
-    public inlineManual : InlineManualService
+    public inlineManual: InlineManualService
   ) { }
   selectedApp: any = {};
   serachIndexId;
@@ -61,36 +65,45 @@ export class WeightsComponent implements OnInit, OnDestroy {
   weightsObj: any = {};
   currentEditDesc = '';
   subscription: Subscription;
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.loadWeights();
-    this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
+    this.subscription = this.appSelectionService.queryConfigs.subscribe(res =>
+    {
       this.loadWeights();
     })
   }
-  loadWeights() {
+  loadWeights()
+  {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId) {
+    if (this.indexPipelineId)
+    {
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
-      if (this.queryPipelineId) {
+      if (this.queryPipelineId)
+      {
         this.getWeights();
       }
     }
 
   }
-  selectedField(event) {
+  selectedField(event)
+  {
     this.addEditWeighObj.fieldName = event.fieldName;
     this.addEditWeighObj.fieldId = event._id;
     this.addEditWeighObj.name = event.fieldName;
   }
-  clearField() {
+  clearField()
+  {
     this.addEditWeighObj.fieldName = '';
     this.addEditWeighObj.fieldId = '';
     this.addEditWeighObj.name = '';
   }
-  getFieldAutoComplete(query) {
-    if (/^\d+$/.test(this.searchField)) {
+  getFieldAutoComplete(query)
+  {
+    if (/^\d+$/.test(this.searchField))
+    {
       query = parseInt(query, 10);
     }
     const quaryparms: any = {
@@ -98,16 +111,21 @@ export class WeightsComponent implements OnInit, OnDestroy {
       indexPipelineId: this.indexPipelineId,
       query
     };
-    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
+    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res =>
+    {
       this.fields = res || [];
-    }, errRes => {
+    }, errRes =>
+    {
       this.errorToaster(errRes, 'Failed to get fields');
     })
   }
-  prepereWeights() {
+  prepereWeights()
+  {
     this.weights = [];
-    if (this.pipeline.weights) {
-      this.pipeline.weights.forEach((element, i) => {
+    if (this.pipeline.weights)
+    {
+      this.pipeline.weights.forEach((element, i) =>
+      {
         const name = (element.name || '').replace(/[^\w]/gi, '')
         const obj = {
           name: element.name,
@@ -119,30 +137,36 @@ export class WeightsComponent implements OnInit, OnDestroy {
         }
         this.weights.push(obj);
         // console.log("weight noe ", this.weights);
-       
+
       });
     }
     this.loadingContent = false;
   }
-  restore(dialogRef?) {
+  restore(dialogRef?)
+  {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
-    this.service.invoke('post.restoreWeights', quaryparms).subscribe(res => {
+    this.service.invoke('post.restoreWeights', quaryparms).subscribe(res =>
+    {
       this.notificationService.notify('Updated Successfully', 'success');
       this.pipeline = res.pipeline || {};
       this.prepereWeights();
-      if (dialogRef && dialogRef.close) {
+      if (dialogRef && dialogRef.close)
+      {
         dialogRef.close();
       }
-    }, errRes => {
+    }, errRes =>
+    {
       this.errorToaster(errRes, 'Failed to reset weights');
     });
   }
-  restoreWeights(event) {
-    if (event) {
+  restoreWeights(event)
+  {
+    if (event)
+    {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
@@ -161,39 +185,49 @@ export class WeightsComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
+      .subscribe(result =>
+      {
+        if (result === 'yes')
+        {
           this.restore(dialogRef)
-        } else if (result === 'no') {
+        } else if (result === 'no')
+        {
           dialogRef.close();
         }
       })
   }
-  getWeights() {
+  getWeights()
+  {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
-    this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
+    this.service.invoke('get.queryPipeline', quaryparms).subscribe(res =>
+    {
       this.pipeline = res.pipeline || {};
       this.prepereWeights();
-      if(!this.inlineManual.checkVisibility('WEIGHTS')){
+      if (!this.inlineManual.checkVisibility('WEIGHTS'))
+      {
         this.inlineManual.openHelp('WEIGHTS')
         this.inlineManual.visited('WEIGHTS')
       }
-    }, errRes => {
+    }, errRes =>
+    {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get weights');
     });
   }
-  valueEvent(val, weight) { 
-    if (!this.sliderOpen) {
+  valueEvent(val, weight)
+  {
+    if (!this.sliderOpen)
+    {
       this.disableCancle = false;
     }
     weight.sliderObj.default = val;
   }
-  editWeight(weight, index) {
+  editWeight(weight, index)
+  {
     this.currentEditIndex = index;
     this.currentEditDesc = weight.desc;
     // const editWeight = JSON.parse(JSON.stringify(weight));
@@ -201,30 +235,36 @@ export class WeightsComponent implements OnInit, OnDestroy {
     // this.addEditWeighObj = editWeight;
     // this.openAddEditWeight();
   }
-  getAllFields(){
+  getAllFields()
+  {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
     };
     let serviceId = 'get.allFieldsData';
-    this.service.invoke(serviceId, quaryparms).subscribe(res => {
+    this.service.invoke(serviceId, quaryparms).subscribe(res =>
+    {
       this.fields = res.fields || [];
-    }, errRes => {
+    }, errRes =>
+    {
       this.errorToaster(errRes, 'Failed to get fields');
     });
   }
-  openAddEditWeight() {
+  openAddEditWeight()
+  {
     this.searchModel = {};
     this.sliderOpen = true;
     this.submitted = false;
     this.getAllFields();
     this.addDditWeightPopRef = this.addDditWeightPop.open();
-    setTimeout(()=>{
+    setTimeout(() =>
+    {
       this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop(); 
-    },500)
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500)
   }
-  openAddNewWeight() {
+  openAddNewWeight()
+  {
     this.addEditWeighObj = {
       name: '',
       desc: '',
@@ -234,8 +274,10 @@ export class WeightsComponent implements OnInit, OnDestroy {
     // this. getFieldAutoComplete(''); 
     this.openAddEditWeight();
   }
-  closeAddEditWeight() {
-    if (this.addDditWeightPopRef && this.addDditWeightPopRef.close) {
+  closeAddEditWeight()
+  {
+    if (this.addDditWeightPopRef && this.addDditWeightPopRef.close)
+    {
       this.addDditWeightPopRef.close();
       this.submitted = false;
       this.sliderOpen = false;
@@ -243,49 +285,64 @@ export class WeightsComponent implements OnInit, OnDestroy {
       this.addEditWeighObj = null;
     }
   }
-  setDataToActual() {
+  setDataToActual()
+  {
     this.prepereWeights();
     this.disableCancle = true;
     this.currentEditIndex = -1
   }
-  errorToaster(errRes, message) {
-    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+  errorToaster(errRes, message)
+  {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg)
+    {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-    } else if (message) {
+    } else if (message)
+    {
       this.notificationService.notify(message, 'error');
-    } else {
+    } else
+    {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
 
-  validateWeights(){
-    if(this.addEditWeighObj.fieldName && this.addEditWeighObj.fieldName.length){
+  validateWeights()
+  {
+    if (this.addEditWeighObj.fieldName && this.addEditWeighObj.fieldName.length)
+    {
       this.submitted = false;
       return true;
     }
-    else{
+    else
+    {
       return false;
     }
   }
 
-  addEditWeight() {
+  addEditWeight()
+  {
     this.submitted = true;
-    if(this.validateWeights()){
+    if (this.validateWeights())
+    {
       const weights = JSON.parse(JSON.stringify(this.weights));
-      if (this.currentEditIndex > -1) {
+      if (this.currentEditIndex > -1)
+      {
         weights[this.currentEditIndex] = this.addEditWeighObj;
-      } else {
+      } else
+      {
         weights.push(this.addEditWeighObj);
       }
       this.addOrUpddate(weights, null, 'add');
     }
-    else{
+    else
+    {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
-  getWeightsPayload(weights) {
+  getWeightsPayload(weights)
+  {
     const tempweights = [];
-    weights.forEach(weight => {
+    weights.forEach(weight =>
+    {
       const obj = {
         name: weight.name,
         value: weight.sliderObj.default,
@@ -297,7 +354,8 @@ export class WeightsComponent implements OnInit, OnDestroy {
     });
     return tempweights
   }
-  addOrUpddate(weights, dialogRef?, type?) {
+  addOrUpddate(weights, dialogRef?, type?)
+  {
     weights = weights || this.weights;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -308,31 +366,40 @@ export class WeightsComponent implements OnInit, OnDestroy {
     const payload: any = {
       pipeline: this.pipeline
     }
-    this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(res => {
+    this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(res =>
+    {
       this.currentEditIndex = -1;
       this.pipeline = res.pipeline || {};
       this.prepereWeights();
-      if (type == 'add') {
+      if (type == 'add')
+      {
         this.notificationService.notify('Added Successfully', 'success')
       }
-      else if (type == 'edit') {
+      else if (type == 'edit')
+      {
         this.notificationService.notify(' Updated Successfully', 'success');
         this.appSelectionService.updateTourConfig(this.componentType);
       }
-      else if (type == 'delete') {
+      else if (type == 'delete')
+      {
         this.notificationService.notify(' Deleted Successfully', 'success')
       }
-      if (dialogRef && dialogRef.close) {
+      if (dialogRef && dialogRef.close)
+      {
         dialogRef.close();
-      } else {
+      } else
+      {
         this.closeAddEditWeight();
       }
-    }, errRes => {
+    }, errRes =>
+    {
       this.errorToaster(errRes, 'Failed to add Weight');
     });
   }
-  deleteWeight(record, event, index) {
-    if (event) {
+  deleteWeight(record, event, index)
+  {
+    if (event)
+    {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
@@ -350,26 +417,41 @@ export class WeightsComponent implements OnInit, OnDestroy {
       }
     });
     dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
+      .subscribe(result =>
+      {
+        if (result === 'yes')
+        {
           this.weights.splice(index, 1);
           this.addOrUpddate(this.weights, dialogRef, 'delete');
           dialogRef.close();
-        } else if (result === 'no') {
+        } else if (result === 'no')
+        {
           dialogRef.close();
           // console.log('deleted')
         }
       })
   }
-  modifyFieldWarningMsg(warningMessage){
+  modifyFieldWarningMsg(warningMessage)
+  {
     let index = warningMessage.indexOf("changed");
-    if(index > -1){
+    if (index > -1)
+    {
       return true;
-    }else{
+    } else
+    {
       return false;
     }
   }
-  ngOnDestroy() {
+  clearcontentSrcW()
+  {
+    if ($('#searchBoxIdW') && $('#searchBoxIdW').length)
+    {
+      $('#searchBoxIdW')[0].value = "";
+      this.search_FieldName = '';
+    }
+  }
+  ngOnDestroy()
+  {
     this.subscription ? this.subscription.unsubscribe() : false;
   }
 }
