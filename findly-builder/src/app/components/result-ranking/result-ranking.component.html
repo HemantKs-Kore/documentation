@@ -272,8 +272,11 @@
                                                                         {{actLog.target.contentInfo.lname}}</div>
                                                                 </ng-container>
                                                                 <ng-container
-                                                                    *ngIf="actLog.target.contentType && actLog.target.contentType == 'data'">
+                                                                    *ngIf="actLog.target.contentType && actLog.target.contentInfo && actLog.target.contentType == 'data'">
+                                                                <!-- <ng-container
+                                                                    *ngIf="actLog.target.contentType  && actLog.target.contentType == 'data'"> -->
                                                                     <div class="title">
+
                                                                         {{actLog.target.contentInfo._source.strucDataHeadingDis}}
                                                                     </div>
                                                                 </ng-container>
@@ -295,8 +298,12 @@
                                                                 <div class="desc-text-ranking">
                                                                     {{actLog.target.contentInfo.shortDesc}}</div>
                                                             </ng-container>
-                                                            <ng-container
-                                                                *ngIf="actLog.target.contentType && actLog.target.contentType == 'data'">
+                                                            <!-- <ng-container
+                                                                *ngIf="actLog.target.contentType && actLog.target.contentInfo && actLog.target.contentType == 'data'"> -->
+                                                            
+                                                             <ng-container
+                                                            *ngIf="actLog.target.contentType && actLog.target.contentType == 'data'">
+
                                                                 <div class="desc-text-ranking">
                                                                     {{actLog.target.contentInfo._source.strucDataDecDis}}
                                                                 </div>
