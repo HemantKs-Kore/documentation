@@ -312,7 +312,7 @@
               </div>
             </div>
 
-            <button class="kr-sg-button-secondary btn_lg" (click)="addCondition('add')"
+            <button class="kr-sg-button-secondary btn_lg mt-2" (click)="addCondition('add')"
               *ngIf="selectedStage.condition.type=='basic'">
               <img src="assets/icons/pricing/plus-small.svg">
               <span>AND</span>
@@ -504,7 +504,7 @@
                 newMappingObj.field_mapping &&
                 newMappingObj.field_mapping.defaultValue
               ">
-              <div class="col-6 input-box">
+              <div class="col-6 input-box mb-2">
                 <div class="kr-sg-dropdowns">
                   <div class="label-text">{{'workbench.action' | translate}}</div>
                   <div class="dropup dropdown-open">
@@ -561,7 +561,7 @@
                   </div>
                 </div>
               </div>
-              <div class="kr-sg-input-text col-6 input-box" *ngIf="
+              <div class="kr-sg-input-text col-6 input-box mb-2" *ngIf="
                   newMappingObj.field_mapping.defaultValue.operation === 'copy' ||
                   newMappingObj.field_mapping.defaultValue.operation === 'rename'
                 ">
@@ -596,7 +596,7 @@
                   </ul>
                 </div>
               </div>
-              <div class="kr-sg-input-text col-6 input-box">
+              <div class="kr-sg-input-text col-6 input-box mb-2">
                 <div class="label-text" *ngIf="
                     newMappingObj.field_mapping.defaultValue.operation === 'copy'
                   ">
@@ -641,7 +641,7 @@
 
 
               </div>
-              <div class="kr-sg-input-text col-6 input-box" *ngIf="
+              <div class="kr-sg-input-text col-6 input-box mb-2" *ngIf="
                   newMappingObj.field_mapping.defaultValue.operation !==
                     'remove' &&
                   newMappingObj.field_mapping.defaultValue.operation !== 'copy' &&
@@ -697,8 +697,8 @@
                     <img src="assets/icons/drag_drop_move_icon.svg" />
                   </div>
                   <div class="col-6 mb-2">
+                    <div class="label-text">{{'workbench.source_field' | translate}}</div>
                     <div class="kr-sg-dropdowns" ngbDropdown>
-                      <div class="label-text">{{'workbench.source_field' | translate}}</div>
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
                           ngbDropdownAnchor (click)="clearcontentSrc()">
@@ -880,8 +880,8 @@
                 newMappingObj[selectedStage.type].defaultValue
               ">
               <div class="col-6 mb-2">
+                <div class="label-text">{{'workbench.source_field' | translate}}</div>
                 <div class="kr-sg-dropdowns" ngbDropdown>
-                  <div class="label-text">{{'workbench.source_field' | translate}}</div>
                   <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" id="dropdownBasic1entity" data-toggle="dropdown"
                     (change)="inputChanged('dropdownBasic1entity')"
