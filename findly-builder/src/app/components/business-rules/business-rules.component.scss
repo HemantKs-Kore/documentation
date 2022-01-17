@@ -372,6 +372,10 @@
     z-index: 9999999 !important;
 }
 
+.content-menu {
+    z-index: 99999999;
+}
+
 ::ng-deep perfect-scrollbar .ps--active-y {
     .ps__thumb-y {
         width: 3px !important;
