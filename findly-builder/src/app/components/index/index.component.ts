@@ -1336,7 +1336,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     });
   }
   getFileds(offset?)
-  {
+  { 
     this.loadingFields = true;
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
