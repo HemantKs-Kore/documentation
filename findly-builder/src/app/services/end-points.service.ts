@@ -677,7 +677,8 @@ export class EndPointsService {
     /** get API for Metrics */
 
     this.serviceList['get.queries'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/metrics/Analysis?offset=:offset&limit=:limit',
+      /*passing indexPipelineId for the analytics based indices added on 17/01  */
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:indexPipelineId/metrics/Analysis?offset=:offset&limit=:limit',
       method: 'post'
     }
     this.serviceList['get.userChart'] = {
