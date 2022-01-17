@@ -149,7 +149,9 @@
                 [ngbTooltip]="filter.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0">
                 <div class="box" [ngStyle]="filter.disabled&&{'opacity':'0.4','cursor':'default'}">
                   <div class="content-sec">
-                    <div class="name"><span>{{filter.name}}</span></div>
+                    <div class="name"><span>{{filter.name}}</span>
+                      <span><img src="assets/icons/delete-table.svg" (click)="openDeleteApp($event)"></span>
+                    </div>
                     <div class="info-text" *ngIf="filter.description !==''" title="{{filter.description}}">
                       {{filter.description}}</div>
                   </div>
@@ -258,7 +260,8 @@
                               <img src="assets/icons/content/carousel-data-inte.svg">
                             </div>
                             <div class="title">Experiments</div>
-                            <div class="desc_text">Multiple index & search configuration can be tested to pick the best
+                            <div class="desc_text">Multiple index & search configuration can be tested to pick the
+                              best
                               one that fulfills business needs</div>
                             <div class="learn-more-">
                               <span class="link"><a href="https://docs.kore.ai/searchassist/analytics/experiment/"
@@ -435,3 +438,22 @@
     </div>
   </div>
 </kr-modal>
+<!--popup for the delete -->
+<!--Delete confirmation modal start-->
+<kr-modal modalType="center" #deleteAppPop modalClass="creating-new-app-modal">
+  <div class="modal-header">
+    <div>Are_you_sure_you_want_to_delete?</div>
+    <div><img src="assets/icons/modal-close.svg" (click)="closeDeleteApp()"></div>
+  </div>
+  <div class="modal-body">
+    <input class="kr-sg-input-text" placeholder="Reconfirm by typing the name of the App you want to delete">
+    <span>Deleting your application will also delete all your Indexes,Sources & other Application Data.</span><br>
+    <span>Are you sure you want to continue?</span>
+  </div>
+  <div class="modal-footer">
+    <button class="kr-sg-button-secondary btn_lg" (click)="closeDeleteApp()">Cancel</button>
+    <button class="kr-sg-button-primary btn_lg">Delete</button>
+
+  </div>
+</kr-modal>
+<!--Delete confirmation modal end -->

@@ -27,6 +27,7 @@ export class AppsListingComponent implements OnInit {
   appsData: any;
   createAppPopRef: any;
   onboardingpopupjourneyRef: any;
+  deleteAppPopRef: any;
   creatingInProgress = false;
   searchApp = '';
   apps: any = [];
@@ -47,6 +48,7 @@ export class AppsListingComponent implements OnInit {
   currentPage: number = 1;
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
+  @ViewChild('deleteAppPop') deleteAppPop: KRModalComponent;
   constructor(
     public localstore: LocalStoreService,
     private service: ServiceInvokerService,
@@ -115,6 +117,18 @@ export class AppsListingComponent implements OnInit {
     this.createAppPopRef.close();
     this.newApp = { name: '', description: '' };
   }
+  openDeleteApp(event) {
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    this.deleteAppPopRef = this.deleteAppPop.open();
+  }
+  closeDeleteApp() {
+    if (this.deleteAppPopRef && this.deleteAppPopRef.close) {
+      this.deleteAppPopRef.close();
+    }
+  }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -147,20 +161,20 @@ export class AppsListingComponent implements OnInit {
         this.emptyApp = false;
       }
       else {
-        if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
+        if (localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")) {
           let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
           prDetails.route = "/home";
 
           localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
           this.router.navigate(['/home'], { skipLocationChange: true });
-        }else {
+        } else {
           // if(!this.inlineManual.checkVisibility('CREATE_APP')){
-        //   this.inlineManual.openHelp('CREATE_APP')
-        //   this.inlineManual.visited('CREATE_APP')
-        // }
-        
-        /** Issue Fix for multiple onboarding function called */
-          if(!this.headerService.openJourneyForfirstTime){
+          //   this.inlineManual.openHelp('CREATE_APP')
+          //   this.inlineManual.visited('CREATE_APP')
+          // }
+
+          /** Issue Fix for multiple onboarding function called */
+          if (!this.headerService.openJourneyForfirstTime) {
             this.emptyApp = true;
             this.showBoarding = true;
             this.headerService.openJourneyForfirstTime = true;
