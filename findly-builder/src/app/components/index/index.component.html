@@ -987,7 +987,7 @@
                             $event,
                             newMappingObj[selectedStage.type].defaultValue
                           ) 
-                        " #suggestedInput />
+                        " [(ngModel)]="entityName" #suggestedInput />
                     </mat-chip-list>
                     <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="
                         selectedTag(
