@@ -73,7 +73,7 @@
                                         type="checkbox" (change)="checkUncheckTraits(traitGroup)">
                                     <label for="{{traitGroup._id}}" class="checkbox-custom-label"></label>
                                 </div>
-                                <span ngbTooltip="{{traitGroup.groupName || '---'}}" placement="top-center"
+                                <span class="text-truncate" ngbTooltip="{{traitGroup.groupName || '---'}}" placement="top-center"
                                     container='body'
                                     tooltipClass="ngb_tooltip_custom_class sampleJson">{{traitGroup.groupName ||
                                     '---'}}</span>

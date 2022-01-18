@@ -44,7 +44,7 @@
                             <div class="sliderVal">{{weightModal.sliderObj.default}}</div>
                             <div class="action_links" *ngIf="(currentEditIndex !== i)">
                                 <span class="actions-links pr-4" id="btn_editWeight" (click)="editWeight(weightModal,i)"><img class="action_icon" [container]="'body'" ngbTooltip='Edit' src="assets/images/edit-pencil.svg"></span>
-                                <span class="actions-links" id="btn_deleteWeight" ngbTooltip='Delete' [container]="'body'" (click)="deleteWeight(weightModal,$event,i)"><img class="action_icon" src="assets/icons/trashIcon.svg"></span>
+                                <span class="actions-links" id="btn_deleteWeight" ngbTooltip='Delete' [container]="'body'" (click)="deleteWeight(weightModal,$event,i)"><img class="action_icon" src="assets/icons/delete.svg"></span>
                             </div>
                             <div class="action_links editBlock" *ngIf="currentEditIndex === i">
                                 <span class="actions-links pr-1" id="btn_confirmWeightEdit" (click)="weightModal.desc = currentEditDesc;currentEditIndex = -1"><img class="action_icon" src="assets/images/Gray-Close-withBorder.svg"></span>
