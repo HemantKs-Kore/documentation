@@ -9,7 +9,7 @@
     <!-- <div class="title">Index Configuration</div> -->
     <div class="title">{{'workbench.workbench' | translate}}</div> <!-- (click)="openModalPopup()" -->
     <div class="btn_sec">
-      <button class="kr-sg-button-secondary btn_lg" [disabled]="savingConfig" (click)="saveConfig()">
+      <button class="kr-sg-button-secondary btn_lg" [disabled]="savingConfig" (click)="validation(true)">
         {{ savingConfig ? ('workbench.saving' | translate) : ('workbench.save_configuration' | translate) }}
       </button>
       <!-- <button class="kr-sg-button-primary btn_lg" [disabled]='reIndexing' (click)="reindex()">{{(reIndexing)?'Re-Indexing..':'Re-Index'}}</button> -->
@@ -118,11 +118,11 @@
                   ) | translate
                   }}
                 </button>
-                <ul class="dropdown-menu content-menu">
+                <ul class="dropdown-menu content-menu" click="clearvalidation()">
                   <li *ngFor="
                       let systemStage of defaultStageTypes;
                       let index = index
-                    " (click)="switchStage(systemStage, index,'true');">
+                    " (click)="switchStage(systemStage, index,'true')">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
                       systemStage?.type | translate
                       }}</a>
@@ -157,7 +157,7 @@
                   <li *ngFor="
                       let systemStage of defaultStageTypes;
                       let index = index
-                    " (click)="switchStage(systemStage, index,'false')">
+                    " (click)="switchStage(systemStage, index,'false');clearvalidation()">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
                       systemStage?.type | translate
                       }}</a>
@@ -312,7 +312,7 @@
               </div>
             </div>
 
-            <button class="kr-sg-button-secondary btn_lg" (click)="addCondition('add')"
+            <button class="kr-sg-button-secondary btn_lg mt-2" (click)="addCondition('add')"
               *ngIf="selectedStage.condition.type=='basic'">
               <img src="assets/icons/pricing/plus-small.svg">
               <span>AND</span>
@@ -504,11 +504,11 @@
                 newMappingObj.field_mapping &&
                 newMappingObj.field_mapping.defaultValue
               ">
-              <div class="col-6 input-box">
+              <div class="col-6 input-box mb-2">
                 <div class="kr-sg-dropdowns">
                   <div class="label-text">{{'workbench.action' | translate}}</div>
                   <div class="dropup dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" (click)="clearvalidation()">
                       {{
                       (newMappingObj.field_mapping.defaultValue.operation
                       ? newMappingObj.field_mapping.defaultValue.operation
@@ -525,7 +525,7 @@
                             'field_mapping'
                           )
                         ">
-                        <a>{{'workbench.set' | translate}}</a>
+                        <a>{{'workbench.set' | translate}} </a>
                       </li>
                       <li (click)="
                           setRuleObj(
@@ -561,7 +561,7 @@
                   </div>
                 </div>
               </div>
-              <div class="kr-sg-input-text col-6 input-box" *ngIf="
+              <div class="kr-sg-input-text col-6 input-box mb-2" *ngIf="
                   newMappingObj.field_mapping.defaultValue.operation === 'copy' ||
                   newMappingObj.field_mapping.defaultValue.operation === 'rename'
                 ">
@@ -578,10 +578,13 @@
                 </div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench.enter_source_field' | translate}}"
+                  id="rename_sourcefield" (change)="inputChanged('rename_sourcefield')"
                     (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                     data-toggle="dropdown" [(ngModel)]="
                     newMappingObj.field_mapping.defaultValue.source_field
                   " />
+                  <img id="infoWarning2" src="assets/icons/warning_escalation.svg" style="display: none;"
+                        height="12" width="12" />
                   <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                     [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj.field_mapping.defaultValue.source_field, 'fieldName']).length}">
                     <perfect-scrollbar class="scroll-search-field h-178">
@@ -593,7 +596,7 @@
                   </ul>
                 </div>
               </div>
-              <div class="kr-sg-input-text col-6 input-box">
+              <div class="kr-sg-input-text col-6 input-box mb-2">
                 <div class="label-text" *ngIf="
                     newMappingObj.field_mapping.defaultValue.operation === 'copy'
                   ">
@@ -615,9 +618,11 @@
                 </div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench.enter_name' | translate}}"
-                    class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" [(ngModel)]="
-                    newMappingObj.field_mapping.defaultValue.target_field
-                  " />
+                   class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" 
+                   id="fieldname" (change)="inputChanged('fieldname')"
+                   [(ngModel)]="newMappingObj.field_mapping.defaultValue.target_field" />
+                   <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;"
+                        height="12" width="12" />
                   <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                     *ngIf="
                 newMappingObj.field_mapping.defaultValue.operation !==
@@ -636,7 +641,7 @@
 
 
               </div>
-              <div class="kr-sg-input-text col-6 input-box" *ngIf="
+              <div class="kr-sg-input-text col-6 input-box mb-2" *ngIf="
                   newMappingObj.field_mapping.defaultValue.operation !==
                     'remove' &&
                   newMappingObj.field_mapping.defaultValue.operation !== 'copy' &&
@@ -655,7 +660,10 @@
                   {{'workbench.new_name' | translate}}
                 </div>
                 <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text"
-                  [(ngModel)]="newMappingObj.field_mapping.defaultValue.value" />
+                  id="set_value"
+                  [(ngModel)]="newMappingObj.field_mapping.defaultValue.value" (change)="inputChanged('set_value')"/>
+                  <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;"
+                        height="12" width="12" />
               </div>
               <div class="colse_form">
                 <img (click)="setResetNewMappingsObj()" src="assets/images/close-cross.svg" />
@@ -689,8 +697,8 @@
                     <img src="assets/icons/drag_drop_move_icon.svg" />
                   </div>
                   <div class="col-6 mb-2">
+                    <div class="label-text">{{'workbench.source_field' | translate}}</div>
                     <div class="kr-sg-dropdowns" ngbDropdown>
-                      <div class="label-text">{{'workbench.source_field' | translate}}</div>
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
                           ngbDropdownAnchor (click)="clearcontentSrc()">
@@ -872,11 +880,12 @@
                 newMappingObj[selectedStage.type].defaultValue
               ">
               <div class="col-6 mb-2">
-                <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom-right'">
-                  <div class="label-text">{{'workbench.source_field' | translate}}</div>
+                <div class="label-text">{{'workbench.source_field' | translate}}</div>
+                <div class="kr-sg-dropdowns" ngbDropdown>
                   <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
-                      ngbDropdownAnchor (click)="clearcontentSrcD()">
+                    <button class="dropdown-toggle dropdown-input" id="dropdownBasic1entity" data-toggle="dropdown"
+                    (change)="inputChanged('dropdownBasic1entity')"
+                      ngbDropdownToggle (click)="clearcontentSrcD()">
                       {{newMappingObj[selectedStage.type].defaultValue.source_field?newMappingObj[selectedStage.type].defaultValue.source_field:"Choose
                       source field"}}
                     </button>
@@ -892,7 +901,6 @@
                             *ngFor="let suggesition of fields | filter : [search_basic_fieldName2, 'fieldName']"
                             (click)="newMappingObj[selectedStage.type].defaultValue.source_field = suggesition.fieldName"
                             [ngClass]="{'highlight':newMappingObj[selectedStage.type].defaultValue.source_field== suggesition.fieldName}">
-
                             {{ suggesition.fieldName }}
                           </li>
                         </ng-container>
@@ -965,7 +973,7 @@
                   {{'workbench.choose_keywords' | translate}}
                 </div>
                 <ng-container *ngIf="selectedStage.type === 'entity_extraction'">
-                  <mat-form-field class="example-chip-list" [floatLabel]="'never'">
+                  <mat-form-field class="example-chip-list error" [floatLabel]="'never'">
                     <mat-chip-list #chipList>
                       <mat-chip *ngFor="
                           let entity of newMappingObj[selectedStage.type]
@@ -980,14 +988,22 @@
                           }}</span>
                         <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                       </mat-chip>
-                      <input placeholder="{{'workbench.type_and_enter' | translate}}" [matChipInputFor]="chipList"
+                      <input  id="addentity" placeholder="{{'workbench.type_and_enter' | translate}}" 
+                       (change)="inputChanged('addentity')"
+                      [matChipInputFor]="chipList"
                         [matAutocomplete]="suggestedItems" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                         [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="
                           addEntityList(
                             $event,
                             newMappingObj[selectedStage.type].defaultValue
                           ) 
+<<<<<<< HEAD
                         " [(ngModel)]="entityName" #suggestedInput />
+=======
+                        " #suggestedInput />
+                        <img id="infoWarning3" src="assets/icons/warning_escalation.svg" style="display: none;"
+                        height="12" width="12" /> 
+>>>>>>> d8f6e4c2e77b28f7c0c572c5145b8afbd6dc6af2
                     </mat-chip-list>
                     <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="
                         selectedTag(
@@ -1020,6 +1036,7 @@
                         <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                       </mat-chip>
                       <input placeholder="{{'workbench.type_and_enter' | translate}}" [matChipInputFor]="chipList"
+                        id="traitsgroup" (change)="inputChanged('traitsgroup')"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matAutocomplete]="suggestedItems"
                         [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="
                           addTraitsList(
@@ -1027,6 +1044,8 @@
                             newMappingObj[selectedStage.type].defaultValue
                           )
                         " #suggestedInput />
+                        <img id="infoWarning5" src="assets/icons/warning_escalation.svg" style="display: none;"
+                        height="12" width="12" />
                     </mat-chip-list>
                     <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="
                         selectedTag(
@@ -1048,9 +1067,12 @@
                 <div class="label-text">{{'workbench.target_field' | translate}}</div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench.value' | translate}}"
+                  id="entitytarget" (change)="inputChanged('entitytarget')"
                     class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" [(ngModel)]="
                       newMappingObj[selectedStage.type].defaultValue.target_field
-                    " />
+                   " />
+                   <img id="infoWarning4" src="assets/icons/warning_escalation.svg" style="display: none;"
+                   height="12" width="12"/>
                   <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                     [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj[selectedStage.type].defaultValue.target_field, 'fieldName']).length}">
                     <perfect-scrollbar class="scroll-search-field h-178">
@@ -1098,7 +1120,7 @@
         </div>
       </perfect-scrollbar>
       <div class="footer-simulate-form simulatebtnContainer">
-        <span class="float-right"><button class="kr-sg-button-primary btn_lg mr-0" id="simulateBtn" (click)="simulate()"
+        <span class="float-right"><button class="kr-sg-button-primary btn_lg mr-0" id="simulateBtn" (click)="validation(false)"
             placement="top-right" tooltipClass="workbench_tolltips m-0" [disabled]="simulteObj.simulating"
             ngbTooltip="{{'workbench.simulate_to_check_how_the_changes_reflect' | translate}}">
             <img src="assets/images/simulate.svg" class="mr-1" />{{simulteObj.simulating ?('workbench.simulating' |

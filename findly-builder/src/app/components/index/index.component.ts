@@ -62,6 +62,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
   currentEditIndex: any = -1;
   selectedStageIndex: any = -1;
   pollingSubscriber: any = null;
+  submitted: boolean = false;
   showNewStageType: boolean = false;
   subscription: Subscription;
   @ViewChild('tleft') public tooltip: NgbTooltip;
@@ -913,8 +914,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       this.mixpanel.postEvent('Workbench - Rule Updated', {});
     }
   }
-  saveConfig(index?, dialogRef?)
-  {
+
+  
+  saveConfig(warningmessage?,index?, dialogRef?)
+  { 
+    
     let plainScriptTxt: any;
     if (this.newMappingObj && this.newMappingObj.custom_script &&
       this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script)
@@ -940,6 +944,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         // this.appSelectionService.updateTourConfig('addData');
         this.mixpanelForStages();
         this.notificationService.notify('Configurations Saved Successfully', 'success');
+        if(warningmessage){
+          this.notificationService.notify(warningmessage,'warning');
+        }
         this.modifiedStages = {
           createdStages: [],
           deletedStages: []
@@ -1133,6 +1140,406 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     // this.simulateJson = JSON.stringify(data, null, ' ');
     this.filteredSimulatorRes = JSON.stringify(data, null, ' ');
   }
+
+  clearvalidation(){
+    
+   
+      $("#infoWarning").hide();
+      $("#fieldname").css("border-color","#BDC1C6");
+    
+    
+      $("#infoWarning1").hide();
+      $("#set_value").css("border-color","#BDC1C6");
+   
+  
+      $("#infoWarning2").hide() 
+      $("#rename_sourcefield").css("border-color","#BDC1C6");
+    
+
+      $("#dropdownBasic1entity").css("border-color","#BDC1C6");
+
+      
+        $("#infoWarning4").hide();
+        $("#entitytarget").css("border-color","#BDC1C6");
+        
+        
+    
+    
+      $("#infoWarning3").hide();
+      $("#addentity").parents('div').css("border-color","#BDC1C6");
+      //$("#addentity").css("border-color", ((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length) != 0) ? "#BDC1C6" : "#DD3646");
+      
+      
+   
+      $("#infoWarning5").hide() 
+      //$("#traitsgroup").css("border-color", ((this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups).length!=0)? "#BDC1C6" : "#DD3646");
+      $("#traitsgroup").parents('div').css("border-color","#BDC1C6");
+  }
+
+  inputChanged(type) {
+
+    if (type == 'fieldname') {
+      this.newMappingObj.field_mapping.defaultValue.target_field != '' ? $("#infoWarning").hide() : $("#infoWarning").show();
+      $("#fieldname").css("border-color", this.newMappingObj.field_mapping.defaultValue.target_field != '' ? "#BDC1C6" : "#DD3646");
+    }
+    else if (type == 'set_value') {
+      this.newMappingObj.field_mapping.defaultValue.value != '' ? $("#infoWarning1").hide() : $("#infoWarning1").show();
+      $("#set_value").css("border-color", this.newMappingObj.field_mapping.defaultValue.value != '' ? "#BDC1C6" : "#DD3646");
+    }
+    else if (type == 'rename_sourcefield') {
+      this.newMappingObj.field_mapping.defaultValue.source_field != '' ? $("#infoWarning2").hide() : $("#infoWarning2").show();
+      $("#rename_sourcefield").css("border-color", this.newMappingObj.field_mapping.defaultValue.source_field != '' ? "#BDC1C6" : "#DD3646");
+    }
+    else if(type=='dropdownBasic1entity'){
+      $("#dropdownBasic1entity").css("border-color", this.newMappingObj[this.selectedStage.type].defaultValue.source_field != '' ? "#BDC1C6" : "#DD3646");
+    }
+    else if (type == 'addentity') {
+      console.log((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length));
+      ((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length)!= 0) ? $("#infoWarning3").hide() : $("#infoWarning3").show();
+      $("#addentity").css("border-color", ((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length) != 0) ? "#BDC1C6" : "#DD3646");
+    }
+    else if (type == 'entitytarget') {
+      this.newMappingObj[this.selectedStage.type].defaultValue.target_field != '' ? $("#infoWarning4").hide() : $("#infoWarning4").show();
+      $("#entitytarget").css("border-color", this.newMappingObj[this.selectedStage.type].defaultValue.target_field != '' ? "#BDC1C6" : "#DD3646");
+    }
+    else if (type == 'traitsgroup') {
+      ((this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups).length!=0) ? $("#infoWarning5").hide() : $("#infoWarning5").show();
+      $("#traitsgroup").css("border-color", ((this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups).length!=0)? "#BDC1C6" : "#DD3646");
+      
+    }
+    
+  }
+  validation(save){
+    if ((this.selectedStage.condition.mappings)) {
+
+     if(this.selectedStage.type === 'field_mapping')
+     {
+        if (this.newMappingObj.field_mapping.defaultValue.operation === "set") {
+          for (let i = 0; i < this.selectedStage.condition.mappings.length; i++) {
+            if (((this.selectedStage.condition.mappings[i].operator === '') || (this.basic_fieldName === '')) &&
+              (((this.newMappingObj.field_mapping.defaultValue.target_field) && (this.newMappingObj.field_mapping.defaultValue.value)))) {
+              let warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided'
+              // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+              if(save===true){
+                this.saveConfig(warningmessage);
+              }  
+              else{            
+              this.simulate(warningmessage);
+              }
+            }
+            else if (this.newMappingObj.field_mapping.defaultValue.target_field === '' || this.newMappingObj.field_mapping.defaultValue.value === '') {
+              if ((this.newMappingObj.field_mapping.defaultValue.value === '')
+                && (this.newMappingObj.field_mapping.defaultValue.target_field === '')) {
+
+                $("#fieldname").css("border-color", "#DD3646");
+                $("#infoWarning").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+                $("#set_value").css("border-color", "#DD3646");
+                $("#infoWarning1").css({ "top": "60%", "position": "absolute", "right": "6%", "display": "block" });
+              }
+              else if (this.newMappingObj.field_mapping.defaultValue.target_field === '') {
+                $("#fieldname").css("border-color", "#DD3646");
+                $("#infoWarning").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+              }
+              else if (this.newMappingObj.field_mapping.defaultValue.value === '') {
+                $("#set_value").css("border-color", "#DD3646");
+                $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "6%", "display": "block" });
+              }
+              this.notificationService.notify('Enter the required fields to proceed', 'error');
+            }
+            else {
+              this.simulate();
+            }
+          }
+        }
+
+        else if (this.newMappingObj.field_mapping.defaultValue.operation === "rename" ||  this.newMappingObj.field_mapping.defaultValue.operation === "copy") {
+          for (let i = 0; i < this.selectedStage.condition.mappings.length; i++) {
+            if (((this.selectedStage.condition.mappings[i].operator === '') || (this.basic_fieldName === '')) &&
+              (((this.newMappingObj.field_mapping.defaultValue.source_field) && (this.newMappingObj.field_mapping.defaultValue.target_field)))) {
+              let warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided'
+              // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+              if(save===true){
+                this.saveConfig(warningmessage);
+              }  
+              else{            
+              this.simulate(warningmessage);
+              }
+              
+            }
+            else if (this.newMappingObj.field_mapping.defaultValue.source_field === '' || this.newMappingObj.field_mapping.defaultValue.source_field === undefined || this.newMappingObj.field_mapping.defaultValue.target_field === '') {
+              if ((this.newMappingObj.field_mapping.defaultValue.source_field === '' || this.newMappingObj.field_mapping.defaultValue.source_field === undefined)
+                && (this.newMappingObj.field_mapping.defaultValue.target_field === '')) {
+                $("#rename_sourcefield").css("border-color", "#DD3646");
+                $("#infoWarning2").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+                $("#fieldname").css("border-color", "#DD3646");
+                $("#infoWarning").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+              }
+              else if (this.newMappingObj.field_mapping.defaultValue.source_field === '' || this.newMappingObj.field_mapping.defaultValue.source_field === undefined) {
+                $("#rename_sourcefield").css("border-color", "#DD3646");
+                $("#infoWarning2").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+              }
+              else if (this.newMappingObj.field_mapping.defaultValue.target_field === '') {
+                $("#fieldname").css("border-color", "#DD3646");
+                $("#infoWarning").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+              }
+              this.notificationService.notify('Enter the required fields to proceed', 'error');
+            }
+
+            else {
+              this.simulate();
+            }
+          }
+        }
+
+        else if (this.newMappingObj.field_mapping.defaultValue.operation === "remove") {
+          for (let i = 0; i < this.selectedStage.condition.mappings.length; i++) {
+            if (((this.selectedStage.condition.mappings[i].operator === '') || (this.basic_fieldName === '')) &&
+              (((this.newMappingObj.field_mapping.defaultValue.target_field)))) {
+              let warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided'
+              // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+              if(save===true){
+                this.saveConfig(warningmessage);
+              }  
+              else{            
+              this.simulate(warningmessage);
+              }
+            }
+            else if (this.newMappingObj.field_mapping.defaultValue.target_field === '') {
+              if (this.newMappingObj.field_mapping.defaultValue.target_field === '') {
+                $("#fieldname").css("border-color", "#DD3646");
+                $("#infoWarning").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+              }
+              this.notificationService.notify('Enter the required fields to proceed', 'error');
+            }
+
+            else {
+              this.simulate();
+            }
+          }
+        }        
+      }
+
+      else if(this.selectedStage.type === 'entity_extraction')
+      {
+        for (let i = 0; i < this.selectedStage.condition.mappings.length; i++) {
+          if (((this.selectedStage.condition.mappings[i].operator === '') || (this.basic_fieldName === '')) &&
+            (((this.newMappingObj[this.selectedStage.type].defaultValue.source_field) && 
+            ((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length)!=0) && (this.newMappingObj[this.selectedStage.type].defaultValue.target_field)))) {
+            let warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided'
+            // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+            if(save===true){
+              this.saveConfig(warningmessage);
+            }  
+            else{            
+            this.simulate(warningmessage);
+            }
+          }
+          else if (this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '' || (this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length==0)
+                    || this.newMappingObj[this.selectedStage.type].defaultValue.target_field === '' ) {
+                      if ((this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '')
+              && ((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length)==0) && (this.newMappingObj[this.selectedStage.type].defaultValue.target_field===''))
+              
+              {
+              $("#dropdownBasic1entity").css("border-color", "#DD3646");
+              // $("#addentity").css("border-color", "#DD3646");
+              $("#addentity").parents('div').css("border-color", "#DD3646");
+              $("#infoWarning3").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+              $("#entitytarget").css("border-color", "#DD3646");
+              $("#infoWarning4").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+
+            }
+            else if ((this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '')&&((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types).length)==0
+                &&(this.newMappingObj[this.selectedStage.type].defaultValue.target_field))
+            {
+              $("#dropdownBasic1entity").css("border-color", "#DD3646");
+              //$("#addentity").css("border-color", "#DD3646");
+              $("#addentity").parents('div').css("border-color", "#DD3646");
+              $("#infoWarning3").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+            }
+            else if (((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length)==0) && (this.newMappingObj[this.selectedStage.type].defaultValue.target_field==='')
+                 &&(this.newMappingObj[this.selectedStage.type].defaultValue.source_field)) {
+             // $("#addentity").css("border-color", "#DD3646");
+             $("#addentity").parents('div').css("border-color", "#DD3646");
+              $("#infoWarning3").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+              $("#entitytarget").css("border-color", "#DD3646");
+              $("#infoWarning4").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+            }
+            else if ((this.newMappingObj[this.selectedStage.type].defaultValue.target_field==='') && (this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '')
+                &&  (this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length)) {
+              $("#entitytarget").css("border-color", "#DD3646");
+              $("#infoWarning4").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+              $("#dropdownBasic1entity").css("border-color", "#DD3646");
+            }
+            else if ((this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '') && (this.newMappingObj[this.selectedStage.type].defaultValue.target_field) && 
+             (this.newMappingObj[this.selectedStage.type].defaultValue.entity_types.length))
+            {
+              $("#dropdownBasic1entity").css("border-color", "#DD3646");
+            }
+            else if (((this.newMappingObj[this.selectedStage.type].defaultValue.entity_types).length==0) && (this.newMappingObj[this.selectedStage.type].defaultValue.source_field)
+                 &&((this.newMappingObj[this.selectedStage.type].defaultValue.target_field)) ) {
+              //$("#addentity").css("border-color", "#DD3646");
+              $("#addentity").parents('div').css("border-color", "#DD3646");
+              $("#infoWarning3").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+            }
+            else if (((this.newMappingObj[this.selectedStage.type].defaultValue.target_field==''))) {
+              $("#entitytarget").css("border-color", "#DD3646");
+              $("#infoWarning4").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+            }
+            this.notificationService.notify('Enter the required fields to proceed', 'error');
+          }
+          else {
+            this.simulate();
+          }
+        }         
+      }
+      else if(this.selectedStage.type === 'traits_extraction')
+      {
+        for (let i = 0; i < this.selectedStage.condition.mappings.length; i++) {          
+          if (((this.selectedStage.condition.mappings[i].operator === '') || (this.basic_fieldName === '')) &&
+            (((this.newMappingObj[this.selectedStage.type].defaultValue.source_field) && 
+            ((this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups.length)!=0) && (this.newMappingObj[this.selectedStage.type].defaultValue.target_field)))) {
+            let warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided'
+            // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+            if(save===true){
+              this.saveConfig(warningmessage);
+            }  
+            else{            
+            this.simulate(warningmessage);
+            }
+          }
+          else if (this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '' || (this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups.length==0)
+                    || this.newMappingObj[this.selectedStage.type].defaultValue.target_field === '' ) {
+            if ((this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '')
+              && ((this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups.length)==0) && (this.newMappingObj[this.selectedStage.type].defaultValue.target_field===''))
+              
+              {
+              $("#dropdownBasic1entity").css("border-color", "#DD3646");
+              //$("#traitsgroup").css("border-color", "#DD3646");
+              $("#traitsgroup").parents('div').css("border-color", "#DD3646");
+              $("#infoWarning5").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+              $("#entitytarget").css("border-color", "#DD3646");
+              $("#infoWarning4").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+
+            }
+            else if (((this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '')&&(this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups.length)==0)) {
+              $("#dropdownBasic1entity").css("border-color", "#DD3646");
+              //$("#traitsgroup").css("border-color", "#DD3646");
+              $("#traitsgroup").parents('div').css("border-color", "#DD3646");
+              $("#infoWarning5").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+            }
+            else if (((this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups.length)==0) && (this.newMappingObj[this.selectedStage.type].defaultValue.target_field==='')) {
+              //$("#traitsgroup").css("border-color", "#DD3646");
+              $("#traitsgroup").parents('div').css("border-color", "#DD3646");
+              $("#infoWarning5").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+              $("#entitytarget").css("border-color", "#DD3646");
+              $("#infoWarning4").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+            }
+            else if ((this.newMappingObj[this.selectedStage.type].defaultValue.target_field==='') && (this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '')) {
+              $("#entitytarget").css("border-color", "#DD3646");
+              $("#infoWarning4").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+              $("#dropdownBasic1entity").css("border-color", "#DD3646");
+            }
+            else if (this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '') {
+              $("#dropdownBasic1entity").css("border-color", "#DD3646");
+            }
+            else if ((this.newMappingObj[this.selectedStage.type].defaultValue.trait_groups).length==0) {
+              //$("#traitsgroup").css("border-color", "#DD3646");
+              $("#traitsgroup").parents('div').css("border-color", "#DD3646");
+              $("#infoWarning5").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+            }
+            else if (this.newMappingObj[this.selectedStage.type].defaultValue.target_field==='') {
+              $("#entitytarget").css("border-color", "#DD3646");
+              $("#infoWarning4").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+            }
+            this.notificationService.notify('Enter the required fields to proceed', 'error');
+          }
+          else {
+            this.simulate();
+          }
+        }         
+      }
+      else if(this.selectedStage.type === 'keyword_extraction'){
+        for (let i = 0; i < this.selectedStage.condition.mappings.length; i++) {
+          if (((this.selectedStage.condition.mappings[i].operator === '') || (this.basic_fieldName === '')) &&
+            (((this.newMappingObj[this.selectedStage.type].defaultValue.source_field) && 
+              (this.newMappingObj[this.selectedStage.type].defaultValue.target_field)))) {
+            let warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided'
+            // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+            if(save===true){
+              this.saveConfig(warningmessage);
+            }  
+            else{            
+            this.simulate(warningmessage);
+            }
+          }
+          else if (this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '' 
+                    || this.newMappingObj[this.selectedStage.type].defaultValue.target_field === '' ) {
+            if ((this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '')
+               && (this.newMappingObj[this.selectedStage.type].defaultValue.target_field===''))           
+              {
+                $("#dropdownBasic1entity").css("border-color", "#DD3646");              
+                $("#entitytarget").css("border-color", "#DD3646");
+                $("#infoWarning4").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+              }            
+            else if (this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '') {
+                $("#dropdownBasic1entity").css("border-color", "#DD3646");
+            }
+            else if (this.newMappingObj[this.selectedStage.type].defaultValue.target_field==='') {
+                $("#entitytarget").css("border-color", "#DD3646");
+                $("#infoWarning4").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+            }
+              this.notificationService.notify('Enter the required fields to proceed', 'error');
+          }
+          else {
+            this.simulate();
+          }
+        }      
+
+      }
+
+      else if(this.selectedStage.type === 'semantic_meaning'){
+          console.log(this.selectedStage.condition.mappings.length);
+        for (let i = 0; i < this.selectedStage.condition.mappings.length; i++) {
+          if (((this.selectedStage.condition.mappings[i].operator === '') || (this.basic_fieldName === '')) &&
+            (((this.newMappingObj[this.selectedStage.type].defaultValue.source_field) && 
+              (this.newMappingObj[this.selectedStage.type].defaultValue.target_field)))) {                
+            let warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided'
+            // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
+            if(save===true){
+              this.saveConfig(warningmessage);
+            }  
+            else{            
+            this.simulate(warningmessage);
+            }
+          }
+          else if (this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '' 
+                    || this.newMappingObj[this.selectedStage.type].defaultValue.target_field === '' ) {
+            if ((this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '')
+               && (this.newMappingObj[this.selectedStage.type].defaultValue.target_field===''))           
+              {
+                $("#dropdownBasic1entity").css("border-color", "#DD3646");              
+                $("#entitytarget").css("border-color", "#DD3646");
+                $("#infoWarning4").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+              }            
+            else if (this.newMappingObj[this.selectedStage.type].defaultValue.source_field === '') {
+                $("#dropdownBasic1entity").css("border-color", "#DD3646");
+            }
+            else if (this.newMappingObj[this.selectedStage.type].defaultValue.target_field==='') {
+                $("#entitytarget").css("border-color", "#DD3646");
+                $("#infoWarning4").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+            }
+              this.notificationService.notify('Enter the required fields to proceed', 'error');
+          }
+          else {
+            this.simulate();
+          }
+        }      
+
+      }
+
+    }
+  }
+  
   scriptTextFlow(plainScriptTxt){
     if(plainScriptTxt){
       if (this.newMappingObj && this.newMappingObj.custom_script &&
@@ -1143,7 +1550,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       }
     }
   }
-  simulate()
+  simulate(warningmessage?)
   {
     let plainScriptTxt: any;
     if (this.newMappingObj && this.newMappingObj.custom_script &&
@@ -1206,6 +1613,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         this.addcode(res);
         this.mixpanel.postEvent('Initiated Simulator', {});
         this.notificationService.notify('Simulated Successfully', 'success')
+        if(warningmessage){
+          this.notificationService.notify(warningmessage,'warning');
+        }
         this.simulating = false;
         if (this.pollingSubscriber)
         {
@@ -1215,6 +1625,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         this.simulteObj.simulationInprogress = false;
         
       }, errRes => {
+        if(warningmessage){
+          this.notificationService.notify(warningmessage,'warning');
+        }
         this.simulating = false;
         this.simulteObj.simulating = false;
         this.addcode({});
@@ -1768,7 +2181,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
 
   }
   switchStage(systemStage, i)
-  {
+  {  
+    
     if (this.showNewStageType)
     {
       const obj: any = new StageClass();
