@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
   tsqtotalRecord = 100;
   tsqlimitpage = 5;
   tsqrecordEnd = 5;
-
+  
   tsqNoRtotalRecord = 100;
   tsqNoRlimitpage = 5;
   tsqNoRrecordEnd = 5;
@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
   recordEnd = 5;
   /*added line 52,53 for the dropdown based analytics 17/01 */
   indexConfigObj: any = {};
-  selectedIndexConfig: any = {}; // changes ends here
+  selectedIndexConfig: any; // changes ends here
 
   totalUsersStats: any;
   totalSearchesStats: any;
@@ -59,6 +59,8 @@ export class DashboardComponent implements OnInit {
   mostSearchedQuries: any = [];
   queriesWithNoClicks: any;
   searchHistogram: any;
+  selecteddropname: any;
+  public defaultPipelineid: any;
   mostClickedPositions: any = [];
   feedbackStats: any;
   heatMapChartOption: EChartOption;
@@ -89,12 +91,14 @@ export class DashboardComponent implements OnInit {
     indexConfigs: any = [];//added on 17/01
 
   ngOnInit(): void {
+   // this.getDetails();
+    
     
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
         
     /*added 96 to 107 on 17/01 */
-    this.appSelectionService.appSelectedConfigs.subscribe(res => {   
+    this.appSelectionService.appSelectedConfigs.subscribe(res =>   {   
       this.indexConfigs = res;
       // this.indexConfigs.forEach(element => {
       //   this.indexConfigObj[element._id] = element;
@@ -102,13 +106,18 @@ export class DashboardComponent implements OnInit {
       if (res.length > 0){
         this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
         this.getAllgraphdetails(this.selectedIndexConfig);
+        for(let i=0;i<res.length;i++){
+          if(res[i].default=== true){
+            this.defaultPipelineid = res[i]._id;
+            this.selecteddropname=res[i].name;           
+          }
+        }
       }
+
         
     }) //changes ends here
     
-
     
-
     //this.userEngagementChart();
 
     // this.feedback();
@@ -130,25 +139,26 @@ export class DashboardComponent implements OnInit {
     this.getQueries("TopSearchResults",selectedindexpipeline);
     this.getQueries("MostClickedPositions",selectedindexpipeline);
     this.getQueries("FeedbackStats",selectedindexpipeline);
+    
 
   }
   /*added selectindex pipeline function to capture the id's of selection dropdowns on 17/01*/
-  selectIndexPipelineId(indexConfigs, event?, type?) {
-    if (event) {
-      event.close();
-    }
-    //this.workflowService.selectedSearchIndex(indexConfigs._id)
-    this.appSelectionService.getIndexPipelineIds(indexConfigs)
-    this.selectedIndexConfig = indexConfigs._id;
-    //this.reloadCurrentRoute()
-  }//changes ends here
+  // selectIndexPipelineId(indexConfigs, event?, type?) {
+  //   if (event) {
+  //     event.close();
+  //   }
+  //   //this.workflowService.selectedSearchIndex(indexConfigs._id)
+  //   this.appSelectionService.getIndexPipelineIds(indexConfigs)
+  //   this.selectedIndexConfig = indexConfigs._id;
+  //   //this.reloadCurrentRoute()
+  // }//changes ends here
 
   /* to get the id of the selected element 17/01 */
-  getDetails(config){
+  getDetails(config?){
+    this.selecteddropname=config.name;
     this.selectedIndexConfig=config._id;
-    this.getAllgraphdetails(config._id)
-
-
+    this.getAllgraphdetails(config._id);
+   
   }
 
   viewAll(route, searchType?) {
@@ -247,10 +257,12 @@ export class DashboardComponent implements OnInit {
     const header: any = {
       'x-timezone-offset': '-330'
     };
+    
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       /* adding indexPipelineid to query params on 17/01*/
-     indexPipelineId:selectedindexpipeline, 
+     //indexPipelineId:selectedindexpipeline, 
+    indexPipelineId:selectedindexpipeline ? selectedindexpipeline : this.defaultPipelineid,
       offset: 0,
       limit: this.pageLimit
     };

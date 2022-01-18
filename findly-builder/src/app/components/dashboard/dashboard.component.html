@@ -40,8 +40,14 @@
                     title="{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name=='Default'?'Default Index':indexConfigObj[selectedIndexConfig].name:'Loading..'}}"
                     ngbDropdownToggle>
                     <span
-                        class="text-truncate">{{indexConfigs[selectedIndexConfig]?indexConfigs[selectedIndexConfig].name=='Default'?'Default
-                        Index':indexConfigs[selectedIndexConfig].name:'Loading..'}}</span>
+                        class="text-truncate">
+                        <!-- {{indexConfigs[selectedIndexConfig]?indexConfigs[selectedIndexConfig].name
+                            =='Default'?'Default
+                        Index':indexConfigs[selectedIndexConfig].name:'Loading..'}} -->
+                        <!-- {{this.selecteddropname == 'Default'?'DefaultIndex':this.selecteddropname}} -->
+                        {{this.selecteddropname}}
+                        <!-- this.selecteddropname="Default Index" -->
+                    </span>
                 </button>
                 <ul class="dropdown-menu content-menu queryPipelineDefault" ngbDropdownMenu>
                     <perfect-scrollbar>
