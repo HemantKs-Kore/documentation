@@ -36,6 +36,7 @@ import { PricingComponent } from './components/pricing/pricing.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { UsageLogComponent } from './components/usage-log/usage-log.component';
 import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
+import { ResultTemplatesComponent } from './components/result-templates/result-templates.component';
 const routes: Routes = [
   {
     path: '',
@@ -72,6 +73,7 @@ const routes: Routes = [
       { path: 'generalSettings', component: GeneralSettingsComponent },
       { path: 'FieldManagementComponent', component: FieldManagementComponent },
       { path: 'searchInterface', component: SearchInterfaceComponent }, /* currently in UI Result Templates */
+      { path: 'resultTemplate', component: ResultTemplatesComponent }, 
       { path: 'structuredData', component: StructuredDataComponent },
       { path: 'team-management', component: TeamManagementComponent },
       { path: 'search-experience', component: SearchExperienceComponent },

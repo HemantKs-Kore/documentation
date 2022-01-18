@@ -59,7 +59,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   ruleOptions = {
     searchContext: ['recentSearches', 'currentSearch', 'traits', 'entity', 'keywords'],
     pageContext: ['device', 'browser', 'currentPage', 'recentPages'],
-    userContext: [' ', 'userType', 'userProfile', 'age', 'sex'],
+    userContext: ['', 'userType', 'userProfile', 'age', 'sex'],
     contextTypes: ['searchContext', 'pageContext', 'userContext'],
     dataTypes: ['string', 'date', 'number', 'trait', 'entity', 'keyword'],
     actions: ['boost', 'lower', 'hide', 'filter']
@@ -397,7 +397,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   }
   setEditorContent(event, responseObj, type, index) {
     // console.log(event, typeof event);
-    console.log(this.obj);
+    // console.log(this.obj);
   }
   getAltTags(e) {
     // console.log(e);
@@ -541,7 +541,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
             try {
               answerObj.text = JSON.parse(answer.text);
             } catch (e) {
-              console.log('Bad JSON');
+              // console.log('Bad JSON');
             }
           }
           if (answer && answer.image_url && answer.image_url) {
@@ -574,7 +574,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
             try {
               answerObj.text = JSON.parse(answer.text);
             } catch (e) {
-              console.log('Bad JSON');
+              // console.log('Bad JSON');
             }
           }
           if (answer && answer.answers.length && answer.answers[0].image_url) {
@@ -753,7 +753,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     return this.tags.find(f => f === suggestion)
   }
   selectCurrentFocusedResponse(id, responseObj, type, index) {
-    console.log("payload responseObj", responseObj)
+    // console.log("payload responseObj", responseObj)
     if (responseObj) {
       this.selectedResponseToEdit.resposneObj = responseObj;
       this.selectedResponseToEdit.index = index;
@@ -806,7 +806,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   }
   responseChnge(event) {
     if (event) {
-      console.log(event);
+      // console.log(event);
       // $(event.currentTarget)[0].innet
     }
     // this.form.get('question').setValue();

@@ -124,14 +124,14 @@ export class SchedulerComponent implements OnInit {
       }
     }
     this.schedulerFlag = this.scheduleFlag;
-    console.log(this.schedulerFlag);
+    // console.log(this.schedulerFlag);
 
     //console.log(this.dateConverter('SUN'))
     //console.log(this.crwalObject);
 
   }
   ngOnChanges(changes) {
-    console.log("ngOnChanges", this.scheduleFlag);
+    // console.log("ngOnChanges", this.scheduleFlag);
     this.schedulerFlag = this.scheduleFlag;
     if (!this.scheduleFlag && !this.crwalObject?.advanceSettings?.scheduleOpts?.date) {
       var emptyData = new scheduleOpts();
@@ -207,7 +207,7 @@ export class SchedulerComponent implements OnInit {
     this.endDate = event.value;
   }
   addEvent(type: string, event: MatDatepickerInputEvent<Date>, rstz: string) {
-    console.log(`${type}: ${event.value}`);
+    // console.log(`${type}: ${event.value}`);
 
     if (rstz == 'regular') {
       this.day = event.value.toString().split(" ")[0].toLocaleUpperCase();
@@ -274,7 +274,7 @@ export class SchedulerComponent implements OnInit {
     } else if (this.rstz == 'Custom') {
       this.customFrequency(timeHH);
     }
-    console.log(this.cronExpression);
+    // console.log(this.cronExpression);
     this.scheduleEmittFunc();
   }
   customFrequency(timeHH) {

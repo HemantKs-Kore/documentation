@@ -388,7 +388,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
   }
   filterTable(source, headerOption) {
-    console.log(this.rules, source, headerOption);
     // this.filterSystem.isRuleActiveFilter = 'all';
 
    
@@ -652,7 +651,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
   }
   selectedTag(data: MatAutocompleteSelectedEvent, outcomeObj) {
-    console.log(data.option.value);
+    // console.log(data.option.value);
     outcomeObj.fieldDataType = data.option.value.fieldDataType
     outcomeObj.fieldName = data.option.value.fieldName
     outcomeObj.fieldId = data.option.value._id
@@ -719,7 +718,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       outcome.outcomeValue = [];
       outcome.outcomeValueType = value;
     }
-    console.log("filter data", this.fieldAutoSuggestion)
+    // console.log("filter data", this.fieldAutoSuggestion)
   }
   checkUncheckfacets(rule) {
     const selectedElements = $('.selectRuleCheckBoxDiv:checkbox:checked');
@@ -783,15 +782,16 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     //   $('#selectAllRules')[0].checked = false;
     // }
   }
-  validateRules() {
-    if (this.addEditRuleObj && this.addEditRuleObj.ruleName.length && this.rulesArrayforAddEdit.values.length) {
-      this.submitted = false;
-      return true;
-    }
-    else {
-      return false;
-    }
+  
+validateRules() {
+  if (this.addEditRuleObj && this.addEditRuleObj.ruleName.length) {
+    this.submitted = false;
+    return true;
   }
+  else {
+    return false;
+  }
+}
   createRule() {
     this.submitted = true;
     if (this.validateRules()) {
@@ -815,6 +815,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         return;
         
       }
+      
       this.service.invoke('create.businessRules', quaryparms, payload).subscribe(res => {
         if (this.filterSystem.isRuleActiveFilter == 'all') {
           this.rules.push(res);
@@ -865,7 +866,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       query
     };
     this.service.invoke('get.getFieldAutocompleteIndices', quaryparms).subscribe(res => {
-      console.log("fieldAutoSuggestion", res)
+      // console.log("fieldAutoSuggestion", res)
       this.fieldAutoSuggestion = res || [];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get fields');
@@ -934,7 +935,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       limit: 100
     };
     this.service.invoke('get.businessRuleById', quaryparms).subscribe(res => {
-      console.log(res);
+      // console.log(res);
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get rule');
     });
@@ -1007,7 +1008,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           this.deleteRule(rule, i, dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }
@@ -1032,7 +1033,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           this.deleteSelectedRules(dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }

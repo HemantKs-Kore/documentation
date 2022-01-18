@@ -518,7 +518,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.getDyanmicFilterData(searchValue);
       
     }, errRes => {
-      console.log(errRes);
+      // console.log(errRes);
       this.loadingContent = false;
     });
   }
@@ -552,7 +552,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       sourceId: sourceId
     };
     this.service.invoke('get.page_detail', quaryparms).subscribe(res => {
-      console.log(res)
+      // console.log(res)
     }, errRes => {
     });
   }
@@ -766,7 +766,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.executionHistoryData = res.contentExecutions;
         this.executionHistoryData.forEach(element => {
           element.executionStats.duration = this.duration(element.executionStats.duration);
-          console.log("element.executionStats.duration", element.executionStats.duration)
+          // console.log("element.executionStats.duration", element.executionStats.duration)
           element.createdOn = moment(element.createdOn).fromNow();
           if (element.executionStats.statusLogs) {
             element.executionStats.statusLogs.forEach(status_log => {
@@ -804,7 +804,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
   }
   openStatusSlider(source, page?) {
-    console.log("sourec opned", source)
+    // console.log("sourec opned", source)
 
     this.executionHistoryData = [];
     this.pagesSearch = '';
@@ -1025,7 +1025,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           this.deleteSource(record, dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }
@@ -1057,7 +1057,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           }
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }
@@ -1479,7 +1479,7 @@ paginateContent(event) {
     if (valToSearch) {
       this.resources = [...this.filterResourcesBack];
       let tableData = [];
-      console.log(this.resources)
+      // console.log(this.resources)
 
       for (let i = 0; i < this.resources.length; i++) {
         // console.log(Object.keys(requireddata[i]))
@@ -1501,7 +1501,7 @@ paginateContent(event) {
       } else {
         this.sectionShow = false;
       }
-      console.log(tableData);
+      // console.log(tableData);
     } else {
       this.resources = [...this.filterResourcesBack];
       this.searchSources = '';
@@ -1544,10 +1544,10 @@ paginateContent(event) {
       }
 
       this.service.invoke('put.EditConfig', queryParams, payload).subscribe(res => {
-        console.log(res)
+        // console.log(res)
 
       }, errRes => {
-        console.log(errRes)
+        // console.log(errRes)
       });
     }
   };
@@ -1560,7 +1560,7 @@ paginateContent(event) {
     }, 500)
   }
   closeStatusModal() {
-    this.swapSlider('page') // Just to redirect to 1st page
+    // this.swapSlider('page') // Just to redirect to 1st page
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
@@ -1601,7 +1601,7 @@ paginateContent(event) {
       this.updateRecord(this.selectedSource['advanceSettings'].blockedURLs.length - 1, data, 'add', 'block');
   }
   allowUrls(contains, allowUrl, dataAllow) {
-    console.log(contains, allowUrl.value)
+    // console.log(contains, allowUrl.value)
     let data = {};
     //data['condition'] = contains;
     //data['url'] = allowUrl.value;
@@ -1651,7 +1651,7 @@ paginateContent(event) {
     }
     // crawler.resourceType = resourceType; 
     payload = crawler;
-    console.log(payload);
+    // console.log(payload);
 
     this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
       if (option == 'add') {
@@ -1721,11 +1721,11 @@ paginateContent(event) {
     }
   }
   scheduleData(scheduleData) {
-    console.log(scheduleData);
+    // console.log(scheduleData);
     this.selectedSource['advanceSettings'].scheduleOpts = scheduleData;
   }
   cronExpress(cronExpress) {
-    console.log(cronExpress);
+    // console.log(cronExpress);
     this.selectedSource['advanceSettings'].repeatInterval = cronExpress;
   }
   exceptUrl(bool) {
@@ -1994,7 +1994,7 @@ paginateContent(event) {
       //this.notificationService.notify('Bot linked, successfully', 'success');
     },
       (err) => {
-        console.log(err);
+        // console.log(err);
         this.notificationService.notify('Failed to crawl', 'error');
       }
     )
@@ -2055,7 +2055,7 @@ paginateContent(event) {
       contentId: this.Id,
     };
     this.service.invoke('get.clicksViewsContent', quaryparms).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       this.numberOf = res;
     }, errRes => {
     });

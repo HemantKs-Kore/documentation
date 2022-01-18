@@ -69,7 +69,7 @@ export class ActionsComponent implements OnInit {
       this.streamId = null;
     }
     this.LinkABot = this.workflowService.linkedBot;
-    console.log(this.LinkABot)
+    // console.log(this.LinkABot)
     this.userInfo = this.authService.getUserInfo() || {};
     // this.getAssociatedBots()
     this.checkLoadingContent()
@@ -96,7 +96,7 @@ export class ActionsComponent implements OnInit {
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
       this.previewTopBottom = ((res||{}).experienceConfig ||{}).searchBarPosition || 'top';
     }, errRes => {
-      console.log(errRes);
+      // console.log(errRes);
     });
   }
   openActions(){

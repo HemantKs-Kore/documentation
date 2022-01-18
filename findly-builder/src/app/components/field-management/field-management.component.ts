@@ -300,7 +300,7 @@ export class FieldManagementComponent implements OnInit {
             this.deleteIndField(record, dialogRef);
           } else if (result === 'no') {
             dialogRef.close();
-            console.log('deleted')
+            // console.log('deleted')
           }
         })
     }, errRes => {

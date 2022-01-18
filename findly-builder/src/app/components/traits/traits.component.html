@@ -82,7 +82,7 @@
                                 <span
                                     *ngFor="let trait of traitGroup.traits| slice:0:getTraitsSliceValue(traitGroup.traits); let i=index;"
                                     class="trait-more">
-                                    {{i!==0 ?', ':''}}{{trait.traitName || '---'}}
+                                    {{i!==0 ?', ':''}}{{trait.displayName || '---'}}
                                 </span>
 
                                 <div class="kr-sg-dropdowns traits-more-data-container" ngbDropdown
@@ -195,7 +195,7 @@
                     [ngClass]="{'pointer':item.data.length}">
                     <div class="col-4 group-name text-truncate" *ngIf="showEditTraitInput !== index"><span
                             ngbTooltip="{{item.key}}" placement="top-center" container='body'
-                            tooltipClass="ngb_tooltip_custom_class sampleJson">{{item.key}}</span> </div>
+                            tooltipClass="ngb_tooltip_custom_class sampleJson">{{item.displayName}}</span> </div>
                     <div class="col-6 m-0 align-items-center" *ngIf="showEditTraitInput !== index">
                         <div class="utterances-count" *ngIf="item.data.length">{{item.data.length}}
                             {{item.data.length>1?('traits.utterances' | translate):('traits.utterance' | translate)}}

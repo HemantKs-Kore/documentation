@@ -32,7 +32,7 @@ export class AddResultComponent implements OnInit {
   structuredDataDes: any = '';
   fieldData: any = [];
   searchSDKSubscription: Subscription;
-  mappingSubscription : Subscription;
+  mappingSubscription: Subscription;
   @Input() query: any;
   @Input() addNew;
   @Input() structure;
@@ -58,7 +58,7 @@ export class AddResultComponent implements OnInit {
       }
     });
 
-    this.mappingSubscription = this.headerService.updatedResultTemplateMapping.subscribe( (res : any) => {
+    this.mappingSubscription = this.headerService.updatedResultTemplateMapping.subscribe((res: any) => {
       this.getFieldAutoComplete();
     });
   }
@@ -97,28 +97,46 @@ export class AddResultComponent implements OnInit {
   getAllSettings() {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
+      interface: 'fullSearch',
     };
-    this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
-      if (res.settings) {
-        res.settings.forEach((_interface) => {
-          _interface.appearance.forEach(element => {
-            if (!this.isResultTemplate) {
-              if (element.type === 'structuredData') {
-                if (element.templateId && element.templateId.length) {
-                  this.isResultTemplate = true;
-                  this.getTemplate(element.templateId);
-                }
-                else {
-                  this.structuredDataHeading = '';
-                  this.structuredDataDes = '';
-                  this.isResultTemplate = false;
-                }
+    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
+      if (res && res.groupSetting) {
+        res.groupSetting.conditions.forEach(element => {
+          if (!this.isResultTemplate) {
+            if (element.fieldValue === 'data') {
+              if (element.templateId && element.templateId.length) {
+                this.isResultTemplate = true;
+                this.getTemplate(element.templateId);
+              }
+              else {
+                this.structuredDataHeading = '';
+                this.structuredDataDes = '';
+                this.isResultTemplate = false;
               }
             }
-          });
-        });
+          }
+        })
       }
+      // if (res.settings) {
+      //   res.settings.forEach((_interface) => {
+      //     _interface.appearance.forEach(element => {
+      //       if (!this.isResultTemplate) {
+      //         if (element.type === 'structuredData') {
+      //           if (element.templateId && element.templateId.length) {
+      //             this.isResultTemplate = true;
+      //             this.getTemplate(element.templateId);
+      //           }
+      //           else {
+      //             this.structuredDataHeading = '';
+      //             this.structuredDataDes = '';
+      //             this.isResultTemplate = false;
+      //           }
+      //         }
+      //       }
+      //     });
+      //   });
+      // }
     }, errRes => {
       this.notificationService.notify('Failed to fetch all Setting Informations', 'error');
     });
@@ -129,7 +147,7 @@ export class AddResultComponent implements OnInit {
       templateId: templateId,
       indexPipelineId: this.indexPipelineId
     };
-    this.service.invoke('get.SI_searchResultTemplate', quaryparms).subscribe(res => {
+    this.service.invoke('get.templateById', quaryparms).subscribe(res => {
       this.fieldData.forEach(element => {
         if (element._id == res.mapping.heading) {
           this.structuredDataHeading = element.fieldName;
@@ -312,7 +330,7 @@ export class AddResultComponent implements OnInit {
           this.extractedResults.push(element)
         });
         //this.extractedResults = res.contents[0].results;
-        console.log(this.extractedResults);
+        // console.log(this.extractedResults);
         //console.log(res.contents);
       } else if (this.searchType == "faq") {
         this.extractedResults = res.faq;
@@ -323,7 +341,7 @@ export class AddResultComponent implements OnInit {
         res.content.web.forEach(element => {
           this.extractedResults.push(element)
         });
-        console.log(this.extractedResults)
+        // console.log(this.extractedResults)
         //this.extractedResults = res.content;
       } else if (this.searchType == "task") {
         this.extractedResults = res.task;
@@ -339,7 +357,7 @@ export class AddResultComponent implements OnInit {
       this.loadingContent = false;
 
     }, errRes => {
-      console.log(errRes);
+      // console.log(errRes);
       this.loadingContent = false;
     });
   }

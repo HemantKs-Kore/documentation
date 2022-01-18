@@ -511,7 +511,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
           });
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
 

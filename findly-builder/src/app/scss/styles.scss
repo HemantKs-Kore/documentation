@@ -261,6 +261,13 @@ html{
     border-radius: 4px;
     opacity: 0.95;
     padding-left: 7% !important;
+    display: flex;
+    align-items: center;
+    .please-wait-message{
+        padding-left: 10px;
+        left: 0 !important;
+        top: 0 !important;
+    }
 }
 .manage-findlyion-exp-popup{   
     .mat-dialog-container{
@@ -3122,7 +3129,7 @@ nouislider{
     .arrow{
         margin-left: 2px;
         &::before{
-            border-bottom-color: #202124;
+            // border-bottom-color: #202124;
         }
     }
     .tooltip-inner{
@@ -3148,6 +3155,12 @@ nouislider{
         max-height: 178px;
         .ps-content{
             max-height: 178px !important;
+        }
+    }
+    &.h-189{
+        max-height: 189px;
+        .ps-content{
+            max-height: 189px !important;
         }
     }
     &.h-200{

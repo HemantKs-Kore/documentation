@@ -433,7 +433,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           if (!schedule) this.statusObject.status = 'failed';
           this.crawlOkDisable = false;
         }
-        console.log("job status every time happen", this.statusObject);
+        // console.log("job status every time happen", this.statusObject);
       }, errRes => {
         this.pollingSubscriber.unsubscribe();
         this.statusObject.status = 'failed';
@@ -447,7 +447,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     )
   }
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-    console.log(`${type}: ${event.value}`);
+    // console.log(`${type}: ${event.value}`);
   }
   openCustomRecModal() {
     this.customRecurrenceRef = this.customRecurrence.open();
@@ -704,7 +704,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   fileChangeListener(event) {
     this.newSourceObj.url = '';
     let fileName = '';
-    console.log(this.filesListData, this.multipleData)
+    // console.log(this.filesListData, this.multipleData)
     if(event && event.target && event.target.files && event.target.files.length && event.target.files[0].size > 15728640){
       this.filesListData = [];
       this.notificationService.notify('Individual file size cannot be more than 15 MB', 'error')
@@ -1018,7 +1018,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (payload.hasOwnProperty('url')) delete payload.url;
     this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
       this.annotationModal(res._id);
-      console.log(res);
+      // console.log(res);
       this.workflowService.selectedJobId(res._id);
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -1098,7 +1098,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   
               })
               this.multipleData.files = [...childArr]
-              console.log(this.multipleData.files)
+              // console.log(this.multipleData.files)
             }
             else{
               this.btnDisabled = false;
@@ -1426,7 +1426,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     crawler.desc = this.newSourceObj.desc || '';
     crawler.resourceType = resourceType;
     payload = crawler;
-    console.log(payload);
+    // console.log(payload);
 
     this.service.invoke('create.crawler', quaryparms, payload).subscribe(res => {
     }, errRes => {
@@ -1449,7 +1449,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.faqUpdate.next();
   }
   addManualFaq(event) {
-    console.log(event);
+    // console.log(event);
     const quaryparms: any = {
       searchIndexId: this.searchIndexId,
       type: 'faq',
@@ -1499,7 +1499,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   /** proceed Source API */
   scheduleData(scheduleData) {
-    console.log(scheduleData);
+    // console.log(scheduleData);
     // if(scheduleData.date){
     //   let date = scheduleData.date;
     //   if(String(date).split(" ")) scheduleData.date =  String(date).split(" ")[1] + " " + String(date).split(" ")[2]  + " " + String(date).split(" ")[3];
@@ -1522,7 +1522,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     // this.dataFromScheduler = scheduleData
   }
   cronExpress(cronExpress) {
-    console.log(cronExpress);
+    // console.log(cronExpress);
     this.crwalObject.advanceOpts.repeatInterval = cronExpress;
   }
   /*Crwaler */
@@ -1585,7 +1585,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         autoFocus: true
       });
       dialogRef.afterClosed().subscribe(res => {
-        console.log(res);
+        // console.log(res);
         if (res === 'cancelFaqExtract') {
           const event: any = {}
           this.closeSourcePopupEvent.emit(event);
@@ -1611,7 +1611,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   checkAnnotationPolling() {
     this.rangyService.getPolling().pipe(take(1)).subscribe(res => {
       if (res) {
-        console.log(this.anntationObj);
+        // console.log(this.anntationObj);
         if (this.anntationObj._id) {
           this.openStatusModal();
           this.poling(this.anntationObj._id);
@@ -1634,7 +1634,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         userID: this.userInfo.id
       };
       this.service.invoke('get.AssociatedBots', queryParams).subscribe(res => {
-        console.log('Associated Bots', res);
+        // console.log('Associated Bots', res);
         let bots = JSON.parse(JSON.stringify(res));
         //this.associatedBots = JSON.parse(JSON.stringify(res));
         this.associatedBots = [];
@@ -1645,8 +1645,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
         });
         //this.associatedBots = [...bots]
-        console.log(this.associatedBots);
-        console.log(bots);
+        // console.log(this.associatedBots);
+        // console.log(bots);
         this.associatedBots.forEach(element => {
           if (this.streamID == element._id) {
             this.linkedBotName = element.name;
@@ -1693,7 +1693,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       )
     }
     else {
-      console.log('Invalid UserID')
+      // console.log('Invalid UserID')
     }
   }
 
@@ -1703,28 +1703,28 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     const requestBody: any = {};
     let selectedApp: any;
 
-    console.log(botID);
+    // console.log(botID);
 
     if (this.searchIndexId) {
       const queryParams: any = {
         searchIndexID: this.searchIndexId
       };
       requestBody.linkBotId = botID;
-      console.log(requestBody);
+      // console.log(requestBody);
       this.service.invoke('put.LinkBot', queryParams, requestBody).subscribe(res => {
-        console.log(res);
+        // console.log(res);
         selectedApp = this.workflowService.selectedApp();
-        console.log(selectedApp);
+        // console.log(selectedApp);
         selectedApp.configuredBots[0] = {}
         selectedApp.configuredBots[0]._id = res.configuredBots[0]._id;
         this.workflowService.selectedApp(selectedApp);
-        console.log(res.status);
+        // console.log(res.status);
         this.streamID = selectedApp.configuredBots[0]._id;
         this.getAssociatedBots();
         this.notificationService.notify('Bot linked, successfully', 'success');
       },
         (err) => {
-          console.log(err);
+          // console.log(err);
           this.notificationService.notify('Bot linking, unsuccessful', 'error');
         }
       )
@@ -1740,17 +1740,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     const requestBody: any = {};
     let selectedApp: any;
 
-    console.log(botID);
+    // console.log(botID);
 
     if (this.searchIndexId) {
       const queryParams = {
         searchIndexID: this.searchIndexId
       }
       requestBody.linkedBotId = botID;
-      console.log(requestBody);
+      // console.log(requestBody);
 
       this.service.invoke('put.UnlinkBot', queryParams, requestBody).subscribe(res => {
-        console.log(res);
+        // console.log(res);
 
         selectedApp = this.workflowService.selectedApp();
         // selectedApp.configuredBots[0]._id = null;
@@ -1772,7 +1772,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.notificationService.notify('Bot unlinked, successfully', 'success');
       },
         (err) => {
-          console.log(err);
+          // console.log(err);
           this.notificationService.notify('Bot unlinking, error', 'error');
         }
       )
@@ -1864,7 +1864,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       // streamId: this.streamId,
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
-      console.log("imp faq res", res);
+      // console.log("imp faq res", res);
       this.importFaqInprogress = true;
       this.openStatusModal();
       this.addSourceModalPopRef.close();
@@ -1892,7 +1892,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
-        console.log("res", res);
+        // console.log("res", res);
         const response = res;
         const jobStatus = response.dockStatuses.filter(ele => ele._id === jobId);
         if (jobStatus[0].status === "SUCCESS") {
@@ -1960,13 +1960,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       //this.notificationService.notify('Bot linked, successfully', 'success');
     },
       (err) => {
-        console.log(err);
+        // console.log(err);
         this.notificationService.notify('Failed', 'error');
       }
     )
   }
   checkValue(value, valueFrom) {
-    console.log()
+    // console.log()
     if (value <= -1) {
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
@@ -2058,10 +2058,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         searchIndexID: this.searchIndexId
       }
       requestBody['linkedBotId'] = this.streamID//this.botToBeUnlinked;
-      console.log(requestBody);
+      // console.log(requestBody);
 
       this.service.invoke('put.UnlinkBot', queryParams, requestBody).subscribe(res => {
-        console.log(res);
+        // console.log(res);
         // this.linkAfterUnlink(linkingBotID);
         selectedApp = this.workflowService.selectedApp();
         if (selectedApp.configuredBots[0]) {
@@ -2085,7 +2085,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
       },
         (err) => {
-          console.log(err); this.notificationService.notify("Bot unlinking, successfully", 'error');
+          // console.log(err); this.notificationService.notify("Bot unlinking, successfully", 'error');
           // this.loadingContent = false;
           //this.getAssociatedTasks(this.streamId);
         }
@@ -2143,7 +2143,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           //   this.universalPublish();
           // }
           // Universal Bot Publish here.
-          console.log(res);
+          // console.log(res);
           selectedApp = this.workflowService.selectedApp();
           if (res.configuredBots[0]) {
             selectedApp.configuredBots[0] = {};

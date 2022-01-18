@@ -202,7 +202,7 @@ export class BotActionComponent implements OnInit {
   }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
-    console.log(this.selectedApp);
+    // console.log(this.selectedApp);
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     if (this.workflowService.selectedApp()?.configuredBots[0]) {
       this.streamId = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
@@ -213,12 +213,12 @@ export class BotActionComponent implements OnInit {
     else {
       this.streamId = null;
     }
-    console.log("StreamID", this.streamId)
-    console.log(this.workflowService.selectedApp())
+    // console.log("StreamID", this.streamId)
+    // console.log(this.workflowService.selectedApp())
     // this.getBots();
 
     this.userInfo = this.authService.getUserInfo() || {};
-    console.log(this.userInfo);
+    // console.log(this.userInfo);
 
     this.getAssociatedBots();
     this.getAssociatedTasks(this.streamId);
@@ -231,7 +231,7 @@ export class BotActionComponent implements OnInit {
   loadingContent1: boolean;
   loadImageText: boolean = false;
   imageLoad() {
-    console.log("image loaded now")
+    // console.log("image loaded now")
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
@@ -264,7 +264,7 @@ export class BotActionComponent implements OnInit {
     this.service.invoke('get.linkedBot', queryParams).subscribe(
       res => {
         //if (res.configuredBots.length) this.configuredBot_streamId = res.configuredBots[0]._id
-        console.log(res);
+        // console.log(res);
         // res.configuredBots.forEach(element => {
         //   let obj = {
         //     "_id": element._id,
@@ -296,7 +296,7 @@ export class BotActionComponent implements OnInit {
     this.showSearch = !this.showSearch
   };
   filterTable(source, headerOption) {
-    console.log(this.linkedBotTasks, source, headerOption);
+    // console.log(this.linkedBotTasks, source, headerOption);
     this.filterSystem.isBotNameFilter = 'all';
     this.filterSystem.isTaskTypeFilter = 'all';
 
@@ -336,7 +336,7 @@ export class BotActionComponent implements OnInit {
         streamId: this.streamId
       };
       this.service.invoke('get.bots', quaryparms).subscribe(res => {
-        console.log(res);
+        // console.log(res);
         this.currentView = 'grid';
         this.loadingContent = false;
         if (res.tasks && res.tasks.published && res.tasks.published.items && res.tasks.published.items.length) {
@@ -344,7 +344,7 @@ export class BotActionComponent implements OnInit {
             return task.type === 'dialog';
           });
         };
-        console.log(this.bots);
+        // console.log(this.bots);
       }, errRes => {
         // this.errorToaster(errRes, 'Failed to get Bot Actions');
         this.notificationService.notify("Error in loading bot action", 'error');
@@ -483,10 +483,10 @@ export class BotActionComponent implements OnInit {
     }
   }
   modifyStyles(elementRef, isActive) {
-    console.log(elementRef);
+    // console.log(elementRef);
     let element = document.getElementById(elementRef);
-    console.log(element);
-    console.log(isActive)
+    // console.log(element);
+    // console.log(isActive)
     // document.getElementById(elementRef).style.borderBottom = "none";
   }
 
@@ -497,7 +497,7 @@ export class BotActionComponent implements OnInit {
       };
       this.loading = true;
       this.service.invoke('get.AssociatedBots', queryParams).subscribe(res => {
-        console.log("Stream API, response payload", res);
+        // console.log("Stream API, response payload", res);
         this.associatedBots = [];
         if (res.length > 0) {
           res.forEach(element => {
@@ -552,7 +552,7 @@ export class BotActionComponent implements OnInit {
             }
           });
 
-          console.log("Associated Bots", this.associatedBots);
+          // console.log("Associated Bots", this.associatedBots);
           if (this.associatedBots.length > 0) {
             this.associatedBotsExist = true;
           }
@@ -574,7 +574,7 @@ export class BotActionComponent implements OnInit {
       )
     }
     else {
-      console.log("Invalid UserID")
+      // console.log("Invalid UserID")
     }
   }
   linkAfterUnlink(botID) {
@@ -582,7 +582,7 @@ export class BotActionComponent implements OnInit {
 
     let requestBody: any = {};
     let selectedApp: any;
-    console.log(botID);
+    // console.log(botID);
 
     if (this.searchIndexId) {
 
@@ -592,7 +592,7 @@ export class BotActionComponent implements OnInit {
         searchIndexID: this.searchIndexId
       };
       requestBody['linkBotId'] = botID;
-      console.log(requestBody);
+      // console.log(requestBody);
       this.service.invoke('put.LinkBot', queryParams, requestBody).subscribe(res => {
         // Universal Bot Publish here.
         this.allBotArray = [];
@@ -614,9 +614,9 @@ export class BotActionComponent implements OnInit {
           this.universalPublish();
         }
         // Universal Bot Publish here.
-        console.log(res);
+        // console.log(res);
         selectedApp = this.workflowService.selectedApp();
-        console.log("Selected APP", selectedApp);
+        // console.log("Selected APP", selectedApp);
         if (res.configuredBots[0]) {
           selectedApp.configuredBots[0] = {};
           selectedApp.configuredBots[0]._id = res.configuredBots[0]._id;
@@ -631,9 +631,9 @@ export class BotActionComponent implements OnInit {
         }
 
         this.linkedBotDescription = res.description;
-        console.log("Linked Bot ID, Linked Bot Name, Linked Bot Description", this.linkedBotID, this.linkedBotName, this.linkedBotDescription);
+        // console.log("Linked Bot ID, Linked Bot Name, Linked Bot Description", this.linkedBotID, this.linkedBotName, this.linkedBotDescription);
         this.workflowService.selectedApp(selectedApp);
-        console.log(res.status);
+        // console.log(res.status);
         if (selectedApp.configuredBots[0]) {
           this.streamId = selectedApp.configuredBots[0]._id;
         }
@@ -648,7 +648,7 @@ export class BotActionComponent implements OnInit {
         this.syncLinkedBot();
       },
         (err) => {
-          console.log(err); this.notificationService.notify("Bot linking  Unsuccessful", 'error')
+          // console.log(err); this.notificationService.notify("Bot linking  Unsuccessful", 'error')
           this.loadingContent = false;
 
         }
@@ -824,10 +824,10 @@ export class BotActionComponent implements OnInit {
         searchIndexID: this.searchIndexId
       }
       requestBody['linkedBotId'] = this.streamId//this.botToBeUnlinked;
-      console.log(requestBody);
+      // console.log(requestBody);
 
       this.service.invoke('put.UnlinkBot', queryParams, requestBody).subscribe(res => {
-        console.log(res);
+        // console.log(res);
         // this.linkAfterUnlink(linkingBotID);
         selectedApp = this.workflowService.selectedApp();
         if (selectedApp.configuredBots[0]) {
@@ -851,7 +851,7 @@ export class BotActionComponent implements OnInit {
 
       },
         (err) => {
-          console.log(err); this.notificationService.notify("Bot unlinking, successfully", 'error');
+          // console.log(err); this.notificationService.notify("Bot unlinking, successfully", 'error');
           this.loadingContent = false;
           //this.getAssociatedTasks(this.streamId);
         }
@@ -872,7 +872,7 @@ export class BotActionComponent implements OnInit {
     let requestBody: any = {};
     let selectedApp: any;
 
-    console.log(botID);
+    // console.log(botID);
 
     if (this.searchIndexId) {
 
@@ -882,10 +882,10 @@ export class BotActionComponent implements OnInit {
         searchIndexID: this.searchIndexId
       }
       requestBody['linkedBotId'] = botID;
-      console.log(requestBody);
+      // console.log(requestBody);
 
       this.service.invoke('put.UnlinkBot', queryParams, requestBody).subscribe(res => {
-        console.log(res);
+        // console.log(res);
         // Universal Bot Publish here.
         this.allBotArray = [];
 
@@ -931,7 +931,7 @@ export class BotActionComponent implements OnInit {
 
       },
         (err) => {
-          console.log(err); this.notificationService.notify("Bot unlinking Successfully", 'error');
+          // console.log(err); this.notificationService.notify("Bot unlinking Successfully", 'error');
           this.loadingContent = false;
           //this.getAssociatedTasks(this.streamId);
         }
@@ -1051,10 +1051,10 @@ export class BotActionComponent implements OnInit {
       taskObject['isHidden'] = false;
 
       requestBody['tasks'].push(taskObject)
-      console.log(requestBody)
+      // console.log(requestBody)
 
       this.service.invoke('put.enableTask', queryParams, requestBody, { "state": "published" }).subscribe(res => {
-        console.log(res);
+        // console.log(res);
         /*this.linkedBotTasks.map(element => {
           if (res._id === element._id) {
             element = res;
@@ -1082,7 +1082,7 @@ export class BotActionComponent implements OnInit {
           if (taskEnable) {
             $("#enableOrDisable").prop('checked', true);
           }
-          console.log("Linked Bot, Tasks", this.linkedBotTasks);
+          // console.log("Linked Bot, Tasks", this.linkedBotTasks);
           this.notificationService.notify("Task Enabled Successfully", 'success');
           this.markCheckboxSelectedTasks();
         }
@@ -1131,10 +1131,10 @@ export class BotActionComponent implements OnInit {
         }
       });
 
-      console.log(requestBody)
+      // console.log(requestBody)
 
       this.service.invoke('put.enableTask', queryParams, requestBody, { "state": "published" }).subscribe(res => {
-        console.log(res);
+        // console.log(res);
 
         if (res.tasks.length > 0) {
           this.linkedBotTasks = [];
@@ -1157,7 +1157,7 @@ export class BotActionComponent implements OnInit {
 
 
           });
-          console.log("Linked Bot, Tasks", this.linkedBotTasks);
+          // console.log("Linked Bot, Tasks", this.linkedBotTasks);
           this.notificationService.notify(this.linkedBotTasks.length == requestBody['tasks'].length ? "All the tasks are enabled" : (requestBody['tasks'].length + " tasks are enabled"), 'success');
           // this.selcectionObj = {
           //   selectAll: false,
@@ -1192,10 +1192,10 @@ export class BotActionComponent implements OnInit {
       taskObject['isHidden'] = true;
 
       requestBody['tasks'].push(taskObject)
-      console.log(requestBody)
+      // console.log(requestBody)
 
       this.service.invoke('put.disableTask', queryParams, requestBody, { "state": "published" }).subscribe(res => {
-        console.log(res);
+        // console.log(res);
         /*this.linkedBotTasks.map(element => {
           if (res._id === element._id) {
             element = res;
@@ -1224,7 +1224,7 @@ export class BotActionComponent implements OnInit {
           if (taskEnable) {
             $("#enableOrDisable").prop('checked', true);
           }
-          console.log("Linked Bot, Tasks", this.linkedBotTasks);
+          // console.log("Linked Bot, Tasks", this.linkedBotTasks);
           this.notificationService.notify("Task Disabled Successfuly", 'success');
           this.markCheckboxSelectedTasks();
         }
@@ -1265,7 +1265,7 @@ export class BotActionComponent implements OnInit {
       });
 
       this.service.invoke('put.disableTask', queryParams, requestBody, { "state": "published" }).subscribe(res => {
-        console.log(res);
+        // console.log(res);
         /*this.linkedBotTasks.map(element => {
           if (res._id === element._id) {
             element = res;
@@ -1288,7 +1288,7 @@ export class BotActionComponent implements OnInit {
             }
 
           });
-          console.log("Linked Bot, Tasks", this.linkedBotTasks);
+          // console.log("Linked Bot, Tasks", this.linkedBotTasks);
           this.notificationService.notify(this.linkedBotTasks.length == requestBody['tasks'].length ? 'All the tasks are disabled' : (requestBody['tasks'].length + " tasks are disabled"), 'success');
           // this.selcectionObj = {
           //   selectAll: false,
@@ -1322,7 +1322,7 @@ export class BotActionComponent implements OnInit {
         searchIndexID: this.searchIndexId
       };
       this.service.invoke('put.syncLinkedBot', queryParams, null, { "state": "published" }).subscribe(res => {
-        console.log(res);
+        // console.log(res);
         if (res.tasks.length > 0) {
           this.linkedBotTasks = [];
           res.tasks.forEach(element => {
@@ -1337,7 +1337,7 @@ export class BotActionComponent implements OnInit {
               this.linkedBotTasks.push(element);
             }
           });
-          console.log("Linked Bot, Tasks", this.linkedBotTasks);
+          // console.log("Linked Bot, Tasks", this.linkedBotTasks);
         }
         else {
           this.linkedBotTasks = [];
@@ -1416,7 +1416,7 @@ export class BotActionComponent implements OnInit {
           //   this.universalPublish();
           // }
           // Universal Bot Publish here.
-          console.log(res);
+          // console.log(res);
           selectedApp = this.workflowService.selectedApp();
           if (res.configuredBots[0]) {
             selectedApp.configuredBots[0] = {};
@@ -1526,5 +1526,8 @@ export class BotActionComponent implements OnInit {
   navigateToBotBuilder () {
     window.open(this.botBulilderUrl, '_blank');
   };
+  clearBot(){
+    this.searchAssociatedBots='';
+  }
 
 }

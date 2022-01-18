@@ -242,7 +242,7 @@
                 <!-- {{source.jobInfo.executionStats.percentageDone}} -->
                 <span class="sch-createdOn ml-2" *ngIf="statusObj[source.recentStatus]?.name != 'In Progress'"><span
                     *ngIf="source.schedule_createdOn">({{ source.schedule_createdOn }})</span></span>
-                <span class="ml-2" *ngIf="source.recentStatus == 'success' || source.recentStatus == 'failed'"
+                <span class="ml-2" title="{{source.schedule_duration}}" *ngIf="source.recentStatus == 'success' || source.recentStatus == 'failed'"
                   [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
                   <img class="ml-2" *ngIf="source.recentStatus == 'success'" class="search-icon"
                     src="assets/icons/succes_duration.svg">

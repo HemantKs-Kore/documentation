@@ -156,7 +156,7 @@ export class DashboardComponent implements OnInit {
     }
   }
   paginate(event) {
-    console.log(event)
+    // console.log(event)
   }
   dateLimt(type) {
     this.dateType = type;
@@ -187,7 +187,7 @@ export class DashboardComponent implements OnInit {
       //this.group = "week";
       var duration = moment.duration(Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()), 'milliseconds');
       var days = duration.asDays();
-      console.log(days);
+      // console.log(days);
       if (days > 28) {
         this.group = "week";
         // this.dateType = this.group;

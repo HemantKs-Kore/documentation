@@ -34,9 +34,9 @@
               <img src="assets/icons/pricing/enterprise.png" class="enterprise-img" *ngIf="plan.name == 'Enterprise'">
               <div class="title-sec">
                 <div class="title">{{plan.name}}</div>
-                <div class="price" [ngClass]='{"d-none":plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/
+                <div class="price" [ngClass]='{"d-none":plan.name=="Enterprise" || true}'>${{plan.planAmount}} <span>/
                     {{termPlan==='Monthly'?("plan.month"| translate):("plan.year"| translate)}}</span></div>
-                <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise"}'>{{"plan.custom"| translate}}</div>
+                <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise" || true}'>{{"plan.custom"| translate}}</div>
                 <div class="current-plan-title"
                   *ngIf="selectedPlan.planName===plan.name&&selectedPlan?.billingUnit==termPlan"><img
                     [src]="selectedPlan.status!='expired'?'assets/icons/pricing/check-round.svg':'assets/icons/pricing/Vector.svg'">{{selectedPlan.status!="expired"?("plan.current_plan"|
@@ -79,9 +79,9 @@
           </div>
           <div class="type-title width-19" *ngFor="let plan of filterPlansData">
             <div class="title">{{plan.name}}</div>
-            <div class="plan-duration" *ngIf="plan.name!='Enterprise'&&plan.type!='free'">${{plan.planAmount}} /
+            <div class="plan-duration d-none" *ngIf="plan.name!='Enterprise'&&plan.type!='free'">${{plan.planAmount}} /
               {{termPlan==='Monthly'?("plan.month"| translate):("plan.year"| translate)}}</div>
-            <div class="plan-duration" *ngIf="plan.name=='Enterprise'">{{"plan.custom_pricing"| translate}}</div>
+            <div class="plan-duration d-none" *ngIf="plan.name=='Enterprise'">{{"plan.custom_pricing"| translate}}</div>
             <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'&&selectedPlan?.planName=='Free'" (click)="openContactusModel(plan.name)"
               > {{("plan.contact_us"|
               translate)}}</button>
@@ -131,16 +131,20 @@
             </div>
             <div class="title width-19"
               *ngIf="feature[1].access!='none'&&['full','custom'].includes(feature[1].access)&&['-',undefined].includes(feature[1].fullDisplayText)">
-              <img src="assets/icons/pricing/check.svg"></div>
+              <img src="assets/icons/pricing/check.svg">
+            </div>
             <div class="title width-19"
               *ngIf="feature[2].access!='none'&&['full','custom'].includes(feature[2].access)&&['-',undefined].includes(feature[2].fullDisplayText)">
-              <img src="assets/icons/pricing/check.svg"></div>
+              <img src="assets/icons/pricing/check.svg">
+            </div>
             <div class="title width-19"
               *ngIf="feature[3].access!='none'&&['full','custom'].includes(feature[3].access)&&['-',undefined].includes(feature[3].fullDisplayText)">
-              <img src="assets/icons/pricing/check.svg"></div>
+              <img src="assets/icons/pricing/check.svg">
+            </div>
             <div class="title width-19"
               *ngIf="feature[4].access!='none'&&['full','custom'].includes(feature[4].access)&&['-',undefined].includes(feature[4].fullDisplayText)">
-              <img src="assets/icons/pricing/check.svg"></div>
+              <img src="assets/icons/pricing/check.svg">
+            </div>
           </div>
         </div>
       </div>
@@ -264,7 +268,8 @@
           src="assets/icons/warning_escalation.svg" /> <span>Please select valid quantity for document and query overage
           to pay</span></div>
       <div class="note-text" *ngIf="selectedPlan?.planName!='Free'&&selectedPlan?.status!='expired'">
-        <span>{{"plan.note"| translate}}:</span> {{"plan.same_payment_method"| translate}}.</div>
+        <span>{{"plan.note"| translate}}:</span> {{"plan.same_payment_method"| translate}}.
+      </div>
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">

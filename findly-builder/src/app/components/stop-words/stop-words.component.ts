@@ -136,7 +136,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
           if (stage && stage.type === 'stopwords') {
             this.stopwords = stage.stopwords || [];
             if (stage.options) {
-              this.enabled = stage.options.stopWordsRemovalEnabled;
+              this.enabled = stage.options.stopWordsEnabled;
             }
           }
         });
@@ -153,7 +153,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         // }
       }
       this.loadingContent = false;
-      res.pipeline.stages[2].options.stopWordsRemovalEnabled = this.enabled;
+      res.pipeline.stages[2].options.stopWordsEnabled = this.enabled;
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get stop words');
@@ -207,7 +207,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
           if (stage && stage.type === 'stopwords') {
             this.stopwords = stage.stopwords || [];
             if (stage.options) {
-              this.enabled = stage.options.stopWordsRemovalEnabled;
+              this.enabled = stage.options.stopWordsEnabled;
             }
             if (!(this.stopwords && this.stopwords.length) && !dialogRef) {
               this.notificationService.notify('No default stop words available', 'error');
@@ -286,7 +286,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
           this.updateStopWords(dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
   }
@@ -319,7 +319,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
           this.updateStopWords(dialogRef, null, true);
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
+          // console.log('deleted')
         }
       })
 
@@ -349,7 +349,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         stopwords: this.stopwords
       },
       options: {
-        stopWordsRemovalEnabled: !this.enabled
+        stopWordsEnabled: this.enabled
       }
     }
     if (enableOrDisable) {

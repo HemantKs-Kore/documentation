@@ -247,6 +247,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.filterObject = [];
       vars.searchFacetFilters = [];
       vars.enterIsClicked = false;
+      vars.requestId = '';
       vars.previousLivesearchData = null;
       vars.previousAutosuggestionData = '';
       vars.previousDataobj = '';
@@ -261,6 +262,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.indexPipelineId = '';
       vars.tabsList = [];
       vars.availableGroupsList = {};
+      vars.availableGroupsOrder = [];
       vars.defaultTabsList = [];
       vars.tabFacetFieldName = '';
       vars.experimentsObject = {}; // Local Object for Storing Experiments-Related Data (QueryPipelineID, Relay, RequestID)
@@ -932,8 +934,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div id="searchBox" >\
               </div>\
             <div id="searchChatContainer" class="search-chat-container"></div>\
-              <div class="search-body">\
-            </div>\
+              <!--<div class="search-body">\
+            </div>-->\
             <div id="myPreviewModal" class="modalImagePreview">\
             <span class="closeElePreview">&times;</span>\
            <div class="largePreviewContent"></div>\
@@ -1061,11 +1063,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{/if}}\
             {{/if}}\
             <input autocomplete="off" id="search" name="search"\
-            {{if searchConfig.searchBarPlaceholderText}}\
             placeholder="${searchConfig.searchBarPlaceholderText}" \
-            {{else}}\
-              placeholder="Search here"\
-            {{/if}}\
             class="search-top-down search chatInputBox\
             {{if classes}}\
               ${classes}"\
@@ -3331,7 +3329,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }, 100);
     }
-    FindlySDK.prototype.invokeSearch = function (showMoreData) {
+    FindlySDK.prototype.invokeSearch = function (showMoreData, fromBottomUP) {
       if ($('body').hasClass('top-down')) {
         // $('#loaderDIV').show();
       }
@@ -3347,6 +3345,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var payload = {
         "query": _self.vars.searchObject.searchText,
+        
         // "maxNumOfResults": 9,
         "maxNumOfResults": 5,
         "userId": _self.API.uuid,
@@ -3354,19 +3353,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "lang": "en",
         // "isDev": true,
         "isDev": _self.isDev,
-        /*"messagePayload": {
-          "clientMessageId": new Date().getTime(),
-          "message": {
-            "body": _self.vars.searchObject.searchText,
-          }
-        },
-        "resourceId": '/bot.message',
-        "timeDateDay": dateTime,
-        "currentPage": window.location.href,
-        "meta": {
-          "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
-          "locale": window.navigator.userLanguage || window.navigator.language,
-        },*/
+        "searchRequestId":_self.vars.requestId
       }
       if (_self.isDev) {
         payload['customize'] = _self.vars.customizeView;
@@ -3384,12 +3371,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         payload['pageNumber'] = showMoreData.pageNumber;
       }
-      /*if (_self.bot.options) {
-        payload["client"] = _self.bot.options.client || "sdk";
-        payload["botInfo"] = {};
-        payload["botInfo"].chatBot = _self.bot.options.botInfo.chatBot;
-        payload["botInfo"].taskBotId = _self.bot.options.botInfo.taskBotId;
-      }*/
 
 
       if (_self.vars.filterObject.length > 0) {
@@ -3397,18 +3378,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       if (_self.vars.selectedFacetFromSearch && _self.vars.selectedFacetFromSearch !== 'all results') {
-        // selectedTopFacet = {
-        //   "fieldName": contentTypeFilter.fieldName,
-        //   "subtype": contentTypeFilter.subtype,
-        //   "facetValue": [_self.vars.selectedFacetFromSearch],
-        //   "name": contentTypeFilter.name
-        // }
-        // if (Object.values(selectedTopFacet).length) {
-        //   if (!payload.filters || !payload.filters.length) {
-        //     payload.filters = [];
-        //   }
-        //   payload.filters.push(selectedTopFacet);
-        // }
         var tabConfig = {
           "filter": {
             "fieldName": _self.vars.tabFacetFieldName,
@@ -3464,10 +3433,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             totalResultsCount = totalResultsCount;
             _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
             _self.showMoreClick();
-            // facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults, name: 'ALL' });
-            // facets = facets.concat((res.tabFacet || {}).buckets || [])
-            // _self.vars.tabsList = facets;
-            // _self.pubSub.publish('sa-search-facets', searchFacets);
             if (!showMoreData) {
               if (!$('body').hasClass('top-down')) {
                 // Sea all Results
@@ -3504,6 +3469,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.full-search-data-container').empty();
               if (res && res.results && res.resultType == "grouped") {
                 var availableGroups = Object.keys(res.results);
+                if (fromBottomUP) {
+                  _self.vars.availableGroupsOrder = availableGroups;
+                } else {
+                  var reArrangeAvailableGroups = [];
+                  _self.vars.availableGroupsOrder.forEach((d) => {
+                    let group = availableGroups.find(g => g === d)
+                    if (group) {
+                      reArrangeAvailableGroups.push(group)
+                    }
+                  })
+                  availableGroups = reArrangeAvailableGroups;
+                }
+
                 if (!(res.tabFacet || {}).buckets) {
                   totalResultsCount = 0;
                 }
@@ -3543,10 +3521,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   // _self.pubSub.publish('sa-defaultTemplate-search-data', { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
                   if (!(res.tasks || []).length) {
                     $('.empty-full-results-container').removeClass('hide');
+                    $('.no-templates-defined-full-results-container').hide();
                   } else {
                     if (!$('.empty-full-results-container').hasClass('hide')) {
                       $('.empty-full-results-container').addClass('hide');
                     }
+                    $('.no-templates-defined-full-results-container').hide();
                   }
                 }
 
@@ -3571,6 +3551,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   if (!$('.empty-full-results-container').hasClass('hide')) {
                     $('.empty-full-results-container').addClass('hide');
                   }
+                   $('.no-templates-defined-full-results-container').hide();
                 } else {
                   if (!(res.tasks || []).length) {
                     $('.empty-full-results-container').removeClass('hide');
@@ -3585,7 +3566,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
               facets = facets.concat((res.tabFacet || {}).buckets || [])
               facets = _self.rearrangeTabsList(facets);
-              facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+              if ((res.tasks || []).length) {
+                facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+              }
               _self.vars.tabsList = facets;
               _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
               _self.pubSub.publish('sa-source-type', facets);
@@ -3624,24 +3607,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   }
                 }
               }, 600)
-              //live search hightlight faq  end//
-              //_self.pubSub.publish('sa-full-data-search', { });
-
-              //_self.prepAllSearchData();
-              // _self.bindAllResultsView();
-              // _self.bindSearchActionEvents();
-
-              // var selectedFacet_temp = "all results";
-              // var dataObj = _self.vars.searchObject.liveData;
-              // _self.pubSub.publish('sa-st-data-search', {
-              //   container : '.structured-data-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet : selectedFacet_temp,isFullResults : true, isSearch : false, isLiveSearch : false, dataObj
-              // });
-              // _self.pubSub.publish('sa-faq-search', {
-              //   container : '.faqs-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet : selectedFacet_temp,isFullResults : true, isSearch : false, isLiveSearch : false, dataObj
-              // });
-              // _self.pubSub.publish('sa-web-search', {
-              //   container : '.web-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet : selectedFacet_temp,isFullResults : true, isSearch : false, isLiveSearch : false, dataObj
-              // });
+              _self.fullResultsScrollTop();
+              $(".content-data-sec").scrollTop(0);
+              $(".data-body-sec").scrollTop(0);
             } else {
               var dataObj = {
                 facets: facets || [],
@@ -3660,6 +3628,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
             _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' });
           }
+
         })
       }
       else {
@@ -3866,7 +3835,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.vars.showingMatchedResults = true;
         e.preventDefault();
         e.stopImmediatePropagation();
-        _self.invokeSearch();
+        _self.invokeSearch(false, true);
         // $('#loaderDIV').show()
       })
       // $('.full-search-close').off('click').on('click', function (e)
@@ -4023,27 +3992,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             _self.filterResults(event, false);
           }
-          // //top-down-search-facets-list-start//
-          // if ($('.topdown-search-main-container').length) {
-          //  _self.searchFacetsList(_self.vars.selectedFacetsList);
-          //   $('#show-filters-added-data').off('click', '.close-filter-tag').on('click', '.close-filter-tag', function (event) {
-          //     var unselectedFilterID = $(this).attr("id");
-          //     $('#loaderDIV').show();
-          //     _self.vars.selectedFiltersArr.slice(0).forEach(function (filter) {
-          //       if (filter == unselectedFilterID) {
-          //         var index1 = _self.vars.selectedFiltersArr.indexOf(filter);
-          //       _self.vars.selectedFiltersArr.splice(index1, 1)
-          //       _self.vars.selectedFacetsList.splice(index1,1);
-          //       _self.searchFacetsList(_self.vars.selectedFacetsList);
 
-          //       }
-          //     })
-          //     _self.vars.countOfSelectedFilters -= 1;
-          //     _self.filterResults(event, false);
-          //   });
-          // }
-
-          //top-down-search-facets-list-end//
         });
       } else {
         $('.sdk-filter-checkbox-top-down').off('change').on('change', function (event) {
@@ -4091,20 +4040,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           //   _self.vars['selectedFiltersRadio'].push($(this).attr("id"));
           // }
           if (_self.vars.selectedFacetsList.length) {
-            var facetIndex = _self.vars.selectedFacetsList.findIndex(x => x.name === $(this).attr("name"));
+            var facetIndex = _self.vars.selectedFacetsList.findIndex(x => x.value === $(this).attr("name"));
             if (facetIndex > -1) {
               _self.vars.selectedFiltersArr.splice(facetIndex, 1, $(this).attr("id"));
-              _self.vars.selectedFacetsList.splice(facetIndex, 1, { id: $(this).attr("id"), name: $(this).attr("name"), name: $(this).attr("value"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
+              _self.vars.selectedFacetsList.splice(facetIndex, 1, { id: $(this).attr("id"), value: $(this).attr("type") == 'radio' ? $(this).attr("name") : $(this).attr("value"), name: $(this).attr("type") == 'radio' ? $(this).attr("value") : $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
               _self.filterResultsTopDown(event, false);
             } else {
               _self.vars.selectedFiltersArr.push($(this).attr("id"));
-              _self.vars.selectedFacetsList.push({ id: $(this).attr("id"), name: $(this).attr("value"), name: $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
+              _self.vars.selectedFacetsList.push({ id: $(this).attr("id"), value: $(this).attr("type") == 'radio' ? $(this).attr("name") : $(this).attr("value"), name: $(this).attr("type") == 'radio' ? $(this).attr("value") : $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
               _self.vars.countOfSelectedFilters += 1;
               _self.filterResultsTopDown(event, true);
             }
           } else {
             _self.vars.selectedFiltersArr.push($(this).attr("id"));
-            _self.vars.selectedFacetsList.push({ id: $(this).attr("id"), name: $(this).attr("value"), name: $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
+            _self.vars.selectedFacetsList.push({ id: $(this).attr("id"), value: $(this).attr("type") == 'radio' ? $(this).attr("name") : $(this).attr("value"), name: $(this).attr("type") == 'radio' ? $(this).attr("value") : $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
             _self.vars.countOfSelectedFilters += 1;
             _self.filterResultsTopDown(event, true);
           }
@@ -4157,30 +4106,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if ($(this).attr('data-displayinsights') == "true") {
           responseObject = { 'type': 'showInsightFull', data: true, query: _self.vars.searchObject.searchText };
           $(this).attr('data-displayinsights', false);
-          /*$(this).find('.show_insights_text').text("HIDE INSIGHTS ");
-          $(this).find('.show_insights_icon').css('transform', 'rotate(180deg)')*/
           _self.parentEvent(responseObject);
         }
         else {
           responseObject = { 'type': 'showInsightFull', data: false, query: _self.vars.searchObject.searchText };
           $(this).attr('data-displayinsights', true);
-          /*$(this).find('.show_insights_text').text("SHOW INSIGHTS ");
-          $(this).find('.show_insights_icon').css('transform', 'rotate(360deg)');*/
           _self.parentEvent(responseObject);
         }
 
       })
 
       $('.live-search-close-icon').off('click').on('click', function (e) {
-        // var searchBody = $(event.target).closest('.search-body');
-        // if (searchBody) {
-        //   $(searchBody).addClass('hide');
-        // }
-        // if ($('#searchChatContainer').hasClass('bgfocus')) {
-        //   $('#searchChatContainer').removeClass('bgfocus')
-        // }
-        // event.stopPropagation();
-        // event.stopImmediatePropagation();
+
         _self.vars.showingMatchedResults = true;
         _self.vars.searchObject.searchText = $('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val();
         _self.vars.scrollPageNumber = 0;
@@ -4277,8 +4214,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
         $('#search').val(recentSearch).focus();
-        // $('#search').trigger("keyup");
-        // _self.pubSub.publish('sa-input-keyup');
         _self.vars.searchObject.searchText = recentSearch;
         _self.vars.showingMatchedResults = true;
         _self.searchFacetsList([]);
@@ -4345,10 +4280,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('#searchChatContainer').animate({ scrollTop: scrollBottom });
         _self.pubSub.publish('sa-action-clicked', e);
         var taskName = e.currentTarget.title.toLowerCase();
-        // var payload = $(e.target).attr('payload');
         var payload;
         if (_self.vars.searchObject && _self.vars.searchObject.searchText && _self.vars.searchObject.searchText.length) {
-          payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
+          // payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
+          payload = _self.vars.searchObject.searchText;
         }
         else {
           payload = $(e.currentTarget).attr('payload');
@@ -4371,15 +4306,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (!$('body').hasClass('top-down')) {
           _self.bindFrequentData();
         }
-        //_self.saveOrGetDataInStorage();
-
-        // if (_self.vars.loggedInUser) {
-        //   _self.searchEventBinding('pay bill', e.target.title.toLowerCase(), e);
-        // } else if ((e.target.title.toLowerCase() === 'pay bill') || (e.target.title.toLowerCase() === 'pay credit card bill')) {
-        //   _self.userLogin(e.target.title.toLowerCase());
-        // }
         if (_self.config.viaSocket) {
-          // var childBotName = $(e.target).attr('childBotName')
           var nlMeta = {
             linkedBotNLMeta: {
               'intent': $(e.currentTarget).attr('title'),
@@ -4401,13 +4328,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         } else if ((e.currentTarget.title.toLowerCase() === 'pay bill') || (e.currentTarget.title.toLowerCase() === 'pay credit card bill')) {
           _self.userLogin(e.currentTarget.title.toLowerCase());
         } else {
-          //_self.userLogin(e.target.title.toLowerCase());
         }
 
       })
-      /*$('.search-container').off('click', '.dont-show').on('click', '.dont-show', function (e) {
-        _self.performRankActions(e, { visible: false });
-      });*/
       $('.search-container').off('click', '.visibility').on('click', '.visibility', function (event) {
         if ($(event.target).closest('.visibility').attr('data-viewmode') == "full") {
 
@@ -4432,22 +4355,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         }
       });
-      /*$('.search-container').off('click', '.pin').on('click', '.pin', function (e) {
-
-        // debugger;
-        var _selctedEle = $(e.target).closest('.task-wrp');
-        var _parentEle = $(e.target).closest('.tasks-wrp');
-        var nodes = Array.prototype.slice.call(_parentEle[0].children);
-        var pinIndex = nodes.indexOf(_selctedEle[0]);
-        _self.performRankActions(e, { pinIndex: pinIndex });
-
-      });*/
       $('.search-container').off('click', '.pinning').on('click', '.pinning', function (event) {
         if ($(event.target).closest('.pinning').attr('data-viewmode') == "full") {
 
           if ($(event.target).closest('.faqs-shadow').attr('visible') == "true") {
             var _selectedElement = $(event.target).closest('.faqs-shadow');
-            // var _parentElement = $(event.target).closest('.faqs-shadow');
             var _parentElement = $(event.target).closest('.results-wrp');
             var childNodes = Array.prototype.slice.call(_parentElement[0].children);
             var pinIndex = 0;
@@ -4476,9 +4388,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         }
       });
-      /*$('.search-container').off('click', '.boostup').on('click', '.boostup', function (e) {
-        _self.performRankActions(e, { boost: 0.25 });
-      });*/
       $('.search-container').off('click', '.boosting').on('click', '.boosting', function (event) {
         if ($(event.target).closest('.boosting').attr('data-viewMode') == "full") {
 
@@ -4496,9 +4405,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         }
       });
-      /*$('.search-container').off('click', '.boostdown').on('click', '.boostdown', function (e) {
-        _self.performRankActions(e, { boost: -0.25 });
-      })*/
       $('.search-container').off('click', '.burying').on('click', '.burying', function (event) {
         if ($(event.target).closest('.burying').attr('data-viewMode') == 'full') {
           if ($(event.target).closest('.faqs-shadow').attr('visible') == "true" && parseInt($(event.target).closest('.faqs-shadow').attr('pinindex')) == -1) {
@@ -4534,21 +4440,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       event.preventDefault();
       event.stopPropagation();
-
-      /*var _taskWrapDiv = $(e.target).closest('.task-wrp');
-
-      var contentId = _taskWrapDiv.attr('contentid');
-      var contentType = _taskWrapDiv.attr('contentType');
-      var queryString = $(e.target).closest('.finalResults').attr('queryString');
-
-      var boost = _taskWrapDiv.attr('boost');
-      var pinIndex = _taskWrapDiv.attr('pinIndex');
-      var visible = _taskWrapDiv.attr('visible');
-
-      boost = parseFloat(boost);
-      pinIndex = parseInt(pinIndex);
-      visible = visible.toLowerCase() == 'true' ? true : false;*/
-
       if ($(event.target).closest(`.${actionType}`).attr('data-viewMode') == "full") {
         var selectedElement = $(event.target).closest('.faqs-shadow');
       }
@@ -4580,15 +4471,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else {
           indicatorMessage = "HIDING";
-          // indicatorMessage = "HIDDEN"
         }
         _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
-          /*selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
-            $(this).hide();
-          });*/
           selectedElement.attr('visible', conf.visible);
           if (selectedElement.attr('visible') == "false") {
-            // selectedElement.find('.notification-div').text(indicatorMessage).show();
             selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
               $(this).hide();
             })
@@ -4661,15 +4547,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var indicatorMessage = ''
         if (elementPinned.text() == "PIN") {
           indicatorMessage = "PINNING";
-          // indicatorMessage = "PINNED"
         }
         else {
           indicatorMessage = "UNPINNING";
         }
         _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
-          /*selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
-            $(this).hide();
-          });*/
           selectedElement.attr('pinindex', conf.pinIndex);
           if (elementPinned.text() == "UNPIN") {
             selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
@@ -4701,7 +4583,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           }
           else {
-            // selectedElement.find('.notification-div').text(indicatorMessage).show();
             selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
               $(this).hide();
             });
@@ -5162,49 +5043,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // var activeFacet = '';
       var facetActive = '';
       var url = _self.API.searchUrl;
-
-      /*var currentDate = new Date();
-      var dateTime = currentDate.getDate() + "/"
-        + (currentDate.getMonth() + 1) + "/"
-        + currentDate.getFullYear() + ", "
-        + currentDate.getHours() + ":"
-        + currentDate.getMinutes() + ":"
-        + currentDate.getSeconds();*/
-
       var payload = {
         "query": _self.vars.searchObject.searchText,
         // "maxNumOfResults": 9,
         "maxNumOfResults": 5,
-        /*"userId": _self.API.uuid,
-        "streamId": _self.API.streamId,*/
         "lang": "en",
         // "isDev": true,
         "isDev": _self.isDev,
-        /*"messagePayload": {
-          "clientMessageId": new Date().getTime(),
-          "message": {
-            "body": _self.vars.searchObject.searchText,
-          }
-        },
-        "resourceId": '/bot.message',
-        "timeDateDay": dateTime,
-        "currentPage": window.location.href,
-        "meta": {
-          "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
-          "locale": window.navigator.userLanguage || window.navigator.language,
-        },*/
+        "searchRequestId":_self.vars.requestId
       }
 
       if (_self.isDev) {
         payload['customize'] = _self.vars.customizeView;
       }
-
-      /*if (_self.bot.options) {
-        payload["client"] = _self.bot.options.client || "sdk";
-        payload["botInfo"] = {};
-        payload["botInfo"].chatBot = _self.bot.options.botInfo.chatBot;
-        payload["botInfo"].taskBotId = _self.bot.options.botInfo.taskBotId;
-      }*/
 
       if (filterObject.length > 0) {
         payload.filters = JSON.parse(JSON.stringify(filterObject));
@@ -5213,7 +5064,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "fieldName": "sys_content_type",
         "name": "facetContentType",
         "subtype": "value",
-        "isMultiSelect": false,
+        "multiselect": false,
         "buckets": []
       }
       if (_self.vars.selectedFacetFromSearch && _self.vars.selectedFacetFromSearch !== 'all results') {
@@ -5223,12 +5074,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "facetValue": [_self.vars.selectedFacetFromSearch],
           "name": contentTypeFilter.name
         }
-        // if (Object.values(selectedTopFacet).length) {
-        //   if (!payload.filters || !payload.filters.length) {
-        //     payload.filters = [];
-        //   }
-        //   payload.filters.push(selectedTopFacet);
-        // }
         var tabConfig = {
           "filter": {
             "fieldName": _self.vars.tabFacetFieldName,
@@ -5239,34 +5084,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         payload.tabConfig = tabConfig;
       } else {
         let filters = payload.filters;
-        for (let i = (filters || []).length - 1; i >= 0; i--) {
-          if (filters[i].subtype !== 'range') {
-            if (filters[i].facetValue[0] == 'faq' || filters[i].facetValue[0] == 'task' || filters[i].facetValue[0] == 'web' || filters[i].facetValue[0] == 'file' || filters[i].facetValue[0] == 'data') {
-              payload.filters.splice(i, 1);
-            }
-          }
-        }
       }
-
-      // if (_self.vars.countOfSelectedFilters > 1) {
-      //   facetActive = "all results";
-      //   _self.vars.selectedFacetFromSearch = 'all results';
-      // }
-      // else {
-      //   if ($('body').hasClass('top-down')) {
-      //     var _facetContainer = $('.active-tab').closest('.tab-name.capital');
-      //     facetActive = _facetContainer.attr('id');
-      //   } else {
-      //     facetActive = $('.facetActive').attr('id');
-      //   }
-      // }
-
       // payload.isDev = _self.isDev;
 
       _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
         var faqs = [], web = [], tasks = [], files = [], facets = {}, searchFacets = [];
-
-
         if (res.template) {
           res = res.template;
           searchFacets = res.facets;
@@ -5278,23 +5100,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             customSearchResult: _self.customSearchResult
             // searchFacets: searchFacets,
           }
-          // if ($('body').hasClass('top-down')) {
-          //   setTimeout(function () {
-          //     if (_self.vars.countOfSelectedFilters > 1) {
-          //       facetActive = "all results";
-          //       _self.vars.selectedFacetFromSearch = 'all results';
-          //     }
-          //     else {
-          //       var _facetContainer = $('.active-tab').closest('.tab-name.capital');
-          //       facetActive = _facetContainer.attr('id');
-          //       _self.vars.selectedFacetFromSearch = facetActive;
-          //     }
-          //     _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' });
-          //     // _self.pubSub.publish('sa-search-result', { ..._self.vars.searchObject.liveData, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' } });
-          //   }, 100);
-          // } else {
-          //   // _self.pubSub.publish('sa-search-result', _self.vars.searchObject.liveData);
-          // }
+
           facets = [];
           var totalResultsCount = 0;
           if (res.tabFacet && res.tabFacet.buckets && res.tabFacet.buckets.length) {
@@ -5310,11 +5116,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.full-search-data-container').empty();
           if (res && res.results && res.resultType == "grouped") {
             var availableGroups = Object.keys(res.results);
-            totalResultsCount = 0;
+            if (!(res.tabFacet || {}).buckets) {
+              totalResultsCount = 0;
+            }
+            var reArrangeAvailableGroups = [];
+            _self.vars.availableGroupsOrder.forEach((d) => {
+              let group = availableGroups.find(g => g === d)
+              if (group) {
+                reArrangeAvailableGroups.push(group)
+              }
+            })
+            availableGroups = reArrangeAvailableGroups;
             if (availableGroups && availableGroups.length) {
               availableGroups.forEach((group) => {
                 var results = res.results[group].data;
-                totalResultsCount = totalResultsCount + res.results[group].doc_count;
+                if (!(res.tabFacet || {}).buckets) {
+                  totalResultsCount = totalResultsCount + res.results[group].doc_count;
+                }
                 var groupName = group == 'default_group' ? 'defaultTemplate' : group;
                 var dataObj = {
                   facets: facets,
@@ -5322,7 +5140,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   originalQuery: res.originalQuery || '',
                   customSearchResult: _self.customSearchResult,
                   data: results,
-                  groupName: groupName
+                  groupName: groupName,
+                  doc_count: res.results[group].doc_count
                 }
                 if (!$('.empty-full-results-container').hasClass('hide')) {
                   $('.empty-full-results-container').addClass('hide');
@@ -5330,6 +5149,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 var publishSearchData = 'sa-' + groupName + '-search-data';
                 _self.pubSub.publish(publishSearchData, { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
               });
+              _self.vars.totalNumOfResults = totalResultsCount;
               res.results = results;
             } else {
               var dataObj = {
@@ -5357,7 +5177,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               originalQuery: res.originalQuery || '',
               customSearchResult: _self.customSearchResult,
               data: res.results.doc_count,
-              groupName: 'defaultTemplate'
+              groupName: 'defaultTemplate',
+              doc_count: res.results.doc_count
             }
             res.results = results;
             if (totalResultsCount) {
@@ -5373,7 +5194,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
           facets = facets.concat((res.tabFacet || {}).buckets || [])
           facets = _self.rearrangeTabsList(facets);
-          facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+          if ((res.tasks || []).length) {
+            facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+          }
           _self.vars.tabsList = facets;
           _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
           _self.pubSub.publish('sa-source-type', facets);
@@ -5381,22 +5204,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' });
           _self.pubSub.publish('sa-search-facets', searchFacets);
           if (!$('body').hasClass('top-down')) {
-            // _self.pubSub.publish('sa-faq-search', { container: '.faqs-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-            // _self.pubSub.publish('sa-web-search', { container: '.web-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-            // _self.pubSub.publish('sa-file-search', { container: '.files-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-            // _self.pubSub.publish('sa-st-data-search', { container: 'structured-data-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-            // Sea all Results
-            // $('#loaderDIV').show();
+
             var container = $('#show-all-results-container');
             var dataObj = _self.vars.searchObject.liveData;
             var facetdata = _self.vars.searchFacetFilters;
             _self.pubSub.publish('sa-search-full-results', { container: container, isFullResults: true, selectedFacet: 'all', isLiveSearch: false, isSearch: false, facetData: facetdata, dataObj });
           }
           else {
-            // _self.pubSub.publish('sa-faq-search', { container: '.faqs-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-            // _self.pubSub.publish('sa-web-search', { container: '.web-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-            // _self.pubSub.publish('sa-file-search', { container: '.files-search-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-            // _self.pubSub.publish('sa-st-data-search', { container: '.structured-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
+
             if (_self.isDev) {
               $('.custom-header-container-center').removeClass('display-none');
               if (_self.vars.customizeView) {
@@ -5418,6 +5233,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('#loaderDIV').hide()
           _self.markSelectedFilters();
         }
+        _self.fullResultsScrollTop();
+        $(".content-data-sec").scrollTop(0);
+        $(".data-body-sec").scrollTop(0);
       });
     }
 
@@ -5430,6 +5248,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "event": eventType,
         "streamId": _self.API.streamId,
         "isDev": _self.isDev,
+        "searchRequestId":_self.vars.requestId
       }
 
       if (!payload.query || (payload.query && !payload.query.length)) {
@@ -6189,8 +6008,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       }
                       else {
                         window.isBotLocked = false;
-                        // $('.search-body').removeClass('hide');
-                        // $('#searchChatContainer').addClass('bgfocus');
                       }
                       if (_self.vars.enterIsClicked) {
                         if (!$('body').hasClass('top-down')) {
@@ -6206,8 +6023,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         _self.vars.previousSearchObj.searchText = res.template.originalQuery; // previous text
                       }
                       if (res.templateType === 'liveSearch') {
-                        // $('.search-body').show();
                         $('#searchChatContainer').removeClass('bgfocus-override');
+                        $('.live-search-data-container').empty();
                         res = res.template;
                         var faqs = [], web = [], tasks = [], files = [], data = [], facets, viewType = "Preview";
                         if (!$('.search-container').hasClass('active')) {
@@ -6230,7 +6047,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
                           $(searchData).data(dataObj);
                           $('.search-body').html(searchData);
-
+                          $('.search-body').show();
+                          $('.search-body').removeClass('hide');
                           $('.live-search-data-container').empty();
                           if (res && res.results && res.resultType == "grouped") {
                             var availableGroups = Object.keys(res.results);
@@ -6264,23 +6082,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             }
                             _self.pubSub.publish('sa-defaultTemplate-search-data', { container: '.live-search-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
                           }
-                          // if (res && res.results && res.results.length) {
-                          //     var liveSearchStructuredDataMapping = _self.structuredDataConfig.liveSearchInterface.mapping;
 
                           _self.closeGreetingMsg();
-                          // var liveResult = res.results;
 
-                          // liveResult.forEach(function (result) {
-                          //   if (result.sys_content_type === "faq") {
-                          //     faqs.push(result);
-                          //   } else if (result.sys_content_type === "web") {
-                          //     web.push(result);
-                          //   } else if (result.sys_content_type === "file") {
-                          //     files.push(result);
-                          //   } else if (result.sys_content_type === "task") {
-                          //     tasks.push(result);
-                          //   }
-                          // })
 
                           facets = res.facets;
                           var dataObj = {
@@ -6293,56 +6097,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             originalQuery: res.originalQuery,
                             customSearchResult: _self.customSearchResult
                           }
-                          //livesearch
 
-                          // _self.pubSub.publish('sa-st-data-search', {
-                          //   container: '.structured-live-data-container', /*  start with '.' if class or '#' if id of the element*/ isFullResults: false, selectedFacet: 'all results', isSearch: false, isLiveSearch: true, dataObj
-                          // });
-                          // _self.pubSub.publish('sa-faq-search', { container: '.faqs-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
-                          // _self.pubSub.publish('sa-web-search', { container: '.web-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
-                          // _self.pubSub.publish('sa-file-search', { container: '.files-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
-                          // if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
-                          //   if ((!liveSearchStructuredDataMapping && (((res || {}).facets['all results'] == (res || {}).facets['data']) || ((res || {}).facets['all results'] == ((res || {}).facets['data'] + (res || {}).facets['task']))))) {
-                          //     $('.search-body').css('display', 'none');
-                          //     $('.search-body').addClass('hide');
-                          //   } else {
-                          //     if (!_self.vars.enterIsClicked && !window.isBotLocked) {
-                          //       $('.search-body').css('display', 'block');
-                          //       $('.search-body').removeClass('hide');
-                          //     }
-
-                          //   }
-                          // } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
-                          //   $('.search-body').css('display', 'none');
-                          //   $('.search-body').addClass('hide');
-                          // }
-                          // if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
-                          //   $('.search-body').css('display', 'block');
-                          //   $('.search-body').removeClass('hide');
-                          // } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
-                          //   $('.search-body').css('display', 'none');
-                          //   $('.search-body').addClass('hide');
-                          // }
-                          // $(searchData).data(dataObj);
-                          // $('.search-body').html(searchData);
                           setTimeout(function () {
                             $('.search-body').scrollTop(2);
                           }, 100);
                           _self.clickNavigateToUrl();
                           _self.bindAllResultsView();
                           if ($('body').hasClass('top-down')) {
-                            //top-down-search-live-search-suggestion box showing//
                             setTimeout(function () {
                               _self.bindStructuredDataTriggeringOptions();
                             }, 100);
-                            // _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
 
                           }
-                          // res.autoComplete['querySuggestions']=['How to make online bill payment?', 'Citi - Online Bill Payment'];
-
-                          // _self.pubSub.publish('sa-auto-suggest', res.autoComplete.keywords);
-                          // tmplData['suggestions'] = res.autoComplete.keywords;
-                          //to sort rendering results based on score
                           var scoreArray = [
                             {
                               name: 'asstPage',
@@ -6361,14 +6127,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           scoreArray.forEach((obj, index) => {
                             $('.' + obj.name).css("order", index + 1);
                           })
-                          // if ($('body').hasClass('top-down')) {
-                          //   _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: true, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' } });
-                          // } else {
-                          //   _self.pubSub.publish('sa-search-result', dataObj);
-                          // }
-                          // if (!$('body').hasClass('top-down')) {
-                          //   _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
-                          // }
+
                           //live search hightlight faq start//
                           setTimeout(() => {
                             var topMatchLivesearchFAQ = faqs.filter(function (faq) {
@@ -6382,7 +6141,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             }
                             if (topMatchLivesearchFAQ) {
 
-                              // bestFAQDiv.find(".accordion").trigger('click');//
                               if ($('body').hasClass('top-down')) {
                                 var bestFAQDiv = $("#live-search-result-box  .task-wrp[contentid='" + topMatchLivesearchFAQ.contentId + "']:last");
                                 bestFAQDiv.addClass('faq-highlight');
@@ -6416,10 +6174,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               viewType: viewType,
                               customSearchResult: _self.customSearchResult
                             }
-
-                            // searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
-                            // $(searchData).data(dataObj);
-                            // $('.search-body').html(searchData);
                             $('.search-body').empty().append('<div class="livesearchResultsNotFound">No live search results found</div>');
                             setTimeout(function () {
                               $('.search-body').scrollTop(2);
@@ -6446,9 +6200,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           facets: facets,
                           originalQuery: res.originalQuery || '',
                         }
-                        // if (res.searchResults.smallTalk && res.searchResults.smallTalk.isSmallTalk && res.searchResults.smallTalk.text) {
-                        //   _self.vars.searchObject.liveData.smallTalk = res.searchResults.smallTalk.text;
-                        // }
                         _self.searchEventBinding(searchData, "livesearch", e, config);
                       } else if (res.templateType === 'liveSearchEmpty') {
                         $('.search-body').hide();
@@ -6456,15 +6207,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       }
                       else {
                         $('.search-body').hide();
-                        // $('#searchChatContainer').addClass('bgfocus-override');
                       }
                     })
                   }
                   else {
                     $('.search-container').addClass('active');
                     $('.search-body').removeClass('hide');
-                    // $('.search-body').hide();
-                    // $('#searchChatContainer').addClass('bgfocus-override');
                     $('.search-body').show();
                   }
                 }
@@ -6511,7 +6259,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
             if (!window.isBotLocked) {
               $('.search-body').removeClass('hide');
-              // $('#searchChatContainer').addClass('bgfocus');
             } else {
               $('.search-body').addClass('hide');
               $('.search-body').css('display', 'none');
@@ -6523,8 +6270,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('#searchChatContainer').removeClass('bgfocus');
             $('.parent-search-live-auto-suggesition').hide();
           }
-          // _self.closeGreetingMsg();
-          //clear showing greeting if search bar focused before the greeting msg shown
           clearTimeout(_self.vars.searchObject.clearGreetingTimeOut);
 
           if ($('.search-container').hasClass('full-page')) {
@@ -6533,7 +6278,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.search-body-full').html('');
             if (!$('.search-container').hasClass('active')) {
               $('.search-container').addClass('active');
-              //e.stopPropagation();
             }
             e.stopPropagation();
           }
@@ -6542,7 +6286,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.search-container').addClass('active');
             if (_self.showGreetingMsg) {
               _self.showGreetingMsg = false;
-              // _self.sendMessageToSearch('bot', '&#128075; Hello! How can I help you today?');
             }
             _self.closeGreetingMsg();
             if (_self.customSearchResult) {
@@ -6554,13 +6297,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               };
               _self.pubSub.publish('sa-show-freq-data', tmplData);
             } else {
-              // var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
-              //   searchResults: searchResults,
-              //   recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
-              //   recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-              //   popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
-              // });
-              // $('.search-body').html(freqData);
               if (!$('body').hasClass('top-down') && !_self.vars.enterIsClicked && !($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
                 _self.pubSub.publish('sa-generate-recent-search');
               }
@@ -6611,19 +6347,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
           }
-
-          // if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
-          //   _self.vars.searchObject.recents.unshift(searchText.toLowerCase());
-          // }
-          // window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
           if (!ignorAppend) {
             _self.bindLiveDataToChat();
           }
           e.preventDefault();
         }
-
-
-        // _self.bindSearchAccordion();
         _self.bindSearchActionEvents();
         if (_self.isDev) {
           if (!_self.vars.customizeView) {
@@ -6820,21 +6548,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         payload.isBotAction = true;
       }
       payload.smallTalk = true;
-      /*var contextObj = $("#contextjsonfield").val();
-      if (contextObj) {
-        contextObj.trim();
-        if (contextObj) {
-          try {
-            contextObj = JSON.parse(contextObj);
-          } catch (error) {
-            contextObj = "";
-          }
-        }
-        if (contextObj) {
-          payload.userContext = contextObj;
-        }
 
-      }*/
 
       var url = _self.API.searchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
       var searchData;
@@ -6851,11 +6565,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.typingIndicatorContent').css('display', 'none');
       }, 100);
       try {
-
-        // _self.vars.searchObject.recents = JSON.parse(window.localStorage.getItem('recents')) ? JSON.parse(window.localStorage.getItem('recents')) : [];
-        // _self.vars.searchObject.recentTasks = JSON.parse(window.localStorage.getItem('recentTasks')) ? JSON.parse(window.localStorage.getItem('recentTasks')) : [];
-        // var recentSearchUrl = _self.API.recentSearchUrl;
-        // _self.getRecentSearches(recentSearchUrl, 'GET');
       } catch (err) {
 
       }
@@ -6916,7 +6625,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
       if (res.templateType === 'search') {
-
+        _self.vars.requestId = res.requestId;
         if (res.queryPipelineId && res.relay) {
 
           _self.vars.experimentsObject = {};
@@ -6956,10 +6665,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           searchFacets = _self.vars.searchFacetFilters;
         }
         $('.full-search-data-container').empty();
+        $('.no-templates-defined-full-results-container').hide();
         if (((res.results || {}).data || []).length || (res.resultType == "grouped" && Object.keys(res.results).length)) {
           var searchContainerName = $('body').hasClass('top-down') ? '.full-search-data-container' : '.search-data-container';
 
           if (!$('body').hasClass('top-down')) {
+            _self.countTotalResults(res,totalResultsCount);
             var dataObj = {
               faqs: [],
               web: [],
@@ -6988,7 +6699,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 taskPrefix: 'MATCHED',
                 viewType: viewType,
                 customSearchResult: _self.customSearchResult,
-                totalSearchResults: totalResultsCount + (res.tasks || []).length
+                totalSearchResults: _self.vars.totalNumOfResults
               });
               setTimeout(function () {
                 _self.appendActionsContainerForBottomUp('search');
@@ -7012,6 +6723,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if (res && res.results && res.resultType == "grouped") {
             var availableGroups = Object.keys(res.results);
+            _self.vars.availableGroupsOrder = availableGroups;
             if (!(res.tabFacet || {}).buckets) {
               totalResultsCount = 0;
             }
@@ -7031,14 +6743,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   groupName: groupName,
                   doc_count: res.results[group].doc_count
                 }
+                var publishSearchData = 'sa-' + groupName + '-search-data';
+                _self.pubSub.publish(publishSearchData, { container: searchContainerName, isFullResults: $('body').hasClass('top-down') ? true : false, selectedFacet: 'all results', isLiveSearch: false, isSearch: $('body').hasClass('top-down') ? false : true, dataObj });
                 if (!$('.empty-full-results-container').hasClass('hide')) {
                   $('.empty-full-results-container').addClass('hide');
                 }
-                var publishSearchData = 'sa-' + groupName + '-search-data';
-                _self.pubSub.publish(publishSearchData, { container: searchContainerName, isFullResults: $('body').hasClass('top-down') ? true : false, selectedFacet: 'all results', isLiveSearch: false, isSearch: $('body').hasClass('top-down') ? false : true, dataObj });
               });
               _self.vars.totalNumOfResults = totalResultsCount;
               res.results = results;
+              if (!$('.full-search-data-container').children().length) {
+                if (_self.isDev) {
+                  $('.no-templates-defined-full-results-container').show();
+                } else {
+                  $('.empty-full-results-container').removeClass('hide');
+                }
+              }
             } else {
               var dataObj = {
                 facets: facets || [],
@@ -7051,6 +6770,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               // _self.pubSub.publish('sa-defaultTemplate-search-data', { container: searchContainerName, isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
               if (!(res.tasks || []).length) {
                 $('.empty-full-results-container').removeClass('hide');
+                $('.no-templates-defined-full-results-container').hide();
               }
             }
           } else {
@@ -7074,9 +6794,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if (!$('.empty-full-results-container').hasClass('hide')) {
                 $('.empty-full-results-container').addClass('hide');
               }
+
+              if (!$('.full-search-data-container').children().length) {
+                if (_self.isDev) {
+                  $('.no-templates-defined-full-results-container').show();
+                } else {
+                  $('.empty-full-results-container').removeClass('hide');
+                }
+              }
             } else {
               if (!(res.tasks || []).length) {
                 $('.empty-full-results-container').removeClass('hide');
+                $('.no-templates-defined-full-results-container').hide();
               }
             }
           }
@@ -7094,49 +6823,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var liveResult = res.results;
           var topMatch;
           var topMatchTask;
-
-
-          // if (res.results.task !== undefined) {
-          //   facets['task'] = res.results.task.length;
-          // }
-
-          // data = res.results.data;
-
-          // if (res.results.file !== undefined) {
-          //   files = res.results.file;
-          // }
-          // else {
-          //   files = [];
-          //   res.facets.file = 0;
-          // }
-
-
-          // debugger;
-
-          // if (tasks.length) {
-
-          //   tasks.forEach(function (task) {
-          //     if (task.config == undefined || task.config == null) {
-          //       task.config = { boost: 0, pinIndex: 0, visible: 'true' }
-          //     }
-          //     if (task.feedback == undefined || task.config == null) {
-          //       task.feedback = { appearance: 0, click: 0 };
-          //     }
-          //     if (task.taskId == undefined || task.taskId == null) {
-          //       task.taskBotId = null;
-          //     }
-          //     if (task.payload == undefined || task.payload == null) {
-          //       task.payload = null;
-          //     }
-          //     // debugger;
-          //     task.taskName = task.name;
-          //   })
-
-          //   //trigger dialog;
-          //   topMatchTask = tasks[0];
-          // }
-
-
           topMatch = data.filter(function (data) {
             return data.bestMatch
           });
@@ -7147,21 +6833,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             topMatch = false;
           }
 
-
-          // if ($('body').hasClass('top-down')) {
-          //   _self.previousDataobj = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
-          //   _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true } });
-          // } else {
-          //   _self.pubSub.publish('sa-search-result', dataObj);
-          // }
-
-          // _self.pubSub.publish('sa-source-type', facets);
-          // _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
           if (!$('body').hasClass('top-down')) {
-            // _self.pubSub.publish('sa-faq-search', { container: '.faqs-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-            // _self.pubSub.publish('sa-web-search', { container: '.web-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-            // _self.pubSub.publish('sa-st-data-search', { container: '.structured-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-            // _self.pubSub.publish('sa-file-search', { container: '.files-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
             setTimeout(() => {
               if ($('.messageBubble .userMessage span').last().text() == _self.vars.searchObject.searchText && $('.messageBubble .messageBubble-content .botMessage span:nth-child(2)').last().text() === 'Sure, please find the matched results below') {
                 if ($('#searchChatContainer').prop('offsetHeight') < $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top) {
@@ -7175,6 +6847,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   $('.more-results').css('display', 'block');
                 }
               }
+              if (!$('.search-data-container').last().children().length) {
+                $('#searchChatContainer .messageBubble').last().remove();
+                $('#searchChatContainer .finalResults').last().remove();
+                _self.sendMessageToSearch('bot', 'Unable to find results at this moment');
+              }
             }, 500)
           }
           else {
@@ -7182,10 +6859,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('#frequently-searched-box').hide();
             $('#live-search-result-box').hide();
 
-            // _self.pubSub.publish('sa-faq-search', { container: '.faqs-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-            // _self.pubSub.publish('sa-web-search', { container: '.web-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-            // _self.pubSub.publish('sa-file-search', { container: '.files-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-            // _self.pubSub.publish('sa-st-data-search', { container: '.structured-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
+
             if (_self.isDev) {
               $('.custom-header-container-center').removeClass('display-none');
               if (_self.vars.customizeView) {
@@ -7196,23 +6870,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
             setTimeout(function () {
               _self.bindStructuredDataTriggeringOptions();
-              if (_self.vars.totalNumOfResults == 0) {
-                $('#top-down-all-tab-empty-state').removeClass('hide');
-              } else {
-                $('#top-down-all-tab-empty-state').addClass('hide');
-              }
             }, 100);
           }
           _self.clickNavigateToUrl();
-          // if(!_self.isDev){
-          //   dataObj = {
-          //     faqs: faqs.slice(0,2),
-          //     web: web.slice(0,2),
-          //     tasks: tasks.slice(0,2),
-          //     facets: facets,
-          //     originalQuery: res.originalQuery || '',
-          //   }
-          // }
+
           _self.vars.searchObject.liveData = {
             faqs: [],
             web: [],
@@ -7227,50 +6888,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             data: []
           }
-          // if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(res.originalQuery.toLowerCase()) == -1)) {
-          //   _self.vars.searchObject.recents.unshift(res.originalQuery.toLowerCase());
-          // }
-          // window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
+
           if (((res.results || {}).data || []).length) {
-            // if (_self.isDev) {
-            //   var responseObject = { 'type': 'onboardingjourney', data: 'test', query: _self.vars.searchObject.searchText, bottomUp: true, requestId: _self.vars.previousSearchObj.requestId }
-            //   _self.parentEvent(responseObject);
-            // }
-            // if (dataObj.smallTalk) {
-            //   _self.sendMessageToSearch('bot', dataObj.smallTalk);
-            // } else {
-            //   var _botMessage = 'Sure, please find the matched results below';
-            //   searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
-            //     faqs:[],
-            //     web: [],
-            //     tasks: [],
-            //     showAllResults: true,
-            //     noResults: false,
-            //     taskPrefix: 'MATCHED',
-            //     viewType: viewType,
-            //     customSearchResult: _self.customSearchResult,
-            //     totalSearchResults: totalResultsCount
-            //   });
-            //   setTimeout(function () {
-            //     _self.appendActionsContainerForBottomUp('search');
-            //     _self.pubSub.publish('sa-action-full-search', { container: '.actions-search-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-            //   }, 300);
-            //   setTimeout(function () {
-            //     _self.bindSearchActionEvents();
-            //   }, 500);
-            // _self.pubSub.publish('sa-st-data-search', {
-            //   container : '.structured-data-container', /*  start with '.' if class or '#' if id of the element*/ isFullResults : false, selectedFacet : 'all results', isSearch : true, dataObj
-            // });
-            // $(searchData).data(dataObj);
-            // if (!_self.customSearchResult) {
-            //   // if (!topMatchTask && !_self.customSearchResult) {
-            //   _self.sendMessageToSearch('bot', _botMessage, null, (_self.isDev == true) ? true : false);
-            //   if (_self.isDev) {
-            //     setTimeout(() => {
-            //       _self.pubSub.publish('sa-handle-customize-option-view');
-            //     }, 500);
-            //   }
-            // }
+
             if (_self.vars.customizeView == true) {
               $(searchData).find(".tasks-wrp").sortable();
             }
@@ -7286,13 +6906,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.showingMatchedResults = true;
 
             if (_self.vars.customizeView == true) {
-              /*$(searchData).find(".tasks-wrp").sortable();
-              $(searchData).find(".tasks-wrp").sortable("option", "disabled", false);
-              $(searchData).find(".tasks-wrp").disableSelection();*/
-              // $(".custom-insights-control-container").show();
-
-              // $(".query-analytics-control-container").show(); // Temporary modification, made as per FLY-1012
-
               $(".faqs-shadow").addClass('custom-faqs-shadow');
               $(".faqs-wrp-content").addClass('custom-faqs-wrp-content');
               $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
@@ -7301,16 +6914,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
               $(".divfeedback").css('display', 'none');
 
-              /*if ($('.custom-header-container-left').css('visibility') == 'hidden') {
-                // debugger;
-                $('.custom-insights-control-container').show();
-              }*/
+
             }
             else {
-              // $(searchData).find(".tasks-wrp").sortable("disable");
-              // $(".custom-insights-control-container").hide();
-
-              // $(".query-analytics-control-container").hide(); // Temporary modification, made as per FLY-1012
 
               $(".faqs-shadow").removeClass('custom-faqs-shadow');
               $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
@@ -7319,19 +6925,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $(".image-url-sec").css('display', 'table-cell');
               $(".faqs-bottom-actions").css('display', 'none');
 
-              // $('.divfeedback').css('display', 'block');
             }
 
-            /*if (_self.vars.showingMatchedResults == true && dataObj.faqs.length > 0) {
-              $(searchData).find('.tasks-wrp .faqs-shadow').first().find(".accordion").trigger('click'); // Triggering expand event of the first matched FAQ by the virtue of its position
-            }*/
+
           }
           setTimeout(function () {
             if (_self.isDev == false) {
-              // var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-              // if (scrollBottom > 100) {
-              //   scrollBottom = scrollBottom + 200;
-              // }
+
               if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && !$('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
                 $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
               } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
@@ -7341,13 +6941,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 25) }, 500)
                 }
               }
-              // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
             }
             else {
-              // var scrollBottom = $('#searchChatContainer').scrollTop() + 100;
-              // if (scrollBottom > 100) {
-              //   scrollBottom = scrollBottom + 200;
-              // }
+
               if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && !$('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
                 $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
               } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
@@ -7357,7 +6953,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 25) }, 300)
                 }
               }
-              // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
             }
 
           }, 200);
@@ -7374,6 +6969,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: (_self.vars.isFromTopDownKeyDown ? 'data' : 'all results') } });
             } else {
               $('.empty-full-results-container').removeClass('hide');
+              $('.no-templates-defined-full-results-container').hide();
             }
           } else {
             if ((res.tasks || []).length) {
@@ -7452,7 +7048,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
           facets = facets.concat((res.tabFacet || {}).buckets || [])
           facets = _self.rearrangeTabsList(facets);
-          facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+          if ((res.tasks || []).length) {
+            facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+          }
           _self.vars.tabsList = facets;
           if (!_self.vars.searchObject.liveData) {
             _self.vars.searchObject.liveData = { facets: facets };
@@ -7463,6 +7061,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('sa-search-facets', searchFacets);
           _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
         }
+        _self.fullResultsScrollTop();
+        $(".content-data-sec").scrollTop(0);
+        $(".data-body-sec").scrollTop(0);
       } else if (res.templateType === 'botAction') {
         // debugger;
         res = res.template;
@@ -7495,17 +7096,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.pubSub.publish('sa-show-freq-data', tmplData);
 
       } else {
-        // var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
-        //   // searchResults: _self.vars.searchObject.recentAPIResponse,
-        //   recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
-        //   recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-        //   popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
-        // });
-        // $('.search-body').html(freqData);
+
         setTimeout(function () {
-          // if ((!$('body').hasClass('top-down') && $('.bottom-up-search').is(':visible')) || ($('body').hasClass('top-down') && $('#frequently-searched-box').is(':visible'))) {
-          //   return;
-          // }
+
           if (!_self.vars.enterIsClicked && !($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
             _self.pubSub.publish('sa-generate-recent-search');
           }
@@ -8054,16 +7647,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "country": this.vars.locationObject.country
       }
 
-
-      // if (url == this.API.livesearchUrl) {
-      //   if (this.isDev == true) {
-      //     headers["state"] = "configured";
-      //   }
-      //   else {
-      //     headers["state"] = "published";
-      //   }
-      // }
-
       if (url != this.API.livesearchUrl) {
         if (!payload.maxNumOfResults) {
           payload['maxNumOfResults'] = 5;
@@ -8225,25 +7808,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       else { // using google cloud speech API
         micEnable();
       }
-      // }
-      // else {
-      //   if (!speechPrefixURL) {
-      //     console.warn("Please provide speech socket url");
-      //     return false;
-      //   }
-      //   $.ajax({
-      //     url: speechPrefixURL + "asr/wss/start?email=" + userIdentity,
-      //     type: 'post',
-      //     headers: { "Authorization": (bearerToken) ? bearerToken : assertionToken },
-      //     dataType: 'json',
-      //     success: function (data) {
-      //       sidToken = data.link;
-      //       micEnable();
-      //     },
-      //     error: function (err) {
-      //     }
-      //   });
-      // }
+
     }
     var two_line = /\n\n/g;
     var one_line = /\n/g;
@@ -8351,37 +7916,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
     function stop() {
-      // if ($('.chatInputBox').text() !== '' && autoEnableSpeechAndTTS) {
-      //     var me = window.chatContainerConfig;
-      //     me.sendMessage($('.chatInputBox'));
-      // }
-      // clearInterval(intervalKey);
+
       $('.recordingMicrophone').css('display', 'none');
       $('.notRecordingMicrophone').css('display', 'block');
-      // if (rec) {
-      //     rec.stop();
-      //     isListening = false;
-      //     setTimeout(function () {
-      //         if (_connection) {
-      //             _connection.close();
-      //             _connection = null;
-      //         }
-      //     }, 1000); // waiting to send and receive last message
 
-      //     rec.export16kMono(function (blob) {
-      //         socketSend(blob);
-      //         rec.clear();
-      //         if (_connection) {
-      //             _connection.close();
-      //         }
-      //         var track = mediaStream.getTracks()[0];
-      //         track.stop();
-      //         rec.destroy();
-      //         isRecordingStarted = false;
-      //     }, 'audio/x-raw');
-      // } else {
-      //     console.error('Recorder undefined');
-      // }
       if (recognizing) {
         recognition.stop();
         recognizing = false;
@@ -8439,11 +7977,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             //8
             //$('.sendButton').removeClass('disabled');
           }
-
-          // setTimeout(function () {
-          //   setCaretEnd(document.getElementsByClassName("chatInputBox"));
-          //   document.getElementsByClassName('chatInputBox')[0].scrollTop = document.getElementsByClassName('chatInputBox')[0].scrollHeight;
-          // }, 350);
         };
       }
     };
@@ -8474,6 +8007,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.customTemplateObj = new customTemplate(null, _self);
       _self.customTemplateObj.helpers = helpers;
       _self.customTemplateObj.config = findlyConfig;
+      _self.searchTemplateObj = new searchTemplate(_self);
       _self.initializeCustomTemplateEvent();
     }
 
@@ -8493,12 +8027,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         });
         $('#searchChatContainer').append(templateBotMessageBubble);
         var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height() + 34;
-        // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-        // $('#searchChatContainer').animate({
-        //   scrollTop: ($('#searchChatContainer').prop("scrollHeight")- 34)
-        // }, 0);
         if ($('.messageBubble').last().find('.messageBubble-content').length) {
-          // $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 190) }, 300)
         } else {
           if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top > 34 || $('.userMessage').last().parent().position().top < 34)) {
             $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 25) }, 300)
@@ -8654,10 +8183,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       _self.pubSub.unsubscribe('facet-selected');
       _self.pubSub.subscribe('facet-selected', (topic, data) => {
+        var doc_count = 0;
+        var isAction = false;
+        $('.active-tab .tab-count').show();
+        $('.active-tab .tab-count-right-bracket').show();
+        $('.no-templates-defined-full-results-container').hide();
+        $('.sdk-facet-count').show();
         if ((((_self.vars || {}).searchObject || {}).liveData || {}).facets) {
           var facets = _self.vars.searchObject.liveData.facets;
           facets.forEach(function (facet) {
             if (facet && facet.key) {
+              if (data.selectedFacet == facet.key) {
+                doc_count = facet.doc_count;
+              }
+              if (facet.key == 'task') {
+                isAction = true;
+              }
               $('.' + facet.key.replaceAll(" ", "-")).removeClass(config.selectedClass).addClass(config.unSelectedClass);
             }
           })
@@ -8665,6 +8206,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (!data.selectedFacet || data.selectedFacet === "all results") {
             $('.facet:first').removeClass(config.unSelectedClass);
             $('.facet:first').addClass(config.selectedClass);
+          }
+        }
+        if ((!$('.full-search-data-container').children().length && doc_count && ((data.selectedFacet == 'all results' && !isAction) || (data.selectedFacet !== 'task' && data.selectedFacet !== 'all results'))) || (!$('.full-search-data-container').children().length && doc_count && data.selectedFacet == 'task' && !$('.actions-full-search-container').children().length)) {
+          if (_self.isDev) {
+            $('.no-templates-defined-full-results-container').show();
+          } else {
+            $('.empty-full-results-container').removeClass('hide');
+          }
+          if (data.selectedFacet) {
+            $('.' + data.selectedFacet.replaceAll(" ", "-") + ' .tab-count').hide();
+            $('.' + data.selectedFacet.replaceAll(" ", "-") + ' .tab-count-right-bracket').hide();
+            $('.active-tab .sdk-facet-count').hide();
+          } else {
+            $('.all-results .tab-count').hide();
+            $('.all-results .tab-count-right-bracket').hide();
+            $('.active-tab .sdk-facet-count').hide();
+          }
+        } else if (!$('.full-search-data-container').children().length && !doc_count) {
+          $('.empty-full-results-container').removeClass('hide');
+        } else {
+          if (!$('.empty-full-results-container').hasClass('hide')) {
+            $('.empty-full-results-container').addClass('hide');
           }
         }
 
@@ -8755,12 +8318,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $("#" + filter).prop('checked', true)
         })
       }
-      // if (_self.vars['selectedFiltersRadio'].length > 0) {
-      //   _self.vars['selectedFiltersRadio'].forEach(function (filter) {
-      //     $("#" + filter).prop('checked', true)
-      //   })
-      // }
-
     }
     FindlySDK.prototype.addSearchResult = function (config) {
       var _self = this;
@@ -8771,7 +8328,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (searchConfigurationCopy && searchConfigurationCopy.botConfig) {
           actionsPosition = searchConfigurationCopy.botConfig.botActionResultsExperience;
         }
-        let actionParentContainer = `<div id="actions-container" class="quick-actions-container"></div>`;
+        let actionParentContainer = `<div id="actions-container" class="quick-actions-container actions-full-search-container"></div>`;
         if (actionsPosition == 'top') {
           $('.content-data-sec').prepend(actionParentContainer);
         } else {
@@ -8845,20 +8402,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (!$('body').hasClass('top-down')) {
               if (data.tasks && data.tasks.length > 0) {
                 if (config.actionTemplateId) {
-                  // if (config.actionTemplateId === 'actions-template') {
-                  //   data = { ...data, ...{ appearanceType: 'task' } };
-                  //   var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy(data);
-                  //   if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
-                  //     $('#' + actionContainer).empty();
-                  //   }
-                  //   $('#' + actionContainer).append(dataHTML);
-                  // } else {
+
                   var dataHTML = $('#' + config.actionTemplateId).tmplProxy(data);
                   if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
                     $('#' + actionContainer).empty();
                   }
                   $('#' + actionContainer).append(dataHTML);
-                  // }
                 } else if (config.actionTemplate) {
                   var dataHTML = $(config.actionTemplate).tmplProxy(data);
                   if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
@@ -8917,9 +8466,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (config.searchHandler) {
           config.searchHandler(data)
         }
-        // setTimeout( () => {
-        //   _self.checkBoostAndLowerTimes();
-        // }, 400);
       });
       if (config.structuredDataContainer) {
         structuredDataContainer = config.structuredDataContainer;
@@ -8928,9 +8474,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.pubSub.subscribe('sa-register-all-template', (msg, data) => {
           _self.registerAllTemplateConfig(data, _self.customConfig);
         });
-        // _self.pubSub.subscribe('sa-register-template', (msg, data) => {
-        //   _self.registerTemplateConfig(data, _self.customConfig);
-        // });
       }
       var handle = setInterval(function () {
         if (_self.bot.options.accessToken) {
@@ -9095,10 +8638,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.pubSub.subscribe('sa-register-all-template', (msg, data) => {
         _self.registerAllTemplateConfig(data, _self.customConfig);
       });
-      // _self.pubSub.subscribe('sa-register-template', (msg, data) => {
-      //   _self.registerTemplateConfig(data, _self.customConfig);
-
-      // });
       var handle = setInterval(function () {
         if (_self.bot.options.accessToken) {
           _self.unlockBot();
@@ -9137,24 +8676,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         btnText: 'Go'
       };
       var dataHTML = $(_self.getSearchTemplate('searchContainer')).tmplProxy({ 'searchConfig': searchConfiguration });
-      // $(dataHTML).off('click', '.search-logo').on('click', '.search-logo', function (event) {
-      //   $('.search-container').toggleClass('conversation');
-      // });
 
 
       $(dataHTML).off('click', '.notRecordingMicrophone').on('click', '.notRecordingMicrophone', function (event) {
-        // if (ttsAudioSource) {
-        //     ttsAudioSource.stop();
-        // }
-        // if (isSpeechEnabled) {
         getSIDToken();
         //}
       });
       $(dataHTML).off('click', '.recordingMicrophone').on('click', '.recordingMicrophone', function (event) {
         stop();
-        // setTimeout(function () {
-        //     setCaretEnd(document.getElementsByClassName("chatInputBox"));
-        // }, 350);
       });
       _self.bindContextVariable();
       _self.bindSearchAccordion();
@@ -9213,10 +8742,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.bindCloseGreeting();
       }, 1000);
 
-      // var searchModal = $(_self.getSearchTemplate('searchResultModal')).tmplProxy({
-      // });
-      // $('.search-modal-body').html(searchModal);
-      // $('#search-modal').css('display', 'block');
       if (!overrideDefaultPoisition) {
         _self.overrideDefaultPoisition = false;
         $(dataHTML).css('left', left);
@@ -9365,13 +8890,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getGreetingMsgTemplate = function () {
       var greetingMsg = '<script type="text/x-jqury-tmpl">\
+      {{if searchConfig.welcomeMsg}}\
         <div class="search-greeting-box" style="background:${searchConfig.welcomeMsgFillColor};">\
           <span class="search-greeting-text" style="color : ${searchConfig.welcomeMsgColor}">\
-          {{if searchConfig.welcomeMsg}}\
             ${searchConfig.welcomeMsg}\
-          {{else}}\
-            Hello! How can I help you today?\
-          {{/if}}\
           </span>\
         </div>\
         <div class="search-greeting-close-container pointer" >\
@@ -9379,6 +8901,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <img src="./libs/images/close.svg" class="search-greeting-close-icon ">\
           </span>\
         </div>\
+        {{/if}}\
       </script> ';
       return greetingMsg;
     }
@@ -9468,30 +8991,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var tempData = JSON.parse(message.data);
 
         if (tempData.from === "bot" && tempData.type === "bot_response") {
-          // if (tempData.message[0]) {
-          //     if (!tempData.message[0].cInfo) {
-          //         tempData.message[0].cInfo = {};
-          //     }
-          //     if (tempData.message[0].component && !tempData.message[0].component.payload.text) {
-          //         try {
-          //             tempData.message[0].component = JSON.parse(tempData.message[0].component.payload);
-          //         } catch (err) {
-          //             tempData.message[0].component = tempData.message[0].component.payload;
-          //         }
-          //     }
-          //     if (tempData.message[0].component && tempData.message[0].component.payload && tempData.message[0].component.payload.text) {
-          //         tempData.message[0].cInfo.body = tempData.message[0].component.payload.text;
-          //     }
-          //     if(tempData.message[0].component && tempData.message[0].component.payload && (tempData.message[0].component.payload.videoUrl || tempData.message[0].component.payload.audioUrl)){
-          //         tempData.message[0].cInfo.body = tempData.message[0].component.payload.text || "";
-          //     }
-          // }
-          // if (loadHistory && historyLoading) {
-          //     messagesQueue.push(tempData);
-          // }
-          // else {
-          //     me.renderMessage(tempData);
-          // }
+
           if ((tempData || {}).message && (tempData || {}).message[0].component.payload) {
             if (tempData.message[0].cInfo) {
               tempData.message[0].component.payload.cInfo = tempData.message[0].cInfo;
@@ -9553,17 +9053,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.sendMessage = function (chatInput, renderMsg, msgObject) {
       var _self = this;
-      // if(msgObject && msgObject.message[0]&& msgObject.message[0].component&& msgObject.message[0].component.payload && msgObject.message[0].component.payload.ignoreCheckMark){
-      // var ignoreCheckMark=msgObject.message[0].component.payload.ignoreCheckMark;
-      // }
-      // if (chatInput.text().trim() === "" && $('.attachment').html().trim().length == 0) {
-      //     return;
-      // }
-      // if (me.config.allowLocation) {
-      //     bot.fetchUserLocation();
-      // }
-      // var _bodyContainer = $(me.config.chatContainer).find('.kore-chat-body');
-      // var _footerContainer = $(me.config.chatContainer).find('.kore-chat-footer');
       if (!($('.topdown-search-main-container').length)) {
         $('#search').val('');
         $('.bottom-up-suggestion').val('');
@@ -9637,7 +9126,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       messageToBot["timeDateDay"] = dateTime;
       messageToBot["currentPage"] = window.location.href;
       messageToBot["country"] = _self.vars.locationObject.country;
-
+      if (_self.vars.customizeView) {
+        messageToBot["customize"] = true;
+        messageToBot["isDev"] = true;
+      }
       if (_self.bot.options) {
         messageToBot["client"] = _self.bot.options.client || "sdk";
         messageToBot["botInfo"] = {};
@@ -9665,26 +9157,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       //advanced result template websocket payload added//
       messageToBot["tabConfig"] = { // required
-        "filter": { // must be empty {} if in 'all' tab
-          //   "fieldName": "sys_content_type",
-          //   "facetValue": ["faq"]
-        }
+        "filter": {}
       }
       messageToBot["resultGroups"] = {  // required
-        "filter": { // must be empty {} if in 'all' tab
-          //   "fieldName": "sys_source_name",
-          //   "facetName": "Merc",
-          //   "facetValue": ["sbi"]
-        }
+        "filter": {}
       }
       messageToBot["defaultGroups"] = { // required
-        "filter": { // must be empty {} if in 'all' tab
-          // "fieldName": "sys_source_name",
-          // "facetName": "Merc",
-          // "facetValue": ["sbi"]
-        }
+        "filter": {}
       }
-      messageToBot["interface"] = $('body').hasClass('top-down')?'fullSearch':'conversationalSearch';
+      messageToBot["interface"] = $('body').hasClass('top-down') ? 'fullSearch' : 'conversationalSearch';
       //payload end//
       if (!$('body').hasClass('demo')) {
         messageToBot.indexPipelineId = _self.API.indexpipelineId;
@@ -9722,10 +9203,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       attachmentInfo = {};
-
-      // $('.typingIndicatorContent').css('display', 'block');
-      // var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 4000 : 0
-      // _self.vars.isSocketReInitialize = false;
+      websockeRrefreshed = false;
       _self.checkWbInitialized(messageToBot, clientMessageId);
 
       // if (_self.isDev == false) {
@@ -9736,6 +9214,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
     FindlySDK.prototype.checkWbInitialized = function (messageToBot, clientMessageId) {
       var _self = this;
+      if(websockeRrefreshed){
+        return;
+      }
       var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 2000 : 0;
       // $('.typingIndicatorContent').css('display', 'block');
       _self.showTypingIndicator();
@@ -11685,6 +11166,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     var _pingTimer, _pingTime = 30000;
     var _disconnectBotTimer, _disconnectTime = 900000;
     var indicatorTimer;
+    var websockeRrefreshed = false;
     var mainTemplateBdr,
       localPanelDetail = {},
       makeAPICall = true;
@@ -12006,73 +11488,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.openDropdown = function (data) {
     };
 
-    // FindlySDK.prototype.showingMatchedResults = false;
-
-    /*FindlySDK.prototype.openTab = function (event, tabName) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-
-      var _self = this;
-
-      var navLinks = document.getElementsByClassName("custom-header-nav-link-item");
-      for (var i = 0; i < navLinks.length; i++) {
-        navLinks[i].className = navLinks[i].className.replace(" nav-link-item-active", "");
-      }
-      event.currentTarget.className += " nav-link-item-active";
-
-      if (koreWidgetSDKInstance.vars.showingMatchedResults == true) {
-        if (tabName == 'customize') {
-          koreWidgetSDKInstance.vars.customizeView = true;
-          // $(".faqs-bottom-actions").css('display', 'table');
-          $(".custom-insights-control-container").show();
-          $(".tasks-wrp").sortable();
-          $(".tasks-wrp").sortable("option", "disabled", false);
-          $(".tasks-wrp").disableSelection();
-
-          $(".faqs-shadow").addClass('custom-faqs-shadow');
-          $(".faqs-wrp-content").addClass('custom-faqs-wrp-content');
-          $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
-
-          $(".image-url-sec").css('display', 'none');
-          $(".faqs-bottom-actions").css('display', 'table');
-
-        }
-        else {
-          koreWidgetSDKInstance.vars.customizeView = false;
-          $(".custom-insights-control-container").hide();
-          $(".faqs-shadow").removeClass('custom-faqs-shadow');
-          $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
-          $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
-
-          $(".tasks-wrp").sortable("disable");
-          $(".image-url-sec").css('display', 'table-cell');
-          $(".faqs-bottom-actions").css('display', 'none');
-
-        }
-      }
-      else {
-        if (tabName == 'customize') {
-          koreWidgetSDKInstance.vars.customizeView = true;
-        }
-        else {
-          koreWidgetSDKInstance.vars.customizeView = false;
-        }
-
-      }*/
-
-    /*
-    var actionsDivs = document.getElementsByClassName("faqs-bottom-actions");
-    for(var i = 0; i < actionsDivs.length; i++) {
-      if (tabName == 'customize') {
-        actionsDivs[i].style.display = "table";
-      }
-      else {
-        actionsDivs[i].style.display = "none";
-      }
-    }*/
-
-    //};
-
     FindlySDK.prototype.openPanel = function (panelName, resPopUp, heightToggle) {
       if (panelName && (panelName !== 'closePanel')) {
         $(".kore-chat-window").removeClass("selectedHeight");
@@ -12336,18 +11751,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 'widgetTitle': initialWidgetData.panels[i].widgets[j].title || initialWidgetData.panels[i].widgets[j].name,
                 'widgetTemplate': initialWidgetData.panels[i].widgets[j].templateType,
                 'viewmore': initialWidgetData.panels[i].widgets.length === 1 ? false : true
-              }; //todo:#deviation :commented below as widget data is not avaiable yet
-              //todo:deviation:mainTemplate became default template now for widget SDK
-              //var dataHTML = $(_self.getTemplate("defaultTemplate")).tmplProxy({
-              // var dataHTML = $(_self.getTemplate("defaultTemplate")).tmplProxy({
-              //   'tempdata': initialWidgetData.panels[i].widgets[j],
-              //   'helpers': helpers,
-              //   'panelDetail': panelDetail,
-              //   'widgetData': initialWidgetData.panels[i],
-              // });
-              //$(_self.config.container.content).find('.mainTemplateCntr#' + panelDetail.panel + ' #' + panelDetail.subpanel).html(dataHTML);
-              //todo:#deviation :added below api call for widget SDK default case
-
+              }; 
               _self.getServerData('widgetsdk/' + config.botOptions.botInfo._id + '/widgets/' + initialWidgetData.panels[i].widgets[j]._id, 'post', {
                 "from": config.botOptions.userIdentity || "user-name",
               }, {}, panelDetail);
@@ -15069,6 +14473,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.refresh-sdk').off('click').on('click', function (e) {
         $('#show-all-results-container').hide();
         $('.search-container').removeClass('bottom-up-results-showing');
+        websockeRrefreshed = true;
+        clearTimeout(indicatorTimer);
         $('.typingIndicatorContent').css('display', 'none');
         $('.search-container').removeClass('active');
         _self.vars.selectedFacetFromSearch = "all results"
@@ -15078,7 +14484,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.kore-search-container-close-icon').off('click').on('click', function (e) {
         $('#show-all-results-container').hide();
         $('.search-container').removeClass('bottom-up-results-showing');
+        websockeRrefreshed = true;
+        clearTimeout(indicatorTimer);
         $('.typingIndicatorContent').css('display', 'none');
+
         $('.search-container').removeClass('active');
         _self.vars.selectedFacetFromSearch = "all results"
         var responseObject = { 'type': 'closeSearchContainer', data: false, query: _self.vars.searchObject.searchText, bottomUp: true }
@@ -15482,8 +14891,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (data && data.length) {
           data.forEach((interface) => {
             if (interface.interface === 'fullSearch') {
-              if (interface.facets) {
-                _self.vars.filterConfiguration = interface.facets;
+              if (interface.facetsSetting) {
+                _self.vars.filterConfiguration = { aligned: interface.facetsSetting.aligned, isEnabled: interface.facetsSetting.enabled };
               }
               else {
                 _self.vars.filterConfiguration = { aligned: "left", isEnabled: true };
@@ -15593,879 +15002,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
 
-    var searchTemplates = {
-      'structuredData': [
-        {
-          "id": 1,
-          "template": '<script type="text/x-jqury-tmpl">\
-          <div class="tpt-1-tle-wt-txt {{if devMode== false || viewType != "Customize"}}display-none{{/if}}">\
-            <div class="total-structured-data-wrap {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customization{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}">\
-              {{if structuredData.length}}\
-              {{if tour && isFullResults == true && viewType=="Customize"&&devMode==true}}\
-                <div class="tours-information sdk-tours-info-start">\
-                  <div class="tourtitle">Customize</div>\
-                  <div class="tour-info">Start Customizing your search results by hovering on the matched content and performing below actions:</div>\
-                  <div class="tour-action-info"><b>HIDE</b> - Hide the search result</div>\
-                  <div class="tour-action-info"><b>PIN</b> - Pin results in a specific position</div>\
-                  <div class="tour-action-info"><b>BOOST</b> - Boost the relevance score</div>\
-                  <div class="tour-action-info"><b>LOWER</b> - Lower the relevance score</div>\
-                  <div class="footer-tour">\
-                    <div class="tour-length">1 of 2</div>\
-                    <div class="tour-btns">\
-                        <button class="next-btn sdk-tours-info-nxt">Next</button>\
-                        <button class="close-btn sdk-tours-info-close">Close</button>\
-                    </div>\
-                  </div>\
-                </div>\
-                <div class="tours-information tour-customization-info sdk-tours-info-end hide">\
-                  <div class="tourtitle">Customize</div>\
-                  <div class="tour-info mb-2 pb-1">You can order the results by clicking on this icon and dragging up and down.</div>\
-                  <div class="footer-tour">\
-                    <div class="tour-length">2 of 2</div>\
-                    <div class="tour-btns">\
-                        <button class="next-btn sdk-tours-info-close">Got it</button>\
-                        <button class="close-btn sdk-tours-info-pre">Previous</button>\
-                    </div>\
-                  </div>\
-                </div>\
-                {{/if}}\
-                {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <ul class="tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}} {{if isFullResults == true}}results-wrap{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
-                    {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <li class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize" && isFullResults == true}}{{if data.config.visible == false || (data.config.visible == true && !data.addedResult && (data.config.pinIndex < 0))}}ui-state-disabled{{/if}}{{/if}} {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sys_content_type}" manuallyAdded="${data.addedResult}" id="${key}">\
-                          {{if isClickable == true}}\
-                            {{if viewType!="Customize" && (isFullResults == true ||  isSearch == true || isLiveSearch == true)}}\
-                              <div class="click-to-navigate-url tile-with-text structured-data-wrp-content" href="${data.url}" target="_blank">\
-                                <div class="tile-heading text-truncate one-line-height"  title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                                <div class="tile-description text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-                              </div>\
-                            {{/if}}\
-                            {{if viewType=="Customize" && (isFullResults != true &&  (isSearch == true || isLiveSearch == true))}}\
-                              <div class="click-to-navigate-url tile-with-text structured-data-wrp-content"  href="${data.url}" target="_blank">\
-                                <div class="tile-heading text-truncate one-line-height"  title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                                <div class="tile-description text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-                              </div>\
-                            {{/if}}\
-                            {{if viewType=="Customize" && isFullResults == true}}\
-                              <div class="data-wrap" index="${i}" contentType="${data.sys_content_type}" contentId="${data.contentId}" score="${data.score}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}">\
-                                <div class="customization-tile{{if data.config.visible == false}} disable_hidden{{/if}}{{if data.config.pinIndex >= 0}} disable_pinned{{/if}}">\
-                                    <div class="drag-content {{if data.config.visible == false || (data.config.visible == true && !data.addedResult && (data.config.pinIndex < 0))}}display-none{{/if}}"></div>\
-                                    {{if !data.addedResult || data.addedResult == false}}\
-                                      <div class="actions-content">\
-                                        <span class="action-item visibility" type="{{if data.config.visible == true}}Hide{{/if}}{{if data.config.visible == false}}UnHide{{/if}}">\
-                                          <span class="tooltiptext">\
-                                            <span class="_hide {{if data.config.visible == true}}display-block{{else}}display-none{{/if}}">\
-                                                Hide\
-                                            </span>\
-                                            <span class="unhide {{if data.config.visible == false}}display-block{{else}}display-none{{/if}}">\
-                                                UnHide\
-                                            </span>\
-                                          </span>\
-                                          <span class="img_hide {{if data.config.visible == true}}display-block{{else}}display-none{{/if}}">\
-                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEgSURBVHgB3VLRTcNADLUv4VREI90IYQPYACagnaDwh1ALHaGZAFQkxF9H6AjABGSEbEBQQaDcnc25JSgqCPWvVS1Z8vme37MtA6zbcDnR7tsjiNQJMnTCM12AMGfm3Noq+7zfLZp49YtSqWtgerVVdTwbRyjunTsD4KdY66kZsoHNM5l776I6WBUfxkiTvpMdLXYQlmSiOJ6sSuCZHkKR+SEgooIhsA7o3yXJX3LlJ8BgyFM+F5ekJ3om57sYYwdB9YA5E8D7nZ6DWucfqdatHgMNiX0GHh5VHE0jpQ6xZi5vsJRYFJg4BUSD33fAAEUgLQN5ObtV3WYNLrcYunkJN7AvB9O+tCPJv413RnWnolqL/WnSbh0nA3cq3hSA7bMvciOL7FwWG34AAAAASUVORK5CYII=">\
-                                          </span>\
-                                          <span class="img_unhide {{if data.config.visible == false}}display-block{{else}}display-none{{/if}}">\
-                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGDSURBVHgB1VLLUQJBEO2e2bW0SixDWCNQM8AIwAjg6EH5RCBEwM+DNzUDiECMAMxgQ6AUS4WZeXavLoUl5Vmnqg/T816/191D9O8Pb0ruN7DvnS8GDkkGAk+jKJrOujz7tYASQ6A6KDRAlDJoqnkQEmYuMpmWMdRbL2TWyIlHmAT44nKxOJ737bG1pqkxH0Qn1pgDkD/wIUy2z16Tbw4yy0IGwt28H7c0t1dHR+5VfWY23aceNzW/W1u2DNmSMXyiTjIHAXRJgac5uXDhqkIuq6oGAcXCuSvrm2IAmmUcbUHVBdwAfC+3BUYicxipgkQayD/A4Ch/D941laNcoyABt42xHU18ImgsA6uoqoa0UILDMG/XxtGNcpS72kKh5m6FdLhYvJ++Xe+kWRvMdbGvAqOXwVY32xJwL+qPz/2o+mONMqCuFCkJqW2tHebrUuLSL6visi7kkcyhsfEfrAZIVNG9yzX9SicAxlp4fhWP1/Ebf2Ku6pw7QsAs3orTTb/wb5wP48rkd2sW1IgAAAAASUVORK5CYII=">\
-                                          </span>\
-                                        </span>\
-                                        <span class="action-item pinning" type="{{if data.config.pinIndex >= 0}}UnPin{{/if}}{{if data.config.pinIndex < 0}}Pin{{/if}}">\
-                                          <span class="tooltiptext">\
-                                            <span class="unpin {{if data.config.pinIndex >= 0}}display-block{{else}}display-none{{/if}}">\
-                                              UnPin\
-                                            </span>\
-                                            <span class="pin {{if data.config.pinIndex < 0}}display-block{{else}}display-none{{/if}}">\
-                                              Pin\
-                                            </span>\
-                                          </span>\
-                                          <span class="img_unpin {{if data.config.pinIndex >= 0}}display-block{{else}}display-none{{/if}}">\
-                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGFSURBVHgBxVK/S8NAFH53SaugKQHpntp/oBlcBAdxcmsXKS5aJxX7Y3Jw0U6OFaluIl1EBUk3x4KTuLTgKNouQrGINyjV9HJnHxiN/YW6+EFI7uW9777vuwP4gJZ2DoeXmwb8EtT9UAjN+nxDfyL5hJ6RhpYUJS9Ju6ZrKafaj5h6F2yH1BSFJFDJ9b20pJQ4pLcfw+f3l3qR0M4CklxtEFg/E9G7BpQmw7BACKmAlNl+JF3AnW8fZHV215EXN0JmTmQU61qSL3baUeF7BrojRDmQFmCMgb43T2D7XEI+TnL8iEPhkmxiGyp5BQj1yoBJEAVsqjZErP7MzXyc1taOhTE3Qa2pMBRatm0qlJoDLYymWluu1NOyHUEbaAdtte3p3l61ZwZcFokKaZS6dCASoaBkxRXKZnKS1Z/ekIC5vV2nMLJqR6iqWII702iHUGrVHoGNB8FkTRIbeNlwGKXju9MOfAXdddn6Dnv/eddeEuIWAylRdjhPvOz7K/ADIAl4svg/vANVesefO32vSgAAAABJRU5ErkJggg==">\
-                                          </span>\
-                                          <span class="img_pin {{if data.config.pinIndex < 0}}display-block{{else}}display-none{{/if}}">\
-                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD7SURBVHgBhZB/asJQDMeTZy0dW0eP0N1Aj9ATjJ1A9p8MVnYEvcFgMPxTT6A38Aj2BnqEgojSviYm/oAnvmLg8SD5fpNPgtASyQ8nDdGqrqrsMHnaXPMG2iORl3bDcBkN9+lDAxG8I2IBzGPXFPjEcc4DBhpR3WS7/7CIvy2oCYb7DF1eF4fsWfz8VfVM0JlfEMsTUvmLpXScaZKJPjvGvKlYGqWmK2LBkuX7ku+ji/KS1yMEM9DLRFFUNixTicfbv2DqXZotL3SK8lpre8AArvjGcGVVdsVDY+aee5yv5Ig/lF1SheCB4t05VBznzVp/X+3O8JrTyltoiSM5w31qLIEkiwAAAABJRU5ErkJggg==">\
-                                          </span>\
-                                        </span>\
-                                        <span class="action-item boosting">\
-                                          <span class="tooltiptext">Boost</span>\
-                                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBfY/BCcJAEEVnNiKKrGgHKSElmA7swBxFJEkHYgfRg3jTTtKCHSQdKIIoMTtjNhgI65o5fh5//gMwbhxyJNfl3MyFAW0YKAaBJxnywgp+oeBdFD6VygegxIRrSIYqGyyfbpONVoVXZdcGxnbT6zjM2wUaFj0nrR7Hglh5Nkjf49C/1DOYZmCz1l/MHC3WgU6Rxfm+x22ntYPCZ6Tgp9lmPYnZlZHKGrjTWsOKKUWCnSAop/+sbwnmeoYCBR8N24MPhSbzYAAAAABJRU5ErkJggg==">\
-                                        </span>\
-                                        <span class="action-item burying {{if data.config.boost == 0}}disabled{{/if}} {{if data.score <= 0}}disabled{{/if}}">\
-                                          <span class="tooltiptext">Lower</span>\
-                                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADJSURBVHgBdZDRDYIwEIZbEFKDTRiBEVzBSfDRmBRxA11BX3xTJ3AE4ghOgE7ggyaalvbskZCUWP633n253neUC31USm6/h/GdeJKWkDXG5AFQ84jiuGKLT+aDNJiKEEPbwqRQG17o2oUR4itdYw/ftGtggZIgV1LOGGMEJwGY83sX9UEXxqoLeYNwImT51+DCXHwiXZKlnOJlrLW+DVkjFIxCaw3XQet2UqGfXDTzQeswCNN2EsD6tR+demDP2p7RhfzLW+PuOzc/5PRxOXt0QzUAAAAASUVORK5CYII=">\
-                                        </span>\
-                                      </div>\
-                                    {{/if}}\
-                                    {{if data.addedResult && data.addedResult == true}}\
-                                      <div class="actions-content manually_added_pin">\
-                                        <span class="action-item unpin_added_result">\
-                                          <span class="tooltiptext">Unpinning will remove the result</span>\
-                                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGFSURBVHgBxVK/S8NAFH53SaugKQHpntp/oBlcBAdxcmsXKS5aJxX7Y3Jw0U6OFaluIl1EBUk3x4KTuLTgKNouQrGINyjV9HJnHxiN/YW6+EFI7uW9777vuwP4gJZ2DoeXmwb8EtT9UAjN+nxDfyL5hJ6RhpYUJS9Ju6ZrKafaj5h6F2yH1BSFJFDJ9b20pJQ4pLcfw+f3l3qR0M4CklxtEFg/E9G7BpQmw7BACKmAlNl+JF3AnW8fZHV215EXN0JmTmQU61qSL3baUeF7BrojRDmQFmCMgb43T2D7XEI+TnL8iEPhkmxiGyp5BQj1yoBJEAVsqjZErP7MzXyc1taOhTE3Qa2pMBRatm0qlJoDLYymWluu1NOyHUEbaAdtte3p3l61ZwZcFokKaZS6dCASoaBkxRXKZnKS1Z/ekIC5vV2nMLJqR6iqWII702iHUGrVHoGNB8FkTRIbeNlwGKXju9MOfAXdddn6Dnv/eddeEuIWAylRdjhPvOz7K/ADIAl4svg/vANVesefO32vSgAAAABJRU5ErkJggg==">\
-                                        </span>\
-                                      </div>\
-                                    {{/if}}\
-                                    <div class="title text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                                    <div class="desc_text text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-                                    <div class="appearences-count count">\
-                                      <span class="tooltip-appearnces">\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADqSURBVHgBTU/BTcNAEJzxnRDiAyVQAukASuALj+APPG0qcFIB+BVFPI4IIp4pAVMBLbgE54eSnIc9FKPs47Q7M7czS+xrFt4uPV0l6ALgGYFG0uI+v31NfJael8VH5ZiteukrajPaSqOdiUBWiUsazsLyzhkQxStgd24fxmljVKwB3zr231H9debJMaTpXrSCuJawdnSfCbO+tr7yKdMWeDyiezLr+iG/mSSreVi2hC97oHRQYRnZnGDTCujsgBb/pc5Rp8f46WxoOMDz8F6SWWHZ8jSbXUiRhquJgzK7CYnib584tRjPA/cLSnRp8KbGJuoAAAAASUVORK5CYII=">\
-                                      <span class="tooltip_text">Appearances</span>\
-                                      </span>\
-                                      <span class="count">${data.feedback?.appearances}</span>\
-                                    </div>\
-                                    <div class="appearences-count count">\
-                                    <span class="tooltip-appearnces-clicks">\
-                                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEMSURBVHgBnZK/bcJQEMbvniFJmRGSDZINnA2SEijgioConA1iNkgqlKS4IASUwAaMABPgEWgBoeMOyQiZh0F8hU86v9/9+d5DyOivM/gUkRgR4/dqqQUeuWzCgI3go0U4IedLNqmUQI4cXKFC3s/f/74gwEQAwsMdcyHbLUCZ7yLIXIvsDHLmllW0mIXS3dKYGoQGrEWei4isVUaWrNfKmDeyU4+/DdAqbwq8wgVydap8iMBMZx8aqLnpWcg+DSrXtMv4APSPxvykIdnfU4MqcQoy872XwrtIz3SOFv7hntla1V1bG1hNmkRJm/mhgLeR3VdRli9el9rcDQMMIn2JoZa3rol1uIHVFxEttjVMjEnBcNKUAAAAAElFTkSuQmCC">\
-                                      <span class="tooltip_text">Clicks</span>\
-                                    </span>\
-                                    <span class="count">${data.feedback?.clicks}</span>\
-                                    </div>\
-                                    {{if !data.addedResult || data.addedResult == false}}\
-                                      <div class="appearences-count customize-chips bg-data record-status-pinned" style="display : {{if data.config.pinIndex >= 0}}block{{else}}none{{/if}}">\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD7SURBVHgBhZB/asJQDMeTZy0dW0eP0N1Aj9ATjJ1A9p8MVnYEvcFgMPxTT6A38Aj2BnqEgojSviYm/oAnvmLg8SD5fpNPgtASyQ8nDdGqrqrsMHnaXPMG2iORl3bDcBkN9+lDAxG8I2IBzGPXFPjEcc4DBhpR3WS7/7CIvy2oCYb7DF1eF4fsWfz8VfVM0JlfEMsTUvmLpXScaZKJPjvGvKlYGqWmK2LBkuX7ku+ji/KS1yMEM9DLRFFUNixTicfbv2DqXZotL3SK8lpre8AArvjGcGVVdsVDY+aee5yv5Ig/lF1SheCB4t05VBznzVp/X+3O8JrTyltoiSM5w31qLIEkiwAAAABJRU5ErkJggg==">\
-                                        <span class="count">PINNED</span>\
-                                      </div>\
-                                      <div class="appearences-count customize-chips bg-data record-status-hidden" style="display : {{if data.config.visible == false}}block{{else}}none{{/if}}">\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEgSURBVHgB3VLRTcNADLUv4VREI90IYQPYACagnaDwh1ALHaGZAFQkxF9H6AjABGSEbEBQQaDcnc25JSgqCPWvVS1Z8vme37MtA6zbcDnR7tsjiNQJMnTCM12AMGfm3Noq+7zfLZp49YtSqWtgerVVdTwbRyjunTsD4KdY66kZsoHNM5l776I6WBUfxkiTvpMdLXYQlmSiOJ6sSuCZHkKR+SEgooIhsA7o3yXJX3LlJ8BgyFM+F5ekJ3om57sYYwdB9YA5E8D7nZ6DWucfqdatHgMNiX0GHh5VHE0jpQ6xZi5vsJRYFJg4BUSD33fAAEUgLQN5ObtV3WYNLrcYunkJN7AvB9O+tCPJv413RnWnolqL/WnSbh0nA3cq3hSA7bMvciOL7FwWG34AAAAASUVORK5CYII=">\
-                                        <span class="count">HIDDEN</span>\
-                                      </div>\
-                                      <div class="appearences-count customize-chips bg-data record-status-boosted {{if data.config.boost > 1}}display-block{{/if}}">\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBfY/BCcJAEEVnNiKKrGgHKSElmA7swBxFJEkHYgfRg3jTTtKCHSQdKIIoMTtjNhgI65o5fh5//gMwbhxyJNfl3MyFAW0YKAaBJxnywgp+oeBdFD6VygegxIRrSIYqGyyfbpONVoVXZdcGxnbT6zjM2wUaFj0nrR7Hglh5Nkjf49C/1DOYZmCz1l/MHC3WgU6Rxfm+x22ntYPCZ6Tgp9lmPYnZlZHKGrjTWsOKKUWCnSAop/+sbwnmeoYCBR8N24MPhSbzYAAAAABJRU5ErkJggg==">\
-                                        <span class="count boosted">${data.config.boost}X BOOSTED</span>\
-                                      </div>\
-                                      <div class="appearences-count customize-chips bg-data record-status-lowered {{if data.config.boost < 1}}display-block{{/if}}">\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADJSURBVHgBdZDRDYIwEIZbEFKDTRiBEVzBSfDRmBRxA11BX3xTJ3AE4ghOgE7ggyaalvbskZCUWP633n253neUC31USm6/h/GdeJKWkDXG5AFQ84jiuGKLT+aDNJiKEEPbwqRQG17o2oUR4itdYw/ftGtggZIgV1LOGGMEJwGY83sX9UEXxqoLeYNwImT51+DCXHwiXZKlnOJlrLW+DVkjFIxCaw3XQet2UqGfXDTzQeswCNN2EsD6tR+demDP2p7RhfzLW+PuOzc/5PRxOXt0QzUAAAAASUVORK5CYII=">\
-                                        <span class="count lowered">${data.config.boost}X LOWERED</span>\
-                                      </div>\
-                                    {{/if}}\
-                                    {{if data.addedResult && data.addedResult == true}}\
-                                      <div class="appearences-count bg-data">\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
-                                        <span class="count">PINNED</span>\
-                                      </div>\
-                                      <div class="appearences-count bg-data">\
-                                        <span class="count">MANUALLY ADDED</span>\
-                                      </div>\
-                                    {{/if}}\
-                                    {{if data.sys_content_type === "faq"}}\
-                                      <div class="tag-ref">FAQ Response</div>\
-                                    {{/if}}\
-                                    {{if data.sys_content_type === "web"}}\
-                                      <div class="tag-ref">WEB Response</div>\
-                                    {{/if}}\
-                                    {{if data.sys_content_type === "file"}}\
-                                      <div class="tag-ref">FILE Response</div>\
-                                    {{/if}}\
-                                    {{if data.sys_content_type === "data"}}\
-                                      <div class="tag-ref">DATA Response</div>\
-                                    {{/if}}\
-                                </div>\
-                              </div>\
-                            {{/if}}\
-                          {{/if}}\
-                          {{if isClickable == false}}\
-                            <div class="tile-with-text faqs-wrp-content structured-data-wrp-content">\
-                            <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active best-match{{/if}}\" id="1">\
-                               <div title="${data.heading}" class="text-truncate one-line-height" >{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                                  <div class="tile-description defalut-show text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.description, null,null,true)}}</div>\
-                              </div>\
-                              <div class="panel">\
-                                  <div class="tile-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-                                  <div class="divfeedback d-none">\
-                                    <span class="yesLike"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtZ3JheTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtZ3JheSIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=" class="thumbs-up"></span>\
-                                    <span class="noDislike"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ncmF5PC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWdyYXkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=" class="thumbs-down"></span>\
-                                  </div>\
-                              </div>\
-                            </div>\
-                          {{/if}}\
-                      </li>\
-                    {{/each}}\
-                  </ul>\
-                  <!-- <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div> -->\
-                {{/if}}\
-              {{/if}}\
-              {{if (!structuredData || structuredData.length === 0) && isMapping }}\
-                {{if selectedFacet != "all results"}}\
-                  {{if selectedFacet == appearanceType}}\
-                    {{if isFullResults == true}}\
-                      <div class="empty-full-results-container">\
-                        <div class="img-block"><img src="data:image/png;base64,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"></div>\
-                        <div class="title">Sorry, we could not find any results for that</div>\
-                        <div class="title-info">Please try searching with another term</div>\
-                      </div>\
-                    {{/if}}\
-                  {{/if}}\
-                {{/if}}\
-              {{/if}}\
-              {{if (!structuredData || structuredData.length === 0) && !isMapping }}\
-              {{if selectedFacet != "all results"}}\
-                {{if selectedFacet == appearanceType}}\
-                  {{if isFullResults == true}}\
-                    <div class="no-templates-defined-full-results-container">\
-                      <div class="img-block"><img src="data:image/png;base64,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"></div>\
-                      <div class="title">Result templates are not defined for structured data</div>\
-                    </div>\
-                  {{/if}}\
-                {{/if}}\
-              {{/if}}\
-            {{/if}}\
-            </div>\
-          </div>\
-        </script>',
-          "layoutType": "custom",
-          "templateType": "custom"
-        },
-        {
-          "id": 2,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-1-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list{{if groupResults}}-result-group{{/if}} mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          {{if isClickable == true}}\
-          <div class="{{if listType=="classic"}}classic{{else}}plain{{/if}}-list{{if groupResults}}-result{{/if}}-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-          {{/if}}\
-          {{if isClickable == false}}\
-          <div class="{{if listType=="classic"}}classic{{else}}plain{{/if}}-list{{if groupResults}}-result{{/if}}-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-          {{/if}}\
-           {{/each}}\
-           <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-           <div>Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
-       </div>\
-          </div>\
-          {{/if}}\
-        </script>',
-          "layoutType": "l1",
-          "templateType": "list"
-        },
-        {
-          "id": 3,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-2-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list{{if isClickable}}-collapse{{/if}}{{if groupResults}}-result{{/if}} mb-15">\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          {{if isClickable == true}}\
-          <div class="{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-item{{if groupResults}}-result{{/if}} click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-              <span>{{html helpers.convertMDtoHTML(data.description)}}</span>\
-          </div>\
-          {{/if}}\
-          {{if isClickable == false}}\
-          <div class="template-2-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-collapse mb-15 click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-          <div class="collapse-item-list accordion" id="1">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-        </div>\
-          {{/if}}\
-          {{/each}}\
-          <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-          <div>Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
-      </div>\
-        {{/if}}\
-          </script>',
-          "layoutType": "l2",
-          "templateType": "list"
-        },
-        {
-          "id": 4,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-3-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list{{if groupResults}}-result{{/if}} mb-15">\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          {{if isClickable == true}}\
-          <div class="{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-item{{if groupResults}}-result{{/if}} click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-          <div class="heading-text" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-          <div class="text-desc two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-          </div>\
-          {{/if}}\
-          {{if isClickable == false}}\
-          <div class="template-3-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-collapse mb-15 click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-            <div class="collapse-item-list accordion" id="1">\
-            <div class="text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div><div class="text-desc-">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-            </div>\
-          </div>\
-          {{/if}}\
-          {{/each}}\
-        <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-        <div>Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
-       </div>\
-        {{/if}}\
-          </script>',
-          "layoutType": "l3",
-          "templateType": "list"
-        },
-        {
-          "id": 5,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-           <div class="template-4-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list{{if isClickable==false}}-collapse{{/if}} {{if isClickable==false}}template-4-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-collapse-result{{/if}} mb-15">\
-           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-           {{if isClickable == true}}\
-            <div class="{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-item click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-                <div class="img-block">\
-                <img src="${data.img}">\
-                </div>\
-                <div class="content_sec">\
-                  <div class="heading text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                  <div class="text_desc two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-                </div>\
-                </div>\
-                {{/if}}\
-                {{if isClickable == false}}\
-                <div class="collapse-item-list-parent click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-                <div class="collapse-item-list accordion" id="1">\
-                <div class="text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div><div class="text-description defalut-show text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-                </div>\
-                <div class="panel">\
-                  <div class="content_sec">\
-                  <div class="img-block">\
-                  <img src="${data.img}">\
-                  </div>\
-                  <div class="text-desc four-line-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-              </div>\
-            </div>\
-            </div>\
-                {{/if}}\
-              {{/each}}\
-              <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-              <div>Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
-          </div>\
-        {{/if}}\
-          </script>',
-          "layoutType": "l4",
-          "templateType": "list"
-        },
-        {
-          "id": 6,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-           <div class="template-6-classic-list mb-15">\
-           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-           <div class="title-main text-trucate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-            <div class="img-with-text">\
-           <div class="img-block">\
-           <img src="${data.img}">\
-         </div>\
-           <div class="info-text two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-            </div>\
-              {{/each}}\
-              <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-              <div>Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
-          </div>\
-          </div>\
-        {{/if}}\
-          </script>',
-          "layoutType": "l6",
-          "templateType": "list"
-        },
-        {
-          "id": 7,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-2-grid-list mb-15">\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          {{if isClickable == true}}\
-          <div class="grid-data-item click-to-navigate-urlfaqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}"  href="${data.url}" target="_blank">\
-            <div class="title-item-bold {{if textAlignment=="center"}}text-center{{/if}}" ><div class="text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div></div>\
-          </div>\
-          {{/if}}\
-          {{if isClickable == false}}\
-          <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-          <div class="title-item-bold {{if textAlignment=="center"}}text-center{{/if}}"><div class="text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div></div>\
-        </div>\
-          {{/if}}\
-          {{/each}}\
-        </div>\
-        {{/if}}\
-          </script>',
-          "layoutType": "l1",
-          "templateType": "grid"
-        },
-        {
-          "id": 8,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-2-grid-list mb-15">\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          {{if isClickable == true}}\
-          <div class="grid-data-item click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}"  href="${data.url}" target="_blank">\
-            <div class="title-item" ><div class="two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div></div>\
-          </div>\
-          {{/if}}\
-          {{if isClickable == false}}\
-          <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-          <div class="title-item"><div class="two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div></div>\
-        </div>\
-          {{/if}}\
-          {{/each}}\
-        </div>\
-        {{/if}}\
-          </script>',
-          "layoutType": "l2",
-          "templateType": "grid"
-        },
-        {
-          "id": 9,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-3-grid-list mb-15">\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          {{if isClickable == true}}\
-          <div class="grid-data-item click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-            <div class="inner-content-list">\
-              <div class="heading-text text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-              <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-            </div>\
-          </div>\
-          {{/if}}\
-          {{if isClickable == false}}\
-          <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-            <div class="inner-content-list">\
-              <div class="heading-text text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-              <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-            </div>\
-          </div>\
-          {{/if}}\
-          {{/each}}\
-        </div>\
-        {{/if}}\
-          </script>',
-          "layoutType": "l3",
-          "templateType": "grid"
-        },
-        {
-          "id": 10,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-4-grid-list mb-15">\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          {{if isClickable == true}}\
-          <div class="grid-data-item click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-            <div class="inner-content-list">\
-              <div class="image-with-title">\
-                <div class="img-block">\
-                 <img src="${data.img}">\
-                </div>\
-                <div class="info-title two-line-heading" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                </div>\
-                <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-              </div>\
-            </div>\
-            {{/if}}\
-            {{if isClickable == false}}\
-            <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-            <div class="inner-content-list">\
-              <div class="image-with-title">\
-                <div class="img-block">\
-                 <img src=${data.img}>\
-                </div>\
-                <div class="info-title two-line-heading" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                </div>\
-                <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-              </div>\
-            </div>\
-            {{/if}}\
-            {{/each}}\
-          </div>\
-          {{/if}}\
-          </script>',
-          "layoutType": "l4",
-          "templateType": "grid"
-        },
-        {
-          "id": 11,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-5-grid-list mb-15">\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          {{if isClickable == true}}\
-          <div class="grid-data-item click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-            <div class="inner-content-list">\
-              <img src="${data.img}">\
-            </div>\
-          </div>\
-          {{/if}}\
-          {{if isClickable == false}}\
-          <div class="grid-data-item click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-            <div class="inner-content-list">\
-               <img src="${data.img}">\
-            </div>\
-          </div>\
-          {{/if}}\
-            {{/each}}\
-          </div>\
-          {{/if}}\
-          </script>',
-          "layoutType": "l5",
-          "templateType": "grid"
-        },
-        {
-          "id": 12,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-6-grid-list">\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          <div class="grid-data-item faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-              <div class="inner-content-list">\
-                  <div class="heading-main text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                  {{each(key, res) [0,1,2]}}\
-                  <div class="image-with-text">\
-                   <div class="img-block">\
-                      <img src="${data.img}" />\
-                   </div>\
-                  <div class="image-info two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-                  </div>\
-                  {{/each}}\
-              </div>\
-              <!--<div class="info-text-bottom">test</div>-->\
-          </div>\
-          {{/each}}\
-       </div>\
-       {{/if}}\
-          </script>',
-          "layoutType": "l6",
-          "templateType": "grid"
-        },
-        {
-          "id": 13,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-7-grid-list mb-15" >\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          {{if isClickable == true}}\
-              <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-          {{else}}\
-            <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-          {{/if}}\
-                <div class="inner-content-list">\
-                  <div class="main-img-block">\
-                    <img src="${data.img}">\
-                  </div>\
-                  <div class="heading- text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                  <div class="desc-text-info two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-                </div>\
-              </div>\
-          {{/each}}\
-          </div>\
-          {{/if}}\
-          </script>',
-          "layoutType": "l7",
-          "templateType": "grid"
-        },
-        {
-          "id": 14,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-9-grid-list mb-15">\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          {{if isClickable == true}}\
-            <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-          {{else}}\
-            <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-          {{/if}}\
-                <div class="inner-content-list">\
-                  <div class="main-img-block">\
-                    <img src="${data.img}">\
-                  </div>\
-                  <!-- <div class="heading- text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>-->\
-                  <div class="desc-text-info two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-                </div>\
-              </div>\
-          {{/each}}\
-          </div>\
-          {{/if}}\
-          </script>',
-          "layoutType": "l8",
-          "templateType": "grid"
-        },
-        {
-          "id": 15,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-9-grid-list mb-15">\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          {{if isClickable == true}}\
-            <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-          {{else}}\
-            <div class="grid-data-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-          {{/if}}\
-                <div class="inner-content-list">\
-                  <div class="main-img-block">\
-                     <img src="${data.img}">\
-                  </div>\
-                  <div class="heading- text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                  <div class="desc-text-info  two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-                  <div class="price-count">$156</div>\
-                </div>\
-              </div>\
-          {{/each}}\
-          </div>\
-          {{/if}}\
-          </script>',
-          "layoutType": "l9",
-          "templateType": "grid"
-        },
-        {
-          "id": 16,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-            <div class="template-2-carousel-list mb-15">\
-            <div class="carousel">\
-            {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-            {{if isClickable == true}}\
-                <div class="slide click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-                {{else}}\
-                <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}"">\
-                {{/if}}\
-                  <div class="text-template" title="${data.heading}"><div class="text-truncate one-line-height">{{html helpers.convertMDtoHTML(data.heading)}}</div></div>\
-                </div>\
-              {{/each}}\
-              </div>\
-            </div>\
-            {{/if}}\
-          </script>',
-          "layoutType": "l1",
-          "templateType": "carousel"
-        },
-        {
-          "id": 17,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-2-carousel-list mb-15">\
-          <div class="carousel">\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          {{if isClickable == true}}\
-              <div class="slide click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-              {{else}}\
-              <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-              {{/if}}\
-              <div class="text-template" ><div class="two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div></div>\
-              </div>\
-            {{/each}}\
-            </div>\
-          </div>\
-          {{/if}}\
-          </script>',
-          "layoutType": "l2",
-          "templateType": "carousel"
-        },
-        {
-          "id": 18,
-          "template": '<script type="text/x-jqury-tmpl">\
-            {{if structuredData.length}}\
-            <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-            <div class="template-3-carousel-list mb-15">\
-            <div class="carousel">\
-            {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-            {{if isClickable == true}}\
-            <div class="slide click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-            {{else}}\
-            <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-            {{/if}}\
-                    <div class="inner-content-list">\
-                        <div class="heading-text text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                        <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-                    </div>\
-                </div>\
-                {{/each}}\
-            </div>\
-        </div>\
-        {{/if}}\
-            </script>',
-          "layoutType": "l3",
-          "templateType": "carousel"
-        },
-        {
-          "id": 19,
-          "template": '<script type="text/x-jqury-tmpl">\
-            {{if structuredData.length}}\
-            <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-            <div class="template-4-carousel-list mb-15">\
-            <div class="carousel">\
-                {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                {{if isClickable == true}}\
-                <div class="slide click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-                    {{else}}\
-                    <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-                        {{/if}}\
-                        <div class="inner-content-list">\
-                            <div class="image-with-title">\
-                                <div class="img-block">\
-                                    <img src="${data.img}">\
-                                </div>\
-                                <div class="info-title two-line-heading" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                            </div>\
-                            <div class="title-item two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-                        </div>\
-                    </div>\
-                    {{/each}}\
-                </div>\
-        </div>\
-        </div>\
-              {{/if}}\
-            </script>',
-          "layoutType": "l4",
-          "templateType": "carousel"
-        },
-        {
-          "id": 20,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-5-carousel-list mb-15">\
-          <div class="carousel">\
-              {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-              {{if isClickable == true}}\
-              <div class="slide click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-                  {{else}}\
-                  <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-                      {{/if}}\
-                      <div class="inner-content-list">\
-                          <img src="${data.img}">\
-                      </div>\
-                  </div>\
-                  {{/each}}\
-              </div>\
-          </div>\
-      </div>\
-          {{/if}}\
-          </script>',
-          "layoutType": "l5",
-          "templateType": "carousel"
-        },
-        {
-          "id": 21,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-6-carousel-list mb-15">\
-          <div class="carousel">\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          {{if isClickable == true}}\
-          <div class="slide click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-              {{else}}\
-              <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-                  {{/if}}\
-              <div class="inner-content-list">\
-                <div class="title-main text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                {{each(key, res) [0,1,2]}}\
-                <div class="img-with-text">\
-                  <div class="img-block">\
-                  <img src="${data.img}">\
-                  </div>\
-                  <div class="info-text two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-                </div>\
-                {{/each}}\
-              </div>\
-            </div>\
-            {{/each}}\
-          </div>\
-        </div>\
-          {{/if}}\
-          </script>',
-          "layoutType": "l6",
-          "templateType": "carousel"
-        },
-        {
-          "id": 22,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-7-carousel-list mb-15">\
-          <div class="carousel">\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          {{if isClickable == true}}\
-          <div class="slide click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-              {{else}}\
-              <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-                  {{/if}}\
-              <div class="inner-content-list">\
-                <div class="main-img-block">\
-                <img src="${data.img}">\
-                </div>\
-                <div class="heading- text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                <div class="desc-text-info four-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-              </div>\
-            </div>\
-            {{/each}}\
-          </div>\
-        </div>\
-          {{/if}}\
-          </script>',
-          "layoutType": "l7",
-          "templateType": "carousel"
-        },
-        {
-          "id": 23,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-7-carousel-list mb-15">\
-          <div class="carousel">\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          {{if isClickable == true}}\
-          <div class="slide click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-              {{else}}\
-              <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-                  {{/if}}\
-              <div class="inner-content-list">\
-                <div class="main-img-block">\
-                <img src="${data.img}">\
-                </div>\
-                {{each(key, res) [0,1]}}\
-                <div class="desc-text-info two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-                {{/each}}\
-              </div>\
-            </div>\
-            {{/each}}\
-          </div>\
-        </div>\
-          {{/if}}\
-          </script>',
-          "layoutType": "l8",
-          "templateType": "carousel"
-        },
-        {
-          "id": 24,
-          "template": '<script type="text/x-jqury-tmpl">\
-          {{if structuredData.length}}\
-          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-          <div class="template-7-carousel-list mb-15">\
-          <div class="carousel">\
-          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-          {{if isClickable == true}}\
-          <div class="slide click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
-              {{else}}\
-              <div class="slide click-to-navigate-url faqs-shadow" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-                  {{/if}}\
-              <div class="inner-content-list">\
-                <div class="main-img-block">\
-                <img src="${data.img}">\
-                </div>\
-                <div class="heading- text-truncate one-line-height" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                <div class="desc-text-info two-line-description" title="${data.description}">{{html helpers.convertMDtoHTML(data.description)}}</div>\
-              </div>\
-            </div>\
-            {{/each}}\
-          </div>\
-        </div>\
-          {{/if}}\
-          </script>',
-          "layoutType": "l9",
-          "templateType": "carousel"
-        }
-      ]
-    }
     FindlySDK.prototype.initilizeActionTemplateConfig = function () {
       var _self = this;
       _self.pubSub.unsubscribe('sa-action-full-search');
@@ -16516,7 +15052,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           selected[groupName + templateInterface + 'TemplateType'] = customTemplateConfig.templateType ? customTemplateConfig.templateType : selected[groupName + templateInterface + 'TemplateType']; // assign defalt in false case
           selected[groupName + templateInterface + 'LayoutType'] = customTemplateConfig.layoutType ? customTemplateConfig.layoutType : selected[groupName + templateInterface + 'LayoutType']; // assign defalt in false case
           if (customTemplateConfig.template && customTemplateConfig.template.length) {
-            searchTemplates.structuredData.forEach((item) => {
+            _self.searchTemplateObj.resultTemplates().structuredData.forEach((item) => {
               if ((item.templateType === selected[groupName + templateInterface + 'TemplateType']) && (item.layoutType === selected[groupName + templateInterface + 'LayoutType'])) {
                 item.template = customTemplateConfig.template;
               }
@@ -16533,7 +15069,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
       // MATCH TEMPLATE with 'templateType' and 'layoutType'
-      var templates = searchTemplates.structuredData;
+      var templates = _self.searchTemplateObj.resultTemplates().structuredData;
       for (let i = 0; i < templates.length; i++) {
         // search
         if ((templates[i].templateType === selected[groupName + templateInterface + 'TemplateType']) && (templates[i].layoutType === selected[groupName + templateInterface + 'LayoutType'])) {
@@ -16550,7 +15086,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         }
       }
-
       // Till now, the code selects one template through the config from Ajax or from CustomConfig.
       // From now, the container and data will be managed.
 
@@ -16599,25 +15134,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         data['structuredData'] = structuredData;
         var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
         var devMode = _self.isDev ? true : false;
-        var templates = searchTemplates.structuredData;
-        for (let i = 0; i < templates.length; i++) {
-          // search
-          if ((templates[i].templateType === selected[groupName + templateInterfaceType + 'TemplateType']) && (templates[i].layoutType === selected[groupName + templateInterfaceType + 'LayoutType'])) {
-            // check for templateId from CustomTemplateConfig and it should onle be give for matched Template
-            // Even user sends both templte string and templateId, will consider templateId as final template
-            if (customTemplateConfig && customTemplateConfig.templateId && customTemplateConfig.templateId.length) {
-              templates[i].templateId = customTemplateConfig.templateId;
-            }
-            if (templates[i].templateId && templates[i].templateId.length) {
-              finalTemplate = '#' + templates[i].templateId;
-            }
-            else {
-              finalTemplate = templates[i].template;
+          var templates = _self.searchTemplateObj.resultTemplates().structuredData;
+          for (let i = 0; i < templates.length; i++) {
+            // search
+            if ((templates[i].templateType === selected[groupName + templateInterfaceType + 'TemplateType']) && (templates[i].layoutType === selected[groupName + templateInterfaceType + 'LayoutType'])) {
+              // check for templateId from CustomTemplateConfig and it should onle be give for matched Template
+              // Even user sends both templte string and templateId, will consider templateId as final template
+              if (customTemplateConfig && customTemplateConfig.templateId && customTemplateConfig.templateId.length) {
+                templates[i].templateId = customTemplateConfig.templateId;
+              }
+              if (templates[i].templateId && templates[i].templateId.length) {
+                finalTemplate = '#' + templates[i].templateId;
+              }
+              else {
+                finalTemplate = templates[i].template;
             }
           }
         }
         if (viewType === 'Customize' && devMode && data.isFullResults) {
-          finalTemplate = searchTemplates.structuredData[0].template;
+          finalTemplate = _self.searchTemplateObj.resultTemplates().structuredData[0].template;
           data.isClickable = true;
         }
         if (!data.selectedFacet) {
@@ -16709,23 +15244,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
         if (data.isLiveSearch) {
-          // if ($('body').hasClass('top-down') && container == '.live-data-container') {
-          //   $(container).each(function () {
-          //     if ($(this).is(':visible')) {
-          //       $(this).empty().append(dataHTML);
-          //     } else {
-          //       $(this).empty();
-          //     }
-          //   })
-          // } else {
           $(container).append(dataHTML);
-          // }
         } else if (data.isSearch) {
           $(container).last().append(dataHTML);
         } else {
           if (data.dataObj.ShowMoreData) {
-            $(dataHTML).children(".show-more-list").remove();
-            $(".full-search-data-container [templateName=" + data.dataObj.ShowMoreData.templateName + "]").before($(dataHTML).children());
+            if (viewType === 'Customize' && devMode && data.isFullResults) {
+              $(dataHTML).find(".show-more-list").remove();
+              $(".full-search-data-container [templateName=" + data.dataObj.ShowMoreData.templateName + "]").before($(dataHTML).find(".tile-with-text-parent").children());
+            } else {
+              $(dataHTML).children(".show-more-list").remove();
+              $(".full-search-data-container [templateName=" + data.dataObj.ShowMoreData.templateName + "]").before($(dataHTML).children());
+            }
+
             if ((Number($(".full-search-data-container [templateName=" + data.dataObj.ShowMoreData.templateName + "]").attr('pageNumber')) + 1) * 5 >= doc_count) {
               $(".full-search-data-container [templateName=" + data.dataObj.ShowMoreData.templateName + "]").hide();
             }
@@ -16791,7 +15322,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.contentId = obj.contentId;
           item.addedResult = (obj.addedResult || (obj.addedResult == false)) ? obj.addedResult : false;
           item.bestMatch = (obj.bestMatch || (obj.bestMatch == false)) ? obj.bestMatch : false;
-          if(item.heading || item.description || item.img || item.url){
+          if (item.heading || item.description || item.img || item.url) {
             dataArr.push(item);
           }
         });
@@ -16803,32 +15334,30 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     var newCarouselEles = [];
     FindlySDK.prototype.bindCarouselActions = function (dataHTML) {
       var _self = this;
-      setTimeout(function () {
-        dataHTML.find('.carousel:last').addClass("carouselTemplate" + newCarouselTemplateCount);
-        var count = dataHTML.find(".carouselTemplate" + newCarouselTemplateCount).children().length;
-        if (count > 1) {
-          var carouselOneByOne = new PureJSCarousel({
-            carousel: '.carouselTemplate' + newCarouselTemplateCount,
-            slide: '.slide',
-            oneByOne: true,
-            jq: $,
-          });
-          $('.carousel' + newCarouselTemplateCount).parent().show();
-          newCarouselEles.push(carouselOneByOne);
-          if ($('.carouselTemplate' + newCarouselTemplateCount).width() >= ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container').children().length * $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container .slide:first').width())) {
-            $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev').hide();
-            $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next').hide();
-          }
-          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev::after').css('height', $('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height() + 'px');
-          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next::after').css('height', $('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height() + 'px');
-          $("body").append("<style>.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-next::after,.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-prev::after {height:" + ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container').height() - 8) + "px !important; top:-" + ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next').position().top - 27.5) + "px !important;}</style>");
-
-          var evt = document.createEvent("HTMLEvents");
-          evt.initEvent('resize', true, false);
-          window.dispatchEvent(evt);
-          newCarouselTemplateCount += 1;
+      newCarouselTemplateCount += 1;
+      dataHTML.find('.carousel:last').addClass("carouselTemplate" + newCarouselTemplateCount);
+      var count = dataHTML.find(".carouselTemplate" + newCarouselTemplateCount).children().length;
+      if (count > 1) {
+        var carouselOneByOne = new PureJSCarousel({
+          carousel: '.carouselTemplate' + newCarouselTemplateCount,
+          slide: '.slide',
+          oneByOne: true,
+          jq: $,
+        });
+        $('.carousel' + newCarouselTemplateCount).parent().show();
+        newCarouselEles.push(carouselOneByOne);
+        if ($('.carouselTemplate' + newCarouselTemplateCount).width() >= ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container').children().length * $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container .slide:first').width())) {
+          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev').hide();
+          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next').hide();
         }
-      });
+        $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev::after').css('height', $('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height() + 'px');
+        $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next::after').css('height', $('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height() + 'px');
+        $("body").append("<style>.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-next::after,.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-prev::after {height:" + ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container').height() - 8) + "px !important; top:-" + ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next').position().top - 27.5) + "px !important;}</style>");
+
+        var evt = document.createEvent("HTMLEvents");
+        evt.initEvent('resize', true, false);
+        window.dispatchEvent(evt);
+      }
     }
 
     FindlySDK.prototype.bindStructuredDataTriggeringOptions = function () {
@@ -17024,7 +15553,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       <div id="leftFacetFilterId" class="{{if isFilterEnabled == false}}display-none{{/if}}"> </div>\
                       <!-- Facet left-->\
                       {{each(key,facet) facets}}\
-                      <div class="tab-name see-all-result-nav  {{= facet.className}}"  title="{{= facet.name}} id="{{= facet.key}}" classification="{{= facet.key}}">{{= facet.name}} <span class="count sdk-facet-count">({{= facet.doc_count}})</span></div>\
+                      <div class="tab-name see-all-result-nav  {{= facet.className}}"  title="{{= facet.name}}" id="{{= facet.key}}" classification="{{= facet.key}}">{{= facet.name}} <span class="count sdk-facet-count">({{= facet.doc_count}})</span></div>\
                       {{/each}}\
                       <!-- Facet right-->\
                       <div  id="rightFacetFilterId" class="{{if isFilterEnabled == false}}display-none{{/if}}"> </div>\
@@ -17381,7 +15910,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "lang": "en",
         // "isDev": true,
         "isDev": _self.isDev,
-        "filters": []
+        "filters": [],
+        "searchRequestId":_self.vars.requestId
       }
 
       if (_self.isDev) {
@@ -17392,7 +15922,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "fieldName": "sys_content_type",
         "name": "facetContentType",
         "subtype": "value",
-        "isMultiSelect": false,
+        "multiselect": false,
         "buckets": []
       }
 
@@ -17401,12 +15931,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       if (selectedFacet !== 'all results') {
-        // selectedTopFacet = {
-        //   "fieldName": contentTypeFilter.fieldName,
-        //   "facetType": contentTypeFilter.facetType,
-        //   "facetValue": [selectedFacet],
-        //   "facetName": contentTypeFilter.facetName
-        // }
+
         var tabConfig = {
           "filter": {
             "fieldName": _self.vars.tabFacetFieldName,
@@ -17420,28 +15945,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             payload.filters = [];
           }
           payload.filters.push(selectedTopFacet);
-        }
-        // if (selectedFacet == 'web' && _self.pageConfig.fullSearchInterface.type == "carousel") {
-        //   payload.maxNumOfResults = 50;
-        // }
-        // else if (selectedFacet == 'faq' && _self.faqConfig.fullSearchInterface.type == "carousel") {
-        //   payload.maxNumOfResults = 50;
-        // }
-        // else if (selectedFacet == 'file' && _self.documentConfig.fullSearchInterface.type == "carousel") {
-        //   payload.maxNumOfResults = 50;
-        // }
-        // else if (selectedFacet == 'data' && _self.structuredDataConfig.fullSearchInterface.type == "carousel") {
-        //   payload.maxNumOfResults = 50;
-        // }
-      } else {
-        if ($('body').hasClass('top-down')) {
-          let filters = payload.filters;
-          for (let i = (filters || []).length - 1; i >= 0; i--) {
-            if (filters[i].facetValue[0] == 'faq' || filters[i].facetValue[0] == 'task' || filters[i].facetValue[0] == 'web' || filters[i].facetValue[0] == 'file' || filters[i].facetValue[0] == 'data') {
-              payload.filters.splice(i, 1);
-            }
-          }
-          _self.vars.scrollPageNumber = 0;
         }
       }
 
@@ -17512,6 +16015,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (!(res.tabFacet || {}).buckets) {
               totalResultsCount = 0;
             }
+            var reArrangeAvailableGroups = [];
+            _self.vars.availableGroupsOrder.forEach((d) => {
+              let group = availableGroups.find(g => g === d)
+              if (group) {
+                reArrangeAvailableGroups.push(group)
+              }
+            })
+            availableGroups = reArrangeAvailableGroups;
             if (availableGroups && availableGroups.length) {
               availableGroups.forEach((group) => {
                 var results = res.results[group].data;
@@ -17534,6 +16045,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 }
                 _self.pubSub.publish(publishSearchData, { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
               });
+              if (!$('.full-search-data-container').children().length) {
+                if (_self.isDev) {
+                  $('.no-templates-defined-full-results-container').show();
+                } else {
+                  $('.empty-full-results-container').removeClass('hide');
+                }
+              }
             } else {
               var dataObj = {
                 facets: facets || [],
@@ -17546,7 +16064,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               // _self.pubSub.publish('sa-defaultTemplate-search-data', { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
               if ((!(res.tasks || []).length && selectedFacet == 'all results') && !((res.tasks || []).length && selectedFacet == 'task')) {
                 $('.empty-full-results-container').removeClass('hide');
+                $('.no-templates-defined-full-results-container').hide();
               }
+
             }
 
             // res.results = results;
@@ -17572,11 +16092,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
             } else {
               $('.empty-full-results-container').removeClass('hide');
+              $('.no-templates-defined-full-results-container').hide();
             }
 
           }
-          if(Object.keys(res.results).length === 0){
+          if (Object.keys(res.results).length === 0 && res.tasks.length == 0) {
             $('.empty-full-results-container').removeClass('hide');
+            $('.no-templates-defined-full-results-container').hide();
           }
           _self.vars.searchObject.liveData.facets = _self.vars.tabsList
           setTimeout(function () {
@@ -17587,7 +16109,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           //   _self.checkBoostAndLowerTimes();
           // }, 400);
         }
-
+        _self.fullResultsScrollTop();
+        $(".content-data-sec").scrollTop(0);
+        $(".data-body-sec").scrollTop(0);
       })
 
     }
@@ -17644,6 +16168,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       } else {
         $('#topFacetFilterId').empty().append(facetTemplateTop);
         $('#topFacetIcon').empty().append(facetTemplateTopIcon);
+        if (facetObj.show) {
+          if (!$('.iffilteristop').hasClass('isTopAlignFilterAdded')) {
+            $('.iffilteristop').addClass('isTopAlignFilterAdded');
+          }
+        } else {
+          $('.iffilteristop').removeClass('isTopAlignFilterAdded');
+        }
       }
       if (!$('body').hasClass('top-down')) {
         if (facetObj.show) {
@@ -17728,29 +16259,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         else {
           _self.vars.isClearAllClickedInBottomUp = false;
         }
-        //facetObj['show'] = true;
-        // if(facetData.length){
-        //   var arr = [];
-        //   var mainArr = [];
-        //   if(_self.vars.selectedFiltersArr){
-        //     _self.vars.selectedFiltersArr.forEach((element,index) => {
-        //       arr.push(element.split('-')[1].split('')[0])
-        //     });
-        //     arr = new Set(arr);
-        //   }
-        //   if(_self.vars.selectedFiltersArr.length && arr.length){
-        //     for(let i=0;i<arr.length;i++){
-        //       var mulArr = [];
-        //       var obj = {}
-        //       _self.vars.selectedFiltersArr.forEach((element,index) => {
-        //         if(i == element.split('-')[1].split('')[0]){
-        //           mulArr.push(element.split('-')[1].split('')[0])
-        //         }
-        //       });
-        //       mainArr.push({i: mulArr})
-        //     }
-        //   }
-        // }
+
         _self.facetReset(facetObj, facetData);
         _self.bindShowAllResultsTrigger(showAllHTML, facetData, null, true);
       });
@@ -17768,10 +16277,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.sdk-clear-all-facet').off('click').on('click', function (event) {
         event.stopPropagation();
         event.stopImmediatePropagation();
-        // if (_self.vars.countOfSelectedFilters > 0) {
-        //   $('#loaderDIV').show();
-        // }
-        //$('#loaderDIV').show();
+
         if (_self.vars.selectedFiltersArr.length > 0) {
           _self.vars.selectedFiltersArr.forEach(function (filter) {
             $("#" + filter).prop('checked', false);
@@ -17821,6 +16327,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
       $('.see-all-result-nav').off('click').on('click', function (event) {
         _self.vars.scrollPageNumber = 0;
+        $('.sdk-facet-count').show();
         $('.tab-name.see-all-result-nav.active-tab').removeClass('active-tab');
         selectClass(event, 'target')
       });
@@ -17830,61 +16337,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var classificationselected = $(event.target).closest('.see-all-result-nav').attr('classification');
         _self.vars.selectedFacetFromSearch = classificationselected;
         slecetFacetFunc(classificationselected)
+        $('.tab-name.see-all-result-nav.active-tab').removeClass('active-tab');
         $(event.target).addClass('active-tab')
         if (related == 'child') {
           $(event.target.parentNode).addClass('active-tab')
         }
-        // if (classificationselected == "all results") {
-        //   //_self.showAllResults();
-        //   removeActive(selectedFacet)
-        //   selectedFacet = 'all results'
-        //   slecetFacetFunc(selectedFacet)
-        //   $(event.target).addClass('active-tab')
-        //   if (related == 'child') {
-        //     $(event.target.parentNode).addClass('active-tab')
-        //   }
-        //   //_self.performRankActions(event, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
-        // } else if (classificationselected == "web") {
-        //   removeActive(selectedFacet)
-        //   selectedFacet = 'web'
-        //   slecetFacetFunc(selectedFacet)
-        //   $(event.target).addClass('active-tab')
-        //   if (related == 'child') {
-        //     $(event.target.parentNode).addClass('active-tab')
-        //   }
-        // } else if (classificationselected == "faq") {
-        //   removeActive(selectedFacet)
-        //   selectedFacet = 'faq'
-        //   slecetFacetFunc(selectedFacet)
-        //   $(event.target).addClass('active-tab')
-        //   if (related == 'child') {
-        //     $(event.target.parentNode).addClass('active-tab')
-        //   }
-        // } else if (classificationselected == "task") {
-        //   removeActive(selectedFacet)
-        //   selectedFacet = 'task'
-        //   slecetFacetFunc(selectedFacet)
-        //   $(event.target).addClass('active-tab')
-        //   if (related == 'child') {
-        //     $(event.target.parentNode).addClass('active-tab')
-        //   }
-        // } else if (classificationselected == "file") {
-        //   removeActive(selectedFacet)
-        //   selectedFacet = 'file'
-        //   slecetFacetFunc(selectedFacet)
-        //   $(event.target).addClass('active-tab')
-        //   if (related == 'child') {
-        //     $(event.target.parentNode).addClass('active-tab')
-        //   }
-        // } else if (classificationselected == "data") {
-        //   removeActive(selectedFacet)
-        //   selectedFacet = 'data'
-        //   slecetFacetFunc(selectedFacet)
-        //   $(event.target).addClass('active-tab')
-        //   if (related == 'child') {
-        //     $(event.target.parentNode).addClass('active-tab')
-        //   }
-        // }
+
         if (classificationselected == 'all results' || classificationselected == 'task') {
           $('#actions-full-search-container').show();
         } else {
@@ -18112,7 +16570,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // var payload = $(e.target).attr('payload');
         var payload;
         if (_self.vars.searchObject && _self.vars.searchObject.searchText && _self.vars.searchObject.searchText.length) {
-          payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
+          // payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
+          payload = _self.vars.searchObject.searchText;
         }
         else {
           payload = $(e.currentTarget).attr('payload');
@@ -18234,7 +16693,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="group-checkbox filters-content" data-facetType="${searchFacet.subtype}" data-facetName="${searchFacet.name}" data-fieldName="${searchFacet.fieldName}">\
                   <div class="heading-title">${searchFacet.name}</div>\
                   {{each(j, bucket) searchFacet.buckets}}\
-                  {{if searchFacet.isMultiSelect}}\
+                  {{if searchFacet.multiselect}}\
                     {{if searchFacet.subtype == "value"}}\
                       <div class="custom_checkbox kr-sg-checkbox d-block">\
                           <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
@@ -18248,7 +16707,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         </div>\
                     {{/if}}\
                   {{/if}}\
-                  {{if !searchFacet.isMultiSelect}}\
+                  {{if !searchFacet.multiselect}}\
                     {{if searchFacet.subtype == "value"}}\
                       <div class="custom_checkbox kr-sg-radiobutton d-block">\
                           <input id="radio-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="${bucket.key}" data-from="${bucket.from}" data-to="${bucket.to}">\
@@ -18287,28 +16746,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       <div id="myDropdown" class="dropdown-content filters-content-top-down myDropdown-${i}" data-facetType="${searchFacet.subtype}" data-facetName="${searchFacet.name}" data-fieldName="${searchFacet.fieldName}">\
       {{each(j, bucket) searchFacet.buckets}}\
       <div class="option-text">\
-      {{if searchFacet.subtype == "value"&& searchFacet.isMultiSelect }}\
+      {{if searchFacet.subtype == "value"&& searchFacet.multiselect }}\
       <div class="kr-sg-checkbox d-block">\
       <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
       <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
           <span class="count">\(${bucket.doc_count})</span>\
         </div>\
         {{/if}}\
-        {{if searchFacet.subtype == "range" && searchFacet.isMultiSelect}}\
+        {{if searchFacet.subtype == "range" && searchFacet.multiselect}}\
         <div class="kr-sg-checkbox d-block">\
         <input  id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
         <label  id="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">\${bucket.key}</label>\
             <span class="count">\(${bucket.doc_count})</span>\
           </div>\
           {{/if}}\
-          {{if searchFacet.subtype == "value" && !searchFacet.isMultiSelect}}\
+          {{if searchFacet.subtype == "value" && !searchFacet.multiselect}}\
           <div class="kr-sg-checkbox d-block">\
             <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
               <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
-            {{if searchFacet.subtype == "range" && !searchFacet.isMultiSelect }}\
+            {{if searchFacet.subtype == "range" && !searchFacet.multiselect }}\
             <div class="kr-sg-checkbox d-block">\
               <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
                 <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
@@ -18318,8 +16777,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       </div>\
       {{/each}}\
       <div class="action-bar">\
-      {{if searchFacet.isMultiSelect}}\<button class="btn clear-btn">Clear</button>\{{/if}}\
-      {{if !searchFacet.isMultiSelect}}\<button class="btn apply-btn">Apply</button>\{{/if}}\
+      {{if searchFacet.multiselect}}\<button class="btn clear-btn">Clear</button>\{{/if}}\
+      {{if !searchFacet.multiselect}}\<button class="btn apply-btn">Apply</button>\{{/if}}\
     </div>\
       </div>\
       </div>\
@@ -18359,7 +16818,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAulBMVEUAAAAAAAAAAIAAVVUrK1UkN0kiM0QgMFAtLUskMUkiM00pMUopNEsoM0olNUomNUglNEokM0koMksnNUomNEkmNEglM0skNUkmNkwnM0snNUomNEklM0onNUolNUslNEonNEkmNUomNUsmNEolM0snNUomNEomNEomNEslNUkmNUomNEomNUomNEolNEomNEsmNEomNEomNEomM0omNEomNEomNEomNEomNEomNEomNEomNEomNEr///9hPe5QAAAAPXRSTlMAAQIDBg4PEBEVHh8sLTBDRUZHSElKS01RVVZeaG90dXZ5fqGkpaittbi9xMfL09TW2d7f4uPq7e/x8vf4F8v60AAAAAFiS0dEPdBtUVkAAACASURBVBgZBcGLIoNQAADQ05WWipZ5brGH0JDXZu7w/9/lHAAAgPJ4BICk3fx8/fUVQHL3Vgf5MtaA9vUQXO5y4LMGPC5AsQ+AWQ+qLcDFM8h+M8BtB6znQPpxBZzEU0i7lwA4+76fNjfvQxwDHK2ehofrcB4bAMAkFgCA8gAAgH/ZSQkFmhv26gAAAABJRU5ErkJggg==" class="search-icon">\
                   </div>-->\
                   {{each(j, bucket) searchFacet.buckets}}\
-                        {{if searchFacet.isMultiSelect}}\
+                        {{if searchFacet.multiselect}}\
                         {{if searchFacet.subtype == "value"}}\
                           <div class="custom_checkbox kr-sg-checkbox d-block">\
                               <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
@@ -18373,7 +16832,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             </div>\
                         {{/if}}\
                       {{/if}}\
-                      {{if !searchFacet.isMultiSelect}}\
+                      {{if !searchFacet.multiselect}}\
                         {{if searchFacet.subtype == "value"}}\
                           <div class="custom_checkbox kr-sg-radiobutton d-block">\
                               <input id="radio-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="${bucket.key}" data-from="${bucket.from}" data-to="${bucket.to}">\
@@ -18388,10 +16847,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         {{/if}}\
                       {{/if}}\
                   {{/each}}\
-                  {{if searchFacet.isMultiSelect}}\
+                  {{if searchFacet.multiselect}}\
                   <div class="apply-btn">Apply</div>\
                   {{/if}}\
-                    {{if !searchFacet.isMultiSelect}}\
+                    {{if !searchFacet.multiselect}}\
                     <div class="clear-all sdk-clear-all-facet-top">Clear</div>\
                     {{/if}}\
                   </div>\
@@ -18476,6 +16935,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       <div style="height:100%">\
       <!--<div id="loaderDIV" class="loader-container">Loading...</div>-->\
         <div class="data-body-sec {{if facetPosition == `top`}}iffilteristop{{/if}}">\
+        <div class="no-templates-defined-full-results-container">\
+        <div class="img-block"><img class="no-data-mapped">\
+          <div class="title">Result templates are not mapped with a proper field value</div>\
+        </div>\
+      </div>\
+        <div class="scroll-top-container">\
+         <div class="title-scroll-top">\
+           <img>Scroll to top\
+          </div>\
+        </div>\
         <div class="empty-full-results-container hide" id="top-down-all-tab-empty-state">\
         <div class="img-block">\
         <img src="data:image/png;base64,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">\
@@ -18774,213 +17243,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var responseObject = { 'type': 'onboardingjourney', data: 'optimize', query: _self.vars.searchObject.searchText, bottomUp: true }
           _self.parentEvent(responseObject);
         }
-        // if (actionType === "pinning") {
 
-        // res.results.forEach((result) => {
-        //   if (result.contentId === payload.result.contentId) {
-        //     $(selectedElement).attr('pinIndex', result.config.pinIndex);
-        //     if (result.config.pinIndex >= 0) {
-        //       selectedElement.find('.pinning').attr('type', "UnPin");
-        //       if (!selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
-        //         selectedElement.find('.customization-tile').addClass('disable_pinned')
-        //       }
-        //       if (selectedElement.find('.record-status-pinned')) {
-        //         selectedElement.find('.record-status-pinned').css('display', 'block');
-        //       }
-        //       if (selectedElement.find('.unpin').hasClass('display-none')) {
-        //         selectedElement.find('.unpin').removeClass('display-none');
-        //         selectedElement.find('.unpin').addClass('display-block');
-        //       }
-        //       if (selectedElement.find('.pin').hasClass('display-block')) {
-        //         selectedElement.find('.pin').removeClass('display-block');
-        //         selectedElement.find('.pin').addClass('display-none');
-        //       }
-        //       if (selectedElement.find('.img_unpin').hasClass('display-none')) {
-        //         selectedElement.find('.img_unpin').removeClass('display-none');
-        //         selectedElement.find('.img_unpin').addClass('display-block');
-        //       }
-        //       if (selectedElement.find('.img_pin').hasClass('display-block')) {
-        //         selectedElement.find('.img_pin').removeClass('display-block');
-        //         selectedElement.find('.img_pin').addClass('display-none');
-        //       }
-        //     }
-        //     else {
-        //       selectedElement.find('.pinning').attr('type', "Pin");
-        //       if (selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
-        //         selectedElement.find('.customization-tile').removeClass('disable_pinned')
-        //       }
-        //       if (selectedElement.find('.record-status-pinned')) {
-        //         selectedElement.find('.record-status-pinned').css('display', 'none');
-        //       }
-        //       if (selectedElement.find('.unpin').hasClass('display-block')) {
-        //         selectedElement.find('.unpin').removeClass('display-block');
-        //         selectedElement.find('.unpin').addClass('display-none');
-        //       }
-        //       if (selectedElement.find('.pin').hasClass('display-none')) {
-        //         selectedElement.find('.pin').removeClass('display-none');
-        //         selectedElement.find('.pin').addClass('display-block');
-        //       }
-        //       if (selectedElement.find('.img_unpin').hasClass('display-block')) {
-        //         selectedElement.find('.img_unpin').removeClass('display-block');
-        //         selectedElement.find('.img_unpin').addClass('display-none');
-        //       }
-        //       if (selectedElement.find('.img_pin').hasClass('display-none')) {
-        //         selectedElement.find('.img_pin').removeClass('display-none');
-        //         selectedElement.find('.img_pin').addClass('display-block');
-        //       }
-        //     }
-        //   }
-        // })
-        // }
-
-        // else if (actionType === "visibility") {
-        //   res.results.forEach((result) => {
-        //     if (result.contentId === payload.result.contentId) {
-        //       $(selectedElement).attr('visible', result.config.visible);
-        //       if (result.config.visible) {
-        //         selectedElement.find('.visibility').attr('type', "Hide");
-        //         if (selectedElement.find('.customization-tile').hasClass('disable_hidden')) {
-        //           selectedElement.find('.customization-tile').removeClass('disable_hidden')
-        //         }
-        //         if (selectedElement.find('.record-status-hidden')) {
-        //           selectedElement.find('.record-status-hidden').css('display', 'none');
-        //         }
-        //         if (selectedElement.find('._hide').hasClass('display-none')) {
-        //           selectedElement.find('._hide').removeClass('display-none');
-        //           selectedElement.find('._hide').addClass('display-block');
-        //         }
-        //         if (selectedElement.find('.unhide').hasClass('display-block')) {
-        //           selectedElement.find('.unhide').removeClass('display-block');
-        //           selectedElement.find('.unhide').addClass('display-none');
-        //         }
-        //         if (selectedElement.find('.img_hide').hasClass('display-none')) {
-        //           selectedElement.find('.img_hide').removeClass('display-none');
-        //           selectedElement.find('.img_hide').addClass('display-block');
-        //         }
-        //         if (selectedElement.find('.img_unhide').hasClass('display-block')) {
-        //           selectedElement.find('.img_unhide').removeClass('display-block');
-        //           selectedElement.find('.img_unhide').addClass('display-none');
-        //         }
-        //       }
-        //       else {
-        //         selectedElement.find('.visibility').attr('type', "UnHide");
-        //         if (!selectedElement.find('.customization-tile').hasClass('disable_hidden')) {
-        //           selectedElement.find('.customization-tile').addClass('disable_hidden')
-        //         }
-        //         if (selectedElement.find('.record-status-hidden')) {
-        //           selectedElement.find('.record-status-hidden').css('display', 'block');
-        //         }
-        //         if (selectedElement.find('._hide').hasClass('display-block')) {
-        //           selectedElement.find('._hide').removeClass('display-block');
-        //           selectedElement.find('._hide').addClass('display-none');
-        //         }
-        //         if (selectedElement.find('.unhide').hasClass('display-none')) {
-        //           selectedElement.find('.unhide').removeClass('display-none');
-        //           selectedElement.find('.unhide').addClass('display-block');
-        //         }
-        //         if (selectedElement.find('.img_hide').hasClass('display-block')) {
-        //           selectedElement.find('.img_hide').removeClass('display-block');
-        //           selectedElement.find('.img_hide').addClass('display-none');
-        //         }
-        //         if (selectedElement.find('.img_unhide').hasClass('display-none')) {
-        //           selectedElement.find('.img_unhide').removeClass('display-none');
-        //           selectedElement.find('.img_unhide').addClass('display-block');
-        //         }
-        //         // start - removing pinning option from DOM
-        //         $(selectedElement).attr('pinIndex', result.config.pinIndex);
-        //         selectedElement.find('.pinning').attr('type', "Pin");
-        //         if (selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
-        //           selectedElement.find('.customization-tile').removeClass('disable_pinned')
-        //         }
-        //         if (selectedElement.find('.record-status-pinned')) {
-        //           selectedElement.find('.record-status-pinned').css('display', 'none');
-        //         }
-        //         if (selectedElement.find('.unpin').hasClass('display-block')) {
-        //           selectedElement.find('.unpin').removeClass('display-block');
-        //           selectedElement.find('.unpin').addClass('display-none');
-        //         }
-        //         if (selectedElement.find('.pin').hasClass('display-none')) {
-        //           selectedElement.find('.pin').removeClass('display-none');
-        //           selectedElement.find('.pin').addClass('display-block');
-        //         }
-        //         if (selectedElement.find('.img_unpin').hasClass('display-block')) {
-        //           selectedElement.find('.img_unpin').removeClass('display-block');
-        //           selectedElement.find('.img_unpin').addClass('display-none');
-        //         }
-        //         if (selectedElement.find('.img_pin').hasClass('display-none')) {
-        //           selectedElement.find('.img_pin').removeClass('display-none');
-        //           selectedElement.find('.img_pin').addClass('display-block');
-        //         }
-        //         // end
-        //       }
-        //     }
-        //   })
-        //   // if(res.results[0].config.visible){
-
-        //   // }
-        // }
-
-        // else if (actionType === "boosting") {
-        //   res.results.forEach((result) => {
-        //     if (result.contentId === payload.result.contentId) {
-        //       $(selectedElement).attr('boost', result.config.boost);
-        //       if (result.config.boost == 1) {
-        //         selectedElement.find('.record-status-boosted').css('display', 'none');
-        //         selectedElement.find('.record-status-lowered').css('display', 'none');
-        //       }
-        //       else if (result.config.boost > 1) {
-        //         if (selectedElement.find('.record-status-boosted')) {
-        //           selectedElement.find('.record-status-boosted').css('display', 'block');
-        //         }
-        //         if (selectedElement.find('.record-status-lowered')) {
-        //           selectedElement.find('.record-status-lowered').css('display', 'none');
-        //         }
-        //       }
-        //       else {
-        //         if (selectedElement.find('.record-status-boosted')) {
-        //           selectedElement.find('.record-status-boosted').css('display', 'none');
-        //         }
-        //         if (selectedElement.find('.record-status-lowered')) {
-        //           selectedElement.find('.record-status-lowered').css('display', 'block');
-        //         }
-        //       }
-        //       _self.checkBoostAndLowerTimes();
-        //     }
-        //   })
-        // }
-
-        // else if (actionType === "burying") {
-        //   res.results.forEach((result) => {
-        //     if (result.contentId === payload.result.contentId) {
-        //       $(selectedElement).attr('boost', result.config.boost);
-        //       if (result.config.boost == 1) {
-        //         selectedElement.find('.record-status-boosted').css('display', 'none');
-        //         selectedElement.find('.record-status-lowered').css('display', 'none');
-        //       }
-        //       else if (result.config.boost < 1) {
-        //         if (selectedElement.find('.record-status-lowered')) {
-        //           selectedElement.find('.record-status-lowered').css('display', 'block');
-        //         }
-        //         if (selectedElement.find('.record-status-boosted')) {
-        //           selectedElement.find('.record-status-boosted').css('display', 'none');
-        //         }
-        //       }
-        //       else {
-        //         if (selectedElement.find('.record-status-lowered')) {
-        //           selectedElement.find('.record-status-lowered').css('display', 'none');
-        //         }
-        //         if (selectedElement.find('.record-status-boosted')) {
-        //           selectedElement.find('.record-status-boosted').css('display', 'block');
-        //         }
-        //       }
-        //       _self.checkBoostAndLowerTimes();
-        //     }
-        //   })
-        // }
-
-        // else if (actionType === "unpin_added_result"){
-        // for every customization, calling search API again to show the results according to customization
-        // $('.show-all-results').click();
         _self.refreshFullResultsPage();
         // }
       },
@@ -19075,6 +17338,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "lang": "en",
         "isDev": _self.isDev
       }
+      payload.userId = this.bot.userInfo.userInfo.userId;
       if (!$('body').hasClass('demo')) {
         payload.indexPipelineId = _self.API.indexpipelineId;
       }
@@ -19426,7 +17690,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.skelton-load-img').show();
         _self.destroy();
       });
-      _self.navLinkDemoClick();
     }
     FindlySDK.prototype.showSuggestionbox = function (suggestions) {
       var _self = this;
@@ -19535,21 +17798,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 			<div class="heading-title {{if searchFacet.showSearch == true}}d-none{{/if}}"">\${searchFacet.name}<span class="float-right d-none  {{if searchFacet.maxCount && searchFacet.buckets.length > searchFacet.maxCount}}d-block{{/if}}"><img class="facet-search-icon display-none" facetFacetName="${searchFacet.name}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFYSURBVHgBrVNLUsJAEO2eiLoTbhBuQE6g3gC3UJSZhViUi8gJ9AaWCyuFLhqLApbiCcQbcAM5QtiJMmk7VsoKDPFT8jZdk+735r3MDMA/gXmNkMgF2HJ3YTHRWke/Fri97wfAcJm2E6IrQ+MFz3VL6+nqvFoid4cEjL7h+Kjp10tNv1Yu8LwUMz87uPPSoUE110FIfd9BvBCCt85ySL0DB50H6Zez/S8HCdmw0Xl5W7oxljJ+g+1zK0JIQ1dKMR3KhWF+ZFAVS8CB16KUCH5EPHWQ9yyBAsBUiktExe/oCrBiGGeWQJrbyrcKRBUoiEeWQIJ35jYiBjfUr6wj33UHV1Kipq53l0Sziw71qrILie6I5YfFYKLEtnw7TgZZYspGh2e6PrEcJDjVjZFh5QHzTCEEcu4k5H1ZX5/4NU9OoV1AfMq6zH0LeUgvHIkTL+vkjyKf92Yz+ADa8Y5Ak9HPCwAAAABJRU5ErkJggg==">\<span>\</div>\
       <div class="input-div {{if searchFacet.showSearch !== true}}d-none{{/if}}"><input type="text" class="searchFacetInput" id="${searchFacet.name}">\ <span class="float-right d-none" id="${searchFacet.name}-close">\<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACGSURBVHgB3ZK9DYAgEIURjY2RWVzFEWgtYBvXcBTcwClsFIg5osmZgEjoeNVxx/v4ySOkLDFpVTcdQ2gOMyaswj2KF+bUnDb14oNAD2ZGa06+BBt7YTYM8fUeVSEInGa1Gd0173qf2/UXAEOgDpkdnGQq+wlec8onRs1JEAhJNEjyHaQCdAGUc1yB6RityQAAAABJRU5ErkJggg==">\</span>\</div>\
       {{each(j, bucket) searchFacet.buckets.slice(0, (searchFacet.maxCount?searchFacet.maxCount:searchFacet.buckets.length))}}\
-          {{if (searchFacet.subtype == "value" || searchFacet.subtype == "range") && searchFacet.isMultiSelect }}\
+          {{if (searchFacet.subtype == "value" || searchFacet.subtype == "range") && searchFacet.multiselect }}\
           <div class="kr-sg-checkbox d-block">\
           <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down c-1" type="checkbox" name="${bucket.key}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
 					<label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
-              {{if searchFacet.subtype == "value" && !searchFacet.isMultiSelect}}\
+              {{if searchFacet.subtype == "value" && !searchFacet.multiselect}}\
               <div class="kr-sg-radiobutton d-block">\
                 <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
                   <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
                   <span class="count">\(${bucket.doc_count})</span>\
                 </div>\
                 {{/if}}\
-                {{if searchFacet.subtype == "range" &&  !searchFacet.isMultiSelect}}\
+                {{if searchFacet.subtype == "range" &&  !searchFacet.multiselect}}\
                 <div class="kr-sg-radiobutton d-block">\
                   <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
                     <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
@@ -19576,21 +17839,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       <div id="myDropdown" class="dropdown-content filters-content-top-down myDropdown-${i}" data-facetType="${searchFacet.subtype}" data-facetName="${searchFacet.name}" data-fieldName="${searchFacet.fieldName}">\
       {{each(j, bucket) searchFacet.buckets}}\
       <div class="option-text">\
-      {{if (searchFacet.subtype == "value" || searchFacet.subtype == "range" ) && searchFacet.isMultiSelect }}\
+      {{if (searchFacet.subtype == "value" || searchFacet.subtype == "range" ) && searchFacet.multiselect }}\
       <div class="kr-sg-checkbox d-block">\
       <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
       <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
           <span class="count">\(${bucket.doc_count})</span>\
         </div>\
         {{/if}}\
-          {{if searchFacet.subtype == "value" && !searchFacet.isMultiSelect}}\
+          {{if searchFacet.subtype == "value" && !searchFacet.multiselect}}\
           <div class="kr-sg-radiobutton d-block">\
             <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}">\
               <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
-            {{if searchFacet.subtype == "range" && !searchFacet.isMultiSelect }}\
+            {{if searchFacet.subtype == "range" && !searchFacet.multiselect }}\
             <div class="kr-sg-radiobutton d-block">\
               <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}">\
                 <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
@@ -19600,8 +17863,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       </div>\
       {{/each}}\
       <div class="action-bar">\
-      {{if !searchFacet.isMultiSelect}}\<button class="btn clear-btn">Clear</button>\{{/if}}\
-      {{if searchFacet.isMultiSelect}}\<button class="btn apply-btn">Apply</button>\{{/if}}\
+      {{if !searchFacet.multiselect}}\<button class="btn clear-btn">Clear</button>\{{/if}}\
+      {{if searchFacet.multiselect}}\<button class="btn apply-btn">Apply</button>\{{/if}}\
     </div>\
       </div>\
       </div>\
@@ -20015,8 +18278,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             <div class="all-result-container">
             <div class="skelton-load-img">
-              <img alt="" class="isDevLoader" src="assets/web-kore-sdk/demo/images/skeletonImage.png" />
-              <img alt="" class="isEndUserLoader"src="./../demo/images/skeletonImage.png" />
+              <img alt="" />
             </div>
             <div id="conversation-container" class="conversation-container">
                     <div class="conversation-title">
@@ -20059,6 +18321,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         <div class="filters-added-data display-none" id="show-filters-added-data">
                           </div>
                         <div class="content-data-sec">
+                        <div class="scroll-top-container">
+                          <div class="title-scroll-top">
+                            <img>Scroll to top
+                          </div>
+                        </div>
+                          <div class="no-templates-defined-full-results-container">\
+                          <div class="img-block"><img class="no-data-mapped">
+                            <div class="title">Result templates are not mapped with a proper field value</div>\
+                          </div>\
+                        </div>\
                             <div class="empty-full-results-container hide" id="top-down-all-tab-empty-state">\
                               <div class="img-block"><img src="data:image/png;base64,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"></div>\
                               <div class="title">Sorry, we could not find any results for that</div>\
@@ -20237,24 +18509,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('#live-search-result-box').hide();
           return;
         }
-        // if ((data.data || []).length || (data.faqs || []).length || (data.web || []).length || (data.files || []).length) {
-        //   if (!_self.vars.enterIsClicked && $(".search-top-down").val()) {
-        //     $('#live-search-result-box').show();
-        //   } else {
-        //     $('#live-search-result-box').hide();
-        //     return;
-        //   }
-        // } else {
-        //   $('.data-container .faqs-live-data-container').empty();
-        //   $('.data-container .web-live-data-container').empty();
-        //   $('.data-container .files-live-data-container').empty();
-        //   $('.data-container .structured-live-data-container').empty();
-        //   if ($('#auto-query-box').find('.suggestion-box').length && $(".search-top-down").val()) {
-        //     $('#live-search-result-box').show();
-        //   } else {
-        //     $('#live-search-result-box').hide();
-        //   }
-        // }
+        if ($('body').hasClass('top-down')) {
+          if ($('.live-search-data-container').children().length || $('#auto-query-box').children().length) {
+            $('#live-search-result-box').show();
+          } else {
+            $('#live-search-result-box').hide();
+          }
+        }
+
       });
 
       _self.pubSub.unsubscribe('sa-show-all-results-top-down');
@@ -20262,11 +18524,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.vars.showingMatchedResults = true;
         _self.searchFacetsList([]);
         _self.invokeSearch();
-        //$('#search').trigger("keyup");
         setTimeout(function () {
-          //   var e = $.Event( "keydown", { which: 13 } );
-          // $('#search').trigger(e);
-          // $('#loaderDIV').show();
           $('.all-result-container').show();
           //top-down-searc-facets active -start//
           _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
@@ -20277,7 +18535,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         }, 600);
       });
-      // _self.pubSub.unsubscribe('sa-generate-recent-search');
       $('#search-box-container').off('focus', '.search-top-down').on('focus', '.search-top-down', function (e) {
         if (!$('.search-top-down').val()) {
           _self.bindFrequentData();
@@ -20320,7 +18577,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var topDownFacetsTabs = '<script id="top-down-tabs-template" type="text/x-jqury-tmpl">\
                                 <div class="tab-sec">\
                                   {{each(key, facet) facets }}\
-                                   <div class="tab-name capital un-selected-type facet {{= facet.className}}" id="{{= facet.key}}" apperance="{{= facet.key}}" title="{{= facet.name}} ({{= facet.doc_count}})"><span class="tab-title text-truncate one-line-height"> {{= facet.name}}</span> <span class="tab-count text-truncate one-line-height"> ({{= facet.doc_count}}</span>)</div>\
+                                   <div class="tab-name capital un-selected-type facet {{= facet.className}}" id="{{= facet.key}}" apperance="{{= facet.key}}" title="{{= facet.name}} ({{= facet.doc_count}})"><span class="tab-title text-truncate one-line-height"> {{= facet.name}}</span> <span class="tab-count text-truncate one-line-height"> ({{= facet.doc_count}}</span><span class="tab-count-right-bracket">)</span></div>\
                                   {{/each}}\
                                   </div>\
                               </script>'
@@ -20498,15 +18755,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getGreetingMsgTopDownTemplate = function () {
       var greetingMsgTemplate = '<script id="greeting-msg-top-down-template" type="text/x-jqury-tmpl">\
+                                      {{if searchConfig.welcomeMsg}}\
                                         <div class="search-greeting-box-top-down">\
                                           <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">\
-                                          {{if searchConfig.welcomeMsg}}\
                                               ${searchConfig.welcomeMsg}\
-                                            {{else}}\
-                                              Hello! How can I help you today?\
-                                            {{/if}}\
                                           </span>\
                                         </div>\
+                                        {{/if}}\
                                  </script>'
       return greetingMsgTemplate;
     }
@@ -20632,7 +18887,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
       else {
-        actionParentContainer = `<div id="actions-full-search-container" class="quick-actions-full-search-container"></div>`;
+        actionParentContainer = `<div id="actions-full-search-container" class="quick-actions-full-search-container actions-full-search-container"></div>`;
         if (actionsPosition === 'top') {
           $('.data-body-sec').prepend(actionParentContainer);
         } else {
@@ -21146,13 +19401,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         d += performance.now(); //use high-precision timer if available
       }
       var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = (d + Math.random() * 16) % 16 | 0;
+        var r = (d + generateRandomNum() * 16) % 16 | 0;
         d = Math.floor(d / 16);
         return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
       });
       return uuid;
     }
-
+    function generateRandomNum() {
+      var dateObj = new Date();
+      var month = dateObj.getUTCMonth() + 1;
+      var day = dateObj.getUTCDate();
+      var year = dateObj.getUTCFullYear();
+      var seconds = dateObj.getSeconds();
+      var minutes = dateObj.getMinutes();
+      var hour = dateObj.getHours();
+      var generatedNum = (year * month * day) * (hour + (minutes * seconds));
+      return generatedNum;
+    }
     function b64EncodeUnicode(str) {
       // first we use encodeURIComponent to get percent-encoded UTF-8,
       // then we convert the percent encodings into raw bytes which
@@ -21252,13 +19517,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
 
     FindlySDK.prototype.positionAvatarIntro = function (position) {
-      // let x = position.x - 80;
-      // if (x < 0) {
-      //   x = 20;
-      // }
-      // if (x > document.documentElement.clientWidth - 150) {
-      //   x = x - 60;
-      // }
       if (!(position || {}).x && window.localStorage.getItem('avatarPosition')) {
         position = JSON.parse(window.localStorage.getItem('avatarPosition'));
       }
@@ -21422,50 +19680,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
 
-    FindlySDK.prototype.navLinkDemoClick = function () {
-      if ($('body').hasClass('top-down')) {
-        $('.ksa-menu').off('click', '.nav-demo-link').on('click', '.nav-demo-link', function (e) {
-          let linkId = e.target.attr('id');
-          if (linkId == 'hepatitis') {
-            $('home-banner-section').hide();
-            $('covid-banner-section').hide();
-            $('polio-banner-section').hide();
-            $('hepatitis-banner-section').show();
-            $('home-card-section').hide();
-            $('covid-card-section').hide();
-            $('polio-card-section').hide();
-            $('hepatitis-card-section').show();
-          } else if (linkId == 'Polio') {
-            $('home-banner-section').hide();
-            $('covid-banner-section').hide();
-            $('polio-banner-section').show();
-            $('hepatitis-banner-section').hide();
-            $('home-card-section').hide();
-            $('covid-card-section').hide();
-            $('polio-card-section').show();
-            $('hepatitis-card-section').hide();
-          } else if (linkId == 'Covid') {
-            $('home-banner-section').hide();
-            $('covid-banner-section').show();
-            $('polio-banner-section').hide();
-            $('hepatitis-banner-section').hide();
-            $('home-card-section').hide();
-            $('covid-card-section').show();
-            $('polio-card-section').hide();
-            $('hepatitis-card-section').hide();
-          } else {
-            $('home-banner-section').show();
-            $('covid-banner-section').hide();
-            $('polio-banner-section').hide();
-            $('hepatitis-banner-section').hide();
-            $('home-card-section').show();
-            $('covid-card-section').hide();
-            $('polio-card-section').hide();
-            $('hepatitis-card-section').hide();
-          }
-        });
-      }
-    }
     FindlySDK.prototype.suggestionSelectedByNavigationKeys = function (e) {
       if ($('body').hasClass('top-down')) {
         var $hlight = $('.suggestion-box.highlightSuggestion'), $div = $('.suggestion-box');
@@ -21518,27 +19732,27 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       setTimeout(function () {
         $('.click-to-navigate-url').off('click').on('click', function (e) {
           _self.captureClickAnalytics(e, $(e.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(e.currentTarget).closest('.faqs-shadow').attr('contentId'), $(e.currentTarget).closest('.faqs-shadow').attr('id'), $(e.currentTarget).attr('title'));
-         if($(e.currentTarget).hasClass('isClickable')){
-          if ($(e.target).is('a')) {
-            if ($(e.target).attr('href')) {
-              // window.open($(e.target).attr('href'), '_blank');
-              var link = document.createElement('a');
-              link.href = $(e.target).attr('href');
-              link.target = "_blank",
-                link.click();
-              link.remove();
-            }
-          } else {
-            if ($(e.target).closest('.click-to-navigate-url').attr('href')) {
-              // window.open($(e.target).closest('.click-to-navigate-url').attr('href'), '_blank');
-              var link = document.createElement('a');
-              link.href = $(e.target).closest('.click-to-navigate-url').attr('href');
-              link.target = "_blank",
-                link.click();
-              link.remove();
+          if ($(e.currentTarget).hasClass('isClickable')) {
+            if ($(e.target).is('a')) {
+              if ($(e.target).attr('href')) {
+                // window.open($(e.target).attr('href'), '_blank');
+                var link = document.createElement('a');
+                link.href = $(e.target).attr('href');
+                link.target = "_blank",
+                  link.click();
+                link.remove();
+              }
+            } else {
+              if ($(e.target).closest('.click-to-navigate-url').attr('href')) {
+                // window.open($(e.target).closest('.click-to-navigate-url').attr('href'), '_blank');
+                var link = document.createElement('a');
+                link.href = $(e.target).closest('.click-to-navigate-url').attr('href');
+                link.target = "_blank",
+                  link.click();
+                link.remove();
+              }
             }
           }
-         }
         })
       }, 1000);
     }
@@ -21648,7 +19862,57 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       return rearrangeList;
     };
-
+    FindlySDK.prototype.fullResultsScrollTop = function () {
+      $('.scroll-top-container').css('display', 'none');
+      if ($('body').hasClass('top-down')) {
+        $(".content-data-sec").off('scroll').on('scroll', function () {
+          if ($('.content-data-sec').scrollTop() > 50) {
+            $('.scroll-top-container').css('display', 'flex');
+          } else {
+            $('.scroll-top-container').css('display', 'none');
+          }
+        });
+        $(".title-scroll-top").off('click').on('click', function () {
+          $(".content-data-sec").scrollTop(0);
+        });
+      } else {
+        $(".data-body-sec").off('scroll').on('scroll', function () {
+          if ($('.data-body-sec').scrollTop() > 50) {
+            $('.scroll-top-container').css('left', ($('.show-all-results-outer-wrap').width() / 2) + $('.show-all-results-outer-wrap').position().left)
+            $('.scroll-top-container').css('display', 'flex');
+          } else {
+            $('.scroll-top-container').css('display', 'none');
+          }
+        })
+        $(".title-scroll-top").off('click').on('click', function () {
+          $(".data-body-sec").scrollTop(0);
+        });
+      }
+    }
+    FindlySDK.prototype.countTotalResults = function (res, totalResultsCount) {
+      var _self = this;
+      if (res && res.results && res.resultType == "grouped") {
+        var availableGroups = Object.keys(res.results);
+        _self.vars.availableGroupsOrder = availableGroups;
+        if (!(res.tabFacet || {}).buckets) {
+          totalResultsCount = 0;
+        }
+        if (availableGroups && availableGroups.length) {
+          availableGroups.forEach((group) => {
+            if (!(res.tabFacet || {}).buckets) {
+              totalResultsCount = totalResultsCount + res.results[group].doc_count;
+            }
+          });
+          _self.vars.totalNumOfResults = totalResultsCount + (res.tasks ||[]).length;
+        }
+      } else {
+        var results = res.results.data;
+        if (!(res.tabFacet || {}).buckets) {
+          totalResultsCount = res.results.doc_count || 0;
+        }
+        _self.vars.totalNumOfResults = totalResultsCount + (res.tasks ||[]).length;
+      }
+    }
     return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);
 });

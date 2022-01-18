@@ -162,8 +162,8 @@ export class SearchInterfaceComponent implements OnInit {
     });
     this.updateResultTemplateTabsAccess();
 
-    console.log(this.customizeTemplateObj);
-    console.log(this.selectedSettingResultsObj);
+    // console.log(this.customizeTemplateObj);
+    // console.log(this.selectedSettingResultsObj);
     if (!this.inlineManual.checkVisibility('RESULT_TEMPLATE') && false) {
       this.inlineManual.openHelp('RESULT_TEMPLATE')
       this.inlineManual.visited('RESULT_TEMPLATE')
@@ -266,7 +266,7 @@ export class SearchInterfaceComponent implements OnInit {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId
     };
-    this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
+    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
       this.allSettings = res;
       this.list = [];
       this.customList = [];
@@ -700,7 +700,7 @@ export class SearchInterfaceComponent implements OnInit {
       "referInterface": interfaceType
     }
     //payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
-    this.service.invoke('put.SI_copyResultSettings', queryparams, payload).subscribe(res => {
+    this.service.invoke('put.SI_copyResultSettings', queryparams).subscribe(res => {
       this.notificationService.notify('Result copied successfully', 'success');
       this.selectedTemplatedId = "";
       this.selectedSettingResultsObj.referInterface = "";
@@ -1074,7 +1074,7 @@ export class SearchInterfaceComponent implements OnInit {
 
   updateResultTemplateTabsAccess() {
     if (this.searchExperienceConfig && Object.values(this.searchExperienceConfig).length) {
-      console.log(this.searchExperienceConfig);
+      // console.log(this.searchExperienceConfig);
       if (this.searchExperienceConfig && this.searchExperienceConfig.experienceConfig && this.searchExperienceConfig.experienceConfig.searchBarPosition) {
         if (this.searchExperienceConfig.experienceConfig.searchBarPosition === 'top') {
           this.searchTemplatesDisabled = true;
