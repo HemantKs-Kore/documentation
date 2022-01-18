@@ -67,11 +67,12 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   faqSelectionObj: any = {
     selectAll: false,
     selectedItems: {},
+    deSelectedItems :{},
     selectedCount: 0,
     stats: {},
     loadingStats: true
   }
-  deSelectedItems: any = [];
+  // deSelectedItems: any = [];
   newCommentObj = {
     comment: ''
   }
@@ -343,22 +344,18 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   addRemoveFaqFromSelection(faqId, addtion, clear?) {
     if (clear) {
       this.faqSelectionObj.selectedItems = {};
+      this.faqSelectionObj.deSelectedItems = {};
       this.faqSelectionObj.selectedCount = 0;
       this.faqSelectionObj.selectAll = false;
     } else {
       if (faqId) {
         if (addtion) {
+        //  delete this.faqSelectionObj.deSelectedItems
           this.faqSelectionObj.selectedItems[faqId] = {};
         } else {
-          if (this.faqSelectionObj.selectedItems[faqId]) {
-            this.faqs.forEach(element => {
-              if (element._id === faqId) {
-                this.deSelectedItems.push(element)
-              }
-            });
-
-            delete this.faqSelectionObj.selectedItems[faqId]
-          }
+          this.faqSelectionObj.deSelectedItems[faqId] = {}
+          delete this.faqSelectionObj.selectedItems[faqId]
+          
         }
       }
       this.faqSelectionObj.selectedCount = Object.keys(this.faqSelectionObj.selectedItems).length;
@@ -453,10 +450,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
 
   markSelectedFaqs(faqs) {
     if (this.faqSelectionObj.selectAll) {
-      faqs.forEach((e) => {
-        $('#selectFaqCheckBox_' + e._id)[0].checked = true;
-        this.checkUncheckfaqs(e);
-      });
+      this.selectAllRecords()
+      // faqs.forEach((e) => {
+      //   $('#selectFaqCheckBox_' + e._id)[0].checked = true;
+      //   this.checkUncheckfaqs(e);
+      // });
     } else {
       if (Object.keys(this.faqSelectionObj.selectedItems).length) {
         Object.keys(this.faqSelectionObj.selectedItems).forEach((key) => {
@@ -1268,7 +1266,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       custSucessMsg = 'Deleted Successfully'
       custerrMsg = 'Failed to delete faqs'
     }
-    if (this.faqSelectionObj && this.faqSelectionObj.selectAll && this.deSelectedItems.length === 0) {
+    if (this.faqSelectionObj && this.faqSelectionObj.selectAll) {
       payload.allFaqs = true;
       payload.currentState = this.selectedtab;
       if (this.selectedResource && this.selectedResource._id) {
@@ -1277,18 +1275,19 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         payload.extractionSourceId = '';
       }
     }
-    else if (this.deSelectedItems.length) {
-      let deSelectedItemsIds = [];
-      this.deSelectedItems.forEach(element => {
-        deSelectedItemsIds.push(element._id)
-
+    else if (Object.keys(this.faqSelectionObj.deSelectedItems).length) {
+      const deselectedFaqsCollection: any = [];
+      Object.keys(this.faqSelectionObj.deSelectedItems).forEach((key) => {
+        const tempobj = {
+          _id: key
+        }
+        deselectedFaqsCollection.push(tempobj);
       });
-      payload.excludeFaqs = deSelectedItemsIds;
+      payload.excludeFaqs = deselectedFaqsCollection;
       payload.currentState = this.selectedtab;
-      this.deSelectedItems = [];
-      deSelectedItemsIds =[];
+ 
     }
-    else {
+    else  {
       const selectedElements = $('.selectEachfaqInput:checkbox:checked');
       const sekectedFaqsCollection: any = [];
       Object.keys(this.faqSelectionObj.selectedItems).forEach((key) => {
@@ -1804,17 +1803,17 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       };
 
       if(event.previousContainer === event.container){
-        if(event.container.data === this.selectedFaq._source.faq_answer){
-          faqDragData.defaultAnswers = event.container.data
-          faqDragData.conditionalAnswers = this.selectedFaq._source.faq_cond_answers
-        }
-        else if (event.container.data === this.selectedFaq._source.faq_cond_answers){
-          faqDragData.defaultAnswers = this.selectedFaq._source.faq_answer
+        // if(event.container.data === this.selectedFaq._source.faq_answer){
+        //   faqDragData.defaultAnswers = event.container.data
+        //   faqDragData.conditionalAnswers = this.selectedFaq._source.faq_cond_answers
+        // }
+         if (event.container.data === this.selectedFaq._source.faq_cond_answers){
+          // faqDragData.defaultAnswers = this.selectedFaq._source.faq_answer
           faqDragData.conditionalAnswers =  event.container.data
         }
       }
       else {
-        faqDragData.defaultAnswers = event.container.data || this.selectedFaq._source.faq_answer
+        // faqDragData.defaultAnswers = event.container.data || this.selectedFaq._source.faq_answer
         faqDragData.conditionalAnswers =  event.container.data || this.selectedFaq._source.faq_cond_answers
       }
     if (event.previousContainer === event.container) {
