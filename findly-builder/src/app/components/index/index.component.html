@@ -578,13 +578,13 @@
                 </div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench.enter_source_field' | translate}}"
-                  id="rename_sourcefield" (change)="inputChanged('rename_sourcefield')"
+                    id="rename_sourcefield" (change)="inputChanged('rename_sourcefield')"
                     (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                     data-toggle="dropdown" [(ngModel)]="
                     newMappingObj.field_mapping.defaultValue.source_field
                   " />
-                  <img id="infoWarning2" src="assets/icons/warning_escalation.svg" style="display: none;"
-                        height="12" width="12" />
+                  <img id="infoWarning2" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
+                    width="12" />
                   <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                     [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj.field_mapping.defaultValue.source_field, 'fieldName']).length}">
                     <perfect-scrollbar class="scroll-search-field h-178">
@@ -618,11 +618,11 @@
                 </div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench.enter_name' | translate}}"
-                   class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" 
-                   id="fieldname" (change)="inputChanged('fieldname')"
-                   [(ngModel)]="newMappingObj.field_mapping.defaultValue.target_field" />
-                   <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;"
-                        height="12" width="12" />
+                    class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" id="fieldname"
+                    (change)="inputChanged('fieldname')"
+                    [(ngModel)]="newMappingObj.field_mapping.defaultValue.target_field" />
+                  <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
+                    width="12" />
                   <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                     *ngIf="
                 newMappingObj.field_mapping.defaultValue.operation !==
@@ -659,11 +659,10 @@
                   ">
                   {{'workbench.new_name' | translate}}
                 </div>
-                <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text"
-                  id="set_value"
-                  [(ngModel)]="newMappingObj.field_mapping.defaultValue.value" (change)="inputChanged('set_value')"/>
-                  <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;"
-                        height="12" width="12" />
+                <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" id="set_value"
+                  [(ngModel)]="newMappingObj.field_mapping.defaultValue.value" (change)="inputChanged('set_value')" />
+                <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
+                  width="12" />
               </div>
               <div class="colse_form">
                 <img (click)="setResetNewMappingsObj()" src="assets/images/close-cross.svg" />
@@ -884,8 +883,7 @@
                 <div class="kr-sg-dropdowns" ngbDropdown>
                   <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" id="dropdownBasic1entity" data-toggle="dropdown"
-                    (change)="inputChanged('dropdownBasic1entity')"
-                      ngbDropdownToggle (click)="clearcontentSrcD()">
+                      (change)="inputChanged('dropdownBasic1entity')" ngbDropdownToggle (click)="clearcontentSrcD()">
                       {{newMappingObj[selectedStage.type].defaultValue.source_field?newMappingObj[selectedStage.type].defaultValue.source_field:"Choose
                       source field"}}
                     </button>
@@ -988,22 +986,18 @@
                           }}</span>
                         <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                       </mat-chip>
-                      <input  id="addentity" placeholder="{{'workbench.type_and_enter' | translate}}" 
-                       (change)="inputChanged('addentity')"
-                      [matChipInputFor]="chipList"
+                      <input id="addentity" placeholder="{{'workbench.type_and_enter' | translate}}"
+                        (change)="inputChanged('addentity')" [matChipInputFor]="chipList"
                         [matAutocomplete]="suggestedItems" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                         [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="
                           addEntityList(
                             $event,
                             newMappingObj[selectedStage.type].defaultValue
                           ) 
-<<<<<<< HEAD
                         " [(ngModel)]="entityName" #suggestedInput />
-=======
-                        " #suggestedInput />
-                        <img id="infoWarning3" src="assets/icons/warning_escalation.svg" style="display: none;"
-                        height="12" width="12" /> 
->>>>>>> d8f6e4c2e77b28f7c0c572c5145b8afbd6dc6af2
+                      " #suggestedInput />
+                      <img id="infoWarning3" src="assets/icons/warning_escalation.svg" style="display: none;"
+                        height="12" width="12" />
                     </mat-chip-list>
                     <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="
                         selectedTag(
@@ -1044,7 +1038,7 @@
                             newMappingObj[selectedStage.type].defaultValue
                           )
                         " #suggestedInput />
-                        <img id="infoWarning5" src="assets/icons/warning_escalation.svg" style="display: none;"
+                      <img id="infoWarning5" src="assets/icons/warning_escalation.svg" style="display: none;"
                         height="12" width="12" />
                     </mat-chip-list>
                     <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="
@@ -1066,13 +1060,13 @@
               <div class="kr-sg-input-text col-6 input-box mb-2">
                 <div class="label-text">{{'workbench.target_field' | translate}}</div>
                 <div class="position-relative ">
-                  <input type="text" placeholder="{{'workbench.value' | translate}}"
-                  id="entitytarget" (change)="inputChanged('entitytarget')"
-                    class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" [(ngModel)]="
+                  <input type="text" placeholder="{{'workbench.value' | translate}}" id="entitytarget"
+                    (change)="inputChanged('entitytarget')" class="input-text dropdown-toggle dropdown-input"
+                    data-toggle="dropdown" [(ngModel)]="
                       newMappingObj[selectedStage.type].defaultValue.target_field
                    " />
-                   <img id="infoWarning4" src="assets/icons/warning_escalation.svg" style="display: none;"
-                   height="12" width="12"/>
+                  <img id="infoWarning4" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
+                    width="12" />
                   <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                     [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj[selectedStage.type].defaultValue.target_field, 'fieldName']).length}">
                     <perfect-scrollbar class="scroll-search-field h-178">
@@ -1120,8 +1114,9 @@
         </div>
       </perfect-scrollbar>
       <div class="footer-simulate-form simulatebtnContainer">
-        <span class="float-right"><button class="kr-sg-button-primary btn_lg mr-0" id="simulateBtn" (click)="validation(false)"
-            placement="top-right" tooltipClass="workbench_tolltips m-0" [disabled]="simulteObj.simulating"
+        <span class="float-right"><button class="kr-sg-button-primary btn_lg mr-0" id="simulateBtn"
+            (click)="validation(false)" placement="top-right" tooltipClass="workbench_tolltips m-0"
+            [disabled]="simulteObj.simulating"
             ngbTooltip="{{'workbench.simulate_to_check_how_the_changes_reflect' | translate}}">
             <img src="assets/images/simulate.svg" class="mr-1" />{{simulteObj.simulating ?('workbench.simulating' |
             translate) : ('workbench.simulate' | translate)}}
