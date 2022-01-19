@@ -60,7 +60,6 @@ export class DashboardComponent implements OnInit {
   queriesWithNoClicks: any;
   searchHistogram: any;
   selecteddropname: any;
-  public defaultPipelineid: any;
   mostClickedPositions: any = [];
   feedbackStats: any;
   heatMapChartOption: EChartOption;
@@ -93,26 +92,26 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
    // this.getDetails();
     
-    
     this.selectedApp = this.workflowService.selectedApp();
+    this.indexConfigs = this.appSelectionService.appSelectedConfigs;
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
         
     /*added 96 to 107 on 17/01 */
-    this.appSelectionService.appSelectedConfigs.subscribe(res =>   {   
+      this.appSelectionService.appSelectedConfigs.subscribe(res =>   {   
       this.indexConfigs = res;
-      // this.indexConfigs.forEach(element => {
-      //   this.indexConfigObj[element._id] = element;
-      // });
-      if (res.length > 0){
+      this.indexConfigs.forEach(element => {
+        this.indexConfigObj[element._id] = element;
+      });
+      if (res.length >= 0){
         this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
         this.getAllgraphdetails(this.selectedIndexConfig);
         for(let i=0;i<res.length;i++){
           if(res[i].default=== true){
-            this.defaultPipelineid = res[i]._id;
             this.selecteddropname=res[i].name;           
           }
         }
       }
+      
 
         
     }) //changes ends here
@@ -125,7 +124,7 @@ export class DashboardComponent implements OnInit {
 
    
 
-
+  
   }
 
   /* added on 17/01 */
@@ -214,6 +213,7 @@ export class DashboardComponent implements OnInit {
     this.dateType = type;
     /*passing the selectedindexpipeline to getQueries added on 17/01 */
     let selectedindexpipeline=this.selectedIndexConfig;
+    if(selectedindexpipeline){
     this.getQueries("TotalUsersStats",selectedindexpipeline);
     this.getQueries("TotalSearchesStats",selectedindexpipeline);
     this.getQueries("TopQuriesWithNoResults",selectedindexpipeline);
@@ -223,6 +223,7 @@ export class DashboardComponent implements OnInit {
     this.getQueries("TopSearchResults",selectedindexpipeline);
     this.getQueries("MostClickedPositions",selectedindexpipeline);
     this.getQueries("FeedbackStats",selectedindexpipeline);
+  }
   }
   /*passing additional selectedindexpipeline added on 17/01*/
   getQueries(type,selectedindexpipeline) {
@@ -261,8 +262,8 @@ export class DashboardComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       /* adding indexPipelineid to query params on 17/01*/
-     //indexPipelineId:selectedindexpipeline, 
-    indexPipelineId:selectedindexpipeline ? selectedindexpipeline : this.defaultPipelineid,
+     indexPipelineId:selectedindexpipeline, 
+     //indexPipelineId:selectedindexpipeline ? selectedindexpipeline : this.defaultPipelineid,
       offset: 0,
       limit: this.pageLimit
     };
