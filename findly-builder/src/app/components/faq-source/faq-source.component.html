@@ -453,8 +453,10 @@
                             <div class="body-top-content" *ngIf="!editfaq">
                                 <div class="question-content">
                                     <div class="title-que">
-                                        <span>{{selectedFaq._source.faq_question}}</span>                                       
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
+                                        <span>{{selectedFaq._source.faq_question}}</span>   
+                                        <div class="edit-faq" (click)="editThisQa()" ngbTooltip='Edit' placement="bottom">
+                                            <img src="assets/icons/edit-blue.svg">Edit
+                                        </div>                                    
                                     </div>
                                     <div  class="pad-div d-none">
                                         <div class="bot-response-view-mode"   >
