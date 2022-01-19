@@ -776,6 +776,7 @@ export class StructuredDataComponent implements OnInit {
    this.selecteditems=[];//emptying the selecteditems array
    arr.forEach(element => {
      this.selecteditems.push(element);//when partial selection is done, selected checkbox elements are pushed into selected items list.
+     //element.isChecked=true;
      if(element.isChecked){
       count++;
      }
@@ -788,6 +789,7 @@ export class StructuredDataComponent implements OnInit {
    let count = this.checkForAllBoolean(this.structuredDataItemsList)
    if(count > 0 && count < this.limitpage){
     this.showSelectedCount = this.showSelectedCount + (this.limitpage -count)// this.limitpage is obtained from pagination count
+    // this.showSelectedCount = count;
     this.checkUncheckData(true) 
    }
    else if(count == 0 ){
