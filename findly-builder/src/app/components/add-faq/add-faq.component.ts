@@ -59,7 +59,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   ruleOptions = {
     searchContext: ['recentSearches', 'currentSearch', 'traits', 'entity', 'keywords'],
     pageContext: ['device', 'browser', 'currentPage', 'recentPages'],
-    userContext: [' ', 'userType', 'userProfile', 'age', 'sex'],
+    userContext: ['', 'userType', 'userProfile', 'age', 'sex'],
     contextTypes: ['searchContext', 'pageContext', 'userContext'],
     dataTypes: ['string', 'date', 'number', 'trait', 'entity', 'keyword'],
     actions: ['boost', 'lower', 'hide', 'filter']

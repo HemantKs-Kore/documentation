@@ -156,7 +156,7 @@
         <ng-container >
           <div class="with-conditional-block" >
             <div class="condition-res-titles-block">
-              <div class="label-text">Conditional Response</div>
+              <div class="label-text">Conditional Responses</div>
               <div class="label-info">Displays responses to users based on the conditions provided.</div>
               <div class="btn-sec">
                 <div class="left-btns">
@@ -297,7 +297,7 @@
                                                 <div class="dropdown dropdown-open">
                                                     <button class="dropdown-toggle dropdown-input"  data-toggle="dropdown" ngbDropdownToggle>{{'businessRules.' +  ruleObj.contextType | translate}}</button>                                            
                                                     <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>                                                                          
-                                                    <li ngbDropdownItem *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj,contextType,'contextType')"  [ngClass]="{'active':ruleObj.contextType===contextType}"><a>{{'businessRules.' + contextType | translate}}</a></li>
+                                                      <li class="p-0" ngbDropdownItem *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj,contextType,'contextType')"  [ngClass]="{'active':ruleObj.contextType===contextType}"><a>{{'businessRules.' + contextType | translate}}</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -322,7 +322,7 @@
                                           </div>
                                           <div class="kr-sg-input-text" *ngIf="ruleObj.contextType ==='userContext'">                               
                                             <input type="text" id="userType" [(ngModel)]="ruleObj.contextCategory" class="input-text">
-                                        </div>
+                                          </div>
                                         
                                       </div>
                                       <div class="col-3 pr-0">
