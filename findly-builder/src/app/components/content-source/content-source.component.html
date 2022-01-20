@@ -38,8 +38,10 @@
           <div class="desc-text">{{"contentSource.no_search_query" | translate}}</div>
         </ng-container>
       </div>
-    </perfect-scrollbar>
+    </perfect-scrollbar>  
+    
   </ng-container>
+ 
   <!-- <div class="empty-case-showing-cotent" *ngIf="!(resources && resources.length) && !loadingContent">
     <div class="crawlContent row m-0 mb-4">
       <div class="col-12 main-title label_text">Add Content</div>
@@ -58,7 +60,7 @@
         </div>
       </div>
       <div class="webDomain d-none">
-        <div class="box-block">
+        <div class="box-block"> 
           <div class="title label_text m-0">Others</div>
           <div class="imageDiv"><img src="assets/images/source-icos/others.svg"></div>
           <div class="info-text">Extract content from other</div>
@@ -74,17 +76,14 @@
           {{"contentSource.content_management" | translate}}
         </div>
         <div>
-          <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
-            <input type="text" maxlength="60" placeholder="Search" class="input-search" name='searchSources'
-              placeholder="Search" [ngClass]="{'pl-2':searchSources}" id="searchContentSources"
-              [(ngModel)]="searchSources" autocomplete="off"
-              (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
-              (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
-              (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
-            <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
-            <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}"
-              (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch(true);">
-            <!-- <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
+          <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">
+            <input type="text" maxlength="60" placeholder="Search" class="input-search" name='searchSources' placeholder="Search" [ngClass]="{'pl-2':searchSources}"
+              id="searchContentSources" [(ngModel)]="searchSources" (keyup)="getSourceList(null,searchSources,'search')"
+              autocomplete="off"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+              (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+              <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
+              <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch(true);">
+              <!-- <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
             <img *ngIf="!searchSources" class="search-icon" src="assets/images/search_gray.svg"> -->
           </div>
 
@@ -113,7 +112,7 @@
       </div>
       <section class="table-content" *ngIf="currentView === 'list'">
         <header class="table-header">
-          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('name')">
+          <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('name')">
             <!-- <img src="assets/icons/caretDown.svg"
               [ngClass]="{'assending': (selectedSort==='name') && isAsc,'decending':(selectedSort==='name') && !isAsc}"
               class="ml-1 sortImg"> -->
@@ -125,12 +124,12 @@
             </span>
             {{"contentSource.source_title_caps" | translate}}
           </div>
-          <div class="col_ col-2 d-flex align-items-center pr-0" (click)="sortBy('type')"><span
+          <div class="col_ col-2 d-flex align-items-center pr-0" (click)="sortByApi('contentSource')"><span
               class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
             <span class="d-flex align-items-center flex-column mr-1">
-              <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg"
+              <img [ngClass]="getSortIconVisibility('contentSource', 'down')" src="assets/icons/caretDown.svg"
                 class="ml-1 sortImg downArrow">
-              <img [ngClass]="getSortIconVisibility('type', 'up')" src="assets/icons/caretDown.svg"
+              <img [ngClass]="getSortIconVisibility('contentSource', 'up')" src="assets/icons/caretDown.svg"
                 class="ml-1 sortImg upArrow">
             </span>
             {{"contentSource.type_caps" | translate}}
@@ -145,20 +144,18 @@
                   <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
                 </button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                  <li (click)="sourceFilter.close();filterTable('all','extractionType')"><span
-                      class="list-name">All</span><img [ngClass]="{'hide': filterSystem.typefilter !== 'all'}"
-                      src="assets/icons/check-blue.svg"></li>
-                  <li *ngFor="let docType of docTypeArr"
-                    (click)="sourceFilter.close();filterTable(docType,'extractionType')">
-                    <span class="list-name">{{docType == 'web' ? 'Web' :(docType == 'file'? 'File': '')}}</span><img
-                      [ngClass]="{'hide': filterSystem.typefilter !== docType}" src="assets/icons/check-blue.svg">
-                  </li>
+                  <li (click)="sourceFilter.close();filterTable('all','contentSource')"><span class="list-name">All</span><img
+                      [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
+                  <li *ngFor="let docType of docTypeArr" (click)="sourceFilter.close();filterTable(docType,'contentSource')">
+                    <span
+                      class="list-name">{{docType == 'web' ? 'Web' :(docType == 'file'? 'File': '')}}</span><img
+                      [ngClass]="{'hide': filterSystem.typefilter !== docType}" src="assets/icons/check-blue.svg"></li>
                 </ul>
               </div>
             </div>
           </div>
           <!-- <div class="col" (click)="sortBy('collection')">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div> -->
-          <div class="col_ col-3 d-flex align-items-center" (click)="sortBy('recentStatus')"><span
+          <div class="col_ col-3 d-flex align-items-center" (click)="sortByApi('recentStatus')"><span
               class="selected-length-doc-web hide">({{this.filterSystem.statusFilter}})</span>
             <span class="d-flex align-items-center flex-column mr-1">
               <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg"
@@ -194,26 +191,22 @@
               </div>
             </div>
           </div>
-          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('numPages')">
+          <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('numOfDocs')">
             <span class="d-flex align-items-center flex-column mr-1">
-              <img [ngClass]="getSortIconVisibility('numPages', 'down')" src="assets/icons/caretDown.svg"
-                class="ml-1 sortImg downArrow">
-              <img [ngClass]="getSortIconVisibility('numPages', 'up')" src="assets/icons/caretDown.svg"
-                class="ml-1 sortImg upArrow">
+              <img [ngClass]="getSortIconVisibility('numOfDocs', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+              <img [ngClass]="getSortIconVisibility('numOfDocs', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
             </span>
             {{"contentSource.no_of_docs_caps" | translate}}
           </div>
-          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('createdOn')">
+          <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('triggeredBy')">
             <!-- <img src="assets/icons/caretDown.svg"
               [ngClass]="{'assending': (selectedSort==='createdOn') && isAsc,'decending':((selectedSort==='createdOn') && !isAsc)}"
-              class="ml-1 sortImg"> -->
-            <span class="d-flex align-items-center flex-column mr-1">
-              <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg"
-                class="ml-1 sortImg downArrow">
-              <img [ngClass]="getSortIconVisibility('recentStatus', 'up')" src="assets/icons/caretDown.svg"
-                class="ml-1 sortImg upArrow">
-            </span>
-            {{"contentSource.triggered_by_caps" | translate}}
+              class="ml-1 sortImg"> -->            
+              <span class="d-flex align-items-center flex-column mr-1">
+                <img [ngClass]="getSortIconVisibility('triggeredBy', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                <img [ngClass]="getSortIconVisibility('triggeredBy', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+              </span>
+              {{"contentSource.triggered_by_caps" | translate}}
           </div>
         </header>
         <perfect-scrollbar class="table-scroll-perfect">
@@ -291,9 +284,11 @@
               </div>
             </div>
           </ng-container>
+          <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord && totalRecord > 10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginateContent($event)"></app-record-pagination></div>
           <div class="empty">{{"contentSource.no_results_found" | translate}}</div>
         </perfect-scrollbar>
       </section>
+      
       <ng-container *ngIf="currentView === 'grid'">
         <perfect-scrollbar class="table-scroll-perfect list">
           <!-- <div class="list-view-data">
@@ -401,9 +396,11 @@
           </div>
           <!-- New Design -->
         </perfect-scrollbar>
+       
       </ng-container>
     </div>
   </div>
+ 
 </div>
 
 <kr-modal modalType="center" modalClass="sliderComponent modal_popups_" #statusModalPop id="sourceSlider">
@@ -475,7 +472,7 @@
               <div *ngIf="page">
                 <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
                   <input type="text" maxlength="60" placeholder="Search" class="input-search" name='pagesSearch'
-                    placeholder="Search" [ngClass]="{'pl-2':pagesSearch}" id="searchInput" [(ngModel)]="pagesSearch"
+                    placeholder="Search" [ngClass]="{'pl-2':pagesSearch}" id="searchInput" [(ngModel)]="pagesSearch" (keyup)="getSourceList(null,pagesSearch,'search')"
                     autocomplete="off"
                     (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                     (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
@@ -1007,7 +1004,15 @@
           <div class="accordion-content-info text-left" *ngIf="page && totalRecord > 0">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
-              <div class="col-3 label_text m-0">Last Updated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+              
+              <!-- <img src="assets/icons/caretDown.svg" class="ml-1"> -->
+              <div class="col-4 label_text m-0 last-update"  (click)="sortByApi('lastUpdated')">
+                <span class="sort-up-down-icons">
+                  <img [ngClass]="getSortIconVisibility('lastUpdated', 'up')" src="assets/icons/caretDown.svg" class="sortImg upArrow">
+                  <img [ngClass]="getSortIconVisibility('lastUpdated', 'down')" src="assets/icons/caretDown.svg" class="sortImg">
+                </span>
+                <div class="title">Last Updated</div> 
+              </div>
             </div>
             <div id="accordion" class="accordion-section">
               <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table" #perfectScroll
@@ -1076,8 +1081,7 @@
                   </div> -->
               <!-- <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
                 [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
-              <app-record-pagination *ngIf="totalRecord >  10" [totalRecord]='totalRecord' [limitpage]='limitpage'
-                (pageChanged)="paginate($event)"></app-record-pagination>
+                <app-record-pagination *ngIf = "totalRecord >  2" [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
               <!-- <div class="paginations-custon">
                 <div class="previous pre-arrow dis-arow"
                   (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)"> </div>
