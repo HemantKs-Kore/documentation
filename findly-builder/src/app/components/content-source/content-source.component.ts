@@ -503,7 +503,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
       if (res && res.length) {
         res.forEach(element => {
-          this.resourcesStatusObj[element._id] = element;
+          this.resourcesStatusObj[element._id] = element;  
         });
       }
 
