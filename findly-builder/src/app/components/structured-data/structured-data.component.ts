@@ -134,9 +134,9 @@ export class StructuredDataComponent implements OnInit {
     private appSelectionService: AppSelectionService) { }
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.getStructuredDataList();
+    this.selectedApp = this.workflowService.selectedApp();    
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.getStructuredDataList();
     this.search = (text$: Observable<string>) =>
       text$.pipe(
         debounceTime(200),
@@ -206,7 +206,7 @@ export class StructuredDataComponent implements OnInit {
         this.structuredDataItemsList.forEach(data => {
           data.isChecked = true;
         });
-        this.selectedStructuredData=[...this.structuredDataItemsList]//To have a same session data and server data
+       this.selectedStructuredData=[...this.structuredDataItemsList]//To have a same session data and server data
       }
       //if partial selection or data coming from paginate
       if ((skip || this.skip === 0) && (this.showSelectedCount > 0 && this.showSelectedCount < this.totalCount)) {
@@ -702,6 +702,25 @@ export class StructuredDataComponent implements OnInit {
 
     
     else {
+      if(!this.selectedStructuredData.length){
+
+        
+          this.selectedStructuredData=[... this.structuredDataItemsList];
+          
+      }
+      
+    //   for (var i = 0; i < this.selectedStructuredData.length; i++) {
+    //     var obj = this.selectedStructuredData[i];
+    
+    //     if (this.selectedStructuredData.indexOf(obj.id) !== -1) {
+    //       this.selectedStructuredData.splice(i, 1);
+    //       console.log(this.selectedStructuredData);
+    //     }
+    // }
+    // this.selectedStructuredData.length=10;
+    //add logic to remove the duplicate
+    
+      
       for (let i = 0; i < this.selectedStructuredData.length; i++) {
         if (this.selectedStructuredData[i]._id === item._id) {
           this.unselecteditems.push(item); // After select all clicked,and user unselects some items those are saved in unselecteditems array.
@@ -711,16 +730,17 @@ export class StructuredDataComponent implements OnInit {
           break;
         }
       }
+      for(let k=0;k<this.selecteditems.length;k++)
+       {
+          //compare the selecteditems array with items array and splice 
+          if (this.selecteditems[k]._id === item._id){
+            this.selecteditems.splice(k, 1);
+
+          }
+      }
     }
       // /** new code on 05/01 **/
-      //  for(let k=0;k<this.selecteditems.length;k++)
-      //  {
-      //     //compare the selecteditems array with items array and splice 
-      //     if (this.selecteditems[k]._id === item._id){
-      //       this.selecteditems.splice(k, 1);
-
-      //     }
-      // }
+       
     
 
     if (this.selectedStructuredData.length === this.structuredDataItemsList.length) {
@@ -773,7 +793,13 @@ export class StructuredDataComponent implements OnInit {
  }
  checkForAllBoolean(arr):any{
    let count = 0
+   //this.selecteditems=[];
+   if(this.actionforcheckbox=='partial'){
+     
+  }
+  else{
    this.selecteditems=[];//emptying the selecteditems array
+  }
    arr.forEach(element => {
      this.selecteditems.push(element);//when partial selection is done, selected checkbox elements are pushed into selected items list.
      //element.isChecked=true;
@@ -786,15 +812,23 @@ export class StructuredDataComponent implements OnInit {
 
  /** 'Key' checkbox partial selection */
  partialSelection(){
+  
    let count = this.checkForAllBoolean(this.structuredDataItemsList)
    if(count > 0 && count < this.limitpage){
     this.showSelectedCount = this.showSelectedCount + (this.limitpage -count)// this.limitpage is obtained from pagination count
     // this.showSelectedCount = count;
     this.checkUncheckData(true) 
    }
-   else if(count == 0 ){
+   else if(count == 0 && !(this.structuredDataItemsList.length<this.limitpage)){
     this.showSelectedCount = this.showSelectedCount + this.limitpage;
     this.checkUncheckData(true)
+   }
+   else if(count == 0 && (this.structuredDataItemsList.length<this.limitpage)){
+     //
+     //if()
+    this.showSelectedCount=this.structuredDataItemsList.length;
+    this.checkUncheckData(true);
+    this.allSelected = true;
    }
    else if(count == this.limitpage){
     this.showSelectedCount = this.showSelectedCount - this.limitpage;
@@ -850,6 +884,23 @@ export class StructuredDataComponent implements OnInit {
 
    }
    else if(this.showSelectedCount === 0){
+    this.structuredDataItemsList.forEach(data => {
+      data.isChecked = bool;
+      if(bool){
+        this.showSelectAllQues = bool
+      }
+      else{
+        if(this.showSelectedCount){
+          this.showSelectAllQues = true;
+        }
+        else{
+          this.showSelectAllQues = false;
+    
+        }
+      }     
+    });
+   }
+   else{
     this.structuredDataItemsList.forEach(data => {
       data.isChecked = bool;
       if(bool){
@@ -927,17 +978,19 @@ export class StructuredDataComponent implements OnInit {
       });
       this.selectedStructuredData = [];
       this.allSelected = false;
+      //this.showSelectedCount=0;
     }
     else {
+      this.allSelected = false;
       this.partialSelection();
       // this.structuredDataItemsList.forEach(data => {
       //   data.isChecked = true;
       //   this.showSelectAllQues =true
       // });
-      this.selectedStructuredData = JSON.parse(JSON.stringify(this.structuredDataItemsList));
-      this.allSelected = true;
+      //this.selectedStructuredData = JSON.parse(JSON.stringify(this.structuredDataItemsList));
+      
     }
-    this.allSelected = false;
+    //this.allSelected = false;
   }
 
   searchItems() {
@@ -970,7 +1023,6 @@ export class StructuredDataComponent implements OnInit {
       else {
         this.structuredDataItemsList = [];
       }
-      this.selectedStructuredData = [];
       this.allSelected = false;
       this.structuredDataItemsList.forEach(data => {
         data.objectLength = Object.keys(data._source).length;
