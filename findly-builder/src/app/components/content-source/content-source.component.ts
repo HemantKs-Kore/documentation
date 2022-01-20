@@ -257,10 +257,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
-    if (!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')) {
-      this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
-      this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')
-    }
+    // setTimeout(()=>{
+    //   if (!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')) {
+    //     this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
+    //     this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')
+    //   }
+    // }, 500)
   }
   hoverExecutionLog() {
     this.executionLogStatus = true;
@@ -510,6 +512,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       
       else {
         this.loadingContent1 = true;
+        setTimeout(()=>{
+          if (!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')) {
+            this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
+            this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')
+          }
+        }, 500)
         // if(!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')){
         //   this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
         //   this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')

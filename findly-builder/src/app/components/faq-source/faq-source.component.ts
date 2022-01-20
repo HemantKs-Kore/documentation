@@ -232,10 +232,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadingFaqs = false;
     this.loadingFaqs1 = true;
     this.loadImageText = true;
-    if (!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')) {
-      this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
-      this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
-    }
+    // if (!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')) {
+    //   this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
+    //   this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
+    // }
   }
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
@@ -969,6 +969,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       else {
         this.loadingFaqs1 = true;
+        setTimeout(()=>{
+          if (!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')) {
+            this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
+            this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
+          }
+        }, 500)
+        
       }
       this.getDyanmicFilterData(searchValue,'landingPage');
       // console.log('MIXPANNEL')
