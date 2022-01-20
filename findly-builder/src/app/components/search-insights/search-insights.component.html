@@ -42,6 +42,7 @@
                             <input type="text" placeholder="Search" class="input-search"
                                 [ngClass]="{'pl-33':!searchSources,'pl-2':searchSources}" autocomplete="off"
                                 [(ngModel)]="searchSources"
+                                (keyup)="sortAnalytics(null,null,null,null,searchSources,'search')"
                                 (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                                 (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
@@ -79,25 +80,44 @@
                             [ngClass]="{'active show': querieswithresults }">
                             <div class="table_data_content">
                                 <div class="table_header row m-0">
-                                    <div class="col-8 title"><img src="assets/icons/sort_up_down.svg"
-                                            class="mr-1">{{'metrics.search_insights.Search_results'| translate}} </div>
-                                    <div class="col-1 title"><img src="assets/icons/sort_up_down.svg"
-                                            class="mr-1">{{'metrics.search_insights.Count'| translate}} <span
-                                            class="info-icon" placement="top-center"
+                                    <div class="col-8 title" (click)="sortByApi('QueriesWithResults','query')">
+                                        <span class="d-flex align-items-center flex-column mr-1">
+                                            <img src="assets/icons/caretDown.svg"
+                                                (click)="getSortIconVisibility('query','asc')"
+                                                class="sortImg downArrow">
+                                            <img src="assets/icons/caretDown.svg"
+                                                (click)="getSortIconVisibility('query','desc')" class="sortImg upArrow">
+                                        </span>
+                                        {{'metrics.search_insights.Search_results'| translate}}
+                                    </div>
+                                    <div class="col-2 title" (click)="sortByApi('QueriesWithResults','searches')">
+                                        <span class="d-flex align-items-center flex-column mr-1">
+                                            <img src="assets/icons/caretDown.svg"
+                                                (click)="getSortIconVisibility('searches','asc')"
+                                                class="sortImg downArrow">
+                                            <img src="assets/icons/caretDown.svg"
+                                                (click)="getSortIconVisibility('searches','desc')"
+                                                class="sortImg upArrow">
+                                        </span>
+                                        {{'metrics.search_insights.Count'| translate}} <span class="info-icon"
+                                            placement="top-center"
                                             ngbTooltip="Number of times the query was searched for by the end-users"
                                             [container]="'body'" tooltipClass="dashboard-custom-tooltips"
-                                            class="pl-1"><img src="assets/icons/Info_gray.svg"></span></div>
-                                    <div class="col-1 title"><img src="assets/icons/sort_up_down.svg"
-                                            class="mr-1">{{'metrics.search_insights.No_of_Clicks'| translate}} <span
-                                            class="info-icon" placement="top-center"
+                                            class="pl-1"><img src="assets/icons/Info_gray.svg"></span>
+                                    </div>
+                                    <div class="col-2 title" (click)="sortByApi('QueriesWithResults','count')">
+                                        <span class="d-flex align-items-center flex-column mr-1">
+                                            <img src="assets/icons/caretDown.svg"
+                                                (click)="getSortIconVisibility('count','asc')"
+                                                class="sortImg downArrow">
+                                            <img src="assets/icons/caretDown.svg"
+                                                (click)="getSortIconVisibility('count','asc')" class="sortImg upArrow">
+                                        </span>
+                                        {{'metrics.search_insights.No_of_Clicks'| translate}} <span class="info-icon"
+                                            placement="top-center"
                                             ngbTooltip="Number of times where at least one result of the query was clicked on by the end-users"
                                             [container]="'body'" tooltipClass="dashboard-custom-tooltips"
-                                            class="pl-1"><img src="assets/icons/Info_gray.svg"></span></div>
-                                    <div class="col-1 title"><img src="assets/icons/sort_up_down.svg"
-                                            class="mr-1">{{'metrics.search_insights.Positive_Feedback'| translate}}
-                                    </div>
-                                    <div class="col-1 title"><img src="assets/icons/sort_up_down.svg"
-                                            class="mr-1">{{'metrics.search_insights.Negative_Feedback'| translate}}
+                                            class="pl-1"><img src="assets/icons/Info_gray.svg"></span>
                                     </div>
                                 </div>
                                 <div class="table_body row m-0"
@@ -124,15 +144,31 @@
                             [ngClass]="{'active show': !querieswithresults }">
                             <div class="table_data_content">
                                 <div class="table_header row m-0">
-                                    <div class="col-10 title"><img src="assets/icons/sort_up_down.svg"
-                                            class="mr-1">{{'metrics.search_insights.Search_results'| translate}}</div>
+                                    <div class="col-10 title" (click)="sortByApi('QueriesWithNoResults','query')">
+                                        <span class="d-flex align-items-center flex-column mr-1">
+                                            <img src="assets/icons/caretDown.svg"
+                                                (click)="getSortIconVisibility('query','asc')"
+                                                class="sortImg downArrow">
+                                            <img src="assets/icons/caretDown.svg"
+                                                (click)="getSortIconVisibility('query','desc')" class="sortImg upArrow">
+                                        </span>
+                                        {{'metrics.search_insights.Search_results'| translate}}
+                                    </div>
                                     <!-- <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Appearances <span class="info-icon" placement="top-center" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div> -->
-                                    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg"
-                                            class="mr-1">{{'metrics.search_insights.Count'| translate}} <span
-                                            class="info-icon" placement="top-center"
+                                    <div class="col-2 title" (click)="sortByApi('QueriesWithNoResults','count')">
+                                        <span class="d-flex align-items-center flex-column mr-1">
+                                            <img src="assets/icons/caretDown.svg"
+                                                (click)="getSortIconVisibility('count','asc')"
+                                                class="sortImg downArrow">
+                                            <img src="assets/icons/caretDown.svg"
+                                                (click)="getSortIconVisibility('count','desc')" class="sortImg upArrow">
+                                        </span>
+                                        {{'metrics.search_insights.Count'| translate}} <span class="info-icon"
+                                            placement="top-center"
                                             ngbTooltip="Number of times the query was searched for by the end-users"
                                             [container]="'body'" tooltipClass="dashboard-custom-tooltips"
-                                            class="pl-1"><img src="assets/icons/Info_gray.svg"></span></div>
+                                            class="pl-1"><img src="assets/icons/Info_gray.svg"></span>
+                                    </div>
                                 </div>
                                 <div class="table_body row m-0"
                                     *ngFor="let result of topQuriesWithNoResults | filter: [ searchSources , 'query']">
@@ -184,6 +220,10 @@
                 class="mr-1"><span>{{'metrics.search_insights.Avg_Position'| translate}}</span></div>
         <!-- <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Positive_Feedback'| translate}}</span></div>
         <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Negative_Feedback'| translate}}</span></div> -->
+    </div>
+    <div class="mainLoadingSpinner" *ngIf="loadingQueries">
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
         <div class="modal-body">

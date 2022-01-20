@@ -249,6 +249,10 @@
                     justify-content: flex-end;
                     .kr-sg-input-search{
                         width: 250px;
+                        input{
+                            padding-left: 34px;
+                            padding-right: 10px;
+                        }
                         .close-icon {
                             position: absolute;
                             right: 11px;
@@ -506,6 +510,12 @@
                         position: absolute;
                         left: 10px;
                         top: 9px;
+                    }
+                    .close-icon {
+                        position: absolute;
+                        right: 11px;
+                        top: 12px;
+                        cursor: pointer;
                     }
                 }
                 .link-bot-table{

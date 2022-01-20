@@ -593,7 +593,7 @@ export class CredentialsListComponent implements OnInit {
     this.service.invoke('manage.credentials', queryParams).subscribe(
       res => {
         this.credentials = res;
-        console.log(res)
+        // console.log(res)
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -651,7 +651,7 @@ export class CredentialsListComponent implements OnInit {
     this.editCreden.clientSecret = data.clientSecret;
     this.editCreden.clientId = data.clientId;
     if(data && data.scope && data.scope[2]){
-      console.log(this.scopeList) 
+      // console.log(this.scopeList) 
       let selectedScope = data.scope[2].scopes
       this.scopeList.forEach(element => {
         selectedScope.forEach(data => {
@@ -816,7 +816,7 @@ export class CredentialsListComponent implements OnInit {
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          // this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed ', 'error');
         }
@@ -915,7 +915,7 @@ export class CredentialsListComponent implements OnInit {
 
         this.notificationService.notify('Credential Configuered', 'success');
         // this.standardPublish();
-        console.log(res);
+        // console.log(res);
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -1455,7 +1455,7 @@ export class CredentialsListComponent implements OnInit {
     this.service.invoke('get.apiScopes', queryParams).subscribe(
       res => {
         this.credentials = res;
-        console.log(res)
+        // console.log(res)
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

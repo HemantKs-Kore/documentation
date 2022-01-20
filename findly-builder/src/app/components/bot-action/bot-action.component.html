@@ -257,7 +257,8 @@
       <div class="info-link-text">{{'botAction.choose_any_bot_from_the_list'| translate}}</div>
         <div class="kr-sg-input-text">          
           <input type="text"placeholder="Search" maxlength="60" [(ngModel)]="searchAssociatedBots" name="searchAssociatedBots" class="input-text"> 
-          <img class="search-icon" src="assets/images/search_gray.svg">        
+          <img class="search-icon" src="assets/images/search_gray.svg">  
+          <img class="close-icon" src="assets/icons/close_icon.svg"  (click)="clearBot()" placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">      
         </div>
         <div class="link-bot-table">
           <div class="table-header col-12 row">

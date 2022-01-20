@@ -109,6 +109,7 @@
             height: calc(100vh - 140px);
         }
     }
+    
     .structured-data-table-sec{
         padding: 0 20px 0 55px;
         position: relative;
@@ -495,6 +496,18 @@
     padding: 10px 0;
     .kr-sg-checkbox{
         margin-left: -30px;
+    }
+    .selectAll{
+        background: #FFED96;
+        border-radius: 4px;
+        color: #0D6EFD;
+        font-weight: 500;
+        font-size: 14px;
+        text-align: center;
+        margin: 0px 20px 0 45px;
+        padding: 10px;
+        cursor: pointer;
+        width: 850px;
     }
     .title {       
         color: #9AA0A6;

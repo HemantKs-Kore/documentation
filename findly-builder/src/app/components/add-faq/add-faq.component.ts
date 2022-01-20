@@ -59,7 +59,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   ruleOptions = {
     searchContext: ['recentSearches', 'currentSearch', 'traits', 'entity', 'keywords'],
     pageContext: ['device', 'browser', 'currentPage', 'recentPages'],
-    userContext: [' ', 'userType', 'userProfile', 'age', 'sex'],
+    userContext: ['', 'userType', 'userProfile', 'age', 'sex'],
     contextTypes: ['searchContext', 'pageContext', 'userContext'],
     dataTypes: ['string', 'date', 'number', 'trait', 'entity', 'keyword'],
     actions: ['boost', 'lower', 'hide', 'filter']
@@ -95,7 +95,8 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   conditionQuary: any = ''
   obj;
   faqResponse = {
-    defaultAnswers: []
+    defaultAnswers: [],
+   conditionalAnswers:[]
   }
   form: FormGroup;
   currentSugg: any = [];
@@ -137,6 +138,18 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   defaultAnsInterface: any = {
     answerType: 'default', // default/conditional
     responseType: 'default',
+    imageUrl: '',
+    text: '',
+    // conditions: [],
+    type: 'string',
+    image: {
+      imageUrl: '',
+      alt: '',
+    }
+  }
+  conditionalAnsInterface: any = {
+    answerType: 'conditional', // default/conditional
+    responseType: 'conditional',
     imageUrl: '',
     text: '',
     conditions: [],
@@ -384,7 +397,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   }
   setEditorContent(event, responseObj, type, index) {
     // console.log(event, typeof event);
-    console.log(this.obj);
+    // console.log(this.obj);
   }
   getAltTags(e) {
     // console.log(e);
@@ -445,6 +458,12 @@ export class AddFaqComponent implements OnInit, OnDestroy {
       this.faqResponse.defaultAnswers.push(tempResponseObj);
       this.currentEditIndex = this.faqResponse.defaultAnswers.length - 1;
       this.bubblePopUp=true;
+    } 
+    else if (type === 'conditional') {
+      const tempResponseObj = JSON.parse(JSON.stringify(this.conditionalAnsInterface))
+      this.faqResponse.conditionalAnswers.push(tempResponseObj);
+      this.currentEditIndex = this.faqResponse.conditionalAnswers.length - 1;
+      this.bubblePopUp=true;
     }
     this.initializeEditResponselayoutEvents();
   }
@@ -496,7 +515,11 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   delete(index) {
     if (this.faqResponse && this.faqResponse.defaultAnswers && this.faqResponse.defaultAnswers.length > 1) {
       this.faqResponse.defaultAnswers.splice(index, 1);
-    } else {
+    } 
+   else if (this.faqResponse && this.faqResponse.conditionalAnswers && this.faqResponse.conditionalAnswers.length > 1) {
+      this.faqResponse.conditionalAnswers.splice(index, 1);
+    }
+    else {
       this.notify.notify('Default answer is required', 'error');
     }
   }
@@ -518,7 +541,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
             try {
               answerObj.text = JSON.parse(answer.text);
             } catch (e) {
-              console.log('Bad JSON');
+              // console.log('Bad JSON');
             }
           }
           if (answer && answer.image_url && answer.image_url) {
@@ -551,13 +574,14 @@ export class AddFaqComponent implements OnInit, OnDestroy {
             try {
               answerObj.text = JSON.parse(answer.text);
             } catch (e) {
-              console.log('Bad JSON');
+              // console.log('Bad JSON');
             }
           }
           if (answer && answer.answers.length && answer.answers[0].image_url) {
             answerObj.image_url = answer.answers[0].image_url;
           }
-          this.faqResponse.defaultAnswers.push(answerObj);
+          // this.faqResponse.defaultAnswers.push(answerObj);
+          this.faqResponse.conditionalAnswers.push(answerObj);
         })
       }
     } else {
@@ -586,6 +610,10 @@ export class AddFaqComponent implements OnInit, OnDestroy {
           }
           defaultAnswers.push(answerObj);
         }
+      })
+    }
+        if (this.faqResponse && this.faqResponse.conditionalAnswers && this.faqResponse.conditionalAnswers.length) {
+          $.each(this.faqResponse.conditionalAnswers, (i, answer) => {
         if (answer.answerType === 'condition') {
           const answerObj1: any = {
             type: answer.type,
@@ -613,9 +641,8 @@ export class AddFaqComponent implements OnInit, OnDestroy {
           conditionAnswerObj.answers.push(answerObj1);
           conditionalAnswers.push(conditionAnswerObj);
         }
-
       })
-    }
+    }     
     this.anwerPayloadObj.defaultAnswers = defaultAnswers;
     this.anwerPayloadObj.conditionalAnswers = conditionalAnswers;
     if(conditionalAnswers.length != 0){
@@ -726,7 +753,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     return this.tags.find(f => f === suggestion)
   }
   selectCurrentFocusedResponse(id, responseObj, type, index) {
-    console.log("payload responseObj", responseObj)
+    // console.log("payload responseObj", responseObj)
     if (responseObj) {
       this.selectedResponseToEdit.resposneObj = responseObj;
       this.selectedResponseToEdit.index = index;
@@ -759,6 +786,11 @@ export class AddFaqComponent implements OnInit, OnDestroy {
         (element||{})['image_url'] = this.imgInfo && this.imgInfo.url ? this.imgInfo.url : ''
       }
     });
+    this.faqResponse.conditionalAnswers.forEach((element, index) => {
+      if (this.faqResponse.conditionalAnswers.length - 1 == index) {
+        (element||{})['image_url'] = this.imgInfo && this.imgInfo.url ? this.imgInfo.url : ''
+      }
+    });
     this.image = JSON.parse(JSON.stringify(this.imgInfo));
     this.selectedResponseToEdit = this.imgInfo;
     // this.closeImgApp();
@@ -774,7 +806,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   }
   responseChnge(event) {
     if (event) {
-      console.log(event);
+      // console.log(event);
       // $(event.currentTarget)[0].innet
     }
     // this.form.get('question').setValue();

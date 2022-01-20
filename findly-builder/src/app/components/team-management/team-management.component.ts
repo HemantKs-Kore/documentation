@@ -191,7 +191,7 @@ export class TeamManagementComponent implements OnInit {
       if (this.membersList[i]._id !== member._id)
         users.push({ userId: this.membersList[i]._id, roleId: this.membersList[i].roleInfo[0].role === 'Member' ? this.membersList[i].roleInfo[0]._id : this.member_ownerId[0]._id });
     }
-    console.log("users", users)
+    // console.log("users", users)
     this.updateMember(users, dialogRef, 'delete');
   }
   errorToaster(errRes, message) {

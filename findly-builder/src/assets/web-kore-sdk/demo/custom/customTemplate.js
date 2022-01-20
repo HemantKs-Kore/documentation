@@ -1599,43 +1599,7 @@
 	
 	
 	customTemplate.prototype.getChatTemplate = function (tempType) {
-		/* Sample template structure for dropdown
-		var message =  {
-			"type": "template",
-			"payload": {
-				"template_type": "dropdown_template",
-				"heading":"please select : ",
-				"elements": [
-					{
-						"title": "United Arab Emirates Dirham",
-						"value":"AED"
-					},
-					{
-						"title": "Australian Dollar",
-						"value":"AUD"
-					},
-					{
-						"title": "Canadian Dollar",
-						"value":"CAD"
-					},
-					{
-						"title": "Swiss Franc",
-						"value":"CHF"
-					},
-					{
-						"title": "Chinese Yuanr",
-						"value":"CNY"
-					},
-					{
-						"title": "Czech Koruna",
-						"value":"CZK"
-					}
-			   
-				], 
-			}
-		};
-		print(JSON.stringify(message)); 
-		*/
+	
 		var dropdownTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
 			{{if msgData.message}} \
 				<li {{if msgData.type !== "bot_response"}} id="msg_${msgItem.clientMessageId}"{{/if}} class="{{if msgData.type === "bot_response"}}fromOtherUsers{{else}}fromCurrentUser{{/if}} with-icon"> \
@@ -1658,35 +1622,7 @@
 			{{/if}} \
 		</script>';
 	
-		/* Sample template structure for multi-select checkboxes
-			var message = {
-			"type": "template",
-			"payload": {
-			"template_type": "multi_select",
-			"elements": [
-			{
-			"title": "Classic T-Shirt Collection",
-			"value":"tShirt"
-			},{
-			"title": "Classic Shirt Collection",
-			"value":"shirts"
-			},
-			{
-			"title": "Classic shorts Collection",
-			"value":"shorts"
-			}
-			],
-			"buttons": [
-			{
-			"title": "Done",
-			"type": "postback",
-			"payload": "payload" 
-			}
-			] 
-			}
-			};
-			print(JSON.stringify(message)); 
-		*/
+	
 		var checkBoxesTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
 			{{if msgData.message}} \
 			<li {{if msgData.type !== "bot_response"}}id="msg_${msgItem.clientMessageId}"{{/if}} class="{{if msgData.type === "bot_response"}}fromOtherUsers{{else}}fromCurrentUser{{/if}} with-icon"> \
@@ -1793,106 +1729,6 @@ var formTemplate='<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
 {{/if}} \
 </script>';
 
-/* Sample template structure for Advanced Multi Select Checkbox 
- var message = {
-"type": "template",
-"payload": {
-"template_type": "advanced_multi_select",
-"heading":"Please select items to proceed",
-"description":"Premium Brands",
-"sliderView":false,
-"showViewMore":true,
-"limit":1,
-"elements": [
-{
-'collectionTitle':"Collection 1",
-'collection':[
-{
-"title": "Classic Adidas Collection",
-"description":"German Company",
-"value":"Adidas",
-"image_url":"https://cdn.britannica.com/94/193794-050-0FB7060D/Adidas-logo.jpg"
-},{
-"title": "Classic Puma Collection",
-"value":"Puma",
-"description":"German Company",
-"image_url":"https://www.myredqueen.com/45056-home_default/gucci-white-logo-t-shirt.jpg"
-},
-{
-"title": "Classic Nike Collection",
-"description":"American Company",
-"value":"Nike",
-"image_url":"https://miro.medium.com/max/1161/1*cJUVJJSWPj9WFIJlvf7dKg.jpeg"
-}
-]
-
-},
-{
-'collectionTitle':"Collection 2",
-'collection':[
-{
-"title": "Classic Rolls Royce Collection",
-"value":"Roll Royce",
-"description":"London Company",
-"image_url":"https://i.pinimg.com/236x/bd/40/f6/bd40f62bad0e38dd46f9aeaa6a95d80e.jpg"
-},{
-"title": "Classic Audi Collection",
-"value":"Audi",
-"description":"German Company",
-"image_url":"https://www.car-logos.org/wp-content/uploads/2011/09/audi.png"
-},
-{
-"title": "Classic lamborghini Collection",
-"value":"lamborghini",
-"description":"Italy Company",
-"image_url":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbBeoerEQ7F5Mlh4S7u0uvEcPAlQ-J0s6V-__tBJ7JPc6KCZo9&usqp=CAU"
-}
-]
-},{
-'collectionTitle':"Collection 3",
-'collection':[
-{
-"title": "Classic Rolex Collection",
-"value":"Rolex",
-"description":"Switzerland Company",
-"image_url":"https://image.shutterstock.com/image-photo/kiev-ukraine-may-13-2015-260nw-278633477.jpg"
-}
-]
-},
-{
-'collectionTitle':"Collection 4",
-'collection':[
-{
-"title": "Classic Fossil Collection",
-"value":"Fossil",
-"description":"American Company ",
-"image_url":"https://www.pngitem.com/pimgs/m/247-2470775_fossil-logo-png-free-download-fossil-transparent-png.png"
-}
-]
-},
-{
-'collectionTitle':"Collection 5",
-'collection':[
-{
-"title": "Classic Fastrack Collection",
-"value":"FastTrack",
-"description":"Indian Company",
-"image_url":"https://logodix.com/logo/2153855.jpg"
-}
-]
-}
-],
-"buttons": [
-{
-"title": "Done",
-"type": "postback",
-"payload": "payload"
-}
-]
-}
-};
-print(JSON.stringify(message)); */
-
 
 	var advancedMultiSelect = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
 	{{if msgData.message}} \
@@ -1974,125 +1810,7 @@ print(JSON.stringify(message)); */
 		</li> \
 	{{/if}} \
    </scipt>';
-    /* Sample template structure for New List Template 
-    	 var message={
-			"type": "template",
-			"payload": {
-			    "template_type": "listView",
-			    "seeMore":true,
-			    "moreCount":4,
-			    "text":"Here is your recent transactions",
-			    "heading":"Speed Analysis",
-			    "buttons":[
-			        {
-			            "title":"See more",
-			            "type":"postback",
-			            "payload":"payload"
-			        }
-			    ],
-			    "elements": [
-			       {
-			          "title": "Swiggy",
-			          "image_url": "https://i.ebayimg.com/images/g/daIAAOSw32lYtlKn/s-l300.jpg",
-			          "subtitle": "17 Monday June",
-			          "value":"get directions",
-			          "default_action": {
-				           "title":"swiggyOrder",
-			            }
-			        },
-			        {
-			            "title": "Amazon",
-			            "image_url": "https://i.ebayimg.com/images/g/daIAAOSw32lYtlKn/s-l300.jpg",
-			            "subtitle": "17 Monday June",
-			            "value":"$35.88",
-			            "default_action": {
-				            "title":"AmazonOrder",
-			            }
-			        },
-			        {
-			            "title": "Timex",
-			            "image_url": "https://i.ebayimg.com/images/g/daIAAOSw32lYtlKn/s-l300.jpg",
-			            "subtitle": "20 Monday June",
-			            "value":"$35.88",
-			            "default_action": {
-			               "title":"TimexOrder",
-			            }
-			        },
-			        {
-			            "title": "Fuel",
-			            "image_url": "https://i.ebayimg.com/images/g/daIAAOSw32lYtlKn/s-l300.jpg",
-			            "subtitle": "12 Transactions",
-			            "value":"$35.88",
-			            "default_action": {
-							"title":"TimexOrder",
-			            }
-			        },
-			        {
-			            "title": "Shopping",
-			            "image_url": "https://i.ebayimg.com/images/g/daIAAOSw32lYtlKn/s-l300.jpg",
-			            "subtitle": "17 Monday June",
-			            "value":"$35.88",
-			            "default_action": {
-							"title":"TimexOrder",
-			            }
-			        },
-			    ],
-			    "moreData": {
-			       "Tab1": [
-					 {
-						"title": "Swiggy",
-						"image_url": "https://i.ebayimg.com/images/g/daIAAOSw32lYtlKn/s-l300.jpg",
-						"subtitle": "17 Monday June",
-						"value":"get directions",
-						"default_action": {
-							 "title":"swiggyOrder",
-						  }
-					  },
-					  {
-						  "title": "Amazon",
-						  "image_url": "https://i.ebayimg.com/images/g/daIAAOSw32lYtlKn/s-l300.jpg",
-						  "subtitle": "17 Monday June",
-						  "value":"$35.88",
-						  "default_action": {
-							  "title":"AmazonOrder",
-						  }
-					  },
-					  {
-						  "title": "Timex",
-						  "image_url": "https://i.ebayimg.com/images/g/daIAAOSw32lYtlKn/s-l300.jpg",
-						  "subtitle": "20 Monday June",
-						  "value":"$35.88",
-						  "default_action": {
-							 "title":"TimexOrder",
-						  }
-					  },
-			    ],
-			       "Tab2": [
-					{
-			            "title": "Fuel",
-			            "image_url": "https://i.ebayimg.com/images/g/daIAAOSw32lYtlKn/s-l300.jpg",
-			            "subtitle": "12 Transactions",
-			            "value":"$35.88",
-			            "default_action": {
-							"title":"TimexOrder",
-			            }
-			        },
-			        {
-			            "title": "Shopping",
-			            "image_url": "https://i.ebayimg.com/images/g/daIAAOSw32lYtlKn/s-l300.jpg",
-			            "subtitle": "17 Monday June",
-			            "value":"$35.88",
-			            "default_action": {
-							"title":"TimexOrder",
-			            }
-			        },
-			    ]
-			}
-		}
-	}
-	print(JSON.stringify(message)); */
-
-
+  
 
 	var listViewTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
 	{{if msgData.message}} \
@@ -3524,7 +3242,6 @@ var tableListTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"
 			var obj = this;
 			var actionObj = $(obj).parent().attr('actionObj');
 			var actionObjParse = JSON.parse(actionObj);
-			console.log(actionObjParse);
 			e.stopPropagation();
 			if (actionObjParse.type && (actionObjParse.type == "dropdown")) {
 				if ($(obj).parent().find('.more-button-info')) {

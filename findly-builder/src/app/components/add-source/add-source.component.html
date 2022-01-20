@@ -242,7 +242,7 @@
         <div class="modal-body">
           <div *ngIf="selectedSourceType" class="crerateWebCrawl" [ngClass]="{'pr-0': resourceIDToOpen}">
             <div class="crawl-form-title" *ngIf="!resourceIDToOpen"></div>
-            <div class="kr-sg-input-text mb-4">
+            <div class="kr-sg-input-text mb-4" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='web')|| (showSourceTitle)">
               <div class="label-text">Source Title</div>
               <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput" name="sourceTitle"
                 placeholder="Enter Title" [(ngModel)]="newSourceObj.name" (change)="inputChanged('title')"
@@ -250,7 +250,7 @@
               <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
                 width="12" />
             </div>
-            <div class="kr-sg-input-text-area mb-3" *ngIf="!(selectedSourceType.sourceType==='faq')">
+            <div class="kr-sg-input-text-area mb-3 " *ngIf="(selectedSourceType.resourceType === 'web') || showDesc">
               <div class="label-text">Description</div>
               <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc" maxlength="250"
                 placeholder="Enter Description" class="input-text"></textarea>
@@ -295,12 +295,21 @@
                     <div class="data">You can upload either JSON or CSV file here</div>
                   </div>
                   <div class="kr-sg-input-text-area mb-4">
+                    <div class="note-info" *ngIf="selectedSourceType.resourceType === 'file'">   
+                      <img src="assets/images/warning.svg"><b>Note:</b> Source titles are derived from uploaded files.
+                    </div>
                     <div class="kr-sg-file-drag-drop">
-                      <div class="drag-drop-sec">
+                      <div class="drag-drop-sec" [ngClass]="{'after-selection-items':(fileObj.fileName && selectedSourceType.sourceType=='content')}">
                         <ng-container *ngIf="!fileObj.fileName">
-                          <input type="file" id="sourceFileUploader" class="custom-file-input "
+                          <input *ngIf="(selectedSourceType.resourceType ==='')"  type="file" id="sourceFileUploader" class="custom-file-input "
+                          (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01"
+                          accept=".pdf" >
+                          <input *ngIf="(selectedSourceType.resourceType ==='importfaq')"  type="file" id="sourceFileUploader" class="custom-file-input "
+                          (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01"
+                          accept=".csv,.json" >
+                          <input  *ngIf="(selectedSourceType.sourceType=='content' && selectedSourceType.resourceType =='file')" type="file" id="sourceFileUploader" class="custom-file-input "
                             (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01"
-                            accept=".csv,.pdf,.json,.doc,.ppt,.xlsx,.txt,.docx">
+                            accept=".pdf,.doc,.ppt,.xlsx,.txt,.docx" multiple>
                           <div class="imageDiv">
                             <img src="assets/images/source-icos/drog_frop.svg">
                           </div>
@@ -320,29 +329,31 @@
                           </div>
                           <label for="sourceFileUploader" class="drag-label adjust_z_index">
                             <span class="browse">Browse File</span>
-                          </label><br />
+                          </label>
+                          <br/>
                           <div class="info_help_text"
-                            *ngIf="(selectedSourceType.sourceType=='content'&&selectedSourceType.resourceType =='file')">
+                            *ngIf="(selectedSourceType.sourceType=='content' && selectedSourceType.resourceType =='file')">
                             <img src="assets/icons/info.svg"> Supports: pdf, docx, ppt, xlsx, txt file types
                           </div>
+                          <div *ngIf="selectedSourceType.sourceType=='content'" class="not-limit-size">Note: Maximum upload limit is 10 files not exceeding 15 MB per file.</div>
                         </ng-container>
 
-                        <ng-container *ngIf="fileObj.fileName">
+                        <ng-container *ngIf="fileObj.fileName && selectedSourceType.sourceType=='faq'">
                           <div class="kr-sg-file-drag-drop w-100">
                             <div class="uploaded-file-name"
                               [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
                               <div class="file-close-text">
                                 <div class="d-flex align-items-center">
-                                  <img *ngIf="fileObj.file_ext === 'pdf'" class="type_img"
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.pdf'" class="type_img" 
                                     src="assets/icons/file_type_image.svg">
-                                  <img *ngIf="fileObj.file_ext === 'docx'" class="type_img"
-                                    src="assets/icons/doc_logo.png">
-                                  <img *ngIf="fileObj.file_ext === 'txt'" class="type_img"
-                                    src="assets/icons/txt_icon.png">
-                                  <img *ngIf="fileObj.file_ext === 'xlsx'" class="type_img"
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.docx'" class="type_img"
+                                    src="assets/icons/doc_logo.svg">
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.txt'" class="type_img"
+                                    src="assets/icons/txt_icon.svg">
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.xlsx'" class="type_img"
                                     src="assets/icons/excel_logo.svg">
-                                  <img *ngIf="fileObj.file_ext === 'ppt'" class="type_img"
-                                    src="assets/icons/ppt_logo.png">
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.ppt'" class="type_img"
+                                    src="assets/icons/ppt_logo.svg">
                                   <div class="file-name" [innerHTML]="fileObj.fileName"></div>
                                 </div>
                                 <img src="assets/images/close.svg" class="close-file adjust_z_index"
@@ -355,12 +366,58 @@
                                   src="assets/icons/info.svg">
                               </div>
                             </div>
-                            <div class="error-text" *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress">
-                              Error in
-                              uploading file</div>
+                            <div class="error-text" *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress">Error in uploading file</div>
                           </div>
                         </ng-container>
-
+                        <ng-container *ngIf="fileObj.fileName && selectedSourceType.sourceType=='content'">
+                          <div class="upload-files-radio-data">
+                            <div class="title">Uploaded files</div>
+                            <div class="sort-by-data d-none">
+                              <div class="sort-by-title">Sort By:</div>
+                              <div class="kr-sg-radiobutton">
+                                <input id="radio-1" name="radio" class="radio-custom" type="radio" checked>
+                                <label for="radio-1" class="radio-custom-label">Alphabetical</label>
+                              </div> 
+                              <div class="kr-sg-radiobutton pr-0">
+                                <input id="radio-2" name="radio" class="radio-custom" type="radio">
+                                <label for="radio-2" class="radio-custom-label">Type</label>
+                              </div> 
+                            </div>
+                          </div>
+                          <div class="kr-sg-file-drag-drop w-100">
+                            <div class="uploaded-file-name" *ngFor="let file of filesListData;let index = index" [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
+                              <div class="file-close-text">
+                                <div class="d-flex align-items-center img-block-data">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.'))=== '.pdf'" class="type_img" src="assets/icons/file_type_image.svg">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.doc'" class="type_img" src="assets/icons/doc_logo.svg">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.docx'" class="type_img" src="assets/icons/doc_logo.svg">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.txt'" class="type_img" src="assets/icons/txt_icon.svg">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.xlsx'" class="type_img" src="assets/icons/excel_logo.svg">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.ppt'" class="type_img" src="assets/icons/ppt_logo.svg">
+                                </div>
+                                <div class="text-content">
+                                  <div class="file-name" [innerHTML]="file.name"></div>
+                                  <div *ngIf="file.showProgressBar" class="progress-bar-data">
+                                    <img src="assets/images/progressBar.gif">
+                                  </div>
+                                  <!-- <mat-progress-bar mode="indeterminate" class="progress-bar-data"></mat-progress-bar> -->
+                                </div>
+                                <img src="assets/images/close.svg" class="close-file adjust_z_index" (click)="removeMultipleFile(index)">
+                              </div>
+                              <!-- <div class="progress-status">
+                                <img *ngIf="fileObj.fileUploadInProgress" class="progSpinner"
+                                  src="assets/icons/spinner.svg">
+                                <img *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress"
+                                  src="assets/icons/info.svg">
+                              </div> -->
+                            </div>
+                            <div class="error-text" *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress">Error in uploading file</div>
+                          </div>
+                        </ng-container>
+                        <div class="drag-drop-text-info" *ngIf="fileObj.fileName && selectedSourceType.sourceType=='content'">
+                          <div class="main-text">Drag and drop file anywhere on this screen</div>
+                          <div class="secondary-text">Note: Maximum upload limit is 10 files not exceeding 15 MB per file.</div>
+                        </div>
                       </div>
                     </div>
                     <!-- Annotation Start Here -->
@@ -424,11 +481,11 @@
 
                     <button mat-button [matMenuTriggerFor]="browse"> <span class="browse adjust_z_index">Browse
                         File</span></button>
-                    <mat-menu #browse="matMenu">
+                    <!-- <mat-menu #browse="matMenu">
                       <li mat-menu-item> <img class="pr-3" src="assets/images/icons/Urlicon.svg">URL</li>
                       <li mat-menu-item (click)="gotoFileUpload()"><img class="pr-3"
                           src="assets/images/icons/localfileupload.svg">Local File Upload</li>
-                    </mat-menu>
+                    </mat-menu> -->
 
 
 

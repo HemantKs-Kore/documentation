@@ -23,7 +23,7 @@ export class SummaryModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public dialogData: any) { }
 
   ngOnInit() {
-    console.log(this.dialogData);
+    // console.log(this.dialogData);
     this.checkNoDataFound();
   }
   // No data found

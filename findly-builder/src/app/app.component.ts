@@ -9,7 +9,7 @@ import { EndPointsService } from '@kore.services/end-points.service';
 import { environment } from '@kore.environment';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { AppHeaderComponent } from './components/app-header/app-header.component';
-import { MixpanelServiceService } from '@kore.services/mixpanel-service.service'; 
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 
 // import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
@@ -61,6 +61,7 @@ export class AppComponent implements OnInit, OnDestroy {
   };
   topDownSearchInstance: any;
   searchExperienceConfig: any;
+  searchExperinceLoading: boolean = false;
   indexPipelineId: any;
   @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(private router: Router,
@@ -73,8 +74,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private endpointservice: EndPointsService,
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
-    public inlineManual : InlineManualService,
-    public mixpanel : MixpanelServiceService
+    public inlineManual: InlineManualService,
+    public mixpanel: MixpanelServiceService
     // private translate: TranslateService
   ) {
     this.mixpanel.init();
@@ -98,7 +99,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.SearchConfigurationSubscription = this.headerService.resetSearchConfiguration.subscribe(res => {
       this.distroySearch();
       this.loadSearchExperience();
-      //this.getSearchExperience();
+      this.getSearchExperience();
     });
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       if (this.searchExperienceConfig) {
@@ -198,7 +199,7 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       let paramsExist: any;
       this.activatedRoute.queryParams.subscribe(params => {
-        console.log("params", params);
+        // console.log("params", params);
         paramsExist = params;
       });
       this.router.navigate(['/apps'], { skipLocationChange: true });
@@ -269,7 +270,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     }
     if (event instanceof NavigationEnd) {
-      console.log("event.url", event.url)
+      // console.log("event.url", event.url)
       if (event.url == '/summary') {
         this.showMainMenu = false;
       }
@@ -291,7 +292,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.showHideSearch(false);
         this.showHideTopDownSearch(false);
         this.selectApp(false);
-        console.log('navigated to apps throught navigator and closed preview ball');
+        // console.log('navigated to apps throught navigator and closed preview ball');
       } else {
         if (this.workflowService.selectedApp()) {
           this.appSelectionService.getStreamData(this.workflowService.selectedApp())
@@ -305,12 +306,12 @@ export class AppComponent implements OnInit, OnDestroy {
           this.searchExperienceSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
             this.loadSearchExperience();
           })
-          console.log('navigated to path throught navigator and shown preview ball');
+          // console.log('navigated to path throught navigator and shown preview ball');
         } else {
           // this.showHideSearch(false);
           // this.showHideTopDownSearch(false);
           this.selectApp(false);
-          console.log('failed to detect path throught navigator and closed preview ball');
+          // console.log('failed to detect path throught navigator and closed preview ball');
         }
       }
       this.authService.findlyApps.subscribe((res) => {
@@ -332,7 +333,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   loadSearchExperience() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId) {
+    if (this.indexPipelineId && this.searchExperinceLoading === false) {
       this.getSearchExperience();
     }
   }
@@ -387,7 +388,7 @@ export class AppComponent implements OnInit, OnDestroy {
         showClockPickerIcon: false, //set true to show clockPicker icon
         showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
         showradioOptionMenuPickerIcon: false //set true to show Radio Option Template icon
-        }
+      }
     };
     this.findlyBusinessConfig = this;
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
@@ -433,7 +434,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   sdkBridge(parms) {  // can be converted as service for common Use
     const _self = this;
-    console.log(parms);
+    // console.log(parms);
     // this.bridgeDataInsights = !parms.data;
     let call = false;
     if (parms.type == 'onboardingjourney') {
@@ -578,12 +579,12 @@ export class AppComponent implements OnInit, OnDestroy {
       botOptions: botOptionsFindly,
       viaSocket: true,
       pickersConfig: {
-          showDatePickerIcon: false, //set true to show datePicker icon
-          showDateRangePickerIcon: false, //set true to show dateRangePicker icon
-          showClockPickerIcon: false, //set true to show clockPicker icon
-          showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
-          showradioOptionMenuPickerIcon: false //set true to show Radio Option Template icon
-          }
+        showDatePickerIcon: false, //set true to show datePicker icon
+        showDateRangePickerIcon: false, //set true to show dateRangePicker icon
+        showClockPickerIcon: false, //set true to show clockPicker icon
+        showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
+        showradioOptionMenuPickerIcon: false //set true to show Radio Option Template icon
+      }
     };
     this.findlyBusinessConfig = this;
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
@@ -625,11 +626,12 @@ export class AppComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
       this.searchExperienceConfig = res;
+      this.searchExperinceLoading = true;
       this.headerService.updateSearchConfigurationValue(res);
       this.headerService.searchConfiguration = res;
     }, errRes => {
-      console.log("getSearchExperience failed happen");
-      console.log(errRes);
+      // console.log("getSearchExperience failed happen");
+      // console.log(errRes);
     });
   }
 

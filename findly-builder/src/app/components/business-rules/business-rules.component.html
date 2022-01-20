@@ -21,7 +21,7 @@
         </div>
         <div class="col-8 right-sec p-0" *ngIf=" !(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)">
             <div class="kr-sg-input-search" [ngClass]="{ 'd-none': !showSearch }">
-                <input type="text" placeholder="Search"  maxlength="60" id="inputSearch" class="input-search" (keyup)="searchByRule()" [ngClass]="{'pl-33':!searchRules,'pl-2':searchRules}" autocomplete="off" [(ngModel)]="searchRules" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                <input type="text" placeholder="Search"  maxlength="60" id="inputSearch" class="input-search" (keyup)="searchByRule()" [ngClass]="{'pl-33':!searchRules,'pl-2':searchRules}" autocomplete="off" [(ngModel)]="searchRules" (keyup)="filterRules(searchRules,'search')"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                     (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                 <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchRules">
                 <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchRules}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()">
@@ -69,14 +69,20 @@
     </ng-container>
     <div class="table_section" *ngIf="(!loadingContent && rules && beforeFilterRules && beforeFilterRules.length) || searchRules || showSearch">
         <div class="header_sec row m-0">
-            <div class="col-3 content withcheckbox ">
+            <div class="col-3 content withcheckbox " (click)="sortByApi('ruleName')">
                 <!-- <div class="kr-sg-checkbox p-0 m-0">
                     <input id="selectAllRules" class="checkbox-custom" type="checkbox" (change)="selectAll()" [(ngModel)]="selcectionObj.selectAll" />
                     <label for="selectAllRules" class="checkbox-custom-label"></label>
                 </div> -->
-                <div class="title cursor-pointer" (click)="sortBy('ruleName')">
-                    <img *ngIf="!(selectedSort && selectedSort === 'ruleName')" src="assets/icons/sort_up_down.svg" class="pr-1" />
-                    <img *ngIf="selectedSort && selectedSort === 'ruleName'" [ngClass]="{ upArrow: !isAsc }" src="assets/icons/caretDown.svg" class="pr-1" /> {{ "name_caps" | translate }}
+                <div class=" d-flex align-items-center title cursor-pointer" >
+                    <span class="d-flex align-items-center flex-column mr-1">
+                        <img [ngClass]="getSortIconVisibility('ruleName', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                        <img [ngClass]="getSortIconVisibility('ruleName', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                      </span>
+                    
+                    <!-- <img  src="assets/icons/sort_up_down.svg" class="pr-1" />
+                    <img   src="assets/icons/caretDown.svg" class="pr-1" />  -->
+                    {{ "name_caps" | translate }}
                 </div>
             </div>
             <div class="col-3 content">
@@ -85,10 +91,12 @@
             <div class="col-3 content">
                 {{ "businessRules.outcome_caps" | translate }}
             </div>
-            <div class="col-3 content cursor-pointer d-flex align-items-center" (click)="sortBy('isRuleActive')">
+            <div class="col-3 content cursor-pointer d-flex align-items-center" (click)="sortByApi('isRuleActive')">
                 <span class="d-flex align-items-center flex-column mr-1">
-                <img *ngIf="!(selectedSort && selectedSort === 'isRuleActive')" src="assets/icons/sort_up_down.svg" class="pr-1" />
-                <img *ngIf="selectedSort && selectedSort === 'isRuleActive'" [ngClass]="{ upArrow: isAsc }" src="assets/icons/caretDown.svg" class="pr-1" /></span> {{ "businessRules.status_caps" | translate }}
+                    <img [ngClass]="getSortIconVisibility('isRuleActive', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                    <img [ngClass]="getSortIconVisibility('isRuleActive', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                  </span>
+                {{ "businessRules.status_caps" | translate }}
                 <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #isRuleActiveFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">
@@ -111,7 +119,7 @@
     <perfect-scrollbar class="scroll_table">
         <!-- <div class="body_sec row m-0" *ngFor="let ruleObj of rules | filter: [searchRules, 'ruleName']" [ngClass]="{ -->
             <div class="body_sec row m-0" *ngFor="let ruleObj of rules" [ngClass]="{
-        selected:
+        'selected':
           selcectionObj &&
           selcectionObj.selectedItems &&
           selcectionObj.selectedItems[ruleObj._id]
@@ -429,7 +437,7 @@
                                 <div class="row m-0 response-content-sec">
                                     <div class="col-2 p-0 title">Response</div>
                                     <div class="col-10 row m-0 align-items-center right-side-sec pr-0" [ngClass]="{activeDrop: currentEditInex === index}">
-                                        <div class="kr-sg-dropdowns col-4 pl-0" ngbDropdown (click)="currentEditInex = index">
+                                        <div class="kr-sg-dropdowns col-4 pl-0" ngbDropdown (click)="currentEditInex = index;getFieldAutoComplete(null, null,'clearText')">
                                             <div class="dropdown dropdown-open">
                                                 <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
                           {{outcomeObj.fieldName? outcomeObj.fieldName : "Choose field"}}
@@ -437,7 +445,7 @@
                                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu style="overflow-y: hidden;">
                                                     
                                                     <li class="search-box">
-                                                        <input type="text" (keydown)="$event.stopPropagation()" (keyup)="getFieldAutoComplete($event,outcomeObj)" placeholder="Search" class="seach-input" />
+                                                        <input id="searchBoxId" autocomplete="off" type="text" (keydown)="$event.stopPropagation()" (keyup)="getFieldAutoComplete($event,outcomeObj)" placeholder="Search" class="seach-input" />
                                                     </li>
                                                     <perfect-scrollbar class="empty-scroll" style="max-height: 189px !important;">
                                                     <ng-container *ngIf="fieldAutoSuggestion && fieldAutoSuggestion.length">

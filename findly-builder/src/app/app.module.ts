@@ -115,6 +115,7 @@ import { RangeSliderSearchExperienceComponent } from './helpers/components/range
 import { UpgradePlanComponent } from './helpers/components/upgrade-plan/upgrade-plan.component';
 import { valueFormatPipe } from './helpers/filters/number-format.pipe';
 import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
+import { ResultTemplatesComponent } from './components/result-templates/result-templates.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -197,7 +198,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     RangeSliderSearchExperienceComponent,
     UpgradePlanComponent,
     valueFormatPipe,
-    GeneralSettingsComponent
+    GeneralSettingsComponent,
+    ResultTemplatesComponent
   ],
   imports: [
     BrowserModule,

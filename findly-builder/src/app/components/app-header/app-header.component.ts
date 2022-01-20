@@ -59,8 +59,8 @@ export class AppHeaderComponent implements OnInit {
   queryPipelineId;
   indexPipelineId;
   domain = '';
-  selectAccountDetails : any = {};
-  associatedAccounts : any = {};
+  selectAccountDetails: any = {};
+  associatedAccounts: any = {};
   private storageType = 'localStorage';
   indexSubscription: Subscription;
   subscription: Subscription;
@@ -192,10 +192,10 @@ export class AppHeaderComponent implements OnInit {
     });
     this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
     this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
-    this.domain =  window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
+    this.domain = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
   }
-  switchAccountInternal(account){
-    window[this.storageType].setItem('selectedAccount',JSON.stringify(account))
+  switchAccountInternal(account) {
+    window[this.storageType].setItem('selectedAccount', JSON.stringify(account))
     this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
     this.router.navigate([''], { skipLocationChange: true })
   }
@@ -453,7 +453,7 @@ export class AppHeaderComponent implements OnInit {
         }
 
         if (queuedJobs && queuedJobs.length) {
-          console.log(queuedJobs);
+          // console.log(queuedJobs);
           this.isAnyRecordInprogress = true;
           this.isAnyRecordCompleted = false;
           this.isAnyRecordFailed = false;
@@ -632,7 +632,7 @@ export class AppHeaderComponent implements OnInit {
         this.recentApps = res.filter(app => app._id != app_id._id).slice(0, 5)
       }
     }, errRes => {
-      console.log(errRes);
+      // console.log(errRes);
     });
   }
   //sort apps

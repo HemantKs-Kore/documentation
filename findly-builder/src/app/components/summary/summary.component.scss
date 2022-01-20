@@ -63,7 +63,7 @@
                 box-sizing: border-box;
                 box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
                 border-radius: 6px;
-                padding: 18px;
+                padding: 14px;
                 min-height: 119px;
                 position: relative;
                 .title{
@@ -73,6 +73,9 @@
                     margin-bottom: 10px;
                     span{
                         color: #9AA0A6;
+                    }
+                    img{
+                        cursor: pointer;
                     }
                 }
                 .count-graph-data{
@@ -278,6 +281,10 @@
                         color: #202124;
                         padding: 0 10px;
                     }
+                    .link:hover{
+                        color: blue;
+                        cursor: pointer;
+                    }
                 }
                 .goto-sources{
                     display: inline-block;
@@ -324,6 +331,7 @@
                 .queries-documents{
                     display: flex;
                     align-items: center;
+                    padding-top: 25px;
                     padding-bottom: 10px;
                     .query-type{
                         width: 50%;                        
@@ -338,7 +346,7 @@
                                 height: 66px;
                                 background: #EFF0F1;
                                 right: -3px;
-                                bottom: -8px;
+                                bottom: -20px;
                             }
                         }                        
                         .title-query{

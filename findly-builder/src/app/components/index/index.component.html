@@ -58,8 +58,8 @@
         </ng-container>
         <ng-container *ngIf="pipeline && pipeline.length">
           <div cdkDropList (cdkDropListDropped)="drop($event, pipeline)">
-            <div (click)="selectStage(pipe, i)" class="field_data" *ngFor="let pipe of pipeline; let i = index" cdkDrag
-              [ngClass]="{
+            <div (click)="showNewStageType=false;selectStage(pipe, i)" class="field_data"
+              *ngFor="let pipe of pipeline; let i = index" cdkDrag [ngClass]="{
                 active: selectedStage && selectedStage?.name === pipe?.name,
                 runningActive:
                   simulteObj &&
@@ -104,7 +104,7 @@
     <div class="form_sec" *ngIf="showNewStageType">
       <perfect-scrollbar class="scroll_form">
         <div class="form_edit_content">
-          <div class="d-flex m-0 col-12 p-0">
+          <div class="d-flex m-0 col-12 pr-0 pl-10">
             <div class="kr-sg-dropdowns mb-20 pr-4 pl-0">
               <div class="label-text">
                 {{'workbench.stage_type' | translate}}
@@ -122,7 +122,7 @@
                   <li *ngFor="
                       let systemStage of defaultStageTypes;
                       let index = index
-                    " (click)="switchStage(systemStage, index);">
+                    " (click)="switchStage(systemStage, index,'true');">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
                       systemStage?.type | translate
                       }}</a>
@@ -130,7 +130,6 @@
                 </ul>
               </div>
             </div>
-
           </div>
 
         </div>
@@ -139,7 +138,7 @@
     <div class="form_sec" *ngIf="selectedStage && selectedStage.type && !showNewStageType">
       <perfect-scrollbar class="scroll_form">
         <div class="form_edit_content">
-          <div class="d-flex m-0 col-12 p-0">
+          <div class="d-flex m-0 col-12 pl-10 pr-0">
             <div class="kr-sg-dropdowns mb-20 pr-4 pl-0">
               <div class="label-text">
                 {{'workbench.stage_type' | translate}}
@@ -158,7 +157,7 @@
                   <li *ngFor="
                       let systemStage of defaultStageTypes;
                       let index = index
-                    " (click)="switchStage(systemStage, index)">
+                    " (click)="switchStage(systemStage, index,'false')">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
                       systemStage?.type | translate
                       }}</a>
@@ -176,14 +175,14 @@
               </label>
             </div>
           </div>
-          <div class="kr-sg-input-text mb-20 pr-4 pl-0">
+          <div class="kr-sg-input-text mb-20 pr-4 pl-10">
             <div class="label-text">
               {{'workbench.stage_name' | translate}}
               <img container="body" placement="right-center"
                 ngbTooltip="{{'workbench.give_stage_name_of_your_choice_to_create_multiple' | translate}}"
                 tooltipClass="workbench_tolltips m-0" class="pl-1" src="assets/icons/help_gray.svg" />
             </div>
-            <input type="text" placeholder="{{'workbench.please_enter_stage_name' | translate}}" 
+            <input type="text" placeholder="{{'workbench.please_enter_stage_name' | translate}}"
               (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name" />
           </div>
           <!-- <div class="kr-sg-input-text mb-2">
@@ -201,7 +200,7 @@
               </span>
             </div>
             <input type="text" placeholder="{{'workbench.define_condition' | translate}}" 
-              (keyup)="changesDetected = true" autocomplete="off" class="input-text"
+              (keyup)="changesDetected = true"  autocomplete="off" class="input-text"
               [(ngModel)]="selectedStage.condition" />
              <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div>
           </div> -->
@@ -213,6 +212,7 @@
 
 
           <div class="condition-block">
+            <!-- *ngIf="selectedStage.type !== 'custom_script'" -->
             <div class="group-radiobutton">
               <div class="heading-title">Condition</div>
               <div class="desc-text"></div>
@@ -227,18 +227,23 @@
                 <label for="radio-23" class="radio-custom-label">Script</label>
               </div>
             </div>
+            <div class="info-data-">
+              <img src="assets/icons/Info_gray.svg">
+              <span class="text_info">On choosing the Script Option, conditions defined here will only be
+                applied.</span>
+            </div>
             <div class="conditions-input-sec" *ngFor="let basic of selectedStage.condition.mappings;let i=index;"
               [hidden]="selectedStage.condition.type=='script'">
               <div class="conditions-types">
                 <div class="and-seperator" *ngIf="selectedStage.condition.mappings.length>1&&i>0">And</div>
-                <div class="kr-sg-input-text col-8">
+                <!-- <div class="kr-sg-input-text col-8">
                   <div class="position-relative">
-                    <input type="text" placeholder="Enter the field name here" maxlength="60"
-                      (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
-                      data-toggle="dropdown" [(ngModel)]="basic.fieldName" />
+                    <input type="text" placeholder="Enter the field name here here" (keyup)="changesDetected = true"
+                      class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown"
+                      [(ngModel)]="basic.fieldName" />
                     <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                       [ngClass]="{'no-data-match-border-0':!(fields | filter : [basic.source_field, 'fieldName']).length}">
-                      <perfect-scrollbar class="scroll-search-field">
+                      <perfect-scrollbar class="scroll-search-field h-178">
                         <li *ngFor="let suggesition of fields| filter : [basic.fieldName, 'fieldName']"
                           (click)="basic.fieldId=suggesition._id;basic.fieldName=suggesition.fieldName;addCondition('update',i,'field',suggesition._id);">
                           <a>{{suggesition.fieldName}}</a>
@@ -246,20 +251,46 @@
                       </perfect-scrollbar>
                     </ul>
                   </div>
+                </div> -->
+                <div class="kr-sg-dropdowns col-8 pl-0" ngbDropdown>
+                  <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
+                      ngbDropdownToggle (click)="clearcontent()">
+                      {{basic_fieldName?basic_fieldName:"Choose field"}}
+                    </button>
+                    <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                      ngbDropdownMenu>
+                      <li class="search-box">
+                        <input id="searchBoxId" autocomplete="off" type="text" [(ngModel)]="search_basic_fieldName"
+                          placeholder="Search" class="seach-input" autofocus />
+                      </li>
+                      <perfect-scrollbar class="scroll-search-field h-178">
+                        <ng-container>
+                          <li ngbDropdownItem
+                            *ngFor="let suggesition of fields | filter : [search_basic_fieldName, 'fieldName']"
+                            (click)="basic_fieldId=suggesition._id;basic_fieldName=suggesition.fieldName;addCondition('update',i,'field',suggesition._id);"
+                            [ngClass]="{'highlight':basic_fieldName == suggesition.fieldName}">
+                            {{ suggesition.fieldName }}
+                          </li>
+                        </ng-container>
+                      </perfect-scrollbar>
+                    </ul>
+                  </div>
                 </div>
+
                 <div class="kr-sg-dropdowns col-4">
                   <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{basic.operator==''?'Select
-                      Operator':basic.operator}}</button>
+                      Operator':camelCaseNames(basic.operator)}}</button>
                     <ul class="dropdown-menu content-menu">
                       <li *ngFor="let operator of operators"
                         (click)="basic.operator=operator.value;addCondition('update',i,'operator',basic.operator);">
-                        <a>{{operator.value}}</a>
+                        <a>{{operator.name}}</a>
                       </li>
                     </ul>
                   </div>
                 </div>
-                <div class="delete-condition" *ngIf="i>0">
+                <div class="delete-condition" *ngIf="selectedStage.condition.mappings.length>1">
                   <img src="assets/icons/delete-table.svg" (click)="addCondition('remove',i)">
                 </div>
               </div>
@@ -275,13 +306,14 @@
                     <input type="text" placeholder="Type value and press enter" #containInput
                       [formControl]="containCtrl" [matChipInputFor]="chipList" [matChipInputAddOnBlur]="addOnBlur"
                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event,i)"
-                      [(ngModel)]="basic.autocomplete_text" maxlength="60" autocomplete="off">
+                      [(ngModel)]="basic.autocomplete_text" autocomplete="off">
                   </mat-chip-list>
                 </mat-form-field>
               </div>
             </div>
 
-            <button  class="kr-sg-button-secondary btn_lg" (click)="addCondition('add')" *ngIf="selectedStage.condition.type=='basic'">
+            <button class="kr-sg-button-secondary btn_lg" (click)="addCondition('add')"
+              *ngIf="selectedStage.condition.type=='basic'">
               <img src="assets/icons/pricing/plus-small.svg">
               <span>AND</span>
             </button>
@@ -346,47 +378,49 @@
                   <div class="drag_drop">
                     <img src="assets/icons/drag_drop_move_icon.svg" />
                   </div>
-                  <div class="kr-sg-dropdowns col-6 input-box">
-                    <div class="label-text">{{'workbench.action' | translate}}</div>
-                    <div class="dropup dropdown-open">
-                      <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
-                        {{
-                        (map.operation ? map.operation : "choose_an_option")
-                        | translate
-                        }}
-                      </button>
-                      <ul class="dropdown-menu content-menu">
-                        <li (click)="
-                            setRuleObj(map, 'operation', 'set', 'field_mapping')
-                          ">
-                          <a>{{'workbench.set' | translate}}</a>
-                        </li>
-                        <li (click)="
-                            setRuleObj(
-                              map,
-                              'operation',
-                              'rename',
-                              'field_mapping'
-                            )
-                          ">
-                          <a>{{'workbench.rename' | translate}}</a>
-                        </li>
-                        <li (click)="
-                            setRuleObj(map, 'operation', 'copy', 'field_mapping')
-                          ">
-                          <a>{{'workbench.copy' | translate}}</a>
-                        </li>
-                        <li (click)="
-                            setRuleObj(
-                              map,
-                              'operation',
-                              'remove',
-                              'field_mapping'
-                            )
-                          ">
-                          <a>{{'workbench.remove' | translate}}</a>
-                        </li>
-                      </ul>
+                  <div class="col-6 input-box">
+                    <div class="kr-sg-dropdowns">
+                      <div class="label-text">{{'workbench.action' | translate}}</div>
+                      <div class="dropup dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
+                          {{
+                          (map.operation ? map.operation : "choose_an_option")
+                          | translate
+                          }}
+                        </button>
+                        <ul class="dropdown-menu content-menu">
+                          <li (click)="
+                              setRuleObj(map, 'operation', 'set', 'field_mapping')
+                            ">
+                            <a>{{'workbench.set' | translate}}</a>
+                          </li>
+                          <li (click)="
+                              setRuleObj(
+                                map,
+                                'operation',
+                                'rename',
+                                'field_mapping'
+                              )
+                            ">
+                            <a>{{'workbench.rename' | translate}}</a>
+                          </li>
+                          <li (click)="
+                              setRuleObj(map, 'operation', 'copy', 'field_mapping')
+                            ">
+                            <a>{{'workbench.copy' | translate}}</a>
+                          </li>
+                          <li (click)="
+                              setRuleObj(
+                                map,
+                                'operation',
+                                'remove',
+                                'field_mapping'
+                              )
+                            ">
+                            <a>{{'workbench.remove' | translate}}</a>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                   <div class="kr-sg-input-text col-6 input-box"
@@ -398,12 +432,12 @@
                       {{'workbench.field_name' | translate}}
                     </div>
                     <div class="position-relative">
-                      <input type="text" placeholder="{{'workbench.enter_target' | translate}}" maxlength="60"
+                      <input type="text" placeholder="{{'workbench.enter_target' | translate}}"
                         (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                         data-toggle="dropdown" [(ngModel)]="map.source_field" />
                       <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                         [ngClass]="{'no-data-match-border-0':!(fields | filter : [map.source_field, 'fieldName']).length}">
-                        <perfect-scrollbar class="scroll-search-field">
+                        <perfect-scrollbar class="scroll-search-field h-178">
                           <li *ngFor="let suggesition of fields | filter : [map.source_field, 'fieldName'] "
                             (click)="map.source_field = suggesition.fieldName"><a
                               *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
@@ -411,7 +445,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="kr-sg-input-text 6 input-box">
+                  <div class="kr-sg-input-text col-6 input-box">
                     <div class="label-text" *ngIf="map.operation === 'copy'">
                       {{'workbench.target_field' | translate}}
                     </div>
@@ -424,14 +458,14 @@
                       {{'workbench.field_name' | translate}}
                     </div>
                     <div class="position-relative ">
-                      <input type="text" placeholder="{{'workbench.enter_target' | translate}}" maxlength="60"
+                      <input type="text" placeholder="{{'workbench.enter_target' | translate}}"
                         (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                         data-toggle="dropdown" [(ngModel)]="map.target_field" />
                       <ul class="source-field-dropdown dropdown-menu content-menu"
                         *ngIf="map.operation !== 'copy' && map.operation !== 'rename'"
                         id="fields-search-with-dropdown-menu"
                         [ngClass]="{'no-data-match-border-0':!(fields | filter : [map.target_field, 'fieldName']).length}">
-                        <perfect-scrollbar class="scroll-search-field">
+                        <perfect-scrollbar class="scroll-search-field h-178">
                           <li *ngFor="let suggesition of fields | filter : [map.target_field, 'fieldName'] "
                             (click)="map.target_field = suggesition.fieldName"><a
                               *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
@@ -445,7 +479,7 @@
                       map.operation !== 'rename'
                     ">
                     <div class="label-text">{{'workbench.value' | translate}}</div>
-                    <input type="text" placeholder="{{'workbench.value' | translate}}" maxlength="60" class="input-text"
+                    <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text"
                       [(ngModel)]="map.value" />
                   </div>
                   <!-- <div class="kr-sg-dropdowns col-4 input-box">
@@ -470,59 +504,61 @@
                 newMappingObj.field_mapping &&
                 newMappingObj.field_mapping.defaultValue
               ">
-              <div class="kr-sg-dropdowns col-6 input-box">
-                <div class="label-text">{{'workbench.action' | translate}}</div>
-                <div class="dropup dropdown-open">
-                  <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
-                    {{
-                    (newMappingObj.field_mapping.defaultValue.operation
-                    ? newMappingObj.field_mapping.defaultValue.operation
-                    : "choose_an_option"
-                    ) | translate
-                    }}
-                  </button>
-                  <ul class="dropdown-menu content-menu">
-                    <li (click)="
-                        setRuleObj(
-                          newMappingObj.field_mapping.defaultValue,
-                          'operation',
-                          'set',
-                          'field_mapping'
-                        )
-                      ">
-                      <a>{{'workbench.set' | translate}}</a>
-                    </li>
-                    <li (click)="
-                        setRuleObj(
-                          newMappingObj.field_mapping.defaultValue,
-                          'operation',
-                          'rename',
-                          'field_mapping'
-                        )
-                      ">
-                      <a>{{'workbench.rename' | translate}}</a>
-                    </li>
-                    <li (click)="
-                        setRuleObj(
-                          newMappingObj.field_mapping.defaultValue,
-                          'operation',
-                          'copy',
-                          'field_mapping'
-                        )
-                      ">
-                      <a>{{'workbench.copy' | translate}}</a>
-                    </li>
-                    <li (click)="
-                        setRuleObj(
-                          newMappingObj.field_mapping.defaultValue,
-                          'operation',
-                          'remove',
-                          'field_mapping'
-                        )
-                      ">
-                      <a>{{'workbench.remove' | translate}}</a>
-                    </li>
-                  </ul>
+              <div class="col-6 input-box">
+                <div class="kr-sg-dropdowns">
+                  <div class="label-text">{{'workbench.action' | translate}}</div>
+                  <div class="dropup dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
+                      {{
+                      (newMappingObj.field_mapping.defaultValue.operation
+                      ? newMappingObj.field_mapping.defaultValue.operation
+                      : "choose_an_option"
+                      ) | translate
+                      }}
+                    </button>
+                    <ul class="dropdown-menu content-menu">
+                      <li (click)="
+                          setRuleObj(
+                            newMappingObj.field_mapping.defaultValue,
+                            'operation',
+                            'set',
+                            'field_mapping'
+                          )
+                        ">
+                        <a>{{'workbench.set' | translate}}</a>
+                      </li>
+                      <li (click)="
+                          setRuleObj(
+                            newMappingObj.field_mapping.defaultValue,
+                            'operation',
+                            'rename',
+                            'field_mapping'
+                          )
+                        ">
+                        <a>{{'workbench.rename' | translate}}</a>
+                      </li>
+                      <li (click)="
+                          setRuleObj(
+                            newMappingObj.field_mapping.defaultValue,
+                            'operation',
+                            'copy',
+                            'field_mapping'
+                          )
+                        ">
+                        <a>{{'workbench.copy' | translate}}</a>
+                      </li>
+                      <li (click)="
+                          setRuleObj(
+                            newMappingObj.field_mapping.defaultValue,
+                            'operation',
+                            'remove',
+                            'field_mapping'
+                          )
+                        ">
+                        <a>{{'workbench.remove' | translate}}</a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
               <div class="kr-sg-input-text col-6 input-box" *ngIf="
@@ -541,14 +577,14 @@
                   {{'workbench.field_name' | translate}}
                 </div>
                 <div class="position-relative ">
-                  <input type="text" placeholder="{{'workbench.enter_source_field' | translate}}" maxlength="60"
+                  <input type="text" placeholder="{{'workbench.enter_source_field' | translate}}"
                     (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                     data-toggle="dropdown" [(ngModel)]="
                     newMappingObj.field_mapping.defaultValue.source_field
                   " />
                   <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                     [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj.field_mapping.defaultValue.source_field, 'fieldName']).length}">
-                    <perfect-scrollbar class="scroll-search-field">
+                    <perfect-scrollbar class="scroll-search-field h-178">
                       <li
                         *ngFor="let suggesition of fields | filter : [newMappingObj.field_mapping.defaultValue.source_field, 'fieldName'] "
                         (click)="newMappingObj.field_mapping.defaultValue.source_field = suggesition.fieldName"><a
@@ -579,7 +615,7 @@
                 </div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench.enter_name' | translate}}"
-                    class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" maxlength="60" [(ngModel)]="
+                    class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" [(ngModel)]="
                     newMappingObj.field_mapping.defaultValue.target_field
                   " />
                   <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
@@ -589,7 +625,7 @@
                 newMappingObj.field_mapping.defaultValue.operation !==
                   'rename'
               " [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj.field_mapping.defaultValue.target_field, 'fieldName']).length}">
-                    <perfect-scrollbar class="scroll-search-field">
+                    <perfect-scrollbar class="scroll-search-field h-178">
                       <li
                         *ngFor="let suggesition of fields | filter : [newMappingObj.field_mapping.defaultValue.target_field, 'fieldName'] "
                         (click)="newMappingObj.field_mapping.defaultValue.target_field = suggesition.fieldName"><a
@@ -618,7 +654,7 @@
                   ">
                   {{'workbench.new_name' | translate}}
                 </div>
-                <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" maxlength="60"
+                <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text"
                   [(ngModel)]="newMappingObj.field_mapping.defaultValue.value" />
               </div>
               <div class="colse_form">
@@ -644,7 +680,7 @@
                 selectedStage.config.mappings.length
               ">
               <div cdkDropList (cdkDropListDropped)="drop($event, selectedStage.config.mappings)">
-                <div class="row m-0 form_list form_list_drag"
+                <div class="row m-0 mb-3 form_list form_list_drag"
                   *ngFor="let map of selectedStage.config.mappings; let i = index" cdkDrag>
                   <div *cdkDragPreview class="drag_drop">
 
@@ -652,22 +688,39 @@
                   <div class="drag_drop">
                     <img src="assets/icons/drag_drop_move_icon.svg" />
                   </div>
-                  <div class="kr-sg-input-text col-6 input-box">
-                    <div class="label-text">{{'workbench.source_field' | translate}}</div>
-                    <div class="position-relative ">
-                      <input type="text" placeholder="{{'workbench.value' | translate}}" maxlength="60"
-                        (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
-                        data-toggle="dropdown" [(ngModel)]="map.source_field" />
-                      <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
-                        [ngClass]="{'no-data-match-border-0':!(fields | filter : [map.source_field, 'fieldName']).length}">
-                        <perfect-scrollbar class="scroll-search-field">
-                          <li *ngFor="let suggesition of fields | filter : [map.source_field, 'fieldName'] "
-                            (click)="map.source_field = suggesition.fieldName"><a
-                              *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
-                        </perfect-scrollbar>
-                      </ul>
+                  <div class="col-6 mb-2">
+                    <div class="kr-sg-dropdowns" ngbDropdown>
+                      <div class="label-text">{{'workbench.source_field' | translate}}</div>
+                      <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
+                          ngbDropdownAnchor (click)="clearcontentSrc()">
+
+                          {{map.source_field? map.source_field :"Choose feild"}}
+
+                        </button>
+                        <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                          ngbDropdownMenu>
+                          <li class="search-box" ngbDropdownItem>
+                            <input id="searchBoxId1" autocomplete="off" type="text" placeholder="Search"
+                              class="seach-input" autofocus [(ngModel)]="search_basic_fieldName1" />
+                          </li>
+                          <perfect-scrollbar class="scroll-search-field h-178">
+                            <ng-container>
+                              <li ngbDropdownItem
+                                *ngFor="let suggesition of fields | filter : [search_basic_fieldName1, 'fieldName']"
+                                (click)="map.source_field=suggesition.fieldName;addCondition('update',i,'field',suggesition._id);"
+                                [ngClass]="{'highlight':map.source_field == suggesition.fieldName}">
+                                {{ suggesition.fieldName }}
+                              </li>
+                            </ng-container>
+                          </perfect-scrollbar>
+                        </ul>
+
+
+                      </div>
                     </div>
                   </div>
+
                   <!-- adding d-none class to hide the Choose Model -->
                   <div class="kr-sg-dropdowns col-4 input-box d-none" *ngIf="selectedStage.type === 'semantic_meaning'">
                     <div class="label-text">{{'workbench.choose_model' | translate}}</div>
@@ -691,27 +744,28 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="kr-sg-dropdowns col-6 input-box d-none"
-                    *ngIf="selectedStage.type === 'keyword_extraction'">
-                    <div class="label-text">{{'workbench.choose_model' | translate}}</div>
-                    <div class="dropup dropdown-open">
-                      <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
-                        {{ map.model ? map.model : ('workbench.choose_model' | translate) }}
-                      </button>
-                      <ul class="dropdown-menu content-menu">
-                        <li (click)="map.model = 'topic_rank'">
-                          <a>{{'workbench.topic_rank' | translate}}</a>
-                        </li>
-                        <li (click)="map.model = 'position_rank'">
-                          <a>{{'workbench.position_rank' | translate}}</a>
-                        </li>
-                        <li (click)="map.model = 'multipartite_rank'">
-                          <a>{{'workbench.multipartite_rank' | translate}}</a>
-                        </li>
-                      </ul>
+                  <div class="col-6 input-box d-none">
+                    <div class="kr-sg-dropdowns" *ngIf="selectedStage.type === 'keyword_extraction'">
+                      <div class="label-text">{{'workbench.choose_model' | translate}}</div>
+                      <div class="dropup dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
+                          {{ map.model ? map.model : ('workbench.choose_model' | translate) }}
+                        </button>
+                        <ul class="dropdown-menu content-menu">
+                          <li (click)="map.model = 'topic_rank'">
+                            <a>{{'workbench.topic_rank' | translate}}</a>
+                          </li>
+                          <li (click)="map.model = 'position_rank'">
+                            <a>{{'workbench.position_rank' | translate}}</a>
+                          </li>
+                          <li (click)="map.model = 'multipartite_rank'">
+                            <a>{{'workbench.multipartite_rank' | translate}}</a>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                  <div class="kr-sg-input-text col-6 input-box" *ngIf="
+                  <div class="kr-sg-input-text col-6 input-box mb-2" *ngIf="
                       !(selectedStage.type === 'keyword_extraction') &&
                       !(selectedStage.type === 'semantic_meaning')
                     ">
@@ -747,7 +801,7 @@
                         <mat-autocomplete #suggestedItems="matAutocomplete"
                           (optionSelected)="selectedTag($event, map.entity_types)">
                           <ng-container *ngFor="let suggestion of entityNlp">
-                            <mat-option [value]="suggestion.value">
+                            <mat-option [value]="suggestion.title">
                               {{ suggestion.title }}
                             </mat-option>
                           </ng-container>
@@ -779,10 +833,21 @@
                       </mat-form-field>
                     </ng-container>
                   </div>
-                  <div class="kr-sg-input-text col-6 input-box">
+                  <div class="kr-sg-input-text col-6 input-box mb-2">
                     <div class="label-text">{{'workbench.target_field' | translate}}</div>
-                    <input type="text" placeholder="{{'workbench.value' | translate}}" maxlength="60"
-                      (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field" />
+                    <div class="position-relative ">
+                      <input type="text" placeholder="{{'workbench.value' | translate}}"
+                        (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
+                        data-toggle="dropdown" [(ngModel)]="map.target_field" />
+                      <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
+                        [ngClass]="{'no-data-match-border-0':!(fields | filter : [map.target_field, 'fieldName']).length}">
+                        <perfect-scrollbar class="scroll-search-field h-178">
+                          <li *ngFor="let suggesition of fields | filter : [map.target_field, 'fieldName'] "
+                            (click)="map.target_field = suggesition.fieldName"><a
+                              *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
+                        </perfect-scrollbar>
+                      </ul>
+                    </div>
                   </div>
                   <!-- <div class="kr-sg-dropdowns col-4 input-box">
                     <div class="label-text">Label</div>
@@ -806,22 +871,36 @@
                 newMappingObj[selectedStage.type] &&
                 newMappingObj[selectedStage.type].defaultValue
               ">
-              <div class="kr-sg-input-text col-6 input-box">
-                <div class="label-text">{{'workbench.source_field' | translate}}</div>
-                <div class="position-relative ">
-                  <input type="text" placeholder="{{'workbench.value' | translate}}"
-                    class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" maxlength="60" [(ngModel)]="
-                      newMappingObj[selectedStage.type].defaultValue.source_field
-                    " />
-                  <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
-                    [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj[selectedStage.type].defaultValue.source_field, 'fieldName']).length}">
-                    <perfect-scrollbar class="scroll-search-field">
-                      <li
-                        *ngFor="let suggesition of fields | filter : [newMappingObj[selectedStage.type].defaultValue.source_field, 'fieldName'] "
-                        (click)="newMappingObj[selectedStage.type].defaultValue.source_field = suggesition.fieldName"><a
-                          *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
-                    </perfect-scrollbar>
-                  </ul>
+              <div class="col-6 mb-2">
+                <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom-right'">
+                  <div class="label-text">{{'workbench.source_field' | translate}}</div>
+                  <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
+                      ngbDropdownAnchor (click)="clearcontentSrcD()">
+                      {{newMappingObj[selectedStage.type].defaultValue.source_field?newMappingObj[selectedStage.type].defaultValue.source_field:"Choose
+                      source field"}}
+                    </button>
+                    <ul class="dropdown-menu content-menu faq-filter-add  mw-100" style="overflow-y: hidden;"
+                      ngbDropdownMenu>
+                      <li class="search-box">
+                        <input id="searchBoxId2" autocomplete="off" type="text" [(ngModel)]="search_basic_fieldName2"
+                          placeholder="Search" class="seach-input" autofocus />
+                      </li>
+                      <perfect-scrollbar class="scroll-search-field h-178">
+                        <ng-container>
+                          <li ngbDropdownItem
+                            *ngFor="let suggesition of fields | filter : [search_basic_fieldName2, 'fieldName']"
+                            (click)="newMappingObj[selectedStage.type].defaultValue.source_field = suggesition.fieldName"
+                            [ngClass]="{'highlight':newMappingObj[selectedStage.type].defaultValue.source_field== suggesition.fieldName}">
+
+                            {{ suggesition.fieldName }}
+                          </li>
+                        </ng-container>
+                      </perfect-scrollbar>
+                    </ul>
+
+
+                  </div>
                 </div>
               </div>
               <!-- adding d-none class to hide the Choose Model -->
@@ -866,7 +945,7 @@
                   </ul>
                 </div>
               </div>
-              <div class="kr-sg-input-text col-6 input-box" *ngIf="
+              <div class="kr-sg-input-text col-6 input-box mb-2" *ngIf="
                   !(selectedStage.type === 'keyword_extraction') &&
                   !(selectedStage.type === 'semantic_meaning')
                 ">
@@ -919,7 +998,7 @@
                       ">
                       <ng-container *ngFor="let suggestion of entityNlp | filter : [entityName, 'value']"
                         (click)="entityName = suggesition.value">
-                        <mat-option [value]="suggestion.value">
+                        <mat-option [value]="suggestion.title">
                           {{ suggestion.title }}
                         </mat-option>
                       </ng-container>
@@ -965,12 +1044,23 @@
                   </mat-form-field>
                 </ng-container>
               </div>
-              <div class="kr-sg-input-text col-6 input-box">
+              <div class="kr-sg-input-text col-6 input-box mb-2">
                 <div class="label-text">{{'workbench.target_field' | translate}}</div>
-                <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" maxlength="60"
-                  [(ngModel)]="
-                    newMappingObj[selectedStage.type].defaultValue.target_field
-                  " />
+                <div class="position-relative ">
+                  <input type="text" placeholder="{{'workbench.value' | translate}}"
+                    class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" [(ngModel)]="
+                      newMappingObj[selectedStage.type].defaultValue.target_field
+                    " />
+                  <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
+                    [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj[selectedStage.type].defaultValue.target_field, 'fieldName']).length}">
+                    <perfect-scrollbar class="scroll-search-field h-178">
+                      <li
+                        *ngFor="let suggesition of fields | filter : [newMappingObj[selectedStage.type].defaultValue.target_field, 'fieldName'] "
+                        (click)="newMappingObj[selectedStage.type].defaultValue.target_field = suggesition.fieldName"><a
+                          *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
+                    </perfect-scrollbar>
+                  </ul>
+                </div>
               </div>
               <div class="colse_form">
                 <img (click)="setResetNewMappingsObj()" src="assets/images/close-cross.svg" />
@@ -989,8 +1079,10 @@
           <div class="customScript">
             <div class="kr-sg-input-text-area">
               <div class="label-text">&lt;/&gt;{{'workbench.painless' | translate}}</div>
-              <textarea placeholder="{{'workbench.please_enter_script' | translate}}" class="input- d-none"
-                (keyup)="
+              <div class="clear">
+                <span (click)="newMappingObj.custom_script.defaultValue.script='';plainScriptTxt =''">Clear</span>
+              </div>
+              <textarea placeholder="{{'workbench.please_enter_script' | translate}}" class="input- d-none" (keyup)="
                   addCustomScript(
                     newMappingObj.custom_script.defaultValue.script
                   )
@@ -1022,9 +1114,9 @@
       </div>
       <div class="d-flex">
         <div class="kr-sg-input-search ml-2" [ngClass]="{'d-none': !showSearch}">
-          <input type="text" placeholder="{{'search' | translate}}"  class="input-search"
-            (keyup)="searchBySimulator()" [ngClass]="{'pl-33':!searchSimulator,'pl-2':searchSimulator}"
-            autocomplete="off" id="fieldSearchId" [(ngModel)]="searchSimulator"
+          <input type="text" placeholder="{{'search' | translate}}" class="input-search" (keyup)="searchBySimulator()"
+            [ngClass]="{'pl-33':!searchSimulator,'pl-2':searchSimulator}" autocomplete="off" id="fieldSearchId"
+            [(ngModel)]="searchSimulator"
             (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
             (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
@@ -1043,26 +1135,28 @@
       </div>
     </div>
     <div class="row m-0 input-boxes">
-      <div class="kr-sg-dropdowns col-6 pl-0 pr-2">
-        <div class="label-text">{{'workbench.source' | translate}}</div>
-        <div class="dropdown dropdown-open">
-          <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
-            {{
-            (simulteObj.sourceType
-            ? (simulteObj.sourceType == 'faq'? 'FAQ': (simulteObj.sourceType =='data'?'Data':(simulteObj.sourceType
-            =='all'?'All':(simulteObj.sourceType =='file'?'File':(simulteObj.sourceType
-            =='web'?'Web':simulteObj.sourceType)))))
-            : "choose_an_option"
-            ) | translate
-            }}
-          </button>
-          <ul class="dropdown-menu content-menu">
-            <li (click)="changeSimulate('all', 'source')"><a>{{'workbench.all' | translate}}</a></li>
-            <li (click)="changeSimulate('faq', 'source')"><a>{{'workbench.faq' | translate}}</a></li>
-            <li (click)="changeSimulate('web', 'source')"><a>{{'workbench.web' | translate}}</a></li>
-            <li (click)="changeSimulate('file', 'source')"><a>{{'workbench.file' | translate}}</a></li>
-            <li (click)="changeSimulate('data', 'source')"><a>{{'workbench.data' | translate}}</a></li>
-          </ul>
+      <div class="col-6 pl-0 pr-2">
+        <div class="kr-sg-dropdowns">
+          <div class="label-text">{{'workbench.source' | translate}}</div>
+          <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
+              {{
+              (simulteObj.sourceType
+              ? (simulteObj.sourceType == 'faq'? 'FAQ': (simulteObj.sourceType =='data'?'Data':(simulteObj.sourceType
+              =='all'?'All':(simulteObj.sourceType =='file'?'File':(simulteObj.sourceType
+              =='web'?'Web':simulteObj.sourceType)))))
+              : "choose_an_option"
+              ) | translate
+              }}
+            </button>
+            <ul class="dropdown-menu content-menu">
+              <li (click)="changeSimulate('all', 'source')"><a>{{'workbench.all' | translate}}</a></li>
+              <li (click)="changeSimulate('faq', 'source')"><a>{{'workbench.faq' | translate}}</a></li>
+              <li (click)="changeSimulate('web', 'source')"><a>{{'workbench.web' | translate}}</a></li>
+              <li (click)="changeSimulate('file', 'source')"><a>{{'workbench.file' | translate}}</a></li>
+              <li (click)="changeSimulate('data', 'source')"><a>{{'workbench.data' | translate}}</a></li>
+            </ul>
+          </div>
         </div>
       </div>
       <div class=" col-6 pr-0 pl-2">
@@ -1216,3 +1310,4 @@
     </div>
   </ng-container>
 </kr-modal>
+<app-upgrade-plan #plans></app-upgrade-plan>

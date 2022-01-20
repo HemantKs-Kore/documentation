@@ -40,7 +40,7 @@
                     <div class="title col-3">{{"invoices.BILLING_period" | translate}}</div>
                     <div class="title col-2">{{"invoices.invoice_amount_caps" | translate}}</div>
                     <div class="title col-2">{{"invoices.subscription_caps" | translate}}</div>
-                    <div class="title col-3 col_ d-flex align-items-center" (click)="sortBy('invoiceCreatedDate')">
+                    <div class="title col-3 col_ d-flex align-items-center" (click)="sortByApi('invoiceCreatedDate')">
                         <span class="d-flex align-items-center flex-column mr-1">
                             <img  [ngClass]="getSortIconVisibility('invoiceCreatedDate', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                             <img  [ngClass]="getSortIconVisibility('invoiceCreatedDate', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">

@@ -39,7 +39,7 @@ export class MixpanelServiceService {
     this.enabled = false;
     try{
         if(mixpanel && mixpanel.reset){
-          console.log('Mixpanel.....')
+        //   console.log('Mixpanel.....')
             mixpanel.reset();
         }
        } catch(e){

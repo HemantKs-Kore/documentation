@@ -15,7 +15,7 @@
                         <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
                             <input type="text" placeholder="Search" maxlength="60" id="inputSearch" class="input-search"
                                 [ngClass]="{'pl-33':!serachTraits,'pl-2':serachTraits}" autocomplete="off"
-                                [(ngModel)]="serachTraits"
+                                [(ngModel)]="serachTraits"  (keyup)="getTraitsGroupsApi()" 
                                 (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                                 (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
@@ -73,7 +73,7 @@
                                         type="checkbox" (change)="checkUncheckTraits(traitGroup)">
                                     <label for="{{traitGroup._id}}" class="checkbox-custom-label"></label>
                                 </div>
-                                <span ngbTooltip="{{traitGroup.groupName || '---'}}" placement="top-center"
+                                <span class="text-truncate" ngbTooltip="{{traitGroup.groupName || '---'}}" placement="top-center"
                                     container='body'
                                     tooltipClass="ngb_tooltip_custom_class sampleJson">{{traitGroup.groupName ||
                                     '---'}}</span>
@@ -82,7 +82,7 @@
                                 <span
                                     *ngFor="let trait of traitGroup.traits| slice:0:getTraitsSliceValue(traitGroup.traits); let i=index;"
                                     class="trait-more">
-                                    {{i!==0 ?', ':''}}{{trait.traitName || '---'}}
+                                    {{i!==0 ?', ':''}}{{trait.displayName || '---'}}
                                 </span>
 
                                 <div class="kr-sg-dropdowns traits-more-data-container" ngbDropdown
@@ -127,6 +127,7 @@
                             <div class="desc">{{'traits.no_search_results_found' | translate}}</div>
                         </div>
                     </div>
+                    <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination></div> 
                 </perfect-scrollbar>
             </div>
 
@@ -194,7 +195,7 @@
                     [ngClass]="{'pointer':item.data.length}">
                     <div class="col-4 group-name text-truncate" *ngIf="showEditTraitInput !== index"><span
                             ngbTooltip="{{item.key}}" placement="top-center" container='body'
-                            tooltipClass="ngb_tooltip_custom_class sampleJson">{{item.key}}</span> </div>
+                            tooltipClass="ngb_tooltip_custom_class sampleJson">{{item.displayName}}</span> </div>
                     <div class="col-6 m-0 align-items-center" *ngIf="showEditTraitInput !== index">
                         <div class="utterances-count" *ngIf="item.data.length">{{item.data.length}}
                             {{item.data.length>1?('traits.utterances' | translate):('traits.utterance' | translate)}}

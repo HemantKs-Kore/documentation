@@ -505,6 +505,19 @@
                             font-weight: 500;
                             font-size: 12px;
                             text-transform: uppercase;
+                            &.last-update{
+                                display: flex;
+                                align-items: center;
+                                .sort-up-down-icons{
+                                    display: flex;
+                                    align-items: center;
+                                    flex-direction: column;
+                                    margin-right: 8px;
+                                    cursor: pointer;
+                                    height: 12px;
+                                    justify-content: space-between;
+                                }
+                            }
                         }
                     }    
                     .accordion-section{
@@ -699,6 +712,7 @@
                             // position: absolute;
                             // right: 10px;
                             // top: 0;
+                            padding-left: 10px;
                         }
                         .actions-images{
                             display: none;
@@ -1126,7 +1140,7 @@
         height: calc(100vh - 180px);
     }
     .scroll-table-sourceContent-pageBody{
-        height: calc(100vh - 80px);
+        // height: calc(100vh - 80px);
     }
     .schedule-comp{
         position: relative;

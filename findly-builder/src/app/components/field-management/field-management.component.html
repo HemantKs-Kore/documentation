@@ -5,59 +5,49 @@
     </div>
     <div class="table_sec" *ngIf="!loadingContent">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-        <div class="seach_add_feild">
-            <div class="title">{{'fields.fields' | translate}}</div>
-            <div class="d-flex align-items-center">
-                <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
-                    <input type="text" placeholder="{{'search' | translate}}" maxlength="60" class="input-search"
-                        (keyup)="searchByFields()" [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}"
-                        autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields"
-                        (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
-                        (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
-                        (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
-                    <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFields">
-                    <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFields}"
-                        (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()"
-                        placement="top-center" container='body' ngbTooltip="{{'fields.cancel' | translate}}"
-                        tooltipClass="ngb_tooltip_custom_class sampleJson">
-                </div>
-                <div class="seach-block" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')">
-                    <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data"><img
-                            src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' |
-                        translate}}</span>
-                </div>
-                <div class="add_feild" (click)="addEditFiled()"><img
-                        src="assets/icons/add_plus.svg">{{'fields.add_field' | translate}}</div>
-            </div>
-        </div>
-        <div class="empty-list" *ngIf="!(filelds && filelds.length)">
-            <ng-container>
-                <img src="assets/images/icons/empty_ill.svg">
-                <div class="desc">{{'fields.no_fields_available' | translate}}</div>
-            </ng-container>
-        </div>
-        <div>
-            <div class="table_data_content" *ngIf="filelds && filelds.length">
-                <div class="table_header row m-0">
-                    <div class="col_ col-2 title d-flex align-items-center" (click)="sortBy('fieldName')">
-                        <span class="d-flex align-items-center flex-column mr-1">
-                            <img [ngClass]="getSortIconVisibility('fieldName', 'down')" src="assets/icons/caretDown.svg"
-                                class="ml-1 sortImg downArrow">
-                            <img [ngClass]="getSortIconVisibility('fieldName', 'up')" src="assets/icons/caretDown.svg"
-                                class="ml-1 sortImg upArrow">
-                        </span>
-                        {{'fields.field_name' | translate}}
+            <div class="seach_add_feild">
+                <div class="title">{{'fields.fields' | translate}}</div>
+                <div class="d-flex align-items-center">
+                    <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
+                        <input type="text" placeholder="{{'search' | translate}}" maxlength="60" class="input-search"  [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}"
+                            autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields" (keyup)="fieldsFilter(searchFields,'search')"
+                            (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                            (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
+                            (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+                        <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFields">
+                        <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFields}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" 
+                            (click)="focusoutSearch()" placement="top-center" container='body' ngbTooltip="{{'fields.cancel' | translate}}"
+                            tooltipClass="ngb_tooltip_custom_class sampleJson">
                     </div>
-                    <div class="col_  col-2 title d-flex align-items-center" (click)="sortBy('fieldDataType')">
-                        <span class="d-flex align-items-center flex-column mr-1">
-                            <img [ngClass]="getSortIconVisibility('fieldDataType', 'down')"
-                                src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                            <img [ngClass]="getSortIconVisibility('fieldDataType', 'up')"
-                                src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                        </span>
-                        {{'fields.type' | translate}}
-                        <div class=" ml-2 kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown
-                            [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
+                    <div class="seach-block" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')">
+                        <span [ngClass]="{'d-none': showSearch}"  class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+                    </div>
+                    <div class="add_feild" (click)="addEditFiled()"><img src="assets/icons/add_plus.svg">{{'fields.add_field' | translate}}</div>
+                </div>
+            </div> 
+            <div class="empty-list"  *ngIf="!(filelds && filelds.length)">
+                <ng-container>
+                    <img src="assets/images/icons/empty_ill.svg">
+                    <div class="desc">{{'fields.no_fields_available' | translate}}</div>
+                </ng-container>
+            </div>     
+            <div>
+                <div class="table_data_content" *ngIf="filelds && filelds.length" >
+                    <div class="table_header row m-0" *ngIf="!(filelds && filelds.length) || filelds && filelds.length" >
+                        <div class="col_ col-2 title d-flex align-items-center" (click)="sortByApi('fieldName')" > <!--(click)="sortByApi('fieldName')"-->
+                            <span class="d-flex align-items-center flex-column mr-1">
+                                <img  [ngClass]="getSortIconVisibility('fieldName', 'down')"   src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('fieldName', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                              </span>
+                              {{'fields.field_name' | translate}}</div>
+                        <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('fieldDataType')">
+                            <span class="d-flex align-items-center flex-column mr-1">
+                                <img  [ngClass]="getSortIconVisibility('fieldDataType', 'down')"   src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('fieldDataType', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                              </span>
+                              {{'fields.type' | translate}} 
+                            <div class=" ml-2 kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
+                            [autoClose]="true" [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
                                     (click)="$event.stopImmediatePropagation()">
@@ -78,16 +68,14 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
-                    <div class="col_  col-2 title d-flex align-items-center" (click)="sortBy('isMultiValued')">
-                        <span class="d-flex align-items-center flex-column mr-1">
-                            <img [ngClass]="getSortIconVisibility('isMultiValued', 'down')"
-                                src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                            <img [ngClass]="getSortIconVisibility('isMultiValued', 'up')"
-                                src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                        </span>
-                        {{'fields.multi_value' | translate}}
-                        <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #selectFilter="ngbDropdown" ngbDropdown
+                        </div>
+                        <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('isMultiValued')" >
+                            <span class="d-flex align-items-center flex-column mr-1">
+                                <img [ngClass]="getSortIconVisibility('isMultiValued', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img  [ngClass]="getSortIconVisibility('isMultiValued', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                              </span>
+                              {{'fields.multi_value' | translate}}
+                            <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #selectFilter="ngbDropdown" ngbDropdown [container]="'body'"
                             [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
@@ -109,17 +97,15 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
-                    <div class="col_  col-2 title d-flex align-items-center" (click)="sortBy('isRequired')">
-                        <span class="d-flex align-items-center flex-column mr-1">
-                            <img [ngClass]="getSortIconVisibility('isRequired', 'down')"
-                                src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                            <img [ngClass]="getSortIconVisibility('isRequired', 'up')" src="assets/icons/caretDown.svg"
-                                class="ml-1 sortImg upArrow">
-                        </span>
-                        {{'fields.required' | translate}}
-                        <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #isRequiredFilter="ngbDropdown" ngbDropdown
-                            [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
+                        </div>
+                        <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('isRequired')">
+                            <span class="d-flex align-items-center flex-column mr-1">
+                                <img [ngClass]="getSortIconVisibility('isRequired', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('isRequired', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                              </span>
+                              {{'fields.required' | translate}}
+                            <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #isRequiredFilter="ngbDropdown" ngbDropdown [container]="'body'"
+                            [autoClose]="true" [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
                                     (click)="$event.stopImmediatePropagation()">
@@ -140,17 +126,15 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
-                    <div class="col_  col-2 title d-flex align-items-center" (click)="sortBy('isStored')">
-                        <span class="d-flex align-items-center flex-column mr-1">
-                            <img [ngClass]="getSortIconVisibility('isStored', 'down')" src="assets/icons/caretDown.svg"
-                                class="ml-1 sortImg downArrow">
-                            <img [ngClass]="getSortIconVisibility('isStored', 'up')" src="assets/icons/caretDown.svg"
-                                class="ml-1 sortImg upArrow">
-                        </span>
-                        {{'fields.stored' | translate}}
-                        <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #isStoredFilter="ngbDropdown" ngbDropdown
-                            [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
+                        </div>
+                        <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('isStored')">
+                            <span class="d-flex align-items-center flex-column mr-1">
+                                <img [ngClass]="getSortIconVisibility('isStored', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('isStored', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                              </span>
+                              {{'fields.stored' | translate}}
+                            <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #isStoredFilter="ngbDropdown" ngbDropdown [container]="'body'"
+                            [autoClose]="true" [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
                                     (click)="$event.stopImmediatePropagation()">
@@ -171,17 +155,15 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
-                    <div class="col_  col-2 title d-flex align-items-center" (click)="sortBy('isIndexed')">
-                        <span class="d-flex align-items-center flex-column mr-1">
-                            <img [ngClass]="getSortIconVisibility('isIndexed', 'down')" src="assets/icons/caretDown.svg"
-                                class="ml-1 sortImg downArrow">
-                            <img [ngClass]="getSortIconVisibility('isIndexed', 'up')" src="assets/icons/caretDown.svg"
-                                class="ml-1 sortImg upArrow">
-                        </span>
-                        {{'fields.indexed' | translate}}
-                        <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #isIndexedFilter="ngbDropdown" ngbDropdown
-                            [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
+                        </div>
+                        <div class="col_  col-2 title d-flex align-items-center"  (click)="sortByApi('isIndexed')">
+                            <span class="d-flex align-items-center flex-column mr-1">
+                                <img [ngClass]="getSortIconVisibility('isIndexed', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('isIndexed', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                              </span>
+                              {{'fields.indexed' | translate}}
+                            <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #isIndexedFilter="ngbDropdown" ngbDropdown [container]="'body'"
+                            [autoClose]="true" [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
                                     (click)="$event.stopImmediatePropagation()">
@@ -213,7 +195,7 @@
                         <div class="col-2 title">{{field.isRequired?'Yes':'No'}}</div>
                         <div class="col-2 title">{{field.isStored?'Yes':'No'}}</div>
                         <div class="col-2 title">{{field.isIndexed?'Yes':'No'}}
-                            <div class=" action_links text-right" style="margin-top:-15px;" *ngIf="!field.auto">
+                            <div class=" action_links text-right" style="margin-top:-15px;">
                                 <img src="assets/images/edit-pencil.svg" ngbTooltip="{{'fields.edit' | translate}}"
                                     [container]="'body'" placement="{{i==0?'bottom':'top'}}"
                                     (click)="addEditFiled(field)">

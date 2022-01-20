@@ -1,0 +1,2110 @@
+<!-- <button class="kr-sg-button-primary btn_lg" (click)="openCustomModal()">Open</button> -->
+
+
+
+
+<div class="search-interface-container">
+  <div class="header_sec">
+    <div class="title">Result Templates</div>
+    <div class="right-side-copy-configs">
+      <div class="kr-sg-dropdowns copy-config-dropdown" ngbDropdown [placement]="'bottom-right'" autoClose="outside"
+        #myDrop="ngbDropdown">
+        <div class="dropdown dropdown-open">
+          <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
+            (click)="$event.stopPropagation();copyConfiguration('close');">
+            <img src="assets/icons/resultTemplate/copy.svg">
+            <span class="title">Copy Configuration</span>
+          </button>
+
+          <ul class="dropdown-menu content-menu copy-config-dropdown-content" ngbDropdownMenu>
+            <!-- <div class="overlay-div"></div> -->
+            <div class="close-icon" (click)="$event.stopPropagation();myDrop.close();"><img src="assets/icons/close.svg"
+                height="11">
+            </div>
+            <div class="info-copy">Choose whether to apply the same configurations as per previous settings or configure
+              the templates separately here</div>
+            <div class="main-title">Apply configurations from</div>
+            <div class="btnactions">
+              <button class="kr-sg-button-secondary btn_lg mr-3" *ngFor="let tab of tabList"
+                [hidden]="tab.id===selectedTab" (click)="copyConfiguration('open',tab.id)"
+                [disabled]="tab.id==='conversationalSearch'&&searchTemplatesDisabled">{{tab.name}}</button>
+            </div>
+            <div class="apply-config-text" *ngIf="copyConfigObj.loader">Applying configurations from
+              {{tabData&&tabData[0].name}}
+              <span class="loading-spin-progress ml-2"></span>
+            </div>
+            <div class="apply-config-text" [ngStyle]="{'color':copyConfigObj.message!==''?'#28A745':'#202124'}"
+              *ngIf="copyConfigObj.message!==''">
+              <img src="assets/icons/content/success.svg" />{{copyConfigObj.message}}
+            </div>
+          </ul>
+        </div>
+      </div>
+      <!-- <button class="kr-sg-button-primary btn_lg">Preview</button> -->
+      <button class="kr-sg-button-primary btn_lg" (click)="$event.stopPropagation();updateSettings()">Save</button>
+    </div>
+  </div>
+  <div class="body_content">
+    <div class="search-interface-left-sec">
+      <div class="left-tabs">
+        <ng-container *ngFor="let tab of tabList">
+          <div class="tab-name"
+            [ngClass]="{'active-tab':tab.id === selectedTab,'disabled':searchTemplatesDisabled&&tab.id==='conversationalSearch'}"
+            (click)="(searchTemplatesDisabled&&tab.id==='conversationalSearch')?'':(tabSelection(tab.id))"
+            tooltipClass="dashboard-custom-tooltips" [container]="'body'"
+            ngbTooltip='Conversational Search Customization is not needed for Search Bar Experience'
+            [disableTooltip]="!(searchTemplatesDisabled&&tab.id=='conversationalSearch')" placement="right">
+            {{tab.name}}</div>
+        </ng-container>
+      </div>
+    </div>
+    <perfect-scrollbar class="scroll-interface w-100">
+      <div class="search-interface-right-sec">
+        <div class="main-title">Results Classification</div>
+        <div class="desc-text mb-3">Customize the result templates which should be displayed to the end-user</div>
+        <div class="label-text">Result Groups</div>
+        <div class="desc-text mb-2">Result Group will dispaly the results in a grouped format as per the templates you
+          choose</div>
+        <div class="mb-3">
+          <label class="kr-sg-toggle">
+            <input type="checkbox" [(ngModel)]="resultListObj.groupResults" (change)="updateSettings()">
+            <div class="slider"></div>
+          </label>
+        </div>
+
+        <ng-container *ngIf="resultListObj.groupResults">
+          <div class="result-group-">
+            <div class="label_text" *ngIf="(resultListObj?.groupSetting?.fieldId)">Field Name <img
+                src="assets/icons/result-template/info.svg" tooltipClass="tooltip-global- ml-14 text-left"
+                [container]="'body'" ngbTooltip='Enter the field name on which the result groups are to be created'
+                placement="top-left">
+            </div>
+            <ng-container>
+              <div class="field-name-with-edit" [ngClass]="{'d-none':defaultFieldName===''}">
+                <div class="kr-sg-input-text">
+                  <input type="text" placeholder="Field Name" class="input-text" [(ngModel)]="defaultFieldName"
+                    [disabled]="defaultFieldName">
+                </div>
+                <div class="edit-field-name" (click)="openCustomModal('edit')">
+                  <img src="assets/icons/result-template/editpencil.svg">
+                </div>
+              </div>
+              <div class="values-templates-table mb-2" *ngIf="(resultListObj?.groupSetting?.fieldId.length)">
+                <div class="table-header-sec row col-12">
+                  <div class="title col-5">Values</div>
+                  <div class="title col-7">Layout</div>
+                </div>
+
+                <ng-container>
+                  <div class="table-body-templates col-12 row"
+                    *ngFor="let value of resultListObj?.groupSetting?.conditions;let i=index;">
+                    <div class="value-sec col-5">
+                      <div class="kr-sg-dropdowns">
+                        <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                          <img src="assets/icons/search_gray.svg" class="search-icon">
+                          <button id="btn_select_facet_field"
+                            class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
+                          <input type="text" maxlength="60" placeholder="Select Value" id="facets-search-input"
+                            class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown"
+                            autocomplete="off" [(ngModel)]="value.fieldValue">
+                          <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu">
+                            <perfect-scrollbar class="scroll-search-field">
+                              <li *ngFor="let val of fieldValues|filter : [value.fieldValue, val]" [id]="val.fieldValue"
+                                (click)="value.fieldValue=val;value.templateType!==''?updateSettings():null;">
+                                <a>{{val}}</a>
+                              </li>
+                            </perfect-scrollbar>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="template-sec col-7">
+                      <div class="kr-sg-dropdowns">
+                        <div class="dropdown dropdown-open">
+                          <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
+                            [disabled]="value.fieldValue===''"
+                            [ngStyle]="{'background':value.fieldValue!==''?'white':'#EFF0F1'}">{{value.templateType===''?'Select
+                            Template':(value.templateType|titlecase)}}</button>
+                          <ul class="dropdown-menu content-menu">
+                            <li *ngFor="let template of templateNames"
+                              (click)="value.templateType=template;getTemplateData(template,i,value)">
+                              <a>{{template|titlecase}}</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="customize-btn" tooltipClass="tooltip-global-" [container]="'body'"
+                        ngbTooltip='Customize Template' placement="top-center"
+                        [ngStyle]="{'background':value.templateType!==''?'white':'#EFF0F1'}"
+                        (click)="value.templateType!==''?customtemplateBtndisable?null:openTemplateConatiner(value,'modal'):null">
+                        <img src="assets/icons/result-template/rangeslider.svg">
+                      </div>
+
+                      <div class="kr-sg-dropdowns see-templates" ngbDropdown [placement]="'bottom-right'">
+                        <div class="dropdown dropdown-open">
+                          <button class="dropdown-toggle dropdown-input eye-btn" data-toggle="dropdown"
+                            ngbDropdownToggle [disabled]="value.templateType==''"
+                            (click)="openTemplateConatiner(value,'preview')">
+                            <img src="assets/icons/result-template/eye.svg" [container]="'body'"
+                              tooltipClass="tooltip-global-" ngbTooltip='Preview Template' placement="top-center">
+                          </button>
+                          <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+                            <perfect-scrollbar>
+                              <ng-container [ngTemplateOutlet]="itemTemplate">
+                              </ng-container>
+                            </perfect-scrollbar>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="delete-template" (click)="addNewTemplateValues('delete',i);">
+                        <img src="assets/icons/delete-table.svg">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="add_filed_btn" (click)="addNewTemplateValues('add')">
+                    <img src="assets/icons/result-template/add.svg">Add
+                  </div>
+                </ng-container>
+              </div>
+            </ng-container>
+            <div class="add-filed-btn mb-3" (click)="openCustomModal('add')"
+              *ngIf="(resultListObj?.groupSetting?.fieldId.length===0)">
+              <img src="assets/icons/result-template/add.svg">Add Field
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container>
+          <div class="label-text">Default Template</div>
+          <div class="desc-text mb-2">Default Template will display the results individually as per the default template
+            you choose</div>
+          <div class="default-template-sec mb-3">
+            <div class="kr-sg-dropdowns">
+              <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input"
+                  data-toggle="dropdown">{{resultListObj?.defaultTemplateType|titlecase}}</button>
+                <ul class="dropdown-menu content-menu">
+                  <li *ngFor="let template of templateNames" (click)="getTemplateData(template,'default')">
+                    <a>{{template|titlecase}}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="customize-btn" tooltipClass="tooltip-global-" [container]="'body'"
+              ngbTooltip='Customize Template' placement="top-center"
+              (click)="openTemplateConatiner(resultListObj,'modal')">
+              <img src="assets/icons/result-template/rangeslider.svg">
+            </div>
+            <div class="kr-sg-dropdowns see-templates" ngbDropdown [placement]="'bottom-center'">
+              <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input eye-btn" data-toggle="dropdown" ngbDropdownToggle
+                  [container]="'body'" tooltipClass="tooltip-global-" ngbTooltip='Preview Template'
+                  placement="top-center" (click)="openTemplateConatiner(resultListObj,'preview')">
+                  <img src="assets/icons/result-template/eye.svg">
+                </button>
+                <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+                  <perfect-scrollbar>
+                    <ng-container [ngTemplateOutlet]="itemTemplate">
+                    </ng-container>
+                  </perfect-scrollbar>
+                </ul>
+              </div>
+            </div>
+            <!-- <div class="label-text">Exception</div>
+            <div class="desc-text">Exceptions are for results which you need to display in different template than default
+              template</div>
+            <div class="add-filed-btn mb-3 mt-2">
+              <img src="assets/icons/result-template/add.svg">Exception
+            </div> -->
+          </div>
+        </ng-container>
+
+        <div class="filter-facets-block" *ngIf="selectedTab==='fullSearch'">
+          <div class="label-text">Filter Facets</div>
+          <div class="desc-text mb-2">Customize the placement of filter facets for the full page result page</div>
+          <label class="kr-sg-toggle">
+            <input type="checkbox" [(ngModel)]="resultListObj.facetsSetting.enabled" (change)="updateSettings()">
+            <div class="slider"><span class="enabled">Enabled</span><span class="disabled">Disabled</span></div>
+          </label>
+          <ng-container *ngIf="resultListObj.facetsSetting.enabled">
+            <div class="filter-facets-info-images mt-3">
+              <div class="group-radiobutton mb-3">
+                <div class="kr-sg-radiobutton" *ngFor="let facet of filterFacets">
+                  <input [id]="facet.type" name="radio" class="radio-custom" type="radio"
+                    (click)="resultListObj.facetsSetting.aligned=facet.type"
+                    [checked]="resultListObj.facetsSetting.aligned===facet.type" (change)="updateSettings()">
+                  <label [for]="facet.type" class="radio-custom-label">{{facet.name}}</label>
+                </div>
+              </div>
+              <div class="img-info" *ngIf="!searchTemplatesDisabled">
+                <img src="assets/icons/resultTemplate/top-aligned.png"
+                  *ngIf="resultListObj.facetsSetting.aligned==='top'">
+                <img src="assets/icons/resultTemplate/lef-aligned.png"
+                  *ngIf="resultListObj.facetsSetting.aligned==='left'">
+                <img src="assets/icons/resultTemplate/right-aligned.png"
+                  *ngIf="resultListObj.facetsSetting.aligned==='right'">
+              </div>
+              <div class="img-info" *ngIf="searchTemplatesDisabled">
+                <img src="assets/icons/resultTemplate/top-down-left-aligned.png"
+                  *ngIf="resultListObj.facetsSetting.aligned==='left'">
+                <img src="assets/icons/resultTemplate/top-down-top-aligned.png"
+                  *ngIf="resultListObj.facetsSetting.aligned==='top'">
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </perfect-scrollbar>
+  </div>
+</div>
+
+<kr-modal modalType="center" #customModal id="sourceSlider" modalClass="modal_popups_ add-field-name-modal">
+  <div class="modal-header">
+    <div class="title breadcrum">{{fieldPopupType==='add'?'Add':'Edit'}} Field Name</div>
+    <div class="close_icon" (click)="closeCustomModal()">
+      <img src="assets/icons/modal-close.svg">
+    </div>
+  </div>
+  <perfect-scrollbar class="customize-scroll-left">
+    <div class="modal-body">
+      <div class="search_block">
+        <div class="label-text mb-1">Field Name</div>
+        <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+          <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown ngbDropdown (click)="clearcontent()">
+            <div class="dropdown dropdown-open">
+              <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
+                {{resultListObj.groupSetting.fieldName? resultListObj.groupSetting.fieldName : "Choose field"}}
+
+              </button>
+              <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" ngbDropdownMenu style="overflow-y: hidden;">
+                <li class="search-box">
+                  <input id="searchBoxId" [(ngModel)]="field_name" autocomplete="off" type="text"
+                    (keydown)="$event.stopPropagation()" placeholder="Search" class="seach-input pl-3" />
+                </li>
+                <perfect-scrollbar class="scroll-search-field h-189">
+                  <ng-container *ngIf="allFieldData && allFieldData.length">
+                    <li ngbDropdownItem *ngFor="let field of allFieldData | filter : [field_name, 'fieldName']"
+                      (click)="getFieldValues(field);resultListObj.groupSetting.fieldId=field._id;resultListObj.groupSetting.fieldName=field.fieldName"
+                      [ngClass]="{'highlight':resultListObj.groupSetting.fieldName===field.fieldName}">
+                      {{ field.fieldName }}</li>
+                  </ng-container>
+
+                </perfect-scrollbar>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="resultListObj?.groupSetting?.fieldId?.length">
+        <div class="valuse-available-fileds">
+          <div class="col-12 heading">Values Available</div>
+          <ng-container>
+            <div class="col-12 title-values" *ngFor="let value of fieldValues">
+              {{value}}</div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer">
+    <button class="kr-sg-button-primary btn_lg" [disabled]="resultListObj.groupSetting.fieldName===''"
+      (click)="overwriteConfiguration()">save</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="closeCustomModal()">Cancel</button>
+  </div>
+</kr-modal>
+
+<kr-modal modalType="center" #templateModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
+  <div class="modal-header">
+    <div class="title breadcrum">Customize <img src="assets/icons/search-interface/carrot_right.svg">
+      <span>{{selectedGroupName}} |
+        {{selectedTemplateName}}</span>
+    </div>
+    <div class="close_icon" (click)="closeTemplateModal()"><img src="assets/icons/modal-close.svg"></div>
+  </div>
+  <div class="modal-body">
+    <div class="customize-templates">
+      <div class="template-type-sec">
+        <perfect-scrollbar>
+          <div class="scroll-data">
+            <div class="title">Template Type</div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l1'}"
+              (click)="templateTypeSelection('l1')">
+              <img src="assets/icons/resultTemplate/type-1.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l2'}"
+              (click)="templateTypeSelection('l2')">
+              <img src="assets/icons/resultTemplate/type-2.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l3'}"
+              (click)="templateTypeSelection('l3')">
+              <img src="assets/icons/resultTemplate/type-3.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l4'}"
+              (click)="templateTypeSelection('l4')">
+              <img src="assets/icons/resultTemplate/type-4.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l5'}"
+              (click)="templateTypeSelection('l5')" *ngIf="templateDataBind.type !='list'">
+              <img src="assets/icons/resultTemplate/type-5.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l6'}"
+              (click)="templateTypeSelection('l6')">
+              <img src="assets/icons/resultTemplate/type-6.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l7'}"
+              (click)="templateTypeSelection('l7')" *ngIf="templateDataBind.type !='list'">
+              <img src="assets/icons/resultTemplate/type-7.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l8'}"
+              (click)="templateTypeSelection('l8')" *ngIf="templateDataBind.type !='list'">
+              <img src="assets/icons/resultTemplate/type-8.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l9'}"
+              (click)="templateTypeSelection('l9')" *ngIf="templateDataBind.type !='list'">
+              <img src="assets/icons/resultTemplate/type-9.svg">
+            </div>
+          </div>
+        </perfect-scrollbar>
+      </div>
+      <div class="template-preview-customize">
+        <perfect-scrollbar class="customize-scroll-left">
+          <div class="scroll-data-list">
+            <div class="kr-sg-dropdowns col-6 p-0 mb-3" *ngIf="templateDataBind.type == 'list'">
+              <div class="label-text">List Type</div>
+              <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{templateDatalistext}}</button>
+                <ul class="dropdown-menu content-menu">
+                  <li><a
+                      (click)="templateDatalistDisplay('Plain List');templateDataBind.layout.listType = 'plain'">Plain
+                      List</a></li>
+                  <li><a
+                      (click)="templateDatalistDisplay('Classic List');templateDataBind.layout.listType = 'classic'">Classic
+                      List</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <ng-container
+              *ngIf="templateDataBind.type == 'list'&&(['l1'].includes(templateDataBind.layout.layoutType))">
+              <div class="group-radiobutton mb-3">
+                <div class="label-text">Text alignment for template</div>
+                <div class="kr-sg-radiobutton">
+                  <input id="radio-text-left" name="radio-text" class="radio-custom" type="radio"
+                    (change)="templateDataBind.layout.textAlignment = 'left'"
+                    [checked]="templateDataBind.layout.textAlignment == 'left'">
+                  <label for="radio-text-left" class="radio-custom-label">Left</label>
+                </div>
+                <div class="kr-sg-radiobutton">
+                  <input id="radio-text-center" name="radio-text" class="radio-custom" type="radio"
+                    (change)="templateDataBind.layout.textAlignment = 'center'"
+                    [checked]="templateDataBind.layout.textAlignment == 'center'">
+                  <label for="radio-text-center" class="radio-custom-label">Center</label>
+                </div>
+              </div>
+            </ng-container>
+
+            <div class="template-preview-content">
+              <div class="label_text mb-1">Template Preview</div>
+              <div class="desc-text">Preview of the chosen template with the mapped fields will be shown here</div>
+              <ng-container *ngIf="['grid','carousel'].includes(templateDataBind.type)">
+                <br />
+                <div class="group-radiobutton mb-3"
+                  *ngIf="!(['l4','l5','l9'].includes(templateDataBind.layout.layoutType))">
+                  <div class="label-text">Text alignment for template</div>
+                  <div class="kr-sg-radiobutton">
+                    <input id="radio-text-left" name="radio-text" class="radio-custom" type="radio"
+                      (change)="templateDataBind.layout.textAlignment = 'left'"
+                      [checked]="templateDataBind.layout.textAlignment == 'left'">
+                    <label for="radio-text-left" class="radio-custom-label">Left</label>
+                  </div>
+                  <div class="kr-sg-radiobutton">
+                    <input id="radio-text-center" name="radio-text" class="radio-custom" type="radio"
+                      (change)="templateDataBind.layout.textAlignment = 'center'"
+                      [checked]="templateDataBind.layout.textAlignment == 'center'">
+                    <label for="radio-text-center" class="radio-custom-label">Center</label>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="itemTemplate">
+              </ng-container>
+              <ng-template #itemTemplate let-item>
+                <!-- Template 1 -->
+                <ng-container *ngIf="templateDataBind.type == 'list'">
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l1'">
+                    <!-- Template 1 Classic -->
+                    <!--no Result Group-->
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                    && templateDataBind.layout.layoutType == 'l1'">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-1-classic-list mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="classic-list-item col-6" *ngFor="let data of [0,1,2]">Heading comes here</div>
+                      </div>
+                    </ng-container>
+                    <!-- Template 1 Classic -->
+                    <!-- Template 1 Plain -->
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                    && templateDataBind.layout.layoutType == 'l1'">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-1-plain-list mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="plain-list-item col-6" *ngFor="let data of [0,1,2]">Heading comes here</div>
+                      </div>
+                    </ng-container>
+                    <!-- Template 1 Plain -->
+                    <!--no Result Group-->
+                    <!-- Template 1 Classic -->
+                    <!--Result Group-->
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                    && templateDataBind.layout.layoutType == 'l1'">
+                      <!-- Result Group Template 1 -->
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-1-classic-list-result-group mb-3 col-6"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="classic-list-result-item" *ngFor="let data of [0,1,2]">The All Rounder</div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+                    <!-- Template 1 Classic -->
+                    <!-- Template 1 Plain -->
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                    && templateDataBind.layout.layoutType == 'l1'">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-1-plain-list-result-group mb-3 col-6"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="plain-list-result-item" *ngFor="let data of [0,1,2]">The All Rounder</div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+                    <!-- Template 1 Plain -->
+                  </div>
+
+                  <!-- Template 2 -->
+                  <!-- Template 2 Classic -->
+                  <!--no Result Group-->
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l2'">
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.layoutType == 'l2' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-2-classic-list col-11 mb-3 p-0">
+                        <div class="classic-list-item" *ngFor="let data of [0,1]">
+                          <span>Description comes here, description comes here, description comes here, description
+                            comes
+                            here, description comes here, desc ription comes here, description comes here, description
+                            comes here, description comes here, description comes here, descript...</span>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                    && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template_2_classic_list_collapse col-11 mb-3">
+                        <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
+                          <div class="classic-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demol2' + i">
+                            Description
+                            comes here, description comes here, description comes here, description comes here,
+                            description comes here, des cription comes here, description comes here, description comes
+                            here, description comes here, description comes here, descri...</div>
+                          <div id="demol2{{i}}" class="collapse"></div>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.layoutType == 'l2' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-2-plain-list col-11 mb-3 p-0">
+                        <div class="plain-list-item" *ngFor="let data of [0,1]">
+                          <span>Description comes here, description comes here, description comes here, description
+                            comes
+                            here, description comes here, desc ription comes here, description comes here, description
+                            comes here, description comes here, description comes here, descript...</span>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template_2_plain_list_collapse col-11 mb-3">
+                        <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
+                          <div class="plain-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demol22' + i">Description
+                            comes here, description comes here, description comes here, description comes here,
+                            description comes here, des cription comes here, description comes here, description comes
+                            here, description comes here, description comes here, descri...</div>
+                          <div id="demol22{{i}}" class="collapse"></div>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.layoutType == 'l2' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-2-classic-list-result col-11 mb-3">
+                        <div class="classic-list-item-result" *ngFor="let data of [0,1]">
+                          <span>Description comes here, description comes here, description comes here, description
+                            comes
+                            here, description comes here, desc ription comes here, description comes here, description
+                            comes here, description comes here, description comes here, descript...</span>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template_2_classic_list_collapse_result col-11 mb-3">
+                        <div class="collapse-item-list-result" *ngFor="let data of [0,1];let i=index;">
+                          <div class="classic-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demo' + i">
+                            Description comes here, description comes here, description comes here, description comes
+                            here, description comes here, des cription comes here, description comes here, description
+                            comes here, description comes here, description comes here, descri...</div>
+                          <div id="demo{{i}}" class="collapse"></div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.layoutType == 'l2' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-2-plain-list-result col-11 mb-3">
+                        <div class="plain-list-item-result" *ngFor="let data of [0,1]">
+                          <span>Description comes here, description comes here, description comes here, description
+                            comes
+                            here, description comes here, desc ription comes here, description comes here, description
+                            comes here, description comes here, description comes here, descript...</span>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template_2_plain_list_collapse_result col-11 mb-3">
+                        <div class="collapse-item-list-result" *ngFor="let data of [0,1];let i=index;">
+                          <div class="plain-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demol2' + i">
+                            Description
+                            comes here, description comes here, description comes here, description comes here,
+                            description comes here, des cription comes here, description comes here, description comes
+                            here, description comes here, description comes here, descri...</div>
+                          <div id="demol2{{i}}" class="collapse"></div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                  </div>
+                  <!-- Grouping -->
+                  <!-- For List with Title -->
+                  <div class="d-none">
+                    <div class="template-2-classic-list col-11 mb-3 p-0">
+                      <div class="title-text-heading">{{templateDataBind?.layout?.title}}</div>
+                      <div class="classic-list-item">
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
+                      </div>
+                      <div class="classic-list-item">
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
+                      </div>
+                    </div>
+
+                    <div class="title-text-heading">Template title comes here</div>
+                    <div class="template-2-classic-list-collapse col-11 mb-3 p-0">
+                      <div class="collapse-item-list">
+                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo5">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, descri...</div>
+                        <div id="demo5" class="collapse"></div>
+                      </div>
+                      <div class="collapse-item-list">
+                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo6">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, descri...</div>
+                        <div id="demo6" class="collapse"></div>
+                      </div>
+                    </div>
+
+                    <div class="title-text-heading mb-0">Template title comes here</div>
+                    <div class="template-2-plain-list col-11 mb-3 p-0">
+                      <div class="plain-list-item">
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
+                      </div>
+                      <div class="plain-list-item">
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
+                      </div>
+                    </div>
+
+                    <div class="title-text-heading mb-0">Template title comes here</div>
+                    <div class="template-2-plain-list-collapse col-11 mb-3 p-0">
+                      <div class="collapse-item-list">
+                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo7">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, descri...</div>
+                        <div id="demo7" class="collapse"></div>
+                      </div>
+                      <div class="collapse-item-list">
+                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo8">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, description comes here, description
+                          comes here, description comes here, description comes here, description comes here,
+                          description c omes here, description comes here, description comes here, description comes
+                          here, description comes here, description com...</div>
+                        <div id="demo8" class="collapse"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- For List with Title -->
+
+                  <!-- Result Group -->
+
+
+                  <!-- Template 3 -->
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l3'">
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.layoutType == 'l3' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-3-classic-list col-11 mb-3 p-0">
+                        <!-- <div class="title-text-heading">{{templateDataBind?.layout?.title}}</div> -->
+                        <div class="classic-list-item" *ngFor="let data of [0,1]">
+                          <div class="heading-text">Heading comes here</div>
+                          <div class="text-desc text-truncate">Description comes here, description comes here,
+                            description
+                            comes here, description comes here, description comes here, des...</div>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template_3_classic_list_collapse col-11 mb-3">
+                        <!-- <div class="title-text-heading">Template title comes here</div> -->
+                        <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
+                          <div class="classic-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demo20' + i">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here,
+                              description comes here, description comes here, des cription comes here, description comes
+                              here, description comes here, description comes here, description comes here, descript
+                              ion comes here, description comes here, description comes here, description comes here,
+                              description comes here, description...</div>
+                          </div>
+                          <div id="demo20{{i}}" class="collapse"></div>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                && templateDataBind.layout.layoutType == 'l3' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-3-plain-list col-11 mb-3 p-0">
+                        <!-- <div class="title-text-heading mb-1">Template title comes here</div> -->
+                        <div class="plain-list-item" *ngFor="let data of [0,1]">
+                          <div class="heading-text">Heading comes here</div>
+                          <div class="text-desc text-truncate">Description comes here, description comes here,
+                            description
+                            comes here, description comes here, description comes here, des...</div>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template_3_plain_list_collapse col-11 mb-3">
+                        <!-- <div class="title-text-heading mb-1">Template title comes here</div> -->
+                        <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
+                          <div class="plain-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demo22' + i">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here,
+                              description comes here, description comes here, des cription comes here, description comes
+                              here, description comes here, description comes here, description comes here, descript
+                              ion comes here, description comes here, description comes here, description comes here,
+                              description comes here, description...</div>
+                          </div>
+                          <div id="demo22{{i}}" class="collapse"></div>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <!--Template 3 Result Group-->
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                && templateDataBind.layout.layoutType == 'l3' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-3-classic-list-result col-11 mb-3">
+                        <div class="classic-list-item-result" *ngFor="let data of [0,1]">
+                          <div class="heading-text">Heading comes here</div>
+                          <div class="text-desc text-truncate">Description comes here, description comes here,
+                            description
+                            comes here, description comes here, description comes here, des...</div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template_3_classic_list_collapse_result col-11 mb-3">
+                        <div class="collapse-item-list-result" *ngFor="let data of [0,1];let i=index;">
+                          <div class="classic-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demol3' + i">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here,
+                              description comes here, description comes here, des cription comes here, description comes
+                              here, description comes here, description comes here, description comes here, descript
+                              ion comes here, description comes here, description comes here, description comes here,
+                              description comes here, description...</div>
+                          </div>
+                          <div id="demol3{{i}}" class="collapse"></div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                && templateDataBind.layout.layoutType == 'l3' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-3-plain-list-result col-11 mb-3">
+                        <div class="plain-list-item-result" *ngFor="let data of [0,1]">
+                          <div class="heading-text">Heading comes here</div>
+                          <div class="text-desc text-truncate">Description comes here, description comes here,
+                            description
+                            comes here, description comes here, description comes here, des...</div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template_3_plain_list_collapse_result col-11 mb-3">
+                        <div class="collapse-item-list-result">
+                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo29">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here,
+                              description comes here, description comes here, des cription comes here, description comes
+                              here, description comes here, description comes here, description comes here, descript
+                              ion comes here, description comes here, description comes here, description comes here,
+                              description comes here, description...</div>
+                          </div>
+                          <div id="demo29" class="collapse"></div>
+                        </div>
+                        <div class="collapse-item-list-result">
+                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo30">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here,
+                              description comes here, description comes here, des cription comes here, description comes
+                              here, description comes here, description comes here, description comes here, descript
+                              ion comes here, description comes here, description comes here, description comes here,
+                              description comes here, description...</div>
+                          </div>
+                          <div id="demo30" class="collapse"></div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <!--Template 3 Result Group-->
+
+                  <!-- Template 4 -->
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l4'">
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.layoutType == 'l4' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-4-classic-list col-11 mb-3 p-0">
+                        <div class="classic-list-item">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/skelton-small.svg">
+                          </div>
+                          <div class="content_sec">
+                            <div class="heading-">The All Rounder</div>
+                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
+                              there
+                              jackets, same as women love to have small trench coats or c...</div>
+                          </div>
+                        </div>
+                        <div class="classic-list-item">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/skelton-small.svg">
+                          </div>
+                          <div class="content_sec">
+                            <div class="heading-">The All Rounder</div>
+                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
+                              there
+                              jackets, same as women love to have small trench coats or c...</div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.layoutType == 'l4' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-4-classic-list-collapse col-11 mb-3">
+                        <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
+                          <div class="classic-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demol4' + i">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="content_sec">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/skelton-large.svg">
+                              </div>
+                              <div class="text-desc">Description comes here, description comes here, description comes
+                                here, description comes here, description comes here, des cription comes here,
+                                description
+                                comes here, description comes here, description comes here, description comes here,
+                                description comes here, description comes here, description comes here, description
+                                comes
+                                here, description comes here, description...</div>
+                            </div>
+                          </div>
+                          <div id="demol4{{i}}" class="collapse"></div>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.layoutType == 'l4' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-4-plain-list col-11 mb-3 p-0">
+                        <div class="plain-list-item" *ngFor="let data of [0,1]">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/skelton-small.svg">
+                          </div>
+                          <div class="content_sec">
+                            <div class="heading-">The All Rounder</div>
+                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
+                              there
+                              jackets, same as women love to have small trench coats or c...</div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.layoutType == 'l4' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-4-plain-list-collapse col-11 mb-3 p-0">
+                        <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
+                          <div class="plain-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demo33' + i">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="content_sec">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/skelton-large.svg">
+                              </div>
+                              <div class="text-desc">Description comes here, description comes here, description comes
+                                here, description comes here, description comes here, des cription comes here,
+                                description
+                                comes here, description comes here, description comes here, description comes here,
+                                description comes here, description comes here, description comes here, description
+                                comes
+                                here, description comes here, description...</div>
+                            </div>
+                          </div>
+                          <div id="demo33{{i}}" class="collapse"></div>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.layoutType == 'l4' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-4-classic-list-result col-11 mb-3">
+                        <div class="classic-list-item-result" *ngFor="let data of [0,1]">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/skelton-small.svg">
+                          </div>
+                          <div class="content_sec">
+                            <div class="heading-">The All Rounder</div>
+                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
+                              there
+                              jackets, same as women love to have small trench coats or c...</div>
+                          </div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.layoutType == 'l4' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-4-classic-list-collapse-result col-11 mb-3">
+                        <div class="collapse-item-list-result" *ngFor="let data of [0,1];let i=index;">
+                          <div class="classic-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demol41' + i">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="content_sec">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/skelton-large.svg">
+                              </div>
+                              <div class="text-desc">Description comes here, description comes here, description comes
+                                here, description comes here, description comes here, des cription comes here,
+                                description
+                                comes here, description comes here, description comes here, description comes here,
+                                description comes here, description comes here, description comes here, description
+                                comes
+                                here, description comes here, description...</div>
+                            </div>
+                          </div>
+                          <div id="demol41{{i}}" class="collapse"></div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.layoutType == 'l4' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-4-plain-list-result col-11 mb-3">
+                        <div class="plain-list-item-result" *ngFor="let data of [0,1]">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/skelton-small.svg">
+                          </div>
+                          <div class="content_sec">
+                            <div class="heading-">The All Rounder</div>
+                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
+                              there
+                              jackets, same as women love to have small trench coats or c...</div>
+                          </div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.layoutType == 'l4' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-4-plain-list-collapse-result col-11 mb-3">
+                        <div class="collapse-item-list-result" *ngFor="let data of [0,1];let i=index;">
+                          <div class="plain-list-collapse-title" data-toggle="collapse"
+                            [attr.data-target]="'#demo43' + i">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="content_sec">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/skelton-large.svg">
+                              </div>
+                              <div class="text-desc">Description comes here, description comes here, description comes
+                                here, description comes here, description comes here, des cription comes here,
+                                description
+                                comes here, description comes here, description comes here, description comes here,
+                                description comes here, description comes here, description comes here, description
+                                comes
+                                here, description comes here, description...</div>
+                            </div>
+                          </div>
+                          <div id="demo43{{i}}" class="collapse"></div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+
+
+                  <!-- Template 5 -->
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l5'">
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.listType == 'l5' && templateDataBind.layout.isClickable">
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.listType == 'l5' && !templateDataBind.layout.isClickable">
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.listType == 'l5' && templateDataBind.layout.isClickable">
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.listType == 'l5' && !templateDataBind.layout.isClickable">
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.listType == 'l5' && templateDataBind.layout.isClickable">
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.listType == 'l5' && !templateDataBind.layout.isClickable">
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.listType == 'l5' && templateDataBind.layout.isClickable">
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.listType == 'l5' && !templateDataBind.layout.isClickable">
+                    </ng-container>
+                  </div>
+                  <!-- Template 6 (Check in Figma for the latest Designs )-->
+                  <ng-container *ngIf="templateDataBind.layout.layoutType == 'l6'">
+                    <div class="template-preview-box">
+                      <div class="template-6-classic-list mb-3">
+                        <div class="title-main">Jackets to look for this winter</div>
+                        <div class="img-with-text">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/skelton-small.svg">
+                          </div>
+                          <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored
+                            shapes that suit your body type. Belted coats are a great way to accentuate your waist even
+                            if
+                            you're wearing a woolly jumper underneath. </div>
+                        </div>
+                        <div class="img-with-text">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/skelton-small.svg">
+                          </div>
+                          <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored
+                            shapes that suit your body type. Belted coats are a great way to accentuate your waist even
+                            if
+                            you're wearing a woolly jumper underneath. </div>
+                        </div>
+                        <div class="img-with-text">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/skelton-small.svg">
+                          </div>
+                          <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored
+                            shapes that suit your body type. Belted coats are a great way to accentuate your waist even
+                            if
+                            you're wearing a woolly jumper underneath. </div>
+                        </div>
+                        <div class="author-text-info">About the Author:</div>
+                        <div class="author-text-info">Elisha Burberry is an online, freelance journalist and keen
+                          traveller and watersports enthusiast. Originally from Scotland, she now resides in London.
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+                <!-- Grid Template start-->
+                <ng-container *ngIf="templateDataBind.type == 'grid'">
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l1'">
+                    <ng-container>
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-1-grid-list row col-7 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="grid-data-item col-6" *ngFor="let data of [0,1,2,3]">
+                          <div class="title-item">Description comes here</div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l2'">
+                    <ng-container>
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-2-grid-list row col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="grid-data-item col-4" *ngFor="let data of [0,1,2]">
+                          <div class="title-item">Description comes here, descrip tion comes here, description comes
+                            here,
+                            description comes here, description comes here, description comes here, description comes
+                            here, description comes here, description comes...</div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l3'">
+                    <ng-container>
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-3-grid-list row col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="grid-data-item col-4" *ngFor="let data of [0,1,2]">
+                          <div class="inner-content-list">
+                            <div class="heading-text">Heading comes here. </div>
+                            <div class="title-item">Description comes here, descrip tion comes here, description comes
+                              here, description comes here, description comes here, description comes here, desc....
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l4'">
+                    <ng-container>
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-4-grid-list row col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="grid-data-item col-4" *ngFor="let data of [0,1,2]">
+                          <div class="inner-content-list">
+                            <div class="image-with-title">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/skelton-dummy.svg">
+                              </div>
+                              <div class="info-title">Heading comes here. </div>
+                            </div>
+                            <div class="title-item">Description comes here, descrip tion comes here, description comes
+                              here, description comes here, description comes he....</div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l5'">
+                    <ng-container>
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template_5_grid_list row col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="grid-data-item col-4" *ngFor="let data of [0,1,2]">
+                          <div class="inner-content-list">
+                            <img src="assets/icons/resultTemplate/skelton-large.svg">
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l6'">
+                    <ng-container>
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-6-grid-list row col-11 mb-3">
+                        <div class="grid-data-item col-4">
+                          <div class="inner-content-list">
+                            <div class="heading-main"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">Heading
+                              comes here</div>
+                            <div class="image-with-text" *ngFor="let data of [0,1,2]">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/skelton-small.svg">
+                              </div>
+                              <div class="image-info">Men wardrobes there most special piecesa...</div>
+                            </div>
+                            <div class="info-text-bottom">
+                              About the Author: Burberry is an online, freelance journalist and keen traveller and
+                              watersports enthusiast. Originally from Scotland, she now resides in London.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="grid-data-item col-4">
+                          <div class="inner-content-list">
+                            <div class="heading-main"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">Heading
+                              comes here</div>
+                            <div class="image-with-text" *ngFor="let data of [0,1,2]">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/skelton-small.svg">
+                              </div>
+                              <div class="image-info">Men wardrobes there most special piecesa...</div>
+                            </div>
+                            <div class="info-text-bottom">
+                              About the Author: Burberry is an online, freelance journalist and keen traveller and
+                              watersports enthusiast. Originally from Scotland, she now resides in London.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="grid-data-item col-4">
+                          <div class="inner-content-list">
+                            <div class="heading-main"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">Heading
+                              comes here</div>
+                            <div class="image-with-text" *ngFor="let data of [0,1,2]">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/skelton-small.svg">
+                              </div>
+                              <div class="image-info">Men wardrobes there most special piecesa...</div>
+                            </div>
+                            <div class="info-text-bottom">
+                              About the Author: Burberry is an online, freelance journalist and keen traveller and
+                              watersports enthusiast. Originally from Scotland, she now resides in London.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l7'">
+                    <ng-container>
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template_7_grid_list row col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="grid-data-item col-4" *ngFor="let data of [0,1,2]">
+                          <div class="inner-content-list">
+                            <div class="main-img-block">
+                              <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                            </div>
+                            <div class="heading">Heading comes here</div>
+                            <div class="desc-text-info">Description text comes here, Description text comes here.</div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l8'">
+                    <ng-container>
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template-8-grid-list row col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="grid-data-item col-4" *ngFor="let data of [0,1,2]">
+                          <div class="inner-content-list">
+                            <div class="main-img-block">
+                              <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                            </div>
+                            <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                            <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l9'">
+                    <ng-container>
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div class="template_9_grid_list row col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="grid-data-item col-4" *ngFor="let data of [0,1,2]">
+                          <div class="inner-content-list">
+                            <div class="main-img-block">
+                              <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                            </div>
+                            <div class="heading">Heading comes here</div>
+                            <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                            <div class="price-count">$156</div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                </ng-container>
+                <!-- Grid Template end-->
+
+                <!-- Carousel Templates -->
+                <ng-container *ngIf="templateDataBind.type == 'carousel'">
+                  <div class="template-preview-box carousel-preview">
+                    <!-- Template 1 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l1'">
+                      <div class="title-text-heading pl-2 m-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-1" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template-1-classic-list row col-12 m-0 p-2"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">Heading comes here</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="template-1-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,4]">
+                                <div class="classic-list-item">Heading comes here</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-1" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-1" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+                    <!-- Template 2 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l2'">
+                      <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-2" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template-2-classic-list row col-12 m-0 p-2"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">Description comes here, descrip tion comes here,
+                                  description comes here, description comes here, description comes here, description
+                                  comes here, description comes here, description comes here, description comes...</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="template-2-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">Description comes here, descrip tion comes here,
+                                  description comes here, description comes here, description comes here, description
+                                  comes here, description comes here, description comes here, description comes...</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-2" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+
+                    <!-- Template 3 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l3'">
+                      <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-3" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template-3-classic-list row col-12 m-0 p-2"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">
+                                  <div class="heading-text">Heading comes here</div>
+                                  <div class="text-desc">Description comes here, description comes here, description
+                                    comes
+                                    here, description comes here, description comes here, des...</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="template-3-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">
+                                  <div class="heading-text">Heading comes here</div>
+                                  <div class="text-desc">Description comes here, description comes here, description
+                                    comes
+                                    here, description comes here, description comes here, des...</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-3" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+
+                    <!-- Template 4 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l4'">
+                      <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-4" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template-4-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">
+                                  <div class="img-with-heading">
+                                    <div class="img-block">
+                                      <img src="assets/icons/resultTemplate/skelton-small.svg">
+                                    </div>
+                                    <div class="heading-">Heading comes here. </div>
+                                  </div>
+                                  <div class="content_sec">
+                                    <div class="text_desc">Men wardrobes the most special pieces of cloths are there
+                                      jackets, same as women love to have small trench coats or c...</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="template-4-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">
+                                  <div class="img-with-heading">
+                                    <div class="img-block">
+                                      <img src="assets/icons/resultTemplate/skelton-small.svg">
+                                    </div>
+                                    <div class="heading-">Heading comes here. </div>
+                                  </div>
+                                  <div class="content_sec">
+                                    <div class="text_desc">Men wardrobes the most special pieces of cloths are there
+                                      jackets, same as women love to have small trench coats or c...</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-4" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+
+                    <!-- Template 5 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l5'">
+                      <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-5" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template-5-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">
+                                  <div class="img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-large.svg">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="template-5-classic-list row col-12 m-0 p-2">
+                              <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
+                                <div class="classic-list-item">
+                                  <div class="img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-large.svg">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-5" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+
+                    <!-- Template 6 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l6'">
+                      <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-6" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template-6-classic-list row col-12 m-0 p-2"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                              <div class="col-4 pl-1 pr-1" *ngFor="let data of [0,1,2]">
+                                <div class="classic-list-item">
+                                  <div class="title-main">Heading comes here</div>
+                                  <div class="img-with-text">
+                                    <div class="img-block">
+                                      <img src="assets/icons/resultTemplate/skelton-small.svg">
+                                    </div>
+                                    <div class="info-text">Men wardrobes there most special piecesa...</div>
+                                  </div>
+                                  <div class="img-with-text">
+                                    <div class="img-block">
+                                      <img src="assets/icons/resultTemplate/skelton-small.svg">
+                                    </div>
+                                    <div class="info-text">Men wardrobes there most special piecesa...</div>
+                                  </div>
+                                  <div class="img-with-text">
+                                    <div class="img-block">
+                                      <img src="assets/icons/resultTemplate/skelton-small.svg">
+                                    </div>
+                                    <div class="info-text">Men wardrobes there most special piecesa...</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="template-6-classic-list row col-12 m-0 p-2">
+                              <div class="col-4 pl-1 pr-1" *ngFor="let data1 of [0,1,2]">
+                                <div class="classic-list-item">
+                                  <div class="title-main">Heading comes here</div>
+                                  <div class="img-with-text">
+                                    <div class="img-block">
+                                      <img src="assets/icons/resultTemplate/dummyimg.svg">
+                                    </div>
+                                    <div class="info-text">Men wardrobes there most special piecesa...</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-6" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+
+                    <!-- Template 7 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l7'">
+                      <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-7" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template_7_grid_list row col-12 m-0 p-2"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                              <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
+                                <div class="inner-content-list">
+                                  <div class="main-img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                  </div>
+                                  <div class="heading">Heading comes here</div>
+                                  <div class="desc-text-info">Description text comes here, Description text comes here.
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="template_7_grid_list row col-12 m-0 p-2">
+                              <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
+                                <div class="inner-content-list">
+                                  <div class="main-img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                  </div>
+                                  <div class="heading">Heading comes here</div>
+                                  <div class="desc-text-info">Description text comes here, Description text comes here.
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-7" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+
+                    <!-- Template 8 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l8'">
+                      <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-8" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template-8-grid-list row col-12 m-0 p-2"
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                              <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
+                                <div class="inner-content-list">
+                                  <div class="main-img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                  </div>
+                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="template-8-grid-list row col-12 m-0 p-2">
+                              <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
+                                <div class="inner-content-list">
+                                  <div class="main-img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                  </div>
+                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-8" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+
+                    <!-- Template 9 Carousel -->
+                    <ng-container *ngIf="templateDataBind.layout.layoutType == 'l9'">
+                      <div class="title-text-heading pl-2 mb-0" *ngIf="templateDataBind.layout.renderTitle">
+                        {{templateDataBind?.layout?.title}}</div>
+                      <div id="demo-c-t-9" class="carousel slide carousel-result-templates w-100 m-0 mb-2"
+                        data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="template_9_grid_list row col-12 m-0 p-2">
+                              <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
+                                <div class="inner-content-list">
+                                  <div class="main-img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                  </div>
+                                  <div class="heading">Heading comes here</div>
+                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                                  <div class="price-count">$156</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="template_9_grid_list row col-12 m-0 p-2">
+                              <div class="grid-data-item col-3" *ngFor="let data of [0,1,2,3]">
+                                <div class="inner-content-list">
+                                  <div class="main-img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                  </div>
+                                  <div class="heading">Heading comes here</div>
+                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                                  <div class="price-count">$156</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-c-t-9" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+
+                  </div>
+                </ng-container>
+              </ng-template>
+              <div class="kr-sg-checkbox mb-2">
+                <input id="checkbox-addToTitle" class="checkbox-custom" type="checkbox" (change)="renderTitleChange()"
+                  [checked]="templateDataBind.layout.renderTitle">
+                <label for="checkbox-addToTitle" class="checkbox-custom-label">Add title to template</label>
+              </div>
+              <div class="kr-sg-input-text mb-2" *ngIf="templateDataBind.layout.renderTitle">
+                <div class="label-text">Template title</div>
+                <input type="text" placeholder="Enter a template title" class="input-text"
+                  [(ngModel)]="templateDataBind.layout.title"
+                  [class.err-block]="(!(templateDataBind.layout.title?.length) && submitted)">
+              </div>
+            </div>
+
+            <div class="search-result-mapping">
+              <div class="label-text">Search Result Mapping</div>
+              <div class="desc-text">Map the existing or custom added fields here</div>
+              <div class="search_block"
+                *ngIf="['l1','l3','l4','l6','l7','l9'].includes(templateDataBind.layout.layoutType)">
+                <!-- <div class="label-text mb-1">Heading</div>
+                <div class="row m-0 align-items-center">
+                  <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'" #headDrop="ngbDropdown">
+                    <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                      <img src="assets/icons/search_gray.svg" class="search-icon">
+                      <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
+                        data-toggle="dropdown"></button>
+                      <!- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
+                <!-- <input type="text" placeholder="Search Field" id="facets-search-input"
+                        class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
+                        [class.err-block]="((!(preview_title?.length) && submitted)||!(templateFieldValidateObj.heading))"
+                        (keyup)="searchlist('heading',$event.target.value,fieldData)" (keypress)="headDrop.open();"
+                        (focus)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="preview_title"
+                        ngbDropdownToggle>
+                      <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu"
+                        ngbDropdownMenu>
+                        <perfect-scrollbar class="scroll-search-field">
+                          <li *ngFor="let field of heading_fieldData" [id]="field._id"
+                            (click)="filedSelect('heading',field);headDrop.close();" class="p-0">
+                            <a>{{field.fieldName}}</a>
+                          </li>
+                        </perfect-scrollbar>
+                      </ul>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="label-text mb-1">{{'resultTemplate.heading'|translate}}</div>
+                <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                  <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown #headDrop="ngbDropdown">
+                    <div class="dropdown dropdown-open">
+                      <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
+                        [class.err-block]="((!(preview_title?.length) && submitted)||!(templateFieldValidateObj.heading))"
+                        [class.err-block]="((!(preview_title?.length) && submitted)||!(templateFieldValidateObj.heading))"
+                        data-toggle="dropdown" (click)="clearcontent();" ngbDropdownToggle>
+                        {{preview_title ? preview_title :"Choose field"}}
+                      </button>
+                      <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                        ngbDropdownMenu>
+                        <li class="search-box">
+                          <input id="searchBoxId" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                            placeholder="Search" class="seach-input pl-3"
+                            (keyup)="searchlist('heading',$event.target.value,fieldData)"
+                            (focus)="searchlist('heading',$event.target.value,fieldData);" autofocus />
+                        </li>
+                        <perfect-scrollbar class="scroll-search-field h-189">
+                          <ng-container *ngIf="heading_fieldData && heading_fieldData.length">
+                            <li ngbDropdownItem *ngFor="let field of heading_fieldData"
+                              (click)="filedSelect('heading',field)"
+                              [ngClass]="{'highlight':preview_title===field.fieldName}">
+                              {{ field.fieldName }}</li>
+                          </ng-container>
+                        </perfect-scrollbar>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Description Fields-->
+              <div class="search_block"
+                *ngIf="['l2','l3','l4','l6','l7','l8','l9'].includes(templateDataBind.layout.layoutType)">
+                <!-- <div class="label-text mb-1">Description</div>
+                <div class="row m-0 align-items-center">
+                  <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'" #descDrop="ngbDropdown">
+                     [ngClass]="{'disabled': addEditFacetObj._id}" -->
+                    <!-- <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                      <img src="assets/icons/search_gray.svg" class="search-icon">
+                      <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
+                        data-toggle="dropdown"></button> -->
+                      <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
+                      <!-- <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
+                        class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
+                        [class.err-block]="((!(preview_desc?.length) && submitted)||!(templateFieldValidateObj.description))"
+                        (keyup)="searchlist('description',$event.target.value,fieldData)"
+                        (focus)="searchlist('description',$event.target.value,fieldData)" (keypress)="descDrop.open();"
+                        [(ngModel)]="preview_desc" ngbDropdownToggle>
+                      <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu"
+                        ngbDropdownMenu>
+                        <perfect-scrollbar class="scroll-search-field">
+                          <li *ngFor="let field of desc_fieldData" [id]="field._id"
+                            (click)="filedSelect('description',field);descDrop.close();" class="p-0">
+                            <a>{{field.fieldName}}</a>
+                          </li>
+                        </perfect-scrollbar>
+                      </ul> -->
+                      <div class="label-text mb-1">{{'resultTemplate.description'|translate}}</div>
+                      <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                        <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentdesc()" #descDrop="ngbDropdown">
+                          <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
+                              [class.err-block]="((!(preview_desc?.length) && submitted)||!(templateFieldValidateObj.description))"
+                              [class.err-block]="((!(preview_desc?.length) && submitted)||!(templateFieldValidateObj.description))"
+                              data-toggle="dropdown" (click)="clearcontentdesc();" ngbDropdownToggle>
+                              {{preview_desc ? preview_desc :"Choose field"}}
+                            </button>
+                            <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                              ngbDropdownMenu>
+                              <li class="search-box">
+                                <input id="searchBoxId1" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                                  placeholder="Search" class="seach-input pl-3"
+                                  (keyup)="searchlist('description',$event.target.value,fieldData)"
+                                  (focus)="searchlist('description',$event.target.value,fieldData);" autofocus />
+                              </li>
+                              <perfect-scrollbar class="scroll-search-field h-189">
+                                <ng-container *ngIf="desc_fieldData && desc_fieldData.length">
+                                  <li ngbDropdownItem *ngFor="let field of desc_fieldData"
+                                    (click)="filedSelect('description',field)"
+                                    [ngClass]="{'highlight':preview_desc===field.fieldName}">
+                                    {{ field.fieldName }}</li>
+                                </ng-container>
+                              </perfect-scrollbar>
+                            </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Image  Fields -->
+              <div class="search_block"
+                *ngIf="['l4','l5','l6','l7','l8','l9'].includes(templateDataBind.layout.layoutType)">
+                <!-- <div class="label-text mb-1">Image</div>
+                <div class="row m-0 align-items-center">
+                  <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'" #imgDrop="ngbDropdown"> -->
+                    <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
+                    <!-- <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                      <img src="assets/icons/search_gray.svg" class="search-icon">
+                      <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
+                        data-toggle="dropdown"></button>
+                         <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
+                      <!-- <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
+                        class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
+                        [class.err-block]="((!(preview_img?.length) && submitted)||!(templateFieldValidateObj.image))"
+                        (keyup)="searchlist('image',$event.target.value,fieldData)"
+                        (focus)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="preview_img"
+                        (keypress)="imgDrop.open();" ngbDropdownToggle>
+                      <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu"
+                        ngbDropdownMenu>
+                        <perfect-scrollbar class="scroll-search-field">
+                          <li *ngFor="let field of img_fieldData" [id]="field._id"
+                            (click)="filedSelect('image',field);imgDrop.close();">
+                            <a>{{field.fieldName}}</a>
+                          </li>
+                        </perfect-scrollbar> 
+                      </ul> -->
+                      <div class="label-text mb-1">{{'resultTemplate.image'|translate}}</div>
+                      <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                        <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentimage();" #imgDrop="ngbDropdown">
+                          <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
+                              [class.err-block]="((!(preview_img?.length) && submitted)||!(templateFieldValidateObj.image))"
+                              data-toggle="dropdown" (click)="clearcontentimage();" ngbDropdownToggle>
+                              {{preview_img ? preview_img :"Choose field"}}
+                            </button>
+                            <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                              ngbDropdownMenu>
+                              <li class="search-box">
+                                <input id="searchBoxId2" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                                  placeholder="Search" class="seach-input pl-3"
+                                  (keyup)="searchlist('image',$event.target.value,fieldData)"
+                                  (focus)="searchlist('image',$event.target.value,fieldData);" autofocus />
+                              </li>
+                              <perfect-scrollbar class="scroll-search-field h-189">
+                                <ng-container *ngIf="img_fieldData && img_fieldData.length">
+                                  <li ngbDropdownItem *ngFor="let field of img_fieldData"
+                                    (click)="filedSelect('image',field)"
+                                    [ngClass]="{'highlight':preview_img===field.fieldName}">
+                                    {{ field.fieldName }}</li>
+                                </ng-container>
+                              </perfect-scrollbar>
+                            </ul>      
+                    </div>
+                        </div>
+                      </div>
+              </div>
+            </div>
+
+            <div class="search-results-click-settings">
+              <div class="label-text">Search Result click Settings</div>
+              <div class="desc-text mb-3">Define the click behaviour for the search results</div>
+              <div class="label-text">Clickable</div>
+              <label class="kr-sg-toggle">
+                <input type="checkbox" (change)="clickableChange()" [checked]="templateDataBind.layout.isClickable">
+                <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+              </label>
+              <div class="label-text mt-3" *ngIf="templateDataBind.layout.isClickable">Click Behaviour</div>
+              <div class="kr-sg-radiobutton" *ngIf="templateDataBind.layout.isClickable">
+                <input id="radio-open-webpage" name="radio" class="radio-custom" type="radio"
+                  (change)="clickBehaviorChange('webpage')" [checked]="templateDataBind.layout.behaviour == 'webpage'">
+                <label for="radio-open-webpage" class="radio-custom-label">Open a Webpage</label>
+              </div>
+
+              <div class="kr-sg-radiobutton" *ngIf="templateDataBind.layout.isClickable">
+                <input id="radio-postback" name="radio" class="radio-custom" type="radio"
+                  (change)="clickBehaviorChange('postback')" [checked]="templateDataBind.layout.behaviour != 'webpage'">
+                <label for="radio-postback" class="radio-custom-label">Postback</label>
+              </div>
+              <div class="kr-sg-input-text mt-3" *ngIf="templateDataBind.layout.isClickable">
+                <div class="search_block">
+                  <div class="label-text mb-1">
+                    {{templateDataBind.layout.isClickable&&templateDataBind.layout.behaviour==='webpage'?'URL':'Postback'}}
+                  </div>
+                  <div class="row m-0 align-items-center"
+                    *ngIf="templateDataBind.layout.isClickable&&templateDataBind.layout.behaviour==='webpage'">
+                    <!-- <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'" #urlDrop="ngbDropdown">
+                      <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                        <img src="assets/icons/search_gray.svg" class="search-icon">
+                        <button id="btn_select_facet_field"
+                          class="position-absolute border-0 dropdown-toggle dropdown-input search-with-dropdown"
+                          data-toggle="dropdown"></button>
+                        <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
+                          class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
+                          [class.err-block]="((!(preview_url?.length) && submitted)||!(templateFieldValidateObj.url))"
+                          (keyup)="searchlist('url',$event.target.value,fieldData)"
+                          (focus)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="preview_url"
+                          (keypress)="urlDrop.open();" ngbDropdownToggle>
+                        <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu"
+                          ngbDropdownMenu>
+                          <perfect-scrollbar class="scroll-search-field">
+                            <li *ngFor="let field of url_fieldData" [id]="field._id"
+                              (click)="filedSelect('url',field);urlDrop.close();">
+                              <a>{{field.fieldName}}</a>
+                            </li>
+                          </perfect-scrollbar>
+                        </ul> -->
+                        <div class="kr-sg-dropdowns col-12 pr-0 pl-0" ngbDropdown (click)="clearcontenturl();" #urlDrop="ngbDropdown">
+                          <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
+                              [class.err-block]="((!(preview_url?.length) && submitted)||!(templateFieldValidateObj.image))"
+                              data-toggle="dropdown" (click)="clearcontenturl();" ngbDropdownToggle>
+                              {{preview_url ? preview_url :"Choose field"}}
+                            </button>
+                            <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                              ngbDropdownMenu>
+                              <li class="search-box">
+                                <input id="searchBoxId3" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                                  placeholder="Search" class="seach-input pl-3"
+                                  (keyup)="searchlist('url',$event.target.value,fieldData)"
+                                  (focus)="searchlist('url',$event.target.value,fieldData);" autofocus />
+                              </li>
+                              <perfect-scrollbar class="scroll-search-field h-189">
+                                <ng-container *ngIf="url_fieldData && url_fieldData.length">
+                                  <li ngbDropdownItem *ngFor="let field of url_fieldData"
+                                    (click)="filedSelect('url',field)"
+                                    [ngClass]="{'highlight':preview_url===field.fieldName}">
+                                    {{ field.fieldName }}</li>
+                                </ng-container>
+                              </perfect-scrollbar>
+                            </ul>      
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row m-0 align-items-center"
+                    *ngIf="templateDataBind.layout.isClickable&&templateDataBind.layout.behaviour==='postback'">
+                    <input type="text" maxlength="60" placeholder="Enter Postback" id="facets-search-input"
+                      class="input-search dropdown-toggle dropdown-input" [(ngModel)]="postback" autocomplete="off">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </perfect-scrollbar>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="kr-sg-button-primary btn_lg" (click)="updateTemplate()">Save</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="closeTemplateModal()">Cancel</button>
+  </div>
+</kr-modal>

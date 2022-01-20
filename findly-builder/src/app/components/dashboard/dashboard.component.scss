@@ -334,6 +334,26 @@
                         font-weight: 500;
                         font-size: 14px;
                         text-align: left;
+                        display: flex;
+                        align-items: center;
+                        .sortImg{                                                       
+                            position: relative;
+                            cursor: pointer;
+                            &.upArrow {
+                                transform: none !important;
+                            }
+                            &.downArrow {
+                                transform: rotate(180deg) !important;
+                                top: -1px !important;
+                                position: relative;
+                            }
+                            &.assending{
+                                transform: rotate(180deg);
+                            }
+                            &.decending{
+                                transform: rotate(0deg);
+                            }
+                        } 
                         img{
                             cursor: pointer;  
                             vertical-align: baseline;                          

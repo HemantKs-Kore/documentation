@@ -68,7 +68,7 @@
                             <div class="content">
                                 <div class="title">{{'metrics.user_engagement.Repeat_Users'| translate}}<span class="clicks">
                                 </span>
-                                <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="Number of returning users performed search during the selected period" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
+                                <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="Number of unique users who performed search during the selected period" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
                             </div>
                                 <div class="count-data " >
                                     <span class="count">{{repeatUser}}
@@ -109,7 +109,7 @@
                             </div>
                         </div>
                         <div echarts [options]="heatMapChartOption" class="demo-chart-graphMode" style="z-index : 1"></div>
-                        <div class="d-flex justify-content-between mt-1" style="margin-top:-2% !important">
+                        <div class="d-flex justify-content-between mt-1">
                             <!-- <ng5-slider [(value)]="durationRange1" [(highValue)]="durationRange2" [options]="durationOptions" class="double_slider slider1" (userChangeEnd)="onUserChangeEnd('duration', $event, 'slider1')" (userChange)="onUserChange($event, 'slider1', true)"></ng5-slider> -->
                             <div class="row m-0 bottom-row col-12 ">
                                 <div class="slider-sec col-6 p-0">

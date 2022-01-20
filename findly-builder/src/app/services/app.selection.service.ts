@@ -165,7 +165,6 @@ export class AppSelectionService {
   }
   selectIndexConfig(config) {
     this.workflowService.selectedIndexPipeline(config._id)
-    console.log(config._id)
   }
   selectQueryConfig(config) {
     this.res_length = this.queryList.length;
@@ -300,7 +299,7 @@ export class AppSelectionService {
   getTourConfig() {
     this.getTourArray = [];
     const appInfo: any = this.workflowService.selectedApp();
-    console.log("appInfo", appInfo)
+    // console.log("appInfo", appInfo)
     const quaryparms: any = {
       streamId: appInfo._id
     };
@@ -309,7 +308,7 @@ export class AppSelectionService {
       this.getTourArray = res.tourConfigurations;
       this.getTourConfigData.next(res.tourConfigurations);
     }, errRes => {
-      console.log(errRes)
+      // console.log(errRes)
     });
   }
   //put tour config
@@ -366,7 +365,7 @@ export class AppSelectionService {
           this.tourConfigCancel.next({ name: undefined, status: 'completed' });
         }
       }, errRes => {
-        console.log(errRes);
+        // console.log(errRes);
       });
     }
   }
