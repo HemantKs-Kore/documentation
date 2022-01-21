@@ -629,7 +629,7 @@ export class SettingsComponent implements OnInit {
     if (this.addCredentialRef) {
       this.addCredentialRef.close();
     }
-    this.credntial.name = [];
+    this.credntial.name = '';
     this.credntial.awt = 'HS256';
   }
   toggleSearch() {

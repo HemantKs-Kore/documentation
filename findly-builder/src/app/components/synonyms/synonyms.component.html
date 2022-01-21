@@ -12,7 +12,7 @@
 
         <div class="col-8 right-sec p-0">
           <div class="kr-sg-input-text m-0"  [ngClass]="{'d-none': !showSearch}">
-              <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search" [ngClass]="{'pl-33':!synonymSearch,'pl-2':synonymSearch}" autocomplete="off" [(ngModel)]="synonymSearch"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+              <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search" [ngClass]="{'pl-33':!synonymSearch,'pl-2':synonymSearch}" autocomplete="off" [(ngModel)]="synonymSearch"  (keyup)="getSynonymsApi(synonymSearch, 'search')"(mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
               (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
           <img [src]="searchImgSrc" class="search-icon" *ngIf="!synonymSearch">
           <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':synonymSearch}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
@@ -39,7 +39,7 @@
   </div>
   <ng-container *ngIf="!loadingContent">
     <perfect-scrollbar class="table-scroll-perfect-synonyms">
-      <div  class="empty-landing-screen"
+      <div class="empty-landing-screen"
       *ngIf="!(synonymData && synonymData.length) && !newSynonymObj.addNew && !loadingContent">
       <!-- <img src="assets/images/icons/empty_ill.svg">
       <div class="heading">{{'synonyms.no_synonyms_available_here' | translate}}</div>
@@ -90,14 +90,15 @@
           </header> -->
           <header class="table-header" *ngIf="(synonymData && synonymData.length) && !loadingContent">
             <div class="col-6 title-header">
-              <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('name')">
+              <!-- <span class="d-flex align-items-center flex-column mr-1 d-none" (click)="sortByApi('name')">
                 <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                 <img  [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-              <!-- <img src="assets/icons/sort_up_down.svg"> --></span>
+            <img src="assets/icons/sort_up_down.svg"> -->
+          <!-- </span>  -->
               {{'synonyms.terms'| translate}}
             </div>
             <div class="col-6 title-header">
-              <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('type')">
+              <span class="d-flex align-items-center flex-column mr-1" (click)="sortByApi('type')">
                 <img  [ngClass]="getSortIconVisibility('type', 'down')"src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                 <img  [ngClass]="getSortIconVisibility('type', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
           </span>
@@ -107,13 +108,18 @@
                 <div class="dropdown dropdown-open">
                   <img src="assets/icons/synonyms_sort_dropdown.svg" ngbDropdownToggle>
                   <ul class="dropdown-menu content-menu synonyms_sort_dropdown" ngbDropdownMenu>
-                    <li (click)="selectFilter(null);t.close();">{{'synonyms.All' | translate}}<img
-                        *ngIf="!(selectedFilter)"  class="pl-2" src="assets/icons/check-blue.svg"></li>
-                    <li (click)="selectFilter('oneWaySynonym');t.close();" *ngIf="filteroneWaySynonym">
-                      {{'synonyms.one_way_synonym' | translate}}<img class="pl-2"
-                        *ngIf="(selectedFilter === 'oneWaySynonym')" src="assets/icons/check-blue.svg"></li>
-                    <li *ngIf="filterSynonym" (click)="selectFilter('synonym');t.close();">{{'synonyms.synonym'| translate}}<img class="pl-2"
-                        *ngIf="(selectedFilter === 'synonym')" src="assets/icons/check-blue.svg"></li>
+                    <li [ngClass]="{'selected-list': filterSystem.typefilter == 'all'}" (click)="filterTable('all','type');t.close();">{{'synonyms.All' | translate}}<img
+                      [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" class="check-icon"  src="assets/icons/check-blue.svg"></li>
+                    <li [ngClass]="{'selected-list': filterSystem.typefilter == type}" *ngFor="let type of synonymTypeArr" (click)="filterTable(type,'type');t.close();">
+                      <span class="list-name">{{type}}</span>
+                      <img [ngClass]="{'hide': filterSystem.typefilter !== type}" class="check-icon" src="assets/icons/check-blue.svg"></li>
+                      <!-- {{'synonyms.one_way_synonym' | translate}} -->
+                      <!-- <img class="pl-2"
+                        *ngIf="(selectedFilter === 'oneWaySynonym')" src="assets/icons/check-blue.svg"></li> -->
+
+                        
+                    <!-- <li *ngIf="filterSynonym" (click)="selectFilter('synonym');t.close();">{{'synonyms.synonym'| translate}}<img class="pl-2"
+                        *ngIf="(selectedFilter === 'synonym')" src="assets/icons/check-blue.svg"></li> -->
                   </ul>
                 </div>
               </span>
@@ -284,6 +290,9 @@
           </div>
         </section>
       </div>
-    </perfect-scrollbar>
-  </ng-container>
+      <div style="margin: 10px 10px 0px 0px;">
+        <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
+      </div>
+    </perfect-scrollbar> 
+  </ng-container> 
 </div>

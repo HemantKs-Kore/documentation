@@ -261,6 +261,13 @@ html{
     border-radius: 4px;
     opacity: 0.95;
     padding-left: 7% !important;
+    display: flex;
+    align-items: center;
+    .please-wait-message{
+        padding-left: 10px;
+        left: 0 !important;
+        top: 0 !important;
+    }
 }
 .manage-findlyion-exp-popup{   
     .mat-dialog-container{
@@ -454,6 +461,7 @@ div.divBlockEmptylastChild:first-child {
             max-width: 100%;
             overflow: hidden;
             padding-right: 10px;
+            line-height: normal;
         }
         img{
             float: right;
@@ -490,6 +498,7 @@ div.divBlockEmptylastChild:first-child {
             max-width: 100%;
             overflow: hidden;
             padding-right: 10px;
+            line-height: normal;
         }
         img{
             float: right;
@@ -524,6 +533,7 @@ div.divBlockEmptylastChild:first-child {
             max-width: 100%;
             overflow: hidden;
             padding-right: 10px;
+            line-height: normal;
         }
         img{
             float: right;
@@ -589,6 +599,7 @@ div.divBlockEmptylastChild:first-child {
                 max-width: 100%;
                 overflow: hidden;
                 padding-right: 10px;
+                line-height: normal;
             }
             img{
                 float: right;
@@ -3144,6 +3155,12 @@ nouislider{
         max-height: 178px;
         .ps-content{
             max-height: 178px !important;
+        }
+    }
+    &.h-189{
+        max-height: 189px;
+        .ps-content{
+            max-height: 189px !important;
         }
     }
     &.h-200{

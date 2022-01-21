@@ -77,10 +77,10 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['get.source.list'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources?extractionType=:type',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/list?extractionType=:type&skip=:offset&limit=:limit',
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:extractionSourceId/executionHistory?extractionType=:type',
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?limit=:limit&skip=:skip',
-      method: 'get'
+      method: 'post'
     };
     this.serviceList['train.app'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/train',
@@ -88,8 +88,8 @@ export class EndPointsService {
     };
     this.serviceList['get.extracted.pags'] = {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType?limit=:limit&skip=:skip',
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:webDomainId/content?skip=:skip&limit=:limit',
-      method: 'get'
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:webDomainId/content/list?skip=:skip&limit=:limit',
+      method: 'post'
     };
     this.serviceList['delete.content.page'] = {
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType/:pageId',
@@ -542,9 +542,9 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields',
       method: 'post'
     }
-    this.serviceList['get.allField'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields?offset=:offset&limit=:limit',
-      method: 'get'
+    this.serviceList['post.allField'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/list?offset=:offset&limit=:limit',
+      method: 'post'
     }
     this.serviceList['get.allFieldsData'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields',
@@ -582,6 +582,11 @@ export class EndPointsService {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/?offset=:offset&limit=:limit',
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/facets/?offset=:offset&limit=:limit',
       method: 'get'
+    }
+    this.serviceList['post.allFacets'] = {
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/?offset=:offset&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId//facets/list',
+      method: 'post'
     }
     this.serviceList['create.facet'] = {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/',
@@ -693,10 +698,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit',
       method: 'get'
     },
-      this.serviceList['get.searchedBusinessRules'] = {
+      this.serviceList['post.businessRules'] = {
         //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit',
-        endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit&search=:search',
-        method: 'get'
+        endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp/list?offset=:offset&limit=:limit',
+        method: 'post'
       },
       this.serviceList['create.businessRules'] = {
         //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp',
@@ -831,7 +836,7 @@ export class EndPointsService {
     }
     //APIs for experiments
     this.serviceList['get.experiment'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments?state=:state&offset=:offset&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments?state=:state&offset=:offset&limit=:limit&sortByState=:sortByState',
       method: 'get'
     }
     this.serviceList['create.experiment'] = {
@@ -1092,7 +1097,7 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['get.allInvoices'] = {
-      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/invoices?skip=:skip&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/invoices?skip=:skip&limit=:limit&sortByInvoiceDate=:sortByInvoiceDate',
       method: 'get'
     }
     this.serviceList['get.allUsageLogs'] = {
@@ -1135,6 +1140,12 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/cancel/downgrade',
       method: 'post'
     }
+    // Filters API
+    this.serviceList['post.filters'] = {
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/?offset=:offset&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/getFilters',
+      method: 'post'
+    }
     //download invoice for paid plans
     this.serviceList['get.paidInvoiceDownload'] = {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/invoices/:orderId',
@@ -1159,6 +1170,10 @@ export class EndPointsService {
     this.serviceList['put.upgradeBannerRead'] = {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/readBanner',
       method: 'put'
+    }
+    this.serviceList['get.synonyms'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms/list',
+      method: 'post'
     }
   }
 }
