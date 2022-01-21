@@ -516,7 +516,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     if (this.faqResponse && this.faqResponse.defaultAnswers && this.faqResponse.defaultAnswers.length > 1) {
       this.faqResponse.defaultAnswers.splice(index, 1);
     } 
-   else if (this.faqResponse && this.faqResponse.conditionalAnswers && this.faqResponse.conditionalAnswers.length > 1) {
+   else if (this.faqResponse && this.faqResponse.conditionalAnswers && this.faqResponse.conditionalAnswers.length >= 1) {
       this.faqResponse.conditionalAnswers.splice(index, 1);
     }
     else {
