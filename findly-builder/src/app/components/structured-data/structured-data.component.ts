@@ -697,18 +697,36 @@ export class StructuredDataComponent implements OnInit {
       this.selectedStructuredData.push(item);
       this.selecteditems.push(item);//capturing selected checkbox items in selected items array
       item.isChecked = true;
-      this.showSelectedCount = this.showSelectedCount + 1 ;      
-    }
+      this.showSelectedCount = this.showSelectedCount + 1 ;   
+      //If unselected & Then Selected it should get cleared.
+         for(let k=0;k<this.unselecteditems.length;k++) {
+          //compare the selecteditems array with items array and splice 
+          if (this.unselecteditems[k]._id === item._id){
+            this.unselecteditems.splice(k, 1);
+          }
+        }
+        // Action for Checkbox flag,  when there is change From SelectALL
+        if(!this.actionforcheckbox){
+          if(this.totalCount <= this.limitpage){
+            this.actionforcheckbox = "all"
+          }
+        }
 
-    
+        //All Check by Single select
+        if(this.showSelectedCount == this.totalCount){
+          this.actionforcheckbox = "all"
+          this.partialSelection()
+        }
+        // if(this.showSelectedCount == this.totalCount){
+        //   this.actionforcheckbox = "all"
+        // }else if(this.showSelectedCount > 0){
+        //   this.actionforcheckbox = "partial"
+        // }
+    }
     else {
       if(!this.selectedStructuredData.length){
-
-        
           this.selectedStructuredData=[... this.structuredDataItemsList];
-          
       }
-      
     //   for (var i = 0; i < this.selectedStructuredData.length; i++) {
     //     var obj = this.selectedStructuredData[i];
     
@@ -721,33 +739,44 @@ export class StructuredDataComponent implements OnInit {
     //add logic to remove the duplicate
     
       
-      for (let i = 0; i < this.selectedStructuredData.length; i++) {
-        if (this.selectedStructuredData[i]._id === item._id) {
+      for (let i = 0; i < this.selecteditems.length; i++) {
+        if (this.selecteditems[i]._id === item._id) {
           this.unselecteditems.push(item); // After select all clicked,and user unselects some items those are saved in unselecteditems array.
           item.isChecked = false;
-          this.selectedStructuredData.splice(i, 1);
+          this.selecteditems.splice(i, 1);
           this.showSelectedCount = this.showSelectedCount - 1 ;
           break;
         }
       }
-      for(let k=0;k<this.selecteditems.length;k++)
-       {
-          //compare the selecteditems array with items array and splice 
-          if (this.selecteditems[k]._id === item._id){
-            this.selecteditems.splice(k, 1);
+       // Action for Checkbox flag,  when there is change From SelectALL
+      //  if(!this.actionforcheckbox){
+      //   if(this.totalCount < this.limitpage && this.showSelectedCount == this.totalCount){
+      //     this.actionforcheckbox = "all"
+      //   }
+      // }
+      // for(let k=0;k<this.selecteditems.length;k++)
+      //  {
+      //     //compare the selecteditems array with items array and splice 
+      //     if (this.selecteditems[k]._id === item._id){
+      //       this.selecteditems.splice(k, 1);
 
-          }
-      }
+      //     }
+      // }
     }
       // /** new code on 05/01 **/
        
     
-
-    if (this.selectedStructuredData.length === this.structuredDataItemsList.length) {
+      // Check for this condition
+    if (this.selecteditems.length === this.structuredDataItemsList.length) {
       this.allSelected = true;
     }
     else {
-      this.allSelected = false;
+      if(this.showSelectedCount == this.totalCount){
+        this.allSelected = true;
+      }else{
+        this.allSelected = false;
+      }
+      
     }
   }
   /** in select all scenario,when user unselects in one page and comes back to same page the items has not be highlighted
@@ -775,7 +804,7 @@ export class StructuredDataComponent implements OnInit {
           if(this.selecteditems[i]._id===this.structuredDataItemsList[j]._id)
           {
             this.structuredDataItemsList[j].isChecked = true;
-            console.log("inside select compare block");
+            console.log("inside select compare block" , this.structuredDataItemsList[j]);
           }
   
         }      
@@ -786,9 +815,15 @@ export class StructuredDataComponent implements OnInit {
    this.showSelectAllQues = false;
    this.structuredDataItemsList.forEach(data => {
     data.isChecked = true;
+    this.selecteditems.forEach(element => {
+      if(element._id != data._id){
+        this.selecteditems.push(data)
+      }
+    });
   });
   this.allSelected = true;
-  this.showSelectedCount = this.totalCount
+  this.showSelectedCount = this.totalCount;
+  this.unselecteditems = [];
   //  this.selectAll(true);
  }
  checkForAllBoolean(arr):any{
@@ -811,9 +846,21 @@ export class StructuredDataComponent implements OnInit {
  }
 
  /** 'Key' checkbox partial selection */
- partialSelection(){
-  
-   let count = this.checkForAllBoolean(this.structuredDataItemsList)
+ partialSelection(recordStr?){
+  if(this.actionforcheckbox == 'all'){
+    this.showSelectedCount = this.totalCount;
+    this.allSelected = true;
+    this.unselecteditems = [];
+    this.structuredDataItemsList.forEach(data => {
+      data.isChecked = true;
+        this.selecteditems.forEach(element => {
+          if(element._id != data._id){
+            this.selecteditems.push(data)
+          }
+        });
+    });
+  }else{
+    let count = this.checkForAllBoolean(this.structuredDataItemsList)
    if(count > 0 && count < this.limitpage){
     this.showSelectedCount = this.showSelectedCount + (this.limitpage -count)// this.limitpage is obtained from pagination count
     // this.showSelectedCount = count;
@@ -840,6 +887,8 @@ export class StructuredDataComponent implements OnInit {
    
     this.checkUncheckData(false) 
    }
+  }
+   
   
  }
  /** Selection and Deselection of data  */
@@ -849,9 +898,9 @@ export class StructuredDataComponent implements OnInit {
   /** Comparing the 2 arrays of the same page , if id is same data is pushed  */
   if( this.showSelectedCount > 0 && this.showSelectedCount < this.totalCount){
     this.structuredDataItemsList.forEach((data,index) => {
-      this.selectedStructuredData.forEach(selElement => {
+      this.selecteditems.forEach(selElement => {
       if(data._id === selElement._id){
-        this.selectedStructuredData.push(data)
+        this.selecteditems.push(data)
       }     
       });
       /** To check or uncheck  */
@@ -978,11 +1027,11 @@ export class StructuredDataComponent implements OnInit {
       });
       this.selectedStructuredData = [];
       this.allSelected = false;
-      //this.showSelectedCount=0;
+      this.showSelectedCount=0;
     }
     else {
       this.allSelected = false;
-      this.partialSelection();
+      this.partialSelection('currentRecord');
       // this.structuredDataItemsList.forEach(data => {
       //   data.isChecked = true;
       //   this.showSelectAllQues =true
@@ -1062,7 +1111,7 @@ export class StructuredDataComponent implements OnInit {
     dialogRef.componentInstance.onSelect.subscribe(res => {
       if (res === 'yes') {
         if (!record) {
-          if (this.selectedStructuredData.length) {
+          if (this.selecteditems.length) {
             //bulk delete
             dialogRef.close();
             this.deleteBulkStructuredData();
@@ -1117,7 +1166,7 @@ export class StructuredDataComponent implements OnInit {
     let quaryparms: any = {};
     let payload: any = {};
     quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    if (this.selectedStructuredData.length) {
+    if (this.selecteditems.length) {
       if(this.allSelected){
         payload.allStructuredData = true;
       }
@@ -1130,7 +1179,7 @@ export class StructuredDataComponent implements OnInit {
       }
       else {
         payload.docIds = [];
-        this.selectedStructuredData.forEach((data: any) => {
+        this.selecteditems.forEach((data: any) => {
           payload.docIds.push(data._id);
         });
       }
