@@ -94,8 +94,9 @@
                             </div>
                         </div> 
                         <!-- <div class="seach_add_feild"> -->
+                            <!-- Landing page Search -->
                             <div class="kr-sg-input-search"  *ngIf="showSearch">                               
-                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup)="getSourceList(searchFaq,'search')" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"   (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup)="getfaqsBy(null,null,null,searchFaq)" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"   (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFaq">
                             <img class="close-icon" src="assets/icons/close_icon.svg"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchFaq}" (click)="focusoutSearch()"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
