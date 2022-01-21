@@ -101,26 +101,28 @@ export class DashboardComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.indexConfigs = this.appSelectionService.appSelectedConfigs;
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.getIndexPipeline();
+    //this.appselection();
         
     /*added 96 to 107 on 17/01 */
-      this.appSelectionService.appSelectedConfigs.subscribe(res =>   {   
-      this.indexConfigs = res;
-      this.indexConfigs.forEach(element => {
-        this.indexConfigObj[element._id] = element;
-      });
-      if (res.length >= 0){
-        this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
-        this.getAllgraphdetails(this.selectedIndexConfig);
-        for(let i=0;i<res.length;i++){
-          if(res[i].default=== true){
-            this.selecteddropname=res[i].name;           
-          }
-        }
-      }
+    //   this.appSelectionService.appSelectedConfigs.subscribe(res =>   {   
+    //   this.indexConfigs = res;
+    //   this.indexConfigs.forEach(element => {
+    //     this.indexConfigObj[element._id] = element;
+    //   });
+    //   if (res.length >= 0){
+    //     this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
+    //     this.getAllgraphdetails(this.selectedIndexConfig);
+    //     for(let i=0;i<res.length;i++){
+    //       if(res[i].default=== true){
+    //         this.selecteddropname=res[i].name;           
+    //       }
+    //     }
+    //   }
       
 
         
-    }) //changes ends here
+    //  }) //changes ends here
     
     
     //this.userEngagementChart();
@@ -133,6 +135,59 @@ export class DashboardComponent implements OnInit {
   
   }
 
+  getIndexPipeline() {
+    const header: any = {
+      'x-timezone-offset': '-330'
+    };
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      offset: 0,
+      limit: 100
+    };
+    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
+      this.indexConfigs = res;
+      this.indexConfigs.forEach(element => {
+          this.indexConfigObj[element._id] = element;
+         });
+      if (res.length >= 0){
+            this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
+            this.getAllgraphdetails(this.selectedIndexConfig);
+            for(let i=0;i<res.length;i++){
+              if(res[i].default=== true){
+                this.selecteddropname=res[i].name;           
+              }
+            }
+          } 
+         
+      //this.getQueryPipeline(res[0]._id);
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
+    
+  }
+
+  /*added on 21/01 creating seperate function for caputuring res inside funcstion rather than calling in ngOninit */
+  // appselection(){
+  // this.appSelectionService.appSelectedConfigs.subscribe(res =>   {   
+  //   this.indexConfigs = res;
+  //   this.indexConfigs.forEach(element => {
+  //     this.indexConfigObj[element._id] = element;
+  //   });
+  //   if (res.length >= 0){
+  //     this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
+  //     this.getAllgraphdetails(this.selectedIndexConfig);
+  //     for(let i=0;i<res.length;i++){
+  //       if(res[i].default=== true){
+  //         this.selecteddropname=res[i].name;           
+  //       }
+  //     }
+  //   } 
+  //  })
+  // }
   /* added on 17/01 */
   getAllgraphdetails(selectedindexpipeline){
     this.getQueries("TotalUsersStats",selectedindexpipeline);
