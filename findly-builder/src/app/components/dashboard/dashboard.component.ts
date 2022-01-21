@@ -69,7 +69,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   selectedSort = '';
   sortedObject = {
     'type': 'fieldName',
-    'position':'up',
+    'position': 'up',
     "value": 'asc',
   }
   isAsc = true;
@@ -117,9 +117,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getQueries("TopSearchResults");
     this.getQueries("MostClickedPositions");
     this.getQueries("FeedbackStats");
-    this.searchConfigurationSubscription = this.headerService.savedSearchConfiguration.subscribe((res) => {
-      this.searchExperienceConfig = res;
-    });
+    // this.searchConfigurationSubscription = this.headerService.savedSearchConfiguration.subscribe((res) => {
+    //   this.searchExperienceConfig = res;
+    // });
+    this.searchExperienceConfig = this.headerService.searchConfiguration;
   }
   viewAll(route, searchType?) {
     this.workflowService.mainMenuRouter$.next(route);
@@ -182,7 +183,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getQueries("MostClickedPositions");
     this.getQueries("FeedbackStats");
   }
-  getQueries(type,sortHeaderOption?,sortValue?,navigate?,request?) {
+  getQueries(type, sortHeaderOption?, sortValue?, navigate?, request?) {
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
     var week = new Date(Date.now() - (6 * 864e5));
@@ -226,11 +227,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         to: this.endDate.toJSON()
       },
     }
-    if(sortHeaderOption){
-      payload.sort ={
-        order : sortValue,
+    if (sortHeaderOption) {
+      payload.sort = {
+        order: sortValue,
         by: sortHeaderOption
-       }
+      }
     }
     if (type == "TotalUsersStats" || type == "TotalSearchesStats") {
       //payload.group = this.group 
@@ -298,11 +299,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     });
   }
-  sortAnalytics(type?, sortHeaderOption?,sortValue?,navigate?){
-    if(sortValue){
+  sortAnalytics(type?, sortHeaderOption?, sortValue?, navigate?) {
+    if (sortValue) {
       this.sortedObject = {
-        type : sortHeaderOption,
-        value : sortValue,
+        type: sortHeaderOption,
+        value: sortValue,
         position: navigate
       }
     }
@@ -313,7 +314,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     //   offset: 0,
     //   limit: 10
     // };
-    let request:any={}
+    let request: any = {}
     // if(!sortValue){
     //   request = {
     //     "extractionType": "content",
@@ -322,78 +323,78 @@ export class DashboardComponent implements OnInit, OnDestroy {
     //     }    
     // }   
     // }
-    if(sortValue){
-      const sort :any ={}
-      request= {
+    if (sortValue) {
+      const sort: any = {}
+      request = {
         sort
       }
     }
     // else {
     // request={}
     // }
-    if(sortValue){  
-      this.getSortIconVisibility(sortHeaderOption,navigate);
-       //Sort start
-       if(type === 'TotalSearchesStats' || type === 'TopQuriesWithNoResults'){
-        if(sortHeaderOption === 'query' ){
+    if (sortValue) {
+      this.getSortIconVisibility(sortHeaderOption, navigate);
+      //Sort start
+      if (type === 'TotalSearchesStats' || type === 'TopQuriesWithNoResults') {
+        if (sortHeaderOption === 'query') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-        if(sortHeaderOption === 'count' ){
+        if (sortHeaderOption === 'count') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-       }
-      
+      }
 
-       if (type === 'TopSearchResults'){
-        if(sortHeaderOption === 'answer' ){
+
+      if (type === 'TopSearchResults') {
+        if (sortHeaderOption === 'answer') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-        if(sortHeaderOption === 'clicks' ){
+        if (sortHeaderOption === 'clicks') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-        if(sortHeaderOption === 'appearances' ){
+        if (sortHeaderOption === 'appearances') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-        if(sortHeaderOption === 'clickThroughRate' ){
+        if (sortHeaderOption === 'clickThroughRate') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-        if(sortHeaderOption === 'avgPosition' ){
+        if (sortHeaderOption === 'avgPosition') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-       }
-   
-    
-    // end
+      }
+
+
+      // end
     }
-    this.getQueries(type,sortHeaderOption,sortValue,navigate,request)
+    this.getQueries(type, sortHeaderOption, sortValue, navigate, request)
     // this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
-    
+
   }
-  sortByApi(type,sort){
+  sortByApi(type, sort) {
     this.selectedSort = sort;
     if (this.selectedSort !== sort) {
       this.isAsc = true;
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow ='';
-    var checkSortValue= '';
-    if(this.isAsc){
-      naviagtionArrow= 'up';
+    var naviagtionArrow = '';
+    var checkSortValue = '';
+    if (this.isAsc) {
+      naviagtionArrow = 'up';
       checkSortValue = 'asc';
     }
-    else{
-      naviagtionArrow ='down';
+    else {
+      naviagtionArrow = 'down';
       checkSortValue = 'desc';
     }
-    this.sortAnalytics(type,sort,checkSortValue,naviagtionArrow)
+    this.sortAnalytics(type, sort, checkSortValue, naviagtionArrow)
     // this.fieldsFilter(null,null,null,null,sort,checkSortValue,naviagtionArrow)
   }
   getSortIconVisibility(sortingField: string, type: string) {
@@ -441,7 +442,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           }
           return "display-none"
         }
-      } 
+      }
       case "avgPosition": {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
@@ -863,23 +864,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       ]
     };
 
-  }
-  //feedback slider update
-  updateFeedback() {
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId
-    };
-    const payload = this.searchExperienceConfig;
-    this.service.invoke('put.searchexperience', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Updated successfully', 'success');
-    }, errRes => {
-      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed ', 'error');
-      }
-    });
   }
   ngOnDestroy() {
     this.searchConfigurationSubscription ? this.searchConfigurationSubscription.unsubscribe() : false;

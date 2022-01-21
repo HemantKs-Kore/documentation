@@ -1,4 +1,3 @@
-
 <div id="advanceContainer" class="insights-container d-none ">
     <div class="row m-0 header-sec ">
         <div class="col-4 p-0">
@@ -19,36 +18,37 @@
                 <div class="count blue-color">{{ctrVal || 0}}%</div>
             </div>
             <div class="data-counts graph" (click)="mouseEnter()">
-               <img src="assets/icons/graph.svg" *ngIf="!showInsightFull" (click)="closeCross()">
-               <img src="assets/icons/streched-graph.svg" *ngIf="showInsightFull"  (click)="closeCross()">
+                <img src="assets/icons/graph.svg" *ngIf="!showInsightFull" (click)="closeCross()">
+                <img src="assets/icons/streched-graph.svg" *ngIf="showInsightFull" (click)="closeCross()">
             </div>
         </div>
     </div>
     <div class="tab-sec-data ">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#analysis">analysis</a>
+                <a class="nav-link" data-toggle="tab" href="#analysis">analysis</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" data-toggle="tab" href="#actionlog">ACTION LOG</a>
-            </li>    
-            <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
+                <a class="nav-link active" data-toggle="tab" href="#actionlog">ACTION LOG</a>
+            </li>
+            <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
+                [autoClose]="true" [placement]="'bottom-right'">
                 <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
-                    <img src="assets/icons/filter.svg"  class="sortImg m-0">
-                </button>
-                <ul class="dropdown-menu insight-menu type_sort_dropdown-content" ngbDropdownMenu>
-                    <li (click)="sourceFilter.close();filterRecord('all')"><span class="list-name">All</span>
-                    </li>
-                    <li *ngFor="let filArr of filterArray" (click)="sourceFilter.close();filterRecord(filArr)">
-                      <span class="list-name"> {{ filArr }} </span>
-                    </li> 
-                  </ul> 
+                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
+                        <img src="assets/icons/filter.svg" class="sortImg m-0">
+                    </button>
+                    <ul class="dropdown-menu insight-menu type_sort_dropdown-content" ngbDropdownMenu>
+                        <li (click)="sourceFilter.close();filterRecord('all')"><span class="list-name">All</span>
+                        </li>
+                        <li *ngFor="let filArr of filterArray" (click)="sourceFilter.close();filterRecord(filArr)">
+                            <span class="list-name"> {{ filArr }} </span>
+                        </li>
+                    </ul>
                 </div>
-            </div>        
+            </div>
         </ul>
         <perfect-scrollbar class="scroll-content">
-            <div class="tab-content">           
+            <div class="tab-content">
                 <div id="analysis" class="tab-pane tab-data-content">
                     <div class="empty-screen">
                         <img src="assets/images/empty-illustration.png">
@@ -58,30 +58,38 @@
                     <div id="accordion">
                         <div *ngFor="let actLog of actionLogData;let i = index">
                             <div class="card-data" *ngIf="actLog.target">
-                                <div class="card_header">                        
-                                    <a class="row m-0 card-link" data-toggle="collapse" href="#demo_{{i}}" (click)="toggle(icontoggle,actLog.selected)">                            
-                                        <div class="col-lg-7 title-data" *ngIf ="actLog.target.contentType == 'page'">{{actLog.target.contentInfo.title}}</div>
-                                        <div class="col-lg-7 title-data" *ngIf ="actLog.target.contentType == 'faq'">{{actLog.target.contentInfo.question}}</div> 
-                                        <div class="col-lg-7 title-data" *ngIf ="actLog.target.contentType == 'task'">{{actLog.target.contentInfo.lname}}</div> 
+                                <div class="card_header">
+                                    <a class="row m-0 card-link" data-toggle="collapse" href="#demo_{{i}}"
+                                        (click)="toggle(icontoggle,actLog.selected)">
+                                        <div class="col-lg-7 title-data" *ngIf="actLog.target.contentType == 'page'">
+                                            {{actLog.target.contentInfo.title}}</div>
+                                        <div class="col-lg-7 title-data" *ngIf="actLog.target.contentType == 'faq'">
+                                            {{actLog.target.contentInfo.question}}</div>
+                                        <div class="col-lg-7 title-data" *ngIf="actLog.target.contentType == 'task'">
+                                            {{actLog.target.contentInfo.lname}}</div>
                                         <div class="col-3 status-data">
-                                        <span class="img-block"><img src="assets/icons/help.svg"></span><span class="status">pinned</span>
-                                        </div>                            
+                                            <span class="img-block"><img src="assets/icons/help.svg"></span><span
+                                                class="status">pinned</span>
+                                        </div>
                                         <div class="col-2 time">2h ago</div>
                                     </a>
                                 </div>
                                 <div id="demo_{{i}}" class="collapse" data-parent="#accordion">
                                     <div class="card-body">
-                                    <div class="desc-text" *ngIf ="actLog.target.contentType == 'page'">{{actLog.target.contentInfo.searchResultPreview}}</div>
-                                    <div class="desc-text" *ngIf ="actLog.target.contentType == 'faq'">{{faqDesc}}</div>
-                                    <div class="desc-text" *ngIf ="actLog.target.contentType == 'task'">{{actLog.target.contentInfo.lname}}</div>
+                                        <div class="desc-text" *ngIf="actLog.target.contentType == 'page'">
+                                            {{actLog.target.contentInfo.searchResultPreview}}</div>
+                                        <div class="desc-text" *ngIf="actLog.target.contentType == 'faq'">{{faqDesc}}
+                                        </div>
+                                        <div class="desc-text" *ngIf="actLog.target.contentType == 'task'">
+                                            {{actLog.target.contentInfo.lname}}</div>
                                     </div>
                                 </div>
-                            </div> 
-                        </div>                                                      
+                            </div>
+                        </div>
                     </div>
-                </div>                                 
+                </div>
             </div>
-        </perfect-scrollbar>      
+        </perfect-scrollbar>
     </div>
     <div class="row m-0" #graphMode *ngIf="graphMode" (mouseleave)="mouseLeave()">
         <div class="graphMode">
@@ -89,7 +97,7 @@
                 <span class="head-txt">Search & Click Trend</span>
                 <img class="closeCross" src="assets/images/close.svg" (click)="closeCross()">
             </div>
-            <div echarts [options]="chartOption" class="demo-chart-graphMode"></div> 
+            <div echarts [options]="chartOption" class="demo-chart-graphMode"></div>
             <div class="legends row m-0">
                 <div class="searches col-lg-4 p-0 d-flex align-items-center">
                     <div class="mr-10">
@@ -118,14 +126,14 @@
                         <div class="val">67%</div>
                     </div>
                 </div>
-            </div>                   
+            </div>
         </div>
         <div class="graph-mode-data d-none">
             <div class="header">
                 <span class="head-txt">Search & Click Trend</span>
                 <img class="closeCross" src="assets/images/close.svg" (click)="closeCross()">
             </div>
-            <div echarts [options]="chartOption" class="demo-chart-graphMode"></div>  
+            <div echarts [options]="chartOption" class="demo-chart-graphMode"></div>
             <div class="legends-sec row m-0 col-12 p-0">
                 <div class="searches col-lg-4">
                     <img src="assets/icons/search-list.svg" class="" (click)="$event.stopPropagation()">
@@ -144,7 +152,7 @@
                 </div>
             </div>
         </div>
-     </div>
+    </div>
 </div>
 
 <!-- TesT -->
@@ -154,7 +162,7 @@
             <span class="head-txt">Search & Click Trend</span>
             <img class="closeCross" src="assets/images/close.svg" (click)="closeCross()">
         </div>
-        <div echarts [options]="chartOption" class="demo-chart-graphMode"></div> 
+        <div echarts [options]="chartOption" class="demo-chart-graphMode"></div>
         <div class="legends row m-0">
             <div class="searches col-lg-4 p-0 d-flex align-items-center">
                 <div class="mr-10">
@@ -183,14 +191,14 @@
                     <div class="val">{{ctrVal}}%</div>
                 </div>
             </div>
-        </div>                   
+        </div>
     </div>
     <div class="graph-mode-data d-none">
         <div class="header">
             <span class="head-txt">Search & Click Trend</span>
             <img class="closeCross" src="assets/images/close.svg" (click)="closeCross()">
         </div>
-        <div echarts [options]="chartOption" class="demo-chart-graphMode"></div>  
+        <div echarts [options]="chartOption" class="demo-chart-graphMode"></div>
         <div class="legends-sec row m-0 col-12 p-0">
             <div class="searches col-lg-4">
                 <img src="assets/icons/search-list.svg" class="" (click)="$event.stopPropagation()">
@@ -210,48 +218,45 @@
         </div>
     </div>
 </div>
- <!-- Test -->
+<!-- Test -->
 
 
 
 
 
 
- <!-- New UI -->
+<!-- New UI -->
 
- <div class="query_analytics_content" #graphMode *ngIf="graphMode" (mouseleave)="mouseLeave()">
-     <div class="header-sec">
-         <div class="title" (click)="$event.stopPropagation()">Query Analytics</div>
-         <div class="close-analytics" (click)="closeCross()">
-             <img src="assets/icons/close-analytics.svg">
-         </div>
-     </div>
-     <div class="analytics-counts" (click)="$event.stopPropagation()">
+<div class="query_analytics_content" #graphMode *ngIf="graphMode" (mouseleave)="mouseLeave()">
+    <div class="header-sec">
+        <div class="title" (click)="$event.stopPropagation()">Query Analytics</div>
+        <div class="close-analytics" (click)="closeCross()">
+            <img src="assets/icons/close-analytics.svg">
+        </div>
+    </div>
+    <div class="analytics-counts" (click)="$event.stopPropagation()">
         <div class="count-sec">
-             <div class="title">Searches</div>
-             <div class="count">
-                 <img src="assets/icons/analytics/searches.svg">{{analystic.searches || 0}}
-             </div>
-         </div>
-         <div class="count-sec">
+            <div class="title">Searches</div>
+            <div class="count">
+                <img src="assets/icons/analytics/searches.svg">{{analystic.searches || 0}}
+            </div>
+        </div>
+        <div class="count-sec">
             <div class="title">Clicks</div>
             <div class="count">
                 <img src="assets/icons/analytics/clicks.svg">{{analystic.clicks || 0}}
             </div>
         </div>
-        <div class="count-sec m-0 d-none">
+        <div class="count-sec m-0">
             <div class="title">Feedback</div>
             <div class="count">
                 <span class="feedback-thumb">
-                    <img src="assets/icons/analytics/thumb-success.svg">234
+                    <img src="assets/icons/analytics/thumb-success.svg">{{analystic.thumbsUp||0}}
                 </span>
                 <span class="feedback-thumb">
-                    <img src="assets/icons/analytics/thumb-red.svg">234
+                    <img src="assets/icons/analytics/thumb-red.svg">{{analystic.thumbsDown||0}}
                 </span>
             </div>
         </div>
-     </div>
- </div>
- 
- 
- 
+    </div>
+</div>
