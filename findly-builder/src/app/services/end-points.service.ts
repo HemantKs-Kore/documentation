@@ -799,15 +799,6 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/crawler/reCrawlPage/source/:extractionSourceId/content/:contentId/job/:jobId',
       method: 'post'
     }
-    //APIs for experiments
-    this.serviceList['get.experiment'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments?state=:state',
-      method: 'get'
-    }
-    this.serviceList['create.experiment'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments',
-      method: 'post'
-    }
     this.serviceList['check.forUpdates'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/crawler/checkForUpdates/source/:extractionSourceId/content/:contentId',
       method: 'post'
