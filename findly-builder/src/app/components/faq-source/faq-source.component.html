@@ -82,7 +82,7 @@
                         <div class="kr-sg-dropdowns" #selectResourceDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom'">                                        
                             <div class="dropdown dropdown-open">
                                 <!-- <span class="filter-count"  placement="top" ngbTooltip="{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}">{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}</span> -->
-                                <button class="dropdown-toggle dropdown-input pl-0 mr-2" (click)="getJobStatusForMessages()" ngbDropdownToggle><img src="assets/icons/filter.svg">{{'faqSource.filter' | translate}}</button>                                            
+                                <button class="dropdown-toggle dropdown-input pl-0 mr-2" (click)="getSourceList()" ngbDropdownToggle><img src="assets/icons/filter.svg">{{'faqSource.filter' | translate}}</button>                                            
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                     <li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">{{'faqSource.all' | translate}} </span><img *ngIf="!(selectedResource && selectedResource._id) && !manualFilterSelected" src="assets/icons/check-blue.svg"></li>
                                     <li  (click)="selectResourceDrop.close();manualFaqsFilter()" *ngIf="noManulaRecords"><span class="list-name"> {{'faqSource.manual' | translate}}</span><img *ngIf="!(selectedResource && selectedResource._id) && manualFilterSelected" src="assets/icons/check-blue.svg"></li>
@@ -95,7 +95,7 @@
                         </div> 
                         <!-- <div class="seach_add_feild"> -->
                             <div class="kr-sg-input-search"  *ngIf="showSearch">                               
-                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup)="searchFaqs()" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"   (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup)="getSourceList(searchFaq,'search')" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"   (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFaq">
                             <img class="close-icon" src="assets/icons/close_icon.svg"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchFaq}" (click)="focusoutSearch()"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
@@ -114,7 +114,7 @@
                         <div class="col-4 p-0 d-flex align-items-center">
                             <div class="kr-sg-checkbox" [hidden]="!((selectedtab === 'draft' && faqSelectionObj.selectedCount == faqSelectionObj.stats.draft) || (selectedtab === 'in_review' && faqSelectionObj.selectedCount == faqSelectionObj.stats.in_review) || (selectedtab === 'approved' && faqSelectionObj.selectedCount == faqSelectionObj.stats.approved ) || faqSelectionObj.selectAll) ">
                                 <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll" autocomplete="off">
-                                <label for="selectAllFaqs" class="checkbox-custom-label"></label>
+                                <label for="selectAllFaqs" class="checkbox-custom-label"></label> 
                             </div>  
                             <div class="mr-3" *ngIf="(faqSelectionObj.selectedCount>0 && ((selectedtab === 'draft' && faqSelectionObj.selectedCount !== faqSelectionObj.stats.draft) || (selectedtab === 'in_review' && faqSelectionObj.selectedCount !== faqSelectionObj.stats.in_review) || (selectedtab === 'approved' && faqSelectionObj.selectedCount !== faqSelectionObj.stats.approved ))) && !faqSelectionObj.selectAll">
                                 <img (click) = "selectAllPartially();" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
@@ -453,15 +453,17 @@
                             <div class="body-top-content" *ngIf="!editfaq">
                                 <div class="question-content">
                                     <div class="title-que">
-                                        <span>{{selectedFaq._source.faq_question}}</span>                                       
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
+                                        <span>{{selectedFaq._source.faq_question}}</span>   
+                                        <div class="edit-faq" (click)="editThisQa()" ngbTooltip='Edit' placement="bottom">
+                                            <img src="assets/icons/edit-blue.svg">Edit
+                                        </div>                                    
                                     </div>
-                                    <div cdkDropListGroup class="pad-div d-none">
-                                        <div cdkDropList [cdkDropListData]="selectedFaq._source.faq_answer" class="bot-response-view-mode"  (cdkDropListDropped)="drop($event)"  >
+                                    <div  class="pad-div d-none">
+                                        <div class="bot-response-view-mode"   >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.faq_answer && selectedFaq._source.faq_answer.length">
                                                 <!-- <ng-container *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index;"> -->
                                                    
-                                                        <div  *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index; " cdkDrag> {{selectedFaq._source.faq_answer | json}}
+                                                        <div  *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index; ">
                                                             <!-- <div cdkDrag>
                                                         </div> -->
 
@@ -496,10 +498,10 @@
                                                
                                                         </div> 
                                             </ng-container>   
-                                        </div>  {{selectedFaq._source.faq_cond_answers | json}}
-                                        <div cdkDropList [cdkDropListData]="selectedFaq._source.faq_cond_answers" class="conditionalBlock bot-response-view-mode" (cdkDropListDropped)="drop($event)" >
+                                        </div>
+                                        <div  class="conditionalBlock bot-response-view-mode" (cdkDropListDropped)="drop($event)" >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source.faq_cond_answers && selectedFaq._source.faq_cond_answers.length">
-                                            <div  cdkDrag *ngFor="let consitionalAnswer of selectedFaq._source.faq_cond_answers; let i = index;" >
+                                            <div  *ngFor="let consitionalAnswer of selectedFaq._source.faq_cond_answers; let i = index;" >
                                                 <div class="response-title-bg row">
                                                     <div  class="bot-response-title col-6">{{'faqSource.response' | translate}}<span>{{ ' ' + (i + 1 + (selectedFaq._source.faq_answer?selectedFaq._source.faq_answer.length:0))}}</span></div>
                                                     <div class="response-likes-views-sec d-flex col-6">
@@ -592,11 +594,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="data-inner-content" >
-                                                        <div class="response-text">{{consitionalAnswer.answers[0].text}}</div>
+                                                        <div class="response-text">{{consitionalAnswer.answers[0]?.text}}</div>   
                                           
                                                         <div class="conditions-list">
                                                             <div class="titles-sec">
-                                                                <div class="title">Conditions</div>
+                                                                <div class="title">Condition</div>
                                                                 <div class="show-more" data-toggle="collapse" data-target="#demo">Show More <img src="assets/icons/faq/carrotup.svg"></div>
                                                             </div>
                                                             <div id="demo" class="collapse show">
@@ -613,7 +615,7 @@
                                                                             <div class="col-10 d-inline-block px-0"[ngStyle]="{'margin-bottom':(showSeeAll(consitionalAnswer.conditions) && ruleIndex==0)?'10px':'0px'}" >
                                                                                 <div class="rule-dropdown-data">
                                                                                     <span class="rule-dropdown-key">{{ "businessRules." + rule.contextType | translate}} :</span>
-                                                                                    <span class="rule-dropdown-value" title='{{ "businessRules." + rule.contextCategory | translate }}'>{{ "businessRules." + rule.contextCategory | translate }}</span>
+                                                                                    <span class="rule-dropdown-value" title='{{ "businessRules." + rule.contextCategory | translate }}'>{{rule.contextType !=='userContext' ? ("businessRules." + rule.contextCategory | translate): rule.contextCategory }}</span>
                                                                                 </div>
                                                                                 <div class="rule-contains">{{ rule.operator | titlecase}}</div>
                                                                                 <ng-container  *ngFor="let value of rule.value | slice:0:(ruleIndex==0?(rule.operator !=='between'?4:2):2); let valueIndex = index">
@@ -696,7 +698,7 @@
                                         </div>
                                          <!-- New UI for Cond Resp  End-->
                                           <!-- New UI for DefResp  Start-->
-                                        <div cdkDropList [cdkDropListData]="selectedFaq._source.faq_answer"   class="default-responses-block" (cdkDropListDropped)="drop($event)"  >
+                                        <div   class="default-responses-block"  >
                                         <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.faq_answer && selectedFaq._source.faq_answer.length">
                                             <div class="header-data">
                                                 <span class="title">Default Responses</span>
@@ -704,7 +706,7 @@
                                                 <span class="count-conditions">{{selectedFaq._source.faq_answer.length}}</span>
                                             </div>
                                             <ng-container >
-                                                <div class="default-res-data row" *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index;" cdkDrag>
+                                                <div class="default-res-data row" *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index;" >
                                                     <div  class="default-desc col-8"> {{answer.text}}</div>
                                                     <div class="count-clicks col-4">
                                                         <div class="views">
@@ -826,7 +828,7 @@
                         <img *ngIf="showSearch" src="assets/images/close.svg">Search
                     </div> -->
                     <div class="kr-sg-input-search m-0"  *ngIf="showSearch">                               
-                        <input type="text" placeholder="Search" id="inputSearch1" class="input-search"  [ngClass]="{'pl-33':!searchSources,'pl-2':searchSources}" autocomplete="off" [(ngModel)]="searchSources" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                        <input type="text" placeholder="Search" id="inputSearch1" class="input-search"  [ngClass]="{'pl-33':!searchSources,'pl-2':searchSources}" autocomplete="off" [(ngModel)]="searchSources" (keyup)="getSourceList(searchSources,'search')" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                         (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                     <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
                     <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch(true)"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
@@ -865,17 +867,17 @@
                 <div class="kr-sg-data-table with-checkbox"  *ngIf=" extractedResources &&  extractedResources.length">
                 <section class="table-content">
                     <header class="table-header">
-                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('name')">
+                        <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('name')">
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span> SOURCE TITLE
                             </div>
-                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('type')">
+                        <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('contentSource')">
                             <span class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
                             <span class="d-flex align-items-center flex-column mr-1">
-                                <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img [ngClass]="getSortIconVisibility('type', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                                <img [ngClass]="getSortIconVisibility('contentSource', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('contentSource', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span> TYPE  
                               <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown 
                               [autoClose]="true" [placement]="'bottom-right'">
@@ -896,7 +898,7 @@
                               </div>
                               </div>
                             </div>
-                        <div class="col_ col-3 d-flex align-items-center" (click)="sortBy('recentStatus')">
+                        <div class="col_ col-3 d-flex align-items-center" (click)="sortByApi('recentStatus')">
                             <span class="selected-length-doc-web hide">({{this.filterSystem.statusFilter}})</span>
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
@@ -992,6 +994,7 @@
                 </div> 
             </perfect-scrollbar>            
         </ng-container>
+        PAGINATION
     </div>
 </kr-modal>
 <ng-container *ngIf="showSourceAddition">
