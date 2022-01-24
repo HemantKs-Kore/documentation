@@ -410,11 +410,12 @@ export class AppExperimentsComponent implements OnInit {
       searchIndexId: this.serachIndexId,
       offset: this.exp_skipPage,
       limit: 10,
-      state: 'All',
-      sortByState: 1
+      state: 'configured',
+      sortBy: 'state',
+      orderBy : 1
     };
     if(sort && checkSortValue && naviagtionArrow){
-      quaryparms.sortByState = checkSortValue
+      quaryparms.orderBy = checkSortValue
     }
     if(source && headerOption){
       quaryparms.state = source
