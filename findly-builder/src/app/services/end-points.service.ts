@@ -827,7 +827,7 @@ export class EndPointsService {
     }
     //APIs for experiments
     this.serviceList['get.experiment'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments?state=:state&offset=:offset&limit=:limit&sortByState=:sortByState',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments?state=:state&offset=:offset&limit=:limit&orderBy=:orderBy&sortBy=:sortBy',
       method: 'get'
     }
     this.serviceList['create.experiment'] = {
