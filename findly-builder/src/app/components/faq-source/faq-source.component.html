@@ -541,7 +541,7 @@
                                                                         <div class="rule-value" *ngIf="rule.dataType!== 'date'" title="{{value}}">{{value}}</div>
                                                                         <div class="or-rule" *ngIf="(valueIndex < 3 && valueIndex!== (rule.value.length>3?3:(rule.value.length-1)) && ruleIndex==0 && rule.operator !=='between')||(valueIndex < 1 && ruleIndex==1 && valueIndex!== 1) || (valueIndex < 1 && valueIndex!== (rule.value.length>2?2:(rule.value.length-1)) && ruleIndex==0 && rule.operator =='between') ">{{ "or_caps" | translate}}</div>
                                                                     </ng-container> 
-                                                                    <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div>
+                                                                    <!-- <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div> -->
                                                                 </div>
                                                                 </ng-container>                                                             
                                                             </div>
@@ -625,7 +625,7 @@
                                                                                     <div class="rule-value" *ngIf="rule.dataType!== 'date'" title="{{value}}">{{value}}</div>
                                                                                     <div class="or-rule" *ngIf="(valueIndex < 3 && valueIndex!== (rule.value.length>3?3:(rule.value.length-1)) && ruleIndex==0 && rule.operator !=='between')||(valueIndex < 1 && ruleIndex==1 && valueIndex!== 1) || (valueIndex < 1 && valueIndex!== (rule.value.length>2?2:(rule.value.length-1)) && ruleIndex==0 && rule.operator =='between') ">{{ "or_caps" | translate}}</div>
                                                                                 </ng-container> 
-                                                                                <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div>
+                                                                                <!-- <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div> -->
                                                                             </div>
                                                                             </ng-container>                                                             
                                                                         </div>
