@@ -368,9 +368,15 @@ export class FieldManagementComponent implements OnInit {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
-    };
-    let serviceId = 'get.allFieldsData';
-    this.service.invoke(serviceId, quaryparms).subscribe(res => {
+    },
+    payload ={
+      "sort": {
+          "fieldName": 1,
+      } 
+    }
+    // let serviceId = 'get.allFieldsData';
+    let serviceId = 'post.allField';
+    this.service.invoke(serviceId, quaryparms,payload).subscribe(res => {
       this.fieldAutoSuggestion = res.fields || [];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get fields');
