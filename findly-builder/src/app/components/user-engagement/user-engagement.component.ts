@@ -25,6 +25,10 @@ export class UserEngagementComponent implements OnInit {
   tsqtotalRecord = 100;
   tsqlimitpage = 5;
   tsqrecordEnd = 5;
+  selecteddropname: any;
+  selectedIndexConfig: any; 
+  indexConfigs:any =[];
+  indexConfigObj:any ={};
 
   tsqNoRtotalRecord = 100;
   tsqNoRlimitpage = 5;
@@ -133,17 +137,65 @@ export class UserEngagementComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.getIndexPipeline();
+    //this.getAllgraphdetails()
+        
     //this.mostClick();
     //this.feedback();
-    this.getuserCharts('UsersChart');
-    this.getuserCharts('UsersBusyChart');
-    this.getuserCharts('MostUsedDevices');
-    this.getuserCharts("MostUsedBrowsers");
-    this.getuserCharts("MostUsedGeoLocations");
-    this.getuserCharts("MostUsersSentiments");
+    
     // this.getQueries("SearchHistogram");
 
   }
+
+  getIndexPipeline() {
+    const header: any = {
+      'x-timezone-offset': '-330'
+    };
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      offset: 0,
+      limit: 100
+    };
+    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
+      this.indexConfigs = res;      
+      if (res.length >= 0){
+            this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
+            this.getAllgraphdetails(this.selectedIndexConfig);
+            // for(let i=0;i<res.length;i++){
+            //   if(res[i].default=== true){
+            //     this.selecteddropname=res[i].name;           
+            //   }
+            // }
+          } 
+         
+      //this.getQueryPipeline(res[0]._id);
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
+    
+  }
+
+  
+  getAllgraphdetails(selectedindexpipeline){
+    
+    this.getuserCharts('UsersChart',selectedindexpipeline);
+    this.getuserCharts('UsersBusyChart',selectedindexpipeline);
+    this.getuserCharts('MostUsedDevices',selectedindexpipeline);
+    this.getuserCharts("MostUsedBrowsers",selectedindexpipeline);
+    this.getuserCharts("MostUsedGeoLocations",selectedindexpipeline);
+    this.getuserCharts("MostUsersSentiments",selectedindexpipeline);
+
+  }
+  getDetails(config?){
+    this.selecteddropname=config.name;
+    this.selectedIndexConfig=config._id;
+    this.getAllgraphdetails(config._id);   
+  }
+
   toCapitalize(str) {
     if (str !== 'ie') {
       return str.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
@@ -271,15 +323,18 @@ export class UserEngagementComponent implements OnInit {
   }
   dateLimt(type) {
     this.dateType = type;
-    this.getuserCharts('UsersChart');
-    this.getuserCharts('UsersBusyChart');
-    this.getuserCharts('MostUsedDevices');
-    this.getuserCharts("MostUsedBrowsers");
-    this.getuserCharts("MostUsedGeoLocations");
-    this.getuserCharts("MostUsersSentiments");
+    let selectedindexpipeline=this.selectedIndexConfig;
+    if(selectedindexpipeline){
+    this.getuserCharts('UsersChart',selectedindexpipeline);
+    this.getuserCharts('UsersBusyChart',selectedindexpipeline);
+    this.getuserCharts('MostUsedDevices',selectedindexpipeline);
+    this.getuserCharts("MostUsedBrowsers",selectedindexpipeline);
+    this.getuserCharts("MostUsedGeoLocations",selectedindexpipeline);
+    this.getuserCharts("MostUsersSentiments",selectedindexpipeline);
+    }
   }
 
-  getuserCharts(type) {
+  getuserCharts(type,selectedindexpipeline?) {
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
     var week = new Date(Date.now() - (6 * 864e5));
@@ -310,6 +365,7 @@ export class UserEngagementComponent implements OnInit {
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId, //'sidx-e91a4194-df09-5e9c-be4e-56988e984343',
+      indexPipelineId:selectedindexpipeline, 
       offset: 0,
       limit: this.pageLimit
     };
