@@ -792,9 +792,38 @@ validateRules() {
     return false;
   }
 }
+validateCon() {
+  for(let j=0; j< this.rulesArrayforAddEdit.length;j++){
+    for ( let i=0; i<=this.rulesArrayforAddEdit[j].value.length;  i++) {
+      if(this.rulesArrayforAddEdit[j] && this.rulesArrayforAddEdit[j].value.length == 0 ) {
+        $("#ConditionInput").parent('div').css("border-color", "#DD3646");   
+        $("#infoWarningCon").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" }); 
+        return false;            
+      } else {
+        this.submitted=false;   
+        return true ;
+      }           
+    } 
+  }            
+ }
+ validateOut() {
+  for(let j=0; j< this.outcomeArrayforAddEdit.length;j++){
+    for ( let i=0; i<=0;  i++) {
+      if(this.outcomeArrayforAddEdit[j] && !this.outcomeArrayforAddEdit[j].outcomevalue ) {
+        $("#OutcomeInput").parents('div').css("border-color", "#DD3646");   
+        $("#infoWarningOut").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" }); 
+        return false;            
+      } else {
+        this.submitted=false;   
+        return true ;
+      }           
+    } 
+  }            
+ }
+
   createRule() {
     this.submitted = true;
-    if (this.validateRules()) {
+    if (this.validateRules() && this.validateCon() && this.validateOut()) {
       const quaryparms: any = {
         searchIndexID: this.serachIndexId,
         queryPipelineId: this.queryPipelineId,
@@ -845,6 +874,20 @@ validateRules() {
       });
     }
     else {
+    //  if(this.validateCon() && this.validateOut()){
+    //   $("#ConditionInput").parent('div').css("border-color", "#DD3646");   
+    //   $("#infoWarningCon").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+    //   $("#OutcomeInput").parent('div').css("border-color", "#DD3646");   
+    //   $("#infoWarningCon").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+    //  }
+      if(this.validateCon()){
+      $("#ConditionInput").parent('div').css("border-color", "#DD3646");   
+      $("#infoWarningCon").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+     }
+     if (this.validateOut()){
+      $("#OutcomeInput").parent('div').css("border-color", "#DD3646");   
+      $("#infoWarningCon").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+     }
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
