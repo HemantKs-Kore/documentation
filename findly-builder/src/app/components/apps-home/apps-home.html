@@ -80,7 +80,7 @@
               </div>
             </ng-container>
             <ng-container *ngIf="!emptyApp">
-              <div class="m-title col-12">Recently Visited</div>
+              <div class="m-title col-12 m-10">Recently Visited</div>
               <div class="cards-content d-none" (click)="openApp(app)"
                 *ngFor="let app of recentApps | filter: [ searchApp, 'name']">
                 <div class="box">
@@ -104,15 +104,14 @@
                     <div class="info-text" *ngIf="app.description !==''" title="{{app.description}}">{{app.description}}
                     </div>
                   </div>
-                  <div class="user-name text-truncate" *ngIf="app.createdBy!==userId"
-                    ngbTooltip="{{app.userDetails.fullName}}">{{app.userDetails.fullName}}</div>
+                  <div class="user-name text-truncate" *ngIf="app.createdBy!==userId" ngbTooltip="{{app.userDetails.fullName}}">{{app.userDetails.fullName}}</div>
                 </div>
               </div>
 
 
               <div class="row m-0 col-12 filters-dropdown">
                 <div class="col-6 d-flex align-items-center p-0 left">
-                  <div class="kr-sg-dropdowns">
+                  <!-- <div class="kr-sg-dropdowns">
                     <div class="dropdown dropdown-open">
                       <span class="m-title m-0">{{app_type}} Apps</span>
                       <button class="dropdown-toggle dropdown-input border-0 w-auto" data-toggle="dropdown"><img
@@ -120,9 +119,12 @@
                       <ul class="dropdown-menu content-menu w-auto">
                         <li *ngFor='let app of appTypes' (click)="selectedAppType(app)"
                           [class.selected]="app == app_type"><a>{{app}} Apps</a></li>
-                        <!-- <li><a class="selected">All Apps</a></li> -->
+                        <li><a class="selected">All Apps</a></li>
                       </ul>
                     </div>
+                  </div> -->
+                  <div class="tabs-sec">
+                    <div class="tab-name" *ngFor='let app of appTypes' (click)="selectedAppType(app)" [class.active-tab-name]="app == app_type">{{app}} Apps</div>
                   </div>
                 </div>
                 <div class="col-6 right">
@@ -149,15 +151,22 @@
                 [ngbTooltip]="filter.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0">
                 <div class="box" [ngStyle]="filter.disabled&&{'opacity':'0.4','cursor':'default'}">
                   <div class="content-sec">
-                    <div class="name"><span>{{filter.name}}</span>
-                      <span><img src="assets/icons/delete-table.svg" (click)="openDeleteApp($event)"></span>
+                    <div class="delete-clone-icons">
+                      <!-- <div class="clone-icon" tooltipClass="tooltip-global- ml-14" [container]="'body'" ngbTooltip='Duplicate' placement="bottom-left">
+                        <img src="assets/icons/clone-blue.svg" (click)="openDeleteApp($event)">
+                      </div> -->
+                      <div class="delete-icon" tooltipClass="tooltip-global- ml-14" [container]="'body'" ngbTooltip='Delete' placement="bottom-left">
+                        <img src="assets/icons/delete-table.svg" (click)="openDeleteApp($event)">
+                      </div>
                     </div>
-                    <div class="info-text" *ngIf="filter.description !==''" title="{{filter.description}}">
-                      {{filter.description}}</div>
+                    <div class="name">{{filter.name}}</div>
+                    <div class="info-text" *ngIf="filter.description !==''" title="{{filter.description}}">{{filter.description}}</div>
                   </div>
-                  <div class="user-name text-truncate" *ngIf="filter.createdBy!==userId"
-                    ngbTooltip="{{filter.userDetails.fullName}}">{{filter.userDetails.fullName}}</div>
-                  <!-- <div class="flag"><img src="assets/icons/dashboard/publish.svg"></div> -->
+                  <div class="user-name text-truncate" *ngIf="filter.createdBy!==userId" ngbTooltip="{{filter.userDetails.fullName}}">{{filter.userDetails.fullName}}</div>
+                  <div class="shared-app-text">
+                    <img src="assets/icons/share-icon.svg">
+                    <span>Shared App</span>
+                  </div>
                 </div>
               </div>
               <div *ngIf="filteredApps.length===0" class="empty_filter">{{app_type}} apps not available</div>
@@ -440,20 +449,23 @@
 </kr-modal>
 <!--popup for the delete -->
 <!--Delete confirmation modal start-->
-<kr-modal modalType="center" #deleteAppPop modalClass="creating-new-app-modal">
+<kr-modal modalType="center" #deleteAppPop modalClass="delete-app-popup">
   <div class="modal-header">
-    <div>Are_you_sure_you_want_to_delete?</div>
-    <div><img src="assets/icons/modal-close.svg" (click)="closeDeleteApp()"></div>
+    <div class="modal-title">Are you sure you want to delete?</div>
+    <div class="close_modal" (click)="closeDeleteApp()">
+      <img src="assets/icons/modal-close.svg">
+    </div>
   </div>
   <div class="modal-body">
-    <input class="kr-sg-input-text" placeholder="Reconfirm by typing the name of the App you want to delete">
-    <span>Deleting your application will also delete all your Indexes,Sources & other Application Data.</span><br>
-    <span>Are you sure you want to continue?</span>
-  </div>
-  <div class="modal-footer">
-    <button class="kr-sg-button-secondary btn_lg" (click)="closeDeleteApp()">Cancel</button>
-    <button class="kr-sg-button-primary btn_lg">Delete</button>
-
+    <div class="kr-sg-input-text">
+      <input type="text" placeholder="Reconfirm by typing the name of the App you want to delete" class="input-text">
+    </div>
+    <div class="info-desc">Deleting your application will also delete all your indexes, Sources & other Application Data.</div>
+    <div class="info-desc">Are you sure you want to continue?</div>
+    <div class="btns-sec">
+      <button class="kr-sg-button-secondary btn_lg mr-2" (click)="closeDeleteApp()">Cancel</button>
+      <button class="kr-sg-button-primary btn_lg">Delete</button>
+    </div>
   </div>
 </kr-modal>
 <!--Delete confirmation modal end -->

@@ -292,11 +292,14 @@
         .appsListingContainer{
             .m-title{
                 color: #202124;
-                font-weight: 600;
+                font-weight: normal;
                 font-size: 14px;
                 line-height: 17px;
                 margin: 20px 0;
                 padding: 0 10px;
+                &.m-10{
+                    margin: 10px 0;
+                }
             }
             .empty{
                 display: none;
@@ -334,17 +337,17 @@
             max-width: 275px;
             .box{
                 height: 100px;
-                padding: 18px 20px;
+                padding: 15px 10px;
                 z-index: 0;
                 position: relative;
                 display: table;
                 cursor: pointer;
                 transition: 0.2s all ease-in;
                 background: #FFFFFF;
-                border: 0px solid #BDC1C6;
+                border: 1px solid #E4E5E7;
                 box-sizing: border-box;
-                border-radius: 6px;                
-                box-shadow: 0px -4px 80px rgba(0, 0, 0, 0.07), 0px -1.48494px 6.91958px rgba(0, 0, 0, 0.0186561);
+                box-shadow: 0px 4px 8px rgba(32, 33, 36, 0.08);
+                border-radius: 6px;
                 width: 255px;
                 max-width: 255px;            
                 .flag{
@@ -362,10 +365,15 @@
                     // transform: scale(1.03);
                     z-index: 1;
                     position: relative;
-                    // background: #F3F8FF;
+                    border: 1px solid #85B7FE;
                     box-shadow: 0px 4px 12px 2px rgba(32, 33, 36, 0.12);
                     .flag{
                         display: block;
+                    }
+                    .content-sec{
+                        .delete-clone-icons{
+                            display: flex;
+                        }
                     }
                 }   
                 .img-block{
@@ -385,10 +393,27 @@
                 }
                 .content-sec{
                     display: table-cell;
-                    vertical-align: middle;
+                    vertical-align: top;
                     padding: 0 5px 16px;
                     position: relative;
                     z-index: 0;
+                    .delete-clone-icons{
+                        position: absolute;
+                        right: 0;
+                        display: none;
+                        align-items: center;
+                        .clone-icon{
+                            line-height: normal;
+                            padding-right: 12px;
+                            margin-right: 12px;
+                            border-right: 1px solid #E4E5E7;
+                            cursor: pointer;
+                        }
+                        .delete-icon{
+                            line-height: normal;
+                            cursor: pointer;
+                        }
+                    }
                     .name{
                         font-size: 15px;
                         font-weight: 600;
@@ -398,7 +423,11 @@
                         line-height: 17px;                        
                         font-weight: 500;
                         font-size: 14px;
-                        padding-top: 3px;
+                        padding-top: 0px;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        width: 170px;
                         span{
                             max-width: 200px;
                             text-overflow: ellipsis;
@@ -413,8 +442,9 @@
                     }
                     .info-text{
                         font-weight: normal;
+                        font-weight: 500;
                         font-size: 12px;
-                        line-height: 15px;                    
+                        line-height: 15px;                 
                         text-align: left;
                         color: #5F6368;
                         margin-bottom: 0;
@@ -429,23 +459,41 @@
                 }
                 .user-name{
                     position: absolute;
-                 right: 22px;
-                 bottom: 12px;
-                 color: #9aa0a6;
-                 font-weight: 400;
-                  font-size: 12px;
-                 line-height: 15px;
-                 display: block;
-                 width: auto;
-                 overflow: hidden;
-                 white-space: nowrap;
-                 text-overflow: ellipsis;
-                 max-width: 140px;
+                    right: 15px;
+                    bottom: 14px;
+                    color: #9aa0a6;
+                    font-weight: normal;
+                    font-size: 12px;
+                    line-height: 15px;
+                    display: block;
+                    width: auto;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    max-width: 130px;
+                }
+                .shared-app-text{
+                    position: absolute;
+                    bottom: 12px;
+                    left: 15px;
+                    display: flex;
+                    align-items: center;
+                    background: #FFF1ED;
+                    border-radius: 3px;
+                    padding: 5px 5px;
+                    font-weight: normal;
+                    font-size: 10px;
+                    line-height: 12px;
+                    color: #803C25;
+                    span{
+                        padding-left: 7px;
+                    }
                 }
             }            
         }
         .filters-dropdown{
-            padding: 20px 10px;
+            padding: 10px;
+            margin-top: 20px !important;
             .left{
                 .kr-sg-dropdowns {
                     .dropdown-open {
@@ -471,6 +519,23 @@
                         }
                     }                    
                 }
+                .tabs-sec{
+                    display: flex;
+                    align-items: center;
+                    .tab-name{
+                        font-weight: normal;
+                        font-size: 14px;
+                        line-height: 20px;
+                        color: #202124;
+                        margin-right: 24px;
+                        padding: 11px 0;
+                        border-bottom: 2px solid transparent;
+                        cursor: pointer;
+                        &.active-tab-name{
+                            border-bottom: 2px solid #0D6EFD;
+                        }
+                    }
+                }
             }
             .right{
                 display: flex;
@@ -479,9 +544,9 @@
                 padding: 0;
                 .sort-by{
                     color: #202124;
-                    font-weight: 600;
-                    font-size: 14px;
-                    line-height: 17px;
+                    font-weight: 500;
+                    font-size: 12px;
+                    line-height: 15px;
                     padding: 0 10px;
                 }
 

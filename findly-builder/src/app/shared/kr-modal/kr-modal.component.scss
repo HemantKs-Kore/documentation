@@ -278,6 +278,58 @@
             }
         }
     }
+    &.delete-app-popup{
+        .modal-dialog{
+            width: 530px;
+            height: 270px;
+            max-width: 100%;
+            .label-text{
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 15px;
+                margin-bottom: 8px;
+            }
+            .modal-content{
+                text-align: left;
+                height: 100%;
+                border-radius: 4px;
+                .modal-header{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    background: #FFFFFF;
+                    padding: 25px 30px 0px 30px;
+                    .modal-title{
+                        color: #202124;
+                        font-weight: normal;
+                        font-size: 22px;
+                        line-height: 34px;
+                    }
+                    .close_modal{
+                        cursor: pointer;
+                    }
+                }
+                .modal-body{
+                    padding: 15px 30px;
+                    .kr-sg-input-text{
+                        margin-bottom: 15px;
+                    }
+                    .info-desc{
+                        font-weight: normal;
+                        font-size: 14px;
+                        line-height: 24px;
+                        color: #605E5C;
+                    }
+                    .btns-sec{
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-end;
+                    }
+                }
+            }
+        }
+    }
+
     /*--Regular Modal Basic Styles Starts Here--*/
     .modal-dialog{
         display: inline-block;
