@@ -29,6 +29,7 @@ import { D, F } from '@angular/cdk/keycodes';
 import { SideBarService } from './../../services/header.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { ThrowStmt } from '@angular/compiler';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-faq-source',
@@ -147,6 +148,12 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   openExtractsSubs: Subscription;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
+  sortedObject = {
+    'type': 'fieldName',
+    'position':'up',
+    "value": 1,
+  }
+
   @ViewChild('editQaScrollContainer', { static: true }) editQaScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('fqasScrollContainer', { static: true }) fqasScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('addfaqSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -181,7 +188,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getStats(null, true);
     // this.getfaqsBy();
-    if ((this.resources && this.resources.length === 0)) {
+    this.getSourceList(true);
+    this.getDyanmicFilterData(null,'landingPage');
+    if((this.resources && this.resources.length === 0)){
       this.getJobStatusForMessages();
       this.getSourceList(true);
     }
@@ -223,10 +232,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadingFaqs = false;
     this.loadingFaqs1 = true;
     this.loadImageText = true;
-    if (!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')) {
-      this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
-      this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
-    }
+    // if (!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')) {
+    //   this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
+    //   this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
+    // }
   }
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
@@ -307,13 +316,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showSourceAddition = null;
     this.openStatusModal();
     this.extractedFaqs = true
-    this.getJobStatusForMessages();
+    // this.getJobStatusForMessages();
   }
   onSourceAdditionSave() {
     this.manualFilterSelected = false;
     this.selectedResource = null;
     this.closeAddsourceModal();
-    this.getSourceList();
+    // this.getSourceList();
     this.closeStatusModal();
     if (this.faqs && this.faqs.length === 0) {
       if (this.showSourceAddition !== 'manual')
@@ -682,14 +691,32 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     // console.log(this.searchFaq, 'search');
 
   }
-  getJobStatusForMessages() {
+  getJobStatusForMessages(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?,request?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       type: 'faq'
     };
-    this.service.invoke('get.source.list', quaryparms).subscribe(res => { //get.job.status
-      this.resources = [...res];
-      this.extractedResources = [...res];
+    let payload:any = {}
+    if(!sortHeaderOption && !headerOption){
+       payload ={
+        "extractionType": "faq",
+        "sort":{
+          "name" : -1
+        } 
+      }
+    }
+    else{
+      payload = request
+    }
+    if(this.searchFaq){
+      payload.search = this.searchFaq;
+    }
+    if(this.searchSources){
+      payload.search = this.searchSources;
+    }
+    this.service.invoke('get.source.list', quaryparms,payload).subscribe(res => { //get.job.status
+      this.resources = [...res.sources];
+      this.extractedResources = [...res.sources];
       if (this.extractedResources.length) {
         this.statusArr = [];
         this.docTypeArr = [];
@@ -702,11 +729,12 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
 
       }
       this.filterResourcesBack = [...this.extractedResources];
-      this.filterTable(this.filterTableSource, this.filterTableheaderOption)
+      this.getDyanmicFilterData(searchValue,'manageExract');
+      // this.filterTable(this.filterTableSource, this.filterTableheaderOption)
 
 
-      if (res && res.length) {
-        res.forEach((d: any) => {
+      if (res.sources && res.sources.length) {
+        res.sources.forEach((d: any) => {
           if (d.extractedFaqsCount === 0) {
             let index = this.resources.findIndex((f) => f.name == d.name);
             if (index > -1) {
@@ -855,24 +883,44 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.addRemoveFaqFromSelection(null, null, true);
     this.getfaqsBy(null, this.selectedtab);
   }
-  getSourceList(initializePoling?) {
+  getSourceList(initializePoling?,searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?,request?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       type: 'faq',
       limit: 50,
       skip: 0
     };
-    this.service.invoke('get.source.list', quaryparms).subscribe(res => {
-      this.resources = [...res];
-      res.forEach(element => {
+    let payload:any = {}
+    if(!sortHeaderOption && !headerOption){
+       payload ={
+        "extractionType": "faq",
+        "sort":{
+          "name" : -1
+        } 
+        
+      }
+    }
+    else{
+      payload = request
+    }
+   
+    if(this.searchFaq){
+      payload.search = this.searchFaq;
+    }
+    if(this.searchSources){
+      payload.search = this.searchSources;
+    }
+    this.service.invoke('get.source.list', quaryparms,payload).subscribe(res => {
+      this.resources = [...res.sources];
+      res.sources.forEach(element => {
         if (element.recentStatus == 'queued' || element.recentStatus == 'failed' || element.recentStatus == 'running' || element.recentStatus == 'configured') {
           this.viewDetails = true;
           this.extractedFaqs = true;
           this.getStats(null, true);
         }
       });
-      if (res && res.length) {
-        res.forEach((d: any) => {
+      if (res.sources && res.sources.length) {
+        res.sources.forEach((d: any) => {
           if (d.extractedFaqsCount === 0) {
             let index = this.resources.findIndex((f) => f._id == d._id);
             if (index > -1) {
@@ -921,7 +969,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       else {
         this.loadingFaqs1 = true;
+        setTimeout(()=>{
+          if (!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')) {
+            this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
+            this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
+          }
+        }, 500)
+        
       }
+      this.getDyanmicFilterData(searchValue,'landingPage');
       // console.log('MIXPANNEL')
       this.mixpanel.postEvent('FAQ-created', {})
     }, errRes => {
@@ -940,7 +996,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           return "display-none"
         }
       }
-      case "type": {
+      case "contentSource": {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
             return "display-block";
@@ -976,64 +1032,207 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   filterTable(source, headerOption) {
-    // console.log(this.resources, source)
-    this.filterTableSource = source;
-    this.filterTableheaderOption = headerOption;
-    let firstFilterDataBack = [];
-    //this.resources = [...this.filterResourcesBack]; // For new Filter..
-    if (headerOption == "contentSource") {
-      this.filterSystem.typeHeader = headerOption;
-      this.filterSystem.typefilter = source;
-    } else {
-      this.filterSystem.statusHeader = headerOption;
-      this.filterSystem.statusFilter = source;
+    switch (headerOption) {
+      case 'contentSource': {this.filterSystem.typefilter = source; break; };
+      case 'recentStatus': {this.filterSystem.statusFilter = source; break; };
+    };
+    this.filterObject = {
+      type: source,
+      header: headerOption
     }
-    if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all") {
-      this.extractedResources = [...this.filterResourcesBack];
-      this.firstFilter = { 'header': '', 'source': '' };
-    }
-    else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter == "all") {
-      if (!this.firstFilter['header']) {
-        this.firstFilter = { 'header': headerOption, 'source': source };
-      }
-      firstFilterDataBack = [...this.filterResourcesBack];
-      const resourceData = firstFilterDataBack.filter((data) => {
-        return data[this.filterSystem.typeHeader].toLocaleLowerCase() === this.filterSystem.typefilter.toLocaleLowerCase();
-      })
-      if (resourceData.length) this.extractedResources = [...resourceData];
-    }
-    else if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter != "all") {
-      if (!this.firstFilter['header']) {
-        this.firstFilter = { 'header': headerOption, 'source': source };
-      }
-      firstFilterDataBack = [...this.filterResourcesBack];
-      const resourceData = firstFilterDataBack.filter((data) => {
-        return data[this.filterSystem.statusHeader].toLocaleLowerCase() === this.filterSystem.statusFilter.toLocaleLowerCase();
-      })
-      if (resourceData.length) this.extractedResources = [...resourceData];
-
-    }
-    else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter != "all") {
-      this.resources = [...this.filterResourcesBack];
-      //firstFilter
-      // if (this.firstFilter['header'] == headerOption) {
-      if (headerOption == "contentSource") {
-        this.firstFilter = { 'header': this.filterSystem.statusHeader, 'source': this.filterSystem.statusFilter };
-      } else {
-        this.firstFilter = { 'header': this.filterSystem.typeHeader, 'source': this.filterSystem.typefilter };
-      }
-      const firstResourceData = this.extractedResources.filter((data) => {
-        // console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
-        return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
-      })
-      const secondResourceData = firstResourceData.filter((data) => {
-        // console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
-        return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
-      })
-      if (secondResourceData.length) this.resources = [...secondResourceData];
-      //}
+    if(headerOption) {
+      this.filterFaq(null, null, source, headerOption);
     }
   }
+  filterFaq(searchValue?,searchSource?,source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){
+    if(sortValue){
+      this.sortedObject = {
+        type : sortHeaderOption,
+        value : sortValue,
+        position: navigate
+      }
+    }
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      offset: 0,
+      limit: 3
+    };
+    let request:any={}
+    if(!sortValue){
+      request = {
+        "extractionType": "faq",
+        "sort":{
+          "name":1
+        }
+    }   
+    }
+    else if(sortValue){
+      const sort :any ={}
+      request= {
+        sort
+      }
+    }
+    else {
+    request={}
+    }
+    request.extractionType = "faq",
+    request.contentSource = this.filterSystem.typefilter;
+    request.recentStatus = this.filterSystem.statusFilter;
+    request.search= this.searchSources;
+    if (request.contentSource == 'all') {
+     delete request.contentSource;
+    }
+     if (request.recentStatus == 'all') {
+      delete request.recentStatus; 
+    }
+    if (this.searchSources === '') {
+      delete request.search;
+     }
+    if(sortValue){  
+      this.getSortIconVisibility(sortHeaderOption,navigate);
+       //Sort start
+    if(sortHeaderOption === 'contentSource' ){
+      request.sort.contentSource = sortValue
+    }
+    if(sortHeaderOption === 'recentStatus' ){
+      request.sort.recentStatus = sortValue
+    }
+    if(sortHeaderOption === 'name' ){
+      request.sort.name = sortValue
+    }
+    // if(sortHeaderOption === 'numOfDocs' ){
+    //   request.sort.numOfDocs = sortValue
+    // }
+    // if(sortHeaderOption === 'triggeredBy' ){
+    //   request.sort.triggeredBy = sortValue
+    // }
+    // end
+    }
+     this.getJobStatusForMessages(searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
+
+    // this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
+  }
+  getDyanmicFilterData(search?,from?) {
+    // this.fieldDataTypeArr = [];
+    // this.isMultiValuedArr = [];
+    // this.isRequiredArr = [];
+    // this.isStoredArr = [];
+    // this.isIndexedArr = [];
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId
+    };
+    const request :any = {
+      moduleName: "faq"
+    };
+    if(from == 'landingPage'){
+      request.state = this.selectedtab || 'draft';
+    }
+    if(from == 'manageExract'){
+      request.display = true;
+    }
+    
+    
+    request.contentSource = this.filterSystem.typefilter;
+    request.recentStatus = this.filterSystem.statusFilter;
+    request.search= this.searchSources;
+    if (request.contentSource == 'all') {
+     delete  request.contentSource;
+    }
+     if (request.recentStatus == 'all') {
+      delete request.recentStatus; 
+    }
+    if (this.searchSources === '') {
+      delete request.search;
+     }
+    this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
+      console.log(res, 'Filters')
+      this.statusArr = [...res.recentStatus];
+      this.docTypeArr = [...res.contentSource];
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get filters');
+    });
+    
+  }
+  sortByApi(sort){
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    var naviagtionArrow ='';
+    var checkSortValue= 1;
+    if(this.isAsc){
+      naviagtionArrow= 'up';
+      checkSortValue = 1;
+    }
+    else{
+      naviagtionArrow ='down';
+      checkSortValue = -1;
+  }
+  this.filterFaq(null,null,null,null,sort,checkSortValue,naviagtionArrow)
+}
+  // filterTable(source, headerOption) {
+  //   console.log(this.resources, source)
+  //   this.filterTableSource = source;
+  //   this.filterTableheaderOption = headerOption;
+  //   let firstFilterDataBack = [];
+  //   //this.resources = [...this.filterResourcesBack]; // For new Filter..
+  //   if (headerOption == "contentSource") {
+  //     this.filterSystem.typeHeader = headerOption;
+  //     this.filterSystem.typefilter = source;
+  //   } else {
+  //     this.filterSystem.statusHeader = headerOption;
+  //     this.filterSystem.statusFilter = source;
+  //   }
+  //   if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all") {
+  //     this.extractedResources = [...this.filterResourcesBack];
+  //     this.firstFilter = { 'header': '', 'source': '' };
+  //   }
+  //   else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter == "all") {
+  //     if (!this.firstFilter['header']) {
+  //       this.firstFilter = { 'header': headerOption, 'source': source };
+  //     }
+  //     firstFilterDataBack = [...this.filterResourcesBack];
+  //     const resourceData = firstFilterDataBack.filter((data) => {
+  //       return data[this.filterSystem.typeHeader].toLocaleLowerCase() === this.filterSystem.typefilter.toLocaleLowerCase();
+  //     })
+  //     if (resourceData.length) this.extractedResources = [...resourceData];
+  //   }
+  //   else if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter != "all") {
+  //     if (!this.firstFilter['header']) {
+  //       this.firstFilter = { 'header': headerOption, 'source': source };
+  //     }
+  //     firstFilterDataBack = [...this.filterResourcesBack];
+  //     const resourceData = firstFilterDataBack.filter((data) => {
+  //       return data[this.filterSystem.statusHeader].toLocaleLowerCase() === this.filterSystem.statusFilter.toLocaleLowerCase();
+  //     })
+  //     if (resourceData.length) this.extractedResources = [...resourceData];
+
+  //   }
+  //   else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter != "all") {
+  //     this.resources = [...this.filterResourcesBack];
+  //     //firstFilter
+  //     // if (this.firstFilter['header'] == headerOption) {
+  //     if (headerOption == "contentSource") {
+  //       this.firstFilter = { 'header': this.filterSystem.statusHeader, 'source': this.filterSystem.statusFilter };
+  //     } else {
+  //       this.firstFilter = { 'header': this.filterSystem.typeHeader, 'source': this.filterSystem.typefilter };
+  //     }
+  //     const firstResourceData = this.extractedResources.filter((data) => {
+  //       console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
+  //       return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
+  //     })
+  //     const secondResourceData = firstResourceData.filter((data) => {
+  //       console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
+  //       return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+  //     })
+  //     if (secondResourceData.length) this.resources = [...secondResourceData];
+  //     //}
+  //   }
+  // }
   confirmFAQswitch(faq) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
@@ -1093,7 +1292,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.pollingSubscriber = interval(5000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.job.status', quaryparms).subscribe(res => {
         this.updateSourceStatus(res);
-        this.getJobStatusForMessages();
+        // this.getJobStatusForMessages();
         const queuedJobs = _.filter(res, (source) => {
           return ((source.status === 'running') || (source.status === 'queued'));
         });

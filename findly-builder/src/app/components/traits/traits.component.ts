@@ -34,6 +34,7 @@ export class TraitsComponent implements OnInit {
     selectedItems: [],
     selectedCount: 0
   };
+  skip = 0;
   utteranceList = [];
   showUtteranceInput = false;
   showEditUtteranceInput: any;
@@ -87,7 +88,7 @@ export class TraitsComponent implements OnInit {
   traitsCount = false;
   indexPipelineId;
   subscription: Subscription;
-
+  totalRecord: number = 0;
   submitted = false;
   uttSubmitted = false;
   componentType: string = 'indexing';
@@ -157,9 +158,15 @@ export class TraitsComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
+      offset: this.skip || 0,
+      limit:10
+    }
+    if(this.serachTraits === ''){
+      quaryparms.search = this.serachTraits
     }
     this.service.invoke('get.traits', quaryparms).subscribe(res => {
-      this.traits.traitGroups = res;
+      this.traits.traitGroups = res.traitGroups;
+      this.totalRecord = res.totalCount || 0;
       // this.loadingTraits = false;
       const allTraitskeys: any = {};
       let tempTraitkey = '';
@@ -1125,6 +1132,10 @@ export class TraitsComponent implements OnInit {
     this.selcectionObj.selectAll = true;
     $('#selectAllTraits')[0].checked = true;
     this.selectAll();
+  }
+  paginate(event){
+    this.skip= event.skip;
+    this.getTraitsGroupsApi()
   }
 
   ngOnDestroy() {

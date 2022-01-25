@@ -72,7 +72,20 @@ export class AppExperimentsComponent implements OnInit {
   currentSubscriptionPlan: any;
   currentSubsciptionData: Subscription;
   componentType: string = "experiment";
+  skip =0;
   ctrTooltip: string = 'Click Through Rate is the percentage of searches which got at least one click of all the searches performed';
+  filterSystem: any = {
+    'statusfilter': 'all',
+  }
+  sortedObject = {
+    'type': 'fieldName',
+    'position':'up',
+    "value": 1,
+  }
+  filterObject={
+    'type': '',
+    'header':''
+  }
   constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog, private appSelectionService: AppSelectionService, public inlineManual: InlineManualService, public mixpanel: MixpanelServiceService) { }
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
@@ -82,6 +95,7 @@ export class AppExperimentsComponent implements OnInit {
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.currentSubscriptionPlan = res.subscription;
       if (this.currentSubscriptionPlan.planId != 'fp_free') {
+        this.getDyanmicFilterData();
         this.getExperiments();
         this.setSliderDefaults();
         this.getIndexPipeline();
@@ -387,7 +401,7 @@ export class AppExperimentsComponent implements OnInit {
     });
   }
 
-  getExperiments() {
+  getExperiments(searchValue?,Search?, source?,headerOption?,sort?,checkSortValue?,naviagtionArrow?) {
     this.loadingContent = true;
     const header: any = {
       'x-timezone-offset': '-330'
@@ -396,8 +410,19 @@ export class AppExperimentsComponent implements OnInit {
       searchIndexId: this.serachIndexId,
       offset: this.exp_skipPage,
       limit: 10,
-      state: 'all'
+      state: 'configured',
+      sortBy: 'state',
+      orderBy : 1
     };
+    if(sort && checkSortValue && naviagtionArrow){
+      quaryparms.orderBy = checkSortValue
+    }
+    if(source && headerOption){
+      quaryparms.state = source
+    }
+    if(this.searchFields){
+      quaryparms.search = this.searchFields
+    }
     this.service.invoke('get.experiment', quaryparms, header).subscribe(res => {
       const date1: any = new Date();
       this.exp_totalRecord = res.total;
@@ -425,6 +450,7 @@ export class AppExperimentsComponent implements OnInit {
           this.inlineManual.visited('EXPERIMENTS')
         }
       }
+      this.getDyanmicFilterData();
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -432,6 +458,123 @@ export class AppExperimentsComponent implements OnInit {
         this.notificationService.notify('Failed ', 'error');
       }
     });
+  }
+  getDyanmicFilterData(search?) {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId
+    };
+    const request :any = {
+      moduleName: "experiments",
+    };
+    // request.type = this.filterSystem.typefilter;
+    request.search= this.searchFields;
+    if (request.type == 'all') {
+     delete  request.type;
+    }
+    if (this.searchFields === '') {
+      delete request.search;
+     }
+    this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
+      console.log(res, 'Filters')
+      this.dynamicStatus = [...res.status];
+    }, 
+    // errRes => {
+    //   this.errorToaster(errRes, 'Failed to get filters');
+    // }
+    );
+    
+  }
+  filterTable(source, headerOption) {
+    switch (headerOption) {
+      case 'status': { this.filterSystem.statusfilter = source; break; };
+    };
+    this.filterObject = {
+      type: source,
+      header: headerOption
+    }
+
+    this.getExperiments(null,null,source,headerOption);
+  }
+  // synonymFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){  
+  //   // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)  
+  //   // this.loadingContent = true;
+  //   if(sortValue){
+  //     this.sortedObject = {
+  //       type : sortHeaderOption,
+  //       value : sortValue,
+  //       position: navigate
+  //     }
+  //   }
+
+  //   const quaryparms: any = {
+  //     searchIndexID: this.serachIndexId,
+  //     indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+  //     queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+  //     offset: 0,
+  //     limit: 10
+  //   };
+  //   let request:any={}
+  //   if(!sortValue){
+  //     request = {
+  //       "sort":{
+  //         'type':1
+  //       }    
+  //   }   
+  //   }
+  //   else if(sortValue){
+  //     const sort :any ={}
+  //     request= {
+  //       sort
+  //     }
+  //   }
+  //   else {
+  //   request={}
+  //   }
+      
+  //   request.type = this.filterSystem.statusfilter;
+  //   request.search= this.synonymSearch;
+  //   if (request.type == 'all') {
+  //    delete  request.type;
+  //   }
+  //   if (this.synonymSearch === '') {
+  //    delete request.search;
+  //   }
+  //   if(sortValue){  
+  //     this.getSortIconVisibility(sortHeaderOption,navigate);
+  //      //Sort start
+  //      if(sortHeaderOption === 'name' ){
+  //       request.sort.name = sortValue
+  //     }
+  //     if (sortHeaderOption === 'type') {
+  //       request.sort.type = sortValue
+  //     }
+  //   // end
+  //   }
+  //   this.getSynonymsApi(searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
+  // }
+  sortByApi(sort){
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    var naviagtionArrow ='';
+    var checkSortValue= 1;
+    if(this.isAsc){
+      naviagtionArrow= 'up';
+      checkSortValue = 1;
+    }
+    else{
+      naviagtionArrow ='down';
+      checkSortValue = -1;
+    }
+    this.getExperiments(null,null,null,null,sort,checkSortValue,naviagtionArrow)
+  }
+
+  paginate(event){
+    this.skip =event.skip
+    this.getExperiments(this.searchFields,'search',this.filterObject.type,this.filterObject.header,this.sortedObject.type,this.sortedObject.value,this.sortedObject.position)
   }
   //dynamically show status
   dynamicStatus: any = [];
@@ -750,11 +893,11 @@ export class AppExperimentsComponent implements OnInit {
     }
   }
   //pagination for list
-  paginate(event) {
-    // this.exp_limitPage = event.limit;
-    this.exp_skipPage = event.skip;
-    this.getExperiments();
-  }
+  // paginate(event) {
+  //   // this.exp_limitPage = event.limit;
+  //   this.exp_skipPage = event.skip;
+  //   this.getExperiments();
+  // }
   //show or hide sort icon
   selectedSort = '';
   isAsc = true;

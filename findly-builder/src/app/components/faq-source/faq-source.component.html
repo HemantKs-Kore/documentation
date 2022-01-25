@@ -82,7 +82,7 @@
                         <div class="kr-sg-dropdowns" #selectResourceDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom'">                                        
                             <div class="dropdown dropdown-open">
                                 <!-- <span class="filter-count"  placement="top" ngbTooltip="{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}">{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}</span> -->
-                                <button class="dropdown-toggle dropdown-input pl-0 mr-2" (click)="getJobStatusForMessages()" ngbDropdownToggle><img src="assets/icons/filter.svg">{{'faqSource.filter' | translate}}</button>                                            
+                                <button class="dropdown-toggle dropdown-input pl-0 mr-2" (click)="getSourceList()" ngbDropdownToggle><img src="assets/icons/filter.svg">{{'faqSource.filter' | translate}}</button>                                            
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                     <li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">{{'faqSource.all' | translate}} </span><img *ngIf="!(selectedResource && selectedResource._id) && !manualFilterSelected" src="assets/icons/check-blue.svg"></li>
                                     <li  (click)="selectResourceDrop.close();manualFaqsFilter()" *ngIf="noManulaRecords"><span class="list-name"> {{'faqSource.manual' | translate}}</span><img *ngIf="!(selectedResource && selectedResource._id) && manualFilterSelected" src="assets/icons/check-blue.svg"></li>
@@ -94,8 +94,9 @@
                             </div>
                         </div> 
                         <!-- <div class="seach_add_feild"> -->
+                            <!-- Landing page Search -->
                             <div class="kr-sg-input-search"  *ngIf="showSearch">                               
-                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup)="searchFaqs()" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"   (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup)="getfaqsBy(null,null,null,searchFaq)" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"   (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFaq">
                             <img class="close-icon" src="assets/icons/close_icon.svg"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchFaq}" (click)="focusoutSearch()"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
@@ -453,8 +454,10 @@
                             <div class="body-top-content" *ngIf="!editfaq">
                                 <div class="question-content">
                                     <div class="title-que">
-                                        <span>{{selectedFaq._source.faq_question}}</span>                                       
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
+                                        <span>{{selectedFaq._source.faq_question}}</span>   
+                                        <div class="edit-faq" (click)="editThisQa()" ngbTooltip='Edit' placement="bottom">
+                                            <img src="assets/icons/edit-blue.svg">Edit
+                                        </div>                                    
                                     </div>
                                     <div  class="pad-div d-none">
                                         <div class="bot-response-view-mode"   >
@@ -516,6 +519,7 @@
                                                             <img src="assets/icons/faq/dislikes.svg">{{selectedFaq.stats.thumbsdown ||0}}
                                                         </div>                                                            -->
                                                     </div>
+                                                   
                                                     <div class="d-flex col-12 conditions-response-block">
                                                         <div class="title col-2 px-0">{{'faqSource.conditions' | translate}} :</div>
                                                         <div class="right-content col-10 px-0 condition-content">
@@ -538,7 +542,7 @@
                                                                         <div class="rule-value" *ngIf="rule.dataType!== 'date'" title="{{value}}">{{value}}</div>
                                                                         <div class="or-rule" *ngIf="(valueIndex < 3 && valueIndex!== (rule.value.length>3?3:(rule.value.length-1)) && ruleIndex==0 && rule.operator !=='between')||(valueIndex < 1 && ruleIndex==1 && valueIndex!== 1) || (valueIndex < 1 && valueIndex!== (rule.value.length>2?2:(rule.value.length-1)) && ruleIndex==0 && rule.operator =='between') ">{{ "or_caps" | translate}}</div>
                                                                     </ng-container> 
-                                                                    <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div>
+                                                                    <!-- <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div> -->
                                                                 </div>
                                                                 </ng-container>                                                             
                                                             </div>
@@ -591,7 +595,10 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="data-inner-content" >
+                                                    <div class="field_data" *cdkDragPreview>
+                                                        <div class="title text-truncate"></div>
+                                                    </div>
+                                                    <div class="data-inner-content">
                                                         <div class="response-text">{{consitionalAnswer.answers[0]?.text}}</div>   
                                           
                                                         <div class="conditions-list">
@@ -622,7 +629,7 @@
                                                                                     <div class="rule-value" *ngIf="rule.dataType!== 'date'" title="{{value}}">{{value}}</div>
                                                                                     <div class="or-rule" *ngIf="(valueIndex < 3 && valueIndex!== (rule.value.length>3?3:(rule.value.length-1)) && ruleIndex==0 && rule.operator !=='between')||(valueIndex < 1 && ruleIndex==1 && valueIndex!== 1) || (valueIndex < 1 && valueIndex!== (rule.value.length>2?2:(rule.value.length-1)) && ruleIndex==0 && rule.operator =='between') ">{{ "or_caps" | translate}}</div>
                                                                                 </ng-container> 
-                                                                                <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div>
+                                                                                <!-- <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div> -->
                                                                             </div>
                                                                             </ng-container>                                                             
                                                                         </div>
@@ -826,7 +833,7 @@
                         <img *ngIf="showSearch" src="assets/images/close.svg">Search
                     </div> -->
                     <div class="kr-sg-input-search m-0"  *ngIf="showSearch">                               
-                        <input type="text" placeholder="Search" id="inputSearch1" class="input-search"  [ngClass]="{'pl-33':!searchSources,'pl-2':searchSources}" autocomplete="off" [(ngModel)]="searchSources" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                        <input type="text" placeholder="Search" id="inputSearch1" class="input-search"  [ngClass]="{'pl-33':!searchSources,'pl-2':searchSources}" autocomplete="off" [(ngModel)]="searchSources" (keyup)="getSourceList(searchSources,'search')" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                         (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                     <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
                     <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch(true)"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
@@ -865,17 +872,17 @@
                 <div class="kr-sg-data-table with-checkbox"  *ngIf=" extractedResources &&  extractedResources.length">
                 <section class="table-content">
                     <header class="table-header">
-                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('name')">
+                        <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('name')">
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span> SOURCE TITLE
                             </div>
-                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('type')">
+                        <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('contentSource')">
                             <span class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
                             <span class="d-flex align-items-center flex-column mr-1">
-                                <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img [ngClass]="getSortIconVisibility('type', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                                <img [ngClass]="getSortIconVisibility('contentSource', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('contentSource', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span> TYPE  
                               <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown 
                               [autoClose]="true" [placement]="'bottom-right'">
@@ -896,7 +903,7 @@
                               </div>
                               </div>
                             </div>
-                        <div class="col_ col-3 d-flex align-items-center" (click)="sortBy('recentStatus')">
+                        <div class="col_ col-3 d-flex align-items-center" (click)="sortByApi('recentStatus')">
                             <span class="selected-length-doc-web hide">({{this.filterSystem.statusFilter}})</span>
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
@@ -992,6 +999,7 @@
                 </div> 
             </perfect-scrollbar>            
         </ng-container>
+        PAGINATION
     </div>
 </kr-modal>
 <ng-container *ngIf="showSourceAddition">
