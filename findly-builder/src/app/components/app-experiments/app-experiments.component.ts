@@ -410,7 +410,7 @@ export class AppExperimentsComponent implements OnInit {
       searchIndexId: this.serachIndexId,
       offset: this.exp_skipPage,
       limit: 10,
-      state: 'configured',
+      state: 'all',
       sortBy: 'state',
       orderBy : 1
     };
