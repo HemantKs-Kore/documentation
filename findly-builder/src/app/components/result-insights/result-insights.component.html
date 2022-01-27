@@ -22,7 +22,7 @@
     </div>
     <perfect-scrollbar class="scroll_content">             
         <div class="analy-dropdown-header">
-            <app-analytics-dropdown></app-analytics-dropdown>
+            <app-analytics-dropdown *ngIf="indexConfigs.length" [indexarray]="indexConfigs" (dropdownpipelineid)="getAllgraphdetails($event)"></app-analytics-dropdown>
         </div>
         <div class="data-information-content col-12 m-0 row split-tables">
             <div class="col-12 box-content">

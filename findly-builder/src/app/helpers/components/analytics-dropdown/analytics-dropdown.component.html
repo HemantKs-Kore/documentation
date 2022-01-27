@@ -9,7 +9,9 @@
             </button>
             <ul class="dropdown-menu content-menu" ngbDropdownMenu>
                 <perfect-scrollbar class="scroll-search-field">
-                    <li ngbDropdownItem class="list-item-li" (click)="getDetails(config)" *ngFor="let config of indexConfigs">
+                    <li ngbDropdownItem class="list-item-li" 
+                    [ngClass]="{'active' : (selecteddropname==config.name)}"
+                    (click)="getDetails(config)" *ngFor="let config of indexConfigs">
                         <a>{{config.name=='Default'?'DefaultIndex':config.name}}</a>
                     </li>
                 </perfect-scrollbar>                    

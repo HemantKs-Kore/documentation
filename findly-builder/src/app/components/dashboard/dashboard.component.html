@@ -34,7 +34,7 @@
 
     <perfect-scrollbar class="scroll_content">
         <div class="analy-dropdown-header">
-            <app-analytics-dropdown></app-analytics-dropdown>
+            <app-analytics-dropdown *ngIf="indexConfigs.length" [indexarray]="indexConfigs" (dropdownpipelineid)="getAllgraphdetails($event)"></app-analytics-dropdown>
         </div>
         <div *ngIf="slider === 0" class="main-dashbord-metrics">
             <div class="top-cards-section row m-0" *ngIf="totalUsersStats && totalSearchesStats">

@@ -96,10 +96,9 @@ export class DashboardComponent implements OnInit {
     indexConfigs: any = [];//added on 17/01
 
   ngOnInit(): void {
-   // this.getDetails();
-    
+       
     this.selectedApp = this.workflowService.selectedApp();
-    this.indexConfigs = this.appSelectionService.appSelectedConfigs;
+    //this.indexConfigs = this.appSelectionService.appSelectedConfigs;
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getIndexPipeline();
     //this.appselection();
@@ -152,11 +151,11 @@ export class DashboardComponent implements OnInit {
       if (res.length >= 0){
             this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
             this.getAllgraphdetails(this.selectedIndexConfig);
-            for(let i=0;i<res.length;i++){
-              if(res[i].default=== true){
-                this.selecteddropname=res[i].name;           
-              }
-            }
+            // for(let i=0;i<res.length;i++){
+            //   if(res[i].default=== true){
+            //     this.selecteddropname=res[i].name;           
+            //   }
+            // }
           } 
          
       //this.getQueryPipeline(res[0]._id);
@@ -214,12 +213,12 @@ export class DashboardComponent implements OnInit {
   // }//changes ends here
 
   /* to get the id of the selected element 17/01 */
-  getDetails(config?){
-    this.selecteddropname=config.name;
-    this.selectedIndexConfig=config._id;
-    this.getAllgraphdetails(config._id);
+  // getDetails(config?){
+  //   this.selecteddropname=config.name;
+  //   this.selectedIndexConfig=config._id;
+  //   this.getAllgraphdetails(config._id);
    
-  }
+  // }
 
   viewAll(route, searchType?) {
     this.workflowService.mainMenuRouter$.next(route);

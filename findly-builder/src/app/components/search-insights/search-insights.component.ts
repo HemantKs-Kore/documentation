@@ -25,6 +25,9 @@ export class SearchInsightsComponent implements OnInit
   topQuriesWithNoResults: any;
   getQueriesWithResults: any;
   getSearchQueriesResults: any;
+  indexConfigs:any =[];
+  indexConfigObj: any = {};
+  selectedIndexConfig: any;
   selectedQuery = '';
   dateType = "hour";
   group = "week";
@@ -64,8 +67,8 @@ export class SearchInsightsComponent implements OnInit
   {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getQueries("QueriesWithNoResults");
-    this.getQueries("QueriesWithResults");
+    this.getIndexPipeline();
+    
     //this.getQueries("GetSearchQueriesResults");
 
     if (localStorage.getItem('search_Insight_Result'))
@@ -74,6 +77,46 @@ export class SearchInsightsComponent implements OnInit
       localStorage.removeItem('search_Insight_Result');
     }
 
+  }
+
+  getIndexPipeline() {
+    const header: any = {
+      'x-timezone-offset': '-330'
+    };
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      offset: 0,
+      limit: 100
+    };
+    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
+      this.indexConfigs = res;
+      this.indexConfigs.forEach(element => {
+          this.indexConfigObj[element._id] = element;
+         });
+      if (res.length >= 0){
+            this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
+            this.getAllgraphdetails(this.selectedIndexConfig);
+            // for(let i=0;i<res.length;i++){
+            //   if(res[i].default=== true){
+            //     this.selecteddropname=res[i].name;           
+            //   }
+            // }
+          } 
+         
+      //this.getQueryPipeline(res[0]._id);
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
+    
+  }
+  getAllgraphdetails(selectedindexpipeline){
+    this.getQueries("QueriesWithNoResults",selectedindexpipeline);
+    this.getQueries("QueriesWithResults",selectedindexpipeline);
+    
   }
   openDateTimePicker(e)
   {
@@ -122,10 +165,13 @@ export class SearchInsightsComponent implements OnInit
   dateLimt(type)
   {
     this.dateType = type;
-    this.getQueries("QueriesWithNoResults");
-    this.getQueries("QueriesWithResults");
+    let selectedindexpipeline=this.selectedIndexConfig;
+    if(selectedindexpipeline){
+    this.getQueries("QueriesWithNoResults",selectedindexpipeline);
+    this.getQueries("QueriesWithResults",selectedindexpipeline);
+    }
   }
-  getQueries(type,sortHeaderOption?,sortValue?,navigate?,request?,searchSource?) {
+  getQueries(type,selectedindexpipeline?,sortHeaderOption?,sortValue?,navigate?,request?,searchSource?) {
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
     var week = new Date(Date.now() - (6 * 864e5));
@@ -159,7 +205,8 @@ export class SearchInsightsComponent implements OnInit
     const header: any = {
       'x-timezone-offset': '-330'
     };
-    let queryparams: any = { searchIndexId: this.serachIndexId };
+    let queryparams: any = { searchIndexId: this.serachIndexId,
+      indexPipelineId:selectedindexpipeline };
     if (type == 'QueriesWithNoResults')
     {
       queryparams = {
@@ -304,7 +351,7 @@ export class SearchInsightsComponent implements OnInit
     
     // end
     }
-    this.getQueries(type,sortHeaderOption,sortValue,navigate,request)
+    this.getQueries(type,this.selectedIndexConfig,sortHeaderOption,sortValue,navigate,request)
     // this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
     
   }
@@ -383,19 +430,19 @@ export class SearchInsightsComponent implements OnInit
     {
       // this.QWR_limitPage = event.limit;
       this.QWR_skipPage = event.skip;
-      this.getQueries('QueriesWithResults');
+      this.getQueries('QueriesWithResults',this.selectedIndexConfig);
     }
     else if (type === 'QWNR')
     {
       // this.QWNR_limitPage = event.limit;
       this.QWNR_skipPage = event.skip;
-      this.getQueries('QueriesWithNoResults');
+      this.getQueries('QueriesWithNoResults',this.selectedIndexConfig);
     }
     else if (type === 'SQR')
     {
       // this.SQR_limitPage = event.limit;
       this.SQR_skipPage = event.skip;
-      this.getQueries('SearchQueryResults');
+      this.getQueries('SearchQueryResults',this.selectedIndexConfig);
     }
   }
 
@@ -403,7 +450,7 @@ export class SearchInsightsComponent implements OnInit
   {
     this.selectedQuery = result.query;
     this.loadingQueries = true;
-    this.getQueries('SearchQueryResults')
+    this.getQueries('SearchQueryResults',this.selectedIndexConfig)
     this.viewQueriesRef = this.viewQueries.open();
   }
   closeModalPopup()

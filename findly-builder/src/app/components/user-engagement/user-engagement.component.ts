@@ -190,11 +190,11 @@ export class UserEngagementComponent implements OnInit {
     this.getuserCharts("MostUsersSentiments",selectedindexpipeline);
 
   }
-  getDetails(config?){
-    this.selecteddropname=config.name;
-    this.selectedIndexConfig=config._id;
-    this.getAllgraphdetails(config._id);   
-  }
+  // getDetails(config?){
+  //   this.selecteddropname=config.name;
+  //   this.selectedIndexConfig=config._id;
+  //   this.getAllgraphdetails(config._id);   
+  // }
 
   toCapitalize(str) {
     if (str !== 'ie') {
