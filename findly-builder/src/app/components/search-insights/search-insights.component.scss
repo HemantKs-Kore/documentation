@@ -71,7 +71,7 @@
         height: calc(100vh - 120px);
     }
     .data-information-content {
-        padding: 30px 30px 0 30px;
+        padding: 20px 30px 0 30px;
         .box-content {
             padding: 20px 30px 20px 30px;
             position: relative;
@@ -334,6 +334,9 @@
     }
 }
 
+.analy-dropdown-header{
+    padding: 25px 30px 10px 30px;
+}
 .info-icon {
     margin-left: 4px;
     cursor: pointer;

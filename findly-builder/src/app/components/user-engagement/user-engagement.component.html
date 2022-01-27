@@ -32,17 +32,14 @@
 
     </div>
 
-    <!-- dropdown code from child component 24/01 -->
-
-    <app-analytics-dropdown *ngIf="indexConfigs.length" [indexarray]="indexConfigs" (dropdownpipelineid)="getAllgraphdetails($event)">
-    </app-analytics-dropdown>
-<!-- code changes ends here -->
-
     <!-- <div class="data-percentage failed">
         <img src="assets/icons/arrow-decrease.svg">
         <span class="percentage">3%</span>
     </div> -->
     <perfect-scrollbar class="scroll_content">
+        <div class="analy-dropdown-header">
+            <app-analytics-dropdown *ngIf="indexConfigs.length" [indexarray]="indexConfigs" (dropdownpipelineid)="getAllgraphdetails($event)"></app-analytics-dropdown>
+        </div>
         <div *ngIf="slider === 1" class="main-dashbord-metrics">
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-12 box-content">

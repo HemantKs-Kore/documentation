@@ -1,0 +1,40 @@
+
+.analytics-bg-content{
+    background: #FFFFFF;
+    border: 1px solid #E4E5E7;
+    box-sizing: border-box;
+    border-radius: 8px;
+    padding: 20px;
+    display: inline-block;
+    width: 100%;
+    .main-heading{
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 17px;
+        color: #202124;
+        margin-bottom: 18px;
+    }
+    .kr-sg-dropdowns {
+        width: 250px;
+        .dropdown-open {
+            .dropdown-input{
+                // padding: 0 20px;
+                padding-right: 29px;
+                img{
+                    margin-right: 12px;
+                }
+                span{
+                    padding-right: 12px;
+                }
+            }
+        }
+        .content-menu{
+            .list-item-li{
+                padding: 0 !important;
+                a{
+
+                }
+            }
+        }
+    }
+}

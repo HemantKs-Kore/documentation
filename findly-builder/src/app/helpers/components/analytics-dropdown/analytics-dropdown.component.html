@@ -1,28 +1,19 @@
-<div class="title">{{'metrics.dash_board_view.Chooseindex'| translate}}</div>
-    <div class="default-index-title">
-        <div class="kr-sg-dropdowns col-4" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom'">
-            <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input"
-                    title="{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name=='Default'?'Default Index':indexConfigObj[selectedIndexConfig].name:'Loading..'}}"
-                    ngbDropdownToggle>
-                    <span
-                        class="text-truncate">
-                        <!-- {{indexConfigs[selectedIndexConfig]?indexConfigs[selectedIndexConfig].name
-                            =='Default'?'Default
-                        Index':indexConfigs[selectedIndexConfig].name:'Loading..'}} -->
-                        <!-- {{this.selecteddropname == 'Default'?'DefaultIndex':this.selecteddropname}} -->
-                        {{this.selecteddropname}}                        
-                        <!-- this.selecteddropname="Default Index" -->
-                    </span>
-                </button>
-                <ul class="dropdown-menu content-menu queryPipelineDefault" ngbDropdownMenu>
-                    <perfect-scrollbar>
-                        <li ngbDropdownItem class="list-name text-truncate"                            
-                            (click)="getDetails(config)"
-                            *ngFor="let config of indexConfigs">
-                            {{config.name=='Default'?'DefaultIndex':config.name}}                           
-                        </li>
-                    </perfect-scrollbar>                    
-                </ul>
-            </div>
+
+
+<div class="analytics-bg-content">
+    <div class="main-heading">Choose index to display analytics</div>
+    <div class="kr-sg-dropdowns" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom-left'">
+        <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input" title="{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name=='Default'?'Default Index':indexConfigObj[selectedIndexConfig].name:'Loading..'}}" ngbDropdownToggle>
+                <span class="text-truncate">{{this.selecteddropname}}</span>
+            </button>
+            <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+                <perfect-scrollbar class="scroll-search-field">
+                    <li ngbDropdownItem class="list-item-li" (click)="getDetails(config)" *ngFor="let config of indexConfigs">
+                        <a>{{config.name=='Default'?'DefaultIndex':config.name}}</a>
+                    </li>
+                </perfect-scrollbar>                    
+            </ul>
         </div>
+    </div>
+</div>

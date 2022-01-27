@@ -31,37 +31,11 @@
             <div class="export d-none"><img src="assets/icons/share.svg"></div>
         </div>
     </div>
-    <!-- dropdown code on 17/01 -->
-    <div class="title">{{'metrics.dash_board_view.Chooseindex'| translate}}</div>
-    <div class="default-index-title">
-        <div class="kr-sg-dropdowns col-4" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom'">
-            <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input"
-                    title="{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name=='Default'?'Default Index':indexConfigObj[selectedIndexConfig].name:'Loading..'}}"
-                    ngbDropdownToggle>
-                    <span
-                        class="text-truncate">
-                        <!-- {{indexConfigs[selectedIndexConfig]?indexConfigs[selectedIndexConfig].name
-                            =='Default'?'Default
-                        Index':indexConfigs[selectedIndexConfig].name:'Loading..'}} -->
-                        <!-- {{this.selecteddropname == 'Default'?'DefaultIndex':this.selecteddropname}} -->
-                        {{this.selecteddropname}}                        
-                        <!-- this.selecteddropname="Default Index" -->
-                    </span>
-                </button>
-                <ul class="dropdown-menu content-menu queryPipelineDefault" ngbDropdownMenu>
-                    <perfect-scrollbar>
-                        <li ngbDropdownItem class="list-name text-truncate"                            
-                            (click)="getDetails(config)"
-                            *ngFor="let config of indexConfigs">
-                            {{config.name=='Default'?'DefaultIndex':config.name}}                           
-                        </li>
-                    </perfect-scrollbar>                    
-                </ul>
-            </div>
-        </div>
-    <!-- ends here -->
+
     <perfect-scrollbar class="scroll_content">
+        <div class="analy-dropdown-header">
+            <app-analytics-dropdown></app-analytics-dropdown>
+        </div>
         <div *ngIf="slider === 0" class="main-dashbord-metrics">
             <div class="top-cards-section row m-0" *ngIf="totalUsersStats && totalSearchesStats">
                 <div class="col cards-data">
