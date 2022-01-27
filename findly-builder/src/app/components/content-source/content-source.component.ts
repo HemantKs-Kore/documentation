@@ -53,6 +53,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   allowUrlArr: AllowUrl[] = [];
   blockUrlArr: BlockUrl[] = [];
   activeClose = false;
+  totalCrawledCount;
   oldQuedJob = [];
   filterSystem: any = {
     'typeHeader': 'type',
@@ -649,6 +650,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.extracted.pags', quaryparms,payload).subscribe(res => {
       this.loadingSliderContent = false;
       this.selectedSource.pages = res.content;
+      this.totalCrawledCount = res.count;
       if (this.selectedSource.pages.length > 0) {
         this.docContent = this.selectedSource.pages[0]._source;
         this.docContentType = this.selectedSource.pages[0]._meta;
