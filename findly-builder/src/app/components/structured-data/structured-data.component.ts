@@ -207,6 +207,16 @@ export class StructuredDataComponent implements OnInit {
           data.isChecked = true;
         });
        this.selectedStructuredData=[...this.structuredDataItemsList]//To have a same session data and server data
+      //check for id and push data in to selectitemslist if we dont have id.
+      /*changes done on 27/01*/
+      for(let i=0;i<=this.selecteditems;i++){
+        if(this.structuredDataItemsList._id!==this.selecteditems._id){
+          this.selecteditems.push(this.structuredDataItemsList);
+          
+        }
+      
+      }
+       
       }
       //if partial selection or data coming from paginate
       if ((skip || this.skip === 0) && (this.showSelectedCount > 0 && this.showSelectedCount < this.totalCount)) {
@@ -1191,6 +1201,8 @@ export class StructuredDataComponent implements OnInit {
       this.service.invoke('delete.clearAllStructureData', quaryparms, payload).subscribe(res => {
         if (res) {
           this.selectedStructuredData = [];
+          this.selecteditems=[];
+          this.actionforcheckbox='';
           this.allSelected = false;
           if (this.searchText.length) {
             this.searchItems();
