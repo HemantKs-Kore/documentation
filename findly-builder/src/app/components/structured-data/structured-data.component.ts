@@ -768,7 +768,9 @@ export class StructuredDataComponent implements OnInit {
     
       // Check for this condition
     if (this.selecteditems.length === this.structuredDataItemsList.length) {
+      if(this.selecteditems.length === this.totalCount){      
       this.allSelected = true;
+      }
     }
     else {
       if(this.showSelectedCount == this.totalCount){
@@ -954,6 +956,7 @@ export class StructuredDataComponent implements OnInit {
       data.isChecked = bool;
       if(bool){
         this.showSelectAllQues = bool
+        this.allSelected=bool;
       }
       else{
         if(this.showSelectedCount){
@@ -1026,6 +1029,7 @@ export class StructuredDataComponent implements OnInit {
         this.showSelectAllQues = false;
       });
       this.selectedStructuredData = [];
+      this.selecteditems=[];
       this.allSelected = false;
       this.showSelectedCount=0;
     }
