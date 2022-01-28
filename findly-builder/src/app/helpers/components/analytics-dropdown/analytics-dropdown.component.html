@@ -4,7 +4,7 @@
     <div class="main-heading">Choose index to display analytics</div>
     <div class="kr-sg-dropdowns" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom-left'">
         <div class="dropdown dropdown-open">
-            <button class="dropdown-toggle dropdown-input" title="{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name=='Default'?'Default Index':indexConfigObj[selectedIndexConfig].name:'Loading..'}}" ngbDropdownToggle>
+            <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>
                 <span class="text-truncate">{{this.selecteddropname}}</span>
             </button>
             <ul class="dropdown-menu content-menu" ngbDropdownMenu>

@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit {
   mostSearchedQuries: any = [];
   queriesWithNoClicks: any;
   searchHistogram: any;
-  selecteddropname: any;
+  selecteddropId: any;
   mostClickedPositions: any = [];
   feedbackStats: any;
   heatMapChartOption: EChartOption;
@@ -189,6 +189,7 @@ export class DashboardComponent implements OnInit {
   // }
   /* added on 17/01 */
   getAllgraphdetails(selectedindexpipeline){
+    this.selecteddropId=selectedindexpipeline;
     this.getQueries("TotalUsersStats",selectedindexpipeline);
     this.getQueries("TotalSearchesStats",selectedindexpipeline);
     this.getQueries("TopQuriesWithNoResults",selectedindexpipeline);
@@ -272,7 +273,7 @@ export class DashboardComponent implements OnInit {
   dateLimt(type) {
     this.dateType = type;
     /*passing the selectedindexpipeline to getQueries added on 17/01 */
-    let selectedindexpipeline=this.selectedIndexConfig;
+    let selectedindexpipeline=this.selecteddropId;
     if(selectedindexpipeline){
     this.getQueries("TotalUsersStats",selectedindexpipeline);
     this.getQueries("TotalSearchesStats",selectedindexpipeline);
@@ -478,7 +479,7 @@ export class DashboardComponent implements OnInit {
     
     // end
     }
-    this.getQueries(type,this.selectedIndexConfig,sortHeaderOption,sortValue,navigate,request)
+    this.getQueries(type,this.selecteddropId,sortHeaderOption,sortValue,navigate,request)
     // this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
     
   }

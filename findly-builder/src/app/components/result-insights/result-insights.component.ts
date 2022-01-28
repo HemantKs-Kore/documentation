@@ -75,6 +75,7 @@ export class ResultInsightsComponent implements OnInit {
   resultQueryAnswer = '';
   searchSources: any = '';
   indexConfigs:any =[];
+  selecteddropId: any;
   indexConfigObj: any = {};
   selectedIndexConfig: any;
   dateType = "hour"
@@ -156,6 +157,7 @@ export class ResultInsightsComponent implements OnInit {
   }
 
   getAllgraphdetails(selectedindexpipeline){
+    this.selecteddropId=selectedindexpipeline;
     this.getQueries("Results",selectedindexpipeline);       
   }
   openDateTimePicker(e) {
@@ -195,7 +197,7 @@ export class ResultInsightsComponent implements OnInit {
   }
   dateLimt(type) {
     this.dateType = type;
-    let selectedindexpipeline=this.selectedIndexConfig;
+    let selectedindexpipeline=this.selecteddropId;
     if(selectedindexpipeline){
     this.getQueries('Results',selectedindexpipeline);
     }
@@ -341,7 +343,7 @@ export class ResultInsightsComponent implements OnInit {
     
     // end
     }
-    this.getQueries(type,this.selectedIndexConfig,sortHeaderOption,sortValue,navigate,request,searchSource)
+    this.getQueries(type,this.selecteddropId,sortHeaderOption,sortValue,navigate,request,searchSource)
   }
   sortByApi(type,sort){
     this.selectedSort = sort;
@@ -428,12 +430,12 @@ export class ResultInsightsComponent implements OnInit {
     if (type === 'Results') {
       // this.limitPage = event.limit;
       this.skipPage = event.skip;
-      this.getQueries('Results',this.selectedIndexConfig);
+      this.getQueries('Results',this.selecteddropId);
     }
     else if (type === 'QRESULT') {
       // this.Q_limitPage = event.limit;
       this.Q_skipPage = event.skip;
-      this.getQueries('SearchQueriesForResult',this.selectedIndexConfig);
+      this.getQueries('SearchQueriesForResult',this.selecteddropId);
     }
   }
   // pagination(data,type){

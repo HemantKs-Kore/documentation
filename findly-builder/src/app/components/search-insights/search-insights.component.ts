@@ -20,6 +20,7 @@ export class SearchInsightsComponent implements OnInit
   viewQueriesRef: any;
   searchSources: any = '';
   selectedApp: any;
+  selecteddropId: any;
   loadingQueries = true;
   serachIndexId: any;
   topQuriesWithNoResults: any;
@@ -114,6 +115,7 @@ export class SearchInsightsComponent implements OnInit
     
   }
   getAllgraphdetails(selectedindexpipeline){
+    this.selecteddropId=selectedindexpipeline;
     this.getQueries("QueriesWithNoResults",selectedindexpipeline);
     this.getQueries("QueriesWithResults",selectedindexpipeline);
     
@@ -165,7 +167,7 @@ export class SearchInsightsComponent implements OnInit
   dateLimt(type)
   {
     this.dateType = type;
-    let selectedindexpipeline=this.selectedIndexConfig;
+    let selectedindexpipeline=this.selecteddropId;
     if(selectedindexpipeline){
     this.getQueries("QueriesWithNoResults",selectedindexpipeline);
     this.getQueries("QueriesWithResults",selectedindexpipeline);
@@ -351,7 +353,7 @@ export class SearchInsightsComponent implements OnInit
     
     // end
     }
-    this.getQueries(type,this.selectedIndexConfig,sortHeaderOption,sortValue,navigate,request)
+    this.getQueries(type,this.selecteddropId,sortHeaderOption,sortValue,navigate,request)
     // this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
     
   }
@@ -430,19 +432,19 @@ export class SearchInsightsComponent implements OnInit
     {
       // this.QWR_limitPage = event.limit;
       this.QWR_skipPage = event.skip;
-      this.getQueries('QueriesWithResults',this.selectedIndexConfig);
+      this.getQueries('QueriesWithResults',this.selecteddropId);
     }
     else if (type === 'QWNR')
     {
       // this.QWNR_limitPage = event.limit;
       this.QWNR_skipPage = event.skip;
-      this.getQueries('QueriesWithNoResults',this.selectedIndexConfig);
+      this.getQueries('QueriesWithNoResults',this.selecteddropId);
     }
     else if (type === 'SQR')
     {
       // this.SQR_limitPage = event.limit;
       this.SQR_skipPage = event.skip;
-      this.getQueries('SearchQueryResults',this.selectedIndexConfig);
+      this.getQueries('SearchQueryResults',this.selecteddropId);
     }
   }
 
@@ -450,7 +452,7 @@ export class SearchInsightsComponent implements OnInit
   {
     this.selectedQuery = result.query;
     this.loadingQueries = true;
-    this.getQueries('SearchQueryResults',this.selectedIndexConfig)
+    this.getQueries('SearchQueryResults',this.selecteddropId)
     this.viewQueriesRef = this.viewQueries.open();
   }
   closeModalPopup()

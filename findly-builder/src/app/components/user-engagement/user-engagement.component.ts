@@ -29,7 +29,7 @@ export class UserEngagementComponent implements OnInit {
   selectedIndexConfig: any; 
   indexConfigs:any =[];
   indexConfigObj:any ={};
-
+  selecteddropId: any;
   tsqNoRtotalRecord = 100;
   tsqNoRlimitpage = 5;
   tsqNoRrecordEnd = 5;
@@ -181,7 +181,7 @@ export class UserEngagementComponent implements OnInit {
 
   
   getAllgraphdetails(selectedindexpipeline){
-    
+    this.selecteddropId=selectedindexpipeline;
     this.getuserCharts('UsersChart',selectedindexpipeline);
     this.getuserCharts('UsersBusyChart',selectedindexpipeline);
     this.getuserCharts('MostUsedDevices',selectedindexpipeline);
@@ -323,7 +323,7 @@ export class UserEngagementComponent implements OnInit {
   }
   dateLimt(type) {
     this.dateType = type;
-    let selectedindexpipeline=this.selectedIndexConfig;
+    let selectedindexpipeline=this.selecteddropId;
     if(selectedindexpipeline){
     this.getuserCharts('UsersChart',selectedindexpipeline);
     this.getuserCharts('UsersBusyChart',selectedindexpipeline);
