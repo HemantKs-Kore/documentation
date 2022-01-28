@@ -1754,10 +1754,15 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
-    };
-    let serviceId = 'get.allFieldsData';
+    },
+    payload ={
+      "sort": {
+          "fieldName": 1,
+      } 
+    }
+    let serviceId = 'post.allField';
     // let serviceId ='get.allField';
-    this.service.invoke(serviceId, quaryparms).subscribe(res =>
+    this.service.invoke(serviceId, quaryparms,payload).subscribe(res =>
     {
       this.fields = res.fields || [];
       this.getIndexPipline();
