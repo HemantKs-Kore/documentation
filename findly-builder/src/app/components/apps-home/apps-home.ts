@@ -139,9 +139,9 @@ export class AppsListingComponent implements OnInit {
   public getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
       if (res && res.length) {
-        if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
-          this.redirectHome()
-        }
+        // if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
+        //   this.redirectHome()
+        // }
         this.prepareApps(res);
         this.workflowService.showAppCreationHeader(false);
         this.selectedAppType('All');
