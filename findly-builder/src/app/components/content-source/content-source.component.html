@@ -1081,7 +1081,7 @@
                   </div> -->
               <!-- <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
                 [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
-                <app-record-pagination *ngIf = "totalRecord >  2" [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
+                <app-record-pagination *ngIf = "totalCrawledCount >10" [totalRecord]='totalCrawledCount' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
               <!-- <div class="paginations-custon">
                 <div class="previous pre-arrow dis-arow"
                   (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)"> </div>

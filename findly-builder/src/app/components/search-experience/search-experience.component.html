@@ -1,7 +1,7 @@
 <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
 <div class="search-experience-wrapper">
     <div class="header-title">{{'searchexperience.component_title' | translate}}</div>
-    <div class="tabs-sec">
+    <div class="tabs-sec" (click)="closeAllColourPallets()">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item" (click)="selectTab('experience')">
                 <a class="nav-link" [ngClass]="{'active':selectedTab==='experience'}" data-toggle="tab"><span

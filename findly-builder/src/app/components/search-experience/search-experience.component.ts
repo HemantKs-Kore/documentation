@@ -553,6 +553,20 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   selectSearchBox(type) {
     this.selectSearch = type;
   }
+  closeAllColourPallets(){
+    this.toggle = false;
+    this.inputBox1 = false;
+    this.toggle1 = false;
+    this.inputBox2 = false;
+    this.toggle2 = false;
+    this.placeholBox = false;
+    this.buttonFill = false;
+    this.buttonTextColor = false;
+    this.buttonBorder=false;
+    this.toggle3 = false;
+    this.toggle4 = false;
+    this.toggle5 = false
+  }
   //put tour config data
   // updateTourConfig() {
   //   const appInfo: any = this.workflowService.selectedApp();
