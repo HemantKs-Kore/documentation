@@ -472,7 +472,7 @@
               <div *ngIf="page">
                 <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
                   <input type="text" maxlength="60" placeholder="Search" class="input-search" name='pagesSearch'
-                    placeholder="Search" [ngClass]="{'pl-2':pagesSearch}" id="searchInput" [(ngModel)]="pagesSearch" (keyup)="getSourceList(null,pagesSearch,'search')"
+                    placeholder="Search" [ngClass]="{'pl-2':pagesSearch}" id="searchInput" [(ngModel)]="pagesSearch" (keyup)="getCrawledPages(10,0,pagesSearch,'search')"
                     autocomplete="off"
                     (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                     (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
