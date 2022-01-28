@@ -94,8 +94,9 @@
                             </div>
                         </div> 
                         <!-- <div class="seach_add_feild"> -->
+                            <!-- Landing page Search -->
                             <div class="kr-sg-input-search"  *ngIf="showSearch">                               
-                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup)="getSourceList(searchFaq,'search')" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"   (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup)="getfaqsBy(null,null,null,searchFaq)" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"   (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFaq">
                             <img class="close-icon" src="assets/icons/close_icon.svg"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchFaq}" (click)="focusoutSearch()"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
@@ -518,6 +519,7 @@
                                                             <img src="assets/icons/faq/dislikes.svg">{{selectedFaq.stats.thumbsdown ||0}}
                                                         </div>                                                            -->
                                                     </div>
+                                                   
                                                     <div class="d-flex col-12 conditions-response-block">
                                                         <div class="title col-2 px-0">{{'faqSource.conditions' | translate}} :</div>
                                                         <div class="right-content col-10 px-0 condition-content">
@@ -540,7 +542,7 @@
                                                                         <div class="rule-value" *ngIf="rule.dataType!== 'date'" title="{{value}}">{{value}}</div>
                                                                         <div class="or-rule" *ngIf="(valueIndex < 3 && valueIndex!== (rule.value.length>3?3:(rule.value.length-1)) && ruleIndex==0 && rule.operator !=='between')||(valueIndex < 1 && ruleIndex==1 && valueIndex!== 1) || (valueIndex < 1 && valueIndex!== (rule.value.length>2?2:(rule.value.length-1)) && ruleIndex==0 && rule.operator =='between') ">{{ "or_caps" | translate}}</div>
                                                                     </ng-container> 
-                                                                    <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div>
+                                                                    <!-- <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div> -->
                                                                 </div>
                                                                 </ng-container>                                                             
                                                             </div>
@@ -593,7 +595,10 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="data-inner-content" >
+                                                    <div class="field_data" *cdkDragPreview>
+                                                        <div class="title text-truncate"></div>
+                                                    </div>
+                                                    <div class="data-inner-content">
                                                         <div class="response-text">{{consitionalAnswer.answers[0]?.text}}</div>   
                                           
                                                         <div class="conditions-list">
@@ -624,7 +629,7 @@
                                                                                     <div class="rule-value" *ngIf="rule.dataType!== 'date'" title="{{value}}">{{value}}</div>
                                                                                     <div class="or-rule" *ngIf="(valueIndex < 3 && valueIndex!== (rule.value.length>3?3:(rule.value.length-1)) && ruleIndex==0 && rule.operator !=='between')||(valueIndex < 1 && ruleIndex==1 && valueIndex!== 1) || (valueIndex < 1 && valueIndex!== (rule.value.length>2?2:(rule.value.length-1)) && ruleIndex==0 && rule.operator =='between') ">{{ "or_caps" | translate}}</div>
                                                                                 </ng-container> 
-                                                                                <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div>
+                                                                                <!-- <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div> -->
                                                                             </div>
                                                                             </ng-container>                                                             
                                                                         </div>
