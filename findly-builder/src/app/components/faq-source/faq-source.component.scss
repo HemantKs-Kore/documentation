@@ -1257,6 +1257,18 @@
                                     padding-right: 10px;
                                     width: 85%;
                                 }
+                                .edit-faq{
+                                    display: flex;
+                                    align-items: center;
+                                    color: #0D6EFD;
+                                    font-weight: normal;
+                                    font-size: 14px;
+                                    line-height: 20px;
+                                    cursor: pointer;
+                                    img{
+                                        margin-right: 10px;
+                                    }
+                                }
                             }
                             .keywords{
                                 font-size: 12px;
