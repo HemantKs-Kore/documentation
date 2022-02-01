@@ -643,8 +643,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         lMod: -1,
       }
     };
-    if(this.searchSources){
-      payload.search = this.searchSources;
+    // if(this.searchSources){
+    //   payload.search = this.searchSources;
+    // }
+    if(this.pagesSearch){
+      payload.search = this.pagesSearch;
     }
     // payload.sort.lMod = -1;
     this.service.invoke('get.extracted.pags', quaryparms,payload).subscribe(res => {
