@@ -156,7 +156,7 @@
                         <img src="assets/icons/clone-blue.svg" (click)="openDeleteApp($event)">
                       </div> -->
                       <div class="delete-icon" tooltipClass="tooltip-global- ml-14" [container]="'body'" ngbTooltip='Delete' placement="bottom-left">
-                        <img src="assets/icons/delete-table.svg" (click)="openDeleteApp($event)">
+                        <img src="assets/icons/delete-table.svg" (click)="openDeleteApp($event,filter)">
                       </div>
                     </div>
                     <div class="name">{{filter.name}}</div>
@@ -458,13 +458,14 @@
   </div>
   <div class="modal-body">
     <div class="kr-sg-input-text">
-      <input type="text" placeholder="Reconfirm by typing the name of the App you want to delete" class="input-text">
+      <input type="text" placeholder="Reconfirm by typing the name of the App you want to delete"
+      [(ngModel)]="confirmApp" class="input-text">
     </div>
     <div class="info-desc">Deleting your application will also delete all your indexes, Sources & other Application Data.</div>
     <div class="info-desc">Are you sure you want to continue?</div>
     <div class="btns-sec">
       <button class="kr-sg-button-secondary btn_lg mr-2" (click)="closeDeleteApp()">Cancel</button>
-      <button class="kr-sg-button-primary btn_lg">Delete</button>
+      <button class="kr-sg-button-primary btn_lg" (click)="deleteApp()">Delete</button>
     </div>
   </div>
 </kr-modal>

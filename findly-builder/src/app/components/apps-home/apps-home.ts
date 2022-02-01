@@ -31,6 +31,8 @@ export class AppsListingComponent implements OnInit {
   creatingInProgress = false;
   searchApp = '';
   apps: any = [];
+  confirmApp: any='';
+  slectedAppId:any ='';
   showSearch = false;
   activeClose = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
@@ -117,11 +119,13 @@ export class AppsListingComponent implements OnInit {
     this.createAppPopRef.close();
     this.newApp = { name: '', description: '' };
   }
-  openDeleteApp(event) {
+  openDeleteApp(event,appInfo) {
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
+    this.confirmApp = appInfo.name;
+    this.slectedAppId = appInfo._id;
     this.deleteAppPopRef = this.deleteAppPop.open();
   }
   closeDeleteApp() {
@@ -129,6 +133,47 @@ export class AppsListingComponent implements OnInit {
       this.deleteAppPopRef.close();
     }
   }
+
+  //Delete App function
+  deleteApp() {
+
+    let quaryparms: any = {};
+    quaryparms.streamId = this.slectedAppId;
+    if(this.confirmApp){
+    this.service.invoke('delete.app', quaryparms).subscribe(res => {
+      if (res) {
+        this.notificationService.notify('Deleted Successfully', 'success');
+        this.closeDeleteApp();
+        this.getAllApps();
+      }
+    }, errRes => {
+      this.notificationService.notify('Deletion has gone wrong.', 'error');
+    });
+  }
+  else{
+    this.notificationService.notify('Enter and confirm the App Name ', 'error');
+  }
+
+
+    // for (let i=0; i<this.apps.length; i++){
+    // if (this.apps[i].name === this.confirmApp){
+    // let quaryparms: any = {};
+    // quaryparms.streamId = this.apps[i]._id;
+    //  this.service.invoke('delete.app', quaryparms).subscribe(res => {
+    //  if (res) {
+    //           this.notificationService.notify('Deleted Successfully', 'success');
+    //           this. closeDeleteApp();
+    //           this.getAllApps();
+              
+           
+    //         }
+    //       }, errRes => {
+    //         this.notificationService.notify('Deletion has gone wrong.', 'error');
+    //       });
+    //  }
+    // }
+    }
+  
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
