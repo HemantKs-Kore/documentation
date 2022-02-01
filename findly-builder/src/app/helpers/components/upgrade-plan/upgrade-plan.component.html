@@ -79,9 +79,9 @@
           </div>
           <div class="type-title width-19" *ngFor="let plan of filterPlansData">
             <div class="title">{{plan.name}}</div>
-            <div class="plan-duration" *ngIf="plan.name!='Enterprise'&&plan.type!='free'">${{plan.planAmount}} /
+            <div class="plan-duration d-none" *ngIf="plan.name!='Enterprise'&&plan.type!='free'">${{plan.planAmount}} /
               {{termPlan==='Monthly'?("plan.month"| translate):("plan.year"| translate)}}</div>
-            <div class="plan-duration" *ngIf="plan.name=='Enterprise'">{{"plan.custom_pricing"| translate}}</div>
+            <div class="plan-duration d-none" *ngIf="plan.name=='Enterprise'">{{"plan.custom_pricing"| translate}}</div>
             <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'&&selectedPlan?.planName=='Free'" (click)="openContactusModel(plan.name)"
               > {{("plan.contact_us"|
               translate)}}</button>

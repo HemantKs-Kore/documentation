@@ -29,7 +29,7 @@ export class InlineManualService {
   topicHelpMap = {
     CHANNELS: '88836',
     ADDING_WEB_FILE_CONTENT: '89011',
-    ACTION_SUB_TOPIC: '88933',
+    ACTION_SUB_TOPIC: '89332',
     APP_WALKTHROUGH: '88933',
     CONTENT_OVERVIEW: '89010',//d
     CONTENT_SUB_TOPIC: '85339',
@@ -66,7 +66,8 @@ export class InlineManualService {
     UPLOAD_FILE_FROM_SOURCE: '89007',
     UPLOAD_FILE_SUB_TOPIC: '88954',
     WEIGHTS: '88687',
-    WORKBENCH: '88908'
+    WORKBENCH: '88908',
+    BOT_ACTION_FROM_LANDING_PAGE :'88834'
   };
   loadInlineManualScripts = function () {
     var _self = this

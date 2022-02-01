@@ -240,9 +240,15 @@ export class WeightsComponent implements OnInit, OnDestroy
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
-    };
-    let serviceId = 'get.allFieldsData';
-    this.service.invoke(serviceId, quaryparms).subscribe(res =>
+    },
+    payload ={
+      "sort": {
+          "fieldName": 1,
+      } 
+    }
+    // let serviceId = 'get.allFieldsData';
+    let serviceId = 'post.allField';
+    this.service.invoke(serviceId, quaryparms,payload).subscribe(res =>
     {
       this.fields = res.fields || [];
     }, errRes =>

@@ -21,6 +21,7 @@
         color: #202124;
         font-weight: 500;
         font-size: 12px;
+        position: relative;
         &.bot-res-title{
             color: #9B9B9B;
             font-weight: 600;
@@ -342,7 +343,7 @@
                     }
                     padding: 20px 0 20px 20px;
                     margin:  0 !important;
-                    height: 327px;
+                    height: 160px;
                     width: 100%;
                     word-break: break-word;
                     background: #FFFFFF;
@@ -656,7 +657,7 @@
                 padding: 20px 20px 20px 0px;
             }
             textarea{
-                min-height: 320px;
+                min-height: 122px;
                 resize: vertical;
                 border: 0;
                 padding: 18px 20px 0 0;
@@ -698,6 +699,21 @@
         margin-right: 6px;
         position: relative;
         top: -2px;
+    }
+}
+.edit-response{
+    position: absolute;
+    right: 40px;
+    top: 0px;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #0D6EFD;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    img{
+        margin-right: 10px;
     }
 }
 .advanced_mode_faq{

@@ -15,7 +15,7 @@
                         <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
                             <input type="text" placeholder="Search" maxlength="60" id="inputSearch" class="input-search"
                                 [ngClass]="{'pl-33':!serachTraits,'pl-2':serachTraits}" autocomplete="off"
-                                [(ngModel)]="serachTraits"
+                                [(ngModel)]="serachTraits"  (keyup)="getTraitsGroupsApi()" 
                                 (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                                 (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
@@ -127,6 +127,7 @@
                             <div class="desc">{{'traits.no_search_results_found' | translate}}</div>
                         </div>
                     </div>
+                    <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination></div> 
                 </perfect-scrollbar>
             </div>
 
