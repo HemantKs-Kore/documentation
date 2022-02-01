@@ -175,6 +175,10 @@ export class StructuredDataComponent implements OnInit {
       skip: 0,
       limit: 10
     };
+    //changes made on 31/01 to avoid passing on negative skip values in payload.
+    if(skip<0){
+      skip=0;
+    }
     if (skip) {
       quaryparms.skip = skip;
     }
@@ -201,7 +205,8 @@ export class StructuredDataComponent implements OnInit {
       if(quaryparms && quaryparms.skip){
 
       }
-      if(this.allSelected){
+      //changes made on 31/01
+      if(this.allSelected || this.actionforcheckbox=='all'){
         this.showSelectedData = true // To show number of records selected
         this.structuredDataItemsList.forEach(data => {
           data.isChecked = true;
@@ -209,13 +214,22 @@ export class StructuredDataComponent implements OnInit {
        this.selectedStructuredData=[...this.structuredDataItemsList]//To have a same session data and server data
       //check for id and push data in to selectitemslist if we dont have id.
       /*changes done on 27/01*/
-      for(let i=0;i<=this.selecteditems;i++){
-        if(this.structuredDataItemsList._id!==this.selecteditems._id){
-          this.selecteditems.push(this.structuredDataItemsList);
-          
-        }
+      // this.selecteditems.forEach(selecteddata => {
+      //   this.structuredDataItemsList.forEach(fetcheddata => {
+      //     if(selecteddata._id!=fetcheddata._id){
+      //       this.selecteditems.push(fetcheddata);
+      //     }
+      //   });
+      // });   
+      //changes made on 31/01
+      let uniquedata =  this.structuredDataItemsList.filter(({ _id: id1 }) => 
+      !this.selecteditems.some(({_id: id2 }) => id2 === id1));
+      if(uniquedata.length>0){
+      uniquedata.forEach(element => {
+        this.selecteditems.push(element);        
+      });
       
-      }
+  }
        
       }
       //if partial selection or data coming from paginate
@@ -376,8 +390,16 @@ export class StructuredDataComponent implements OnInit {
   paginate(event) {
     console.log("event", event);
     this.paginateEvent =event     
-    if (event.skip || event.skip===0) {       
-       this.getStructuredDataList(event.skip);        
+    if (event.skip || event.skip===0) { 
+      // 31/01
+      //   add if condition to check if search key is present if yes then call the search function
+      //  if not call the structrued datalist
+      if(this.searchText.length>0)  {
+        this.searchItems();        
+      }   
+      else{
+      this.getStructuredDataList(event.skip);
+      }        
     }       
   }
 
@@ -755,6 +777,10 @@ export class StructuredDataComponent implements OnInit {
           item.isChecked = false;
           this.selecteditems.splice(i, 1);
           this.showSelectedCount = this.showSelectedCount - 1 ;
+          //changes made on 31/01
+          if(this.showSelectedCount==0){
+            this.clearDependencies();
+          }
           break;
         }
       }
@@ -825,14 +851,24 @@ export class StructuredDataComponent implements OnInit {
 /** Individual checbox selection */
  selectAllData(){
    this.showSelectAllQues = false;
-   this.structuredDataItemsList.forEach(data => {
-    data.isChecked = true;
-    this.selecteditems.forEach(element => {
-      if(element._id != data._id){
-        this.selecteditems.push(data)
-      }
+  //  this.structuredDataItemsList.forEach(data => {
+  //   data.isChecked = true;
+  //   this.selecteditems.forEach(element => {
+  //     if(element._id != data._id){
+  //       this.selecteditems.push(data)
+  //     }
+  //   });
+  // });
+  //changes made on 31/01
+  let uniquedata =  this.structuredDataItemsList.filter(({ _id: id1 }) => 
+  !this.selecteditems.some(({_id: id2 }) => id2 === id1));
+  if(uniquedata.length>0){
+    uniquedata.forEach(element => {
+      this.selecteditems.push(element);        
     });
-  });
+  }
+  //changes made on 31/01
+  this.checkUncheckData(true);
   this.allSelected = true;
   this.showSelectedCount = this.totalCount;
   this.unselecteditems = [];
@@ -863,14 +899,22 @@ export class StructuredDataComponent implements OnInit {
     this.showSelectedCount = this.totalCount;
     this.allSelected = true;
     this.unselecteditems = [];
-    this.structuredDataItemsList.forEach(data => {
-      data.isChecked = true;
-        this.selecteditems.forEach(element => {
-          if(element._id != data._id){
-            this.selecteditems.push(data)
-          }
-        });
-    });
+    /* nested loop logic to be added 31/01 */
+    // this.structuredDataItemsList.forEach(data => {
+    //   data.isChecked = true;
+    //     this.selecteditems.forEach(element => {
+    //       if(element._id != data._id){
+    //         this.selecteditems.push(data)
+    //       }
+    //     });
+    // });
+    for(let i=0;i<this.structuredDataItemsList.length;i++){
+      for(let j=0;j<this.selecteditems.length;j++){
+        if(this.structuredDataItemsList[i]._id!==this.selecteditems[j]._id){
+          this.selecteditems.push(this.structuredDataItemsList[i])
+        }
+      }
+    }
   }else{
     let count = this.checkForAllBoolean(this.structuredDataItemsList)
    if(count > 0 && count < this.limitpage){
@@ -883,11 +927,16 @@ export class StructuredDataComponent implements OnInit {
     this.checkUncheckData(true)
    }
    else if(count == 0 && (this.structuredDataItemsList.length<this.limitpage)){
-     //
-     //if()
+     if(this.totalCount==this.structuredDataItemsList.length){
     this.showSelectedCount=this.structuredDataItemsList.length;
     this.checkUncheckData(true);
     this.allSelected = true;
+     }
+     //changes done on 31/01
+     else{
+      this.showSelectedCount=this.structuredDataItemsList.length;
+      this.checkUncheckData(true);
+     }
    }
    else if(count == this.limitpage){
     this.showSelectedCount = this.showSelectedCount - this.limitpage;
@@ -909,12 +958,18 @@ export class StructuredDataComponent implements OnInit {
 
   /** Comparing the 2 arrays of the same page , if id is same data is pushed  */
   if( this.showSelectedCount > 0 && this.showSelectedCount < this.totalCount){
+    // changes made on 31/01
+    let uniquedata =  this.structuredDataItemsList.filter(({ _id: id1 }) => 
+    !this.selecteditems.some(({_id: id2 }) => id2 === id1));
+      if(uniquedata.length>0){
+      this.selecteditems.push(uniquedata);
+      }
     this.structuredDataItemsList.forEach((data,index) => {
-      this.selecteditems.forEach(selElement => {
-      if(data._id === selElement._id){
-        this.selecteditems.push(data)
-      }     
-      });
+      // this.selecteditems.forEach(selElement => {
+      // if(data._id !== selElement._id){
+      //   this.selecteditems.push(data)
+      // }     
+      // });
       /** To check or uncheck  */
       if(bool){
         data.isChecked = true;
@@ -1065,7 +1120,7 @@ export class StructuredDataComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: searchIndex,
       skip: 0,
-      limit: 20,
+      limit: 10,
       searchQuery: this.searchText,
       advanceSearch: false
     };
@@ -1174,6 +1229,15 @@ export class StructuredDataComponent implements OnInit {
         this.notificationService.notify('Deletion has gone wrong.', 'error');
       });
     }
+  }
+  //to clear flags adde on 31/01
+  clearDependencies(){
+          
+          this.selecteditems=[];
+          this.unselecteditems=[];
+          this.actionforcheckbox='';
+          this.allSelected = false;
+          this.showSelectedCount=0;
   }
 
   deleteBulkStructuredData() {
