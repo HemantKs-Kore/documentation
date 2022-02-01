@@ -3345,7 +3345,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var payload = {
         "query": _self.vars.searchObject.searchText,
-        
+
         // "maxNumOfResults": 9,
         "maxNumOfResults": 5,
         "userId": _self.API.uuid,
@@ -3353,7 +3353,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "lang": "en",
         // "isDev": true,
         "isDev": _self.isDev,
-        "searchRequestId":_self.vars.requestId
+        "searchRequestId": _self.vars.requestId
       }
       if (_self.isDev) {
         payload['customize'] = _self.vars.customizeView;
@@ -3551,7 +3551,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   if (!$('.empty-full-results-container').hasClass('hide')) {
                     $('.empty-full-results-container').addClass('hide');
                   }
-                   $('.no-templates-defined-full-results-container').hide();
+                  $('.no-templates-defined-full-results-container').hide();
                 } else {
                   if (!(res.tasks || []).length) {
                     $('.empty-full-results-container').removeClass('hide');
@@ -5050,7 +5050,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "lang": "en",
         // "isDev": true,
         "isDev": _self.isDev,
-        "searchRequestId":_self.vars.requestId
+        "searchRequestId": _self.vars.requestId
       }
 
       if (_self.isDev) {
@@ -5248,7 +5248,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "event": eventType,
         "streamId": _self.API.streamId,
         "isDev": _self.isDev,
-        "searchRequestId":_self.vars.requestId
+        "searchRequestId": _self.vars.requestId
       }
 
       if (!payload.query || (payload.query && !payload.query.length)) {
@@ -5485,7 +5485,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.parentEvent(responseObject);
           setTimeout(function () {
             $('.query_analytics_content').css('top', event.pageY - 50);
-            $('.query_analytics_content').css('left', event.pageX - 178 - event.offsetX);
+            $('.query_analytics_content').css('left', event.pageX - 300 - event.offsetX);
             $(document).on('click', function (event) {
               if (!($(event.target).closest('.query_analytics_content').length)) {
                 $('.query_analytics_content').hide();
@@ -6670,7 +6670,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var searchContainerName = $('body').hasClass('top-down') ? '.full-search-data-container' : '.search-data-container';
 
           if (!$('body').hasClass('top-down')) {
-            _self.countTotalResults(res,totalResultsCount);
+            _self.countTotalResults(res, totalResultsCount);
             var dataObj = {
               faqs: [],
               web: [],
@@ -9214,7 +9214,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
     FindlySDK.prototype.checkWbInitialized = function (messageToBot, clientMessageId) {
       var _self = this;
-      if(websockeRrefreshed){
+      if (websockeRrefreshed) {
         return;
       }
       var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 2000 : 0;
@@ -11751,7 +11751,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 'widgetTitle': initialWidgetData.panels[i].widgets[j].title || initialWidgetData.panels[i].widgets[j].name,
                 'widgetTemplate': initialWidgetData.panels[i].widgets[j].templateType,
                 'viewmore': initialWidgetData.panels[i].widgets.length === 1 ? false : true
-              }; 
+              };
               _self.getServerData('widgetsdk/' + config.botOptions.botInfo._id + '/widgets/' + initialWidgetData.panels[i].widgets[j]._id, 'post', {
                 "from": config.botOptions.userIdentity || "user-name",
               }, {}, panelDetail);
@@ -15134,20 +15134,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         data['structuredData'] = structuredData;
         var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
         var devMode = _self.isDev ? true : false;
-          var templates = _self.searchTemplateObj.resultTemplates().structuredData;
-          for (let i = 0; i < templates.length; i++) {
-            // search
-            if ((templates[i].templateType === selected[groupName + templateInterfaceType + 'TemplateType']) && (templates[i].layoutType === selected[groupName + templateInterfaceType + 'LayoutType'])) {
-              // check for templateId from CustomTemplateConfig and it should onle be give for matched Template
-              // Even user sends both templte string and templateId, will consider templateId as final template
-              if (customTemplateConfig && customTemplateConfig.templateId && customTemplateConfig.templateId.length) {
-                templates[i].templateId = customTemplateConfig.templateId;
-              }
-              if (templates[i].templateId && templates[i].templateId.length) {
-                finalTemplate = '#' + templates[i].templateId;
-              }
-              else {
-                finalTemplate = templates[i].template;
+        var templates = _self.searchTemplateObj.resultTemplates().structuredData;
+        for (let i = 0; i < templates.length; i++) {
+          // search
+          if ((templates[i].templateType === selected[groupName + templateInterfaceType + 'TemplateType']) && (templates[i].layoutType === selected[groupName + templateInterfaceType + 'LayoutType'])) {
+            // check for templateId from CustomTemplateConfig and it should onle be give for matched Template
+            // Even user sends both templte string and templateId, will consider templateId as final template
+            if (customTemplateConfig && customTemplateConfig.templateId && customTemplateConfig.templateId.length) {
+              templates[i].templateId = customTemplateConfig.templateId;
+            }
+            if (templates[i].templateId && templates[i].templateId.length) {
+              finalTemplate = '#' + templates[i].templateId;
+            }
+            else {
+              finalTemplate = templates[i].template;
             }
           }
         }
@@ -15911,7 +15911,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // "isDev": true,
         "isDev": _self.isDev,
         "filters": [],
-        "searchRequestId":_self.vars.requestId
+        "searchRequestId": _self.vars.requestId
       }
 
       if (_self.isDev) {
@@ -19903,14 +19903,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               totalResultsCount = totalResultsCount + res.results[group].doc_count;
             }
           });
-          _self.vars.totalNumOfResults = totalResultsCount + (res.tasks ||[]).length;
+          _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
         }
       } else {
         var results = res.results.data;
         if (!(res.tabFacet || {}).buckets) {
           totalResultsCount = res.results.doc_count || 0;
         }
-        _self.vars.totalNumOfResults = totalResultsCount + (res.tasks ||[]).length;
+        _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
       }
     }
     return FindlySDK;

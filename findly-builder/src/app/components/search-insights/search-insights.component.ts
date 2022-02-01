@@ -6,6 +6,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { Moment } from 'moment';
 import * as moment from 'moment-timezone';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
+import { SideBarService } from '@kore.services/header.service';
 declare const $: any;
 
 @Component({
@@ -13,8 +14,7 @@ declare const $: any;
   templateUrl: './search-insights.component.html',
   styleUrls: ['./search-insights.component.scss']
 })
-export class SearchInsightsComponent implements OnInit
-{
+export class SearchInsightsComponent implements OnInit {
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   viewQueriesRef: any;
@@ -47,7 +47,7 @@ export class SearchInsightsComponent implements OnInit
   isAsc = true;
   sortedObject = {
     'type': 'fieldName',
-    'position':'up',
+    'position': 'up',
     "value": 'asc',
   }
   startDate: any = moment().subtract({ days: 7 });
@@ -56,24 +56,25 @@ export class SearchInsightsComponent implements OnInit
   showDateRange: boolean = false;
   querieswithresults: boolean = true;
   componentType: string = 'addData';
+  searchExperienceConfig: any;
+  feedbackDisableDate: string;
   selected: { startDate: Moment, endDate: Moment } = { startDate: this.startDate, endDate: this.endDate }
   @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
   @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
   @ViewChild('viewQueries') viewQueries: KRModalComponent;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
-    private notificationService: NotificationService) { }
+    private notificationService: NotificationService, public headerService: SideBarService) { }
 
-  ngOnInit(): void
-  {
+  ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getIndexPipeline();
     
     //this.getQueries("GetSearchQueriesResults");
-
-    if (localStorage.getItem('search_Insight_Result'))
-    {
+    this.searchExperienceConfig = this.headerService.searchConfiguration;
+    this.feedbackDisableDate = "User feedback disabled since " + moment(this.searchExperienceConfig?.interactionsConfig?.feedbackExperience?.lmod).format("DD/MM/YYYY");
+    if (localStorage.getItem('search_Insight_Result')) {
       localStorage.getItem('search_Insight_Result') == 'Top_Search_Queries' ? this.querieswithresults = true : this.querieswithresults = false;
       localStorage.removeItem('search_Insight_Result');
     }
@@ -120,43 +121,34 @@ export class SearchInsightsComponent implements OnInit
     this.getQueries("QueriesWithResults",selectedindexpipeline);
     
   }
-  openDateTimePicker(e)
-  {
-    setTimeout(() =>
-    {
+  openDateTimePicker(e){
+    setTimeout(() =>{
       this.pickerDirective.open(e);
     })
   }
-  onDatesUpdated($event)
-  {
+  onDatesUpdated($event) {
     this.startDate = this.selected.startDate;
     this.endDate = this.selected.endDate;
     this.dateLimt('custom');
     // this.callFlowJourneyData();
   }
-  getDateRange(range, e?)
-  {
+  getDateRange(range, e?) {
     this.defaultSelectedDay = range;
-    if (range === -1)
-    {
-      if (!this.showDateRange || $('.md-drppicker').hasClass('hidden'))
-      {
+    if (range === -1) {
+      if (!this.showDateRange || $('.md-drppicker').hasClass('hidden')) {
         this.showDateRange = true;
         this.datetimeTrigger.nativeElement.click();
-      } else
-      {
+      } else {
         this.showDateRange = false;
       }
     }
-    else if (range === 7)
-    {
+    else if (range === 7) {
       this.startDate = moment().subtract({ days: 6 });
       this.endDate = moment();
       this.dateLimt('week')
       // this.callFlowJourneyData();
       this.showDateRange = false;
-    } else if (range === 1)
-    {
+    } else if (range === 1) {
       this.startDate = moment().subtract({ hours: 23 });
       this.endDate = moment();
       this.dateLimt('hour')
@@ -164,8 +156,7 @@ export class SearchInsightsComponent implements OnInit
       this.showDateRange = false;
     }
   }
-  dateLimt(type)
-  {
+  dateLimt(type) {
     this.dateType = type;
     let selectedindexpipeline=this.selecteddropId;
     if(selectedindexpipeline){
@@ -179,28 +170,22 @@ export class SearchInsightsComponent implements OnInit
     var week = new Date(Date.now() - (6 * 864e5));
     var custom = new Date(Date.now() - (29 * 864e5));
     let from = new Date();
-    if (this.dateType == 'hour')
-    {
+    if (this.dateType == 'hour') {
       from = yesterday;
       this.group = "hour";
-    } else if (this.dateType == 'week')
-    {
+    } else if (this.dateType == 'week') {
       from = week;
       this.group = "date";
-    } else if (this.dateType == 'custom')
-    {
+    } else if (this.dateType == 'custom') {
       from = custom;
       var duration = moment.duration(Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()), 'milliseconds');
       var days = duration.asDays();
       // console.log(days);
-      if (days > 28)
-      {
+      if (days > 28) {
         this.group = "week";
-      } else if (days == 1)
-      {
+      } else if (days == 1) {
         this.group = "hour";
-      } else
-      {
+      } else {
         this.group = "date";
       }
     }
@@ -217,16 +202,14 @@ export class SearchInsightsComponent implements OnInit
         limit: 10
       };
     }
-    else if (type == 'QueriesWithResults')
-    {
+    else if (type == 'QueriesWithResults') {
       queryparams = {
         ...queryparams,
         offset: this.QWR_skipPage || 0,
         limit: 10
       };
     }
-    else if (type == 'SearchQueryResults')
-    {
+    else if (type == 'SearchQueryResults') {
       queryparams = {
         ...queryparams,
         offset: this.SQR_skipPage || 0,
@@ -242,55 +225,48 @@ export class SearchInsightsComponent implements OnInit
         to: this.endDate.toJSON()
       },
     }
-    if(sortHeaderOption){
-      payload.sort ={
-        order : sortValue,
+    if (sortHeaderOption) {
+      payload.sort = {
+        order: sortValue,
         by: sortHeaderOption
-       }
+      }
     }
-    if(searchSource){
-      payload.search =searchSource
+    if (searchSource) {
+      payload.search = searchSource
     }
-   
+
     if (type == 'SearchQueryResults') {
       payload.query = this.selectedQuery;
     }
-    this.service.invoke('get.queries', queryparams, payload, header).subscribe(res =>
-    {
-      if (type == 'QueriesWithNoResults')
-      {
+    this.service.invoke('get.queries', queryparams, payload, header).subscribe(res => {
+      if (type == 'QueriesWithNoResults') {
         this.topQuriesWithNoResults = res.result;
         this.QWNR_totalRecord = res.totalCount;
       }
-      else if (type == 'QueriesWithResults')
-      {
+      else if (type == 'QueriesWithResults') {
         this.getQueriesWithResults = res.result;
         this.QWR_totalRecord = res.totalCount;
       }
-      else if (type == 'SearchQueryResults')
-      {
+      else if (type == 'SearchQueryResults') {
         this.loadingQueries = false;
         this.getSearchQueriesResults = res.result;
         this.SQR_totalRecord = res.totalCount;
       }
 
-    }, errRes =>
-    {
-      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg)
-      {
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else
-      {
+      } else {
         this.notificationService.notify('Failed ', 'error');
       }
       this.loadingQueries = false;
     });
   }
-  sortAnalytics(type?, sortHeaderOption?,sortValue?,navigate?,searchSource?,searchValue?){
-    if(sortValue){
+  sortAnalytics(type?, sortHeaderOption?, sortValue?, navigate?, searchSource?, searchValue?) {
+    if (sortValue) {
       this.sortedObject = {
-        type : sortHeaderOption,
-        value : sortValue,
+        type: sortHeaderOption,
+        value: sortValue,
         position: navigate
       }
     }
@@ -301,7 +277,7 @@ export class SearchInsightsComponent implements OnInit
     //   offset: 0,
     //   limit: 10
     // };
-    let request:any={}
+    let request: any = {}
     // if(!sortValue){
     //   request = {
     //     "extractionType": "content",
@@ -310,71 +286,71 @@ export class SearchInsightsComponent implements OnInit
     //     }    
     // }   
     // }
-    if(sortValue){
-      const sort :any ={}
-      request= {
+    if (sortValue) {
+      const sort: any = {}
+      request = {
         sort
       }
     }
     // else {
     // request={}
     // }
-    if(sortValue){  
-      this.getSortIconVisibility(sortHeaderOption,navigate);
-       //Sort start
-       if(type === 'QueriesWithResults'){
-        if(sortHeaderOption === 'query' ){
+    if (sortValue) {
+      this.getSortIconVisibility(sortHeaderOption, navigate);
+      //Sort start
+      if (type === 'QueriesWithResults') {
+        if (sortHeaderOption === 'query') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-        if(sortHeaderOption === 'clicks' ){
+        if (sortHeaderOption === 'clicks') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-        if(sortHeaderOption === 'searches' ){
+        if (sortHeaderOption === 'searches') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-       }
-       else if (type === 'QueriesWithNoResults'){
-        if(sortHeaderOption === 'query' ){
+      }
+      else if (type === 'QueriesWithNoResults') {
+        if (sortHeaderOption === 'query') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-        if(sortHeaderOption === 'clicks' ){
+        if (sortHeaderOption === 'clicks') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-       }
-       if(searchSource){
+      }
+      if (searchSource) {
         request.search = searchSource;
       }
-   
-    
-    // end
+
+
+      // end
     }
     this.getQueries(type,this.selecteddropId,sortHeaderOption,sortValue,navigate,request)
     // this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
-    
+
   }
-  sortByApi(type,sort){
+  sortByApi(type, sort) {
     this.selectedSort = sort;
     if (this.selectedSort !== sort) {
       this.isAsc = true;
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow ='';
-    var checkSortValue= '';
-    if(this.isAsc){
-      naviagtionArrow= 'up';
+    var naviagtionArrow = '';
+    var checkSortValue = '';
+    if (this.isAsc) {
+      naviagtionArrow = 'up';
       checkSortValue = 'asc';
     }
-    else{
-      naviagtionArrow ='down';
+    else {
+      naviagtionArrow = 'down';
       checkSortValue = 'desc';
     }
-    this.sortAnalytics(type,sort,checkSortValue,naviagtionArrow)
+    this.sortAnalytics(type, sort, checkSortValue, naviagtionArrow)
     // this.fieldsFilter(null,null,null,null,sort,checkSortValue,naviagtionArrow)
   }
   getSortIconVisibility(sortingField: string, type: string) {
@@ -426,37 +402,31 @@ export class SearchInsightsComponent implements OnInit
     }
   }
 
-  paginate(event, type)
-  {
-    if (type === 'QWR')
-    {
+  paginate(event, type) {
+    if (type === 'QWR') {
       // this.QWR_limitPage = event.limit;
       this.QWR_skipPage = event.skip;
       this.getQueries('QueriesWithResults',this.selecteddropId);
     }
-    else if (type === 'QWNR')
-    {
+    else if (type === 'QWNR') {
       // this.QWNR_limitPage = event.limit;
       this.QWNR_skipPage = event.skip;
       this.getQueries('QueriesWithNoResults',this.selecteddropId);
     }
-    else if (type === 'SQR')
-    {
+    else if (type === 'SQR') {
       // this.SQR_limitPage = event.limit;
       this.SQR_skipPage = event.skip;
       this.getQueries('SearchQueryResults',this.selecteddropId);
     }
   }
 
-  openModalPopup(result)
-  {
+  openModalPopup(result) {
     this.selectedQuery = result.query;
     this.loadingQueries = true;
     this.getQueries('SearchQueryResults',this.selecteddropId)
     this.viewQueriesRef = this.viewQueries.open();
   }
-  closeModalPopup()
-  {
+  closeModalPopup() {
     this.viewQueriesRef.close();
     this.getSearchQueriesResults = [];
   }
