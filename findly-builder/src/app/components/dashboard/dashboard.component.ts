@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
@@ -7,13 +7,16 @@ import { Router } from '@angular/router';
 import { Moment } from 'moment';
 import * as moment from 'moment-timezone';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
+import { Subscription } from 'rxjs';
+import { SideBarService } from '@kore.services/header.service';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 declare const $: any;
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   selectedApp;
   serachIndexId;
   pageLimit = 5;
@@ -66,7 +69,7 @@ export class DashboardComponent implements OnInit {
   selectedSort = '';
   sortedObject = {
     'type': 'fieldName',
-    'position':'up',
+    'position': 'up',
     "value": 'asc',
   }
   isAsc = true;
@@ -79,18 +82,27 @@ export class DashboardComponent implements OnInit {
   defaultSelectedDay = 7;
   showDateRange: boolean = false;
   componentType: string = 'addData';
+  searchExperienceConfig: any;
+  searchConfigurationSubscription: Subscription;
+  appSubscription: Subscription;
+  indexPipelineId: string;
   selected: { startDate: Moment, endDate: Moment } = { startDate: this.startDate, endDate: this.endDate }
   @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
   @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private router: Router,
+    public headerService: SideBarService,
+    private appSelectionService: AppSelectionService,
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    this.appSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+      this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    })
     //this.userEngagementChart();
 
     // this.feedback();
@@ -105,9 +117,10 @@ export class DashboardComponent implements OnInit {
     this.getQueries("TopSearchResults");
     this.getQueries("MostClickedPositions");
     this.getQueries("FeedbackStats");
-
-
-
+    // this.searchConfigurationSubscription = this.headerService.savedSearchConfiguration.subscribe((res) => {
+    //   this.searchExperienceConfig = res;
+    // });
+    this.searchExperienceConfig = this.headerService.searchConfiguration;
   }
   viewAll(route, searchType?) {
     this.workflowService.mainMenuRouter$.next(route);
@@ -170,7 +183,7 @@ export class DashboardComponent implements OnInit {
     this.getQueries("MostClickedPositions");
     this.getQueries("FeedbackStats");
   }
-  getQueries(type,sortHeaderOption?,sortValue?,navigate?,request?) {
+  getQueries(type, sortHeaderOption?, sortValue?, navigate?, request?) {
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
     var week = new Date(Date.now() - (6 * 864e5));
@@ -214,11 +227,11 @@ export class DashboardComponent implements OnInit {
         to: this.endDate.toJSON()
       },
     }
-    if(sortHeaderOption){
-      payload.sort ={
-        order : sortValue,
+    if (sortHeaderOption) {
+      payload.sort = {
+        order: sortValue,
         by: sortHeaderOption
-       }
+      }
     }
     if (type == "TotalUsersStats" || type == "TotalSearchesStats") {
       //payload.group = this.group 
@@ -286,11 +299,11 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-  sortAnalytics(type?, sortHeaderOption?,sortValue?,navigate?){
-    if(sortValue){
+  sortAnalytics(type?, sortHeaderOption?, sortValue?, navigate?) {
+    if (sortValue) {
       this.sortedObject = {
-        type : sortHeaderOption,
-        value : sortValue,
+        type: sortHeaderOption,
+        value: sortValue,
         position: navigate
       }
     }
@@ -301,7 +314,7 @@ export class DashboardComponent implements OnInit {
     //   offset: 0,
     //   limit: 10
     // };
-    let request:any={}
+    let request: any = {}
     // if(!sortValue){
     //   request = {
     //     "extractionType": "content",
@@ -310,78 +323,78 @@ export class DashboardComponent implements OnInit {
     //     }    
     // }   
     // }
-    if(sortValue){
-      const sort :any ={}
-      request= {
+    if (sortValue) {
+      const sort: any = {}
+      request = {
         sort
       }
     }
     // else {
     // request={}
     // }
-    if(sortValue){  
-      this.getSortIconVisibility(sortHeaderOption,navigate);
-       //Sort start
-       if(type === 'TotalSearchesStats' || type === 'TopQuriesWithNoResults'){
-        if(sortHeaderOption === 'query' ){
+    if (sortValue) {
+      this.getSortIconVisibility(sortHeaderOption, navigate);
+      //Sort start
+      if (type === 'TotalSearchesStats' || type === 'TopQuriesWithNoResults') {
+        if (sortHeaderOption === 'query') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-        if(sortHeaderOption === 'count' ){
+        if (sortHeaderOption === 'count') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-       }
-      
+      }
 
-       if (type === 'TopSearchResults'){
-        if(sortHeaderOption === 'answer' ){
+
+      if (type === 'TopSearchResults') {
+        if (sortHeaderOption === 'answer') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-        if(sortHeaderOption === 'clicks' ){
+        if (sortHeaderOption === 'clicks') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-        if(sortHeaderOption === 'appearances' ){
+        if (sortHeaderOption === 'appearances') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-        if(sortHeaderOption === 'clickThroughRate' ){
+        if (sortHeaderOption === 'clickThroughRate') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-        if(sortHeaderOption === 'avgPosition' ){
+        if (sortHeaderOption === 'avgPosition') {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-       }
-   
-    
-    // end
+      }
+
+
+      // end
     }
-    this.getQueries(type,sortHeaderOption,sortValue,navigate,request)
+    this.getQueries(type, sortHeaderOption, sortValue, navigate, request)
     // this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
-    
+
   }
-  sortByApi(type,sort){
+  sortByApi(type, sort) {
     this.selectedSort = sort;
     if (this.selectedSort !== sort) {
       this.isAsc = true;
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow ='';
-    var checkSortValue= '';
-    if(this.isAsc){
-      naviagtionArrow= 'up';
+    var naviagtionArrow = '';
+    var checkSortValue = '';
+    if (this.isAsc) {
+      naviagtionArrow = 'up';
       checkSortValue = 'asc';
     }
-    else{
-      naviagtionArrow ='down';
+    else {
+      naviagtionArrow = 'down';
       checkSortValue = 'desc';
     }
-    this.sortAnalytics(type,sort,checkSortValue,naviagtionArrow)
+    this.sortAnalytics(type, sort, checkSortValue, naviagtionArrow)
     // this.fieldsFilter(null,null,null,null,sort,checkSortValue,naviagtionArrow)
   }
   getSortIconVisibility(sortingField: string, type: string) {
@@ -429,7 +442,7 @@ export class DashboardComponent implements OnInit {
           }
           return "display-none"
         }
-      } 
+      }
       case "avgPosition": {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
@@ -503,7 +516,7 @@ export class DashboardComponent implements OnInit {
     for (var i = 0; i < this.searchHistogram.length; i++) {
       summaryData.push(Math.max(this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks));
       if (this.dateType == 'hour' && i > 0 && i <= 24) {
-        totaldata.push([i + 'hr', this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks,i + 'hr'])
+        totaldata.push([i + 'hr', this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks, i + 'hr'])
       } else if (this.dateType == 'week' || this.dateType == 'custom') {
         let date = new Date(this.searchHistogram[i].date);
         // xAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
@@ -586,8 +599,8 @@ export class DashboardComponent implements OnInit {
         type: 'value',
         name: 'Count',
         nameLocation: 'middle',
-        min : 0,
-        max : 5,
+        min: 0,
+        max: 5,
         nameGap: 50,
         nameTextStyle: {
           color: "#9AA0A6",
@@ -620,14 +633,14 @@ export class DashboardComponent implements OnInit {
         showSymbol: false,
         data: valueList2,
         lineStyle: { color: '#7027E5' }
-        }, {
-          type: 'line',
-          showSymbol: false,
-          data: dateTooltipList,
-          lineStyle: { color: '#7027E5' }
-        }]
+      }, {
+        type: 'line',
+        showSymbol: false,
+        data: dateTooltipList,
+        lineStyle: { color: '#7027E5' }
+      }]
     };
-    if(Math.max(...summaryData) > 5){
+    if (Math.max(...summaryData) > 5) {
       delete this.chartOption.yAxis[0].min;
       delete this.chartOption.yAxis[0].max;
     }
@@ -737,7 +750,7 @@ export class DashboardComponent implements OnInit {
     }
 
     this.mostClickBar = {
-      grid : {
+      grid: {
         containLabel: true,
         left: "5%"
       },
@@ -760,8 +773,8 @@ export class DashboardComponent implements OnInit {
       },
       xAxis: {
         type: 'value',
-        min : 0,
-        max : 5,
+        min: 0,
+        max: 5,
         axisLine: {
           show: false, // Hide full Line
         },
@@ -804,7 +817,7 @@ export class DashboardComponent implements OnInit {
         barWidth: '90%',
       }]
     };
-    if(Math.max(...xAxisData) > 5){
+    if (Math.max(...xAxisData) > 5) {
       delete this.mostClickBar.xAxis.min;
       delete this.mostClickBar.xAxis.max;
     }
@@ -814,15 +827,13 @@ export class DashboardComponent implements OnInit {
     var colorPaletteSearch = ['#28A745', '#EAF6EC'];
     var colorPaletteResult = ['#FF784B', '#FFF1ED'];
     this.feedbackPieSearches = {
-
       series: [{
-
         type: 'pie',
         radius: 90,
         color: colorPaletteSearch,
         hoverAnimation: false,
         center: ['50%', '50%'],
-        data: [this.feedbackStats.thumbsDownCount + this.feedbackStats.thumbsUpCount, this.feedbackStats.totalSearches],//[30,70],
+        data: [this.feedbackStats.percentages.totalSearchesPercent, this.feedbackStats.percentages.feedbackReceivedPercent],
         label: {
           show: true,
           position: 'inner',
@@ -835,14 +846,13 @@ export class DashboardComponent implements OnInit {
       ]
     };
     this.feedbackPieResult = {
-
       series: [{
         type: 'pie',
         radius: 90,
         color: colorPaletteResult,
         hoverAnimation: false,
         center: ['50%', '50%'],
-        data: [this.feedbackStats.feedBackReceived, this.feedbackStats.notUsefulResult], //[30,70]
+        data: [this.feedbackStats.percentages.negativeFeedbackPercent, this.feedbackStats.percentages.postitiveFeedbackPercent],
         label: {
           show: true,
           position: 'inner',
@@ -854,6 +864,10 @@ export class DashboardComponent implements OnInit {
       ]
     };
 
+  }
+  ngOnDestroy() {
+    this.searchConfigurationSubscription ? this.searchConfigurationSubscription.unsubscribe() : false;
+    this.appSubscription ? this.appSubscription.unsubscribe() : false;
   }
   // busyHours(){
   //   let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];
