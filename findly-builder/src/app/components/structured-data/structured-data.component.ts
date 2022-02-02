@@ -777,6 +777,7 @@ export class StructuredDataComponent implements OnInit {
           item.isChecked = false;
           this.selecteditems.splice(i, 1);
           this.showSelectedCount = this.showSelectedCount - 1 ;
+          
           //changes made on 31/01
           if(this.showSelectedCount==0){
             this.clearDependencies();
@@ -908,13 +909,14 @@ export class StructuredDataComponent implements OnInit {
     //       }
     //     });
     // });
-    for(let i=0;i<this.structuredDataItemsList.length;i++){
-      for(let j=0;j<this.selecteditems.length;j++){
-        if(this.structuredDataItemsList[i]._id!==this.selecteditems[j]._id){
-          this.selecteditems.push(this.structuredDataItemsList[i])
-        }
-      }
-    }
+      let uniquedata =  this.structuredDataItemsList.filter(({ _id: id1 }) => 
+      !this.selecteditems.some(({_id: id2 }) => id2 === id1));
+      if(uniquedata.length>0){
+        uniquedata.forEach(element => {
+          this.selecteditems.push(element);        
+        });
+      }   
+   
   }else{
     let count = this.checkForAllBoolean(this.structuredDataItemsList)
    if(count > 0 && count < this.limitpage){
@@ -1268,6 +1270,7 @@ export class StructuredDataComponent implements OnInit {
           this.selecteditems=[];
           this.actionforcheckbox='';
           this.allSelected = false;
+          this.clearDependencies();
           if (this.searchText.length) {
             this.searchItems();
           }
