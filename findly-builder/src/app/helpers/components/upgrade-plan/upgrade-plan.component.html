@@ -47,10 +47,10 @@
                 <button class="kr-sg-button-secondary btn_lg"
                 (click)="openContactusModel(plan.name)">{{("plan.contact_us"|
                 translate)}}</button>
-                 <!-- Commented as part of FLY-3643 --> <!--*ngIf="selectedPlan?.planName=='Free'"-->
-              <button class="kr-sg-button-secondary btn_lg" 
+                 <!-- Commented as part of FLY-3643 -->
+              <!-- <button class="kr-sg-button-secondary btn_lg" *ngIf="selectedPlan?.planName=='Free'"
                 (click)="plan.name==='Enterprise'?openContactusModel(plan.name):openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"|
-                translate):("plan.choose_plan"| translate)}}</button>
+                translate):("plan.choose_plan"| translate)}}</button> -->
                 <!-- <button class="kr-sg-button-secondary btn_lg" > Contact Us</button> -->
                 <!-- <button class="kr-sg-button-secondary btn_lg"   > Contact Us</button> -->
               <!-- <button class="kr-sg-button-secondary btn_lg" *ngIf="selectedPlan?.planName=='Standard'"
