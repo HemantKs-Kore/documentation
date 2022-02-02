@@ -41,6 +41,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   submitted = false;
   input_1:any= [];
   input_2:any=[];
+  iconImageCon:boolean=false;
+  iconImageOut:boolean=false;
   skip=0
   rules = [];
   currentSugg: any = [];
@@ -798,10 +800,11 @@ validateCon() {
   for(let j=0; j< this.rulesArrayforAddEdit.length;j++){
     for ( let i=0; i<=this.rulesArrayforAddEdit[j].value.length;  i++) {
       if(this.rulesArrayforAddEdit[j].value.length == 0 ) {
-        $("#ConditionInput").parent('div').css("border-color", "#DD3646");   
-        $("#infoWarningCon").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" }); 
+        $("#ConditionInput").parent('div').css("border-color", "#DD3646");  
+        this.iconImageCon=true;
         return false;            
       } else {
+        this.iconImageCon=false;
         this.submitted=false;   
         return true ;
       }           
@@ -813,26 +816,31 @@ validateCon() {
     for ( let j=0; j<=this.outcomeArrayforAddEdit[i].outcomeValue.length;  j++) {
       if( !this.outcomeArrayforAddEdit[i].outcomeValue.length ) {
         $("#OutcomeInput").parent('div').css("border-color", "#DD3646");   
-        $("#infoWarningOut").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" }); 
+        this.iconImageOut=true;
         return false;            
       } else {
+        this.iconImageOut=false;
         this.submitted=false;   
         return true ;
       }           
     } 
   }            
  }
- inputChanged(type) {
+ 
+  // inputChanges(event) {
 
-  if (type == 'Condition') {
-    this.input_1.length != '' ? $("#infoWarningCon").hide() : $("#infoWarningCon").show();
-    $("#ConditionInput").css("border-color", this.input_1.length != '' ? "#BDC1C6" : "#DD3646");
-  }
-  else if (type == 'Outcome') {
-    this.input_2.length != '' ? $("#infoWarningOut").hide() : $("#infoWarningOut").show();
-    $("#OutcomeInput").css("border-color", this.input_2.length != '' ? "#BDC1C6" : "#DD3646");
-  }
-}
+  //   if(!this.iconImageCon && !this.iconImageOut ){
+  //     this.validateCon();
+  //     this.validateOut();
+  //   }
+  //   else if(!this.iconImageCon){
+  //     this.validateCon();
+  //   }
+  //   else if(!this.iconImageOut){
+  //     this.validateOut();
+  //   }
+  // }
+
 
   createRule() {
     this.submitted = true;

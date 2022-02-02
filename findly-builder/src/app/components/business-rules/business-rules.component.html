@@ -354,8 +354,8 @@
                                                         </ng-container>
                                                     </ng-container>
                                                     <ng-container *ngIf="(ruleObj.dataType != 'date') && (ruleObj.dataType != 'number')">
-                                                        <input id="ConditionInput"  placeholder="Type Keyword and Enter" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" suggestedInput />
-                                                        <img id="infoWarningCon"   src="assets/icons/warning_escalation.svg" style="top: 60%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
+                                                        <input id="ConditionInput" placeholder="Type Keyword and Enter" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" suggestedInput />
+                                                        <img  *ngIf="iconImageCon && submitted" id="infoWarningCon"   src="assets/icons/warning_escalation.svg" style="top: 35%; position: absolute; right: 3%; display: block;" height="12" width="12" />
                                                     </ng-container>
 
                                                     <ng-container *ngIf="ruleObj.dataType == 'date'">
@@ -501,7 +501,7 @@
                                                     </ng-container>
                                                     <input id="OutcomeInput"  #contextSuggestedImput [placeholder]="'Type Keyword and Enter'" (click)='buildCurrentContextSuggetions(outcomeObj)' [(ngModel)]="outcomeObj.newValue" (keyup)='buildCurrentContextSuggetions(outcomeObj)' [matChipInputFor]="chipList" [matAutocomplete]="auto"
                                                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addOutcome($event, outcomeObj, (outcomeObj.outcomeValue.length))" />
-                                                        <img id="infoWarningOut"  src="assets/icons/warning_escalation.svg" style="top: 60%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
+                                                        <img *ngIf="iconImageOut && submitted" id="infoWarningOut"  src="assets/icons/warning_escalation.svg" style="top: 35%; position: absolute; right: 3%; display: block;" height="12" width="12" />
                                                     </mat-chip-list>
                                                 <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown {{outcomeObj.outcomeValueType==='static'?'hideAutoFocus':''}}" (optionSelected)="selected($event,outcomeObj,index)">
                                                     <mat-option *ngFor="let suggesion of currentSugg">
