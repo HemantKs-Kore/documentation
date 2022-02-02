@@ -32,6 +32,7 @@ export class AppsListingComponent implements OnInit {
   searchApp = '';
   apps: any = [];
   confirmApp: any='';
+  validateName:any='';
   slectedAppId:any ='';
   showSearch = false;
   activeClose = false;
@@ -124,7 +125,7 @@ export class AppsListingComponent implements OnInit {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
-    this.confirmApp = appInfo.name;
+    this.validateName = appInfo.name;
     this.slectedAppId = appInfo._id;
     this.deleteAppPopRef = this.deleteAppPop.open();
   }
@@ -139,12 +140,13 @@ export class AppsListingComponent implements OnInit {
 
     let quaryparms: any = {};
     quaryparms.streamId = this.slectedAppId;
-    if(this.confirmApp){
+    if(this.confirmApp == this.validateName ){
     this.service.invoke('delete.app', quaryparms).subscribe(res => {
       if (res) {
         this.notificationService.notify('Deleted Successfully', 'success');
         this.closeDeleteApp();
         this.getAllApps();
+        this.confirmApp = '';
       }
     }, errRes => {
       this.notificationService.notify('Deletion has gone wrong.', 'error');
