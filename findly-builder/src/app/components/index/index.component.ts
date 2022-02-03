@@ -1279,6 +1279,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
 
           }
           this.pipeline.splice(i, 1);
+          this.search_basic_fieldName='';
+          this.basic_fieldName='';
           dialogRef.close();
           this.notificationService.notify('Deletd Successfully', 'success')
           if (this.pipeline && this.pipeline.length)
