@@ -963,8 +963,21 @@ export class StructuredDataComponent implements OnInit {
     // changes made on 31/01
     let uniquedata =  this.structuredDataItemsList.filter(({ _id: id1 }) => 
     !this.selecteditems.some(({_id: id2 }) => id2 === id1));
-      if(uniquedata.length>0){
-      this.selecteditems.push(uniquedata);
+      if(uniquedata.length>0 && bool===true){
+        uniquedata.forEach(element => {
+          this.selecteditems.push(element);        
+        });
+      }
+      //*for partial unselection scenario 03/02 changes */
+      // else if(uniquedata.length>0 && bool===false)
+       else if( bool===false){
+        let uniquedata =  this.structuredDataItemsList.filter(({ _id: id1 }) => 
+        !this.selecteditems.some(({_id: id2 }) => id2 === id1));
+        if(uniquedata.length>0 && bool===false){
+        uniquedata.forEach(element => {
+        this.selecteditems.splice(element,1);        
+        });
+      }
       }
     this.structuredDataItemsList.forEach((data,index) => {
       // this.selecteditems.forEach(selElement => {
