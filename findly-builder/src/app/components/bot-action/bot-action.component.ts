@@ -235,6 +235,11 @@ export class BotActionComponent implements OnInit {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
+    if(!this.inlineManual.checkVisibility('BOT_ACTION_FROM_LANDING_PAGE')){
+      this.inlineManual.openHelp('BOT_ACTION_FROM_LANDING_PAGE')
+      this.inlineManual.visited('BOT_ACTION_FROM_LANDING_PAGE')
+    }
+   
   }
   getdialog() {
     const queryParams = {

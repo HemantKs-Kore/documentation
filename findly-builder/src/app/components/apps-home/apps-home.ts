@@ -139,6 +139,12 @@ export class AppsListingComponent implements OnInit {
   public getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
       if (res && res.length) {
+        if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
+          let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
+          if(prDetails.formAccount){
+            this.redirectHome()
+          }
+        }
         this.prepareApps(res);
         this.workflowService.showAppCreationHeader(false);
         this.selectedAppType('All');
@@ -148,11 +154,7 @@ export class AppsListingComponent implements OnInit {
       }
       else {
         if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
-          let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
-          prDetails.route = "/home";
-
-          localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
-          this.router.navigate(['/home'], { skipLocationChange: true });
+          this.redirectHome()
         }else {
           // if(!this.inlineManual.checkVisibility('CREATE_APP')){
         //   this.inlineManual.openHelp('CREATE_APP')
@@ -168,9 +170,23 @@ export class AppsListingComponent implements OnInit {
           }
         }
       }
+      this.clearAccount()
     }, errRes => {
       // console.log(errRes);
     });
+  }
+  clearAccount(){
+    let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
+        if(prDetails.formAccount){
+          prDetails.formAccount = false;
+        }
+        localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
+  }
+  redirectHome(){
+    let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
+    prDetails.route = "/home";
+    localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
+    this.router.navigate(['/home'], { skipLocationChange: true });
   }
   imageLoad() {
     // console.log("image loaded now")

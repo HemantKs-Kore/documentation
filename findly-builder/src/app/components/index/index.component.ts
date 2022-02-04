@@ -1279,6 +1279,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
 
           }
           this.pipeline.splice(i, 1);
+          this.search_basic_fieldName='';
+          this.basic_fieldName='';
           dialogRef.close();
           this.notificationService.notify('Deletd Successfully', 'success')
           if (this.pipeline && this.pipeline.length)
@@ -1341,10 +1343,15 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
-    };
-    let serviceId = 'get.allFieldsData';
+    },
+    payload ={
+      "sort": {
+          "fieldName": 1,
+      } 
+    }
+    let serviceId = 'post.allField';
     // let serviceId ='get.allField';
-    this.service.invoke(serviceId, quaryparms).subscribe(res =>
+    this.service.invoke(serviceId, quaryparms,payload).subscribe(res =>
     {
       this.fields = res.fields || [];
       this.getIndexPipline();

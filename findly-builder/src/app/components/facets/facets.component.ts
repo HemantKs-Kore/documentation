@@ -323,10 +323,16 @@ export class FacetsComponent implements OnInit, OnDestroy {
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       // offset: 0,
       // limit: 100
-    };
+    },
+    payload ={
+      "sort": {
+          "fieldName": 1,
+      } 
+    }
     // let serviceId = 'get.allField';
-    let serviceId = 'get.allFieldsData';
-    this.service.invoke(serviceId, quaryparms).subscribe(res => {
+    let serviceId = 'post.allField';
+    // let serviceId = 'get.allFieldsData';
+    this.service.invoke(serviceId, quaryparms,payload).subscribe(res => {
       this.fieldAutoSuggestion = res.fields || [];
       res.fields.forEach(element => {
         if (element._id === data.fieldId) {

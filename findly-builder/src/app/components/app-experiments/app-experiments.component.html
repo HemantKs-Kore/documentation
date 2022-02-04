@@ -16,7 +16,7 @@
         <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}" style="float: left">
           <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search"
             [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}" autocomplete="off" [(ngModel)]="searchFields"
-            maxlength="50"
+            maxlength="50" (keyup)="getExperiments(searchFields,'search')"
             (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
             (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
@@ -45,7 +45,7 @@
             {{"experiments.variants"| translate}}</div>
           <!-- <div class="col-2 h-title">Winner</div> -->
           
-          <div class="col-2 d-flex align-items-center h-title" (click)="sortBy('state')">
+          <div class="col-2 d-flex align-items-center h-title" (click)="sortByApi('state')">
             <span class="d-flex align-items-center flex-column mr-1">
               <img [ngClass]="getSortIconVisibility('state', 'down')" src="assets/icons/caretDown.svg"
                 class="ml-1 sortImg downArrow">
@@ -63,9 +63,21 @@
                   <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
                 </button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                  <li *ngFor="let status of dynamicStatus" (click)="selectedTab(status);statusFilter.close()"><span
-                      class="list-name">{{status|titlecase}}</span><img [ngClass]="{'hide': status !== setTab}"
-                      src="assets/icons/check-blue.svg"></li>
+                  <li [ngClass]="{'selected-list': filterSystem.statusfilter == 'all'}" (click)="filterTable('all','status');statusFilter.close();">All<img
+                    [ngClass]="{'hide': filterSystem.statusfilter !== 'all'}"  src="assets/icons/check-blue.svg"></li>
+                  <li [ngClass]="{'selected-list': filterSystem.statusfilter == status}" *ngFor="let status of dynamicStatus" (click)="filterTable(status,'status');statusFilter.close();">
+                    <span class="list-name">{{status}}</span>
+                    <img [ngClass]="{'hide': filterSystem.statusfilter !== status}"  src="assets/icons/check-blue.svg"></li>
+
+
+
+
+
+
+
+
+                  <!-- <li *ngFor="let status of dynamicStatus" (click)="filterTable(status,'status');statusFilter.close()"><span
+                      class="list-name">{{status|titlecase}}</span><img [ngClass]="{'hide': status !== setTab}" src="assets/icons/check-blue.svg"></li> -->
                 </ul>
               </div>
             </div>
@@ -433,7 +445,7 @@
               experimentObj?.duration.days =
                 experimentObj?.duration.days > 1
                   ? experimentObj?.duration.days - 1
-                  : 30
+                  : 0
             " />
           <img src="assets/icons/add_plus.svg" class="plus"
             [hidden]="exp_status !== 'configured' && form_type === 'edit'" (click)="

@@ -264,7 +264,11 @@
                 font-weight: 500;
                 font-size: 16px;
                 line-height: 19px;                
-            }   
+            }  
+            .slider{
+                right: 0;
+                position: absolute;
+            } 
             .empty-feedback{
                 height: calc(100% - 60px);
                 display: flex;
@@ -272,14 +276,15 @@
                 justify-content: center;            
                 position: relative;
                 .title-empty{
-                    color: #5F6368;
-                    font-weight: bold;
-                    font-size: 26px;
-                    line-height: 31px;
+                    color: #202124;
+                    // font-weight: bold;
+                    // font-size: 26px;
+                    // line-height: 31px;
+                    text-align: center;
                     position: absolute;
-                    bottom: 41px;
-                    width: 200px;
-                    left: 15px;
+                     bottom: 41px;
+                   // width: 200px;
+                    // left: 15px;
                 }
             }
             .paginations_list{
@@ -329,6 +334,26 @@
                         font-weight: 500;
                         font-size: 14px;
                         text-align: left;
+                        display: flex;
+                        align-items: center;
+                        .sortImg{                                                       
+                            position: relative;
+                            cursor: pointer;
+                            &.upArrow {
+                                transform: none !important;
+                            }
+                            &.downArrow {
+                                transform: rotate(180deg) !important;
+                                top: -1px !important;
+                                position: relative;
+                            }
+                            &.assending{
+                                transform: rotate(180deg);
+                            }
+                            &.decending{
+                                transform: rotate(0deg);
+                            }
+                        } 
                         img{
                             cursor: pointer;  
                             vertical-align: baseline;                          
