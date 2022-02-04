@@ -596,163 +596,218 @@
                 margin: 0 10px;
                 .top-dropdown-user {
                     .dropdown-open {
-                        .dropdown-input{                            
-                            border: 0;
+                        .dropdown-input{
                             padding: 0;
+                            width: 30px;
+                            height: 30px;
+                            border-radius: 100%;
+                            border: 1px solid #BDC1C6;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin: 0 0 0 auto;
                             &::before{
                                 display: none;
+                            }
+                            img{
+                                border-radius: 100%;
+                                width: 100%;
+                                height: 100%;
+                            }
+                            .alphabet{
+                                width: 100%;
+                                height: 100%;
+                                background: green;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                border-radius: 100%;
+                                font-weight: normal;
+                                font-size: 12px;
+                                line-height: 14px;
+                                color: #FFFFFF;
+                                text-transform: uppercase;
                             }
                         }
                     }
                     .content-menu{
-                        right: 0;
+                        right:0px;
                         left: auto;
-                        top: 45px;
-                        padding: 2px;
-                        width: 220px;                        
-                        .inside-top-dropdown-user{
-                            .dropdown-open {
-                                .dropdown-input{                            
-                                    border: 0;
+                        background: #FFFFFF;
+                        box-shadow: 0px 4px 12px 2px rgba(32, 33, 36, 0.12);
+                        border-radius: 5px;
+                        padding: 10px 10px 0px 10px;
+                        width:190px;
+                        .user-detals{
+                            display: flex;
+                            align-items: center;
+                            margin-bottom: 12px;
+                            .img-block{
+                                flex-shrink: 0;
+                                width: 30px;
+                                height: 30px;
+                                border-radius: 100%;
+                                border: 1px solid #0D6EFD;
+                                img{
+                                    border-radius: 100%;
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                                .alphabet-name{
+                                    width: 100%;
+                                    height: 100%;
+                                    background: green;
                                     display: flex;
                                     align-items: center;
-                                    padding: 4px 10px;
-                                    position: relative;
-                                    height: 36px;
-                                    margin-bottom: 3px;
+                                    justify-content: center;
+                                    border-radius: 100%;
+                                    font-weight: normal;
+                                    font-size: 12px;
+                                    line-height: 14px;
+                                    color: #FFFFFF;
+                                    text-transform: uppercase;
+                                }
+                            }
+                            .user-content{
+                                padding-left: 10px;
+                                width: 140px;
+                                .u-name{
                                     overflow: hidden;
-                                    text-overflow: ellipsis;
+                                    font-weight: 500;
+                                    font-size: 12px;
+                                    line-height: 15px;
+                                    margin-bottom: 2px;
                                     white-space: nowrap;
-                                    transition: 0.2s all ease;
-                                    &:hover{
-                                        background: #F8F9FA;
-                                    }
-                                    img{
-                                        width: 28px;
-                                        height: 28px;
-                                        border-radius: 100%;
-                                    }
-                                    .u-name{
-                                        font-weight: normal;
-                                        font-size: 14px;
-                                        line-height: 20px;
-                                        padding: 0 10px;
-                                        color: #202124;
-                                        width: 155px;
-                                    }
-                                    .arrow-{
-                                        position: absolute;
-                                        right: 14px;
-                                        top: 1px;
-                                        img{
-                                            width: auto;
-                                            height: auto;
-                                        }
-                                    }
-                                    &::before{
-                                        display: none;
-                                    }
+                                    text-overflow: ellipsis;
+                                }
+                                .u-email{
+                                    font-weight: normal;
+                                    font-size: 10px;
+                                    line-height: 12px;
+                                    color: #5F6368;
+                                    overflow: hidden;
+                                    white-space: nowrap;
+                                    text-overflow: ellipsis;
                                 }
                             }
-                            .content-menu{
-                                right: auto;
-                                left: -226px;
-                                top: -2px;
-                                background: #FFFFFF;
-                                box-shadow: 0px 4px 12px 2px rgba(32, 33, 36, 0.12);
-                                border-radius: 2px;
-                                padding: 2px;
-                                perfect-scrollbar{
-                                    max-height: 200px;
-                                    .scroll-content-data-users{
-                                        max-height: 200px;
-                                    }
+                        }
+                        .switch-account-blocks{
+                            padding: 10px 0;
+                            border-top: 1px solid #E4E5E7;
+                            border-bottom: 1px solid #E4E5E7;
+                            .main-heading{
+                                font-weight: 600;
+                                font-size: 10px;
+                                line-height: 12px;
+                                color: #9AA0A6;
+                                margin-bottom: 10px;
+                            }
+                            .switch-user-details{
+                                margin: 10px 0;
+                                .swithch-u-name{
+                                    font-weight: 500;
+                                    font-size: 12px;
+                                    line-height: 15px;
+                                    color: #202124;
+                                    margin-bottom: 2px;
                                 }
-                                .switch-account-users{
+                                .swithch-u-mail{
+                                    font-weight: 500;
+                                    font-size: 10px;
+                                    line-height: 12px;
+                                    color: #9AA0A6;
+                                }
+                            }
+                            .swithc-account-details{
+                                .switch-collapse{
                                     display: flex;
                                     align-items: center;
-                                    height: 36px;
-                                    padding: 4px 10px;
-                                    position: relative;
-                                    cursor: pointer;
-                                    transition: 0.2s all ease;
-                                    &:hover{
-                                        background: #F8F9FA;
-                                    }
-                                    .alphabet-name{
-                                        width: 28px;
-                                        height: 28px;
-                                        background: #B893F2;
-                                        border-radius: 100%;
-                                        display: flex;
-                                        align-items: center;
-                                        justify-content: center;
-                                        font-weight: normal;
-                                        font-size: 12px;
-                                        line-height: 20px;
-                                        color: #381472;
-                                    }
-                                    .no-switch-user{
-                                        background: #EFF0F1;
-                                        width: 28px;
-                                        height: 28px;
-                                        border-radius: 100%;
-                                        text-align: center;
-                                        padding: 2px 0;
-                                        img{
-                                            width: auto;
-                                            height: auto;
+                                    justify-content: space-between;
+                                    padding: 2px 0;
+                                    &[aria-expanded="true"]{
+                                        .arrow-icon{
+                                            transform: rotate(180deg);
+                                            position: relative;
+                                            top: 2px;
                                         }
                                     }
-                                    img{
-                                        width: 28px;
-                                        height: 28px;
-                                        border-radius: 100%;
-                                    }
-                                    .switch-user-name{
-                                        color: #202124;
+                                    .title{
                                         font-weight: normal;
-                                        font-size: 14px;
-                                        line-height: 20px;
-                                        padding: 0 10px;
-                                        width: 145px;
-                                        overflow: hidden;
-                                        text-overflow: ellipsis;
-                                        white-space: nowrap;
+                                        font-size: 10px;
+                                        line-height: 12px;
+                                        color: #0D6EFD;
                                     }
-                                    .selected_items{
-                                        position: absolute;
-                                        right: 12px;
-                                        top: 6px;
-                                        img{
-                                            width: auto;
-                                            height: auto;
+                                    .arrow-icon{
+
+                                    }
+                                }
+                                .switch-accr-sec{
+                                    .kr-sg-input-text{
+                                        position: relative;
+                                        .input-search{
+                                            padding: 5px 10px 5px 28px;
+                                            height: 27px;
+                                            font-weight: normal;
+                                            font-size: 12px;
+                                            line-height: 15px;
+                                            &::placeholder{
+                                                color: #BDC1C6;
+                                                font-weight: normal;
+                                                font-size: 12px;
+                                                line-height: 15px;
+                                            }
+                                        }
+                                        .search-icon{
+                                            position: absolute;
+                                            top: 6px;
+                                            left: 10px;
+                                        }
+                                    }
+                                    perfect-scrollbar{
+                                        max-height: 150px;
+                                        .data-switches-list{
+                                            max-height: 150px;
+                                            .switch_user_details{
+                                                margin: 11px 0;
+                                                &.selected-swith-account{
+                                                    .swithch-u-name{
+                                                        color: #0D6EFD;
+                                                        font-weight: 500;
+                                                    }
+                                                    .swithch-u-mail{
+                                                        color: #85B7FE;
+                                                        font-weight: 500;
+                                                    }
+                                                }
+                                                .swithch-u-name{
+                                                    font-weight: normal;
+                                                    font-size: 12px;
+                                                    line-height: 15px;
+                                                    color: #202124;
+                                                    margin-bottom: 2px;
+                                                }
+                                                .swithch-u-mail{
+                                                    font-weight: normal;
+                                                    font-size: 10px;
+                                                    line-height: 12px;
+                                                    color: #9AA0A6;
+                                                }
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                        .email-name{
-                            color: #9AA0A6;
-                            font-weight: normal;
-                            font-size: 12px;
-                            line-height: 20px;
-                            text-align: center;
-                            padding: 8px 10px;
-                            border-top: 1px solid #E7F1FF;
-                        }
-                        .logout-title{
-                            color: #202124;
-                            font-weight: normal;
-                            font-size: 12px;
-                            line-height: 20px;
-                            text-align: center;
-                            padding: 8px 10px;
+                        .sign-out-data{
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            padding: 6px 0;
                             cursor: pointer;
-                            transition: 0.2s all ease;
-                            &:hover{
-                                color: #dd3646;
-                                background: #fff1ed;
+                            .title{
+                                font-weight: 600;
+                                font-size: 10px;
+                                color: #DD3646;
                             }
                         }
                     }
