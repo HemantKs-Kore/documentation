@@ -971,12 +971,14 @@ export class StructuredDataComponent implements OnInit {
       //*for partial unselection scenario 03/02 changes */
       // else if(uniquedata.length>0 && bool===false)
        else if( bool===false){
-        let uniquedata =  this.structuredDataItemsList.filter(({ _id: id1 }) => 
-        !this.selecteditems.some(({_id: id2 }) => id2 === id1));
-        if(uniquedata.length>0 && bool===false){
-        uniquedata.forEach(element => {
-        this.selecteditems.splice(element,1);        
-        });
+        let commonelements =  this.structuredDataItemsList.filter(({ _id: id1 }) => 
+        this.selecteditems.some(({_id: id2 }) => id2 === id1));
+        if(commonelements.length>0 && bool===false){
+          commonelements.forEach(element => {
+          //this.selecteditems.splice(element,1);   
+          this.selecteditems = this.selecteditems.filter(a => a !== element)
+            
+        });          
       }
       }
     this.structuredDataItemsList.forEach((data,index) => {
