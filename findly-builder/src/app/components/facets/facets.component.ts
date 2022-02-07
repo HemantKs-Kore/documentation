@@ -107,7 +107,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     name: "",
     type: "sortable",
     sortConfig: {
-      sortBy: "",
+      // sortBy: "",
       order: ""
     }
   }
@@ -921,7 +921,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
         name: "",
         type: "sortable",
         sortConfig: {
-          sortBy: "",
+          // sortBy: "",
           order: ""
         }
       }
@@ -979,7 +979,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       }
     }
     else if (this.currentFacetTab === 'sortable') {
-      this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.name && this.currentFacetObj?.sortConfig?.sortBy && this.currentFacetObj?.sortConfig?.order) ? false : true;
+      this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.name  && this.currentFacetObj?.sortConfig?.order) ? false : true;
     }
     else if (this.currentFacetTab === 'tab') {
       this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.tabs.length > 0) ? false : true;
