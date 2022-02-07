@@ -44,6 +44,7 @@ export class AppHeaderComponent implements OnInit {
   appName = '';
   menuFlag = false;
   sourcesFlag = false;
+  loginusername: any;
   recentApps: any;
   userId: any;
   showSearch: boolean = false;
@@ -193,6 +194,13 @@ export class AppHeaderComponent implements OnInit {
     this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
     this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
     this.domain = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
+    for(let i=0;i<this.associatedAccounts.length;i++)
+    {      
+      if(this.associatedAccounts[i].status=="active")
+      {
+        this.loginusername=this.associatedAccounts[i].userFullName;
+      }
+    }    
   }
   switchAccountInternal(account) {
     window[this.storageType].setItem('selectedAccount', JSON.stringify(account))

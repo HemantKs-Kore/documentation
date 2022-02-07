@@ -331,15 +331,18 @@
                                         <div class="d-none alphabet-name">DG</div>
                                     </div>
                                     <div class="user-content">
-                                        <div class="u-name">Dheepak</div>
+                                        <!-- <div class="u-name">Dheepak</div> -->
+                                        <div class="u-name">{{this.loginusername}}</div>
                                         <div class="u-email">dheepak.ganesh@kore.com</div>
                                     </div>
                                 </div>
                                 <div class="switch-account-blocks">
                                     <div class="main-heading">Account</div>
                                     <div class="switch-user-details">
-                                        <div class="swithch-u-name">KoreSearch</div>
-                                        <div class="swithch-u-mail">viswatej@kore.com</div>
+                                        <div class="swithch-u-name">{{selectAccountDetails.accountName}}</div>
+                                        <div class="swithch-u-mail">{{this.selectAccountDetails.userFullName}}</div>
+                                        <!-- <div class="swithch-u-name">KoreSearch</div>
+                                        <div class="swithch-u-mail">viswatej@kore.com</div> -->
                                     </div>
                                     <div class="swithc-account-details">
                                         <div id="swithaccounts" class="collapse switch-accr-sec">
@@ -348,8 +351,13 @@
                                                 <img src="assets/icons/search_gray.svg" class="search-icon">
                                             </div>                
                                             <perfect-scrollbar>
-                                                <div class="data-switches-list">
-                                                    <div class="switch_user_details">
+                                                <div class="data-switches-list" *ngFor='let app of this.associatedAccounts'>
+                                                    
+                                                    <div class="switch_user_details" (click)="switchAccountInternal(app)" [ngClass]="{'selected-swith-account' : this.app.userFullName === this.selectAccountDetails.userFullName}">
+                                                        <div class="swithch-u-name">{{this.app.accountName}}</div>
+                                                        <div class="swithch-u-mail">{{this.app.userFullName}}</div>
+                                                    </div>
+                                                    <!-- <div class="switch_user_details">
                                                         <div class="swithch-u-name">SearchAssist</div>
                                                         <div class="swithch-u-mail">santosh.madyam@kore.com</div>
                                                     </div>
@@ -372,7 +380,7 @@
                                                     <div class="switch_user_details">
                                                         <div class="swithch-u-name">Lorem Ipsum</div>
                                                         <div class="swithch-u-mail">prasanna@kore.com</div>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </perfect-scrollbar>
                                         </div>
