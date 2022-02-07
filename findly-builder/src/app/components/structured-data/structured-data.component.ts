@@ -8,7 +8,7 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationComponent } from 'src/app/components/annotool/components/confirmation/confirmation.component';
-import { debounceTime, map, retryWhen } from 'rxjs/operators';
+import { debounceTime, every, map, retryWhen } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
@@ -936,7 +936,8 @@ export class StructuredDataComponent implements OnInit {
      }
      //changes done on 31/01
      else{
-      this.showSelectedCount=this.structuredDataItemsList.length;
+       //updated show selected count from this.showSelectedCount=this.structuredDataItemsList.length; to below on 05/02
+      this.showSelectedCount=this.structuredDataItemsList.length+this.showSelectedCount;
       this.checkUncheckData(true);
      }
    }
@@ -1110,6 +1111,8 @@ export class StructuredDataComponent implements OnInit {
         data.isChecked = false;
         this.showSelectAllQues = false;
       });
+      // added below line on 05/02
+      this.clearDependencies();
       this.selectedStructuredData = [];
       this.selecteditems=[];
       this.allSelected = false;
@@ -1227,6 +1230,8 @@ export class StructuredDataComponent implements OnInit {
         if (res) {
           this.selectedStructuredData = [];
           this.allSelected = false;
+          //added on 05/02 below line to clear array's on deleting by delete bin image selection
+          this.clearDependencies();
           if (this.searchText.length) {
             this.searchItems();
           }
@@ -1258,6 +1263,10 @@ export class StructuredDataComponent implements OnInit {
   }
 
   deleteBulkStructuredData() {
+    //added below if condition on 05/02 incase if skip is undefined.
+    if(this.skip==undefined){
+      this.skip=0;
+    }
     let quaryparms: any = {};
     let payload: any = {};
     quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -1265,7 +1274,9 @@ export class StructuredDataComponent implements OnInit {
       if(this.allSelected){
         payload.allStructuredData = true;
       }
-      else if(this.unselecteditems.length){
+      //updated the below else if condition to handle the delete happy flow on 05/02
+      else if(this.unselecteditems.length && this.actionforcheckbox=='all' && ((this.selecteditems.length + 
+        this.unselecteditems.length) == (this.structuredDataItemsList.length + this.skip))){
         payload.excludeDocIds=[];
         this.unselecteditems.forEach((data: any) => {
           payload.excludeDocIds.push(data._id);
