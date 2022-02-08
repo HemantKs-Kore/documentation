@@ -330,15 +330,20 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     this.service.invoke('get.traits', quaryparms).subscribe(res =>
     {
       const allTraitskeys: any = [];
-      if (res && res.length)
-      {
-        res.forEach(element =>
-        {
-          allTraitskeys.push(element.groupName);
-        });
-        this.traitsSuggesitions = allTraitskeys;
+      if (res)
+      {      
+          for(let j=0;j<res.traitGroups.length;j++){
+           allTraitskeys.push(res.traitGroups[j].groupName);
+          }
+          this.traitsSuggesitions = allTraitskeys;
+        
+        // res.forEach(element =>
+        // {
+        //   allTraitskeys.push(element.groupName);
+        // });
+        // this.traitsSuggesitions = allTraitskeys;
       }
-    }, (err) =>
+    },(err) =>
     {
     });
   };
