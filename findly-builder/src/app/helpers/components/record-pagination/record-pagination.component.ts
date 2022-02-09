@@ -80,6 +80,9 @@ export class RecordPaginationComponent implements OnInit {
     this.pageChanged.emit(eventObj);
   }
   inputPageChange(event) {
+    if(Number(event.target.value) < 1 || Number(event.target.value) > this.endPage){
+      event.target.value = 1
+    }
     if (Number(event.target.value) <= this.endPage) {
       this.inputPage = Number(event.target.value);
     } else {
