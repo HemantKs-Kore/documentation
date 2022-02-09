@@ -179,6 +179,25 @@ export class AppHeaderComponent implements OnInit {
           : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
       )
     this.formatter = (x: { displayName: string }) => (x.displayName || '');
+  //   if(this.selectAccountDetails==null){
+  //     for(let i=0;i<this.associatedAccounts.length;i++)
+  //   {      
+  //     if(this.associatedAccounts[i].status=="active")
+  //     {
+  //       this.selectAccountDetails=this.associatedAccounts[i];
+  //     }
+
+  //   }
+  // }
+  //   this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
+  //   for(let i=0;i<this.associatedAccounts.length;i++)
+  //   {      
+  //     if(this.associatedAccounts[i].status=="active")
+  //     {
+  //       this.loginusername=this.associatedAccounts[i].userFullName;
+  //     }
+  //   } 
+  //   this.extractProfiledisplayname(); 
     if (localStorage.krPreviousState) {
       this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
     }
