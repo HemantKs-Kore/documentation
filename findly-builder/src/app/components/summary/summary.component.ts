@@ -125,6 +125,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       this.initialCall('changed');
       this.onboard?.initialCall();
       this.appSelectionService.getTourConfig();
+      this.getAllOverview();
     })
   }
   ngAfterViewInit() {

@@ -219,7 +219,7 @@
                 </div>
                 <ng-container *ngIf="(facets && facets.length)">
                     <div cdkDropList (cdkDropListDropped)="drop($event,facets)">
-                        <div class="body_sec row m-0" cdkDrag
+                        <div id="facetsTable"  class="body_sec row m-0" cdkDrag
                             *ngFor="let facet of facets | filter : [searchfacet, 'name']"
                             [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[facet._id])}">
                             <div class="field_data" *cdkDragPreview>
@@ -259,7 +259,7 @@
                             <div class="col-1 p-0 content actions">
                                 <img id='btn_edit_facet_tab' class="action_icon" [container]="'body'" ngbTooltip='Edit'
                                     (click)="createNewFacet(facet)" src="assets/images/edit-pencil.svg">
-                                <img id='btn_delete_facet_tab' class="action_icon" ngbTooltip='Delete'
+                                <img *ngIf="facet.name!=='Default Tab Facet'" id='btn_delete_facet_tab' class="action_icon" ngbTooltip='Delete'
                                     [container]="'body'" (click)="deleteFacets(facet)"
                                     src="assets/icons/delete-table.svg">
                             </div>
@@ -733,7 +733,7 @@
                                 </div>
                             </div>
                             <div class="delete col-1">
-                                <img src="assets/icons/delete-table.svg" (click)="addCustomValue('remove',i)"
+                                <img *ngIf="deleteHide"src="assets/icons/delete-table.svg" (click)="addCustomValue('remove',i)"
                                     ngbTooltip="Delete" placement="top-center">
                             </div>
                         </div>
