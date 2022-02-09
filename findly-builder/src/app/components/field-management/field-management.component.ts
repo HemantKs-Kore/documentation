@@ -384,11 +384,6 @@ export class FieldManagementComponent implements OnInit {
   }
 
   getFileds(searchValue?,searchSource?,source?,headerOption?,sortHeaderOption?,sortValue?,navigate?,request?) {
-    // this.fieldDataTypeArr = [];
-    // this.isMultiValuedArr = [];
-    // this.isRequiredArr = [];
-    // this.isStoredArr = [];
-    // this.isIndexedArr = [];
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
@@ -402,7 +397,19 @@ export class FieldManagementComponent implements OnInit {
             "fieldName": this.value,
         } 
       }
+      quaryparms.offset = 0;
+      quaryparms.limit = 10
     }
+    else if(!sortValue && headerOption){  // To send offset=0 and limit =10 on filtering
+      payload = request,
+      quaryparms.offset = 0,
+      quaryparms.limit = 10 
+    }
+    // else if(headerOption){
+    //   payload = request,
+    //   quaryparms.offset = 0,
+    //   quaryparms.limit = 10
+    // }
     else{
       payload = request
     }
@@ -701,7 +708,9 @@ export class FieldManagementComponent implements OnInit {
         "sort":{
           'fieldName':1
         }    
-    }   
+    } ,
+    quaryparms.offset = 0,
+    quaryparms.limit = 10  
     }
     else if(sortValue){
       const sort :any ={}
