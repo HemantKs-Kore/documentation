@@ -30,6 +30,13 @@ export class AppHeaderComponent implements OnInit {
   mainMenu = '';
   showMainMenu: boolean = true;
   pagetitle: any;
+  field_name: any;
+  profile_display: any;
+  alphabetSeries1:any=['A','B','C','D','E'];
+  alphabetSeries2:any=['F','G','H','I','J'];
+  alphabetSeries3:any=['K','L','M','N','O'];
+  alphabetSeries4:any=['P','Q','R','S','T'];
+  alphabetSeries5:any=['U','V','W','X','Y','Z'];
   training: boolean = false;
   fromCallFlow = '';
   showSwichAccountOption = false;
@@ -61,7 +68,7 @@ export class AppHeaderComponent implements OnInit {
   indexPipelineId;
   domain = '';
   selectAccountDetails: any = {};
-  associatedAccounts: any = {};
+  associatedAccounts: any;
   private storageType = 'localStorage';
   indexSubscription: Subscription;
   subscription: Subscription;
@@ -194,18 +201,94 @@ export class AppHeaderComponent implements OnInit {
     this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
     this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
     this.domain = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
+    if(this.selectAccountDetails==null){
+        for(let i=0;i<this.associatedAccounts.length;i++)
+      {      
+        if(this.associatedAccounts[i].status=="active")
+        {
+          this.selectAccountDetails=this.associatedAccounts[i];
+        }
+
+      }
+    }
+      
     for(let i=0;i<this.associatedAccounts.length;i++)
     {      
       if(this.associatedAccounts[i].status=="active")
       {
         this.loginusername=this.associatedAccounts[i].userFullName;
       }
-    }    
+    } 
+    this.extractProfiledisplayname();   
   }
+  extractProfiledisplayname(){
+    console.log(this.loginusername);
+    let name = this.loginusername
+    //match the spaces
+    var matches = name.split(/(?<=^\S+)\s/)
+    var firstName = matches[0];
+    var lastName = matches[1];
+    var firstLetter=firstName.charAt(0);
+    var secondLetter=lastName.charAt(0);
+    this.profile_display=firstLetter.concat(secondLetter);
+    this.profile_display=this.profile_display.toUpperCase();
+        
+    this.setprofilebackground(this.profile_display);
+  }
+  clearcontent(){
+      
+    if($('#searchBoxId') && $('#searchBoxId').length){
+    $('#searchBoxId')[0].value = "";
+    this.field_name='';
+   }
+  }
+
+  setprofilebackground(displayname?){
+    // to find in series1
+    for(let i=0;i<this.alphabetSeries1.length;i++){
+      if(displayname.charAt(0)===this.alphabetSeries1[i]){
+        document.getElementById('profiledisplay').style.backgroundColor = '#AA336A' ;
+        document.getElementById('profiledisplay1').style.backgroundColor = '#AA336A' ;
+      }      
+    }
+    // to find in series2
+    for(let i=0;i<this.alphabetSeries2.length;i++){
+      if(displayname.charAt(0)===this.alphabetSeries2[i]){
+        document.getElementById('profiledisplay').style.backgroundColor = '#006400' ;
+        document.getElementById('profiledisplay1').style.backgroundColor = '#006400' ;
+      }      
+    }
+    // to find in series3
+    for(let i=0;i<this.alphabetSeries3.length;i++){
+      if(displayname.charAt(0)===this.alphabetSeries3[i]){
+        document.getElementById('profiledisplay').style.backgroundColor = '#C71585' ;
+        document.getElementById('profiledisplay1').style.backgroundColor = '#C71585' ;
+      }      
+    }
+    // to find in series4
+    for(let i=0;i<this.alphabetSeries4.length;i++){
+      if(displayname.charAt(0)===this.alphabetSeries4[i]){
+        document.getElementById('profiledisplay').style.backgroundColor = '#6A5ACD' ;
+        document.getElementById('profiledisplay1').style.backgroundColor = '#6A5ACD' ;
+      }      
+    }
+    // to find in series5
+    for(let i=0;i<this.alphabetSeries5.length;i++){
+      if(displayname.charAt(0)===this.alphabetSeries5[i]){
+        document.getElementById('profiledisplay').style.backgroundColor = '#B22222' ;
+        document.getElementById('profiledisplay1').style.backgroundColor = '#B22222' ;
+      }      
+    }
+    
+
+  }
+  
+  
   switchAccountInternal(account) {
     window[this.storageType].setItem('selectedAccount', JSON.stringify(account))
     this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
     this.router.navigate([''], { skipLocationChange: true })
+    window.location.reload();
   }
   loadHeader() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();

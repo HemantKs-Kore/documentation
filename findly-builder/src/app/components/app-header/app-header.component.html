@@ -318,46 +318,46 @@
                     </mat-menu>
                 </li> -->
                 <li class="nav-item user_icon mr-0">
-                    <div class="kr-sg-dropdowns top-dropdown-user" ngbDropdown #myDrop="ngbDropdown" [placement]="'bottom-right'">
+                    <div class="kr-sg-dropdowns top-dropdown-user" (click)="clearcontent()"  ngbDropdown #myDrop="ngbDropdown" [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
-                                <img src="assets/images/avatar.svg">
-                                <div class="alphabet d-none">BD</div>
+                                <!-- <img src="assets/images/avatar.svg"> -->
+                                <!-- <div class="alphabet d-none">BD</div> -->
+                                <div class="alphabet" id="profiledisplay1">{{profile_display}}</div>
                             </button>
                             <ul class="dropdown-menu content-menu" ngbDropdownMenu>
                                 <div class="user-detals">
                                     <div class="img-block">
-                                        <img src="assets/icons/dummy-user.svg">
-                                        <div class="d-none alphabet-name">DG</div>
+                                        <!-- <img src="assets/icons/dummy-user.svg"> -->
+                                        <div class="alphabet-name" id="profiledisplay">{{profile_display}}</div>
                                     </div>
                                     <div class="user-content">
                                         <!-- <div class="u-name">Dheepak</div> -->
-                                        <div class="u-name">{{this.loginusername}}</div>
-                                        <div class="u-email">dheepak.ganesh@kore.com</div>
+                                        <div class="u-name">{{loginusername}}</div>
+                                        <!-- <div class="u-email">dheepak.ganesh@kore.com</div> -->
                                     </div>
                                 </div>
                                 <div class="switch-account-blocks">
                                     <div class="main-heading">Account</div>
                                     <div class="switch-user-details">
                                         <div class="swithch-u-name">{{selectAccountDetails.accountName}}</div>
-                                        <div class="swithch-u-mail">{{this.selectAccountDetails.userFullName}}</div>
+                                        <div class="swithch-u-mail">{{selectAccountDetails.userFullName}}</div>
                                         <!-- <div class="swithch-u-name">KoreSearch</div>
                                         <div class="swithch-u-mail">viswatej@kore.com</div> -->
                                     </div>
                                     <div class="swithc-account-details">
                                         <div id="swithaccounts" class="collapse switch-accr-sec">
                                             <div class="kr-sg-input-text">                               
-                                                <input type="text" placeholder="Search" class="input-search">
+                                                <input type="text" id=searchBoxId [(ngModel)]="field_name" placeholder="Search" class="input-search">
                                                 <img src="assets/icons/search_gray.svg" class="search-icon">
                                             </div>                
                                             <perfect-scrollbar>
-                                                <div class="data-switches-list" *ngFor='let app of this.associatedAccounts'>
-                                                    
-                                                    <div class="switch_user_details" (click)="switchAccountInternal(app)" [ngClass]="{'selected-swith-account' : this.app.userFullName === this.selectAccountDetails.userFullName}">
-                                                        <div class="swithch-u-name">{{this.app.accountName}}</div>
-                                                        <div class="swithch-u-mail">{{this.app.userFullName}}</div>
-                                                    </div>
-                                                    <!-- <div class="switch_user_details">
+                                                <div class="data-switches-list">
+                                                    <li class="switch_user_details" *ngFor="let app of associatedAccounts | filter : [field_name,'userFullName']" (click)="switchAccountInternal(app)" [ngClass]="{'selected-swith-account' : app.userFullName === selectAccountDetails.userFullName}">
+                                                        <div class="swithch-u-name">{{app.accountName}}</div>
+                                                        <div class="swithch-u-mail">{{app.userFullName}}</div>
+                                                    </li>
+                                                    <!-- <div class="switch_user_details" | filter : [field_name,'app.userFullName']>
                                                         <div class="swithch-u-name">SearchAssist</div>
                                                         <div class="swithch-u-mail">santosh.madyam@kore.com</div>
                                                     </div>
