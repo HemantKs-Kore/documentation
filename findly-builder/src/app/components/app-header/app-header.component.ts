@@ -198,7 +198,10 @@ export class AppHeaderComponent implements OnInit {
   //     }
   //   } 
   //   this.extractProfiledisplayname(); 
-    if (localStorage.krPreviousState) {
+    if(localStorage.krPreviousState=='{}' || localStorage.krPreviousState==undefined){
+      this.analyticsClick('/apps');
+    }
+    else if (localStorage.krPreviousState!='{}') {
       this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
     }
     this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
