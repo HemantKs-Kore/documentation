@@ -1239,9 +1239,21 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         }
         return true;
       }
+      else if((Object.keys(this.newMappingObj).length == 1)){
+        if(this.newMappingObj.hasOwnProperty('custom_script'))
+        {
+          if(save===true){
+            this.saveConfig();
+          }  
+          else{            
+          this.simulate();
+          }
+        }
+        return true;
+      }
      if(this.selectedStage.type === 'field_mapping')
      {
-        if (this.newMappingObj.field_mapping.defaultValue.operation === "set") {
+        if (this.newMappingObj && this.newMappingObj.field_mapping && this.newMappingObj.field_mapping.defaultValue.operation === "set") {
           for (let i = 0; i < this.selectedStage.condition.mappings.length; i++) {
             if (((this.selectedStage.condition.mappings[i].operator === '') || (this.basic_fieldName === '')) &&
               (((this.newMappingObj.field_mapping.defaultValue.target_field) && (this.newMappingObj.field_mapping.defaultValue.value)))) {
@@ -1836,6 +1848,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       this.loadingFields = false;
       this.errorToaster(errRes, 'Failed to get index  stages');
     });
+    
   }
   deleteIndField(record, dialogRef)
   {
