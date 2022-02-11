@@ -386,7 +386,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       this.suggestedInput.nativeElement.focus();
     }, 100)
   }
-  setResetNewMappingsObj(ignoreSimulate?, saveConfig?)
+  addAfterRemoval(){
+    this.setResetNewMappingsObj('add_after_removal',true,true);    
+  }
+  setResetNewMappingsObj(comingfrom?,ignoreSimulate?, saveConfig?)
   {
     if (!ignoreSimulate)
     {
@@ -456,6 +459,17 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         }
       }
       this.newMappingObj.custom_script.defaultValue.script = this.selectedStage.config.mappings.length > 1 ? this.selectedStage.config.mappings[1].script : this.selectedStage.config.mappings[0].script || '';
+    }
+    if(comingfrom=='remove_mapping'){
+      if(this.selectedStage.config.mappings.length){
+         this.newMappingObj={};         
+      }
+      else{
+        //add warning msg
+      }
+    }
+    else if(comingfrom=='add_after_removal'){
+      this.addFiledmappings(this.newMappingObj.field_mapping.defaultValue,true);
     }
   }
   checkNewAddition()
@@ -985,7 +999,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
           this.checkForNewFields();
         }
         this.clearDirtyObj();
-        this.setResetNewMappingsObj(null, true);
+        this.setResetNewMappingsObj('remove_mapping',null, true);
         /** Workbench plain text temp */
         // if (this.newMappingObj && this.newMappingObj.custom_script &&
         //   this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
@@ -1216,7 +1230,15 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
   }
   validation(save){
     if ((this.selectedStage.condition.mappings)) {
-
+      if((Object.keys(this.newMappingObj).length == 0)){
+        if(save===true){
+          this.saveConfig();
+        }  
+        else{            
+        this.simulate();
+        }
+        return true;
+      }
      if(this.selectedStage.type === 'field_mapping')
      {
         if (this.newMappingObj.field_mapping.defaultValue.operation === "set") {
@@ -1252,12 +1274,17 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
               this.notificationService.notify('Enter the required fields to proceed', 'error');
             }
             else {
+              if(save===true){
+                this.saveConfig();
+              }  
+              else{            
               this.simulate();
+              }
             }
           }
         }
 
-        else if (this.newMappingObj.field_mapping.defaultValue.operation === "rename" ||  this.newMappingObj.field_mapping.defaultValue.operation === "copy") {
+        else if ((this.newMappingObj.field_mapping.defaultValue.operation === "rename" ||  this.newMappingObj.field_mapping.defaultValue.operation === "copy")) {
           for (let i = 0; i < this.selectedStage.condition.mappings.length; i++) {
             if (((this.selectedStage.condition.mappings[i].operator === '') || (this.basic_fieldName === '')) &&
               (((this.newMappingObj.field_mapping.defaultValue.source_field) && (this.newMappingObj.field_mapping.defaultValue.target_field)))) {
@@ -1291,12 +1318,17 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             }
 
             else {
+              if(save===true){
+                this.saveConfig();
+              }  
+              else{            
               this.simulate();
+              }
             }
           }
         }
 
-        else if (this.newMappingObj.field_mapping.defaultValue.operation === "remove") {
+        else if ( this.newMappingObj.field_mapping.defaultValue.operation === "remove") {
           for (let i = 0; i < this.selectedStage.condition.mappings.length; i++) {
             if (((this.selectedStage.condition.mappings[i].operator === '') || (this.basic_fieldName === '')) &&
               (((this.newMappingObj.field_mapping.defaultValue.target_field)))) {
@@ -1318,10 +1350,15 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             }
 
             else {
+              if(save===true){
+                this.saveConfig();
+              }  
+              else{            
               this.simulate();
+              }
             }
           }
-        }        
+        }
       }
 
       else if(this.selectedStage.type === 'entity_extraction')
@@ -1393,7 +1430,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             this.notificationService.notify('Enter the required fields to proceed', 'error');
           }
           else {
+            if(save===true){
+              this.saveConfig();
+            }  
+            else{            
             this.simulate();
+            }
           }
         }         
       }
@@ -1459,7 +1501,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             this.notificationService.notify('Enter the required fields to proceed', 'error');
           }
           else {
+            if(save===true){
+              this.saveConfig();
+            }  
+            else{            
             this.simulate();
+            }
           }
         }         
       }
@@ -1496,7 +1543,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
               this.notificationService.notify('Enter the required fields to proceed', 'error');
           }
           else {
+            if(save===true){
+              this.saveConfig();
+            }  
+            else{            
             this.simulate();
+            }
           }
         }      
 
@@ -1536,7 +1588,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
               this.notificationService.notify('Enter the required fields to proceed', 'error');
           }
           else {
+            if(save===true){
+              this.saveConfig();
+            }  
+            else{            
             this.simulate();
+            }
           }
         }      
 
@@ -2181,7 +2238,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       return
     }
     this.selectedStage.config.mappings.push(map);
-    this.setResetNewMappingsObj(true, true);
+    this.setResetNewMappingsObj('remove_mapping',true, true);
   }
   closeNewStage()
   {
