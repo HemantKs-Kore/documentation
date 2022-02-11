@@ -30,7 +30,7 @@
             </span>
           </span>
         </div>
-        <div class="add" (click)="showNewStageType=true;selectedStage={};" placement="bottom-right"
+        <div class="add" (click)="showNewStageType=true;selectedStage={};setResetNewMappingsObj()" placement="bottom-right"
           [disableTooltip]="pipeline && pipeline.length" #tleft="ngbTooltip" triggers="manual"
           (mouseenter)="tleft.open()"
           ngbTooltip="{{'workbench.click_here_to_get_started_by_adding_a_stage' | translate}}" [container]="'body'"
@@ -268,7 +268,7 @@
                         <ng-container>
                           <li ngbDropdownItem
                             *ngFor="let suggesition of fields | filter : [search_basic_fieldName, 'fieldName']"
-                            (click)="basic.fieldId=suggesition._id;basic.fieldName=suggesition.fieldName;addCondition('update',i,'field',suggesition._id);"
+                            (click)="basic.fieldId=suggesition._id;basic.fieldName=suggesition.fieldName;basic_fieldName=basic.fieldId;addCondition('update',i,'field',suggesition._id);"
                             [ngClass]="{'highlight':basic.fieldName == suggesition.fieldName}">
                             {{ suggesition.fieldName }}
                           </li>
@@ -496,6 +496,15 @@
                   <div class="delete_icon" (click)="removeConfig(i, selectedStage.config.mappings)">
                     <img src="assets/icons/delete-table.svg" />
                   </div>
+                  <!-- <div class="colse_form">
+                    <img (click)="setResetNewMappingsObj('remove_mapping');newMappingObj={}" src="assets/images/close-cross.svg" />
+                  </div> -->
+                  <div class="add_icon" *ngIf="((selectedStage.config.mappings.length) - 1 == i) && 
+                  (!(newMappingObj.hasOwnProperty('field_mapping')))" (click)="
+                    addAfterRemoval()
+                    ">
+                    <img src="assets/images/add-input-field.svg" />
+                  </div>
                 </div>
               </div>
             </ng-container>
@@ -665,7 +674,7 @@
                   width="12" />
               </div>
               <div class="colse_form">
-                <img (click)="setResetNewMappingsObj()" src="assets/images/close-cross.svg" />
+                <img (click)="setResetNewMappingsObj('remove_mapping')" src="assets/images/close-cross.svg" />
               </div>
               <div class="add_icon" (click)="
                   addFiledmappings(newMappingObj.field_mapping.defaultValue,true)
@@ -869,6 +878,12 @@
                   </div> -->
                   <div class="delete_icon" (click)="removeConfig(i, selectedStage.config.mappings)">
                     <img src="assets/icons/delete-table.svg" />
+                  </div>
+                  <div class="add_icon" *ngIf="((selectedStage.config.mappings.length) - 1 == i) && 
+                  (!(newMappingObj.hasOwnProperty('field_mapping')))" (click)="
+                    addAfterRemoval()
+                    ">
+                    <img src="assets/images/add-input-field.svg" />
                   </div>
                 </div>
               </div>
@@ -1078,9 +1093,9 @@
                 </div>
               </div>
               <div class="colse_form">
-                <img (click)="setResetNewMappingsObj()" src="assets/images/close-cross.svg" />
+                <img (click)="setResetNewMappingsObj('remove_mapping')" src="assets/images/close-cross.svg" />
               </div>
-              <div class="add_icon" (click)="
+              <div class="add_icon"  (click)="
                   addFiledmappings(newMappingObj[selectedStage.type].defaultValue,true)
                 ">
                 <img src="assets/images/add-input-field.svg" />
