@@ -16,6 +16,7 @@ declare const $: any;
   styleUrls: ['./user-engagement.component.scss']
 })
 export class UserEngagementComponent implements OnInit {
+  math = Math;
   selectedApp;
   serachIndexId;
   pageLimit = 5;

@@ -141,7 +141,7 @@ export class AppsListingComponent implements OnInit {
       if (res && res.length) {
         if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
           let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
-          if(prDetails.formAccount){
+          if(prDetails){
             this.redirectHome()
           }
         }
@@ -177,8 +177,8 @@ export class AppsListingComponent implements OnInit {
   }
   clearAccount(){
     let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
-        if(prDetails.formAccount){
-          prDetails.formAccount = false;
+        if(prDetails){
+          // prDetails.formAccount = false;
         }
         localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
   }
