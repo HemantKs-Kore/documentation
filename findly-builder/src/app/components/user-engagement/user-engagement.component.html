@@ -50,8 +50,8 @@
                                     <span class="count">{{totalUser}}
                                         <img style=" background: #DD3646;" *ngIf ="totalUserProgress < 0" src="assets/icons/arrow-decrease.svg">
                                         <img *ngIf ="totalUserProgress > 0"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAYAAADwMZRfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABeSURBVHgB7c7BCcAgDAXQZIOOYDfoxh2hI3QER3AFN4j/4CGICElOgh8+YgKPEJ2M4dVSRH48SY0utDLzTZ4AfNCMFvJEAcmFaKD/bcgImJEZ0OdvCAhfYEW+ELB/Ghq8YlSvj06DAAAAAElFTkSuQmCC"></span>
-                                    <span class="percentage" *ngIf="totalUserProgress > 0">+ {{totalUserProgress}}%</span>
-                                    <span class="percentage" style=" color: #DD3646;" *ngIf="totalUserProgress < 0">{{totalUserProgress}}%</span>
+                                    <span class="percentage" *ngIf="totalUserProgress > 0">+{{math.abs(totalUserProgress)}}%</span>
+                                    <span class="percentage" style=" color: #DD3646;" *ngIf="totalUserProgress < 0">{{math.abs(totalUserProgress)}}%</span>
                                 </div>
                             </div>
                             <div class="content">
@@ -62,7 +62,7 @@
                                         <img style=" background: #DD3646;" *ngIf ="newUserProgress < 0" src="assets/icons/arrow-decrease.svg">
                                         <img *ngIf ="newUserProgress > 0"src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAYAAADwMZRfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABeSURBVHgB7c7BCcAgDAXQZIOOYDfoxh2hI3QER3AFN4j/4CGICElOgh8+YgKPEJ2M4dVSRH48SY0utDLzTZ4AfNCMFvJEAcmFaKD/bcgImJEZ0OdvCAhfYEW+ELB/Ghq8YlSvj06DAAAAAElFTkSuQmCC"></span>
                                     <span class="percentage" *ngIf="newUserProgress > 0">+{{newUserProgress}}%</span>
-                                    <span class="percentage" style=" color: #DD3646;" *ngIf="newUserProgress < 0">{{newUserProgress}}%</span>
+                                    <span class="percentage" style=" color: #DD3646;" *ngIf="newUserProgress < 0">{{math.abs(newUserProgress)}}%</span>
                                 </div>
                             </div>
                             <div class="content">
@@ -75,7 +75,7 @@
                                         <img style=" background: #DD3646;" *ngIf ="repeatUserProgress < 0" src="assets/icons/arrow-decrease.svg">
                                         <img *ngIf ="repeatUserProgress > 0" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAYAAADwMZRfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABeSURBVHgB7c7BCcAgDAXQZIOOYDfoxh2hI3QER3AFN4j/4CGICElOgh8+YgKPEJ2M4dVSRH48SY0utDLzTZ4AfNCMFvJEAcmFaKD/bcgImJEZ0OdvCAhfYEW+ELB/Ghq8YlSvj06DAAAAAElFTkSuQmCC"></span>
                                     <span class="percentage" *ngIf="repeatUserProgress > 0"><span>+</span>{{repeatUserProgress}}%</span>
-                                    <span class="percentage" style=" color: #DD3646;" *ngIf="repeatUserProgress < 0">{{repeatUserProgress}}%</span>
+                                    <span class="percentage" style=" color: #DD3646;" *ngIf="repeatUserProgress < 0">{{math.abs(repeatUserProgress)}}%</span>
                                 </div>
                             </div>
                         </div>

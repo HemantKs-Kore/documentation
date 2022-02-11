@@ -219,7 +219,7 @@
                 </div>
                 <ng-container *ngIf="(facets && facets.length)">
                     <div cdkDropList (cdkDropListDropped)="drop($event,facets)">
-                        <div id="facetsTable"  class="body_sec row m-0" cdkDrag
+                        <div class="body_sec row m-0" cdkDrag
                             *ngFor="let facet of facets | filter : [searchfacet, 'name']"
                             [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[facet._id])}">
                             <div class="field_data" *cdkDragPreview>
@@ -733,7 +733,7 @@
                                 </div>
                             </div>
                             <div class="delete col-1">
-                                <img *ngIf="deleteHide"src="assets/icons/delete-table.svg" (click)="addCustomValue('remove',i)"
+                                <img src="assets/icons/delete-table.svg" (click)="addCustomValue('remove',i)"
                                     ngbTooltip="Delete" placement="top-center">
                             </div>
                         </div>

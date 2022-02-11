@@ -1020,7 +1020,7 @@
                             .entity_types
                         )
                       ">
-                      <ng-container *ngFor="let suggestion of entityNlp | filter : [entityName, 'value']"
+                      <ng-container *ngFor="let suggestion of entityNlp | filter : [entityName, 'title']"
                         (click)="entityName = suggesition.value">
                         <mat-option [value]="suggestion.title">
                           {{ suggestion.title }}
