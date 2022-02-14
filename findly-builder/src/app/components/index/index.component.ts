@@ -1847,8 +1847,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     {
       this.loadingFields = false;
       this.errorToaster(errRes, 'Failed to get index  stages');
-    });
-    
+    }); 
   }
   deleteIndField(record, dialogRef)
   {
@@ -2080,7 +2079,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         }
         this.newMappingObj.custom_script.defaultValue.script = '';
       }
-      this.selectedStage = stage;
+      this.selectedStage = stage;         
+    this.setResetNewMappingsObj('remove_mapping');
     }
   }
   checkDuplicateTags(suggestion: string, alltTags): boolean
