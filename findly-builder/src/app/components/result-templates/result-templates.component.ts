@@ -469,6 +469,11 @@ export class ResultTemplatesComponent implements OnInit {
         }
       })
   }
+  //scroll to preview
+  scrollPreview(){
+    var element = document.getElementById("imgScroll");
+    element.scrollIntoView();
+  }
   //update settings
   updateSettings(dialogRef?, type?) {
     const quaryparms: any = {
@@ -481,6 +486,7 @@ export class ResultTemplatesComponent implements OnInit {
       this.resultListObj.groupSetting.conditions = [];
     }
     this.service.invoke('update.settings', quaryparms, this.resultListObj).subscribe((res: any) => {
+      this.scrollPreview();
       if (res) {
         this.notificationService.notify(`Result setting ${type === 'delete' ? 'deleted' : 'saved'} successfully`, 'success');
         if (dialogRef) {
