@@ -472,7 +472,9 @@ export class ResultTemplatesComponent implements OnInit {
   //scroll to preview
   scrollPreview(){
     var element = document.getElementById("imgScroll");
+    if(element){
     element.scrollIntoView();
+    }
   }
   //update settings
   updateSettings(dialogRef?, type?) {
