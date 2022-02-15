@@ -171,7 +171,7 @@ export class AppHeaderComponent implements OnInit {
           : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
       )
     this.formatter = (x: { displayName: string }) => (x.displayName || '');
-    if (localStorage.krPreviousState) {
+    if (localStorage.krPreviousState && JSON.parse(localStorage.krPreviousState)) {
       this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
     }
     this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
