@@ -1,7 +1,7 @@
 <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
 <div class="search-experience-wrapper">
     <div class="header-title">{{'searchexperience.component_title' | translate}}</div>
-    <div class="tabs-sec" (click)="closeAllColourPallets()">
+    <div class="tabs-sec" (click)="checkColorPallets()">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item" (click)="selectTab('experience')">
                 <a class="nav-link" [ngClass]="{'active':selectedTab==='experience'}" data-toggle="tab"><span
@@ -130,7 +130,7 @@
                                             [cpOutputFormat]="'hex'" [cpAlphaChannel]="'always'"
                                             (colorPickerChange)="selectedColor=$event" [cpCloseClickOutside]="false"
                                             [(cpToggle)]='toggle' readonly />
-                                        <div class="box-color-content" *ngIf="inputBox1">
+                                        <div class="box-color-content" *ngIf="inputBox1" (click)="checkColorPallets($event)">
                                             <div class="header-title-close">
                                                 <div class="title-name">{{'searchexperience.choose_color' | translate}}
                                                 </div>
@@ -142,7 +142,7 @@
                                                 <ng-container
                                                     *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
                                                     <div class="bg-color-selected" [ngStyle]="{'background':col}"
-                                                        (click)="selectedColor=col;color=col;"></div>
+                                                        (click)="selectedColor=col;color=col;checkColorPallets($event)"></div>
                                                 </ng-container>
                                             </div>
                                             <div class="save-switch" (click)="applyColor('inputbox1','save')">
@@ -163,7 +163,7 @@
                                             (colorPickerChange)="selectedColor=$event" [cpCloseClickOutside]="false"
                                             [(cpToggle)]='toggle1' readonly />
 
-                                        <div class="box-color-content" *ngIf="inputBox2">
+                                        <div class="box-color-content" *ngIf="inputBox2" (click)="checkColorPallets($event)">
                                             <div class="header-title-close">
                                                 <div class="title-name">{{'searchexperience.choose_color' | translate}}
                                                 </div>
@@ -175,7 +175,7 @@
                                                 <ng-container
                                                     *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
                                                     <div class="bg-color-selected" [ngStyle]="{'background':col}"
-                                                        (click)="selectedColor=col;color1=col;"></div>
+                                                        (click)="selectedColor=col;color1=col;checkColorPallets($event)"></div>
                                                 </ng-container>
                                             </div>
                                             <div class="save-switch" (click)="applyColor('inputbox2','save')">
@@ -208,7 +208,7 @@
                                             (colorPickerChange)="selectedColor=$event" [cpCloseClickOutside]="false"
                                             [(cpToggle)]='toggle2' readonly id="inpBox" />
 
-                                        <div class="box-color-content" *ngIf="placeholBox">
+                                        <div class="box-color-content" *ngIf="placeholBox" (click)="checkColorPallets($event)">
                                             <div class="header-title-close">
                                                 <div class="title-name">{{'searchexperience.choose_color' | translate}}
                                                 </div>
@@ -220,7 +220,7 @@
                                                 <ng-container
                                                     *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
                                                     <div class="bg-color-selected" [ngStyle]="{'background':col}"
-                                                        (click)="selectedColor=col;color2=col;"></div>
+                                                        (click)="selectedColor=col;color2=col;checkColorPallets($event)"></div>
                                                 </ng-container>
                                             </div>
                                             <div class="save-switch" (click)="applyColor('placeholder','save')">
@@ -291,7 +291,7 @@
                                                 [(cpToggle)]='toggle3' readonly
                                                 [ngClass]="{'input_disable':!(searchObject.searchWidgetConfig.searchButtonEnabled)}" />
 
-                                            <div class="box-color-content" *ngIf="buttonTextColor">
+                                            <div class="box-color-content" *ngIf="buttonTextColor" (click)="checkColorPallets($event)">
                                                 <div class="header-title-close">
                                                     <div class="title-name">{{'searchexperience.choose_color' |
                                                         translate}}</div>
@@ -304,7 +304,7 @@
                                                     <ng-container
                                                         *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
                                                         <div class="bg-color-selected" [ngStyle]="{'background':col}"
-                                                            (click)="selectedColor=col;color3=col;"></div>
+                                                            (click)="selectedColor=col;color3=col;checkColorPallets($event)"></div>
                                                     </ng-container>
                                                 </div>
                                                 <div class="save-switch" (click)="applyColor('buttonTextColor','save')">
@@ -325,7 +325,7 @@
                                                 [(cpToggle)]='toggle4' readonly
                                                 [ngClass]="{'input_disable':!(searchObject.searchWidgetConfig.searchButtonEnabled)}" />
 
-                                            <div class="box-color-content" *ngIf="buttonFill">
+                                            <div class="box-color-content" *ngIf="buttonFill" (click)="checkColorPallets($event)">
                                                 <div class="header-title-close">
                                                     <div class="title-name">{{'searchexperience.choose_color' |
                                                         translate}}</div>
@@ -337,7 +337,7 @@
                                                     <ng-container
                                                         *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
                                                         <div class="bg-color-selected" [ngStyle]="{'background':col}"
-                                                            (click)="selectedColor=col;color4=col;"></div>
+                                                            (click)="selectedColor=col;color4=col;checkColorPallets($event)"></div>
                                                     </ng-container>
                                                 </div>
                                                 <div class="save-switch" (click)="applyColor('buttonFill','save')">
@@ -359,7 +359,7 @@
                                                 [(cpToggle)]='toggle5' readonly
                                                 [ngClass]="{'input_disable':!(searchObject.searchWidgetConfig.searchButtonEnabled)}" />
 
-                                            <div class="box-color-content" *ngIf="buttonBorder">
+                                            <div class="box-color-content" *ngIf="buttonBorder" (click)="checkColorPallets($event)">
                                                 <div class="header-title-close">
                                                     <div class="title-name">{{'searchexperience.choose_color' |
                                                         translate}}</div>
@@ -372,7 +372,7 @@
                                                     <ng-container
                                                         *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
                                                         <div class="bg-color-selected" [ngStyle]="{'background':col}"
-                                                            (click)="selectedColor=col;color5=col;"></div>
+                                                            (click)="selectedColor=col;color5=col;checkColorPallets($event)"></div>
                                                     </ng-container>
                                                 </div>
                                                 <div class="save-switch" (click)="applyColor('buttonBorder','save')">
@@ -444,7 +444,7 @@
                                                         (colorPickerChange)="selectedColor=$event"
                                                         [cpCloseClickOutside]="false" [(cpToggle)]='toggle6' readonly />
 
-                                                    <div class="box-color-content" *ngIf="msgColor">
+                                                    <div class="box-color-content" *ngIf="msgColor" (click)="checkColorPallets($event)">
                                                         <div class="header-title-close">
                                                             <div class="title-name">{{'searchexperience.choose_color' |
                                                                 translate}}</div>
@@ -458,7 +458,7 @@
                                                                 *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
                                                                 <div class="bg-color-selected"
                                                                     [ngStyle]="{'background':col}"
-                                                                    (click)="selectedColor=col;color6=col;"></div>
+                                                                    (click)="selectedColor=col;color6=col;checkColorPallets($event)"></div>
                                                             </ng-container>
                                                         </div>
                                                         <div class="save-switch"
@@ -483,7 +483,7 @@
                                                         (colorPickerChange)="selectedColor=$event"
                                                         [cpCloseClickOutside]="false" [(cpToggle)]='toggle7' readonly />
 
-                                                    <div class="box-color-content" *ngIf="bgColor">
+                                                    <div class="box-color-content" *ngIf="bgColor" (click)="checkColorPallets($event)">
                                                         <div class="header-title-close">
                                                             <div class="title-name">{{'searchexperience.choose_color' |
                                                                 translate}}</div>
@@ -497,7 +497,7 @@
                                                                 *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
                                                                 <div class="bg-color-selected"
                                                                     [ngStyle]="{'background':col}"
-                                                                    (click)="selectedColor=col;color7=col;"></div>
+                                                                    (click)="selectedColor=col;color7=col;checkColorPallets($event)"></div>
                                                             </ng-container>
                                                         </div>
                                                         <div class="save-switch" (click)="applyColor('bgColor','save')">
