@@ -54,7 +54,7 @@
                                         *ngIf="totalUsersStats.percentageIncrease >= 0">
                                     <img src="assets/icons/arrow-decrease.svg"
                                         *ngIf="totalUsersStats.percentageIncrease < 0">
-                                    <span class="percentage">{{ totalUsersStats.percentageIncrease }}%</span>
+                                    <span class="percentage">{{ math.abs(totalUsersStats.percentageIncrease) }}%</span>
                                 </div>
                             </div>
                             <div class="right-sec">
@@ -83,7 +83,7 @@
                                         *ngIf="totalSearchesStats.searchRate >= 0">
                                     <img src="assets/icons/arrow-decrease.svg"
                                         *ngIf="totalSearchesStats.searchRate < 0">
-                                    <span class="percentage">{{ totalSearchesStats.searchRate}}%</span>
+                                    <span class="percentage">{{ math.abs(totalSearchesStats.searchRate)}}%</span>
                                 </div>
                             </div>
                             <div class="right-sec">
@@ -146,14 +146,14 @@
                                     <div class="count text-truncate" title="{{totalSearchesStats.clicks}}">
                                         {{totalSearchesStats.clicks }}</div>
                                     <div class="ctr">{{'metrics.dash_board_view.CTR'| translate}}:
-                                        <span class="ctr-count">{{totalSearchesStats.ctr}}%</span>
+                                        <span class="ctr-count">{{math.abs(totalSearchesStats.ctr)}}%</span>
                                     </div>
                                 </div>
                                 <div class="data-percentage " [ngClass]="{'failed' : totalSearchesStats.clickRate < 0}">
                                     <img src="assets/icons/arrow-increase.svg"
                                         *ngIf="totalSearchesStats.clickRate >= 0">
                                     <img src="assets/icons/arrow-decrease.svg" *ngIf="totalSearchesStats.clickRate < 0">
-                                    <span class="percentage">{{totalSearchesStats.clickRate}}%</span>
+                                    <span class="percentage">{{math.abs(totalSearchesStats.clickRate)}}%</span>
                                 </div>
                             </div>
                         </div>

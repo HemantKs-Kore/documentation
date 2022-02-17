@@ -45,13 +45,13 @@
                             <input type="text" placeholder="Search" class="input-search"
                                 [ngClass]="{'pl-33':!searchSources,'pl-2':searchSources}" autocomplete="off"
                                 [(ngModel)]="searchSources"
-                                (keyup)="sortAnalytics(null,null,null,null,searchSources,'search')"
+                                (keyup)="searchQuery()"
                                 (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                                 (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
                             <img class="close-icon" src="assets/icons/close_icon.svg"
-                                [ngClass]="{'pr-22':searchSources}" (click)="searchSources='';">
+                                [ngClass]="{'pr-22':searchSources}" (click)="clearSearch();">
                         </div>
                     </div>
                 </div>
@@ -67,13 +67,13 @@
                 </div>   -->
                 <div class="tab-sec-data">
                     <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link" [ngClass]="{'active': querieswithresults }" data-toggle="tab"
+                        <li class="nav-item"> 
+                            <a class="nav-link" [ngClass]="{'active': querieswithresults }" data-toggle="tab" (click)="querieswithresults = true"
                                 href="#querieswithresults">{{'metrics.search_insights.Queries_with_results'|
                                 translate}}</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" [ngClass]="{'active': !querieswithresults }" data-toggle="tab"
+                        <li class="nav-item"> 
+                            <a class="nav-link" [ngClass]="{'active': !querieswithresults }" data-toggle="tab" (click)="querieswithresults = false"
                                 href="#querieswithoutresults">{{'metrics.search_insights.Queries_without_results'|
                                 translate}}</a>
                         </li>

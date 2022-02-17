@@ -259,7 +259,7 @@
                             <div class="col-1 p-0 content actions">
                                 <img id='btn_edit_facet_tab' class="action_icon" [container]="'body'" ngbTooltip='Edit'
                                     (click)="createNewFacet(facet)" src="assets/images/edit-pencil.svg">
-                                <img id='btn_delete_facet_tab' class="action_icon" ngbTooltip='Delete'
+                                <img *ngIf="facet.name!=='Default Tab Facet'" id='btn_delete_facet_tab' class="action_icon" ngbTooltip='Delete'
                                     [container]="'body'" (click)="deleteFacets(facet)"
                                     src="assets/icons/delete-table.svg">
                             </div>
@@ -520,7 +520,7 @@
                                         <div class="inner-sort-inputs">
                                             <div class="label-text">Sort by</div>
                                             <div class="d-flex">
-                                                <div class="kr-sg-dropdowns">
+                                                <!-- <div class="kr-sg-dropdowns">
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input"
                                                             data-toggle="dropdown"
@@ -536,7 +536,7 @@
                                                             </perfect-scrollbar>
                                                         </ul>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="kr-sg-dropdowns">
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input"

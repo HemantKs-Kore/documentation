@@ -164,7 +164,25 @@ export class SearchInsightsComponent implements OnInit {
     this.getQueries("QueriesWithResults",selectedindexpipeline);
     }
   }
-  getQueries(type,selectedindexpipeline?,sortHeaderOption?,sortValue?,navigate?,request?,searchSource?) {
+  searchQuery(){
+    if(this.querieswithresults){
+      this.getQueries('QueriesWithResults',null,null,null,null,null,this.searchSources)
+    }
+    else if(!this.querieswithresults){
+      this.getQueries('QueriesWithNoResults',null,null,null,null,null,this.searchSources)
+    }
+  }
+  clearSearch(){
+    this.searchSources = '';
+    if (this.querieswithresults) {
+      this.getQueries('QueriesWithResults');
+    }
+    else {
+      this.getQueries('QueriesWithNoResults')
+    }
+
+  }
+  getQueries(type,selectedindexpipeline?, sortHeaderOption?, sortValue?, navigate?, request?, searchSource?) {
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
     var week = new Date(Date.now() - (6 * 864e5));

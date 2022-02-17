@@ -18,6 +18,7 @@ declare const $: any;
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  math = Math;
   selectedApp;
   serachIndexId;
   pageLimit = 5;

@@ -475,8 +475,8 @@ export class AppExperimentsComponent implements OnInit {
       delete request.search;
      }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
-      console.log(res, 'Filters')
-      this.dynamicStatus = [...res.status];
+      // console.log(res, 'Filters')
+      this.dynamicStatus = [...res.state];
     }, 
     // errRes => {
     //   this.errorToaster(errRes, 'Failed to get filters');

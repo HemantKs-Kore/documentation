@@ -16,6 +16,7 @@ declare const $: any;
   styleUrls: ['./user-engagement.component.scss']
 })
 export class UserEngagementComponent implements OnInit {
+  math = Math;
   selectedApp;
   serachIndexId;
   pageLimit = 5;
@@ -886,6 +887,7 @@ export class UserEngagementComponent implements OnInit {
   mostUsedBrowser() {
     let graphData = [];
     let gridWidth = "0%";
+    let minHeight = 40;
     let mostUsedBrowserNumberOfuserObj = {}
     let y_axis = [];
     let barColor = "#FF784B";
@@ -916,6 +918,16 @@ export class UserEngagementComponent implements OnInit {
     if (graphData.length > 0) {
       this.isyAxismostUsedBrowserdata = true;
       barColor = "#FF784B";
+      if(graphData.length>0 && graphData.length< 4 ){
+         minHeight=40;
+         
+      }
+      else if(graphData.length>3 && graphData.length<6){
+          minHeight=20;
+      }
+      else{
+        minHeight=10;
+      }
     } else {
       y_axis = ['Chrome', 'Safari', 'IE'];
       graphData = [82, 9, 9];
@@ -1004,7 +1016,7 @@ export class UserEngagementComponent implements OnInit {
               align: 'center'
             },
             'Chrome': {
-              height: 40,
+              height: minHeight,
               align: 'center',
               backgroundColor: {
                 image: 'assets/icons/chrome_logo.svg'
@@ -1013,7 +1025,7 @@ export class UserEngagementComponent implements OnInit {
               }
             },
             'Safari': {
-              height: 40,
+              height: minHeight,
               align: 'center',
               backgroundColor: {
                 image: 'assets/icons/safari_logo.svg'
@@ -1021,7 +1033,7 @@ export class UserEngagementComponent implements OnInit {
               }
             },
             'IE': {
-              height: 40,
+              height: minHeight,
               align: 'center',
               backgroundColor: {
                 image: 'assets/icons/ie_logo.svg'
@@ -1029,7 +1041,7 @@ export class UserEngagementComponent implements OnInit {
               }
             },
             'Opera': {
-              height: 40,
+              height: minHeight,
               align: 'center',
               backgroundColor: {
                 image: 'assets/icons/opera_logo.svg'
@@ -1037,7 +1049,7 @@ export class UserEngagementComponent implements OnInit {
               },
             },
             'Firefox': {
-              height: 40,
+              height: minHeight,
               align: 'center',
               backgroundColor: {
                 image: 'assets/icons/firefox_logo.svg'
@@ -1045,7 +1057,7 @@ export class UserEngagementComponent implements OnInit {
               }
             },
             'Edge': {
-              height: 40,
+              height: minHeight,
               align: 'center',
               backgroundColor: {
                 image: 'assets/icons/edge_logo.svg'
