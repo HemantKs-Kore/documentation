@@ -488,7 +488,7 @@ export class ResultTemplatesComponent implements OnInit {
       this.resultListObj.groupSetting.conditions = [];
     }
     this.service.invoke('update.settings', quaryparms, this.resultListObj).subscribe((res: any) => {
-      this.scrollPreview();
+      // this.scrollPreview();
       if (res) {
         this.notificationService.notify(`Result setting ${type === 'delete' ? 'deleted' : 'saved'} successfully`, 'success');
         if (dialogRef) {
