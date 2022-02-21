@@ -110,7 +110,7 @@
                                         *ngIf="totalSearchesStats.increasedResultRate >= 0">
                                     <img src="assets/icons/arrow-decrease.svg"
                                         *ngIf="totalSearchesStats.increasedResultRate < 0">
-                                    <span class="percentage">{{totalSearchesStats.increasedResultRate }}%</span>
+                                    <span class="percentage">{{math.abs(totalSearchesStats.increasedResultRate)}}%</span>
                                 </div>
                             </div>
                             <div class="right-sec">
