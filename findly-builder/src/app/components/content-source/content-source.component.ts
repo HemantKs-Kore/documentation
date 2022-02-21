@@ -788,7 +788,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
               }
             });
           }
-          if (element.executionStats.executionStatusMessage == 'Execution Stopped' && element.executionStats.isTimedOut) {
+          /**updated element.executionStats.isTimedOut to element.executionStats.timedOut on 21/02*/
+          // if (element.executionStats.executionStatusMessage == 'Execution Stopped' && element.executionStats.isTimedOut) {
+          if (element.executionStats.executionStatusMessage == 'Execution Stopped' && element.executionStats.timedOut) {
             if (element.executionStats.statusLogs) {
               //element.statusLogs.forEach(element => {
               if (element.executionStats.statusLogs.length > 1) {
@@ -797,11 +799,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
               //});
             }
           } else if (element.executionStats.executionStatusMessage == 'Execution Stopped') {
-            element.executionStats['tooltip'] = "Execution Stopped due to " + element.statusMessage || ' time out';
+            /**updated  element.statusMessage to element.message on 21/02 */
+            // element.executionStats['tooltip'] = "Execution Stopped due to " + element.statusMessage || ' time out';
+            element.executionStats['tooltip'] = "Execution Stopped due to " + element.message || ' time out';
           } else if (element.executionStats.executionStatusMessage == 'Execution In Progress') {
             element.executionStats['tooltip'] = "In Progress";
           } else {
-            element.executionStats['tooltip'] = element.statusMessage;
+            /**updated  element.statusMessage to element.message on 21/02 */
+            // element.executionStats['tooltip'] = element.statusMessage;
+            element.executionStats['tooltip'] = element.message;
           }
         });
       }

@@ -848,7 +848,10 @@ export class EndPointsService {
     // }
     // API for GET Docker Status
     this.serviceList['get.dockStatus'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus',
+      /**updated below endpoint as per new contract for docstatus & execution histroy on 21/02 */
+      // endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus',
+      //method: 'get'
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/jobs',
       method: 'get'
     }
     this.serviceList['put.dockStatus'] = {
@@ -892,17 +895,27 @@ export class EndPointsService {
     };
 
     this.serviceList['delete.dockById'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus/:id?statusType=:statusType',
-      method: 'delete'
+      /**updated below endpoint as per new contract for docstatus & execution histroy on 21/02 */
+      // endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus/:id?statusType=:statusType',
+      // method: 'delete'
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/jobs/:id/hide',
+      // ?statusType=:statusType',
+      method: 'put'
     }
 
     this.serviceList['delete.clearAllDocs'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus',
+      /**updated below endpoint as per new contract for docstatus & execution histroy on 21/02 */
+      // endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus',
+      // method: 'delete'
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/jobs/hide',
       method: 'delete'
     }
 
     this.serviceList['read.dockStatus'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus/read',
+      /**updated below endpoint as per new contract for docstatus & execution histroy on 21/02 */
+      // endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus/read',
+      // method: 'put'
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/jobs/read',
       method: 'put'
     }
 

@@ -420,7 +420,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             //this.crawlOkDisable = true;
             if (queuedJobs[0].validation?.limitValidation == false) {
               this.upgrade();
-              this.notificationService.notify(queuedJobs[0].statusMessage, 'error');
+              /**updated queuedJobs[0].statusMessage to queuedJobs[0].message on 21/02  */
+              //this.notificationService.notify(queuedJobs[0].statusMessage, 'error');
+              this.notificationService.notify(queuedJobs[0].message, 'error');
             }
           }
           // if((queuedJobs[0].status == 'queued')){
