@@ -330,15 +330,20 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     this.service.invoke('get.traits', quaryparms).subscribe(res =>
     {
       const allTraitskeys: any = [];
-      if (res && res.length)
-      {
-        res.forEach(element =>
-        {
-          allTraitskeys.push(element.groupName);
-        });
-        this.traitsSuggesitions = allTraitskeys;
+      if (res)
+      {      
+          for(let j=0;j<res.traitGroups.length;j++){
+           allTraitskeys.push(res.traitGroups[j].groupName);
+          }
+          this.traitsSuggesitions = allTraitskeys;
+        
+        // res.forEach(element =>
+        // {
+        //   allTraitskeys.push(element.groupName);
+        // });
+        // this.traitsSuggesitions = allTraitskeys;
       }
-    }, (err) =>
+    },(err) =>
     {
     });
   };
@@ -381,7 +386,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       this.suggestedInput.nativeElement.focus();
     }, 100)
   }
-  setResetNewMappingsObj(ignoreSimulate?, saveConfig?)
+  addAfterRemoval(){
+    this.setResetNewMappingsObj('add_after_removal',true,true);    
+  }
+  setResetNewMappingsObj(comingfrom?,ignoreSimulate?, saveConfig?)
   {
     if (!ignoreSimulate)
     {
@@ -452,9 +460,21 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       }
       this.newMappingObj.custom_script.defaultValue.script = this.selectedStage.config.mappings.length > 1 ? this.selectedStage.config.mappings[1].script : this.selectedStage.config.mappings[0].script || '';
     }
+    if(comingfrom=='remove_mapping' && this.selectedStage.type!=='custom_script'){
+      if(this.selectedStage.config.mappings.length){
+         this.newMappingObj={};         
+      }
+      else{
+        //add warning msg
+      }
+    }
+    else if(comingfrom=='add_after_removal'){
+      this.addFiledmappings(this.newMappingObj.field_mapping.defaultValue,true);
+    }
   }
   checkNewAddition()
   {
+    //this.setResetNewMappingsObj();
     if (this.selectedStage && this.selectedStage.type === 'field_mapping')
     {
       if (this.newMappingObj.field_mapping && this.newMappingObj.field_mapping.defaultValue)
@@ -980,7 +1000,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
           this.checkForNewFields();
         }
         this.clearDirtyObj();
-        this.setResetNewMappingsObj(null, true);
+        if(!(this.selectedStage.type!=='custom_script')){
+        this.setResetNewMappingsObj('remove_mapping',null, true);
+        }
         /** Workbench plain text temp */
         // if (this.newMappingObj && this.newMappingObj.custom_script &&
         //   this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
@@ -1211,10 +1233,48 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
   }
   validation(save){
     if ((this.selectedStage.condition.mappings)) {
+      if((Object.keys(this.newMappingObj).length == 0)){
+        if(save===true){
+          this.saveConfig();
+        }  
+        else{            
+        this.simulate();
+        }
+        return true;
+      }
+      else if((Object.keys(this.newMappingObj).length == 1)){
+        if(this.newMappingObj.hasOwnProperty('custom_script'))
+        {
+          if(save===true){
+            this.saveConfig();
+          }  
+          else{            
+          this.simulate();
+          }
+        }
+        return true;
+      }
+      if(this.selectedStage.type === 'custom_script'){
+        if(save===true){
+          this.saveConfig();
+        }  
+        else{            
+        this.simulate();
+        }
 
-     if(this.selectedStage.type === 'field_mapping')
+      }
+      else if(this.selectedStage.type === 'exclude_document'){
+        if(save===true){
+          this.saveConfig();
+        }  
+        else{            
+        this.simulate();
+        }
+
+      }
+     else if(this.selectedStage.type === 'field_mapping')
      {
-        if (this.newMappingObj.field_mapping.defaultValue.operation === "set") {
+        if (this.newMappingObj && this.newMappingObj.field_mapping && this.newMappingObj.field_mapping.defaultValue.operation === "set") {
           for (let i = 0; i < this.selectedStage.condition.mappings.length; i++) {
             if (((this.selectedStage.condition.mappings[i].operator === '') || (this.basic_fieldName === '')) &&
               (((this.newMappingObj.field_mapping.defaultValue.target_field) && (this.newMappingObj.field_mapping.defaultValue.value)))) {
@@ -1247,12 +1307,17 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
               this.notificationService.notify('Enter the required fields to proceed', 'error');
             }
             else {
+              if(save===true){
+                this.saveConfig();
+              }  
+              else{            
               this.simulate();
+              }
             }
           }
         }
 
-        else if (this.newMappingObj.field_mapping.defaultValue.operation === "rename" ||  this.newMappingObj.field_mapping.defaultValue.operation === "copy") {
+        else if ((this.newMappingObj.field_mapping.defaultValue.operation === "rename" ||  this.newMappingObj.field_mapping.defaultValue.operation === "copy")) {
           for (let i = 0; i < this.selectedStage.condition.mappings.length; i++) {
             if (((this.selectedStage.condition.mappings[i].operator === '') || (this.basic_fieldName === '')) &&
               (((this.newMappingObj.field_mapping.defaultValue.source_field) && (this.newMappingObj.field_mapping.defaultValue.target_field)))) {
@@ -1286,12 +1351,17 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             }
 
             else {
+              if(save===true){
+                this.saveConfig();
+              }  
+              else{            
               this.simulate();
+              }
             }
           }
         }
 
-        else if (this.newMappingObj.field_mapping.defaultValue.operation === "remove") {
+        else if ( this.newMappingObj.field_mapping.defaultValue.operation === "remove") {
           for (let i = 0; i < this.selectedStage.condition.mappings.length; i++) {
             if (((this.selectedStage.condition.mappings[i].operator === '') || (this.basic_fieldName === '')) &&
               (((this.newMappingObj.field_mapping.defaultValue.target_field)))) {
@@ -1313,10 +1383,15 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             }
 
             else {
+              if(save===true){
+                this.saveConfig();
+              }  
+              else{            
               this.simulate();
+              }
             }
           }
-        }        
+        }
       }
 
       else if(this.selectedStage.type === 'entity_extraction')
@@ -1388,7 +1463,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             this.notificationService.notify('Enter the required fields to proceed', 'error');
           }
           else {
+            if(save===true){
+              this.saveConfig();
+            }  
+            else{            
             this.simulate();
+            }
           }
         }         
       }
@@ -1454,7 +1534,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             this.notificationService.notify('Enter the required fields to proceed', 'error');
           }
           else {
+            if(save===true){
+              this.saveConfig();
+            }  
+            else{            
             this.simulate();
+            }
           }
         }         
       }
@@ -1491,7 +1576,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
               this.notificationService.notify('Enter the required fields to proceed', 'error');
           }
           else {
+            if(save===true){
+              this.saveConfig();
+            }  
+            else{            
             this.simulate();
+            }
           }
         }      
 
@@ -1531,7 +1621,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
               this.notificationService.notify('Enter the required fields to proceed', 'error');
           }
           else {
+            if(save===true){
+              this.saveConfig();
+            }  
+            else{            
             this.simulate();
+            }
           }
         }      
 
@@ -1773,7 +1868,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     {
       this.loadingFields = false;
       this.errorToaster(errRes, 'Failed to get index  stages');
-    });
+    }); 
   }
   deleteIndField(record, dialogRef)
   {
@@ -2005,7 +2100,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         }
         this.newMappingObj.custom_script.defaultValue.script = '';
       }
-      this.selectedStage = stage;
+      this.selectedStage = stage; 
+      if((stage && stage.type)!= "custom_script"){   
+        this.setResetNewMappingsObj('remove_mapping');
+      }
     }
   }
   checkDuplicateTags(suggestion: string, alltTags): boolean
@@ -2176,7 +2274,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       return
     }
     this.selectedStage.config.mappings.push(map);
-    this.setResetNewMappingsObj(true, true);
+    if(this.selectedStage.type!=='custom_script'){
+      this.setResetNewMappingsObj('remove_mapping',true, true);
+    }    
   }
   closeNewStage()
   {
@@ -2222,6 +2322,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         }
       }
       this.newMappingObj.custom_script.defaultValue.script = '';
+      this.setResetNewMappingsObj();
     }
   }
   createNewMap()

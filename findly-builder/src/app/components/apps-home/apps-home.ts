@@ -200,9 +200,9 @@ export class AppsListingComponent implements OnInit {
   public getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
       if (res && res.length) {
-        if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
+        if(JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
           let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
-          if(prDetails.formAccount){
+          if(prDetails){
             this.redirectHome()
           }
         }
@@ -214,7 +214,7 @@ export class AppsListingComponent implements OnInit {
         this.emptyApp = false;
       }
       else {
-        if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
+        if(JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
           this.redirectHome()
         }else {
           // if(!this.inlineManual.checkVisibility('CREATE_APP')){
@@ -238,8 +238,8 @@ export class AppsListingComponent implements OnInit {
   }
   clearAccount(){
     let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
-        if(prDetails.formAccount){
-          prDetails.formAccount = false;
+        if(prDetails){
+          // prDetails.formAccount = false;
         }
         localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
   }

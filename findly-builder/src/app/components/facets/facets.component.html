@@ -259,7 +259,7 @@
                             <div class="col-1 p-0 content actions">
                                 <img id='btn_edit_facet_tab' class="action_icon" [container]="'body'" ngbTooltip='Edit'
                                     (click)="createNewFacet(facet)" src="assets/images/edit-pencil.svg">
-                                <img id='btn_delete_facet_tab' class="action_icon" ngbTooltip='Delete'
+                                <img *ngIf="facet.name!=='Default Tab Facet'" id='btn_delete_facet_tab' class="action_icon" ngbTooltip='Delete'
                                     [container]="'body'" (click)="deleteFacets(facet)"
                                     src="assets/icons/delete-table.svg">
                             </div>
