@@ -908,7 +908,7 @@ export class EndPointsService {
       // endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus',
       // method: 'delete'
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/jobs/hide',
-      method: 'delete'
+      method: 'put'
     }
 
     this.serviceList['read.dockStatus'] = {
