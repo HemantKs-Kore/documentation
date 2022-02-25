@@ -51,7 +51,10 @@ export class StructuredDataStatusModalComponent implements OnInit {
     }
     this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
-        const queuedDoc = _.find(res.dockStatuses, (source) => {
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 57 line*/
+        // const queuedDoc = _.find(res.dockStatuses, (source) => {
+          const queuedDoc = _.find(res, (source) => {
           return (source._id === payload._id);
         });
         if (queuedDoc && (queuedDoc.status)) {

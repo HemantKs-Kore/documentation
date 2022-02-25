@@ -570,7 +570,10 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.service.invoke('get.dockStatus', queryParms).subscribe(
       res => {
         this.statusDockerLoading = false;
-        this.dockersList = res.dockStatuses;
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 576 line*/
+        // this.dockersList = res.dockStatuses;
+           this.dockersList = res;
       },
       errRes => {
         this.statusDockerLoading = false;

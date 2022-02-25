@@ -1896,7 +1896,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
         // console.log("res", res);
         const response = res;
-        const jobStatus = response.dockStatuses.filter(ele => ele._id === jobId);
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code on 1902*/
+        // const jobStatus = response.dockStatuses.filter(ele => ele._id === jobId);
+        const jobStatus = response.filter(ele => ele._id === jobId);
         if (jobStatus[0].status === "SUCCESS") {
           this.pollingSubscriber.unsubscribe();
           jobStatus[0] = Object.assign({ ...jobStatus[0], status: 'success' })

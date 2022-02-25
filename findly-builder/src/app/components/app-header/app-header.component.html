@@ -210,10 +210,15 @@
                                                                 *ngFor="let task of dockersList; let index = index"
                                                                 [class.docUnRead]="checkRecordInDocs('unread', task)">
                                                                 <div class="col-9 pl-0 task_content">
+                                                                    <!-- made changes on 24/02 as per new api contract in response we no longer get the name,its changed to title added updated code on 221 line*/ -->
+                                                                    <!-- <div class="heading text-truncate"
+                                                                    [class.external_link]="(task.jobType == 'web' || task.jobType == 'faq' || task.jobType == 'STRUCTURED_DATA_INGESTION' || task.jobType == 'file' || task.jobType == 'FINDLY_FAQS_IMPORT')"
+                                                                    (click)="(task.jobType == 'web' || task.jobType == 'faq' || task.jobType == 'STRUCTURED_DATA_INGESTION' || task.jobType == 'file' || task.jobType == 'FINDLY_FAQS_IMPORT') && navigateTo(task)"
+                                                                    [title]="task.name">{{task.name}}</div> -->
                                                                     <div class="heading text-truncate"
                                                                         [class.external_link]="(task.jobType == 'web' || task.jobType == 'faq' || task.jobType == 'STRUCTURED_DATA_INGESTION' || task.jobType == 'file' || task.jobType == 'FINDLY_FAQS_IMPORT')"
                                                                         (click)="(task.jobType == 'web' || task.jobType == 'faq' || task.jobType == 'STRUCTURED_DATA_INGESTION' || task.jobType == 'file' || task.jobType == 'FINDLY_FAQS_IMPORT') && navigateTo(task)"
-                                                                        [title]="task.name">{{task.name}}</div>
+                                                                        [title]="task.name">{{task.title}}</div>
                                                                     <div class="desc"
                                                                         *ngIf="getStatusView(task.status)">{{task.status
                                                                         | titlecase}} <span class="tooltip-data"

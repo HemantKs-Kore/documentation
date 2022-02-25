@@ -274,8 +274,14 @@ export class UsageLogComponent implements OnInit {
       searchIndexId: this.workflowService.selectedSearchIndexId
     }
     this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
-      if (res && res.dockStatuses) {
-        res.dockStatuses.forEach((record: any) => {
+      /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 280 line*/
+      // if (res && res.dockStatuses) {
+        if (res) {
+          /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 284 line*/
+        // res.dockStatuses.forEach((record: any) => {
+          res.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
           if (record.status === 'SUCCESS' && record.fileId && !(record.store || {}).toastSeen) {
             if (record.action === 'EXPORT') {

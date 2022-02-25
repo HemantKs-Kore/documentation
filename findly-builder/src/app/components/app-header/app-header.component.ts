@@ -380,7 +380,10 @@ export class AppHeaderComponent implements OnInit {
     this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
         this.statusDockerLoading = false;
-        this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 386 line*/
+        // this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
+        this.dockersList = JSON.parse(JSON.stringify(res));
         if (this.trainingInitiated && this.dockersList[0].status === 'SUCCESS' && this.dockersList[0].action === "TRAIN") {
           this.trainingInitiated = false;
           if (this.training) {
@@ -404,15 +407,24 @@ export class AppHeaderComponent implements OnInit {
             }
           }
         })
-        const queuedJobs = _.filter(res.dockStatuses, (source) => {
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 413 line*/
+        // const queuedJobs = _.filter(res.dockStatuses, (source) => {
+          const queuedJobs = _.filter(res, (source) => {
           return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED') || (source.status === 'validation'));
         });
 
         if (recordStatistics) {
-          this.readDocs = _.filter(res.dockStatuses, (source) => {
+          /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 421 line*/
+          // this.readDocs = _.filter(res.dockStatuses, (source) => {
+            this.readDocs = _.filter(res, (source) => {
             return (source.read && (source.read === true));
           });
-          this.unReadDocs = _.filter(res.dockStatuses, (source) => {
+          /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 427 line*/
+          // this.unReadDocs = _.filter(res.dockStatuses, (source) => {
+            this.unReadDocs = _.filter(res, (source) => {
             return (source.read === false);
           });
           recordStatistics = false;
@@ -657,7 +669,10 @@ export class AppHeaderComponent implements OnInit {
     }
     const appId = JSON.parse(localStorage.krPreviousState);
     this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
-      const docStatus = res.dockStatuses.filter(data => data.action === 'TRAIN' && data.status === 'IN_PROGRESS');
+      /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 675 line*/
+      // const docStatus = res.dockStatuses.filter(data => data.action === 'TRAIN' && data.status === 'IN_PROGRESS');
+      const docStatus = res.filter(data => data.action === 'TRAIN' && data.status === 'IN_PROGRESS');
       if (docStatus !== undefined && docStatus.length !== 0) {
         this.training = true;
       }

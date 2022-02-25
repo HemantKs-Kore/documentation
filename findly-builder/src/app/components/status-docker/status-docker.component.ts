@@ -55,7 +55,8 @@ export class StatusDockerComponent implements OnInit {
     this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
         this.statusDockerLoading = false;
-        this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
+        // this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
+        this.dockersList = JSON.parse(JSON.stringify(res));
         this.dockersList.forEach((record : any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
           if(record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen){
@@ -64,7 +65,8 @@ export class StatusDockerComponent implements OnInit {
             }
           }
         })
-        const queuedJobs = _.filter(res.dockStatuses, (source) => {
+        // const queuedJobs = _.filter(res.dockStatuses, (source) => {
+          const queuedJobs = _.filter(res, (source) => {
           return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED') || (source.status === 'validation'));
         });
        
