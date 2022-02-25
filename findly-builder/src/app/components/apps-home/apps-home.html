@@ -155,18 +155,18 @@
                       <!-- <div class="clone-icon" tooltipClass="tooltip-global- ml-14" [container]="'body'" ngbTooltip='Duplicate' placement="bottom-left">
                         <img src="assets/icons/clone-blue.svg" (click)="openDeleteApp($event)">
                       </div> -->
-                      <div *ngIf="!sharedApp" class="delete-icon" tooltipClass="tooltip-global- ml-14" [container]="'body'" ngbTooltip='Delete' placement="bottom-left">
+                      <div *ngIf="filter.createdBy==userId" class="delete-icon" tooltipClass="tooltip-global- ml-14" [container]="'body'" ngbTooltip='Delete' placement="bottom-left">
                         <img src="assets/icons/delete-table.svg" (click)="openDeleteApp($event,filter)">
                       </div>
-                      <div *ngIf="sharedApp" class="delete-icon" tooltipClass="tooltip-global- ml-14" [container]="'body'" ngbTooltip='Remove Access' placement="bottom-left">
+                      <div *ngIf="filter.createdBy!=userId" class="delete-icon" tooltipClass="tooltip-global- ml-14" [container]="'body'" ngbTooltip='Remove Access' placement="bottom-left">
                         <img src="assets/icons/Unlink.svg" (click)="openUnlinkApp($event,filter)">
                       </div>
                     </div>
                     <div class="name">{{filter.name}}</div>
                     <div class="info-text" *ngIf="filter.description !==''" title="{{filter.description}}">{{filter.description}}</div>
                   </div>
-                  <div class="user-name text-truncate" *ngIf="filter.createdBy!==userId" ngbTooltip="{{filter.userDetails.fullName}}">{{filter.userDetails.fullName}}</div>
-                  <div *ngIf="sharedApp" class="shared-app-text">
+                  <div class="user-name text-truncate" ngbTooltip="{{filter.userDetails.fullName}}">{{filter.userDetails.fullName}}</div>
+                  <div *ngIf="filter.createdBy!=userId" class="shared-app-text">
                     <img src="assets/icons/share-icon.svg">
                     <span>Shared App</span>
                   </div>
@@ -460,21 +460,26 @@
       <img src="assets/icons/modal-close.svg">
     </div>
   </div>
-  <div class="modal-body">
-    <div *ngIf="!unlinkPop" class="kr-sg-input-text">
+  <div *ngIf="unlinkPop" class="modal-body">
+    <div class="info-desc">Removing access on shared app will only remove your access of the application </div>
+    <br>
+    <br>
+    <div class="info-desc">Do you want to continue?</div>
+    <div class="btns-sec">
+      <button class="kr-sg-button-secondary btn_lg mr-2" (click)="closeConfirmApp()">Cancel</button>
+      <button class="kr-sg-button-primary btn_lg" (click)="unlinkAPP()">Continue</button>
+    </div>
+  </div>
+  <div  *ngIf="!unlinkPop" class="modal-body">
+    <div  class="kr-sg-input-text">
       <input type="text" placeholder="Reconfirm by typing the name of the App you want to delete"
       [(ngModel)]="confirmApp" class="input-text">
     </div>
-    <div *ngIf="!unlinkPop" class="info-desc">Deleting your application will also delete all your indexes, Sources & other Application Data.</div>
-    <div *ngIf="unlinkPop" class="info-desc">Removing access on shared app will only remove your access of the application.</div>
-    <div *ngIf="!unlinkPop" class="info-desc">Are you sure you want to continue?</div>
-    <br *ngIf="unlinkPop">
-    <br *ngIf="unlinkPop">
-    <div *ngIf="unlinkPop" class="info-desc">Do you want to continue?</div>
+    <div class="info-desc">Deleting your application will also delete all your indexes, Sources & other Application Data.</div>
+    <div class="info-desc">Are you sure you want to continue?</div>
     <div class="btns-sec">
       <button class="kr-sg-button-secondary btn_lg mr-2" (click)="closeConfirmApp()">Cancel</button>
-      <button *ngIf="!unlinkPop" class="kr-sg-button-primary btn_lg" (click)="deleteApp()">Delete</button>
-      <button *ngIf="unlinkPop" class="kr-sg-button-primary btn_lg" (click)="unlinkApp()">Continue</button>
+      <button class="kr-sg-button-primary btn_lg" (click)="deleteApp()">Delete</button>
     </div>
   </div>
 </kr-modal>
