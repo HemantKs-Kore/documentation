@@ -1846,7 +1846,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     });
   }
   getFileds(offset?)
-  {
+  { 
     this.loadingFields = true;
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
@@ -2025,6 +2025,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
   {
     this.changesDetected = true;
     list.splice(index, 1);
+    /**if selected config mappings length is empty then adding new empty field made changes on 22/02*/
+    if(list.length===0){
+      this.setResetNewMappingsObj();
+    }
   }
   clearDirtyObj(cancel?)
   {
