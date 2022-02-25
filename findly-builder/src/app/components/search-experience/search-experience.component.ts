@@ -553,6 +553,15 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   selectSearchBox(type) {
     this.selectSearch = type;
   }
+  checkColorPallets(event?){
+    if(event){
+      event.stopPropagation();
+      event.preventDefault();      
+    }
+    else{
+      this.closeAllColourPallets();
+    }
+  }
   closeAllColourPallets(){
     this.toggle = false;
     this.inputBox1 = false;
@@ -565,7 +574,20 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     this.buttonBorder=false;
     this.toggle3 = false;
     this.toggle4 = false;
-    this.toggle5 = false
+    this.toggle5 = false;
+    this.toggle6 = false;
+    this.msgColor = false;
+    this.bgColor = false;
+    this.toggle7 = false;
+
+    this.color = this.searchObject.searchWidgetConfig.searchBarFillColor;
+    this.color1 = this.searchObject.searchWidgetConfig.searchBarBorderColor;
+    this.color2 = this.searchObject.searchWidgetConfig.searchBarPlaceholderTextColor;
+    this.color3 = this.searchObject.searchWidgetConfig.buttonTextColor;
+    this.color4 = this.searchObject.searchWidgetConfig.buttonFillColor;
+    this.color5 = this.searchObject.searchWidgetConfig.buttonBorderColor;
+    this.color6 = this.searchObject.searchInteractionsConfig.welcomeMsgColor;
+    this.color7 = this.searchObject.searchInteractionsConfig.welcomeMsgFillColor;
   }
   //put tour config data
   // updateTourConfig() {
