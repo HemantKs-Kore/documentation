@@ -1175,7 +1175,7 @@ export class EndPointsService {
     /** Remove Access apps API */
     this.serviceList['Unlink.app'] = {
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType/:pageId',
-      endpoint: this.API_SERVER_URL + '/findly/apps/:streamId/unlink',
+      endpoint: this.API_SERVER_URL + '/findly/apps/:streamId/unlinkApp',
       method: 'delete'
     }
     
