@@ -27,13 +27,16 @@ export class AppsListingComponent implements OnInit {
   appsData: any;
   createAppPopRef: any;
   onboardingpopupjourneyRef: any;
-  deleteAppPopRef: any;
+  confirmatiomAppPopRef: any;
   creatingInProgress = false;
   searchApp = '';
   apps: any = [];
+  sharedApp=false;
   confirmApp: any='';
   validateName:any='';
   slectedAppId:any ='';
+  slectedUnlinkAppId:any ='';
+  unlinkPop = true;
   showSearch = false;
   activeClose = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
@@ -51,7 +54,7 @@ export class AppsListingComponent implements OnInit {
   currentPage: number = 1;
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
-  @ViewChild('deleteAppPop') deleteAppPop: KRModalComponent;
+  @ViewChild('confirmatiomAppPop') confirmatiomAppPop: KRModalComponent;
   constructor(
     public localstore: LocalStoreService,
     private service: ServiceInvokerService,
@@ -121,17 +124,20 @@ export class AppsListingComponent implements OnInit {
     this.newApp = { name: '', description: '' };
   }
   openDeleteApp(event,appInfo) {
+    this.unlinkPop =false;
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
     this.validateName = appInfo.name;
     this.slectedAppId = appInfo._id;
-    this.deleteAppPopRef = this.deleteAppPop.open();
+    this.confirmatiomAppPopRef = this.confirmatiomAppPop.open();
   }
-  closeDeleteApp() {
-    if (this.deleteAppPopRef && this.deleteAppPopRef.close) {
-      this.deleteAppPopRef.close();
+  closeConfirmApp() {
+    if (this.confirmatiomAppPopRef && this.confirmatiomAppPopRef.close) {
+      this.confirmatiomAppPopRef.close();
+      this.confirmApp = '';
+      this.unlinkPop=false;
     }
   }
 
@@ -144,7 +150,7 @@ export class AppsListingComponent implements OnInit {
     this.service.invoke('delete.app', quaryparms).subscribe(res => {
       if (res) {
         this.notificationService.notify('Deleted Successfully', 'success');
-        this.closeDeleteApp();
+        this.closeConfirmApp();
         this.getAllApps();
         this.confirmApp = '';
       }
@@ -174,6 +180,39 @@ export class AppsListingComponent implements OnInit {
     //       });
     //  }
     // }
+    }
+    openUnlinkApp(event,appInfo) {
+      this.unlinkPop =true;
+      if (event) {
+        event.stopImmediatePropagation();
+        event.preventDefault();
+      }
+      this.slectedUnlinkAppId = appInfo._id;
+      this.confirmatiomAppPopRef = this.confirmatiomAppPop.open();
+    } 
+     unlinkApp() {
+  
+      let quaryparms: any = {};
+      quaryparms.streamId = this.slectedUnlinkAppId;
+      
+      this.service.invoke('Unlink.app', quaryparms).subscribe(res => {
+        if (res) {
+          this.notificationService.notify('Removed Successfully', 'success');
+          this.closeConfirmApp();
+          this.getAllApps();
+        }
+      }, errRes => {
+        this.notificationService.notify('Something has gone wrong.', 'error');
+      });
+    }
+
+    checkForSharedApp(){
+      // if(this.apps.filter(item => item.createdBy != this.userId))
+      for(let i=0;i<this.apps.length;i++){
+        if(this.apps[i].createdBy!=this.userId){
+          this.sharedApp=true;
+        }
+      }
     }
   
   errorToaster(errRes, message) {
@@ -231,7 +270,8 @@ export class AppsListingComponent implements OnInit {
           }
         }
       }
-      this.clearAccount()
+      this.clearAccount();
+      this.checkForSharedApp();
     }, errRes => {
       // console.log(errRes);
     });
