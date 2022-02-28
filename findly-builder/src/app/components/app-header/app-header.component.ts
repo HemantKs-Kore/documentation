@@ -493,8 +493,11 @@ export class AppHeaderComponent implements OnInit {
     }
     this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
-        this.statusDockerLoading = false;
-        this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
+        if((!res) || !res.dockStatuses.length){
+          this.training=false;
+        }
+        this.statusDockerLoading = false;        
+        this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));        
         if (this.trainingInitiated && this.dockersList[0].status === 'SUCCESS' && this.dockersList[0].action === "TRAIN") {
           this.trainingInitiated = false;
           if (this.training) {
