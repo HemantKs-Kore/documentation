@@ -253,11 +253,20 @@
                                                                         <!-- <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.extractionSourceId && (task.jobType == 'web' || task.jobType == 'faq')) || (task.jobType == 'STRUCTURED_DATA_INGESTION')">                         -->
                                                                     </div>
                                                                     <div class="status-blcok">
+                                                                        <!-- updated code in line 263 on 24/02 ,added condition for running status as per api contract since in_progress is updated to running state -->
+                                                                        <!-- <img src="assets/icons/ringLoading.svg"
+                                                                            class="inProgress"
+                                                                            *ngIf="task.status === 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED'"
+                                                                            placement="top" container='body'> -->
                                                                         <img src="assets/icons/ringLoading.svg"
                                                                             class="inProgress"
                                                                             *ngIf="task.status === 'IN_PROGRESS' || task.status === 'running'|| task.status === 'validation' || task.status === 'QUEUED'"
                                                                             placement="top" container='body'>
                                                                         <!-- <span *ngIf="(task.status == 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}%</span> -->
+                                                                        <!-- updated code in line 272 on 24/02 ,added condition for running status as per api contract since in_progress is updated to running state  -->
+                                                                        <!-- <img src="assets/icons/docker/close.svg"
+                                                                            (click)="removeRecord(task, index)"
+                                                                            *ngIf="(task.status !== 'IN_PROGRESS' && task.status !== 'validation' && task.status !== 'QUEUED')"> -->
                                                                         <img src="assets/icons/docker/close.svg"
                                                                             (click)="removeRecord(task, index)"
                                                                             *ngIf="(task.status !== 'IN_PROGRESS' && task.status !== 'running' && task.status !== 'validation' && task.status !== 'QUEUED')">

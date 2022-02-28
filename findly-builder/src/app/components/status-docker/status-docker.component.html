@@ -9,14 +9,24 @@
                     <div class="desc" *ngIf="!getStatusView(task.status)">{{getStatusView(task.status, 'other')}} <span class="tooltip-data" ngbTooltip='{{task.createdOn}}' tooltipClass="date-tooltip" placement="right-center" [container]="'body'"><img src="assets/icons/docker/clock.svg"></span></div>
                 </div>
                 <div class="col-3 d-flex p-0 align-items-center justify-content-end">
+                    <!-- Added code on 24/02 line no 16 and 17, condition has been added for running in line 15 since IN_PROGRESS is updated to running
+                         in line 17 added condition for FAILED since FAILURE is updated to FAILED as per new api contract -->
+                    <!-- <div class="img-block" [class.mr-3]="(task.status == 'IN_PROGRESS' || task.status == 'validation') && (task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq' ))">
+                        <img src="assets/icons/docker/info.svg" *ngIf="task.status === 'FAILURE'"> -->
                     <div class="img-block" [class.mr-3]="(task.status == 'IN_PROGRESS' || task.status == 'running'  || task.status == 'validation') && (task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq' ))">
                         <img src="assets/icons/docker/info.svg" *ngIf="task.status === 'FAILURE' || task.status === 'FAILED'">
                         <img src="assets/icons/docker/return.svg" *ngIf="task.status === 'HALTED'" (click)="recrawl(task)">
                         <!-- <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')"> -->
                         <img src="assets/icons/docker/check.svg" *ngIf="(task.status === 'SUCCESS')">
+                        <!-- Added code on 24/02 in line no 23, added condiiton for running since IN_PROGRESS is updated to running as per new api contract -->
+                        <!-- <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.status == 'IN_PROGRESS' || task.status == 'validation') && (task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq'))"> -->
                         <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.status == 'IN_PROGRESS' || task.status == 'running' || task.status == 'validation') && (task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq'))">                        
                     </div>
-                    <div class="status-blcok">                        
+                    <div class="status-blcok">
+                        <!-- Added code on 24/02 in line no 30,31,32,added condition for running status since IN_PROGRESS is updated to running as per new api contract -->
+                        <!-- <img src="assets/icons/ringLoading.svg" class="inProgress" *ngIf="task.status === 'IN_PROGRESS' || task.status === 'validation'" placement="top" container='body'>
+                        <span *ngIf="(task.status == 'IN_PROGRESS') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}</span>
+                        <img src="assets/icons/docker/close.svg" (click)="removeRecord(task, index)" *ngIf="(task.status !== 'IN_PROGRESS')">                         -->
                         <img src="assets/icons/ringLoading.svg" class="inProgress" *ngIf="task.status === 'IN_PROGRESS' || task.status === 'running' || task.status === 'validation'" placement="top" container='body'>
                         <span *ngIf="(task.status == 'IN_PROGRESS' || task.status === 'running') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}</span>
                         <img src="assets/icons/docker/close.svg" (click)="removeRecord(task, index)" *ngIf="(task.status !== 'IN_PROGRESS' || task.status !== 'running')">

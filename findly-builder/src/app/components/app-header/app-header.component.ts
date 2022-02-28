@@ -514,7 +514,8 @@ export class AppHeaderComponent implements OnInit {
         }
         this.dockersList.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
-
+          /**added condition for success on 24/02 in line 519 as per new api contract since SUCCESS is updated to success */
+          // if ((record.status === 'SUCCESS') && record.fileId && (record.store && !record.store.toastSeen)) {
           if ((record.status === 'SUCCESS' || record.status === 'success') && record.fileId && (record.store && !record.store.toastSeen)) {
             if (record.action === 'EXPORT') {
               this.downloadDockFile(record.fileId, record.store.urlParams, record.streamId, record._id);
@@ -525,6 +526,8 @@ export class AppHeaderComponent implements OnInit {
          dockStatuses added updated code in 413 line*/
         // const queuedJobs = _.filter(res.dockStatuses, (source) => {
           const queuedJobs = _.filter(res, (source) => {
+          /** added condition for running on 24/02 in line 531 as per new api contract since IN_Progress is updated to running */
+          // return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED') || (source.status === 'validation'));
           return ((source.status === 'IN_PROGRESS' || source.status==='running') || (source.status === 'QUEUED') || (source.status === 'validation'));
         });
 
@@ -609,6 +612,8 @@ export class AppHeaderComponent implements OnInit {
       else if (status === 'QUEUED') {
         return 'In-Queue';
       }
+      /**updated condition in line no 617 on 24/02,added condition for running since in_progress is updated to running as per new api contract  */
+      // else if (status === 'IN_PROGRESS' || status === 'validation') {
       else if ((status === 'IN_PROGRESS' || status === 'running' ) || status === 'validation') {
         return 'In-progress';
       }
@@ -785,6 +790,7 @@ export class AppHeaderComponent implements OnInit {
     this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
       /**made changes on 24/02 as per new api contract in response we no longer use the key
          dockStatuses added updated code in 675 line*/
+      /** made changes in line 796 on 24/02,added condition for running since in_progress is updated to running as per new api contract */
       // const docStatus = res.dockStatuses.filter(data => data.action === 'TRAIN' && data.status === 'IN_PROGRESS');
       const docStatus = res.filter(data => data.action === 'TRAIN' && ((data.status === 'IN_PROGRESS') || (data.status === 'running')));
       if (docStatus !== undefined && docStatus.length !== 0) {
