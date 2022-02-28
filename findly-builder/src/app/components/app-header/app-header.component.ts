@@ -401,7 +401,7 @@ export class AppHeaderComponent implements OnInit {
         this.dockersList.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
 
-          if (record.status === 'SUCCESS' && record.fileId && (record.store && !record.store.toastSeen)) {
+          if ((record.status === 'SUCCESS' || record.status === 'success') && record.fileId && (record.store && !record.store.toastSeen)) {
             if (record.action === 'EXPORT') {
               this.downloadDockFile(record.fileId, record.store.urlParams, record.streamId, record._id);
             }
@@ -411,7 +411,7 @@ export class AppHeaderComponent implements OnInit {
          dockStatuses added updated code in 413 line*/
         // const queuedJobs = _.filter(res.dockStatuses, (source) => {
           const queuedJobs = _.filter(res, (source) => {
-          return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED') || (source.status === 'validation'));
+          return ((source.status === 'IN_PROGRESS' || source.status==='running') || (source.status === 'QUEUED') || (source.status === 'validation'));
         });
 
         if (recordStatistics) {
@@ -495,7 +495,7 @@ export class AppHeaderComponent implements OnInit {
       else if (status === 'QUEUED') {
         return 'In-Queue';
       }
-      else if (status === 'IN_PROGRESS' || status === 'validation') {
+      else if ((status === 'IN_PROGRESS' || status === 'running' ) || status === 'validation') {
         return 'In-progress';
       }
       else if (status === 'FAILURE') {
@@ -672,7 +672,7 @@ export class AppHeaderComponent implements OnInit {
       /**made changes on 24/02 as per new api contract in response we no longer use the key
          dockStatuses added updated code in 675 line*/
       // const docStatus = res.dockStatuses.filter(data => data.action === 'TRAIN' && data.status === 'IN_PROGRESS');
-      const docStatus = res.filter(data => data.action === 'TRAIN' && data.status === 'IN_PROGRESS');
+      const docStatus = res.filter(data => data.action === 'TRAIN' && ((data.status === 'IN_PROGRESS') || (data.status === 'running')));
       if (docStatus !== undefined && docStatus.length !== 0) {
         this.training = true;
       }

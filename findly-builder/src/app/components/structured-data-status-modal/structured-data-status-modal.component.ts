@@ -60,7 +60,9 @@ export class StructuredDataStatusModalComponent implements OnInit {
         if (queuedDoc && (queuedDoc.status)) {
           // console.log(queuedDoc);
           this.docStatusObject = JSON.parse(JSON.stringify(queuedDoc));
-          if(queuedDoc.status === 'FAILURE' || queuedDoc.status === 'SUCCESS'){
+          //**Added conditions for FAILED on 25/02 in line 65 as per new contract since Failure is updated to Failed*/
+          // if(queuedDoc.status === 'FAILURE' || queuedDoc.status === 'SUCCESS'){
+          if((queuedDoc.status === 'FAILURE' || queuedDoc.status === 'FAILED') || queuedDoc.status === 'SUCCESS'){
             if(queuedDoc.status === 'SUCCESS'){
               this.notificationService.notify('Imported Successfully', 'success');
             }

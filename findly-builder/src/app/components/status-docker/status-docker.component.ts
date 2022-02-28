@@ -55,6 +55,8 @@ export class StatusDockerComponent implements OnInit {
     this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
         this.statusDockerLoading = false;
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 61 line*/
         // this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
         this.dockersList = JSON.parse(JSON.stringify(res));
         this.dockersList.forEach((record : any) => {
@@ -65,9 +67,13 @@ export class StatusDockerComponent implements OnInit {
             }
           }
         })
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 73 line*/
         // const queuedJobs = _.filter(res.dockStatuses, (source) => {
           const queuedJobs = _.filter(res, (source) => {
-          return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED') || (source.status === 'validation'));
+          /**made code updates on 24/02 in line 76 added new condition for running state as per new contract In_progress updated to running */
+          // return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED') || (source.status === 'validation'));
+          return ((source.status === 'IN_PROGRESS') || (source.status === 'running') || (source.status === 'QUEUED') || (source.status === 'validation'));
         });
        
         if (queuedJobs && queuedJobs.length) {
@@ -95,12 +101,16 @@ export class StatusDockerComponent implements OnInit {
       else if(status === 'QUEUED'){
         return 'In-queue';
       }
-      else if(status === 'IN_PROGRESS' || status === 'validation' ){
+      /**made code updates on 24/02 in line 106 added new condition for running state as per new contract In_progress updated to running */
+      // else if(status === 'IN_PROGRESS' || status === 'validation' ){
+      else if(status === 'IN_PROGRESS' || status === 'running'  || status === 'validation' ){
         return 'In-progress';
       }
     }
     else{
-      if(status === 'SUCCESS' || status === 'FAILURE'){
+      /**made code updates on 24/02 in line 113 added new condition for Failed state as per new contract Failure updated to Failed */
+      // if(status === 'SUCCESS' || status === 'FAILURE'){
+      if(status === 'SUCCESS' || (status === 'FAILURE' || status === 'FAILED')){
         return true;
       }
       else{
