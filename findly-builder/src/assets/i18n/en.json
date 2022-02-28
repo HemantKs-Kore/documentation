@@ -518,7 +518,7 @@
         "client_id": "Client ID",
         "Client_Secret_ID": "Client Secret ID",
         "Search_ID": "Search ID",
-        "view_JSON_web_encryption_public_key ": "View JSON Web Encryption Public Key ",
+        "view_JSON_web_encryption_public_key": "View JSON Web Encryption Public Key ",
         "task_setup": "Allow Alert Task Setup",
         "task_setup_info": "Yes, let users setup alert tasks using the web client",
         "no_task_setup_info": "No, do not list alert tasks or allow users to setup alert tasks using the web client",
