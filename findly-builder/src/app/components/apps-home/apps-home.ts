@@ -52,6 +52,7 @@ export class AppsListingComponent implements OnInit {
   userId: any;
   recentApps: any;
   currentPage: number = 1;
+  testRepeat = false;
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
   @ViewChild('confirmatiomAppPop') confirmatiomAppPop: KRModalComponent;
@@ -262,16 +263,22 @@ export class AppsListingComponent implements OnInit {
           // }
 
           /** Issue Fix for multiple onboarding function called */
-          if (!this.headerService.openJourneyForfirstTime) {
+          if (this.headerService.openJourneyForfirstTime) {
             this.emptyApp = true;
             this.showBoarding = true;
             this.headerService.openJourneyForfirstTime = true;
             this.openBoradingJourney();
           }
+          if (!this.headerService.openJourneyForfirstTime) {
+            this.emptyApp = true;
+            this.showBoarding = true;
+            this.headerService.openJourneyForfirstTime = true;
+            //this.openBoradingJourney();
+          }
         }
       }
       this.clearAccount();
-      this.checkForSharedApp();
+      //this.checkForSharedApp();
     }, errRes => {
       // console.log(errRes);
     });
