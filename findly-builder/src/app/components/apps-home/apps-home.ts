@@ -152,9 +152,16 @@ export class AppsListingComponent implements OnInit {
       if (res) {
         this.notificationService.notify('Deleted Successfully', 'success');
         this.closeConfirmApp();
-      setTimeout(() => {
-        this.getAllApps();
-      }, 400);
+        this.apps=this.apps.filter((val) => { return val._id!=this.slectedAppId });
+        this.selectedAppType(this.app_type);
+        // this.apps.forEach(element => {
+        //  if(element._id==this.slectedAppId){
+        //    this.apps.slice(0,1)
+        //  }
+        // });
+      // setTimeout(() => {
+        // this.getAllApps();
+      // }, 400);
         this.confirmApp = '';
       }
     }, errRes => {
