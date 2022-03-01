@@ -257,12 +257,8 @@ export class AppsListingComponent implements OnInit {
         if(JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
           this.redirectHome()
         }else {
-          // if(!this.inlineManual.checkVisibility('CREATE_APP')){
-          //   this.inlineManual.openHelp('CREATE_APP')
-          //   this.inlineManual.visited('CREATE_APP')
-          // }
 
-          /** Issue Fix for multiple onboarding function called */
+          /** Issue Fix for multiple onboarding  function called */
           if (this.headerService.openJourneyForfirstTime) {
             this.emptyApp = true;
             this.showBoarding = true;
