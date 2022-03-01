@@ -281,8 +281,8 @@ export class AppsListingComponent implements OnInit {
   }
   clearAccount(){
     let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
-        if(prDetails){
-          // prDetails.formAccount = false;
+        if(prDetails && prDetails.formAccount){
+           prDetails.formAccount = false;
         }
         localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
   }
