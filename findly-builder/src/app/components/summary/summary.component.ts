@@ -24,6 +24,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   serachIndexId;
   indices: any = [];
   experiments: any = [];
+  default_Indexpipelineid:any;
   variants: any = [];
   activities: any = [];
   channels: any = [];
@@ -139,7 +140,36 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }, 1000)
   }
-  
+  getIndexPipeline(status?) {
+    const header: any = {
+      'x-timezone-offset': '-330'
+    };
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      offset: 0,
+      limit: 100
+    };
+    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
+    console.log(res);
+    res.forEach(element=>{
+      if(element.default==true){
+          this.default_Indexpipelineid=element._id;
+      }
+    })
+    this.getQueries("TotalUsersStats");
+    this.getQueries("TotalSearchesStats");
+    this.getAllOverview(status);
+    this.getCurrentUsage();
+    this.componentType = 'summary';
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
+    
+  }
   //initial ngoninit method call
   initialCall(status?) {
     const toogleObj = {
@@ -151,12 +181,21 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);
     console.log(this.workflowService.selectedIndexPipeline());
+
+    this.getIndexPipeline(status);
+    // if(!this.workflowService.selectedIndexPipeline()){
+    //   this.getIndexPipeline();
+    // }
+    // else{
+    //   this.getQueries("TotalUsersStats");
+    //   this.getQueries("TotalSearchesStats");
+
+    // }
     
-    this.getQueries("TotalUsersStats");
-    this.getQueries("TotalSearchesStats");
-    this.getAllOverview(status);
-    this.getCurrentUsage();
-    this.componentType = 'summary';
+    
+    // this.getAllOverview(status);
+    // this.getCurrentUsage();
+    // this.componentType = 'summary';
   }
 
   getSummary() {
@@ -185,7 +224,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      indexPipelineId:this.workflowService.selectedIndexPipeline(),
+      indexPipelineId:this.default_Indexpipelineid,
       offset: 0,
       limit: 100
     };
