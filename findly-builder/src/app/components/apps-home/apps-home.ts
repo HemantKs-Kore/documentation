@@ -202,7 +202,9 @@ export class AppsListingComponent implements OnInit {
         if (res) {
           this.notificationService.notify('Removed Successfully', 'success');
           this.closeConfirmApp();
-          this.getAllApps();
+          setTimeout(() => {
+            this.getAllApps();
+          }, 400);
         }
       }, errRes => {
         this.notificationService.notify('Something has gone wrong.', 'error');
