@@ -139,6 +139,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }, 1000)
   }
+  
   //initial ngoninit method call
   initialCall(status?) {
     const toogleObj = {
@@ -149,6 +150,8 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);
+    console.log(this.workflowService.selectedIndexPipeline());
+    
     this.getQueries("TotalUsersStats");
     this.getQueries("TotalSearchesStats");
     this.getAllOverview(status);
@@ -182,6 +185,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
+      indexPipelineId:this.workflowService.selectedIndexPipeline(),
       offset: 0,
       limit: 100
     };
