@@ -103,7 +103,7 @@ export class StatusDockerComponent implements OnInit {
       }
       /**made code updates on 24/02 in line 106 added new condition for running state as per new contract In_progress updated to running */
       // else if(status === 'IN_PROGRESS' || status === 'validation' ){
-      else if(status === 'IN_PROGRESS' || status === 'running'  || status === 'validation' ){
+      else if((status === 'IN_PROGRESS' || status === 'running')  || status === 'validation' ){
         return 'In-progress';
       }
     }

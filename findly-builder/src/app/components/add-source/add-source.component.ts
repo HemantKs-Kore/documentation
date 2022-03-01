@@ -1900,7 +1900,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
          dockStatuses added updated code on 1902*/
         // const jobStatus = response.dockStatuses.filter(ele => ele._id === jobId);
         const jobStatus = response.filter(ele => ele._id === jobId);
-        if (jobStatus[0].status === "SUCCESS") {
+        /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is upadted to success*/
+        // if (jobStatus[0].status === "SUCCESS") {
+          if (jobStatus[0].status === "SUCCESS" || jobStatus[0].status === "success") {
           this.pollingSubscriber.unsubscribe();
           jobStatus[0] = Object.assign({ ...jobStatus[0], status: 'success' })
           this.statusObject = jobStatus[0];

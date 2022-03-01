@@ -498,14 +498,18 @@ export class AppHeaderComponent implements OnInit {
          dockStatuses added updated code in 386 line*/
         // this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
         this.dockersList = JSON.parse(JSON.stringify(res));
-        if (this.trainingInitiated && this.dockersList[0].status === 'SUCCESS' && this.dockersList[0].action === "TRAIN") {
-          this.trainingInitiated = false;
+        /**made code updates in line no 503 on 03/01 added new condition for success,since SUCCESS is updated to success*/
+        // if (this.trainingInitiated && this.dockersList[0].status === 'SUCCESS' && this.dockersList[0].action === "TRAIN") {
+          if (this.trainingInitiated && (this.dockersList[0].status === 'SUCCESS' || this.dockersList[0].status === 'success') && this.dockersList[0].action === "TRAIN") {  
+           this.trainingInitiated = false;
           if (this.training) {
             this.notificationService.notify('Training Completed', 'success');
           }
           this.training = false;
         }
-        if (this.trainingInitiated && this.dockersList[0].status === 'FAILURE' && this.dockersList[0].action === "TRAIN") {
+        /**made code updates in line no 512 on 03/01 added new condition for FAILED,since FAILURE is updated to FAILED as per new api contract*/
+        // if (this.trainingInitiated && this.dockersList[0].status === 'FAILURE' && this.dockersList[0].action === "TRAIN") {
+          if (this.trainingInitiated && (this.dockersList[0].status === 'FAILURE' || this.dockersList[0].status ==="FAILED") && this.dockersList[0].action === "TRAIN") {
           this.trainingInitiated = false;
           if (this.training) {
             this.notificationService.notify(this.dockersList[0].message, 'error');
@@ -556,12 +560,16 @@ export class AppHeaderComponent implements OnInit {
 
         if (this.unReadDocs && this.unReadDocs.length) {
           let successElements = this.unReadDocs.filter(element => {
-            if (element && element.status === 'SUCCESS') {
+            /**made code updates in line no 563 on 03/01 added new condition for success,since SUCCESS is upadted to success*/
+            // if (element && element.status === 'SUCCESS') {
+            if (element && (element.status === 'SUCCESS' || element.status === 'success')){
               return element;
             }
           });
           let failureElements = this.unReadDocs.filter(element => {
-            if (element && element.status === 'FAILURE') {
+            /**made code updates in line no 572 on 03/01 added new condition for FAILED,since FAILURE is updated to FAILED as per new api contract*/
+            // if (element && element.status === 'FAILURE') {
+            if (element && (element.status === 'FAILURE' || element.status === 'FAILED')) {
               return element;
             }
           });
@@ -606,7 +614,9 @@ export class AppHeaderComponent implements OnInit {
 
   getStatusView(status, other?) {
     if (other) {
-      if (status === 'HALTED') {
+      /**made code updates in line no 619 on 03/01 added new condition for halted,since HALTED is updated to halted as per new api contract*/
+      // if (status === 'HALTED'){
+      if (status === 'HALTED' || status ==='halted') {
         return 'Stopped';
       }
       else if (status === 'QUEUED') {
@@ -617,12 +627,16 @@ export class AppHeaderComponent implements OnInit {
       else if ((status === 'IN_PROGRESS' || status === 'running' ) || status === 'validation') {
         return 'In-progress';
       }
-      else if (status === 'FAILURE') {
+      /**made code updates in line no 630 on 03/01 added new condition for FAILED,since FAILURE is updated to FAILED as per new api contract*/
+      // else if (status === 'FAILURE') {
+      else if (status === 'FAILURE' || status === 'FAILED') {
         return 'Failed'
       }
     }
     else {
-      if (status === 'SUCCESS') {
+      /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is upadted to success*/
+      // if (status === 'SUCCESS') {
+      if (status === 'SUCCESS' || status === 'success') {
         return true;
       }
       else {

@@ -242,14 +242,24 @@
                                                                 <div
                                                                     class="col-3 d-flex p-0 align-items-center justify-content-end">
                                                                     <div class="img-block">
-                                                                        <img src="assets/icons/docker/info.svg"
-                                                                            *ngIf="task.status === 'FAILURE'">
-                                                                        <img src="assets/icons/docker/return.svg"
-                                                                            *ngIf="task.status === 'HALTED'"
-                                                                            (click)="recrawl(task)">
+                                                                        <!-- made code updates in line no 248,249 on 03/01 added new condition for FAILED,since FAILURE is updated to FAILED as per new api contract -->
+                                                                        <!-- <img src="assets/icons/docker/info.svg"
+                                                                            *ngIf="task.status === 'FAILURE'"> -->
+                                                                            <img src="assets/icons/docker/info.svg"
+                                                                            *ngIf="task.status === 'FAILURE' || task.status === 'FAILED'">
+                                                                            <!-- made code updates in line no 255,256 on 03/01 added new condition for halted,since HALTED is updated to halted as per new api contract -->
+                                                                            <!-- <img src="assets/icons/docker/return.svg"
+                                                                                *ngIf="task.status === 'HALTED'"
+                                                                                (click)="recrawl(task)"> -->
+                                                                            <img src="assets/icons/docker/return.svg"
+                                                                                *ngIf="task.status === 'HALTED' || task.status === 'halted'"
+                                                                                (click)="recrawl(task)">
                                                                         <!-- <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')"> -->
-                                                                        <img src="assets/icons/docker/check.svg"
-                                                                            *ngIf="(task.status === 'SUCCESS')">
+                                                                        <!-- made code updates in line no 254,255 on 03/01 added new condition for success,since SUCCESS is upadted to success as per new api contract  -->
+                                                                        <!-- <img src="assets/icons/docker/check.svg"
+                                                                            *ngIf="(task.status === 'SUCCESS')"> -->
+                                                                            <img src="assets/icons/docker/check.svg"
+                                                                            *ngIf="(task.status === 'SUCCESS' || task.status ==='success')">
                                                                         <!-- <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.extractionSourceId && (task.jobType == 'web' || task.jobType == 'faq')) || (task.jobType == 'STRUCTURED_DATA_INGESTION')">                         -->
                                                                     </div>
                                                                     <div class="status-blcok">
