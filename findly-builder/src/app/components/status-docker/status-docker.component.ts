@@ -61,7 +61,9 @@ export class StatusDockerComponent implements OnInit {
         this.dockersList = JSON.parse(JSON.stringify(res));
         this.dockersList.forEach((record : any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
-          if(record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen){
+          /**made code updates in line no 66 on 03/01 added new condition for success,since SUCCESS is upadted to success as per new api contract */
+          // if(record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen){
+            if((record.status === 'SUCCESS' || record.status === 'success') && record.fileId && !record.store.toastSeen){
             if(record.action === 'EXPORT'){
               this.downloadDockFile(record.fileId, record.store.urlParams,record.streamId,record._id);
             }
@@ -95,7 +97,9 @@ export class StatusDockerComponent implements OnInit {
 
   getStatusView(status, other?){
     if(other){
-      if(status === 'HALTED'){
+      /**made code updates in line no 102 on 03/01 added new condition for halted,since HALTED is updated to halted as per new api contract */
+      // if(status === 'HALTED'){
+        if(status === 'HALTED' || status === 'halted'){
         return 'Stopped';
       }
       else if(status === 'QUEUED'){
@@ -110,7 +114,8 @@ export class StatusDockerComponent implements OnInit {
     else{
       /**made code updates on 24/02 in line 113 added new condition for Failed state as per new contract Failure updated to Failed */
       // if(status === 'SUCCESS' || status === 'FAILURE'){
-      if(status === 'SUCCESS' || (status === 'FAILURE' || status === 'FAILED')){
+      //made code updates in line no 116 on 03/01 added new condition for success,since SUCCESS is upadted to success as per new api contract
+      if((status === 'SUCCESS'||status === 'success') || (status === 'FAILURE' || status === 'FAILED')){
         return true;
       }
       else{
