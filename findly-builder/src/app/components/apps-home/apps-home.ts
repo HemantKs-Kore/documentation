@@ -152,7 +152,16 @@ export class AppsListingComponent implements OnInit {
       if (res) {
         this.notificationService.notify('Deleted Successfully', 'success');
         this.closeConfirmApp();
-        this.getAllApps();
+        this.apps=this.apps.filter((val) => { return val._id!=this.slectedAppId });
+        this.selectedAppType(this.app_type);
+        // this.apps.forEach(element => {
+        //  if(element._id==this.slectedAppId){
+        //    this.apps.slice(0,1)
+        //  }
+        // });
+      // setTimeout(() => {
+        // this.getAllApps();
+      // }, 400);
         this.confirmApp = '';
       }
     }, errRes => {
@@ -200,7 +209,9 @@ export class AppsListingComponent implements OnInit {
         if (res) {
           this.notificationService.notify('Removed Successfully', 'success');
           this.closeConfirmApp();
-          this.getAllApps();
+          setTimeout(() => {
+            this.getAllApps();
+          }, 400);
         }
       }, errRes => {
         this.notificationService.notify('Something has gone wrong.', 'error');
