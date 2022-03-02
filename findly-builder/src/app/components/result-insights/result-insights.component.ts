@@ -74,6 +74,10 @@ export class ResultInsightsComponent implements OnInit {
   searchQueryanswerType = '';
   resultQueryAnswer = '';
   searchSources: any = '';
+  indexConfigs:any =[];
+  selecteddropId: any;
+  indexConfigObj: any = {};
+  selectedIndexConfig: any;
   dateType = "hour"
   group = "week";
   totalRecord: number = 0;
@@ -101,7 +105,7 @@ export class ResultInsightsComponent implements OnInit {
     this.searchQueryanswerType = result.answerType;
     this.resultQueryAnswer = result.answer;
     this.loadingQueries=true;
-    this.getQueries('SearchQueriesForResult')
+    this.getQueries('SearchQueriesForResult',this.selectedIndexConfig)
     this.viewQueriesRef = this.viewQueries.open();
   }
   closeModalPopup() {
@@ -112,8 +116,49 @@ export class ResultInsightsComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.getIndexPipeline();
 
-    this.getQueries("Results");
+    
+  }
+
+  getIndexPipeline() {
+    const header: any = {
+      'x-timezone-offset': '-330'
+    };
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      offset: 0,
+      limit: 100
+    };
+    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
+      this.indexConfigs = res;
+      this.indexConfigs.forEach(element => {
+          this.indexConfigObj[element._id] = element;
+         });
+      if (res.length >= 0){
+            this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
+            this.getAllgraphdetails(this.selectedIndexConfig);
+            // for(let i=0;i<res.length;i++){
+            //   if(res[i].default=== true){
+            //     this.selecteddropname=res[i].name;           
+            //   }
+            // }
+          } 
+         
+      //this.getQueryPipeline(res[0]._id);
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
+    
+  }
+
+  getAllgraphdetails(selectedindexpipeline){
+    this.selecteddropId=selectedindexpipeline;
+    this.getQueries("Results",selectedindexpipeline);       
   }
   openDateTimePicker(e) {
     setTimeout(() => {
@@ -152,9 +197,12 @@ export class ResultInsightsComponent implements OnInit {
   }
   dateLimt(type) {
     this.dateType = type;
-    this.getQueries('Results');
+    let selectedindexpipeline=this.selecteddropId;
+    if(selectedindexpipeline){
+    this.getQueries('Results',selectedindexpipeline);
+    }
   }
-  getQueries(type,sortHeaderOption?,sortValue?,navigate?,request?,searchSource?) {
+  getQueries(type,selectedindexpipeline?,sortHeaderOption?,sortValue?,navigate?,request?,searchSource?) {
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
     var week = new Date(Date.now() - (6 * 864e5));
@@ -184,6 +232,7 @@ export class ResultInsightsComponent implements OnInit {
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
+      indexPipelineId:selectedindexpipeline, 
       offset: this.skipPage,
       limit: 10
     };
@@ -294,7 +343,7 @@ export class ResultInsightsComponent implements OnInit {
     
     // end
     }
-    this.getQueries(type,sortHeaderOption,sortValue,navigate,request,searchSource)
+    this.getQueries(type,this.selecteddropId,sortHeaderOption,sortValue,navigate,request,searchSource)
   }
   sortByApi(type,sort){
     this.selectedSort = sort;
@@ -381,12 +430,12 @@ export class ResultInsightsComponent implements OnInit {
     if (type === 'Results') {
       // this.limitPage = event.limit;
       this.skipPage = event.skip;
-      this.getQueries('Results');
+      this.getQueries('Results',this.selecteddropId);
     }
     else if (type === 'QRESULT') {
       // this.Q_limitPage = event.limit;
       this.Q_skipPage = event.skip;
-      this.getQueries('SearchQueriesForResult');
+      this.getQueries('SearchQueriesForResult',this.selecteddropId);
     }
   }
   // pagination(data,type){
