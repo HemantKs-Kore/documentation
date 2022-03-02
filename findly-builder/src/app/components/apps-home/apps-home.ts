@@ -171,8 +171,6 @@ export class AppsListingComponent implements OnInit {
   else{
     this.notificationService.notify('Enter and confirm the App Name ', 'error');
   }
-
-
     // for (let i=0; i<this.apps.length; i++){
     // if (this.apps[i].name === this.confirmApp){
     // let quaryparms: any = {};
@@ -182,8 +180,6 @@ export class AppsListingComponent implements OnInit {
     //           this.notificationService.notify('Deleted Successfully', 'success');
     //           this. closeDeleteApp();
     //           this.getAllApps();
-              
-           
     //         }
     //       }, errRes => {
     //         this.notificationService.notify('Deletion has gone wrong.', 'error');
