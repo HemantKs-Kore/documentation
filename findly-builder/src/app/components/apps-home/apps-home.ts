@@ -258,17 +258,17 @@ export class AppsListingComponent implements OnInit {
         }else {
 
           /** Issue Fix for multiple onboarding  function called */
-          if (this.headerService.openJourneyForfirstTime) {
-            this.emptyApp = true;
-            this.showBoarding = true;
-            this.headerService.openJourneyForfirstTime = true;
-            this.openBoradingJourney();
-          }
+          // if (this.headerService.openJourneyForfirstTime) {
+          //   this.emptyApp = true;
+          //   this.showBoarding = true;
+          //   this.headerService.openJourneyForfirstTime = true;
+          //   this.openBoradingJourney();
+          // }
           if (!this.headerService.openJourneyForfirstTime) {
             this.emptyApp = true;
             this.showBoarding = true;
             this.headerService.openJourneyForfirstTime = true;
-            //this.openBoradingJourney();
+            this.openBoradingJourney();
           }
         }
       }
