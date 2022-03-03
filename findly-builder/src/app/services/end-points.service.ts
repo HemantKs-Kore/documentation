@@ -682,11 +682,13 @@ export class EndPointsService {
     /** get API for Metrics */
 
     this.serviceList['get.queries'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/metrics/Analysis?offset=:offset&limit=:limit',
+      /*passing indexPipelineId for the analytics based indices added on 17/01  */
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:indexPipelineId/metrics/Analysis?offset=:offset&limit=:limit',
       method: 'post'
     }
     this.serviceList['get.userChart'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/metrics/analysis',
+      /*passing indexPipelineId for the analytics based indices added on 24/01  */
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:indexPipelineId/metrics/analysis',
       method: 'post'
     }
 
@@ -1166,5 +1168,19 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms/list',
       method: 'post'
     }
+    /** Delete apps API */
+    this.serviceList['delete.app'] = {
+      //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType/:pageId',
+      endpoint: this.API_SERVER_URL + '/findly/apps/:streamId',
+      method: 'delete'
+    }
+    /** Remove Access apps API */
+    this.serviceList['Unlink.app'] = {
+      //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType/:pageId',
+      endpoint: this.API_SERVER_URL + '/findly/apps/:streamId/unlinkApp',
+      method: 'delete'
+    }
+    
+
   }
 }
