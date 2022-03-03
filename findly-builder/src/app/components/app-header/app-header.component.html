@@ -285,6 +285,9 @@
                         </div>
                     </div>
                 </li>
+                <li class="nav-item help-icon" (click)="openUserMetaTagsSlider()">
+                    <img src="assets/icons/sidemenu/help.svg">                    
+                </li>
                 <!-- <li class="nav-item search-block show-search2">
                     <div class="search_icon" [ngClass]="{'active-search-top' : showSearch}">
                         <img src="assets/icons/sidemenu/search.svg" (click)="showSearch=!showSearch;searchText=''">
@@ -481,3 +484,6 @@
             'header.create' | translate }}</button>
     </div>
 </kr-modal>
+<app-slider-component id="supportOnboarding">
+    <app-onboarding-component  (closeSlid)="closeUserMetaTagsSlider()"></app-onboarding-component>
+  </app-slider-component>

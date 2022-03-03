@@ -9,6 +9,7 @@ import { LocalStoreService } from '@kore.services/localstore.service';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
@@ -79,6 +80,7 @@ export class AppHeaderComponent implements OnInit {
   @Output() showSourceMenu = new EventEmitter();
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('testButtonTooltip') testButtonTooltip: any;
+  @ViewChild(SliderComponentComponent, { static: true }) sliderComponent: SliderComponentComponent;
   availableRouts = [
     { displayName: 'Summary', routeId: '/summary', quaryParms: {} },
     { displayName: 'Add Sources', routeId: '/source', quaryParms: {} },
@@ -987,4 +989,8 @@ export class AppHeaderComponent implements OnInit {
       $("#enterAppName").css("border-color", this.newApp.name != '' ? "#BDC1C6" : "#DD3646");
     }
   }
+  /**opening slider component and closing slider component  */
+  openUserMetaTagsSlider() { this.sliderComponent.openSlider("#supportOnboarding", "right500"); }
+  closeUserMetaTagsSlider() { this.sliderComponent.closeSlider("#supportOnboarding"); }
 }
+
