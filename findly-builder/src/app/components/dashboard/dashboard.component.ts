@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { AppSelectionService } from '@kore.services/app.selection.service'; //imported on 17/01
 import { NotificationService } from '@kore.services/notification.service';
 import { EChartOption } from 'echarts';
 import { Router } from '@angular/router';
@@ -9,7 +10,7 @@ import * as moment from 'moment-timezone';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { Subscription } from 'rxjs';
 import { SideBarService } from '@kore.services/header.service';
-import { AppSelectionService } from '@kore.services/app.selection.service';
+
 declare const $: any;
 @Component({
   selector: 'app-dashboard',
@@ -27,7 +28,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   tsqtotalRecord = 100;
   tsqlimitpage = 5;
   tsqrecordEnd = 5;
-
+  
   tsqNoRtotalRecord = 100;
   tsqNoRlimitpage = 5;
   tsqNoRrecordEnd = 5;
@@ -51,6 +52,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   totalRecord = 100;
   limitpage = 5;
   recordEnd = 5;
+  /*added line 52,53 for the dropdown based analytics 17/01 */
+  indexConfigObj: any = {};
+  selectedIndexConfig: any; // changes ends here
+
   totalUsersStats: any;
   totalSearchesStats: any;
   topSearchResults: any;
@@ -58,6 +63,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   mostSearchedQuries: any = [];
   queriesWithNoClicks: any;
   searchHistogram: any;
+  selecteddropId: any;
   mostClickedPositions: any = [];
   feedbackStats: any;
   heatMapChartOption: EChartOption;
@@ -96,33 +102,135 @@ export class DashboardComponent implements OnInit, OnDestroy {
     public headerService: SideBarService,
     private appSelectionService: AppSelectionService,
     private notificationService: NotificationService) { }
+    indexConfigs: any = [];//added on 17/01
 
   ngOnInit(): void {
+       
     this.selectedApp = this.workflowService.selectedApp();
+    //this.indexConfigs = this.appSelectionService.appSelectedConfigs;
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.getIndexPipeline();
+    //this.appselection();
+        
+    /*added 96 to 107 on 17/01 */
+    //   this.appSelectionService.appSelectedConfigs.subscribe(res =>   {   
+    //   this.indexConfigs = res;
+    //   this.indexConfigs.forEach(element => {
+    //     this.indexConfigObj[element._id] = element;
+    //   });
+    //   if (res.length >= 0){
+    //     this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
+    //     this.getAllgraphdetails(this.selectedIndexConfig);
+    //     for(let i=0;i<res.length;i++){
+    //       if(res[i].default=== true){
+    //         this.selecteddropname=res[i].name;           
+    //       }
+    //     }
+    //   }
+      
+
+        
+    //  }) //changes ends here
+    
+    
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.appSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     })
-    //this.userEngagementChart();
-
-    // this.feedback();
-    //this.busyHours();
-
-    this.getQueries("TotalUsersStats");
-    this.getQueries("TotalSearchesStats");
-    this.getQueries("TopQuriesWithNoResults");
-    this.getQueries("MostSearchedQuries");
-    this.getQueries("QueriesWithNoClicks");
-    this.getQueries("SearchHistogram");
-    this.getQueries("TopSearchResults");
-    this.getQueries("MostClickedPositions");
-    this.getQueries("FeedbackStats");
-    // this.searchConfigurationSubscription = this.headerService.savedSearchConfiguration.subscribe((res) => {
-    //   this.searchExperienceConfig = res;
-    // });
     this.searchExperienceConfig = this.headerService.searchConfiguration;
+
+   
+
+  
   }
+
+  getIndexPipeline() {
+    const header: any = {
+      'x-timezone-offset': '-330'
+    };
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      offset: 0,
+      limit: 100
+    };
+    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
+      this.indexConfigs = res;
+      this.indexConfigs.forEach(element => {
+          this.indexConfigObj[element._id] = element;
+         });
+      if (res.length >= 0){
+            this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
+            this.getAllgraphdetails(this.selectedIndexConfig);
+            // for(let i=0;i<res.length;i++){
+            //   if(res[i].default=== true){
+            //     this.selecteddropname=res[i].name;           
+            //   }
+            // }
+          } 
+         
+      //this.getQueryPipeline(res[0]._id);
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
+    
+  }
+
+  /*added on 21/01 creating seperate function for caputuring res inside funcstion rather than calling in ngOninit */
+  // appselection(){
+  // this.appSelectionService.appSelectedConfigs.subscribe(res =>   {   
+  //   this.indexConfigs = res;
+  //   this.indexConfigs.forEach(element => {
+  //     this.indexConfigObj[element._id] = element;
+  //   });
+  //   if (res.length >= 0){
+  //     this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
+  //     this.getAllgraphdetails(this.selectedIndexConfig);
+  //     for(let i=0;i<res.length;i++){
+  //       if(res[i].default=== true){
+  //         this.selecteddropname=res[i].name;           
+  //       }
+  //     }
+  //   } 
+  //  })
+  // }
+  /* added on 17/01 */
+  getAllgraphdetails(selectedindexpipeline){
+    this.selecteddropId=selectedindexpipeline;
+    this.getQueries("TotalUsersStats",selectedindexpipeline);
+    this.getQueries("TotalSearchesStats",selectedindexpipeline);
+    this.getQueries("TopQuriesWithNoResults",selectedindexpipeline);
+    this.getQueries("MostSearchedQuries",selectedindexpipeline);
+    this.getQueries("QueriesWithNoClicks",selectedindexpipeline);
+    this.getQueries("SearchHistogram",selectedindexpipeline);
+    this.getQueries("TopSearchResults",selectedindexpipeline);
+    this.getQueries("MostClickedPositions",selectedindexpipeline);
+    this.getQueries("FeedbackStats",selectedindexpipeline);
+    
+
+  }
+  /*added selectindex pipeline function to capture the id's of selection dropdowns on 17/01*/
+  // selectIndexPipelineId(indexConfigs, event?, type?) {
+  //   if (event) {
+  //     event.close();
+  //   }
+  //   //this.workflowService.selectedSearchIndex(indexConfigs._id)
+  //   this.appSelectionService.getIndexPipelineIds(indexConfigs)
+  //   this.selectedIndexConfig = indexConfigs._id;
+  //   //this.reloadCurrentRoute()
+  // }//changes ends here
+
+  /* to get the id of the selected element 17/01 */
+  // getDetails(config?){
+  //   this.selecteddropname=config.name;
+  //   this.selectedIndexConfig=config._id;
+  //   this.getAllgraphdetails(config._id);
+   
+  // }
+
   viewAll(route, searchType?) {
     this.workflowService.mainMenuRouter$.next(route);
     this.router.navigate([route], { skipLocationChange: true });
@@ -171,20 +279,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   paginate(event) {
     // console.log(event)
-  }
+  }  
   dateLimt(type) {
     this.dateType = type;
-    this.getQueries("TotalUsersStats");
-    this.getQueries("TotalSearchesStats");
-    this.getQueries("TopQuriesWithNoResults");
-    this.getQueries("MostSearchedQuries");
-    this.getQueries("QueriesWithNoClicks");
-    this.getQueries("SearchHistogram");
-    this.getQueries("TopSearchResults");
-    this.getQueries("MostClickedPositions");
-    this.getQueries("FeedbackStats");
-  }
-  getQueries(type, sortHeaderOption?, sortValue?, navigate?, request?) {
+    /*passing the selectedindexpipeline to getQueries added on 17/01 */
+    let selectedindexpipeline=this.selecteddropId;
+    if(selectedindexpipeline){
+    this.getQueries("TotalUsersStats",selectedindexpipeline);
+    this.getQueries("TotalSearchesStats",selectedindexpipeline);
+    this.getQueries("TopQuriesWithNoResults",selectedindexpipeline);
+    this.getQueries("MostSearchedQuries",selectedindexpipeline);
+    this.getQueries("QueriesWithNoClicks",selectedindexpipeline);
+    this.getQueries("SearchHistogram",selectedindexpipeline);
+    this.getQueries("TopSearchResults",selectedindexpipeline);
+    this.getQueries("MostClickedPositions",selectedindexpipeline);
+    this.getQueries("FeedbackStats",selectedindexpipeline);
+  }}
+  getQueries(type,selectedindexpipeline?,sortHeaderOption?,sortValue?,navigate?,request?) {
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
     var week = new Date(Date.now() - (6 * 864e5));
@@ -216,8 +327,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const header: any = {
       'x-timezone-offset': '-330'
     };
+    
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
+      /* adding indexPipelineid to query params on 17/01*/
+     indexPipelineId:selectedindexpipeline, 
+     //indexPipelineId:selectedindexpipeline ? selectedindexpipeline : this.defaultPipelineid,
       offset: 0,
       limit: this.pageLimit
     };
@@ -374,7 +489,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
       // end
     }
-    this.getQueries(type, sortHeaderOption, sortValue, navigate, request)
+    this.getQueries(type,this.selecteddropId,sortHeaderOption,sortValue,navigate,request)
     // this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
 
   }

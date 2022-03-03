@@ -201,9 +201,12 @@ export class AppHeaderComponent implements OnInit {
   //   } 
   //   this.extractProfiledisplayname(); 
   /**added code to fetch the associated accounts from*/
+    // if(localStorage.krPreviousState=='{}'|| localStorage.krPreviousState=="null"  || localStorage.krPreviousState==undefined){
+    //   this.analyticsClick('/home');
+    // }
     if(localStorage.krPreviousState=='{}'|| localStorage.krPreviousState=="null"  || localStorage.krPreviousState==undefined){
-      this.analyticsClick('/home');
-    }
+        //this.analyticsClick('/home');
+      }
     else if (localStorage.krPreviousState && JSON.parse(localStorage.krPreviousState)) {
       this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
     }
@@ -233,8 +236,12 @@ export class AppHeaderComponent implements OnInit {
         {
           this.selectAccountDetails=this.associatedAccounts[i];
         }
-
+   
       }
+      if((!this.selectAccountDetails) || this.selectAccountDetails=="null"  || this.selectAccountDetails==undefined){
+        this.selectAccountDetails=this.associatedAccounts[0];
+      }
+
     }
       
     for(let i=0;i<this.associatedAccounts.length;i++)
@@ -244,7 +251,25 @@ export class AppHeaderComponent implements OnInit {
         this.loginusername=this.associatedAccounts[i].userFullName;
       }
     } 
-    this.extractProfiledisplayname();   
+    if(!this.loginusername){
+      this.loginusername=this.domain;
+    }
+    // if(this.associatedAccounts.length==1){
+    //   this.loginusername=this.associatedAccounts[0].userFullName;
+    // }
+    if(this.loginusername==this.domain){
+      this.extractFirstLetter();
+    }
+    else{
+    this.extractProfiledisplayname();  
+    } 
+  }
+  extractFirstLetter(){
+      let firstLetter=this.domain.charAt(0);
+      this.profile_display=firstLetter;
+      this.profile_display=this.profile_display.toUpperCase();
+      this.setprofilebackground(this.profile_display);
+
   }
   extractProfiledisplayname(){
     console.log(this.loginusername);
