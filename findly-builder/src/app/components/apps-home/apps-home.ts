@@ -241,7 +241,7 @@ export class AppsListingComponent implements OnInit {
       if (res && res.length) {
         if(JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
           let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
-          if(prDetails){
+          if(prDetails && prDetails.formAccount){
             this.redirectHome()
           }
         }
