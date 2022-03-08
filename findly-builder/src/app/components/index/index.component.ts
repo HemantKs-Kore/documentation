@@ -2091,7 +2091,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             }
           }
         }
-        this.newMappingObj.custom_script.defaultValue.script = stage.config.mappings[0].script || '';
+        /**04/03 code updates as per FLY-4519 */
+        //this.newMappingObj.custom_script.defaultValue.script = stage.config.mappings[0].script || '';
+        this.newMappingObj.custom_script.defaultValue.script = stage.config.mappings[stage.config.mappings.length-1].script || '';
       } else
       {
         if (!this.newMappingObj.custom_script)
@@ -2102,7 +2104,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             }
           }
         }
-        this.newMappingObj.custom_script.defaultValue.script = '';
+        /**04/03 code updates as per FLY-4519 */
+        //this.newMappingObj.custom_script.defaultValue.script = '';
       }
       this.selectedStage = stage; 
       if((stage && stage.type)!= "custom_script"){   
