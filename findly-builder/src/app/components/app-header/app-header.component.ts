@@ -564,7 +564,7 @@ export class AppHeaderComponent implements OnInit {
             if (record.action === 'EXPORT') {
               this.downloadDockFile(record.fileId, record.store.urlParams, record.streamId, record._id);
             }
-          }
+          } 
         })
         /**made changes on 24/02 as per new api contract in response we no longer use the key
          dockStatuses added updated code in 413 line*/
