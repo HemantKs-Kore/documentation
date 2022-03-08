@@ -269,8 +269,7 @@ export class AppHeaderComponent implements OnInit {
       this.setprofilebackground(this.profile_display);
 
   }
-  extractProfiledisplayname(){
-    console.log(this.loginusername);
+  extractProfiledisplayname(){    
     let name = this.loginusername
     //match the spaces
     var matches = name.split(/(?<=^\S+)\s/)
@@ -335,8 +334,21 @@ export class AppHeaderComponent implements OnInit {
   switchAccountInternal(account) {
     window[this.storageType].setItem('selectedAccount', JSON.stringify(account))
     this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
-    this.router.navigate([''], { skipLocationChange: true })
+    // let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
+    //       if(prDetails){
+    //         prDetails.formAccount=true;  
+    //         localStorage.setItem('krPreviousState', JSON.stringify(prDetails)); 
+
+    //       }
+    //       this.router.navigate([''], { skipLocationChange: true })
+    this.redirectHome();
     window.location.reload();
+  }
+  redirectHome(){
+    let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
+    prDetails.route = "/home";
+    localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
+    this.router.navigate(['/home'], { skipLocationChange: true });
   }
   loadHeader() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -518,6 +530,9 @@ export class AppHeaderComponent implements OnInit {
     }
     this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
+        if((!res) || !res.dockStatuses.length){
+          this.training=false;
+        }
         this.statusDockerLoading = false;
         /**made changes on 24/02 as per new api contract in response we no longer use the key
          dockStatuses added updated code in 386 line*/
