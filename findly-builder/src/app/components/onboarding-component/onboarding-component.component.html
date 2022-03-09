@@ -1,2 +1,508 @@
-<p>onboarding-component works!</p>
-<button (click)="closeSupport()">close</button>
+
+<div class="onboarding-slider-container">
+    <div class="close-slider" (click)="closeSupport()">
+        <i class="si-close"></i>
+    </div>
+    <ul class="nav nav-pills" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="pill" href="#support">
+              <i class="si-home"></i>
+              <span>Support</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="pill" href="#faq">
+            <i class="si-faq"></i>
+            <span>FAQs</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="pill" href="#appchecklist">
+            <i class="si-list"></i>
+            <span>App Checklist</span>
+          </a>
+        </li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div id="support" class="tab-pane active">
+            <div class="bread-cum-search">
+                <div class="bread-cum-list">
+                    <div class="first-title">Support</div>
+                    <i class="si-carrotup"></i>
+                    <div class="secondary-title">Getting started</div>
+                </div>
+                <div class="kr-sg-input-text d-none">
+                    <input type="text" placeholder="Placeholder text" class="input-text">
+                    <i class="si-close"></i>
+                </div>
+                <div class="search-icon">
+                    <i class="si-search"></i>
+                </div>
+            </div>
+            <perfect-scrollbar class="scroll-content-data">
+              <div class="data-inner-content">
+                <div class="default-state-data d-none">
+                  <div class="action-block-data getting-start">
+                    <div class="dummy-border-left"></div>
+                    <div class="img-block">
+                      <img src="assets/icons/onboarding/getting-started.svg">
+                    </div>
+                    <div class="content-block">
+                      <div class="title">Getting started</div>
+                      <div class="desc-text">Explore our Guide on popular topics to start building your own Search Application</div>
+                    </div>
+                    <div class="arrow-icon">
+                      <i class="si-carrotup"></i>
+                    </div>
+                  </div>
+                  <div class="action-block-data whats-new">
+                    <div class="dummy-border-left"></div>
+                    <div class="img-block">
+                      <img src="assets/icons/onboarding/whatsnew.svg">
+                    </div>
+                    <div class="content-block">
+                      <div class="title">What's new</div>
+                      <div class="desc-text">Check out what's new in the latest release of SearchAssist</div>
+                    </div>
+                    <div class="arrow-icon">
+                      <i class="si-carrotup"></i>
+                    </div>
+                  </div>
+                  <div class="action-block-data help-doc">
+                    <div class="dummy-border-left"></div>
+                    <div class="img-block">
+                      <img src="assets/icons/onboarding/helpdoc.svg">
+                    </div>
+                    <div class="content-block">
+                      <div class="title">Help and Documentation</div>
+                      <div class="desc-text">Explore our usage guides, in-depth How-to's and API references</div>
+                    </div>
+                    <div class="arrow-icon">
+                      <i class="si-carrotup"></i>
+                    </div>
+                  </div>
+                  <div class="action-block-data contactus">
+                    <div class="dummy-border-left"></div>
+                    <div class="img-block">
+                      <img src="assets/icons/onboarding/hours.svg">
+                    </div>
+                    <div class="content-block">
+                      <div class="title">Contact Us</div>
+                      <div class="desc-text">Contact our support team for quick resolution of your queries</div>
+                    </div>
+                    <div class="arrow-icon">
+                      <i class="si-carrotup"></i>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="dynamic-state-data">
+                  <div class="action-block-data">
+                    <div class="dummy-border-left"></div>
+                    <div class="img-block">
+                      <img src="assets/icons/onboarding/database.svg">
+                    </div>
+                    <div class="content-block">
+                      <div class="title">Adding Content</div>
+                      <div class="desc-text">Add or Manage content to your Application from various sources available in SearchAssist.</div>
+                    </div>
+                    <div class="ext-icon-link">
+                      <i class="si-externallink"></i>
+                    </div>
+                  </div>
+                  <div class="action-block-data">
+                    <div class="dummy-border-left"></div>
+                    <div class="img-block">
+                      <img src="assets/icons/onboarding/book.svg">
+                    </div>
+                    <div class="content-block">
+                      <div class="title">Manage Index Configurations</div>
+                      <div class="desc-text">Configure Index and Organize data to enable quicker search responses to your end users quieries</div>
+                    </div>
+                    <div class="ext-icon-link">
+                      <i class="si-externallink"></i>
+                    </div>
+                  </div>
+                  <div class="action-block-data">
+                    <div class="dummy-border-left"></div>
+                    <div class="img-block">
+                      <img src="assets/icons/onboarding/configure.svg">
+                    </div>
+                    <div class="content-block">
+                      <div class="title">Configure Search Relevance</div>
+                      <div class="desc-text">Fine tune your search results and add custom ranking to it inorder to better suit your business goals</div>
+                    </div>
+                    <div class="ext-icon-link">
+                      <i class="si-externallink"></i>
+                    </div>
+                  </div>
+                  <div class="action-block-data">
+                    <div class="dummy-border-left"></div>
+                    <div class="img-block">
+                      <img src="assets/icons/onboarding/design-search.svg">
+                    </div>
+                    <div class="content-block">
+                      <div class="title">Design Search Experiance</div>
+                      <div class="desc-text">Design the look and feel of how your search results are to be displayed to your end user</div>
+                    </div>
+                    <div class="ext-icon-link">
+                      <i class="si-externallink"></i>
+                    </div>
+                  </div>
+                  <div class="action-block-data">
+                    <div class="dummy-border-left"></div>
+                    <div class="img-block">
+                      <img src="assets/icons/onboarding/acid.svg">
+                    </div>
+                    <div class="content-block">
+                      <div class="title">Running Experiments</div>
+                      <div class="desc-text">Run experiments on multiple variants of index and search configurations to test which variant performs better </div>
+                    </div>
+                    <div class="ext-icon-link">
+                      <i class="si-externallink"></i>
+                    </div>
+                  </div>
+                  <div class="action-block-data">
+                    <div class="dummy-border-left"></div>
+                    <div class="img-block">
+                      <img src="assets/icons/onboarding/search-insights.svg">
+                    </div>
+                    <div class="content-block">
+                      <div class="title">Analyze Search Insights</div>
+                      <div class="desc-text">Analyze actionalble search insights on the performance of your Search Application</div>
+                    </div>
+                    <div class="ext-icon-link">
+                      <i class="si-externallink"></i>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </perfect-scrollbar>
+        </div>
+        <div id="faq" class="tab-pane fade">
+          <div class="bread-cum-search faq-bread-cum">
+            <div class="bread-cum-list">
+                <div class="first-title">Contextual FAQs</div>
+                <i class="si-carrotup"></i>
+                <div class="secondary-title">Index Configuration</div>
+            </div>
+          </div>
+          <perfect-scrollbar class="scroll-content-data">
+            <div class="data-inner-content">
+              <div class="default-state-faq d-none">
+                <div class="action-block-data">
+                  <div class="dummy-border-left"></div>
+                  <div class="img-block">
+                    <img src="assets/icons/onboarding/help.svg">
+                  </div>
+                  <div class="content-block">
+                    <div class="title">Lorem Ipsum</div>
+                  </div>
+                  <div class="arrow-icon">
+                    <i class="si-carrotup"></i>
+                  </div>
+                </div>
+                <div class="action-block-data">
+                  <div class="dummy-border-left"></div>
+                  <div class="img-block">
+                    <img src="assets/icons/onboarding/help.svg">
+                  </div>
+                  <div class="content-block">
+                    <div class="title">Lorem Ipsum</div>
+                  </div>
+                  <div class="arrow-icon">
+                    <i class="si-carrotup"></i>
+                  </div>
+                </div>
+                <div class="action-block-data">
+                  <div class="dummy-border-left"></div>
+                  <div class="img-block">
+                    <img src="assets/icons/onboarding/help.svg">
+                  </div>
+                  <div class="content-block">
+                    <div class="title">Lorem Ipsum</div>
+                  </div>
+                  <div class="arrow-icon">
+                    <i class="si-carrotup"></i>
+                  </div>
+                </div>
+              </div>
+              <div id="accordion">
+                <div class="accor-card">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapseOne">
+                        <div class="img-block">
+                          <i class="si-help"></i>
+                        </div>
+                        <div class="content-block">Simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text?</div>
+                        <div class="ext-icon">
+                          <i class="si-externallink"></i>
+                        </div>
+                        <div class="arrow-icon">
+                          <i class="si-carrotup"></i>
+                        </div>
+                    </div>
+                  </div>
+                  <div id="collapseOne" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                      Ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It <a>Click here</a> to watch reference video
+                    </div>
+                  </div>
+                </div>
+                <div class="accor-card">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse2">
+                        <div class="img-block">
+                          <i class="si-help"></i>
+                        </div>
+                        <div class="content-block">Simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text?</div>
+                        <div class="ext-icon">
+                          <i class="si-externallink"></i>
+                        </div>
+                        <div class="arrow-icon">
+                          <i class="si-carrotup"></i>
+                        </div>
+                    </div>
+                  </div>
+                  <div id="collapse2" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                      Ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It <a>Click here</a> to watch reference video
+                    </div>
+                  </div>
+                </div>
+                <div class="accor-card">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse3">
+                        <div class="img-block">
+                          <i class="si-help"></i>
+                        </div>
+                        <div class="content-block">Simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text?</div>
+                        <div class="ext-icon">
+                          <i class="si-externallink"></i>
+                        </div>
+                        <div class="arrow-icon">
+                          <i class="si-carrotup"></i>
+                        </div>
+                    </div>
+                  </div>
+                  <div id="collapse3" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                      Ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It <a>Click here</a> to watch reference video
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </perfect-scrollbar>
+        </div>
+        <div id="appchecklist" class="tab-pane fade">
+          <div class="applist-header">
+            <div class="count-title">
+              <i class="si-check-round"></i>
+              <span>1 Out of 6 Steps Completed</span>
+            </div>
+            <div class="toggle-check">
+              <div class="status-bar-title">Status Bar</div>
+              <label class="kr-sg-toggle">                                       
+                <input type="checkbox">
+                <div class="slider"><span class="enabled">Show</span><span class="disabled">Hide</span></div>
+              </label>
+            </div>
+          </div>
+          <perfect-scrollbar class="scroll-content-data">
+            <div class="data-inner-content">
+              <div id="accordion1" class="applist-acc-data">
+                <div class="accordion-applist completed-state">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse1">
+                      <div class="indication-block completed">
+                          <i class="si-check"></i>
+                      </div>
+                      <div class="title-heading">
+                        <span class="steps-number">Step 1</span>Add Data
+                      </div>
+                      <div class="desc-text">Data is fetched from various sources and ingested into the application for accurate search results</div>
+                      <div class="actions-link">
+                        <a class="link-name">Guide Me <i class="si-externallink"></i></a>
+                        <a class="link-name">Documentation <i class="si-externallink"></i></a>
+                      </div>
+                      <div class="arrow-icon">
+                        <i class="si-carrotup"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="collapse1" class="collapse" data-parent="#accordion1">
+                    <div class="card-body">
+                      <div class="video-block">
+                        <video width="300" height="156" controls>
+                          <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
+                          <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-applist">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse2">
+                      <div class="indication-block">
+                          <img src="assets/icons/onboarding/review-index.svg">
+                      </div>
+                      <div class="title-heading">
+                        <span class="steps-number">Step 2</span> Review Index configurations
+                      </div>
+                      <div class="desc-text">Index configurations allows you to configure the fields, traits, keywords or create workbench pipelines to suit your business needs. </div>
+                      <div class="actions-link">
+                        <a class="link-name">Guide Me <i class="si-externallink"></i></a>
+                        <a class="link-name">Documentation <i class="si-externallink"></i></a>
+                      </div>
+                      <div class="arrow-icon">
+                        <i class="si-carrotup"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="collapse2" class="collapse" data-parent="#accordion1">
+                    <div class="card-body">
+                      <div class="video-block">
+                        <video width="300" height="156" controls>
+                          <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
+                          <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-applist">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse3">
+                      <div class="indication-block">
+                        <img src="assets/icons/onboarding/review-search.svg">
+                      </div>
+                      <div class="title-heading">
+                        <span class="steps-number">Step 3</span> Review Search Configurations
+                      </div>
+                      <div class="desc-text">Search Configuration allows you to improve search relevance by configuring  syonyms, weights, stop words, re-ranking results, adding rules or facets.</div>
+                      <div class="actions-link">
+                        <a class="link-name">Guide Me <i class="si-externallink"></i></a>
+                        <a class="link-name">Documentation <i class="si-externallink"></i></a>
+                      </div>
+                      <div class="arrow-icon">
+                        <i class="si-carrotup"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="collapse3" class="collapse" data-parent="#accordion1">
+                    <div class="card-body">
+                      <div class="video-block">
+                        <video width="300" height="156" controls>
+                          <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
+                          <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-applist">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse4">
+                      <div class="indication-block">
+                          <img src="assets/icons/onboarding/search-design.svg">
+                      </div>
+                      <div class="title-heading">
+                        <span class="steps-number">Step 4</span> Design Search Experiance
+                      </div>
+                      <div class="desc-text">SearchAssist allows you to customise the search experiance and design the search interface based on the business context.</div>
+                      <div class="actions-link">
+                        <a class="link-name">Guide Me <i class="si-externallink"></i></a>
+                        <a class="link-name">Documentation <i class="si-externallink"></i></a>
+                      </div>
+                      <div class="arrow-icon">
+                        <i class="si-carrotup"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="collapse4" class="collapse" data-parent="#accordion1">
+                    <div class="card-body">
+                      <div class="video-block">
+                        <video width="300" height="156" controls>
+                          <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
+                          <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-applist">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse5">
+                      <div class="indication-block">
+                          <img src="assets/icons/onboarding/acid-surface.svg">
+                      </div>
+                      <div class="title-heading">
+                        <span class="steps-number">Step 5</span> Simulate Application
+                      </div>
+                      <div class="desc-text">SearchAssist allows you to validate the configuration and search experience before deploying the app by just clicking on the Preview button.</div>
+                      <div class="actions-link">
+                        <a class="link-name">Guide Me <i class="si-externallink"></i></a>
+                        <a class="link-name">Documentation <i class="si-externallink"></i></a>
+                      </div>
+                      <div class="arrow-icon">
+                        <i class="si-carrotup"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="collapse5" class="collapse" data-parent="#accordion1">
+                    <div class="card-body">
+                      <div class="video-block">
+                        <video width="300" height="156" controls>
+                          <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
+                          <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-applist">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse6">
+                      <div class="indication-block">
+                          <img src="assets/icons/onboarding/hand.svg">
+                      </div>
+                      <div class="title-heading">
+                        <span class="steps-number">Step 6</span> Deploy your application
+                      </div>
+                      <div class="desc-text">Configure your application to connect to any of the channels available</div>
+                      <div class="actions-link">
+                        <a class="link-name">Guide Me <i class="si-externallink"></i></a>
+                        <a class="link-name">Documentation <i class="si-externallink"></i></a>
+                      </div>
+                      <div class="arrow-icon">
+                        <i class="si-carrotup"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="collapse6" class="collapse" data-parent="#accordion1">
+                    <div class="card-body">
+                      <div class="video-block">
+                        <video width="300" height="156" controls>
+                          <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
+                          <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </perfect-scrollbar>
+        </div>
+    </div>
+</div>

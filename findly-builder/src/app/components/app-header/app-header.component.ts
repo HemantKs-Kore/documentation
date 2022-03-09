@@ -1015,7 +1015,7 @@ export class AppHeaderComponent implements OnInit {
     }
   }
   /**opening slider component and closing slider component  */
-  openUserMetaTagsSlider() { this.sliderComponent.openSlider("#supportOnboarding", "right500"); }
+  openUserMetaTagsSlider() { this.sliderComponent.openSlider("#supportOnboarding", "width500"); }
   closeUserMetaTagsSlider() { this.sliderComponent.closeSlider("#supportOnboarding"); }
 }
 
