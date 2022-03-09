@@ -119,6 +119,8 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   ngOnInit() {
+    //moved the below flag to ngOnInit to fix the NAN display issue for few sec in summary screen on 08/03
+    this.loading_skelton = true;
     this.initialCall();
     this.currentUsageSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
       let subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
@@ -216,7 +218,8 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     //   });
   }
   getQueries(type) {
-    this.loading_skelton = true;
+    //moved the below flag to ngOnInit to fix the NAN display issue for few sec in summary screen on 08/03
+    //this.loading_skelton = true;
     var today = new Date();
     let from = new Date(Date.now() - (1 * 864e5));
     const header: any = {
