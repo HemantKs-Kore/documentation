@@ -803,6 +803,7 @@ export class AppHeaderComponent implements OnInit {
       this.workflowService.mainMenuRouter$.next('');
     }, 100);
     this.checkTrainingProgress();
+    this.workflowService.selectedIndexPipelineId='';
   }
   //check training in progress
   checkTrainingProgress() {

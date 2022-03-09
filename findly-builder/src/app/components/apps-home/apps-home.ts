@@ -99,6 +99,7 @@ export class AppsListingComponent implements OnInit {
   openApp(app) {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     this.appSelectionService.openApp(app);
+    this.workflowService.selectedIndexPipelineId='';
   }
   openBoradingJourney() {
     this.headerService.openJourneyForfirstTime = true;
