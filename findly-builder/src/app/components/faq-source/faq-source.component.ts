@@ -1898,10 +1898,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           res.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
           /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is updated to success as per new api contract */
+          /** made code updates in line no 1903 on 03/09 added new condition for record.fileInfo and record.fileInfo.fileId,since fileId is now has to be fetched from fileInfo  as per new api contract  */
           // if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
-            if ((record.status === 'SUCCESS' || record.status ==='success') && record.fileId && !record.store.toastSeen) {
+            if ((record.status === 'SUCCESS' || record.status ==='success') && (record.fileInfo) && (record.fileInfo.fileId) && !record.store.toastSeen) {
             if (record.action === 'EXPORT') {
-              this.downloadDockFile(record.fileId, record.store.urlParams, record.streamId, record._id);
+              this.downloadDockFile(record.fileInfo.fileId, record.store.urlParams, record.streamId, record._id);
             }
           }
         })

@@ -530,12 +530,15 @@ export class AppHeaderComponent implements OnInit {
     }
     this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
-        if((!res) || !res.dockStatuses.length){
+        /**made changes on 09/03 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 536 line*/
+        // if((!res) || !res.dockStatuses.length){
+        if((!res)){
           this.training=false;
         }
         this.statusDockerLoading = false;
         /**made changes on 24/02 as per new api contract in response we no longer use the key
-         dockStatuses added updated code in 386 line*/
+         dockStatuses added updated code in 543 line*/
         // this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
         this.dockersList = JSON.parse(JSON.stringify(res));
         /**made code updates in line no 503 on 03/01 added new condition for success,since SUCCESS is updated to success*/
