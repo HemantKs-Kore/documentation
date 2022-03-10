@@ -270,7 +270,7 @@
                                                                             placement="top" container='body'> -->
                                                                         <img src="assets/icons/ringLoading.svg"
                                                                             class="inProgress"
-                                                                            *ngIf="task.status === 'IN_PROGRESS' || task.status === 'running'|| task.status === 'validation' || task.status === 'QUEUED'"
+                                                                            *ngIf="task.status === 'IN_PROGRESS' || task.status === 'INPROGRESS' || task.status === 'running'|| task.status === 'validation' || task.status === 'QUEUED'"
                                                                             placement="top" container='body'>
                                                                         <!-- <span *ngIf="(task.status == 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}%</span> -->
                                                                         <!-- updated code in line 272 on 24/02 ,added condition for running status as per api contract since in_progress is updated to running state  -->
@@ -279,7 +279,7 @@
                                                                             *ngIf="(task.status !== 'IN_PROGRESS' && task.status !== 'validation' && task.status !== 'QUEUED')"> -->
                                                                         <img src="assets/icons/docker/close.svg"
                                                                             (click)="removeRecord(task, index)"
-                                                                            *ngIf="(task.status !== 'IN_PROGRESS' && task.status !== 'running' && task.status !== 'validation' && task.status !== 'QUEUED')">
+                                                                            *ngIf="(task.status !== 'IN_PROGRESS' && task.status !== 'INPROGRESS' && task.status !== 'running' && task.status !== 'validation' && task.status !== 'QUEUED')">
                                                                     </div>
                                                                 </div>
                                                             </div>

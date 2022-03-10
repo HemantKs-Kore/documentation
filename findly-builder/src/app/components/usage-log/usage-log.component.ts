@@ -286,7 +286,9 @@ export class UsageLogComponent implements OnInit {
           /**made code updates in line no 288 on 03/01 added new condition for success,since SUCCESS is upadted to success as per new api contract */
           // if (record.status === 'SUCCESS' && record.fileId && !(record.store || {}).toastSeen) {
             if ((record.status === 'SUCCESS' || record.status ==='success') && record.fileId && !(record.store || {}).toastSeen) {
-            if (record.action === 'EXPORT') {
+            /**added condition for jobType in 570,since we are no longer recieving action in jobs api response,using the jobType for condition check as per new api contract 10/03 */
+            // if (record.action === 'EXPORT') {
+            if (record.jobType === "DATA_EXPORT") { 
               this.downloadDockFile(record.fileId, (record.store || {}).urlParams, record.streamId, record._id);
               return;
             }
