@@ -16,6 +16,8 @@ declare let self: any;
 })
 export class StatusDockerComponent implements OnInit {
    fileId;
+   serachIndexId;
+   selectedApp: any = {};
 
   @Input('statusDockerLoading') statusDockerLoading : any;
 
@@ -30,6 +32,8 @@ export class StatusDockerComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     self = this;
    this.dockServiceSubscriber = this.dock.change.subscribe(data=>{
       this.poling();
@@ -217,8 +221,10 @@ export class StatusDockerComponent implements OnInit {
   downloadDockFile(fileId, fileName,streamId,dockId) {
       const params = {
       fileId,
-    streamId : streamId,
-    dockId  :  dockId
+      streamId : streamId,
+      dockId  :  dockId,
+      jobId: dockId,
+      sidx:this.serachIndexId
     }
    let payload = {
     "store":{

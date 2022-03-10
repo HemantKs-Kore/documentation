@@ -309,7 +309,9 @@ export class UsageLogComponent implements OnInit {
     const params = {
       fileId,
       streamId: streamId,
-      dockId: dockId
+      dockId: dockId,
+      jobId: dockId,
+      sidx:this.serachIndexId
     }
     let payload = {
       "store": {

@@ -1923,7 +1923,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     const params = {
       fileId,
       streamId: streamId,
-      dockId: dockId
+      dockId: dockId,
+      jobId: dockId,
+      sidx:this.serachIndexId
     }
     let payload = {
       "store": {
