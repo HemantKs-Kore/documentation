@@ -11,12 +11,12 @@ app-slider-component{
         top: 0;
         bottom: 0;
         z-index: 1111;
+        background: rgba(38,52,74,.4);
         &.open{
             position: fixed;
             right: 0;
             top: 0;
             bottom: 0;
-            z-index: 1111;
             left:0;
             .sliderDialogComponent{
                 position: absolute;
@@ -29,6 +29,10 @@ app-slider-component{
             display: table;
             height: 100%;
             position: absolute;
+            &.width500{
+                width: 500px;
+                max-width: 500px;
+            }
             &.width90 {
                 width: 90%;
             }
