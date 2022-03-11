@@ -301,7 +301,7 @@
           <div class="applist-header">
             <div class="count-title">
               <i class="si-check-round"></i>
-              <span>1 Out of 6 Steps Completed</span>
+              <span>{{checklistCount}} Out of 6 Steps Completed</span>
             </div>
             <div class="toggle-check">
               <div class="status-bar-title">Status Bar</div>
@@ -316,8 +316,9 @@
               <div id="accordion1" class="applist-acc-data">
                 <div class="accordion-applist completed-state">
                   <div class="card_header">
-                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse1">
-                      <div class="indication-block completed">
+                    <div class="card_link collapsed data1" data-toggle="collapse" href="#collapse1">
+                      <div class="indication-block completed" *ngIf="tourData && tourData[0].addData" >
+                        <!-- <div class="indication-block completed"> -->
                           <i class="si-check"></i>
                       </div>
                       <div class="title-heading">
@@ -325,18 +326,18 @@
                       </div>
                       <div class="desc-text">Data is fetched from various sources and ingested into the application for accurate search results</div>
                       <div class="actions-link">
-                        <a class="link-name">Guide Me <i class="si-externallink"></i></a>
+                        <a class="link-name"  (click)="gotoRoutes('/source')">Guide Me <i class="si-externallink"></i></a>
                         <a class="link-name">Documentation <i class="si-externallink"></i></a>
                       </div>
                       <div class="arrow-icon">
-                        <i class="si-carrotup"></i>
+                        <i class="si-carrotup"(mouseover)="openAccordiandata1()"></i>
                       </div>
                     </div>
                   </div>
                   <div id="collapse1" class="collapse" data-parent="#accordion1">
                     <div class="card-body">
                       <div class="video-block">
-                        <video width="300" height="156" controls>
+                        <video width="300" height="156" controls onmouseover="this.play()" onmouseout="this.pause()">
                           <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
                           <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
                           Your browser does not support the video tag.
@@ -347,27 +348,31 @@
                 </div>
                 <div class="accordion-applist">
                   <div class="card_header">
-                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse2">
-                      <div class="indication-block">
+                    <div class="card_link collapsed data2" data-toggle="collapse" href="#collapse2">
+                      <div class="indication-block" *ngIf="tourData && (!tourData[1].indexData)">
                           <img src="assets/icons/onboarding/review-index.svg">
+                      </div>
+                      <div class="indication-block completed" *ngIf="tourData && tourData[1].indexData">
+                        <!-- <div class="indication-block completed"> -->
+                          <i class="si-check"></i>
                       </div>
                       <div class="title-heading">
                         <span class="steps-number">Step 2</span> Review Index configurations
                       </div>
                       <div class="desc-text">Index configurations allows you to configure the fields, traits, keywords or create workbench pipelines to suit your business needs. </div>
                       <div class="actions-link">
-                        <a class="link-name">Guide Me <i class="si-externallink"></i></a>
+                        <a class="link-name" (click)="gotoRoutes('/FieldManagementComponent')">Guide Me <i class="si-externallink"></i></a>
                         <a class="link-name">Documentation <i class="si-externallink"></i></a>
                       </div>
                       <div class="arrow-icon">
-                        <i class="si-carrotup"></i>
+                        <i class="si-carrotup" (mouseover)="openAccordiandata2()"></i>
                       </div>
                     </div>
                   </div>
                   <div id="collapse2" class="collapse" data-parent="#accordion1">
                     <div class="card-body">
                       <div class="video-block">
-                        <video width="300" height="156" controls>
+                        <video width="300" height="156" controls onmouseover="this.play()" onmouseout="this.pause()">
                           <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
                           <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
                           Your browser does not support the video tag.
@@ -378,27 +383,31 @@
                 </div>
                 <div class="accordion-applist">
                   <div class="card_header">
-                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse3">
-                      <div class="indication-block">
+                    <div class="card_link collapsed data3" data-toggle="collapse" href="#collapse3">
+                      <div class="indication-block" *ngIf="tourData && (!tourData[2].optimiseSearchResults)">
                         <img src="assets/icons/onboarding/review-search.svg">
+                      </div>
+                      <div class="indication-block completed" *ngIf="tourData && tourData[2].optimiseSearchResults">
+                        <!-- <div class="indication-block completed"> -->
+                          <i class="si-check"></i>
                       </div>
                       <div class="title-heading">
                         <span class="steps-number">Step 3</span> Review Search Configurations
                       </div>
                       <div class="desc-text">Search Configuration allows you to improve search relevance by configuring  syonyms, weights, stop words, re-ranking results, adding rules or facets.</div>
                       <div class="actions-link">
-                        <a class="link-name">Guide Me <i class="si-externallink"></i></a>
+                        <a class="link-name" (click)="gotoRoutes('/weights')">Guide Me <i class="si-externallink"></i></a>
                         <a class="link-name">Documentation <i class="si-externallink"></i></a>
                       </div>
                       <div class="arrow-icon">
-                        <i class="si-carrotup"></i>
+                        <i class="si-carrotup" (mouseover)="openAccordiandata3()"></i>
                       </div>
                     </div>
                   </div>
                   <div id="collapse3" class="collapse" data-parent="#accordion1">
                     <div class="card-body">
                       <div class="video-block">
-                        <video width="300" height="156" controls>
+                        <video width="300" height="156" controls onmouseover="this.play()" onmouseout="this.pause()">
                           <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
                           <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
                           Your browser does not support the video tag.
@@ -409,27 +418,31 @@
                 </div>
                 <div class="accordion-applist">
                   <div class="card_header">
-                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse4">
-                      <div class="indication-block">
+                    <div class="card_link collapsed data4" data-toggle="collapse" href="#collapse4">
+                      <div class="indication-block" *ngIf="tourData && (!tourData[3].designSearchExperience)">
                           <img src="assets/icons/onboarding/search-design.svg">
+                      </div>
+                      <div class="indication-block completed" *ngIf="tourData && tourData[3].designSearchExperience">
+                        <!-- <div class="indication-block completed"> -->
+                          <i class="si-check"></i>
                       </div>
                       <div class="title-heading">
                         <span class="steps-number">Step 4</span> Design Search Experiance
                       </div>
                       <div class="desc-text">SearchAssist allows you to customise the search experiance and design the search interface based on the business context.</div>
                       <div class="actions-link">
-                        <a class="link-name">Guide Me <i class="si-externallink"></i></a>
+                        <a class="link-name" (click)="gotoRoutes('/search-experience')">Guide Me <i class="si-externallink"></i></a>
                         <a class="link-name">Documentation <i class="si-externallink"></i></a>
                       </div>
                       <div class="arrow-icon">
-                        <i class="si-carrotup"></i>
+                        <i class="si-carrotup" (mouseover)="openAccordiandata4()"></i>
                       </div>
                     </div>
                   </div>
                   <div id="collapse4" class="collapse" data-parent="#accordion1">
                     <div class="card-body">
                       <div class="video-block">
-                        <video width="300" height="156" controls>
+                        <video width="300" height="156" controls onmouseover="this.play()" onmouseout="this.pause()">
                           <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
                           <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
                           Your browser does not support the video tag.
@@ -440,7 +453,7 @@
                 </div>
                 <div class="accordion-applist">
                   <div class="card_header">
-                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse5">
+                    <div class="card_link collapsed data5" data-toggle="collapse" href="#collapse5">
                       <div class="indication-block">
                           <img src="assets/icons/onboarding/acid-surface.svg">
                       </div>
