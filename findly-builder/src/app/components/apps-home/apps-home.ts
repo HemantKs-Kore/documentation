@@ -240,7 +240,7 @@ export class AppsListingComponent implements OnInit {
   public getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
       if (res && res.length) {
-        if(JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
+        if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
           let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
           if(prDetails && prDetails.formAccount){
             this.redirectHome()
@@ -254,7 +254,7 @@ export class AppsListingComponent implements OnInit {
         this.emptyApp = false;
       }
       else {
-        if(JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
+        if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
           this.redirectHome()
         }else {
 
@@ -279,15 +279,15 @@ export class AppsListingComponent implements OnInit {
       // console.log(errRes);
     });
   }
-  clearAccount(){
-    let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
+  clearAccount(){    
+    let prDetails = localStorage.getItem('krPreviousState')?JSON.parse(localStorage.getItem('krPreviousState')):null;
         if(prDetails && prDetails.formAccount){
            prDetails.formAccount = false;
         }
         localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
   }
   redirectHome(){
-    let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
+    let prDetails = localStorage.getItem('krPreviousState')?JSON.parse(localStorage.getItem('krPreviousState')):null;
     prDetails.route = "/home";
     localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
     this.router.navigate(['/home'], { skipLocationChange: true });
