@@ -511,7 +511,7 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['get.traits'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/traitgroup',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/traitgroup?skip=:offset&limit=:limit',
       method: 'get'
     }
     this.serviceList['update.traitGroup'] = {
