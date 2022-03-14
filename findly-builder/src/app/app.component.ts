@@ -70,7 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public workflowService: WorkflowService,
     private activatedRoute: ActivatedRoute,
     private headerService: SideBarService,
-    private service: ServiceInvokerService,
+    public service: ServiceInvokerService,// changed to public for resolving the search interface failure issue
     private endpointservice: EndPointsService,
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
@@ -615,24 +615,32 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     }
   }
-
-  getSearchExperience() {
+    // added setTimeout function and verifying for indexpipeline before we make api call, for  resolving the search interface failure issue
+    getSearchExperience() {
     let selectedApp: any;
+    var _self=this;
     selectedApp = this.workflowService.selectedApp();
     const searchIndex = selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       indexPipelineId: this.workflowService.selectedIndexPipeline()
     };
-    this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
-      this.searchExperienceConfig = res;
-      this.searchExperinceLoading = true;
-      this.headerService.updateSearchConfigurationValue(res);
-      this.headerService.searchConfiguration = res;
-    }, errRes => {
-      // console.log("getSearchExperience failed happen");
-      // console.log(errRes);
-    });
+    setTimeout(function () {
+      if (quaryparms.indexPipelineId) {
+        _self.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
+          _self.searchExperienceConfig = res;
+          _self.searchExperinceLoading = true;
+          _self.headerService.updateSearchConfigurationValue(res);
+          _self.headerService.searchConfiguration = res;
+      }, errRes => {
+        // console.log("getSearchExperience failed happen");
+        // console.log(errRes);
+      });
+      }
+      else{        
+        _self.getSearchExperience();
+      }
+    }, 100);
   }
 
   clearBodyClasses() {

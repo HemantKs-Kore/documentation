@@ -347,9 +347,14 @@ export class AppHeaderComponent implements OnInit {
     window.location.reload();
   }
   redirectHome(){
-    let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
-    prDetails.route = "/home";
-    localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
+    let prDetails
+    if(localStorage.getItem('krPreviousState')){
+      prDetails=JSON.parse(localStorage.getItem('krPreviousState'))
+    }     
+    if(prDetails){
+      prDetails.route = "/home";
+      localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
+    }
     this.router.navigate(['/home'], { skipLocationChange: true });
   }
   loadHeader() {
@@ -805,6 +810,7 @@ export class AppHeaderComponent implements OnInit {
       this.workflowService.mainMenuRouter$.next('');
     }, 100);
     this.checkTrainingProgress();
+    this.workflowService.selectedIndexPipelineId='';
   }
   //check training in progress
   checkTrainingProgress() {
