@@ -15,6 +15,14 @@ export class OnboardingComponentComponent implements OnInit {
   element: any;
   checklistCount: number;
   tourData: any;
+  checkList: any = [{ step: 'Step 1',title:'Add Data',desc:'Data is fetched from various sources and ingested into the application for accurate search results', imgURL: '',route:'/source'}, 
+{ step: 'Step 2',title:'Review Index configurations',desc:'Index configurations allows you to configure the fields, traits,keywords or create workbench pipelines to suit your business needs.', imgURL: 'assets/icons/onboarding/review-index.svg',route:'/FieldManagementComponent'},
+{step: 'Step 3',title:'Review Search Configurations',desc:'Search Configuration allows you to improve search relevance by configuring  syonyms, weights, stop words, re-ranking results, adding rules or facets.', imgURL: 'assets/icons/onboarding/review-search.svg',route:'/weights'},
+{step: 'Step 4',title:'Design Search Experience',desc:'SearchAssist allows you to customise the search experiance and design the search interface based on the business context.', imgURL: 'assets/icons/onboarding/search-design.svg',route:'/search-experience'}, 
+{step: 'Step 5',title:'Simulate Application',desc:'SearchAssist allows you to validate the configuration and search experience before deploying the app by just clicking on the Preview button.', 
+imgURL: 'assets/icons/onboarding/acid-surface.svg',route:'/resultranking'}, 
+{step: 'Step 6',title:'Deploy your application',desc:'Configure your application to connect to any of the channels available', 
+imgURL: 'assets/icons/onboarding/hand.svg',route:'/resultranking'}];
   subscription: Subscription;
   constructor(private appSelectionService: AppSelectionService) {
     // $(document).ready(function(){
