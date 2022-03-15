@@ -585,7 +585,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('get.checkInExperiment', queryParms).subscribe(
       res => {
-        let text = res.validated ? `Selected ${type == 'index' ? 'Index' : 'Search'} will be deleted from the app.` : `Selected ${type == 'index' ? 'Index' : 'Search'} Configuration is being used in Experiments. Deleting it stop the Experiement.`;
+        let text = res.validated ? `Selected ${type == 'index' ? 'Index' : 'Search'} Configuration will be deleted from the app.` : `Selected ${type == 'index' ? 'Index' : 'Search'} Configuration is being used in Experiments. Deleting it stop the Experiement.`;
         this.deleteIndexConfig(config, type, text, res.validated)
       },
       errRes => {
