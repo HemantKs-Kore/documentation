@@ -52,6 +52,7 @@ export class AppsListingComponent implements OnInit {
   userId: any;
   recentApps: any;
   currentPage: number = 1;
+  testRepeat = false;
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
   @ViewChild('confirmatiomAppPop') confirmatiomAppPop: KRModalComponent;
@@ -98,6 +99,7 @@ export class AppsListingComponent implements OnInit {
   openApp(app) {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     this.appSelectionService.openApp(app);
+    this.workflowService.selectedIndexPipelineId='';
   }
   openBoradingJourney() {
     this.headerService.openJourneyForfirstTime = true;
@@ -151,7 +153,8 @@ export class AppsListingComponent implements OnInit {
       if (res) {
         this.notificationService.notify('Deleted Successfully', 'success');
         this.closeConfirmApp();
-        this.getAllApps();
+        this.apps=this.apps.filter((val) => { return val._id!=this.slectedAppId });
+        this.selectedAppType(this.app_type);
         this.confirmApp = '';
       }
     }, errRes => {
@@ -161,8 +164,6 @@ export class AppsListingComponent implements OnInit {
   else{
     this.notificationService.notify('Enter and confirm the App Name ', 'error');
   }
-
-
     // for (let i=0; i<this.apps.length; i++){
     // if (this.apps[i].name === this.confirmApp){
     // let quaryparms: any = {};
@@ -172,8 +173,6 @@ export class AppsListingComponent implements OnInit {
     //           this.notificationService.notify('Deleted Successfully', 'success');
     //           this. closeDeleteApp();
     //           this.getAllApps();
-              
-           
     //         }
     //       }, errRes => {
     //         this.notificationService.notify('Deletion has gone wrong.', 'error');
@@ -199,7 +198,9 @@ export class AppsListingComponent implements OnInit {
         if (res) {
           this.notificationService.notify('Removed Successfully', 'success');
           this.closeConfirmApp();
-          this.getAllApps();
+          setTimeout(() => {
+            this.getAllApps();
+          }, 400);
         }
       }, errRes => {
         this.notificationService.notify('Something has gone wrong.', 'error');
@@ -239,9 +240,9 @@ export class AppsListingComponent implements OnInit {
   public getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
       if (res && res.length) {
-        if(JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
+        if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
           let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
-          if(prDetails){
+          if(prDetails && prDetails.formAccount){
             this.redirectHome()
           }
         }
@@ -253,15 +254,17 @@ export class AppsListingComponent implements OnInit {
         this.emptyApp = false;
       }
       else {
-        if(JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
+        if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
           this.redirectHome()
         }else {
-          // if(!this.inlineManual.checkVisibility('CREATE_APP')){
-          //   this.inlineManual.openHelp('CREATE_APP')
-          //   this.inlineManual.visited('CREATE_APP')
-          // }
 
-          /** Issue Fix for multiple onboarding function called */
+          /** Issue Fix for multiple onboarding  function called */
+          // if (this.headerService.openJourneyForfirstTime) {
+          //   this.emptyApp = true;
+          //   this.showBoarding = true;
+          //   this.headerService.openJourneyForfirstTime = true;
+          //   this.openBoradingJourney();
+          // }
           if (!this.headerService.openJourneyForfirstTime) {
             this.emptyApp = true;
             this.showBoarding = true;
@@ -271,20 +274,20 @@ export class AppsListingComponent implements OnInit {
         }
       }
       this.clearAccount();
-      this.checkForSharedApp();
+      //this.checkForSharedApp();
     }, errRes => {
       // console.log(errRes);
     });
   }
-  clearAccount(){
-    let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
-        if(prDetails){
-          // prDetails.formAccount = false;
+  clearAccount(){    
+    let prDetails = localStorage.getItem('krPreviousState')?JSON.parse(localStorage.getItem('krPreviousState')):null;
+        if(prDetails && prDetails.formAccount){
+           prDetails.formAccount = false;
         }
         localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
   }
   redirectHome(){
-    let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
+    let prDetails = localStorage.getItem('krPreviousState')?JSON.parse(localStorage.getItem('krPreviousState')):null;
     prDetails.route = "/home";
     localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
     this.router.navigate(['/home'], { skipLocationChange: true });

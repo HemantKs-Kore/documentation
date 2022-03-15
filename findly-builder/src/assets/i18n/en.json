@@ -327,6 +327,7 @@
         "analytics": "Analytics",
         "dash_board_view": {
             "dashboard": "Dashboard",
+            "Chooseindex":"Choose index to display analytics",
             "total_user": "Total Users",
             "total_searches": "Total Searches",
             "search_trends": "Search Trends",

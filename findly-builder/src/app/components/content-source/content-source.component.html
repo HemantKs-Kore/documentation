@@ -284,7 +284,7 @@
               </div>
             </div>
           </ng-container>
-          <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord && totalRecord > 10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginateContent($event)"></app-record-pagination></div>
+          <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord > 10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginateContent($event)"></app-record-pagination></div>
           <div class="empty">{{"contentSource.no_results_found" | translate}}</div>
         </perfect-scrollbar>
       </section>

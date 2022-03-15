@@ -199,9 +199,12 @@ export class AppHeaderComponent implements OnInit {
   //   } 
   //   this.extractProfiledisplayname(); 
   /**added code to fetch the associated accounts from*/
+    // if(localStorage.krPreviousState=='{}'|| localStorage.krPreviousState=="null"  || localStorage.krPreviousState==undefined){
+    //   this.analyticsClick('/home');
+    // }
     if(localStorage.krPreviousState=='{}'|| localStorage.krPreviousState=="null"  || localStorage.krPreviousState==undefined){
-      this.analyticsClick('/home');
-    }
+        //this.analyticsClick('/home');
+      }
     else if (localStorage.krPreviousState && JSON.parse(localStorage.krPreviousState)) {
       this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
     }
@@ -231,8 +234,12 @@ export class AppHeaderComponent implements OnInit {
         {
           this.selectAccountDetails=this.associatedAccounts[i];
         }
-
+   
       }
+      if((!this.selectAccountDetails) || this.selectAccountDetails=="null"  || this.selectAccountDetails==undefined){
+        this.selectAccountDetails=this.associatedAccounts[0];
+      }
+
     }
       
     for(let i=0;i<this.associatedAccounts.length;i++)
@@ -242,10 +249,27 @@ export class AppHeaderComponent implements OnInit {
         this.loginusername=this.associatedAccounts[i].userFullName;
       }
     } 
-    this.extractProfiledisplayname();   
+    if(!this.loginusername){
+      this.loginusername=this.domain;
+    }
+    // if(this.associatedAccounts.length==1){
+    //   this.loginusername=this.associatedAccounts[0].userFullName;
+    // }
+    if(this.loginusername==this.domain){
+      this.extractFirstLetter();
+    }
+    else{
+    this.extractProfiledisplayname();  
+    } 
   }
-  extractProfiledisplayname(){
-    console.log(this.loginusername);
+  extractFirstLetter(){
+      let firstLetter=this.domain.charAt(0);
+      this.profile_display=firstLetter;
+      this.profile_display=this.profile_display.toUpperCase();
+      this.setprofilebackground(this.profile_display);
+
+  }
+  extractProfiledisplayname(){    
     let name = this.loginusername
     //match the spaces
     var matches = name.split(/(?<=^\S+)\s/)
@@ -310,8 +334,26 @@ export class AppHeaderComponent implements OnInit {
   switchAccountInternal(account) {
     window[this.storageType].setItem('selectedAccount', JSON.stringify(account))
     this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
-    this.router.navigate([''], { skipLocationChange: true })
+    // let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
+    //       if(prDetails){
+    //         prDetails.formAccount=true;  
+    //         localStorage.setItem('krPreviousState', JSON.stringify(prDetails)); 
+
+    //       }
+    //       this.router.navigate([''], { skipLocationChange: true })
+    this.redirectHome();
     window.location.reload();
+  }
+  redirectHome(){
+    let prDetails
+    if(localStorage.getItem('krPreviousState')){
+      prDetails=JSON.parse(localStorage.getItem('krPreviousState'))
+    }     
+    if(prDetails){
+      prDetails.route = "/home";
+      localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
+    }
+    this.router.navigate(['/home'], { skipLocationChange: true });
   }
   loadHeader() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -493,8 +535,11 @@ export class AppHeaderComponent implements OnInit {
     }
     this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
-        this.statusDockerLoading = false;
-        this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
+        if((!res) || !res.dockStatuses.length){
+          this.training=false;
+        }
+        this.statusDockerLoading = false;        
+        this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));        
         if (this.trainingInitiated && this.dockersList[0].status === 'SUCCESS' && this.dockersList[0].action === "TRAIN") {
           this.trainingInitiated = false;
           if (this.training) {
@@ -763,6 +808,7 @@ export class AppHeaderComponent implements OnInit {
       this.workflowService.mainMenuRouter$.next('');
     }, 100);
     this.checkTrainingProgress();
+    this.workflowService.selectedIndexPipelineId='';
   }
   //check training in progress
   checkTrainingProgress() {
