@@ -65,6 +65,7 @@
               <div class="add_feild" (click)="openCreateApp()">
                 <img src="assets/icons/add_plus.svg">Add Application
               </div>
+              <button (click)="openDetails()">Details</button>
             </div>
           </div>
         </div>
@@ -484,3 +485,9 @@
   </div>
 </kr-modal>
 <!--Delete confirmation modal end -->
+<!--popup for Details-->
+<kr-modal modalType="center" #detailsPopUp modalClass="delete-app-popup">
+  <div class="modal-header">
+    
+  </div>
+</kr-modal>
