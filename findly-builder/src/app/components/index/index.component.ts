@@ -461,7 +461,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       this.newMappingObj.custom_script.defaultValue.script = this.selectedStage.config.mappings.length > 1 ? this.selectedStage.config.mappings[1].script : this.selectedStage.config.mappings[0].script || '';
     }
     if(comingfrom=='remove_mapping' && this.selectedStage.type!=='custom_script'){
-      if(this.selectedStage.config.mappings.length){
+      if(this.selectedStage.config.hasOwnProperty('mappings') && this.selectedStage.config.mappings.length){
          this.newMappingObj={};         
       }
       else{
@@ -2329,6 +2329,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     //if (systemStage?.type !== 'custom_script') {
     this.selectedStage.condition = { type: 'basic', mappings: [{ fieldId: '', operator: '', value: [] }] }
     //}
+    /** Adding defaullt Configfor Custom Script */
+    if (systemStage && systemStage.type === 'custom_script'){
+      this.selectedStage.config = {mappings: [{ script: '' }]}
+    }
     if (systemStage && systemStage.type === 'custom_script')
     {
       if (!this.newMappingObj.custom_script)
