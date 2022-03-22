@@ -2014,6 +2014,38 @@
                   </div>
                 </div>
               </div>
+              <div class="search_block"
+                *ngIf="['l2','l3','l4','l6','l7','l8','l9'].includes(templateDataBind.layout.layoutType)">
+                <div class="label-text mb-1">Description 1</div>
+                <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                  <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentdesc1()"
+                    #descDrop="ngbDropdown">
+                    <div class="dropdown dropdown-open">
+                      <button class="dropdown-toggle dropdown-input" id="dropdownBasicDec1"
+                        data-toggle="dropdown" (click)="clearcontentdesc1();" ngbDropdownToggle>
+                        {{preview_desc1 ? preview_desc1 :"Choose field"}}
+                      </button>
+                      <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                        ngbDropdownMenu>
+                        <li class="search-box">
+                          <input id="searchBoxIdDec" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                            placeholder="Search" class="seach-input pl-3"
+                            (keyup)="searchlist('description1',$event.target.value,fieldData)"
+                            (focus)="searchlist('description1',$event.target.value,fieldData);" autofocus />
+                        </li>
+                        <perfect-scrollbar class="scroll-search-field h-189">
+                          <ng-container *ngIf="desc_fieldData1 && desc_fieldData1.length">
+                            <li ngbDropdownItem *ngFor="let field of desc_fieldData1"
+                              (click)="filedSelect('description1',field)"
+                              [ngClass]="{'highlight':preview_desc1===field.fieldName}">
+                              {{ field.fieldName }}</li>
+                          </ng-container>
+                        </perfect-scrollbar>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div class="search-results-click-settings">
