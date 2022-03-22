@@ -227,12 +227,14 @@
                   {{statusObj[source.recentStatus]?.name}}
                   <!-- <span *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'"> {{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].status) ? statusObj[resourcesStatusObj[source.jobId].status]?.name : 'In Progress'}}</span>
                   <span *ngIf="statusObj[source.recentStatus]?.name != 'In Progress'">{{statusObj[source.recentStatus]?.name}}</span> -->
+                  <!-- 21/02 changes made in line 233 and 237 as per api contract updating resourcesStatusObj[source.jobId].statusMessage to 
+                  resourcesStatusObj[source.jobId].message -->
                   <img src="assets/icons/failed-status.svg" class="failed-img" placement="top"
-                    ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:source.vailadtionTootlip}}"
+                     ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].message)?resourcesStatusObj[source.jobId].message:source.vailadtionTootlip}}" 
                     container="body" *ngIf="statusObj[source.recentStatus]?.name == 'Failed'"><img
                     src="assets/icons/ringLoading.svg" class="ml-2 inProgress"
                     *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" placement="top" container='body'
-                    ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:statusObj[source.recentStatus]?.name}}">
+                    ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].message)?resourcesStatusObj[source.jobId].message:statusObj[source.recentStatus]?.name}}">
                 </span>
                 <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
                 <span *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" class="run-percentageDone">{{
@@ -350,9 +352,11 @@
                       dateFormatPipe: 'D MMMM YYYY'}}</div>
                   </ng-template>
                   <div class="status text-right" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'">
+                    <!-- 21/02 changes made in line 359 as per api contract updating resourcesStatusObj[source.jobId].statusMessage to 
+                  resourcesStatusObj[source.jobId].message -->
                     <span class="img-block"><img src="assets/icons/ringLoading.svg" class="ml-2 inProgress"
                         *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" placement="top" container='body'
-                        ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:statusObj[source.recentStatus]?.name}}"></span>
+                        ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].message)?resourcesStatusObj[source.jobId].message:statusObj[source.recentStatus]?.name}}"></span>
                     <span *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'"
                       class="run-percentageDoneGrid">{{ (resourcesStatusObj && resourcesStatusObj[source.jobId] &&
                       resourcesStatusObj[source.jobId].executionStats) ?

@@ -460,7 +460,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       this.newMappingObj.custom_script.defaultValue.script = this.selectedStage.config.mappings.length > 1 ? this.selectedStage.config.mappings[1].script : this.selectedStage.config.mappings[0].script || '';
     }
     if(comingfrom=='remove_mapping' && this.selectedStage.type!=='custom_script'){
-      if(this.selectedStage.config.mappings.length){
+      if(this.selectedStage.config.hasOwnProperty('mappings') && this.selectedStage.config.mappings.length){
          this.newMappingObj={};         
       }
       else{
@@ -2079,7 +2079,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     {
       this.currentEditIndex = i;
       this.selectedStageIndex = i;
-      this.checkNewAddition();
+      //this.checkNewAddition();
       if (stage && stage.type === 'custom_script' && stage.config && stage.config.mappings && stage.config.mappings.length)
       {
         if (!this.newMappingObj.custom_script)
@@ -2091,8 +2091,16 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
           }
         }
         /**04/03 code updates as per FLY-4519 */
+        console.log('***********',this.pipeline)
+        this.pipeline.forEach((pipeLineStage,index) => {
+          if(pipeLineStage.type === 'custom_script' && pipeLineStage.config && pipeLineStage.config.hasOwnProperty('mappings') && pipeLineStage.config.mappings.length && i == index){
+            this.newMappingObj.custom_script.defaultValue.script = pipeLineStage.config.mappings[0].script;
+          }else if(pipeLineStage.type === 'custom_script' && i == index && !pipeLineStage.config.hasOwnProperty('mappings')){
+            this.newMappingObj.custom_script.defaultValue.script = "";
+          }
+        });
         //this.newMappingObj.custom_script.defaultValue.script = stage.config.mappings[0].script || '';
-        this.newMappingObj.custom_script.defaultValue.script = stage.config.mappings[stage.config.mappings.length-1].script || '';
+        //this.newMappingObj.custom_script.defaultValue.script = stage.config.mappings[stage.config.mappings.length-1].script || '';
       } else
       {
         if (!this.newMappingObj.custom_script)
@@ -2104,6 +2112,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
           }
         }
         /**04/03 code updates as per FLY-4519 */
+        if (stage && stage.type === 'custom_script' && !stage.config.hasOwnProperty('mappings')){
+            this.newMappingObj.custom_script.defaultValue.script = '';
+        }
         //this.newMappingObj.custom_script.defaultValue.script = '';
       }
       this.selectedStage = stage; 
@@ -2317,6 +2328,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     //if (systemStage?.type !== 'custom_script') {
     this.selectedStage.condition = { type: 'basic', mappings: [{ fieldId: '', operator: '', value: [] }] }
     //}
+    /** Adding defaullt Configfor Custom Script */
+    if (systemStage && systemStage.type === 'custom_script'){
+      this.selectedStage.config = {mappings: [{ script: '' }]}
+    }
     if (systemStage && systemStage.type === 'custom_script')
     {
       if (!this.newMappingObj.custom_script)

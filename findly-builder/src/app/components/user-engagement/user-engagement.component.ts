@@ -340,7 +340,7 @@ export class UserEngagementComponent implements OnInit {
     var yesterday = new Date(Date.now() - 864e5);
     var week = new Date(Date.now() - (6 * 864e5));
     var custom = new Date(Date.now() - (29 * 864e5));
-    let from = new Date();
+    let from : any; //new Date();
     if (this.dateType == 'hour') {
       from = yesterday;
       this.group = "hour";
@@ -361,6 +361,15 @@ export class UserEngagementComponent implements OnInit {
       }
 
     }
+    let startDateRandom = "";
+    let endDateRandom = "";
+    if(this.dateType == 'week' || this.dateType == 'custom'){
+      if(this.startDate.toJSON() && this.startDate.toJSON().split(".").length && this.startDate.toJSON().split(".")[0].split("T"))
+      startDateRandom = this.startDate.toJSON().split(".")[0].split("T")[0] + "T" + "00:00:00." + this.startDate.toJSON().split(".")[1];
+    }else{
+      startDateRandom = this.startDate.toJSON();
+      endDateRandom = this.endDate.toJSON();
+    }
     const header: any = {
       'x-timezone-offset': '-330'
     };
@@ -373,7 +382,7 @@ export class UserEngagementComponent implements OnInit {
     let payload = {
       type: type,
       filters: {
-        from: this.startDate.toJSON(),//from.toJSON(),
+        from: startDateRandom, //this.startDate.toJSON(),//from.toJSON(),
         to: this.endDate.toJSON()
       },
       group: this.group //this.group//"hour - 24 /date - 7 /week - coustom if time > 30 days"

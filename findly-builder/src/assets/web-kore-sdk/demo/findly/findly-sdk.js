@@ -261,6 +261,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.userContextData = {};
       vars.indexPipelineId = '';
       vars.tabsList = [];
+      vars.sortableFacetList = [];
+      vars.displaySortable = ''
       vars.availableGroupsList = {};
       vars.availableGroupsOrder = [];
       vars.defaultTabsList = [];
@@ -426,7 +428,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         recentSearchUrl: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/recentSearches",
         indexpipelineId: indexpipelineId,
         pipelineId: pipelineId,
-        autoSuggestionsURL: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/autoSuggestions"
+        autoSuggestionsURL: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/autoSuggestions",
+        sortableFacetsUrl: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/facets?type=sortable"
       };
       // _self.API.uuid = uuid.v4();
       _self.API.uuid = _self.config.botOptions.userIdentity;
@@ -3345,7 +3348,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var payload = {
         "query": _self.vars.searchObject.searchText,
-
         // "maxNumOfResults": 9,
         "maxNumOfResults": 5,
         "userId": _self.API.uuid,
@@ -3353,10 +3355,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "lang": "en",
         // "isDev": true,
         "isDev": _self.isDev,
-        "searchRequestId": _self.vars.requestId
+        "searchRequestId":_self.vars.requestId
       }
       if (_self.isDev) {
         payload['customize'] = _self.vars.customizeView;
+      }
+      if( _self.vars.displaySortable){
+        payload['sortableFacets']= [_self.vars.displaySortable];
       }
       if (showMoreData) {
         if (showMoreData.fieldName) {
@@ -3551,7 +3556,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   if (!$('.empty-full-results-container').hasClass('hide')) {
                     $('.empty-full-results-container').addClass('hide');
                   }
-                  $('.no-templates-defined-full-results-container').hide();
+                   $('.no-templates-defined-full-results-container').hide();
                 } else {
                   if (!(res.tasks || []).length) {
                     $('.empty-full-results-container').removeClass('hide');
@@ -4282,8 +4287,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var taskName = e.currentTarget.title.toLowerCase();
         var payload;
         if (_self.vars.searchObject && _self.vars.searchObject.searchText && _self.vars.searchObject.searchText.length) {
-          // payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
-          payload = _self.vars.searchObject.searchText;
+          payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
+          // payload = _self.vars.searchObject.searchText;
         }
         else {
           payload = $(e.currentTarget).attr('payload');
@@ -5050,7 +5055,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "lang": "en",
         // "isDev": true,
         "isDev": _self.isDev,
-        "searchRequestId": _self.vars.requestId
+        "searchRequestId":_self.vars.requestId
       }
 
       if (_self.isDev) {
@@ -5248,7 +5253,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "event": eventType,
         "streamId": _self.API.streamId,
         "isDev": _self.isDev,
-        "searchRequestId": _self.vars.requestId
+        "searchRequestId":_self.vars.requestId
       }
 
       if (!payload.query || (payload.query && !payload.query.length)) {
@@ -5485,7 +5490,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.parentEvent(responseObject);
           setTimeout(function () {
             $('.query_analytics_content').css('top', event.pageY - 50);
-            $('.query_analytics_content').css('left', event.pageX - 300 - event.offsetX);
+            $('.query_analytics_content').css('left', event.pageX - 178 - event.offsetX);
             $(document).on('click', function (event) {
               if (!($(event.target).closest('.query_analytics_content').length)) {
                 $('.query_analytics_content').hide();
@@ -6670,7 +6675,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var searchContainerName = $('body').hasClass('top-down') ? '.full-search-data-container' : '.search-data-container';
 
           if (!$('body').hasClass('top-down')) {
-            _self.countTotalResults(res, totalResultsCount);
+            _self.countTotalResults(res,totalResultsCount);
             var dataObj = {
               faqs: [],
               web: [],
@@ -7058,6 +7063,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.searchObject.liveData.facets = facets;
           }
           _self.pubSub.publish('sa-source-type', facets);
+          _self.pubSub.publish('sa-sortable-facet-search');
           _self.pubSub.publish('sa-search-facets', searchFacets);
           _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
         }
@@ -8178,6 +8184,53 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
     }
+    FindlySDK.prototype.addSortableDropdown = function (config) {
+      var _self = this;
+      var sortablefacets = config.sortableFacetList;
+      console.log(sortablefacets)
+      if (config.templateId) {
+        if (config.templateId === 'top-down-sortable-tabs-template') {
+          var dataHTML = $(_self.getTopDownSortableFacetsTabs()).tmplProxy({
+            sortablefacets: sortablefacets,
+            displaySortable : _self.vars.displaySortable
+          });
+        }
+        else if( config.templateId === 'bottom-up-sortable-tabs-template'){
+          var dataHTML = $(_self.getBottomUpSortableFacetsTabs()).tmplProxy({
+            sortablefacets: sortablefacets,
+            displaySortable : _self.vars.displaySortable
+          });
+        }
+        $('#' + config.container).empty().append(dataHTML);
+      }
+      setTimeout(() => {
+        _self.pubSub.unsubscribe('sa-sortable-facet-search');
+        _self.pubSub.subscribe('sa-sortable-facet-search', (topic, data) => {
+          $('.clear-sort-by' ).off('click' ).on('click', function (event) {
+            event.stopPropagation();
+            _self.vars.displaySortable ='';
+            $('#sa-select-sort-option').html('');
+          _self.invokeSearch();
+          $('.sa-sortable-dropdown').hide();
+          })
+          $('.sa-sortable-dropbtn').off('click').on('click', function (e) {
+            $('.sa-sortable-dropdown').show();
+              
+            setTimeout(()=>{
+              $('.sa-sortable-facet-options' ).off('click' ).on('click', function (event) {
+                event.stopPropagation();
+                _self.vars.displaySortable = JSON.parse($(event.currentTarget).closest('.sa-sortable-facet-options').attr('value'));
+                $('#sa-select-sort-option').html($(event.currentTarget).closest('.sa-sortable-facet-options').attr('name'));
+              _self.invokeSearch();
+              $('.sa-sortable-dropdown').hide();
+              })
+            },1000)
+           
+          });
+        });
+      }, 500);
+     
+    }
 
     FindlySDK.prototype.addSourceType = function (config) {
       var _self = this;
@@ -8479,6 +8532,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.bot.options.accessToken) {
           _self.unlockBot();
           _self.getTabFacetList(_self.API.tabFacetUrl, 'GET');
+          _self.getSortableFacetList(_self.API.sortableFacetsUrl, 'GET');
           _self.getSearchResultsConfig(_self.API.searchResultsViewConfigURL, 'GET');
           _self.saveCustomizationConfig();
           clearInterval(handle);
@@ -8642,6 +8696,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.bot.options.accessToken) {
           _self.unlockBot();
           _self.getTabFacetList(_self.API.tabFacetUrl, 'GET');
+          _self.getSortableFacetList(_self.API.sortableFacetsUrl, 'GET');
           _self.getSearchResultsConfig(_self.API.searchResultsViewConfigURL, 'GET');
           _self.saveCustomizationConfig();
           clearInterval(handle);
@@ -9214,7 +9269,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
     FindlySDK.prototype.checkWbInitialized = function (messageToBot, clientMessageId) {
       var _self = this;
-      if (websockeRrefreshed) {
+      if(websockeRrefreshed){
         return;
       }
       var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 2000 : 0;
@@ -11751,7 +11806,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 'widgetTitle': initialWidgetData.panels[i].widgets[j].title || initialWidgetData.panels[i].widgets[j].name,
                 'widgetTemplate': initialWidgetData.panels[i].widgets[j].templateType,
                 'viewmore': initialWidgetData.panels[i].widgets.length === 1 ? false : true
-              };
+              }; 
               _self.getServerData('widgetsdk/' + config.botOptions.botInfo._id + '/widgets/' + initialWidgetData.panels[i].widgets[j]._id, 'post', {
                 "from": config.botOptions.userIdentity || "user-name",
               }, {}, panelDetail);
@@ -14856,6 +14911,51 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       });
     };
+
+    FindlySDK.prototype.getSortableFacetList = function (url, type) {
+      var _self = this;
+      var bearer = "bearer " + this.bot.options.accessToken || this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
+      var headers = {};
+
+      headers["Authorization"] = bearer;
+      headers["Content-Type"] = "application/json";
+
+      if (!_self.isDev) {
+        if (_self.config.botOptions.assertion) {
+          headers.auth = _self.config.botOptions.assertion;
+        }
+      }
+
+      return $.ajax({
+        url: url,
+        type: type,
+        dataType: 'json',
+        headers: headers,
+        success: function (data) {
+          // _self.vars.defaultTabsList = data.tabs || data.tabFacet || [];
+          var facet = [];
+          if(data){
+            for(var i=0 ; i< data.length ; i ++){
+              if(data[i].type ==  'sortable'){
+              facet.push(data[i])
+              }
+            }
+          }
+          _self.vars.sortableFacetList = facet || [];
+          if($('body').hasClass('top-down')){
+            _self.addSortableDropdown({
+              container: 'sa-sdk-sortable-dropdown',
+              templateId: 'top-down-sortable-tabs-template',
+              sortableFacetList: _self.vars.sortableFacetList
+            })
+          }
+          //tab facets list  
+          //list of tabs div container create
+        },
+        error: function (err) {
+        }
+      });
+    };
     FindlySDK.prototype.getTabFacetList = function (url, type) {
       var _self = this;
       var bearer = "bearer " + this.bot.options.accessToken || this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
@@ -15134,20 +15234,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         data['structuredData'] = structuredData;
         var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
         var devMode = _self.isDev ? true : false;
-        var templates = _self.searchTemplateObj.resultTemplates().structuredData;
-        for (let i = 0; i < templates.length; i++) {
-          // search
-          if ((templates[i].templateType === selected[groupName + templateInterfaceType + 'TemplateType']) && (templates[i].layoutType === selected[groupName + templateInterfaceType + 'LayoutType'])) {
-            // check for templateId from CustomTemplateConfig and it should onle be give for matched Template
-            // Even user sends both templte string and templateId, will consider templateId as final template
-            if (customTemplateConfig && customTemplateConfig.templateId && customTemplateConfig.templateId.length) {
-              templates[i].templateId = customTemplateConfig.templateId;
-            }
-            if (templates[i].templateId && templates[i].templateId.length) {
-              finalTemplate = '#' + templates[i].templateId;
-            }
-            else {
-              finalTemplate = templates[i].template;
+          var templates = _self.searchTemplateObj.resultTemplates().structuredData;
+          for (let i = 0; i < templates.length; i++) {
+            // search
+            if ((templates[i].templateType === selected[groupName + templateInterfaceType + 'TemplateType']) && (templates[i].layoutType === selected[groupName + templateInterfaceType + 'LayoutType'])) {
+              // check for templateId from CustomTemplateConfig and it should onle be give for matched Template
+              // Even user sends both templte string and templateId, will consider templateId as final template
+              if (customTemplateConfig && customTemplateConfig.templateId && customTemplateConfig.templateId.length) {
+                templates[i].templateId = customTemplateConfig.templateId;
+              }
+              if (templates[i].templateId && templates[i].templateId.length) {
+                finalTemplate = '#' + templates[i].templateId;
+              }
+              else {
+                finalTemplate = templates[i].template;
             }
           }
         }
@@ -15569,6 +15669,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                       {{/if}}\
             </div>\
+            <div class="sortable-facets-bottom-up">\
+              <div id="sa-sdk-sortable-dropdown-bottom-up" class="">\
+              </div>\
+            </div>\
             <!-- Facet top-->\
             <div  id="topFacetFilterId"> </div>\
             <!-- Facet top-->\
@@ -15690,6 +15794,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             'isFilterEnabled': isFilterEnabled
           });
           $(data.container).empty().append(showAllHTML);
+          if(!$('body').hasClass('top-down')){
+            _self.addSortableDropdown({
+              container: 'sa-sdk-sortable-dropdown-bottom-up',
+              templateId: 'bottom-up-sortable-tabs-template',
+              sortableFacetList: _self.vars.sortableFacetList
+            })
+            setTimeout(()=>{
+              _self.pubSub.publish('sa-sortable-facet-search');
+            },1000)
+         
+          }
           // _self.vars.seeAllResultsOSObj = new KRPerfectScrollbar(data.container);
           setTimeout(() => {
             _self.bindPerfectScroll(showAllHTML, '.data-body-sec', null, 'y', 'see-all-results');
@@ -15911,7 +16026,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // "isDev": true,
         "isDev": _self.isDev,
         "filters": [],
-        "searchRequestId": _self.vars.requestId
+        "searchRequestId":_self.vars.requestId
       }
 
       if (_self.isDev) {
@@ -16570,8 +16685,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // var payload = $(e.target).attr('payload');
         var payload;
         if (_self.vars.searchObject && _self.vars.searchObject.searchText && _self.vars.searchObject.searchText.length) {
-          // payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
-          payload = _self.vars.searchObject.searchText;
+          payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
+          // payload = _self.vars.searchObject.searchText;
         }
         else {
           payload = $(e.currentTarget).attr('payload');
@@ -18317,6 +18432,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </ul>\
                     </div>\
                         <div id="top-down-tab-sec"></div>
+                        <div id="sa-sdk-sortable-dropdown"></div>
                         <div id="filters-center-sec" > </div>
                         <div class="filters-added-data display-none" id="show-filters-added-data">
                           </div>
@@ -18436,6 +18552,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         actionHandler: actionHandler,
         searchHandler: searchHandler
       })
+      // _self.addSortableDropdown({
+      //   container: 'sa-sdk-sortable-dropdown',
+      //   templateId: 'top-down-sortable-tabs-template',
+      //   // selectedClass: 'active-tab',
+      //   // unSelectedClass: 'un-selected-type'
+      // })
 
       _self.addSourceType({
         container: 'top-down-tab-sec',
@@ -18572,6 +18694,41 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (_self.isDev) {
         _self.initKorePicker(findlyConfig);
       }
+    }
+    FindlySDK.prototype.getTopDownSortableFacetsTabs = function () {
+      var sortableFacets = '<script id="top-down-sortable-tabs-template" type="text/x-jqury-tmpl">\
+                                <div class="dropdown_sortable_filter">\
+                                  <div  class="sa-sortable-dropbtn"><span id="sa-select-sort-option">{{if displaySortable && displaySortable.name}} {{= displaySortable.name}}  {{else}} Sort By {{/if}}</span></div>\
+                                  <div id="myDropdown" class="sa-sortable-dropdown">\
+                                  {{each(key, facet) sortablefacets }}\
+                                    <div class="option-text sa-sortable-facet-options" value="{{= JSON.stringify(facet)}}" name="{{= facet.name}}">{{= facet.name}}</div>\
+                                    {{/each}}\
+                                  </div>\
+                                </div>\
+                              </script>'
+      return sortableFacets;
+    }
+    FindlySDK.prototype. getBottomUpSortableFacetsTabs = function () {
+      var sortableFacets = '<script id="bottom-up-sortable-tabs-template" type="text/x-jqury-tmpl">\
+                                 <div class="sortable-dropdown-filter added-dropdown-filters">\
+                                 {{if displaySortable && displaySortable.name}}\
+                                 <div class="add-list">\
+                                 <span class="title"><span id="sa-select-sort-option"> {{= displaySortable.name}}</span></span>\
+                                 <img src="images/close.svg" class="close-filter clear-sort-by">\
+                               </div>\
+                               {{/if}}\
+                                <div class="icon-block sa-sortable-dropbtn">\
+                               <img  class="sort-icon" src="images/sort.svg">\
+      </div>\
+      <div class="content-dropdown-sortable sa-sortable-dropdown">\
+        <div class="title-text">SORT BY</div>\
+        {{each(key, facet) sortablefacets }}\
+                                    <div class="option-text sa-sortable-facet-options" value="{{= JSON.stringify(facet)}}" name="{{= facet.name}}">{{= facet.name}}</div>\
+                                    {{/each}}\
+      </div>\
+    </div>\
+                              </script>'
+      return sortableFacets;
     }
     FindlySDK.prototype.getTopDownFacetsTabs = function () {
       var topDownFacetsTabs = '<script id="top-down-tabs-template" type="text/x-jqury-tmpl">\
@@ -19903,14 +20060,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               totalResultsCount = totalResultsCount + res.results[group].doc_count;
             }
           });
-          _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
+          _self.vars.totalNumOfResults = totalResultsCount + (res.tasks ||[]).length;
         }
       } else {
         var results = res.results.data;
         if (!(res.tabFacet || {}).buckets) {
           totalResultsCount = res.results.doc_count || 0;
         }
-        _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
+        _self.vars.totalNumOfResults = totalResultsCount + (res.tasks ||[]).length;
       }
     }
     return FindlySDK;
