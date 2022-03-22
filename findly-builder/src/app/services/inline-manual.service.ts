@@ -172,7 +172,12 @@ export class InlineManualService {
   }
   saveInlineSuggestionData(payload) {
     this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp ? this.selectedApp.searchIndexes[0]._id : "";
+    if(this.selectedApp && this.selectedApp.searchIndexes.length){
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    }
+    else{
+      this.serachIndexId='';
+    }
     const quaryparms: any = {
       searchIndexId: this.serachIndexId
     };
