@@ -143,6 +143,8 @@ export class AppHeaderComponent implements OnInit {
     }
   }
   ngOnInit() {
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
       if (res.name != undefined) {
         this.analyticsClick(res.path, false);
@@ -535,19 +537,29 @@ export class AppHeaderComponent implements OnInit {
     }
     this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
-        if((!res) || !res.dockStatuses.length){
+        /**made changes on 09/03 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 536 line*/
+        // if((!res) || !res.dockStatuses.length){
+        if((!res)){
           this.training=false;
         }
-        this.statusDockerLoading = false;        
-        this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));        
-        if (this.trainingInitiated && this.dockersList[0].status === 'SUCCESS' && this.dockersList[0].action === "TRAIN") {
-          this.trainingInitiated = false;
+        this.statusDockerLoading = false;
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 543 line*/
+        // this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
+        this.dockersList = JSON.parse(JSON.stringify(res));
+        /**made code updates in line no 503 on 03/01 added new condition for success and jobType,since SUCCESS is updated to success and action is updated to jobType and TRAIN has been updated to TRAINING */
+        // if (this.trainingInitiated && this.dockersList[0].status === 'SUCCESS' && this.dockersList[0].action === "TRAIN") {
+          if (this.trainingInitiated && (this.dockersList[0].status === 'SUCCESS' || this.dockersList[0].status === 'success') && this.dockersList[0].jobType === "TRAINING") {  
+           this.trainingInitiated = false;
           if (this.training) {
             this.notificationService.notify('Training Completed', 'success');
           }
           this.training = false;
         }
-        if (this.trainingInitiated && this.dockersList[0].status === 'FAILURE' && this.dockersList[0].action === "TRAIN") {
+        /**made code updates in line no 512 on 03/01 added new condition for FAILED,jobType,TRAINING since FAILURE is updated to FAILED  and action is updated to jobType and TRAIN has been updated to TRAINING as per new api contract*/
+        // if (this.trainingInitiated && this.dockersList[0].status === 'FAILURE' && this.dockersList[0].action === "TRAIN") {
+          if (this.trainingInitiated && (this.dockersList[0].status === 'FAILURE' || this.dockersList[0].status ==="FAILED") && this.dockersList[0].jobType === "TRAINING") {
           this.trainingInitiated = false;
           if (this.training) {
             this.notificationService.notify(this.dockersList[0].message, 'error');
@@ -556,22 +568,36 @@ export class AppHeaderComponent implements OnInit {
         }
         this.dockersList.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
-
-          if (record.status === 'SUCCESS' && record.fileId && (record.store && !record.store.toastSeen)) {
-            if (record.action === 'EXPORT') {
+          /**added condition for success on 24/02 in line 519 as per new api contract since SUCCESS is updated to success */
+          // if ((record.status === 'SUCCESS') && record.fileId && (record.store && !record.store.toastSeen)) {
+          if ((record.status === 'SUCCESS' || record.status === 'success') && record.fileId && (record.store && !record.store.toastSeen)) {
+          /**added condition for jobType in 570,since we are no longer recieving action in jobs api response,using the jobType for condition check as per new api contract 10/03 */
+          // if (record.action === 'EXPORT') {
+            if (record.jobType === "DATA_EXPORT") {            
               this.downloadDockFile(record.fileId, record.store.urlParams, record.streamId, record._id);
             }
-          }
+          } 
         })
-        const queuedJobs = _.filter(res.dockStatuses, (source) => {
-          return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED') || (source.status === 'validation'));
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 413 line*/
+        // const queuedJobs = _.filter(res.dockStatuses, (source) => {
+          const queuedJobs = _.filter(res, (source) => {
+          /** added condition for running and INPROGRESS on 24/02 in line 531 as per new api contract since IN_Progress is updated to running */
+          // return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED') || (source.status === 'validation'));
+          return ((source.status === 'IN_PROGRESS' || source.status === 'INPROGRESS' || source.status==='running') || (source.status === 'QUEUED') || (source.status === 'validation'));
         });
 
         if (recordStatistics) {
-          this.readDocs = _.filter(res.dockStatuses, (source) => {
+          /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 421 line*/
+          // this.readDocs = _.filter(res.dockStatuses, (source) => {
+            this.readDocs = _.filter(res, (source) => {
             return (source.read && (source.read === true));
           });
-          this.unReadDocs = _.filter(res.dockStatuses, (source) => {
+          /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 427 line*/
+          // this.unReadDocs = _.filter(res.dockStatuses, (source) => {
+            this.unReadDocs = _.filter(res, (source) => {
             return (source.read === false);
           });
           recordStatistics = false;
@@ -586,12 +612,16 @@ export class AppHeaderComponent implements OnInit {
 
         if (this.unReadDocs && this.unReadDocs.length) {
           let successElements = this.unReadDocs.filter(element => {
-            if (element && element.status === 'SUCCESS') {
+            /**made code updates in line no 563 on 03/01 added new condition for success,since SUCCESS is upadted to success*/
+            // if (element && element.status === 'SUCCESS') {
+            if (element && (element.status === 'SUCCESS' || element.status === 'success')){
               return element;
             }
           });
           let failureElements = this.unReadDocs.filter(element => {
-            if (element && element.status === 'FAILURE') {
+            /**made code updates in line no 572 on 03/01 added new condition for FAILED,since FAILURE is updated to FAILED as per new api contract*/
+            // if (element && element.status === 'FAILURE') {
+            if (element && (element.status === 'FAILURE' || element.status === 'FAILED')) {
               return element;
             }
           });
@@ -636,21 +666,29 @@ export class AppHeaderComponent implements OnInit {
 
   getStatusView(status, other?) {
     if (other) {
-      if (status === 'HALTED') {
+      /**made code updates in line no 619 on 03/01 added new condition for halted,since HALTED is updated to halted as per new api contract*/
+      // if (status === 'HALTED'){
+      if (status === 'HALTED' || status ==='halted') {
         return 'Stopped';
       }
       else if (status === 'QUEUED') {
         return 'In-Queue';
       }
-      else if (status === 'IN_PROGRESS' || status === 'validation') {
+      /**updated condition in line no 617 on 24/02,added condition for running since in_progress is updated to running as per new api contract  */
+      // else if (status === 'IN_PROGRESS' || status === 'validation') {
+      else if ((status === 'IN_PROGRESS' ||status ===  'INPROGRESS' || status === 'running' ) || status === 'validation') {
         return 'In-progress';
       }
-      else if (status === 'FAILURE') {
+      /**made code updates in line no 630 on 03/01 added new condition for FAILED,since FAILURE is updated to FAILED as per new api contract*/
+      // else if (status === 'FAILURE') {
+      else if (status === 'FAILURE' || status === 'FAILED') {
         return 'Failed'
       }
     }
     else {
-      if (status === 'SUCCESS') {
+      /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is upadted to success*/
+      // if (status === 'SUCCESS') {
+      if (status === 'SUCCESS' || status === 'success') {
         return true;
       }
       else {
@@ -748,11 +786,13 @@ export class AppHeaderComponent implements OnInit {
     }
   }
 
-  downloadDockFile(fileId, fileName, streamId, dockId) {
+  downloadDockFile(fileId,fileName,streamId,dockId) {
     const params = {
       fileId,
       streamId: streamId,
-      dockId: dockId
+      dockId: dockId,
+      jobId: dockId,
+      sidx:this.serachIndexId
     }
     let payload = {
       "store": {
@@ -817,7 +857,11 @@ export class AppHeaderComponent implements OnInit {
     }
     const appId = JSON.parse(localStorage.krPreviousState);
     this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
-      const docStatus = res.dockStatuses.filter(data => data.action === 'TRAIN' && data.status === 'IN_PROGRESS');
+      /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 675 line*/
+      /** made changes in line 796 on 24/02,added condition for running since in_progress is updated to running as per new api contract */
+      // const docStatus = res.dockStatuses.filter(data => data.action === 'TRAIN' && data.status === 'IN_PROGRESS');
+      const docStatus = res.filter(data => data.jobType === 'TRAINING' && ((data.status === 'IN_PROGRESS' || data.status === 'INPROGRESS') || (data.status === 'running')));
       if (docStatus !== undefined && docStatus.length !== 0) {
         this.training = true;
       }

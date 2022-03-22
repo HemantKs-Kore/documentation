@@ -28,11 +28,15 @@ export class DockStatusService {
             const polling = interval(5000).pipe(startWith(0)).subscribe(()=>{
                 this.service.invoke('get.dockstatus', params).subscribe(res=>{
                     const jobObj = _.findWhere(res, {jobType: job});
-                    if(jobObj && jobObj.status === 'SUCCESS') {
+                    /**made code updates in line no 33 on 03/01 added new condition for success,since SUCCESS is upadted to success as per new api contract*/
+                    // if(jobObj && jobObj.status === 'SUCCESS') {
+                    if(jobObj && (jobObj.status === 'SUCCESS' || jobObj.status === 'success')) {
                         polling.unsubscribe();
                         observer.next(jobObj);
                     }
-                    else if(jobObj && jobObj.status === 'FAILURE') {
+                    /**made code updates in line no 39 on 03/01 added new condition for FAILED,since FAILURE is updated to FAILED as per new api contract */
+                    // else if(jobObj && jobObj.status === 'FAILURE') {
+                    else if(jobObj && (jobObj.status === 'FAILURE' || jobObj.status ==='FAILED')) {
                         polling.unsubscribe();
                         observer.error(new Error('Failed'));
                     }
