@@ -205,8 +205,8 @@ export class AppHeaderComponent implements OnInit {
     if(localStorage.krPreviousState=='{}'|| localStorage.krPreviousState=="null"  || localStorage.krPreviousState==undefined){
         //this.analyticsClick('/home');
       }
-    else if (localStorage.krPreviousState && JSON.parse(localStorage.krPreviousState)) {
-      this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
+    else if (localStorage.krPreviousState && JSON.parse(localStorage.krPreviousState)) {      
+      this.analyticsClick(JSON.parse(localStorage.krPreviousState).route,true);
     }
     this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
       if (res) {
