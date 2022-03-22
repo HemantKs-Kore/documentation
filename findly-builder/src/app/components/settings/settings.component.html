@@ -1,6 +1,6 @@
 <!-- New Layouts -->
 
-<ng-container *ngIf="false">
+<ng-container>
 <div class="channels-main-container">
     <div class="header-sec-breadcums col-12 row m-0 " *ngIf="slider==0">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
@@ -26,7 +26,7 @@
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
             <div class="bread-name active-name" >{{"settings.web_mobile_client" | translate}}</div>            
         </div>
-        <div class="col-6 toggle-check">        
+        <div class="col-6 toggle-check d-none">        
             <label class="kr-sg-toggle">
                 <input type="checkbox" [checked] = "enableConfiguration" (click)="disableCredential(pageDisable)">
                 <div class="slider"><span class="enabled" >{{"settings.channel_enabled" | translate}}</span><span class="disabled" >Channel Disabled</span></div>
@@ -166,11 +166,304 @@
                 </label>
             </div>
 
-            <div class="generator-token-sec" *ngIf="slider==3" [ngClass]="{'m-0': existingCredential}">
+            <div *ngIf="slider==3" [ngClass]="{'m-0': existingCredential}">
                 <div class=" mb-3" *ngIf="existingCredential">
-
-                    <div class="sel-title"> {{"settings.select_credential" | translate}}</div>
-                    <div class="kr-sg-dropdowns credentials-dropdown">
+                    <div class="channels-container-info">
+                        <!-- <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey> -->
+                        <div class="breadcum-header d-none">
+                            <div class="primary-text">{{"settings.channels" | translate}}</div>
+                            <img src="assets/images/back-icon.svg">
+                            <div class="secondary-text">{{"settings.web_mobile_client" | translate}}</div>
+                        </div>
+                        <perfect-scrollbar class="scroll-data-channels">
+                            <div class="info-data-channels-accordion">
+                                <div id="accordion">
+                                    <div class="card-channel">
+                                        <div class="card_header">
+                                            <div data-toggle="collapse" data-parent="#accordion" href="#appdetails" class="card_link collapsed" aria-expanded="true">
+                                                <div class="title">App Details</div>
+                                                <div class="desc-text">Associate an app with your Virtual Assistant to securely enable the Web / Mobile Client.</div>
+                                                <div class="arrow-indicator">
+                                                    <img src="assets/images/carrot-right.svg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="appdetails" class="collapse">
+                                            <div class="card-body">
+                                                <div class="generator-token-sec">
+                                                    <div class="kr-sg-dropdowns credentials-dropdown mb-4 pl-4">
+                                                        <div class="label-text">{{"settings.select_credential" | translate}}</div>
+                                                        <div class="dropdown dropdown-open">
+                                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
+                                                                <span class="select-placeholder">{{listData?listData.appName:'Select or Add Credential'}}</span>
+                                                            </button>
+                                                            <ul class="dropdown-menu content-menu">
+                                                                <perfect-scrollbar class="scroll-search-field h-200">
+                                                                    <li *ngFor="let channel of channnelConguired.apps" (click)="selctedChannel(channel)">
+                                                                        <a>{{channel.appName}}</a>
+                                                                    </li>
+                                                                </perfect-scrollbar>
+                                                                <li class="add-custom" (click)="newCredential()">
+                                                                    <a>{{"settings.add_new_credential" | translate}} </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="box-data pl-4">
+                                                        <div class="input-data">
+                                                            <div class="label-text">{{"settings.App_Name" | translate}}</div>
+                                                            <div class="input-box mb-3">
+                                                                <div class="kr-sg-input-text">
+                                                                    <input type="text" class="input-text" [value]="selectedApp.name" readonly>
+                                                                </div>
+                                                                <div class="copy-btn" (click)="copy(selectedApp.name,clipAppName)"><img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-data">
+                                                            <div class="label-text">{{"settings.App_ID" | translate}}</div>
+                                                            <div class="input-box mb-3">
+                                                                <div class="kr-sg-input-text">
+                                                                    <input type="text" class="input-text" [value]="selectedApp._id" readonly>
+                                                                </div>
+                                                                <div class="copy-btn" (click)="copy(selectedApp._id,clipAppID)">
+                                                                    <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-data">
+                                                            <div class="label-text">{{"settings.client_id" | translate}} </div>
+                                                            <div class="input-box mb-3">
+                                                                <div class="kr-sg-input-text">
+                                                                    <input type="text" class="input-text" [value]="listData?.clientId" readonly>
+                                                                </div>
+                                                                <div class="copy-btn" (click)="copy(listData.clientId)">
+                                                                    <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-data">
+                                                            <div class="label-text">{{"settings.Client_Secret_ID" | translate}} </div>
+                                                            <div class="input-box mb-3">
+                                                                <div class="kr-sg-input-text" >
+                                                                    <input type="password" id="password"  class="input-text" [value]="listData?.clientSecret" readonly>
+                                                                    <img (click)="showPasword()" *ngIf="!showPassword" src="assets/images/icons/eye.svg" class="eye" type="eye">
+                                                                    <img (click)="showPasword()" *ngIf="showPassword" src="assets/images/icons/viewPw.svg.svg"class="eye" type="eye">
+                                                                </div>
+                                                                <div class="copy-btn" (click)="copy(listData.clientSecret,clipclientSecret)">
+                                                                    <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-data">
+                                                            <div class="label-text">{{"settings.Search_ID" | translate}}</div>
+                                                            <div class="input-box mb-3">
+                                                                <div class="kr-sg-input-text">
+                                                                    <input type="text" class="input-text" [value]="serachIndexId" readonly>
+                                                                </div>
+                                                                <div class="copy-btn" (click)="copy(serachIndexId,clipSerachIndexId)">
+                                                                    <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="border-line"></div>
+                                                        <div class="accordion-sec">{{"settings.view_JSON_web_encryption_public_key" | translate}} 
+                                                            <img src="assets/images/icons/carrot_up.svg">
+                                                        </div>
+                                                    </div>
+                                                    <div class="group-radiobutton">
+                                                        <div class="heading-title">{{"settings.task_setup" | translate}} </div>
+                                                        <div class="kr-sg-radiobutton d-block">
+                                                            <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
+                                                            <label for="radio-32" class="radio-custom-label">{{"settings.task_setup_info" | translate}}</label>
+                                                        </div>
+                                                        <div class="kr-sg-radiobutton d-block">
+                                                            <input id="radio-33" name="radio" class="radio-custom" type="radio">
+                                                            <label for="radio-33" class="radio-custom-label"> {{"settings.no_task_setup_info" | translate}}  </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="toggle-check pb-2">        
+                                                        <label class="kr-sg-toggle">
+                                                            <input type="checkbox" [checked]="enableConfiguration" (click)="disableCredential(pageDisable)">
+                                                            <div class="slider">
+                                                                <span class="enabled">{{"settings.channel_enabled" | translate}}</span>
+                                                                <span class="disabled" >Channel Disabled</span>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-channel">
+                                        <div class="card_header">
+                                        <div class="card_link collapsed" data-toggle="collapse" data-parent="#accordion" href="#webclient" aria-expanded="true">
+                                            <div class="title">Web Client Details</div>
+                                            <div class="desc-text">Use the Web / Mobile Client hosted by Kore.ai to start interating with the virtual assistant.</div>
+                                            <div class="arrow-indicator">
+                                                <img src="assets/images/carrot-right.svg">
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div id="webclient" class="collapse">
+                                            <div class="card-body">
+                                                <div class="webclient-info-data">
+                                                    <!-- URL -->
+                                                    <ng-container>
+                                                        <div class="section-wise-data">
+                                                            <div class="heading-text">URL</div>
+                                                            <div class="heading-info-text">Share this URL with the users to interact with your virtual assistant.</div>
+                                                            <div class="input-url-box">
+                                                                <div class="kr-sg-input-text">
+                                                                    <input type="text" placeholder="http://sampleurl.com/" class="input-text" [value]="webClientDetails?.chatURL">
+                                                                </div>
+                                                                <div class="actions-copy-ext">
+                                                                    <div class="btn-ext-copy">
+                                                                        <img src="assets/icons/clone.svg" (click)="copy(webClientDetails.chatURL)">
+                                                                    </div>
+                                                                    <div class="btn-ext-copy">
+                                                                      <a href="webClientDetails.chatURL" target="_blank">
+                                                                        <img src="assets/icons/external-link.svg"> </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="hint-info-data">
+                                                                <div class="hint-bg">
+                                                                    <div class="hint-text-img">
+                                                                        <div class="img-info">
+                                                                            <img src="assets/icons/info.svg">
+                                                                        </div>
+                                                                        <div class="text-hint font-500">To start interacting with the virtual assistant via URL sharing:</div>
+                                                                    </div>
+                                                                    <div class="hint-text-img">
+                                                                    <div class="img-info disabled-check">
+                                                                        <img src="assets/icons/check-white.svg" class="check-img">
+                                                                    </div>
+                                                                        <div class="text-hint">Save and Publish the virtual assistant. <a>Publish Now</a></div>
+                                                                    </div>
+                                                                    <div class="hint-text-img">
+                                                                        <div class="img-info success-check">
+                                                                            <img src="assets/icons/check-white.svg" class="check-img">
+                                                                        </div>
+                                                                        <div class="text-hint">Configuration the assiociated app to use HS256 signing algoritm</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+                    
+                                                    <!-- Embed Code -->
+                                                    <ng-container>
+                                                        <div class="section-wise-data">
+                                                            <div class="heading-text">Embed Code</div>
+                                                            <div class="heading-info-text">Copy and paste the following HTML code before the end of the BODY tag on every page of the application where you want to display the chat widget. <a href="#">Know more</a></div>
+                                                            <div class="embedcode">
+                                                                <div class="header d-flex align-items-center justify-content-between">
+                                                                    <div class="code">HTML Code</div>
+                                                                    <div class="copy">
+                                                                        <img src="assets/icons/clone.svg">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="scriptTag">
+                                                                    <!-- <div class="script" id="embedCode">
+                    
+                                                                    </div> -->
+                                                                    <div class="script" id="embedCode">{{webClientDetails?.scriptTag}}</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="hint-info-data">
+                                                                <div class="hint-bg">
+                                                                    <div class="hint-text-img">
+                                                                        <div class="img-info">
+                                                                            <img src="assets/icons/info.svg">
+                                                                        </div>
+                                                                        <div class="text-hint font-500">To start interacting with the virtual assistant via the embedded code:</div>
+                                                                    </div>
+                                                                    <div class="hint-text-img">
+                                                                    <div class="img-info disabled-check">
+                                                                        <img src="assets/icons/check-white.svg" class="check-img">
+                                                                    </div>
+                                                                        <div class="text-hint">Save and Publish the virtual assistant. <a>Publish Now</a></div>
+                                                                    </div>
+                                                                    <div class="hint-text-img">
+                                                                        <div class="img-info success-check">
+                                                                            <img src="assets/icons/check-white.svg" class="check-img">
+                                                                        </div>
+                                                                        <div class="text-hint">Configuration the assiociated app to use HS256 signing algoritm</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+                    
+                                                    <!-- Web / Mobile SDK -->
+                                                    <ng-container>
+                                                        <div class="section-wise-data">
+                                                            <div class="heading-text">Whitelist domains</div>
+                                                            <div class="heading-info-text">Whitelist domains below. Only domains added here will be able to display the chat widget</div>
+                                                            
+                                                            <!-- Repeated Domain Data -->
+                                                            <ng-container *ngFor="let domainUrl of webClientDetails.domains ;let i = index">
+                                                                <div class="input-url-box mb-2">
+                                                                    <div class="kr-sg-input-text">
+                                                                        <input type="text" placeholder="http://sampleurl.com/" class="input-text" [value]="domainUrl"  (focusout)="onFocusOutEvent($event)" [disabled]="i != (webClientDetails.domains.length-1)">
+                                                                    </div>
+                                                                    <div class="actions-copy-ext">
+                                                                        <div class="btn-ext-copy" (click)="deleteDomain(i)">
+                                                                            <img src="assets/icons/delete.svg">
+                                                                        </div>
+                                                                        <div class="btn-ext-copy invisible"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </ng-container>
+                    
+                                                            <div class="add-domain" (click)="addNewDomain(domainUrl)">
+                                                                <img src="assets/icons/add_blue.svg" >
+                                                                <span>Add Domain</span>
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+                    
+                                                    <!-- Whitelist domains -->
+                                                    <ng-container>
+                                                        <div class="section-wise-data">
+                                                            <div class="heading-text">Web / Mobile SDK</div>
+                                                            <div class="heading-info-text">Setup and configure the Web / Mobile SDK using the prebuilt libraries.</div>
+                                                            <div class="download-sdk">
+                                                                <span>Download SDK</span>
+                                                                     <a href="https://github.com/Koredotcom/web-kore-sdk-private" target="_blank">
+                                                                <img src="assets/icons/external-link.svg">
+                                                            </a>
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+                    
+                                                    <!-- Allow Alert Task Setup -->
+                                                    <div class="group-radiobutton">
+                                                        <div class="heading-title">Allow Alert Task Setup</div>
+                                                        <div class="kr-sg-radiobutton d-block">
+                                                            <input id="radio-322" name="radio" class="radio-custom" type="radio" checked>
+                                                            <label for="radio-322" class="radio-custom-label">Yes, let users setup the Alert Tasks using Web Client.</label>
+                                                        </div>
+                                                        <div class="kr-sg-radiobutton d-block">
+                                                            <input id="radio-333" name="radio" class="radio-custom" type="radio">
+                                                            <label for="radio-333" class="radio-custom-label"> No, do not list the Alert Tasks or allow users to setup the Alert Tasks using the Web Client.  </label>
+                                                        </div>
+                                                    </div>
+                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </perfect-scrollbar>
+                        <div class="footer-channels d-none">
+                            <button class="kr-sg-button-primary btn_lg mr-2" (click)="configureCredential($event)">Save</button>
+                            <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>
+                        </div>
+                    </div>
+                    <div class="sel-title d-none"> {{"settings.select_credential" | translate}}</div>
+                    <div class="kr-sg-dropdowns credentials-dropdown d-none">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><span
                                     class="select-placeholder">{{listData?listData.appName:'Select or Add Credential'}}</span></button>
@@ -186,7 +479,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="box-data">
+                <div class="box-data d-none">
                     <div class="input-data">
                         <div class="label-text">{{"settings.App_Name" | translate}}</div>
                         <div class="input-box mb-4">
@@ -376,7 +669,7 @@
 
 
 <!-- New Screen changes FLY-4512 -->
-<div class="channels-container-info">
+<div class="channels-container-info d-none">
     <!-- <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey> -->
     <div class="breadcum-header">
         <div class="primary-text">{{"settings.channels" | translate}}</div>
@@ -444,7 +737,7 @@
                                             <div class="kr-sg-input-text">
                                                 <input type="text" class="input-text" [value]="listData?.clientId" readonly>
                                             </div>
-                                            <div class="copy-btn" (click)="copy(listData.clientId,clipClientId)">
+                                            <div class="copy-btn" (click)="copy(listData.clientId)">
                                                 <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
                                             </div>
                                         </div>
@@ -522,14 +815,15 @@
                                         <div class="heading-info-text">Share this URL with the users to interact with your virtual assistant.</div>
                                         <div class="input-url-box">
                                             <div class="kr-sg-input-text">
-                                                <input type="text" placeholder="http://sampleurl.com/" class="input-text">
+                                                <input type="text" placeholder="http://sampleurl.com/" class="input-text" [value]="webClientDetails?.chatURL">
                                             </div>
                                             <div class="actions-copy-ext">
                                                 <div class="btn-ext-copy">
-                                                    <img src="assets/icons/clone.svg">
+                                                    <img src="assets/icons/clone.svg" (click)="copy(webClientDetails.chatURL)">
                                                 </div>
                                                 <div class="btn-ext-copy">
-                                                    <img src="assets/icons/external-link.svg">
+                                                  <a href="webClientDetails.chatURL" target="_blank">
+                                                    <img src="assets/icons/external-link.svg"> </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -574,7 +868,7 @@
                                                 <!-- <div class="script" id="embedCode">
 
                                                 </div> -->
-                                                <div class="script" id="embedCode">&lt;link rel='stylesheet' href='https://qa1-bots.kore.ai/webclient/UI/dist/kore-ai-sdk.min.css'&gt;&lt;/link&gt;<br>&lt;script src='https://qa1-bots.kore.ai/api/platform/websdkjs/7bad7ef4fd5248fb942cd5aff2973f4b21ed421a339041f7babb81de4e75d8fbstb9'&gt;&lt;/script&gt;<br>&lt;script&gt;KoreSDK.show(KoreSDK.chatConfig);&lt;/script&gt;</div>
+                                                <div class="script" id="embedCode">{{webClientDetails?.scriptTag}}</div>
                                             </div>
                                         </div>
                                         <div class="hint-info-data">
@@ -612,10 +906,10 @@
                                         <ng-container>
                                             <div class="input-url-box mb-2">
                                                 <div class="kr-sg-input-text">
-                                                    <input type="text" placeholder="http://sampleurl.com/" class="input-text">
+                                                    <input type="text" placeholder="http://sampleurl.com/" class="input-text" [value]="domainUrl">
                                                 </div>
                                                 <div class="actions-copy-ext">
-                                                    <div class="btn-ext-copy">
+                                                    <div class="btn-ext-copy" (click)="deleteDomain()">
                                                         <img src="assets/icons/delete.svg">
                                                     </div>
                                                     <div class="btn-ext-copy invisible"></div>
@@ -624,7 +918,7 @@
                                         </ng-container>
 
                                         <div class="add-domain">
-                                            <img src="assets/icons/add_blue.svg">
+                                            <img src="assets/icons/add_blue.svg" (click)="addNewDomain(domainUrl)">
                                             <span>Add Domain</span>
                                         </div>
                                     </div>
@@ -637,7 +931,9 @@
                                         <div class="heading-info-text">Setup and configure the Web / Mobile SDK using the prebuilt libraries.</div>
                                         <div class="download-sdk">
                                             <span>Download SDK</span>
+                                                 <a href="https://github.com/Koredotcom/web-kore-sdk-private" target="_blank">
                                             <img src="assets/icons/external-link.svg">
+                                        </a>
                                         </div>
                                     </div>
                                 </ng-container>
@@ -663,7 +959,7 @@
         </div>
     </perfect-scrollbar>
     <div class="footer-channels">
-        <button class="kr-sg-button-primary btn_lg mr-2" (click)="configureCredential($event)">Save</button>
+        <button class="kr-sg-button-primary btn_lg mr-2" (click)="configureCredential($event);updateEmbededSdk()">Save</button>
         <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>
     </div>
 </div>
