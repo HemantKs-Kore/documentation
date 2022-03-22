@@ -65,7 +65,7 @@
               <div class="add_feild" (click)="openCreateApp()">
                 <img src="assets/icons/add_plus.svg">Add Application
               </div>
-              <button (click)="openDetails()">Details</button>
+              <button (click)="openDetails()" class="d-none">Details</button>
             </div>
           </div>
         </div>
@@ -185,112 +185,103 @@
               </div> -->
               <ng-container>
                 <div class="m-title col-12">Explore</div>
-                <div id="demo" class="carousel slide explore-carousel-data" data-interval="false" data-ride="carousel">
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <div class="row row-carousels">
-                        <div class="coursel-cards-data col-4">
-                          <div class="inner-c-data data-integration">
-                            <div class="img-block">
-                              <img src="assets/icons/content/carousel-data-inte.svg">
-                            </div>
-                            <div class="title">Data Ingestion</div>
-                            <div class="desc_text">Data is fetched from various sources and ingested into the
-                              application for accurate search results</div>
-                            <div class="learn-more-">
-                              <span class="link"><a
-                                  href="https://docs.kore.ai/searchassist/source-management/source-management/"
-                                  target="_blank">Learn More <img src="assets/icons/content/carrotright.svg"></a></span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="coursel-cards-data col-4">
-                          <div class="inner-c-data index-management">
-                            <div class="img-block">
-                              <img src="assets/icons/content/carousel-index-manag.svg">
-                            </div>
-                            <div class="title">Index Management</div>
-                            <div class="desc_text">Documents and fields are manipulated to customize the data and
-                              results as per the business requirements</div>
-                            <div class="learn-more-">
-                              <span class="link"><a
-                                  href="https://docs.kore.ai/searchassist/manage-index/index-management/"
-                                  target="_blank">Learn More <img src="assets/icons/content/carrotright.svg"></a></span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="coursel-cards-data col-4">
-                          <div class="inner-c-data result-optimization">
-                            <div class="img-block">
-                              <img src="assets/icons/content/carousel-result-opt.svg">
-                            </div>
-                            <div class="title">Result Optimization</div>
-                            <div class="desc_text">Results are tuned based on relevance to continuously improve the
-                              search experience</div>
-                            <div class="learn-more-">
-                              <span class="link"><a
-                                  href="https://docs.kore.ai/searchassist/optimize-results/result-optimization/"
-                                  target="_blank">Learn More <img src="assets/icons/content/carrotright.svg"></a></span>
-                            </div>
-                          </div>
-                        </div>
+                <div class="row row-carousels">
+                  <div class="coursel-cards-data col-4">
+                    <div class="inner-c-data data-integration">
+                      <div class="learn-more-">
+                        <span class="link">
+                          <a href="https://docs.kore.ai/searchassist/source-management/source-management/" target="_blank">Learn More<img src="assets/icons/content/carrotright.svg">
+                          </a>
+                        </span>
                       </div>
-                    </div>
-                    <div class="carousel-item">
-                      <div class="row row-carousels">
-                        <div class="coursel-cards-data col-4">
-                          <div class="inner-c-data search-experience">
-                            <div class="img-block">
-                              <img src="assets/icons/content/carousel-search-exp.png">
-                            </div>
-                            <div class="title">Search Experience</div>
-                            <div class="desc_text">Search experience is enhanced by defining the presentation of the
-                              search interface and results</div>
-                            <div class="learn-more-">
-                              <span class="link"> <a
-                                  href="https://docs.kore.ai/searchassist/search-experience/design-search-experience/"
-                                  target="_blank">Learn More <img src="assets/icons/content/carrotright.svg"></a></span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="coursel-cards-data col-4">
-                          <div class="inner-c-data analytics">
-                            <div class="img-block">
-                              <img src="assets/icons/content/carousel-analytics.svg">
-                            </div>
-                            <div class="title">Analytics</div>
-                            <div class="desc_text">Measure the performance of your application by providing real-time
-                              interactive insights</div>
-                            <div class="learn-more-">
-                              <span class="link"> <a href="https://docs.kore.ai/searchassist/analytics/analytics/"
-                                  target="_blank">Learn More <img src="assets/icons/content/carrotright.svg"></a></span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="coursel-cards-data col-4">
-                          <div class="inner-c-data experiments">
-                            <div class="img-block">
-                              <img src="assets/icons/content/carousel-exp.png">
-                            </div>
-                            <div class="title">Experiments</div>
-                            <div class="desc_text">Multiple index & search configuration can be tested to pick the
-                              best
-                              one that fulfills business needs</div>
-                            <div class="learn-more-">
-                              <span class="link"><a href="https://docs.kore.ai/searchassist/analytics/experiment/"
-                                  target="_blank">Learn More <img src="assets/icons/content/carrotright.svg"></a></span>
-                            </div>
-                          </div>
-                        </div>
+                      <div class="img-block">
+                        <img src="assets/icons/content/carousel-data-inte.svg">
+                      </div>
+                      <div class="content-block">
+                        <div class="title">Data Ingestion</div>
+                        <div class="desc_text">Data is fetched from various sources and ingested into the application for accurate search results</div>
                       </div>
                     </div>
                   </div>
-                  <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                  </a>
-                  <a class="carousel-control-next" href="#demo" data-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                  </a>
+                  <div class="coursel-cards-data col-4">
+                    <div class="inner-c-data index-management">
+                      <div class="learn-more-">
+                        <span class="link">
+                          <a href="https://docs.kore.ai/searchassist/manage-index/index-management/" target="_blank">Learn More<img src="assets/icons/content/carrotright.svg">
+                          </a>
+                        </span>
+                      </div>
+                      <div class="img-block">
+                        <img src="assets/icons/content/carousel-index-manag.svg">
+                      </div>
+                      <div class="content-block">
+                        <div class="title">Index Management</div>
+                        <div class="desc_text">Documents and fields are manipulated to customize the data and results as per the business requirements</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="coursel-cards-data col-4">
+                    <div class="inner-c-data result-optimization">
+                      <div class="learn-more-">
+                        <span class="link">
+                          <a href="https://docs.kore.ai/searchassist/optimize-results/result-optimization/" target="_blank">Learn More<img src="assets/icons/content/carrotright.svg">
+                          </a>
+                        </span>
+                      </div>
+                      <div class="img-block">
+                        <img src="assets/icons/content/carousel-result-opt.svg">
+                      </div>
+                      <div class="content-block">
+                        <div class="title">Index Management</div>
+                        <div class="desc_text">Results are tuned based on relevance to continuously improve the search experience</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="coursel-cards-data col-4">
+                    <div class="inner-c-data search-experience">
+                      <div class="learn-more-">
+                        <span class="link"> 
+                          <a href="https://docs.kore.ai/searchassist/search-experience/design-search-experience/" target="_blank">Learn More<img src="assets/icons/content/carrotright.svg"></a></span>
+                      </div>
+                      <div class="img-block">
+                        <img src="assets/icons/content/carousel-search-exp.svg">
+                      </div>
+                      <div class="content-block">
+                        <div class="title">Search Experience</div>
+                        <div class="desc_text">Search experience is enhanced by defining the presentation of the search inteface and results</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="coursel-cards-data col-4">
+                    <div class="inner-c-data analytics">
+                      <div class="learn-more-">
+                        <span class="link"> <a href="https://docs.kore.ai/searchassist/analytics/analytics/"
+                            target="_blank">Learn More<img src="assets/icons/content/carrotright.svg"></a></span>
+                      </div>
+                      <div class="img-block">
+                        <img src="assets/icons/content/carousel-analytics.svg">
+                      </div>
+                      <div class="content-block">
+                        <div class="title">Search Analytics</div>
+                        <div class="desc_text">Search experience is enhanced by defining the presentation of the search inteface and results</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="coursel-cards-data col-4">
+                    <div class="inner-c-data experiments">
+                      <div class="learn-more-">
+                        <span class="link"><a href="https://docs.kore.ai/searchassist/analytics/experiment/"
+                            target="_blank">Learn More<img src="assets/icons/content/carrotright.svg"></a></span>
+                      </div>
+                      <div class="img-block">
+                        <img src="assets/icons/content/carousel-exp.svg">
+                      </div>
+                      <div class="content-block">
+                        <div class="title">Experiments</div>
+                        <div class="desc_text">Multiple index & search configuration can be tested to pick the best one that fulfills business needs</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </ng-container>
               <div class="empty">No apps found that matches with {{searchApp}}</div>
@@ -302,39 +293,46 @@
   </perfect-scrollbar>
 </div>
 
-<kr-modal modalType="default" #createAppPop modalClass="creating-new-app-modal">
-  <div class="modal-header">
-    <div class="modal-title">Create App</div>
-    <div class="close_modal" (click)="closeCreateApp()"><img src="assets/icons/close.svg"></div>
-  </div>
+<kr-modal modalType="default" #createAppPop modalClass="creating-new-app-modal app-homes-component-page">
   <div class="modal-body">
-    <div class="kr-sg-input-text mb-3">
-      <div class="label-text">App Name</div>
-      <input maxlength="60" type="text" autocomplete="off" placeholder="Enter App Name" [(ngModel)]="newApp.name"
-        name="appName" id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
-      <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
+    <div class="close_modal" (click)="closeCreateApp()"><img src="assets/icons/close.svg"></div>
+    <div class="img-wrapper">
+      <img src="assets/icons/landing/create-app.png">
     </div>
-    <div class="kr-sg-input-text">
-      <div class="label-text">Description</div>
-      <input class="input-text" maxlength="250" placeholder="Enter App Description" autocomplete="off"
-        [(ngModel)]="newApp.description" name="appDesc">
-    </div>
-    <div class="kr-sg-dropdowns w-100">
-      <div class="label-text">Language</div>
-      <div class="dropdown dropdown-open">
-        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>English</button>
-        <ul class="dropdown-menu content-menu">
-          <li><a>English</a></li>
-        </ul>
-      </div>
+    <div class="actions-block">
+      <perfect-scrollbar>
+        <div class="inner-data">
+          <div class="borderindication"></div>
+          <div class="heading-text">Start by creating an Application</div>
+          <div class="kr-sg-input-text">
+            <div class="label-text">Name Your Application</div>
+            <input maxlength="60" type="text" autocomplete="off" placeholder="Enter Your Application" [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
+            <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
+          </div>
+          <div class="kr-sg-input-text">
+            <div class="label-text">Description</div>
+            <input class="input-text" maxlength="250" placeholder="Enter App Description" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
+          </div>
+          <div class="kr-sg-dropdowns w-100">
+            <div class="label-text">Language</div>
+            <div class="dropdown dropdown-open">
+              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>English</button>
+              <ul class="dropdown-menu content-menu">
+                <li><a>English</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="mt-5 text-right">
+            <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal" (click)='validateSource()'>Get started</button>
+          </div>
+        </div>
+      </perfect-scrollbar>
     </div>
   </div>
-  <div class="modal-footer" [ngClass]="{'disabled': creatingInProgress}">
-    <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal"
-      (click)="closeCreateApp()">Cancel</button>
-    <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal"
-      (click)='validateSource()'>Create</button>
-  </div>
+  <!-- <div class="modal-footer" [ngClass]="{'disabled': creatingInProgress}">
+    <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closeCreateApp()">Cancel</button>
+    <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal" (click)='validateSource()'>Create</button>
+  </div> -->
 </kr-modal>
 
 
@@ -486,10 +484,60 @@
 </kr-modal>
 <!--Delete confirmation modal end -->
 <!--popup for Details-->
-<kr-modal modalType="center" #detailsPopUp modalClass="delete-app-popup">
-  <div class="modal-header">
+<kr-modal modalType="center" #detailsPopUp modalClass="new-uses-registration-about-modal">
+  <div class="modal-body">
     <div class="close_modal" (click)="closeDetails()">
       <img src="assets/icons/modal-close.svg">
+    </div>
+    <div class="video-block">
+      <div class="video-content">
+        <video controls>
+          <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
+          <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="video-img">
+        <img src="assets/icons/video-placeholder.png">
+      </div>
+    </div>
+    <div class="form-block-data">
+      <perfect-scrollbar>
+        <div class="scroll-content">
+          <div class="heading-main">just few more details about you!</div>
+          <div class="desc-text">Please enter below details</div>
+          <div class="kr-sg-input-text mb-20">
+            <div class="label-text">Job Title</div>
+            <input type="text" placeholder="Enter your role title" class="input-text">
+          </div>
+          <div class="kr-sg-dropdowns mb-20">
+            <div class="label-text">Department</div>
+            <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select</button>                                            
+                <ul class="dropdown-menu content-menu">                                             
+                  <li><a href="#">Option 1</a></li>
+                  <li><a href="#">Option 2</a></li>
+                  <li><a href="#">Option 3</a></li>
+                </ul>
+            </div>
+          </div>
+          <div class="kr-sg-dropdowns mb-2">
+            <div class="label-text">Industry</div>
+            <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Others</button>                                            
+                <ul class="dropdown-menu content-menu">                                             
+                  <li><a href="#">Option 1</a></li>
+                  <li><a href="#">Option 2</a></li>
+                  <li><a href="#">Option 3</a></li>
+                </ul>
+            </div>
+          </div>
+          <div class="kr-sg-input-text mb-5">
+            <input type="text" placeholder="Enter your Industry name" class="input-text">
+          </div>
+          <button class="kr-sg-button-primary btn_lg" disabled>Submit</button>
+        </div>
+      </perfect-scrollbar>
     </div>
   </div>
 </kr-modal>
