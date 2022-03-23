@@ -69,6 +69,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   updateUsageData: Subscription;
   currentPlan: any;
   upgradeBannerFlag: boolean;
+  componentType: string = 'configure';
   @Input() show;
   @Input() settingMainMenu;
   @Input() sourceMenu;
@@ -96,6 +97,9 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       title: selection,
     };
     this.headerService.toggle(toogleObj);
+    if (selection =='weights'|| selection == 'synonyms'||selection=='stopWords'||selection=='resultranking'){
+      this.appSelectionService.updateTourConfig('configure');
+    }
   }
   //upgrade plan
   upgrade(data?) {

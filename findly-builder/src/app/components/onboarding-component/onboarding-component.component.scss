@@ -442,6 +442,7 @@
                 .card_header{
                     .card_link{
                         display: flex;
+                        text-decoration: none;
                         align-items: center;
                         box-sizing: border-box;
                         padding: 12px 20px 12px 30px;
@@ -601,6 +602,7 @@
                     .card_header{
                         .card_link{
                             display: flex;
+                            text-decoration: none;
                             align-items: flex-start;
                             flex-direction: column;
                             justify-content: center;

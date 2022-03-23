@@ -1471,11 +1471,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.service.invoke('add.sourceMaterialManualFaq', quaryparms, payload).subscribe(res => {
       this.selectedSourceType = null;
       this.closeAddManualFAQModal();
+      this.appSelectionService.updateTourConfig('addData');
       event.cb('success');
       if (this.resourceIDToOpen) {
         const eve: any = {}
         this.saveEvent.emit(eve);
-        this.appSelectionService.updateTourConfig('addData');
       }
       this.router.navigate(['/faqs'], { skipLocationChange: true });
     }, errRes => {
@@ -2171,6 +2171,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.workflowService.smallTalkEnable(res.stEnabled);
           this.closeLinkBotsModal()
           this.notificationService.notify("Bot Linked Successfully", 'success');
+          this.appSelectionService.updateTourConfig('addData');
           this.router.navigate(['/botActions'], { skipLocationChange: true });
           // this.syncLinkedBot();
           // this.loadingContent = false;

@@ -1441,6 +1441,7 @@ export class BotActionComponent implements OnInit {
           if (this.workflowService.selectedApp()) {
             this.appSelectionService.getStreamData(this.workflowService.selectedApp())
           }
+          this.appSelectionService.updateTourConfig('addData');
           this.botToBeUnlinked = this.selectedLinkBotConfig._id;
           this.selectedLinkBotConfig = null;
           this.islinked = true;

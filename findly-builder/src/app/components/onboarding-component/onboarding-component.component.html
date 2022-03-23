@@ -28,11 +28,11 @@
         <div id="support" class="tab-pane active">
             <div class="bread-cum-search">
                 <div class="bread-cum-list">
-                    <div class="first-title">Support</div>
-                    <i class="si-carrotup"></i>
-                    <div class="secondary-title">Getting started</div>
+                    <div class="first-title" (click)="supportParentData=true">Support</div>
+                    <i class="si-carrotup" *ngIf="!supportParentData"></i>
+                    <div class="secondary-title" *ngIf="!supportParentData">{{breadcrumbName}}</div>
                 </div>
-                <div class="kr-sg-input-text d-none">
+                <div class="kr-sg-input-text">
                     <input type="text" placeholder="Placeholder text" class="input-text">
                     <i class="si-close"></i>
                 </div>
@@ -41,22 +41,22 @@
                 </div>
             </div>
             <perfect-scrollbar class="scroll-content-data">
-              <div class="data-inner-content">
-                <div class="default-state-data d-none">
-                  <div class="action-block-data getting-start">
+              <div class="data-inner-content" >
+                <div class="default-state-data" *ngIf="supportParentData">
+                  <div (click)="triggerChild(data)" class="action-block-data" *ngFor="let data of supportData" [ngClass]="data.class" >
                     <div class="dummy-border-left"></div>
                     <div class="img-block">
-                      <img src="assets/icons/onboarding/getting-started.svg">
+                      <img src={{data.icon}}>
                     </div>
                     <div class="content-block">
-                      <div class="title">Getting started</div>
-                      <div class="desc-text">Explore our Guide on popular topics to start building your own Search Application</div>
+                      <div class="title">{{data.title}}</div>
+                      <div class="desc-text">{{data.desc}}</div>
                     </div>
                     <div class="arrow-icon">
                       <i class="si-carrotup"></i>
                     </div>
                   </div>
-                  <div class="action-block-data whats-new">
+                  <!-- <div class="action-block-data whats-new">
                     <div class="dummy-border-left"></div>
                     <div class="img-block">
                       <img src="assets/icons/onboarding/whatsnew.svg">
@@ -94,24 +94,24 @@
                     <div class="arrow-icon">
                       <i class="si-carrotup"></i>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
 
-                <div class="dynamic-state-data">
-                  <div class="action-block-data">
+                <div class="dynamic-state-data" *ngIf="!supportParentData">
+                  <div class="action-block-data" *ngFor="let child of supportChildData" >
                     <div class="dummy-border-left"></div>
                     <div class="img-block">
-                      <img src="assets/icons/onboarding/database.svg">
+                      <img src={{child.icon}}>
                     </div>
                     <div class="content-block">
-                      <div class="title">Adding Content</div>
-                      <div class="desc-text">Add or Manage content to your Application from various sources available in SearchAssist.</div>
+                      <div class="title">{{child.title}}</div>
+                      <div class="desc-text">{{child.desc}}</div>
                     </div>
                     <div class="ext-icon-link">
                       <i class="si-externallink"></i>
                     </div>
                   </div>
-                  <div class="action-block-data">
+                  <!-- <div class="action-block-data">
                     <div class="dummy-border-left"></div>
                     <div class="img-block">
                       <img src="assets/icons/onboarding/book.svg">
@@ -175,7 +175,7 @@
                     <div class="ext-icon-link">
                       <i class="si-externallink"></i>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
 
               </div>
@@ -184,15 +184,22 @@
         <div id="faq" class="tab-pane fade">
           <div class="bread-cum-search faq-bread-cum">
             <div class="bread-cum-list">
-                <div class="first-title">Contextual FAQs</div>
-                <i class="si-carrotup"></i>
-                <div class="secondary-title">Index Configuration</div>
+                <div class="first-title"  (click)="supportParentfaq=true">Contextual FAQs</div>
+                <i class="si-carrotup" *ngIf="!supportParentfaq"></i>
+                <div class="secondary-title" *ngIf="!supportParentfaq">{{breadcrumbNameFaq}}</div>
             </div>
           </div>
+          <div class="kr-sg-input-text">
+            <input type="text" placeholder="Placeholder text" class="input-text">
+            <i class="si-close"></i>
+        </div>
+        <div class="search-icon">
+            <i class="si-search"></i>
+        </div>
           <perfect-scrollbar class="scroll-content-data">
             <div class="data-inner-content">
-              <div class="default-state-faq d-none">
-                <div class="action-block-data">
+              <div class="default-state-faq" *ngIf="supportParentfaq">
+                <!-- <div class="action-block-data">
                   <div class="dummy-border-left"></div>
                   <div class="img-block">
                     <img src="assets/icons/onboarding/help.svg">
@@ -215,22 +222,22 @@
                   <div class="arrow-icon">
                     <i class="si-carrotup"></i>
                   </div>
-                </div>
-                <div class="action-block-data">
+                </div> -->
+                <div (click)="triggerChildFaq(faq)" class="action-block-data" *ngFor="let faq of faqData">
                   <div class="dummy-border-left"></div>
                   <div class="img-block">
                     <img src="assets/icons/onboarding/help.svg">
                   </div>
                   <div class="content-block">
-                    <div class="title">Lorem Ipsum</div>
+                    <div class="title">{{faq.display}}</div>
                   </div>
                   <div class="arrow-icon">
                     <i class="si-carrotup"></i>
                   </div>
                 </div>
               </div>
-              <div id="accordion">
-                <div class="accor-card">
+              <div id="accordion" *ngIf="!supportParentfaq">
+                <!-- <div class="accor-card">
                   <div class="card_header">
                     <div class="card_link collapsed" data-toggle="collapse" href="#collapseOne">
                         <div class="img-block">
@@ -271,14 +278,14 @@
                       Ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It <a>Click here</a> to watch reference video
                     </div>
                   </div>
-                </div>
-                <div class="accor-card">
+                </div> -->
+                <div class="accor-card"  *ngFor="let childfaq of supportChildfaq">
                   <div class="card_header">
                     <div class="card_link collapsed" data-toggle="collapse" href="#collapse3">
                         <div class="img-block">
                           <i class="si-help"></i>
                         </div>
-                        <div class="content-block">Simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text?</div>
+                        <div class="content-block">{{childfaq.ques}}</div>
                         <div class="ext-icon">
                           <i class="si-externallink"></i>
                         </div>
@@ -289,7 +296,7 @@
                   </div>
                   <div id="collapse3" class="collapse" data-parent="#accordion">
                     <div class="card-body">
-                      Ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It <a>Click here</a> to watch reference video
+                      {{childfaq.ans}}<a>Click here</a> to watch reference video
                     </div>
                   </div>
                 </div>
@@ -313,12 +320,46 @@
           </div>
           <perfect-scrollbar class="scroll-content-data">
             <div class="data-inner-content">
-              <div id="accordion1" class="applist-acc-data">
-                <div class="accordion-applist completed-state">
+              <div id="accordion" class="applist-acc-data" >
+                <div class="accordion-applist" *ngFor="let list of checkList;let i = index" (mouseover)="openAccordiandata(i)" (mouseout)="playPause(i)" >
+                  <div class="card_header" >
+                  <a class="card_link collapsed  data{{i}}" data-toggle="collapse" href="#collapse_{{i}}"> <!--doubt-->
+                    <div class="indication-block" *ngIf="tourData && !list.tourdata">
+                        <img src={{list.imgURL}}>
+                    </div>
+                    <div class="indication-block completed" *ngIf="tourData && list.tourdata" >
+                      <!-- <div class="indication-block completed"> -->
+                        <i class="si-check"></i>
+                    </div>
+                    <div class="title-heading">
+                      <span class="steps-number">{{list.step}}</span>{{list.title}}
+                    </div>
+                    <div class="desc-text">{{list.desc}} </div>
+                    <div class="actions-link">
+                      <a class="link-name" (click)="gotoRoutes(List.route)">Guide Me <i class="si-externallink"></i></a>
+                      <a class="link-name">Documentation <i class="si-externallink"></i></a>
+                    </div>
+                    <div class="arrow-icon">
+                      <i class="si-carrotup" ></i> 
+                    </div>
+                  </a>
+                </div>
+                <div id="collapse_{{i}}" class="collapse" data-parent="#accordion">
+                  <div class="card-body">
+                    <div class="video-block">
+                      <video class="video{{i}}" width="300" height="156" controls>
+                         <source src={{list.videoUrl}} type="video/mp4">
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                <!-- <div class="accordion-applist completed-state">
                   <div class="card_header">
                     <div class="card_link collapsed data1" data-toggle="collapse" href="#collapse1">
                       <div class="indication-block completed" *ngIf="tourData && tourData[0].addData" >
-                        <!-- <div class="indication-block completed"> -->
+                       
                           <i class="si-check"></i>
                       </div>
                       <div class="title-heading">
@@ -330,14 +371,14 @@
                         <a class="link-name">Documentation <i class="si-externallink"></i></a>
                       </div>
                       <div class="arrow-icon">
-                        <i class="si-carrotup"(mouseover)="openAccordiandata1()"></i>
+                        <i class="si-carrotup"(mouseover)="openAccordiandata1(index)" (mouseout)="playPause()"></i>
                       </div>
                     </div>
                   </div>
                   <div id="collapse1" class="collapse" data-parent="#accordion1">
                     <div class="card-body">
                       <div class="video-block">
-                        <video width="300" height="156" controls onmouseover="this.play()" onmouseout="this.pause()">
+                        <video class="video" controls width="300" height="156" >
                           <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
                           <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
                           Your browser does not support the video tag.
@@ -353,7 +394,7 @@
                           <img src="assets/icons/onboarding/review-index.svg">
                       </div>
                       <div class="indication-block completed" *ngIf="tourData && tourData[1].indexData">
-                        <!-- <div class="indication-block completed"> -->
+                       
                           <i class="si-check"></i>
                       </div>
                       <div class="title-heading">
@@ -388,7 +429,7 @@
                         <img src="assets/icons/onboarding/review-search.svg">
                       </div>
                       <div class="indication-block completed" *ngIf="tourData && tourData[2].optimiseSearchResults">
-                        <!-- <div class="indication-block completed"> -->
+                       
                           <i class="si-check"></i>
                       </div>
                       <div class="title-heading">
@@ -423,7 +464,7 @@
                           <img src="assets/icons/onboarding/search-design.svg">
                       </div>
                       <div class="indication-block completed" *ngIf="tourData && tourData[3].designSearchExperience">
-                        <!-- <div class="indication-block completed"> -->
+                        
                           <i class="si-check"></i>
                       </div>
                       <div class="title-heading">
@@ -512,8 +553,8 @@
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                </div> -->
+              </div> 
             </div>
           </perfect-scrollbar>
         </div>
