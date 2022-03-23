@@ -74,6 +74,7 @@ export class ConvertMDtoHTML {
     },
     isNotAllowedHTMLTags (str) {
         const wrapper = document.createElement('div');
+        str = str.replace(/onerror=/gi, 'abc-error=');
         wrapper.innerHTML = str;
         const setFlags = {
             isValid: true,
@@ -305,6 +306,7 @@ export class ConvertMDtoHTML {
         } else {
             wrapper1 = document.createElement('div');
             // str = str.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+            str = str.replace(/onerror=/gi, 'abc-error=');
             wrapper1.innerHTML = this.xssAttack(str);
             if ($(wrapper1).find('a').attr('href')) {
                 const linkArray = str.match(/<a[^>]*>([^<]+)<\/a>/g);

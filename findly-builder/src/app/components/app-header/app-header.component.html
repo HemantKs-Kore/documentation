@@ -210,10 +210,15 @@
                                                                 *ngFor="let task of dockersList; let index = index"
                                                                 [class.docUnRead]="checkRecordInDocs('unread', task)">
                                                                 <div class="col-9 pl-0 task_content">
+                                                                    <!-- made changes on 24/02 as per new api contract in response we no longer get the name,its changed to title added updated code on 221 line*/ -->
+                                                                    <!-- <div class="heading text-truncate"
+                                                                    [class.external_link]="(task.jobType == 'web' || task.jobType == 'faq' || task.jobType == 'STRUCTURED_DATA_INGESTION' || task.jobType == 'file' || task.jobType == 'FINDLY_FAQS_IMPORT')"
+                                                                    (click)="(task.jobType == 'web' || task.jobType == 'faq' || task.jobType == 'STRUCTURED_DATA_INGESTION' || task.jobType == 'file' || task.jobType == 'FINDLY_FAQS_IMPORT') && navigateTo(task)"
+                                                                    [title]="task.name">{{task.name}}</div> -->
                                                                     <div class="heading text-truncate"
                                                                         [class.external_link]="(task.jobType == 'web' || task.jobType == 'faq' || task.jobType == 'STRUCTURED_DATA_INGESTION' || task.jobType == 'file' || task.jobType == 'FINDLY_FAQS_IMPORT')"
                                                                         (click)="(task.jobType == 'web' || task.jobType == 'faq' || task.jobType == 'STRUCTURED_DATA_INGESTION' || task.jobType == 'file' || task.jobType == 'FINDLY_FAQS_IMPORT') && navigateTo(task)"
-                                                                        [title]="task.name">{{task.name}}</div>
+                                                                        [title]="task.name">{{task.title}}</div>
                                                                     <div class="desc"
                                                                         *ngIf="getStatusView(task.status)">{{task.status
                                                                         | titlecase}} <span class="tooltip-data"
@@ -237,25 +242,44 @@
                                                                 <div
                                                                     class="col-3 d-flex p-0 align-items-center justify-content-end">
                                                                     <div class="img-block">
-                                                                        <img src="assets/icons/docker/info.svg"
-                                                                            *ngIf="task.status === 'FAILURE'">
-                                                                        <img src="assets/icons/docker/return.svg"
-                                                                            *ngIf="task.status === 'HALTED'"
-                                                                            (click)="recrawl(task)">
+                                                                        <!-- made code updates in line no 248,249 on 03/01 added new condition for FAILED,since FAILURE is updated to FAILED as per new api contract -->
+                                                                        <!-- <img src="assets/icons/docker/info.svg"
+                                                                            *ngIf="task.status === 'FAILURE'"> -->
+                                                                            <img src="assets/icons/docker/info.svg"
+                                                                            *ngIf="task.status === 'FAILURE' || task.status === 'FAILED'">
+                                                                            <!-- made code updates in line no 255,256 on 03/01 added new condition for halted,since HALTED is updated to halted as per new api contract -->
+                                                                            <!-- <img src="assets/icons/docker/return.svg"
+                                                                                *ngIf="task.status === 'HALTED'"
+                                                                                (click)="recrawl(task)"> -->
+                                                                            <img src="assets/icons/docker/return.svg"
+                                                                                *ngIf="task.status === 'HALTED' || task.status === 'halted'"
+                                                                                (click)="recrawl(task)">
                                                                         <!-- <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')"> -->
-                                                                        <img src="assets/icons/docker/check.svg"
-                                                                            *ngIf="(task.status === 'SUCCESS')">
+                                                                        <!-- made code updates in line no 254,255 on 03/01 added new condition for success,since SUCCESS is upadted to success as per new api contract  -->
+                                                                        <!-- <img src="assets/icons/docker/check.svg"
+                                                                            *ngIf="(task.status === 'SUCCESS')"> -->
+                                                                            <img src="assets/icons/docker/check.svg"
+                                                                            *ngIf="(task.status === 'SUCCESS' || task.status ==='success')">
                                                                         <!-- <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.extractionSourceId && (task.jobType == 'web' || task.jobType == 'faq')) || (task.jobType == 'STRUCTURED_DATA_INGESTION')">                         -->
                                                                     </div>
                                                                     <div class="status-blcok">
-                                                                        <img src="assets/icons/ringLoading.svg"
+                                                                        <!-- updated code in line 263 on 24/02 ,added condition for running status as per api contract since in_progress is updated to running state -->
+                                                                        <!-- <img src="assets/icons/ringLoading.svg"
                                                                             class="inProgress"
                                                                             *ngIf="task.status === 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED'"
+                                                                            placement="top" container='body'> -->
+                                                                        <img src="assets/icons/ringLoading.svg"
+                                                                            class="inProgress"
+                                                                            *ngIf="task.status === 'IN_PROGRESS' || task.status === 'INPROGRESS' || task.status === 'running'|| task.status === 'validation' || task.status === 'QUEUED'"
                                                                             placement="top" container='body'>
                                                                         <!-- <span *ngIf="(task.status == 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}%</span> -->
+                                                                        <!-- updated code in line 272 on 24/02 ,added condition for running status as per api contract since in_progress is updated to running state  -->
+                                                                        <!-- <img src="assets/icons/docker/close.svg"
+                                                                            (click)="removeRecord(task, index)"
+                                                                            *ngIf="(task.status !== 'IN_PROGRESS' && task.status !== 'validation' && task.status !== 'QUEUED')"> -->
                                                                         <img src="assets/icons/docker/close.svg"
                                                                             (click)="removeRecord(task, index)"
-                                                                            *ngIf="(task.status !== 'IN_PROGRESS' && task.status !== 'validation' && task.status !== 'QUEUED')">
+                                                                            *ngIf="(task.status !== 'IN_PROGRESS' && task.status !== 'INPROGRESS' && task.status !== 'running' && task.status !== 'validation' && task.status !== 'QUEUED')">
                                                                     </div>
                                                                 </div>
                                                             </div>
