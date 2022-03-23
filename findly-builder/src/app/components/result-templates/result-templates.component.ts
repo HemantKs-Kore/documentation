@@ -29,6 +29,7 @@ export class ResultTemplatesComponent implements OnInit {
   preview_desc: any = '';
   preview_img: any = '';
   preview_url: any = '';
+  groupname: any='';
   templateDataBind: any = {
     layout: {
       behaviour: "webpage",
@@ -325,11 +326,14 @@ export class ResultTemplatesComponent implements OnInit {
     this.templateDataBind.layout.behaviour = behaviour;
   }
   //Open Template Modal
-  openTemplateConatiner(templateData, type) {
+  openTemplateConatiner(templateData, type,groupname?) {
     const templateName = this.tabList.filter(data => data.id == this.selectedTab);
     this.selectedTemplateName = templateName[0].name;
     this.selectedGroupName = templateData?.templateId ? (templateData?.fieldValue) : (templateData?.defaultTemplateType);
     this.customtemplateBtndisable = true;
+    if(groupname=='Default'){
+      this.selectedGroupName=groupname;
+    }
     if (templateData?.templateId) {
       this.getTemplate(templateData, type)
     }
