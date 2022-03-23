@@ -143,8 +143,8 @@ export class AppHeaderComponent implements OnInit {
     }
   }
   ngOnInit() {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    // this.selectedApp = this.workflowService.selectedApp();
+    // this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
       if (res.name != undefined) {
         this.analyticsClick(res.path, false);
