@@ -420,7 +420,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             //this.crawlOkDisable = true;
             if (queuedJobs[0].validation?.limitValidation == false) {
               this.upgrade();
-              this.notificationService.notify(queuedJobs[0].statusMessage, 'error');
+              /**updated queuedJobs[0].statusMessage to queuedJobs[0].message on 21/02  */
+              //this.notificationService.notify(queuedJobs[0].statusMessage, 'error');
+              this.notificationService.notify(queuedJobs[0].message, 'error');
             }
           }
           // if((queuedJobs[0].status == 'queued')){
@@ -1894,8 +1896,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
         // console.log("res", res);
         const response = res;
-        const jobStatus = response.dockStatuses.filter(ele => ele._id === jobId);
-        if (jobStatus[0].status === "SUCCESS") {
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code on 1902*/
+        // const jobStatus = response.dockStatuses.filter(ele => ele._id === jobId);
+        const jobStatus = response.filter(ele => ele._id === jobId);
+        /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is upadted to success*/
+        // if (jobStatus[0].status === "SUCCESS") {
+          if (jobStatus[0].status === "SUCCESS" || jobStatus[0].status === "success") {
           this.pollingSubscriber.unsubscribe();
           jobStatus[0] = Object.assign({ ...jobStatus[0], status: 'success' })
           this.statusObject = jobStatus[0];

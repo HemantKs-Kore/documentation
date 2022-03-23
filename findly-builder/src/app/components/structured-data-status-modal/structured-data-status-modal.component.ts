@@ -51,14 +51,21 @@ export class StructuredDataStatusModalComponent implements OnInit {
     }
     this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
-        const queuedDoc = _.find(res.dockStatuses, (source) => {
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 57 line*/
+        // const queuedDoc = _.find(res.dockStatuses, (source) => {
+          const queuedDoc = _.find(res, (source) => {
           return (source._id === payload._id);
         });
         if (queuedDoc && (queuedDoc.status)) {
           // console.log(queuedDoc);
           this.docStatusObject = JSON.parse(JSON.stringify(queuedDoc));
-          if(queuedDoc.status === 'FAILURE' || queuedDoc.status === 'SUCCESS'){
-            if(queuedDoc.status === 'SUCCESS'){
+          //**Added conditions for FAILED and success on 25/02 in line 65 as per new contract since Failure is updated to Failed and SUCCESS is upadted to success*/
+          // if(queuedDoc.status === 'FAILURE' || queuedDoc.status === 'SUCCESS'){
+          if((queuedDoc.status === 'FAILURE' || queuedDoc.status === 'FAILED') || (queuedDoc.status === 'SUCCESS' || queuedDoc.status === 'success')){
+            /**made code updates in line no 68 on 03/01 added new condition for success,since SUCCESS is upadted to success as per new api contract */
+            // if(queuedDoc.status === 'SUCCESS'){
+              if(queuedDoc.status === 'SUCCESS' || queuedDoc.status ==='success'){
               this.notificationService.notify('Imported Successfully', 'success');
             }
             this.pollingSubscriber.unsubscribe();
