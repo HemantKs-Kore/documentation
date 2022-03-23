@@ -216,7 +216,7 @@
                                                                 <div class="kr-sg-input-text">
                                                                     <input type="text" class="input-text" [value]="selectedApp.name" readonly>
                                                                 </div>
-                                                                <div class="copy-btn" (click)="copy(selectedApp.name,clipAppName)"><img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
+                                                                <div class="copy-btn" (click)="copy(selectedApp.name)"><img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
                                                             </div>
                                                         </div>
                                                         <div class="input-data">
@@ -225,7 +225,7 @@
                                                                 <div class="kr-sg-input-text">
                                                                     <input type="text" class="input-text" [value]="selectedApp._id" readonly>
                                                                 </div>
-                                                                <div class="copy-btn" (click)="copy(selectedApp._id,clipAppID)">
+                                                                <div class="copy-btn" (click)="copy(selectedApp._id)">
                                                                     <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
                                                                 </div>
                                                             </div>
@@ -249,7 +249,7 @@
                                                                     <img (click)="showPasword()" *ngIf="!showPassword" src="assets/images/icons/eye.svg" class="eye" type="eye">
                                                                     <img (click)="showPasword()" *ngIf="showPassword" src="assets/images/icons/viewPw.svg.svg"class="eye" type="eye">
                                                                 </div>
-                                                                <div class="copy-btn" (click)="copy(listData.clientSecret,clipclientSecret)">
+                                                                <div class="copy-btn" (click)="copy(listData.clientSecret)">
                                                                     <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
                                                                 </div>
                                                             </div>
@@ -260,7 +260,7 @@
                                                                 <div class="kr-sg-input-text">
                                                                     <input type="text" class="input-text" [value]="serachIndexId" readonly>
                                                                 </div>
-                                                                <div class="copy-btn" (click)="copy(serachIndexId,clipSerachIndexId)">
+                                                                <div class="copy-btn" (click)="copy(serachIndexId)">
                                                                     <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
                                                                 </div>
                                                             </div>
@@ -495,7 +495,7 @@
                             <div class="kr-sg-input-text">
                                 <input type="text" class="input-text" [value]="selectedApp._id" readonly>
                             </div>
-                            <div class="copy-btn" (click)="copy(selectedApp._id,clipAppID)"><img
+                            <div class="copy-btn" (click)="copy(selectedApp._id)"><img
                                     src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
                         </div>
                     </div>
@@ -505,7 +505,7 @@
                             <div class="kr-sg-input-text">
                                 <input type="text" class="input-text" [value]="listData?.clientId" readonly>
                             </div>
-                            <div class="copy-btn" (click)="copy(listData.clientId,clipClientId)"><img
+                            <div class="copy-btn" (click)="copy(listData.clientId)"><img
                                     src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
                         </div>
                     </div>
@@ -518,7 +518,7 @@
                                 <img  (click)="showPasword()" *ngIf="!showPassword" src="assets/images/icons/eye.svg" class="eye" type="eye" >
                                 <img  (click)="showPasword()"   *ngIf="showPassword" src="assets/images/icons/viewPw.svg.svg"class="eye" type="eye" >
                             </div>
-                            <div class="copy-btn" (click)="copy(listData.clientSecret,clipclientSecret)"><img
+                            <div class="copy-btn" (click)="copy(listData.clientSecret)"><img
                                     src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
                         </div>
                     </div>
@@ -528,7 +528,7 @@
                             <div class="kr-sg-input-text">
                                 <input type="text" class="input-text" [value]="serachIndexId" readonly>
                             </div>
-                            <div class="copy-btn" (click)="copy(serachIndexId,clipSerachIndexId)"><img
+                            <div class="copy-btn" (click)="copy(serachIndexId)"><img
                                     src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
                         </div>
                     </div>
@@ -669,14 +669,14 @@
 
 
 <!-- New Screen changes FLY-4512 -->
-<div class="channels-container-info d-none">
+<!-- <div class="channels-container-info d-none">
     <!-- <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey> -->
-    <div class="breadcum-header">
+    <!-- <div class="breadcum-header">
         <div class="primary-text">{{"settings.channels" | translate}}</div>
         <img src="assets/images/back-icon.svg">
         <div class="secondary-text">{{"settings.web_mobile_client" | translate}}</div>
-    </div>
-    <perfect-scrollbar class="scroll-data-channels">
+    </div> -->
+    <!-- <perfect-scrollbar class="scroll-data-channels">
         <div class="info-data-channels-accordion">
             <div id="accordion">
                 <div class="card-channel">
@@ -717,7 +717,7 @@
                                             <div class="kr-sg-input-text">
                                                 <input type="text" class="input-text" [value]="selectedApp?.name" readonly>
                                             </div>
-                                            <div class="copy-btn" (click)="copy(selectedApp.name,clipAppName)"><img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
+                                            <div class="copy-btn" (click)="copy(selectedApp.name)"><img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
                                         </div>
                                     </div>
                                     <div class="input-data">
@@ -726,7 +726,7 @@
                                             <div class="kr-sg-input-text">
                                                 <input type="text" class="input-text" [value]="selectedApp._id" readonly>
                                             </div>
-                                            <div class="copy-btn" (click)="copy(selectedApp._id,clipAppID)">
+                                            <div class="copy-btn" (click)="copy(selectedApp._id)">
                                                 <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
                                             </div>
                                         </div>
@@ -750,7 +750,7 @@
                                                 <img (click)="showPasword()" *ngIf="!showPassword" src="assets/images/icons/eye.svg" class="eye" type="eye">
                                                 <img (click)="showPasword()" *ngIf="showPassword" src="assets/images/icons/viewPw.svg.svg"class="eye" type="eye">
                                             </div>
-                                            <div class="copy-btn" (click)="copy(listData.clientSecret,clipclientSecret)">
+                                            <div class="copy-btn" (click)="copy(listData.clientSecret)">
                                                 <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
                                             </div>
                                         </div>
@@ -761,7 +761,7 @@
                                             <div class="kr-sg-input-text">
                                                 <input type="text" class="input-text" [value]="serachIndexId" readonly>
                                             </div>
-                                            <div class="copy-btn" (click)="copy(serachIndexId,clipSerachIndexId)">
+                                            <div class="copy-btn" (click)="copy(serachIndexId)">
                                                 <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
                                             </div>
                                         </div>
@@ -809,7 +809,7 @@
                         <div class="card-body">
                             <div class="webclient-info-data">
                                 <!-- URL -->
-                                <ng-container>
+                                <!-- <ng-container>
                                     <div class="section-wise-data">
                                         <div class="heading-text">URL</div>
                                         <div class="heading-info-text">Share this URL with the users to interact with your virtual assistant.</div>
@@ -850,10 +850,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                </ng-container>
+                                </ng-container> -->
 
                                 <!-- Embed Code -->
-                                <ng-container>
+                                <!-- <ng-container>
                                     <div class="section-wise-data">
                                         <div class="heading-text">Embed Code</div>
                                         <div class="heading-info-text">Copy and paste the following HTML code before the end of the BODY tag on every page of the application where you want to display the chat widget. <a href="#">Know more</a></div>
@@ -868,10 +868,10 @@
                                                 <!-- <div class="script" id="embedCode">
 
                                                 </div> -->
-                                                <div class="script" id="embedCode"></div>
+                                                <!-- <div class="script" id="embedCode"></div>
                                             </div>
-                                        </div>
-                                        <div class="hint-info-data">
+                                        </div> -->
+                                        <!-- <div class="hint-info-data">
                                             <div class="hint-bg">
                                                 <div class="hint-text-img">
                                                     <div class="img-info">
@@ -894,38 +894,38 @@
                                             </div>
                                         </div>
                                     </div>
-                                </ng-container>
+                                </ng-container>  -->
 
                                 <!-- Web / Mobile SDK -->
-                                <ng-container>
+                                <!-- <ng-container>
                                     <div class="section-wise-data">
                                         <div class="heading-text">Whitelist domains</div>
                                         <div class="heading-info-text">Whitelist domains below. Only domains added here will be able to display the chat widget</div>
                                         
                                         <!-- Repeated Domain Data -->
-                                        <ng-container>
+                                        <!-- <ng-container>
                                             <div class="input-url-box mb-2">
                                                 <div class="kr-sg-input-text">
                                                     <input type="text" placeholder="http://sampleurl.com/" class="input-text" [value]="domainUrl">
                                                 </div>
                                                 <div class="actions-copy-ext">
-                                                    <div class="btn-ext-copy" (click)="deleteDomain()">
+                                                    <div class="btn-ext-copy">
                                                         <img src="assets/icons/delete.svg">
                                                     </div>
                                                     <div class="btn-ext-copy invisible"></div>
                                                 </div>
                                             </div>
-                                        </ng-container>
+                                        </ng-container> -->
 
-                                        <div class="add-domain">
-                                            <img src="assets/icons/add_blue.svg" (click)="addNewDomain(domainUrl)">
+                                        <!-- <div class="add-domain">
+                                            <img src="assets/icons/add_blue.svg" (click)="addNewDomain()">
                                             <span>Add Domain</span>
-                                        </div>
-                                    </div>
-                                </ng-container>
+                                        </div> -->
+                                    <!-- </div> -->
+                                <!-- </ng-container>  -->
 
                                 <!-- Whitelist domains -->
-                                <ng-container>
+                                <!-- <ng-container>
                                     <div class="section-wise-data">
                                         <div class="heading-text">Web / Mobile SDK</div>
                                         <div class="heading-info-text">Setup and configure the Web / Mobile SDK using the prebuilt libraries.</div>
@@ -936,10 +936,10 @@
                                         </a>
                                         </div>
                                     </div>
-                                </ng-container>
+                                </ng-container> -->
 
                                 <!-- Allow Alert Task Setup -->
-                                <div class="group-radiobutton">
+                                <!-- <div class="group-radiobutton">
                                     <div class="heading-title">Allow Alert Task Setup</div>
                                     <div class="kr-sg-radiobutton d-block">
                                         <input id="radio-322" name="radio" class="radio-custom" type="radio" checked>
@@ -949,17 +949,17 @@
                                         <input id="radio-333" name="radio" class="radio-custom" type="radio">
                                         <label for="radio-333" class="radio-custom-label"> No, do not list the Alert Tasks or allow users to setup the Alert Tasks using the Web Client.  </label>
                                     </div>
-                                </div>
+                                </div> -->
 
-                            </div>
+                            <!-- </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </perfect-scrollbar>
+        </div> -->
+    <!-- </perfect-scrollbar>
     <div class="footer-channels">
         <button class="kr-sg-button-primary btn_lg mr-2" (click)="configureCredential($event);updateEmbededSdk()">Save</button>
         <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>
     </div>
-</div>
+</div>  -->
