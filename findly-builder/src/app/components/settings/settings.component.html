@@ -321,7 +321,7 @@
                                                                         <img src="assets/icons/clone.svg" (click)="copy(webClientDetails.chatURL)">
                                                                     </div>
                                                                     <div class="btn-ext-copy">
-                                                                      <a href="webClientDetails.chatURL" target="_blank">
+                                                                      <a href="{{webClientDetails.chatURL}}" target="_blank">
                                                                         <img src="assets/icons/external-link.svg"> </a>
                                                                     </div>
                                                                 </div>
@@ -360,14 +360,14 @@
                                                                 <div class="header d-flex align-items-center justify-content-between">
                                                                     <div class="code">HTML Code</div>
                                                                     <div class="copy">
-                                                                        <img src="assets/icons/clone.svg">
+                                                                        <img src="assets/icons/clone.svg" (click)="copy(scriptTags)">
                                                                     </div>
                                                                 </div>
                                                                 <div class="scriptTag">
                                                                     <!-- <div class="script" id="embedCode">
                     
                                                                     </div> -->
-                                                                    <div class="script" id="embedCode">{{webClientDetails?.scriptTag}}</div>
+                                                                    <div class="script" id="embedCode">{{webClientDetails?.scriptTag}} <br>{{webClientDetails?.cssTag}} <br>{{webClientDetails?.scriptTagInitilization}}</div>
                                                                 </div>
                                                             </div>
                                                             <div class="hint-info-data">
@@ -715,7 +715,7 @@
                                         <div class="label-text">{{"settings.App_Name" | translate}}</div>
                                         <div class="input-box mb-3">
                                             <div class="kr-sg-input-text">
-                                                <input type="text" class="input-text" [value]="selectedApp.name" readonly>
+                                                <input type="text" class="input-text" [value]="selectedApp?.name" readonly>
                                             </div>
                                             <div class="copy-btn" (click)="copy(selectedApp.name,clipAppName)"><img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
                                         </div>
@@ -822,7 +822,7 @@
                                                     <img src="assets/icons/clone.svg" (click)="copy(webClientDetails.chatURL)">
                                                 </div>
                                                 <div class="btn-ext-copy">
-                                                  <a href="webClientDetails.chatURL" target="_blank">
+                                                  <a href="{{webClientDetails.chatURL}}" target="_blank">
                                                     <img src="assets/icons/external-link.svg"> </a>
                                                 </div>
                                             </div>
@@ -868,7 +868,7 @@
                                                 <!-- <div class="script" id="embedCode">
 
                                                 </div> -->
-                                                <div class="script" id="embedCode">{{webClientDetails?.scriptTag}}</div>
+                                                <div class="script" id="embedCode"></div>
                                             </div>
                                         </div>
                                         <div class="hint-info-data">

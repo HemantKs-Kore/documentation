@@ -8,6 +8,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
 import { ɵangular_packages_platform_browser_dynamic_platform_browser_dynamic_a } from '@angular/platform-browser-dynamic';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 declare const $: any;
 @Component({
   selector: 'app-settings',
@@ -35,6 +36,7 @@ export class SettingsComponent implements OnInit {
   searchFocusIn = false;
   activeClose = false;
   searchchannel: any = '';
+  scriptTags;
   isAlertsEnabled: boolean;
   showError: boolean = false;
   channelEnabled: true;
@@ -257,6 +259,7 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('get.embededSdk', queryParams).subscribe(
       res => {
         this.webClientDetails = res;
+        this.scriptTags =    res.cssTag +  res.scriptTag +  res.scriptTagInitilization ;
         console.log(res)
       },
       errRes => {
