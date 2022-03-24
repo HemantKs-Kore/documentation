@@ -1,4 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ThrowStmt } from '@angular/compiler';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Router } from '@angular/router';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs';
 declare const $: any;
@@ -10,6 +12,7 @@ declare const $: any;
 })
 export class OnboardingComponentComponent implements OnInit {
   @Output() closeSlid = new EventEmitter();
+  @Input() currentRouteData:any;
   tourConfigData: any = [];
   onBoardingModalPopRef: any;
   element: any;
@@ -23,6 +26,10 @@ export class OnboardingComponentComponent implements OnInit {
   supportChildfaq:any=[];
   supportParentfaq:boolean=true;
   breadcrumbNameFaq:any;
+  searchOpen:boolean=false;
+  searchOpenFaq:boolean=false;
+  support_Search:any;
+  faq_Search:any;
   supportData = [{
     title:'Getting started',
     desc:'Explore our Guide on popular topics to start building your own Search Application',
@@ -124,7 +131,13 @@ faqData = [{
       ans:"these are the Answer",
       link:""
 
-  }]
+  },
+  {
+    ques:"What are the Questions?",
+    ans:"these are the Answer",
+    link:""
+
+}]
 },
 {
    display:"Overview",
@@ -490,25 +503,19 @@ faqData = [{
    }]
 }];
 
-  constructor(private appSelectionService: AppSelectionService) {
-    // $(document).ready(function(){
-    //   $( ".collapse" ).mouseover(function(){
-    //     $( ".collapse" ).trigger( "click" );
-    //     // If creating multiple accordion items, use the below to prevent all other
-    //     // items with the class "accordion-toggle" triggering a click event
-    //     // $(this).trigger("click");
-    //   });
-    // });    
-
+  constructor(private appSelectionService: AppSelectionService,
+    private router: Router,) {
+      
    }
 
   ngOnInit(): void {
+    console.log(this.currentRouteData);
     console.log(this.supportData);
 
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourConfigData = res;
       this.tourData = res.onBoardingChecklist;
-      this.checkList=[{ step: 'Step 1',title:'Add Data',desc:'Data is fetched from various sources and ingested into the application for accurate search results', imgURL: '',route:'/source',tourdata:this.tourData[0].addData, videoUrl:'https://www.w3schools.com/tags/movie.mp4'}, 
+      this.checkList=[{ step: 'Step 1',title:'Add Data',desc:'Data is fetched from various sources and ingested into the application for accurate search results', imgURL:'assets/icons/onboarding/database.svg',route:'/source',tourdata:this.tourData[0].addData, videoUrl:'https://www.w3schools.com/tags/movie.mp4'}, 
       { step: 'Step 2',title:'Review Index configurations',desc:'Index configurations allows you to configure the fields, traits,keywords or create workbench pipelines to suit your business needs.', imgURL: 'assets/icons/onboarding/review-index.svg',route:'/FieldManagementComponent',tourdata:this.tourData[1].indexData, videoUrl:'https://www.w3schools.com/tags/movie.mp4'},
       {step: 'Step 3',title:'Review Search Configurations',desc:'Search Configuration allows you to improve search relevance by configuring  syonyms, weights, stop words, re-ranking results, adding rules or facets.', imgURL: 'assets/icons/onboarding/review-search.svg',route:'/weights',tourdata:this.tourData[2].optimiseSearchResults,  videoUrl:'https://www.w3schools.com/tags/movie.mp4'},
       {step: 'Step 4',title:'Design Search Experience',desc:'SearchAssist allows you to customise the search experiance and design the search interface based on the business context.', imgURL: 'assets/icons/onboarding/search-design.svg',route:'/search-experience',tourdata:this.tourData[3].designSearchExperience,  videoUrl:'https://www.w3schools.com/tags/movie.mp4'}, 
@@ -519,17 +526,26 @@ faqData = [{
       this.trackChecklist();
     })
   }
-  triggerChild(data){
+  triggerFaq() {
+    console.log(this.currentRouteData);
+    this.currentRouteData=this.currentRouteData.replace("/", "");
+    this.faqData.forEach(element => {
+      if(this.currentRouteData==element.key){
+       this.triggerChildFaq(element);
+      }
+    });
+  }
+  triggerChild(data) {
     this.supportParentData = false
     this.supportChildData = data.childData;
      this.breadcrumbName = data.title;
   }
-  triggerChildFaq(faq){
+  triggerChildFaq(faq) {
     this.supportParentfaq = false
     this.supportChildfaq = faq.childData;
      this.breadcrumbNameFaq = faq.display;
   }
-  openAccordiandata(index){
+  openAccordiandata(index) {
     $(document).ready(function(){    
       $(".data"+index).mouseover(function(){
          $(".data"+index).trigger( "click" );
@@ -538,7 +554,7 @@ faqData = [{
   });
   }
 
-  playPause(index){
+  playPause(index) {
     $(document).ready(function(){
       $(".data"+index).mouseout(function(){  
           $(".data"+index).trigger( "click" );
@@ -546,8 +562,31 @@ faqData = [{
       });
   });
   }
+  openAccordianFaq(index) {
+    $(document).ready(function(){    
+      $(".dataFaq"+index).mouseover(function(){
+         $(".dataFaq"+index).trigger( "click" );
+      });   
+  });
+  }
 
-  openAccordiandata2(){
+  openSearch(){
+    this.searchOpen=true;
+  }
+  closeSearch(){
+    this.searchOpen=false;
+    this.support_Search="";
+  }
+  openFaqSearch(){
+    this.searchOpenFaq=true;
+  }
+  closeFaqSearch(){
+    this.searchOpenFaq=false;
+    this.faq_Search="";
+  }
+
+
+  openAccordiandata2() {
     $(document).ready(function(){
       $(".data2" ).mouseover(function(){
          $(".data2" ).trigger( "click" );
@@ -594,6 +633,7 @@ faqData = [{
   }
   closeSupport(){
     this.closeSlid.emit();
+    $("#Support" ).trigger( "click" );
   }
   //goto Routes
   gotoRoutes(step) {

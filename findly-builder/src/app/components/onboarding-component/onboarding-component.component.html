@@ -5,19 +5,19 @@
     </div>
     <ul class="nav nav-pills" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" data-toggle="pill" href="#support">
+          <a  id="Support" class="nav-link active" (click)="supportParentData=true;closeFaqSearch();closeSearch()" data-toggle="pill" href="#support">
               <i class="si-home"></i>
               <span>Support</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="pill" href="#faq">
+          <a class="nav-link" data-toggle="pill" (click)="triggerFaq();closeSearch();closeFaqSearch()" href="#faq">
             <i class="si-faq"></i>
             <span>FAQs</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="pill" href="#appchecklist">
+          <a class="nav-link" data-toggle="pill" (click)="closeFaqSearch();closeSearch()" href="#appchecklist">
             <i class="si-list"></i>
             <span>App Checklist</span>
           </a>
@@ -28,22 +28,22 @@
         <div id="support" class="tab-pane active">
             <div class="bread-cum-search">
                 <div class="bread-cum-list">
-                    <div class="first-title" (click)="supportParentData=true">Support</div>
+                    <div class="first-title" (click)="supportParentData=true;closeSearch()">Support</div>
                     <i class="si-carrotup" *ngIf="!supportParentData"></i>
                     <div class="secondary-title" *ngIf="!supportParentData">{{breadcrumbName}}</div>
                 </div>
-                <div class="kr-sg-input-text">
-                    <input type="text" placeholder="Placeholder text" class="input-text">
-                    <i class="si-close"></i>
+                <div class="kr-sg-input-text" *ngIf="searchOpen">
+                    <input type="text" placeholder="Search" class="input-text" [(ngModel)]="support_Search">
+                    <i class="si-close" (click)="closeSearch()"></i>
                 </div>
-                <div class="search-icon">
+                <div class="search-icon" *ngIf="!searchOpen" (click)="openSearch()">
                     <i class="si-search"></i>
                 </div>
             </div>
             <perfect-scrollbar class="scroll-content-data">
               <div class="data-inner-content" >
                 <div class="default-state-data" *ngIf="supportParentData">
-                  <div (click)="triggerChild(data)" class="action-block-data" *ngFor="let data of supportData" [ngClass]="data.class" >
+                  <div (click)="triggerChild(data);closeSearch()" class="action-block-data" *ngFor="let data of supportData | filter : [support_Search,'title']" [ngClass]="data.class" >
                     <div class="dummy-border-left"></div>
                     <div class="img-block">
                       <img src={{data.icon}}>
@@ -98,7 +98,7 @@
                 </div>
 
                 <div class="dynamic-state-data" *ngIf="!supportParentData">
-                  <div class="action-block-data" *ngFor="let child of supportChildData" >
+                  <div class="action-block-data" *ngFor="let child of supportChildData | filter : [support_Search,'title']" >
                     <div class="dummy-border-left"></div>
                     <div class="img-block">
                       <img src={{child.icon}}>
@@ -184,17 +184,17 @@
         <div id="faq" class="tab-pane fade">
           <div class="bread-cum-search faq-bread-cum">
             <div class="bread-cum-list">
-                <div class="first-title"  (click)="supportParentfaq=true">Contextual FAQs</div>
+                <div class="first-title"  (click)="supportParentfaq=true;closeFaqSearch()">Contextual FAQs</div>
                 <i class="si-carrotup" *ngIf="!supportParentfaq"></i>
                 <div class="secondary-title" *ngIf="!supportParentfaq">{{breadcrumbNameFaq}}</div>
+                <div class="search-icon"  *ngIf="!searchOpenFaq" (click)="openFaqSearch()">
+                  <i class="si-search"></i>
+              </div>
             </div>
           </div>
-          <div class="kr-sg-input-text">
-            <input type="text" placeholder="Placeholder text" class="input-text">
-            <i class="si-close"></i>
-        </div>
-        <div class="search-icon">
-            <i class="si-search"></i>
+          <div class="kr-sg-input-text" *ngIf="searchOpenFaq">
+            <input style="width: 93%" type="text" placeholder="look for a question" class="input-text" [(ngModel)]="faq_Search">
+            <i class="si-close" style="margin-left:10px" (click)="closeFaqSearch()"></i>
         </div>
           <perfect-scrollbar class="scroll-content-data">
             <div class="data-inner-content">
@@ -223,7 +223,7 @@
                     <i class="si-carrotup"></i>
                   </div>
                 </div> -->
-                <div (click)="triggerChildFaq(faq)" class="action-block-data" *ngFor="let faq of faqData">
+                <div (click)="triggerChildFaq(faq);closeFaqSearch()" class="action-block-data" *ngFor="let faq of faqData | filter : [faq_Search,'display']">
                   <div class="dummy-border-left"></div>
                   <div class="img-block">
                     <img src="assets/icons/onboarding/help.svg">
@@ -279,9 +279,9 @@
                     </div>
                   </div>
                 </div> -->
-                <div class="accor-card"  *ngFor="let childfaq of supportChildfaq">
+                <div class="accor-card"  *ngFor="let childfaq of supportChildfaq| filter : [faq_Search,'display'];let i=index ">
                   <div class="card_header">
-                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse3">
+                    <a class="card_link collapsed dataFaq{{i}}" data-toggle="collapse"  href="#collapseFaq_{{i}}"  (mouseover)="openAccordianFaq(i)">
                         <div class="img-block">
                           <i class="si-help"></i>
                         </div>
@@ -292,9 +292,9 @@
                         <div class="arrow-icon">
                           <i class="si-carrotup"></i>
                         </div>
-                    </div>
+                      </a>
                   </div>
-                  <div id="collapse3" class="collapse" data-parent="#accordion">
+                  <div id="collapseFaq_{{i}}" class="collapse" data-parent="#accordion">
                     <div class="card-body">
                       {{childfaq.ans}}<a>Click here</a> to watch reference video
                     </div>
@@ -325,6 +325,7 @@
                   <div class="card_header" >
                   <a class="card_link collapsed  data{{i}}" data-toggle="collapse" href="#collapse_{{i}}"> <!--doubt-->
                     <div class="indication-block" *ngIf="tourData && !list.tourdata">
+                      <div class="dummy-border-left"></div>
                         <img src={{list.imgURL}}>
                     </div>
                     <div class="indication-block completed" *ngIf="tourData && list.tourdata" >

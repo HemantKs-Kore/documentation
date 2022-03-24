@@ -30,6 +30,7 @@ export class AppHeaderComponent implements OnInit {
   toShowAppHeader: boolean;
   mainMenu = '';
   showMainMenu: boolean = true;
+  currentRouteData:any="";
   pagetitle: any;
   field_name: any;
   profile_display: any;
@@ -1036,7 +1037,11 @@ export class AppHeaderComponent implements OnInit {
     }
   }
   /**opening slider component and closing slider component  */
-  openUserMetaTagsSlider() { this.sliderComponent.openSlider("#supportOnboarding", "width500"); }
+  openUserMetaTagsSlider() { 
+    console.log("checkingRoute",this.router.url);
+    this.currentRouteData=this.router.url;
+    this.sliderComponent.openSlider("#supportOnboarding", "width500");
+   }
   closeUserMetaTagsSlider() { this.sliderComponent.closeSlider("#supportOnboarding"); }
 }
 
