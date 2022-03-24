@@ -967,7 +967,7 @@
               <div class="table-body-link-bot row col-12"
                 *ngFor="let bot of associatedBots | filter: [searchAssociatedBots, 'name']">
                 <div class="col-6 bot-name-data row m-0">
-                  <div class="col-8 name-with-type">
+                  <div class="col-8 name-with-type text-truncate">
                     {{bot.name}} <span class="bot-type" *ngIf="bot.type==='universalbot'">Universal Bot</span>
                   </div>
                   <div class="col-4 shares-data">
