@@ -942,11 +942,11 @@
                             <span [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">
                                 
                                 <img  class="failed mr-1" src="assets/icons/failed-status.svg" 
-                                *ngIf="statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"><span class="sch-createdOn" *ngIf="duriationDays" >({{duriationDays}})</span>
-                                <img  *ngIf="statusObj[source.recentStatus].name == 'Success'" class="search-icon ml-2 mr-1" placement="top" container='body'  ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"
+                                *ngIf="statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"><span class="sch-createdOn" *ngIf="duriationDays" >({{duriationDays}})</span>
+                                <img  *ngIf="statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'Success'" class="search-icon ml-2 mr-1" placement="top" container='body'  ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"
                                 src="assets/icons/succes_duration.svg">
                                 <img class="inProgress ml-2 mr-1" src="assets/icons/ringLoading.svg"
-                                 *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
+                                 *ngIf=" statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
                                  {{ duriationTime}}
                             </span>
                             <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
