@@ -58,6 +58,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   extractedResources: any = [];
   resources: any = [];
   filters: any = [];
+  duriationDays:any;
+  duriationTime:any;
   polingObj: any = {};
   faqUpdate: Subject<void> = new Subject<void>();
   filterObject = {};
@@ -938,10 +940,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         if (element.jobInfo.createdOn) {
           element['schedule_createdOn'] = moment(element.jobInfo.createdOn).fromNow();
+         this.duriationDays = element['schedule_createdOn']
         }
         if (element.jobInfo.executionStats) {
-          element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00";
-          element['schedule_duration'] = this.duration(element['schedule_duration']);
+          element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00:00";
+          this.duriationTime = this.duration(element['schedule_duration']);
         }
 
       });

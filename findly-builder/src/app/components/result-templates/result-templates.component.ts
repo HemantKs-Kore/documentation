@@ -27,8 +27,10 @@ export class ResultTemplatesComponent implements OnInit {
   allFieldData: any;
   preview_title: any = '';
   preview_desc: any = '';
+  preview_desc1: any = '';
   preview_img: any = '';
   preview_url: any = '';
+  groupname: any='';
   templateDataBind: any = {
     layout: {
       behaviour: "webpage",
@@ -41,6 +43,7 @@ export class ResultTemplatesComponent implements OnInit {
     },
     mapping: {
       description: "",
+      description1: "",
       heading: "",
       img: "",
       url: "",
@@ -51,6 +54,7 @@ export class ResultTemplatesComponent implements OnInit {
   templateFieldValidateObj = {
     heading: true,
     description: true,
+    description1: true,
     image: true,
     url: true
   }
@@ -58,6 +62,7 @@ export class ResultTemplatesComponent implements OnInit {
   customtemplateBtndisable: boolean = false;
   heading_fieldData: any;
   desc_fieldData: any;
+  desc_fieldData1: any;
   img_fieldData: any;
   url_fieldData: any;
   fieldData: any;
@@ -148,6 +153,7 @@ export class ResultTemplatesComponent implements OnInit {
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
       this.heading_fieldData = [...res];
       this.desc_fieldData = [...res];
+      this.desc_fieldData1 = [...res];
       this.img_fieldData = [...res];
       this.url_fieldData = [...res];
       this.fieldData = [...res];
@@ -169,6 +175,11 @@ export class ResultTemplatesComponent implements OnInit {
       this.preview_desc = field.fieldName;
       this.desc_fieldData = [...this.allFieldData];
       this.templateFieldValidateObj.description = true;
+    } else if (type == 'description1') {
+      this.templateDataBind.mapping.description1 = field._id;
+      this.preview_desc1 = field.fieldName;
+      this.desc_fieldData1= [...this.allFieldData];
+      this.templateFieldValidateObj.description1 = true;
     } else if (type == 'image') {
       this.templateDataBind.mapping.img = field._id;
       this.preview_img = field.fieldName;
@@ -200,6 +211,8 @@ export class ResultTemplatesComponent implements OnInit {
         this.heading_fieldData = [...data]
       } else if (type == 'description') {
         this.desc_fieldData = [...data]
+      } else if (type == 'description1') {
+        this.desc_fieldData1 = [...data]
       } else if (type == 'image') {
         this.img_fieldData = [...data]
       } else if (type == 'url') {
@@ -208,6 +221,8 @@ export class ResultTemplatesComponent implements OnInit {
     } else {
       if (type == 'heading') {
         this.heading_fieldData = [...filedData]
+      } else if (type == 'description1') {
+        this.desc_fieldData1 = [...filedData]
       } else if (type == 'description') {
         this.desc_fieldData = [...filedData]
       } else if (type == 'image') {
@@ -300,6 +315,8 @@ export class ResultTemplatesComponent implements OnInit {
           this.preview_title = element.fieldName;
         } else if (`${property}` == 'description' && element._id == `${mapping[property]}`) {
           this.preview_desc = element.fieldName;
+        } else if (`${property}` == 'description1' && element._id == `${mapping[property]}`) {
+          this.preview_desc1 = element.fieldName;
         } else if (`${property}` == 'img' && element._id == `${mapping[property]}`) {
           this.preview_img = element.fieldName;
         } else if (`${property}` == 'url' && element._id == `${mapping[property]}`) {
@@ -325,11 +342,14 @@ export class ResultTemplatesComponent implements OnInit {
     this.templateDataBind.layout.behaviour = behaviour;
   }
   //Open Template Modal
-  openTemplateConatiner(templateData, type) {
+  openTemplateConatiner(templateData, type,groupname?) {
     const templateName = this.tabList.filter(data => data.id == this.selectedTab);
     this.selectedTemplateName = templateName[0].name;
     this.selectedGroupName = templateData?.templateId ? (templateData?.fieldValue) : (templateData?.defaultTemplateType);
     this.customtemplateBtndisable = true;
+    if(groupname=='Default'){
+      this.selectedGroupName=groupname;
+    }
     if (templateData?.templateId) {
       this.getTemplate(templateData, type)
     }
@@ -338,6 +358,7 @@ export class ResultTemplatesComponent implements OnInit {
     }
     this.preview_title = '';
     this.preview_desc = '';
+    this.preview_desc1 = '';
     this.preview_img = '';
     this.preview_url = '';
   }
@@ -689,6 +710,14 @@ export class ResultTemplatesComponent implements OnInit {
     if ($('#searchBoxId1') && $('#searchBoxId1').length) {
       $('#searchBoxId1')[0].value = "";
       this.searchlist('description', '', this.fieldData);
+      this.field_name = '';
+    }
+
+  }
+  clearcontentdesc1() {
+    if ($('#searchBoxIdDec') && $('#searchBoxIdDec').length) {
+      $('#searchBoxIdDec')[0].value = "";
+      this.searchlist('description1', '', this.fieldData);
       this.field_name = '';
     }
 

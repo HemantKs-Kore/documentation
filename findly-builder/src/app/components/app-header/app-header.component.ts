@@ -143,8 +143,8 @@ export class AppHeaderComponent implements OnInit {
     }
   }
   ngOnInit() {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    // this.selectedApp = this.workflowService.selectedApp();
+    // this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
       if (res.name != undefined) {
         this.analyticsClick(res.path, false);
@@ -232,7 +232,7 @@ export class AppHeaderComponent implements OnInit {
     if(this.selectAccountDetails==null){
         for(let i=0;i<this.associatedAccounts.length;i++)
       {      
-        if(this.associatedAccounts[i].status=="active")
+        if(this.associatedAccounts[i].status=="active") 
         {
           this.selectAccountDetails=this.associatedAccounts[i];
         }
