@@ -103,8 +103,20 @@
                     <div class="img-block">
                       <img src={{child.icon}}>
                     </div>
+                    <div class="video-block-data">
+                      <video class="video" height="216" controls>
+                        <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
+                       Your browser does not support the video tag.
+                     </video>
+                    </div>
                     <div class="content-block">
                       <div class="title">{{child.title}}</div>
+                      <div class="title-with-img">
+                        <div class="img_block">
+                          <img src={{child.icon}}>
+                        </div>
+                        <div class="title-name">{{child.title}}</div>
+                      </div>
                       <div class="desc-text">{{child.desc}}</div>
                     </div>
                     <div class="ext-icon-link">
@@ -187,15 +199,15 @@
                 <div class="first-title"  (click)="supportParentfaq=true;closeFaqSearch()">Contextual FAQs</div>
                 <i class="si-carrotup" *ngIf="!supportParentfaq"></i>
                 <div class="secondary-title" *ngIf="!supportParentfaq">{{breadcrumbNameFaq}}</div>
-                <div class="search-icon"  *ngIf="!searchOpenFaq" (click)="openFaqSearch()">
-                  <i class="si-search"></i>
-              </div>
+            </div>
+            <div class="kr-sg-input-text" *ngIf="searchOpenFaq">
+              <input type="text" placeholder="look for a question" class="input-text" [(ngModel)]="faq_Search">
+              <i class="si-close" (click)="closeFaqSearch()"></i>
+            </div>
+            <div class="search-icon" *ngIf="!searchOpenFaq" (click)="openFaqSearch()">
+              <i class="si-search"></i>
             </div>
           </div>
-          <div class="kr-sg-input-text" *ngIf="searchOpenFaq">
-            <input style="width: 93%" type="text" placeholder="look for a question" class="input-text" [(ngModel)]="faq_Search">
-            <i class="si-close" style="margin-left:10px" (click)="closeFaqSearch()"></i>
-        </div>
           <perfect-scrollbar class="scroll-content-data">
             <div class="data-inner-content">
               <div class="default-state-faq" *ngIf="supportParentfaq">
@@ -341,7 +353,7 @@
                       <a class="link-name">Documentation <i class="si-externallink"></i></a>
                     </div>
                     <div class="arrow-icon">
-                      <i class="si-carrotup" ></i> 
+                      <i class="si-carrotup"></i> 
                     </div>
                   </a>
                 </div>

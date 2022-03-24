@@ -285,7 +285,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item help-icon" ngbTooltip="Help" tooltipClass="train-icon-tooltip" (click)="openUserMetaTagsSlider()">
+                <li class="nav-item help-icon" [container]="'body'" ngbTooltip="Help" tooltipClass="train-icon-tooltip" (click)="openUserMetaTagsSlider()">
                     <img src="assets/icons/sidemenu/help.svg">                    
                 </li>
                 <!-- <li class="nav-item search-block show-search2">
@@ -487,3 +487,21 @@
 <app-slider-component id="supportOnboarding">
     <app-onboarding-component [currentRouteData]="currentRouteData"  (closeSlid)="closeUserMetaTagsSlider()"></app-onboarding-component>
   </app-slider-component>
+
+
+
+
+<div class="onboarding-status-card">
+    <div class="card-details-status">
+        <div class="titles-info-sec">
+            <div class="title">1 of 6 Steps Completed</div>
+            <div class="progress_bar"></div>
+        </div>
+        <div class="view-close">
+            <div class="view-title">View</div>
+            <div class="close-status">
+                <i class="si-close"></i>
+            </div>
+        </div>
+    </div>
+</div>
