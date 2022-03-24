@@ -105,8 +105,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
   entityNlp = [
     { title: 'Date', value: 'DATE', isDepricated: false },
     { title: 'Time', value: 'TIME', isDepricated: false },
-    { title: 'URL', value: 'URL', isDepricated: false },
-    { title: 'Email', value: 'EMAIL', isDepricated: false },
+    // { title: 'URL', value: 'URL', isDepricated: false },
+    // { title: 'Email', value: 'EMAIL', isDepricated: false },
     { title: 'Location', value: 'LOC', isDepricated: false },
     { title: 'GeoPoliticalEntities', value: 'GPE', isDepricated: false },
     { title: 'Company Name or Organization', value: 'ORG', isDepricated: false },
@@ -731,7 +731,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
                   {
                     if (this.entityNlp[j].title == config.entity_types[i])
                     {
-                      config.entity_types[i] = this.entityNlp[j].title
+                      config.entity_types[i] = this.entityNlp[j].value
                     }
                   }
                 }
