@@ -7,6 +7,7 @@ import { SummaryComponent } from './components/summary/summary.component';
 import { AddSourceComponent } from './components/add-source/add-source.component';
 import { ContentSourceComponent } from './components/content-source/content-source.component';
 import { FaqSourceComponent } from './components/faq-source/faq-source.component';
+import { ConnectorsSourceComponent } from './components/connectors-source/connectors-source.component';
 import { SynonymsComponent } from './components/synonyms/synonyms.component';
 import { BotActionComponent } from './components/bot-action/bot-action.component';
 import { TraitsComponent } from './components/traits/traits.component';
@@ -51,6 +52,7 @@ const routes: Routes = [
       { path: 'source', component: AddSourceComponent },
       { path: 'content', component: ContentSourceComponent },
       { path: 'faqs', component: FaqSourceComponent },
+      { path: 'connectors', component: ConnectorsSourceComponent},
       { path: 'botActions', component: BotActionComponent },
       { path: 'synonyms', component: SynonymsComponent },
       { path: 'traits', component: TraitsComponent },

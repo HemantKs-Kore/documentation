@@ -117,6 +117,7 @@ import { valueFormatPipe } from './helpers/filters/number-format.pipe';
 import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 import { ResultTemplatesComponent } from './components/result-templates/result-templates.component';
 import { AnalyticsDropdownComponent } from './helpers/components/analytics-dropdown/analytics-dropdown.component';
+import { ConnectorsSourceComponent } from './components/connectors-source/connectors-source.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -201,7 +202,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     valueFormatPipe,
     GeneralSettingsComponent,
     ResultTemplatesComponent,
-    AnalyticsDropdownComponent
+    AnalyticsDropdownComponent,
+    ConnectorsSourceComponent
   ],
   imports: [
     BrowserModule,
