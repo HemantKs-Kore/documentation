@@ -136,7 +136,7 @@ export class AppHeaderComponent implements OnInit {
     private authService: AuthService,
     public headerService: SideBarService,
     public workflowService: WorkflowService,
-    private router: Router,
+    public router: Router,
     private ref: ChangeDetectorRef,
     private appUrlsService: AppUrlsService,
     private localStoreService: LocalStoreService,
