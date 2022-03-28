@@ -133,7 +133,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   ngAfterViewInit() {
     if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
-      this.onboard.openOnBoardingModal();
+      // this.onboard.openOnBoardingModal(); //commenting this since we have new check list 
     }
     setTimeout(() => {
       if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {

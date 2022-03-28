@@ -12,12 +12,14 @@ declare const $: any;
 })
 export class OnboardingComponentComponent implements OnInit {
   @Output() closeSlid = new EventEmitter();
+  @Output() emitStatus = new EventEmitter();
   @Input() currentRouteData:any;
   tourConfigData: any = [];
   onBoardingModalPopRef: any;
   element: any;
   checklistCount: number;
   tourData: any;
+  statusSlider:boolean=true;
   checkList:any=[];
   subscription: Subscription;
   supportChildData:any=[];
@@ -509,9 +511,6 @@ faqData = [{
    }
 
   ngOnInit(): void {
-    console.log(this.currentRouteData);
-    console.log(this.supportData);
-
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourConfigData = res;
       this.tourData = res.onBoardingChecklist;
@@ -583,6 +582,9 @@ faqData = [{
   closeFaqSearch(){
     this.searchOpenFaq=false;
     this.faq_Search="";
+  }
+  toggleSlider(){
+    this.emitStatus.emit(this.statusSlider);
   }
 
 
