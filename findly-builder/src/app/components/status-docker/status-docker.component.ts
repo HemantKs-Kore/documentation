@@ -16,6 +16,8 @@ declare let self: any;
 })
 export class StatusDockerComponent implements OnInit {
    fileId;
+   serachIndexId;
+   selectedApp: any = {};
 
   @Input('statusDockerLoading') statusDockerLoading : any;
 
@@ -30,6 +32,8 @@ export class StatusDockerComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     self = this;
    this.dockServiceSubscriber = this.dock.change.subscribe(data=>{
       this.poling();
@@ -55,17 +59,29 @@ export class StatusDockerComponent implements OnInit {
     this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
         this.statusDockerLoading = false;
-        this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 61 line*/
+        // this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
+        this.dockersList = JSON.parse(JSON.stringify(res));
         this.dockersList.forEach((record : any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
-          if(record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen){
-            if(record.action === 'EXPORT'){
+          /**made code updates in line no 66 on 03/01 added new condition for success,since SUCCESS is upadted to success as per new api contract */
+          // if(record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen){
+            if((record.status === 'SUCCESS' || record.status === 'success') && record.fileId && !record.store.toastSeen){
+          /**added condition for jobType in 70,since we are no longer recieving action in jobs api response,using the jobType for condition check as per new api contract 10/03 */
+          // if (record.action === 'EXPORT') {
+            if (record.jobType === "DATA_EXPORT") {
               this.downloadDockFile(record.fileId, record.store.urlParams,record.streamId,record._id);
             }
           }
         })
-        const queuedJobs = _.filter(res.dockStatuses, (source) => {
-          return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED') || (source.status === 'validation'));
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 73 line*/
+        // const queuedJobs = _.filter(res.dockStatuses, (source) => {
+          const queuedJobs = _.filter(res, (source) => {
+          /**made code updates on 24/02 in line 76 added new condition for running state as per new contract In_progress updated to running */
+          // return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED') || (source.status === 'validation'));
+          return ((source.status === 'IN_PROGRESS') || (source.status === 'running') || (source.status === 'QUEUED') || (source.status === 'validation'));
         });
        
         if (queuedJobs && queuedJobs.length) {
@@ -87,18 +103,25 @@ export class StatusDockerComponent implements OnInit {
 
   getStatusView(status, other?){
     if(other){
-      if(status === 'HALTED'){
+      /**made code updates in line no 102 on 03/01 added new condition for halted,since HALTED is updated to halted as per new api contract */
+      // if(status === 'HALTED'){
+        if(status === 'HALTED' || status === 'halted'){
         return 'Stopped';
       }
       else if(status === 'QUEUED'){
         return 'In-queue';
       }
-      else if(status === 'IN_PROGRESS' || status === 'validation' ){
+      /**made code updates on 24/02 in line 106 added new condition for running state as per new contract In_progress updated to running */
+      // else if(status === 'IN_PROGRESS' || status === 'validation' ){
+      else if((status === 'IN_PROGRESS' || status === 'running')  || status === 'validation' ){
         return 'In-progress';
       }
     }
     else{
-      if(status === 'SUCCESS' || status === 'FAILURE'){
+      /**made code updates on 24/02 in line 113 added new condition for Failed state as per new contract Failure updated to Failed */
+      // if(status === 'SUCCESS' || status === 'FAILURE'){
+      //made code updates in line no 116 on 03/01 added new condition for success,since SUCCESS is upadted to success as per new api contract
+      if((status === 'SUCCESS'||status === 'success') || (status === 'FAILURE' || status === 'FAILED')){
         return true;
       }
       else{
@@ -196,10 +219,12 @@ export class StatusDockerComponent implements OnInit {
     }
   }
   downloadDockFile(fileId, fileName,streamId,dockId) {
-        const params = {
+      const params = {
       fileId,
-    streamId : streamId,
-    dockId  :  dockId
+      streamId : streamId,
+      dockId  :  dockId,
+      jobId: dockId,
+      sidx:this.serachIndexId
     }
    let payload = {
     "store":{

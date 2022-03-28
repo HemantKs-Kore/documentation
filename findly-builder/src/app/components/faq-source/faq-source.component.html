@@ -863,7 +863,7 @@
     <div *ngIf="!( extractedResources &&  extractedResources.length)"  class="empty-source-modal">
         <div class="empty-sources">
             <img src="assets/images/icons/empty_ill.svg">
-            <div class="heading">No FAQ sources are available</div>
+            <div class="heading">{{'manageExtracts.no_faq_sources_are_available' | translate}}</div>
         </div>
     </div>
     <div class="modal-body source-modal-popup" *ngIf="extractedResources &&  extractedResources.length">
@@ -876,14 +876,14 @@
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                              </span> SOURCE TITLE
+                              </span> {{'manageExtracts.source_title' | translate}}
                             </div>
                         <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('contentSource')">
                             <span class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img [ngClass]="getSortIconVisibility('contentSource', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img [ngClass]="getSortIconVisibility('contentSource', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                              </span> TYPE  
+                              </span>{{'manageExtracts.type' | translate}}
                               <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown 
                               [autoClose]="true" [placement]="'bottom-right'">
                               <div class="dropdown dropdown-open">
@@ -909,7 +909,7 @@
                                 <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img [ngClass]="getSortIconVisibility('recentStatus', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span> 
-                              STATUS 
+                             {{'manageExtracts.status' | translate}}
                               <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown 
                               [autoClose]="true" [placement]="'bottom-right'">
                               <div class="dropdown dropdown-open">
@@ -938,16 +938,20 @@
                         <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name | titlecase}}</div>
                         <div class="col_ col-2">{{source.contentSource | titlecase}}</div>
                         <div class="col_ col-3">
-                            <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}
-                             <img  class="failed" src="assets/icons/failed-status.svg" 
-                              *ngIf="statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
-                                <img class="inProgress" src="assets/icons/ringLoading.svg"
-                                 *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
+                            <span class="mr-2" *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}" >{{statusObj[source.recentStatus].name}}</span>
+                            <span [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">
+                                
+                                <img  class="failed mr-1" src="assets/icons/failed-status.svg" 
+                                *ngIf="statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"><span class="sch-createdOn" *ngIf="duriationDays" >({{duriationDays}})</span>
+                                <img  *ngIf="statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'Success'" class="search-icon ml-2 mr-1" placement="top" container='body'  ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"
+                                src="assets/icons/succes_duration.svg">
+                                <img class="inProgress ml-2 mr-1" src="assets/icons/ringLoading.svg"
+                                 *ngIf=" statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
+                                 {{ duriationTime}}
                             </span>
                             <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
                         </div>
-
-                        <div class="col_ col-2">{{source.extractedFaqsCount || '0'}}</div>
+                        <div class="col_ col-2">{{resources.extractedFaqsCount || '0'}}</div>
                         <div class="col_ col-2" *ngIf="source && source.userDetails" >{{source.userDetails.fullName || source.userDetails.firstName + ' ' + source.userDetails.lastName }}</div>
                         <!-- <div class="col" title="{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div> -->
                         <div class="col text-right last-child pl-0">

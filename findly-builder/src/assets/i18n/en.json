@@ -519,7 +519,7 @@
         "client_id": "Client ID",
         "Client_Secret_ID": "Client Secret ID",
         "Search_ID": "Search ID",
-        "view_JSON_web_encryption_public_key ": "View JSON Web Encryption Public Key ",
+        "view_JSON_web_encryption_public_key": "View JSON Web Encryption Public Key ",
         "task_setup": "Allow Alert Task Setup",
         "task_setup_info": "Yes, let users setup alert tasks using the web client",
         "no_task_setup_info": "No, do not list alert tasks or allow users to setup alert tasks using the web client",
@@ -962,6 +962,13 @@
         "external": "External",
         "contact_details_info": "It is extremely important that you keep your contact information on your account updated at all times. To update your address, phone numbers and email address, please login to your account and edit your contact details under the “Your Contact Details” link on the left navigation. To make changes to your account, you will also need to enter an Online Authorization Code (OAC) that will be sent to your registered mobile phone on your account and to your registered email address to authenticate this transaction.",
         "close": "Close"
+    },
+    "manageExtracts": {
+        "no_faq_sources_are_available": "No FAQ sources are available",
+        "source_title":"SOURCE TITLE",
+        "type":"TYPE",
+        "status":"STATUS"
+
     },
     "traits": {
         "traits": "Traits",

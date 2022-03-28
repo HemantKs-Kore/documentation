@@ -58,6 +58,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   extractedResources: any = [];
   resources: any = [];
   filters: any = [];
+  duriationDays:any;
+  duriationTime:any;
   polingObj: any = {};
   faqUpdate: Subject<void> = new Subject<void>();
   filterObject = {};
@@ -97,7 +99,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   statusObj: any = {
     failed: { name: 'Failed', color: 'red' },
     successfull: { name: 'Successfull', color: 'green' },
-    success: { name: 'Success', color: 'green' },
+    SUCCESS: { name: 'Success', color: 'green' },
     queued: { name: 'In-Queue', color: 'blue' },
     running: { name: 'In Progress', color: 'blue' },
     configured: { name: 'Annotation paused', color: '#FF784B' },
@@ -938,10 +940,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         if (element.jobInfo.createdOn) {
           element['schedule_createdOn'] = moment(element.jobInfo.createdOn).fromNow();
+         this.duriationDays = element['schedule_createdOn']
         }
         if (element.jobInfo.executionStats) {
-          element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00";
-          element['schedule_duration'] = this.duration(element['schedule_duration']);
+          element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00:00";
+          this.duriationTime = this.duration(element['schedule_duration']);
         }
 
       });
@@ -1888,12 +1891,23 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       searchIndexId: this.workflowService.selectedSearchIndexId
     }
     this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
-      if (res && res.dockStatuses) {
-        res.dockStatuses.forEach((record: any) => {
+      /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 1894*/
+      // if (res && res.dockStatuses) {
+        if (res) {
+          /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 1898 line*/
+        // res.dockStatuses.forEach((record: any) => {
+          res.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
-          if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
-            if (record.action === 'EXPORT') {
-              this.downloadDockFile(record.fileId, record.store.urlParams, record.streamId, record._id);
+          /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is updated to success as per new api contract */
+          /** made code updates in line no 1903 on 03/09 added new condition for record.fileInfo and record.fileInfo.fileId,since fileId is now has to be fetched from fileInfo  as per new api contract  */
+          // if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
+            if ((record.status === 'SUCCESS' || record.status ==='success') && (record.fileInfo) && (record.fileInfo.fileId) && !record.store.toastSeen) {
+          /**added condition for jobType in 1906,since we are no longer recieving action in jobs api response,using the jobType for condition check as per new api contract 10/03 */
+          // if (record.action === 'EXPORT') {
+               if (record.jobType === "DATA_EXPORT") {
+              this.downloadDockFile(record.fileInfo.fileId, record.store.urlParams, record.streamId, record._id);
             }
           }
         })
@@ -1912,7 +1926,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     const params = {
       fileId,
       streamId: streamId,
-      dockId: dockId
+      dockId: dockId,
+      jobId: dockId,
+      sidx:this.serachIndexId
     }
     let payload = {
       "store": {
