@@ -776,6 +776,14 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/platform/users/:userId/builder/streams/:streamId',
       method: 'get'
     }
+    this.serviceList['get.embededSdk'] = {
+      endpoint: this.API_SERVER_URL + '/findly/users/:userId/streams/:streamId/embedwebsdk',
+      method: 'get'
+    }
+    this.serviceList['post.updateEmbededSdk'] = {
+      endpoint: this.API_SERVER_URL + '/findly/users/:userId/streams/:streamId/embedwebsdk',
+      method: 'post'
+    }
 
     this.serviceList['manage.credentials'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps?getAppsUsage=:true',
