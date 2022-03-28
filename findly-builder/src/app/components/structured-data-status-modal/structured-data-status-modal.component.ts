@@ -8,6 +8,7 @@ import { from, interval, Subject, Subscription } from 'rxjs';
 import { startWith, elementAt, filter } from 'rxjs/operators';
 import * as _ from 'underscore';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 
 @Component({
   selector: 'app-structured-data-status-modal',
@@ -24,9 +25,11 @@ export class StructuredDataStatusModalComponent implements OnInit {
     private service: ServiceInvokerService,
     private authService: AuthService,
     public workflowService: WorkflowService,
+    private appSelectionService: AppSelectionService,
     private router: Router) { }
 
   docStatusObject : any = {};
+  componentType: string = 'addData';
   public pollingSubscriber : any;
 
   ngOnInit(): void {
@@ -67,6 +70,7 @@ export class StructuredDataStatusModalComponent implements OnInit {
             // if(queuedDoc.status === 'SUCCESS'){
               if(queuedDoc.status === 'SUCCESS' || queuedDoc.status ==='success'){
               this.notificationService.notify('Imported Successfully', 'success');
+              this.appSelectionService.updateTourConfig('addData');
             }
             this.pollingSubscriber.unsubscribe();
           }

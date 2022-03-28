@@ -6699,10 +6699,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               customSearchResult: _self.customSearchResult,
               data: []
             }
-            if (_self.isDev) {
-              var responseObject = { 'type': 'onboardingjourney', data: 'test', query: _self.vars.searchObject.searchText, bottomUp: true, requestId: _self.vars.previousSearchObj.requestId }
-              _self.parentEvent(responseObject);
-            }
             if (dataObj.smallTalk) {
               _self.sendMessageToSearch('bot', dataObj.smallTalk);
             } else {
@@ -6737,6 +6733,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
               $('#searchChatContainer').append(searchData);
             }
+          }
+          // <!-- test checklist step-5 for top down-->
+          if (_self.isDev) {
+            var responseObject = { 'type': 'onboardingjourney', data: 'test', query: _self.vars.searchObject.searchText, bottomUp: true, requestId: _self.vars.previousSearchObj.requestId }
+            _self.parentEvent(responseObject);
           }
           if (res && res.results && res.resultType == "grouped") {
             var availableGroups = Object.keys(res.results);
