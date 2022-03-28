@@ -1030,8 +1030,10 @@
     width: 262px;
     margin: 0 auto;
     bottom: 17px;
+    // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     .card-details-status{
         background: #F8F9FA;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
         border-radius: 8px;
         display: flex;
         align-items: center;

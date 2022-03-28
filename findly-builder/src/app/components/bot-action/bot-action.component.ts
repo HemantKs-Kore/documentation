@@ -1462,9 +1462,7 @@ export class BotActionComponent implements OnInit {
           }
         }
       );
-
     }
-
   }
 
   copy(val) {

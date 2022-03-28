@@ -31,6 +31,11 @@ export class AppHeaderComponent implements OnInit {
   mainMenu = '';
   showMainMenu: boolean = true;
   currentRouteData:any="";
+  displyStatusBar:boolean=true;
+  tourData:any;
+  tourConfigData:any=[];
+  checklistCount:any;
+  progressPrecent=0;
   pagetitle: any;
   field_name: any;
   profile_display: any;
@@ -146,6 +151,11 @@ export class AppHeaderComponent implements OnInit {
     }
   }
   ngOnInit() {
+    this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
+      this.tourConfigData = res;
+      this.tourData = res.onBoardingChecklist;
+      this.trackChecklist();
+    })
     this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
       if (res.name != undefined) {
         this.analyticsClick(res.path, false);
@@ -1038,10 +1048,50 @@ export class AppHeaderComponent implements OnInit {
   }
   /**opening slider component and closing slider component  */
   openUserMetaTagsSlider() { 
-    console.log("checkingRoute",this.router.url);
     this.currentRouteData=this.router.url;
     this.sliderComponent.openSlider("#supportOnboarding", "width500");
    }
   closeUserMetaTagsSlider() { this.sliderComponent.closeSlider("#supportOnboarding"); }
+  emitStatus(event) {
+    this.displyStatusBar=event;
+  }
+
+  closeStatusBar(){
+    if(this.displyStatusBar){
+      this.displyStatusBar=false;
+    }
+    else{
+      this.displyStatusBar=true;
+    }
+  }
+   //track checklist count and show count number
+   trackChecklist() {
+    let arr = [];
+    let Index = [];
+    this.tourData.forEach((item) => {
+      Object.keys(item).forEach((key) => {
+        arr.push(item[key])
+      });
+    })
+    arr.map((item, index) => {
+      if (item == false) Index.push(index)
+    })
+    
+    let count = 0;
+    for (let key in this.tourData) {
+      for (let key1 in this.tourData[key]) {
+        if (this.tourData[key][key1]) {
+          count = count + 1;
+        }
+      }
+    }
+    this.checklistCount = count;   
+    this.percentCaluculate();
+  }
+  percentCaluculate(){
+    if(this.checklistCount){
+      this.progressPrecent = (this.checklistCount/6)*(100);
+    }
+  }
 }
 
