@@ -7,6 +7,8 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import { NotificationService } from '@kore.services/notification.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
+import { ɵangular_packages_platform_browser_dynamic_platform_browser_dynamic_a } from '@angular/platform-browser-dynamic';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 declare const $: any;
 @Component({
   selector: 'app-settings',
@@ -24,13 +26,17 @@ export class SettingsComponent implements OnInit {
   selectedApp: any;
   serachIndexId: any;
   addCredentialRef: any;
+  webClientDetails;
   listData: any;
   firstlistData;
   showSearch = false;
+  domainUrl='';
+  domainUrlArr = [];
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   activeClose = false;
   searchchannel: any = '';
+  scriptTags;
   isAlertsEnabled: boolean;
   showError: boolean = false;
   channelEnabled: true;
@@ -84,7 +90,8 @@ export class SettingsComponent implements OnInit {
     // this.getdialog();
     this.getLinkedBot();
     this.prepareChannelData();
-    this.credentialsSelection()
+    this.credentialsSelection();
+    this.getWebClientDetails();
   }
   credentialsSelection(){
     if(this.selectedApp && this.selectedApp.channels.length){
@@ -115,7 +122,7 @@ export class SettingsComponent implements OnInit {
     this.channels = channels
     // console.log(this.channels);
   }
-  copy(val, elementID) {
+  copy(val) {
     const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';
@@ -243,6 +250,59 @@ export class SettingsComponent implements OnInit {
         }
       }
     );
+  }
+  getWebClientDetails() {
+    const queryParams = {
+      userId: this.authService.getUserId(),
+      streamId: this.selectedApp._id
+    }
+    this.service.invoke('get.embededSdk', queryParams).subscribe(
+      res => {
+        this.webClientDetails = res;
+        this.scriptTags =    res.cssTag +  res.scriptTag +  res.scriptTagInitilization ;
+        console.log(res)
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      }
+    );
+  }
+  updateEmbededSdk(){
+      const queryParams = {
+        userId: this.authService.getUserId(),
+        streamId: this.selectedApp._id
+      }
+      let payload = {
+        domains : this.webClientDetails.domains
+      }
+      // payload.domains = this.webClientDetails.domains;
+      this.service.invoke('post.updateEmbededSdk', queryParams ,payload).subscribe(
+        res => {
+          console.log('API Triggered',res);
+        },
+        errRes => {
+          if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+            this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+          } else {
+            this.notificationService.notify('Failed ', 'error');
+          }
+        }
+      );
+    
+  }
+  onFocusOutEvent(event){
+  this.webClientDetails.domains[this.webClientDetails.domains.length - 1] = event.target.value;
+  }
+  addNewDomain(){
+  this.webClientDetails.domains.push('')
+  
+  }
+  deleteDomain(recordIndex){
+    this.webClientDetails.domains.splice(recordIndex,1) 
   }
 
   getCredential() {
@@ -495,6 +555,7 @@ export class SettingsComponent implements OnInit {
         this.workflowService.selectedApp(this.selectedApp);
         this.notificationService.notify('Credential Configured', 'success');
         this.prepareChannelData();
+        this.updateEmbededSdk();
         //this.standardPublish();
         this.configFlag = true;
         this.delChannel = false;

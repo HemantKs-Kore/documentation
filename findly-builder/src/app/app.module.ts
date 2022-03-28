@@ -116,6 +116,7 @@ import { UpgradePlanComponent } from './helpers/components/upgrade-plan/upgrade-
 import { valueFormatPipe } from './helpers/filters/number-format.pipe';
 import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 import { ResultTemplatesComponent } from './components/result-templates/result-templates.component';
+import { OnboardingComponentComponent } from './components/onboarding-component/onboarding-component.component';
 import { AnalyticsDropdownComponent } from './helpers/components/analytics-dropdown/analytics-dropdown.component';
 import { ConnectorsSourceComponent } from './components/connectors-source/connectors-source.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -203,7 +204,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     GeneralSettingsComponent,
     ResultTemplatesComponent,
     AnalyticsDropdownComponent,
-    ConnectorsSourceComponent
+    ConnectorsSourceComponent,
+    OnboardingComponentComponent
   ],
   imports: [
     BrowserModule,

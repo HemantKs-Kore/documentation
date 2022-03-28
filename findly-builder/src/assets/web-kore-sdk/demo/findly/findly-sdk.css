@@ -4266,9 +4266,9 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
 span.highlightText,.highlightText {
     font-weight: bolder !important;
 }
-.searchAssist-kore-chat-window .accordion .highlightText {
+/* .searchAssist-kore-chat-window .accordion .highlightText {
     text-decoration: underline !important;
-}
+} */
 .searchAssist-kore-chat-window .desc-info .highlightText {
     font-weight: bolder !important;
     text-decoration: none !important;
@@ -7687,7 +7687,10 @@ a.tile-heading{
     border-bottom: 1px solid #E4E5E7;
 }
 /* // */
-
+/* .template-1-plain-list-result-group .plain-list-result-item:nth-last-child(2){
+    border-bottom:0px;
+    
+} */
 .template-1-classic-list-result-group {
     background: #FFFFFF;
     box-shadow: 0px 0px 11px rgba(0,0,0,0.1);

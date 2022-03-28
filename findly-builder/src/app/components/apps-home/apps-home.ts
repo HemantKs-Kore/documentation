@@ -28,6 +28,7 @@ export class AppsListingComponent implements OnInit {
   createAppPopRef: any;
   onboardingpopupjourneyRef: any;
   confirmatiomAppPopRef: any;
+  detailsPopUpRef:any;
   creatingInProgress = false;
   searchApp = '';
   apps: any = [];
@@ -56,6 +57,7 @@ export class AppsListingComponent implements OnInit {
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
   @ViewChild('confirmatiomAppPop') confirmatiomAppPop: KRModalComponent;
+  @ViewChild('detailsPopUp') detailsPopUp: KRModalComponent;
   constructor(
     public localstore: LocalStoreService,
     private service: ServiceInvokerService,
@@ -114,16 +116,22 @@ export class AppsListingComponent implements OnInit {
     this.showBoarding = false;
   }
 
-  openCreateApp() {
-    this.createAppPopRef = this.createAppPop.open();
-    if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
-      this.onboardingpopupjourneyRef.close();
-    }
+  openDetails() {
+    this.detailsPopUpRef = this.detailsPopUp.open();
+  }
+  closeDetails() {
+    this.detailsPopUpRef.close();
   }
   closeCreateApp() {
     this.showBoarding = false;
     this.createAppPopRef.close();
     this.newApp = { name: '', description: '' };
+  }
+  openCreateApp() {
+    this.createAppPopRef = this.createAppPop.open();
+    if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
+      this.onboardingpopupjourneyRef.close();
+    }
   }
   openDeleteApp(event,appInfo) {
     this.unlinkPop =false;

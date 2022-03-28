@@ -309,6 +309,9 @@
                         </div>
                     </div>
                 </li>
+                <li class="nav-item help-icon" [container]="'body'" ngbTooltip="Help" tooltipClass="train-icon-tooltip" (click)="openUserMetaTagsSlider()">
+                    <img src="assets/icons/sidemenu/help.svg">                    
+                </li>
                 <!-- <li class="nav-item search-block show-search2">
                     <div class="search_icon" [ngClass]="{'active-search-top' : showSearch}">
                         <img src="assets/icons/sidemenu/search.svg" (click)="showSearch=!showSearch;searchText=''">
@@ -357,21 +360,19 @@
                                     </div>
                                     <div class="user-content">
                                         <!-- <div class="u-name">Dheepak</div> -->
-                                        <div class="u-name" *ngIf="loginusername==domain" ngbTooltip='{{domain}}'>{{loginusername}}</div>
-                                        <div class="u-name" *ngIf="loginusername!==domain">{{loginusername}}</div>
+                                        <div class="u-name">{{loginusername}}</div>
                                         <!-- <div class="u-email">dheepak.ganesh@kore.com</div> -->
                                     </div>
                                 </div>
-                                <div class="horizontal-line" *ngIf="!selectAccountDetails"></div>
-                                <div class="switch-account-blocks" *ngIf="selectAccountDetails"> 
-                                    <div class="main-heading" >Account</div>
+                                <div class="switch-account-blocks">
+                                    <div class="main-heading">Account</div>
                                     <div class="switch-user-details">
                                         <div class="swithch-u-name">{{selectAccountDetails.accountName}}</div>
                                         <div class="swithch-u-mail">{{selectAccountDetails.userFullName}}</div>
                                         <!-- <div class="swithch-u-name">KoreSearch</div>
                                         <div class="swithch-u-mail">viswatej@kore.com</div> -->
                                     </div>
-                                    <div class="swithc-account-details" *ngIf="selectAccountDetails">
+                                    <div class="swithc-account-details">
                                         <div id="swithaccounts" class="collapse switch-accr-sec">
                                             <div class="kr-sg-input-text">                               
                                                 <input type="text" id=searchBoxId [(ngModel)]="field_name" placeholder="Search" class="input-search">
@@ -507,3 +508,24 @@
             'header.create' | translate }}</button>
     </div>
 </kr-modal>
+<app-slider-component id="supportOnboarding">
+    <app-onboarding-component [currentRouteData]="currentRouteData"  (closeSlid)="closeUserMetaTagsSlider()"></app-onboarding-component>
+  </app-slider-component>
+
+
+
+
+<div class="onboarding-status-card">
+    <div class="card-details-status">
+        <div class="titles-info-sec">
+            <div class="title">1 of 6 Steps Completed</div>
+            <div class="progress_bar"></div>
+        </div>
+        <div class="view-close">
+            <div class="view-title">View</div>
+            <div class="close-status">
+                <i class="si-close"></i>
+            </div>
+        </div>
+    </div>
+</div>

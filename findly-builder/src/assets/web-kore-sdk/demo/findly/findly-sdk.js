@@ -503,12 +503,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         textHasXSS = txtStr.isNotAllowedHTMLTags();
       }
       if (textHasXSS && !textHasXSS.isValid) {
-        txtStr = txtStr.escapeHTML();
+        //txtStr = txtStr.escapeHTML();
+        txtStr = escapeHTML(txtStr)
       }
       return txtStr;
       //return compObj[0].componentBody;
 
     }
+    function escapeHtml(unsafe)
+      {
+          return unsafe
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/'/g, "&#039;");
+      }
     FindlySDK.prototype.checkMarkdowns = function (val, hyperLinksMap) {
       if (val === '') {
         return val;
@@ -856,6 +866,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         wrapper1 = document.createElement('div');
         newStr = str.replace(/“/g, '\"').replace(/”/g, '\"');
         newStr = newStr.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        newStr = str.replace(/onerror=/gi, 'abc-error=');
         wrapper1.innerHTML = xssAttack(newStr);
         if ($(wrapper1).find('a').attr('href')) {
           str = newStr;
@@ -865,6 +876,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       } else {
         wrapper1 = document.createElement('div');
         //str = str.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+        str = str.replace(/onerror=/gi, 'abc-error=');
         wrapper1.innerHTML = xssAttack(str);
         if ($(wrapper1).find('a').attr('href')) {
           var linkArray = str.match(/<a[^>]*>([^<]+)<\/a>/g);
@@ -6687,10 +6699,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               customSearchResult: _self.customSearchResult,
               data: []
             }
-            if (_self.isDev) {
-              var responseObject = { 'type': 'onboardingjourney', data: 'test', query: _self.vars.searchObject.searchText, bottomUp: true, requestId: _self.vars.previousSearchObj.requestId }
-              _self.parentEvent(responseObject);
-            }
             if (dataObj.smallTalk) {
               _self.sendMessageToSearch('bot', dataObj.smallTalk);
             } else {
@@ -6725,6 +6733,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
               $('#searchChatContainer').append(searchData);
             }
+          }
+          // <!-- test checklist step-5 for top down-->
+          if (_self.isDev) {
+            var responseObject = { 'type': 'onboardingjourney', data: 'test', query: _self.vars.searchObject.searchText, bottomUp: true, requestId: _self.vars.previousSearchObj.requestId }
+            _self.parentEvent(responseObject);
           }
           if (res && res.results && res.resultType == "grouped") {
             var availableGroups = Object.keys(res.results);
@@ -8550,8 +8563,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       var ccBox = '#sa-conversation-box';
       $(ccBox).off('keydown').on('keydown', function (event) {
+        event.stopPropagation();
+        event.stopImmediatePropagation();
         var code = event.keyCode || event.which;
         if (code === '13' || code === 13) {
+          $(ccBox).val($(ccBox).val().toString());
           var msg = $(ccBox).val();
           _self.sendMessageToSearch('user-conversation');
           if (_self.config.viaSocket) {
@@ -15377,8 +15393,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           }, 200)
         }
-        _self.showMoreClick();
         setTimeout(() => {
+          _self.showMoreClick();
           _self.bindAllResultRankingOperations();
         }, 200);
         _self.clickNavigateToUrl();
@@ -19331,6 +19347,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           wrapper1 = document.createElement('div');
           newStr = str.replace(/“/g, '\"').replace(/”/g, '\"');
           newStr = newStr.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          newStr = str.replace(/onerror=/gi, 'abc-error=');
           wrapper1.innerHTML = xssAttack(newStr);
           if ($(wrapper1).find('a').attr('href')) {
             str = newStr;
@@ -19340,6 +19357,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         } else {
           wrapper1 = document.createElement('div');
           // str = str.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+          str = str.replace(/onerror=/gi, 'abc-error=');
           wrapper1.innerHTML = xssAttack(str);
           if ($(wrapper1).find('a').attr('href')) {
             var linkArray = str.match(/<a[^>]*>([^<]+)<\/a>/g);
@@ -19996,6 +20014,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $(this).attr('pageNumber', Number($(this).attr('pageNumber')) + 1);
         _self.vars.showingMatchedResults = true;
         _self.invokeSearch(showMoreData)
+      });
+      $('.full-search-data-container, .live-search-data-container , .search-data-container').off('mouseover', '.dataheading').on('mouseover', '.dataheading', function (e) {
+        var converted_title = _self.customTemplateObj.helpers.convertMDtoHTML(e.target.innerText)
+        $(e.target).closest('.dataheading').attr('title', converted_title);
       });
     }
 

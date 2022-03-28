@@ -354,6 +354,7 @@ export class AddStructuredDataComponent implements OnInit {
           // console.log("error", e);
         }
       }
+      this.appSelectionService.updateTourConfig('addData');
     }
     else {
       if (this.selectedSourceType.resourceType == "structuredDataManual") {
