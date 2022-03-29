@@ -3,6 +3,7 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { MatDialog } from '@angular/material/dialog';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationService } from '@kore.services/notification.service';
 import { ActivatedRoute } from '@angular/router';
@@ -51,7 +52,7 @@ export class SettingsComponent implements OnInit {
     enabled: false
   };
   delChannel = false;
-  componentType: string = 'addData';
+  componentType: string = 'optimize';
   channels = [
     {
       id: 'rtm',
@@ -78,6 +79,7 @@ export class SettingsComponent implements OnInit {
   @ViewChild('addCredential') addCredential: KRModalComponent;
 
   constructor(public workflowService: WorkflowService,
+    private appSelectionService: AppSelectionService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
     private notificationService: NotificationService,
@@ -236,7 +238,7 @@ export class SettingsComponent implements OnInit {
         if (this.slider == 3 && this.existingCredential) {
           this.slider = 3
         }
-
+        this.appSelectionService.updateTourConfig('optimize');
         this.notificationService.notify('Created successfully', 'success');
         this.closeModalPopup();
         this.getCredential();

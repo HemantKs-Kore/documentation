@@ -69,7 +69,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   updateUsageData: Subscription;
   currentPlan: any;
   upgradeBannerFlag: boolean;
-  componentType: string = 'configure';
+  componentType: string = '';
   @Input() show;
   @Input() settingMainMenu;
   @Input() sourceMenu;
@@ -99,6 +99,9 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.headerService.toggle(toogleObj);
     if (selection =='weights'|| selection == 'synonyms'||selection=='stopWords'||selection=='resultranking'){
       this.appSelectionService.updateTourConfig('configure');
+    }
+    else if(selection =='index' && this.router.url=="/index" || selection =='traits' && this.router.url=="/traits" || selection =='index' && this.router.url=="/FieldManagementComponent"){
+      this.appSelectionService.updateTourConfig('indexing');
     }
   }
   //upgrade plan

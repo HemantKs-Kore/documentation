@@ -291,7 +291,7 @@
                     </div>
                   </div>
                 </div> -->
-                <div class="accor-card"  *ngFor="let childfaq of supportChildfaq| filter : [faq_Search,'display'];let i=index ">
+                <div class="accor-card"  *ngFor="let childfaq of supportChildfaq| filter : [faq_Search,'ques'];let i=index ">
                   <div class="card_header">
                     <a class="card_link collapsed dataFaq{{i}}" data-toggle="collapse"  href="#collapseFaq_{{i}}"  (mouseover)="openAccordianFaq(i)">
                         <div class="img-block">
@@ -325,7 +325,7 @@
             <div class="toggle-check">
               <div class="status-bar-title">Status Bar</div>
               <label class="kr-sg-toggle">                                       
-                <input type="checkbox">
+                <input type="checkbox" [(ngModel)]="statusSlider" (change)="toggleSlider()" >
                 <div class="slider"><span class="enabled">Show</span><span class="disabled">Hide</span></div>
               </label>
             </div>
@@ -349,7 +349,7 @@
                     </div>
                     <div class="desc-text">{{list.desc}} </div>
                     <div class="actions-link">
-                      <a class="link-name" (click)="gotoRoutes(List.route)">Guide Me <i class="si-externallink"></i></a>
+                      <a class="link-name" (click)="gotoRoutes(list.route)">Guide Me <i class="si-externallink"></i></a>
                       <a class="link-name">Documentation <i class="si-externallink"></i></a>
                     </div>
                     <div class="arrow-icon">
