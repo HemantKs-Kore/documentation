@@ -1,0 +1,903 @@
+
+.connectors-container{
+    height: calc(100vh - 62px);
+    display: inline-block;
+    width: 100%;
+    .seach_add_feild{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 13px 24px;
+        margin: 0px 0px 10px 0px;
+        background: #F5F8FA;
+        border-radius: 4px;
+        min-height: 60px;
+        .title{               
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 22px;
+            color: #000000;                            
+        }  
+        .kr-sg-input-search{
+            display: inline-block;
+            width: 215px;
+            height: 20px;
+            position: relative;              
+            &.active{
+                display: block;
+                width: 300px;
+            }
+            .close-icon{
+                position: absolute;
+                right: 11px;
+                top: 12px;
+                cursor: pointer;
+            }
+            .input-search{
+                border: 1px solid #E4E5E7;                            
+                border-radius: 4px;
+                padding-left: 36px;
+                padding-right: 15px;
+                font-size: 14px;
+                &:focus{
+                    border: 1px solid #1372ff;
+                }
+                &::placeholder{
+                    color: #BDC1C6;
+                }
+            }
+            .search-icon{
+                left: 0;
+                top: 0;
+                position: absolute;
+            }
+        } 
+        .seach-block{
+            color: #202124;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 12px;
+            // line-height: 14px;
+            margin-right: 30px;
+            img{
+                margin-right: 7px;
+                cursor: pointer;
+            }
+        }
+    }
+    .connector-cards-data{
+        perfect-scrollbar{
+            height: calc(100vh - 206px);
+        }
+        .inner-content-data{
+            padding: 20px 25px;
+            display: inline-block;
+            width: 100%;
+            .desc-text{
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 17px;
+                color: #202124;
+                margin-bottom: 10px;
+            }
+            .connector-brand{
+                display: inline-flex;
+                align-items: center;
+                margin: 20px 0;
+                .c-img{
+                    width: 50px;
+                    height: 50px;
+                    margin-right: 15px;
+                    img{
+                        width: 100%;
+                    }
+                }
+                .c-content-sec{
+                    .title{
+                        font-weight: 600;
+                        font-size: 16px;
+                        line-height: 19px;
+                        color: #3C4043;
+                        margin-bottom: 4px;
+                    }
+                    .sub-text{
+                        font-weight: 400;
+                        font-size: 12px;
+                        line-height: 20px;
+                        color: #202124;
+                    }
+                }
+            }
+            .desc-text-heading{
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 17px;
+                margin-bottom: 20px;
+                color: #202124;
+            }
+            .heading-with-line{
+                display: flex;
+                align-items: center;
+                margin: 15px 0;
+                .main-heading{
+                    font-weight: 700;
+                    font-size: 14px;
+                    line-height: 17px;
+                    color: #9AA0A6;
+                }
+                .line-border{
+                    height: 1px;
+                    width: 100%;
+                    background: #E4E5E7;
+                    margin-left: 15px;
+                }
+            }
+            .card-connectors-info{
+                margin: 0 -10px;
+                padding: 0;
+                margin-bottom: 20px;
+                .card-connector-column{
+                    padding: 10px;
+                    width: 333px;
+                    .inner-card{
+                        background: #FFFFFF;
+                        border: 1px solid #BDC1C6;
+                        box-sizing: border-box;
+                        border-radius: 6px;
+                        padding: 15px 20px;
+                        display: flex;
+                        align-items: center;
+                        min-height: 94px;
+                        position: relative;
+                        cursor: pointer;
+                        transition: 0.2s all ease;
+                        &:hover{
+                            background: #F3F8FF;
+                            border: 1px solid #85B7FE;
+                        }
+                        &.active-connector{
+                            background: #F3F8FF;
+                            border: 1px solid #85B7FE;
+                        }
+                        &.disable-connector{
+                            opacity: 0.4;
+                            pointer-events: none;
+                        }
+                        .kr-sg-toggle {
+                            position: absolute;
+                            right: 20px;
+                            top: 25px;
+                            width: 30px;
+                            height: 16px;
+                            input{
+                                &:checked {
+                                    + .slider{
+                                        border: 1px solid #0D6EFD;
+                                        &::before{
+                                            transform:translateX(11px);
+                                        }
+                                    }
+                                }
+                            }
+                            .slider{
+                                border: 1px solid #8795A1;
+                                &::before{
+                                    left: 2px;
+                                    top: 1px;
+                                }
+                            }
+                        }
+                        .connect-link{
+                            position: absolute;
+                            right: 20px;
+                            top: 25px;
+                            font-weight: 600;
+                            font-size: 14px;
+                            line-height: 17px;
+                            cursor: pointer;
+                            color: #0D6EFD;
+                        }
+                        .icon-block{
+                            width: 50px;
+                            height: 50px;
+                            margin-right: 15px;
+                            flex-shrink: 0;
+                            img{
+                                width: 100%;
+                                // height: 100%;
+                                object-fit: fill;
+                            }
+                        }
+                        .content-block{
+                            width: 100%;
+                            .title{
+                                font-weight: 600;
+                                font-size: 16px;
+                                line-height: 19px;
+                                color: #3C4043;
+                                margin-bottom: 2px;
+                                padding-right: 70px;
+                                width: 100%;
+                            }
+                            .desc-text{
+                                font-weight: 400;
+                                font-size: 12px;
+                                line-height: 20px;
+                                color: #202124;
+                            }
+                        }
+                    }
+                }
+            }
+            .edit-connectors-block{
+                display: inline-block;
+                width: 100%;
+                margin-top: 15px;
+                .nav-tabs{
+                    margin-bottom: 30px;
+                    border-bottom: 1px solid #E4E5E7;
+                    .nav-item{
+                        margin-bottom: 0;
+                        .nav-link{
+                            border: 0;
+                            border-radius: 0;
+                            padding: 10px 0px;
+                            font-weight: 700;
+                            font-size: 14px;
+                            line-height: 17px;
+                            margin-right: 30px;
+                            color: #202124 !important;
+                            position: relative;
+                            &.active{
+                                &::before{
+                                    display: block;
+                                }
+                            }
+                            &::before{
+                                content: "";
+                                position: absolute;
+                                width: 100%;
+                                border-top: 2px solid #0D6EFD;
+                                left: 0;
+                                bottom: -1px;
+                                display: none;
+                            }
+                        }
+                    }
+                   
+                }
+                .tab-content{
+                    .tab-pane{
+                        padding: 0;
+                        .overview-tab-data{
+                            display: inline-block;
+                            width: 100%;
+                            .heading-summery{
+                                font-weight: 500;
+                                font-size: 16px;
+                                line-height: 19px;
+                                color: #202124;
+                                margin-bottom: 20px;
+                            }
+                            .overview-summery-cards{
+                                display: flex;
+                                .table-summery{
+                                    width: 50%;
+                                    padding-right: 22px;
+                                    .table-heading-summery{
+                                        display: flex;
+                                        align-items: center;
+                                        padding: 10px;
+                                        border-bottom: 1px solid #E4E5E7;
+                                        .title{
+                                            width: 50%;
+                                            font-weight: 500;
+                                            font-size: 12px;
+                                            line-height: 14px;
+                                            text-transform: uppercase;
+                                            color: #9AA0A6;
+                                        }
+                                    }
+                                    .repeat-table-body{
+                                        display: flex;
+                                        align-items: center;
+                                        padding: 12px 10px;
+                                        border-bottom: 1px solid #E4E5E7;
+                                        .title{
+                                            font-weight: 400;
+                                            font-size: 14px;
+                                            line-height: 17px;
+                                            color: #202124;
+                                            &.user-type{
+                                                width: 60%;
+                                                padding-right: 10px;
+                                            }
+                                            &.item-count{
+                                                text-align: right;
+                                                width: 40%;
+                                                padding-left: 10px;
+                                            }
+                                        }
+                                    }
+                                }
+                                .source-data{
+                                    width: 50%;
+                                    padding-left: 22px;
+                                    .source-card{
+                                        background: #F8F9FA;
+                                        border-radius: 4px;
+                                        margin-bottom: 20px;
+                                        padding: 12px 18px;
+                                        .row-data-card{
+                                            display: flex;
+                                            align-items: center;
+                                            padding: 8px 0;
+                                            .title-source{
+                                                width: 55%;
+                                                font-weight: 500;
+                                                font-size: 14px;
+                                                line-height: 17px;
+                                                color: #202124;
+                                                padding-right: 12px;
+                                            }
+                                            .name-placeholder{
+                                                width: 45%;
+                                                text-align: right;
+                                                font-weight: 400;
+                                                font-size: 14px;
+                                                line-height: 17px;
+                                                color: #202124;
+                                            }
+                                            .input-with-eye{
+                                                display: flex;
+                                                align-items: center;
+                                                width: 45%;
+                                                input{
+                                                    background: #EFF0F1;
+                                                    border: 1px solid #979797;
+                                                    box-sizing: border-box;
+                                                    border-radius: 4px;
+                                                    height: 22px;
+                                                    padding: 4px 5px 5px 5px;
+                                                    font-weight: 400;
+                                                    font-size: 14px;
+                                                    line-height: 17px;
+                                                    color: #979797;
+                                                    width: 100%;
+                                                    &::placeholder{
+                                                        font-size: 14px;
+                                                        line-height: 17px;
+                                                        color: #979797;
+                                                    }
+                                                }
+                                                i{
+                                                    width: 15px;
+                                                    flex-shrink: 0;
+                                                    margin-left: 10px;
+                                                    color: #000000;
+                                                    cursor: pointer;
+                                                    font-size: 15px;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .settings-data{
+                            width: 470px;
+                            display: block;
+                            .content-name{
+                                font-weight: 500;
+                                font-size: 16px;
+                                line-height: 19px;
+                                color: #202124;
+                                margin-bottom: 12px;
+                                span{
+                                    font-weight: 400;
+                                    font-size: 12px;
+                                    line-height: 20px;
+                                    padding-left: 10px;
+                                }
+                            }
+                            .kr-sg-input-text{
+                                margin: 0 0 30px 0;
+                                .label-text{
+                                    color: #202124;
+                                    margin-bottom: 4px;
+                                    font-weight: 500;
+                                    font-size: 12px;
+                                    line-height: 15px;
+                                }
+                            }
+                            .source-card{
+                                background: #F8F9FA;
+                                border-radius: 4px;
+                                margin-bottom: 20px;
+                                padding: 12px 18px;
+                                .row-data-card{
+                                    display: flex;
+                                    align-items: center;
+                                    padding: 8px 0;
+                                    .title-source{
+                                        width: 55%;
+                                        font-weight: 500;
+                                        font-size: 14px;
+                                        line-height: 17px;
+                                        color: #202124;
+                                        padding-right: 12px;
+                                    }
+                                    .input-with-eye{
+                                        display: flex;
+                                        align-items: center;
+                                        width: 45%;
+                                        input{
+                                            background: #EFF0F1;
+                                            border: 1px solid #979797;
+                                            box-sizing: border-box;
+                                            border-radius: 4px;
+                                            height: 22px;
+                                            padding: 4px 5px 5px 5px;
+                                            font-weight: 400;
+                                            font-size: 14px;
+                                            line-height: 17px;
+                                            color: #979797;
+                                            width: 100%;
+                                            &::placeholder{
+                                                font-size: 14px;
+                                                line-height: 17px;
+                                                color: #979797;
+                                            }
+                                        }
+                                        i{
+                                            width: 15px;
+                                            flex-shrink: 0;
+                                            margin-left: 10px;
+                                            color: #000000;
+                                            cursor: pointer;
+                                            font-size: 15px;
+                                        }
+                                    }
+                                }
+                                .edit-content-link{
+                                    font-weight: 400;
+                                    font-size: 14px;
+                                    line-height: 17px;
+                                    display: inline-block;
+                                    margin: 12px 0 5px 0;
+                                    cursor: pointer;
+                                    color: #0D6EFD;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .view-more-btn{
+            padding: 13px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            button{
+                margin: 0 5px;
+            }
+        }
+    }
+    .configuration-connectors-sec{
+        display: inline-block;
+        width: 100%;
+        .header-configuration-data{
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            &::before{
+                content: "";
+                position: absolute;
+                width: calc(100% - 50px);
+                border-top: 1px solid #BDC1C6;
+                z-index: -1;
+                left: 0;
+                top: auto;
+                margin: 0 auto;
+                right: 0;
+            }
+            .config-tab{
+                display: flex;
+                align-items: center;
+                padding: 8px 20px 8px 8px;
+                background: #EFF0F1;
+                border-radius: 29px;
+                cursor: pointer;
+                &.in-progress{
+                    background: #0D6EFD;
+                    .icon-config{
+                        background: #FFFFFF;
+                        color: #0D6EFD;
+                    }
+                    .title{
+                        color: #FFFFFF;
+                    }
+                }
+                &.completed-config{
+                    background: #EAF6EC;
+                    .icon-config{
+                        background: #28A745;
+                        color: #FFFFFF;
+                    }
+                    .title{
+                        color: #202124;
+                    }
+                }
+                .icon-config{
+                    width: 24px;
+                    height: 24px;
+                    background: #BDC1C6;
+                    border-radius: 17px;
+                    color: #FFFFFF;
+                    font-size: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    i{
+
+                    }
+                }
+                .title{
+                    font-weight: 500;
+                    font-size: 14px;
+                    line-height: 17px;
+                    color: #202124;
+                    margin-left: 10px;
+                }
+            }
+        }
+        .body-config-data{
+            display: inline-block;
+            width: 100%;
+            perfect-scrollbar{
+                height: calc(100vh - 262px);
+            }
+            .inner-scroll-data{
+                padding: 25px 25px;
+                display: inline-block;
+                width: 100%;
+                .desc-text{
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 17px;
+                    color: #202124;
+                    margin-bottom: 10px;
+                }
+                .connector-brand{
+                    display: inline-flex;
+                    align-items: center;
+                    margin: 20px 0;
+                    .c-img{
+                        width: 50px;
+                        height: 50px;
+                        margin-right: 15px;
+                        img{
+                            width: 100%;
+                        }
+                    }
+                    .c-content-sec{
+                        .title{
+                            font-weight: 600;
+                            font-size: 16px;
+                            line-height: 19px;
+                            color: #3C4043;
+                            margin-bottom: 4px;
+                        }
+                        .sub-text{
+                            font-weight: 400;
+                            font-size: 12px;
+                            line-height: 20px;
+                            color: #202124;
+                        }
+                    }
+                }
+                .instruction-setup{
+                    .instruction-steps-data{
+                        display: flex;
+                        .left-block{
+                            width: 269px;
+                            flex-shrink: 0;
+                            background: rgba(196, 196, 196, 0.13);
+                            border-radius: 4px;
+                            padding: 28px;
+                            margin-right: 40px;
+                            .heading-text{
+                                font-weight: 700;
+                                font-size: 14px;
+                                line-height: 17px;
+                                color: #202124;
+                                margin-bottom: 5px;
+                            }
+                            .sub-heading{
+                                font-weight: 400;
+                                font-size: 10px;
+                                line-height: 12px;
+                                color: #202124;
+                            }
+                            .card-c{
+                                margin: 20px 0;
+                                background: #FFFFFF;
+                                border: 1px solid #BDC1C6;
+                                box-sizing: border-box;
+                                border-radius: 4px;
+                                display: flex;
+                                align-items: flex-start;
+                                padding: 10px;
+                                &.dashed-card{
+                                    border: 1px dashed #BDC1C6;
+                                }
+                                .icon-content{
+                                    width: 16px;
+                                    height: 16px;
+                                    font-size: 16px;
+                                    flex-shrink: 0;
+                                    margin-right: 8px;
+                                    position: relative;
+                                    top: 2px;
+                                    img{
+                                        width: 100%;
+                                    }
+                                }
+                                .text-content{
+                                    width: 100%;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                    .primary-title{
+                                        font-weight: 400;
+                                        font-size: 12px;
+                                        line-height: 18px;
+                                        color: #202124;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        white-space: nowrap;
+                                    }
+                                    .secondary-text{
+                                        font-weight: 700;
+                                        font-size: 10px;
+                                        line-height: 18px;
+                                        color: #202124;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        white-space: nowrap;
+                                    }
+                                }
+                            }
+                        }
+                        .right-block{
+                            .steps-hint-data{
+                                display: flex;
+                                margin-bottom: 20px;
+                                .step-data-title{
+                                    flex-shrink: 0;
+                                    width: 62px;
+                                    font-weight: 700;
+                                    font-size: 14px;
+                                    line-height: 17px;
+                                    color: #202124;
+                                }
+                                .steps-info-sec{
+                                    padding-left: 15px;
+                                    border-left: 1px solid #E4E5E7;
+                                    .h-title{
+                                        font-weight: 700;
+                                        font-size: 14px;
+                                        line-height: 17px;
+                                        color: #202124;
+                                        margin-bottom: 8px;
+                                    }
+                                    .text-desc{
+                                        font-weight: 400;
+                                        font-size: 14px;
+                                        line-height: 17px;
+                                        color: #202124;
+                                        margin-top: 8px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .configuration-setup{
+                    display: inline-block;
+                    width: 100%;
+                    padding-bottom: 30px;
+                    .config-steps-boxes{
+                        display: flex;
+                        .left-box{
+                            padding-right: 35px;
+                            width: 50%;
+                            .inner-content{
+                                .title-heading{
+                                    font-weight: 700;
+                                    font-size: 14px;
+                                    line-height: 17px;
+                                    color: #202124;
+                                    margin-bottom: 10px;
+                                }
+                                .box-data-step{
+                                    background: #FFFFFF;
+                                    border: 1px solid #BDC1C6;
+                                    box-sizing: border-box;
+                                    border-radius: 4px;
+                                    padding: 18px;
+                                    min-height: 265px;
+                                    .text-desc{
+                                        font-weight: 400;
+                                        font-size: 14px;
+                                        line-height: 17px;
+                                        color: #202124;
+                                        margin-bottom: 22px;
+                                    }
+                                    .redirect-text{
+                                        font-weight: 400;
+                                        font-size: 10px;
+                                        line-height: 18px;
+                                        text-align: center;
+                                    }
+                                    .generate-card-info{
+                                        display: flex;
+                                        margin-top: 35px;
+                                        .card-g{
+                                            padding-right: 30px;
+                                            width: 50%;
+                                            display: flex;
+                                            .icon-g{
+                                                width: 16px;
+                                                height: 16px;
+                                                flex-shrink: 0;
+                                                font-size: 16px;
+                                                margin-right: 12px;
+                                                color: #202124;
+                                                position: relative;
+                                                top: 1px;
+                                            }
+                                            .content-g{
+                                                width: 100%;
+                                                word-break: break-word;
+                                                .title{
+                                                    font-weight: 400;
+                                                    font-size: 12px;
+                                                    line-height: 18px;
+                                                    color: #202124;
+                                                    margin-bottom: 6px;
+                                                }
+                                                .example-text{
+                                                    font-weight: 700;
+                                                    font-size: 10px;
+                                                    line-height: 18px;
+                                                    color: #5F6368;
+                                                }
+                                                .clientid{
+                                                    font-weight: normal;
+                                                    font-size: 10px;
+                                                    line-height: 18px;
+                                                    color: #5F6368;
+                                                    display: -webkit-box;
+                                                    -webkit-line-clamp: 3;
+                                                    -webkit-box-orient: vertical;
+                                                    overflow: hidden;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .right-box{
+                            width: 50%;
+                            padding-left: 20px;
+                            .inner-content{
+                                .title-heading{
+                                    font-weight: 700;
+                                    font-size: 14px;
+                                    line-height: 17px;
+                                    color: #202124;
+                                    margin-bottom: 10px;
+                                }
+                                .box-data-step{
+                                    background: #FFFFFF;
+                                    border: 1px solid #BDC1C6;
+                                    box-sizing: border-box;
+                                    border-radius: 4px;
+                                    padding: 18px;
+                                    min-height: 265px;
+                                    .text-data-desc{
+                                        font-weight: 400;
+                                        font-size: 14px;
+                                        line-height: 17px;
+                                        color: #202124;
+                                        margin-bottom: 22px;
+                                    }
+                                    .heading-label{
+                                        font-weight: 700;
+                                        font-size: 14px;
+                                        line-height: 17px;
+                                        color: #202124;
+                                        margin-bottom: 10px;
+                                    }
+                                    .label-text{
+                                        font-weight: 500;
+                                        font-size: 12px;
+                                        line-height: 15px;
+                                        color: #202124;
+                                    }
+                                    .kr-sg-input-text {
+                                        input{
+                                            font-weight: 400;
+                                            font-size: 10px;
+                                            line-height: 18px;
+                                            color: #5F6368;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .authentication-sec{
+                    display: inline-block;
+                    width: 100%;
+                    padding-bottom: 30px;
+                    .documentation-text{
+                        font-weight: 500;
+                        font-size: 16px;
+                        line-height: 19px;
+                        color: #202124;
+                        margin-bottom: 10px;
+                    }
+                    .document-desc{
+                        font-weight: 400;
+                        font-size: 14px;
+                        line-height: 17px;
+                        color: #202124;
+                        width: 497px;
+                        margin-bottom: 30px;
+                    }
+                    .toggle-with-text{
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 10px;
+                        .t-title{
+                            font-weight: 700;
+                            font-size: 14px;
+                            line-height: 17px;
+                            color: #202124;
+                            margin-right: 10px;
+                        }
+                    }
+                    .info-link{
+                        display: inline-flex;
+                        align-items: center;
+                        font-weight: 400;
+                        font-size: 14px;
+                        line-height: 17px;
+                        color: #07377F;
+                        cursor: pointer;
+                        i{
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+            .footer-btns{
+                padding: 10px 21px;
+                height: 60px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                button{
+                    margin: 0 4px;
+                }
+            }
+        }
+    }
+}

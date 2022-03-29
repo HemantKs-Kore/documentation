@@ -333,6 +333,14 @@
 					<span class="linkTitle">{{'structuredData.structured_data' | translate}}</span>
 				</div>
 
+				<div mat-button class="mat-button" [routerLink]="['/connectors']" skipLocationChange routerLinkActive="active" (click)="preview('Connector')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/connectors.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/connectors.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Connector</span>
+				</div>
+
 			</div>
 		</div>
 
@@ -434,7 +442,6 @@
 				</span>
 				<span class="linkTitle">Invoices</span>
 			</div>
-
 		</div>
 	</perfect-scrollbar>
 </div>
