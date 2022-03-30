@@ -350,7 +350,7 @@
             </div>
             <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l6'}"
               (click)="templateTypeSelection('l6')">
-              <img src="assets/icons/resultTemplate/type-6.svg">
+              <img *ngIf="templateDataBind.type =='list'" src="assets/icons/resultTemplate/type6List.svg">
             </div>
             <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l7'}"
               (click)="templateTypeSelection('l7')" *ngIf="templateDataBind.type !='list'">
@@ -2015,7 +2015,7 @@
                 </div>
               </div>
               <div class="search_block"
-                *ngIf="['l2','l3','l4','l6','l7','l8','l9'].includes(templateDataBind.layout.layoutType)">
+              *ngIf="['l6'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
                 <div class="label-text mb-1">Description 1</div>
                 <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
                   <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentdesc1()"
