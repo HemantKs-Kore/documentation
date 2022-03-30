@@ -342,7 +342,8 @@
                                             }
                                             .name-placeholder{
                                                 width: 45%;
-                                                text-align: right;
+                                                //text-align: right; as per figma left alignment is required
+                                                text-align: left;
                                                 font-weight: 400;
                                                 font-size: 14px;
                                                 line-height: 17px;

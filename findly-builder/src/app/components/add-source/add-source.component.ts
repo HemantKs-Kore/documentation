@@ -218,7 +218,22 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
       ]
-    }
+    },
+    {
+      title: 'Connecting sources and add searchable distinct entities',
+      sources: [
+        {
+          name: 'Link Searchable Sources',
+          description: 'shared content across organisation',
+          icon: 'assets/icons/content/View.svg',
+          id: 'connectorsId',
+          sourceType: 'connectors',
+          resourceType: 'connectors'
+        }
+
+      ]
+    },
+    
   ];
   anntationObj: any = {};
   addManualFaqModalPopRef: any;
@@ -557,6 +572,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
         this.inlineManual.visited('IMPORT_STRUCTURED_DATA')
       }
+    }
+    else if(selectedCrawlMethod && selectedCrawlMethod.resourceType === 'connectors'){
+      this.router.navigate(['/connectors'], { skipLocationChange: true });
     }
     else {
       this.selectedSourceType = selectedCrawlMethod;
