@@ -34,6 +34,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
   activeClose = false;
   showSearch = false;
   searchSimulator: any = '';
+  entityTypePayload : any=[];
   basic_fieldName: any = '';
   search_basic_fieldName: any = '';
   search_basic_fieldName1: any = '';
@@ -60,6 +61,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
   selectedStage;
   changesDetected;
   currentEditIndex: any = -1;
+  tempConfigObj ; any ={};
   selectedStageIndex: any = -1;
   pollingSubscriber: any = null;
   submitted: boolean = false;
@@ -725,6 +727,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
 
                 //   });
                 // });
+              let entityTypes = [];
+              entityTypes = [...config.entity_types];
                 for (let i = 0; i < config.entity_types.length; i++)
                 {
                   for (let j = 0; j < this.entityNlp.length; j++)
@@ -732,9 +736,14 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
                     if (this.entityNlp[j].title == config.entity_types[i])
                     {
                       config.entity_types[i] = this.entityNlp[j].value
+                      entityTypes[i] = this.entityNlp[j].title
+                      console.log(this.tempConfigObj)
                     }
                   }
+                  
                 }
+                this.entityTypePayload.push(entityTypes);
+               
               }
               if (config.trait_groups)
               {
@@ -933,8 +942,21 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       this.mixpanel.postEvent('Workbench - Rule Updated', {});
     }
   }
-
-  
+ //For Title appearence in UI (Entities)
+  prepEntityObj(entityMappingArr){
+    let entityTypeLocalArr =[];
+    entityMappingArr.forEach(element => {
+     element.entity_types.forEach(entityElement => {
+       this.entityNlp.forEach(nlpElement => {
+        if(entityElement === nlpElement.value){
+          // return entityElement = nlpElement.title
+          entityTypeLocalArr.push(nlpElement.title)
+        }
+      });
+     });
+    });
+    return entityTypeLocalArr
+  }
   saveConfig(warningmessage?,index?, dialogRef?)
   { 
     
@@ -956,10 +978,30 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         searchIndexID: this.serachIndexId,
         indexPipelineId: this.indexPipelineId
       };
+      // this.tempConfigObj = config.entity_types
       this.service.invoke('put.indexPipeline', quaryparms, { stages: this.preparepayload() }).subscribe(res =>
       {
         this.pipeline = res.stages || [];
         this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
+
+         //For Title appearence in UI (Entities)
+
+        this.pipeline.forEach(element => {
+          if(element.type === "entity_extraction"){
+            if(element.config && element.config.mappings.length){
+              element.config.mappings.forEach((map,index) => {
+                map.entity_types = this.entityTypePayload[index]
+              });
+            
+              // this.prepEntityObj(element.config.mappings)
+              // element.config.mappings
+              // entityNlp
+            }
+          }
+
+        });
+        this.entityTypePayload = [];
+        this.pipelineCopy = [...this.pipeline]
         // this.appSelectionService.updateTourConfig('addData');
         this.mixpanelForStages();
         this.notificationService.notify('Configurations Saved Successfully', 'success');
@@ -1917,6 +1959,24 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         }
       })
   }
+  prepEntityNlpData(entityTypeData){
+    let entityTypes = [];
+              entityTypes = [...entityTypeData];
+                for (let i = 0; i < entityTypeData.length; i++)
+                {
+                  for (let j = 0; j < this.entityNlp.length; j++)
+                  {
+                    if (this.entityNlp[j].value== entityTypeData[i])
+                    {
+                      // entityTypeData[i] = this.entityNlp[j].value
+                      entityTypes[i] = this.entityNlp[j].title
+                      console.log(this.tempConfigObj)
+                    }
+                  }
+                  
+                }
+                this.entityTypePayload.push(entityTypes);
+  }
   getIndexPipline()
   {
     const quaryparms: any = {
@@ -1936,6 +1996,24 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
       })
       this.pipeline = res.stages || [];
       this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
+      this.pipeline.forEach(element => {
+        if(element.type === "entity_extraction"){
+          if(element.config && element.config.mappings.length){
+            element.config.mappings.forEach((map,index) => {
+              this.prepEntityNlpData(map.entity_types)
+              map.entity_types = this.entityTypePayload[index]
+              // map.entity_types = this.entityTypePayload[index]
+            });
+          
+            // this.prepEntityObj(element.config.mappings)
+            // element.config.mappings
+            // entityNlp
+          }
+        }
+
+      });
+      this.entityTypePayload =[];
+      this.pipelineCopy = [...this.pipeline]
       if (res.stages && res.stages.length)
       {
         this.selectStage(res.stages[0], 0);
