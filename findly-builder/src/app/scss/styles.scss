@@ -3605,3 +3605,15 @@ emoji-mart{
 .analy-dropdown-header{
     padding: 25px 30px 10px 30px;
 }
+
+
+app-slider-component{
+    &#supportOnboarding{
+        .sliderComponent{
+            top: 60px !important;
+            .sliderDialogComponent {
+                background: #F8F9FA;
+            }
+        }
+    }
+}

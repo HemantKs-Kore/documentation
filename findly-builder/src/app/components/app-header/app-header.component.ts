@@ -9,6 +9,7 @@ import { LocalStoreService } from '@kore.services/localstore.service';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
@@ -29,6 +30,12 @@ export class AppHeaderComponent implements OnInit {
   toShowAppHeader: boolean;
   mainMenu = '';
   showMainMenu: boolean = true;
+  currentRouteData:any="";
+  displyStatusBar:boolean=true;
+  tourData:any;
+  tourConfigData:any=[];
+  checklistCount:any;
+  progressPrecent=0;
   pagetitle: any;
   field_name: any;
   profile_display: any;
@@ -79,6 +86,7 @@ export class AppHeaderComponent implements OnInit {
   @Output() showSourceMenu = new EventEmitter();
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('testButtonTooltip') testButtonTooltip: any;
+  @ViewChild(SliderComponentComponent, { static: true }) sliderComponent: SliderComponentComponent;
   availableRouts = [
     { displayName: 'Summary', routeId: '/summary', quaryParms: {} },
     { displayName: 'Add Sources', routeId: '/source', quaryParms: {} },
@@ -128,7 +136,7 @@ export class AppHeaderComponent implements OnInit {
     private authService: AuthService,
     public headerService: SideBarService,
     public workflowService: WorkflowService,
-    private router: Router,
+    public router: Router,
     private ref: ChangeDetectorRef,
     private appUrlsService: AppUrlsService,
     private localStoreService: LocalStoreService,
@@ -143,6 +151,11 @@ export class AppHeaderComponent implements OnInit {
     }
   }
   ngOnInit() {
+    this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
+      this.tourConfigData = res;
+      this.tourData = res.onBoardingChecklist;
+      this.trackChecklist();
+    })
     // this.selectedApp = this.workflowService.selectedApp();
     // this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
@@ -1077,4 +1090,52 @@ export class AppHeaderComponent implements OnInit {
       $("#enterAppName").css("border-color", this.newApp.name != '' ? "#BDC1C6" : "#DD3646");
     }
   }
+  /**opening slider component and closing slider component  */
+  openUserMetaTagsSlider() { 
+    this.currentRouteData=this.router.url;
+    this.sliderComponent.openSlider("#supportOnboarding", "width500");
+   }
+  closeUserMetaTagsSlider() { this.sliderComponent.closeSlider("#supportOnboarding"); }
+  emitStatus(event) {
+    this.displyStatusBar=event;
+  }
+
+  closeStatusBar(){
+    if(this.displyStatusBar){
+      this.displyStatusBar=false;
+    }
+    else{
+      this.displyStatusBar=true;
+    }
+  }
+   //track checklist count and show count number
+   trackChecklist() {
+    let arr = [];
+    let Index = [];
+    this.tourData.forEach((item) => {
+      Object.keys(item).forEach((key) => {
+        arr.push(item[key])
+      });
+    })
+    arr.map((item, index) => {
+      if (item == false) Index.push(index)
+    })
+    
+    let count = 0;
+    for (let key in this.tourData) {
+      for (let key1 in this.tourData[key]) {
+        if (this.tourData[key][key1]) {
+          count = count + 1;
+        }
+      }
+    }
+    this.checklistCount = count;   
+    this.percentCaluculate();
+  }
+  percentCaluculate(){
+    if(this.checklistCount){
+      this.progressPrecent = (this.checklistCount/6)*(100);
+    }
+  }
 }
+

@@ -116,6 +116,7 @@ import { UpgradePlanComponent } from './helpers/components/upgrade-plan/upgrade-
 import { valueFormatPipe } from './helpers/filters/number-format.pipe';
 import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 import { ResultTemplatesComponent } from './components/result-templates/result-templates.component';
+import { OnboardingComponentComponent } from './components/onboarding-component/onboarding-component.component';
 import { AnalyticsDropdownComponent } from './helpers/components/analytics-dropdown/analytics-dropdown.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
@@ -201,6 +202,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     valueFormatPipe,
     GeneralSettingsComponent,
     ResultTemplatesComponent,
+    OnboardingComponentComponent,
     AnalyticsDropdownComponent
   ],
   imports: [

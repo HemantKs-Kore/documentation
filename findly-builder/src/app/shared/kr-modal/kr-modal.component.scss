@@ -277,6 +277,59 @@
                 }
             }
         }
+        &.app-homes-component-page{
+            .modal-dialog{
+                height: calc(100% - 80px);
+                max-width: 875px;
+                width: 875px;
+                max-height: 617px;
+                .modal-body{
+                    padding: 0;
+                    display: flex;
+                    width: 100%;
+                    align-items: center;
+                    .close_modal{
+                        position: absolute;
+                        z-index: 1;
+                        right: 20px;
+                        top: 16px;
+                        cursor: pointer;
+                    }
+                    .img-wrapper{
+                        width: 440px;
+                        flex-shrink: 0;
+                        height: 100%;
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        img{
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                    .actions-block{
+                        width: 100%;
+                        padding-left: 440px;
+                        .inner-data{
+                            padding: 20px 50px;
+                            height: 100%;
+                            .borderindication{
+                                width: 40px;
+                                height: 5px;
+                                background: #0D6EFD;
+                            }
+                            .heading-text{
+                                font-weight: 700;
+                                font-size: 20px;
+                                line-height: 24px;
+                                margin: 10px 0 20px 0;
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
     }
     &.delete-app-popup{
         .modal-dialog{
@@ -324,6 +377,83 @@
                         display: flex;
                         align-items: center;
                         justify-content: flex-end;
+                    }
+                }
+            }
+        }
+    }
+    &.new-uses-registration-about-modal{
+        .modal-dialog{
+            // width: 1100px;
+            max-width: 1100px !important;
+            height: calc(100% - 80px);
+            max-height: 620px !important;
+            .modal-content{
+                border-radius: 6px;
+                .modal-body{
+                    padding: 0;
+                    display: flex;
+                    height: 100%;
+                    .close_modal{
+                        position: absolute;
+                        right: 15px;
+                        top: 15px;
+                        z-index: 1;
+                        cursor: pointer;
+                    }
+                    .video-block{
+                        width: 100%;
+                        height: 100%;
+                        position: relative;
+                        .video-content{
+                            width: 100%;
+                            height: 100%;
+                            video{
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+                        .video-img{
+                            width: 100%;
+                            height: 100%;
+                            img{
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+                    }
+                    .form-block-data{
+                        width: 380px;
+                        flex-shrink: 0;
+                        background-image: url("../../../assets/icons/bg-new-user.svg");
+                        background-repeat: no-repeat;
+                        .scroll-content{
+                            padding: 70px 40px 40px 40px;
+                            .heading-main{
+                                font-weight: 300;
+                                font-size: 24px;
+                                line-height: 29px;
+                                color: #202124;
+                                margin: 5px 0px;
+                            }
+                            .desc-text{
+                                font-weight: 400;
+                                font-size: 14px;
+                                line-height: 17px;
+                                color: #9AA0A6;
+                                margin-bottom: 15px;
+                            }
+                            .label-text{
+                                font-weight: 500;
+                                font-size: 12px;
+                                line-height: 15px;
+                                color: #202124;
+                                margin-bottom: 5px;
+                            }
+                            .mb-20{
+                                margin-bottom: 20px;
+                            }
+                        }
                     }
                 }
             }
