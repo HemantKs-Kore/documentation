@@ -519,8 +519,8 @@
     <div class="card-details-status">
         <div class="titles-info-sec">
             <div class="title">{{checklistCount}} of 6 Steps Completed</div>
-            <div class="progress_bar"><ngb-progressbar height="5px" [type]=""
-               type="info" [value]="progressPrecent" max="100"></ngb-progressbar></div>
+            <div class="progress_bar"><ngb-progressbar height="5px"  
+                min="0" [value]="progressPrecent" max="100"></ngb-progressbar></div>
         </div>
         <div class="view-close">
             <div class="view-title"(click)="openUserMetaTagsSlider()" >View</div>

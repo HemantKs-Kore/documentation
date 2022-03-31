@@ -1405,6 +1405,8 @@ html , body{
     font-weight: 500;     
     display: inline-block;
     float: left;
+    z-index: 2;
+    position: relative;
 }
 .searchAssist-kore-chat-window .show-all-results img{
     margin-left: 8px;    
@@ -1451,6 +1453,28 @@ html , body{
 .searchAssist-kore-chat-window .Search-BG-Copy .recentContainer .recentSearch .recentText{
     color: var(--sdk-shark-black-color);
     font-size: 14px;
+}
+.searchAssist-kore-chat-window .Search-BG-Copy .recentContainer .recentSearch .recent-search-delete{
+    right: 28px;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    background: #E4E5E7;
+    top: 8px;
+    display: none;
+    z-index: 9;
+}
+.searchAssist-kore-chat-window .Search-BG-Copy .recentContainer .recentSearch .recent-search-delete img{
+    position: relative !important;
+        border: 0px solid var(--sdk-border-malibu-color);
+        box-sizing: border-box;
+        border-radius: 5px;
+        padding: 6px 30px 6px 30px;
+        margin: 0px;
 }
 .searchAssist-kore-chat-window .Search-BG-Copy .recentContainer .carrot-Right {
     width: 9px;
@@ -1700,8 +1724,11 @@ html , body{
     padding: 6px 7px 6px 30px;
     margin: 0px;
 }
+.searchAssist-kore-chat-window .search-recent-column .recentSearch.tile_with_header:hover .recent-search-delete{
+    display: flex;
+}
 .searchAssist-kore-chat-window .search-recent-column .recentSearch.tile_with_header .recentText{
-    padding: 6px 10px 6px 30px;
+    padding: 6px 35px 6px 30px;
     cursor: pointer;
     box-sizing: border-box;
     display: block;
@@ -4266,9 +4293,9 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
 span.highlightText,.highlightText {
     font-weight: bolder !important;
 }
-/* .searchAssist-kore-chat-window .accordion .highlightText {
-    text-decoration: underline !important;
-} */
+.searchAssist-kore-chat-window .accordion .highlightText {
+    /* text-decoration: underline !important; */
+}
 .searchAssist-kore-chat-window .desc-info .highlightText {
     font-weight: bolder !important;
     text-decoration: none !important;
@@ -7687,10 +7714,7 @@ a.tile-heading{
     border-bottom: 1px solid #E4E5E7;
 }
 /* // */
-/* .template-1-plain-list-result-group .plain-list-result-item:nth-last-child(2){
-    border-bottom:0px;
-    
-} */
+
 .template-1-classic-list-result-group {
     background: #FFFFFF;
     box-shadow: 0px 0px 11px rgba(0,0,0,0.1);
@@ -10212,11 +10236,4 @@ display: none !important;
     position: absolute;
     top: 12px;
     right: 190px;
-}
-.sort-icon{
-    content: url(../images/sort.svg);
-
-}
-.close-filter{
-    content: url(../images/close.svg);
 }

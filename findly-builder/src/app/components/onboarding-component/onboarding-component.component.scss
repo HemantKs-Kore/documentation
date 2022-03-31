@@ -217,26 +217,35 @@
                         .img-block{
                             background: #FFFBEA;
                         }
-                        .dummy-border-left{
-                            background: #FFDA2D;
+                        &:hover{
+                            .dummy-border-left{
+                                background: #FFDA2D;
+                            }
                         }
+                        
                     }
                     &.help-doc{
                         .img-block{
                             background: #FCEAED;
                         }
-                        .dummy-border-left{
-                            background: #DD3646;
+                        &:hover{
+                            .dummy-border-left{
+                                background: #DD3646;
+                            }
                         }
+                        
                     }
                     &.contactus{
                         .img-block{
                             background: #EAF6EC;
                         }
+                        &:hover{
                         .dummy-border-left{
                             background: #28A745;
                         }
+                      }
                     }
+                    &:hover{
                     .dummy-border-left{
                         position: absolute;
                         left: -1px;
@@ -244,6 +253,7 @@
                         width: 3px;
                         top: 0px;
                     }
+                }
                     .img-block{
                         width: 60px;
                         height: 60px;

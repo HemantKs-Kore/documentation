@@ -16,7 +16,7 @@
             <span>FAQs</span>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**'}">
           <a class="nav-link" data-toggle="pill" (click)="closeFaqSearch();closeSearch()" href="#appchecklist">
             <i class="si-list"></i>
             <span>App Checklist</span>
@@ -42,6 +42,7 @@
             </div>
             <perfect-scrollbar class="scroll-content-data">
               <div class="data-inner-content" >
+                 <!-- Support tab parent  Data -->
                 <div class="default-state-data" *ngIf="supportParentData">
                   <div (click)="triggerChild(data);closeSearch()" class="action-block-data" *ngFor="let data of supportData | filter : [support_Search,'title']" [ngClass]="data.class" >
                     <div class="dummy-border-left"></div>
@@ -56,6 +57,7 @@
                       <i class="si-carrotup"></i>
                     </div>
                   </div>
+                </div>
                   <!-- <div class="action-block-data whats-new">
                     <div class="dummy-border-left"></div>
                     <div class="img-block">
@@ -68,35 +70,9 @@
                     <div class="arrow-icon">
                       <i class="si-carrotup"></i>
                     </div>
-                  </div>
-                  <div class="action-block-data help-doc">
-                    <div class="dummy-border-left"></div>
-                    <div class="img-block">
-                      <img src="assets/icons/onboarding/helpdoc.svg">
-                    </div>
-                    <div class="content-block">
-                      <div class="title">Help and Documentation</div>
-                      <div class="desc-text">Explore our usage guides, in-depth How-to's and API references</div>
-                    </div>
-                    <div class="arrow-icon">
-                      <i class="si-carrotup"></i>
-                    </div>
-                  </div>
-                  <div class="action-block-data contactus">
-                    <div class="dummy-border-left"></div>
-                    <div class="img-block">
-                      <img src="assets/icons/onboarding/hours.svg">
-                    </div>
-                    <div class="content-block">
-                      <div class="title">Contact Us</div>
-                      <div class="desc-text">Contact our support team for quick resolution of your queries</div>
-                    </div>
-                    <div class="arrow-icon">
-                      <i class="si-carrotup"></i>
-                    </div>
-                  </div> -->
-                </div>
-
+                  </div>-->
+                  
+                  <!-- Support tab child Data -->
                 <div class="dynamic-state-data" *ngIf="!supportParentData">
                   <div class="action-block-data" *ngFor="let child of supportChildData | filter : [support_Search,'title']" >
                     <div class="dummy-border-left"></div>
@@ -123,6 +99,7 @@
                       <i class="si-externallink"></i>
                     </div>
                   </div>
+                </div>
                   <!-- <div class="action-block-data">
                     <div class="dummy-border-left"></div>
                     <div class="img-block">
@@ -135,60 +112,7 @@
                     <div class="ext-icon-link">
                       <i class="si-externallink"></i>
                     </div>
-                  </div>
-                  <div class="action-block-data">
-                    <div class="dummy-border-left"></div>
-                    <div class="img-block">
-                      <img src="assets/icons/onboarding/configure.svg">
-                    </div>
-                    <div class="content-block">
-                      <div class="title">Configure Search Relevance</div>
-                      <div class="desc-text">Fine tune your search results and add custom ranking to it inorder to better suit your business goals</div>
-                    </div>
-                    <div class="ext-icon-link">
-                      <i class="si-externallink"></i>
-                    </div>
-                  </div>
-                  <div class="action-block-data">
-                    <div class="dummy-border-left"></div>
-                    <div class="img-block">
-                      <img src="assets/icons/onboarding/design-search.svg">
-                    </div>
-                    <div class="content-block">
-                      <div class="title">Design Search Experiance</div>
-                      <div class="desc-text">Design the look and feel of how your search results are to be displayed to your end user</div>
-                    </div>
-                    <div class="ext-icon-link">
-                      <i class="si-externallink"></i>
-                    </div>
-                  </div>
-                  <div class="action-block-data">
-                    <div class="dummy-border-left"></div>
-                    <div class="img-block">
-                      <img src="assets/icons/onboarding/acid.svg">
-                    </div>
-                    <div class="content-block">
-                      <div class="title">Running Experiments</div>
-                      <div class="desc-text">Run experiments on multiple variants of index and search configurations to test which variant performs better </div>
-                    </div>
-                    <div class="ext-icon-link">
-                      <i class="si-externallink"></i>
-                    </div>
-                  </div>
-                  <div class="action-block-data">
-                    <div class="dummy-border-left"></div>
-                    <div class="img-block">
-                      <img src="assets/icons/onboarding/search-insights.svg">
-                    </div>
-                    <div class="content-block">
-                      <div class="title">Analyze Search Insights</div>
-                      <div class="desc-text">Analyze actionalble search insights on the performance of your Search Application</div>
-                    </div>
-                    <div class="ext-icon-link">
-                      <i class="si-externallink"></i>
-                    </div>
                   </div> -->
-                </div>
 
               </div>
             </perfect-scrollbar>
@@ -222,19 +146,9 @@
                   <div class="arrow-icon">
                     <i class="si-carrotup"></i>
                   </div>
-                </div>
-                <div class="action-block-data">
-                  <div class="dummy-border-left"></div>
-                  <div class="img-block">
-                    <img src="assets/icons/onboarding/help.svg">
-                  </div>
-                  <div class="content-block">
-                    <div class="title">Lorem Ipsum</div>
-                  </div>
-                  <div class="arrow-icon">
-                    <i class="si-carrotup"></i>
-                  </div>
-                </div> -->
+                </div>-->
+
+                <!-- FAQ Parent Template-->
                 <div (click)="triggerChildFaq(faq);closeFaqSearch()" class="action-block-data" *ngFor="let faq of faqData | filter : [faq_Search,'display']">
                   <div class="dummy-border-left"></div>
                   <div class="img-block">
@@ -293,7 +207,8 @@
                 </div> -->
                 <div class="accor-card"  *ngFor="let childfaq of supportChildfaq| filter : [faq_Search,'ques'];let i=index ">
                   <div class="card_header">
-                    <a class="card_link collapsed dataFaq{{i}}" data-toggle="collapse"  href="#collapseFaq_{{i}}"  (mouseover)="openAccordianFaq(i)">
+                    <a class="card_link collapsed dataFaq{{i}}" data-toggle="collapse"  href="#collapseFaq_{{i}}">
+                      <div class="dummy-border-left"></div>
                         <div class="img-block">
                           <i class="si-help"></i>
                         </div>
@@ -333,7 +248,7 @@
           <perfect-scrollbar class="scroll-content-data">
             <div class="data-inner-content">
               <div id="accordion" class="applist-acc-data" >
-                <div class="accordion-applist" *ngFor="let list of checkList;let i = index" (mouseover)="openAccordiandata(i)" (mouseout)="playPause(i)" >
+                <div class="accordion-applist completed-state" *ngFor="let list of checkList;let i = index">
                   <div class="card_header" >
                   <a class="card_link collapsed  data{{i}}" data-toggle="collapse" href="#collapse_{{i}}"> <!--doubt-->
                     <div class="indication-block" *ngIf="tourData && !list.tourdata">
@@ -399,174 +314,8 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="accordion-applist">
-                  <div class="card_header">
-                    <div class="card_link collapsed data2" data-toggle="collapse" href="#collapse2">
-                      <div class="indication-block" *ngIf="tourData && (!tourData[1].indexData)">
-                          <img src="assets/icons/onboarding/review-index.svg">
-                      </div>
-                      <div class="indication-block completed" *ngIf="tourData && tourData[1].indexData">
-                       
-                          <i class="si-check"></i>
-                      </div>
-                      <div class="title-heading">
-                        <span class="steps-number">Step 2</span> Review Index configurations
-                      </div>
-                      <div class="desc-text">Index configurations allows you to configure the fields, traits, keywords or create workbench pipelines to suit your business needs. </div>
-                      <div class="actions-link">
-                        <a class="link-name" (click)="gotoRoutes('/FieldManagementComponent')">Guide Me <i class="si-externallink"></i></a>
-                        <a class="link-name">Documentation <i class="si-externallink"></i></a>
-                      </div>
-                      <div class="arrow-icon">
-                        <i class="si-carrotup" (mouseover)="openAccordiandata2()"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div id="collapse2" class="collapse" data-parent="#accordion1">
-                    <div class="card-body">
-                      <div class="video-block">
-                        <video width="300" height="156" controls onmouseover="this.play()" onmouseout="this.pause()">
-                          <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
-                          <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
-                          Your browser does not support the video tag.
-                        </video>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion-applist">
-                  <div class="card_header">
-                    <div class="card_link collapsed data3" data-toggle="collapse" href="#collapse3">
-                      <div class="indication-block" *ngIf="tourData && (!tourData[2].optimiseSearchResults)">
-                        <img src="assets/icons/onboarding/review-search.svg">
-                      </div>
-                      <div class="indication-block completed" *ngIf="tourData && tourData[2].optimiseSearchResults">
-                       
-                          <i class="si-check"></i>
-                      </div>
-                      <div class="title-heading">
-                        <span class="steps-number">Step 3</span> Review Search Configurations
-                      </div>
-                      <div class="desc-text">Search Configuration allows you to improve search relevance by configuring  syonyms, weights, stop words, re-ranking results, adding rules or facets.</div>
-                      <div class="actions-link">
-                        <a class="link-name" (click)="gotoRoutes('/weights')">Guide Me <i class="si-externallink"></i></a>
-                        <a class="link-name">Documentation <i class="si-externallink"></i></a>
-                      </div>
-                      <div class="arrow-icon">
-                        <i class="si-carrotup" (mouseover)="openAccordiandata3()"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div id="collapse3" class="collapse" data-parent="#accordion1">
-                    <div class="card-body">
-                      <div class="video-block">
-                        <video width="300" height="156" controls onmouseover="this.play()" onmouseout="this.pause()">
-                          <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
-                          <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
-                          Your browser does not support the video tag.
-                        </video>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion-applist">
-                  <div class="card_header">
-                    <div class="card_link collapsed data4" data-toggle="collapse" href="#collapse4">
-                      <div class="indication-block" *ngIf="tourData && (!tourData[3].designSearchExperience)">
-                          <img src="assets/icons/onboarding/search-design.svg">
-                      </div>
-                      <div class="indication-block completed" *ngIf="tourData && tourData[3].designSearchExperience">
-                        
-                          <i class="si-check"></i>
-                      </div>
-                      <div class="title-heading">
-                        <span class="steps-number">Step 4</span> Design Search Experiance
-                      </div>
-                      <div class="desc-text">SearchAssist allows you to customise the search experiance and design the search interface based on the business context.</div>
-                      <div class="actions-link">
-                        <a class="link-name" (click)="gotoRoutes('/search-experience')">Guide Me <i class="si-externallink"></i></a>
-                        <a class="link-name">Documentation <i class="si-externallink"></i></a>
-                      </div>
-                      <div class="arrow-icon">
-                        <i class="si-carrotup" (mouseover)="openAccordiandata4()"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div id="collapse4" class="collapse" data-parent="#accordion1">
-                    <div class="card-body">
-                      <div class="video-block">
-                        <video width="300" height="156" controls onmouseover="this.play()" onmouseout="this.pause()">
-                          <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
-                          <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
-                          Your browser does not support the video tag.
-                        </video>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion-applist">
-                  <div class="card_header">
-                    <div class="card_link collapsed data5" data-toggle="collapse" href="#collapse5">
-                      <div class="indication-block">
-                          <img src="assets/icons/onboarding/acid-surface.svg">
-                      </div>
-                      <div class="title-heading">
-                        <span class="steps-number">Step 5</span> Simulate Application
-                      </div>
-                      <div class="desc-text">SearchAssist allows you to validate the configuration and search experience before deploying the app by just clicking on the Preview button.</div>
-                      <div class="actions-link">
-                        <a class="link-name">Guide Me <i class="si-externallink"></i></a>
-                        <a class="link-name">Documentation <i class="si-externallink"></i></a>
-                      </div>
-                      <div class="arrow-icon">
-                        <i class="si-carrotup"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div id="collapse5" class="collapse" data-parent="#accordion1">
-                    <div class="card-body">
-                      <div class="video-block">
-                        <video width="300" height="156" controls>
-                          <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
-                          <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
-                          Your browser does not support the video tag.
-                        </video>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion-applist">
-                  <div class="card_header">
-                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse6">
-                      <div class="indication-block">
-                          <img src="assets/icons/onboarding/hand.svg">
-                      </div>
-                      <div class="title-heading">
-                        <span class="steps-number">Step 6</span> Deploy your application
-                      </div>
-                      <div class="desc-text">Configure your application to connect to any of the channels available</div>
-                      <div class="actions-link">
-                        <a class="link-name">Guide Me <i class="si-externallink"></i></a>
-                        <a class="link-name">Documentation <i class="si-externallink"></i></a>
-                      </div>
-                      <div class="arrow-icon">
-                        <i class="si-carrotup"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div id="collapse6" class="collapse" data-parent="#accordion1">
-                    <div class="card-body">
-                      <div class="video-block">
-                        <video width="300" height="156" controls>
-                          <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
-                          <source src="https://www.w3schools.com/tags/movie.ogg" type="video/ogg">
-                          Your browser does not support the video tag.
-                        </video>
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
+                </div>-->
+                
               </div> 
             </div>
           </perfect-scrollbar>
