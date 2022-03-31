@@ -1959,6 +1959,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         }
       })
   }
+  //To obtain Title vaues in Entities
   prepEntityNlpData(entityTypeData){
     let entityTypes = [];
               entityTypes = [...entityTypeData];
