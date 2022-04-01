@@ -10220,3 +10220,7 @@ display: none !important;
 .close-filter{
     content: url(../images/close.svg);
 }
+.sortable-customize-view{
+    width : 92px !important ;
+    right : 116px
+}
