@@ -404,7 +404,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var businessTooBaseURL = baseAPIServer + "findly/";
       var businessTooBaseURLForPinning = baseAPIServer.split('businessapp')[0] + "findly/";
       var searchResultsConfigAPIURL = baseAPIServer + "searchsdk/stream/";
-      var deleteRecentType = _self.isDev ? "businessapp/" : "searchsdk/";
+      // var deleteRecentType = _self.isDev ? "businessapp/" : "searchsdk/";
       _self.API = {
         baseUrl: baseUrl,
         // livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
@@ -427,7 +427,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         searchResultsViewConfigURL: searchResultsConfigAPIURL + streamId + '/' + SearchIndexID + "/resultTemplateSettings",
         tabFacetUrl: searchResultsConfigAPIURL + streamId + '/' + SearchIndexID + "/tabfacet",
         recentSearchUrl: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/recentSearches",
-        deleteRecentSearch: baseAPIServer + deleteRecentType + "stream/" + streamId + '/' + SearchIndexID + "/deleteRecentSearches",
+        deleteRecentSearch: baseAPIServer + "searchsdk/" + "stream/" + streamId + '/' + SearchIndexID + "/deleteRecentSearches",
         indexpipelineId: indexpipelineId,
         pipelineId: pipelineId,
         autoSuggestionsURL: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/autoSuggestions",
