@@ -404,6 +404,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var businessTooBaseURL = baseAPIServer + "findly/";
       var businessTooBaseURLForPinning = baseAPIServer.split('businessapp')[0] + "findly/";
       var searchResultsConfigAPIURL = baseAPIServer + "searchsdk/stream/";
+      // var deleteRecentType = _self.isDev ? "businessapp/" : "searchsdk/";
       _self.API = {
         baseUrl: baseUrl,
         // livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
@@ -426,6 +427,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         searchResultsViewConfigURL: searchResultsConfigAPIURL + streamId + '/' + SearchIndexID + "/resultTemplateSettings",
         tabFacetUrl: searchResultsConfigAPIURL + streamId + '/' + SearchIndexID + "/tabfacet",
         recentSearchUrl: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/recentSearches",
+        deleteRecentSearch: baseAPIServer + "searchsdk/" + "stream/" + streamId + '/' + SearchIndexID + "/deleteRecentSearches",
         indexpipelineId: indexpipelineId,
         pipelineId: pipelineId,
         autoSuggestionsURL: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/autoSuggestions",
@@ -503,8 +505,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         textHasXSS = txtStr.isNotAllowedHTMLTags();
       }
       if (textHasXSS && !textHasXSS.isValid) {
-        //txtStr = txtStr.escapeHTML();
-        txtStr = escapeHTML(txtStr)
+       // txtStr = txtStr.escapeHTML();
+       txtStr = escapeHTML(txtStr)
       }
       return txtStr;
       //return compObj[0].componentBody;
@@ -2111,13 +2113,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="search-recent-column" >\
               {{each(key, recent) recents }}\
                 {{if recent}}\
-                  <div class="recentSearch hide">\
+                  <!--<div class="recentSearch hide">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACmSURBVHgBdY+9DcIwEIXvHYJQZgVGYAPYgDoUkSUEJWyA2ABKJCSTJjVMAKuwAa358WEXSIZcvso+f767h72tJxRYmOJECtba/MX9JffIXQFaH6q61KQnsot4f0NaYNB2VhZVWiOR3dxMj/j/HeWOd+dUiu/QRoVjHqTNV4owtcAM+bk3uoVxXXFDL7RKA0JbXAsITdIC8oOykSZFjDH3sMb47WXwASvra91JumNaAAAAAElFTkSuQmCC" id="${key}" class="recentCloseIon hide">\
                     <span id="${recent}" action-type="textTask" class="pointer recentText">${recent}</span>\
-                  </div>\
+                  </div>\-->\
                   <div class="recentSearch tile_with_header">\
-                    <span id="${recent}" action-type="textTask" class="pointer recentText"> <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik02LjI5NzYgMC44MDAwMDNDMy4yNjEzNiAwLjgwMDAwMyAwLjgwMDAwMyAzLjI2Nzk0IDAuODAwMDAzIDYuMzEyMjlDMC44MDAwMDMgOS4zNTY2NCAzLjI2MTM2IDExLjgyNDYgNi4yOTc2IDExLjgyNDZDNy42MjUzOCAxMS44MjQ2IDguODQzMjEgMTEuMzUyNiA5Ljc5MzM0IDEwLjU2NjlMMTIuMzQyMiAxMy4wOTExTDEyLjM4MDIgMTMuMTI1NEMxMi41ODk0IDEzLjI5NjQgMTIuODk4IDEzLjI4MyAxMy4wOTE2IDEzLjA4NjVDMTMuMjk3MiAxMi44Nzc3IDEzLjI5NTEgMTIuNTQxMyAxMy4wODY5IDEyLjMzNTFMMTAuNTQyNSA5LjgxNTI5QzExLjMyNTIgOC44NjI5MyAxMS43OTUyIDcuNjQyNjQgMTEuNzk1MiA2LjMxMjI5QzExLjc5NTIgMy4yNjc5NCA5LjMzMzg0IDAuODAwMDAzIDYuMjk3NiAwLjgwMDAwM1pNNi4yOTc2IDEuODYyNjFDOC43NDg1NCAxLjg2MjYxIDEwLjczNTQgMy44NTQ4IDEwLjczNTQgNi4zMTIyOUMxMC43MzU0IDguNzY5NzcgOC43NDg1NCAxMC43NjIgNi4yOTc2IDEwLjc2MkMzLjg0NjY2IDEwLjc2MiAxLjg1OTc4IDguNzY5NzcgMS44NTk3OCA2LjMxMjI5QzEuODU5NzggMy44NTQ4IDMuODQ2NjYgMS44NjI2MSA2LjI5NzYgMS44NjI2MVoiIGZpbGw9IiM5QUEwQTYiLz4KPC9zdmc+Cg==" />${recent}</span>\
-                  </div>\
+                    <span id="${recent}" action-type="textTask" class="pointer recentText"> <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik02LjI5NzYgMC44MDAwMDNDMy4yNjEzNiAwLjgwMDAwMyAwLjgwMDAwMyAzLjI2Nzk0IDAuODAwMDAzIDYuMzEyMjlDMC44MDAwMDMgOS4zNTY2NCAzLjI2MTM2IDExLjgyNDYgNi4yOTc2IDExLjgyNDZDNy42MjUzOCAxMS44MjQ2IDguODQzMjEgMTEuMzUyNiA5Ljc5MzM0IDEwLjU2NjlMMTIuMzQyMiAxMy4wOTExTDEyLjM4MDIgMTMuMTI1NEMxMi41ODk0IDEzLjI5NjQgMTIuODk4IDEzLjI4MyAxMy4wOTE2IDEzLjA4NjVDMTMuMjk3MiAxMi44Nzc3IDEzLjI5NTEgMTIuNTQxMyAxMy4wODY5IDEyLjMzNTFMMTAuNTQyNSA5LjgxNTI5QzExLjMyNTIgOC44NjI5MyAxMS43OTUyIDcuNjQyNjQgMTEuNzk1MiA2LjMxMjI5QzExLjc5NTIgMy4yNjc5NCA5LjMzMzg0IDAuODAwMDAzIDYuMjk3NiAwLjgwMDAwM1pNNi4yOTc2IDEuODYyNjFDOC43NDg1NCAxLjg2MjYxIDEwLjczNTQgMy44NTQ4IDEwLjczNTQgNi4zMTIyOUMxMC43MzU0IDguNzY5NzcgOC43NDg1NCAxMC43NjIgNi4yOTc2IDEwLjc2MkMzLjg0NjY2IDEwLjc2MiAxLjg1OTc4IDguNzY5NzcgMS44NTk3OCA2LjMxMjI5QzEuODU5NzggMy44NTQ4IDMuODQ2NjYgMS44NjI2MSA2LjI5NzYgMS44NjI2MVoiIGZpbGw9IiM5QUEwQTYiLz4KPC9zdmc+Cg=="/>${recent}</span>\
+                    <span id="${recent}" class="recent-search-delete">\
+                      <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgOCA4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KPHBhdGggZD0iTTQuNDM0NzUgNC4wMDAxTDYuOTg2NDUgMS40NDgzOUM3LjEwNjYyIDEuMzI4MjMgNy4xMDY2MiAxLjEzMzQxIDYuOTg2NDUgMS4wMTMyNUM2Ljg2NjI5IDAuODkzMDg2IDYuNjcxNDcgMC44OTMwODYgNi41NTEzMSAxLjAxMzI1TDMuOTk5NTkgMy41NjQ5N0wxLjQ0Nzk5IDEuMDEzNDdDMS4zMjc4MyAwLjg5MzMxNCAxLjEzMzAxIDAuODkzMzE4IDEuMDEyODUgMS4wMTM0OEMwLjg5MjY5MiAxLjEzMzY1IDAuODkyNjk2IDEuMzI4NDcgMS4wMTI4NiAxLjQ0ODYyTDMuNTY0NDUgNC4wMDAxMUwxLjAxMjg1IDYuNTUxNzJDMC44OTI2ODkgNi42NzE4OCAwLjg5MjY4OSA2Ljg2NjcgMS4wMTI4NSA2Ljk4Njg2QzEuMTMzMDEgNy4xMDcwMiAxLjMyNzgzIDcuMTA3MDIgMS40NDc5OSA2Ljk4Njg2TDMuOTk5NiA0LjQzNTI1TDYuNTUxMzIgNi45ODY4NkM2LjY3MTQ5IDcuMTA3MDIgNi44NjYzMSA3LjEwNzAyIDYuOTg2NDYgNi45ODY4NUM3LjEwNjYyIDYuODY2NjkgNy4xMDY2MiA2LjY3MTg3IDYuOTg2NDYgNi41NTE3MUw0LjQzNDc1IDQuMDAwMVoiIGZpbGw9IiMyMDIxMjQiLz4NCjwvc3ZnPg0K">\
+                    </span>\
+                    </div>\
                 {{/if}}\
               {{/each}}\
             </div>\
@@ -4240,7 +4245,38 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var e = $.Event("keydown", { which: 13 });
         $('#search').trigger(e);
       })
+      $('.search-container').off('click', '.recent-search-delete').on('click', '.recent-search-delete', function (e) {
+        var recentSearch = $(this).attr('id');
+        _self.deleteRecentSearches(recentSearch).then(data => {
+          $(this).parent().remove();
+          if(!$('.search-recent-column').children().length){
+            $('.searchBox.Search-BG-Copy').remove();
+            $('.search-body').hide();
+            $('.parent-search-live-auto-suggesition').hide();
+          }
+        })
+      })
     }
+    FindlySDK.prototype.deleteRecentSearches = function (search) {
+      var _self = this;
+      var url = _self.API.deleteRecentSearch;
+      var payload = { "searches": [search] };
+      var headers = {};
+      var bearer = "bearer " + this.bot.options.accessToken;
+      headers["Authorization"] = bearer;
+      headers["Content-Type"] = "application/json";
+      headers.auth = _self.config.botOptions.assertion;
+      return $.ajax({
+        url: url,
+        type: 'delete',
+        headers: headers,
+        data: JSON.stringify(payload),
+        success: function (data) {
+        },
+        error: function (err) {
+        }
+      })
+    };
 
     FindlySDK.prototype.deleteRecents = function () {
       var _self = this;
@@ -6702,6 +6738,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               customSearchResult: _self.customSearchResult,
               data: []
             }
+            if (_self.isDev) {
+              var responseObject = { 'type': 'onboardingjourney', data: 'test', query: _self.vars.searchObject.searchText, bottomUp: true, requestId: _self.vars.previousSearchObj.requestId }
+              _self.parentEvent(responseObject);
+            }
             if (dataObj.smallTalk) {
               _self.sendMessageToSearch('bot', dataObj.smallTalk);
             } else {
@@ -6736,11 +6776,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
               $('#searchChatContainer').append(searchData);
             }
-          }
-          // <!-- test checklist step-5 for top down-->
-          if (_self.isDev) {
-            var responseObject = { 'type': 'onboardingjourney', data: 'test', query: _self.vars.searchObject.searchText, bottomUp: true, requestId: _self.vars.previousSearchObj.requestId }
-            _self.parentEvent(responseObject);
           }
           if (res && res.results && res.resultType == "grouped") {
             var availableGroups = Object.keys(res.results);
@@ -7292,7 +7327,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       if (type === 'user-conversation' && ($('#sa-conversation-box').val() !== null) && ($('#sa-conversation-box').val() !== undefined)) {
         messageData.text = $('#sa-conversation-box').val();
+        //messageData.text = JSON.stringify($('#sa-conversation-box').val().toString());
         messageData.from = 'user';
+        
         if ((messageData.text && messageData.text.trim() && _self.customSearchResult && !$('body').hasClass('top-down')) || ($('body').hasClass('top-down') && messageData.text && messageData.text.trim() && !_self.customSearchResult)) {
           var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
             msgData: messageData,
@@ -15396,6 +15433,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           }, 200)
         }
+      
         setTimeout(() => {
           _self.showMoreClick();
           _self.bindAllResultRankingOperations();
@@ -18737,7 +18775,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                </div>\
                                {{/if}}\
                                 <div class="icon-block sa-sortable-dropbtn">\
-                               <img  class="sort-icon" src="images/sort.svg">\
+                               <img src="images/sort.svg">\
       </div>\
       <div class="content-dropdown-sortable sa-sortable-dropdown">\
         <div class="title-text">SORT BY</div>\
@@ -18916,13 +18954,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         {{if recents && recents.length && searchConfig.showSearchesEnabled == true}}\
                                         <div class="templates-data freq-data-p">\
                                             <div class="main-title"> {{if searchConfig.showSearches == "frequent"}}\ FREQUENT {{else}} RECENT {{/if}}\ SEARCHES</div>\
-                                            <div class="tile_with_header">\
-                                                {{each(key, recent) recents }}\
-                                                {{if recent}}\
-                                                <a class="tile-title recentText" id="${recent}">${recent}</a>\
-                                                {{/if}}\
-                                                {{/each}}\
+                                            {{each(key, recent) recents }}\
+                                            {{if recent}}\
+                                              <div class="tile_with_header recentText recent-list-container">\
+                                                <a class="tile-title" id="${recent}">${recent}</span>\
+                                                <span id="${recent}" class="recent-search-delete"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgOCA4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KPHBhdGggZD0iTTQuNDM0NzUgNC4wMDAxTDYuOTg2NDUgMS40NDgzOUM3LjEwNjYyIDEuMzI4MjMgNy4xMDY2MiAxLjEzMzQxIDYuOTg2NDUgMS4wMTMyNUM2Ljg2NjI5IDAuODkzMDg2IDYuNjcxNDcgMC44OTMwODYgNi41NTEzMSAxLjAxMzI1TDMuOTk5NTkgMy41NjQ5N0wxLjQ0Nzk5IDEuMDEzNDdDMS4zMjc4MyAwLjg5MzMxNCAxLjEzMzAxIDAuODkzMzE4IDEuMDEyODUgMS4wMTM0OEMwLjg5MjY5MiAxLjEzMzY1IDAuODkyNjk2IDEuMzI4NDcgMS4wMTI4NiAxLjQ0ODYyTDMuNTY0NDUgNC4wMDAxMUwxLjAxMjg1IDYuNTUxNzJDMC44OTI2ODkgNi42NzE4OCAwLjg5MjY4OSA2Ljg2NjcgMS4wMTI4NSA2Ljk4Njg2QzEuMTMzMDEgNy4xMDcwMiAxLjMyNzgzIDcuMTA3MDIgMS40NDc5OSA2Ljk4Njg2TDMuOTk5NiA0LjQzNTI1TDYuNTUxMzIgNi45ODY4NkM2LjY3MTQ5IDcuMTA3MDIgNi44NjYzMSA3LjEwNzAyIDYuOTg2NDYgNi45ODY4NUM3LjEwNjYyIDYuODY2NjkgNy4xMDY2MiA2LjY3MTg3IDYuOTg2NDYgNi41NTE3MUw0LjQzNDc1IDQuMDAwMVoiIGZpbGw9IiMyMDIxMjQiLz4NCjwvc3ZnPg0K" alt="close-icon" height="15"/>\
+                                                </a>\
                                               </div>\
+                                              {{/if}}\
+                                              {{/each}}\
                                         </div>\
                                         {{/if}}\
                                       </script>'
@@ -19116,6 +19156,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('#live-search-result-box').hide();
         }
       });
+      $('.recent-list-container').off('click', '.recent-search-delete').on('click', '.recent-search-delete', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        e.stopPropagation()
+        var recentText= $(this).attr('id');
+        _self.deleteRecentSearches(recentText).then(data => {
+          $(this).parent().remove();
+          if(!$('.recent-list-container').children().length){    
+            $('#frequently-searched-box').hide();
+            $('.live-search-result-box').hide();
+          }
+         ;
+        })
+      })
     }
 
     function xssAttack(txtStr) {
@@ -19127,12 +19181,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       if (textHasXSS && !textHasXSS.isValid) {
         txtStr = txtStr.escapeHTML();
+          // txtStr = txtStr.replace(/&/g, "&amp;")
+          // .replace(/</g, "&lt;")
+          //     .replace(/>/g, "&gt;")
+          //     .replace(/"/g, "&quot;")
+          //     .replace(/'/g, "&#039;")
+          //     .replace(/</g, "<").replace(/>/g, ">")
+          //     .replace(/=alert/g, "");
       }
       return txtStr;
       //return compObj[0].componentBody;
 
     }
-
+    
     var helpers = {
       'nl2br': function (str, runEmojiCheck) {
         if (runEmojiCheck && window.emojione) {
@@ -20019,9 +20080,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.invokeSearch(showMoreData)
       });
       $('.full-search-data-container, .live-search-data-container , .search-data-container').off('mouseover', '.dataheading').on('mouseover', '.dataheading', function (e) {
-        var converted_title = _self.customTemplateObj.helpers.convertMDtoHTML(e.target.innerText)
-        $(e.target).closest('.dataheading').attr('title', converted_title);
-      });
+          var converted_title = _self.customTemplateObj.helpers.convertMDtoHTML(e.target.innerText)
+          $(e.target).closest('.dataheading').attr('title', converted_title);
+        });
     }
 
 
