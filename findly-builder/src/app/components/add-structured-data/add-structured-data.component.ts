@@ -453,22 +453,22 @@ export class AddStructuredDataComponent implements OnInit {
   
   indentObj() {
     let count = this.codemirror.codeMirror.lineCount();
-    // for (let i = 0; i <= count; i++) {
-    //   this.codemirror.codeMirror.indentLine(i, "smart");
+    for (let i = 0; i <= count; i++) {
+      this.codemirror.codeMirror.indentLine(i, "smart");
+    }
+    // let partition = 1500;
+    // let upperlmt=1500,lowerlmt=0;
+    // if(count<1500){
+    //   upperlmt=count;
     // }
-    let partition = 1500;
-    let upperlmt=1500,lowerlmt=0;
-    if(count<1500){
-      upperlmt=count;
-    }
-    let iterations=count/partition;
-    for(let i=lowerlmt;i<=Math.round(iterations);i++){
-      for(let j=0;j<upperlmt;j++){
-        this.codemirror.codeMirror.indentLine(j, "smart");
-      }
-      lowerlmt=upperlmt;
-      upperlmt=upperlmt+1500;
-    }
+    // let iterations=count/partition;
+    // for(let i=lowerlmt;i<=Math.round(iterations);i++){
+    //   for(let j=0;j<upperlmt;j++){
+    //     this.codemirror.codeMirror.indentLine(j, "smart");
+    //   }
+    //   lowerlmt=upperlmt;
+    //   upperlmt=upperlmt+1500;
+    // }
   }
 
   downloadSampleData(key) {
