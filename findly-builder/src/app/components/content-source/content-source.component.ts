@@ -605,7 +605,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         }
       } else {
         clearInterval(this.polingObj[type]);
-        this.getSourceList('clearPoling');
+        // this.getSourceList('clearPoling');
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
@@ -1413,6 +1413,38 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     // if(sortHeaderOption === 'lastUpdated'){
     //   this.getCrawledPages()
     // }
+    
+  }
+
+
+  getFilterData(search?) {
+    // this.fieldDataTypeArr = [];
+    // this.isMultiValuedArr = [];
+    // this.isRequiredArr = [];
+    // this.isStoredArr = [];
+    // this.isIndexedArr = [];
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId
+    };
+    const request :any = {
+      moduleName: "content"
+    };
+    // if (request.contentSource == 'all') {
+    //  delete  request.contentSource;
+    // }
+    //  if (request.recentStatus == 'all') {
+    //   delete request.recentStatus; 
+    // }
+    // if (this.searchSources === '') {
+    //   delete request.search;
+    //  }
+    this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
+      console.log(res, 'Filters')
+      this.statusArr = [...res.recentStatus];
+      this.docTypeArr = [...res.contentSource];
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get filters');
+    });
     
   }
   getDyanmicFilterData(search?) {

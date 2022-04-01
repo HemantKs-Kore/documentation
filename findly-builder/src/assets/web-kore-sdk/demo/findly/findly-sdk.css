@@ -10234,3 +10234,15 @@ display: none !important;
     top: 12px;
     right: 190px;
 }
+
+.sort-icon{
+    content: url(../images/sort.svg);
+
+}
+.close-filter{
+    content: url(../images/close.svg);
+}
+.sortable-customize-view{
+    width : 92px !important ;
+    right : 116px
+}
