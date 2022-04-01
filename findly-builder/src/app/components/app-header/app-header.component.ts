@@ -1136,6 +1136,9 @@ export class AppHeaderComponent implements OnInit {
     if(this.checklistCount){
       this.progressPrecent = (this.checklistCount/6)*(100);
     }
+    else {
+      this.progressPrecent = 0;
+    }    
   }
 }
 

@@ -471,43 +471,49 @@
   
   </kr-modal> -->
 
-<kr-modal modalType="default" #createAppPop modalClass="creating-new-app-modal">
-    <div class="modal-header">
-        <div class="modal-title">{{ 'header.createApp' | translate }}</div>
-        <div class="close_modal" (click)="closeCreateApp()"><img src="assets/icons/close.svg"></div>
-    </div>
+  <kr-modal modalType="default" #createAppPop modalClass="creating-new-app-modal app-homes-component-page">
     <div class="modal-body">
-        <div class="kr-sg-input-text mb-3">
-            <div class="label-text">{{ 'header.appName' | translate }}</div>
-            <input maxlength="128" type="text" autocomplete="off" placeholder="{{ 'header.enterAppName' | translate }}"
-                [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')"
-                (change)="inputChanged('enterName')">
-            <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
-                width="12" />
-        </div>
-        <div class="kr-sg-input-text">
-            <div class="label-text">{{ 'header.description' | translate }}</div>
-            <input class="input-text" maxlength="512" placeholder="{{ 'header.enterAppDescription' | translate }}"
-                autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
-        </div>
-        <div class="kr-sg-dropdowns w-100">
-            <div class="label-text">{{ 'header.language' | translate }}</div>
-            <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>{{ 'header.english' |
-                    translate }}</button>
-                <ul class="dropdown-menu content-menu">
-                    <li><a>{{ 'header.english' | translate }}</a></li>
-                </ul>
+      <div class="close_modal" (click)="closeCreateApp()"><img src="assets/icons/close.svg"></div>
+      <div class="img-wrapper">
+        <img src="assets/icons/landing/create-app.png">
+      </div>
+      <div class="actions-block">
+        <perfect-scrollbar>
+          <div class="inner-data">
+            <div class="borderindication"></div>
+            <div class="heading-text">{{ 'header.createApp' | translate }}</div>
+            <div class="kr-sg-input-text">
+              <div class="label-text">Name Your Application</div>
+              <input maxlength="60" type="text" autocomplete="off" placeholder="{{ 'header.enterAppName' | translate }}" [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
+              <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
             </div>
-        </div>
+            <div class="kr-sg-input-text">
+              <div class="label-text">{{ 'header.description' | translate }}</div>
+              <input class="input-text" maxlength="250" placeholder="Enter App Description" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
+            </div>
+            <div class="kr-sg-dropdowns w-100">
+              <div class="label-text">{{ 'header.language' | translate }}</div>
+              <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>{{ 'header.english' | translate }}</button>
+                <ul class="dropdown-menu content-menu">
+                  <li><a>{{ 'header.english' | translate }}</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="mt-5 text-right">
+              <!-- <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal" (click)='validateSource()'>Get started</button> -->
+                  <!-- <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closeCreateApp()">{{
+                'header.cancel' | translate }}</button> -->
+                  <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal" (click)='validateSource()'>{{
+                'header.create' | translate }}</button>
+            </div>
+          </div>
+        </perfect-scrollbar>
+      </div>
     </div>
-    <div class="modal-footer" [ngClass]="{'disabled': creatingInProgress}">
-        <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closeCreateApp()">{{
-            'header.cancel' | translate }}</button>
-        <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal" (click)='validateSource()'>{{
-            'header.create' | translate }}</button>
-    </div>
-</kr-modal>
+   
+  </kr-modal>
+
 <app-slider-component id="supportOnboarding">
     <app-onboarding-component [currentRouteData]="currentRouteData" (emitStatus)="emitStatus($event)"  (closeSlid)="closeUserMetaTagsSlider()"></app-onboarding-component>
   </app-slider-component>
@@ -519,8 +525,8 @@
     <div class="card-details-status">
         <div class="titles-info-sec">
             <div class="title">{{checklistCount}} of 6 Steps Completed</div>
-            <div class="progress_bar"><ngb-progressbar height="5px" [type]=""
-               type="info" [value]="progressPrecent" max="100"></ngb-progressbar></div>
+            <div class="progress_bar"><ngb-progressbar height="5px"  
+                min="0" [value]="progressPrecent" max="100"></ngb-progressbar></div>
         </div>
         <div class="view-close">
             <div class="view-title"(click)="openUserMetaTagsSlider()" >View</div>
