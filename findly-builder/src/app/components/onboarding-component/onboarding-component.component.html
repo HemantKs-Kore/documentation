@@ -248,7 +248,7 @@
           <perfect-scrollbar class="scroll-content-data">
             <div class="data-inner-content">
               <div id="accordion" class="applist-acc-data" >
-                <div class="accordion-applist completed-state" *ngFor="let list of checkList;let i = index">
+                <div class="accordion-applist completed-state" *ngFor="let list of checkList;let i = index" (mouseover)="openAccordiandata(i)" (mouseout)="playPause(i)">
                   <div class="card_header" >
                   <a class="card_link collapsed  data{{i}}" data-toggle="collapse" href="#collapse_{{i}}"> <!--doubt-->
                     <div class="indication-block" *ngIf="tourData && !list.tourdata">

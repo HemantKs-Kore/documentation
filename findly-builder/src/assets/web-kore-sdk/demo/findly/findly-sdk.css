@@ -1470,11 +1470,8 @@ html , body{
 }
 .searchAssist-kore-chat-window .Search-BG-Copy .recentContainer .recentSearch .recent-search-delete img{
     position: relative !important;
-        border: 0px solid var(--sdk-border-malibu-color);
-        box-sizing: border-box;
-        border-radius: 5px;
-        padding: 6px 30px 6px 30px;
-        margin: 0px;
+    left: 0 !important;
+    top: 0 !important;
 }
 .searchAssist-kore-chat-window .Search-BG-Copy .recentContainer .carrot-Right {
     width: 9px;
