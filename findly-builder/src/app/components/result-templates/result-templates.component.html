@@ -351,6 +351,8 @@
             <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l6'}"
               (click)="templateTypeSelection('l6')">
               <img *ngIf="templateDataBind.type =='list'" src="assets/icons/resultTemplate/type6List.svg">
+              <img *ngIf="templateDataBind.type == 'grid'" src="assets/icons/resultTemplate/type-6.svg">
+              <img *ngIf="templateDataBind.type == 'carousel'" src="assets/icons/resultTemplate/type-6.svg">
             </div>
             <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l7'}"
               (click)="templateTypeSelection('l7')" *ngIf="templateDataBind.type !='list'">
