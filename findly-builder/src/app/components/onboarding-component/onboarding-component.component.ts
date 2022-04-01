@@ -506,7 +506,7 @@ faqData = [{
 }];
 
   constructor(private appSelectionService: AppSelectionService,
-    private router: Router,) {
+    public router: Router,) {
       
    }
 

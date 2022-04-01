@@ -18775,7 +18775,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                </div>\
                                {{/if}}\
                                 <div class="icon-block sa-sortable-dropbtn">\
-                               <img src="images/sort.svg">\
+                               <img class="sort-icon" src="images/sort.svg">\
       </div>\
       <div class="content-dropdown-sortable sa-sortable-dropdown">\
         <div class="title-text">SORT BY</div>\
