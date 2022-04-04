@@ -21,6 +21,8 @@ import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app
 import { InlineManualService } from '@kore.services/inline-manual.service';
 
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 declare var require: any
 const FileSaver = require('file-saver');
 @Component({
@@ -603,7 +605,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         }
       } else {
         clearInterval(this.polingObj[type]);
-        this.getSourceList('clearPoling');
+        // this.getSourceList('clearPoling');
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
@@ -824,7 +826,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   openStatusSlider(source, page?) {
     // console.log("sourec opned", source)
-
     this.executionHistoryData = [];
     this.pagesSearch = '';
 
@@ -848,11 +849,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.crawlDepth = source.advanceSettings.crawlDepth;
         this.maxUrlLimit = source.advanceSettings.maxUrlLimit
       }
+      
       this.openStatusModal();
       this.loadingSliderContent = true;
       this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
       //this.pageination(source.numPages, 10);
-      this.totalRecord = source.numPages;
+      // this.totalRecord = source.numPages;
+      this.totalCrawledCount = source.numPages;
       this.getCrawledPages(this.limitpage, 0);
       this.executionHistory();
       this.sourceStatus = source.recentStatus;
@@ -1410,6 +1413,38 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     // if(sortHeaderOption === 'lastUpdated'){
     //   this.getCrawledPages()
     // }
+    
+  }
+
+
+  getFilterData(search?) {
+    // this.fieldDataTypeArr = [];
+    // this.isMultiValuedArr = [];
+    // this.isRequiredArr = [];
+    // this.isStoredArr = [];
+    // this.isIndexedArr = [];
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId
+    };
+    const request :any = {
+      moduleName: "content"
+    };
+    // if (request.contentSource == 'all') {
+    //  delete  request.contentSource;
+    // }
+    //  if (request.recentStatus == 'all') {
+    //   delete request.recentStatus; 
+    // }
+    // if (this.searchSources === '') {
+    //   delete request.search;
+    //  }
+    this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
+      console.log(res, 'Filters')
+      this.statusArr = [...res.recentStatus];
+      this.docTypeArr = [...res.contentSource];
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get filters');
+    });
     
   }
   getDyanmicFilterData(search?) {

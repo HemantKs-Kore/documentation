@@ -951,7 +951,7 @@
                             </span>
                             <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
                         </div>
-                        <div class="col_ col-2">{{resources.extractedFaqsCount || '0'}}</div>
+                        <div class="col_ col-2">{{source.extractedFaqsCount || '0'}}</div>
                         <div class="col_ col-2" *ngIf="source && source.userDetails" >{{source.userDetails.fullName || source.userDetails.firstName + ' ' + source.userDetails.lastName }}</div>
                         <!-- <div class="col" title="{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div> -->
                         <div class="col text-right last-child pl-0">
@@ -1003,7 +1003,6 @@
                 </div> 
             </perfect-scrollbar>            
         </ng-container>
-        PAGINATION
     </div>
 </kr-modal>
 <ng-container *ngIf="showSourceAddition">

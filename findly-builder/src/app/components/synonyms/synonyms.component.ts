@@ -38,6 +38,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   totalRecord: number = 0;
   synonymData: any[] = [];
   synonymDataBack: any[] = [];
+  synonymArr :any=[];
   synonymTypeArr=[];
   synonymGet: any = [];
   visible = true;
@@ -117,7 +118,8 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       if (this.queryPipelineId) {
         this.getDyanmicFilterData();
-        this.getSynonymsApi();
+        // this.getSynonymsApi();
+        this.getSynonymOnInit()
         // this.getSynonyms();
 
 
@@ -173,7 +175,10 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'Failed to get stop words');
     });
   }
-  getSynonymsApi(searchValue?,searchSource?,source?,headerOption?,sortHeaderOption?,sortValue?,navigate?,request?){
+  getSynonymOnInit(){
+    this.getSynonymsApi(null,null,null,null,null,null,null,null,'initial')
+  }
+  getSynonymsApi(searchValue?,searchSource?,source?,headerOption?,sortHeaderOption?,sortValue?,navigate?,request?,initial?){
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
@@ -199,6 +204,9 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     }   
     this.service.invoke('get.synonyms', quaryparms,payload).subscribe(res => {
       this.synonymData = res.synonyms || [];
+      if(initial){
+        this.synonymArr = res.synonyms;
+      }
       console.log(this.synonymData, 'SYNONYMS')
       this.loadingContent = false;
       this.totalRecord = res.totalCount || 0;
@@ -493,7 +501,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          const synonyms = JSON.parse(JSON.stringify(this.synonymData));
+          const synonyms = JSON.parse(JSON.stringify(this.synonymArr));
           synonyms.splice(index, 1);
           if (this.showFlag = true) {
             this.addOrUpddate(synonyms, dialogRef, this.showFlag);
