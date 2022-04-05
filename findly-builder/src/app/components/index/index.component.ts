@@ -119,6 +119,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     { title: 'Number', value: 'NUMBER', isDepricated: false },
     { title: 'Percentage', value: 'PERCENTAGE', isDepricated: false }
 //Reverting for FLY - 4688
+//Orignal 
     // { title: 'Date', value: 'DATE', isDepricated: false },
     // { title: 'Time', value: 'TIME', isDepricated: false },
     // // { title: 'URL', value: 'URL', isDepricated: false },
@@ -130,6 +131,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     // { title: 'Person Name', value: 'PERSON', isDepricated: false },
     // { title: 'Number', value: 'CARDINAL', isDepricated: false },
     // { title: 'Percentage', value: 'PERCENT', isDepricated: false }
+  //Orignal   
     /** Existing  */
     // { title: 'Date', value: 'date', isDepricated: false },
     // { title: 'Time', value: 'time', isDepricated: false },
