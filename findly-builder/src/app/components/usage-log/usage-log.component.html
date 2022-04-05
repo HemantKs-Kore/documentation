@@ -104,7 +104,7 @@
                                         <img [ngClass]="{'hide': filterSystem.resultsFilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
                                         <li *ngFor="let docType of resultsArr" (click)="resultsFilter.close();filterTable(docType,'results')">
                                             <span
-                                                class="list-name">{{docType != true ? 'No' :(docType == true? 'Yes': '')}}</span><img
+                                                class="list-name">{{docType == false ? 'No' : 'Yes'}}</span><img
                                                 [ngClass]="{'hide': filterSystem.resultsFilter !== docType}" src="assets/icons/check-blue.svg"></li>                       
                                 </ul>
                             </div>
