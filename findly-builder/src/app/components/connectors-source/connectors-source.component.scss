@@ -383,6 +383,9 @@
                                         }
                                     }
                                 }
+                                .overview-buttons{
+                                    margin-top: 10px;
+                                }
                             }
                         }
                         .settings-data{
@@ -471,6 +474,20 @@
                                 }
                             }
                         }
+                        .source_settings{
+                            .source_settings_savechanges{
+                                margin-left:20px;
+                            }
+                            .source_settings_remove{
+                                margin-left: 80px;
+                                margin-left: 550px;
+                                margin-top: 12px;
+                            }
+                        }
+                    }
+                    .overview_save_button{
+                        margin-left: 15px !important;
+;
                     }
                 }
             }

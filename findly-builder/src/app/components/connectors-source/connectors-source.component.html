@@ -530,7 +530,7 @@
         </div>
     </div>
 
-    <ng-container *ngIf="false">
+    <ng-container *ngIf="true">
         <div class="connector-cards-data">
             <perfect-scrollbar>
                 <div class="inner-content-data">
@@ -679,7 +679,7 @@
                             </div>
                         </div>
                     </ng-container>
-                    <ng-container *ngIf="false">
+                    <ng-container *ngIf="true">
                         <div class="desc-text">{{'connectors.editremoveconnectedsources'|translate}}</div>
                         <div class="connector-brand">
                             <div class="c-img">
@@ -767,6 +767,10 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="overview-buttons">
+                                        <button class="kr-sg-button-secondary btn_lg">{{'connectors.cancel_button'|translate}}</button>
+                                        <span class="overview_save_button"><button class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button> </span>
+                                    </div>
                                 </div>
                                 <div id="settings" class="tab-pane fade">
                                     <div class="settings-data">
@@ -794,6 +798,11 @@
                                             <div class="edit-content-link">{{'connectors.edit_connector_settings'|translate}}</div>
                                         </div>
                                     </div>
+                                    <div class="source_settings">
+                                        <button class="kr-sg-button-secondary btn_lg">{{'connectors.cancel_button'|translate}}</button>
+                                        <button class="kr-sg-button-primary btn_lg source_settings_savechanges">{{'connectors.save_changes_button'|translate}}</button>
+                                        <button class="kr-sg-button-danger btn_lg source_settings_remove"><i class="si-delete"></i>{{'connectors.remove_content_source_button'|translate}}</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -802,19 +811,19 @@
                 </div>
             </perfect-scrollbar>
             <div class="view-more-btn">
-                <div>
+                <!-- <div>
                     <button class="kr-sg-button-secondary btn_lg">{{'connectors.cancel_button'|translate}}</button>
                     <button class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button>
-                </div>
-                <div class="">
+                </div> -->
+                <!-- <div class="">
                     <button class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button>
                     <button class="kr-sg-button-danger btn_lg"><i class="si-delete"></i>{{'connectors.remove_content_source_button'|translate}}</button>
-                </div>
+                </div> -->
             </div>
         </div>
     </ng-container>
 
-    <ng-container *ngIf="true">
+    <ng-container *ngIf="false">
         <div class="configuration-connectors-sec">
             <div class="header-configuration-data">
                 <div class="config-tab in-progress">
