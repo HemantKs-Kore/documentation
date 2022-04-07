@@ -546,7 +546,7 @@ faqData = [{
   }
   openAccordiandata(index) {
     $(document).ready(function(){    
-      $(".data"+index).mouseover(function(){
+      $(".data"+index).mouseenter(function(){
          $(".data"+index).trigger( "click" );
          $(".video"+index ).trigger( "play" );
       });   
@@ -555,7 +555,7 @@ faqData = [{
 
   playPause(index) {
     $(document).ready(function(){
-      $(".data"+index).mouseout(function(){  
+      $(".data"+index).mouseleave(function(){  
           $(".data"+index).trigger( "click" );
           $(".video"+index ).trigger( "pause" );
       });
