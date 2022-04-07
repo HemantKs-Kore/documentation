@@ -43,6 +43,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   showMore = false;
   @ViewChild('botsConfigurationModalElement') botsConfigurationModalElement: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  @ViewChild('perfectScrollD') perfectScrollD: PerfectScrollbarComponent;
   @ViewChild('perfectScroll3') perfectScroll3: PerfectScrollbarComponent;
   @ViewChild('perfectScroll4') perfectScroll4: PerfectScrollbarComponent;
   @ViewChild('perfectScroll9') perfectScroll9: PerfectScrollbarComponent;
@@ -52,6 +53,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   filePath;
   extension;
   receivedQuaryparms: any;
+  addSourceModalPopDummyRef:any;
   searchIndexId;
   selectedSourceType: any = null;
   newSourceObj: any = {};
@@ -134,6 +136,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           description: 'Extract and index web pages',
           icon: 'assets/icons/content/webdomain.svg',
           id: 'contentWeb',
+          sourceType: 'content',
+          resourceType: 'web'
+        },
+        {
+          name: 'Crawl Web Domain',
+          description: 'Extract and index web pages',
+          icon: 'assets/icons/content/webdomain.svg',
+          id: 'contentWebDummy',
           sourceType: 'content',
           resourceType: 'web'
         },
@@ -255,6 +265,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('customRecurrence') customRecurrence: KRModalComponent;
   @ViewChild('addManualFaqModalPop') addManualFaqModalPop: KRModalComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
+  @ViewChild('addSourceModalPopDummy') addSourceModalPopDummy: KRModalComponent;
   @ViewChild('linkBotsModalPop') linkBotsModalPop: KRModalComponent;
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('structuredDataStatusModalPop') structuredDataStatusModalPop: KRModalComponent;
@@ -313,10 +324,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   openAddManualFAQModal() {
     this.addManualFaqModalPopRef = this.addManualFaqModalPop.open();
-    setTimeout(() => {
-      this.perfectScroll3.directiveRef.update();
-      this.perfectScroll3.directiveRef.scrollToTop();
-    }, 500)
+   
   }
   closeAddManualFAQModal() {
     if (this.addManualFaqModalPopRef && this.addManualFaqModalPopRef.close) {
@@ -342,6 +350,19 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.addSourceModalPopRef && this.addSourceModalPopRef.close) {
       this.url_failed = false;
       this.addSourceModalPopRef.close();
+    }
+  }
+  openAddSourceModalDummy() {
+    this.addSourceModalPopDummyRef = this.addSourceModalPopDummy.open();
+    setTimeout(() => {
+      this.perfectScrollD.directiveRef.update();
+      this.perfectScrollD.directiveRef.scrollToTop();
+    }, 500)
+  }
+  closeAddSourceModalDummy() {
+    if (this.addSourceModalPopDummyRef && this.addSourceModalPopDummyRef.close) {
+      this.url_failed = false;
+      this.addSourceModalPopDummyRef.close();
     }
   }
 
@@ -559,8 +580,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     else {
-      this.selectedSourceType = selectedCrawlMethod;
-      this.openAddSourceModal();
+      if (this.resourceIDToOpen=='contentWeb'){
+        this.selectedSourceType = selectedCrawlMethod;
+        this.openAddSourceModal();
+      }
+      else if(this.resourceIDToOpen=='contentWebDummy') {
+        this.openAddSourceModalDummy();
+      }
+     
     }
 
     if (selectedCrawlMethod && selectedCrawlMethod.id === 'contentWeb') {

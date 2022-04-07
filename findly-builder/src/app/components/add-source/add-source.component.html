@@ -937,6 +937,14 @@
     </form>
   </ng-container>
 </kr-modal>
+<kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addSourceModalPopDummy>
+  <ng-container >
+    <div class="modal-header">
+      <div class="title">New PopUp</div>
+      <div class="close_icon"><img (click)="closeAddSourceModalDummy()" src="assets/icons/modal-close.svg"></div>
+    </div>
+  </ng-container>
+</kr-modal>
 
 <kr-modal modalType="center" modalClass="botsModal modal_popups_ linkExistingBotsModal" #linkBotsModalPop>
   <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'linkBot'">
