@@ -505,22 +505,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         textHasXSS = txtStr.isNotAllowedHTMLTags();
       }
       if (textHasXSS && !textHasXSS.isValid) {
-       // txtStr = txtStr.escapeHTML();
-       txtStr = escapeHTML(txtStr)
+        // txtStr = txtStr.escapeHTML();
+        txtStr = escapeHTML(txtStr)
       }
       return txtStr;
       //return compObj[0].componentBody;
 
     }
-    function escapeHtml(unsafe)
-      {
-          return unsafe
-              .replace(/&/g, "&amp;")
-              .replace(/</g, "&lt;")
-              .replace(/>/g, "&gt;")
-              .replace(/"/g, "&quot;")
-              .replace(/'/g, "&#039;");
-      }
+    function escapeHtml(unsafe) {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
     FindlySDK.prototype.checkMarkdowns = function (val, hyperLinksMap) {
       if (val === '') {
         return val;
@@ -3372,13 +3371,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "lang": "en",
         // "isDev": true,
         "isDev": _self.isDev,
-        "searchRequestId":_self.vars.requestId
+        "searchRequestId": _self.vars.requestId
       }
       if (_self.isDev) {
         payload['customize'] = _self.vars.customizeView;
       }
-      if( _self.vars.displaySortable){
-        payload['sortableFacets']= [_self.vars.displaySortable];
+      if (_self.vars.displaySortable) {
+        payload['sortableFacets'] = [_self.vars.displaySortable];
       }
       if (showMoreData) {
         if (showMoreData.fieldName) {
@@ -3573,7 +3572,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   if (!$('.empty-full-results-container').hasClass('hide')) {
                     $('.empty-full-results-container').addClass('hide');
                   }
-                   $('.no-templates-defined-full-results-container').hide();
+                  $('.no-templates-defined-full-results-container').hide();
                 } else {
                   if (!(res.tasks || []).length) {
                     $('.empty-full-results-container').removeClass('hide');
@@ -4249,7 +4248,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var recentSearch = $(this).attr('id');
         _self.deleteRecentSearches(recentSearch).then(data => {
           $(this).parent().remove();
-          if(!$('.search-recent-column').children().length){
+          if (!$('.search-recent-column').children().length) {
             $('.searchBox.Search-BG-Copy').remove();
             $('.search-body').hide();
             $('.parent-search-live-auto-suggesition').hide();
@@ -5106,7 +5105,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "lang": "en",
         // "isDev": true,
         "isDev": _self.isDev,
-        "searchRequestId":_self.vars.requestId
+        "searchRequestId": _self.vars.requestId
       }
 
       if (_self.isDev) {
@@ -5304,7 +5303,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "event": eventType,
         "streamId": _self.API.streamId,
         "isDev": _self.isDev,
-        "searchRequestId":_self.vars.requestId
+        "searchRequestId": _self.vars.requestId
       }
 
       if (!payload.query || (payload.query && !payload.query.length)) {
@@ -6726,7 +6725,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var searchContainerName = $('body').hasClass('top-down') ? '.full-search-data-container' : '.search-data-container';
 
           if (!$('body').hasClass('top-down')) {
-            _self.countTotalResults(res,totalResultsCount);
+            _self.countTotalResults(res, totalResultsCount);
             var dataObj = {
               faqs: [],
               web: [],
@@ -7329,7 +7328,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         messageData.text = $('#sa-conversation-box').val();
         //messageData.text = JSON.stringify($('#sa-conversation-box').val().toString());
         messageData.from = 'user';
-        
+
         if ((messageData.text && messageData.text.trim() && _self.customSearchResult && !$('body').hasClass('top-down')) || ($('body').hasClass('top-down') && messageData.text && messageData.text.trim() && !_self.customSearchResult)) {
           var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
             msgData: messageData,
@@ -8245,13 +8244,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (config.templateId === 'top-down-sortable-tabs-template') {
           var dataHTML = $(_self.getTopDownSortableFacetsTabs()).tmplProxy({
             sortablefacets: sortablefacets,
-            displaySortable : _self.vars.displaySortable
+            displaySortable: _self.vars.displaySortable
           });
         }
-        else if( config.templateId === 'bottom-up-sortable-tabs-template'){
+        else if (config.templateId === 'bottom-up-sortable-tabs-template') {
           var dataHTML = $(_self.getBottomUpSortableFacetsTabs()).tmplProxy({
             sortablefacets: sortablefacets,
-            displaySortable : _self.vars.displaySortable
+            displaySortable: _self.vars.displaySortable
           });
         }
         $('#' + config.container).empty().append(dataHTML);
@@ -8259,30 +8258,30 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       setTimeout(() => {
         _self.pubSub.unsubscribe('sa-sortable-facet-search');
         _self.pubSub.subscribe('sa-sortable-facet-search', (topic, data) => {
-          $('.clear-sort-by' ).off('click' ).on('click', function (event) {
+          $('.clear-sort-by').off('click').on('click', function (event) {
             event.stopPropagation();
-            _self.vars.displaySortable ='';
+            _self.vars.displaySortable = '';
             $('#sa-select-sort-option').html('');
-          _self.invokeSearch();
-          $('.sa-sortable-dropdown').hide();
+            _self.invokeSearch();
+            $('.sa-sortable-dropdown').hide();
           })
           $('.sa-sortable-dropbtn').off('click').on('click', function (e) {
             $('.sa-sortable-dropdown').show();
-              
-            setTimeout(()=>{
-              $('.sa-sortable-facet-options' ).off('click' ).on('click', function (event) {
+
+            setTimeout(() => {
+              $('.sa-sortable-facet-options').off('click').on('click', function (event) {
                 event.stopPropagation();
                 _self.vars.displaySortable = JSON.parse($(event.currentTarget).closest('.sa-sortable-facet-options').attr('value'));
                 $('#sa-select-sort-option').html($(event.currentTarget).closest('.sa-sortable-facet-options').attr('name'));
-              _self.invokeSearch();
-              $('.sa-sortable-dropdown').hide();
+                _self.invokeSearch();
+                $('.sa-sortable-dropdown').hide();
               })
-            },1000)
-           
+            }, 1000)
+
           });
         });
       }, 500);
-     
+
     }
 
     FindlySDK.prototype.addSourceType = function (config) {
@@ -9325,7 +9324,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
     FindlySDK.prototype.checkWbInitialized = function (messageToBot, clientMessageId) {
       var _self = this;
-      if(websockeRrefreshed){
+      if (websockeRrefreshed) {
         return;
       }
       var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 2000 : 0;
@@ -11862,7 +11861,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 'widgetTitle': initialWidgetData.panels[i].widgets[j].title || initialWidgetData.panels[i].widgets[j].name,
                 'widgetTemplate': initialWidgetData.panels[i].widgets[j].templateType,
                 'viewmore': initialWidgetData.panels[i].widgets.length === 1 ? false : true
-              }; 
+              };
               _self.getServerData('widgetsdk/' + config.botOptions.botInfo._id + '/widgets/' + initialWidgetData.panels[i].widgets[j]._id, 'post', {
                 "from": config.botOptions.userIdentity || "user-name",
               }, {}, panelDetail);
@@ -14990,15 +14989,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         success: function (data) {
           // _self.vars.defaultTabsList = data.tabs || data.tabFacet || [];
           var facet = [];
-          if(data){
-            for(var i=0 ; i< data.length ; i ++){
-              if(data[i].type ==  'sortable'){
-              facet.push(data[i])
+          if (data) {
+            for (var i = 0; i < data.length; i++) {
+              if (data[i].type == 'sortable') {
+                facet.push(data[i])
               }
             }
           }
           _self.vars.sortableFacetList = facet || [];
-          if($('body').hasClass('top-down')){
+          if ($('body').hasClass('top-down')) {
             _self.addSortableDropdown({
               container: 'sa-sdk-sortable-dropdown',
               templateId: 'top-down-sortable-tabs-template',
@@ -15290,20 +15289,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         data['structuredData'] = structuredData;
         var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
         var devMode = _self.isDev ? true : false;
-          var templates = _self.searchTemplateObj.resultTemplates().structuredData;
-          for (let i = 0; i < templates.length; i++) {
-            // search
-            if ((templates[i].templateType === selected[groupName + templateInterfaceType + 'TemplateType']) && (templates[i].layoutType === selected[groupName + templateInterfaceType + 'LayoutType'])) {
-              // check for templateId from CustomTemplateConfig and it should onle be give for matched Template
-              // Even user sends both templte string and templateId, will consider templateId as final template
-              if (customTemplateConfig && customTemplateConfig.templateId && customTemplateConfig.templateId.length) {
-                templates[i].templateId = customTemplateConfig.templateId;
-              }
-              if (templates[i].templateId && templates[i].templateId.length) {
-                finalTemplate = '#' + templates[i].templateId;
-              }
-              else {
-                finalTemplate = templates[i].template;
+        var templates = _self.searchTemplateObj.resultTemplates().structuredData;
+        for (let i = 0; i < templates.length; i++) {
+          // search
+          if ((templates[i].templateType === selected[groupName + templateInterfaceType + 'TemplateType']) && (templates[i].layoutType === selected[groupName + templateInterfaceType + 'LayoutType'])) {
+            // check for templateId from CustomTemplateConfig and it should onle be give for matched Template
+            // Even user sends both templte string and templateId, will consider templateId as final template
+            if (customTemplateConfig && customTemplateConfig.templateId && customTemplateConfig.templateId.length) {
+              templates[i].templateId = customTemplateConfig.templateId;
+            }
+            if (templates[i].templateId && templates[i].templateId.length) {
+              finalTemplate = '#' + templates[i].templateId;
+            }
+            else {
+              finalTemplate = templates[i].template;
             }
           }
         }
@@ -15433,7 +15432,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           }, 200)
         }
-      
+
         setTimeout(() => {
           _self.showMoreClick();
           _self.bindAllResultRankingOperations();
@@ -15851,16 +15850,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             'isFilterEnabled': isFilterEnabled
           });
           $(data.container).empty().append(showAllHTML);
-          if(!$('body').hasClass('top-down')){
+          if (!$('body').hasClass('top-down')) {
             _self.addSortableDropdown({
               container: 'sa-sdk-sortable-dropdown-bottom-up',
               templateId: 'bottom-up-sortable-tabs-template',
               sortableFacetList: _self.vars.sortableFacetList
             })
-            setTimeout(()=>{
+            setTimeout(() => {
               _self.pubSub.publish('sa-sortable-facet-search');
-            },1000)
-         
+            }, 1000)
+
           }
           // _self.vars.seeAllResultsOSObj = new KRPerfectScrollbar(data.container);
           setTimeout(() => {
@@ -16083,7 +16082,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // "isDev": true,
         "isDev": _self.isDev,
         "filters": [],
-        "searchRequestId":_self.vars.requestId
+        "searchRequestId": _self.vars.requestId
       }
 
       if (_self.isDev) {
@@ -18765,7 +18764,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               </script>'
       return sortableFacets;
     }
-    FindlySDK.prototype. getBottomUpSortableFacetsTabs = function () {
+    FindlySDK.prototype.getBottomUpSortableFacetsTabs = function () {
       var sortableFacets = '<script id="bottom-up-sortable-tabs-template" type="text/x-jqury-tmpl">\
                                  <div class="sortable-dropdown-filter added-dropdown-filters">\
                                  {{if displaySortable && displaySortable.name}}\
@@ -19160,14 +19159,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         e.preventDefault();
         e.stopImmediatePropagation();
         e.stopPropagation()
-        var recentText= $(this).attr('id');
+        var recentText = $(this).attr('id');
         _self.deleteRecentSearches(recentText).then(data => {
           $(this).parent().remove();
-          if(!$('.recent-list-container').children().length){    
+          if (!$('.recent-list-container').children().length) {
             $('#frequently-searched-box').hide();
             $('.live-search-result-box').hide();
           }
-         ;
+          ;
         })
       })
     }
@@ -19181,19 +19180,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       if (textHasXSS && !textHasXSS.isValid) {
         txtStr = txtStr.escapeHTML();
-          // txtStr = txtStr.replace(/&/g, "&amp;")
-          // .replace(/</g, "&lt;")
-          //     .replace(/>/g, "&gt;")
-          //     .replace(/"/g, "&quot;")
-          //     .replace(/'/g, "&#039;")
-          //     .replace(/</g, "<").replace(/>/g, ">")
-          //     .replace(/=alert/g, "");
+        // txtStr = txtStr.replace(/&/g, "&amp;")
+        // .replace(/</g, "&lt;")
+        //     .replace(/>/g, "&gt;")
+        //     .replace(/"/g, "&quot;")
+        //     .replace(/'/g, "&#039;")
+        //     .replace(/</g, "<").replace(/>/g, ">")
+        //     .replace(/=alert/g, "");
       }
       return txtStr;
       //return compObj[0].componentBody;
 
     }
-    
+
     var helpers = {
       'nl2br': function (str, runEmojiCheck) {
         if (runEmojiCheck && window.emojione) {
@@ -20080,9 +20079,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.invokeSearch(showMoreData)
       });
       $('.full-search-data-container, .live-search-data-container , .search-data-container').off('mouseover', '.dataheading').on('mouseover', '.dataheading', function (e) {
-          var converted_title = _self.customTemplateObj.helpers.convertMDtoHTML(e.target.innerText)
-          $(e.target).closest('.dataheading').attr('title', converted_title);
-        });
+        var converted_title = _self.customTemplateObj.helpers.convertMDtoHTML(e.target.innerText)
+        $(e.target).closest('.dataheading').attr('title', converted_title);
+      });
     }
 
 
@@ -20146,14 +20145,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               totalResultsCount = totalResultsCount + res.results[group].doc_count;
             }
           });
-          _self.vars.totalNumOfResults = totalResultsCount + (res.tasks ||[]).length;
+          _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
         }
       } else {
         var results = res.results.data;
         if (!(res.tabFacet || {}).buckets) {
           totalResultsCount = res.results.doc_count || 0;
         }
-        _self.vars.totalNumOfResults = totalResultsCount + (res.tasks ||[]).length;
+        _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
       }
     }
     return FindlySDK;
