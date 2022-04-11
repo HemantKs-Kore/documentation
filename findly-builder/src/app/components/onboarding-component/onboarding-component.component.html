@@ -10,18 +10,21 @@
               <span>Support</span>
           </a>
         </li>
+        <img src="assets/icons/onboarding/Vector 41.svg">
         <li class="nav-item">
           <a class="nav-link" data-toggle="pill" (click)="triggerFaq();closeSearch();closeFaqSearch()" href="#faq">
             <i class="si-faq"></i>
             <span>FAQs</span>
           </a>
         </li>
+        <img src="assets/icons/onboarding/Vector 41.svg" [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**'}">
         <li class="nav-item" [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**'}">
-          <a class="nav-link" data-toggle="pill" (click)="closeFaqSearch();closeSearch()" href="#appchecklist">
+          <a class="nav-link" data-toggle="pill" (click)="closeFaqSearch();closeSearch();checkForStatus()" href="#appchecklist">
             <i class="si-list"></i>
             <span>App Checklist</span>
           </a>
         </li>
+        <div class="version">v{{appVersion}}</div>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
@@ -74,7 +77,7 @@
                   
                   <!-- Support tab child Data -->
                 <div class="dynamic-state-data" *ngIf="!supportParentData">
-                  <div class="action-block-data" *ngFor="let child of supportChildData | filter : [support_Search,'title']" >
+                  <div class="action-block-data" *ngFor="let child of supportChildData | filter : [support_Search,'title']" [ngClass]="child.color" >
                     <div class="dummy-border-left"></div>
                     <div class="img-block">
                       <img src={{child.icon}}>
@@ -249,8 +252,8 @@
             <div class="data-inner-content">
               <div id="accordion" class="applist-acc-data" >
                 <div class="accordion-applist completed-state" *ngFor="let list of checkList;let i = index">
-                  <div class="card_header" (mouseenter)="openAccordiandata(i)" (mouseleave)="playPause(i)">
-                  <a class="card_link collapsed  data{{i}}" data-toggle="collapse" href="#collapse_{{i}}"> <!--doubt-->
+                   <div class="card_header"> <!--(mouseenter)="openAccordiandata(i)" (mouseleave)="playPause(i)" -->
+                  <a class="card_link collapsed  data{{i}}" data-toggle="collapse"> <!-- href="#collapse_{{i}} -->
                     <div class="indication-block" *ngIf="tourData && !list.tourdata">
                       <div class="dummy-border-left"></div>
                         <img src={{list.imgURL}}>
@@ -264,15 +267,15 @@
                     </div>
                     <div class="desc-text">{{list.desc}} </div>
                     <div class="actions-link">
-                      <a class="link-name" (click)="gotoRoutes(list.route)">Guide Me <i class="si-externallink"></i></a>
+                      <a class="link-name" (click)="gotoRoutes(list.route,list.title)">Guide Me <i class="si-externallink"></i></a>
                       <a class="link-name">Documentation <i class="si-externallink"></i></a>
                     </div>
-                    <div class="arrow-icon">
+                    <!-- <div class="arrow-icon">
                       <i class="si-carrotup"></i> 
-                    </div>
+                    </div> -->
                   </a>
                 </div>
-                <div id="collapse_{{i}}" class="collapse" data-parent="#accordion">
+                <!-- <div id="collapse_{{i}}" class="collapse" data-parent="#accordion">
                   <div class="card-body">
                     <div class="video-block">
                       <video class="video{{i}}" width="300" height="156" controls>
@@ -281,7 +284,7 @@
                       </video>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 </div>
                 <!-- <div class="accordion-applist completed-state">
                   <div class="card_header">

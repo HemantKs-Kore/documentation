@@ -1,7 +1,9 @@
 import { ThrowStmt } from '@angular/compiler';
-import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { NotificationService } from '@kore.services/notification.service';
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { Subscription } from 'rxjs';
 declare const $: any;
 
@@ -14,9 +16,11 @@ export class OnboardingComponentComponent implements OnInit {
   @Output() closeSlid = new EventEmitter();
   @Output() emitStatus = new EventEmitter();
   @Input() currentRouteData:any;
+  @Input() displyStatusBar:any;
   tourConfigData: any = [];
   onBoardingModalPopRef: any;
   element: any;
+  appVersion: any;
   checklistCount: number;
   tourData: any;
   statusSlider:boolean=true;
@@ -75,7 +79,7 @@ export class OnboardingComponentComponent implements OnInit {
     },
     {
         title:'Analyze Search Insights',
-        desc:'Analyze actionalble search insights on the performance of your Search Application',
+        desc:'Analyze actionable search insights on the performance of your Search Application',
         icon:'assets/icons/onboarding/search-insights.svg',
         color:'Skyskybule',
         link:''
@@ -91,7 +95,7 @@ export class OnboardingComponentComponent implements OnInit {
         title:'Title',
         desc:'Description',
         icon:'assets/icons/onboarding/database.svg',
-        color:'',
+        color:'Blue',
         link:''
     }]
 },
@@ -105,7 +109,7 @@ export class OnboardingComponentComponent implements OnInit {
         title:'Title',
         desc:'Description',
         icon:'assets/icons/onboarding/database.svg',
-        color:'',
+        color:'Blue',
         link:''
     }]
 },
@@ -119,7 +123,7 @@ export class OnboardingComponentComponent implements OnInit {
         title:'Title',
         desc:'Description',
         icon:'assets/icons/onboarding/database.svg',
-        color:'',
+        color:'Blue',
         link:''
     }]
 }];
@@ -505,13 +509,17 @@ faqData = [{
    }]
 }];
 
-  constructor(private appSelectionService: AppSelectionService,
+  constructor(
+    private appSelectionService: AppSelectionService,
+    private notificationService: NotificationService,
+    private service: ServiceInvokerService,
     public router: Router,) {
       
    }
 
   ngOnInit(): void {
-    this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
+      this.getVersion();
+      this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourConfigData = res;
       this.tourData = res.onBoardingChecklist;
       this.checkList=[{ step: 'Step 1',title:'Add Data',desc:'Data is fetched from various sources and ingested into the application for accurate search results', imgURL:'assets/icons/onboarding/database.svg',route:'/source',tourdata:this.tourData[0].addData, videoUrl:'https://www.w3schools.com/tags/movie.mp4'}, 
@@ -519,14 +527,13 @@ faqData = [{
       {step: 'Step 3',title:'Review Search Configurations',desc:'Search Configuration allows you to improve search relevance by configuring  syonyms, weights, stop words, re-ranking results, adding rules or facets.', imgURL: 'assets/icons/onboarding/review-search.svg',route:'/weights',tourdata:this.tourData[2].optimiseSearchResults,  videoUrl:'https://www.w3schools.com/tags/movie.mp4'},
       {step: 'Step 4',title:'Design Search Experience',desc:'SearchAssist allows you to customise the search experiance and design the search interface based on the business context.', imgURL: 'assets/icons/onboarding/search-design.svg',route:'/search-experience',tourdata:this.tourData[3].designSearchExperience,  videoUrl:'https://www.w3schools.com/tags/movie.mp4'}, 
       {step: 'Step 5',title:'Simulate Application',desc:'SearchAssist allows you to validate the configuration and search experience before deploying the app by just clicking on the Preview button.', 
-      imgURL: 'assets/icons/onboarding/acid-surface.svg',route:'/resultranking' ,tourdata:this.tourData[4].testApp, videoUrl:'https://www.w3schools.com/tags/movie.mp4'}, 
+      imgURL: 'assets/icons/onboarding/acid-surface.svg' ,tourdata:this.tourData[4].testApp, videoUrl:'https://www.w3schools.com/tags/movie.mp4'}, 
       {step: 'Step 6',title:'Deploy your application',desc:'Configure your application to connect to any of the channels available', 
-      imgURL:'assets/icons/onboarding/hand.svg',route:'/resultranking',tourdata:this.tourData[5].fineTuneRelevance, videoUrl:'https://www.w3schools.com/tags/movie.mp4'}];
+      imgURL:'assets/icons/onboarding/hand.svg',route:'/settings',tourdata:this.tourData[5].fineTuneRelevance, videoUrl:'https://www.w3schools.com/tags/movie.mp4'}];
       this.trackChecklist();
     })
   }
   triggerFaq() {
-    console.log(this.currentRouteData);
     this.currentRouteData=this.currentRouteData.replace("/", "");
     this.faqData.forEach(element => {
       if(this.currentRouteData==element.key){
@@ -544,23 +551,23 @@ faqData = [{
     this.supportChildfaq = faq.childData;
      this.breadcrumbNameFaq = faq.display;
   }
-  openAccordiandata(index) {
-    $(document).ready(function(){    
-      $(".data"+index).mouseenter(function(){
-         $(".data"+index).trigger( "click" );
-         $(".video"+index ).trigger( "play" );
-      });   
-  });
-  }
+  // openAccordiandata(index) {
+  //   $(document).ready(function(){    
+  //     $(".data"+index).mouseenter(function(){
+  //        $(".data"+index).trigger( "click" );
+  //        $(".video"+index ).trigger( "play" );
+  //     });   
+  // });
+  // }
 
-  playPause(index) {
-    $(document).ready(function(){
-      $(".data"+index).mouseleave(function(){  
-          $(".data"+index).trigger( "click" );
-          $(".video"+index ).trigger( "pause" );
-      });
-  });
-  }
+  // playPause(index) {
+  //   $(document).ready(function(){
+  //     $(".data"+index).mouseleave(function(){  
+  //         $(".data"+index).trigger( "click" );
+  //         $(".video"+index ).trigger( "pause" );
+  //     });
+  // });
+  // }
   openAccordianFaq(index) {
     $(document).ready(function(){    
       $(".dataFaq"+index).mouseover(function(){
@@ -585,6 +592,13 @@ faqData = [{
   }
   toggleSlider(){
     this.emitStatus.emit(this.statusSlider);
+  }
+  checkForStatus(){
+      this.statusSlider=this.displyStatusBar;
+  }
+
+  openCheckList(){
+    $(".nav-link" ).trigger( "click" );
   }
 
 
@@ -638,14 +652,14 @@ faqData = [{
     $("#Support" ).trigger( "click" );
   }
   //goto Routes
-  gotoRoutes(step) {
+  gotoRoutes(step,list) {
     this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: step });
-    if (step !== '/settings') {
+    if (step) {
       this.closeOnBoardingModal();
     }
-    if (step == '/settings') {
-      this.appSelectionService.tourConfigCancel.next({ name: false, status: 'pending' });
-    }
+    // if (step == '/settings') {
+    //   this.appSelectionService.tourConfigCancel.next({ name: false, status: 'pending' });
+    // }
     //this.router.navigate([step], { skipLocationChange: true });
   }
   //open useronboard popup
@@ -658,6 +672,15 @@ faqData = [{
     // if (this.onBoardingModalPopRef && this.onBoardingModalPopRef.close) {
     //   this.onBoardingModalPopRef.close();
     // }
+  }
+  getVersion(){
+    this.service.invoke('get.version').subscribe(res => {
+     if(res){
+       this.appVersion= res.APP_VERSION;
+     }
+    }, errRes => {
+      this.notificationService.notify('Something has gone wrong.', 'error');
+    }); 
   }
 
 }
