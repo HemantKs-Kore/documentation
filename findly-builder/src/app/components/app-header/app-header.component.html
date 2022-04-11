@@ -3,8 +3,12 @@
         <div id="open-chat-window-no-clicks" class="open-chat-window-no-clicks"></div>
         <div class="container-fluid p-0">
             <div class="logoTabsContainer align-items-center">
-                <img src="assets/images/logos/searchassisst_logo.svg" class="logoKoreIcon landing-screen" [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange (click)="analyticsClick('apps',true);closeUserMetaTagsSlider()">
-                <img src="assets/images/logos/searchassisst_logo-small.svg" class="logoKoreIcon no-landing-screen" [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange (click)="analyticsClick('apps',true);closeUserMetaTagsSlider()">
+                <img src="assets/images/logos/searchassisst_logo.svg" class="logoKoreIcon landing-screen"
+                    [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange
+                    (click)="analyticsClick('apps',true);closeUserMetaTagsSlider()">
+                <img src="assets/images/logos/searchassisst_logo-small.svg" class="logoKoreIcon no-landing-screen"
+                    [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange
+                    (click)="analyticsClick('apps',true);closeUserMetaTagsSlider()">
                 <!-- <div class="myappname" *ngIf="appName">
                     <div container="body" ngbTooltip="{{appName}}" class="name">{{appName}}</div>
                 </div> -->
@@ -48,7 +52,8 @@
                         [ngClass]="{'active' : (mainMenu == '/dashboard'
                      || mainMenu == '/userEngagement' || mainMenu == '/searchInsights' || mainMenu == '/resultInsights' || mainMenu == '/experiments')}">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown" (click)="closeUserMetaTagsSlider()"> {{
+                            <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown"
+                                (click)="closeUserMetaTagsSlider()"> {{
                                 'header.analytics' | translate }}</button>
                             <ul class="dropdown-menu content-menu content-width">
                                 <li class="experment-link" (click)="analyticsClick('/experiments')" id="experimentsTab"
@@ -71,7 +76,8 @@
                     <!-- <div class="headerMenuTab" [routerLink]="['/dashboard']" skipLocationChange routerLinkActive="active" (click)="analyticsClick('metrics')">Analytics</div> -->
                     <!-- <div class="headerMenuTab" id='experimentsTab' [ngClass]="{'active' : mainMenu == '/experiments'}" (click)="analyticsClick('/experiments')">Experiments</div> -->
                     <div class="headerMenuTab" id='channelsTab' [ngClass]="{'active' : mainMenu == '/generalSettings'}"
-                        skipLocationChange routerLinkActive="active" (click)="analyticsClick('/generalSettings');closeUserMetaTagsSlider()">
+                        skipLocationChange routerLinkActive="active"
+                        (click)="analyticsClick('/generalSettings');closeUserMetaTagsSlider()">
                         <span>{{ 'header.manage' | translate }}</span>
                         <span routerLink="/actions" class="d-none"></span>
                         <span routerLink="/smallTalk" class="d-none"></span>
@@ -245,20 +251,23 @@
                                                                         <!-- made code updates in line no 248,249 on 03/01 added new condition for FAILED,since FAILURE is updated to FAILED as per new api contract -->
                                                                         <!-- <img src="assets/icons/docker/info.svg"
                                                                             *ngIf="task.status === 'FAILURE'"> -->
-                                                                            <img src="assets/icons/docker/info.svg"
-                                                                            *ngIf="task.status === 'FAILURE' || task.status === 'FAILED'">
-                                                                            <!-- made code updates in line no 255,256 on 03/01 added new condition for halted,since HALTED is updated to halted as per new api contract -->
-                                                                            <!-- <img src="assets/icons/docker/return.svg"
+                                                                        <img src="assets/icons/docker/info.svg"
+                                                                            *ngIf="task.status === 'FAILURE' || task.status === 'FAILED'"
+                                                                            [ngbTooltip]="task?.message"
+                                                                            placement="top-center" [container]="'body'"
+                                                                            tooltipClass="dashboard-custom-tooltips">
+                                                                        <!-- made code updates in line no 255,256 on 03/01 added new condition for halted,since HALTED is updated to halted as per new api contract -->
+                                                                        <!-- <img src="assets/icons/docker/return.svg"
                                                                                 *ngIf="task.status === 'HALTED'"
                                                                                 (click)="recrawl(task)"> -->
-                                                                            <img src="assets/icons/docker/return.svg"
-                                                                                *ngIf="task.status === 'HALTED' || task.status === 'halted'"
-                                                                                (click)="recrawl(task)">
+                                                                        <img src="assets/icons/docker/return.svg"
+                                                                            *ngIf="task.status === 'HALTED' || task.status === 'halted'"
+                                                                            (click)="recrawl(task)">
                                                                         <!-- <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')"> -->
                                                                         <!-- made code updates in line no 254,255 on 03/01 added new condition for success,since SUCCESS is upadted to success as per new api contract  -->
                                                                         <!-- <img src="assets/icons/docker/check.svg"
                                                                             *ngIf="(task.status === 'SUCCESS')"> -->
-                                                                            <img src="assets/icons/docker/check.svg"
+                                                                        <img src="assets/icons/docker/check.svg"
                                                                             *ngIf="(task.status === 'SUCCESS' || task.status ==='success')">
                                                                         <!-- <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.extractionSourceId && (task.jobType == 'web' || task.jobType == 'faq')) || (task.jobType == 'STRUCTURED_DATA_INGESTION')">                         -->
                                                                     </div>
@@ -270,7 +279,7 @@
                                                                             placement="top" container='body'> -->
                                                                         <img src="assets/icons/ringLoading.svg"
                                                                             class="inProgress"
-                                                                            *ngIf="task.status === 'IN_PROGRESS' || task.status === 'INPROGRESS' || task.status === 'running'|| task.status === 'validation' || task.status === 'QUEUED'"
+                                                                            *ngIf="task.status === 'IN_PROGRESS' || task.status === 'INPROGRESS' || task.status === 'running'|| task.status === 'validation' || task.status === 'QUEUED' || task.status === 'CONFIGURED'"
                                                                             placement="top" container='body'>
                                                                         <!-- <span *ngIf="(task.status == 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}%</span> -->
                                                                         <!-- updated code in line 272 on 24/02 ,added condition for running status as per api contract since in_progress is updated to running state  -->
@@ -309,8 +318,9 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item help-icon" [container]="'body'" ngbTooltip="Help" tooltipClass="train-icon-tooltip" (click)="openUserMetaTagsSlider()">
-                    <img src="assets/icons/sidemenu/help.svg">                    
+                <li class="nav-item help-icon" [container]="'body'" ngbTooltip="Help" tooltipClass="train-icon-tooltip"
+                    (click)="openUserMetaTagsSlider()">
+                    <img src="assets/icons/sidemenu/help.svg">
                 </li>
                 <!-- <li class="nav-item search-block show-search2">
                     <div class="search_icon" [ngClass]="{'active-search-top' : showSearch}">
@@ -345,7 +355,8 @@
                     </mat-menu>
                 </li> -->
                 <li class="nav-item user_icon mr-0">
-                    <div class="kr-sg-dropdowns top-dropdown-user" (click)="clearcontent()"  ngbDropdown #myDrop="ngbDropdown" [placement]="'bottom-right'">
+                    <div class="kr-sg-dropdowns top-dropdown-user" (click)="clearcontent()" ngbDropdown
+                        #myDrop="ngbDropdown" [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
                                 <!-- <img src="assets/images/avatar.svg"> -->
@@ -374,13 +385,17 @@
                                     </div>
                                     <div class="swithc-account-details">
                                         <div id="swithaccounts" class="collapse switch-accr-sec">
-                                            <div class="kr-sg-input-text">                               
-                                                <input type="text" id=searchBoxId [(ngModel)]="field_name" placeholder="Search" class="input-search">
+                                            <div class="kr-sg-input-text">
+                                                <input type="text" id=searchBoxId [(ngModel)]="field_name"
+                                                    placeholder="Search" class="input-search">
                                                 <img src="assets/icons/search_gray.svg" class="search-icon">
-                                            </div>                
+                                            </div>
                                             <perfect-scrollbar>
                                                 <div class="data-switches-list">
-                                                    <li class="switch_user_details" *ngFor="let app of associatedAccounts | filter : [field_name,'userFullName']" (click)="switchAccountInternal(app)" [ngClass]="{'selected-swith-account' : app.userFullName === selectAccountDetails.userFullName}">
+                                                    <li class="switch_user_details"
+                                                        *ngFor="let app of associatedAccounts | filter : [field_name,'userFullName']"
+                                                        (click)="switchAccountInternal(app)"
+                                                        [ngClass]="{'selected-swith-account' : app.userFullName === selectAccountDetails.userFullName}">
                                                         <div class="swithch-u-name">{{app.accountName}}</div>
                                                         <div class="swithch-u-mail">{{app.userFullName}}</div>
                                                     </li>
@@ -411,7 +426,8 @@
                                                 </div>
                                             </perfect-scrollbar>
                                         </div>
-                                        <div class="switch-collapse" data-toggle="collapse" data-target="#swithaccounts">
+                                        <div class="switch-collapse" data-toggle="collapse"
+                                            data-target="#swithaccounts">
                                             <div class="title">Switch Account</div>
                                             <div class="arrow-icon">
                                                 <img src="assets/icons/dropdown-rond-arrow.svg">
@@ -471,48 +487,55 @@
   
   </kr-modal> -->
 
-  <kr-modal modalType="default" #createAppPop modalClass="creating-new-app-modal app-homes-component-page">
+<kr-modal modalType="default" #createAppPop modalClass="creating-new-app-modal app-homes-component-page">
     <div class="modal-body">
-      <div class="close_modal" (click)="closeCreateApp()"><img src="assets/icons/close.svg"></div>
-      <div class="img-wrapper">
-        <img src="assets/icons/landing/create-app.png">
-      </div>
-      <div class="actions-block">
-        <perfect-scrollbar>
-          <div class="inner-data">
-            <div class="borderindication"></div>
-            <div class="heading-text">{{ 'header.createApp' | translate }}</div>
-            <div class="kr-sg-input-text">
-              <div class="label-text">Name Your Application</div>
-              <input maxlength="60" type="text" autocomplete="off" placeholder="{{ 'header.enterAppName' | translate }}" [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
-              <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
-            </div>
-            <div class="kr-sg-input-text">
-              <div class="label-text">{{ 'header.description' | translate }}</div>
-              <input class="input-text" maxlength="250" placeholder="Enter App Description" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
-            </div>
-            <div class="kr-sg-dropdowns w-100">
-              <div class="label-text">{{ 'header.language' | translate }}</div>
-              <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>{{ 'header.english' | translate }}</button>
-                <ul class="dropdown-menu content-menu">
-                  <li><a>{{ 'header.english' | translate }}</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="mt-5 text-right">
-              <!-- <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal" (click)='validateSource()'>Get started</button> -->
-                  <!-- <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closeCreateApp()">{{
+        <div class="close_modal" (click)="closeCreateApp()"><img src="assets/icons/close.svg"></div>
+        <div class="img-wrapper">
+            <img src="assets/icons/landing/create-app.png">
+        </div>
+        <div class="actions-block">
+            <perfect-scrollbar>
+                <div class="inner-data">
+                    <div class="borderindication"></div>
+                    <div class="heading-text">{{ 'header.createApp' | translate }}</div>
+                    <div class="kr-sg-input-text">
+                        <div class="label-text">Name Your Application</div>
+                        <input maxlength="60" type="text" autocomplete="off"
+                            placeholder="{{ 'header.enterAppName' | translate }}" [(ngModel)]="newApp.name"
+                            name="appName" id="enterAppName" (blur)="inputChanged('enterName')"
+                            (change)="inputChanged('enterName')">
+                        <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;"
+                            height="12" width="12" />
+                    </div>
+                    <div class="kr-sg-input-text">
+                        <div class="label-text">{{ 'header.description' | translate }}</div>
+                        <input class="input-text" maxlength="250" placeholder="Enter App Description" autocomplete="off"
+                            [(ngModel)]="newApp.description" name="appDesc">
+                    </div>
+                    <div class="kr-sg-dropdowns w-100">
+                        <div class="label-text">{{ 'header.language' | translate }}</div>
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>{{
+                                'header.english' | translate }}</button>
+                            <ul class="dropdown-menu content-menu">
+                                <li><a>{{ 'header.english' | translate }}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-5 text-right">
+                        <!-- <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal" (click)='validateSource()'>Get started</button> -->
+                        <!-- <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closeCreateApp()">{{
                 'header.cancel' | translate }}</button> -->
-                  <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal" (click)='validateSource()'>{{
-                'header.create' | translate }}</button>
-            </div>
-          </div>
-        </perfect-scrollbar>
-      </div>
+                        <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal"
+                            (click)='validateSource()'>{{
+                            'header.create' | translate }}</button>
+                    </div>
+                </div>
+            </perfect-scrollbar>
+        </div>
     </div>
-   
-  </kr-modal>
+
+</kr-modal>
 
 <app-slider-component id="supportOnboarding">
     <app-onboarding-component [currentRouteData]="currentRouteData" [displyStatusBar]="displyStatusBar" (emitStatus)="emitStatus($event)"  (closeSlid)="closeUserMetaTagsSlider()"></app-onboarding-component>
@@ -521,12 +544,14 @@
 
 
 
-<div class="onboarding-status-card" [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**' || !displyStatusBar}">
+<div class="onboarding-status-card"
+    [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**' || !displyStatusBar}">
     <div class="card-details-status">
         <div class="titles-info-sec">
             <div class="title">{{checklistCount}} of 6 Steps Completed</div>
-            <div class="progress_bar"><ngb-progressbar height="5px"  
-                min="0" [value]="progressPrecent" max="100"></ngb-progressbar></div>
+            <div class="progress_bar">
+                <ngb-progressbar height="5px" min="0" [value]="progressPrecent" max="100"></ngb-progressbar>
+            </div>
         </div>
         <div class="view-close">
             <div class="view-title"(click)="viewCheckList()" >View</div>
