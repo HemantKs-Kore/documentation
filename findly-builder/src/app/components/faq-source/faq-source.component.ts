@@ -18,7 +18,7 @@ import { FaqsService } from '../../services/faqsService/faqs.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-import { CdkDragDrop, moveItemInArray ,transferArrayItem} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 // import {  DockStatusService } from '../../services/dock.status.service';
 // import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 
@@ -58,8 +58,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   extractedResources: any = [];
   resources: any = [];
   filters: any = [];
-  duriationDays:any;
-  duriationTime:any;
+  duriationDays: any;
+  duriationTime: any;
   polingObj: any = {};
   faqUpdate: Subject<void> = new Subject<void>();
   filterObject = {};
@@ -70,7 +70,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   faqSelectionObj: any = {
     selectAll: false,
     selectedItems: {},
-    deSelectedItems :{},
+    deSelectedItems: {},
     selectedCount: 0,
     stats: {},
     loadingStats: true
@@ -101,8 +101,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     FAILED: { name: 'Failed', color: 'red' },
     successfull: { name: 'Successfull', color: 'green' },
     SUCCESSFULL: { name: 'Successfull', color: 'green' },
-    success : { name: 'Success', color: 'green' },
-    SUCCESS : { name: 'Success', color: 'green' },
+    success: { name: 'Success', color: 'green' },
+    SUCCESS: { name: 'Success', color: 'green' },
     queued: { name: 'In-Queue', color: 'blue' },
     QUEUED: { name: 'In-Queue', color: 'blue' },
     running: { name: 'In Progress', color: 'blue' },
@@ -159,7 +159,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   searchFocusIn = false;
   sortedObject = {
     'type': 'fieldName',
-    'position':'up',
+    'position': 'up',
     "value": 1,
   }
 
@@ -198,8 +198,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getStats(null, true);
     // this.getfaqsBy();
     this.getSourceList(true);
-    this.getDyanmicFilterData(null,'landingPage');
-    if((this.resources && this.resources.length === 0)){
+    this.getDyanmicFilterData(null, 'landingPage');
+    if ((this.resources && this.resources.length === 0)) {
       this.getJobStatusForMessages();
       this.getSourceList(true);
     }
@@ -368,12 +368,12 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       if (faqId) {
         if (addtion) {
-        //  delete this.faqSelectionObj.deSelectedItems
+          //  delete this.faqSelectionObj.deSelectedItems
           this.faqSelectionObj.selectedItems[faqId] = {};
         } else {
           this.faqSelectionObj.deSelectedItems[faqId] = {}
           delete this.faqSelectionObj.selectedItems[faqId]
-          
+
         }
       }
       this.faqSelectionObj.selectedCount = Object.keys(this.faqSelectionObj.selectedItems).length;
@@ -521,7 +521,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       defaultAnswers: event._source.defaultAnswers || [],
       conditionalAnswers: event._source.conditionalAnswers || [],
       keywords: event._source.tags,
-      alternateQuestions : event._source.alternateQuestions || []
+      alternateQuestions: event._source.alternateQuestions || []
     };
     const existingfollowups = [];
     if (this.selectedFaq._meta.followupQuestions && this.selectedFaq._meta.followupQuestions.length) {
@@ -700,30 +700,30 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     // console.log(this.searchFaq, 'search');
 
   }
-  getJobStatusForMessages(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?,request?) {
+  getJobStatusForMessages(searchValue?, searchSource?, source?, headerOption?, sortHeaderOption?, sortValue?, navigate?, request?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       type: 'faq'
     };
-    let payload:any = {}
-    if(!sortHeaderOption && !headerOption){
-       payload ={
+    let payload: any = {}
+    if (!sortHeaderOption && !headerOption) {
+      payload = {
         "extractionType": "faq",
-        "sort":{
-          "name" : -1
-        } 
+        "sort": {
+          "name": -1
+        }
       }
     }
-    else{
+    else {
       payload = request
     }
-    if(this.searchFaq){
+    if (this.searchFaq) {
       payload.search = this.searchFaq;
     }
-    if(this.searchSources){
+    if (this.searchSources) {
       payload.search = this.searchSources;
     }
-    this.service.invoke('get.source.list', quaryparms,payload).subscribe(res => { //get.job.status
+    this.service.invoke('get.source.list', quaryparms, payload).subscribe(res => { //get.job.status
       this.resources = [...res.sources];
       this.extractedResources = [...res.sources];
       if (this.extractedResources.length) {
@@ -738,7 +738,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
 
       }
       this.filterResourcesBack = [...this.extractedResources];
-      this.getDyanmicFilterData(searchValue,'manageExract');
+      this.getDyanmicFilterData(searchValue, 'manageExract');
       // this.filterTable(this.filterTableSource, this.filterTableheaderOption)
 
 
@@ -892,34 +892,34 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.addRemoveFaqFromSelection(null, null, true);
     this.getfaqsBy(null, this.selectedtab);
   }
-  getSourceList(initializePoling?,searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?,request?) {
+  getSourceList(initializePoling?, searchValue?, searchSource?, source?, headerOption?, sortHeaderOption?, sortValue?, navigate?, request?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       type: 'faq',
       limit: 50,
       skip: 0
     };
-    let payload:any = {}
-    if(!sortHeaderOption && !headerOption){
-       payload ={
+    let payload: any = {}
+    if (!sortHeaderOption && !headerOption) {
+      payload = {
         "extractionType": "faq",
-        "sort":{
-          "name" : -1
-        } 
-        
+        "sort": {
+          "name": -1
+        }
+
       }
     }
-    else{
+    else {
       payload = request
     }
-   
-    if(this.searchFaq){
+
+    if (this.searchFaq) {
       payload.search = this.searchFaq;
     }
-    if(this.searchSources){
+    if (this.searchSources) {
       payload.search = this.searchSources;
     }
-    this.service.invoke('get.source.list', quaryparms,payload).subscribe(res => {
+    this.service.invoke('get.source.list', quaryparms, payload).subscribe(res => {
       this.resources = [...res.sources];
       res.sources.forEach(element => {
         if (element.recentStatus == 'queued' || element.recentStatus == 'failed' || element.recentStatus == 'running' || element.recentStatus == 'configured') {
@@ -947,7 +947,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         if (element.jobInfo.createdOn) {
           element['schedule_createdOn'] = moment(element.jobInfo.createdOn).fromNow();
-         this.duriationDays = element['schedule_createdOn']
+          this.duriationDays = element['schedule_createdOn']
         }
         if (element.jobInfo.executionStats) {
           element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00:00";
@@ -979,15 +979,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       else {
         this.loadingFaqs1 = true;
-        setTimeout(()=>{
+        setTimeout(() => {
           if (!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')) {
             this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
             this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
           }
         }, 500)
-        
+
       }
-      this.getDyanmicFilterData(searchValue,'landingPage');
+      this.getDyanmicFilterData(searchValue, 'landingPage');
       // console.log('MIXPANNEL')
       this.mixpanel.postEvent('FAQ-created', {})
     }, errRes => {
@@ -1043,22 +1043,22 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   filterTable(source, headerOption) {
     switch (headerOption) {
-      case 'contentSource': {this.filterSystem.typefilter = source; break; };
-      case 'recentStatus': {this.filterSystem.statusFilter = source; break; };
+      case 'contentSource': { this.filterSystem.typefilter = source; break; };
+      case 'recentStatus': { this.filterSystem.statusFilter = source; break; };
     };
     this.filterObject = {
       type: source,
       header: headerOption
     }
-    if(headerOption) {
+    if (headerOption) {
       this.filterFaq(null, null, source, headerOption);
     }
   }
-  filterFaq(searchValue?,searchSource?,source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){
-    if(sortValue){
+  filterFaq(searchValue?, searchSource?, source?, headerOption?, sortHeaderOption?, sortValue?, navigate?) {
+    if (sortValue) {
       this.sortedObject = {
-        type : sortHeaderOption,
-        value : sortValue,
+        type: sortHeaderOption,
+        value: sortValue,
         position: navigate
       }
     }
@@ -1069,62 +1069,62 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       offset: 0,
       limit: 3
     };
-    let request:any={}
-    if(!sortValue){
+    let request: any = {}
+    if (!sortValue) {
       request = {
         "extractionType": "faq",
-        "sort":{
-          "name":1
+        "sort": {
+          "name": 1
         }
-    }   
+      }
     }
-    else if(sortValue){
-      const sort :any ={}
-      request= {
+    else if (sortValue) {
+      const sort: any = {}
+      request = {
         sort
       }
     }
     else {
-    request={}
+      request = {}
     }
     request.extractionType = "faq",
-    request.contentSource = this.filterSystem.typefilter;
+      request.contentSource = this.filterSystem.typefilter;
     request.recentStatus = this.filterSystem.statusFilter;
-    request.search= this.searchSources;
+    request.search = this.searchSources;
     if (request.contentSource == 'all') {
-     delete request.contentSource;
+      delete request.contentSource;
     }
-     if (request.recentStatus == 'all') {
-      delete request.recentStatus; 
+    if (request.recentStatus == 'all') {
+      delete request.recentStatus;
     }
     if (this.searchSources === '') {
       delete request.search;
-     }
-    if(sortValue){  
-      this.getSortIconVisibility(sortHeaderOption,navigate);
-       //Sort start
-    if(sortHeaderOption === 'contentSource' ){
-      request.sort.contentSource = sortValue
     }
-    if(sortHeaderOption === 'recentStatus' ){
-      request.sort.recentStatus = sortValue
+    if (sortValue) {
+      this.getSortIconVisibility(sortHeaderOption, navigate);
+      //Sort start
+      if (sortHeaderOption === 'contentSource') {
+        request.sort.contentSource = sortValue
+      }
+      if (sortHeaderOption === 'recentStatus') {
+        request.sort.recentStatus = sortValue
+      }
+      if (sortHeaderOption === 'name') {
+        request.sort.name = sortValue
+      }
+      // if(sortHeaderOption === 'numOfDocs' ){
+      //   request.sort.numOfDocs = sortValue
+      // }
+      // if(sortHeaderOption === 'triggeredBy' ){
+      //   request.sort.triggeredBy = sortValue
+      // }
+      // end
     }
-    if(sortHeaderOption === 'name' ){
-      request.sort.name = sortValue
-    }
-    // if(sortHeaderOption === 'numOfDocs' ){
-    //   request.sort.numOfDocs = sortValue
-    // }
-    // if(sortHeaderOption === 'triggeredBy' ){
-    //   request.sort.triggeredBy = sortValue
-    // }
-    // end
-    }
-     this.getJobStatusForMessages(searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
+    this.getJobStatusForMessages(searchValue, searchSource, source, headerOption, sortHeaderOption, sortValue, navigate, request);
 
     // this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
   }
-  getDyanmicFilterData(search?,from?) {
+  getDyanmicFilterData(search?, from?) {
     // this.fieldDataTypeArr = [];
     // this.isMultiValuedArr = [];
     // this.isRequiredArr = [];
@@ -1133,29 +1133,29 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId
     };
-    const request :any = {
+    const request: any = {
       moduleName: "faq"
     };
-    if(from == 'landingPage'){
+    if (from == 'landingPage') {
       request.state = this.selectedtab || 'draft';
     }
-    if(from == 'manageExract'){
+    if (from == 'manageExract') {
       request.display = true;
     }
-    
-    
+
+
     request.contentSource = this.filterSystem.typefilter;
     request.recentStatus = this.filterSystem.statusFilter;
-    request.search= this.searchSources;
+    request.search = this.searchSources;
     if (request.contentSource == 'all') {
-     delete  request.contentSource;
+      delete request.contentSource;
     }
-     if (request.recentStatus == 'all') {
-      delete request.recentStatus; 
+    if (request.recentStatus == 'all') {
+      delete request.recentStatus;
     }
     if (this.searchSources === '') {
       delete request.search;
-     }
+    }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
       console.log(res, 'Filters')
       this.statusArr = [...res.recentStatus];
@@ -1163,27 +1163,27 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get filters');
     });
-    
+
   }
-  sortByApi(sort){
+  sortByApi(sort) {
     this.selectedSort = sort;
     if (this.selectedSort !== sort) {
       this.isAsc = true;
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow ='';
-    var checkSortValue= 1;
-    if(this.isAsc){
-      naviagtionArrow= 'up';
+    var naviagtionArrow = '';
+    var checkSortValue = 1;
+    if (this.isAsc) {
+      naviagtionArrow = 'up';
       checkSortValue = 1;
     }
-    else{
-      naviagtionArrow ='down';
+    else {
+      naviagtionArrow = 'down';
       checkSortValue = -1;
+    }
+    this.filterFaq(null, null, null, null, sort, checkSortValue, naviagtionArrow)
   }
-  this.filterFaq(null,null,null,null,sort,checkSortValue,naviagtionArrow)
-}
   // filterTable(source, headerOption) {
   //   console.log(this.resources, source)
   //   this.filterTableSource = source;
@@ -1494,9 +1494,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       payload.excludeFaqs = deselectedFaqsCollection;
       payload.currentState = this.selectedtab;
- 
+
     }
-    else  {
+    else {
       const selectedElements = $('.selectEachfaqInput:checkbox:checked');
       const sekectedFaqsCollection: any = [];
       Object.keys(this.faqSelectionObj.selectedItems).forEach((key) => {
@@ -1901,19 +1901,19 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       /**made changes on 24/02 as per new api contract in response we no longer use the key
          dockStatuses added updated code in 1894*/
       // if (res && res.dockStatuses) {
-        if (res) {
-          /**made changes on 24/02 as per new api contract in response we no longer use the key
-         dockStatuses added updated code in 1898 line*/
+      if (res) {
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+       dockStatuses added updated code in 1898 line*/
         // res.dockStatuses.forEach((record: any) => {
-          res.forEach((record: any) => {
+        res.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
           /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is updated to success as per new api contract */
           /** made code updates in line no 1903 on 03/09 added new condition for record.fileInfo and record.fileInfo.fileId,since fileId is now has to be fetched from fileInfo  as per new api contract  */
           // if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
-            if ((record.status === 'SUCCESS' || record.status ==='success') && (record.fileInfo) && (record.fileInfo.fileId) && !record.store.toastSeen) {
-          /**added condition for jobType in 1906,since we are no longer recieving action in jobs api response,using the jobType for condition check as per new api contract 10/03 */
-          // if (record.action === 'EXPORT') {
-               if (record.jobType === "DATA_EXPORT") {
+          if ((record.status === 'SUCCESS' || record.status === 'success') && (record.fileInfo) && (record.fileInfo.fileId) && !record.store.toastSeen) {
+            /**added condition for jobType in 1906,since we are no longer recieving action in jobs api response,using the jobType for condition check as per new api contract 10/03 */
+            // if (record.action === 'EXPORT') {
+            if (record.jobType === "DATA_EXPORT") {
               this.downloadDockFile(record.fileInfo.fileId, record.store.urlParams, record.streamId, record._id);
             }
           }
@@ -1935,7 +1935,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       streamId: streamId,
       dockId: dockId,
       jobId: dockId,
-      sidx:this.serachIndexId
+      sidx: this.serachIndexId
     }
     let payload = {
       "store": {
@@ -2014,40 +2014,40 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   drop(event: CdkDragDrop<string[]>) {
     let faqDragData: any = {}
-      faqDragData = {
-        question: this.selectedFaq._source.faq_question, 
-        // defaultAnswers: event.container.data ,
-        // conditionalAnswers: event.previousContainer.data ,
-        alternateQuestions: this.selectedFaq._source.faq_alt_questions || [],
-        // followupQuestions: event.followupQuestions || [],
-        keywords: this.selectedFaq._source.keywords,
-        state: this.selectedFaq._meta.state
-      };
+    faqDragData = {
+      question: this.selectedFaq._source.faq_question,
+      // defaultAnswers: event.container.data ,
+      // conditionalAnswers: event.previousContainer.data ,
+      alternateQuestions: this.selectedFaq._source.faq_alt_questions || [],
+      // followupQuestions: event.followupQuestions || [],
+      keywords: this.selectedFaq._source.keywords,
+      state: this.selectedFaq._meta.state
+    };
 
-      if(event.previousContainer === event.container){
-        // if(event.container.data === this.selectedFaq._source.faq_answer){
-        //   faqDragData.defaultAnswers = event.container.data
-        //   faqDragData.conditionalAnswers = this.selectedFaq._source.faq_cond_answers
-        // }
-         if (event.container.data === this.selectedFaq._source.faq_cond_answers){
-          // faqDragData.defaultAnswers = this.selectedFaq._source.faq_answer
-          faqDragData.conditionalAnswers =  event.container.data
-        }
+    if (event.previousContainer === event.container) {
+      // if(event.container.data === this.selectedFaq._source.faq_answer){
+      //   faqDragData.defaultAnswers = event.container.data
+      //   faqDragData.conditionalAnswers = this.selectedFaq._source.faq_cond_answers
+      // }
+      if (event.container.data === this.selectedFaq._source.faq_cond_answers) {
+        // faqDragData.defaultAnswers = this.selectedFaq._source.faq_answer
+        faqDragData.conditionalAnswers = event.container.data
       }
-      else {
-        // faqDragData.defaultAnswers = event.container.data || this.selectedFaq._source.faq_answer
-        faqDragData.conditionalAnswers =  event.container.data || this.selectedFaq._source.faq_cond_answers
-      }
+    }
+    else {
+      // faqDragData.defaultAnswers = event.container.data || this.selectedFaq._source.faq_answer
+      faqDragData.conditionalAnswers = event.container.data || this.selectedFaq._source.faq_cond_answers
+    }
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      this.updateFaq(this.selectedFaq, 'updateQA',faqDragData);
+      this.updateFaq(this.selectedFaq, 'updateQA', faqDragData);
     } else {
       transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
-                        this.updateFaq(this.selectedFaq, 'updateQA',faqDragData);
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+      this.updateFaq(this.selectedFaq, 'updateQA', faqDragData);
     }
   }
- 
+
 }
