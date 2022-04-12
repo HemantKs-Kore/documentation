@@ -555,8 +555,9 @@ export class AppHeaderComponent implements OnInit {
         /**made changes on 09/03 as per new api contract in response we no longer use the key
          dockStatuses added updated code in 536 line*/
         // if((!res) || !res.dockStatuses.length){
-        if((!res)){
+        if((!res || !res.length)){
           this.training=false;
+          this.isAnyRecordInprogress = false;
         }
         this.statusDockerLoading = false;
         /**made changes on 24/02 as per new api contract in response we no longer use the key

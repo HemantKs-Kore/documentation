@@ -88,6 +88,18 @@
                     .kr-sg-file-drag-drop{
                         width: 100%;
                     }
+                    .uploaded-file-name{
+                        .progress-status{
+                            .progSpinner{
+                                height: 50px;
+                                width: 50px;
+                            }
+                            .close-file{
+                                height: 11px;
+                                width: 11px;
+                            }
+                        }
+                    }
                 }
             }
             .manual-structure-data{
