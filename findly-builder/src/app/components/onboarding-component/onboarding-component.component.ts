@@ -660,7 +660,7 @@ faqData = [{
     // if (step == '/settings') {
     //   this.appSelectionService.tourConfigCancel.next({ name: false, status: 'pending' });
     // }
-    //this.router.navigate([step], { skipLocationChange: true });
+    this.router.navigate([step], { skipLocationChange: true });
   }
   //open useronboard popup
   closeOnBoardingModal() {
