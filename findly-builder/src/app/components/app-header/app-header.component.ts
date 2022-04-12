@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
+import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
 import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
@@ -87,6 +88,7 @@ export class AppHeaderComponent implements OnInit {
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('testButtonTooltip') testButtonTooltip: any;
   @ViewChild(SliderComponentComponent, { static: true }) sliderComponent: SliderComponentComponent;
+  @ViewChild(OnboardingComponentComponent, { static: true }) onBoardingComponent: OnboardingComponentComponent;
   availableRouts = [
     { displayName: 'Summary', routeId: '/summary', quaryParms: {} },
     { displayName: 'Add Sources', routeId: '/source', quaryParms: {} },
@@ -1050,6 +1052,7 @@ export class AppHeaderComponent implements OnInit {
     }
   }
 
+
   displayToolTip() {
     setTimeout(() => {
       // console.log("isSDKOpen", this.headerService.isSDKOpen);
@@ -1100,7 +1103,6 @@ export class AppHeaderComponent implements OnInit {
   emitStatus(event) {
     this.displyStatusBar=event;
   }
-
   closeStatusBar(){
     if(this.displyStatusBar){
       this.displyStatusBar=false;
@@ -1108,6 +1110,7 @@ export class AppHeaderComponent implements OnInit {
     else{
       this.displyStatusBar=true;
     }
+    // this.closeStatus.emit(false);
   }
    //track checklist count and show count number
    trackChecklist() {
@@ -1140,6 +1143,10 @@ export class AppHeaderComponent implements OnInit {
     else {
       this.progressPrecent = 0;
     }    
+  }
+  viewCheckList(){
+    this.openUserMetaTagsSlider();
+     this.onBoardingComponent.openCheckList();
   }
 }
 

@@ -864,6 +864,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/jobs',
       method: 'get'
     }
+    this.serviceList['get.version'] = {
+      endpoint: this.API_SERVER_URL + '/findly/versionInfo',
+      method: 'get'
+    }
     this.serviceList['put.dockStatus'] = {
       /**updated below endpoint as per new contract for put.docstatus & execution histroy on 10/03 */
       // endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/dockStatus/:dockId',      
