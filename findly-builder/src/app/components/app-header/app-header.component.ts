@@ -1148,5 +1148,8 @@ export class AppHeaderComponent implements OnInit {
     this.openUserMetaTagsSlider();
      this.onBoardingComponent.openCheckList();
   }
+  openSDK(){
+    this.openOrCloseSearchSDK();
+  }
 }
 
