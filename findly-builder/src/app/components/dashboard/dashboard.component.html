@@ -254,7 +254,7 @@
                             <div *ngIf="mostSearchedQuries">
                                 <div class="table_body row m-0" *ngFor="let top of mostSearchedQuries;let i = index">
                                     <div class="col-10 body-title pr-3  pl-0">{{top.query}}</div>
-                                    <div class="col-2 body-title text-right">{{top.count}}</div>
+                                    <div class="col-2 body-title text-center">{{top.count}}</div>
                                 </div>
                             </div>
                         </div>
@@ -287,7 +287,7 @@
                                 <div class="table_body row m-0"
                                     *ngFor="let top of topQuriesWithNoResults;let i = index">
                                     <div class="col-10 header-title pr-3  pl-0">{{top.query}}</div>
-                                    <div class="col-2 header-title text-right">{{top.count}}</div>
+                                    <div class="col-2 header-title text-center" id="topcount">{{top.count}}</div>
                                 </div>
                             </div>
 
@@ -327,14 +327,17 @@
                         <div class="title-card">{{'metrics.dash_board_view.Top_Search_Results'| translate}} </div>
                         <div class="table-content-data">
                             <div class="table_header row m-0">
-                                <div class="col-4 header-title  pl-0" (click)="sortByApi('TopSearchResults','answer')">
-                                    <span class="d-flex align-items-center flex-column mr-1">
+                                <div class="col-4 header-title  pl-0">
+                                    <!-- As per FLY-4691, as per PM review points  Top search results board, sorting symbols and sorting functionality beside Query should be removed commented below code -->
+                                   <!-- <div class="col-4 header-title  pl-0" (click)="sortByApi('TopSearchResults','answer')"> -->
+                                    <!-- <span class="d-flex align-items-center flex-column mr-1">
                                         <img src="assets/icons/caretDown.svg"
                                             (click)="getSortIconVisibility('answer','asc')" class="sortImg downArrow">
                                         <img src="assets/icons/caretDown.svg"
                                             (click)="getSortIconVisibility('answer','desc')" class="sortImg upArrow">
-                                    </span>
-                                    {{'metrics.dash_board_view.Searched_Intent'|translate}}
+                                    </span> -->
+                                    <!-- As per FLY-4691 Query title has to be updated to Search results -->
+                                    {{'metrics.dash_board_view.Search_Results'|translate}}
                                 </div>
                                 <!-- <div class="col-1 header-title text-right"><img src="assets/icons/sort_up_down.svg"></div> -->
                                 <div class="col-2 header-title" (click)="sortByApi('TopSearchResults','appearances')">
@@ -389,11 +392,11 @@
                                 *ngFor="let topSearchResult of topSearchResults;let i = index">
                                 <div class="col-4 body-title  pl-0">{{topSearchResult.answer}}</div>
                                 <!-- <div class="col-1 header-title text-right"></div> -->
-                                <div class="col-2 body-title">{{topSearchResult.appearances}}</div>
-                                <div class="col-2 body-title">{{topSearchResult.clicks}}</div>
-                                <div class="col-2 body-title">{{topSearchResult.clickThroughRate | number : '1.2-2'}}%
+                                <div class="col-2 body-title" id="search-results">{{topSearchResult.appearances}}</div>
+                                <div class="col-2 body-title" id="search-results-clicks">{{topSearchResult.clicks}}</div>
+                                <div class="col-2 body-title" id="search-results">{{topSearchResult.clickThroughRate | number : '1.2-2'}}%
                                 </div>
-                                <div class="col-2 body-title">{{topSearchResult.avgPosition | number : '1.2-2'}}</div>
+                                <div class="col-2 body-title" id="search-results">{{topSearchResult.avgPosition | number : '1.2-2'}}</div>
                                 <!-- <div class="col-1 body-title text-center">{{topSearchResult.positiveFeedback}}</div>
                                 <div class="col-1 body-title text-center">{{topSearchResult.negativeFeedback}}</div> -->
                             </div>
