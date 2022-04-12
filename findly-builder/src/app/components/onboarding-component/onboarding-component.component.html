@@ -17,7 +17,7 @@
             <span>FAQs</span>
           </a>
         </li>
-        <img src="assets/icons/onboarding/Vector 41.svg" [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**'}">
+        <img src="assets/icons/onboarding/Vector-41.svg" [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**'}">
         <li class="nav-item" [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**'}">
           <a class="nav-link" data-toggle="pill" (click)="closeFaqSearch();closeSearch();checkForStatus()" href="#appchecklist">
             <i class="si-list"></i>
@@ -267,7 +267,7 @@
                     </div>
                     <div class="desc-text">{{list.desc}} </div>
                     <div class="actions-link">
-                      <a class="link-name" (click)="gotoRoutes(list.route,list.title)">Guide Me <i class="si-externallink"></i></a>
+                      <a class="link-name" (click)="gotoRoutes(list.route)">Guide Me <i class="si-externallink"></i></a>
                       <a class="link-name">Documentation <i class="si-externallink"></i></a>
                     </div>
                     <!-- <div class="arrow-icon">

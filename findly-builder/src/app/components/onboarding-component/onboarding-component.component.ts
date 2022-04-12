@@ -15,6 +15,7 @@ declare const $: any;
 export class OnboardingComponentComponent implements OnInit {
   @Output() closeSlid = new EventEmitter();
   @Output() emitStatus = new EventEmitter();
+  @Output() openSDK = new EventEmitter();
   @Input() currentRouteData:any;
   @Input() displyStatusBar:any;
   tourConfigData: any = [];
@@ -527,7 +528,7 @@ faqData = [{
       {step: 'Step 3',title:'Review Search Configurations',desc:'Search Configuration allows you to improve search relevance by configuring  syonyms, weights, stop words, re-ranking results, adding rules or facets.', imgURL: 'assets/icons/onboarding/review-search.svg',route:'/weights',tourdata:this.tourData[2].optimiseSearchResults,  videoUrl:'https://www.w3schools.com/tags/movie.mp4'},
       {step: 'Step 4',title:'Design Search Experience',desc:'SearchAssist allows you to customise the search experiance and design the search interface based on the business context.', imgURL: 'assets/icons/onboarding/search-design.svg',route:'/search-experience',tourdata:this.tourData[3].designSearchExperience,  videoUrl:'https://www.w3schools.com/tags/movie.mp4'}, 
       {step: 'Step 5',title:'Simulate Application',desc:'SearchAssist allows you to validate the configuration and search experience before deploying the app by just clicking on the Preview button.', 
-      imgURL: 'assets/icons/onboarding/acid-surface.svg' ,tourdata:this.tourData[4].testApp, videoUrl:'https://www.w3schools.com/tags/movie.mp4'}, 
+      imgURL: 'assets/icons/onboarding/acid-surface.svg',route:'test' ,tourdata:this.tourData[4].testApp, videoUrl:'https://www.w3schools.com/tags/movie.mp4'}, 
       {step: 'Step 6',title:'Deploy your application',desc:'Configure your application to connect to any of the channels available', 
       imgURL:'assets/icons/onboarding/hand.svg',route:'/settings',tourdata:this.tourData[5].fineTuneRelevance, videoUrl:'https://www.w3schools.com/tags/movie.mp4'}];
       this.trackChecklist();
@@ -593,6 +594,9 @@ faqData = [{
   toggleSlider(){
     this.emitStatus.emit(this.statusSlider);
   }
+  openSdk(){
+    this.openSDK.emit();
+  }
   checkForStatus(){
       this.statusSlider=this.displyStatusBar;
   }
@@ -653,14 +657,18 @@ faqData = [{
   }
   //goto Routes
   gotoRoutes(step,list) {
-    this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: step });
-    if (step) {
       this.closeOnBoardingModal();
+    if(step == 'test'){
+      this.openSdk();
+    }
+    else {
+      this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: step });
     }
     // if (step == '/settings') {
     //   this.appSelectionService.tourConfigCancel.next({ name: false, status: 'pending' });
     // }
-    this.router.navigate([step], { skipLocationChange: true });
+    // this.router.navigate([step], { skipLocationChange: true });
+
   }
   //open useronboard popup
   closeOnBoardingModal() {
