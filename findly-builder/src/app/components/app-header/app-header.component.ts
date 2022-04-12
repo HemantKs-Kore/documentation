@@ -28,9 +28,6 @@ import { Input } from '@angular/core';
   styleUrls: ['./app-header.component.scss']
 })
 export class AppHeaderComponent implements OnInit {
-  getVersion() {
-    throw new Error('Method not implemented.');
-  }
   toShowAppHeader: boolean;
   mainMenu = '';
   showMainMenu: boolean = true;
