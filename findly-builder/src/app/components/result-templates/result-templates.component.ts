@@ -389,6 +389,7 @@ export class ResultTemplatesComponent implements OnInit {
       }
       else if (this.fieldPopupType === 'edit') {
         this.resultListObj.groupSetting.fieldName = this.defaultFieldName;
+        this.getAllSettings(this.selectedTab);
       }
     }
   }
