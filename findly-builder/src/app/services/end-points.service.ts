@@ -1203,7 +1203,23 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/apps/:streamId/unlinkApp',
       method: 'delete'
     }
-    
 
+    // Connectors API'S
+    this.serviceList['get.connectors'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors',
+      method: 'get'
+    }
+    this.serviceList['post.connector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors',
+      method: 'post'
+    }
+    this.serviceList['get.authorizeConnector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon/authorize',
+      method: 'get'
+    }
+    this.serviceList['put.connector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon',
+      method: 'put'
+    }
   }
 }

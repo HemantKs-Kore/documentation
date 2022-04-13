@@ -520,357 +520,127 @@
         <div class="d-flex align-items-center">
             <div class="kr-sg-input-search m-0 d-none">
                 <input type="text" placeholder="{{'search' | translate}}" maxlength="60" class="input-search">
-                <img class="close-icon" src="assets/icons/close_icon.svg" placement="top-center" container='body' ngbTooltip="{{'fields.cancel' | translate}}" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                <img class="close-icon" src="assets/icons/close_icon.svg" placement="top-center" container='body'
+                    ngbTooltip="{{'fields.cancel' | translate}}" tooltipClass="ngb_tooltip_custom_class sampleJson">
             </div>
-            <div class="seach-block">
+            <div class="seach-block" *ngIf="selectedContent==='list'">
                 <span class="mr-3" id="btn_toggle_search_structured_data">
                     <img src="assets/icons/search.svg">{{'search' | translate}}
                 </span>
             </div>
         </div>
     </div>
-
-    <ng-container *ngIf="true">
-        <div class="connector-cards-data">
-            <perfect-scrollbar>
-                <div class="inner-content-data">
-                    <ng-container *ngIf="true">
-                        <div class="desc-text-heading">{{'connectors.picksourceandconfigure'|translate}}</div>
-                        <div class="heading-with-line">
-                            <div class="main-heading">{{'connectors.connected'|translate}}</div>
-                            <div class="line-border"></div>
-                        </div>
-                        <div class="card-connectors-info row">
-                            <div class="card-connector-column">
-                                <div class="inner-card active-connector">
-                                    <label class="kr-sg-toggle">
-                                        <input type="checkbox">
-                                        <div class="slider"></div>
-                                    </label>
-                                    <div class="icon-block">
-                                        <img src="assets/icons/connectors/drive-google.png">
-                                    </div>
-                                    <div class="content-block text-truncate">
-                                        <div class="title text-truncate">Google Drive</div>
-                                        <div class="desc-text text-truncate">File Sharing, Storage, Cloud</div>
-                                    </div>
+    <div [ngSwitch]="selectedContent">
+        <div *ngSwitchCase="'list'">
+            <div class="connector-cards-data">
+                <perfect-scrollbar>
+                    <div class="inner-content-data">
+                        <ng-container>
+                            <div class="desc-text-heading">{{'connectors.picksourceandconfigure'|translate}}</div>
+                            <ng-container *ngIf="connectorsData?.length">
+                                <div class="heading-with-line">
+                                    <div class="main-heading">{{'connectors.connected'|translate}}</div>
+                                    <div class="line-border"></div>
                                 </div>
-                            </div>
-                            <div class="card-connector-column">
-                                <div class="inner-card disable-connector">
-                                    <label class="kr-sg-toggle">
-                                        <input type="checkbox">
-                                        <div class="slider"></div>
-                                    </label>
-                                    <div class="icon-block">
-                                        <img src="assets/icons/connectors/dropbox.png">
-                                    </div>
-                                    <div class="content-block text-truncate">
-                                        <div class="title text-truncate">Dropbox</div>
-                                        <div class="desc-text text-truncate">File Sharing, Storage, Cloud</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-connector-column">
-                                <div class="inner-card">
-                                    <div class="connect-link">Connect</div>
-                                    <div class="icon-block">
-                                        <img src="assets/icons/connectors/confluence.png">
-                                    </div>
-                                    <div class="content-block text-truncate">
-                                        <div class="title text-truncate">Confluence</div>
-                                        <div class="desc-text text-truncate">Please complete configuration</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="heading-with-line">
-                            <div class="main-heading">{{'connectors.available'|translate}}</div>
-                            <div class="line-border"></div>
-                        </div>
-                        <div class="card-connectors-info row">
-                            <div class="card-connector-column">
-                                <div class="inner-card">
-                                    <div class="icon-block">
-                                        <img src="assets/icons/connectors/slack.png">
-                                    </div>
-                                    <div class="content-block text-truncate">
-                                        <div class="title text-truncate">Slack remote</div>
-                                        <div class="desc-text text-truncate">Online communication platform</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-connector-column">
-                                <div class="inner-card">
-                                    <div class="icon-block">
-                                        <img src="assets/icons/connectors/github.png">
-                                    </div>
-                                    <div class="content-block text-truncate">
-                                        <div class="title text-truncate">GitHub</div>
-                                        <div class="desc-text text-truncate">Internet hosting for software dev...</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-connector-column">
-                                <div class="inner-card">
-                                    <div class="icon-block">
-                                        <img src="assets/icons/connectors/zendesk.png">
-                                    </div>
-                                    <div class="content-block text-truncate">
-                                        <div class="title text-truncate">Zendesk</div>
-                                        <div class="desc-text text-truncate">Customer support, sales.</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-connector-column">
-                                <div class="inner-card">
-                                    <div class="icon-block">
-                                        <img src="assets/icons/connectors/jira.png">
-                                    </div>
-                                    <div class="content-block text-truncate">
-                                        <div class="title text-truncate">Jira cloud</div>
-                                        <div class="desc-text text-truncate">Enhance your team productivity</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-connector-column">
-                                <div class="inner-card">
-                                    <div class="icon-block">
-                                        <img src="assets/icons/connectors/jiraserver.png">
-                                    </div>
-                                    <div class="content-block text-truncate">
-                                        <div class="title text-truncate">Jira server</div>
-                                        <div class="desc-text text-truncate">Plan, track, and manage work</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-connector-column">
-                                <div class="inner-card">
-                                    <div class="icon-block">
-                                        <img src="assets/icons/connectors/onedrive.png">
-                                    </div>
-                                    <div class="content-block text-truncate">
-                                        <div class="title text-truncate">One drive</div>
-                                        <div class="desc-text text-truncate">Cloud storage from Microsoft</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-connector-column">
-                                <div class="inner-card">
-                                    <div class="icon-block">
-                                        <img src="assets/icons/connectors/salesforce.png">
-                                    </div>
-                                    <div class="content-block text-truncate">
-                                        <div class="title text-truncate">Salesfroce</div>
-                                        <div class="desc-text text-truncate">Customer service, marketing, an...</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-connector-column">
-                                <div class="inner-card">
-                                    <div class="icon-block">
-                                        <img src="assets/icons/connectors/sharepoint.png">
-                                    </div>
-                                    <div class="content-block text-truncate">
-                                        <div class="title text-truncate">Sharepoint Online</div>
-                                        <div class="desc-text text-truncate">Web-based collaborative platform</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="true">
-                        <div class="desc-text">{{'connectors.editremoveconnectedsources'|translate}}</div>
-                        <div class="connector-brand">
-                            <div class="c-img">
-                                <img src="assets/icons/connectors/drive-google.png">
-                            </div>
-                            <div class="c-content-sec">
-                                <div class="title">Google drive</div>
-                                <div class="sub-text">Created October 11, 2021</div>
-                            </div>
-                        </div>
-                        <div class="edit-connectors-block">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item">
-                                  <a class="nav-link active" data-toggle="tab" href="#overview">{{'connectors.overviewtab'|translate}}</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" data-toggle="tab" href="#settings">{{'connectors.source_settings_tab'|translate}}</a>
-                                </li>
-                            </ul>
-                          
-                            <div class="tab-content">
-                                <div id="overview" class="tab-pane active">
-                                    <div class="overview-tab-data">
-                                        <div class="heading-summery">{{'connectors.summary'|translate}}</div>
-                                        <div class="overview-summery-cards">
-                                            <div class="table-summery">
-                                                <div class="table-heading-summery">
-                                                    <div class="title">{{'connectors.source_type'|translate}}</div>
-                                                    <div class="title text-right">{{'connectors.items'|translate}}</div>
-                                                </div>
-                                                <ng-container>
-                                                    <div class="repeat-table-body">
-                                                        <div class="title user-type">Users</div>
-                                                        <div class="title item-count">256</div>
-                                                    </div>
-                                                    <div class="repeat-table-body">
-                                                        <div class="title user-type">PNG</div>
-                                                        <div class="title item-count">17526</div>
-                                                    </div>
-                                                    <div class="repeat-table-body">
-                                                        <div class="title user-type">DOX</div>
-                                                        <div class="title item-count">261873</div>
-                                                    </div>
-                                                    <div class="repeat-table-body">
-                                                        <div class="title user-type">XLSX</div>
-                                                        <div class="title item-count">279164</div>
-                                                    </div>
-                                                    <div class="repeat-table-body">
-                                                        <div class="title user-type">Folders</div>
-                                                        <div class="title item-count">672</div>
-                                                    </div>
-                                                </ng-container>
+                                <div class="card-connectors-info row">
+                                    <div class="card-connector-column" *ngFor="let connector of connectorsData"
+                                        (click)="changeContent('edit',connector)">
+                                        <div class="inner-card"
+                                            [ngClass]="{'active-connector':connector.isActive,'disable-connector':connector.isActive===false}">
+                                            <label class="kr-sg-toggle">
+                                                <input type="checkbox" [(ngModel)]="connector.isActive"
+                                                    (change)="openConnectorDialog(connector,$event)">
+                                                <div class="slider"></div>
+                                            </label>
+                                            <div class="icon-block">
+                                                <img [src]="connector?.image" alt="connector-img">
                                             </div>
-                                            <div class="source-data">
-                                                <div class="source-card">
-                                                    <div class="row-data-card">
-                                                        <div class="title-source">{{'connectors.source'|translate}}</div>
-                                                        <div class="name-placeholder">{{'connectors.place_holder'|translate}}</div>
-                                                    </div>
-                                                    <div class="row-data-card">
-                                                        <div class="title-source">{{'connectors.configuartion_email'|translate}}</div>
-                                                        <div class="name-placeholder">johndoe@gmail.com</div>
-                                                    </div>
-                                                    <div class="row-data-card">
-                                                        <div class="title-source">{{'connectors.document_level_permission'|translate}}</div>
-                                                        <div class="name-placeholder">Default</div>
-                                                    </div>
-                                                </div>
-                                                <div class="source-card">
-                                                    <div class="row-data-card">
-                                                        <div class="title-source">{{'connectors.credentials_identifier'|translate}}</div>
-                                                        <div class="input-with-eye">
-                                                            <input type="text" placeholder="****************">
-                                                            <i class="si-eye"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row-data-card">
-                                                        <div class="title-source">{{'connectors.access_tocken'|translate}}</div>
-                                                        <div class="input-with-eye">
-                                                            <input type="text" placeholder="****************">
-                                                            <i class="si-eye"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <div class="content-block text-truncate">
+                                                <div class="title text-truncate">{{connector?.connector_name}}</div>
+                                                <div class="desc-text text-truncate">{{connector?.description}}</div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="overview-buttons">
-                                        <button class="kr-sg-button-secondary btn_lg">{{'connectors.cancel_button'|translate}}</button>
-                                        <span class="overview_save_button"><button class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button> </span>
-                                    </div>
                                 </div>
-                                <div id="settings" class="tab-pane fade">
-                                    <div class="settings-data">
-                                        <div class="content-name">{{'connectors.content_source_name'|translate}} <span>{{'connectors.customize_the_name'|translate}}</span></div>
-                                        <div class="kr-sg-input-text">
-                                            <div class="label-text">{{'connectors.source_name'|translate}}</div>
-                                            <input type="text" placeholder="Place holder name" class="input-text">
-                                        </div>
-                                        <div class="content-name">{{'connectors.content_source_configuration'|translate}} <span>{{'connectors.edit_connector_settings'|translate}}</span></div>
-                                        <div class="source-card">
-                                            <div class="row-data-card">
-                                                <div class="title-source">{{'connectors.credentials_identifier'|translate}}</div>
-                                                <div class="input-with-eye">
-                                                    <input type="text" placeholder="****************">
-                                                    <i class="si-eye"></i>
-                                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="availableConnectorsData?.length">
+                                <div class="heading-with-line" *ngIf="connectorsData?.length">
+                                    <div class="main-heading">{{'connectors.available'|translate}}</div>
+                                    <div class="line-border"></div>
+                                </div>
+                                <div class="card-connectors-info row">
+                                    <div class="card-connector-column" *ngFor="let avaiable of availableConnectorsData"
+                                        (click)="changeContent('add',avaiable)">
+                                        <div class="inner-card">
+                                            <div class="connect-link" *ngIf="avaiable?.type==='confluenceServer'">
+                                                Connect</div>
+                                            <div class="icon-block">
+                                                <img [src]="avaiable.image">
                                             </div>
-                                            <div class="row-data-card">
-                                                <div class="title-source">{{'connectors.access_token'|translate}}</div>
-                                                <div class="input-with-eye">
-                                                    <input type="text" placeholder="****************">
-                                                    <i class="si-eye"></i>
-                                                </div>
+                                            <div class="content-block text-truncate">
+                                                <div class="title text-truncate">{{avaiable?.connector_name}}</div>
+                                                <div class="desc-text text-truncate">{{avaiable?.description}}</div>
                                             </div>
-                                            <div class="edit-content-link">{{'connectors.edit_connector_settings'|translate}}</div>
                                         </div>
                                     </div>
-                                    <div class="source_settings">
-                                        <button class="kr-sg-button-secondary btn_lg">{{'connectors.cancel_button'|translate}}</button>
-                                        <button class="kr-sg-button-primary btn_lg source_settings_savechanges">{{'connectors.save_changes_button'|translate}}</button>
-                                        <button class="kr-sg-button-danger btn_lg source_settings_remove"><i class="si-delete"></i>{{'connectors.remove_content_source_button'|translate}}</button>
-                                    </div>
                                 </div>
-                            </div>
-                        </div>
-
-                    </ng-container>
-                </div>
-            </perfect-scrollbar>
-            <div class="view-more-btn">
-                <!-- <div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                </perfect-scrollbar>
+                <div class="view-more-btn">
+                    <!-- <div>
                     <button class="kr-sg-button-secondary btn_lg">{{'connectors.cancel_button'|translate}}</button>
                     <button class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button>
                 </div> -->
-                <!-- <div class="">
+                    <!-- <div class="">
                     <button class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button>
                     <button class="kr-sg-button-danger btn_lg"><i class="si-delete"></i>{{'connectors.remove_content_source_button'|translate}}</button>
                 </div> -->
+                </div>
             </div>
         </div>
-    </ng-container>
 
-    <ng-container *ngIf="false">
-        <div class="configuration-connectors-sec">
-            <div class="header-configuration-data">
-                <div class="config-tab in-progress">
-                    <div class="icon-config">
-                        <i class="si-instructions"></i>
+        <div *ngSwitchCase="'add'">
+            <div class="configuration-connectors-sec">
+                <div class="header-configuration-data">
+                    <div class="config-tab" *ngFor="let step of addConnectorSteps"
+                        [ngClass]="{'in-progress':step.name===selectAddContent,'completed-config':step.isCompleted&&step.name!==selectAddContent}">
+                        <div class="icon-config">
+                            <i class="si-instructions"></i>
+                        </div>
+                        <div class="title">{{step?.name}}</div>
                     </div>
-                    <div class="title">{{'connectors.instructions'|translate}}</div>
                 </div>
-                <div class="config-tab">
-                    <div class="icon-config">
-                        <i class="si-settings"></i>
-                    </div>
-                    <div class="title">{{'connectors.configurtion'|translate}}</div>
-                </div>
-                <div class="config-tab">
-                    <div class="icon-config">
-                        <i class="si-settings"></i>
-                    </div>
-                    <div class="title">{{'connectors.authentication'|translate}}</div>
-                </div>
-            </div>
-            <div class="body-config-data">
-                <perfect-scrollbar>
-                    <div class="inner-scroll-data">
-                        <ng-container *ngIf="true">
-                            <div class="instruction-setup">
+                <div class="body-config-data">
+                    <perfect-scrollbar>
+                        <div class="inner-scroll-data" [ngSwitch]="selectAddContent">
+                            <div class="instruction-setup" *ngSwitchCase="'instructions'">
                                 <div class="desc-text">{{'connectors.quick_setup_desc'|translate}}</div>
                                 <div class="connector-brand">
                                     <div class="c-img">
-                                        <img src="assets/icons/connectors/drive-google.png">
+                                        <img [src]="selectedConnector?.image">
                                     </div>
                                     <div class="c-content-sec">
-                                        <div class="title">Google drive</div>
-                                        <div class="sub-text">File Sharing, Storage, Cloud, G Suite</div>
+                                        <div class="title">{{selectedConnector?.connector_name}}</div>
+                                        <!-- <div class="sub-text">File Sharing, Storage, Cloud, G Suite</div> -->
                                     </div>
                                 </div>
                                 <div class="instruction-steps-data">
                                     <div class="left-block">
-                                        <div class="heading-text">How to add Google Drive</div>
-                                        <div class="sub-heading">{{'connectors.follow_simple_steps'|translate}}</div>
+                                        <div class="heading-text">How to add {{selectedConnector?.connector_name}}</div>
+                                        <div class="sub-heading">{{'connectors.follow_simple_steps'|translate}}
+                                        </div>
                                         <div class="card-c">
                                             <div class="icon-content">
                                                 <i class="si-user"></i>
                                             </div>
                                             <div class="text-content">
-                                                <div class="primary-title">{{'connectors.generate_client_id'|translate}}</div>
-                                                <div class="secondary-text">{{'connectors.generate_client_id_example'|translate}}</div>
+                                                <div class="primary-title">
+                                                    {{'connectors.generate_client_id'|translate}}
+                                                </div>
+                                                <div class="secondary-text">
+                                                    {{'connectors.generate_client_id_example'|translate}}</div>
                                             </div>
                                         </div>
                                         <div class="card-c">
@@ -878,8 +648,11 @@
                                                 <i class="si-lock"></i>
                                             </div>
                                             <div class="text-content">
-                                                <div class="primary-title">{{'connectors.generate_secret_id'|translate}}</div>
-                                                <div class="secondary-text">{{'connectors.generate_secret_id_example'|translate}}</div>
+                                                <div class="primary-title">
+                                                    {{'connectors.generate_secret_id'|translate}}
+                                                </div>
+                                                <div class="secondary-text">
+                                                    {{'connectors.generate_secret_id_example'|translate}}</div>
                                             </div>
                                         </div>
                                         <div class="arrow-large-down text-center">
@@ -887,7 +660,7 @@
                                         </div>
                                         <div class="card-c dashed-card">
                                             <div class="icon-content">
-                                                <img src="assets/icons/connectors/drive-google.png">
+                                                <img [src]="selectedConnector?.image">
                                             </div>
                                             <div class="text-content">
                                                 <div class="primary-title">Connect sources</div>
@@ -901,44 +674,64 @@
                                             <div class="steps-info-sec">
                                                 <div class="h-title">Configure an OAuth application</div>
                                                 <a href="#"><i class="si-external-link"></i> Documentation</a>
-                                                <div class="text-desc">Setup a secure OAuth application through the content source that you or your team will use to connect and synchronize content. You only have to do this once per content source.</div>
+                                                <div class="text-desc">Setup a secure OAuth application through the
+                                                    content source that you or your team will use to connect and
+                                                    synchronize content. You only have to do this once per content
+                                                    source.</div>
                                             </div>
                                         </div>
                                         <div class="steps-hint-data">
                                             <div class="step-data-title">Step 2</div>
                                             <div class="steps-info-sec">
                                                 <div class="h-title">Connect the content source</div>
-                                                <div class="text-desc">Use the new OAuth application to connect any number of instances of the content source to  Search Assist.</div>
+                                                <div class="text-desc">Use the new OAuth application to connect any
+                                                    number of instances of the content source to Search Assist.
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="steps-hint-data">
                                             <div class="step-data-title">Step 3</div>
                                             <div class="steps-info-sec">
                                                 <div class="h-title">Follow authentification flow</div>
-                                                <div class="text-desc">Follow the Google Drive authentication flow as presented in the <a href="#">documentation link</a>.</div>
+                                                <div class="text-desc">Follow the {{selectedConnector?.connector_name}}
+                                                    authentication flow
+                                                    as
+                                                    presented in the <a href="#">documentation link</a>.</div>
                                             </div>
                                         </div>
                                         <div class="steps-hint-data">
                                             <div class="step-data-title">Step 4</div>
                                             <div class="steps-info-sec">
                                                 <div class="h-title">Authentication</div>
-                                                <div class="text-desc">Upon the successful authentication flow, you will be redirected to Search Assist.<br/><br/>Google Drive content will now be captured and will be ready for search gradually as it is synced. Once successfully configured and connected, the Google Drive will synchronize automatically.</div>
+                                                <div class="text-desc">Upon the successful authentication flow, you
+                                                    will
+                                                    be redirected to Search
+                                                    Assist.<br /><br />{{selectedConnector?.connector_name}} content
+                                                    will
+                                                    now be captured and will be ready for search gradually as it is
+                                                    synced. Once successfully configured and connected, the
+                                                    {{selectedConnector?.connector_name}}
+                                                    will synchronize automatically.</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </ng-container>
-                        <ng-container *ngIf="true">
-                            <div class="configuration-setup">
-                                <div class="desc-text">Setup a secure OAuth application through the content source that you or your team will use to connect and synchronize content. You only have to do this once per content source. Follow the Google Drive authentication flow as presented in the <a href="#">documentation link.</a></div>
+                            <div class="configuration-setup" *ngSwitchCase="'configurtion'">
+                                <div class="desc-text">Setup a secure OAuth application through the content source
+                                    that
+                                    you or your team will use to connect and synchronize content. You only have to
+                                    do
+                                    this once per content source. Follow the {{selectedConnector?.connector_name}}
+                                    authentication flow as
+                                    presented in the <a href="#">documentation link.</a></div>
                                 <div class="connector-brand">
                                     <div class="c-img">
-                                        <img src="assets/icons/connectors/drive-google.png">
+                                        <img [src]="selectedConnector?.image">
                                     </div>
                                     <div class="c-content-sec">
-                                        <div class="title">Google drive</div>
-                                        <div class="sub-text">File Sharing, Storage, Cloud, G Suite</div>
+                                        <div class="title">{{selectedConnector?.connector_name}}</div>
+                                        <!-- <div class="sub-text">File Sharing, Storage, Cloud, G Suite</div> -->
                                     </div>
                                 </div>
                                 <div class="config-steps-boxes">
@@ -946,10 +739,16 @@
                                         <div class="inner-content">
                                             <div class="title-heading">Step 1</div>
                                             <div class="box-data-step">
-                                                <div class="text-desc">Setup OAuth application by following simple steps listed in doument link to generate Client ID and Secret ID</div>
-                                                <div class="redirect-text">Click here to redirect to google drive cloud platform</div>
+                                                <div class="text-desc">Setup OAuth application by following simple
+                                                    steps
+                                                    listed in doument link to generate Client ID and Secret ID</div>
+                                                <div class="redirect-text">Click here to redirect to google drive
+                                                    cloud
+                                                    platform</div>
                                                 <div class="text-center mt-2">
-                                                    <a href="#"><i class="si-external-link"></i> Google Drive Application Portal</a>
+                                                    <a href="#"><i class="si-external-link"></i>
+                                                        {{selectedConnector?.connector_name}}
+                                                        Application Portal</a>
                                                 </div>
                                                 <div class="generate-card-info">
                                                     <div class="card-g">
@@ -959,7 +758,9 @@
                                                         <div class="content-g">
                                                             <div class="title">Generate Client ID</div>
                                                             <div class="example-text">Example:</div>
-                                                            <div class="clientid">RB69B5VGIUIUCEIUWEFIUEIJNCIEUWNEICNEICNEOIJDEWOIJEOIDIJOIJOWC...</div>
+                                                            <div class="clientid">
+                                                                RB69B5VGIUIUCEIUWEFIUEIJNCIEUWNEICNEICNEOIJDEWOIJEOIDIJOIJOWC...
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="card-g">
@@ -969,7 +770,9 @@
                                                         <div class="content-g">
                                                             <div class="title">Generate Secret ID</div>
                                                             <div class="example-text">Example:</div>
-                                                            <div class="clientid">12345dijiuhIOoIJCODCIUD CISDUCHDSOICJDOSICOUIHWjoehsfseoijcsdijoaoij...</div>
+                                                            <div class="clientid">12345dijiuhIOoIJCODCIUD
+                                                                CISDUCHDSOICJDOSICOUIHWjoehsfseoijcsdijoaoij...
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -980,38 +783,59 @@
                                         <div class="inner-content">
                                             <div class="title-heading">Step 2</div>
                                             <div class="box-data-step">
-                                                <div class="text-data-desc">After generating configuration information from step 1, please provide valid credintials to connect to google drive.</div>
-                                                <div class="heading-label">{{'connectors.provide_appropriate_config_info'|translate}}</div>
+                                                <div class="text-data-desc">After generating configuration
+                                                    information
+                                                    from step 1, please provide valid credintials to connect to
+                                                    {{selectedConnector?.connector_name}}.</div>
+                                                <div class="heading-label">
+                                                    {{'connectors.provide_appropriate_config_info'|translate}}</div>
                                                 <div class="kr-sg-input-text mb-3">
-                                                    <div class="label-text">{{'connectors.clientid'|translate}}</div>
-                                                    <input type="text" placeholder="Paste Client ID here" class="input-text">
+                                                    <div class="label-text">{{'connectors.clientid'|translate}}
+                                                    </div>
+                                                    <input type="text" placeholder="Paste Client ID here"
+                                                        class="input-text" [(ngModel)]="configurationObj.clientId"
+                                                        (change)="updateConfiguration()">
                                                 </div>
                                                 <div class="kr-sg-input-text">
-                                                    <div class="label-text">{{'connectors.clientsecretId'|translate}}</div>
-                                                    <input type="text" placeholder="Paste Secret ID here" class="input-text">
+                                                    <div class="label-text">
+                                                        {{'connectors.clientsecretId'|translate}}
+                                                    </div>
+                                                    <input type="text" placeholder="Paste Secret ID here"
+                                                        class="input-text" [(ngModel)]="configurationObj.clientSecret"
+                                                        (change)="updateConfiguration()">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </ng-container>
-                        <ng-container *ngIf="true">
-                            <div class="authentication-sec">
-                                <div class="desc-text">Upon successful authentication, Google Drive content will now be captured and will be ready for search gradually as it is synced. Once successfully configured and connected, the Google Drive synchronization automatically.</div>
+                            <div class="authentication-sec" *ngSwitchCase="'authentication'">
+                                <div class="desc-text">Upon successful authentication,
+                                    {{selectedConnector?.connector_name}} content will now
+                                    be
+                                    captured and will be ready for search gradually as it is synced. Once
+                                    successfully
+                                    configured and connected, the {{selectedConnector?.connector_name}} synchronization
+                                    automatically.</div>
                                 <div class="connector-brand">
                                     <div class="c-img">
-                                        <img src="assets/icons/connectors/drive-google.png">
+                                        <img [src]="selectedConnector?.image">
                                     </div>
                                     <div class="c-content-sec">
-                                        <div class="title">Google drive</div>
-                                        <div class="sub-text">File Sharing, Storage, Cloud, G Suite</div>
+                                        <div class="title">{{selectedConnector?.connector_name}}</div>
+                                        <!-- <div class="sub-text">File Sharing, Storage, Cloud, G Suite</div> -->
                                     </div>
                                 </div>
-                                <div class="documentation-text">{{'connectors.document_level_permissions'|translate}}</div>
-                                <div class="document-desc">{{'connectors.document_level_permissions_info'|translate}}</div>
+                                <div class="documentation-text">
+                                    {{'connectors.document_level_permissions'|translate}}
+                                </div>
+                                <div class="document-desc">
+                                    {{'connectors.document_level_permissions_info'|translate}}
+                                </div>
                                 <div class="toggle-with-text">
-                                    <div class="t-title">{{'connectors.enable_document_level_permission_synchronization'|translate}}</div>
+                                    <div class="t-title">
+                                        {{'connectors.enable_document_level_permission_synchronization'|translate}}
+                                    </div>
                                     <label class="kr-sg-toggle">
                                         <input type="checkbox" checked>
                                         <div class="slider"></div>
@@ -1021,21 +845,182 @@
                                     <i class="si-info"></i>{{'connectors.which_option_should_i_choose'|translate}}
                                 </div>
                             </div>
-                        </ng-container>
-                    </div>
-                </perfect-scrollbar>
-                <div class="footer-btns">
-                    <div class="left-btn">
-                        <button class="kr-sg-button-secondary btn_lg">{{'connectors.back_button'|translate}}</button>
-                    </div>
-                    <div class="right-btn">
-                        <button class="kr-sg-button-secondary btn_lg">{{'connectors.cancel_button'|translate}}</button>
-                        <button class="kr-sg-button-primary btn_lg">{{'connectors.proceed_button'|translate}}</button>
+                        </div>
+                    </perfect-scrollbar>
+                    <div class="footer-btns">
+                        <div class="left-btn">
+                            <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('back')"
+                                *ngIf="selectAddContent!=='instructions'">{{'connectors.back_button'|translate}}</button>
+                        </div>
+                        <div class="right-btn">
+                            <button class="kr-sg-button-secondary btn_lg"
+                                (click)="backToPage('cancel')">{{'connectors.cancel_button'|translate}}</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='instructions'"
+                                (click)="backToPage('submit')">{{'connectors.proceed_button'|translate}}</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='configurtion'"
+                                (click)="backToPage('submit')"
+                                [disabled]="!(configurationObj.clientId.length && configurationObj.clientSecret.length)">{{'connectors.save_configuration'|translate}}</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='authentication'"
+                                (click)="backToPage('submit')">{{'connectors.connect'|translate}}
+                                {{selectedConnector?.connector_name}}</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </ng-container>
+        <div class="connector-cards-data" *ngSwitchCase="'edit'">
+            <perfect-scrollbar>
+                <div class="inner-content-data">
+                    <div class="desc-text">{{'connectors.editremoveconnectedsources'|translate}}</div>
+                    <div class="connector-brand">
+                        <div class="c-img">
+                            <img src="assets/icons/connectors/drive-google.png">
+                        </div>
+                        <div class="c-content-sec">
+                            <div class="title">Google drive</div>
+                            <div class="sub-text">Created October 11, 2021</div>
+                        </div>
+                    </div>
+                    <div class="edit-connectors-block">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab"
+                                    href="#overview">{{'connectors.overviewtab'|translate}}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab"
+                                    href="#settings">{{'connectors.source_settings_tab'|translate}}</a>
+                            </li>
+                        </ul>
 
+                        <div class="tab-content">
+                            <div id="overview" class="tab-pane active">
+                                <div class="overview-tab-data">
+                                    <div class="heading-summery">{{'connectors.summary'|translate}}</div>
+                                    <div class="overview-summery-cards">
+                                        <div class="table-summery">
+                                            <div class="table-heading-summery">
+                                                <div class="title">{{'connectors.source_type'|translate}}</div>
+                                                <div class="title text-right">{{'connectors.items'|translate}}</div>
+                                            </div>
+                                            <ng-container>
+                                                <div class="repeat-table-body">
+                                                    <div class="title user-type">Users</div>
+                                                    <div class="title item-count">256</div>
+                                                </div>
+                                                <div class="repeat-table-body">
+                                                    <div class="title user-type">PNG</div>
+                                                    <div class="title item-count">17526</div>
+                                                </div>
+                                                <div class="repeat-table-body">
+                                                    <div class="title user-type">DOX</div>
+                                                    <div class="title item-count">261873</div>
+                                                </div>
+                                                <div class="repeat-table-body">
+                                                    <div class="title user-type">XLSX</div>
+                                                    <div class="title item-count">279164</div>
+                                                </div>
+                                                <div class="repeat-table-body">
+                                                    <div class="title user-type">Folders</div>
+                                                    <div class="title item-count">672</div>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                        <div class="source-data">
+                                            <div class="source-card">
+                                                <div class="row-data-card">
+                                                    <div class="title-source">{{'connectors.source'|translate}}
+                                                    </div>
+                                                    <div class="name-placeholder">
+                                                        {{'connectors.place_holder'|translate}}</div>
+                                                </div>
+                                                <div class="row-data-card">
+                                                    <div class="title-source">
+                                                        {{'connectors.configuartion_email'|translate}}</div>
+                                                    <div class="name-placeholder">johndoe@gmail.com</div>
+                                                </div>
+                                                <div class="row-data-card">
+                                                    <div class="title-source">
+                                                        {{'connectors.document_level_permission'|translate}}</div>
+                                                    <div class="name-placeholder">Default</div>
+                                                </div>
+                                            </div>
+                                            <div class="source-card">
+                                                <div class="row-data-card">
+                                                    <div class="title-source">
+                                                        {{'connectors.credentials_identifier'|translate}}</div>
+                                                    <div class="input-with-eye">
+                                                        <input type="text" placeholder="****************">
+                                                        <i class="si-eye"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="row-data-card">
+                                                    <div class="title-source">
+                                                        {{'connectors.access_tocken'|translate}}</div>
+                                                    <div class="input-with-eye">
+                                                        <input type="text" placeholder="****************">
+                                                        <i class="si-eye"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="overview-buttons">
+                                    <button
+                                        class="kr-sg-button-secondary btn_lg">{{'connectors.cancel_button'|translate}}</button>
+                                    <span class="overview_save_button"><button
+                                            class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div id="settings" class="tab-pane fade">
+                                <div class="settings-data">
+                                    <div class="content-name">{{'connectors.content_source_name'|translate}}
+                                        <span>{{'connectors.customize_the_name'|translate}}</span>
+                                    </div>
+                                    <div class="kr-sg-input-text">
+                                        <div class="label-text">{{'connectors.source_name'|translate}}</div>
+                                        <input type="text" placeholder="Place holder name" class="input-text">
+                                    </div>
+                                    <div class="content-name">
+                                        {{'connectors.content_source_configuration'|translate}}
+                                        <span>{{'connectors.edit_connector_settings'|translate}}</span>
+                                    </div>
+                                    <div class="source-card">
+                                        <div class="row-data-card">
+                                            <div class="title-source">
+                                                {{'connectors.credentials_identifier'|translate}}</div>
+                                            <div class="input-with-eye">
+                                                <input type="text" placeholder="****************">
+                                                <i class="si-eye"></i>
+                                            </div>
+                                        </div>
+                                        <div class="row-data-card">
+                                            <div class="title-source">{{'connectors.access_token'|translate}}</div>
+                                            <div class="input-with-eye">
+                                                <input type="text" placeholder="****************">
+                                                <i class="si-eye"></i>
+                                            </div>
+                                        </div>
+                                        <div class="edit-content-link">
+                                            {{'connectors.edit_connector_settings'|translate}}</div>
+                                    </div>
+                                </div>
+                                <div class="source_settings">
+                                    <button
+                                        class="kr-sg-button-secondary btn_lg">{{'connectors.cancel_button'|translate}}</button>
+                                    <button
+                                        class="kr-sg-button-primary btn_lg source_settings_savechanges">{{'connectors.save_changes_button'|translate}}</button>
+                                    <button class="kr-sg-button-danger btn_lg source_settings_remove"><i
+                                            class="si-delete"></i>{{'connectors.remove_content_source_button'|translate}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </perfect-scrollbar>
+        </div>
 
+    </div>
 </div>
