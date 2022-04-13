@@ -422,7 +422,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         });
         if (queuedJobs && queuedJobs.length) {
           this.statusObject = queuedJobs[0];
-          if (queuedJobs[0].validation.urlValidation) {
+          if (queuedJobs[0].validation && queuedJobs[0].validation.urlValidation) {
             this.crawlOkDisable = !queuedJobs[0].validation.urlValidation;
           }
 

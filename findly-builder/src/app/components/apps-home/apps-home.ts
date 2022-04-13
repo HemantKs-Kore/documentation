@@ -39,6 +39,7 @@ export class AppsListingComponent implements OnInit {
   slectedUnlinkAppId:any ='';
   unlinkPop = true;
   showSearch = false;
+  submitted:boolean=false;
   activeClose = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   carousel: any = [];
@@ -135,6 +136,7 @@ export class AppsListingComponent implements OnInit {
   }
   openDeleteApp(event,appInfo) {
     this.unlinkPop =false;
+    this.submitted =false;
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
@@ -153,7 +155,7 @@ export class AppsListingComponent implements OnInit {
 
   //Delete App function
   deleteApp() {
-
+    this.submitted=true;
     let quaryparms: any = {};
     quaryparms.streamId = this.slectedAppId;
     if(this.confirmApp == this.validateName ){
@@ -169,8 +171,14 @@ export class AppsListingComponent implements OnInit {
       this.notificationService.notify('Deletion has gone wrong.', 'error');
     });
   }
-  else{
+  else if (this.confirmApp==""){
     this.notificationService.notify('Enter and confirm the App Name ', 'error');
+  }
+  else if (this.confirmApp != this.validateName ){  
+    this.notificationService.notify('Please check the app name you entered ', 'error');
+  }
+  else{  
+    this.notificationService.notify('Something went wrong', 'error');
   }
     // for (let i=0; i<this.apps.length; i++){
     // if (this.apps[i].name === this.confirmApp){
