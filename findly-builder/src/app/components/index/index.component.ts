@@ -709,7 +709,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
               this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
             }
             //tempConfig[0] = config;
-            tempConfig[0] = tempStageObj.config.mappings[0]; // FLY - 4307 - multiple changes for the plainlessScript
+            tempConfig[0] = tempStageObj.config.mappings[0]; // FLY - 4519: multiple changes for the plainlessScript
           });
           tempStageObj.config.mappings = tempConfig;
         }
