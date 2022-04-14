@@ -538,9 +538,8 @@
 </kr-modal>
 
 <app-slider-component id="supportOnboarding">
-    <app-onboarding-component [currentRouteData]="currentRouteData" (emitStatus)="emitStatus($event)"
-        (closeSlid)="closeUserMetaTagsSlider()"></app-onboarding-component>
-</app-slider-component>
+    <app-onboarding-component [currentRouteData]="currentRouteData" (openSDK)="openSDK()" [displyStatusBar]="displyStatusBar" (emitStatus)="emitStatus($event)"  (closeSlid)="closeUserMetaTagsSlider()"></app-onboarding-component>
+  </app-slider-component>
 
 
 
@@ -555,8 +554,8 @@
             </div>
         </div>
         <div class="view-close">
-            <div class="view-title" (click)="openUserMetaTagsSlider()">View</div>
-            <div class="close-status" (click)="closeStatusBar()">
+            <div class="view-title"(click)="viewCheckList()" >View</div>
+            <div class="close-status"  (click)="closeStatusBar()" >
                 <i class="si-close"></i>
             </div>
         </div>

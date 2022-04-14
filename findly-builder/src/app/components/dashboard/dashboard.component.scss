@@ -364,7 +364,7 @@
                     padding: 15px 0;
                     box-shadow: inset 0px -1px 0px #E4E5E7;
                     .body-title{
-                        padding: 0 10px 0 20px;
+                        padding: 0 10px 0 40px;
                         overflow: hidden;
                         white-space: nowrap;
                         text-overflow: ellipsis;     
@@ -373,6 +373,12 @@
                         &.count{
                             color: #009DAB;
                         }
+                    }
+                    #search-results{
+                        padding-left: 65px;
+                    }
+                    #search-results-clicks{
+                        padding-left: 55px;
                     }
                     // &:hover{
                     //     transition: 0.3s all ease-in;
@@ -436,7 +442,10 @@
         }
     }
     .text-center{
-        text-align: center!important;
+        text-align: center!important;            
+    }
+    #topcount{
+        padding-left: 45px;
     }
     .create_new_link{
         color: #0D6EFD;

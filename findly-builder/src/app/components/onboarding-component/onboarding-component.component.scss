@@ -3,6 +3,22 @@
     width: 100%;
     border-top: 1px solid #B893F2;
     position: relative;
+    .version{
+        color: #202124;
+        font-size: 12px;
+        text-decoration: none;
+        border-radius: 10px;
+        background: #fcfcfc;
+        display: flex;
+        padding:5px 10px;
+        align-items: center;
+        justify-content: center;
+        top: 17px;
+        position: absolute;
+        right: 62px;
+        top: 15px;
+        
+    }
     .close-slider{
         position: absolute;
         background: #EEE3FF;
@@ -205,42 +221,44 @@
                             }
                         }
                     }
-                    &.getting-start{
-                        .img-block{
-                            background: #CDEFFD;
-                        }
+                    &.getting-start{    
+                        &:hover{
+                            .img-block{
+                                background: #CDEFFD;
+                            }
                         .dummy-border-left{
                             background: #21BDDD;
                         }
+                      }
                     }
-                    &.whats-new{
-                        .img-block{
-                            background: #FFFBEA;
-                        }
+                    &.whats-new{                      
                         &:hover{
+                            .img-block{
+                                background: #FFFBEA;
+                            }
                             .dummy-border-left{
                                 background: #FFDA2D;
                             }
                         }
                         
                     }
-                    &.help-doc{
-                        .img-block{
-                            background: #FCEAED;
-                        }
+                    &.help-doc{     
                         &:hover{
+                            .img-block{
+                                background: #FCEAED;
+                            }
                             .dummy-border-left{
                                 background: #DD3646;
                             }
                         }
                         
                     }
-                    &.contactus{
-                        .img-block{
-                            background: #EAF6EC;
-                        }
+                    &.contactus{    
                         &:hover{
-                        .dummy-border-left{
+                            .img-block{
+                                background: #EAF6EC;
+                            }
+                            .dummy-border-left{
                             background: #28A745;
                         }
                       }
@@ -259,7 +277,7 @@
                         height: 60px;
                         flex-shrink: 0;
                         border-radius: 100%;
-                        background: #CDEFFD;
+                        background: #ecf9ff;
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -344,7 +362,7 @@
                         height: 26px;
                         flex-shrink: 0;
                         border-radius: 100%;
-                        background: #E4E5E7;
+                        background: #ecf9ff;
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -397,40 +415,120 @@
                     cursor: pointer;
                     position: relative;
                     transition: 0.4s all ease;
-                    &:hover{
-                        background: #F8F9FA;
-                        padding: 5px 0;
-                        align-items: flex-start;
-                        .ext-icon-link{
-                            right: 15px;
-                            top: 16px;
-                        }
-                        .video-block-data{
-                            display: block;
-                        }
-                        .img-block{
-                            display: none;
-                        }
-                        .content-block{
-                            padding: 10px 15px 0 15px;
-                            .title-with-img{
-                                display: flex;
+                    .dummy-border-left{
+                        position: absolute;
+                        background: #ffffff;
+                    }
+                    // &:hover{
+                    //     background: #F8F9FA;
+                    //     padding: 5px 0;
+                    //     align-items: flex-start;
+                    //     .ext-icon-link{
+                    //         right: 15px;
+                    //         top: 16px;
+                    //     }
+                    //     .video-block-data{
+                    //         display: block;
+                    //     }
+                    //     .img-block{
+                    //         display: none;
+                    //     }
+                    //     .content-block{
+                    //         padding: 10px 15px 0 15px;
+                    //         .title-with-img{
+                    //             display: flex;
+                    //         }
+                    //         .title{
+                    //             display: none;
+                    //         }
+                    //     }
+                    // }
+                    &.Blue{                     
+                        &:hover{
+                            .img-block{
+                                background: #E7F1FF;
                             }
-                            .title{
-                                display: none;
+                            .dummy-border-left{
+                                background: #0D6EFD;
+                                left: -1px;
+                                height: 100%;
+                                width: 3px;
+                        top: 0px;
                             }
-                        }
+                          }
+                    }
+                    &.purple{
+                        &:hover{
+                            .img-block{
+                                background: #F1E9FB;
+                            }
+                            .dummy-border-left{
+                                background: #7027E5;
+                                left: -1px;
+                                height: 100%;
+                                width: 3px;
+                                top: 0px;
+                            }
+                          }
+                    }
+                    &.Orange{                    
+                        &:hover{
+                            .img-block{
+                                background: #FFF1ED;;
+                            }
+                            .dummy-border-left{
+                                background: #FF784B;
+                                left: -1px;
+                                height: 100%;
+                                width: 3px;
+                                top: 0px;
+                            }
+                          }
+                    }
+                    &.Skyblue{                       
+                        &:hover{
+                            .img-block{
+                                background: #E2F8FF;
+                            }
+                            .dummy-border-left{
+                                background: #35C1F1;
+                                left: -1px;
+                                height: 100%;
+                                width: 3px;
+                                top: 0px;
+                            }
+                          }
+                    }
+                    &.Green{                       
+                        &:hover{
+                            .img-block{
+                                background:#EAF6EC;
+                            }
+                            .dummy-border-left{
+                                background: #28A745;
+                                left: -1px;
+                                height: 100%;
+                                width: 3px;
+                                top: 0px;
+                            }
+                          }
+                    }
+                    &.Skyskybule{
+                        &:hover{
+                            .img-block{
+                                background: #E7F1FF;
+                            }
+                            .dummy-border-left{
+                                background:#85B7FE;
+                                left: -1px;
+                                height: 100%;
+                                width: 3px;
+                                top: 0px;
+                            }
+                          }
                     }
                     .video-block-data{
                         display: none;
-                    }
-                    .dummy-border-left{
-                        position: absolute;
-                        left: -1px;
-                        height: 100%;
-                        width: 3px;
-                        top: 0px;
-                        background: #0D6EFD;
                     }
                     .video-block-data{
                         width: 260px;
@@ -444,7 +542,7 @@
                         height: 60px;
                         flex-shrink: 0;
                         border-radius: 100%;
-                        background: #CDEFFD;
+                        background: #ecf9ff;
                         display: flex;
                         align-items: center;
                         justify-content: center;
