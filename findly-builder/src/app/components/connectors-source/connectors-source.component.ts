@@ -13,9 +13,15 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 export class ConnectorsSourceComponent implements OnInit {
   Connectors = [
     {
-      connector_name: "Confluence",
+      connector_name: "Confluence (Server)",
       description: "Please complete configuration",
       type: "confluenceServer",
+      image: "assets/icons/connectors/confluence.png"
+    },
+    {
+      connector_name: "Confluence",
+      description: "Please complete configuration",
+      type: "confluenceCloud",
       image: "assets/icons/connectors/confluence.png"
     }
   ];

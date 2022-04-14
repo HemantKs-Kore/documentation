@@ -541,7 +541,8 @@
                                     <div class="line-border"></div>
                                 </div>
                                 <div class="card-connectors-info row">
-                                    <div class="card-connector-column" *ngFor="let connector of connectorsData">
+                                    <div class="card-connector-column" *ngFor="let connector of connectorsData"
+                                        (click)="changeContent('edit',connector)">
                                         <div class="inner-card"
                                             [ngClass]="{'active-connector':connector.isActive,'disable-connector':connector.isActive===false}">
                                             <label class="kr-sg-toggle">
@@ -569,13 +570,13 @@
                                     <div class="card-connector-column" *ngFor="let avaiable of availableConnectorsData"
                                         (click)="changeContent('add',avaiable)">
                                         <div class="inner-card">
-                                            <div class="connect-link" *ngIf="avaiable?.type==='confluenceServer'">
-                                                Connect</div>
+                                            <!-- <div class="connect-link" *ngIf="avaiable?.type==='confluenceServer'">
+                                                Connect</div> -->
                                             <div class="icon-block">
                                                 <img [src]="avaiable.image">
                                             </div>
                                             <div class="content-block text-truncate">
-                                                <div class="title text-truncate">{{avaiable?.connector_name}}</div>
+                                                <div class="title">{{avaiable?.connector_name}}</div>
                                                 <div class="desc-text text-truncate">{{avaiable?.description}}</div>
                                             </div>
                                         </div>
@@ -871,11 +872,11 @@
                     <div class="desc-text">{{'connectors.editremoveconnectedsources'|translate}}</div>
                     <div class="connector-brand">
                         <div class="c-img">
-                            <img src="assets/icons/connectors/drive-google.png">
+                            <img [src]="selectedConnector.image">
                         </div>
                         <div class="c-content-sec">
-                            <div class="title">Google drive</div>
-                            <div class="sub-text">Created October 11, 2021</div>
+                            <div class="title">{{selectedConnector?.connector_name}}</div>
+                            <div class="sub-text">Created {{selectedConnector?.createdOn | date:'mediumDate'}}</div>
                         </div>
                     </div>
                     <div class="edit-connectors-block">
@@ -964,8 +965,8 @@
                                     </div>
                                 </div>
                                 <div class="overview-buttons">
-                                    <button
-                                        class="kr-sg-button-secondary btn_lg">{{'connectors.cancel_button'|translate}}</button>
+                                    <button class="kr-sg-button-secondary btn_lg"
+                                        (click)="selectedContent='list'">{{'connectors.cancel_button'|translate}}</button>
                                     <span class="overview_save_button"><button
                                             class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button>
                                     </span>
