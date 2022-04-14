@@ -193,8 +193,7 @@ export class UserEngagementComponent implements OnInit {
     this.getuserCharts('MostUsedDevices',selectedindexpipeline);
     this.getuserCharts("MostUsedBrowsers",selectedindexpipeline);
     this.getuserCharts("MostUsedGeoLocations",selectedindexpipeline);
-    this.getuserCharts("MostUsersSentiments",selectedindexpipeline);
-
+    //this.getuserCharts("MostUsersSentiments",selectedindexpipeline); /** Commenting to reduce the Call can be used later  */
   }
   // getDetails(config?){
   //   this.selecteddropname=config.name;
@@ -336,7 +335,7 @@ export class UserEngagementComponent implements OnInit {
     this.getuserCharts('MostUsedDevices',selectedindexpipeline);
     this.getuserCharts("MostUsedBrowsers",selectedindexpipeline);
     this.getuserCharts("MostUsedGeoLocations",selectedindexpipeline);
-    this.getuserCharts("MostUsersSentiments",selectedindexpipeline);
+   // this.getuserCharts("MostUsersSentiments",selectedindexpipeline); /** Commenting to reduce the Call can be used later  */
     }
   }
 
