@@ -543,8 +543,7 @@
                                     <div class="line-border"></div>
                                 </div>
                                 <div class="card-connectors-info row">
-                                    <div class="card-connector-column" *ngFor="let connector of connectorsData"
-                                        (click)="changeContent('edit',connector)">
+                                    <div class="card-connector-column" *ngFor="let connector of connectorsData">
                                         <div class="inner-card"
                                             [ngClass]="{'active-connector':connector.isActive,'disable-connector':connector.isActive===false}">
                                             <label class="kr-sg-toggle">
