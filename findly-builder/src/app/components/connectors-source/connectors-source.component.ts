@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-connectors-source',
   templateUrl: './connectors-source.component.html',
@@ -55,12 +56,18 @@ export class ConnectorsSourceComponent implements OnInit {
         , { stepnumber: "Step 4", steptitle: "Authentication", linktext: "", url: "", linkiconpresent: false, stepdescription: "Upon the successful authentication flow, you will be redirected to Search Assist.Google Drive content will now be captured and will be ready for search gradually as it is synced. Once successfully configured and connected, the Google Drive will synchronize automatically." }]
     }];
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
-  constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog) { }
+  constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private location: Location, private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
     this.getConnectors();
+    // this.activeRoute.params.subscribe(param => {
+    //   const params = Object.keys(param).length;
+    //   if (params > 0) {
+    //     this.location.replaceState('');
+    //   }
+    // })
   }
   //open delete model popup
   openDeleteModel(type) {
@@ -105,7 +112,6 @@ export class ConnectorsSourceComponent implements OnInit {
           this.availableConnectorsData = this.Connectors;
         }
       })
-      console.log("connectorsData", this.connectorsData, this.availableConnectorsData)
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get Connectors');
     });
