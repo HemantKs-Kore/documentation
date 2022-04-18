@@ -588,16 +588,16 @@
                         </ng-container>
                     </div>
                 </perfect-scrollbar>
-                <div class="view-more-btn">
-                    <!-- <div>
-                    <button class="kr-sg-button-secondary btn_lg">{{'connectors.cancel_button'|translate}}</button>
-                    <button class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button>
+                <!-- <div class="view-more-btn">
+                    <div>
+                        <button class="kr-sg-button-secondary btn_lg">{{'connectors.cancel_button'|translate}}</button>
+                        <button class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button>
+                    </div>
+                    <div class="">
+                        <button class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button>
+                        <button class="kr-sg-button-danger btn_lg"><i class="si-delete"></i>{{'connectors.remove_content_source_button'|translate}}</button>
+                    </div>
                 </div> -->
-                    <!-- <div class="">
-                    <button class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button>
-                    <button class="kr-sg-button-danger btn_lg"><i class="si-delete"></i>{{'connectors.remove_content_source_button'|translate}}</button>
-                </div> -->
-                </div>
             </div>
         </div>
         <div *ngSwitchCase="'add'">
@@ -1020,24 +1020,47 @@
                     </div>
                 </div>
             </perfect-scrollbar>
+            <!-- <div class="view-more-btn">
+                <div>
+                    <button class="kr-sg-button-secondary btn_lg">Cancel</button>
+                    <button class="kr-sg-button-primary btn_lg">Save Changes</button>
+                </div>
+                <div class="">
+                    <button class="kr-sg-button-primary btn_lg">Save Changes</button>
+                    <button class="kr-sg-button-danger btn_lg"><i class="si-delete"></i>Remove this content source</button>
+                </div>
+            </div> -->
         </div>
     </div>
 </div>
 <!--kr model for delete connectors-->
-<kr-modal modalType="center" modalClass="modal_popups_ cancel_subscription" #deleteModel>
-    <div class="modal-header">
-        <div class="title">Remove Content Source</div>
-        <div class="close_icon">
-            <img src="assets/icons/modal-close.svg">
+<kr-modal modalType="center" modalClass="modal_popups_ delete-connectors-data" #deleteModel>
+    <div class="delete-connectors-info">
+        <div class="modal-header">
+            <div class="title">Remove Content Source</div>
+            <div class="close_icon" (click)="openDeleteModel('close')">
+                <img src="assets/icons/modal-close.svg">
+            </div>
         </div>
-    </div>
-    <perfect-scrollbar>
         <div class="modal-body">
-            <h2>Are you sure you want to remove following content source?</h2>
+            <div class="title-text">Are you sure you want to remove following content source?</div>
+            <div class="info-text">
+                <i class="si-info"></i>
+                <span>This action cannot be undone.</span>
+            </div>
+            <div class="connector-brand">
+                <div class="c-img">
+                    <img src="assets/icons/connectors/drive-google.png">
+                </div>
+                <div class="c-content-sec">
+                    <div class="title">Google drive</div>
+                    <div class="sub-text">File Sharing, Storage, Cloud, G Suite</div>
+                </div>
+            </div>
         </div>
-    </perfect-scrollbar>
-    <div class="modal-footer text-right">
-        <button class="kr-sg-button-primary btn_lg">Yes</button>
-        <button class="kr-sg-button-secondary btn_lg" (click)="openDeleteModel('close')">No</button>
+        <div class="modal-footer text-right">
+            <button class="kr-sg-button-danger btn_lg">Yes</button>
+            <button class="kr-sg-button-secondary btn_lg" (click)="openDeleteModel('close')">No</button>
+        </div>
     </div>
 </kr-modal>
