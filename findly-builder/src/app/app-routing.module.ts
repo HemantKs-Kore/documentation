@@ -52,7 +52,7 @@ const routes: Routes = [
       { path: 'source', component: AddSourceComponent },
       { path: 'content', component: ContentSourceComponent },
       { path: 'faqs', component: FaqSourceComponent },
-      { path: 'connectors', component: ConnectorsSourceComponent},
+      { path: 'connectors', component: ConnectorsSourceComponent },
       { path: 'botActions', component: BotActionComponent },
       { path: 'synonyms', component: SynonymsComponent },
       { path: 'traits', component: TraitsComponent },
@@ -75,7 +75,7 @@ const routes: Routes = [
       { path: 'generalSettings', component: GeneralSettingsComponent },
       { path: 'FieldManagementComponent', component: FieldManagementComponent },
       // { path: 'searchInterface', component: SearchInterfaceComponent }, /* currently in UI Result Templates */
-      { path: 'resultTemplate', component: ResultTemplatesComponent }, 
+      { path: 'resultTemplate', component: ResultTemplatesComponent },
       { path: 'structuredData', component: StructuredDataComponent },
       { path: 'team-management', component: TeamManagementComponent },
       { path: 'search-experience', component: SearchExperienceComponent },

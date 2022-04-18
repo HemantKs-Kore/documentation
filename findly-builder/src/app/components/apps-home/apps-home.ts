@@ -8,7 +8,6 @@ import { NotificationService } from '@kore.services/notification.service';
 import { SideBarService } from '@kore.services/header.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { AuthService } from '@kore.services/auth.service';
-import { NONE_TYPE } from '@angular/compiler';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 declare const $: any;
@@ -28,18 +27,18 @@ export class AppsListingComponent implements OnInit {
   createAppPopRef: any;
   onboardingpopupjourneyRef: any;
   confirmatiomAppPopRef: any;
-  detailsPopUpRef:any;
+  detailsPopUpRef: any;
   creatingInProgress = false;
   searchApp = '';
   apps: any = [];
-  sharedApp=false;
-  confirmApp: any='';
-  validateName:any='';
-  slectedAppId:any ='';
-  slectedUnlinkAppId:any ='';
+  sharedApp = false;
+  confirmApp: any = '';
+  validateName: any = '';
+  slectedAppId: any = '';
+  slectedUnlinkAppId: any = '';
   unlinkPop = true;
   showSearch = false;
-  submitted:boolean=false;
+  submitted: boolean = false;
   activeClose = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   carousel: any = [];
@@ -102,7 +101,7 @@ export class AppsListingComponent implements OnInit {
   openApp(app) {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     this.appSelectionService.openApp(app);
-    this.workflowService.selectedIndexPipelineId='';
+    this.workflowService.selectedIndexPipelineId = '';
   }
   openBoradingJourney() {
     this.headerService.openJourneyForfirstTime = true;
@@ -134,9 +133,9 @@ export class AppsListingComponent implements OnInit {
       this.onboardingpopupjourneyRef.close();
     }
   }
-  openDeleteApp(event,appInfo) {
-    this.unlinkPop =false;
-    this.submitted =false;
+  openDeleteApp(event, appInfo) {
+    this.unlinkPop = false;
+    this.submitted = false;
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
@@ -149,37 +148,37 @@ export class AppsListingComponent implements OnInit {
     if (this.confirmatiomAppPopRef && this.confirmatiomAppPopRef.close) {
       this.confirmatiomAppPopRef.close();
       this.confirmApp = '';
-      this.unlinkPop=false;
+      this.unlinkPop = false;
     }
   }
 
   //Delete App function
   deleteApp() {
-    this.submitted=true;
+    this.submitted = true;
     let quaryparms: any = {};
     quaryparms.streamId = this.slectedAppId;
-    if(this.confirmApp == this.validateName ){
-    this.service.invoke('delete.app', quaryparms).subscribe(res => {
-      if (res) {
-        this.notificationService.notify('Deleted Successfully', 'success');
-        this.closeConfirmApp();
-        this.apps=this.apps.filter((val) => { return val._id!=this.slectedAppId });
-        this.selectedAppType(this.app_type);
-        this.confirmApp = '';
-      }
-    }, errRes => {
-      this.notificationService.notify('Deletion has gone wrong.', 'error');
-    });
-  }
-  else if (this.confirmApp==""){
-    this.notificationService.notify('Enter and confirm the App Name ', 'error');
-  }
-  else if (this.confirmApp != this.validateName ){  
-    this.notificationService.notify('Please check the app name you entered ', 'error');
-  }
-  else{  
-    this.notificationService.notify('Something went wrong', 'error');
-  }
+    if (this.confirmApp == this.validateName) {
+      this.service.invoke('delete.app', quaryparms).subscribe(res => {
+        if (res) {
+          this.notificationService.notify('Deleted Successfully', 'success');
+          this.closeConfirmApp();
+          this.apps = this.apps.filter((val) => { return val._id != this.slectedAppId });
+          this.selectedAppType(this.app_type);
+          this.confirmApp = '';
+        }
+      }, errRes => {
+        this.notificationService.notify('Deletion has gone wrong.', 'error');
+      });
+    }
+    else if (this.confirmApp == "") {
+      this.notificationService.notify('Enter and confirm the App Name ', 'error');
+    }
+    else if (this.confirmApp != this.validateName) {
+      this.notificationService.notify('Please check the app name you entered ', 'error');
+    }
+    else {
+      this.notificationService.notify('Something went wrong', 'error');
+    }
     // for (let i=0; i<this.apps.length; i++){
     // if (this.apps[i].name === this.confirmApp){
     // let quaryparms: any = {};
@@ -195,43 +194,43 @@ export class AppsListingComponent implements OnInit {
     //       });
     //  }
     // }
+  }
+  openUnlinkApp(event, appInfo) {
+    this.unlinkPop = true;
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
     }
-    openUnlinkApp(event,appInfo) {
-      this.unlinkPop =true;
-      if (event) {
-        event.stopImmediatePropagation();
-        event.preventDefault();
-      }
-      this.slectedUnlinkAppId = appInfo._id;
-      this.confirmatiomAppPopRef = this.confirmatiomAppPop.open();
-    } 
-     unlinkApp() {
-  
-      let quaryparms: any = {};
-      quaryparms.streamId = this.slectedUnlinkAppId;
-      
-      this.service.invoke('Unlink.app', quaryparms).subscribe(res => {
-        if (res) {
-          this.notificationService.notify('Removed Successfully', 'success');
-          this.closeConfirmApp();
-          setTimeout(() => {
-            this.getAllApps();
-          }, 400);
-        }
-      }, errRes => {
-        this.notificationService.notify('Something has gone wrong.', 'error');
-      });
-    }
+    this.slectedUnlinkAppId = appInfo._id;
+    this.confirmatiomAppPopRef = this.confirmatiomAppPop.open();
+  }
+  unlinkApp() {
 
-    checkForSharedApp(){
-      // if(this.apps.filter(item => item.createdBy != this.userId))
-      for(let i=0;i<this.apps.length;i++){
-        if(this.apps[i].createdBy!=this.userId){
-          this.sharedApp=true;
-        }
+    let quaryparms: any = {};
+    quaryparms.streamId = this.slectedUnlinkAppId;
+
+    this.service.invoke('Unlink.app', quaryparms).subscribe(res => {
+      if (res) {
+        this.notificationService.notify('Removed Successfully', 'success');
+        this.closeConfirmApp();
+        setTimeout(() => {
+          this.getAllApps();
+        }, 400);
+      }
+    }, errRes => {
+      this.notificationService.notify('Something has gone wrong.', 'error');
+    });
+  }
+
+  checkForSharedApp() {
+    // if(this.apps.filter(item => item.createdBy != this.userId))
+    for (let i = 0; i < this.apps.length; i++) {
+      if (this.apps[i].createdBy != this.userId) {
+        this.sharedApp = true;
       }
     }
-  
+  }
+
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -256,9 +255,9 @@ export class AppsListingComponent implements OnInit {
   public getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
       if (res && res.length) {
-        if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
+        if (localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")) {
           let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
-          if(prDetails && prDetails.formAccount){
+          if (prDetails && prDetails.formAccount) {
             this.redirectHome()
           }
         }
@@ -270,9 +269,9 @@ export class AppsListingComponent implements OnInit {
         this.emptyApp = false;
       }
       else {
-        if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
+        if (localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")) {
           this.redirectHome()
-        }else {
+        } else {
 
           /** Issue Fix for multiple onboarding  function called */
           // if (this.headerService.openJourneyForfirstTime) {
@@ -295,15 +294,15 @@ export class AppsListingComponent implements OnInit {
       // console.log(errRes);
     });
   }
-  clearAccount(){    
-    let prDetails = localStorage.getItem('krPreviousState')?JSON.parse(localStorage.getItem('krPreviousState')):null;
-        if(prDetails && prDetails.formAccount){
-           prDetails.formAccount = false;
-        }
-        localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
+  clearAccount() {
+    let prDetails = localStorage.getItem('krPreviousState') ? JSON.parse(localStorage.getItem('krPreviousState')) : null;
+    if (prDetails && prDetails.formAccount) {
+      prDetails.formAccount = false;
+    }
+    localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
   }
-  redirectHome(){
-    let prDetails = localStorage.getItem('krPreviousState')?JSON.parse(localStorage.getItem('krPreviousState')):null;
+  redirectHome() {
+    let prDetails = localStorage.getItem('krPreviousState') ? JSON.parse(localStorage.getItem('krPreviousState')) : null;
     prDetails.route = "/home";
     localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
     this.router.navigate(['/home'], { skipLocationChange: true });

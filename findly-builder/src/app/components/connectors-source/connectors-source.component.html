@@ -554,7 +554,8 @@
                                                 <img [src]="connector?.image" alt="connector-img">
                                             </div>
                                             <div class="content-block text-truncate">
-                                                <div class="title text-truncate">{{connector?.connector_name}}</div>
+                                                <div class="title text-truncate" [title]="connector?.connector_name">
+                                                    {{connector?.connector_name}}</div>
                                                 <div class="desc-text text-truncate">{{connector?.description}}</div>
                                             </div>
                                         </div>
@@ -576,7 +577,8 @@
                                                 <img [src]="avaiable.image">
                                             </div>
                                             <div class="content-block text-truncate">
-                                                <div class="title">{{avaiable?.connector_name}}</div>
+                                                <div class="title" [title]="avaiable?.connector_name">
+                                                    {{avaiable?.connector_name}}</div>
                                                 <div class="desc-text text-truncate">{{avaiable?.description}}</div>
                                             </div>
                                         </div>
@@ -598,7 +600,6 @@
                 </div>
             </div>
         </div>
-
         <div *ngSwitchCase="'add'">
             <div class="configuration-connectors-sec">
                 <div class="header-configuration-data">
@@ -1010,7 +1011,8 @@
                                         class="kr-sg-button-secondary btn_lg">{{'connectors.cancel_button'|translate}}</button>
                                     <button
                                         class="kr-sg-button-primary btn_lg source_settings_savechanges">{{'connectors.save_changes_button'|translate}}</button>
-                                    <button class="kr-sg-button-danger btn_lg source_settings_remove"><i
+                                    <button class="kr-sg-button-danger btn_lg source_settings_remove"
+                                        (click)="openDeleteModel('open')"><i
                                             class="si-delete"></i>{{'connectors.remove_content_source_button'|translate}}</button>
                                 </div>
                             </div>
@@ -1022,3 +1024,21 @@
 
     </div>
 </div>
+<!--kr model for delete connectors-->
+<kr-modal modalType="center" modalClass="modal_popups_ cancel_subscription" #deleteModel>
+    <div class="modal-header">
+        <div class="title">Remove Content Source</div>
+        <div class="close_icon">
+            <img src="assets/icons/modal-close.svg">
+        </div>
+    </div>
+    <perfect-scrollbar>
+        <div class="modal-body">
+            <h2>Are you sure you want to remove following content source?</h2>
+        </div>
+    </perfect-scrollbar>
+    <div class="modal-footer text-right">
+        <button class="kr-sg-button-primary btn_lg">Yes</button>
+        <button class="kr-sg-button-secondary btn_lg" (click)="openDeleteModel('close')">No</button>
+    </div>
+</kr-modal>

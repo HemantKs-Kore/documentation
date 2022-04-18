@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 
 @Component({
   selector: 'app-connectors-source',
@@ -17,13 +18,13 @@ export class ConnectorsSourceComponent implements OnInit {
       description: "Please complete configuration",
       type: "confluenceServer",
       image: "assets/icons/connectors/confluence.png"
-    },
-    {
-      connector_name: "Confluence",
-      description: "Please complete configuration",
-      type: "confluenceCloud",
-      image: "assets/icons/connectors/confluence.png"
     }
+    // {
+    //   connector_name: "Confluence",
+    //   description: "Please complete configuration",
+    //   type: "confluenceCloud",
+    //   image: "assets/icons/connectors/confluence.png"
+    // }
   ];
   selectedApp: any;
   selectedContent: string = 'list';
@@ -35,6 +36,7 @@ export class ConnectorsSourceComponent implements OnInit {
   configurationObj: any = { clientId: '', clientSecret: '' };
   checkConfigButton: Boolean = true;
   connectorId: string = '';
+  deleteModelRef: any;
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: false }, { name: 'configurtion', isCompleted: false }, { name: 'authentication', isCompleted: false }];
   Instructions = [
     {
@@ -52,12 +54,22 @@ export class ConnectorsSourceComponent implements OnInit {
         , { stepnumber: "Step 3", steptitle: "Follow authentification flow", linktext: "", url: "", linkiconpresent: false, stepdescription: "Follow the Confluence authentication flow as presented in the documentation link." }
         , { stepnumber: "Step 4", steptitle: "Authentication", linktext: "", url: "", linkiconpresent: false, stepdescription: "Upon the successful authentication flow, you will be redirected to Search Assist.Google Drive content will now be captured and will be ready for search gradually as it is synced. Once successfully configured and connected, the Google Drive will synchronize automatically." }]
     }];
+  @ViewChild('deleteModel') deleteModel: KRModalComponent;
   constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
     this.getConnectors();
+  }
+  //open delete model popup
+  openDeleteModel(type) {
+    if (type === 'open') {
+      this.deleteModelRef = this.deleteModel.open();
+    }
+    else if (type === 'close') {
+      this.deleteModelRef.close();
+    }
   }
   //common for toast messages
   errorToaster(errRes, message) {
