@@ -34,7 +34,7 @@ export class ConnectorsSourceComponent implements OnInit {
   searchIndexId: string;
   connectorsData: Array<[]> = [];
   availableConnectorsData: any = [];
-  configurationObj: any = { clientId: '', clientSecret: '' };
+  configurationObj: any = { clientId: '', clientSecret: '', hostUrl: 'https://myid.siemens.com', hostDomainName: "siemens" };
   checkConfigButton: Boolean = true;
   connectorId: string = '';
   deleteModelRef: any;

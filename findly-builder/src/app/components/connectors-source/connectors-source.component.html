@@ -793,15 +793,30 @@
                                                     </div>
                                                     <input type="text" placeholder="Paste Client ID here"
                                                         class="input-text" [(ngModel)]="configurationObj.clientId"
-                                                        (change)="updateConfiguration()">
+                                                        (change)="updateConfiguration()"><i class="si-eye"></i>
                                                 </div>
-                                                <div class="kr-sg-input-text">
+                                                <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">
                                                         {{'connectors.clientsecretId'|translate}}
                                                     </div>
                                                     <input type="text" placeholder="Paste Secret ID here"
                                                         class="input-text" [(ngModel)]="configurationObj.clientSecret"
                                                         (change)="updateConfiguration()">
+                                                </div>
+                                                <div class="kr-sg-input-text mb-3">
+                                                    <div class="label-text">
+                                                        {{'connectors.hostURL'|translate}}
+                                                    </div>
+                                                    <input type="text" placeholder="Enter HostURL here"
+                                                        class="input-text" [(ngModel)]="configurationObj.hostUrl">
+                                                </div>
+                                                <div class="kr-sg-input-text">
+                                                    <div class="label-text">
+                                                        {{'connectors.host_domain_name'|translate}}
+                                                    </div>
+                                                    <input type="text" placeholder="Enter Host DomainName"
+                                                        class="input-text"
+                                                        [(ngModel)]="configurationObj.hostDomainName">
                                                 </div>
                                             </div>
                                         </div>
@@ -825,7 +840,7 @@
                                         <!-- <div class="sub-text">File Sharing, Storage, Cloud, G Suite</div> -->
                                     </div>
                                 </div>
-                                <div class="documentation-text">
+                                <!-- <div class="documentation-text">
                                     {{'connectors.document_level_permissions'|translate}}
                                 </div>
                                 <div class="document-desc">
@@ -842,7 +857,7 @@
                                 </div>
                                 <div class="info-link">
                                     <i class="si-info"></i>{{'connectors.which_option_should_i_choose'|translate}}
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </perfect-scrollbar>
@@ -1024,7 +1039,8 @@
             </perfect-scrollbar>
             <div class="view-more-btn">
                 <div>
-                    <button class="kr-sg-button-secondary btn_lg">Cancel</button>
+                    <button class="kr-sg-button-secondary btn_lg"
+                        (click)="selectedContent='list';isShowButtons=false">Cancel</button>
                     <button class="kr-sg-button-primary btn_lg" *ngIf="!isShowButtons">Save Changes</button>
                 </div>
                 <div *ngIf="isShowButtons">

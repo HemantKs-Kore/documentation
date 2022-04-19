@@ -348,7 +348,7 @@
             "Top_Search_Queries_with_No_Result": "Top Search Queries with No Result",
             "Top_Search_Results": "Top Search Results",
             "Searched_Intent": "Query",
-            "Search_Results" : "Search Results",
+            "Search_Results": "Search Results",
             "Count": "Count",
             "Appearances": "Appearances",
             "Clicks": "Clicks",
@@ -713,7 +713,7 @@
         "configuartion_email": "Configuration Email",
         "document_level_permission": "Documentation-level permissions",
         "credentials_identifier": "Credentials Identifier",
-        "access_tocken": "Access Tocken",
+        "access_tocken": "Access Token",
         "content_source_name": "Content source name",
         "customize_the_name": "Customize the name of the content source",
         "source_name": "Source name",
@@ -742,7 +742,9 @@
         "back_button": "Back",
         "proceed_button": "Proceed",
         "save_configuration": "Save Configuration",
-        "connect": "Connect"
+        "connect": "Connect",
+        "hostURL": "Host URL",
+        "host_domain_name": "Host Domain Name"
     },
     "actions": {
         "actions": "Actions",
