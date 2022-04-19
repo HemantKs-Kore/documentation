@@ -883,19 +883,20 @@
                     <div class="edit-connectors-block">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab"
-                                    href="#overview">{{'connectors.overviewtab'|translate}}</a>
+                                <a class="nav-link active" data-toggle="tab" href="#overview"
+                                    (click)="isShowButtons=false">{{'connectors.overviewtab'|translate}}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab"
-                                    href="#settings">{{'connectors.source_settings_tab'|translate}}</a>
+                                <a class="nav-link" data-toggle="tab" href="#settings"
+                                    (click)="isShowButtons=true">{{'connectors.source_settings_tab'|translate}}</a>
                             </li>
                         </ul>
 
                         <div class="tab-content">
                             <div id="overview" class="tab-pane active">
                                 <div class="overview-tab-data">
-                                    <div class="heading-summery">{{'connectors.summary'|translate}}</div>
+                                    <div class="heading-summery">
+                                        {{'connectors.summary'|translate}}</div>
                                     <div class="overview-summery-cards">
                                         <div class="table-summery">
                                             <div class="table-heading-summery">
@@ -965,17 +966,18 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="overview-buttons">
+                                <!-- <div class="overview-buttons">
                                     <button class="kr-sg-button-secondary btn_lg"
                                         (click)="selectedContent='list'">{{'connectors.cancel_button'|translate}}</button>
                                     <span class="overview_save_button"><button
                                             class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button>
                                     </span>
-                                </div>
+                                </div> -->
                             </div>
                             <div id="settings" class="tab-pane fade">
                                 <div class="settings-data">
-                                    <div class="content-name">{{'connectors.content_source_name'|translate}}
+                                    <div class="content-name">
+                                        {{'connectors.content_source_name'|translate}}
                                         <span>{{'connectors.customize_the_name'|translate}}</span>
                                     </div>
                                     <div class="kr-sg-input-text">
@@ -1006,7 +1008,7 @@
                                             {{'connectors.edit_connector_settings'|translate}}</div>
                                     </div>
                                 </div>
-                                <div class="source_settings">
+                                <!-- <div class="source_settings">
                                     <button
                                         class="kr-sg-button-secondary btn_lg">{{'connectors.cancel_button'|translate}}</button>
                                     <button
@@ -1014,22 +1016,24 @@
                                     <button class="kr-sg-button-danger btn_lg source_settings_remove"
                                         (click)="openDeleteModel('open')"><i
                                             class="si-delete"></i>{{'connectors.remove_content_source_button'|translate}}</button>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
                 </div>
             </perfect-scrollbar>
-            <!-- <div class="view-more-btn">
+            <div class="view-more-btn">
                 <div>
                     <button class="kr-sg-button-secondary btn_lg">Cancel</button>
-                    <button class="kr-sg-button-primary btn_lg">Save Changes</button>
+                    <button class="kr-sg-button-primary btn_lg" *ngIf="!isShowButtons">Save Changes</button>
                 </div>
-                <div class="">
+                <div *ngIf="isShowButtons">
                     <button class="kr-sg-button-primary btn_lg">Save Changes</button>
-                    <button class="kr-sg-button-danger btn_lg"><i class="si-delete"></i>Remove this content source</button>
+                    <button class="kr-sg-button-danger btn_lg" (click)="openDeleteModel('open')"><i
+                            class="si-delete"></i>Remove this content
+                        source</button>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </div>

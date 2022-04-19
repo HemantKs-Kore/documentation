@@ -38,6 +38,7 @@ export class ConnectorsSourceComponent implements OnInit {
   checkConfigButton: Boolean = true;
   connectorId: string = '';
   deleteModelRef: any;
+  isShowButtons: boolean = false;
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: false }, { name: 'configurtion', isCompleted: false }, { name: 'authentication', isCompleted: false }];
   Instructions = [
     {
