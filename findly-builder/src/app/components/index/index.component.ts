@@ -350,7 +350,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
   camelCaseNames(operator)
   {
     const camel_name = this.operators.filter(data => data.value == operator);
-    return camel_name[0].name;
+    if(camel_name.length){
+      return camel_name[0].name;
+    }
   }
   getTraitGroups(initial?)
   {
