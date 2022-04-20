@@ -1,4 +1,5 @@
 {
+    "deleteToConfirm":"Please type the phrase 'DELETE' to confirm",
     "Hi": "Hi, ",
     "WelcometoFindly": "Welcome to SearchAssist.ai",
     "Your_Applications": "Your Applications",
@@ -348,6 +349,7 @@
             "Top_Search_Queries_with_No_Result": "Top Search Queries with No Result",
             "Top_Search_Results": "Top Search Results",
             "Searched_Intent": "Query",
+            "Search_Results" : "Search Results",
             "Count": "Count",
             "Appearances": "Appearances",
             "Clicks": "Clicks",

@@ -105,17 +105,33 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     },
   }
   entityNlp = [
+// Reverting for FLY - 4688
     { title: 'Date', value: 'DATE', isDepricated: false },
     { title: 'Time', value: 'TIME', isDepricated: false },
-    // { title: 'URL', value: 'URL', isDepricated: false },
-    // { title: 'Email', value: 'EMAIL', isDepricated: false },
-    { title: 'Location', value: 'LOC', isDepricated: false },
-    { title: 'GeoPoliticalEntities', value: 'GPE', isDepricated: false },
-    { title: 'Company Name or Organization', value: 'ORG', isDepricated: false },
+    { title: 'URL', value: 'URL', isDepricated: false },
+    { title: 'Email', value: 'EMAIL', isDepricated: false },
+    { title: 'Location', value: 'LOCATION', isDepricated: false },
+    { title: 'City', value: 'CITY', isDepricated: false },
+    { title: 'Country', value: 'COUNTRY', isDepricated: false },
+    { title: 'Company Name or Organization', value: 'ORGANIZATION', isDepricated: false },
     { title: 'Currency', value: 'MONEY', isDepricated: false },
     { title: 'Person Name', value: 'PERSON', isDepricated: false },
-    { title: 'Number', value: 'CARDINAL', isDepricated: false },
-    { title: 'Percentage', value: 'PERCENT', isDepricated: false }
+    { title: 'Number', value: 'NUMBER', isDepricated: false },
+    { title: 'Percentage', value: 'PERCENTAGE', isDepricated: false }
+//Reverting for FLY - 4688
+//Orignal 
+    // { title: 'Date', value: 'DATE', isDepricated: false },
+    // { title: 'Time', value: 'TIME', isDepricated: false },
+    // // { title: 'URL', value: 'URL', isDepricated: false },
+    // // { title: 'Email', value: 'EMAIL', isDepricated: false },
+    // { title: 'Location', value: 'LOC', isDepricated: false },
+    // { title: 'GeoPoliticalEntities', value: 'GPE', isDepricated: false },
+    // { title: 'Company Name or Organization', value: 'ORG', isDepricated: false },
+    // { title: 'Currency', value: 'MONEY', isDepricated: false },
+    // { title: 'Person Name', value: 'PERSON', isDepricated: false },
+    // { title: 'Number', value: 'CARDINAL', isDepricated: false },
+    // { title: 'Percentage', value: 'PERCENT', isDepricated: false }
+  //Orignal   
     /** Existing  */
     // { title: 'Date', value: 'date', isDepricated: false },
     // { title: 'Time', value: 'time', isDepricated: false },
@@ -285,7 +301,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     });
   }
   //add condition dynamically
-  addCondition(type, index, field?, data?)
+  addCondition(type, index, field?, data?,mappingType?)
   {
     if (type === 'add')
     {
@@ -304,11 +320,24 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     {
       if (field === 'field')
       {
-        this.selectedStage.condition.mappings[index] = { ...this.selectedStage.condition.mappings[index], fieldId: data };
+        if(mappingType=='config')
+        {
+         this.selectedStage.config.mappings[index] = { ...this.selectedStage.config.mappings[index], fieldId: data };
+        }
+        else{
+          this.selectedStage.condition.mappings[index] = { ...this.selectedStage.condition.mappings[index], fieldId: data };
+        }
+
       }
       else if (field === 'operator')
       {
+        if(mappingType=='config')
+        {
+         this.selectedStage.config.mappings[index] = { ...this.selectedStage.config.mappings[index], operator: data };
+        }
+        else{
         this.selectedStage.condition.mappings[index] = { ...this.selectedStage.condition.mappings[index], operator: data };
+        }
         if (['exists', 'doesNotExist'].includes(data))
         {
           this.selectedStage.condition.mappings[index].value = [];
@@ -320,7 +349,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
   camelCaseNames(operator)
   {
     const camel_name = this.operators.filter(data => data.value == operator);
-    return camel_name[0].name;
+    if(camel_name.length){
+      return camel_name[0].name;
+    }
   }
   getTraitGroups(initial?)
   {
@@ -692,7 +723,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             {
               this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
             }
-            tempConfig[0] = config;
+            //tempConfig[0] = config;
+            tempConfig[0] = tempStageObj.config.mappings[0]; // FLY - 4519: multiple changes for the plainlessScript
           });
           tempStageObj.config.mappings = tempConfig;
         }
@@ -1831,7 +1863,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
           this.search_basic_fieldName='';
           this.basic_fieldName='';
           dialogRef.close();
-          this.notificationService.notify('Deletd Successfully', 'success')
+          this.notificationService.notify('Deleted Successfully', 'success')
           if (this.pipeline && this.pipeline.length)
           {
             this.selectStage(this.pipeline[0], 0);

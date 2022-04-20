@@ -41,6 +41,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   submitted = false;
   input_1:any= [];
   input_2:any=[];
+  removedCon:boolean=false;
   iconImageCon:boolean=false;
   iconImageOut:boolean=false;
   skip=0;
@@ -229,7 +230,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   addNewRule() {
     const ruleObj: any = JSON.parse(JSON.stringify(this.defaultValuesObj));
     ruleObj.value = []
-    this.rulesArrayforAddEdit.push(ruleObj)
+    this.rulesArrayforAddEdit.push(ruleObj);
+    this.removedCon =false;
   }
   addNewOutcome() {
     const ruleObj: any = JSON.parse(JSON.stringify(this.defaultOutcomeObj));
@@ -247,6 +249,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.rulesArrayforAddEdit = [];
     this.outcomeArrayforAddEdit = [];
     this.addBusinessRulesRef.close();
+    this.removedCon = false;
   }
   setDataForEdit(ruleObj) {
     if (ruleObj && ruleObj.rules && ruleObj.rules.length) {
@@ -304,6 +307,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   removeRule(index) {
     this.rulesArrayforAddEdit.splice(index, 1);
+    this.removedCon =true;
   }
   removeOutcome(index) {
     this.outcomeArrayforAddEdit.splice(index, 1);
@@ -798,19 +802,26 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
  
 validateCon() {
-  for(let j=0; j< this.rulesArrayforAddEdit.length;j++){
-    for ( let i=0; i<=this.rulesArrayforAddEdit[j].value.length;  i++) {
-      if(this.rulesArrayforAddEdit[j].value.length == 0 ) {
-        $("#ConditionInput").parent('div').css("border-color", "#DD3646");  
-        this.iconImageCon=true;
-        return false;            
-      } else {
-        this.iconImageCon=false;
-        this.submitted=false;   
-        return true ;
-      }           
+    if(this.removedCon==false){
+    for(let j=0; j< this.rulesArrayforAddEdit.length;j++){
+      for ( let i=0; i<=this.rulesArrayforAddEdit[j].value.length;  i++) {
+        if(this.rulesArrayforAddEdit[j].value.length == 0 ) {
+          $("#ConditionInput").parent('div').css("border-color", "#DD3646");  
+          this.iconImageCon=true;
+          return false;            
+        } else {
+          this.iconImageCon=false;
+          // this.submitted=false;   
+          return true ;
+        }           
+      } 
     } 
-  }            
+  }   
+  else {
+    this.iconImageCon=false;
+          // this.submitted=false;   
+          return true ;
+  }        
  }
  validateOut() {
   for(let i=0; i<this.outcomeArrayforAddEdit.length;i++){
@@ -912,6 +923,7 @@ validateCon() {
      }
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
+    this.loadRules();
   }
   getFieldAutoComplete(event, outcomeObj, clearText?) {
     if (clearText && $('#searchBoxId') && $('#searchBoxId').length) {

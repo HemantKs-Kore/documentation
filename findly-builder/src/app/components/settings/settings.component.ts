@@ -331,6 +331,7 @@ export class SettingsComponent implements OnInit {
                 this.listData = element;
               }
             });
+            this.selctedChannel(this.channnelConguired.apps[this.channnelConguired.apps.length - 1])
           }
           //this.listData = this.channnelConguired.apps[this.channnelConguired.apps.length - 1];
           this.slider = 3

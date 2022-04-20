@@ -407,7 +407,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         });
         if (queuedJobs && queuedJobs.length) {
           this.statusObject = queuedJobs[0];
-          if (queuedJobs[0].validation.urlValidation) {
+          if (queuedJobs[0].validation && queuedJobs[0].validation.urlValidation) {
             this.crawlOkDisable = !queuedJobs[0].validation.urlValidation;
           }
 
@@ -1294,12 +1294,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         crawler.advanceOpts.crawlBeyondSitemaps = this.crawlBeyondSitemaps;
         crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
         crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
-        if (Number(this.crawlDepth)) {
+        if (Number(this.crawlDepth) || Number(this.crawlDepth) == 0) {
           crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
         } else {
           delete crawler.advanceOpts.crawlDepth;
         }
-        if (Number(this.maxUrlLimit)) {
+        if (Number(this.maxUrlLimit) || Number(this.maxUrlLimit) == 0) {
           crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
         } else {
           delete crawler.advanceOpts.maxUrlLimit;
