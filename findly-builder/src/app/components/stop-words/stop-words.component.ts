@@ -341,9 +341,9 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         });
       }
     }
-    if (deleteAll) {
-      this.stopwords = []
-    }
+    // if (deleteAll) {
+    //   this.stopwords = []
+    // }
     const payload: any = {
       pipeline: {
         stopwords: this.stopwords
@@ -351,6 +351,10 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       options: {
         stopWordsEnabled: this.enabled
       }
+    }
+    if (deleteAll) {
+      this.stopwords = [],
+      this.enabled = false
     }
     if (enableOrDisable) {
       msg = 'Stop words ' + (this.enabled ? 'enabled' : 'disabled') + ' successfully';
