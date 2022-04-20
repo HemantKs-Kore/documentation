@@ -301,7 +301,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     });
   }
   //add condition dynamically
-  addCondition(type, index, field?, data?)
+  addCondition(type, index, field?, data?,mappingType?)
   {
     if (type === 'add')
     {
@@ -320,11 +320,24 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     {
       if (field === 'field')
       {
-        this.selectedStage.condition.mappings[index] = { ...this.selectedStage.condition.mappings[index], fieldId: data };
+        if(mappingType=='config')
+        {
+         this.selectedStage.config.mappings[index] = { ...this.selectedStage.config.mappings[index], fieldId: data };
+        }
+        else{
+          this.selectedStage.condition.mappings[index] = { ...this.selectedStage.condition.mappings[index], fieldId: data };
+        }
+
       }
       else if (field === 'operator')
       {
+        if(mappingType=='config')
+        {
+         this.selectedStage.config.mappings[index] = { ...this.selectedStage.config.mappings[index], operator: data };
+        }
+        else{
         this.selectedStage.condition.mappings[index] = { ...this.selectedStage.condition.mappings[index], operator: data };
+        }
         if (['exists', 'doesNotExist'].includes(data))
         {
           this.selectedStage.condition.mappings[index].value = [];
@@ -336,7 +349,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
   camelCaseNames(operator)
   {
     const camel_name = this.operators.filter(data => data.value == operator);
-    return camel_name[0].name;
+    if(camel_name.length){
+      return camel_name[0].name;
+    }
   }
   getTraitGroups(initial?)
   {
@@ -708,7 +723,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             {
               this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
             }
-            tempConfig[0] = config;
+            //tempConfig[0] = config;
+            tempConfig[0] = tempStageObj.config.mappings[0]; // FLY - 4519: multiple changes for the plainlessScript
           });
           tempStageObj.config.mappings = tempConfig;
         }
