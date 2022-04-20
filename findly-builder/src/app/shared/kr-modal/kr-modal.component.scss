@@ -459,6 +459,371 @@
             }
         }
     }
+    &.business-rules-popup{
+        .modal-dialog{
+            .modal-content{
+                .modal-header{
+                    .title{
+                        
+                    }
+                    .toggle-switch {
+                        position: absolute;
+                        right: 180px;
+                        margin-top: 3px;
+                        .slider {
+                            span {
+                                margin-left: 48px;
+                                padding-left: 22px !important;
+                                white-space: nowrap;
+                                &.enabled{
+                                    background: #EAF6EC;
+                                    border-radius: 5px;
+                                    padding: 5px 10px;
+                                    margin-top: -1px;
+                                    font-weight: 400;
+                                    font-size: 12px;
+                                    line-height: 14px;
+                                    color: #135423;
+                                    &::before{
+                                        content: "";
+                                        position: absolute;
+                                        width: 7px;
+                                        height: 7px;
+                                        background: #28A745;
+                                        left: 9px;
+                                        top: 8px;
+                                        border-radius: 100%;
+                                    }
+                                }
+                                &.disabled{
+                                    background: #EFF0F1;
+                                    border-radius: 5px;
+                                    padding: 5px 10px;
+                                    margin-top: -1px;
+                                    font-weight: 400;
+                                    font-size: 12px;
+                                    line-height: 14px;
+                                    color: #3C4043;
+                                    &::before{
+                                        content: "";
+                                        position: absolute;
+                                        width: 7px;
+                                        height: 7px;
+                                        background: #9AA0A6;
+                                        left: 9px;
+                                        top: 8px;
+                                        border-radius: 100%;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .modal-body{
+                    padding-bottom: 0px !important;
+                    .rule-name-input{
+                        padding: 0 12px 0 0;
+                        margin-bottom: 20px;
+                    }
+                    .rules-contexual-data{
+                        .condition-rules{
+                            padding: 0 12px 0 0;
+                            .inner-data-wrapper{
+                                .info-rule-contnet{
+                                    background: #F3F8FF;
+                                    padding: 10px;
+                                    display: inline-block;
+                                    width: 100%;
+                                    border-bottom: 1px solid rgba(7, 54, 126, 0.7);
+                                    margin-bottom: 20px;
+                                    min-height: 68px;
+                                    .title-data{
+                                        display: flex;
+                                        align-items: center;
+                                        .text-title{
+                                            font-weight: 500;
+                                            font-size: 14px;
+                                            line-height: 17px;
+                                            color: #07377F;
+                                            margin: 0 10px 0 5px;
+                                        }
+                                        .info-tooltip-data{
+                                            line-height: normal;
+                                            position: relative;
+                                            &:hover{
+                                                .conditon-info-tooltip{
+                                                    visibility: visible;
+                                                    opacity: 1;
+                                                }
+                                            }
+                                            i{
+                                                color: #0D6EFD;
+                                                cursor: pointer;
+                                            }
+                                            .conditon-info-tooltip{
+                                                position: absolute;
+                                                top: -12px;
+                                                left: 25px;
+                                                background: #FFFFFF;
+                                                border-radius: 4px;
+                                                box-shadow: 0px 6px 170px rgba(0, 0, 0, 0.07), 0px 1.34018px 37.9717px rgba(0, 0, 0, 0.0417275), 0px 0.399006px 11.3052px rgba(0, 0, 0, 0.0282725);
+                                                width: 592px;
+                                                z-index: 2;
+                                                // height: 150px;
+                                                padding: 15px 25px;
+                                                display: flex;
+                                                visibility: hidden;
+                                                opacity: 0;
+                                                transition: opacity 0.3s;
+                                                &::before{
+                                                    content: "";
+                                                    position: absolute;
+                                                    width: 12px;
+                                                    height: 12px;
+                                                    background: #ffffff;
+                                                    left: -6px;
+                                                    top: 13px;
+                                                    transform: rotate(45deg);
+                                                }
+                                                .info-text{
+                                                    font-weight: 400;
+                                                    font-size: 10px;
+                                                    line-height: 12px;
+                                                    color: #5F6368;
+                                                    margin-bottom: 9px;
+                                                }
+                                                .left-data-info{
+
+                                                }
+                                                .img-data{
+                                                    width: 263px;
+                                                    flex-shrink: 0;
+                                                    margin: 0 5px;
+                                                }
+                                                .right-data-info{
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    .sub-text{
+                                        font-weight: 500;
+                                        font-size: 12px;
+                                        line-height: 15px;
+                                        color: #07377F;
+                                        opacity: 0.6;
+                                        margin-top: 10px;
+                                    }
+                                }
+                                .conditions-sec-data{
+                                    .scoll-data{
+                                        height: calc(100vh - 330px);
+                                    }
+                                    .inner-data-content{
+                                        padding-right: 15px;
+                                        .box-data-conditions{
+                                            border: 1px solid #85B7FE;
+                                            box-sizing: border-box;
+                                            border-radius: 4px;
+                                            padding: 15px 0 5px 0;
+                                            position: relative;
+                                            .close-conditions{
+                                                position: absolute;
+                                                right: 10px;
+                                                top: 8px;
+                                                color: #000000;
+                                                font-size: 12px;
+                                                cursor: pointer;
+                                                z-index: 1;
+                                            }
+                                            .row-input-data{
+                                                margin: 0 0 10px 0;
+                                                padding: 0 5px;
+                                                .column-sec{
+                                                    padding: 0 5px;
+                                                    .kr-sg-dropdowns {
+                                                        .dropdown-open {
+                                                            .dropdown-input{
+                                                                &:disabled{
+                                                                    background: #EFF0F1;
+                                                                    border: 1px solid #EFF0F1;
+                                                                }
+                                                            }
+                                                        }
+                                                        .content-menu{
+                                                            min-width: 100%;
+                                                        }
+                                                    }
+                                                }
+                                                .title-info{
+                                                    font-weight: 500;
+                                                    font-size: 12px;
+                                                    line-height: 15px;
+                                                    color: #9AA0A6;
+                                                    margin-bottom: 8px;
+                                                }
+                                            }
+                                        }
+                                        .and-condition{
+                                            font-weight: 500;
+                                            font-size: 12px;
+                                            line-height: 15px;
+                                            margin: 14px 0;
+                                            text-align: center;
+                                            color: #9AA0A6;
+                                        }
+                                        .add-condition-btn{
+                                            background: #F3F8FF;
+                                            border: 1px solid #85B7FE;
+                                            box-sizing: border-box;
+                                            border-radius: 4px;
+                                            font-weight: 500;
+                                            font-size: 14px;
+                                            line-height: 17px;
+                                            color: #0D6EFD;
+                                            display: flex;
+                                            align-items: center;
+                                            min-height: 40px;
+                                            padding: 6px 10px;
+                                            justify-content: center;
+                                            cursor: pointer;
+                                            margin: 15px 0;
+                                            i{
+                                                margin-right: 8px;
+                                                position: relative;
+                                                top: -1px;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .outcome-rules{
+                            padding: 0 0 0 12px;
+                            .inner-data-wrapper{
+                                .info-rule-contnet{
+                                    background: #EAF6EC;
+                                    padding: 10px;
+                                    display: inline-block;
+                                    width: 100%;
+                                    border-bottom: 1px solid rgba(19, 84, 35, 0.7);
+                                    margin-bottom: 20px;
+                                    min-height: 68px;
+                                    .title-data{
+                                        display: flex;
+                                        align-items: center;
+                                        .text-title{
+                                            font-weight: 500;
+                                            font-size: 14px;
+                                            line-height: 17px;
+                                            color: #135423;
+                                            margin: 0 10px 0 5px;
+                                        }
+                                        .info-tooltip-data{
+                                            line-height: normal;
+                                            i{
+                                                color: #0D6EFD;
+                                                cursor: pointer;
+                                            }
+                                        }
+                                    }
+                                    .sub-text{
+                                        font-weight: 500;
+                                        font-size: 12px;
+                                        line-height: 15px;
+                                        color: #135423;
+                                        opacity: 0.6;
+                                        margin-top: 10px;
+                                    }
+                                }
+                                .outcome-sec-data{
+                                    .scoll-data{
+                                        height: calc(100vh - 330px);
+                                    }
+                                    .inner-data-content{
+                                        padding-right: 15px;
+                                        .box-data-conditions{
+                                            border: 1px solid #93D3A2;
+                                            box-sizing: border-box;
+                                            border-radius: 4px;
+                                            padding: 15px 0 5px 0;
+                                            position: relative;
+                                            .close-conditions{
+                                                position: absolute;
+                                                right: 10px;
+                                                top: 8px;
+                                                color: #000000;
+                                                font-size: 12px;
+                                                cursor: pointer;
+                                                z-index: 1;
+                                            }
+                                            .row-input-data{
+                                                margin: 0 0 10px 0;
+                                                padding: 0 5px;
+                                                .column-sec{
+                                                    padding: 0 5px;
+                                                    .kr-sg-dropdowns {
+                                                        .dropdown-open {
+                                                            .dropdown-input{
+                                                                &:disabled{
+                                                                    background: #EFF0F1;
+                                                                    border: 1px solid #EFF0F1;
+                                                                }
+                                                            }
+                                                        }
+                                                        .content-menu{
+                                                            min-width: 100%;
+                                                        }
+                                                    }
+                                                }
+                                                .title-info{
+                                                    font-weight: 500;
+                                                    font-size: 12px;
+                                                    line-height: 15px;
+                                                    color: #9AA0A6;
+                                                    margin-bottom: 8px;
+                                                }
+                                            }
+                                        }
+                                        .and-condition{
+                                            font-weight: 500;
+                                            font-size: 12px;
+                                            line-height: 15px;
+                                            margin: 14px 0;
+                                            text-align: center;
+                                            color: #9AA0A6;
+                                        }
+                                        .add-condition-btn{
+                                            background: #EAF6EC;
+                                            border: 1px solid #28A745;
+                                            box-sizing: border-box;
+                                            border-radius: 4px;
+                                            font-weight: 500;
+                                            font-size: 14px;
+                                            line-height: 17px;
+                                            color: #28A745;
+                                            display: flex;
+                                            align-items: center;
+                                            min-height: 40px;
+                                            padding: 6px 10px;
+                                            justify-content: center;
+                                            cursor: pointer;
+                                            margin: 15px 0;
+                                            i{
+                                                margin-right: 8px;
+                                                position: relative;
+                                                top: -1px;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     /*--Regular Modal Basic Styles Starts Here--*/
     .modal-dialog{

@@ -432,6 +432,10 @@ and open the template in the editor.
     min-width: 60px;
     text-align: center;
     transition: 0.2s all ease-in;
+    i{
+        font-size: 12px;
+        font-weight: normal;
+    }
     &:hover{
         background: #bc000b;
     }
@@ -1791,7 +1795,7 @@ and open the template in the editor.
             color: $secondaryColor;
         }
         &.error{
-            border: solid 1px#DD3646;
+            border: solid 1px #DD3646;
             &::placeholder{
                 color: $primaryColor;   
                 opacity: 1;      

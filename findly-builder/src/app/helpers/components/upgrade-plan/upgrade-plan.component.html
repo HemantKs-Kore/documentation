@@ -39,7 +39,7 @@
                 <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise" || true}'>{{"plan.custom"| translate}}</div>
                 <div class="current-plan-title"
                   *ngIf="selectedPlan.planName===plan.name&&selectedPlan?.billingUnit==termPlan"><img
-                    [src]="selectedPlan.status!='expired'?'assets/icons/pricing/check-round.svg':'assets/icons/pricing/Vector.svg'">{{selectedPlan.status!="expired"?("plan.current_plan"|
+                    [src]="selectedPlan.status!='expired'?'assets/icons/pricing/check-round.svg':'assets/icons/pricing/roundblue.svg'">{{selectedPlan.status!="expired"?("plan.current_plan"|
                   translate):("plan.last_active_plan"| translate)}}</div>
               </div>
               <div class="card-desc" *ngFor="let info of plan.featureData" [hidden]="!(info.displayOnBanner)">
