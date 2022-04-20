@@ -508,6 +508,7 @@
             </div>
           </div>
           <div *ngIf="isConfig">
+            
             <!-- <div class="info-content bg-color text-left" *ngIf="sliderStep === 0 && !loadingSliderContent && selectedSource">
                   <div class="row m-0 row_content">
                     <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
@@ -542,9 +543,304 @@
                 </div> -->
             <!-- Conf Configuration-->
             <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table-allowRow">
-              <div class="accordion-content-info text-left mr-0" *ngIf="isConfig">
+              <!-- new Configuration html start -->
+              <div class="config-first-row">
+                <div class="width-40">
+                  <div class="kr-sg-input-text mar-bot-15">
+                    <div class="label-text">TITLE</div>
+                    <input type="url" autocomplete="off" maxlength="60" id="titleInput" name="title"
+                      placeholder="Enter Title" class="input-text" required>
+                    <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
+                      width="12" />
+                  </div>
+                </div>
+                <div class="width-30">
+                  <div class="kr-sg-input-text mar-bot-15">
+                    <div class="label-text">CREATED BY</div>
+                    <input type="url" autocomplete="off" maxlength="60" id="createdBy" name="createdBy"
+                      placeholder="Enter Title" class="input-text" required>
+                    <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
+                      width="12" />
+                  </div>
+                </div>
+                <div class="update-timestamp width-20 mar-bot-15">
+                  <button class="btn btn-secondary" type="button"><span class="last-update"><img src="assets/icons/refresh-secondary.svg" alt="refresh-icon" /> Last Updated</span> 29.01.2022</button>
+                </div>
+                <div class="reload-recrwal width-10 mar-bot-15">
+                  <button class="btn btn-out-primary" type="button"><span class="reload-crwal"><img src="assets/icons/refresh-primary.svg" alt="refresh-icon" /></span> Recrawl</button>
+                </div>
+              </div>
+
+              <div class="config-crwal-url-block">
+                <div class="config-crwal-url"><a class="crwal-url" href="#">https://finshots.in/archive</a></div>
+                <div class="config-crwal-url-edit"><img class="crwal-url-edit" src="assets/icons/edit-blue.svg" /></div>
+              </div>
+
+              <div class="config-crwal-desc-block">
+                <div class="kr-sg-input-text-area mar-bot-15">
+                  <div class="label-text">Description</div>
+                  <textarea autocomplete="off" name="sourceDesc" maxlength="250" placeholder="Enter Description"
+                    class="input-text"></textarea>
+                </div>
+              </div>
+
+              <div class="config-sitemap-url-block">
+                <div class="sitemap-header">
+                  <div class="sitemap-hding">Sitemap URLs</div>
+                </div>
+                <div class="sitemap-url-list">
+                  <div class="sitemap-url">
+                    <div class="config-sitemap-url"><a class="crwal-url" href="#">https://finshots.in/archive</a></div>
+                    <div class="edit-delete-block">
+                      <div class="config-sitemap-url-edit"><img class="crwal-url-edit" src="assets/icons/sidemenu/edit.svg" /></div>
+                      <div class="config-sitemap-url-delete"><img class="crwal-url-edit" src="assets/icons/sidemenu/delete.svg" /></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="sitemap-url-list">
+                  <div class="sitemap-url">
+                    <div class="config-sitemap-url"><a class="crwal-url" href="#">https://finshots.in/archive</a></div>
+                    <div class="edit-delete-block">
+                      <div class="config-sitemap-url-edit"><img class="crwal-url-edit" src="assets/icons/sidemenu/edit.svg" /></div>
+                      <div class="config-sitemap-url-delete"><img class="crwal-url-edit" src="assets/icons/sidemenu/delete.svg" /></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="new-crawl-web-form mr-tb20-rl10">
+                <div class="new-crawl-shedule">
+                  <div class="new-crawl-shedule-tab">
+                    <div class="shedual-header">
+                      <div class="shedual-hding">SCHEDULE</div>
+                      <div class="sr-toggle-btn">
+                        <label class="kr-sg-toggle">
+                          <input type="checkbox" name="scheduleOpts">
+                          <div class="slider"></div>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="new-crawl-web-form">
+                <div class="new-crawl-web-form-details">
+                  <div class="new-crawl-details">
+                    <div class="new-crawl-details-header">DETAILS</div>
+                    <div class="details-form">
+                      <div class="details-left">
+                        <div class="kr-sg-input-text mar-bot-15">
+                          <div class="label-text">Source Title</div>
+                          <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput" name="sourceTitle"
+                            placeholder="Enter Title" class="input-text" required>
+                          <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
+                            width="12" />
+                        </div>
+                        <div class="kr-sg-input-text mar-bot-15">
+                          <div class="label-text">Source URL</div>
+                          <input type="text" autocomplete="off" name="url" placeholder="http(s)://" class="input-text">
+                        </div>
+                      </div>
+                      <div class="details-right">
+                        <div class="kr-sg-input-text-area mar-bot-15">
+                          <div class="label-text">Description</div>
+                          <textarea autocomplete="off" name="sourceDesc" maxlength="250" placeholder="Enter Description"
+                            class="input-text"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+      
+                <div class="new-crawling">
+                  <div class="new-crawling-tab">
+                    <div class="new-crawling-tab-block">
+                      <div class="new-ccrawling-hding">CRAWLING</div>
+                      <div class="new-ccrawling-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium amet ipsum imperdiet tortor nulla.</div>
+                    </div>
+                    <div class="new-crawling-tab-btn">
+                      <button type="button" class="btn" aria-expanded="false" data-toggle="collapse" data-target="#newCrawlingTab"><i class="si-carrotup"></i></button>
+                    </div>
+                  </div>
+                  <div id="newCrawlingTab" class="new-crawling-collapse collapse">
+                    <div class="crawl-option-ddl">
+                      <div class="kr-sg-dropdowns mar-bot-12">
+                        <div class="label-text">Label</div>
+                        <div class="dropdown dropdown-open">
+                          <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">Crawl
+                            Everything</button>
+                          <ul class="dropdown-menu content-menu">
+                            <li><a>Crawl Everything</a></li>
+                            <li><a>Crawl Everything Except Specific URLs</a></li>
+                            <li><a>Crawl Only Specific URLs</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="crawl-opt-table">
+                      <div class="crawl-opt-row">
+                        <div class="crawl-opt-ddl">
+                          <div class="kr-sg-dropdowns mar-bot-12">
+                            <div class="label-text">Allow if URL</div>
+                            <div class="dropdown dropdown-open">
+                              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">Crawl
+                                Everything</button>
+                              <ul class="dropdown-menu content-menu">
+                                <li><a>Crawl Everything</a></li>
+                                <li><a>Crawl Everything Except Specific URLs</a></li>
+                                <li><a>Crawl Only Specific URLs</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="crawl-opt-inp">
+                          <div class="kr-sg-input-text mar-bot-15">
+                            <div class="label-text no-label">Source URL</div>
+                            <input type="text" autocomplete="off" name="url" placeholder="http(s)://" class="input-text">
+                          </div>
+                        </div>
+                        <div class="crawl-opt-cls">
+                          <button class="btn"><i class="si-close"></i></button>
+                        </div>
+                      </div>
+                      <div class="crawl-opt-row">
+                        <div class="crawl-opt-ddl">
+                          <div class="kr-sg-dropdowns mar-bot-12">
+                            <div class="label-text">Allow if URL</div>
+                            <div class="dropdown dropdown-open">
+                              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">Crawl
+                                Everything</button>
+                              <ul class="dropdown-menu content-menu">
+                                <li><a>Crawl Everything</a></li>
+                                <li><a>Crawl Everything Except Specific URLs</a></li>
+                                <li><a>Crawl Only Specific URLs</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="crawl-opt-inp">
+                          <div class="kr-sg-input-text mar-bot-15">
+                            <div class="label-text no-label">Source URL</div>
+                            <input type="text" autocomplete="off" name="url" placeholder="http(s)://" class="input-text">
+                          </div>
+                        </div>
+                        <div class="crawl-opt-cls">
+                          <button class="btn"><i class="si-close"></i></button>
+                        </div>
+                      </div>
+                      <div class="crawl-add-row">
+                        <button class="btn add-btn-primary"><span class="add-btn-img"><img _ngcontent-gxv-c13="" src="assets/icons/add_blue.svg"></span> Add</button>
+                      </div>
+                    </div>
+      
+                    <div class="crwal-checkbox-list">
+                    <div class="group-checkbox">
+                      <div class="kr-sg-checkbox">
+                        <input class="checkbox-custom" id="checkbox_cook" name="useCookies" type="checkbox">
+                        <label class="checkbox-custom-label" for="checkbox_cook">Use Cookies</label>
+                      </div>
+                      <div class="kr-sg-checkbox">
+                        <input class="checkbox-custom" id="checkbox_grph" name="isJavaScriptRendered" type="checkbox">
+                        <label class="checkbox-custom-label" for="checkbox_grph">Java Script Rendered</label>
+                      </div>
+                      <div class="kr-sg-checkbox">
+                        <input class="checkbox-custom" id="checkbox_grpi" name="crawlBeyondSitemaps" type="checkbox">
+                        <label class="checkbox-custom-label" for="checkbox_grpi">Crawl Beyond Sitemap</label>
+                      </div>
+                      <div class="kr-sg-checkbox">
+                        <input class="checkbox-custom" id="checkbox_robot" name="respectRobotTxtDirectives" type="checkbox">
+                        <label class="checkbox-custom-label" for="checkbox_robot">Respect robots.txt directives</label>
+                      </div>
+                    </div>
+                    </div>
+      
+                    <div class="crwal-depth-form">
+                      <div class="crwal-depth-form-row">
+                        <div class="crwal-depth-form-inp">
+                          <div class="kr-sg-input-text">
+                            <div class="label-text">Crawl Depth
+                              <div class="tooltip-custom">
+                                <img src="assets/icons/info.svg">
+                                <span class="tooltiptext">
+                                  <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                                  <div class="v-text">Value = 0 (No limit)</div>
+                                </span>
+                              </div>
+                            </div>
+                          <input class="input-text" autocomplete="off" id="crawlDepth" maxlength="60" name="crawlDepth" placeholder="0" type="url">
+                        </div>
+                        </div>
+                        <div class="crwal-max-form-inp">
+                          <div class="kr-sg-input-text">
+                            <div class="label-text">Max URL
+                              <div class="tooltip-custom">
+                                <img src="assets/icons/info.svg">
+                                <span class="tooltiptext">
+                                  <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                                  <div class="v-text">Value = 0 (No limit)</div>
+                                </span>
+                              </div>
+                            </div>
+                          <input class="input-text maxUrlLimit-class" autocomplete="off" id="maxURL" maxlength="60" name="maxURL" placeholder="500" type="number">
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                 
+                  </div>
+      
+                </div>
+      
+
+      
+                <div class="new-crawl-shedule authenticated-website">
+                  <div class="new-crawl-shedule-tab">
+                    <div class="shedual-header">
+                      <div class="d-block">
+                        <div class="shedual-hding">Is this an Authenticated website?  <div class="tooltip-custom">
+                          <img src="assets/icons/info.svg">
+                          <span class="tooltiptext">
+                            <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                            <div class="v-text">Value = 0 (No limit)</div>
+                          </span>
+                        </div></div>
+                        <div class="shedual-hding-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium amet ipsum imperdiet tortor nulla.</div>
+                      </div>
+                      
+                      <div class="sr-toggle-btn">
+                        <label class="kr-sg-toggle">
+                          <input type="checkbox" name="authenticatedOpts">
+                          <div class="slider"></div>
+                        </label>
+                      </div>
+                    </div>
+      
+                    <div class="crawl-opt-ddl">
+                      <div class="kr-sg-dropdowns mar-bot-12">
+                        <div class="dropdown dropdown-open">
+                          <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">Select Authentication Type</button>
+                          <ul class="dropdown-menu content-menu">
+                            <li><a>Crawl Everything</a></li>
+                            <li><a>Crawl Everything Except Specific URLs</a></li>
+                            <li><a>Crawl Only Specific URLs</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+      
+                  </div>
+                </div>
+      
+      
+              </div>
+              <!-- new Configuration html end -->
+              <div class="accordion-content-info text-left mr-0 d-none" *ngIf="isConfig">
                 <div class="table-list-content">
-                  <div class="kr-sg-data-table with-checkbox">
+                <div class="kr-sg-data-table with-checkbox">
                     <section class="table-content m-0">
                       <header class="table-header">
                         <div class="col_ col-2">{{"contentSource.title_caps" | translate}}</div>
@@ -605,7 +901,7 @@
                         </div>
                       </ng-container>
                     </section>
-                  </div>
+                </div>
                 </div>
                 <div *ngIf="selectedSource.sitemaps">
                   <div *ngIf="selectedSource.sitemaps.length > 0; else noSiteMap" class="site-map-url-sec">

@@ -938,12 +938,103 @@
   </ng-container>
 </kr-modal>
 <kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addSourceModalPopDummy>
-  <ng-container >
     <div class="modal-header">
       <div class="title">New PopUp</div>
       <div class="close_icon"><img (click)="closeAddSourceModalDummy()" src="assets/icons/modal-close.svg"></div>
     </div>
-  </ng-container>
+    <div class="modal-body">
+
+     
+        <div class="new-crawl-web-form">
+          <div class="new-crawl-web-form-left">
+            <div class="new-crawl-details new-crawl-flex">
+              <div class="new-crawl-details-header">DETAILS</div>
+              <div class="kr-sg-input-text mar-bot-20">
+                <div class="label-text">Source Title</div>
+                <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput" name="sourceTitle"
+                  placeholder="Enter Title" class="input-text" required>
+                <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
+                  width="12" />
+              </div>
+              <div class="kr-sg-input-text-area mar-bot-20">
+                <div class="label-text">Description</div>
+                <textarea autocomplete="off" name="sourceDesc" maxlength="250"
+                  placeholder="Enter Description" class="input-text"></textarea>
+              </div>
+                <div class="kr-sg-input-text mar-bot-20">
+                  <div class="label-text">Source URL</div>
+                  <input type="text" autocomplete="off" name="url"  placeholder="http(s)://" class="input-text">
+                </div>
+            </div>
+            <div class="new-crawl-rendering new-crawl-flex">
+              <div class="new-crawl-details-header">CRAWLING & RENDERING</div>
+
+              <div class="kr-sg-dropdowns mar-bot-12">
+                <div class="label-text">Crawl Options</div>
+                <div class="dropdown dropdown-open">
+                  <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">Crawl Everything</button>
+                  <ul class="dropdown-menu content-menu">
+                    <li><a >Crawl Everything</a></li>
+                    <li ><a >Crawl Everything Except Specific URLs</a></li>
+                    <li ><a >Crawl Only Specific URLs</a></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="group-checkbox">
+                <div  class="pl-0 kr-sg-checkbox">
+                  <input  class="checkbox-custom" id="checkbox_cook" name="useCookies" type="checkbox">
+                  <label  class="checkbox-custom-label" for="checkbox_cook" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
+                </div>
+                <div  class="pl-0 kr-sg-checkbox">
+                  <input  class="checkbox-custom" id="checkbox_grph" name="isJavaScriptRendered" type="checkbox">
+                  <label  class="checkbox-custom-label" for="checkbox_grph" style="font-weight: 500;font-size: 12px;">Java Script Rendered</label>
+                </div>
+                <div  class="pl-0 kr-sg-checkbox">
+                  <input  class="checkbox-custom" id="checkbox_grpi" name="crawlBeyondSitemaps" type="checkbox">
+                  <label  class="checkbox-custom-label" for="checkbox_grpi" style="font-weight: 500;font-size: 12px;">Crawl Beyond Sitemap</label>
+                </div>
+                <div  class="pl-0 kr-sg-checkbox">
+                  <input  class="checkbox-custom" id="checkbox_robot" name="respectRobotTxtDirectives" type="checkbox">
+                  <label  class="checkbox-custom-label" for="checkbox_robot" style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
+                </div>
+              </div>
+
+              <div class="sr-form-group">
+                <div class="kr-sg-input-text">
+                  <div class="label-text">Crawl Depth</div>
+                  <input type="url" autocomplete="off" id="CrawlDepth" name="sourceTitle"
+                    placeholder="Sample Text" class="input-text" required>
+                  <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
+                    width="12" />
+                </div>
+                <div class="kr-sg-input-text">
+                  <div class="label-text">Max URL</div>
+                  <input type="url" autocomplete="off" id="MaxURL" name="sourceTitle"
+                    placeholder="500" class="input-text" required>
+                  <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
+                    width="12" />
+                </div>
+              </div>
+
+              
+            </div>
+          </div>
+          <div class="new-crawl-web-form-right">
+            <div class="shedual-header">
+              <div class="shedual-hding">SCHEDULE</div>
+              <div class="sr-toggle-btn">
+                <label class="kr-sg-toggle">
+                  <input type="checkbox" name="scheduleOpts" [(ngModel)]="crwalObject.advanceOpts.scheduleOpt">
+                  <div class="slider"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+   
+
+</div>
 </kr-modal>
 
 <kr-modal modalType="center" modalClass="botsModal modal_popups_ linkExistingBotsModal" #linkBotsModalPop>
