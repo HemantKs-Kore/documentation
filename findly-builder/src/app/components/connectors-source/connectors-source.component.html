@@ -793,7 +793,7 @@
                                                     </div>
                                                     <input type="text" placeholder="Paste Client ID here"
                                                         class="input-text" [(ngModel)]="configurationObj.clientId"
-                                                        (change)="updateConfiguration()"><i class="si-eye"></i>
+                                                        (change)="updateConfiguration()">
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">
@@ -899,11 +899,11 @@
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#overview"
-                                    (click)="isShowButtons=false">{{'connectors.overviewtab'|translate}}</a>
+                                    (click)="changeEditTabs()">{{'connectors.overviewtab'|translate}}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#settings"
-                                    (click)="isShowButtons=true">{{'connectors.source_settings_tab'|translate}}</a>
+                                    (click)="changeEditTabs()">{{'connectors.source_settings_tab'|translate}}</a>
                             </li>
                         </ul>
 
@@ -963,18 +963,26 @@
                                             <div class="source-card">
                                                 <div class="row-data-card">
                                                     <div class="title-source">
-                                                        {{'connectors.credentials_identifier'|translate}}</div>
+                                                        {{'connectors.clientid'|translate}}</div>
                                                     <div class="input-with-eye">
-                                                        <input type="text" placeholder="****************">
-                                                        <i class="si-eye"></i>
+                                                        <input [type]="showProtecedText.isClientShow?'text':'password'"
+                                                            [(ngModel)]="selectedConnector.authDetails.clientId">
+                                                        <i class="si-eye" *ngIf="!showProtecedText.isClientShow"
+                                                            (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
+                                                        <i class="si-close" *ngIf="showProtecedText.isClientShow"
+                                                            (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                                     </div>
                                                 </div>
                                                 <div class="row-data-card">
                                                     <div class="title-source">
-                                                        {{'connectors.access_tocken'|translate}}</div>
+                                                        {{'connectors.clientsecretId'|translate}}</div>
                                                     <div class="input-with-eye">
-                                                        <input type="text" placeholder="****************">
-                                                        <i class="si-eye"></i>
+                                                        <input [type]="showProtecedText.isSecretShow?'text':'password'"
+                                                            [(ngModel)]="selectedConnector.authDetails.clientSecret">
+                                                        <i class="si-eye" *ngIf="!showProtecedText.isSecretShow"
+                                                            (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
+                                                        <i class="si-close" *ngIf="showProtecedText.isSecretShow"
+                                                            (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1008,15 +1016,24 @@
                                             <div class="title-source">
                                                 {{'connectors.credentials_identifier'|translate}}</div>
                                             <div class="input-with-eye">
-                                                <input type="text" placeholder="****************">
-                                                <i class="si-eye"></i>
+                                                <input type="text"
+                                                    [type]="showProtecedText.isClientShow?'text':'password'"
+                                                    [(ngModel)]="selectedConnector.authDetails.clientId">
+                                                <i class="si-eye" *ngIf="!showProtecedText.isClientShow"
+                                                    (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
+                                                <i class="si-close" *ngIf="showProtecedText.isClientShow"
+                                                    (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                             </div>
                                         </div>
                                         <div class="row-data-card">
                                             <div class="title-source">{{'connectors.access_token'|translate}}</div>
                                             <div class="input-with-eye">
-                                                <input type="text" placeholder="****************">
-                                                <i class="si-eye"></i>
+                                                <input [type]="showProtecedText.isSecretShow?'text':'password'"
+                                                    [(ngModel)]="selectedConnector.authDetails.clientSecret">
+                                                <i class="si-eye" *ngIf="!showProtecedText.isSecretShow"
+                                                    (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
+                                                <i class="si-close" *ngIf="showProtecedText.isSecretShow"
+                                                    (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                             </div>
                                         </div>
                                         <div class="edit-content-link">

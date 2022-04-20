@@ -19,25 +19,26 @@ export class ConnectorsSourceComponent implements OnInit {
       description: "Please complete configuration",
       type: "confluenceServer",
       image: "assets/icons/connectors/confluence.png"
+    },
+    {
+      connector_name: "Confluence",
+      description: "Please complete configuration",
+      type: "confluenceCloud",
+      image: "assets/icons/connectors/confluence.png"
     }
-    // {
-    //   connector_name: "Confluence",
-    //   description: "Please complete configuration",
-    //   type: "confluenceCloud",
-    //   image: "assets/icons/connectors/confluence.png"
-    // }
   ];
   selectedApp: any;
   selectedContent: string = 'list';
   selectAddContent: string = 'instructions';
-  selectedConnector: Object = {};
+  selectedConnector: any = {};
   searchIndexId: string;
-  connectorsData: Array<[]> = [];
+  connectorsData: any = [];
   availableConnectorsData: any = [];
   configurationObj: any = { clientId: '', clientSecret: '', hostUrl: 'https://myid.siemens.com', hostDomainName: "siemens" };
   checkConfigButton: Boolean = true;
   connectorId: string = '';
   deleteModelRef: any;
+  showProtecedText: Object = { isClientShow: false, isSecretShow: false };
   isShowButtons: boolean = false;
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: false }, { name: 'configurtion', isCompleted: false }, { name: 'authentication', isCompleted: false }];
   Instructions = [
@@ -88,6 +89,11 @@ export class ConnectorsSourceComponent implements OnInit {
     } else {
       this.notificationService.notify('Somthing went worng', 'error');
     }
+  }
+  //change edit tabs
+  changeEditTabs() {
+    this.isShowButtons = !this.isShowButtons;
+    this.showProtecedText = { isClientShow: false, isSecretShow: false };
   }
   //get connector list
   getConnectors() {
@@ -174,15 +180,15 @@ export class ConnectorsSourceComponent implements OnInit {
       sidx: this.searchIndexId
     };
     const payload = {
-      "name": "siemens",
-      "type": "confluenceServer",
+      "name": "siemens1",
+      "type": this.selectedConnector?.type,
       "authDetails": {
         "clientId": this.configurationObj.clientId,
         "clientSecret": this.configurationObj.clientSecret
       },
       "configuration": {
-        "hostUrl": "https://myid.siemens.com",
-        "hostDomainName": "siemens"
+        "hostUrl": this.configurationObj.hostUrl,
+        "hostDomainName": this.configurationObj.hostDomainName
       }
     }
     this.service.invoke('post.connector', quaryparms, payload).subscribe(res => {
