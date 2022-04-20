@@ -66,6 +66,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
   pollingSubscriber: any = null;
   submitted: boolean = false;
   showNewStageType: boolean = false;
+  loadingSimulate:boolean = true;
   subscription: Subscription;
   @ViewChild('tleft') public tooltip: NgbTooltip;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
@@ -1719,7 +1720,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     }
   }
   simulate(warningmessage?)
-  {
+  {     
+    this.loadingSimulate=true;
     let plainScriptTxt: any;
     if (this.newMappingObj && this.newMappingObj.custom_script &&
       this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script)
@@ -1776,7 +1778,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
           //   this.newMappingObj.custom_script.defaultValue.script && 
           //   this.newMappingObj.custom_script.defaultValue.script != plainScriptTxt) {
           //   this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
-          // }
+          // } 
+            this.loadingSimulate=false;          
         this.simulteObj.simulating = false;
         this.addcode(res);
         this.mixpanel.postEvent('Initiated Simulator', {});
@@ -1793,6 +1796,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         this.simulteObj.simulationInprogress = false;
         
       }, errRes => {
+        this.loadingSimulate = false;
         if(warningmessage){
           this.notificationService.notify(warningmessage,'warning');
         }
