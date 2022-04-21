@@ -2092,6 +2092,9 @@ paginateContent(event) {
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
     }
+    else if(value == null || value.includes("-")){
+      this.notificationService.notify('Range cannot be entered','error');
+    }
     // if(value < 500 && valueFrom == 'maxUrlLimit'){
     //   this.maxUrlLimit = 500;
     // }
