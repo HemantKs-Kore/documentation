@@ -794,6 +794,7 @@
                                                     <input type="text" placeholder="Paste Client ID here"
                                                         class="input-text" [(ngModel)]="configurationObj.clientId"
                                                         (change)="updateConfiguration()">
+                                                    <i class="si-eye"></i>
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">
@@ -802,7 +803,7 @@
                                                     <input type="text" placeholder="Paste Secret ID here"
                                                         class="input-text" [(ngModel)]="configurationObj.clientSecret"
                                                         (change)="updateConfiguration()">
-                                                        <i class="si-eye"></i>
+                                                    <i class="si-eye"></i>
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">
@@ -810,7 +811,7 @@
                                                     </div>
                                                     <input type="text" placeholder="Enter HostURL here"
                                                         class="input-text" [(ngModel)]="configurationObj.hostUrl">
-                                                        <i class="si-eye"></i>
+                                                    <!-- <i class="si-eye"></i> -->
                                                 </div>
                                                 <div class="kr-sg-input-text">
                                                     <div class="label-text">
@@ -819,7 +820,7 @@
                                                     <input type="text" placeholder="Enter Host DomainName"
                                                         class="input-text"
                                                         [(ngModel)]="configurationObj.hostDomainName">
-                                                        <i class="si-eye"></i>
+                                                    <!-- <i class="si-eye"></i> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -972,7 +973,7 @@
                                                             [(ngModel)]="selectedConnector.authDetails.clientId">
                                                         <i class="si-eye" *ngIf="!showProtecedText.isClientShow"
                                                             (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
-                                                        <i class="si-close" *ngIf="showProtecedText.isClientShow"
+                                                        <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow"
                                                             (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                                     </div>
                                                 </div>
@@ -984,7 +985,7 @@
                                                             [(ngModel)]="selectedConnector.authDetails.clientSecret">
                                                         <i class="si-eye" *ngIf="!showProtecedText.isSecretShow"
                                                             (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
-                                                        <i class="si-close" *ngIf="showProtecedText.isSecretShow"
+                                                        <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow"
                                                             (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                                     </div>
                                                 </div>
@@ -1024,7 +1025,7 @@
                                                     [(ngModel)]="selectedConnector.authDetails.clientId">
                                                 <i class="si-eye" *ngIf="!showProtecedText.isClientShow"
                                                     (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
-                                                <i class="si-close" *ngIf="showProtecedText.isClientShow"
+                                                <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow"
                                                     (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                             </div>
                                         </div>
@@ -1035,7 +1036,7 @@
                                                     [(ngModel)]="selectedConnector.authDetails.clientSecret">
                                                 <i class="si-eye" *ngIf="!showProtecedText.isSecretShow"
                                                     (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
-                                                <i class="si-close" *ngIf="showProtecedText.isSecretShow"
+                                                <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow"
                                                     (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                             </div>
                                         </div>

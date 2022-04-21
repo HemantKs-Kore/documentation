@@ -104,21 +104,28 @@ export class ConnectorsSourceComponent implements OnInit {
     };
     this.service.invoke('get.connectors', quaryparms).subscribe(res => {
       const result = res?.connectors;
-      this.Connectors.forEach(item => {
-        if (result?.length) {
+      if (result?.length) {
+        this.Connectors.forEach(item => {
           result.forEach(item1 => {
             if (item.type === item1.type) {
               this.connectorsData.push({ ...item, ...item1 });
             }
             else {
-              this.availableConnectorsData.push(item);
+
             }
           })
+        })
+      }
+      if (this.connectorsData.length) {
+        for (let item of this.Connectors) {
+          const isPush = this.connectorsData?.some(available => available.type === item.type);
+          if (!isPush)
+            this.availableConnectorsData.push(item);
         }
-        else {
-          this.availableConnectorsData = this.Connectors;
-        }
-      })
+      }
+      else {
+        this.availableConnectorsData = this.Connectors;
+      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get Connectors');
     });
