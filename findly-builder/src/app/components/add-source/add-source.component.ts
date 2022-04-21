@@ -1974,9 +1974,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   checkValue(value, valueFrom) {
     // console.log()
-    if (value <= -1) {
+    // var valueCheck = value.includes("-");
+    if (value <= -1){
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
+    }
+    else if(value == null || value.includes("-")){
+      this.notificationService.notify('Range cannot be entered','error');
     }
     // if(value < 500 && valueFrom == 'maxUrlLimit'){
     //   this.maxUrlLimit = 500;

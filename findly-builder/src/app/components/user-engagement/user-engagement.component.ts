@@ -577,8 +577,8 @@ export class UserEngagementComponent implements OnInit {
     }
     if (this.group == 'hour') { // 24 hours
       this.usersChart.forEach((element, index) => {
-        if (index > 0 && index <= 24) {
-          xAxisData.push(index + 'hr');
+        if (index >= 0 && index <= 24) {
+          xAxisData.push((index + 1) + 'hr');
           yAxisRepeatUser.push(element.repeatedUsers);
           yAxisNewUsers.push(element.newUsers);
         }
