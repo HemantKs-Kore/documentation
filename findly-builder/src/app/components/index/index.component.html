@@ -1229,7 +1229,11 @@
         </div> -->
       </div>
     </div>
-    <perfect-scrollbar class="content_body">
+    <div class="mainLoadingSpinner1" *ngIf="loadingSimulate">
+      <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+      <span class="please-wait-message1">{{'please_wait'| translate}}</span>
+    </div> 
+    <perfect-scrollbar class="content_body"  *ngIf="!loadingSimulate">
       <div *ngIf="simulateJson">
         <ngx-codemirror [(ngModel)]="filteredSimulatorRes" [options]="codeMirrorOptions">
         </ngx-codemirror>
