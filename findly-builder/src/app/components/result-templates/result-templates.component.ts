@@ -81,7 +81,7 @@ export class ResultTemplatesComponent implements OnInit {
   resultListObj: any = {
     facetsSetting: {
       aligned: 'left',
-      enabled: false
+      enabled: true
     },
     groupResults: false,
     groupSetting: {
