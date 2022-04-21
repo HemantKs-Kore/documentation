@@ -1183,7 +1183,7 @@ body {
     background-color: var(--sdk-bg-black-squeeze-color);
     padding: 20px 17px;
     margin: 0 10px 10px;
-    float: left;
+    /* float: left; */
     display: inline-block;
 }
 
@@ -1623,8 +1623,11 @@ body {
 
 .searchAssist-kore-chat-window .Search-BG-Copy .recentContainer .recentSearch .recent-search-delete img {
     position: relative !important;
-    left: 0 !important;
-    top: 0 !important;
+        border: 0px solid var(--sdk-border-malibu-color);
+        box-sizing: border-box;
+        border-radius: 5px;
+        padding: 6px 30px 6px 30px;
+        margin: 0px;
 }
 
 .searchAssist-kore-chat-window .Search-BG-Copy .recentContainer .carrot-Right {
@@ -3014,7 +3017,6 @@ ngb-accordion .card-header {
     background-color: var(--sdk-white-font-color);
 }
 
-.searchAssist-kore-chat-window .date-picker-wrapper .month-wrapper {}
 
 .searchAssist-kore-chat-window .date-picker-wrapper .month-wrapper table th,
 .date-picker-wrapper .month-wrapper table td {
