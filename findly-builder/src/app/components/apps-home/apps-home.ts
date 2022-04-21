@@ -158,7 +158,7 @@ export class AppsListingComponent implements OnInit {
     this.submitted=true;
     let quaryparms: any = {};
     quaryparms.streamId = this.slectedAppId;
-    if(this.confirmApp == this.validateName ){
+    if(this.confirmApp == 'DELETE' ){
     this.service.invoke('delete.app', quaryparms).subscribe(res => {
       if (res) {
         this.notificationService.notify('Deleted Successfully', 'success');
@@ -172,10 +172,10 @@ export class AppsListingComponent implements OnInit {
     });
   }
   else if (this.confirmApp==""){
-    this.notificationService.notify('Enter and confirm the App Name ', 'error');
+    this.notificationService.notify("Enter 'delete' and confirm ", 'error');
   }
-  else if (this.confirmApp != this.validateName ){  
-    this.notificationService.notify('Please check the app name you entered ', 'error');
+  else if (this.confirmApp != 'DELETE' ){  
+    this.notificationService.notify('Please check the entered value', 'error');
   }
   else{  
     this.notificationService.notify('Something went wrong', 'error');
