@@ -698,7 +698,7 @@
         "save": "Save"
     },
     "connectors": {
-        "connector": "Connector",
+        "connector": "Connectors",
         "picksourceandconfigure": "Start by picking the source and configure an available source.",
         "connected": "Connected",
         "available": "Available",

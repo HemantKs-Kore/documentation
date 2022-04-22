@@ -541,19 +541,19 @@
                                     <div class="line-border"></div>
                                 </div>
                                 <div class="card-connectors-info row">
-                                    <div class="card-connector-column" *ngFor="let connector of connectorsData"
-                                        (click)="changeContent('edit',connector)">
+                                    <div class="card-connector-column" *ngFor="let connector of connectorsData">
                                         <div class="inner-card"
                                             [ngClass]="{'active-connector':connector.isActive,'disable-connector':connector.isActive===false}">
                                             <label class="kr-sg-toggle">
                                                 <input type="checkbox" [(ngModel)]="connector.isActive"
-                                                    (change)="openConnectorDialog(connector,$event)">
+                                                    (change)="openConnectorDialog(connector,$event);">
                                                 <div class="slider"></div>
                                             </label>
-                                            <div class="icon-block">
+                                            <div class="icon-block" (click)="changeContent('edit',connector)">
                                                 <img [src]="connector?.image" alt="connector-img">
                                             </div>
-                                            <div class="content-block text-truncate">
+                                            <div class="content-block text-truncate"
+                                                (click)="connector.isActive?changeContent('edit',connector):null">
                                                 <div class="title text-truncate" [title]="connector?.connector_name">
                                                     {{connector?.connector_name}}</div>
                                                 <div class="desc-text text-truncate">{{connector?.description}}</div>
@@ -970,7 +970,7 @@
                                                         {{'connectors.clientid'|translate}}</div>
                                                     <div class="input-with-eye">
                                                         <input [type]="showProtecedText.isClientShow?'text':'password'"
-                                                            [(ngModel)]="selectedConnector.authDetails.clientId">
+                                                            [value]="selectedConnector.authDetails.clientId" readonly>
                                                         <i class="si-eye" *ngIf="!showProtecedText.isClientShow"
                                                             (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                                         <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow"
@@ -982,11 +982,29 @@
                                                         {{'connectors.clientsecretId'|translate}}</div>
                                                     <div class="input-with-eye">
                                                         <input [type]="showProtecedText.isSecretShow?'text':'password'"
-                                                            [(ngModel)]="selectedConnector.authDetails.clientSecret">
+                                                            [value]="selectedConnector.authDetails.clientSecret"
+                                                            readonly>
                                                         <i class="si-eye" *ngIf="!showProtecedText.isSecretShow"
                                                             (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                                         <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow"
                                                             (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="row-data-card">
+                                                    <div class="title-source">
+                                                        {{'connectors.hostURL'|translate}}</div>
+                                                    <div class="input-with-eye">
+                                                        <input type="text"
+                                                            [value]="selectedConnector.configuration.hostUrl" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="row-data-card">
+                                                    <div class="title-source">
+                                                        {{'connectors.host_domain_name'|translate}}</div>
+                                                    <div class="input-with-eye">
+                                                        <input type="text"
+                                                            [value]="selectedConnector.configuration.hostDomainName"
+                                                            readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1040,6 +1058,21 @@
                                                     (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                             </div>
                                         </div>
+                                        <div class="row-data-card">
+                                            <div class="title-source">{{'connectors.hostURL'|translate}}</div>
+                                            <div class="input-with-eye">
+                                                <input type="text" [value]="selectedConnector.configuration.hostUrl"
+                                                    [(ngModel)]="configurationObj.hostUrl">
+                                            </div>
+                                        </div>
+                                        <div class="row-data-card">
+                                            <div class="title-source">{{'connectors.host_domain_name'|translate}}</div>
+                                            <div class="input-with-eye">
+                                                <input type="text"
+                                                    [value]="selectedConnector.configuration.hostDomainName"
+                                                    [(ngModel)]="configurationObj.hostDomainName">
+                                            </div>
+                                        </div>
                                         <div class="edit-content-link">
                                             {{'connectors.edit_connector_settings'|translate}}</div>
                                     </div>
@@ -1062,10 +1095,10 @@
                 <div>
                     <button class="kr-sg-button-secondary btn_lg"
                         (click)="selectedContent='list';isShowButtons=false">Cancel</button>
-                    <button class="kr-sg-button-primary btn_lg" *ngIf="!isShowButtons">Save Changes</button>
+                    <button class="kr-sg-button-primary btn_lg" *ngIf="!isShowButtons" disabled>Save Changes</button>
                 </div>
                 <div *ngIf="isShowButtons">
-                    <button class="kr-sg-button-primary btn_lg">Save Changes</button>
+                    <button class="kr-sg-button-primary btn_lg" (click)="updateConnector()">Save Changes</button>
                     <button class="kr-sg-button-danger btn_lg" (click)="openDeleteModel('open')"><i
                             class="si-delete"></i>Remove this content
                         source</button>

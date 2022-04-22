@@ -994,14 +994,16 @@
                                             line-height: 18px;
                                             color: #5F6368;
                                             padding-right: 35px;
-                                            &::placeholder{
+
+                                            &::placeholder {
                                                 font-weight: 400;
                                                 font-size: 10px;
                                                 line-height: 18px;
                                                 color: #5F6368;
                                             }
                                         }
-                                        i{
+
+                                        i {
                                             position: absolute;
                                             right: 12px;
                                             bottom: 12px;

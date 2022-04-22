@@ -34,7 +34,7 @@ export class ConnectorsSourceComponent implements OnInit {
   searchIndexId: string;
   connectorsData: any = [];
   availableConnectorsData: any = [];
-  configurationObj: any = { clientId: '', clientSecret: '', hostUrl: 'https://myid.siemens.com', hostDomainName: "siemens" };
+  configurationObj: any = { clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '' };
   checkConfigButton: Boolean = true;
   connectorId: string = '';
   deleteModelRef: any;
@@ -225,7 +225,7 @@ export class ConnectorsSourceComponent implements OnInit {
     });
   }
   //update connector 
-  openConnectorDialog(data, checked) {
+  openConnectorDialog(data, event) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
@@ -240,29 +240,32 @@ export class ConnectorsSourceComponent implements OnInit {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.updateConnector(data, checked, dialogRef);
+          this.updateConnector(data, event, dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
+          this.getConnectors();
         }
       })
   }
-  updateConnector(data, checked, dialog?) {
+  updateConnector(data?, checked?, dialog?) {
+    const Obj = data ? data : this.selectedConnector;
+    console.log("update", data);
     const quaryparms: any = {
       sidx: this.searchIndexId,
-      fcon: data?._id
+      fcon: Obj?._id
     };
     const payload = {
-      "name": data?.name,
-      "type": data?.type,
+      "name": Obj?.name,
+      "type": Obj?.type,
       "authDetails": {
-        "clientId": data?.authDetails?.clientId,
-        "clientSecret": data?.authDetails?.clientSecret
+        "clientId": Obj?.authDetails?.clientId,
+        "clientSecret": Obj?.authDetails?.clientSecret
       },
       "configuration": {
-        "hostUrl": "https://myid.siemens.com",
-        "hostDomainName": "siemens"
+        "hostUrl": this.configurationObj.hostUrl,
+        "hostDomainName": this.configurationObj.hostDomainName
       },
-      "isActive": checked.target.checked
+      "isActive": data ? checked.target.checked : Obj.isActive
     }
     this.service.invoke('put.connector', quaryparms, payload).subscribe(res => {
       if (res) {

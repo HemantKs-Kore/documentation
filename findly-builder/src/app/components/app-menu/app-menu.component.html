@@ -49,7 +49,7 @@
 				</div>
 			</div>
 		</div>
-	</ng-container> 
+	</ng-container>
 	<perfect-scrollbar class="perfect-scroll" [ngClass]='{"if-upgrade-plan":!showUpgrade}'>
 		<div class="list-group list-group-flush" *ngIf="!settingMainMenu && !sourceMenu">
 			<div class="default-index-title">
@@ -115,7 +115,7 @@
 			</div>
 
 			<div class="index-config-nav-block">
-				<div class="index-title text-truncate">Index Configuration</div>				
+				<div class="index-title text-truncate">Index Configuration</div>
 
 
 				<div mat-button class="mat-button" [routerLink]="['/FieldManagementComponent']" skipLocationChange
@@ -151,21 +151,33 @@
 				<div class="search-config-title text-truncate">Search Configuration</div>
 
 				<div class="search-config-elipse-block pr-0">
-					<div class="title text-truncate" title="{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default Search':configObj[selectedConfig].name:'Loading..'}}">{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default Search':configObj[selectedConfig].name:'Loading..'}} </div>
-					<div class="kr-sg-dropdowns kr_sg_dropdowns" #selectSearchConfigDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-left'">
+					<div class="title text-truncate"
+						title="{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default Search':configObj[selectedConfig].name:'Loading..'}}">
+						{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default
+						Search':configObj[selectedConfig].name:'Loading..'}} </div>
+					<div class="kr-sg-dropdowns kr_sg_dropdowns" #selectSearchConfigDrop='ngbDropdown' ngbDropdown
+						[container]="'body'" [placement]="'bottom-left'">
 						<div class="dropdown dropdown-open">
 							<button class="dropdown-toggle dropdown-input before-none" ngbDropdownToggle>
 								<img src="assets/icons/sidemenu/dropdownup.svg">
 							</button>
 							<ul class="dropdown-menu content-menu queryPipelineConfig" ngbDropdownMenu>
 								<div class="title-main">Search Profile</div>
-								<div class="create-new" (click)="openModalPopup('default');selectSearchConfigDrop.close();">
-									<img class="mr-2"src="assets\images\plus-add.svg">New Profile
+								<div class="create-new"
+									(click)="openModalPopup('default');selectSearchConfigDrop.close();">
+									<img class="mr-2" src="assets\images\plus-add.svg">New Profile
 								</div>
 								<perfect-scrollbar>
-									<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default|| (config.default)}" (click)="selectQueryPipelineId(config,selectSearchConfigDrop)" *ngFor="let config of queryConfigs">
-										<img src="assets/icons/sidemenu/pin.svg" *ngIf="config.default" class="star" [container]="'body'" ngbTooltip='Default' placement="top-center">
-										<img src="assets/icons/sidemenu/unpin.svg" [container]="'body'" (click)="$event.stopPropagation();markAsDefault(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-center" [container]="'body'">
+									<li class="list-name text-truncate"
+										[ngClass]="{'nostars': !config.default|| (config.default)}"
+										(click)="selectQueryPipelineId(config,selectSearchConfigDrop)"
+										*ngFor="let config of queryConfigs">
+										<img src="assets/icons/sidemenu/pin.svg" *ngIf="config.default" class="star"
+											[container]="'body'" ngbTooltip='Default' placement="top-center">
+										<img src="assets/icons/sidemenu/unpin.svg" [container]="'body'"
+											(click)="$event.stopPropagation();markAsDefault(config)"
+											*ngIf="!config.default && !editName" class="star-black"
+											ngbTooltip='Make as Default' placement="top-center" [container]="'body'">
 										<span *ngIf="selectedConfig == config._id && editName; else name">
 											<input type="text" class="edit-name" name="editName"
 												[(ngModel)]="editNameVal" id="editNameID"
@@ -179,15 +191,21 @@
 												Search':config.name}}</span>
 										</ng-template>
 										<div class="action-icons-data">
-											<div class="clone" *ngIf="!editName" (click)="$event.stopPropagation();openModalPopup('clone',config);selectSearchConfigDrop.close();" ngbTooltip='Clone' placement="top-center" [container]="'body'">
+											<div class="clone" *ngIf="!editName"
+												(click)="$event.stopPropagation();openModalPopup('clone',config);selectSearchConfigDrop.close();"
+												ngbTooltip='Clone' placement="top-center" [container]="'body'">
 												<img src="assets/icons/sidemenu/copy.svg">
 											</div>
-											<div class="edit-black" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();editConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
+											<div class="edit-black" *ngIf="!editName&&!(config.default)"
+												(click)="$event.stopPropagation();editConfig(config,'edit')"
+												ngbTooltip='Edit' placement="top-center" [container]="'body'">
 												<img src="assets/icons/sidemenu/edit.svg">
-											</div>																
-											<div class="delete" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();checkExistInExperiment(config,'search')" ngbTooltip='Delete' placement="top-center" [container]="'body'">
+											</div>
+											<div class="delete" *ngIf="!editName&&!(config.default)"
+												(click)="$event.stopPropagation();checkExistInExperiment(config,'search')"
+												ngbTooltip='Delete' placement="top-center" [container]="'body'">
 												<img src="assets/icons/sidemenu/delete.svg">
-											</div>											
+											</div>
 										</div>
 									</li>
 								</perfect-scrollbar>
@@ -291,7 +309,8 @@
 			<div class="sources-block-nav-items">
 				<div class="link-side-menu add-sources-btn pr-2">
 					<div class="source_title">Sources</div>
-					<div class="add-sources" [routerLink]="['/source']" skipLocationChange routerLinkActive="active" (click)="preview('Source')">
+					<div class="add-sources" [routerLink]="['/source']" skipLocationChange routerLinkActive="active"
+						(click)="preview('Source')">
 						<img src="assets/icons/sidemenu/new-icons/add-source.svg">
 					</div>
 				</div>
@@ -333,12 +352,13 @@
 					<span class="linkTitle">{{'structuredData.structured_data' | translate}}</span>
 				</div>
 
-				<div mat-button class="mat-button" [routerLink]="['/connectors']" skipLocationChange routerLinkActive="active" (click)="preview('Connector')" mat-button>
+				<div mat-button class="mat-button" [routerLink]="['/connectors']" skipLocationChange
+					routerLinkActive="active" (click)="preview('Connector')" mat-button>
 					<span class="inlineIconBox">
 						<img src="assets/icons/sidemenu/new-icons/connectors.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/connectors.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Connector</span>
+					<span class="linkTitle">Connectors</span>
 				</div>
 
 			</div>
@@ -419,7 +439,8 @@
 			</div>
 
 			<div class="inside-menu-title mt-3">BILLING & USAGE</div>
-			<div mat-button class="mat-button" [routerLink]="['/pricing']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+			<div mat-button class="mat-button" [routerLink]="['/pricing']" skipLocationChange routerLinkActive="active"
+				(click)="preview('index')" mat-button>
 				<span class="inlineIconBox leftAdjust">
 					<img src="assets/icons/sidemenu/new-icons/plandetails.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/plandetails-active.svg" class="activeIcon">
@@ -480,7 +501,8 @@
 							style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
 						<ul class="dropdown-menu content-menu">
 							<li *ngFor="let config of queryConfigs" (click)="selectConfig(config)">
-								<a>{{config.name}}</a></li>
+								<a>{{config.name}}</a>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -538,7 +560,8 @@
 							style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
 						<ul class="dropdown-menu content-menu">
 							<li *ngFor="let config of indexConfigs" (click)="selectIndexConfig(config)">
-								<a>{{config.name}}</a></li>
+								<a>{{config.name}}</a>
+							</li>
 						</ul>
 					</div>
 				</div>
