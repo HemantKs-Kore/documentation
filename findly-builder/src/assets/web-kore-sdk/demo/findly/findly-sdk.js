@@ -4316,7 +4316,7 @@ FindlySDK.prototype.bindFacetsToggle = function () {
       if (!$('body').hasClass('top-down')) {
         $('.custom-header-container-center').css('visibility', 'hidden');
       }
-
+      $('#show-all-results-container').hide();
       $('#search').val(recentSearch).focus();
       _self.vars.searchObject.searchText = recentSearch;
       _self.vars.showingMatchedResults = true;
