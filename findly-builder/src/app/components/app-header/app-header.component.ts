@@ -504,7 +504,7 @@ export class AppHeaderComponent implements OnInit {
           if (this.training) {
             self.notificationService.notify('Training has been Initiated', 'success');
           }
-          this.appSelectionService.updateTourConfig('indexing');
+          // this.appSelectionService.updateTourConfig('indexing');
           this.poling();
         }, 5000)
       }, errRes => {

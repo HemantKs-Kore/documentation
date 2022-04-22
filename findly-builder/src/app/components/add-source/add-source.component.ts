@@ -1873,6 +1873,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       // this.closeStatusModal();
       //this.dockService.trigger(true);
       this.getDocStatus(res._id);
+      this.appSelectionService.updateTourConfig('addData');
     },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
