@@ -8513,7 +8513,7 @@ FindlySDK.prototype.enableRecent = function () {
         if (!data.selectedFacet) {
           data.selectedFacet = 'all results';
           if(data.isFullResults){
-           _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
+          _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
           }
         }
         if (data.selectedFacet && data.selectedFacet === 'faq') {
@@ -8797,8 +8797,8 @@ FindlySDK.prototype.enableRecent = function () {
       var overrideDefaultPoisition = true;
       var _self = this;
       if(config){
-      _self.vars.configuration['botOptions']=config;      
-      }
+        _self.vars.configuration['botOptions']=config;      
+        }
       if (!isDev) {
         if (!$('body').hasClass('demo')) {
           $('body').addClass('demo')
