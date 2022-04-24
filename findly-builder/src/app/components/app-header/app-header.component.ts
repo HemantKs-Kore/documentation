@@ -33,6 +33,7 @@ export class AppHeaderComponent implements OnInit {
   showMainMenu: boolean = true;
   currentRouteData:any="";
   displyStatusBar:boolean=true;
+  onboardingOpened:boolean= false;
   tourData:any;
   tourConfigData:any=[];
   checklistCount:any;
@@ -1097,9 +1098,20 @@ export class AppHeaderComponent implements OnInit {
   /**opening slider component and closing slider component  */
   openUserMetaTagsSlider() { 
     this.currentRouteData=this.router.url;
-    this.sliderComponent.openSlider("#supportOnboarding", "width500");
+    if(this.onboardingOpened == false){
+      this.sliderComponent.openSlider("#supportOnboarding", "width500");
+      this.onboardingOpened = true;
+    }
+    else if(this.onboardingOpened== true){
+      this.closeUserMetaTagsSlider();
+    }
    }
-  closeUserMetaTagsSlider() { this.sliderComponent.closeSlider("#supportOnboarding"); }
+  closeUserMetaTagsSlider() {
+     if( this.onboardingOpened == true){
+      this.sliderComponent.closeSlider("#supportOnboarding");
+      this.onboardingOpened = false;
+     }
+   }
   emitStatus(event) {
     this.displyStatusBar=event;
   }
