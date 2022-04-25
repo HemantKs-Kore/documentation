@@ -182,7 +182,7 @@
                                         <div class="card_header">
                                             <div data-toggle="collapse" data-parent="#accordion" href="#appdetails" class="card_link collapsed" aria-expanded="true">
                                                 <div class="title">App Details</div>
-                                                <div class="desc-text">Associate an app with your Virtual Assistant to securely enable the Web / Mobile Client.</div>
+                                                <div class="desc-text">Associate an app with your Search Assistant to securely enable the Web / Mobile Client.</div>
                                                 <div class="arrow-indicator">
                                                     <img src="assets/images/carrot-right.svg">
                                                 </div>
@@ -298,7 +298,7 @@
                                         <div class="card_header">
                                         <div class="card_link collapsed" data-toggle="collapse" data-parent="#accordion" href="#webclient" aria-expanded="true">
                                             <div class="title">Web Client Details</div>
-                                            <div class="desc-text">Use the Web / Mobile Client hosted by Kore.ai to start interating with the virtual assistant.</div>
+                                            <div class="desc-text">Use the Web / Mobile Client hosted by Kore.ai to start interating with the Search Assistant.</div>
                                             <div class="arrow-indicator">
                                                 <img src="assets/images/carrot-right.svg">
                                             </div>
@@ -311,14 +311,14 @@
                                                     <ng-container>
                                                         <div class="section-wise-data">
                                                             <div class="heading-text">URL</div>
-                                                            <div class="heading-info-text">Share this URL with the users to interact with your virtual assistant.</div>
+                                                            <div class="heading-info-text">Share this URL with the users to interact with your Search Assistant.</div>
                                                             <div class="input-url-box">
                                                                 <div class="kr-sg-input-text">
                                                                     <input type="text" placeholder="http://sampleurl.com/" class="input-text" [value]="webClientDetails?.chatURL">
                                                                 </div>
                                                                 <div class="actions-copy-ext">
                                                                     <div class="btn-ext-copy">
-                                                                        <img src="assets/icons/clone.svg" (click)="copy(webClientDetails.chatURL)">
+                                                                        <img src="assets/icons/clone.svg"  ngbTooltip="Copy" (click)="copy(webClientDetails.chatURL)">
                                                                     </div>
                                                                     <div class="btn-ext-copy">
                                                                       <a href="{{webClientDetails.chatURL}}" target="_blank">
@@ -332,13 +332,13 @@
                                                                         <div class="img-info">
                                                                             <img src="assets/icons/info.svg">
                                                                         </div>
-                                                                        <div class="text-hint font-500">To start interacting with the virtual assistant via URL sharing:</div>
+                                                                        <div class="text-hint font-500">To start interacting with the  Search Assistant via URL sharing:</div>
                                                                     </div>
                                                                     <div class="hint-text-img">
                                                                     <div class="img-info disabled-check">
                                                                         <img src="assets/icons/check-white.svg" class="check-img">
                                                                     </div>
-                                                                        <div class="text-hint">Save and Publish the virtual assistant. <a>Publish Now</a></div>
+                                                                        <div class="text-hint">Save and Publish the Search Assistant. <a>Publish Now</a></div>
                                                                     </div>
                                                                     <div class="hint-text-img">
                                                                         <div class="img-info success-check">
@@ -360,7 +360,7 @@
                                                                 <div class="header d-flex align-items-center justify-content-between">
                                                                     <div class="code">HTML Code</div>
                                                                     <div class="copy">
-                                                                        <img src="assets/icons/clone.svg" (click)="copy(scriptTags)">
+                                                                        <img src="assets/icons/clone.svg" ngbTooltip="Copy" (click)="copy(scriptTags)">
                                                                     </div>
                                                                 </div>
                                                                 <div class="scriptTag">
@@ -376,13 +376,13 @@
                                                                         <div class="img-info">
                                                                             <img src="assets/icons/info.svg">
                                                                         </div>
-                                                                        <div class="text-hint font-500">To start interacting with the virtual assistant via the embedded code:</div>
+                                                                        <div class="text-hint font-500">To start interacting with the  Search Assistant via the embedded code:</div>
                                                                     </div>
                                                                     <div class="hint-text-img">
                                                                     <div class="img-info disabled-check">
                                                                         <img src="assets/icons/check-white.svg" class="check-img">
                                                                     </div>
-                                                                        <div class="text-hint">Save and Publish the virtual assistant. <a>Publish Now</a></div>
+                                                                        <div class="text-hint">Save and Publish the Search Assistant. <a>Publish Now</a></div>
                                                                     </div>
                                                                     <div class="hint-text-img">
                                                                         <div class="img-info success-check">
@@ -408,7 +408,7 @@
                                                                         <input type="text" placeholder="http://sampleurl.com/" class="input-text" [value]="domainUrl"  (focusout)="onFocusOutEvent($event)" [disabled]="i != (webClientDetails.domains.length-1)">
                                                                     </div>
                                                                     <div class="actions-copy-ext">
-                                                                        <div class="btn-ext-copy" (click)="deleteDomain(i)">
+                                                                        <div class="btn-ext-copy" ngbTooltip="Delete" (click)="deleteDomain(i)">
                                                                             <img src="assets/icons/delete.svg">
                                                                         </div>
                                                                         <div class="btn-ext-copy invisible"></div>
