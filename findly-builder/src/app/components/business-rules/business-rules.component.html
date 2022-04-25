@@ -45,7 +45,7 @@
                 <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchRules}"
                     (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()">
             </div>
-            <ng-container *ngIf="!(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)">
+            <ng-container>
                 <div class="add-rule-text" (click)="createNewRule()"
                     *ngIf="(rules && beforeFilterRules && beforeFilterRules.length) || searchRules  || showSearch">
                     <i class="si-add-plus"></i>
