@@ -66,6 +66,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
   pollingSubscriber: any = null;
   submitted: boolean = false;
   showNewStageType: boolean = false;
+  loadingSimulate:boolean = true;
   subscription: Subscription;
   @ViewChild('tleft') public tooltip: NgbTooltip;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
@@ -301,7 +302,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     });
   }
   //add condition dynamically
-  addCondition(type, index, field?, data?)
+  addCondition(type, index, field?, data?,mappingType?)
   {
     if (type === 'add')
     {
@@ -320,11 +321,24 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     {
       if (field === 'field')
       {
-        this.selectedStage.condition.mappings[index] = { ...this.selectedStage.condition.mappings[index], fieldId: data };
+        if(mappingType=='config')
+        {
+         this.selectedStage.config.mappings[index] = { ...this.selectedStage.config.mappings[index], fieldId: data };
+        }
+        else{
+          this.selectedStage.condition.mappings[index] = { ...this.selectedStage.condition.mappings[index], fieldId: data };
+        }
+
       }
       else if (field === 'operator')
       {
+        if(mappingType=='config')
+        {
+         this.selectedStage.config.mappings[index] = { ...this.selectedStage.config.mappings[index], operator: data };
+        }
+        else{
         this.selectedStage.condition.mappings[index] = { ...this.selectedStage.condition.mappings[index], operator: data };
+        }
         if (['exists', 'doesNotExist'].includes(data))
         {
           this.selectedStage.condition.mappings[index].value = [];
@@ -336,7 +350,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
   camelCaseNames(operator)
   {
     const camel_name = this.operators.filter(data => data.value == operator);
-    return camel_name[0].name;
+    if(camel_name.length){
+      return camel_name[0].name;
+    }
   }
   getTraitGroups(initial?)
   {
@@ -708,7 +724,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
             {
               this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
             }
-            tempConfig[0] = config;
+            //tempConfig[0] = config;
+            tempConfig[0] = tempStageObj.config.mappings[0]; // FLY - 4519: multiple changes for the plainlessScript
           });
           tempStageObj.config.mappings = tempConfig;
         }
@@ -1703,7 +1720,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
     }
   }
   simulate(warningmessage?)
-  {
+  {     
+    this.loadingSimulate=true;
     let plainScriptTxt: any;
     if (this.newMappingObj && this.newMappingObj.custom_script &&
       this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script)
@@ -1760,7 +1778,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
           //   this.newMappingObj.custom_script.defaultValue.script && 
           //   this.newMappingObj.custom_script.defaultValue.script != plainScriptTxt) {
           //   this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
-          // }
+          // } 
+            this.loadingSimulate=false;          
         this.simulteObj.simulating = false;
         this.addcode(res);
         this.mixpanel.postEvent('Initiated Simulator', {});
@@ -1777,6 +1796,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit
         this.simulteObj.simulationInprogress = false;
         
       }, errRes => {
+        this.loadingSimulate = false;
         if(warningmessage){
           this.notificationService.notify(warningmessage,'warning');
         }

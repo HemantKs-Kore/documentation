@@ -1840,12 +1840,12 @@ paginateContent(event) {
     crawler.advanceOpts.crawlBeyondSitemaps = this.crawlBeyondSitemaps;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
     crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
-    if (Number(this.crawlDepth)) {
+    if (Number(this.crawlDepth) || Number(this.crawlDepth) == 0) {
       crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
     } else {
       delete crawler.advanceOpts.crawlDepth;
     }
-    if (Number(this.maxUrlLimit)) {
+    if (Number(this.maxUrlLimit) || Number(this.maxUrlLimit) == 0) {
       crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
     } else {
       delete crawler.advanceOpts.maxUrlLimit;
@@ -2091,6 +2091,9 @@ paginateContent(event) {
     if (value <= -1) {
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
+    }
+    else if(value == null || value.includes("-")){
+      this.notificationService.notify('Range cannot be entered','error');
     }
     // if(value < 500 && valueFrom == 'maxUrlLimit'){
     //   this.maxUrlLimit = 500;

@@ -268,7 +268,7 @@
                         <ng-container>
                           <li ngbDropdownItem
                             *ngFor="let suggesition of fields | filter : [search_basic_fieldName, 'fieldName']"
-                            (click)="basic.fieldId=suggesition._id;basic.fieldName=suggesition.fieldName;basic_fieldName=basic.fieldId;addCondition('update',i,'field',suggesition._id);"
+                            (click)="basic.fieldId=suggesition._id;basic.fieldName=suggesition.fieldName;basic_fieldName=basic.fieldId;addCondition('update',i,'field',suggesition._id,'condition');"
                             [ngClass]="{'highlight':basic.fieldName == suggesition.fieldName}">
                             {{ suggesition.fieldName }}
                           </li>
@@ -284,7 +284,7 @@
                       Operator':camelCaseNames(basic.operator)}}</button>
                     <ul class="dropdown-menu content-menu">
                       <li *ngFor="let operator of operators"
-                        (click)="basic.operator=operator.value;addCondition('update',i,'operator',basic.operator);">
+                        (click)="basic.operator=operator.value;addCondition('update',i,'operator',basic.operator,'condition');">
                         <a>{{operator.name}}</a>
                       </li>
                     </ul>
@@ -705,7 +705,7 @@
                     <img src="assets/icons/drag_drop_move_icon.svg" />
                   </div>
                   <div class="col-6 mb-2">
-                    <div class="label-text">{{'workbench.source_field' | translate}}</div>
+                    <div class="label-text">{{'workbench.source_field' | translate}}</div>                    
                     <div class="kr-sg-dropdowns" ngbDropdown>
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
@@ -724,7 +724,7 @@
                             <ng-container>
                               <li ngbDropdownItem
                                 *ngFor="let suggesition of fields | filter : [search_basic_fieldName1, 'fieldName']"
-                                (click)="map.source_field=suggesition.fieldName;addCondition('update',i,'field',suggesition._id);"
+                                (click)="map.source_field=suggesition.fieldName;addCondition('update',i,'field',suggesition._id,'config');"
                                 [ngClass]="{'highlight':map.source_field == suggesition.fieldName}">
                                 {{ suggesition.fieldName }}
                               </li>
@@ -1229,7 +1229,11 @@
         </div> -->
       </div>
     </div>
-    <perfect-scrollbar class="content_body">
+    <div class="mainLoadingSpinner1" *ngIf="loadingSimulate">
+      <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+      <span class="please-wait-message1">{{'please_wait'| translate}}</span>
+    </div> 
+    <perfect-scrollbar class="content_body"  *ngIf="!loadingSimulate">
       <div *ngIf="simulateJson">
         <ngx-codemirror [(ngModel)]="filteredSimulatorRes" [options]="codeMirrorOptions">
         </ngx-codemirror>

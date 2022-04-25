@@ -24,7 +24,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   serachIndexId;
   indices: any = [];
   experiments: any = [];
-  default_Indexpipelineid:any;
+  default_Indexpipelineid: any;
   variants: any = [];
   activities: any = [];
   channels: any = [];
@@ -104,6 +104,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   subscription: Subscription;
   showActivity: boolean;
   currentUsageSubscription: Subscription;
+  currentPlanSubscription: Subscription;
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
   @ViewChild('onboard') onboard: UseronboardingJourneyComponent;
   constructor(
@@ -124,11 +125,15 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.initialCall();
     this.currentUsageSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
       let subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
-      this.currentPlan = subscription_data.subscription;
+      this.currentPlan = subscription_data?.subscription;
       this.initialCall('changed');
       this.onboard?.initialCall();
       this.appSelectionService.getTourConfig();
       this.getAllOverview();
+    })
+    this.currentPlanSubscription = this.appSelectionService.currentSubscription.subscribe(res => {
+      const subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
+      this.currentPlan = subscription_data.subscription;
     })
   }
   ngAfterViewInit() {
@@ -152,17 +157,17 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       limit: 100
     };
     this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
-    console.log(res);
-    res.forEach(element=>{
-      if(element.default==true){
-          this.default_Indexpipelineid=element._id;
-      }
-    })
-    this.getQueries("TotalUsersStats");
-    this.getQueries("TotalSearchesStats");
-    this.getAllOverview(status);
-    this.getCurrentUsage();
-    this.componentType = 'summary';
+      console.log(res);
+      res.forEach(element => {
+        if (element.default == true) {
+          this.default_Indexpipelineid = element._id;
+        }
+      })
+      this.getQueries("TotalUsersStats");
+      this.getQueries("TotalSearchesStats");
+      this.getAllOverview(status);
+      this.getCurrentUsage();
+      this.componentType = 'summary';
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -170,7 +175,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
         this.notificationService.notify('Failed ', 'error');
       }
     });
-    
+
   }
   //initial ngoninit method call
   initialCall(status?) {
@@ -193,8 +198,8 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     //   this.getQueries("TotalSearchesStats");
 
     // }
-    
-    
+
+
     // this.getAllOverview(status);
     // this.getCurrentUsage();
     // this.componentType = 'summary';
@@ -227,7 +232,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      indexPipelineId:this.default_Indexpipelineid,
+      indexPipelineId: this.default_Indexpipelineid,
       offset: 0,
       limit: 100
     };
@@ -395,5 +400,6 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   ngOnDestroy() {
     this.currentUsageSubscription ? this.currentUsageSubscription.unsubscribe() : null;
+    this.currentPlanSubscription ? this.currentPlanSubscription.unsubscribe() : null;
   }
 }

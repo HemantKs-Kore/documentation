@@ -193,8 +193,7 @@ export class UserEngagementComponent implements OnInit {
     this.getuserCharts('MostUsedDevices',selectedindexpipeline);
     this.getuserCharts("MostUsedBrowsers",selectedindexpipeline);
     this.getuserCharts("MostUsedGeoLocations",selectedindexpipeline);
-    this.getuserCharts("MostUsersSentiments",selectedindexpipeline);
-
+    //this.getuserCharts("MostUsersSentiments",selectedindexpipeline); /** Commenting to reduce the Call can be used later  */
   }
   // getDetails(config?){
   //   this.selecteddropname=config.name;
@@ -336,7 +335,7 @@ export class UserEngagementComponent implements OnInit {
     this.getuserCharts('MostUsedDevices',selectedindexpipeline);
     this.getuserCharts("MostUsedBrowsers",selectedindexpipeline);
     this.getuserCharts("MostUsedGeoLocations",selectedindexpipeline);
-    this.getuserCharts("MostUsersSentiments",selectedindexpipeline);
+   // this.getuserCharts("MostUsersSentiments",selectedindexpipeline); /** Commenting to reduce the Call can be used later  */
     }
   }
 
@@ -578,8 +577,8 @@ export class UserEngagementComponent implements OnInit {
     }
     if (this.group == 'hour') { // 24 hours
       this.usersChart.forEach((element, index) => {
-        if (index > 0 && index <= 24) {
-          xAxisData.push(index + 'hr');
+        if (index >= 0 && index <= 24) {
+          xAxisData.push((index + 1) + 'hr');
           yAxisRepeatUser.push(element.repeatedUsers);
           yAxisNewUsers.push(element.newUsers);
         }
