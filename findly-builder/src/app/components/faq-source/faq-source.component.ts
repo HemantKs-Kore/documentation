@@ -80,6 +80,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     comment: ''
   }
   activeClose = false;
+  show =false;
   faqComments: any = [];
   pollingSubscriber;
   showSearch;
@@ -274,6 +275,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   openStatusModal() {
     this.statusModalPopRef = this.statusModalPop.open();
+    this.poling();
     this.getJobStatusForMessages();
   }
   closeStatusModal(extractedFaqs?) {
@@ -2001,6 +2003,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       document.getElementById(inputSearch).focus();
     }, 100)
   }
+  showMoreConditions(index){
+    if(index){
+      this.show = !this.show
+    }
+  }
   clicksViews() {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -2049,5 +2056,5 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.updateFaq(this.selectedFaq, 'updateQA', faqDragData);
     }
   }
-
+  
 }
