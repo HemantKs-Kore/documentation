@@ -2014,3 +2014,327 @@ line-height: 15px;
         }
     }
 }
+
+.execution-table-data{
+    .exe-data-table{
+        .kr-sg-data-table{
+            .table-content{
+                .table-header{
+                    border-bottom: 1px solid #e4e5e7;
+                    text-transform: uppercase;
+                }
+                .content-body{
+                    border-bottom: 1px solid #e4e5e7;
+                        .execute-block{
+                            position: relative;
+                            .eye-img{
+                                position: absolute;
+                                left: auto;
+                                z-index: 1;
+                                right: 0;
+                                top: 0;
+                                display: none;
+                                &:hover{
+                                    .execute-log{
+                                        display: block;
+                                    }
+                                }
+                                .execute-log{
+                                    position: absolute;             
+                                    padding: 15px 15px;
+                                    width: 295px;
+                                   // width: 332px;
+                                   // height: 290px;
+                                    background: #FFFFFF;
+                                    box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
+                                    top: 25px;
+                                    margin-left: 0px;
+                                    display: none;
+                                    z-index: 9999;
+                                    &::after{
+                                        content: "";
+                                        position: absolute;
+                                        top: 19px;
+                                        right: 100%;
+                                        margin-top: -8px;
+                                        border-width: 8px;
+                                        border-style: none;
+                                        border-color: transparent;
+                                        // border-style: solid;
+                                        // border-color: transparent #fff transparent transparent;
+                                    }
+                                    .header-title{
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: space-between;
+                                        margin-bottom: 15px;
+                                        .title{
+                                            color: #000000;
+                                            font-weight: 500;
+                                            font-size: 14px;
+                                            line-height: 17px;
+                                        }
+                                        .close-log{
+                                            img{
+                                                cursor: pointer;
+                                                width: 12px;
+                                            }
+                                        }
+                                    }
+                                    .log-details{
+                                        display: flex;
+                                        align-items: center;
+                                        padding: 7px 0;
+                                        font-weight: 400;
+                                        font-size: 10px;
+                                        img{
+                                            margin-right: 15px;
+                                            margin-left: 15px;
+                                        }
+                                        &.log-stop{
+                                            .time{
+                                                color: #DD3646;
+                                            }
+                                            .log-msg{
+                                                color: #DD3646;
+                                            }
+                                        }
+                                        &.log-success{
+                                            .time{
+                                                color: #9AA0A6;
+                                            }
+                                            .log-msg{
+                                                color: #3C4043;
+                                            }
+                                        }
+                                        &.log-halt{
+                                            .time{
+                                                color: #9AA0A6;
+                                            }
+                                            .log-msg{
+                                                color: #3C4043;
+                                            }
+                                        }
+                                        &.log-inprogress{
+                                            .time{
+                                                color: #9AA0A6;
+                                            }
+                                            .log-msg{
+                                                color: #3C4043;
+                                            }
+                                        }
+                                        .time{
+                                            color: #9AA0A6;
+                                        }
+                                        .log-msg{
+                                            color: #3C4043;
+                                            line-height: 12px;
+                                            max-width: 170px;
+                                            text-overflow: ellipsis;
+                                            overflow: hidden;
+                                            white-space: nowrap;
+                                            display: inline-block;
+                                        }
+                                    }
+                                }
+                            }   
+                            .view-log{
+                                font-weight: 400;
+                                font-size: 14px;
+                                color: #0D6EFD;
+                                padding: 10px 0px;
+                            }
+                        }
+                        &:hover{
+                            .execute-block{
+                                .eye-img{
+                                    display: block;
+                                }
+                            }
+                           
+                        }
+                }
+            }
+        }
+    }
+}
+
+
+// pages tab css start from here
+.pages-tab{
+    margin: 0 10px;
+    padding: 20px 0;
+.pages-search-tab{
+    .kr-sg-input-search{
+        width: 215px;
+        margin-bottom: 15px;
+        .label-text{
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #5F6368;
+        }
+        .input-search{
+            padding: 4px 10px 4px 32px;
+            background: #fff;
+            border: 1px solid #e4e5e7;
+            box-sizing: border-box;
+            border-radius: 4px;
+            font-weight: 300;
+            font-size: 14px;
+        }
+        .search-icon {
+            position: absolute;
+            left: 11px;
+            top: 34px;
+        }
+        .close-icon{
+            position: absolute;
+            right: 11px;
+            top: 36px;
+            cursor: pointer;
+        }
+    }
+}
+.pages-accordion-block{
+    padding: 0px 0 5px 0;
+    display: flex;
+    border-top: 1px solid #BDC1C6;
+    .pages-accordion-header{
+        background: #F8F9FA;
+        .pages-collapse-block{
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #E4E5E7;
+            border-left: 2px solid transparent;
+            .pages-collapse-header{
+                font-weight: 500;
+                font-size: 14px;
+                color: #3C4043;
+                line-height: 17px;
+            }
+            .pages-collapse-desc{
+                font-weight: 500;
+                font-size: 10px;
+                color: #9AA0A6;
+                line-height: 12px;
+                padding: 6px 0;
+            }
+            .pages-collapse-timestamp{
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 15px;
+                color: #5F6368;
+            }
+            &[aria-expanded="true"]{
+                border-left: 2px solid #0D6EFD;
+                .pages-collapse-header{
+                    color: #0D6EFD;
+                }
+            }
+            &[aria-expanded="false"]{
+                
+            }
+        }
+    }
+    .pages-accordion-body{
+        padding: 20px 0;
+        .pages-accordion-body-right{
+            .pages-collapse-show-hding{
+                font-weight: 700;
+                font-size: 18px;
+                line-height: 22px;
+            }
+            .config-crwal-url-block{
+                display: flex;
+                justify-content: space-between;
+                background: #F8F9FA;
+                border-radius: 4px;
+                padding: 10px 10px;
+                margin: 5px 0px;
+                .config-crwal-url{
+                    .crwal-url{
+                        font-weight: 500;
+                        font-size: 10px;
+                        color: #9AA0A6;
+                    }
+                }
+                .config-crwal-url-edit{
+                    cursor: pointer;
+                    padding: 0 10px;
+                }
+            }
+            .pages-collapse-data-block{
+                display: flex;
+                .kr-sg-data-table{
+                    padding-right: 20px;
+                    .table-content{
+                        .table-header{
+
+                        }
+                    }
+                    .content-body{
+                        align-items: flex-start;
+                        font-size: 12px;
+                        .pages-py-5{
+                            padding: 5px 0;
+                        }
+                        .pages-url{
+                            color: #0D6EFD;
+                            cursor: pointer;
+                            font-weight: 500;
+                            font-size: 10px;
+                        }
+                        .pages-overflow-data{
+                            max-width: 100%;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                            white-space: nowrap;
+                        }
+                    }
+                }
+                .pages-collapse-img-block{
+                    background: #F8F9FA;
+                    border-radius: 4px;
+                    padding: 10px 10px;
+                    .pages-collapse-img-hding{
+                        color: #9AA0A6;
+                        font-weight: 500;
+                        font-size: 10px;
+                    }
+                    .pages-collapse-img-thumb{
+                        padding: 10px 0;
+                        img{
+                            width: 100%;
+                            height: auto;
+                            border-radius: 4px;
+                            -o-object-fit: cover;
+                            object-fit: cover;
+                        }
+                    }
+                    .pages-collapse-img-link{
+                        display: flex;
+                        align-items: center;
+                        font-weight: 500;
+                        font-size: 10px;
+                        color: #0D6EFD;
+                        line-height: 12px;
+                        width: 100%;
+                        .pages-link{
+                            width: 90%;
+                            word-break: break-word;
+                            padding-right: 5px;
+                            border-right: 1px solid #E4E5E7;
+                        }
+                        .pages-link-img{
+                            width: 10%;
+                            padding-left: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+}
+// pages tab css ends

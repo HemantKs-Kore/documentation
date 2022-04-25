@@ -1302,7 +1302,9 @@
             <!-- Conf Configuration-->
 
           </div>
-          <div class="accordion-content-info text-left" *ngIf="page && totalRecord > 0">
+
+
+          <div class="accordion-content-info text-left d-none" *ngIf="page && totalRecord > 0">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
               
@@ -1394,15 +1396,401 @@
               </div> -->
               <!-- pageination -->
             </div>
-
           </div>
+
+          <!-- New page html start from here -->
+        <perfect-scrollbar class="scroll-table-allowRow">
+          <div class="pages-tab">
+            <div class="pages-search-tab">
+              <div class="kr-sg-input-search">
+                <div class="label-text">SEARCH PAGE</div>
+                <input class="input-search" autocomplete="off" id="searchInput" maxlength="60" name="pagesSearch" placeholder="Search" type="text">
+                <img class="search-icon" src="assets/icons/search_gray.svg">
+                <img class="close-icon" src="assets/icons/close_icon.svg">
+              </div>
+            </div>
+            <div class="pages-accordion-block" id="pagesAccordion">
+              <div class="col-3 p-0">
+                <div class="pages-accordion-header">
+                  <div class="pages-collapse-block" data-toggle="collapse" data-target="#demo" aria-expanded="false">
+                    <div class="pages-collapse-header">Microsoft Planning to bring tabs to File Explorer in Windows 11</div>
+                    <div class="pages-collapse-desc">https://finshots.in/archive/stop-th...</div>
+                    <div class="pages-collapse-timestamp">26-Jan-2020</div>
+                  </div>
+                </div>
+                <div class="pages-accordion-header">
+                  <div class="pages-collapse-block" data-toggle="collapse" data-target="#demo1" aria-expanded="false">
+                    <div class="pages-collapse-header">Demo 2 Microsoft Planning to bring tabs to File Explorer in Windows 11</div>
+                    <div class="pages-collapse-desc">https://finshots.in/archive/stop-th...</div>
+                    <div class="pages-collapse-timestamp">26-Jan-2020</div>
+                  </div>
+                </div>
+                <div class="pages-accordion-header">
+                  <div class="pages-collapse-block" data-toggle="collapse" data-target="#demo2" aria-expanded="false">
+                    <div class="pages-collapse-header">Demo 3 Microsoft Planning to bring tabs to File Explorer in Windows 11</div>
+                    <div class="pages-collapse-desc">https://finshots.in/archive/stop-th...</div>
+                    <div class="pages-collapse-timestamp">26-Jan-2020</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-9">
+                <div class="pages-accordion-body">
+                  <!-- demo content body start -->
+                  <div id="demo" class="pages-accordion-body-right collapse show" data-parent="#pagesAccordion">
+                    <div class="pages-collapse-show-hding">Windows 11 Installation Asssistant</div>
+                    <div class="config-crwal-url-block">
+                      <div  class="config-crwal-url">
+                        <a  class="crwal-url" href="#"><span class="pr-1"><img src="assets/icons/external-link-secondary.svg" /></span> https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai-bot-builder/</a>
+                      </div>
+                      <div  class="config-crwal-url-edit">
+                        <img  class="crwal-url-edit" src="assets/icons/copy-blue.svg">
+                      </div>
+                    </div>
+                    <div class="pages-collapse-data-block">
+                      <div class="col-9 p-0">
+                        <div class="kr-sg-data-table">
+                          <section class="table-content">
+                              <header class="table-header">
+                                  <div class="col-3">FIELD</div> 
+                                  <div class="col-9">VALUE</div>
+                              </header>
+                              <div class="content-body">
+                                  <div class="col-3">
+                                    <div class="content-body-header">Title</div>
+                                  </div>
+                                  <div class="col-9">
+                                    <div>Windows 11 Installation Assistant</div>
+                                  </div>
+                              </div>
+                              <div class="content-body">
+                                <div class="col-3">
+                                  <div class="content-body-header">Sections</div>
+                                </div>
+                                <div class="col-9">
+                                  <div class="pages-py-5 pages-overflow-data">Windows 11 Installation Assistant</div>
+                                  <div class="pages-py-5 pages-overflow-data">Create Windows 11 Installation Media</div>
+                                  <div class="pages-py-5 pages-overflow-data">Download Windows 11 Disk Image</div>
+                                  <div class="pages-py-5 pages-overflow-data">Privacy</div>
+                                  <div class="pages-py-5 pages-overflow-data">More OPtions to Download</div>
+                                </div>
+                            </div>
+                            <div class="content-body">
+                              <div class="col-3">
+                                <div class="content-body-header">URLs</div>
+                              </div>
+                              <div class="col-9">
+                                <div class="pages-url pages-overflow-data"><span class="pr-1"><img src="assets/icons/sidemenu/external-link.svg" /></span> https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai</div>
+                              </div>
+                          </div>
+                          <div class="content-body">
+                            <div class="col-3">
+                              <div class="content-body-header">Image</div>
+                            </div>
+                            <div class="col-9">
+                              <div class="pages-url pages-overflow-data"><span class="pr-1"><img src="assets/icons/sidemenu/external-link.svg" /></span> https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai</div>
+                            </div>
+                        </div>
+                        <div class="content-body">
+                          <div class="col-3">
+                            <div class="content-body-header">Publish_at</div>
+                          </div>
+                          <div class="col-9">
+                            <div class="pages-overflow-data">2022-01-20 11:18, UTC</div>
+                          </div>
+                      </div>
+                      <div class="content-body">
+                        <div class="col-3">
+                          <div class="content-body-header">Body</div>
+                        </div>
+                        <div class="col-9">
+                          <div class="pages-overflow-data">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus eges</div>
+                        </div>
+                    </div>
+                          </section>                               
+                      </div> 
+                      </div>
+                      <div class="col-3 p-0">
+                        <div class="pages-collapse-img-block">
+                        <div class="pages-collapse-img-hding">
+                          IMAGE URL
+                        </div>
+                        <div class="pages-collapse-img-thumb">
+                          <img src="assets/icons/windows-installation-asssistant.svg" />
+                        </div>
+                        <div class="pages-collapse-img-link">
+                          <div class="pages-link">https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</div>
+                          <div class="pages-link-img"><img src="assets/icons/copy-blue.svg"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- demo content body end -->
+
+                <!-- demo 1 content body start -->
+                <div id="demo1" class="pages-accordion-body-right collapse" data-parent="#pagesAccordion">
+                  <div class="pages-collapse-show-hding">Demo 1 Windows 11 Installation Asssistant</div>
+                  <div class="config-crwal-url-block">
+                    <div  class="config-crwal-url">
+                      <a  class="crwal-url" href="#"><span class="pr-1"><img src="assets/icons/external-link-secondary.svg" /></span> https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai-bot-builder/</a>
+                    </div>
+                    <div  class="config-crwal-url-edit">
+                      <img  class="crwal-url-edit" src="assets/icons/copy-blue.svg">
+                    </div>
+                  </div>
+                  <div class="pages-collapse-data-block">
+                    <div class="col-9 p-0">
+                      <div class="kr-sg-data-table">
+                        <section class="table-content">
+                            <header class="table-header">
+                                <div class="col-3">FIELD</div> 
+                                <div class="col-9">VALUE</div>
+                            </header>
+                            <div class="content-body">
+                                <div class="col-3">
+                                  <div class="content-body-header">Title</div>
+                                </div>
+                                <div class="col-9">
+                                  <div>Windows 11 Installation Assistant</div>
+                                </div>
+                            </div>
+                            <div class="content-body">
+                              <div class="col-3">
+                                <div class="content-body-header">Sections</div>
+                              </div>
+                              <div class="col-9">
+                                <div class="pages-py-5 pages-overflow-data">Windows 11 Installation Assistant</div>
+                                <div class="pages-py-5 pages-overflow-data">Create Windows 11 Installation Media</div>
+                                <div class="pages-py-5 pages-overflow-data">Download Windows 11 Disk Image</div>
+                                <div class="pages-py-5 pages-overflow-data">Privacy</div>
+                                <div class="pages-py-5 pages-overflow-data">More OPtions to Download</div>
+                              </div>
+                          </div>
+                          <div class="content-body">
+                            <div class="col-3">
+                              <div class="content-body-header">URLs</div>
+                            </div>
+                            <div class="col-9">
+                              <div class="pages-url pages-overflow-data"><span class="pr-1"><img src="assets/icons/sidemenu/external-link.svg" /></span> https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai</div>
+                            </div>
+                        </div>
+                        <div class="content-body">
+                          <div class="col-3">
+                            <div class="content-body-header">Image</div>
+                          </div>
+                          <div class="col-9">
+                            <div class="pages-url pages-overflow-data"><span class="pr-1"><img src="assets/icons/sidemenu/external-link.svg" /></span> https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai</div>
+                          </div>
+                      </div>
+                      <div class="content-body">
+                        <div class="col-3">
+                          <div class="content-body-header">Publish_at</div>
+                        </div>
+                        <div class="col-9">
+                          <div class="pages-overflow-data">2022-01-20 11:18, UTC</div>
+                        </div>
+                    </div>
+                    <div class="content-body">
+                      <div class="col-3">
+                        <div class="content-body-header">Body</div>
+                      </div>
+                      <div class="col-9">
+                        <div class="pages-overflow-data">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus eges</div>
+                      </div>
+                  </div>
+                        </section>                               
+                    </div> 
+                    </div>
+                    <div class="col-3 p-0">
+                      <div class="pages-collapse-img-block">
+                      <div class="pages-collapse-img-hding">
+                        IMAGE URL
+                      </div>
+                      <div class="pages-collapse-img-thumb">
+                        <img src="assets/icons/windows-installation-asssistant.svg" />
+                      </div>
+                      <div class="pages-collapse-img-link">
+                        <div class="pages-link">https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</div>
+                        <div class="pages-link-img"><img src="assets/icons/copy-blue.svg"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                <!-- demo 1 content body end -->
+
+                <!-- demo 2 content body start -->
+                <div id="demo2" class="pages-accordion-body-right collapse" data-parent="#pagesAccordion">
+                  <div class="pages-collapse-show-hding">Demo 2 Windows 11 Installation Asssistant</div>
+                  <div class="config-crwal-url-block">
+                    <div  class="config-crwal-url">
+                      <a  class="crwal-url" href="#"><span class="pr-1"><img src="assets/icons/external-link-secondary.svg" /></span> https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai-bot-builder/</a>
+                    </div>
+                    <div  class="config-crwal-url-edit">
+                      <img  class="crwal-url-edit" src="assets/icons/copy-blue.svg">
+                    </div>
+                  </div>
+                  <div class="pages-collapse-data-block">
+                    <div class="col-9 p-0">
+                      <div class="kr-sg-data-table">
+                        <section class="table-content">
+                            <header class="table-header">
+                                <div class="col-3">FIELD</div> 
+                                <div class="col-9">VALUE</div>
+                            </header>
+                            <div class="content-body">
+                                <div class="col-3">
+                                  <div class="content-body-header">Title</div>
+                                </div>
+                                <div class="col-9">
+                                  <div>Windows 11 Installation Assistant</div>
+                                </div>
+                            </div>
+                            <div class="content-body">
+                              <div class="col-3">
+                                <div class="content-body-header">Sections</div>
+                              </div>
+                              <div class="col-9">
+                                <div class="pages-py-5 pages-overflow-data">Windows 11 Installation Assistant</div>
+                                <div class="pages-py-5 pages-overflow-data">Create Windows 11 Installation Media</div>
+                                <div class="pages-py-5 pages-overflow-data">Download Windows 11 Disk Image</div>
+                                <div class="pages-py-5 pages-overflow-data">Privacy</div>
+                                <div class="pages-py-5 pages-overflow-data">More OPtions to Download</div>
+                              </div>
+                          </div>
+                          <div class="content-body">
+                            <div class="col-3">
+                              <div class="content-body-header">URLs</div>
+                            </div>
+                            <div class="col-9">
+                              <div class="pages-url pages-overflow-data"><span class="pr-1"><img src="assets/icons/sidemenu/external-link.svg" /></span> https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai</div>
+                            </div>
+                        </div>
+                        <div class="content-body">
+                          <div class="col-3">
+                            <div class="content-body-header">Image</div>
+                          </div>
+                          <div class="col-9">
+                            <div class="pages-url pages-overflow-data"><span class="pr-1"><img src="assets/icons/sidemenu/external-link.svg" /></span> https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai</div>
+                          </div>
+                      </div>
+                      <div class="content-body">
+                        <div class="col-3">
+                          <div class="content-body-header">Publish_at</div>
+                        </div>
+                        <div class="col-9">
+                          <div class="pages-overflow-data">2022-01-20 11:18, UTC</div>
+                        </div>
+                    </div>
+                    <div class="content-body">
+                      <div class="col-3">
+                        <div class="content-body-header">Body</div>
+                      </div>
+                      <div class="col-9">
+                        <div class="pages-overflow-data">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus eges</div>
+                      </div>
+                  </div>
+                        </section>                               
+                    </div> 
+                    </div>
+                    <div class="col-3 p-0">
+                      <div class="pages-collapse-img-block">
+                      <div class="pages-collapse-img-hding">
+                        IMAGE URL
+                      </div>
+                      <div class="pages-collapse-img-thumb">
+                        <img src="assets/icons/windows-installation-asssistant.svg" />
+                      </div>
+                      <div class="pages-collapse-img-link">
+                        <div class="pages-link">https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</div>
+                        <div class="pages-link-img"><img src="assets/icons/copy-blue.svg"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                <!-- demo 2 content body end -->
+              </div>
+            </div>
+          </div>
+          </div>
+        </perfect-scrollbar>
+        
+           <!-- New page html ends here -->
+
+
           <div class="empty-page-data-container" *ngIf="page &&  totalRecord == 0">
             <img src="assets\images\emptyList.png">
             <div class="title">Sorry! No Pages available yet!! Please <span> crawl</span> the web domain again</div>
           </div>
           <!-- Execution -->
           <div *ngIf="execution" class="execution-table-data">
-            <div class="accordion-content-info text-left">
+            <!-- New Execution page start from here -->
+            <div class="exe-data-table">
+              <div class="kr-sg-data-table">
+                <section class="table-content">
+                    <header class="table-header">
+                        <div class="col-4">execution status</div> 
+                        <div class="col-2">Duration</div>
+                        <div class="col-2">Triggered by</div>
+                        <div class="col-2">executed on</div>
+                    </header>
+                    <div class="content-body">
+                        <div class="col-4">
+                          <div class="execute-block">
+                            <span class="execute-success mr-2" placement="top-left" tooltipclass="ngb_tooltip_custom_class">
+                              <img  class="ng-tns-c16-4 ng-star-inserted" src="assets/icons/content/success.svg">
+                            </span>
+                            <span class="execute-type">Execution Successful</span>
+                            
+                              <div class="eye-img">
+                                <span class="view-log">View Log</span>
+                                <div class="execute-log">
+                                  <div class="header-title">
+                                    <div class="title">EXECUTION LOG</div>
+                                    <div class="close-log"><img src="assets/images/close.svg"></div>
+                                  </div>
+                                  <div class="log-details log-stop">
+                                    <div class="time">9:30 AM</div>
+                                    <div class="log-type"><img src="assets/icons/content/failed-circle.svg" /></div>
+                                    <div class="log-msg">Error message Lorem Ipsum</div>
+                                  </div>
+                                  <div class="log-details log-success">
+                                    <div class="time">9:30 AM</div>
+                                    <div class="log-type"><img src="assets/icons/content/succes-circle.svg" /></div>
+                                    <div class="log-msg">Lorem Ipsum a dummy text standard</div>
+                                  </div>
+                                  <div class="log-details log-halt">
+                                    <div class="time">9:30 AM</div>
+                                    <div class="log-type"><img src="assets/icons/content/succes-circle.svg" /></div>
+                                    <div class="log-msg">Lorem Ipsum a dummy text standard</div>
+                                  </div>
+                                  <div class="log-details log-inprogress">
+                                    <div class="time">9:30 AM</div>
+                                    <div class="log-type"><img src="assets/icons/content/failed-circle-o.svg" /></div>
+                                    <div class="log-msg">Stopped by Abhilasha Tripati</div>
+                                  </div>
+                                </div>
+                              </div>
+                            
+                          </div>
+                        </div>
+                        <div class="col-2">
+                          <div>28s</div>
+                        </div>
+                        <div class="col-2">
+                          <div>Scheduled</div>
+                        </div>
+                        <div class="col-2">
+                          <div>Yesterday</div>
+                      </div>
+                    </div>
+                </section>                               
+            </div> 
+            </div>
+             <!-- New Execution page ends here -->
+
+            <div class="accordion-content-info text-left d-none">
               <div class="table-list-content execution">
                 <div class="kr-sg-data-table with-checkbox">
                   <section class="table-content m-0">
