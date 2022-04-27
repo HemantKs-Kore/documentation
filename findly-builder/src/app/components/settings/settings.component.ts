@@ -37,6 +37,7 @@ export class SettingsComponent implements OnInit {
   searchFocusIn = false;
   activeClose = false;
   searchchannel: any = '';
+  configured;
   scriptTags;
   isAlertsEnabled: boolean;
   showError: boolean = false;
@@ -99,6 +100,10 @@ export class SettingsComponent implements OnInit {
     if(this.selectedApp && this.selectedApp.channels.length){
       this.selectedApp.channels.forEach(element => {
           this.enableConfiguration = element.enable;
+          if(element.appUsage != ''){
+            this.configured = true;
+          }
+        
       });
     }
   }

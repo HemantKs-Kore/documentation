@@ -441,7 +441,8 @@ export class BotActionComponent implements OnInit {
   }
 
   closeBotsModalElement() {
-    if (this.botsModalRef && this.botsModalRef.close) {
+    $(".inmplayer-popover-pointer-holder").css('height',0);
+        if (this.botsModalRef && this.botsModalRef.close) {
       this.botsModalRef.close();
     }
   }
