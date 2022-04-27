@@ -316,12 +316,15 @@
                                                                 <div class="kr-sg-input-text">
                                                                     <input type="text" placeholder="http://sampleurl.com/" class="input-text" [value]="webClientDetails?.chatURL">
                                                                 </div>
-                                                                <div class="actions-copy-ext">
-                                                                    <div class="btn-ext-copy">
-                                                                        <img src="assets/icons/clone.svg"  ngbTooltip="Copy" (click)="copy(webClientDetails.chatURL)">
+                                                                <div class="actions-copy-ext" >
+                                                                    <div class="btn-ext-copy" [ngClass]="{'disableClass' : !configured }">
+                                                                        <img src="assets/icons/clone.svg"  *ngIf="!configured" ngbTooltip="Copy" >  <!-- If channel is not configured -->
+                                                                        <img src="assets/icons/clone.svg" *ngIf="configured" ngbTooltip="Copy" (click)="copy(webClientDetails.chatURL)">
                                                                     </div>
-                                                                    <div class="btn-ext-copy">
-                                                                      <a href="{{webClientDetails.chatURL}}" target="_blank">
+                                                                    <div class="btn-ext-copy" [ngClass]="{'disableClass' : !configured }" >
+                                                                        <a *ngIf="!configured">
+                                                                            <img src="assets/icons/external-link.svg"> </a>  <!-- If channel is not configured -->
+                                                                      <a  *ngIf="configured" href="{{webClientDetails.chatURL}}"  target="_blank">
                                                                         <img src="assets/icons/external-link.svg"> </a>
                                                                     </div>
                                                                 </div>
@@ -338,7 +341,7 @@
                                                                     <div class="img-info disabled-check">
                                                                         <img src="assets/icons/check-white.svg" class="check-img">
                                                                     </div>
-                                                                        <div class="text-hint">Save and Publish the Search Assistant. <a>Publish Now</a></div>
+                                                                        <div class="text-hint">Save and Publish the Search Assistant. </div>
                                                                     </div>
                                                                     <div class="hint-text-img">
                                                                         <div class="img-info success-check">
@@ -382,7 +385,7 @@
                                                                     <div class="img-info disabled-check">
                                                                         <img src="assets/icons/check-white.svg" class="check-img">
                                                                     </div>
-                                                                        <div class="text-hint">Save and Publish the Search Assistant. <a>Publish Now</a></div>
+                                                                        <div class="text-hint">Save and Publish the Search Assistant. </div>
                                                                     </div>
                                                                     <div class="hint-text-img">
                                                                         <div class="img-info success-check">

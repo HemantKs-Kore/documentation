@@ -605,7 +605,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         }
       } else {
         clearInterval(this.polingObj[type]);
-        // this.getSourceList('clearPoling');
+        this.getSourceList('clearPoling');
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
