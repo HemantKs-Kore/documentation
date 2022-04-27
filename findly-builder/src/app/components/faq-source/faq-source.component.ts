@@ -28,7 +28,7 @@ import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { D, F } from '@angular/cdk/keycodes';
 import { SideBarService } from './../../services/header.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
-import { ThrowStmt } from '@angular/compiler';
+import { CompileShallowModuleMetadata, ThrowStmt } from '@angular/compiler';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
@@ -128,6 +128,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   statusArr = [];
   docTypeArr = [];
   filterResourcesBack;
+  statusMsgArr=[];
   filterTableheaderOption = "";
   filterTableSource = "all";
   faqsObj = {
@@ -739,6 +740,21 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.docTypeArr = [...new Set(this.docTypeArr)]
 
       }
+      let array=[];
+      this.extractedResources.map(extractedElement => {
+        this.statusMsgArr.map(statusElement=>{ 
+          let obj={};
+          if(extractedElement._id === statusElement.metadata.extractionSourceId){
+            obj= {...extractedElement , message:statusElement.message}
+            array.push(obj);
+          }
+          // else{
+          //   obj= extractedElement
+          // }
+        })
+      });
+      console.log('EA',array);
+      this.extractedResources = array;
       this.filterResourcesBack = [...this.extractedResources];
       this.getDyanmicFilterData(searchValue, 'manageExract');
       // this.filterTable(this.filterTableSource, this.filterTableheaderOption)
@@ -1304,6 +1320,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.pollingSubscriber = interval(5000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.job.status', quaryparms).subscribe(res => {
         this.updateSourceStatus(res);
+        this.statusMsgArr = res;
         // this.getJobStatusForMessages();
         const queuedJobs = _.filter(res, (source) => {
           return ((source.status === 'running') || (source.status === 'queued'));
