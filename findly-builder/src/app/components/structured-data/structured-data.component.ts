@@ -36,7 +36,7 @@ export class StructuredDataComponent implements OnInit {
       resourceType: 'structuredData'
     },
     {
-      name: 'Import Structured Data',
+      name: 'Add Structured Data',
       description: 'Add structured data manually',
       icon: 'assets/icons/content/database-add.svg',
       id: 'contentStucturedDataAdd',

@@ -171,15 +171,6 @@ export class AppsListingComponent implements OnInit {
       this.notificationService.notify('Deletion has gone wrong.', 'error');
     });
   }
-  else if (this.confirmApp==""){
-    this.notificationService.notify("Enter 'delete' and confirm ", 'error');
-  }
-  else if (this.confirmApp != 'DELETE' ){  
-    this.notificationService.notify('Please check the entered value', 'error');
-  }
-  else{  
-    this.notificationService.notify('Something went wrong', 'error');
-  }
     // for (let i=0; i<this.apps.length; i++){
     // if (this.apps[i].name === this.confirmApp){
     // let quaryparms: any = {};

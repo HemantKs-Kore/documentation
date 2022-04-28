@@ -811,7 +811,10 @@
                                     border: 0.5px solid #28A745;
                                     color: #28A745;
                                 }
-                            }
+                                img{
+                                    max-width: 25px;
+                                }
+                            }                          
                             .title-heading{
                                 font-weight: 500;
                                 font-size: 12px;
