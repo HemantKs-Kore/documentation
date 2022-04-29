@@ -254,6 +254,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.customizeView = false;
       vars.showingMatchedResults = false;
       vars.isSocketInitialize = false;
+      vars.isHostedSdk = false;
       vars.isSocketReInitialize = true;
       vars.locationObject = {};
       vars.botConfig = {};
@@ -3385,8 +3386,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.config.botOptions.callback(null, _self.config.botOptions);
         // _self.emit(_self.EVENTS.JWT_SUCCESS, res);
         _self.setJWT(res.jwt);
-        _self.initSearchAssistSDK( _self.config);
-       
+        if(_self.vars.isHostedSdk){
+          _self.initSearchAssistSDK(_self.config);
+          _self.vars.isHostedSdk = false;
+        }
       },function(errRes){
           console.log(errRes);
       });
@@ -3406,14 +3409,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if(res.botInfo){
           _self.config.botOptions.botInfo.chatBot=res.botInfo.name;
           _self.config.botOptions.botInfo.taskBotId=res.botInfo._id;
+          _self.config.botOptions.clientId = res.botInfo.clientId;
+          _self.config.botOptions.clientSecretId = res.botInfo.clientSecretId;
         }
-        _self.initSearchAssistSDK(_self.config);
+        if(res.identity){
+          _self.config.botOptions.userIdentity = res.identity;
+        }
+        if(_self.vars.isHostedSdk){
+          _self.initSearchAssistSDK(_self.config);
+          _self.vars.isHostedSdk = false;
+        }
       },function(errRes){
           console.log(errRes);
       });
     }
     FindlySDK.prototype.show = function (config) {
       var _self = this;
+      _self.vars.isHostedSdk = true;
     if(config && config.API_KEY_CONFIG && config.API_KEY_CONFIG.KEY!='YOUR_API_KEY'){
       _self.config.botOptions["apiKey"] = config["API_KEY_CONFIG"].KEY;
     }
@@ -3832,7 +3844,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.vars.customizeView = true;
           if ($('body').hasClass('top-down') && _self.isDev) {
             $('.show_insights_top_down').show();
-            $('.sa-sortable-dropbtn').addClass('sortable-customize-view');
             $('.custom-add-result-container').removeClass('display-none');
             $('.content-data-sec').addClass('if-customize-mode');
           }
@@ -3860,7 +3871,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.vars.customizeView = false;
           if ($('body').hasClass('top-down') && _self.isDev) {
             $('.show_insights_top_down').hide();
-            $('.sa-sortable-dropbtn').removeClass('sortable-customize-view');
             $('.custom-add-result-container').addClass('display-none');
             $('.content-data-sec').removeClass('if-customize-mode');
           }
@@ -3900,7 +3910,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.vars.customizeView = true;
           if ($('body').hasClass('top-down') && _self.isDev) {
             $('.show_insights_top_down').show();
-            $('.sa-sortable-dropbtn').addClass('sortable-customize-view');
             $('.custom-add-result-container').removeClass('display-none');
             $('.content-data-sec').addClass('if-customize-mode');
           }
@@ -8176,7 +8185,11 @@ FindlySDK.prototype.bindFacetsToggle = function () {
       _findlyConfig = findlyConfig.botOptions;
     }
     _self.isDev = false;
+    if(_self.config && _self.config.API_KEY_CONFIG && _self.config.API_KEY_CONFIG.KEY !=='YOUR_API_KEY'){
+    window["KoreSDK"].findlyConfig.botOptions.assertionFn = _self.getAssertionToken.bind(this);
+      }else{
     window["KoreSDK"].findlyConfig.botOptions.assertionFn = this.getJWT;
+      }
     if (_findlyConfig.searchIndexID) {
       const searchData = {
         _id: _findlyConfig.searchIndexID,
@@ -9330,7 +9343,9 @@ FindlySDK.prototype.enableRecent = function () {
         messageToBot["botInfo"].taskBotId = _self.bot.options.botInfo.taskBotId;
         messageToBot["botInfo"].customData = {};
       }
-
+      if (_self.config.botOptions.searchIndexID) {
+        messageToBot["searchIndexId"] = _self.config.botOptions.searchIndexID;
+      }
       if (renderMsg && typeof renderMsg === 'string') {
         messageToBot["message"].renderMsg = renderMsg;
       }
@@ -19926,8 +19941,8 @@ FindlySDK.prototype.enableRecent = function () {
       //   "userIdentity": findlyConfig.botOptions.userIdentity,
       // };
       var dataObj={userConfig :{
-        "clientId": findlyConfig.botOptions.clientId,      
-        "userIdentity": findlyConfig.botOptions.userIdentity,      
+        "clientId": _self.config.botOptions.clientId,      
+        "userIdentity": _self.config.botOptions.userIdentity,      
       }}; 
       var skip= _self.vars.historySkip;
       var limit= _self.vars.historyLimit;    
