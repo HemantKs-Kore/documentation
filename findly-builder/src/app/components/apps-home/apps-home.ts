@@ -164,6 +164,8 @@ export class AppsListingComponent implements OnInit {
         this.notificationService.notify('Deleted Successfully', 'success');
         this.closeConfirmApp();
         this.apps=this.apps.filter((val) => { return val._id!=this.slectedAppId });
+        this.prepareApps(this.apps);
+        // this.getAllApps();
         this.selectedAppType(this.app_type);
         this.confirmApp = '';
       }
