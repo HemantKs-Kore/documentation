@@ -10403,3 +10403,7 @@ display: none !important;
     align-items: center;
     justify-content: center;
 }
+.sortable-customize-view{
+    width : 92px !important ;
+    right : 116px
+}
