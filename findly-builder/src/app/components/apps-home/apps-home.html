@@ -183,6 +183,7 @@
                   <div class="user-name">Abhilasha  Tripathi</div>
                 </div>             
               </div> -->
+            </ng-container>
               <ng-container>
                 <div class="m-title col-12">Explore</div>
                 <div class="row row-carousels">
@@ -232,7 +233,7 @@
                         <img src="assets/icons/content/carousel-result-opt.svg">
                       </div>
                       <div class="content-block">
-                        <div class="title">Index Management</div>
+                        <div class="title">Result optimization</div>
                         <div class="desc_text">Results are tuned based on relevance to continuously improve the search experience</div>
                       </div>
                     </div>
@@ -285,7 +286,6 @@
                 </div>
               </ng-container>
               <div class="empty">No apps found that matches with {{searchApp}}</div>
-            </ng-container>
           </div>
         </div>
       </div>
@@ -474,6 +474,7 @@
     <div  class="kr-sg-input-text">
       <input type="text" placeholder="Start Typing here... "
       [(ngModel)]="confirmApp" class="input-text"  [ngClass]="{'err-block' : (!confirmApp && submitted) || (confirmApp!='DELETE' &&submitted)}">
+      <div class="error-msg" *ngIf="!confirmApp && submitted || confirmApp!='DELETE' &&submitted"><img style="padding-right: 4px;height: 12px" src="assets/icons/warning_escalation.svg" />Please type DELETE to confirm</div>
     </div>
     <div class="info-desc">Deleting your application will also delete all your indexes, Sources & other Application Data.</div>
     <div class="info-desc">Are you sure you want to continue?</div>

@@ -612,6 +612,11 @@ border: 0;
   width: auto;
   /* width: 19%; */
 }
+.sdk-top-down-interface .full-results-data-container .tile_with_header.grid_view_template .tile-title {
+  width: auto;
+  /* width: 19%; */
+}
+
 
 
 
@@ -1174,7 +1179,6 @@ body.showFullResults.top-down .top-down-wrapper{
   display: block;
 }
 
-
 /* product styles */
 
 
@@ -1205,6 +1209,11 @@ body.showFullResults.top-down .top-down-wrapper{
   cursor: pointer;
   position: relative;
   padding-right: 40px;
+}
+.sdk-top-down-interface .templates-data .tile_with_header.recentText .tile-title .RecentIcon-topDown{
+  vertical-align: middle;
+  margin-right: 5px;
+  position: relative;
 }
 sdk-top-down-interface .templates-data .tile_with_header.recentText{
   position: relative;
