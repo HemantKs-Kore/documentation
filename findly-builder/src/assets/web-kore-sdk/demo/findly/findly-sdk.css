@@ -6331,7 +6331,7 @@ border: 0;
     margin-top: 2px;
     
     max-height: 250px;
-    min-width: 205px;
+    /* min-width: 205px; */
     margin-top: 2px;
     width: 100%;
     max-width: 100%;
@@ -10402,8 +10402,4 @@ display: none !important;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-.sortable-customize-view{
-    width : 92px !important ;
-    right : 116px
 }
