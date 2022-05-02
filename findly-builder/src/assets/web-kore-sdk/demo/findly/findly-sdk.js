@@ -254,6 +254,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.customizeView = false;
       vars.showingMatchedResults = false;
       vars.isSocketInitialize = false;
+      vars.isHostedSdk = false;
       vars.isSocketReInitialize = true;
       vars.locationObject = {};
       vars.botConfig = {};
@@ -2108,7 +2109,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <span id="${recent}" action-type="textTask" class="pointer recentText">${recent}</span>\
                   </div>\-->\
                   <div class="recentSearch tile_with_header">\
-                    <span id="${recent}" action-type="textTask" class="pointer recentText"> <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik02LjI5NzYgMC44MDAwMDNDMy4yNjEzNiAwLjgwMDAwMyAwLjgwMDAwMyAzLjI2Nzk0IDAuODAwMDAzIDYuMzEyMjlDMC44MDAwMDMgOS4zNTY2NCAzLjI2MTM2IDExLjgyNDYgNi4yOTc2IDExLjgyNDZDNy42MjUzOCAxMS44MjQ2IDguODQzMjEgMTEuMzUyNiA5Ljc5MzM0IDEwLjU2NjlMMTIuMzQyMiAxMy4wOTExTDEyLjM4MDIgMTMuMTI1NEMxMi41ODk0IDEzLjI5NjQgMTIuODk4IDEzLjI4MyAxMy4wOTE2IDEzLjA4NjVDMTMuMjk3MiAxMi44Nzc3IDEzLjI5NTEgMTIuNTQxMyAxMy4wODY5IDEyLjMzNTFMMTAuNTQyNSA5LjgxNTI5QzExLjMyNTIgOC44NjI5MyAxMS43OTUyIDcuNjQyNjQgMTEuNzk1MiA2LjMxMjI5QzExLjc5NTIgMy4yNjc5NCA5LjMzMzg0IDAuODAwMDAzIDYuMjk3NiAwLjgwMDAwM1pNNi4yOTc2IDEuODYyNjFDOC43NDg1NCAxLjg2MjYxIDEwLjczNTQgMy44NTQ4IDEwLjczNTQgNi4zMTIyOUMxMC43MzU0IDguNzY5NzcgOC43NDg1NCAxMC43NjIgNi4yOTc2IDEwLjc2MkMzLjg0NjY2IDEwLjc2MiAxLjg1OTc4IDguNzY5NzcgMS44NTk3OCA2LjMxMjI5QzEuODU5NzggMy44NTQ4IDMuODQ2NjYgMS44NjI2MSA2LjI5NzYgMS44NjI2MVoiIGZpbGw9IiM5QUEwQTYiLz4KPC9zdmc+Cg=="/>${recent}</span>\
+                    <span id="${recent}" action-type="textTask" class="pointer recentText"><img class="RecentIcon-bottomUp" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMiIGhlaWdodD0iMTMiIHZpZXdCb3g9IjAgMCAxMyAxMyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTYuNSAwQzIuOTE0MDYgMCAwIDIuOTE0MDYgMCA2LjVDMCAxMC4wODU5IDIuOTE0MDYgMTMgNi41IDEzQzEwLjA4NTkgMTMgMTMgMTAuMDg1OSAxMyA2LjVDMTMgNi4yMjM4NiAxMi43NzYxIDYgMTIuNSA2QzEyLjIyMzkgNiAxMiA2LjIyMzg2IDEyIDYuNUMxMiA5LjU0Mjk3IDkuNTQyOTcgMTIgNi41IDEyQzMuNDU3MDMgMTIgMSA5LjU0Mjk3IDEgNi41QzEgMy40NTcwMyAzLjQ1NzAzIDEgNi41IDFDOC4xNDA2MiAxIDkuNTk3NjYgMS43MjI2NiAxMC42MDU1IDIuODU5MzhMOS45NzY5OCAzLjQ4Nzg3QzkuNzg3OTkgMy42NzY4NiA5LjkyMTg0IDQgMTAuMTg5MSA0SDEyLjdDMTIuODY1NyA0IDEzIDMuODY1NjkgMTMgMy43VjEuMTg5MTFDMTMgMC45MjE4MzcgMTIuNjc2OSAwLjc4Nzk4NyAxMi40ODc5IDAuOTc2OTc2TDExLjMxMjUgMi4xNTIzNEMxMC4xMjExIDAuODM1OTM4IDguNDEwMTYgMCA2LjUgMFpNNi41IDJDNi4yMjM4NiAyIDYgMi4yMjM4NiA2IDIuNVY2SDQuNUM0LjIyMzg2IDYgNCA2LjIyMzg2IDQgNi41QzQgNi43NzYxNCA0LjIyMzg2IDcgNC41IDdINi43MjcyN0M2Ljg3NzkgNyA3IDYuODc3OSA3IDYuNzI3MjdWMi41QzcgMi4yMjM4NiA2Ljc3NjE0IDIgNi41IDJaIiBmaWxsPSIjMjAyMTI0Ii8+Cjwvc3ZnPgo=" alt="Recent search Icon">\${recent}</span>\
                     <span id="${recent}" class="recent-search-delete">\
                       <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgOCA4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KPHBhdGggZD0iTTQuNDM0NzUgNC4wMDAxTDYuOTg2NDUgMS40NDgzOUM3LjEwNjYyIDEuMzI4MjMgNy4xMDY2MiAxLjEzMzQxIDYuOTg2NDUgMS4wMTMyNUM2Ljg2NjI5IDAuODkzMDg2IDYuNjcxNDcgMC44OTMwODYgNi41NTEzMSAxLjAxMzI1TDMuOTk5NTkgMy41NjQ5N0wxLjQ0Nzk5IDEuMDEzNDdDMS4zMjc4MyAwLjg5MzMxNCAxLjEzMzAxIDAuODkzMzE4IDEuMDEyODUgMS4wMTM0OEMwLjg5MjY5MiAxLjEzMzY1IDAuODkyNjk2IDEuMzI4NDcgMS4wMTI4NiAxLjQ0ODYyTDMuNTY0NDUgNC4wMDAxMUwxLjAxMjg1IDYuNTUxNzJDMC44OTI2ODkgNi42NzE4OCAwLjg5MjY4OSA2Ljg2NjcgMS4wMTI4NSA2Ljk4Njg2QzEuMTMzMDEgNy4xMDcwMiAxLjMyNzgzIDcuMTA3MDIgMS40NDc5OSA2Ljk4Njg2TDMuOTk5NiA0LjQzNTI1TDYuNTUxMzIgNi45ODY4NkM2LjY3MTQ5IDcuMTA3MDIgNi44NjYzMSA3LjEwNzAyIDYuOTg2NDYgNi45ODY4NUM3LjEwNjYyIDYuODY2NjkgNy4xMDY2MiA2LjY3MTg3IDYuOTg2NDYgNi41NTE3MUw0LjQzNDc1IDQuMDAwMVoiIGZpbGw9IiMyMDIxMjQiLz4NCjwvc3ZnPg0K" alt="close-icon"/>\
                     </span>\
@@ -3385,8 +3386,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.config.botOptions.callback(null, _self.config.botOptions);
         // _self.emit(_self.EVENTS.JWT_SUCCESS, res);
         _self.setJWT(res.jwt);
-        _self.initSearchAssistSDK( _self.config);
-       
+        if(_self.vars.isHostedSdk){
+          _self.initSearchAssistSDK(_self.config);
+          _self.vars.isHostedSdk = false;
+        }
       },function(errRes){
           console.log(errRes);
       });
@@ -3406,14 +3409,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if(res.botInfo){
           _self.config.botOptions.botInfo.chatBot=res.botInfo.name;
           _self.config.botOptions.botInfo.taskBotId=res.botInfo._id;
+          _self.config.botOptions.clientId = res.botInfo.clientId;
+          _self.config.botOptions.clientSecretId = res.botInfo.clientSecretId;
         }
-        _self.initSearchAssistSDK(_self.config);
+        if(res.identity){
+          _self.config.botOptions.userIdentity = res.identity;
+        }
+        if(_self.vars.isHostedSdk){
+          _self.initSearchAssistSDK(_self.config);
+          _self.vars.isHostedSdk = false;
+        }
       },function(errRes){
           console.log(errRes);
       });
     }
     FindlySDK.prototype.show = function (config) {
       var _self = this;
+      _self.vars.isHostedSdk = true;
     if(config && config.API_KEY_CONFIG && config.API_KEY_CONFIG.KEY!='YOUR_API_KEY'){
       _self.config.botOptions["apiKey"] = config["API_KEY_CONFIG"].KEY;
     }
@@ -3535,9 +3547,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.tabFacetFieldName = res.tabFacet.fieldName;
           }
           totalResultsCount = totalResultsCount;
-          _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
+          // _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
           _self.showMoreClick();
           if (!showMoreData) {
+            _self.countTotalResults(res,totalResultsCount);
             if (!$('body').hasClass('top-down')) {
               // Sea all Results
               var container = $('#show-all-results-container');
@@ -3549,7 +3562,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.vars.searchObject.liveData.facets = facets;
               var dataObj = _self.vars.searchObject.liveData;
               var facetdata = _self.vars.searchFacetFilters;
-              _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length
+              // _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length
               // $('#loaderDIV').show();
               _self.showAllResults();
               setTimeout(() => {
@@ -3561,7 +3574,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
               }, 500);
             } else {
-              _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
+              // _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
               // _self.prepAllSearchData(_self.vars.selectedFacetFromSearch);
               _self.bindAllResultsView();
               _self.bindSearchActionEvents();
@@ -3666,8 +3679,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 }
               }
             }
-            _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
-            facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
+            // _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
+            facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults, name: 'ALL' });
             facets = facets.concat((res.tabFacet || {}).buckets || [])
             facets = _self.rearrangeTabsList(facets);
             if ((res.tasks || []).length) {
@@ -6892,7 +6905,9 @@ FindlySDK.prototype.bindFacetsToggle = function () {
                 $('.empty-full-results-container').addClass('hide');
               }
             });
-            _self.vars.totalNumOfResults = totalResultsCount;
+            if($('body').hasClass('top-down')){
+              _self.vars.totalNumOfResults = totalResultsCount;
+            }
             res.results = results;
             if (!$('.full-search-data-container').children().length) {
               if (_self.isDev) {
@@ -8170,7 +8185,11 @@ FindlySDK.prototype.bindFacetsToggle = function () {
       _findlyConfig = findlyConfig.botOptions;
     }
     _self.isDev = false;
+    if(_self.config && _self.config.API_KEY_CONFIG && _self.config.API_KEY_CONFIG.KEY !=='YOUR_API_KEY'){
+    window["KoreSDK"].findlyConfig.botOptions.assertionFn = _self.getAssertionToken.bind(this);
+      }else{
     window["KoreSDK"].findlyConfig.botOptions.assertionFn = this.getJWT;
+      }
     if (_findlyConfig.searchIndexID) {
       const searchData = {
         _id: _findlyConfig.searchIndexID,
@@ -9324,7 +9343,9 @@ FindlySDK.prototype.enableRecent = function () {
         messageToBot["botInfo"].taskBotId = _self.bot.options.botInfo.taskBotId;
         messageToBot["botInfo"].customData = {};
       }
-
+      if (_self.config.botOptions.searchIndexID) {
+        messageToBot["searchIndexId"] = _self.config.botOptions.searchIndexID;
+      }
       if (renderMsg && typeof renderMsg === 'string') {
         messageToBot["message"].renderMsg = renderMsg;
       }
@@ -19029,7 +19050,8 @@ FindlySDK.prototype.enableRecent = function () {
                                             {{each(key, recent) recents }}\
                                             {{if recent}}\
                                               <div class="tile_with_header recentText recent-list-container">\
-                                                <a class="tile-title" id="${recent}">${recent}</span>\
+                                              <a class="tile-title" id="${recent}"><img class="RecentIcon-topDown" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMiIGhlaWdodD0iMTMiIHZpZXdCb3g9IjAgMCAxMyAxMyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTYuNSAwQzIuOTE0MDYgMCAwIDIuOTE0MDYgMCA2LjVDMCAxMC4wODU5IDIuOTE0MDYgMTMgNi41IDEzQzEwLjA4NTkgMTMgMTMgMTAuMDg1OSAxMyA2LjVDMTMgNi4yMjM4NiAxMi43NzYxIDYgMTIuNSA2QzEyLjIyMzkgNiAxMiA2LjIyMzg2IDEyIDYuNUMxMiA5LjU0Mjk3IDkuNTQyOTcgMTIgNi41IDEyQzMuNDU3MDMgMTIgMSA5LjU0Mjk3IDEgNi41QzEgMy40NTcwMyAzLjQ1NzAzIDEgNi41IDFDOC4xNDA2MiAxIDkuNTk3NjYgMS43MjI2NiAxMC42MDU1IDIuODU5MzhMOS45NzY5OCAzLjQ4Nzg3QzkuNzg3OTkgMy42NzY4NiA5LjkyMTg0IDQgMTAuMTg5MSA0SDEyLjdDMTIuODY1NyA0IDEzIDMuODY1NjkgMTMgMy43VjEuMTg5MTFDMTMgMC45MjE4MzcgMTIuNjc2OSAwLjc4Nzk4NyAxMi40ODc5IDAuOTc2OTc2TDExLjMxMjUgMi4xNTIzNEMxMC4xMjExIDAuODM1OTM4IDguNDEwMTYgMCA2LjUgMFpNNi41IDJDNi4yMjM4NiAyIDYgMi4yMjM4NiA2IDIuNVY2SDQuNUM0LjIyMzg2IDYgNCA2LjIyMzg2IDQgNi41QzQgNi43NzYxNCA0LjIyMzg2IDcgNC41IDdINi43MjcyN0M2Ljg3NzkgNyA3IDYuODc3OSA3IDYuNzI3MjdWMi41QzcgMi4yMjM4NiA2Ljc3NjE0IDIgNi41IDJaIiBmaWxsPSIjMjAyMTI0Ii8+Cjwvc3ZnPgo=" alt="Recent search Icon">\
+                                              ${recent}</span>\
                                                 <span id="${recent}" class="recent-search-delete"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgOCA4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KPHBhdGggZD0iTTQuNDM0NzUgNC4wMDAxTDYuOTg2NDUgMS40NDgzOUM3LjEwNjYyIDEuMzI4MjMgNy4xMDY2MiAxLjEzMzQxIDYuOTg2NDUgMS4wMTMyNUM2Ljg2NjI5IDAuODkzMDg2IDYuNjcxNDcgMC44OTMwODYgNi41NTEzMSAxLjAxMzI1TDMuOTk5NTkgMy41NjQ5N0wxLjQ0Nzk5IDEuMDEzNDdDMS4zMjc4MyAwLjg5MzMxNCAxLjEzMzAxIDAuODkzMzE4IDEuMDEyODUgMS4wMTM0OEMwLjg5MjY5MiAxLjEzMzY1IDAuODkyNjk2IDEuMzI4NDcgMS4wMTI4NiAxLjQ0ODYyTDMuNTY0NDUgNC4wMDAxMUwxLjAxMjg1IDYuNTUxNzJDMC44OTI2ODkgNi42NzE4OCAwLjg5MjY4OSA2Ljg2NjcgMS4wMTI4NSA2Ljk4Njg2QzEuMTMzMDEgNy4xMDcwMiAxLjMyNzgzIDcuMTA3MDIgMS40NDc5OSA2Ljk4Njg2TDMuOTk5NiA0LjQzNTI1TDYuNTUxMzIgNi45ODY4NkM2LjY3MTQ5IDcuMTA3MDIgNi44NjYzMSA3LjEwNzAyIDYuOTg2NDYgNi45ODY4NUM3LjEwNjYyIDYuODY2NjkgNy4xMDY2MiA2LjY3MTg3IDYuOTg2NDYgNi41NTE3MUw0LjQzNDc1IDQuMDAwMVoiIGZpbGw9IiMyMDIxMjQiLz4NCjwvc3ZnPg0K" alt="close-icon" height="15"/>\
                                                 </a>\
                                               </div>\
@@ -19919,8 +19941,8 @@ FindlySDK.prototype.enableRecent = function () {
       //   "userIdentity": findlyConfig.botOptions.userIdentity,
       // };
       var dataObj={userConfig :{
-        "clientId": findlyConfig.botOptions.clientId,      
-        "userIdentity": findlyConfig.botOptions.userIdentity,      
+        "clientId": _self.config.botOptions.clientId,      
+        "userIdentity": _self.config.botOptions.userIdentity,      
       }}; 
       var skip= _self.vars.historySkip;
       var limit= _self.vars.historyLimit;    
@@ -20328,6 +20350,7 @@ FindlySDK.prototype.enableRecent = function () {
     }
     FindlySDK.prototype.countTotalResults = function (res, totalResultsCount) {
       var _self = this;
+      totalResultsCount = 0;
       if (res && res.results && res.resultType == "grouped") {
         var availableGroups = Object.keys(res.results);
         _self.vars.availableGroupsOrder = availableGroups;
@@ -20337,7 +20360,7 @@ FindlySDK.prototype.enableRecent = function () {
           res.tabFacet.buckets.forEach((d)=>{
             totalResultsCount = totalResultsCount + d.doc_count;
           })
-          _self.vars.totalNumOfResults = totalResultsCount + (res.tasks ||[]).length;
+          _self.vars.totalNumOfResults = totalResultsCount;
         }
         if (availableGroups && availableGroups.length) {
           availableGroups.forEach((group) => {
