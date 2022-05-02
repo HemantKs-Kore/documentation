@@ -31,9 +31,22 @@ declare const $: any;
 })
 export class BusinessRulesComponent implements OnInit, OnDestroy {
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
-  //new changes start
-
-  //new changes end
+  selectedTab: string = "Contextual";
+  defaultValuesObj: any = {
+    contextType: 'searchContext',
+    dataType: 'string',
+    operator: 'contains',
+    contextCategory: 'recentSearches',
+    value: []
+  }
+  ruleOptions = {
+    searchContext: ['recentSearches', 'currentSearch', 'traits', 'entity', 'keywords'],
+    pageContext: ['device', 'browser', 'currentPage', 'recentPages'],
+    userContext: ['userType', 'userProfile', 'age', 'sex'],
+    contextTypes: ['searchContext', 'pageContext', 'userContext'],
+    dataTypes: ['string', 'date', 'number', 'trait', 'entity', 'keyword'],
+    actions: ['boost', 'lower', 'hide', 'filter']
+  }
   addBusinessRulesRef: any;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
@@ -73,23 +86,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   datePlaceHolders = {
     equals: ''
   }
-  ruleOptions = {
-    searchContext: ['recentSearches', 'currentSearch', 'traits', 'entity', 'keywords'],
-    // pageContext: ['device', 'browser', 'currentPage', 'recentPages', 'signed', 'timeDateDay', 'session', 'timeSpentOnThePageSession'],
-    pageContext: ['device', 'browser', 'currentPage', 'recentPages'],
-    userContext: ['userType', 'userProfile', 'age', 'sex'],
-    contextTypes: ['searchContext', 'pageContext', 'userContext'],
-    dataTypes: ['string', 'date', 'number', 'trait', 'entity', 'keyword'],
-    actions: ['boost', 'lower', 'hide', 'filter']
-  }
   tagsArray: any = []
-  defaultValuesObj: any = {
-    contextType: 'searchContext',
-    dataType: 'string',
-    operator: 'contains',
-    contextCategory: 'recentSearches',
-    value: []
-  }
   defaultOutcomeObj: any = {
     fieldDataType: 'string',
     fieldName: '',

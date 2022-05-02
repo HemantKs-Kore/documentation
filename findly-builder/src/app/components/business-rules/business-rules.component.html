@@ -29,9 +29,9 @@
     </div>
     <div class="header-tabs-rules col-12 row m-0">
         <div class="left-tabs col-4 p-0">
-            <div class="tab-name-text active-tab-rule"><span>Contextual Rules</span></div>
+            <div class="tab-name-text" [ngClass]="{'active-tab-rule':selectedTab==='Contextual'}" (click)="selectedTab='Contextual'"><span>Contextual Rules</span></div>
             <i class="si-help info-icon"></i>
-            <div class="tab-name-text"><span>NLP Rules</span></div>
+            <div class="tab-name-text" [ngClass]="{'active-tab-rule':selectedTab==='NLP'}" (click)="selectedTab='NLP'"><span>NLP Rules</span></div>
         </div>
         <div class="right-contnet col-8 p-0 justify-content-end">
             <div class="kr-sg-input-search">
@@ -46,10 +46,9 @@
                     (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()">
             </div>
             <ng-container>
-                <div class="add-rule-text" (click)="createNewRule()"
-                    *ngIf="(rules && beforeFilterRules && beforeFilterRules.length) || searchRules  || showSearch">
+                <div class="add-rule-text" (click)="createNewRule()">
                     <i class="si-add-plus"></i>
-                    <span>Add Contextual Rule</span>
+                    <span>Add {{selectedTab}} Rule</span>
                 </div>
             </ng-container>
             <div class="ml-3 pl-1" *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">
@@ -143,7 +142,7 @@
             </div>
         </perfect-scrollbar> -->
         <perfect-scrollbar class="empty-scroll">
-            <div class="rules-empty-data d-none">
+            <div class="rules-empty-data" *ngIf="selectedTab==='Contextual'">
                 <div class="img-block">
                     <img src="assets/icons/businessrules/b-rules-empty.svg">
                 </div>
@@ -154,13 +153,13 @@
                 </div>
                 <div class="info-data-box">
                     <div class="text-info-empty">Contextual Rules allows you to define outcomes based on various
-                        conditions set by you on search context or Page context or the User context. These rules are can
+                        conditions set by you on search context or Page context or the User context.<br/>These rules are can
                         help achieve personalization of search results for your end users</div>
                     <div class="text-info-empty">Not sure what are contextual rules? Visit our <a href="#">Support <i
                                 class="si-external-horizantal"></i></a></div>
                 </div>
             </div>
-            <div class="rules-empty-data">
+            <div class="rules-empty-data" *ngIf="selectedTab==='NLP'">
                 <div class="img-block">
                     <img src="assets/icons/businessrules/b-rules-empty.svg">
                 </div>
@@ -326,8 +325,8 @@
     <div class="modal-body">
         <div class="col-6 rule-name-input">
             <div class="kr-sg-input-text">
-                <div class="label-text">Rule Name</div>
-                <input type="text" placeholder="Rule Name" class="input-text">
+                <div class="label-text">{{ "businessRules.rule_name" | translate }}</div>
+                <input type="text" placeholder="Rule Name" class="input-text" maxlength="60" [(ngModel)]="addEditRuleObj.ruleName" [ngClass]="{'err-block' : (!addEditRuleObj.ruleName.length && submitted)}">
             </div>
         </div>
         <div class="rules-contexual-data row col-12 m-0 p-0">
@@ -336,7 +335,7 @@
                     <div class="info-rule-contnet">
                         <div class="title-data">
                             <img src="assets/icons/business-rules/ifcondition.svg">
-                            <div class="text-title">Condition</div>
+                            <div class="text-title">{{ "businessRules.condition" | translate }}</div>
                             <span class="info-tooltip-data">
                                 <i class="si-help"></i>
                                 <div class="conditon-info-tooltip">
@@ -365,9 +364,9 @@
                         <perfect-scrollbar class="scoll-data">
                             <div class="inner-data-content">
                                 <!-- Repeat the data here conditions -->
-                                <ng-container>
+                                <ng-container *ngFor="let ruleObj of rulesArrayforAddEdit; let ruleIndex = index;">
                                     <div class="box-data-conditions">
-                                        <div class="close-conditions">
+                                        <div class="close-conditions" (click)="removeRule(ruleIndex)">
                                             <i class="si-close"></i>
                                         </div>
                                         <div class="row-input-data row col-12">
@@ -376,21 +375,12 @@
                                                 <div class="kr-sg-dropdowns w-auto" ngbDropdown
                                                     [placement]="'bottom-right'">
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown" ngbDropdownToggle>Search
-                                                            Context</button>
-                                                        <ul class="dropdown-menu content-menu faq-filter-add"
-                                                            ngbDropdownMenu>
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" ngbDropdownToggle (click)="currentEditInex = null">{{"businessRules." +ruleObj.contextType | translate}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                                             <perfect-scrollbar class="scroll-max-200">
-                                                                <div class="scroll-max-200">
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
+                                                                <div class="scroll-max-200" *ngFor="let contextType of ruleOptions?.contextTypes">
+                                                                    <li class="p-0" ngbDropdownItem (click)="ruleSelection(ruleObj, contextType, 'contextType')">
+                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':ruleObj.contextType===contextType}">{{"businessRules." + contextType | translate}}</a>
                                                                     </li>
                                                                 </div>
                                                             </perfect-scrollbar>
@@ -401,25 +391,38 @@
                                         </div>
                                         <div class="row-input-data row col-12">
                                             <div class="col-12 title-info">Set Parameters</div>
+                                            <div class="col-4 column-sec" *ngIf="ruleObj.contextType !=='userContext'">
+                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'">
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" ngbDropdownToggle>{{"businessRules." + ruleObj.contextCategory | translate}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                                            <perfect-scrollbar class="scroll-max-200">
+                                                                <div class="scroll-max-200" *ngFor=" let contextCategory of ruleOptions[ruleObj.contextType]">
+                                                                    <li class="p-0" ngbDropdownItem (click)="ruleSelection(ruleObj,contextCategory,'contextCategory')">
+                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':ruleObj.contextCategory===contextCategory}">{{"businessRules." + contextCategory | translate}}</a>
+                                                                    </li>
+                                                                </div>
+                                                            </perfect-scrollbar>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 column-sec" *ngIf="ruleObj.contextType ==='userContext'">
+                                                <div class="kr-sg-input-text">
+                                                    <input type="text" class="input-text" [(ngModel)]="ruleObj.contextCategory">
+                                                </div>
+                                            </div>
                                             <div class="col-4 column-sec">
                                                 <div class="kr-sg-dropdowns w-auto" ngbDropdown
                                                     [placement]="'bottom-right'">
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown" ngbDropdownToggle>Current
-                                                            Search</button>
-                                                        <ul class="dropdown-menu content-menu faq-filter-add"
-                                                            ngbDropdownMenu>
+                                                            data-toggle="dropdown" ngbDropdownToggle>{{((ruleObj.dataType)?("businessRules." +ruleObj.dataType): 'choose_an_option') | translate}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                                             <perfect-scrollbar class="scroll-max-200">
-                                                                <div class="scroll-max-200">
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
+                                                                <div class="scroll-max-200" *ngFor="let dataType of ruleOptions.dataTypes">
+                                                                    <li class="p-0" ngbDropdownItem [hidden]="(dataType == 'date' || dataType == 'number') && ruleObj.contextType =='searchContext'" (click)="ruleSelection(ruleObj,dataType,'dataType')">
+                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':ruleObj.dataType===dataType}"> {{"businessRules." + dataType | translate}}</a>
                                                                     </li>
                                                                 </div>
                                                             </perfect-scrollbar>
@@ -428,31 +431,21 @@
                                                 </div>
                                             </div>
                                             <div class="col-4 column-sec">
-                                                <div class="kr-sg-input-text">
-                                                    <input type="text" placeholder="Placeholder text"
-                                                        class="input-text">
-                                                </div>
-                                            </div>
-                                            <div class="col-4 column-sec">
                                                 <div class="kr-sg-dropdowns w-auto" ngbDropdown
                                                     [placement]="'bottom-right'">
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown" ngbDropdownToggle>Contains</button>
+                                                            data-toggle="dropdown" ngbDropdownToggle>{{((ruleObj.operator)?("businessRules." +ruleObj.operator):'choose_an_option') | translate}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add"
                                                             ngbDropdownMenu>
                                                             <perfect-scrollbar class="scroll-max-200">
-                                                                <div class="scroll-max-200">
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
+                                                             <ng-container *ngIf="ruleObj.dataType && conditions[ruleObj.dataType]">
+                                                                <div class="scroll-max-200" *ngFor="let operator of conditions[ruleObj.dataType]">
+                                                                    <li class="p-0" ngbDropdownItem (click)="ruleSelection(ruleObj,operator,'operator')">
+                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':ruleObj.operator===operator}">{{"businessRules." + operator | translate}}</a>
                                                                     </li>
                                                                 </div>
+                                                             </ng-container>
                                                             </perfect-scrollbar>
                                                         </ul>
                                                     </div>
@@ -462,120 +455,168 @@
                                         <div class="row-input-data row col-12">
                                             <div class="col-12 column-sec">
                                                 <div class="kr-sg-input-text">
-                                                    <input type="text" placeholder="Type Keyword" class="input-text">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="and-condition">AND</div>
-                                </ng-container>
+                                                    <mat-form-field class="example-chip-list"
+                                                    [ngClass]="{'date-chip': ruleObj.dataType == 'date'}">
+                                                    <mat-chip-list #chipList [attr.aria-label]="'tag selection'"
+                                                        class="date-range-picker-right-d-none">
 
-                                <ng-container>
-                                    <div class="box-data-conditions">
-                                        <div class="close-conditions">
-                                            <i class="si-close"></i>
-                                        </div>
-                                        <div class="row-input-data row col-12">
-                                            <div class="col-12 column-sec title-info">Select Context</div>
-                                            <div class="col-4 column-sec">
-                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown
-                                                    [placement]="'bottom-right'">
-                                                    <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown" ngbDropdownToggle>Search
-                                                            Context</button>
-                                                        <ul class="dropdown-menu content-menu faq-filter-add"
-                                                            ngbDropdownMenu>
-                                                            <perfect-scrollbar class="scroll-max-200">
-                                                                <div class="scroll-max-200">
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                </div>
-                                                            </perfect-scrollbar>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row-input-data row col-12">
-                                            <div class="col-12 title-info">Set Parameters</div>
-                                            <div class="col-4 column-sec">
-                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown
-                                                    [placement]="'bottom-right'">
-                                                    <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown" ngbDropdownToggle>Current
-                                                            Search</button>
-                                                        <ul class="dropdown-menu content-menu faq-filter-add"
-                                                            ngbDropdownMenu>
-                                                            <perfect-scrollbar class="scroll-max-200">
-                                                                <div class="scroll-max-200">
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                </div>
-                                                            </perfect-scrollbar>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-4 column-sec">
-                                                <div class="kr-sg-input-text">
-                                                    <input type="text" placeholder="Placeholder text"
-                                                        class="input-text">
-                                                </div>
-                                            </div>
-                                            <div class="col-4 column-sec">
-                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown
-                                                    [placement]="'bottom-right'">
-                                                    <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown" ngbDropdownToggle>Contains</button>
-                                                        <ul class="dropdown-menu content-menu faq-filter-add"
-                                                            ngbDropdownMenu>
-                                                            <perfect-scrollbar class="scroll-max-200">
-                                                                <div class="scroll-max-200">
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                </div>
-                                                            </perfect-scrollbar>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row-input-data row col-12">
-                                            <div class="col-12 column-sec">
-                                                <div class="kr-sg-input-text">
-                                                    <input type="text" placeholder="Type Keyword" class="input-text">
+                                                        <ng-container
+                                                            *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType !== 'date') && (ruleObj.dataType !== 'number')">
+                                                            <ng-container
+                                                                *ngFor="let value of ruleObj.value; let index = index">
+                                                                <mat-chip [selectable]="selectable"
+                                                                    (removed)="removeTag(ruleObj.value, tag,index)"
+                                                                    [ngClass]="{'firstChip':index==0}">
+                                                                    <span class="mat-val" container="body"
+                                                                        ngbTooltip="{{value}}"
+                                                                        *ngIf="value">{{value}}</span>
+                                                                    <mat-icon matChipRemove><img
+                                                                            src="assets/images/close.svg" /></mat-icon>
+                                                                </mat-chip>
+                                                                <span>OR</span>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                        <ng-container
+                                                            *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'number')">
+                                                            <ng-container
+                                                                *ngFor="let value of ruleObj.value; let index = index">
+                                                                <mat-chip [selectable]="selectable"
+                                                                    (removed)="removeTag(ruleObj.value, tag,index)"
+                                                                    [ngClass]="{'firstChip':index==0}">
+                                                                    <span class="mat-val"
+                                                                        *ngIf="value && value.length && checkIsArray(value)">
+                                                                        <span
+                                                                            *ngFor="let num of value; let numIndex = index"
+                                                                            container="body"
+                                                                            ngbTooltip="{{num}}">{{num}}<span
+                                                                                *ngIf="!numIndex"> - </span></span>
+                                                                    </span>
+                                                                    <span class="mat-val"
+                                                                        *ngIf="value && !checkIsArray(value)">
+                                                                        <span>{{value}}</span>
+                                                                    </span>
+                                                                    <mat-icon matChipRemove><img
+                                                                            src="assets/images/close.svg" /></mat-icon>
+                                                                </mat-chip>
+                                                                <span>OR</span>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                        <!-- <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator !== 'between')">
+                                                        <ng-container *ngFor="let value of ruleObj.value; let index = index">
+                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
+                                                                <span class="mat-val" *ngIf="value">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
+                                                                <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
+                                                            </mat-chip>
+                                                            <span>OR</span>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator === 'between')">
+                                                        <ng-container *ngFor="let value of ruleObj.value; let index = index">
+                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
+                                                                <span class="mat-val" *ngIf="value && value.length">
+                                <span *ngFor="let date of value; let dateIndex = index">
+                                  {{date | dateFormatPipe: 'DD MMM YYYY'}} <span *ngIf="!dateIndex"> - </span>
+                                                                </span>
+                                                                </span>
+                                                                <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
+                                                            </mat-chip>
+                                                            <span>OR</span>
+                                                        </ng-container>
+                                                    </ng-container> -->
+                                                        <ng-container
+                                                            *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date')">
+                                                            <ng-container
+                                                                *ngFor="let value of ruleObj.value; let index = index">
+                                                                <mat-chip [selectable]="selectable"
+                                                                    (removed)="removeTag(ruleObj.value, tag,index)"
+                                                                    [ngClass]="{'firstChip':index==0}">
+                                                                    <span class="mat-val"
+                                                                        *ngIf="value && value.length && checkIsArray(value)">
+                                                                        <span
+                                                                            *ngFor="let date of value; let dateIndex = index"
+                                                                            container="body"
+                                                                            ngbTooltip="{{date | dateFormatPipe: 'DD MMM YYYY'}}">
+                                                                            {{date | dateFormatPipe: 'DD MMM YYYY'}}
+                                                                            <span *ngIf="!dateIndex"> - </span>
+                                                                        </span>
+                                                                    </span>
+                                                                    <span class="mat-val"
+                                                                        *ngIf="value  && !checkIsArray(value)"
+                                                                        container="body"
+                                                                        ngbTooltip="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value
+                                                                        | dateFormatPipe: 'DD MMM
+                                                                        YYYY'}}</span>
+                                                                    <mat-icon matChipRemove><img
+                                                                            src="assets/images/close.svg" /></mat-icon>
+                                                                </mat-chip>
+                                                                <span>OR</span>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                        <ng-container
+                                                            *ngIf="(ruleObj.dataType != 'date') && (ruleObj.dataType != 'number')">
+                                                            <input
+                                                            id="ConditionInput"
+                                                             placeholder="Type Keyword and Enter"
+                                                                [matChipInputFor]="chipList"
+                                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                                (matChipInputTokenEnd)="addRules($event, ruleObj, i)"
+                                                                suggestedInput />
+                                                                <img *ngIf="iconImageCon && submitted" id="infoWarningCon" src="assets/icons/warning_escalation.svg" style="top: 35%; position: absolute; right: 3%; display: block;" height="12" width="12" />
+                                                        </ng-container>
+
+                                                        <ng-container *ngIf="ruleObj.dataType == 'date'">
+                                                            <ng-container *ngIf="ruleObj.operator === 'between'">
+                                                                <span class="select_data_placeholder w-120 py-1"
+                                                                    (click)="openDateTimePicker(ruleObj,ruleIndex)">Select
+                                                                    Range </span>
+                                                                <input class="dateRangePicker d-none"
+                                                                    id="rangePicker_{{ruleIndex}}" ngxDaterangepickerMd
+                                                                    #dateRangePicker placeholder="Select range"
+                                                                    showCancel="true"
+                                                                    [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'DD MMM YYYY'}"
+                                                                    [(ngModel)]="ruleObj.dateValue"
+                                                                    (datesUpdated)="onDatesUpdated($event,ruleObj)" />
+                                                            </ng-container>
+                                                            <ng-container *ngIf="ruleObj.operator !== 'between'">
+                                                                <span (click)="openDateTimePicker(ruleObj,ruleIndex)"
+                                                                    class="select_data_placeholder py-1">Select
+                                                                    Date</span>
+                                                                <input class="singleDatePicker d-none"
+                                                                    id="datePicker_{{ruleIndex}}"
+                                                                    [singleDatePicker]="true" ngxDaterangepickerMd
+                                                                    #datePicker *ngIf="ruleObj.operator !== 'between'"
+                                                                    placeholder="Select Date" showCancel="false"
+                                                                    [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'DD MMM YYYY'}"
+                                                                    [(ngModel)]="ruleObj.dateValue"
+                                                                    (datesUpdated)="onDatesUpdated($event,ruleObj)" />
+                                                            </ng-container>
+                                                        </ng-container>
+
+                                                        <ng-container *ngIf="ruleObj.dataType == 'number'">
+                                                            <input
+                                                                [placeholder]="ruleObj.operator == 'between' ? 'Type Range' : 'Type Keyword and Enter'"
+                                                                [matChipInputFor]="chipList"
+                                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                                (matChipInputTokenEnd)="addRules($event, ruleObj, i)" />
+                                                        </ng-container>
+                                                    </mat-chip-list>
+                                                </mat-form-field>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="and-condition">AND</div>
+                                    <div class="and-condition" *ngIf="rulesArrayforAddEdit && rulesArrayforAddEdit.length-1 !==ruleIndex">AND</div>
+                                </ng-container>
+                                <ng-container *ngIf="!rulesArrayforAddEdit.length">
+                                    <div class="row m-0 col-12 info-warning-container">
+                                        <div class="col-10 pl-0 w-text"><img
+                                                src="assets/icons/business-rules/warning-info.svg">Defining a rule without
+                                            condition can have unexpected impact on search relevance.</div>
+                                        <div class="know-more col-2 pl-0 text-right">Know More</div>
+                                    </div>
                                 </ng-container>
                                 <!-- End repeat -->
-                                <div class="add-condition-btn">
+                                <div class="add-condition-btn" (click)="addNewRule()">
                                     <i class="si-add-plus"></i>
                                     <span>Add Condition</span>
                                 </div>
@@ -589,42 +630,31 @@
                     <div class="info-rule-contnet">
                         <div class="title-data">
                             <img src="assets/icons/business-rules/outcomesearch.svg">
-                            <div class="text-title">Outcome</div>
+                            <div class="text-title">{{ "businessRules.outcome_caps_small" | translate }}</div>
                         </div>
-                        <div class="sub-text text-truncate">The context of this section as to what happens when the
-                            previous conditon is met.</div>
+                        <div class="sub-text text-truncate">{{ "businessRules.condition_desc_outcome" | translate }}</div>
                     </div>
 
                     <div class="outcome-sec-data">
                         <perfect-scrollbar class="scoll-data">
                             <div class="inner-data-content">
                                 <!-- Repeat the data here conditions -->
-                                <ng-container>
+                                <ng-container *ngFor="let outcomeObj of outcomeArrayforAddEdit; let index = index">
                                     <div class="box-data-conditions">
-                                        <div class="close-conditions">
+                                        <div class="close-conditions" (click)="removeOutcome(index)">
                                             <i class="si-close"></i>
                                         </div>
                                         <div class="row-input-data row col-12">
-                                            <div class="col-12 column-sec title-info">Select Context</div>
+                                            <div class="col-12 column-sec title-info">Action</div>
                                             <div class="col-4 column-sec">
-                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown
-                                                    [placement]="'bottom-right'">
+                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'">
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown" ngbDropdownToggle disabled>Search
-                                                            Context</button>
-                                                        <ul class="dropdown-menu content-menu faq-filter-add"
-                                                            ngbDropdownMenu>
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" (click)="currentEditInex = null" ngbDropdownToggle>{{ "businessRules." + outcomeObj.outcomeType | translate }}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                                             <perfect-scrollbar class="scroll-max-200">
-                                                                <div class="scroll-max-200">
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
+                                                                <div class="scroll-max-200" *ngFor="let outcomeType of ruleOptions?.actions">
+                                                                    <li class="p-0" (click)="outcomeSclection(outcomeObj,outcomeType,'outcomeType')" ngbDropdownItem>
+                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':outcomeObj.outcomeType===outcomeType}">{{"businessRules." + outcomeType | translate}}</a>
                                                                     </li>
                                                                 </div>
                                                             </perfect-scrollbar>
@@ -634,26 +664,16 @@
                                             </div>
                                         </div>
                                         <div class="row-input-data row col-12">
-                                            <div class="col-12 title-info">Set Parameters</div>
+                                            <div class="col-12 title-info">Response</div>
                                             <div class="col-4 column-sec">
-                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown
-                                                    [placement]="'bottom-right'">
+                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index;getFieldAutoComplete(null, null,'clearText')">
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown" ngbDropdownToggle>Current
-                                                            Search</button>
-                                                        <ul class="dropdown-menu content-menu faq-filter-add"
-                                                            ngbDropdownMenu>
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" ngbDropdownToggle>{{outcomeObj.fieldName? outcomeObj.fieldName : "Choose field"}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                                             <perfect-scrollbar class="scroll-max-200">
                                                                 <div class="scroll-max-200">
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
+                                                                    <li class="p-0" ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion" (click)="selectField(suggestion, outcomeObj)">
+                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':outcomeObj.fieldName===suggestion.fieldName}">{{ suggestion.fieldName }}</a>
                                                                     </li>
                                                                 </div>
                                                             </perfect-scrollbar>
@@ -662,29 +682,23 @@
                                                 </div>
                                             </div>
                                             <div class="col-4 column-sec">
-                                                <div class="kr-sg-input-text">
-                                                    <input type="text" placeholder="Placeholder text"
-                                                        class="input-text">
+                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index">
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" ngbDropdownToggle disabled>{{outcomeObj.fieldDataType?(("businessRules."+outcomeObj.fieldDataType) | translate):"String"}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>                                                           
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-4 column-sec">
-                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown
-                                                    [placement]="'bottom-right'">
+                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index">
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown" ngbDropdownToggle>Contains</button>
-                                                        <ul class="dropdown-menu content-menu faq-filter-add"
-                                                            ngbDropdownMenu>
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" ngbDropdownToggle>{{"businessRules." +outcomeObj.outcomeOperator | translate}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                                             <perfect-scrollbar class="scroll-max-200">
-                                                                <div class="scroll-max-200">
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
+                                                                <div class="scroll-max-200" *ngFor="let operator of conditions.string">
+                                                                    <li class="p-0" ngbDropdownItem (click)="outcomeSclection(outcomeObj,operator,'outcomeOperator')">
+                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':outcomeObj.outcomeOperator===operator}">{{"businessRules." + operator | translate}}</a>
                                                                     </li>
                                                                 </div>
                                                             </perfect-scrollbar>
@@ -694,122 +708,56 @@
                                             </div>
                                         </div>
                                         <div class="row-input-data row col-12">
-                                            <div class="col-12 column-sec">
-                                                <div class="kr-sg-input-text">
-                                                    <input type="text" placeholder="Type Keyword" class="input-text">
+                                            <div class="col-4 column-sec">
+                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index">
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" ngbDropdownToggle>{{"businessRules." +outcomeObj.outcomeValueType | translate}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                                            <perfect-scrollbar class="scroll-max-200">
+                                                                <div class="scroll-max-200">
+                                                                 <li ngbDropdownItem (click)="outcomeSclection(outcomeObj,'static','outcomeValueType');" [ngClass]="{'font-weight-bold':outcomeObj.outcomeValueType==='static'}">{{"businessRules.static" | translate}}</li>
+                                                                 <li ngbDropdownItem (click)="outcomeSclection(outcomeObj,'dynamic','outcomeValueType');" [ngClass]="{'font-weight-bold':outcomeObj.outcomeValueType==='dynamic'}">{{"businessRules.dynamic" | translate}}</li>
+                                                                </div>
+                                                            </perfect-scrollbar>
+                                                        </ul>
+                                                    </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-8 column-sec">
+                                                <mat-form-field class="example-chip-list" [floatLabel]="'never'">
+                                                    <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
+                                                        <ng-container
+                                                            *ngFor="let value of outcomeObj.outcomeValue; let valueindex = index">
+                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(outcomeObj.outcomeValue, tag,valueindex)" [ngClass]="{'firstChip':valueindex==0}">
+                                                                <span class="mat-val" *ngIf="value" container="body" ngbTooltip="{{value}}">{{value}}</span>
+                                                                <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
+                                                            </mat-chip>
+                                                            <span>OR</span>
+                                                        </ng-container>
+                                                        <input #contextSuggestedImput
+                                                        id="OutcomeInput"
+                                                            [placeholder]="'Type Keyword and Enter'"
+                                                            (click)='buildCurrentContextSuggetions(outcomeObj)'
+                                                            [(ngModel)]="outcomeObj.newValue"
+                                                            (keyup)='buildCurrentContextSuggetions(outcomeObj)'
+                                                            [matChipInputFor]="chipList" [matAutocomplete]="auto"
+                                                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                            (matChipInputTokenEnd)="addOutcome($event, outcomeObj, (outcomeObj.outcomeValue.length))" />
+                                                            <img *ngIf="iconImageOut && submitted" id="infoWarningOut" src="assets/icons/warning_escalation.svg" style="top: 35%; position: absolute; right: 3%; display: block;" height="12" width="12" />
+                                                    </mat-chip-list>
+                                                    <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown {{outcomeObj.outcomeValueType==='static'?'hideAutoFocus':''}}" (optionSelected)="selected($event,outcomeObj,index)">
+                                                        <mat-option *ngFor="let suggesion of currentSugg">
+                                                            {{suggesion}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                </mat-form-field>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="and-condition">AND</div>
-                                </ng-container>
-
-                                <ng-container>
-                                    <div class="box-data-conditions">
-                                        <div class="close-conditions">
-                                            <i class="si-close"></i>
-                                        </div>
-                                        <div class="row-input-data row col-12">
-                                            <div class="col-12 column-sec title-info">Select Context</div>
-                                            <div class="col-4 column-sec">
-                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown
-                                                    [placement]="'bottom-right'">
-                                                    <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown" ngbDropdownToggle>Search
-                                                            Context</button>
-                                                        <ul class="dropdown-menu content-menu faq-filter-add"
-                                                            ngbDropdownMenu>
-                                                            <perfect-scrollbar class="scroll-max-200">
-                                                                <div class="scroll-max-200">
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                </div>
-                                                            </perfect-scrollbar>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row-input-data row col-12">
-                                            <div class="col-12 title-info">Set Parameters</div>
-                                            <div class="col-4 column-sec">
-                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown
-                                                    [placement]="'bottom-right'">
-                                                    <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown" ngbDropdownToggle>Current
-                                                            Search</button>
-                                                        <ul class="dropdown-menu content-menu faq-filter-add"
-                                                            ngbDropdownMenu>
-                                                            <perfect-scrollbar class="scroll-max-200">
-                                                                <div class="scroll-max-200">
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                </div>
-                                                            </perfect-scrollbar>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-4 column-sec">
-                                                <div class="kr-sg-input-text">
-                                                    <input type="text" placeholder="Placeholder text"
-                                                        class="input-text">
-                                                </div>
-                                            </div>
-                                            <div class="col-4 column-sec">
-                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown
-                                                    [placement]="'bottom-right'">
-                                                    <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown" ngbDropdownToggle>Contains</button>
-                                                        <ul class="dropdown-menu content-menu faq-filter-add"
-                                                            ngbDropdownMenu>
-                                                            <perfect-scrollbar class="scroll-max-200">
-                                                                <div class="scroll-max-200">
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                    <li class="p-0" ngbDropdownItem>
-                                                                        <a class="text-truncate" title="">Option</a>
-                                                                    </li>
-                                                                </div>
-                                                            </perfect-scrollbar>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row-input-data row col-12">
-                                            <div class="col-12 column-sec">
-                                                <div class="kr-sg-input-text">
-                                                    <input type="text" placeholder="Type Keyword" class="input-text">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="and-condition">AND</div>
+                                    <div class="and-condition" *ngIf="outcomeArrayforAddEdit && outcomeArrayforAddEdit.length-1 !==index">AND</div>
                                 </ng-container>
                                 <!-- End repeat -->
-                                <div class="add-condition-btn">
+                                <div class="add-condition-btn" (click)="addNewOutcome()">
                                     <i class="si-add-plus"></i>
                                     <span>Add Condition</span>
                                 </div>
