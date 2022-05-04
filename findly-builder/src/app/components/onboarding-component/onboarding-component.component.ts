@@ -654,6 +654,7 @@ faqData = [{
   closeSupport(){
     this.closeSlid.emit();
     $("#Support" ).trigger( "click" );
+    this.supportParentData=true
   }
   //goto Routes
   gotoRoutes(step,list) {

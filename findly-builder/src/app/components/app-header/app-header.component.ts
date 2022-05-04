@@ -1214,6 +1214,7 @@ export class AppHeaderComponent implements OnInit {
      if( this.onboardingOpened == true){
       this.sliderComponent.closeSlider("#supportOnboarding");
       this.onboardingOpened = false;
+      this.onBoardingComponent.closeSupport();
      }
    }
   emitStatus(event) {
