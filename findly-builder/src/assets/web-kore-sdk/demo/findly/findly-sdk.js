@@ -8190,7 +8190,7 @@ FindlySDK.prototype.bindFacetsToggle = function () {
       }else{
     window["KoreSDK"].findlyConfig.botOptions.assertionFn = this.getJWT;
       }
-    if (_findlyConfig.searchIndexID) {
+    if (_findlyConfig.searchIndexID && _findlyConfig.queryPipelineId) {
       const searchData = {
         _id: _findlyConfig.searchIndexID,
         pipelineId: _findlyConfig.queryPipelineId,
