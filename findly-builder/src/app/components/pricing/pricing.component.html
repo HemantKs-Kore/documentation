@@ -73,7 +73,7 @@
             <div class="queries">
               <div class="queries-title">{{"plan.queries"| translate}}</div>
               <div class="queries-count"
-                *ngIf="usageDetails && usageDetails.searchQueries && usageDetails.searchQueries"><span
+                *ngIf="usageDetails?.searchQueries?.used"><span
                   class="">{{(usageDetails.searchQueries?.used)| valueFormat}}</span> /
                 {{(usageDetails.searchQueries?.limit)|valueFormat}}</div>
             </div>
@@ -83,7 +83,7 @@
             </ngb-progressbar>
             <div class="queries">
               <div class="queries-title">{{"plan.documents"| translate}}</div>
-              <div class="queries-count" *ngIf="usageDetails && usageDetails.ingestDocs && usageDetails.ingestDocs">
+              <div class="queries-count" *ngIf="usageDetails?.ingestDocs?.used">
                 <span class="">{{usageDetails.ingestDocs?.used | valueFormat}}</span> /
                 {{(usageDetails.ingestDocs?.limit)| valueFormat}}</div>
             </div>
