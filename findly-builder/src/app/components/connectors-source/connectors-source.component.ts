@@ -230,7 +230,7 @@ export class ConnectorsSourceComponent implements OnInit {
     const _bearer = 'bearer ' + authToken;
     const selectedAccount = this.localStoreService.getSelectedAccount();
     const account_id = selectedAccount?.accountId;
-    const connector_id = this.selectedConnector ? this.selectedConnector?._id : this.connectorId;
+    const connector_id = this.selectedConnector?._id ? this.selectedConnector?._id : this.connectorId;
     fetch(`https://searchassist-dev.kore.ai/searchassistapi/findly/${this.searchIndexId}/connectors/${connector_id}/authorize`, {
       method: 'POST',
       headers: {
