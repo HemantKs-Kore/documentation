@@ -160,7 +160,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       resourceType: 'structuredData'
     },
     {
-      name: 'Import Structured Data',
+      name: 'Add Structured Data',
       description: 'Add structured data manually',
       icon: 'assets/icons/content/database-add.svg',
       id: 'contentStucturedDataAdd',
@@ -605,7 +605,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         }
       } else {
         clearInterval(this.polingObj[type]);
-        // this.getSourceList('clearPoling');
+        this.getSourceList('clearPoling');
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
@@ -2091,6 +2091,9 @@ paginateContent(event) {
     if (value <= -1) {
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
+    }
+    else if(value == null || value.includes("-")){
+      this.notificationService.notify('Range cannot be entered','error');
     }
     // if(value < 500 && valueFrom == 'maxUrlLimit'){
     //   this.maxUrlLimit = 500;

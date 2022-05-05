@@ -188,7 +188,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       title: 'Add Structured data by uploading a file or adding manually',
       sources: [
         {
-          name: 'Import Structured Data',
+          name: 'Add Structured Data',
           description: 'Import from JSON or CSV',
           icon: 'assets/icons/content/database-Import.svg',
           id: 'contentStucturedDataImport',
@@ -1891,6 +1891,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       // this.closeStatusModal();
       //this.dockService.trigger(true);
       this.getDocStatus(res._id);
+      this.appSelectionService.updateTourConfig('addData');
     },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -1992,9 +1993,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   checkValue(value, valueFrom) {
     // console.log()
-    if (value <= -1) {
+    // var valueCheck = value.includes("-");
+    if (value <= -1){
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
+    }
+    else if(value == null || value.includes("-")){
+      this.notificationService.notify('Range cannot be entered','error');
     }
     // if(value < 500 && valueFrom == 'maxUrlLimit'){
     //   this.maxUrlLimit = 500;

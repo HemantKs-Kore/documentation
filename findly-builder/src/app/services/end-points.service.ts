@@ -1217,13 +1217,17 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors',
       method: 'post'
     }
-    this.serviceList['get.authorizeConnector'] = {
+    this.serviceList['post.authorizeConnector'] = {
       endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon/authorize',
-      method: 'get'
+      method: 'post'
     }
     this.serviceList['put.connector'] = {
       endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon',
       method: 'put'
+    }
+    this.serviceList['get.callbackConnector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/connectors/callback?searchIndexId=:searchIndexId&connectorId=:connectorId&code=:code&state=:state',
+      method: 'get'
     }
   }
 }

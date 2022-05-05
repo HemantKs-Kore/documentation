@@ -553,16 +553,16 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   selectSearchBox(type) {
     this.selectSearch = type;
   }
-  checkColorPallets(event?){
-    if(event){
+  checkColorPallets(event?) {
+    if (event) {
       event.stopPropagation();
-      event.preventDefault();      
+      event.preventDefault();
     }
-    else{
+    else {
       this.closeAllColourPallets();
     }
   }
-  closeAllColourPallets(){
+  closeAllColourPallets() {
     this.toggle = false;
     this.inputBox1 = false;
     this.toggle1 = false;
@@ -571,7 +571,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     this.placeholBox = false;
     this.buttonFill = false;
     this.buttonTextColor = false;
-    this.buttonBorder=false;
+    this.buttonBorder = false;
     this.toggle3 = false;
     this.toggle4 = false;
     this.toggle5 = false;

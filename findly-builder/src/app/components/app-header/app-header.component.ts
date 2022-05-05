@@ -22,6 +22,7 @@ import * as moment from 'moment';
 declare const $: any;
 import * as _ from 'underscore';
 import { Input } from '@angular/core';
+import { E } from '@angular/cdk/keycodes';
 @Component({
   selector: 'app-header',
   templateUrl: './app-header.component.html',
@@ -33,6 +34,7 @@ export class AppHeaderComponent implements OnInit {
   showMainMenu: boolean = true;
   currentRouteData:any="";
   displyStatusBar:boolean=true;
+  onboardingOpened:boolean= false;
   tourData:any;
   tourConfigData:any=[];
   checklistCount:any;
@@ -71,6 +73,7 @@ export class AppHeaderComponent implements OnInit {
   createAppPopRef: any;
   creatingInProgress: boolean = false;
   selectedApp;
+  appsnum;
   serachIndexId;
   queryPipelineId;
   indexPipelineId;
@@ -181,21 +184,21 @@ export class AppHeaderComponent implements OnInit {
       });
     });
 
-    this.headerService.fromCallFlowExpand.subscribe(data => {
-      this.fromCallFlow = data.title;
-      this.toShowAppHeader = false;
-      this.pagetitle = '';
-      this.ref.detectChanges();
-    });
+    // this.headerService.fromCallFlowExpand.subscribe(data => {
+    //   this.fromCallFlow = data.title;
+    //   this.toShowAppHeader = false;
+    //   this.pagetitle = '';
+    //   this.ref.detectChanges();
+    // });
 
-    this.showSwichAccountOption = this.localStoreService.getAssociatedAccounts().length > 1;
-    this.search = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        map(term => term === '' ? []
-          : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-      )
-    this.formatter = (x: { displayName: string }) => (x.displayName || '');
+    // this.showSwichAccountOption = this.localStoreService.getAssociatedAccounts().length > 1;
+    // this.search = (text$: Observable<string>) =>
+    //   text$.pipe(
+    //     debounceTime(200),
+    //     map(term => term === '' ? []
+    //       : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    //   )
+    // this.formatter = (x: { displayName: string }) => (x.displayName || '');
   //   if(this.selectAccountDetails==null){
   //     for(let i=0;i<this.associatedAccounts.length;i++)
   //   {      
@@ -219,65 +222,71 @@ export class AppHeaderComponent implements OnInit {
     // if(localStorage.krPreviousState=='{}'|| localStorage.krPreviousState=="null"  || localStorage.krPreviousState==undefined){
     //   this.analyticsClick('/home');
     // }
-    if(localStorage.krPreviousState=='{}'|| localStorage.krPreviousState=="null"  || localStorage.krPreviousState==undefined){
-        //this.analyticsClick('/home');
-      }
-    else if (localStorage.krPreviousState && JSON.parse(localStorage.krPreviousState)) {      
-      this.analyticsClick(JSON.parse(localStorage.krPreviousState).route,true);
-    }
-    this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
-      if (res) {
-        this.mainMenu = res;
-      }
-    });
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    this.loadHeader();
-    this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
-      this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
-        this.loadHeader();
-      })
-    })
-    this.workflowService.mainMenuRouter$.subscribe(route => {
-      this.mainMenu = route;
-    });
-    this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
-    this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
-    this.domain = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
-    if(this.selectAccountDetails==null){
-        for(let i=0;i<this.associatedAccounts.length;i++)
-      {      
-        if(this.associatedAccounts[i].status=="active") 
-        {
-          this.selectAccountDetails=this.associatedAccounts[i];
-        }
+  //   if(localStorage.krPreviousState=='{}'|| localStorage.krPreviousState=="null"  || localStorage.krPreviousState==undefined){
+  //       //this.analyticsClick('/home');
+  //     }
+  //     else if (localStorage.krPreviousState && JSON.parse(localStorage.krPreviousState)) {             
+  //         if(this.appsnum.length==='undefined' || this.appsnum.length==0) {   
+  //             this.analyticsClick(JSON.parse(localStorage.krPreviousState).route,true);
+  //           } 
+  //         else{
+  //           this.analyticsClick(JSON.parse(localStorage.krPreviousState).route,false);        
+  //         }      
+  //   }
+    
+  //   this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
+  //     if (res) {
+  //       this.mainMenu = res;
+  //     }
+  //   });
+  //   this.selectedApp = this.workflowService.selectedApp();
+  //   this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
+  //   this.loadHeader();
+  //   this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+  //     this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
+  //       this.loadHeader();
+  //     })
+  //   })
+  //   this.workflowService.mainMenuRouter$.subscribe(route => {
+  //     this.mainMenu = route;
+  //   });
+  //   this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
+  //   this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
+  //   this.domain = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
+  //   if(this.selectAccountDetails==null){
+  //       for(let i=0;i<this.associatedAccounts.length;i++)
+  //     {      
+  //       if(this.associatedAccounts[i].status=="active") 
+  //       {
+  //         this.selectAccountDetails=this.associatedAccounts[i];
+  //       }
    
-      }
-      if((!this.selectAccountDetails) || this.selectAccountDetails=="null"  || this.selectAccountDetails==undefined){
-        this.selectAccountDetails=this.associatedAccounts[0];
-      }
+  //     }
+  //     if((!this.selectAccountDetails) || this.selectAccountDetails=="null"  || this.selectAccountDetails==undefined){
+  //       this.selectAccountDetails=this.associatedAccounts[0];
+  //     }
 
-    }
+  //   }
       
-    for(let i=0;i<this.associatedAccounts.length;i++)
-    {      
-      if(this.associatedAccounts[i].status=="active")
-      {
-        this.loginusername=this.associatedAccounts[i].userFullName;
-      }
-    } 
-    if(!this.loginusername){
-      this.loginusername=this.domain;
-    }
-    // if(this.associatedAccounts.length==1){
-    //   this.loginusername=this.associatedAccounts[0].userFullName;
-    // }
-    if(this.loginusername==this.domain){
-      this.extractFirstLetter();
-    }
-    else{
-    this.extractProfiledisplayname();  
-    } 
+  //   for(let i=0;i<this.associatedAccounts.length;i++)
+  //   {      
+  //     if(this.associatedAccounts[i].status=="active")
+  //     {
+  //       this.loginusername=this.associatedAccounts[i].userFullName;
+  //     }
+  //   } 
+  //   if(!this.loginusername){
+  //     this.loginusername=this.domain;
+  //   }
+  //   // if(this.associatedAccounts.length==1){
+  //   //   this.loginusername=this.associatedAccounts[0].userFullName;
+  //   // }
+  //   if(this.loginusername==this.domain){
+  //     this.extractFirstLetter();
+  //   }
+  //   else{
+  //   this.extractProfiledisplayname();  
+  //   } 
   }
   extractFirstLetter(){
       let firstLetter=this.domain.charAt(0);
@@ -504,7 +513,7 @@ export class AppHeaderComponent implements OnInit {
           if (this.training) {
             self.notificationService.notify('Training has been Initiated', 'success');
           }
-          this.appSelectionService.updateTourConfig('indexing');
+          // this.appSelectionService.updateTourConfig('indexing');
           this.poling();
         }, 5000)
       }, errRes => {
@@ -841,14 +850,110 @@ export class AppHeaderComponent implements OnInit {
   }
   //get all apps
   getAllApps() {
-    this.service.invoke('get.apps').subscribe(res => {
+    this.service.invoke('get.apps').subscribe(res => { 
+      
+        this.appsnum=res;
+        this.checkroute();
+            
+      // if(this.appsnum.length==="undefined" || this.appsnum.length==0){
+      //   this.routeFlag=true;
+      // }
+      // else if(this.appsnum.length){
+      //   this.routeFlag=false;
+      // }
+      // console.log("check flag")    
       let app_id = this.workflowService?.selectedApp();
       if (app_id) {
         this.recentApps = res.filter(app => app._id != app_id._id).slice(0, 5)
       }
     }, errRes => {
       // console.log(errRes);
+    });    
+  }
+  checkroute(){   
+
+    this.headerService.fromCallFlowExpand.subscribe(data => {
+      this.fromCallFlow = data.title;
+      this.toShowAppHeader = false;
+      this.pagetitle = '';
+      this.ref.detectChanges();
     });
+
+    this.showSwichAccountOption = this.localStoreService.getAssociatedAccounts().length > 1;
+    this.search = (text$: Observable<string>) =>
+      text$.pipe(
+        debounceTime(200),
+        map(term => term === '' ? []
+          : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+      )
+    this.formatter = (x: { displayName: string }) => (x.displayName || '');
+    
+      if(localStorage.krPreviousState=='{}'|| localStorage.krPreviousState=="null"  || localStorage.krPreviousState==undefined){
+          //this.analyticsClick('/home');
+        }
+        else if (localStorage.krPreviousState && JSON.parse(localStorage.krPreviousState)) {             
+            if(this.appsnum.length==='undefined' || this.appsnum.length==0) {   
+                this.analyticsClick(JSON.parse(localStorage.krPreviousState).route,true);
+              } 
+            else{
+              this.analyticsClick(JSON.parse(localStorage.krPreviousState).route,false);        
+            }      
+      }
+    
+      
+      this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
+        if (res) {
+          this.mainMenu = res;
+        }
+      });
+      this.selectedApp = this.workflowService.selectedApp();
+      this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
+      this.loadHeader();
+      this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+        this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
+          this.loadHeader();
+        })
+      })
+      this.workflowService.mainMenuRouter$.subscribe(route => {
+        this.mainMenu = route;
+      });
+      this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
+      this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
+      this.domain = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
+      if(this.selectAccountDetails==null){
+          for(let i=0;i<this.associatedAccounts.length;i++)
+        {      
+          if(this.associatedAccounts[i].status=="active") 
+          {
+            this.selectAccountDetails=this.associatedAccounts[i];
+          }
+     
+        }
+        if((!this.selectAccountDetails) || this.selectAccountDetails=="null"  || this.selectAccountDetails==undefined){
+          this.selectAccountDetails=this.associatedAccounts[0];
+        }
+  
+      }
+        
+      for(let i=0;i<this.associatedAccounts.length;i++)
+      {      
+        if(this.associatedAccounts[i].status=="active")
+        {
+          this.loginusername=this.associatedAccounts[i].userFullName;
+        }
+      } 
+      if(!this.loginusername){
+        this.loginusername=this.domain;
+      }
+      // if(this.associatedAccounts.length==1){
+      //   this.loginusername=this.associatedAccounts[0].userFullName;
+      // }
+      if(this.loginusername==this.domain){
+        this.extractFirstLetter();
+      }
+      else{
+      this.extractProfiledisplayname();  
+      }
   }
   //sort apps
   // prepareApps(apps) {
@@ -1097,9 +1202,21 @@ export class AppHeaderComponent implements OnInit {
   /**opening slider component and closing slider component  */
   openUserMetaTagsSlider() { 
     this.currentRouteData=this.router.url;
-    this.sliderComponent.openSlider("#supportOnboarding", "width500");
+    if(this.onboardingOpened == false){
+      this.sliderComponent.openSlider("#supportOnboarding", "width500");
+      this.onboardingOpened = true;
+    }
+    else if(this.onboardingOpened== true){
+      this.closeUserMetaTagsSlider();
+    }
    }
-  closeUserMetaTagsSlider() { this.sliderComponent.closeSlider("#supportOnboarding"); }
+  closeUserMetaTagsSlider() {
+     if( this.onboardingOpened == true){
+      this.sliderComponent.closeSlider("#supportOnboarding");
+      this.onboardingOpened = false;
+      this.onBoardingComponent.closeSupport();
+     }
+   }
   emitStatus(event) {
     this.displyStatusBar=event;
   }

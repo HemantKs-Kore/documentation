@@ -1172,20 +1172,16 @@
           <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
               {{
-              (simulteObj.sourceType
-              ? (simulteObj.sourceType == 'faq'? 'FAQ': (simulteObj.sourceType =='data'?'Data':(simulteObj.sourceType
-              =='all'?'All':(simulteObj.sourceType =='file'?'File':(simulteObj.sourceType
-              =='web'?'Web':simulteObj.sourceType)))))
-              : "choose_an_option"
-              ) | translate
+                (simulteObj.sourceType
+                ? (simulteObj.sourceType == 'faq'? 'FAQ': (simulteObj.sourceType =='data'?'Data':(simulteObj.sourceType
+                =='all'?'All':(simulteObj.sourceType =='file'?'File':(simulteObj.sourceType
+                =='web'?'Web':simulteObj.sourceType =='serviceNow'?'Service Now':simulteObj.sourceType =='confluenceCloud'?'Confluence Cloud':simulteObj.sourceType =='confluenceServer'?'Confluence Server':simulteObj.sourceType)))))
+                : "choose_an_option"
+                ) | translate
               }}
             </button>
-            <ul class="dropdown-menu content-menu">
-              <li (click)="changeSimulate('all', 'source')"><a>{{'workbench.all' | translate}}</a></li>
-              <li (click)="changeSimulate('faq', 'source')"><a>{{'workbench.faq' | translate}}</a></li>
-              <li (click)="changeSimulate('web', 'source')"><a>{{'workbench.web' | translate}}</a></li>
-              <li (click)="changeSimulate('file', 'source')"><a>{{'workbench.file' | translate}}</a></li>
-              <li (click)="changeSimulate('data', 'source')"><a>{{'workbench.data' | translate}}</a></li>
+            <ul class="dropdown-menu content-menu">              
+              <li *ngFor="let source of sourceList" (click)="changeSimulate(source, 'source')"><a>{{'workbench.'+source | translate}}</a></li>            
             </ul>
           </div>
         </div>
@@ -1229,7 +1225,11 @@
         </div> -->
       </div>
     </div>
-    <perfect-scrollbar class="content_body">
+    <div class="mainLoadingSpinner1" *ngIf="loadingSimulate">
+      <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+      <span class="please-wait-message1">{{'please_wait'| translate}}</span>
+    </div> 
+    <perfect-scrollbar class="content_body"  *ngIf="!loadingSimulate">
       <div *ngIf="simulateJson">
         <ngx-codemirror [(ngModel)]="filteredSimulatorRes" [options]="codeMirrorOptions">
         </ngx-codemirror>

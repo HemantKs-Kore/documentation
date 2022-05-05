@@ -83,7 +83,7 @@ export class AppsListingComponent implements OnInit {
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
-    // this.buildCarousel();
+    // this.buildCarousel();    
   }
   //call mixpanel api for tellmemore button
   callMixPanel() {
@@ -157,27 +157,20 @@ export class AppsListingComponent implements OnInit {
     this.submitted = true;
     let quaryparms: any = {};
     quaryparms.streamId = this.slectedAppId;
-    if (this.confirmApp == this.validateName) {
+    if (this.confirmApp == 'DELETE') {
       this.service.invoke('delete.app', quaryparms).subscribe(res => {
         if (res) {
           this.notificationService.notify('Deleted Successfully', 'success');
           this.closeConfirmApp();
           this.apps = this.apps.filter((val) => { return val._id != this.slectedAppId });
+          this.prepareApps(this.apps);
+          // this.getAllApps();
           this.selectedAppType(this.app_type);
           this.confirmApp = '';
         }
       }, errRes => {
         this.notificationService.notify('Deletion has gone wrong.', 'error');
       });
-    }
-    else if (this.confirmApp == "") {
-      this.notificationService.notify('Enter and confirm the App Name ', 'error');
-    }
-    else if (this.confirmApp != this.validateName) {
-      this.notificationService.notify('Please check the app name you entered ', 'error');
-    }
-    else {
-      this.notificationService.notify('Something went wrong', 'error');
     }
     // for (let i=0; i<this.apps.length; i++){
     // if (this.apps[i].name === this.confirmApp){

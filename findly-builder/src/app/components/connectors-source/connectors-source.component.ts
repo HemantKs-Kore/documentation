@@ -7,6 +7,8 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '@kore.services/auth.service';
+import { LocalStoreService } from '@kore.services/localstore.service';
 @Component({
   selector: 'app-connectors-source',
   templateUrl: './connectors-source.component.html',
@@ -40,6 +42,7 @@ export class ConnectorsSourceComponent implements OnInit {
   deleteModelRef: any;
   showProtecedText: Object = { isClientShow: false, isSecretShow: false };
   isShowButtons: boolean = false;
+  sessionData: any = {};
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: false }, { name: 'configurtion', isCompleted: false }, { name: 'authentication', isCompleted: false }];
   Instructions = [
     {
@@ -58,18 +61,17 @@ export class ConnectorsSourceComponent implements OnInit {
         , { stepnumber: "Step 4", steptitle: "Authentication", linktext: "", url: "", linkiconpresent: false, stepdescription: "Upon the successful authentication flow, you will be redirected to Search Assist.Google Drive content will now be captured and will be ready for search gradually as it is synced. Once successfully configured and connected, the Google Drive will synchronize automatically." }]
     }];
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
-  constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private location: Location, private activeRoute: ActivatedRoute) { }
+  constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private location: Location, private activeRoute: ActivatedRoute, private auth: AuthService, private localStoreService: LocalStoreService) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
     this.getConnectors();
-    // this.activeRoute.params.subscribe(param => {
-    //   const params = Object.keys(param).length;
-    //   if (params > 0) {
-    //     this.location.replaceState('');
-    //   }
-    // })
+    if (sessionStorage.getItem('connector') !== null) {
+      const session_connector_data = sessionStorage.getItem('connector');
+      this.sessionData = JSON.parse(session_connector_data);
+      this.callbackURL();
+    }
   }
   //open delete model popup
   openDeleteModel(type) {
@@ -210,19 +212,39 @@ export class ConnectorsSourceComponent implements OnInit {
   }
   //authorize created connector
   authorizeConnector() {
-    const quaryparms: any = {
-      sidx: this.searchIndexId,
-      fcon: this.connectorId
-    };
-    this.service.invoke('get.authorizeConnector', quaryparms).subscribe(res => {
-      if (res) {
-        this.selectedContent = 'list';
-        this.notificationService.notify('Connector Authorized Successfully', 'success');
-        this.getConnectors();
-      }
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to get Connectors');
-    });
+    // const quaryparms: any = {
+    //   sidx: this.searchIndexId,
+    //   fcon: this.connectorId
+    // };
+    // this.service.invoke('post.authorizeConnector', quaryparms).subscribe(res => {
+    //   console.log("res", res.headers);
+    //   if (res) {
+    //     this.selectedContent = 'list';
+    //     this.notificationService.notify('Connector Authorized Successfully', 'success');
+    //     this.getConnectors();
+    //   }
+    // }, errRes => {
+    //   this.errorToaster(errRes, 'Failed to get Connectors');
+    // });
+    const authToken = this.auth.getAccessToken();
+    const _bearer = 'bearer ' + authToken;
+    const selectedAccount = this.localStoreService.getSelectedAccount();
+    const account_id = selectedAccount?.accountId;
+    const connector_id = this.selectedConnector ? this.selectedConnector?._id : this.connectorId;
+    fetch(`https://searchassist-dev.kore.ai/searchassistapi/findly/${this.searchIndexId}/connectors/${connector_id}/authorize`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: _bearer,
+        AccountId: account_id
+      },
+    }).then(data => {
+      console.log("response", data.url)
+      window.open(data.url, '_self');
+    })
+      .catch(error => {
+        console.log("error", error);
+      })
   }
   //update connector 
   openConnectorDialog(data, event) {
@@ -249,7 +271,6 @@ export class ConnectorsSourceComponent implements OnInit {
   }
   updateConnector(data?, checked?, dialog?) {
     const Obj = data ? data : this.selectedConnector;
-    console.log("update", data);
     const quaryparms: any = {
       sidx: this.searchIndexId,
       fcon: Obj?._id
@@ -269,10 +290,30 @@ export class ConnectorsSourceComponent implements OnInit {
     }
     this.service.invoke('put.connector', quaryparms, payload).subscribe(res => {
       if (res) {
-        this.notificationService.notify('Connector Updated Successfully', 'success');
-        if (dialog) dialog?.close();
-        this.getConnectors();
+        if (this.selectedConnector.type === 'confluenceCloud') {
+          this.authorizeConnector();
+        }
+        else {
+          this.notificationService.notify('Connector Updated Successfully', 'success');
+          if (dialog) dialog?.close();
+          this.getConnectors();
+        }
       }
+    }, errRes => {
+      this.errorToaster(errRes, 'Connectors API Failed');
+    });
+  }
+  //callback url after redirect in confluence cloud
+  callbackURL() {
+    const quaryparms: any = {
+      searchIndexId: this.searchIndexId,
+      connectorId: this.sessionData?.connectorId,
+      code: this.sessionData?.code,
+      state: this.sessionData?.state
+    };
+    this.service.invoke('get.callbackConnector', quaryparms).subscribe(res => {
+      console.log("res", res);
+      sessionStorage.clear();
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });

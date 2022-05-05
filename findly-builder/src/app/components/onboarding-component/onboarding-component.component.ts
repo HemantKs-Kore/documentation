@@ -65,7 +65,7 @@ export class OnboardingComponentComponent implements OnInit {
         link:''
     },
     {
-        title:'Design Search Experiance',
+        title:'Design Search Experience',
         desc:'Design the look and feel of how your search results are to be displayed to your end user',
         icon:'assets/icons/onboarding/design-search.svg',
         color:'Skyblue',
@@ -654,6 +654,7 @@ faqData = [{
   closeSupport(){
     this.closeSlid.emit();
     $("#Support" ).trigger( "click" );
+    this.supportParentData=true
   }
   //goto Routes
   gotoRoutes(step,list) {

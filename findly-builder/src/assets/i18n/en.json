@@ -1,4 +1,5 @@
 {
+    "deleteToConfirm": "Please type the phrase 'DELETE' to confirm",
     "Hi": "Hi, ",
     "WelcometoFindly": "Welcome to SearchAssist.ai",
     "Your_Applications": "Your Applications",
@@ -992,7 +993,7 @@
         "preview": "Preview",
         "template_outlook": "The end-users will see the response as per the template you select in the Search Experience",
         "add_conditions": "Add Conditions",
-        "conditions": "Condition",
+        "conditions": "Conditions",
         "and": "And",
         "select_contect": "Select Context",
         "select_parameters": "Set Parameters",
@@ -1199,7 +1200,10 @@
         "traits_to_be_identified_from_the_source_field": "Traits to be identified from the source field",
         "entities_to_be_identified_from_the_source_field": "Entities to be identified from the source field",
         "give_stage_name_of_your_choice_to_create_multiple": "Give Stage Name of your choice to create multiple stages with the same Stage Type",
-        "click_here_to_get_started_by_adding_a_stage": "Click here to get started by adding a stage"
+        "click_here_to_get_started_by_adding_a_stage": "Click here to get started by adding a stage",
+        "serviceNow": "Service Now",
+        "confluenceCloud": "Confluence Cloud",
+        "confluenceServer": "Confluence Server"
     },
     "searchexperience": {
         "component_title": "Search Interface",

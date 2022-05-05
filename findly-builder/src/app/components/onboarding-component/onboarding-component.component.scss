@@ -491,7 +491,7 @@
                                 background: #E2F8FF;
                             }
                             .dummy-border-left{
-                                background: #35C1F1;
+                                background:  #0D6EFD;
                                 left: -1px;
                                 height: 100%;
                                 width: 3px;
@@ -811,7 +811,10 @@
                                     border: 0.5px solid #28A745;
                                     color: #28A745;
                                 }
-                            }
+                                img{
+                                    max-width: 25px;
+                                }
+                            }                          
                             .title-heading{
                                 font-weight: 500;
                                 font-size: 12px;

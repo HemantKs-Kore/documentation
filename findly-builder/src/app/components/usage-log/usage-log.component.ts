@@ -106,7 +106,7 @@ export class UsageLogComponent implements OnInit {
         this.usageLogs.forEach(element => {
           this.queryTypeArr.push(element.queryType);
           this.requestSourceArr.push(element.requestSource);
-          this.resultsArr.push(element.results);
+          if (element?.results !== null) this.resultsArr.push(element.results);
         });
         this.queryTypeArr = [...new Set(this.queryTypeArr)];
         this.requestSourceArr = [...new Set(this.requestSourceArr)];
@@ -277,18 +277,18 @@ export class UsageLogComponent implements OnInit {
       /**made changes on 24/02 as per new api contract in response we no longer use the key
          dockStatuses added updated code in 280 line*/
       // if (res && res.dockStatuses) {
-        if (res) {
-          /**made changes on 24/02 as per new api contract in response we no longer use the key
-         dockStatuses added updated code in 284 line*/
+      if (res) {
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+       dockStatuses added updated code in 284 line*/
         // res.dockStatuses.forEach((record: any) => {
-          res.forEach((record: any) => {
+        res.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
           /**made code updates in line no 288 on 03/01 added new condition for success,since SUCCESS is upadted to success as per new api contract */
           // if (record.status === 'SUCCESS' && record.fileId && !(record.store || {}).toastSeen) {
-            if ((record.status === 'SUCCESS' || record.status ==='success') && record.fileId && !(record.store || {}).toastSeen) {
+          if ((record.status === 'SUCCESS' || record.status === 'success') && record.fileId && !(record.store || {}).toastSeen) {
             /**added condition for jobType in 570,since we are no longer recieving action in jobs api response,using the jobType for condition check as per new api contract 10/03 */
             // if (record.action === 'EXPORT') {
-            if (record.jobType === "DATA_EXPORT") { 
+            if (record.jobType === "DATA_EXPORT") {
               this.downloadDockFile(record.fileId, (record.store || {}).urlParams, record.streamId, record._id);
               return;
             }
@@ -311,7 +311,7 @@ export class UsageLogComponent implements OnInit {
       streamId: streamId,
       dockId: dockId,
       jobId: dockId,
-      sidx:this.serachIndexId
+      sidx: this.serachIndexId
     }
     let payload = {
       "store": {
@@ -325,19 +325,19 @@ export class UsageLogComponent implements OnInit {
       this.service.invoke('put.dockStatus', params, payload).subscribe(res => { });
     }, err => { console.log(err) });
   }
-  focusinSearch(inputSearch){
-    setTimeout(()=>{
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
       document.getElementById(inputSearch).focus();
       // $('#'+inputSearch).focus();
-    },500)
+    }, 500)
   }
-  focusoutSearch(){
-      if(this.activeClose){
-        this.searchUsageLog='';
-        this.activeClose = false;
-        this.getUsageLogs();
-       }
-   this.showSearch= !this.showSearch;
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchUsageLog = '';
+      this.activeClose = false;
+      this.getUsageLogs();
+    }
+    this.showSearch = !this.showSearch;
   }
   ngOnDestroy() {
     // this.subscription ? this.subscription.unsubscribe : false;
