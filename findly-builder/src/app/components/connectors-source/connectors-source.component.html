@@ -601,6 +601,7 @@
                 </div> -->
             </div>
         </div>
+        <!---Add functionality-->
         <div *ngSwitchCase="'add'">
             <div class="configuration-connectors-sec">
                 <div class="header-configuration-data">
@@ -673,7 +674,7 @@
                                             <div class="step-data-title">Step 1</div>
                                             <div class="steps-info-sec">
                                                 <div class="h-title">Configure an OAuth application</div>
-                                                <a href="#"><i class="si-external-link"></i> Documentation</a>
+                                                <a [href]="selectedConnector.doc_url" target="_blank"><i class="si-external-link"></i> Documentation</a>
                                                 <div class="text-desc">Setup a secure OAuth application through the
                                                     content source that you or your team will use to connect and
                                                     synchronize content. You only have to do this once per content
@@ -696,7 +697,7 @@
                                                 <div class="text-desc">Follow the {{selectedConnector?.connector_name}}
                                                     authentication flow
                                                     as
-                                                    presented in the <a href="#">documentation link</a>.</div>
+                                                    presented in the <a [href]="selectedConnector.doc_url" target="_blank">documentation link</a>.</div>
                                             </div>
                                         </div>
                                         <div class="steps-hint-data">
@@ -724,7 +725,7 @@
                                     do
                                     this once per content source. Follow the {{selectedConnector?.connector_name}}
                                     authentication flow as
-                                    presented in the <a href="#">documentation link.</a></div>
+                                    presented in the <a [href]="selectedConnector.doc_url" target="_blank">documentation link.</a></div>
                                 <div class="connector-brand">
                                     <div class="c-img">
                                         <img [src]="selectedConnector?.image">
@@ -787,8 +788,12 @@
                                                     information
                                                     from step 1, please provide valid credintials to connect to
                                                     {{selectedConnector?.connector_name}}.</div>
-                                                <div class="heading-label">
-                                                    {{'connectors.provide_appropriate_config_info'|translate}}</div>
+                                                <div class="heading-label">{{'connectors.provide_appropriate_config_info'|translate}}</div>
+                                                <div class="kr-sg-input-text mb-3">
+                                                    <div class="label-text">{{'connectors.name'|translate}}
+                                                    </div>
+                                                    <input type="text" placeholder="Enter name here" class="input-text" [(ngModel)]="configurationObj.name" (change)="updateConfiguration()">
+                                                </div>
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">{{'connectors.clientid'|translate}}
                                                     </div>
@@ -887,6 +892,7 @@
                 </div>
             </div>
         </div>
+        <!---Edit functionality-->
         <div class="connector-cards-data" *ngSwitchCase="'edit'">
             <perfect-scrollbar>
                 <div class="inner-content-data">
@@ -952,7 +958,7 @@
                                                     <div class="title-source">{{'connectors.source'|translate}}
                                                     </div>
                                                     <div class="name-placeholder">
-                                                        {{'connectors.place_holder'|translate}}</div>
+                                                        {{selectedConnector?.name}}</div>
                                                 </div>
                                                 <div class="row-data-card">
                                                     <div class="title-source">
@@ -1028,7 +1034,7 @@
                                     </div>
                                     <div class="kr-sg-input-text">
                                         <div class="label-text">{{'connectors.source_name'|translate}}</div>
-                                        <input type="text" placeholder="Place holder name" class="input-text">
+                                        <input type="text" class="input-text" [(ngModel)]="selectedConnector.name">
                                     </div>
                                     <div class="content-name">
                                         {{'connectors.content_source_configuration'|translate}}
@@ -1122,16 +1128,16 @@
             </div>
             <div class="connector-brand">
                 <div class="c-img">
-                    <img src="assets/icons/connectors/drive-google.png">
+                    <img [src]="selectedConnector?.image" alt="">
                 </div>
                 <div class="c-content-sec">
-                    <div class="title">Google drive</div>
-                    <div class="sub-text">File Sharing, Storage, Cloud, G Suite</div>
+                    <div class="title">{{selectedConnector?.connector_name}}</div>
+                    <div class="sub-text">Wiki, Atlassian, Intranet, Cloud, Server</div>
                 </div>
             </div>
         </div>
         <div class="modal-footer text-right">
-            <button class="kr-sg-button-danger btn_lg">Yes</button>
+            <button class="kr-sg-button-danger btn_lg"  (click)="deleteConnector()">Yes</button>
             <button class="kr-sg-button-secondary btn_lg" (click)="openDeleteModel('close')">No</button>
         </div>
     </div>

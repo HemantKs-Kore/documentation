@@ -9,6 +9,7 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
+import { environment } from '@kore.environment';
 @Component({
   selector: 'app-connectors-source',
   templateUrl: './connectors-source.component.html',
@@ -22,7 +23,8 @@ export class ConnectorsSourceComponent implements OnInit {
       description1: "Please edit configuration",
       type: "confluenceServer",
       image: "assets/icons/connectors/confluence.png",
-      url: "https://admin.atlassian.com/"
+      url: "https://admin.atlassian.com/",
+      doc_url: "https://developer.atlassian.com/"
     },
     {
       connector_name: "Confluence",
@@ -30,7 +32,8 @@ export class ConnectorsSourceComponent implements OnInit {
       description1: "Please edit configuration",
       type: "confluenceCloud",
       image: "assets/icons/connectors/confluence.png",
-      url: "https://admin.atlassian.com/"
+      url: "https://admin.atlassian.com/",
+      doc_url: "https://developer.atlassian.com/"
     }
   ];
   selectedApp: any;
@@ -40,7 +43,7 @@ export class ConnectorsSourceComponent implements OnInit {
   searchIndexId: string;
   connectorsData: any = [];
   availableConnectorsData: any = [];
-  configurationObj: any = { clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '' };
+  configurationObj: any = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '' };
   checkConfigButton: Boolean = true;
   connectorId: string = '';
   deleteModelRef: any;
@@ -76,6 +79,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.sessionData = JSON.parse(session_connector_data);
       if (this.sessionData?.error === 'access_denied') {
         this.notificationService.notify(this.sessionData?.error_description, 'error');
+        sessionStorage.clear();
       }
       else {
         this.callbackURL();
@@ -180,7 +184,7 @@ export class ConnectorsSourceComponent implements OnInit {
         }
       }
       else if (this.selectAddContent === 'authentication') {
-        this.authorizeConnector();
+        this.authorizeConnector(this.selectedConnector);
       }
     }
   }
@@ -200,7 +204,7 @@ export class ConnectorsSourceComponent implements OnInit {
       sidx: this.searchIndexId
     };
     const payload = {
-      "name": "siemens10",
+      "name": this.configurationObj.name,
       "type": this.selectedConnector?.type,
       "authDetails": {
         "clientId": this.configurationObj.clientId,
@@ -222,7 +226,7 @@ export class ConnectorsSourceComponent implements OnInit {
     });
   }
   //authorize created connector
-  authorizeConnector() {
+  authorizeConnector(data?) {
     // const quaryparms: any = {
     //   sidx: this.searchIndexId,
     //   fcon: this.connectorId
@@ -241,17 +245,19 @@ export class ConnectorsSourceComponent implements OnInit {
     const _bearer = 'bearer ' + authToken;
     const selectedAccount = this.localStoreService.getSelectedAccount();
     const account_id = selectedAccount?.accountId;
-    const connector_id = this.selectedConnector?._id ? this.selectedConnector?._id : this.connectorId;
-    fetch(`https://searchassist-dev.kore.ai/searchassistapi/findly/${this.searchIndexId}/connectors/${connector_id}/authorize`, {
+    const connector_id = data?._id ? data?._id : this.connectorId;
+    const url = `${environment.API_SERVER_URL}/searchassistapi/findly/${this.searchIndexId}/connectors/${connector_id}/authorize`;
+    fetch(url, {
       method: 'POST',
+      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
         Authorization: _bearer,
         AccountId: account_id
       },
-    }).then(data => {
-      if (this.selectedConnector.type === 'confluenceCloud') {
-        window.open(data.url, '_self');
+    }).then(res => {
+      if (data?.type === 'confluenceCloud') {
+        window.open(res.url, '_blank');
       }
       else {
         this.selectedContent = 'list';
@@ -279,7 +285,12 @@ export class ConnectorsSourceComponent implements OnInit {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.updateConnector(data, event, dialogRef);
+          if (data?.type === 'confluenceCloud') {
+            this.authorizeConnector(data);
+          }
+          else {
+            this.updateConnector(data, event, dialogRef);
+          }
         } else if (result === 'no') {
           dialogRef.close();
           this.getConnectors();
@@ -308,7 +319,7 @@ export class ConnectorsSourceComponent implements OnInit {
     this.service.invoke('put.connector', quaryparms, payload).subscribe(res => {
       if (res) {
         if (this.selectedConnector.type === 'confluenceCloud') {
-          this.authorizeConnector();
+          this.authorizeConnector(this.selectedConnector);
         }
         else {
           this.notificationService.notify('Connector Updated Successfully', 'success');
@@ -329,8 +340,24 @@ export class ConnectorsSourceComponent implements OnInit {
       state: this.sessionData?.state
     };
     this.service.invoke('get.callbackConnector', quaryparms).subscribe(res => {
-      console.log("res", res);
       sessionStorage.clear();
+    }, errRes => {
+      this.errorToaster(errRes, 'Connectors API Failed');
+    });
+  }
+  //delete connector
+  deleteConnector() {
+    const quaryparms: any = {
+      sidx: this.searchIndexId,
+      fcon: this.selectedConnector._id
+    };
+    this.service.invoke('delete.connector', quaryparms).subscribe(res => {
+      if (res) {
+        this.openDeleteModel('close');
+        this.notificationService.notify('Connector Deleted Successfully', 'success');
+        this.selectedContent = 'list';
+        this.getConnectors();
+      }
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });

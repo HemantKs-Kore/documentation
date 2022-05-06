@@ -1229,5 +1229,9 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/connectors/callback?searchIndexId=:searchIndexId&connectorId=:connectorId&code=:code&state=:state',
       method: 'get'
     }
+    this.serviceList['delete.connector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon',
+      method: 'delete'
+    }
   }
 }
