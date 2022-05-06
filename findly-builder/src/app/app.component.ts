@@ -367,6 +367,9 @@ export class AppComponent implements OnInit, OnDestroy {
     if(this.workflowService.selectedApp() && (this.workflowService.selectedApp().channels|| []).length && this.workflowService.selectedApp().channels[0].app){
       botOptionsFindly.clientId = this.workflowService.selectedApp().channels[0].app.clientId
     }
+    if(this.workflowService.selectedApp() && (this.workflowService.selectedApp().searchIndexes|| []).length && this.workflowService.selectedApp().searchIndexes[0]._id){
+      botOptionsFindly.searchIndexID = this.workflowService.selectedApp().searchIndexes[0]._id
+    }
     botOptionsFindly.botInfo = { chatBot: this.workflowService.selectedApp().name, taskBotId: this.workflowService.selectedApp()._id };  // bot name is case sensitive
     botOptionsFindly.assertionFn = this.assertion;
     botOptionsFindly.koreAPIUrl = this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint;
@@ -564,6 +567,12 @@ export class AppComponent implements OnInit, OnDestroy {
     botOptionsFindly.userIdentity = this.userInfo.emailId;// Provide users email id here
     botOptionsFindly.client = 'botbuilder';
     botOptionsFindly.botInfo = { chatBot: this.workflowService.selectedApp().name, taskBotId: this.workflowService.selectedApp()._id };  // bot name is case sensitive
+    if(this.workflowService.selectedApp() && (this.workflowService.selectedApp().channels|| []).length && this.workflowService.selectedApp().channels[0].app){
+      botOptionsFindly.clientId = this.workflowService.selectedApp().channels[0].app.clientId
+    }
+    if(this.workflowService.selectedApp() && (this.workflowService.selectedApp().searchIndexes|| []).length && this.workflowService.selectedApp().searchIndexes[0]._id){
+      botOptionsFindly.searchIndexID = this.workflowService.selectedApp().searchIndexes[0]._id
+    }
     botOptionsFindly.assertionFn = this.assertion;
     botOptionsFindly.koreAPIUrl = this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint;
     // To modify the web socket url use the following option

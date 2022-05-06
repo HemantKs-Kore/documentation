@@ -8209,7 +8209,7 @@ FindlySDK.prototype.bindFacetsToggle = function () {
     /*if (!$('body').hasClass('demo')) {
       _self.isDev = true;
     }*/
-    if (window.appConfig.API_SERVER_URL) {
+    if (window.appConfig && window.appConfig.API_SERVER_URL) {
       _self.baseAPIServer = window.appConfig.API_SERVER_URL;
     }
     if (fromTopDown) {

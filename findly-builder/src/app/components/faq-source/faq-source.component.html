@@ -87,8 +87,7 @@
                                     <li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">{{'faqSource.all' | translate}} </span><img *ngIf="!(selectedResource && selectedResource._id) && !manualFilterSelected" src="assets/icons/check-blue.svg"></li>
                                     <li  (click)="selectResourceDrop.close();manualFaqsFilter()" *ngIf="noManulaRecords"><span class="list-name"> {{'faqSource.manual' | translate}}</span><img *ngIf="!(selectedResource && selectedResource._id) && manualFilterSelected" src="assets/icons/check-blue.svg"></li>
                                     <ng-container *ngFor="let source of resources">           
-                   
-                                        <li *ngIf="source.recentStatus==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><span class="list-name">{{source.name}}</span><img *ngIf="selectedResource && (source._id ===  selectedResource._id)" src="assets/icons/check-blue.svg"></li>
+                                        <li *ngIf="source.recentStatus==='SUCCESS'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><span class="list-name">{{source.name}}</span><img *ngIf="selectedResource && (source._id ===  selectedResource._id)" src="assets/icons/check-blue.svg"></li>
                                     </ng-container>
                                 </ul>
                             </div>
@@ -942,7 +941,7 @@
                             <span [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">
                                 
                                 <img  class="failed mr-1" src="assets/icons/failed-status.svg" 
-                                *ngIf="statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"><span class="sch-createdOn" *ngIf="duriationDays" >({{duriationDays}})</span>
+                                *ngIf="statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{source.message}}"><span class="sch-createdOn" *ngIf="duriationDays" >({{duriationDays}})</span>
                                 <img  *ngIf="statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'Success'" class="search-icon ml-2 mr-1" placement="top" container='body'  ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"
                                 src="assets/icons/succes_duration.svg">
                                 <img class="inProgress ml-2 mr-1" src="assets/icons/ringLoading.svg"

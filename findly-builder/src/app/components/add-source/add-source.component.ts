@@ -188,7 +188,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       title: 'Add Structured data by uploading a file or adding manually',
       sources: [
         {
-          name: 'Import Structured Data',
+          name: 'Add Structured Data',
           description: 'Import from JSON or CSV',
           icon: 'assets/icons/content/database-Import.svg',
           id: 'contentStucturedDataImport',

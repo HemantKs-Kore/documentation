@@ -441,7 +441,8 @@ export class BotActionComponent implements OnInit {
   }
 
   closeBotsModalElement() {
-    if (this.botsModalRef && this.botsModalRef.close) {
+    $(".inmplayer-popover-pointer-holder").css('height',0);
+        if (this.botsModalRef && this.botsModalRef.close) {
       this.botsModalRef.close();
     }
   }
@@ -495,6 +496,12 @@ export class BotActionComponent implements OnInit {
     // document.getElementById(elementRef).style.borderBottom = "none";
   }
 
+  checkListBots(){
+    if(this.linkedBotName){
+      this.appSelectionService.updateTourConfig('addData');
+    }
+  }
+
   getAssociatedBots() {
     if (this.userInfo.id) {
       const queryParams: any = {
@@ -531,6 +538,7 @@ export class BotActionComponent implements OnInit {
               }
               if (res.length > 0) {
                 this.loadingContent = false;
+                this.checkListBots();
                 this.loadingContent1 = true;
               }
               else {
@@ -1441,7 +1449,6 @@ export class BotActionComponent implements OnInit {
           if (this.workflowService.selectedApp()) {
             this.appSelectionService.getStreamData(this.workflowService.selectedApp())
           }
-          this.appSelectionService.updateTourConfig('addData');
           this.botToBeUnlinked = this.selectedLinkBotConfig._id;
           this.selectedLinkBotConfig = null;
           this.islinked = true;
