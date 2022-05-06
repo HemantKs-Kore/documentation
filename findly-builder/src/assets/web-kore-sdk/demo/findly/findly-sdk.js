@@ -8190,7 +8190,7 @@ FindlySDK.prototype.bindFacetsToggle = function () {
       }else{
     window["KoreSDK"].findlyConfig.botOptions.assertionFn = this.getJWT;
       }
-    if (_findlyConfig.searchIndexID) {
+    if (_findlyConfig.searchIndexID && _findlyConfig.queryPipelineId) {
       const searchData = {
         _id: _findlyConfig.searchIndexID,
         pipelineId: _findlyConfig.queryPipelineId,
@@ -8205,7 +8205,7 @@ FindlySDK.prototype.bindFacetsToggle = function () {
     /*if (!$('body').hasClass('demo')) {
       _self.isDev = true;
     }*/
-    if (window.appConfig.API_SERVER_URL) {
+    if (window.appConfig && window.appConfig.API_SERVER_URL) {
       _self.baseAPIServer = window.appConfig.API_SERVER_URL;
     }
     if (fromTopDown) {
