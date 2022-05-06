@@ -554,9 +554,10 @@
                                             </div>
                                             <div class="content-block text-truncate"
                                                 (click)="connector.isActive?changeContent('edit',connector):null">
-                                                <div class="title text-truncate" [title]="connector?.connector_name">
+                                                <div class="title text-truncate">
                                                     {{connector?.connector_name}}</div>
-                                                <div class="desc-text text-truncate">{{connector?.description}}</div>
+                                                    <div class="title" *ngIf="connector?.type==='confluenceServer'">(Server)</div>
+                                                <div class="desc-text text-truncate">{{connector?.description1}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -577,8 +578,8 @@
                                                 <img [src]="avaiable.image">
                                             </div>
                                             <div class="content-block text-truncate">
-                                                <div class="title" [title]="avaiable?.connector_name">
-                                                    {{avaiable?.connector_name}}</div>
+                                                <div class="title">
+                                                    {{avaiable?.connector_name}}<span *ngIf="avaiable?.type==='confluenceServer'"> (Server)</span></div>
                                                 <div class="desc-text text-truncate">{{avaiable?.description}}</div>
                                             </div>
                                         </div>
@@ -745,7 +746,7 @@
                                                     cloud
                                                     platform</div>
                                                 <div class="text-center mt-2">
-                                                    <a href="#"><i class="si-external-link"></i>
+                                                    <a [href]="selectedConnector?.url" target="_blank"><i class="si-external-link"></i>
                                                         {{selectedConnector?.connector_name}}
                                                         Application Portal</a>
                                                 </div>
@@ -982,7 +983,7 @@
                                                         {{'connectors.clientsecretId'|translate}}</div>
                                                     <div class="input-with-eye">
                                                         <input [type]="showProtecedText.isSecretShow?'text':'password'"
-                                                            [value]="selectedConnector.authDetails.clientSecret"
+                                                            [value]="selectedConnector?.authDetails?.clientSecret"
                                                             readonly>
                                                         <i class="si-eye" *ngIf="!showProtecedText.isSecretShow"
                                                             (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
@@ -995,7 +996,7 @@
                                                         {{'connectors.hostURL'|translate}}</div>
                                                     <div class="input-with-eye">
                                                         <input type="text"
-                                                            [value]="selectedConnector.configuration.hostUrl" readonly>
+                                                            [value]="selectedConnector?.configuration?.hostUrl" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="row-data-card">
@@ -1003,7 +1004,7 @@
                                                         {{'connectors.host_domain_name'|translate}}</div>
                                                     <div class="input-with-eye">
                                                         <input type="text"
-                                                            [value]="selectedConnector.configuration.hostDomainName"
+                                                            [value]="selectedConnector?.configuration?.hostDomainName"
                                                             readonly>
                                                     </div>
                                                 </div>
@@ -1061,16 +1062,13 @@
                                         <div class="row-data-card">
                                             <div class="title-source">{{'connectors.hostURL'|translate}}</div>
                                             <div class="input-with-eye">
-                                                <input type="text" [value]="selectedConnector.configuration.hostUrl"
-                                                    [(ngModel)]="configurationObj.hostUrl">
+                                                <input type="text" [(ngModel)]="configurationObj.hostUrl">
                                             </div>
                                         </div>
                                         <div class="row-data-card">
                                             <div class="title-source">{{'connectors.host_domain_name'|translate}}</div>
                                             <div class="input-with-eye">
-                                                <input type="text"
-                                                    [value]="selectedConnector.configuration.hostDomainName"
-                                                    [(ngModel)]="configurationObj.hostDomainName">
+                                                <input type="text" [(ngModel)]="configurationObj.hostDomainName">
                                             </div>
                                         </div>
                                         <div class="edit-content-link">

@@ -17,16 +17,20 @@ import { LocalStoreService } from '@kore.services/localstore.service';
 export class ConnectorsSourceComponent implements OnInit {
   Connectors = [
     {
-      connector_name: "Confluence (Server)",
+      connector_name: "Confluence",
       description: "Please complete configuration",
+      description1: "Please edit configuration",
       type: "confluenceServer",
-      image: "assets/icons/connectors/confluence.png"
+      image: "assets/icons/connectors/confluence.png",
+      url: "https://admin.atlassian.com/"
     },
     {
       connector_name: "Confluence",
       description: "Please complete configuration",
+      description1: "Please edit configuration",
       type: "confluenceCloud",
-      image: "assets/icons/connectors/confluence.png"
+      image: "assets/icons/connectors/confluence.png",
+      url: "https://admin.atlassian.com/"
     }
   ];
   selectedApp: any;
@@ -70,7 +74,12 @@ export class ConnectorsSourceComponent implements OnInit {
     if (sessionStorage.getItem('connector') !== null) {
       const session_connector_data = sessionStorage.getItem('connector');
       this.sessionData = JSON.parse(session_connector_data);
-      this.callbackURL();
+      if (this.sessionData?.error === 'access_denied') {
+        this.notificationService.notify(this.sessionData?.error_description, 'error');
+      }
+      else {
+        this.callbackURL();
+      }
     }
   }
   //open delete model popup
@@ -136,6 +145,8 @@ export class ConnectorsSourceComponent implements OnInit {
   changeContent(page, data) {
     this.selectedConnector = data;
     this.selectedContent = page;
+    this.configurationObj.hostUrl = data?.configuration?.hostUrl;
+    this.configurationObj.hostDomainName = data?.configuration?.hostDomainName;
   }
   //back to page in add page
   backToPage(type) {
@@ -189,7 +200,7 @@ export class ConnectorsSourceComponent implements OnInit {
       sidx: this.searchIndexId
     };
     const payload = {
-      "name": "siemens1",
+      "name": "siemens10",
       "type": this.selectedConnector?.type,
       "authDetails": {
         "clientId": this.configurationObj.clientId,
@@ -239,8 +250,14 @@ export class ConnectorsSourceComponent implements OnInit {
         AccountId: account_id
       },
     }).then(data => {
-      console.log("response", data.url)
-      window.open(data.url, '_self');
+      if (this.selectedConnector.type === 'confluenceCloud') {
+        window.open(data.url, '_self');
+      }
+      else {
+        this.selectedContent = 'list';
+        this.notificationService.notify('Connector Authorized Successfully', 'success');
+        this.getConnectors();
+      }
     })
       .catch(error => {
         console.log("error", error);
