@@ -6331,7 +6331,7 @@ border: 0;
     margin-top: 2px;
     
     max-height: 250px;
-    min-width: 205px;
+    /* min-width: 205px; */
     margin-top: 2px;
     width: 100%;
     max-width: 100%;
@@ -10402,4 +10402,10 @@ display: none !important;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.template-2-carousel-list .carousel .slide .text-template.text-center{
+    text-align: center;
+}
+.template-3-carousel-list .carousel .slide .inner-content-list.text-center{
+    text-align: center;
 }
