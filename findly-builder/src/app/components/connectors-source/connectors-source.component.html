@@ -1097,15 +1097,11 @@
             </perfect-scrollbar>
             <div class="view-more-btn">
                 <div>
-                    <button class="kr-sg-button-secondary btn_lg"
-                        (click)="selectedContent='list';isShowButtons=false">Cancel</button>
-                    <button class="kr-sg-button-primary btn_lg" *ngIf="!isShowButtons" disabled>Save Changes</button>
+                    <button class="kr-sg-button-secondary btn_lg" (click)="selectedContent='list';isShowButtons=false">Cancel</button>
+                    <button class="kr-sg-button-primary btn_lg" [disabled]="!isShowButtons" (click)="isShowButtons?updateConnector():null">Save Changes</button>
                 </div>
                 <div *ngIf="isShowButtons">
-                    <button class="kr-sg-button-primary btn_lg" (click)="updateConnector()">Save Changes</button>
-                    <button class="kr-sg-button-danger btn_lg" (click)="openDeleteModel('open')"><i
-                            class="si-delete"></i>Remove this content
-                        source</button>
+                    <button class="kr-sg-button-danger btn_lg" (click)="openDeleteModel('open')"><i class="si-delete"></i>Remove this content source</button>
                 </div>
             </div>
         </div>
@@ -1132,7 +1128,7 @@
                 </div>
                 <div class="c-content-sec">
                     <div class="title">{{selectedConnector?.connector_name}}</div>
-                    <div class="sub-text">Wiki, Atlassian, Intranet, Cloud, Server</div>
+                    <div class="sub-text">Tomcat web server and hsql database, and also supports other databases.</div>
                 </div>
             </div>
         </div>

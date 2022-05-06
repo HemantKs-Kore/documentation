@@ -257,7 +257,8 @@ export class ConnectorsSourceComponent implements OnInit {
       },
     }).then(res => {
       if (data?.type === 'confluenceCloud') {
-        window.open(res.url, '_blank');
+        //window.open(res.url, '_blank');
+        window.location.replace(res.url)
       }
       else {
         this.selectedContent = 'list';
@@ -276,8 +277,8 @@ export class ConnectorsSourceComponent implements OnInit {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        newTitle: 'Disable the connected source?',
-        body: 'This can be enabled any point of time, configuration will remain intact.',
+        newTitle: `${data?.isActive ? 'Enable' : 'Disable'} the connected source?`,
+        body: `This can be ${data?.isActive ? 'enabled' : 'disabled'} any point of time, configuration will remain intact.`,
         buttons: [{ key: 'yes', label: 'Proceed', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
