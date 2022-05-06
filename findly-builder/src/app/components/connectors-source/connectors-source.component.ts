@@ -257,8 +257,8 @@ export class ConnectorsSourceComponent implements OnInit {
       },
     }).then(res => {
       if (data?.type === 'confluenceCloud') {
-        //window.open(res.url, '_blank');
-        window.location.replace(res.url)
+        window.open(res.url, '_blank');
+        //window.location.replace(res.url)
       }
       else {
         this.selectedContent = 'list';
