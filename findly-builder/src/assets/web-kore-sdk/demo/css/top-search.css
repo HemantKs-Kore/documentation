@@ -1209,6 +1209,9 @@ body.showFullResults.top-down .top-down-wrapper{
   cursor: pointer;
   position: relative;
   padding-right: 40px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .sdk-top-down-interface .templates-data .tile_with_header.recentText .tile-title .RecentIcon-topDown{
   vertical-align: middle;
