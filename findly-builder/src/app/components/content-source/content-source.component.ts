@@ -679,7 +679,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       } else {
         this.crwalOptionLabel = 'Crawl Everything'
       }
-      if (data.length) {
+      if (data.length || this.pagesSearch ) {
         this.swapSlider('page');
       }
       else {
