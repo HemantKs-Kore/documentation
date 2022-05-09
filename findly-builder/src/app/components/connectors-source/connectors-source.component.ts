@@ -24,7 +24,8 @@ export class ConnectorsSourceComponent implements OnInit {
       type: "confluenceServer",
       image: "assets/icons/connectors/confluence.png",
       url: "https://admin.atlassian.com/",
-      doc_url: "https://developer.atlassian.com/"
+      doc_url: "https://developer.atlassian.com/",
+      tag: "Wiki, Atlassian, Intranet"
     },
     {
       connector_name: "Confluence (Cloud)",
@@ -33,7 +34,8 @@ export class ConnectorsSourceComponent implements OnInit {
       type: "confluenceCloud",
       image: "assets/icons/connectors/confluence.png",
       url: "https://admin.atlassian.com/",
-      doc_url: "https://developer.atlassian.com/"
+      doc_url: "https://developer.atlassian.com/",
+      tag: "Wiki, Atlassian, Intranet"
     }
   ];
   selectedApp: any;
