@@ -77,6 +77,11 @@
     }
 
     .connector-cards-data {
+        &.full-height-show{
+            perfect-scrollbar {
+                height: calc(100vh - 133px);
+            }
+        }
         perfect-scrollbar {
             height: calc(100vh - 206px);
         }
@@ -194,7 +199,7 @@
                         .kr-sg-toggle {
                             position: absolute;
                             right: 20px;
-                            top: 25px;
+                            top: 22px;
                             width: 30px;
                             height: 16px;
 
@@ -253,7 +258,7 @@
                                 line-height: 19px;
                                 color: #3C4043;
                                 margin-bottom: 2px;
-                                padding-right: 70px;
+                                padding-right: 40px;
                                 width: 100%;
                             }
 
@@ -473,15 +478,24 @@
                                 }
                             }
 
-                            .kr-sg-input-text {
-                                margin: 0 0 30px 0;
-
-                                .label-text {
-                                    color: #202124;
-                                    margin-bottom: 4px;
-                                    font-weight: 500;
-                                    font-size: 12px;
-                                    line-height: 15px;
+                            .sync-frq{
+                                position: relative;
+                                .kr-sg-dropdowns{
+                                    position: absolute;
+                                    left: 500px;
+                                    top: 0;
+                                    width: 300px;
+                                    z-index: 1;
+                                }
+                                .kr-sg-input-text {
+                                    margin: 0 0 30px 0;
+                                    .label-text {
+                                        color: #202124;
+                                        margin-bottom: 4px;
+                                        font-weight: 500;
+                                        font-size: 12px;
+                                        line-height: 15px;
+                                    }
                                 }
                             }
 
@@ -596,7 +610,7 @@
             align-items: center;
             justify-content: space-between;
             position: relative;
-
+            width: 650px;
             &::before {
                 content: "";
                 position: absolute;
@@ -723,87 +737,6 @@
                 .instruction-setup {
                     .instruction-steps-data {
                         display: flex;
-
-                        .left-block {
-                            width: 269px;
-                            flex-shrink: 0;
-                            background: rgba(196, 196, 196, 0.13);
-                            border-radius: 4px;
-                            padding: 28px;
-                            margin-right: 40px;
-
-                            .heading-text {
-                                font-weight: 700;
-                                font-size: 14px;
-                                line-height: 17px;
-                                color: #202124;
-                                margin-bottom: 5px;
-                            }
-
-                            .sub-heading {
-                                font-weight: 400;
-                                font-size: 10px;
-                                line-height: 12px;
-                                color: #202124;
-                            }
-
-                            .card-c {
-                                margin: 20px 0;
-                                background: #FFFFFF;
-                                border: 1px solid #BDC1C6;
-                                box-sizing: border-box;
-                                border-radius: 4px;
-                                display: flex;
-                                align-items: flex-start;
-                                padding: 10px;
-
-                                &.dashed-card {
-                                    border: 1px dashed #BDC1C6;
-                                }
-
-                                .icon-content {
-                                    width: 16px;
-                                    height: 16px;
-                                    font-size: 16px;
-                                    flex-shrink: 0;
-                                    margin-right: 8px;
-                                    position: relative;
-                                    top: 2px;
-
-                                    img {
-                                        width: 100%;
-                                    }
-                                }
-
-                                .text-content {
-                                    width: 100%;
-                                    overflow: hidden;
-                                    text-overflow: ellipsis;
-                                    white-space: nowrap;
-
-                                    .primary-title {
-                                        font-weight: 400;
-                                        font-size: 12px;
-                                        line-height: 18px;
-                                        color: #202124;
-                                        overflow: hidden;
-                                        text-overflow: ellipsis;
-                                        white-space: nowrap;
-                                    }
-
-                                    .secondary-text {
-                                        font-weight: 700;
-                                        font-size: 10px;
-                                        line-height: 18px;
-                                        color: #202124;
-                                        overflow: hidden;
-                                        text-overflow: ellipsis;
-                                        white-space: nowrap;
-                                    }
-                                }
-                            }
-                        }
-
                         .right-block {
                             .steps-hint-data {
                                 display: flex;
@@ -850,102 +783,9 @@
 
                     .config-steps-boxes {
                         display: flex;
-
                         .left-box {
-                            padding-right: 35px;
                             width: 50%;
-
-                            .inner-content {
-                                .title-heading {
-                                    font-weight: 700;
-                                    font-size: 14px;
-                                    line-height: 17px;
-                                    color: #202124;
-                                    margin-bottom: 10px;
-                                }
-
-                                .box-data-step {
-                                    background: #FFFFFF;
-                                    border: 1px solid #BDC1C6;
-                                    box-sizing: border-box;
-                                    border-radius: 4px;
-                                    padding: 18px;
-                                    min-height: 265px;
-
-                                    .text-desc {
-                                        font-weight: 400;
-                                        font-size: 14px;
-                                        line-height: 17px;
-                                        color: #202124;
-                                        margin-bottom: 22px;
-                                    }
-
-                                    .redirect-text {
-                                        font-weight: 400;
-                                        font-size: 10px;
-                                        line-height: 18px;
-                                        text-align: center;
-                                    }
-
-                                    .generate-card-info {
-                                        display: flex;
-                                        margin-top: 35px;
-
-                                        .card-g {
-                                            padding-right: 30px;
-                                            width: 50%;
-                                            display: flex;
-
-                                            .icon-g {
-                                                width: 16px;
-                                                height: 16px;
-                                                flex-shrink: 0;
-                                                font-size: 16px;
-                                                margin-right: 12px;
-                                                color: #202124;
-                                                position: relative;
-                                                top: 1px;
-                                            }
-
-                                            .content-g {
-                                                width: 100%;
-                                                word-break: break-word;
-
-                                                .title {
-                                                    font-weight: 400;
-                                                    font-size: 12px;
-                                                    line-height: 18px;
-                                                    color: #202124;
-                                                    margin-bottom: 6px;
-                                                }
-
-                                                .example-text {
-                                                    font-weight: 700;
-                                                    font-size: 10px;
-                                                    line-height: 18px;
-                                                    color: #5F6368;
-                                                }
-
-                                                .clientid {
-                                                    font-weight: normal;
-                                                    font-size: 10px;
-                                                    line-height: 18px;
-                                                    color: #5F6368;
-                                                    display: -webkit-box;
-                                                    -webkit-line-clamp: 3;
-                                                    -webkit-box-orient: vertical;
-                                                    overflow: hidden;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        .right-box {
-                            width: 50%;
-                            padding-left: 20px;
+                            padding-right: 20px;
 
                             .inner-content {
                                 .title-heading {
@@ -1010,6 +850,44 @@
                                             font-size: 11px;
                                             cursor: pointer;
                                         }
+                                    }
+                                }
+                            }
+                        }
+                        .right-box {
+                            padding-left: 20px;
+                            width: 50%;
+                            .inner-content{
+                                .h-title{
+                                    font-weight: 500;
+                                    font-size: 16px;
+                                    line-height: 19px;
+                                    color: #202124;
+                                    margin-bottom: 10px;
+                                }
+                                .desc-text{
+                                    margin-bottom: 30px;
+                                }
+                                .b-text{
+                                    font-weight: 700;
+                                    font-size: 14px;
+                                    line-height: 17px;
+                                    color: #202124;
+                                }
+                                .info-tip{
+                                    font-weight: 400;
+                                    font-size: 14px;
+                                    line-height: 17px;
+                                    color: #07377F;
+                                    display: flex;
+                                    align-items: center;
+                                    margin: 10px 0;
+                                    i{
+                                        position: relative;
+                                        top: 1px;
+                                    }
+                                    span{
+                                        margin-left: 6px;
                                     }
                                 }
                             }

@@ -50,7 +50,7 @@ export class ConnectorsSourceComponent implements OnInit {
   showProtecedText: Object = { isClientShow: false, isSecretShow: false };
   isShowButtons: boolean = false;
   sessionData: any = {};
-  addConnectorSteps: any = [{ name: 'instructions', isCompleted: false }, { name: 'configurtion', isCompleted: false }, { name: 'authentication', isCompleted: false }];
+  addConnectorSteps: any = [{ name: 'instructions', isCompleted: false }, { name: 'configurtion', isCompleted: false }];
   Instructions = [
     {
       heading: "Quick setup, then all of your documents will be searchable.",
