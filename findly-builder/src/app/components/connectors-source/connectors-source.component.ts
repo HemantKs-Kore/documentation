@@ -18,7 +18,7 @@ import { environment } from '@kore.environment';
 export class ConnectorsSourceComponent implements OnInit {
   Connectors = [
     {
-      connector_name: "Confluence",
+      connector_name: "Confluence (Server)",
       description: "Please complete configuration",
       description1: "Please edit configuration",
       type: "confluenceServer",
@@ -27,7 +27,7 @@ export class ConnectorsSourceComponent implements OnInit {
       doc_url: "https://developer.atlassian.com/"
     },
     {
-      connector_name: "Confluence",
+      connector_name: "Confluence (Cloud)",
       description: "Please complete configuration",
       description1: "Please edit configuration",
       type: "confluenceCloud",
@@ -149,8 +149,12 @@ export class ConnectorsSourceComponent implements OnInit {
   changeContent(page, data) {
     this.selectedConnector = data;
     this.selectedContent = page;
-    this.configurationObj.hostUrl = data?.configuration?.hostUrl;
-    this.configurationObj.hostDomainName = data?.configuration?.hostDomainName;
+    if (data) {
+      this.configurationObj.hostUrl = data?.configuration?.hostUrl;
+      this.configurationObj.hostDomainName = data?.configuration?.hostDomainName;
+      this.configurationObj.clientId = data?.authDetails?.clientId;
+      this.configurationObj.clientSecret = data?.authDetails?.clientSecret;
+    }
   }
   //back to page in add page
   backToPage(type) {
@@ -249,7 +253,6 @@ export class ConnectorsSourceComponent implements OnInit {
     const url = `${environment.API_SERVER_URL}/searchassistapi/findly/${this.searchIndexId}/connectors/${connector_id}/authorize`;
     fetch(url, {
       method: 'POST',
-      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
         Authorization: _bearer,
@@ -264,6 +267,7 @@ export class ConnectorsSourceComponent implements OnInit {
         this.selectedContent = 'list';
         this.notificationService.notify('Connector Authorized Successfully', 'success');
         this.getConnectors();
+        this.ingestConnector();
       }
     })
       .catch(error => {
@@ -285,8 +289,9 @@ export class ConnectorsSourceComponent implements OnInit {
     });
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
+        this.connectorId = data?._id;
         if (result === 'yes') {
-          if (data?.type === 'confluenceCloud') {
+          if (data?.type === 'confluenceCloud' && data?.isActive) {
             this.authorizeConnector(data);
           }
           else {
@@ -325,6 +330,7 @@ export class ConnectorsSourceComponent implements OnInit {
         else {
           this.notificationService.notify('Connector Updated Successfully', 'success');
           if (dialog) dialog?.close();
+          this.ingestConnector();
           this.getConnectors();
         }
       }
@@ -342,6 +348,7 @@ export class ConnectorsSourceComponent implements OnInit {
     };
     this.service.invoke('get.callbackConnector', quaryparms).subscribe(res => {
       sessionStorage.clear();
+      this.ingestConnector();
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
@@ -359,6 +366,17 @@ export class ConnectorsSourceComponent implements OnInit {
         this.selectedContent = 'list';
         this.getConnectors();
       }
+    }, errRes => {
+      this.errorToaster(errRes, 'Connectors API Failed');
+    });
+  }
+  // queue-content API
+  ingestConnector() {
+    const quaryparms: any = {
+      sidx: this.searchIndexId,
+      fcon: this.connectorId
+    };
+    this.service.invoke('post.ingestConnector', quaryparms).subscribe(res => {
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });

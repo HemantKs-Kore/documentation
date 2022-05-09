@@ -542,21 +542,17 @@
                                 </div>
                                 <div class="card-connectors-info row">
                                     <div class="card-connector-column" *ngFor="let connector of connectorsData">
-                                        <div class="inner-card"
-                                            [ngClass]="{'active-connector':connector.isActive,'disable-connector':connector.isActive===false}">
+                                        <div class="inner-card" [ngClass]="{'active-connector':connector.isActive,'disable-connector':connector.isActive===false}">
                                             <label class="kr-sg-toggle">
-                                                <input type="checkbox" [(ngModel)]="connector.isActive"
-                                                    (change)="openConnectorDialog(connector,$event);">
+                                                <input type="checkbox" [(ngModel)]="connector.isActive" (change)="openConnectorDialog(connector,$event);">
                                                 <div class="slider"></div>
                                             </label>
-                                            <div class="icon-block" (click)="changeContent('edit',connector)">
+                                            <div class="icon-block" (click)="connector.isActive?changeContent('edit',connector):null">
                                                 <img [src]="connector?.image" alt="connector-img">
                                             </div>
-                                            <div class="content-block text-truncate"
-                                                (click)="connector.isActive?changeContent('edit',connector):null">
-                                                <div class="title text-truncate">
-                                                    {{connector?.connector_name}}</div>
-                                                    <div class="title" *ngIf="connector?.type==='confluenceServer'">(Server)</div>
+                                            <div class="content-block text-truncate" (click)="connector.isActive?changeContent('edit',connector):null">
+                                                <div class="title text-truncate">{{connector?.connector_name}}</div>
+                                                    <!-- <div class="title" *ngIf="connector?.type==='confluenceServer'">(Server)</div> -->
                                                 <div class="desc-text text-truncate">{{connector?.description1}}</div>
                                             </div>
                                         </div>
@@ -569,8 +565,7 @@
                                     <div class="line-border"></div>
                                 </div>
                                 <div class="card-connectors-info row">
-                                    <div class="card-connector-column" *ngFor="let avaiable of availableConnectorsData"
-                                        (click)="changeContent('add',avaiable)">
+                                    <div class="card-connector-column" *ngFor="let avaiable of availableConnectorsData" (click)="changeContent('add',avaiable)">
                                         <div class="inner-card">
                                             <!-- <div class="connect-link" *ngIf="avaiable?.type==='confluenceServer'">
                                                 Connect</div> -->
@@ -578,8 +573,7 @@
                                                 <img [src]="avaiable.image">
                                             </div>
                                             <div class="content-block text-truncate">
-                                                <div class="title">
-                                                    {{avaiable?.connector_name}}<span *ngIf="avaiable?.type==='confluenceServer'"> (Server)</span></div>
+                                                <div class="title">{{avaiable?.connector_name}}</div>
                                                 <div class="desc-text text-truncate">{{avaiable?.description}}</div>
                                             </div>
                                         </div>
@@ -790,42 +784,29 @@
                                                     {{selectedConnector?.connector_name}}.</div>
                                                 <div class="heading-label">{{'connectors.provide_appropriate_config_info'|translate}}</div>
                                                 <div class="kr-sg-input-text mb-3">
-                                                    <div class="label-text">{{'connectors.name'|translate}}
-                                                    </div>
+                                                    <div class="label-text">{{'connectors.name'|translate}}</div>
                                                     <input type="text" placeholder="Enter name here" class="input-text" [(ngModel)]="configurationObj.name" (change)="updateConfiguration()">
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">{{'connectors.clientid'|translate}}
                                                     </div>
-                                                    <input type="text" placeholder="Paste Client ID here"
-                                                        class="input-text" [(ngModel)]="configurationObj.clientId"
-                                                        (change)="updateConfiguration()">
+                                                    <input type="text" placeholder="Paste Client ID here" class="input-text" [(ngModel)]="configurationObj.clientId" (change)="updateConfiguration()">
                                                     <i class="si-eye"></i>
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3">
-                                                    <div class="label-text">
-                                                        {{'connectors.clientsecretId'|translate}}
-                                                    </div>
-                                                    <input type="text" placeholder="Paste Secret ID here"
-                                                        class="input-text" [(ngModel)]="configurationObj.clientSecret"
-                                                        (change)="updateConfiguration()">
+                                                    <div class="label-text">{{'connectors.clientsecretId'|translate}}</div>
+                                                    <input type="text" placeholder="Paste Secret ID here" class="input-text" [(ngModel)]="configurationObj.clientSecret" (change)="updateConfiguration()">
                                                     <i class="si-eye"></i>
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3">
-                                                    <div class="label-text">
-                                                        {{'connectors.hostURL'|translate}}
-                                                    </div>
-                                                    <input type="text" placeholder="Enter HostURL here"
-                                                        class="input-text" [(ngModel)]="configurationObj.hostUrl">
+                                                    <div class="label-text">{{'connectors.hostURL'|translate}}</div>
+                                                    <input type="text" placeholder="Enter HostURL here" class="input-text" [(ngModel)]="configurationObj.hostUrl">
                                                     <!-- <i class="si-eye"></i> -->
                                                 </div>
                                                 <div class="kr-sg-input-text">
-                                                    <div class="label-text">
-                                                        {{'connectors.host_domain_name'|translate}}
+                                                    <div class="label-text">{{'connectors.host_domain_name'|translate}}
                                                     </div>
-                                                    <input type="text" placeholder="Enter Host DomainName"
-                                                        class="input-text"
-                                                        [(ngModel)]="configurationObj.hostDomainName">
+                                                    <input type="text" placeholder="Enter Host DomainName" class="input-text" [(ngModel)]="configurationObj.hostDomainName">
                                                     <!-- <i class="si-eye"></i> -->
                                                 </div>
                                             </div>
@@ -873,20 +854,13 @@
                     </perfect-scrollbar>
                     <div class="footer-btns">
                         <div class="left-btn">
-                            <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('back')"
-                                *ngIf="selectAddContent!=='instructions'">{{'connectors.back_button'|translate}}</button>
+                            <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('back')" *ngIf="selectAddContent!=='instructions'">{{'connectors.back_button'|translate}}</button>
                         </div>
                         <div class="right-btn">
-                            <button class="kr-sg-button-secondary btn_lg"
-                                (click)="backToPage('cancel')">{{'connectors.cancel_button'|translate}}</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='instructions'"
-                                (click)="backToPage('submit')">{{'connectors.proceed_button'|translate}}</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='configurtion'"
-                                (click)="backToPage('submit')"
-                                [disabled]="!(configurationObj.clientId.length && configurationObj.clientSecret.length)">{{'connectors.save_configuration'|translate}}</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='authentication'"
-                                (click)="backToPage('submit')">{{'connectors.connect'|translate}}
-                                {{selectedConnector?.connector_name}}</button>
+                            <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('cancel')">{{'connectors.cancel_button'|translate}}</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='instructions'" (click)="backToPage('submit')">{{'connectors.proceed_button'|translate}}</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='configurtion'" (click)="backToPage('submit')" [disabled]="!(configurationObj?.clientId?.length && configurationObj?.clientSecret?.length)">{{'connectors.save_configuration'|translate}}</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='authentication'" (click)="backToPage('submit')">{{'connectors.connect'|translate}} {{selectedConnector?.connector_name}}</button>
                         </div>
                     </div>
                 </div>
@@ -955,63 +929,45 @@
                                         <div class="source-data">
                                             <div class="source-card">
                                                 <div class="row-data-card">
-                                                    <div class="title-source">{{'connectors.source'|translate}}
-                                                    </div>
-                                                    <div class="name-placeholder">
-                                                        {{selectedConnector?.name}}</div>
+                                                    <div class="title-source">{{'connectors.source'|translate}}</div>
+                                                    <div class="name-placeholder">{{selectedConnector?.name}}</div>
                                                 </div>
                                                 <div class="row-data-card">
-                                                    <div class="title-source">
-                                                        {{'connectors.configuartion_email'|translate}}</div>
+                                                    <div class="title-source">{{'connectors.configuartion_email'|translate}}</div>
                                                     <div class="name-placeholder">johndoe@gmail.com</div>
                                                 </div>
                                                 <div class="row-data-card">
-                                                    <div class="title-source">
-                                                        {{'connectors.document_level_permission'|translate}}</div>
+                                                    <div class="title-source">{{'connectors.document_level_permission'|translate}}</div>
                                                     <div class="name-placeholder">Default</div>
                                                 </div>
                                             </div>
                                             <div class="source-card">
                                                 <div class="row-data-card">
-                                                    <div class="title-source">
-                                                        {{'connectors.clientid'|translate}}</div>
+                                                    <div class="title-source">{{'connectors.clientid'|translate}}</div>
                                                     <div class="input-with-eye">
-                                                        <input [type]="showProtecedText.isClientShow?'text':'password'"
-                                                            [value]="selectedConnector.authDetails.clientId" readonly>
-                                                        <i class="si-eye" *ngIf="!showProtecedText.isClientShow"
-                                                            (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
-                                                        <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow"
-                                                            (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
+                                                        <input [type]="showProtecedText.isClientShow?'text':'password'" [value]="selectedConnector.authDetails.clientId" readonly>
+                                                        <i class="si-eye" *ngIf="!showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
+                                                        <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                                     </div>
                                                 </div>
                                                 <div class="row-data-card">
-                                                    <div class="title-source">
-                                                        {{'connectors.clientsecretId'|translate}}</div>
+                                                    <div class="title-source">{{'connectors.clientsecretId'|translate}}</div>
                                                     <div class="input-with-eye">
-                                                        <input [type]="showProtecedText.isSecretShow?'text':'password'"
-                                                            [value]="selectedConnector?.authDetails?.clientSecret"
-                                                            readonly>
-                                                        <i class="si-eye" *ngIf="!showProtecedText.isSecretShow"
-                                                            (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
-                                                        <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow"
-                                                            (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
+                                                        <input [type]="showProtecedText.isSecretShow?'text':'password'" [value]="selectedConnector?.authDetails?.clientSecret" readonly>
+                                                        <i class="si-eye" *ngIf="!showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
+                                                        <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                                     </div>
                                                 </div>
                                                 <div class="row-data-card">
-                                                    <div class="title-source">
-                                                        {{'connectors.hostURL'|translate}}</div>
+                                                    <div class="title-source">{{'connectors.hostURL'|translate}}</div>
                                                     <div class="input-with-eye">
-                                                        <input type="text"
-                                                            [value]="selectedConnector?.configuration?.hostUrl" readonly>
+                                                        <input type="text" [value]="selectedConnector?.configuration?.hostUrl" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="row-data-card">
-                                                    <div class="title-source">
-                                                        {{'connectors.host_domain_name'|translate}}</div>
+                                                    <div class="title-source">{{'connectors.host_domain_name'|translate}}</div>
                                                     <div class="input-with-eye">
-                                                        <input type="text"
-                                                            [value]="selectedConnector?.configuration?.hostDomainName"
-                                                            readonly>
+                                                        <input type="text" [value]="selectedConnector?.configuration?.hostDomainName" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1028,41 +984,31 @@
                             </div>
                             <div id="settings" class="tab-pane fade">
                                 <div class="settings-data">
-                                    <div class="content-name">
-                                        {{'connectors.content_source_name'|translate}}
+                                    <div class="content-name">{{'connectors.content_source_name'|translate}}
                                         <span>{{'connectors.customize_the_name'|translate}}</span>
                                     </div>
                                     <div class="kr-sg-input-text">
                                         <div class="label-text">{{'connectors.source_name'|translate}}</div>
                                         <input type="text" class="input-text" [(ngModel)]="selectedConnector.name">
                                     </div>
-                                    <div class="content-name">
-                                        {{'connectors.content_source_configuration'|translate}}
+                                    <div class="content-name">{{'connectors.content_source_configuration'|translate}}
                                         <span>{{'connectors.edit_connector_settings'|translate}}</span>
                                     </div>
                                     <div class="source-card">
                                         <div class="row-data-card">
-                                            <div class="title-source">
-                                                {{'connectors.credentials_identifier'|translate}}</div>
+                                            <div class="title-source">{{'connectors.credentials_identifier'|translate}}</div>
                                             <div class="input-with-eye">
-                                                <input type="text"
-                                                    [type]="showProtecedText.isClientShow?'text':'password'"
-                                                    [(ngModel)]="selectedConnector.authDetails.clientId">
-                                                <i class="si-eye" *ngIf="!showProtecedText.isClientShow"
-                                                    (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
-                                                <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow"
-                                                    (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
+                                                <input type="text" [type]="showProtecedText.isClientShow?'text':'password'" [value]="selectedConnector.authDetails.clientId" readonly>
+                                                <i class="si-eye" *ngIf="!showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
+                                                <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                             </div>
                                         </div>
                                         <div class="row-data-card">
                                             <div class="title-source">{{'connectors.access_token'|translate}}</div>
                                             <div class="input-with-eye">
-                                                <input [type]="showProtecedText.isSecretShow?'text':'password'"
-                                                    [(ngModel)]="selectedConnector.authDetails.clientSecret">
-                                                <i class="si-eye" *ngIf="!showProtecedText.isSecretShow"
-                                                    (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
-                                                <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow"
-                                                    (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
+                                                <input [type]="showProtecedText.isSecretShow?'text':'password'" [value]="selectedConnector.authDetails.clientSecret" readonly>
+                                                <i class="si-eye" *ngIf="!showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
+                                                <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                             </div>
                                         </div>
                                         <div class="row-data-card">
@@ -1077,8 +1023,7 @@
                                                 <input type="text" [(ngModel)]="configurationObj.hostDomainName">
                                             </div>
                                         </div>
-                                        <div class="edit-content-link">
-                                            {{'connectors.edit_connector_settings'|translate}}</div>
+                                        <div class="edit-content-link" (click)="selectedContent='add';selectAddContent='configurtion'">{{'connectors.edit_connector_settings'|translate}}</div>
                                     </div>
                                 </div>
                                 <!-- <div class="source_settings">

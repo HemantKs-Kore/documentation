@@ -1233,5 +1233,9 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon',
       method: 'delete'
     }
+    this.serviceList['post.ingestConnector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon/queue-content',
+      method: 'post'
+    }
   }
 }
