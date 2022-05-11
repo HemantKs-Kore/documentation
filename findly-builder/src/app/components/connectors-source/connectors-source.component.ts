@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import { environment } from '@kore.environment';
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-connectors-source',
   templateUrl: './connectors-source.component.html',
@@ -42,6 +43,7 @@ export class ConnectorsSourceComponent implements OnInit {
   selectedContent: string = 'list';
   selectAddContent: string = 'instructions';
   selectedConnector: any = {};
+  isEditable: boolean = false;
   searchIndexId: string;
   connectorsData: any = [];
   availableConnectorsData: any = [];
@@ -52,25 +54,9 @@ export class ConnectorsSourceComponent implements OnInit {
   showProtecedText: Object = { isClientShow: false, isSecretShow: false };
   isShowButtons: boolean = false;
   sessionData: any = {};
-  addConnectorSteps: any = [{ name: 'instructions', isCompleted: false }, { name: 'configurtion', isCompleted: false }];
-  Instructions = [
-    {
-      heading: "Quick setup, then all of your documents will be searchable.",
-      type: "Confluence",
-      icon: 'assets/icons/connectors/confluence.png',
-      description: "documentation content",
-      sampleexample: [{
-        heading: "How to add Google Drive", description: "documentation content", clientidheading: "Generate Client ID",
-        clientidexample: "Ex: RB69B5VG", secretidheading: "Generate Secret ID", secretidexample: "Ex: 12345", icon: 'assets/icons/connectors/confluence.png',
-        iconheading: "Connect sources", iconexamples: "Ex: Files, Audio, Video, Images..."
-      }],
-      steps: [{ stepnumber: "Step 1", steptitle: "Configure an OAuth application", linktext: "Documentation", url: "", linkiconpresent: true, stepdescription: "Setup a secure OAuth application through the content source that you or your team will use to connect and synchronize content. You only have to do this once per content source." }
-        , { stepnumber: "Step 2", steptitle: "Connect the content source", linktext: "", url: "", linkiconpresent: false, stepdescription: "Use the new OAuth application to connect any number of instances of the content source to  Search Assist." }
-        , { stepnumber: "Step 3", steptitle: "Follow authentification flow", linktext: "", url: "", linkiconpresent: false, stepdescription: "Follow the Confluence authentication flow as presented in the documentation link." }
-        , { stepnumber: "Step 4", steptitle: "Authentication", linktext: "", url: "", linkiconpresent: false, stepdescription: "Upon the successful authentication flow, you will be redirected to Search Assist.Google Drive content will now be captured and will be ready for search gradually as it is synced. Once successfully configured and connected, the Google Drive will synchronize automatically." }]
-    }];
+  addConnectorSteps: any = [{ name: 'instructions', isCompleted: false, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
-  constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private location: Location, private activeRoute: ActivatedRoute, private auth: AuthService, private localStoreService: LocalStoreService) { }
+  constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private location: Location, private activeRoute: ActivatedRoute, private auth: AuthService, private localStoreService: LocalStoreService, public sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -149,9 +135,11 @@ export class ConnectorsSourceComponent implements OnInit {
   }
   //change page like list, add ,edit
   changeContent(page, data) {
+    this.showProtecedText = { isClientShow: false, isSecretShow: false };
     this.selectedConnector = data;
     this.selectedContent = page;
     if (data) {
+      this.isEditable = data?.configuration?.hostUrl ? true : false;
       this.configurationObj.hostUrl = data?.configuration?.hostUrl;
       this.configurationObj.hostDomainName = data?.configuration?.hostDomainName;
       this.configurationObj.clientId = data?.authDetails?.clientId;
@@ -161,11 +149,12 @@ export class ConnectorsSourceComponent implements OnInit {
   //back to page in add page
   backToPage(type) {
     if (type === 'back') {
-      this.selectAddContent = this.selectAddContent === 'configurtion' ? 'instructions' : this.selectAddContent === 'authentication' ? 'configurtion' : 'instructions';
+      this.navigatePage();
     }
     else if (type === 'cancel') {
       this.selectedContent = 'list';
       this.selectAddContent = 'instructions';
+      this.isEditable = false;
       this.addConnectorSteps = this.addConnectorSteps.map(item => {
         return { ...item, isCompleted: false };
       })
@@ -183,26 +172,17 @@ export class ConnectorsSourceComponent implements OnInit {
         this.navigatePage();
       }
       else if (this.selectAddContent === 'configurtion') {
-        if (this.connectorId) {
-          this.navigatePage();
+        if (this.isEditable) {
+          this.updateConnector();
         } else {
           this.createConnector();
         }
       }
-      else if (this.selectAddContent === 'authentication') {
-        this.authorizeConnector(this.selectedConnector);
-      }
-    }
-  }
-  //update configuration input's
-  updateConfiguration() {
-    if (this.configurationObj.clientId.length && this.configurationObj.clientSecret.length) {
-      this.checkConfigButton = false;
     }
   }
   //navaigate to next page based on selectAddContent
   navigatePage() {
-    this.selectAddContent = this.selectAddContent === 'instructions' ? 'configurtion' : this.selectAddContent === 'configurtion' ? 'authentication' : 'instructions';
+    this.selectAddContent = this.selectAddContent === 'instructions' ? 'configurtion' : 'instructions';
   }
   //save connectors create api
   createConnector() {
@@ -224,8 +204,8 @@ export class ConnectorsSourceComponent implements OnInit {
     this.service.invoke('post.connector', quaryparms, payload).subscribe(res => {
       if (res) {
         this.connectorId = res?._id;
-        this.selectAddContent = this.selectAddContent === 'instructions' ? 'configurtion' : this.selectAddContent === 'configurtion' ? 'authentication' : 'instructions';
         this.notificationService.notify('Connector Created Successfully', 'success');
+        this.authorizeConnector(this.selectedConnector);
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get Connectors');
@@ -264,11 +244,12 @@ export class ConnectorsSourceComponent implements OnInit {
       if (data?.type === 'confluenceCloud') {
         // fetch(res.url, {
         //   method: 'GET',
-        //   referrerPolicy: "no-referrer-when-downgrade"
+        //   referrerPolicy: "no-referrer-when-downgrade",
+        //   redirect: "manual"
         // }).then(dat => {
         //   console.log("res", dat);
         // })
-        window.open(res.url, '_blank');
+        //window.open(res.url, '_blank');
         //window.location.replace(res.url)
       }
       else {
@@ -332,15 +313,9 @@ export class ConnectorsSourceComponent implements OnInit {
     }
     this.service.invoke('put.connector', quaryparms, payload).subscribe(res => {
       if (res) {
-        if (this.selectedConnector.type === 'confluenceCloud') {
-          this.authorizeConnector(this.selectedConnector);
-        }
-        else {
-          this.notificationService.notify('Connector Updated Successfully', 'success');
-          if (dialog) dialog?.close();
-          this.ingestConnector();
-          this.getConnectors();
-        }
+        this.authorizeConnector(this.selectedConnector);
+        this.notificationService.notify('Connector Updated Successfully', 'success');
+        if (dialog) dialog?.close();
       }
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');

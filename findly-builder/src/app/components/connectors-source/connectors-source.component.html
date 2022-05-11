@@ -91,7 +91,7 @@
                         <div class="icon-config">
                             <i class="si-instructions"></i>
                         </div>
-                        <div class="title">{{step?.name}}</div>
+                        <div class="title">{{step?.display}}</div>
                     </div>
                 </div>
                 <div class="body-config-data">
@@ -186,18 +186,20 @@
                                                 <div class="heading-label">{{'connectors.provide_appropriate_config_info'|translate}}</div>
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">{{'connectors.name'|translate}}</div>
-                                                    <input type="text" placeholder="Enter name here" class="input-text" [(ngModel)]="configurationObj.name" (change)="updateConfiguration()">
+                                                    <input type="text" placeholder="Enter name here" class="input-text" [(ngModel)]="configurationObj.name">
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">{{'connectors.clientid'|translate}}
                                                     </div>
-                                                    <input type="text" placeholder="Paste Client ID here" class="input-text" [(ngModel)]="configurationObj.clientId" (change)="updateConfiguration()">
-                                                    <i class="si-eye"></i>
+                                                    <input [type]="showProtecedText.isClientShow?'text':'password'" placeholder="Paste Client ID here" class="input-text" [(ngModel)]="configurationObj.clientId">
+                                                    <i class="si-eye" *ngIf="!showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
+                                                    <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">{{'connectors.clientsecretId'|translate}}</div>
-                                                    <input type="text" placeholder="Paste Secret ID here" class="input-text" [(ngModel)]="configurationObj.clientSecret" (change)="updateConfiguration()">
-                                                    <i class="si-eye"></i>
+                                                    <input [type]="showProtecedText.isSecretShow?'text':'password'" placeholder="Paste Secret ID here" class="input-text" [(ngModel)]="configurationObj.clientSecret">
+                                                    <i class="si-eye" *ngIf="!showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
+                                                    <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">{{'connectors.hostURL'|translate}}</div>
@@ -213,7 +215,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="right-box">
+                                    <div class="right-box" *ngIf="false">
                                         <div class="inner-content">
                                             <div class="h-title">Document - level permissions</div>
                                             <div class="desc-text">document - level permission information will be syncronized. Additional configuration is required following the initial connection before documents are available for search</div>
@@ -301,12 +303,10 @@
                     <div class="edit-connectors-block">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#overview"
-                                    (click)="changeEditTabs()">{{'connectors.overviewtab'|translate}}</a>
+                                <a class="nav-link active" data-toggle="tab" href="#overview" (click)="changeEditTabs()">{{'connectors.overviewtab'|translate}}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#settings"
-                                    (click)="changeEditTabs()">{{'connectors.source_settings_tab'|translate}}</a>
+                                <a class="nav-link" data-toggle="tab" href="#settings" (click)="changeEditTabs()">{{'connectors.source_settings_tab'|translate}}</a>
                             </li>
                         </ul>
 
@@ -380,12 +380,14 @@
                                                     <div class="title-source">{{'connectors.hostURL'|translate}}</div>
                                                     <div class="input-with-eye">
                                                         <input type="text" [value]="selectedConnector?.configuration?.hostUrl" readonly>
+                                                        <i></i>
                                                     </div>
                                                 </div>
                                                 <div class="row-data-card">
                                                     <div class="title-source">{{'connectors.host_domain_name'|translate}}</div>
                                                     <div class="input-with-eye">
                                                         <input type="text" [value]="selectedConnector?.configuration?.hostDomainName" readonly>
+                                                        <i></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -436,7 +438,7 @@
                                         <div class="row-data-card">
                                             <div class="title-source">{{'connectors.credentials_identifier'|translate}}</div>
                                             <div class="input-with-eye">
-                                                <input type="text" [type]="showProtecedText.isClientShow?'text':'password'" [value]="selectedConnector.authDetails.clientId" readonly>
+                                                <input [type]="showProtecedText.isClientShow?'text':'password'" [value]="selectedConnector.authDetails.clientId" readonly>
                                                 <i class="si-eye" *ngIf="!showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                                 <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                             </div>
@@ -514,3 +516,4 @@
         </div>
     </div>
 </kr-modal>
+
