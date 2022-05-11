@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'searchassist-icons';
-  src:  url('fonts/searchassist-icons.eot?81m90m');
-  src:  url('fonts/searchassist-icons.eot?81m90m#iefix') format('embedded-opentype'),
-    url('fonts/searchassist-icons.ttf?81m90m') format('truetype'),
-    url('fonts/searchassist-icons.woff?81m90m') format('woff'),
-    url('fonts/searchassist-icons.svg?81m90m#searchassist-icons') format('svg');
+  src:  url('fonts/searchassist-icons.eot?hlqrhm');
+  src:  url('fonts/searchassist-icons.eot?hlqrhm#iefix') format('embedded-opentype'),
+    url('fonts/searchassist-icons.ttf?hlqrhm') format('truetype'),
+    url('fonts/searchassist-icons.woff?hlqrhm') format('woff'),
+    url('fonts/searchassist-icons.svg?hlqrhm#searchassist-icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.si-warning:before {
+  content: "\e918";
+}
 .si-key:before {
   content: "\e912";
 }

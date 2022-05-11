@@ -85,29 +85,34 @@
         <!---Add functionality-->
         <div *ngSwitchCase="'add'">
             <div class="configuration-connectors-sec">
-                <div class="header-configuration-data">
-                    <div class="config-tab" *ngFor="let step of addConnectorSteps"
-                        [ngClass]="{'in-progress':step.name===selectAddContent,'completed-config':step.isCompleted&&step.name!==selectAddContent}">
-                        <div class="icon-config">
-                            <i class="si-instructions"></i>
-                        </div>
-                        <div class="title">{{step?.display}}</div>
-                    </div>
-                </div>
                 <div class="body-config-data">
                     <perfect-scrollbar>
                         <div class="inner-scroll-data" [ngSwitch]="selectAddContent">
+                            <div class="connector-brand m-0">
+                                <div class="c-img">
+                                    <img [src]="selectedConnector?.image">
+                                </div>
+                                <div class="c-content-sec">
+                                    <div class="title">{{selectedConnector?.connector_name}}</div>
+                                    <div class="sub-text">{{selectedConnector?.tag}}</div>
+                                </div>
+                            </div>
+                            <div class="header-configuration-data">
+                                <div class="progress-indicators">
+                                    <div class="indicator-bg active-indicator"></div>
+                                    <div class="indicator-bg"></div>
+                                </div>
+                            </div>
                             <div class="instruction-setup" *ngSwitchCase="'instructions'">
-                                <div class="desc-text">{{'connectors.quick_setup_desc'|translate}}</div>
-                                <div class="connector-brand">
-                                    <div class="c-img">
-                                        <img [src]="selectedConnector?.image">
-                                    </div>
-                                    <div class="c-content-sec">
-                                        <div class="title">{{selectedConnector?.connector_name}}</div>
-                                        <div class="sub-text">{{selectedConnector?.tag}}</div>
+                                <div class="header-configuration-data mt-0">
+                                    <div class="config-tab">
+                                        <div class="icon-config">
+                                            <i class="si-instructions"></i>
+                                        </div>
+                                        <div class="title">Introduction</div>
                                     </div>
                                 </div>
+                                <div class="desc-text mb-4">{{'connectors.quick_setup_desc'|translate}}</div>
                                 <div class="instruction-steps-data">
                                     <div class="right-block">
                                         <div class="steps-hint-data">
@@ -159,6 +164,14 @@
                                 </div>
                             </div>
                             <div class="configuration-setup" *ngSwitchCase="'configurtion'">
+                                <div class="header-configuration-data mt-0">
+                                    <div class="config-tab">
+                                        <div class="icon-config">
+                                            <i class="si-instructions"></i>
+                                        </div>
+                                        <div class="title">Configuration & Authentication</div>
+                                    </div>
+                                </div>
                                 <div class="desc-text">Setup a secure OAuth application through the content source
                                     that
                                     you or your team will use to connect and synchronize content. You only have to
@@ -507,6 +520,14 @@
                 <div class="c-content-sec">
                     <div class="title">{{selectedConnector?.connector_name}}</div>
                     <div class="sub-text">Tomcat web server and hsql database, and also supports other databases.</div>
+                    <div class="hint-connector-text">
+                        <i class="si-check-round"></i>
+                        <span>Connection authenticated successfully</span>
+                    </div>
+                    <div class="hint-connector-text if-error">
+                        <i class="si-warning"></i>
+                        <span>Connection authenticated successfully</span>
+                    </div>
                 </div>
             </div>
         </div>

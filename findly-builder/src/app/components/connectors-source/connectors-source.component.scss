@@ -195,6 +195,7 @@
 
                         &.disable-connector {
                             opacity: 0.4;
+                            background: #FFFFFF !important;
                         }
 
                         .kr-sg-toggle {
@@ -481,7 +482,13 @@
 
                             .sync-frq {
                                 position: relative;
-
+                                .label-text {
+                                    color: #202124;
+                                    margin-bottom: 4px;
+                                    font-weight: 500;
+                                    font-size: 12px;
+                                    line-height: 15px;
+                                }
                                 .kr-sg-dropdowns {
                                     position: absolute;
                                     left: 500px;
@@ -609,58 +616,33 @@
         width: 100%;
 
         .header-configuration-data {
-            padding: 15px 25px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            width: 650px;
-
-            &::before {
-                content: "";
-                position: absolute;
-                width: calc(100% - 50px);
-                border-top: 1px solid #BDC1C6;
-                z-index: -1;
-                left: 0;
-                top: auto;
-                margin: 0 auto;
-                right: 0;
+            margin: 15px 0 10px 0;
+            display: inline-block;
+            width: 100%;
+            .progress-indicators{
+                display: flex;
+                align-items: center;
+                margin: 10px 0 5px 0;
+                .indicator-bg{
+                    width: 50px;
+                    height: 2px;
+                    margin-right: 5px;
+                    background: #E4E5E7;
+                    &.active-indicator{
+                        background: #28A745;
+                    }
+                    &.in-progress {
+                        background: #0D6EFD;
+                    }
+                }
             }
-
             .config-tab {
                 display: flex;
                 align-items: center;
+                background: transparent;
+                border-radius: 0;
+                margin: 0 0;
                 padding: 8px 20px 8px 8px;
-                background: #EFF0F1;
-                border-radius: 29px;
-
-                &.in-progress {
-                    background: #0D6EFD;
-
-                    .icon-config {
-                        background: #FFFFFF;
-                        color: #0D6EFD;
-                    }
-
-                    .title {
-                        color: #FFFFFF;
-                    }
-                }
-
-                &.completed-config {
-                    background: #EAF6EC;
-
-                    .icon-config {
-                        background: #28A745;
-                        color: #FFFFFF;
-                    }
-
-                    .title {
-                        color: #202124;
-                    }
-                }
-
                 .icon-config {
                     width: 24px;
                     height: 24px;
@@ -671,16 +653,16 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    i {
 
-                    i {}
+                    }
                 }
-
                 .title {
-                    font-weight: 500;
-                    font-size: 14px;
-                    line-height: 17px;
                     color: #202124;
                     margin-left: 10px;
+                    font-weight: 700;
+                    font-size: 16px;
+                    line-height: 19px;
                 }
             }
         }
@@ -690,7 +672,7 @@
             width: 100%;
 
             perfect-scrollbar {
-                height: calc(100vh - 262px);
+                height: calc(100vh - 193px);
             }
 
             .inner-scroll-data {
