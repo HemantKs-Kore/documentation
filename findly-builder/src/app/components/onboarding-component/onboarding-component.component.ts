@@ -173,132 +173,318 @@ faqData = [{
    key:"content",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:"How to add content from your website by crawling?",
        ans:"these are the answer",
        link:""
 
-   }]
+   },
+   {
+    ques:"How to schedule Auto- crawl for your website?",
+    ans:"these are the answer",
+    link:""
+
+},
+{
+  ques:"How to upload files as content to your App?",
+  ans:"these are the answer",
+  link:""
+
+}]
 },
 {
    display:"FAQs",
    key:"faqs",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
-       ans:"these are the answer",
-       link:""
+    ques:"How to extract FAQ’s from a PDF file?",
+    ans:"these are the answer",
+    link:""
 
-   }]
+},
+{
+    ques:"What is annotate & extract FAQ’s?",
+    ans:"these are the answer",
+    link:""
+
+},
+{
+    ques:" How to extract FAQ’s from a URL?",
+    ans:"these are the answer",
+    link:""
+
+},
+{
+    ques:"How to add FAQ’s manually?",
+    ans:"these are the answer",
+    link:""
+
+},
+{
+    ques:"How to add conditional responses to FAQ’s",
+    ans:"these are the answer",
+    link:""
+
+},
+{
+    ques:"What is a FAQ workflow and how does it work?",
+    ans:"these are the answer",
+    link:""
+
+}]
 },
 {
    display:"Actions",
    key:"botActions",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:"What are bot actions?",
        ans:"these are the answer",
        link:""
 
-   }]
+   },
+   {
+      ques:"How to integrate a bot to SearchAssist as a content?",
+      ans:"these are the answer",
+      link:""
+
+}]
 },
 {
    display:"Synonyms",
    key:"synonyms",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:"What are Synonyms and their types?",
        ans:"these are the answer",
        link:""
 
-   }]
+   },
+   {
+      ques:"How do I add Synonyms?",
+      ans:"these are the answer",
+      link:""
+
+}]
 },
 {
    display:"Traits",
    key:"traits",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:" What are traits?",
        ans:"these are the answer",
        link:""
 
-   }]
+   },
+   {
+    ques:"How to configure traits in SearchAssist?",
+    ans:"these are the answer",
+    link:""
+
+}]
 },
 {
    display:"Business Rules",
    key:"rules",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:"What are Business rules ?",
        ans:"these are the answer",
        link:""
 
-   }]
+   },
+   {
+    ques:"How to add conditions and define an outcome?",
+    ans:"these are the answer",
+    link:""
+
+},
+{
+  ques:"What are contexts in Business rules?",
+  ans:"these are the answer",
+  link:""
+
+},
+{
+  ques:"How do I edit/delete Business rules?",
+  ans:"these are the answer",
+  link:""
+
+}]
 },
 {
    display:"Facets",
    key:"facets",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:"What are Facets and its types in Search Assist?",
        ans:"these are the answer",
        link:""
 
-   }]
+   },
+   {
+      ques:"How to configure a Filter Facet?",
+      ans:"these are the answer",
+      link:""
+
 },
 {
-   display:"Index",
+      ques:"How to configure a sortable Facet?",
+      ans:"these are the answer",
+      link:""
+
+},
+{
+      ques:"How to configure a Tab Facet?",
+      ans:"these are the answer",
+      link:""
+
+}]
+},
+{
+   display:"Workbench",
    key:"index",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
-       ans:"these are the answer",
-       link:""
+     ques:"What is a workbench?",
+     ans:"these are the answer",
+     link:""
 
-   }]
+   },
+   {
+    ques:"What are the different pipelines available in the workbench?",
+    ans:"these are the answer",
+    link:""
+
 },
 {
-   display:"Exeriments",
+  ques:"How do I map fields using the field mapping stage?",
+  ans:"these are the answer",
+  link:""
+
+},
+{
+  ques:"How do I extract keywords using the keyword extraction stage?",
+  ans:"these are the answer",
+  link:""
+
+},
+{
+  ques:"How do I extract entities  using the field mapping stage?",
+  ans:"these are the answer",
+  link:""
+
+},
+{
+  ques:"How do I map fields using the field mapping stage?",
+  ans:"these are the answer",
+  link:""
+
+},
+{
+  ques:" How to write a custom script as a part of a workbench stage?",
+  ans:"these are the answer",
+  link:""
+
+},
+{
+  ques:"How do I exclude certain documents from my search index?",
+  ans:"these are the answer",
+  link:""
+
+}]
+},
+{
+   display:"Experiments",
    key:"experiments",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:"What are experiments ?",
        ans:"these are the answer",
        link:""
 
-   }]
+   },
+   {
+    ques:"How do I configure experiments?",
+    ans:"these are the answer",
+    link:""
+
+},
+{
+  ques:"How to check insights after running an experiment?",
+  ans:"these are the answer",
+  link:""
+
+}]
 },
 {
    display:"Stopwords",
    key:"stopWords",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:"What are Stop words?",
        ans:"these are the answer",
        link:""
 
-   }]
+   },
+   {
+      ques:"How do I add custom Stop words?",
+      ans:"these are the answer",
+      link:""
+
+},
+{
+      ques:"How do I disable stop words ?",
+      ans:"these are the answer",
+      link:""
+
+}]
 },
 {
    display:"Weights",
    key:"weights",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:"What are weights?",
        ans:"these are the answer",
        link:""
 
-   }]
+   },
+   {
+        ques:"How do I configure weights?",
+        ans:"these are the answer",
+        link:""
+
+}]
 },
 {
    display:"Result Ranking",
    key:"resultranking",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:"What is Results Ranking ?",
        ans:"these are the answer",
        link:""
 
-   }]
+   },
+   {
+    ques:"How can you simulate your search Application?",
+    ans:"these are the answer",
+    link:""
+
+},
+{
+  ques:"How to customize my results?",
+  ans:"these are the answer",
+  link:""
+
+},
+{
+  ques:"How to edit/ delete result customization?",
+  ans:"these are the answer",
+  link:""
+
+}]
 },
 {
    display:"Metrics",
@@ -415,11 +601,17 @@ faqData = [{
    key:"FieldManagementComponent",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:"What are fields in SearchAssist ?",
        ans:"these are the answer",
        link:""
 
-   }]
+   },
+   {
+    ques:"How do i add custom fields?",
+    ans:"these are the answer",
+    link:""
+
+}]
 },
 {
    display:"SearchInterface",
@@ -437,22 +629,34 @@ faqData = [{
    key:"resultTemplate",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:"What are Result templates?",
        ans:"these are the answer",
        link:""
 
-   }]
+   },
+   {
+    ques:"How to design templates for the search results?",
+    ans:"these are the answer",
+    link:""
+
+}]
 },
 {
    display:"Structured Data",
    key:"structuredData",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:"How to import structured data from a CSV or JSON file?",
        ans:"these are the answer",
        link:""
 
-   }]
+   },
+   {
+    ques:"How to add Structured data manually?",
+    ans:"these are the answer",
+    link:""
+
+}]
 },
 {
    display:"Team-Management",
@@ -470,11 +674,23 @@ faqData = [{
    key:"search-experience",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:"How to customize search Experience?",
        ans:"these are the answer",
        link:""
 
-   }]
+   },
+   {
+    ques:"What is the Search bar and Assistant experience?",
+    ans:"these are the answer",
+    link:""
+
+},
+{
+  ques:"How to design my search bar experience?",
+  ans:"these are the answer",
+  link:""
+
+}]
 },
 {
    display:"Pricing",

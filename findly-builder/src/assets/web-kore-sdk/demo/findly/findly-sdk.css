@@ -10403,3 +10403,9 @@ display: none !important;
     align-items: center;
     justify-content: center;
 }
+.template-2-carousel-list .carousel .slide .text-template.text-center{
+    text-align: center;
+}
+.template-3-carousel-list .carousel .slide .inner-content-list.text-center{
+    text-align: center;
+}
