@@ -1213,6 +1213,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors',
       method: 'get'
     }
+    this.serviceList['get.connectorById'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon',
+      method: 'get'
+    }
     this.serviceList['post.connector'] = {
       endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors',
       method: 'post'

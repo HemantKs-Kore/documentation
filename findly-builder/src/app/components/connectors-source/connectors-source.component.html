@@ -1,4 +1,4 @@
-
+<app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
 <div class="connectors-container">
     <div class="seach_add_feild">
         <div class="title">{{'connectors.connector'|translate}}</div>
@@ -99,8 +99,7 @@
                             </div>
                             <div class="header-configuration-data">
                                 <div class="progress-indicators">
-                                    <div class="indicator-bg active-indicator"></div>
-                                    <div class="indicator-bg"></div>
+                                    <div class="indicator-bg"  *ngFor="let item of addConnectorSteps" [ngClass]="{'active-indicator':item.isCompleted}"></div>
                                 </div>
                             </div>
                             <div class="instruction-setup" *ngSwitchCase="'instructions'">
@@ -179,7 +178,7 @@
                                     this once per content source. Follow the {{selectedConnector?.connector_name}}
                                     authentication flow as
                                     presented in the <a [href]="selectedConnector.doc_url" target="_blank">documentation link.</a></div>
-                                <div class="connector-brand">
+                                <!-- <div class="connector-brand">
                                     <div class="c-img">
                                         <img [src]="selectedConnector?.image">
                                     </div>
@@ -187,7 +186,7 @@
                                         <div class="title">{{selectedConnector?.connector_name}}</div>
                                         <div class="sub-text">{{selectedConnector?.tag}}</div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="config-steps-boxes">
                                     <div class="left-box">
                                         <div class="inner-content">
@@ -202,8 +201,7 @@
                                                     <input type="text" placeholder="Enter name here" class="input-text" [(ngModel)]="configurationObj.name">
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3">
-                                                    <div class="label-text">{{'connectors.clientid'|translate}}
-                                                    </div>
+                                                    <div class="label-text">{{'connectors.clientid'|translate}}</div>
                                                     <input [type]="showProtecedText.isClientShow?'text':'password'" placeholder="Paste Client ID here" class="input-text" [(ngModel)]="configurationObj.clientId">
                                                     <i class="si-eye" *ngIf="!showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                                     <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
@@ -219,12 +217,23 @@
                                                     <input type="text" placeholder="Enter HostURL here" class="input-text" [(ngModel)]="configurationObj.hostUrl">
                                                     <!-- <i class="si-eye"></i> -->
                                                 </div>
-                                                <div class="kr-sg-input-text">
-                                                    <div class="label-text">{{'connectors.host_domain_name'|translate}}
-                                                    </div>
+                                                <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type!=='serviceNow'">
+                                                    <div class="label-text">{{'connectors.host_domain_name'|translate}}</div>
                                                     <input type="text" placeholder="Enter Host DomainName" class="input-text" [(ngModel)]="configurationObj.hostDomainName">
                                                     <!-- <i class="si-eye"></i> -->
                                                 </div>
+                                                <ng-container *ngIf="selectedConnector.type==='serviceNow'">
+                                                <div class="kr-sg-input-text mb-3">
+                                                    <div class="label-text">{{'connectors.username'|translate}}</div>
+                                                    <input type="text" placeholder="Enter username here" class="input-text" [(ngModel)]="configurationObj.username">
+                                                </div>
+                                                <div class="kr-sg-input-text">
+                                                    <div class="label-text">{{'connectors.password'|translate}}</div>
+                                                    <input [type]="showProtecedText.isPassword?'text':'password'" placeholder="Enter password here" class="input-text" [(ngModel)]="configurationObj.password">
+                                                    <i class="si-eye" *ngIf="!showProtecedText.isPassword" (click)="showProtecedText.isPassword=!showProtecedText.isPassword"></i>
+                                                    <i class="si-eyeshow" *ngIf="showProtecedText.isPassword" (click)="showProtecedText.isPassword=!showProtecedText.isPassword"></i>
+                                                </div>
+                                            </ng-container>
                                             </div>
                                         </div>
                                     </div>
@@ -467,14 +476,14 @@
                                         <div class="row-data-card">
                                             <div class="title-source">{{'connectors.hostURL'|translate}}</div>
                                             <div class="input-with-eye">
-                                                <input type="text" [(ngModel)]="configurationObj.hostUrl">
+                                                <input type="text" [(ngModel)]="configurationObj.hostUrl" readonly>
                                                 <i></i>
                                             </div>
                                         </div>
                                         <div class="row-data-card">
                                             <div class="title-source">{{'connectors.host_domain_name'|translate}}</div>
                                             <div class="input-with-eye">
-                                                <input type="text" [(ngModel)]="configurationObj.hostDomainName">
+                                                <input type="text" [(ngModel)]="configurationObj.hostDomainName" readonly>
                                                 <i></i>
                                             </div>
                                         </div>
@@ -488,7 +497,7 @@
             </perfect-scrollbar>
             <div class="view-more-btn">
                 <div>
-                    <button class="kr-sg-button-secondary btn_lg" (click)="selectedContent='list';isShowButtons=false">Cancel</button>
+                    <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('cancel')">Cancel</button>
                     <button class="kr-sg-button-primary btn_lg" [disabled]="!isShowButtons" (click)="isShowButtons?updateConnector():null">Save Changes</button>
                 </div>
                 <div *ngIf="isShowButtons">
@@ -520,14 +529,14 @@
                 <div class="c-content-sec">
                     <div class="title">{{selectedConnector?.connector_name}}</div>
                     <div class="sub-text">Tomcat web server and hsql database, and also supports other databases.</div>
-                    <div class="hint-connector-text">
+                    <!-- <div class="hint-connector-text">
                         <i class="si-check-round"></i>
                         <span>Connection authenticated successfully</span>
                     </div>
                     <div class="hint-connector-text if-error">
                         <i class="si-warning"></i>
                         <span>Connection authenticated successfully</span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
