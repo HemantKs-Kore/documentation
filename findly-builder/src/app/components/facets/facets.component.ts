@@ -30,6 +30,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   selectedFieldId: any;
   indexPipelineId;
   loadingContent = true;
+  loadingData : boolean = true
   addEditFacetObj: any = null;
   showSearch = false;
   activeClose = false;
@@ -131,6 +132,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   createNewTab: boolean = false;
   facetType: any = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  emptySearchResults: boolean = false;
+  noItems: boolean = true;
 
   constructor(
     public workflowService: WorkflowService,
@@ -156,6 +159,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   loadingContent1: boolean
   imageLoad() {
     this.loadingContent = false;
+    this.loadingData = true;
     this.loadingContent1 = true;
     this.loadImageText = true;
     if (!this.inlineManual.checkVisibility('FACETS')) {
@@ -469,6 +473,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.docTypeArr = [...new Set(this.docTypeArr)];
       this.selectTypeArr = [...new Set(this.selectTypeArr)];
       this.loadingContent = false;
+      this.loadingData = false;
       this.addRemovefacetFromSelection(null, null, true);
       this.filterSystem = {
         typefilter: 'all',
@@ -478,6 +483,9 @@ export class FacetsComponent implements OnInit, OnDestroy {
       if (res.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
+        this.loadingData = false;
+        this.noItems = false
+        this.emptySearchResults = false
         if (!this.inlineManual?.checkVisibility('FACETS_OVERVIEW')) {
           this.inlineManual?.openHelp('FACETS_OVERVIEW')
           this.inlineManual?.visited('FACETS_OVERVIEW')
@@ -485,6 +493,9 @@ export class FacetsComponent implements OnInit, OnDestroy {
       }
       else {
         this.loadingContent1 = true;
+        this.loadingData = false;
+        this.noItems = false 
+        this.emptySearchResults = true
         // if(!this.inlineManual.checkVisibility('FACETS')){
         //   this.inlineManual.openHelp('FACETS')
         //   this.inlineManual.visited('FACETS')
@@ -741,33 +752,33 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
 
   filterFacets(source, headerOption) {
-    if (!this.beforeFilterFacets.length) {
-      this.beforeFilterFacets = JSON.parse(JSON.stringify(this.facets));
-    }
-    let tempFacets = this.beforeFilterFacets.filter((facet: any) => {
-      if (source !== 'all') {
-        if (headerOption === 'facetType') {
-          if (facet.type === source) {
-            return facet;
-          }
-        }
-        if (headerOption === 'isMultiSelect') {
-          if (facet.multiselect === source) {
-            return facet;
-          }
-        }
-        if (headerOption === 'statusType') {
-          if (facet.active === source) {
-            return facet;
-          }
-        }
-      }
-      else {
-        return facet;
-      }
-    });
+    // if (!this.beforeFilterFacets.length) {
+    //   this.beforeFilterFacets = JSON.parse(JSON.stringify(this.facets));
+    // }
+    // let tempFacets = this.beforeFilterFacets.filter((facet: any) => {
+    //   if (source !== 'all') {
+    //     if (headerOption === 'facetType') {
+    //       if (facet.type === source) {
+    //         return facet;
+    //       }
+    //     }
+    //     if (headerOption === 'isMultiSelect') {
+    //       if (facet.multiselect === source) {
+    //         return facet;
+    //       }
+    //     }
+    //     if (headerOption === 'statusType') {
+    //       if (facet.active === source) {
+    //         return facet;
+    //       }
+    //     }
+    //   }
+    //   else {
+    //     return facet;
+    //   }
+    // });
 
-    this.facets = JSON.parse(JSON.stringify(tempFacets));
+    // this.facets = JSON.parse(JSON.stringify(tempFacets));
   }
 
   validateFacetSize(event) {

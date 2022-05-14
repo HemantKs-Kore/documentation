@@ -1873,7 +1873,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     const link: any = document.createElement('a');
     link.href = filePath;
     link.download = fileName,
-      link.click();
+    link.click();
     link.remove();
   }
   importFaq() {
@@ -1903,7 +1903,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.notificationService.notify('Failed ', 'error');
         }
 
-      });
+      }).add(() => {
+        if( this.statusModalPopRef && this.statusModalPopRef.close) {
+          setTimeout(() => {
+            this.closeStatusModal()
+          }, 1000); 
+        }
+        console.log('finally closed !!')
+      })
     // this.service.invoke('get.dockStatus', quaryparms, payload).subscribe(res1 => {
     // });
   }

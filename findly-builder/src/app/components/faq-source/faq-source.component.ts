@@ -634,7 +634,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   getStats(resourceId?, isInitialFaqCall?) {
     // console.log("resourceId", resourceId)
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.serachIndexId
     };
     let endPoint = 'get.faqStatics';
     if (resourceId) {
@@ -742,9 +742,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       let array=[];
       this.extractedResources.map(extractedElement => {
-        this.statusMsgArr.map(statusElement=>{ 
+        this.statusMsgArr.map(statusElement => { 
           let obj={};
-          if(extractedElement._id === statusElement.metadata.extractionSourceId){
+          if(extractedElement._id === statusElement.metadata.extractionSourceId ) {
             obj= {...extractedElement , message:statusElement.message}
             array.push(obj);
           }
