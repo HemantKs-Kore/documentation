@@ -32,6 +32,8 @@ export class AppsListingComponent implements OnInit {
   creatingInProgress = false;
   searchApp = '';
   apps: any = [];
+  displayApp:boolean = false;
+  hideWelcomepage:boolean= true;
   sharedApp=false;
   confirmApp: any='';
   validateName:any='';
@@ -115,6 +117,22 @@ export class AppsListingComponent implements OnInit {
       this.mixpanel.postEvent('User Onboarding - Journey Cancelled', {});
     }
     this.showBoarding = false;
+  }
+  exploreMyself(){
+    this.displayApp = true;
+    this.hideWelcomepage = false;
+  }
+  backToWelcomePage(){
+    this.displayApp = false;
+    this.hideWelcomepage = true;
+  }
+  appCreationAtOnboarding(){
+    if(this.newApp.name){
+      this.validateSource();
+    }
+    else{
+      this.validateAppname = true;
+    }
   }
 
   openDetails() {
@@ -332,6 +350,7 @@ export class AppsListingComponent implements OnInit {
         self.apps.push(res);
         this.prepareApps(self.apps);
         this.openApp(res)
+        this.displayApp = false;
         self.workflowService.showAppCreationHeader(true);
         // self.router.navigate(['/source'], { skipLocationChange: true });
         this.closeCreateApp();

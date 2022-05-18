@@ -1,5 +1,5 @@
 <div class="emptyStateContainer" aria-live="polite">
-  <ng-container *ngIf="true">
+  <ng-container *ngIf="!emptyApp">
     <perfect-scrollbar class="dashboard-perfect-scroll">
       <div class="scrollContainer">
         <div class="findly-dashboard" *ngIf="!showBoarding">
@@ -34,7 +34,7 @@
           </div>
           <div class="body-sec">
             <div class="row m-0 appsListingContainer">
-              <ng-container *ngIf="emptyApp">
+              <ng-container *ngIf="false">
                 <div class="m-title col-12">My Apps</div>
                 <div class="empty-data-app" (click)="openCreateApp()">
                   <div class="img-block">
@@ -51,7 +51,7 @@
                     <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
                   </div>
                   <div class="title-start">Create your first Search Experience</div>
-                  <div class="add-scrtch-app">
+                  <div class="add-scrtch-app" (click)="openCreateApp()">
                     <div class="icon-block-plus">
                       <i class="si-add-plus"></i>
                     </div>
@@ -241,10 +241,10 @@
   </ng-container>
 
     <!-- Onbaording Data -->
-    <ng-container *ngIf="false">
+    <ng-container *ngIf="emptyApp">
       <div class="onboarding-new-user-data">
         <!-- Boarding screen -->
-        <ng-container *ngIf="true">
+        <ng-container *ngIf="hideWelcomepage && emptyApp">
           <div class="ob-data-info">
             <div class="left-sec">
               <div class="user-details">
@@ -255,7 +255,7 @@
                 <div class="not-active-bar"></div>
                 <div class="not-active-bar"></div>
               </div>
-              <div class="back-btn">
+              <div class="back-btn d-none">
                 <i class="si-back-arrow"></i>
               </div>
               <div class="title-start">How would you like to start?</div>
@@ -272,7 +272,7 @@
                     <i class="si-right-arrow-large"></i>
                   </div>
                 </div>
-                <div class="explore-card my-self">
+                <div class="explore-card my-self"  (click)="exploreMyself()">
                   <div class="icon-block">
                     <img src="assets/icons/onboarding/my-self.svg">
                   </div>
@@ -301,7 +301,7 @@
         <!-- End -->
 
         <!-- sample data ad explore screen -->
-        <ng-container *ngIf="false">
+        <ng-container *ngIf="true">
           <div class="sample-data-info">
             <perfect-scrollbar>
               <div class="scroll-data">
@@ -430,19 +430,19 @@
                 </ng-container>
 
                 <!-- Last step app name -->
-                <ng-container *ngIf="true">
+                <ng-container *ngIf="displayApp==true">
                  <div class="create-app-data">
                   <div class="kr-sg-input-text">
                     <div class="label-text">App Name</div>
-                    <input type="text" placeholder="Type here" class="input-text">
+                    <input type="text"  [(ngModel)]="newApp.name" placeholder="Type here" class="input-text">
                   </div>
                  </div>
                 </ng-container>
               </div>
             </perfect-scrollbar>
             <div class="footer-btns-data">
-              <button class="kr-sg-button-secondary btn_lg">Back</button>
-              <button class="kr-sg-button-primary btn_lg">Continue</button>
+              <button class="kr-sg-button-secondary btn_lg" (click)="backToWelcomePage()">Back</button>
+              <button class="kr-sg-button-primary btn_lg" (click)='appCreationAtOnboarding()'>Continue</button>
             </div>
           </div>
         </ng-container>
