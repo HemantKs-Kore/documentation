@@ -126,6 +126,7 @@ export class AppsListingComponent implements OnInit {
   backToWelcomePage(){
     this.displayApp = false;
     this.hideWelcomepage = true;
+    this.validateAppname = false;
   }
   appCreationAtOnboarding(){
     if(this.newApp.name){
