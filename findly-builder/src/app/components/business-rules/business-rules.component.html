@@ -640,7 +640,8 @@
                                         </div>
                                     </span>
                                 </div>
-                                <textarea placeholder="Placeholder text" class="input-text"></textarea>                                
+                                <div contenteditable="true" class="input-text" style="border:2px solid #BDC1C6" (mouseup)="checkSelection($event)">Enter the search query and annotate key words</div>
+                                <!-- <textarea placeholder="Placeholder text" class="input-text"></textarea>  -->
                             </div>
                             <div class="kr-sg-btn">
                                 <button class="kr-sg-buttonicon-secondary">
@@ -999,7 +1000,7 @@
                 </div>
             </div>
         </div>
-        <div class="nlp-custom-tag-popup">
+        <div class="nlp-custom-tag-popup" id="tagDialog" *ngIf="showEntityPopup">
             <div class="nlp-choose-tag d-none">
                 <div class="nlp-choose-tag-header">
                     <span class="bot-tasks"><img src="assets/images/bot-tasks.svg" /></span> CHOOSE TAG
@@ -1158,8 +1159,8 @@
                     </div>
 
                     <div class="btn-grp">
-                        <div class="btn-cancel"><button type="button" class="kr-sg-button-ghost">Cancel</button></div>
-                        <div class="btn-save"><button type="button" class="kr-sg-button-ghost pr-0">Tag & Save</button></div>
+                        <div class="btn-cancel"><button type="button" class="kr-sg-button-ghost" (click)="createEntity('cancel')">Cancel</button></div>
+                        <div class="btn-save"><button type="button" class="kr-sg-button-ghost pr-0" (click)="createEntity('add')">Tag & Save</button></div>
                     </div>
                 </div>
             </div>

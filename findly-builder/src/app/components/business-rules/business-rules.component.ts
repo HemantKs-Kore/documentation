@@ -101,7 +101,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     ruleName: '',
     isRuleActive: true,
     rules: [],
-    outcomes: []
+    outcomes: [],
   };
   rulesArrayforAddEdit: any = [];
   outcomeArrayforAddEdit: any = [];
@@ -132,6 +132,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     'type': '',
     'header': ''
   }
+  showEntityPopup: boolean = false;
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
       this.contextSuggestedImput = content;
@@ -1320,5 +1321,25 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }, errRes => {
       this.errorToaster(errRes, 'Failed to update rule');
     });
+  }
+  //NLP Annotator code
+  checkSelection(event) {
+    if (window.getSelection && window.getSelection().toString().length > 0) {
+      this.showEntityPopup = true;
+      const dialog = document.getElementById('tagDialog');
+      dialog.style.top = ((event.offsetY * 100) / window.innerHeight) + '%';
+      dialog.style.left = (((event.offsetX * 100) / window.innerWidth) + 14) + '%';
+      const text = window.getSelection().toString();
+
+    }
+  }
+  //create or cancel entity
+  createEntity(type) {
+    if (type === 'cancel') {
+      this.showEntityPopup = false;
+    }
+    else if (type === 'add') {
+
+    }
   }
 }
