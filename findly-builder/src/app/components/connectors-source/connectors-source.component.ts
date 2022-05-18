@@ -21,7 +21,6 @@ export class ConnectorsSourceComponent implements OnInit {
     {
       connector_name: "Confluence (Server)",
       description: "Please complete configuration",
-      description1: "Please edit configuration",
       type: "confluenceServer",
       image: "assets/icons/connectors/confluence.png",
       url: "https://admin.atlassian.com/",
@@ -31,7 +30,6 @@ export class ConnectorsSourceComponent implements OnInit {
     {
       connector_name: "Confluence (Cloud)",
       description: "Please complete configuration",
-      description1: "Please edit configuration",
       type: "confluenceCloud",
       image: "assets/icons/connectors/confluence.png",
       url: "https://admin.atlassian.com/",
@@ -41,7 +39,6 @@ export class ConnectorsSourceComponent implements OnInit {
     {
       connector_name: "Service Now",
       description: "Please complete configuration",
-      description1: "Please edit configuration",
       type: "serviceNow",
       image: "assets/icons/connectors/servicenow.png",
       url: "https://www.servicenow.com/",

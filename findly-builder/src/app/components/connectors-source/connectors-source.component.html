@@ -29,21 +29,21 @@
                                 </div>
                                 <div class="card-connectors-info row">
                                     <div class="card-connector-column" *ngFor="let connector of connectorsData">
-                                        <div class="inner-card" [ngClass]="{'active-connector':connector.isActive,'disable-connector':connector.isActive===false}">
+                                        <div class="inner-card" [ngClass]="{'active-connector':connector.isActive,'disable-connector':connector.isActive===false}" style="cursor:default;">
                                             <label class="kr-sg-toggle">
                                                 <input type="checkbox" [(ngModel)]="connector.isActive" (change)="openConnectorDialog(connector,$event);">
                                                 <div class="slider"></div>
                                             </label>
-                                            <div class="icon-block" (click)="connector.isActive?changeContent('edit',connector):null">
+                                            <div class="icon-block">
                                                 <img [src]="connector?.image" alt="connector-img">
                                             </div>
-                                            <div class="content-block text-truncate" (click)="connector.isActive?changeContent('edit',connector):null">
+                                            <div class="content-block text-truncate">
                                                 <div class="title add-new-link">
                                                     <div class="connector-name text-truncate">{{connector?.connector_name}}</div>
-                                                    <div class="details-span"><a href="#" class="details-link">details</a></div>
+                                                    <div class="details-span" (click)="connector.isActive?changeContent('edit',connector):null"><a href="javascript:void(0)" class="details-link">details</a></div>
                                                 </div>
                                                     <!-- <div class="title" *ngIf="connector?.type==='confluenceServer'">(Server)</div> -->
-                                                <div class="desc-text text-truncate">{{connector?.description1}}</div>
+                                                <div class="desc-text text-truncate">({{connector?.name}})</div>
                                             </div>
                                         </div>
                                     </div>
@@ -194,10 +194,10 @@
                                     <div class="left-box">
                                         <div class="inner-content">
                                             <div class="box-data-step">
-                                                <div class="text-data-desc">After generating configuration
+                                                <!-- <div class="text-data-desc">After generating configuration
                                                     information
                                                     from step 1, please provide valid credintials to connect to
-                                                    {{selectedConnector?.connector_name}}.</div>
+                                                    {{selectedConnector?.connector_name}}.</div> -->
                                                 <div class="heading-label">{{'connectors.provide_appropriate_config_info'|translate}}</div>
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">{{'connectors.name'|translate}}</div>

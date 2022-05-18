@@ -180,16 +180,17 @@
                         align-items: center;
                         min-height: 94px;
                         position: relative;
-                        cursor: pointer;
                         transition: 0.2s all ease;
+                        cursor: pointer;
 
                         &:hover {
                             background: #F3F8FF;
                             border: 1px solid #85B7FE;
-                            .content-block{
-                                .title{
-                                    &.add-new-link{
-                                        .details-span{
+
+                            .content-block {
+                                .title {
+                                    &.add-new-link {
+                                        .details-span {
                                             display: block;
                                         }
                                     }
@@ -270,16 +271,20 @@
                                 color: #3C4043;
                                 margin-bottom: 2px;
                                 padding-right: 40px;
+
                                 // width: 100%;
-                                &.add-new-link{
+                                &.add-new-link {
                                     display: flex;
                                     justify-content: space-between;
-                                    .connector-name{
+
+                                    .connector-name {
                                         width: 100%;
                                     }
-                                    .details-span{
+
+                                    .details-span {
                                         display: none;
-                                        .details-link{
+
+                                        .details-link {
                                             color: #0D6EFD;
                                             font-weight: 500;
                                             font-size: 12px;
@@ -288,7 +293,7 @@
                                         }
                                     }
                                 }
-                               
+
                             }
 
                             .desc-text {
@@ -419,22 +424,26 @@
                                         border-radius: 4px;
                                         margin-bottom: 20px;
                                         padding: 12px 18px;
-                                        &.sync-source-card{
-                                            .sync-card-title{
+
+                                        &.sync-source-card {
+                                            .sync-card-title {
                                                 color: #000000;
                                                 font-weight: 600;
                                                 font-size: 12px;
                                                 line-height: 15px;
                                             }
-                                            .sync-card-btn{
+
+                                            .sync-card-btn {
                                                 padding: 16px 0 10px 0;
                                             }
-                                            .sync-card-desc{
+
+                                            .sync-card-desc {
                                                 font-weight: 400;
                                                 font-size: 10px;
                                                 line-height: 12px;
                                                 color: #000000;
-                                                .sync-card-link{
+
+                                                .sync-card-link {
                                                     color: #0D6EFD;
                                                 }
                                             }
@@ -529,6 +538,7 @@
 
                             .sync-frq {
                                 position: relative;
+
                                 .label-text {
                                     color: #202124;
                                     margin-bottom: 4px;
@@ -536,6 +546,7 @@
                                     font-size: 12px;
                                     line-height: 15px;
                                 }
+
                                 .kr-sg-dropdowns {
                                     position: absolute;
                                     left: 500px;
@@ -636,33 +647,38 @@
                                 margin-top: 12px;
                             }
                         }
-                        .connection-settings-tab-data{
-                            .connection-settings-title{
+
+                        .connection-settings-tab-data {
+                            .connection-settings-title {
                                 font-weight: 500;
                                 font-size: 16px;
                                 line-height: 19px;
                                 color: #202124;
                                 padding: 0 0 15px 0;
-                                .connection-settings-desc{
+
+                                .connection-settings-desc {
                                     font-weight: 400;
                                     font-size: 12px;
                                     line-height: 20px;
                                     color: #202124;
                                 }
                             }
-                            .connection-settings-form{
+
+                            .connection-settings-form {
                                 background: #F8F9FA;
                                 border-radius: 4px;
                                 width: 50%;
                                 padding: 10px 10px;
+
                                 .kr-sg-input-text {
-                                    .label-text{
+                                    .label-text {
                                         font-weight: 500;
                                         font-size: 12px;
                                         line-height: 15px;
                                         color: #202124;
                                     }
-                                    i{
+
+                                    i {
                                         position: absolute;
                                         right: 12px;
                                         bottom: 12px;
@@ -672,15 +688,18 @@
                                 }
                             }
                         }
-                        .content-settings-tab-data{
-                            .search-tab{
-                                .kr-sg-input-search{
+
+                        .content-settings-tab-data {
+                            .search-tab {
+                                .kr-sg-input-search {
                                     width: 250px;
                                     position: relative;
-                                    .input-search{
+
+                                    .input-search {
                                         padding-left: 33px;
                                     }
-                                    .close-icon{
+
+                                    .close-icon {
                                         position: absolute;
                                         right: 11px;
                                         top: 12px;
@@ -688,73 +707,85 @@
                                     }
                                 }
                             }
-                            .content-data-table{
-                                .kr-sg-data-table{
-                                    .table-content{
-                                        .table-header{
+
+                            .content-data-table {
+                                .kr-sg-data-table {
+                                    .table-content {
+                                        .table-header {
                                             border-bottom: 1px solid #E4E5E7 !important;
                                             padding: 10px 0 !important;
                                         }
-                                        .content-body{
+
+                                        .content-body {
                                             border-bottom: 1px solid transparent !important;
                                         }
                                     }
                                 }
                             }
                         }
-                        .configurations-tab-data{
-                            .connection-settings-title{
+
+                        .configurations-tab-data {
+                            .connection-settings-title {
                                 font-weight: 500;
                                 font-size: 16px;
                                 line-height: 19px;
                                 color: #202124;
                                 padding: 0 0 15px 0;
-                                .connection-settings-desc{
+
+                                .connection-settings-desc {
                                     font-weight: 400;
                                     font-size: 12px;
                                     line-height: 20px;
                                     color: #202124;
                                 }
                             }
-                            .configurations-form{
-                                &.w-60{
+
+                            .configurations-form {
+                                &.w-60 {
                                     width: 60%;
                                 }
                             }
-                            .sync-frequency-block{
-                                .sync-frequency-title{
+
+                            .sync-frequency-block {
+                                .sync-frequency-title {
                                     font-weight: 500;
                                     font-size: 16px;
                                     line-height: 19px;
                                     color: #202124;
                                     padding: 20px 0;
                                 }
-                                .sync-frequency-form-block{
+
+                                .sync-frequency-form-block {
                                     display: flex;
-                                    .sync-frequency-left{
+
+                                    .sync-frequency-left {
                                         width: 60%;
                                         display: flex;
                                         align-items: center;
                                         gap: 15px;
-                                        .sync-title{
+
+                                        .sync-title {
                                             font-weight: 500;
                                             font-size: 12px;
                                             line-height: 15px;
                                             color: #202124;
                                         }
                                     }
-                                    .sync-frequency-right{
+
+                                    .sync-frequency-right {
                                         width: 40%;
                                         display: flex;
                                         align-items: center;
                                         justify-content: flex-end;
-                                        .sync-timer{
+
+                                        .sync-timer {
                                             color: #202124;
                                             font-weight: 500;
                                             font-size: 12px;
                                             line-height: 15px;
                                         }
-                                        .sync-estimated-time{
+
+                                        .sync-estimated-time {
                                             font-weight: 500;
                                             font-size: 12px;
                                             line-height: 15px;
@@ -794,23 +825,28 @@
             margin: 15px 0 10px 0;
             display: inline-block;
             width: 100%;
-            .progress-indicators{
+
+            .progress-indicators {
                 display: flex;
                 align-items: center;
                 margin: 10px 0 5px 0;
-                .indicator-bg{
+
+                .indicator-bg {
                     width: 50px;
                     height: 2px;
                     margin-right: 5px;
                     background: #E4E5E7;
-                    &.active-indicator{
+
+                    &.active-indicator {
                         background: #28A745;
                     }
+
                     &.in-progress {
                         background: #0D6EFD;
                     }
                 }
             }
+
             .config-tab {
                 display: flex;
                 align-items: center;
@@ -818,6 +854,7 @@
                 border-radius: 0;
                 margin: 0 0;
                 padding: 8px 20px 8px 8px;
+
                 .icon-config {
                     width: 24px;
                     height: 24px;
@@ -828,10 +865,10 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    i {
 
-                    }
+                    i {}
                 }
+
                 .title {
                     color: #202124;
                     margin-left: 10px;
@@ -962,11 +999,12 @@
 
                                 .box-data-step {
                                     background: #FFFFFF;
-                                    border: 1px solid #BDC1C6;
+                                    // border: 1px solid #BDC1C6;
                                     box-sizing: border-box;
                                     border-radius: 4px;
-                                    padding: 18px;
+                                    // padding: 18px;
                                     min-height: 265px;
+                                    margin-top: 25px;
 
                                     .text-data-desc {
                                         font-weight: 400;
@@ -977,7 +1015,6 @@
                                     }
 
                                     .heading-label {
-                                        font-weight: 700;
                                         font-size: 14px;
                                         line-height: 17px;
                                         color: #202124;
