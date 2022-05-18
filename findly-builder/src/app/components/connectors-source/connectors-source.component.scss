@@ -85,12 +85,41 @@
 
         perfect-scrollbar {
             height: calc(100vh - 206px);
+            &.tab-content-scroll-data{
+                min-height: auto;
+                height: calc(100vh - 355px);
+            }
         }
 
         .inner-content-data {
-            padding: 20px 25px;
+            padding: 20px 25px 0 25px;
             display: inline-block;
             width: 100%;
+            .back-to-block{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-weight: 400;
+                font-size: 14px;
+                color: #000000;
+                .back-to-page{
+                    background: #EFF0F1;
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 50px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    .si-carrotup{
+                        line-height: 24px;
+                        &::before{
+                            transform: rotate(180deg);
+                            font-size: 10px;
+                        }
+                    }
+                }
+            }
 
             .desc-text {
                 font-weight: 400;
@@ -346,9 +375,14 @@
                 }
 
                 .tab-content {
+                    perfect-scrollbar {
+                        &.tab-content-scroll-data{
+                            min-height: auto;
+                            height: calc(100vh - 420px);
+                        }
+                    }
                     .tab-pane {
                         padding: 0;
-
                         .overview-tab-data {
                             display: inline-block;
                             width: 100%;
@@ -850,6 +884,12 @@
                 height: calc(100vh - 193px);
             }
 
+            perfect-scrollbar{
+                &.inside-scroll-bar{
+                    min-height: auto;
+                    height: calc(100vh - 340px);
+                }
+            }
             .inner-scroll-data {
                 padding: 25px 25px;
                 display: inline-block;
