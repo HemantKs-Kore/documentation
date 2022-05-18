@@ -38,7 +38,10 @@
                                                 <img [src]="connector?.image" alt="connector-img">
                                             </div>
                                             <div class="content-block text-truncate" (click)="connector.isActive?changeContent('edit',connector):null">
-                                                <div class="title text-truncate">{{connector?.connector_name}}</div>
+                                                <div class="title add-new-link">
+                                                    <div class="connector-name text-truncate">{{connector?.connector_name}}</div>
+                                                    <div class="details-span"><a href="#" class="details-link">details</a></div>
+                                                </div>
                                                     <!-- <div class="title" *ngIf="connector?.type==='confluenceServer'">(Server)</div> -->
                                                 <div class="desc-text text-truncate">{{connector?.description1}}</div>
                                             </div>
@@ -330,6 +333,16 @@
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#settings" (click)="changeEditTabs()">{{'connectors.source_settings_tab'|translate}}</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#content" (click)="changeEditTabs()">{{'connectors.content_tab'|translate}}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#connectionSettings" (click)="changeEditTabs()">{{'connectors.connection_settings_tab'|translate}}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#configurations" (click)="changeEditTabs()">{{'connectors.configurations_tab'|translate}}</a>
+                            </li>
+                            
                         </ul>
 
                         <div class="tab-content">
@@ -367,7 +380,12 @@
                                             </ng-container>
                                         </div>
                                         <div class="source-data">
-                                            <div class="source-card">
+                                            <div class="source-card sync-source-card">
+                                                <div class="sync-card-title">Synchronization</div>
+                                                <div class="sync-card-btn"><button class="kr-sg-button-primary btn_lg">Synchronize content now</button></div>
+                                                <div class="sync-card-desc">You can also configure your <span class="sync-card-link">sync frequency.</span></div>
+                                            </div>
+                                            <div class="source-card d-none">
                                                 <div class="row-data-card">
                                                     <div class="title-source">{{'connectors.source'|translate}}</div>
                                                     <div class="name-placeholder">{{selectedConnector?.name}}</div>
@@ -381,7 +399,7 @@
                                                     <div class="name-placeholder">Default</div>
                                                 </div>
                                             </div>
-                                            <div class="source-card">
+                                            <div class="source-card d-none">
                                                 <div class="row-data-card">
                                                     <div class="title-source">{{'connectors.clientid'|translate}}</div>
                                                     <div class="input-with-eye">
@@ -488,6 +506,142 @@
                                             </div>
                                         </div>
                                         <div class="edit-content-link" (click)="selectedContent='add';selectAddContent='configurtion'">{{'connectors.edit_connector_settings'|translate}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="connectionSettings" class="tab-pane fade">
+                                <div class="connection-settings-tab-data">
+                                        <div class="connection-settings-title">
+                                            Content source configuration
+                                            <span class="connection-settings-desc pl-2">Edit content source connector settings</span>
+                                        </div>
+                                        <div class="connection-settings-form">
+                                            <div class="kr-sg-input-text mb-3">
+                                                <div class="label-text">{{'connectors.clientid'|translate}}</div>
+                                                <input class="input-text" placeholder="Paste Client ID here" type="password">
+                                                    <i class="si-eye"></i>
+                                                    <!-- <i class="si-eyeshow"></i> -->
+                                            </div>
+                                            <div class="kr-sg-input-text mb-3">
+                                                <div class="label-text">{{'connectors.clientsecretId'|translate}}</div>
+                                                <input class="input-text" placeholder="Paste Secret ID here" type="password">
+                                                    <i class="si-eye"></i>
+                                                    <!-- <i class="si-eyeshow"></i> -->
+                                            </div>
+                                            <div class="kr-sg-input-text mb-3">
+                                                <div class="label-text">{{'connectors.Base_URL'|translate}}</div>
+                                                <input type="text" placeholder="Paste Base URL" class="input-text">
+                                            </div>
+                                            <div class="kr-sg-input-text mb-3">
+                                                <div class="label-text">{{'connectors.Base_URL'|translate}}</div>
+                                                <input type="text" placeholder="Paste Base URL" class="input-text">
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div id="content" class="tab-pane fade">
+                                <div class="content-settings-tab-data">
+                                    <div class="search-tab">
+                                        <div class="kr-sg-input-search">
+                                            <input autocomplete="off" class="input-search pl-33" id="inputSearch" maxlength="60" placeholder="Search" type="text">
+                                          <img class="search-icon" src="assets/icons/search_gray.svg">
+                                          <img class="close-icon" src="assets/icons/close_icon.svg">
+                                        </div>
+                                    </div>
+                                    <div class="content-data-table">
+                                        <div class="kr-sg-data-table">
+                                            <section class="table-content">
+                                                <header class="table-header">
+                                                    <div class="col-4 p-0">Title</div>
+                                                    <div class="col-4">URL</div>
+                                                    <div class="col-4">Last Update</div>
+                                                </header>
+                                                <div class="content-body">
+                                                    <div class="col-4 p-0">Lorem Ipsum</div>
+                                                    <div class="col-4"><a href="#" class="url-link">https://nthrw.cofluence.net</a></div>
+                                                    <div class="col-4">5/12/2022; 2:41:22 PM</div>
+                                                </div>
+                                                <div class="content-body">
+                                                    <div class="col-4 p-0">Lorem Ipsum</div>
+                                                    <div class="col-4"><a href="#" class="url-link">https://nthrw.cofluence.net</a></div>
+                                                    <div class="col-4">5/12/2022; 2:41:22 PM</div>
+                                                </div>
+                                                <div class="content-body">
+                                                    <div class="col-4 p-0">Lorem Ipsum</div>
+                                                    <div class="col-4"><a href="#" class="url-link">https://nthrw.cofluence.net</a></div>
+                                                    <div class="col-4">5/12/2022; 2:41:22 PM</div>
+                                                </div>
+                                                <div class="content-body">
+                                                    <div class="col-4 p-0">Lorem Ipsum</div>
+                                                    <div class="col-4"><a href="#" class="url-link">https://nthrw.cofluence.net</a></div>
+                                                    <div class="col-4">5/12/2022; 2:41:22 PM</div>
+                                                </div>
+                                                <div class="content-body">
+                                                    <div class="col-4 p-0">Lorem Ipsum</div>
+                                                    <div class="col-4"><a href="#" class="url-link">https://nthrw.cofluence.net</a></div>
+                                                    <div class="col-4">5/12/2022; 2:41:22 PM</div>
+                                                </div>
+                                            </section>                               
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="configurations" class="tab-pane fade">
+                                <div class="configurations-tab-data">
+                                    <div class="connection-settings-title">
+                                        Content source name
+                                        <span class="connection-settings-desc pl-2">Customize the name of the content source</span>
+                                    </div>
+                                    <div class="configurations-form w-60">
+                                        <div class="kr-sg-input-text mb-3">
+                                            <input type="text" placeholder="Paste Base URL" class="input-text">
+                                        </div>
+                                    </div>
+                                    <div class="sync-frequency-block">
+                                        <div class="sync-frequency-title">Sync frequency</div>
+                                        <div class="sync-frequency-form-block">
+                                            <div class="sync-frequency-left">
+                                                <div class="label-text sync-title col-2 pl-0">Sync every</div>
+                                                <div class="kr-sg-dropdowns">
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">Days</button>
+                                                        <ul class="dropdown-menu content-menu">
+                                                            <li class="p-0"><a >Option1</a></li>
+                                                            <li class="p-0"><a >Option1</a></li>
+                                                            <li class="p-0"><a >Option1</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="kr-sg-dropdowns">
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">Hours</button>
+                                                        <ul class="dropdown-menu content-menu">
+                                                            <li class="p-0"><a >Option1</a></li>
+                                                            <li class="p-0"><a >Option1</a></li>
+                                                            <li class="p-0"><a >Option1</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="kr-sg-dropdowns">
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">Mins</button>
+                                                        <ul class="dropdown-menu content-menu">
+                                                            <li class="p-0"><a >Option1</a></li>
+                                                            <li class="p-0"><a >Option1</a></li>
+                                                            <li class="p-0"><a >Option1</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="sync-frequency-right">
+                                                <div class="sync-timer">
+                                                    <span class="pr-2"><img src="assets/images/timer.svg" /></span> <span>26 Mins ago</span>
+                                                </div>
+                                                <div class="sync-estimated-time">
+                                                    <span>Estimated time</span> : <span>Few seconds</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

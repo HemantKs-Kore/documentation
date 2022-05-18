@@ -748,7 +748,11 @@
         "hostURL": "Host URL",
         "host_domain_name": "Host Domain Name",
         "username": "Username",
-        "password": "Password"
+        "password": "Password",
+        "connection_settings_tab":"Connection Settings",
+        "Base_URL":"Base URL",
+        "content_tab":"Content",
+        "configurations_tab":"Configurations"
     },
     "actions": {
         "actions": "Actions",

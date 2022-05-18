@@ -186,6 +186,15 @@
                         &:hover {
                             background: #F3F8FF;
                             border: 1px solid #85B7FE;
+                            .content-block{
+                                .title{
+                                    &.add-new-link{
+                                        .details-span{
+                                            display: block;
+                                        }
+                                    }
+                                }
+                            }
                         }
 
                         &.active-connector {
@@ -261,7 +270,25 @@
                                 color: #3C4043;
                                 margin-bottom: 2px;
                                 padding-right: 40px;
-                                width: 100%;
+                                // width: 100%;
+                                &.add-new-link{
+                                    display: flex;
+                                    justify-content: space-between;
+                                    .connector-name{
+                                        width: 100%;
+                                    }
+                                    .details-span{
+                                        display: none;
+                                        .details-link{
+                                            color: #0D6EFD;
+                                            font-weight: 500;
+                                            font-size: 12px;
+                                            line-height: 15px;
+                                            text-decoration: underline !important;
+                                        }
+                                    }
+                                }
+                               
                             }
 
                             .desc-text {
@@ -392,6 +419,26 @@
                                         border-radius: 4px;
                                         margin-bottom: 20px;
                                         padding: 12px 18px;
+                                        &.sync-source-card{
+                                            .sync-card-title{
+                                                color: #000000;
+                                                font-weight: 600;
+                                                font-size: 12px;
+                                                line-height: 15px;
+                                            }
+                                            .sync-card-btn{
+                                                padding: 16px 0 10px 0;
+                                            }
+                                            .sync-card-desc{
+                                                font-weight: 400;
+                                                font-size: 10px;
+                                                line-height: 12px;
+                                                color: #000000;
+                                                .sync-card-link{
+                                                    color: #0D6EFD;
+                                                }
+                                            }
+                                        }
 
                                         .row-data-card {
                                             display: flex;
@@ -589,11 +636,139 @@
                                 margin-top: 12px;
                             }
                         }
+                        .connection-settings-tab-data{
+                            .connection-settings-title{
+                                font-weight: 500;
+                                font-size: 16px;
+                                line-height: 19px;
+                                color: #202124;
+                                padding: 0 0 15px 0;
+                                .connection-settings-desc{
+                                    font-weight: 400;
+                                    font-size: 12px;
+                                    line-height: 20px;
+                                    color: #202124;
+                                }
+                            }
+                            .connection-settings-form{
+                                background: #F8F9FA;
+                                border-radius: 4px;
+                                width: 50%;
+                                padding: 10px 10px;
+                                .kr-sg-input-text {
+                                    .label-text{
+                                        font-weight: 500;
+                                        font-size: 12px;
+                                        line-height: 15px;
+                                        color: #202124;
+                                    }
+                                    i{
+                                        position: absolute;
+                                        right: 12px;
+                                        bottom: 12px;
+                                        font-size: 11px;
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
+                        }
+                        .content-settings-tab-data{
+                            .search-tab{
+                                .kr-sg-input-search{
+                                    width: 250px;
+                                    position: relative;
+                                    .input-search{
+                                        padding-left: 33px;
+                                    }
+                                    .close-icon{
+                                        position: absolute;
+                                        right: 11px;
+                                        top: 12px;
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
+                            .content-data-table{
+                                .kr-sg-data-table{
+                                    .table-content{
+                                        .table-header{
+                                            border-bottom: 1px solid #E4E5E7 !important;
+                                            padding: 10px 0 !important;
+                                        }
+                                        .content-body{
+                                            border-bottom: 1px solid transparent !important;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .configurations-tab-data{
+                            .connection-settings-title{
+                                font-weight: 500;
+                                font-size: 16px;
+                                line-height: 19px;
+                                color: #202124;
+                                padding: 0 0 15px 0;
+                                .connection-settings-desc{
+                                    font-weight: 400;
+                                    font-size: 12px;
+                                    line-height: 20px;
+                                    color: #202124;
+                                }
+                            }
+                            .configurations-form{
+                                &.w-60{
+                                    width: 60%;
+                                }
+                            }
+                            .sync-frequency-block{
+                                .sync-frequency-title{
+                                    font-weight: 500;
+                                    font-size: 16px;
+                                    line-height: 19px;
+                                    color: #202124;
+                                    padding: 20px 0;
+                                }
+                                .sync-frequency-form-block{
+                                    display: flex;
+                                    .sync-frequency-left{
+                                        width: 60%;
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 15px;
+                                        .sync-title{
+                                            font-weight: 500;
+                                            font-size: 12px;
+                                            line-height: 15px;
+                                            color: #202124;
+                                        }
+                                    }
+                                    .sync-frequency-right{
+                                        width: 40%;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: flex-end;
+                                        .sync-timer{
+                                            color: #202124;
+                                            font-weight: 500;
+                                            font-size: 12px;
+                                            line-height: 15px;
+                                        }
+                                        .sync-estimated-time{
+                                            font-weight: 500;
+                                            font-size: 12px;
+                                            line-height: 15px;
+                                            color: #9AA0A6;
+                                            padding: 0 0 0 25px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
 
                     .overview_save_button {
                         margin-left: 15px !important;
-                        ;
                     }
                 }
             }
