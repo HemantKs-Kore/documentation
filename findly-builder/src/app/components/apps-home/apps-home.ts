@@ -33,7 +33,8 @@ export class AppsListingComponent implements OnInit {
   searchApp = '';
   apps: any = [];
   displayApp:boolean = false;
-  hideWelcomepage:boolean= true;
+  hideWelcomepage:boolean = true;
+  validateAppname:boolean = false;
   sharedApp=false;
   confirmApp: any='';
   validateName:any='';

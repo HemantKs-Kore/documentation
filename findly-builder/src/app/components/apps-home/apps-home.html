@@ -434,7 +434,8 @@
                  <div class="create-app-data">
                   <div class="kr-sg-input-text">
                     <div class="label-text">App Name</div>
-                    <input type="text"  [(ngModel)]="newApp.name" placeholder="Type here" class="input-text">
+                    <input type="text"  [(ngModel)]="newApp.name" placeholder="Type The App Name" class="input-text" [ngClass]="{'error' : validateAppname }">
+                    <div class="error-msg" *ngIf="validateAppname">Enter The App Name</div>
                   </div>
                  </div>
                 </ng-container>
