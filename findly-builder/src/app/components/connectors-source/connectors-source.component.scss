@@ -113,8 +113,8 @@
                     cursor: pointer;
                     .si-carrotup{
                         line-height: 24px;
+                        transform: rotate(180deg);
                         &::before{
-                            transform: rotate(180deg);
                             font-size: 10px;
                         }
                     }
