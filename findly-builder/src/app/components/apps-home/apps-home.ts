@@ -133,7 +133,7 @@ export class AppsListingComponent implements OnInit {
       this.validateSource();
     }
     else{
-      this.validateAppname = true;
+      //this.validateAppname = true;
     }
   }
 
