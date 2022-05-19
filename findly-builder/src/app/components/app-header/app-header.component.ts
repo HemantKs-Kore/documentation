@@ -42,6 +42,8 @@ export class AppHeaderComponent implements OnInit {
   pagetitle: any;
   field_name: any;
   profile_display: any;
+  associate_profile_display: any;
+  selected_profile_display: any;
   alphabetSeries1:any=['A','B','C','D','E'];
   alphabetSeries2:any=['F','G','H','I','J'];
   alphabetSeries3:any=['K','L','M','N','O'];
@@ -304,8 +306,7 @@ export class AppHeaderComponent implements OnInit {
     var firstLetter=firstName.charAt(0);
     var secondLetter=lastName.charAt(0);
     this.profile_display=firstLetter.concat(secondLetter);
-    this.profile_display=this.profile_display.toUpperCase();
-        
+    this.profile_display=this.profile_display.toUpperCase();        
     this.setprofilebackground(this.profile_display);
   }
   clearcontent(){
@@ -321,7 +322,7 @@ export class AppHeaderComponent implements OnInit {
     for(let i=0;i<this.alphabetSeries1.length;i++){
       if(displayname.charAt(0)===this.alphabetSeries1[i]){
         document.getElementById('profiledisplay').style.backgroundColor = '#AA336A' ;
-        document.getElementById('profiledisplay1').style.backgroundColor = '#AA336A' ;
+        document.getElementById('profiledisplay1').style.backgroundColor = '#AA336A' ;          
       }      
     }
     // to find in series2
@@ -933,14 +934,14 @@ export class AppHeaderComponent implements OnInit {
           this.selectAccountDetails=this.associatedAccounts[0];
         }
   
-      }
+      }         
         
       for(let i=0;i<this.associatedAccounts.length;i++)
       {      
         if(this.associatedAccounts[i].status=="active")
         {
           this.loginusername=this.associatedAccounts[i].userFullName;
-        }
+        }        
       } 
       if(!this.loginusername){
         this.loginusername=this.domain;
@@ -953,7 +954,107 @@ export class AppHeaderComponent implements OnInit {
       }
       else{
       this.extractProfiledisplayname();  
-      }
+      }      
+      for(let i=0;i<this.associatedAccounts.length;i++){  
+        this.extractAssociatedisplayname(this.associatedAccounts[i].userFullName,i)
+    }
+    this.extractSelecteddisplayname(this.selectAccountDetails.userFullName)  
+  }
+  extractSelecteddisplayname(username){
+    let name = username;
+    //match the spaces
+    var matches = name.split(/(?<=^\S+)\s/)
+    var firstName = matches[0];
+    var lastName = matches[1];
+    var firstLetter=firstName.charAt(0);
+    var secondLetter=lastName.charAt(0);
+    this.selected_profile_display=firstLetter.concat(secondLetter);
+    this.selected_profile_display=this.selected_profile_display.toUpperCase();
+        
+    this.setselectedbackground(this.selected_profile_display);
+  }
+  setselectedbackground(displayname){
+    for(let i=0;i<this.alphabetSeries1.length;i++){
+      if(displayname.charAt(0)===this.alphabetSeries1[i]){
+        document.getElementById('selected_profile').style.backgroundColor = '#AA336A' ;             
+      }      
+    }
+    // to find in series2
+    for(let i=0;i<this.alphabetSeries2.length;i++){
+      if(displayname.charAt(0)===this.alphabetSeries2[i]){
+        document.getElementById('selected_profile').style.backgroundColor = '#006400' ;
+      }      
+    }
+    // to find in series3
+    for(let i=0;i<this.alphabetSeries3.length;i++){
+      if(displayname.charAt(0)===this.alphabetSeries3[i]){
+        document.getElementById('selected_profile').style.backgroundColor = '#C71585' ;
+      }      
+    }
+    // to find in series4
+    for(let i=0;i<this.alphabetSeries4.length;i++){
+      if(displayname.charAt(0)===this.alphabetSeries4[i]){
+        document.getElementById('selected_profile').style.backgroundColor = '#6A5ACD' ;
+      }      
+    }
+    // to find in series5
+    for(let i=0;i<this.alphabetSeries5.length;i++){
+      if(displayname.charAt(0)===this.alphabetSeries5[i]){
+        document.getElementById('selected_profile').style.backgroundColor = '#B22222' ;
+      }      
+    }
+  }
+
+  extractAssociatedisplayname(userFullName,i){    
+    let name = userFullName;
+    //match the spaces
+    var matches = name.split(/(?<=^\S+)\s/)
+    var firstName = matches[0];
+    var lastName = matches[1];
+    var firstLetter=firstName.charAt(0);
+    var secondLetter=lastName.charAt(0);
+    this.associatedAccounts[i]['associate_profile_display']=firstLetter.concat(secondLetter).toUpperCase();
+    // this.associate_profile_display=firstLetter.concat(secondLetter);
+    // this.associate_profile_display=this.profile_display.toUpperCase(); 
+    setTimeout(() => {
+      this.setAssociateprofilebackground(this.associatedAccounts[i]['associate_profile_display'],i);
+    }, 1000);      
+    
+  }
+ 
+  setAssociateprofilebackground(displayname?,index?){
+    // to find in series1
+    for(let i=0;i<this.alphabetSeries1.length;i++){
+      if(displayname.charAt(0)===this.alphabetSeries1[i]){
+        document.getElementById('associateprofiledisplay'+index).style.backgroundColor = '#AA336A';        
+      }      
+    }
+    // to find in series2
+    for(let i=0;i<this.alphabetSeries2.length;i++){
+      if(displayname.charAt(0)===this.alphabetSeries2[i]){
+        document.getElementById('associateprofiledisplay'+index).style.backgroundColor = '#006400';   
+      }      
+    }
+    // to find in series3
+    for(let i=0;i<this.alphabetSeries3.length;i++){
+      if(displayname.charAt(0)===this.alphabetSeries3[i]){
+        document.getElementById('associateprofiledisplay'+index).style.backgroundColor = '#C71585'; 
+      }      
+    }
+    // to find in series4
+    for(let i=0;i<this.alphabetSeries4.length;i++){
+      if(displayname.charAt(0)===this.alphabetSeries4[i]){
+        document.getElementById('associateprofiledisplay'+index).style.backgroundColor = '#6A5ACD'; 
+      }      
+    }
+    // to find in series5
+    for(let i=0;i<this.alphabetSeries5.length;i++){
+      if(displayname.charAt(0)===this.alphabetSeries5[i]){
+        document.getElementById('associateprofiledisplay'+index).style.backgroundColor = '#B22222'; 
+      }      
+    }
+    
+
   }
   //sort apps
   // prepareApps(apps) {
