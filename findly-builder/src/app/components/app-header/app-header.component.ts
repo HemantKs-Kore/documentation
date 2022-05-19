@@ -306,8 +306,8 @@ export class AppHeaderComponent implements OnInit {
     var firstLetter=firstName.charAt(0);
     var secondLetter=lastName.charAt(0);
     this.profile_display=firstLetter.concat(secondLetter);
-    this.profile_display=this.profile_display.toUpperCase();        
-    this.setprofilebackground(this.profile_display);
+    this.profile_display=this.profile_display.toUpperCase();     
+    this.setprofilebackground(this.profile_display);     
   }
   clearcontent(){
       
@@ -322,7 +322,8 @@ export class AppHeaderComponent implements OnInit {
     for(let i=0;i<this.alphabetSeries1.length;i++){
       if(displayname.charAt(0)===this.alphabetSeries1[i]){
         document.getElementById('profiledisplay').style.backgroundColor = '#AA336A' ;
-        document.getElementById('profiledisplay1').style.backgroundColor = '#AA336A' ;          
+        document.getElementById('profiledisplay1').style.backgroundColor = '#AA336A' ; 
+        document.getElementById('profiledisplaydrop').style.backgroundColor = '#AA336A' ;         
       }      
     }
     // to find in series2
@@ -330,6 +331,7 @@ export class AppHeaderComponent implements OnInit {
       if(displayname.charAt(0)===this.alphabetSeries2[i]){
         document.getElementById('profiledisplay').style.backgroundColor = '#006400' ;
         document.getElementById('profiledisplay1').style.backgroundColor = '#006400' ;
+        document.getElementById('profiledisplaydrop').style.backgroundColor = '#006400' ;
       }      
     }
     // to find in series3
@@ -337,6 +339,7 @@ export class AppHeaderComponent implements OnInit {
       if(displayname.charAt(0)===this.alphabetSeries3[i]){
         document.getElementById('profiledisplay').style.backgroundColor = '#C71585' ;
         document.getElementById('profiledisplay1').style.backgroundColor = '#C71585' ;
+        document.getElementById('profiledisplaydrop').style.backgroundColor = '#C71585' ;
       }      
     }
     // to find in series4
@@ -344,6 +347,7 @@ export class AppHeaderComponent implements OnInit {
       if(displayname.charAt(0)===this.alphabetSeries4[i]){
         document.getElementById('profiledisplay').style.backgroundColor = '#6A5ACD' ;
         document.getElementById('profiledisplay1').style.backgroundColor = '#6A5ACD' ;
+        document.getElementById('profiledisplaydrop').style.backgroundColor = '#6A5ACD' ;
       }      
     }
     // to find in series5
@@ -351,6 +355,7 @@ export class AppHeaderComponent implements OnInit {
       if(displayname.charAt(0)===this.alphabetSeries5[i]){
         document.getElementById('profiledisplay').style.backgroundColor = '#B22222' ;
         document.getElementById('profiledisplay1').style.backgroundColor = '#B22222' ;
+        document.getElementById('profiledisplaydrop').style.backgroundColor = '#B22222' ;
       }      
     }
     
