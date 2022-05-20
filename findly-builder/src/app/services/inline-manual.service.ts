@@ -98,7 +98,7 @@ export class InlineManualService {
       el.type = 'text/javascript';
       $('body').append(el);
       el.onload = function () {
-        inlinemanual_init();
+        //inlinemanual_init();
       };
       el.src = script;
     }
