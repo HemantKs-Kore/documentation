@@ -7442,6 +7442,7 @@ FindlySDK.prototype.bindFacetsToggle = function () {
     if (type === 'user-conversation' && ($('#sa-conversation-box').val() !== null) && ($('#sa-conversation-box').val() !== undefined)) {
       messageData.text = $('#sa-conversation-box').val();
       messageData.from = 'user';
+      messageData.timeStamp = moment().format('LT');
       if ((messageData.text && messageData.text.trim() && _self.customSearchResult && !$('body').hasClass('top-down')) || ($('body').hasClass('top-down') && messageData.text && messageData.text.trim() && !_self.customSearchResult)) {
         var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
           msgData: messageData,
@@ -8209,7 +8210,7 @@ FindlySDK.prototype.bindFacetsToggle = function () {
     /*if (!$('body').hasClass('demo')) {
       _self.isDev = true;
     }*/
-    if (window.appConfig.API_SERVER_URL) {
+    if (window.appConfig && window.appConfig.API_SERVER_URL) {
       _self.baseAPIServer = window.appConfig.API_SERVER_URL;
     }
     if (fromTopDown) {
@@ -19054,7 +19055,7 @@ FindlySDK.prototype.enableRecent = function () {
                                             {{each(key, recent) recents }}\
                                             {{if recent}}\
                                               <div class="tile_with_header recentText recent-list-container">\
-                                              <a class="tile-title" title="${recent}" id="${recent}"><img class="RecentIcon-topDown" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMiIGhlaWdodD0iMTMiIHZpZXdCb3g9IjAgMCAxMyAxMyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTYuNSAwQzIuOTE0MDYgMCAwIDIuOTE0MDYgMCA2LjVDMCAxMC4wODU5IDIuOTE0MDYgMTMgNi41IDEzQzEwLjA4NTkgMTMgMTMgMTAuMDg1OSAxMyA2LjVDMTMgNi4yMjM4NiAxMi43NzYxIDYgMTIuNSA2QzEyLjIyMzkgNiAxMiA2LjIyMzg2IDEyIDYuNUMxMiA5LjU0Mjk3IDkuNTQyOTcgMTIgNi41IDEyQzMuNDU3MDMgMTIgMSA5LjU0Mjk3IDEgNi41QzEgMy40NTcwMyAzLjQ1NzAzIDEgNi41IDFDOC4xNDA2MiAxIDkuNTk3NjYgMS43MjI2NiAxMC42MDU1IDIuODU5MzhMOS45NzY5OCAzLjQ4Nzg3QzkuNzg3OTkgMy42NzY4NiA5LjkyMTg0IDQgMTAuMTg5MSA0SDEyLjdDMTIuODY1NyA0IDEzIDMuODY1NjkgMTMgMy43VjEuMTg5MTFDMTMgMC45MjE4MzcgMTIuNjc2OSAwLjc4Nzk4NyAxMi40ODc5IDAuOTc2OTc2TDExLjMxMjUgMi4xNTIzNEMxMC4xMjExIDAuODM1OTM4IDguNDEwMTYgMCA2LjUgMFpNNi41IDJDNi4yMjM4NiAyIDYgMi4yMjM4NiA2IDIuNVY2SDQuNUM0LjIyMzg2IDYgNCA2LjIyMzg2IDQgNi41QzQgNi43NzYxNCA0LjIyMzg2IDcgNC41IDdINi43MjcyN0M2Ljg3NzkgNyA3IDYuODc3OSA3IDYuNzI3MjdWMi41QzcgMi4yMjM4NiA2Ljc3NjE0IDIgNi41IDJaIiBmaWxsPSIjMjAyMTI0Ii8+Cjwvc3ZnPgo=" alt="Recent search Icon">\
+                                              <a class="tile-title" id="${recent}"><img class="RecentIcon-topDown" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMiIGhlaWdodD0iMTMiIHZpZXdCb3g9IjAgMCAxMyAxMyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTYuNSAwQzIuOTE0MDYgMCAwIDIuOTE0MDYgMCA2LjVDMCAxMC4wODU5IDIuOTE0MDYgMTMgNi41IDEzQzEwLjA4NTkgMTMgMTMgMTAuMDg1OSAxMyA2LjVDMTMgNi4yMjM4NiAxMi43NzYxIDYgMTIuNSA2QzEyLjIyMzkgNiAxMiA2LjIyMzg2IDEyIDYuNUMxMiA5LjU0Mjk3IDkuNTQyOTcgMTIgNi41IDEyQzMuNDU3MDMgMTIgMSA5LjU0Mjk3IDEgNi41QzEgMy40NTcwMyAzLjQ1NzAzIDEgNi41IDFDOC4xNDA2MiAxIDkuNTk3NjYgMS43MjI2NiAxMC42MDU1IDIuODU5MzhMOS45NzY5OCAzLjQ4Nzg3QzkuNzg3OTkgMy42NzY4NiA5LjkyMTg0IDQgMTAuMTg5MSA0SDEyLjdDMTIuODY1NyA0IDEzIDMuODY1NjkgMTMgMy43VjEuMTg5MTFDMTMgMC45MjE4MzcgMTIuNjc2OSAwLjc4Nzk4NyAxMi40ODc5IDAuOTc2OTc2TDExLjMxMjUgMi4xNTIzNEMxMC4xMjExIDAuODM1OTM4IDguNDEwMTYgMCA2LjUgMFpNNi41IDJDNi4yMjM4NiAyIDYgMi4yMjM4NiA2IDIuNVY2SDQuNUM0LjIyMzg2IDYgNCA2LjIyMzg2IDQgNi41QzQgNi43NzYxNCA0LjIyMzg2IDcgNC41IDdINi43MjcyN0M2Ljg3NzkgNyA3IDYuODc3OSA3IDYuNzI3MjdWMi41QzcgMi4yMjM4NiA2Ljc3NjE0IDIgNi41IDJaIiBmaWxsPSIjMjAyMTI0Ii8+Cjwvc3ZnPgo=" alt="Recent search Icon">\
                                               ${recent}</span>\
                                                 <span id="${recent}" class="recent-search-delete"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgOCA4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KPHBhdGggZD0iTTQuNDM0NzUgNC4wMDAxTDYuOTg2NDUgMS40NDgzOUM3LjEwNjYyIDEuMzI4MjMgNy4xMDY2MiAxLjEzMzQxIDYuOTg2NDUgMS4wMTMyNUM2Ljg2NjI5IDAuODkzMDg2IDYuNjcxNDcgMC44OTMwODYgNi41NTEzMSAxLjAxMzI1TDMuOTk5NTkgMy41NjQ5N0wxLjQ0Nzk5IDEuMDEzNDdDMS4zMjc4MyAwLjg5MzMxNCAxLjEzMzAxIDAuODkzMzE4IDEuMDEyODUgMS4wMTM0OEMwLjg5MjY5MiAxLjEzMzY1IDAuODkyNjk2IDEuMzI4NDcgMS4wMTI4NiAxLjQ0ODYyTDMuNTY0NDUgNC4wMDAxMUwxLjAxMjg1IDYuNTUxNzJDMC44OTI2ODkgNi42NzE4OCAwLjg5MjY4OSA2Ljg2NjcgMS4wMTI4NSA2Ljk4Njg2QzEuMTMzMDEgNy4xMDcwMiAxLjMyNzgzIDcuMTA3MDIgMS40NDc5OSA2Ljk4Njg2TDMuOTk5NiA0LjQzNTI1TDYuNTUxMzIgNi45ODY4NkM2LjY3MTQ5IDcuMTA3MDIgNi44NjYzMSA3LjEwNzAyIDYuOTg2NDYgNi45ODY4NUM3LjEwNjYyIDYuODY2NjkgNy4xMDY2MiA2LjY3MTg3IDYuOTg2NDYgNi41NTE3MUw0LjQzNDc1IDQuMDAwMVoiIGZpbGw9IiMyMDIxMjQiLz4NCjwvc3ZnPg0K" alt="close-icon" height="15"/>\
                                                 </a>\
@@ -19982,14 +19983,14 @@ FindlySDK.prototype.enableRecent = function () {
               if(history.type ==='request'){
                 messageData.text = history.query;
                 messageData.from = 'user';
-                messageData.timeStamp =  _self.extractTime(history.timestamp);
+                messageData.timeStamp =  _self.extractTime(history.timeStamp);
                 messageData.isFromHistory = true;
                 //messageData.timestamp = history.timestamp;
               }else{
                 messageData.text =  'Sure, please find the matched results below';
                 messageData.from = 'bot';
                 messageData.count = _self.countTotalResults(history.response.message[0].component.payload.template,0);
-                messageData.timestamp = _self.extractTime(history.timestamp);
+                messageData.timeStamp = _self.extractTime(history.timeStamp);
               }
               var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
               var devMode = _self.isDev ? true : false;
