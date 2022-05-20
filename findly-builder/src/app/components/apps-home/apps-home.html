@@ -494,9 +494,11 @@
 </kr-modal>
 
 <kr-modal modalType="center" #createBoardingJourney modalClass="modal_popups_ onboardingJourney-landing-popup">
-  <div class="modal-header">
+  
+  <div class="close_icon" (click)="closeBoradingJourney()"><img src="assets/icons/modal-close.svg"></div>
+  <!-- <div class="modal-header">
     <div class="close_icon" (click)="closeBoradingJourney()"><img src="assets/icons/modal-close.svg"></div>
-  </div>
+  </div> -->
   <perfect-scrollbar class="perfect-scroll-modal-body d-none">
     <div class="modal-body">
       <div id="createBoardingJourney" class="carousel slide" data-ride="carousel" data-interval="false"
@@ -604,7 +606,7 @@
         <iframe _ngcontent-hbc-c46="" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="" src="https://player.vimeo.com/video/49583118"></iframe>
       </div>
       <div class="video-header">Welcome to SearchAssist</div>
-      <div class="video-desc">Watch a quick introductory video on the SearchAssist’s features. Watch a quick introductory video on the SearchAssist’s features. Watch a quick introductory video on the SearchAssist’s features .Watch a quick introductory video on the SearchAssist’s features</div>
+      <div class="video-desc">Watch a quick introductory video on the SearchAssist’s features Watch a quick introductory video on the SearchAssist’s featuresWatch a quick introductory video on the SearchAssist’s features Watch a quick introductory video on the SearchAssist’s features Watch a quick introductory video on the SearchAssist’s featuresWatch a quick introductory video on the SearchAssist’s features</div>
     </perfect-scrollbar>
   </div>
   <!-- <div class="modal-footer d-none">
@@ -614,6 +616,7 @@
       <div class="indicator-sliders" [ngClass]="{'active-state':currentPage==3}"></div>
     </div>
   </div> -->
+
 </kr-modal>
 <!--popup for the delete -->
 <!--Delete confirmation modal start-->
