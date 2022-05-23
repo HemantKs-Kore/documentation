@@ -55,13 +55,17 @@ export class ConnectorsSourceComponent implements OnInit {
   searchIndexId: string;
   connectorsData: any = [];
   availableConnectorsData: any = [];
+  connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' }];
+  selectedTab: string = 'overview';
   configurationObj: any = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '' };
   checkConfigButton: Boolean = true;
   connectorId: string = '';
   deleteModelRef: any;
   showProtecedText: Object = { isClientShow: false, isSecretShow: false, isPassword: false };
-  isShowButtons: boolean = false;
   sessionData: any = {};
+  syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
+  isPopupDelete: boolean = true;
+  isAuthorizeStatus: boolean = false;
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
   constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private location: Location, private activeRoute: ActivatedRoute, private auth: AuthService, private localStoreService: LocalStoreService, public sanitizer: DomSanitizer) { }
@@ -102,8 +106,8 @@ export class ConnectorsSourceComponent implements OnInit {
     }
   }
   //change edit tabs
-  changeEditTabs() {
-    this.isShowButtons = !this.isShowButtons;
+  changeEditTabs(type) {
+    this.selectedTab = type;
     this.showProtecedText = { isClientShow: false, isSecretShow: false, isPassword: false };
   }
   //get connector list
@@ -148,20 +152,19 @@ export class ConnectorsSourceComponent implements OnInit {
       fcon: this.connectorId
     };
     this.service.invoke('get.connectorById', quaryparms).subscribe(res => {
-      console.log("res", res);
       this.connectorId = res?._id;
       this.configurationObj.name = res?.name;
       this.configurationObj.hostUrl = res?.configuration?.hostUrl;
       this.configurationObj.hostDomainName = res?.configuration?.hostDomainName;
       this.configurationObj.clientId = res?.authDetails?.clientId;
       this.configurationObj.clientSecret = res?.authDetails?.clientSecret;
+      this.configurationObj.isActive = res?.isActive;
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
   //change page like list, add ,edit
   changeContent(page, data) {
-    this.isShowButtons = false;
     this.showProtecedText = { isClientShow: false, isSecretShow: false, isPassword: false };
     this.selectedConnector = data;
     this.selectedContent = page;
@@ -169,6 +172,13 @@ export class ConnectorsSourceComponent implements OnInit {
       this.isEditable = true;
       this.connectorId = data?._id;
       this.getConnectorData();
+      this.getSyncCount();
+    }
+  }
+  //loop sync count numbers
+  getSyncCount() {
+    for (let i = 0; i < 60; i++) {
+      this.syncCount.count.push(i + 1);
     }
   }
   //back to page in add page
@@ -177,12 +187,13 @@ export class ConnectorsSourceComponent implements OnInit {
       this.navigatePage();
     }
     else if (type === 'cancel') {
+      this.selectedTab = 'overview'
       this.selectedContent = 'list';
       this.selectAddContent = 'instructions';
-      this.isShowButtons = false;
       this.selectedConnector = {};
       this.isEditable = false;
       this.connectorId = '';
+      this.syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
       this.configurationObj = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '' };
       this.addConnectorSteps = this.addConnectorSteps.map((item, index) => {
         if (index > 0) {
@@ -273,26 +284,36 @@ export class ConnectorsSourceComponent implements OnInit {
         AccountId: account_id
       },
     }).then(res => {
-      if (data?.type === 'confluenceCloud') {
-        // fetch(res.url, {
-        //   method: 'GET',
-        //   referrerPolicy: "no-referrer-when-downgrade",
-        //   redirect: "manual"
-        // }).then(dat => {
-        //   console.log("res", dat);
-        // })
-        //window.open(res.url, '_blank');
-        //window.location.replace(res.url)
+      if (res.status === 200) {
+        if (data?.type === 'confluenceCloud') {
+          // fetch(res.url, {
+          //   method: 'GET',
+          //   referrerPolicy: "no-referrer-when-downgrade",
+          //   redirect: "manual"
+          // }).then(dat => {
+          //   console.log("res", dat);
+          // })
+          //window.open(res.url, '_blank');
+          //window.location.replace(res.url)
+        }
+        else {
+          //this.goBacktoListPage();
+          this.openDeleteModel('open');
+        }
       }
       else {
-        this.selectedContent = 'list';
-        this.notificationService.notify('Connector Authorized Successfully', 'success');
-        this.ingestConnector();
+        this.errorToaster('Connectors API Failed', 'error');
       }
     })
       .catch(error => {
         console.log("error", error);
       })
+  }
+  //call if authorize api was success
+  goBacktoListPage() {
+    this.ingestConnector();
+    this.openDeleteModel('close');
+    if (this.selectedContent !== 'edit') this.selectedContent = 'list';
   }
   //update connector 
   openConnectorDialog(data, event) {
@@ -323,22 +344,23 @@ export class ConnectorsSourceComponent implements OnInit {
         }
       })
   }
+  //update connector method
   updateConnector(data?, checked?, dialog?) {
-    const Obj = data ? data : this.selectedConnector;
+    const Obj = data ? data : this.configurationObj;
     const quaryparms: any = {
       sidx: this.searchIndexId,
-      fcon: Obj?._id
+      fcon: this.connectorId
     };
     let payload: any = {
       "name": Obj?.name,
-      "type": Obj?.type,
+      "type": this.selectedConnector.type,
       "authDetails": {
-        "clientId": Obj?.authDetails?.clientId,
-        "clientSecret": Obj?.authDetails?.clientSecret
+        "clientId": Obj?.clientId,
+        "clientSecret": Obj?.clientSecret
       },
       "configuration": {
-        "hostUrl": this.configurationObj.hostUrl,
-        "hostDomainName": this.configurationObj.hostDomainName
+        "hostUrl": Obj?.hostUrl,
+        "hostDomainName": Obj?.hostDomainName
       },
       "isActive": data ? checked.target.checked : Obj.isActive
     };
@@ -351,6 +373,30 @@ export class ConnectorsSourceComponent implements OnInit {
         this.authorizeConnector(this.selectedConnector);
         this.notificationService.notify('Connector Updated Successfully', 'success');
         if (dialog) dialog?.close();
+      }
+    }, errRes => {
+      this.errorToaster(errRes, 'Connectors API Failed');
+    });
+  }
+  //update sync frequency method
+  updateSyncFrequency() {
+    const quaryparms: any = {
+      sidx: this.searchIndexId,
+      fcon: this.connectorId
+    };
+    const payload = {
+      "name": this.configurationObj.name,
+      "ingestSchedule": {
+        "humanInterval": {
+          "hours": this.syncCount.hours,
+          "days": this.syncCount.days,
+          "minutes": this.syncCount.minutes
+        }
+      }
+    }
+    this.service.invoke('put.connector', quaryparms, payload).subscribe(res => {
+      if (res) {
+        this.notificationService.notify('Connector Updated Successfully', 'success');
       }
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');

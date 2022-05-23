@@ -89,7 +89,7 @@
         <div *ngSwitchCase="'add'">
             <div class="configuration-connectors-sec">
                 <div class="body-config-data">
-                    <perfect-scrollbar>
+                   
                         <div class="inner-scroll-data" [ngSwitch]="selectAddContent">
                             <div class="connector-brand m-0">
                                 <div class="c-img">
@@ -105,6 +105,7 @@
                                     <div class="indicator-bg"  *ngFor="let item of addConnectorSteps" [ngClass]="{'active-indicator':item.isCompleted}"></div>
                                 </div>
                             </div>
+                            <perfect-scrollbar class="inside-scroll-bar">
                             <div class="instruction-setup" *ngSwitchCase="'instructions'">
                                 <div class="header-configuration-data mt-0">
                                     <div class="config-tab">
@@ -295,8 +296,9 @@
                                     <i class="si-info"></i>{{'connectors.which_option_should_i_choose'|translate}}
                                 </div> -->
                             </div>
+                            </perfect-scrollbar>
                         </div>
-                    </perfect-scrollbar>
+                 
                     <div class="footer-btns">
                         <div class="left-btn">
                             <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('back')" *ngIf="selectAddContent!=='instructions'">{{'connectors.back_button'|translate}}</button>
@@ -313,9 +315,10 @@
         </div>
         <!---Edit functionality-->
         <div class="connector-cards-data" *ngSwitchCase="'edit'">
-            <perfect-scrollbar>
+        
                 <div class="inner-content-data">
-                    <div class="desc-text">{{'connectors.editremoveconnectedsources'|translate}}</div>
+                    <!-- <div class="desc-text">{{'connectors.editremoveconnectedsources'|translate}}</div> -->
+                    <div class="back-to-block"><div class="back-to-page" (click)="backToPage('cancel')"><i class="si-carrotup"></i></div> Back</div>
                     <div class="connector-brand">
                         <div class="c-img">
                             <img [src]="selectedConnector.image">
@@ -327,189 +330,59 @@
                     </div>
                     <div class="edit-connectors-block">
                         <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#overview" (click)="changeEditTabs()">{{'connectors.overviewtab'|translate}}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#settings" (click)="changeEditTabs()">{{'connectors.source_settings_tab'|translate}}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#content" (click)="changeEditTabs()">{{'connectors.content_tab'|translate}}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#connectionSettings" (click)="changeEditTabs()">{{'connectors.connection_settings_tab'|translate}}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#configurations" (click)="changeEditTabs()">{{'connectors.configurations_tab'|translate}}</a>
-                            </li>
-                            
+                            <li class="nav-item" *ngFor="let tab of connectorTabs">
+                                <span class="nav-link" [ngClass]="{'active':tab.type===selectedTab}" data-toggle="tab" (click)="changeEditTabs(tab.type)">{{tab.name}}</span>
+                            </li>                                                      
                         </ul>
 
-                        <div class="tab-content">
-                            <div id="overview" class="tab-pane active">
-                                <div class="overview-tab-data">
-                                    <div class="heading-summery">
-                                        {{'connectors.summary'|translate}}</div>
-                                    <div class="overview-summery-cards">
-                                        <div class="table-summery">
-                                            <div class="table-heading-summery">
-                                                <div class="title">{{'connectors.source_type'|translate}}</div>
-                                                <div class="title text-right">{{'connectors.items'|translate}}</div>
+                        <div class="tab-content" [ngSwitch]="selectedTab">                           
+                            <div class="tab-pane active" *ngSwitchCase="'overview'">
+                                <perfect-scrollbar class="tab-content-scroll-data">
+                                    <div class="overview-tab-data">
+                                        <div class="heading-summery">
+                                            {{'connectors.summary'|translate}}</div>
+                                        <div class="overview-summery-cards">
+                                            <div class="table-summery">
+                                                <div class="table-heading-summery">
+                                                    <div class="title">{{'connectors.source_type'|translate}}</div>
+                                                    <div class="title text-right">{{'connectors.items'|translate}}</div>
+                                                </div>
+                                                <ng-container>
+                                                    <div class="repeat-table-body">
+                                                        <div class="title user-type">Users</div>
+                                                        <div class="title item-count">256</div>
+                                                    </div>
+                                                    <div class="repeat-table-body">
+                                                        <div class="title user-type">PNG</div>
+                                                        <div class="title item-count">17526</div>
+                                                    </div>
+                                                    <div class="repeat-table-body">
+                                                        <div class="title user-type">DOX</div>
+                                                        <div class="title item-count">261873</div>
+                                                    </div>
+                                                    <div class="repeat-table-body">
+                                                        <div class="title user-type">XLSX</div>
+                                                        <div class="title item-count">279164</div>
+                                                    </div>
+                                                    <div class="repeat-table-body">
+                                                        <div class="title user-type">Folders</div>
+                                                        <div class="title item-count">672</div>
+                                                    </div>
+                                                </ng-container>
                                             </div>
-                                            <ng-container>
-                                                <div class="repeat-table-body">
-                                                    <div class="title user-type">Users</div>
-                                                    <div class="title item-count">256</div>
-                                                </div>
-                                                <div class="repeat-table-body">
-                                                    <div class="title user-type">PNG</div>
-                                                    <div class="title item-count">17526</div>
-                                                </div>
-                                                <div class="repeat-table-body">
-                                                    <div class="title user-type">DOX</div>
-                                                    <div class="title item-count">261873</div>
-                                                </div>
-                                                <div class="repeat-table-body">
-                                                    <div class="title user-type">XLSX</div>
-                                                    <div class="title item-count">279164</div>
-                                                </div>
-                                                <div class="repeat-table-body">
-                                                    <div class="title user-type">Folders</div>
-                                                    <div class="title item-count">672</div>
-                                                </div>
-                                            </ng-container>
-                                        </div>
-                                        <div class="source-data">
-                                            <div class="source-card sync-source-card">
-                                                <div class="sync-card-title">Synchronization</div>
-                                                <div class="sync-card-btn"><button class="kr-sg-button-primary btn_lg">Synchronize content now</button></div>
-                                                <div class="sync-card-desc">You can also configure your <span class="sync-card-link">sync frequency.</span></div>
-                                            </div>
-                                            <div class="source-card d-none">
-                                                <div class="row-data-card">
-                                                    <div class="title-source">{{'connectors.source'|translate}}</div>
-                                                    <div class="name-placeholder">{{selectedConnector?.name}}</div>
-                                                </div>
-                                                <div class="row-data-card">
-                                                    <div class="title-source">{{'connectors.configuartion_email'|translate}}</div>
-                                                    <div class="name-placeholder">johndoe@gmail.com</div>
-                                                </div>
-                                                <div class="row-data-card">
-                                                    <div class="title-source">{{'connectors.document_level_permission'|translate}}</div>
-                                                    <div class="name-placeholder">Default</div>
-                                                </div>
-                                            </div>
-                                            <div class="source-card d-none">
-                                                <div class="row-data-card">
-                                                    <div class="title-source">{{'connectors.clientid'|translate}}</div>
-                                                    <div class="input-with-eye">
-                                                        <input [type]="showProtecedText.isClientShow?'text':'password'" [value]="selectedConnector.authDetails.clientId" readonly>
-                                                        <i class="si-eye" *ngIf="!showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
-                                                        <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="row-data-card">
-                                                    <div class="title-source">{{'connectors.clientsecretId'|translate}}</div>
-                                                    <div class="input-with-eye">
-                                                        <input [type]="showProtecedText.isSecretShow?'text':'password'" [value]="selectedConnector?.authDetails?.clientSecret" readonly>
-                                                        <i class="si-eye" *ngIf="!showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
-                                                        <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="row-data-card">
-                                                    <div class="title-source">{{'connectors.hostURL'|translate}}</div>
-                                                    <div class="input-with-eye">
-                                                        <input type="text" [value]="selectedConnector?.configuration?.hostUrl" readonly>
-                                                        <i></i>
-                                                    </div>
-                                                </div>
-                                                <div class="row-data-card">
-                                                    <div class="title-source">{{'connectors.host_domain_name'|translate}}</div>
-                                                    <div class="input-with-eye">
-                                                        <input type="text" [value]="selectedConnector?.configuration?.hostDomainName" readonly>
-                                                        <i></i>
-                                                    </div>
+                                            <div class="source-data">
+                                                <div class="source-card sync-source-card">
+                                                    <div class="sync-card-title">Synchronization</div>
+                                                    <div class="sync-card-btn"><button class="kr-sg-button-primary btn_lg" (click)="selectedTab='configurations'">Synchronize content now</button></div>
+                                                    <div class="sync-card-desc">You can also configure your <span class="sync-card-link">sync frequency.</span></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- <div class="overview-buttons">
-                                    <button class="kr-sg-button-secondary btn_lg"
-                                        (click)="selectedContent='list'">{{'connectors.cancel_button'|translate}}</button>
-                                    <span class="overview_save_button"><button
-                                            class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button>
-                                    </span>
-                                </div> -->
+                                </perfect-scrollbar>
                             </div>
-                            <div id="settings" class="tab-pane fade">
-                                <div class="settings-data">
-                                    <div class="content-name">{{'connectors.content_source_name'|translate}}
-                                        <span>{{'connectors.customize_the_name'|translate}}</span>
-                                    </div>
-                                    <div class="sync-frq">
-                                        <div class="kr-sg-input-text">
-                                            <div class="label-text">{{'connectors.source_name'|translate}}</div>
-                                            <input type="text" class="input-text" [(ngModel)]="selectedConnector.name">
-                                        </div>
-
-                                        <div class="kr-sg-dropdowns">
-                                            <div class="label-text">Sync Frequency</div>                           
-                                            <div class="dropdown dropdown-open">
-                                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select</button>                                            
-                                                <ul class="dropdown-menu content-menu">                                                                          
-                                                    <li class="p-0">
-                                                      <a>Option1</a>
-                                                    </li>
-                                                    <li class="p-0">
-                                                        <a>Option1</a>
-                                                    </li>
-                                                    <li class="p-0">
-                                                        <a>Option1</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="content-name">{{'connectors.content_source_configuration'|translate}}
-                                        <span>{{'connectors.edit_connector_settings'|translate}}</span>
-                                    </div>
-                                    <div class="source-card">
-                                        <div class="row-data-card">
-                                            <div class="title-source">{{'connectors.credentials_identifier'|translate}}</div>
-                                            <div class="input-with-eye">
-                                                <input [type]="showProtecedText.isClientShow?'text':'password'" [value]="selectedConnector.authDetails.clientId" readonly>
-                                                <i class="si-eye" *ngIf="!showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
-                                                <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
-                                            </div>
-                                        </div>
-                                        <div class="row-data-card">
-                                            <div class="title-source">{{'connectors.access_token'|translate}}</div>
-                                            <div class="input-with-eye">
-                                                <input [type]="showProtecedText.isSecretShow?'text':'password'" [value]="selectedConnector.authDetails.clientSecret" readonly>
-                                                <i class="si-eye" *ngIf="!showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
-                                                <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
-                                            </div>
-                                        </div>
-                                        <div class="row-data-card">
-                                            <div class="title-source">{{'connectors.hostURL'|translate}}</div>
-                                            <div class="input-with-eye">
-                                                <input type="text" [(ngModel)]="configurationObj.hostUrl" readonly>
-                                                <i></i>
-                                            </div>
-                                        </div>
-                                        <div class="row-data-card">
-                                            <div class="title-source">{{'connectors.host_domain_name'|translate}}</div>
-                                            <div class="input-with-eye">
-                                                <input type="text" [(ngModel)]="configurationObj.hostDomainName" readonly>
-                                                <i></i>
-                                            </div>
-                                        </div>
-                                        <div class="edit-content-link" (click)="selectedContent='add';selectAddContent='configurtion'">{{'connectors.edit_connector_settings'|translate}}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="connectionSettings" class="tab-pane fade">
+                            <div class="tab-pane active" *ngSwitchCase="'connectionSettings'">
+                                <perfect-scrollbar class="tab-content-scroll-data">
                                 <div class="connection-settings-tab-data">
                                         <div class="connection-settings-title">
                                             Content source configuration
@@ -517,29 +390,36 @@
                                         </div>
                                         <div class="connection-settings-form">
                                             <div class="kr-sg-input-text mb-3">
+                                                <div class="label-text">{{'connectors.name'|translate}}</div>
+                                                <input class="input-text" placeholder="Enter name here" type="text" [(ngModel)]="configurationObj.name">
+                                                    <!-- <i class="si-eye"></i> -->
+                                            </div>
+                                            <div class="kr-sg-input-text mb-3">
                                                 <div class="label-text">{{'connectors.clientid'|translate}}</div>
-                                                <input class="input-text" placeholder="Paste Client ID here" type="password">
-                                                    <i class="si-eye"></i>
-                                                    <!-- <i class="si-eyeshow"></i> -->
+                                                <input class="input-text" placeholder="Paste Client ID here" [type]="showProtecedText.isClientShow?'text':'password'" [(ngModel)]="configurationObj.clientId">
+                                                <i class="si-eye" *ngIf="!showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
+                                                <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                             </div>
                                             <div class="kr-sg-input-text mb-3">
                                                 <div class="label-text">{{'connectors.clientsecretId'|translate}}</div>
-                                                <input class="input-text" placeholder="Paste Secret ID here" type="password">
-                                                    <i class="si-eye"></i>
-                                                    <!-- <i class="si-eyeshow"></i> -->
+                                                <input class="input-text" placeholder="Paste Secret ID here" [type]="showProtecedText.isSecretShow?'text':'password'" [(ngModel)]="configurationObj.clientSecret">
+                                                <i class="si-eye" *ngIf="!showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
+                                                <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                             </div>
                                             <div class="kr-sg-input-text mb-3">
-                                                <div class="label-text">{{'connectors.Base_URL'|translate}}</div>
-                                                <input type="text" placeholder="Paste Base URL" class="input-text">
+                                                <div class="label-text">{{'connectors.hostURL'|translate}}</div>
+                                                <input type="text" placeholder="Enter Host URL here" class="input-text" [(ngModel)]="configurationObj.hostUrl">
                                             </div>
                                             <div class="kr-sg-input-text mb-3">
-                                                <div class="label-text">{{'connectors.Base_URL'|translate}}</div>
-                                                <input type="text" placeholder="Paste Base URL" class="input-text">
+                                                <div class="label-text">{{'connectors.host_domain_name'|translate}}</div>
+                                                <input type="text" placeholder="Enter Host DomainName here" class="input-text" [(ngModel)]="configurationObj.hostDomainName">
                                             </div>
                                         </div>
                                 </div>
+                                </perfect-scrollbar>
                             </div>
-                            <div id="content" class="tab-pane fade">
+                            <div class="tab-pane active" *ngSwitchCase="'content'">
+                                <perfect-scrollbar class="tab-content-scroll-data">
                                 <div class="content-settings-tab-data">
                                     <div class="search-tab">
                                         <div class="kr-sg-input-search">
@@ -585,8 +465,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                </perfect-scrollbar>
                             </div>
-                            <div id="configurations" class="tab-pane fade">
+                            <div class="tab-pane active" *ngSwitchCase="'configurations'">
+                                <perfect-scrollbar class="tab-content-scroll-data">
                                 <div class="configurations-tab-data">
                                     <div class="connection-settings-title">
                                         Content source name
@@ -594,7 +476,7 @@
                                     </div>
                                     <div class="configurations-form w-60">
                                         <div class="kr-sg-input-text mb-3">
-                                            <input type="text" placeholder="Paste Base URL" class="input-text">
+                                            <input type="text" placeholder="Enter name here" class="input-text" [(ngModel)]="configurationObj.name">
                                         </div>
                                     </div>
                                     <div class="sync-frequency-block">
@@ -604,36 +486,36 @@
                                                 <div class="label-text sync-title col-2 pl-0">Sync every</div>
                                                 <div class="kr-sg-dropdowns">
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">Days</button>
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.days===0?'Days':syncCount.days}}</button>
                                                         <ul class="dropdown-menu content-menu">
-                                                            <li class="p-0"><a >Option1</a></li>
-                                                            <li class="p-0"><a >Option1</a></li>
-                                                            <li class="p-0"><a >Option1</a></li>
+                                                            <perfect-scrollbar class="scroll-search-field h-200">
+                                                              <li class="p-0" *ngFor="let count of syncCount.count | slice:0:31" (click)="syncCount.days=count"><a>{{count}}</a></li>
+                                                            </perfect-scrollbar>
                                                         </ul>
                                                     </div>
                                                 </div>
                                                 <div class="kr-sg-dropdowns">
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">Hours</button>
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.hours===0?'Hours':syncCount.hours}}</button>
                                                         <ul class="dropdown-menu content-menu">
-                                                            <li class="p-0"><a >Option1</a></li>
-                                                            <li class="p-0"><a >Option1</a></li>
-                                                            <li class="p-0"><a >Option1</a></li>
+                                                            <perfect-scrollbar class="scroll-search-field h-200">
+                                                                <li class="p-0" *ngFor="let count of syncCount.count | slice:0:24" (click)="syncCount.hours=count"><a>{{count}}</a></li>
+                                                              </perfect-scrollbar>
                                                         </ul>
                                                     </div>
                                                 </div>
                                                 <div class="kr-sg-dropdowns">
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">Mins</button>
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.minutes===0?'Mins':syncCount.minutes}}</button>
                                                         <ul class="dropdown-menu content-menu">
-                                                            <li class="p-0"><a >Option1</a></li>
-                                                            <li class="p-0"><a >Option1</a></li>
-                                                            <li class="p-0"><a >Option1</a></li>
+                                                            <perfect-scrollbar class="scroll-search-field h-200">
+                                                                <li class="p-0" *ngFor="let count of syncCount.count | slice:0:60" (click)="syncCount.minutes=count"><a>{{count}}</a></li>
+                                                              </perfect-scrollbar>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="sync-frequency-right">
+                                            <div class="sync-frequency-right" *ngIf="false">
                                                 <div class="sync-timer">
                                                     <span class="pr-2"><img src="assets/images/timer.svg" /></span> <span>26 Mins ago</span>
                                                 </div>
@@ -644,17 +526,18 @@
                                         </div>
                                     </div>
                                 </div>
+                                </perfect-scrollbar>
                             </div>
                         </div>
                     </div>
                 </div>
-            </perfect-scrollbar>
+            
             <div class="view-more-btn">
-                <div>
+                <div *ngIf="['connectionSettings','configurations'].includes(selectedTab)">
                     <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('cancel')">Cancel</button>
-                    <button class="kr-sg-button-primary btn_lg" [disabled]="!isShowButtons" (click)="isShowButtons?updateConnector():null">Save Changes</button>
+                    <button class="kr-sg-button-primary btn_lg" (click)="selectedTab==='configurations'?updateSyncFrequency():updateConnector()">{{selectedTab==='configurations'?'Save Changes':'Connect'}}</button>
                 </div>
-                <div *ngIf="isShowButtons">
+                <div *ngIf="selectedTab==='connectionSettings'">
                     <button class="kr-sg-button-danger btn_lg" (click)="openDeleteModel('open')"><i class="si-delete"></i>Remove this content source</button>
                 </div>
             </div>
@@ -664,18 +547,20 @@
 <!--kr model for delete connectors-->
 <kr-modal modalType="center" modalClass="modal_popups_ delete-connectors-data" #deleteModel>
     <div class="delete-connectors-info">
-        <div class="modal-header">
+        <div class="modal-header" *ngIf="isPopupDelete">
             <div class="title">Remove Content Source</div>
             <div class="close_icon" (click)="openDeleteModel('close')">
                 <img src="assets/icons/modal-close.svg">
             </div>
         </div>
         <div class="modal-body">
+            <ng-container *ngIf="isPopupDelete">
             <div class="title-text">Are you sure you want to remove following content source?</div>
             <div class="info-text">
                 <i class="si-info"></i>
                 <span>This action cannot be undone.</span>
             </div>
+           </ng-container>
             <div class="connector-brand">
                 <div class="c-img">
                     <img [src]="selectedConnector?.image" alt="">
@@ -683,21 +568,25 @@
                 <div class="c-content-sec">
                     <div class="title">{{selectedConnector?.connector_name}}</div>
                     <div class="sub-text">Tomcat web server and hsql database, and also supports other databases.</div>
-                    <!-- <div class="hint-connector-text">
+                    <!--show authorization success or failure-->
+                    <div class="hint-connector-text" *ngIf="!isPopupDelete&&isAuthorizeStatus">
                         <i class="si-check-round"></i>
                         <span>Connection authenticated successfully</span>
                     </div>
-                    <div class="hint-connector-text if-error">
+                    <div class="hint-connector-text if-error" *ngIf="!isPopupDelete&&!isAuthorizeStatus">
                         <i class="si-warning"></i>
                         <span>Connection authenticated successfully</span>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="modal-footer text-right">
+        <div class="modal-footer text-right" *ngIf="isPopupDelete">
             <button class="kr-sg-button-danger btn_lg"  (click)="deleteConnector()">Yes</button>
             <button class="kr-sg-button-secondary btn_lg" (click)="openDeleteModel('close')">No</button>
         </div>
+        <div class="modal-footer text-right" *ngIf="!isPopupDelete">
+            <button class="kr-sg-button-danger btn_lg" (click)="isAuthorizeStatus?goBacktoListPage():authorizeConnector()">{{isAuthorizeStatus?'Done':'Retry'}}</button>
+            <button class="kr-sg-button-secondary btn_lg" (click)="openDeleteModel('close')">Cancel</button>
+        </div>
     </div>
 </kr-modal>
-
