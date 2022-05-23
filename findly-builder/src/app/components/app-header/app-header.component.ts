@@ -36,6 +36,7 @@ export class AppHeaderComponent implements OnInit {
   displyStatusBar:boolean=true;
   onboardingOpened:boolean= false;
   tourData:any;
+  browseWorkspaceRef:any;
   tourConfigData:any=[];
   checklistCount:any;
   progressPrecent=0;
@@ -94,6 +95,7 @@ export class AppHeaderComponent implements OnInit {
   @ViewChild('testButtonTooltip') testButtonTooltip: any;
   @ViewChild(SliderComponentComponent, { static: true }) sliderComponent: SliderComponentComponent;
   @ViewChild(OnboardingComponentComponent, { static: true }) onBoardingComponent: OnboardingComponentComponent;
+  @ViewChild('browseWorkspace') browseWorkspace: KRModalComponent;
   availableRouts = [
     { displayName: 'Summary', routeId: '/summary', quaryParms: {} },
     { displayName: 'Add Sources', routeId: '/source', quaryParms: {} },
@@ -1373,6 +1375,12 @@ export class AppHeaderComponent implements OnInit {
   }
   openSDK(){
     this.openOrCloseSearchSDK();
+  }
+  openBrowseWorkspace() {
+    this.browseWorkspaceRef = this.browseWorkspace.open();
+  }
+  closeBrowseWorkspace() {
+    this.browseWorkspaceRef.close();
   }
 }
 

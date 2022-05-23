@@ -426,7 +426,7 @@
                                         </div>
                                     </perfect-scrollbar>
                                 </ng-container>
-                                <button class="kr-sg-button-secondary btn_lg w-100 mt-2">Browse Workspaces</button>
+                                <button class="kr-sg-button-secondary btn_lg w-100 mt-2" (click)="openBrowseWorkspace()">Browse Workspaces</button>
                             </div>
                         </ul>
                     </div>
@@ -515,12 +515,169 @@
 
 </kr-modal>
 
+
+<!-- Browse all workspace -->
+
+<kr-modal modalType="full" #browseWorkspace modalClass="browse-workspace-full-popup">
+    <div class="bg-1">
+        <img src="assets/icons/onboarding/bg-worksapce.png">
+    </div>
+    <div class="bg-2">
+        <img src="assets/icons/onboarding/bg-workspace-1.png">
+    </div>
+    <div class="modal-header">
+        <div class="logo-data">
+            <img src="assets/icons/onboarding/logo.svg">
+        </div>
+        <div class="close-modal" (click)="closeBrowseWorkspace()">
+            <i class="si-close"></i>
+            <span>Cancel</span>
+        </div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+        <div class="modal-body">
+            <div class="workspace-data">
+                <div class="main-heading">Workspaces</div>
+                <div class="kr-sg-input-search">                               
+                    <input type="text" placeholder="Search" class="input-search">
+                    <i class="search-icon si-search"></i>
+                </div>
+                <div class="notifyAccount"><i class="si-check-round"></i>
+                    <span>Successfully joined Costco HR.</span>
+                </div>
+                <div class="title-w">Your Workspaces</div>
+                <div class="desc-text-data">All the workspaces that you have access to</div>
+                <div class="your-w-box-content mb-4">
+                    <perfect-scrollbar>
+                        <div class="scroll-data">
+                            <ng-container>
+                                <div class="w-item-list active-w">
+                                    <div class="arrow-icon">
+                                        <i class="si-carrotup"></i>
+                                    </div>
+                                    <div class="icon-tetx">
+                                        <span class="alphabet">cf</span>
+                                    </div>
+                                    <div class="content-data">
+                                        <div class="w-name">Costco HR</div>
+                                        <div class="member-count">2 Members</div>
+                                    </div>
+                                </div>
+                                <div class="w-item-list selected-w">
+                                    <div class="arrow-icon">
+                                        <i class="si-carrotup"></i>
+                                    </div>
+                                    <div class="icon-tetx">
+                                        <span class="alphabet">cf</span>
+                                    </div>
+                                    <div class="content-data">
+                                        <div class="w-name">Costco HR</div>
+                                        <div class="member-count">2 Members</div>
+                                    </div>
+                                </div>
+                                <div class="w-item-list">
+                                    <div class="arrow-icon">
+                                        <i class="si-carrotup"></i>
+                                    </div>
+                                    <div class="icon-tetx">
+                                        <span class="alphabet">cf</span>
+                                    </div>
+                                    <div class="content-data">
+                                        <div class="w-name">Costco HR</div>
+                                        <div class="member-count">2 Members</div>
+                                    </div>
+                                </div>
+                                <div class="w-item-list">
+                                    <div class="arrow-icon">
+                                        <i class="si-carrotup"></i>
+                                    </div>
+                                    <div class="icon-tetx">
+                                        <span class="alphabet">cf</span>
+                                    </div>
+                                    <div class="content-data">
+                                        <div class="w-name">Costco HR</div>
+                                        <div class="member-count">2 Members</div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </perfect-scrollbar>
+                </div>
+    
+                <div class="title-w">Other Workspaces</div>
+                <div class="desc-text-data">Workspaces from your organisation that you can join </div>
+                <div class="your-w-box-content other-workspace-box mb-4">
+                    <perfect-scrollbar>
+                        <div class="scroll-data">
+                            <div class="empty-w">
+                                <div class="e-title">There are no other workspces <br/> that we could find for Acme.org</div>
+                            </div>
+                            <ng-container>
+                                <div class="w-item-list joined">
+                                    <div class="icon-tetx">
+                                        <span class="alphabet">cf</span>
+                                    </div>
+                                    <div class="content-data">
+                                        <div class="w-name">Costco HR</div>
+                                        <div class="member-count">2 Members</div>
+                                    </div>
+                                    <button class="joined-btn">Join</button>
+                                </div>
+                                <div class="w-item-list">
+                                    <div class="icon-tetx">
+                                        <span class="alphabet">cf</span>
+                                    </div>
+                                    <div class="content-data">
+                                        <div class="w-name">Costco HR</div>
+                                        <div class="member-count">2 Members</div>
+                                    </div>
+                                    <button class="joined-btn">Join</button>
+                                </div>
+                                <div class="w-item-list">
+                                    <div class="icon-tetx">
+                                        <span class="alphabet">cf</span>
+                                    </div>
+                                    <div class="content-data">
+                                        <div class="w-name">Costco HR</div>
+                                        <div class="member-count">2 Members</div>
+                                    </div>
+                                    <button class="joined-btn">Join</button>
+                                </div>
+                                <div class="w-item-list">
+                                    <div class="icon-tetx">
+                                        <span class="alphabet">cf</span>
+                                    </div>
+                                    <div class="content-data">
+                                        <div class="w-name">Costco HR</div>
+                                        <div class="member-count">2 Members</div>
+                                    </div>
+                                    <button class="joined-btn">Join</button>
+                                </div>
+                                <div class="w-item-list">
+                                    <div class="icon-tetx">
+                                        <span class="alphabet">cf</span>
+                                    </div>
+                                    <div class="content-data">
+                                        <div class="w-name">Costco HR</div>
+                                        <div class="member-count">2 Members</div>
+                                    </div>
+                                    <button class="joined-btn">Join</button>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </perfect-scrollbar>
+                </div>
+            </div>
+        </div>
+    </perfect-scrollbar>
+</kr-modal>
+
+<!-- Browse all workspace close-->
+
+
 <app-slider-component id="supportOnboarding">
     <app-onboarding-component [currentRouteData]="currentRouteData" (openSDK)="openSDK()" [displyStatusBar]="displyStatusBar" (emitStatus)="emitStatus($event)"  (closeSlid)="closeUserMetaTagsSlider()"></app-onboarding-component>
-  </app-slider-component>
-
-
-
+</app-slider-component>
 
 <div class="onboarding-status-card"
     [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**' || !displyStatusBar}">
