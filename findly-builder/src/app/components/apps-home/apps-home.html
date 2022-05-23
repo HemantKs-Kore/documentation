@@ -257,7 +257,7 @@
               </div>
               <div class="title-start">How would you like to start?</div>
               <div class="explore-data-cards">
-                <div class="explore-card sample-data">
+                <div  class="explore-card sample-data"  (click)="1!=1?null:exploreSampleDate()">
                   <div class="icon-block">
                     <img src="assets/icons/onboarding/sample-data.svg">
                   </div>
@@ -309,10 +309,14 @@
                   <div class="not-active-bar active-bar"></div>
                   <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div>
                 </div>
-                <div class="title-start">How would you like to start?</div>
+                <div class="py-2">
+                  <img (click)="backToWelcomePage()" style="padding: 2px" src="assets/images/back-arrow.svg" alt="back-btn">
+                </div>
+                <div *ngIf="displayApp" class="title-start">Give a name to your App</div>
+                <div *ngIf="displaydemoOptions" class="title-start">Choose the sample data you would like to start with</div>
 
 
-                <ng-container *ngIf="false">
+                <ng-container *ngIf="displaydemoOptions">
                   <ng-container *ngIf="true">
                     <div class="tabs-data-info-sample">
                       <ul class="nav nav-pills">
@@ -388,6 +392,9 @@
                         </div>
                       </div>
                     </div>
+                    <div class="footer-btns-data2">
+                      <button *ngIf="displaydemoOptions" class="kr-sg-button-primary btn_lg continue_button">Continue</button>
+                    </div>
                   </ng-container>
   
                   <ng-container *ngIf="false">
@@ -437,9 +444,9 @@
                 </ng-container>
               </div>
             </perfect-scrollbar>
-            <div class="footer-btns-data">
-              <button class="kr-sg-button-secondary btn_lg back_button" (click)="backToWelcomePage()">Back</button>
-              <button class="kr-sg-button-primary btn_lg continue_button" (click)='appCreationAtOnboarding()'>Continue</button>
+            <div class="footer-btns-data1">
+              <!-- <button *ngIf="displayApp" class="kr-sg-button-secondary btn_lg back_button" (click)="backToWelcomePage()">Back</button> -->
+              <button *ngIf="displayApp" class="kr-sg-button-primary btn_lg continue_button" (click)='appCreationAtOnboarding()'>Continue</button>
             </div>
           </div>
         </ng-container>

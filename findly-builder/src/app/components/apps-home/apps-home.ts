@@ -38,6 +38,7 @@ export class AppsListingComponent implements OnInit {
   sharedApp=false;
   confirmApp: any='';
   validateName:any='';
+  displaydemoOptions:boolean =false;
   slectedAppId:any ='';
   slectedUnlinkAppId:any ='';
   unlinkPop = true;
@@ -121,12 +122,22 @@ export class AppsListingComponent implements OnInit {
   }
   exploreMyself(){
     this.displayApp = true;
-    this.hideWelcomepage = false;
+    this.hideWelcomepage = false; 
+  }
+  exploreSampleDate(){
+    this.hideWelcomepage = false; 
+    this.displaydemoOptions = true;
   }
   backToWelcomePage(){
-    this.displayApp = false;
-    this.hideWelcomepage = true;
-    this.validateAppname = false;
+    if(this.displaydemoOptions===true){
+      this.hideWelcomepage = true; 
+      this.displaydemoOptions = false;
+    }
+    else{
+      this.displayApp = false;
+      this.hideWelcomepage = true;
+      this.validateAppname = false;
+    }    
   }
   appCreationAtOnboarding(){
     if(this.newApp.name){
