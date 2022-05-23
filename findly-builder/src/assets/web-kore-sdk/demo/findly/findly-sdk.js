@@ -19983,14 +19983,14 @@ FindlySDK.prototype.enableRecent = function () {
               if(history.type ==='request'){
                 messageData.text = history.query;
                 messageData.from = 'user';
-                messageData.timeStamp =  _self.extractTime(history.timeStamp);
+                messageData.timeStamp =  _self.extractTime(history.timestamp);
                 messageData.isFromHistory = true;
                 //messageData.timestamp = history.timestamp;
               }else{
                 messageData.text =  'Sure, please find the matched results below';
                 messageData.from = 'bot';
                 messageData.count = _self.countTotalResults(history.response.message[0].component.payload.template,0);
-                messageData.timeStamp = _self.extractTime(history.timeStamp);
+                messageData.timeStamp = _self.extractTime(history.timestamp);
               }
               var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
               var devMode = _self.isDev ? true : false;
