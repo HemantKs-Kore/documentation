@@ -868,6 +868,10 @@
             margin-right: 4px;
             &.active-bar{
                 background: #93D3A2;
+                border: 1px solid #93D3A2;
+                box-shadow: 0 0 5px #93D3A2;
+                outline: none;
+
             }
         }
     }
@@ -908,8 +912,9 @@
                     cursor: pointer;
                     transition: 0.2s all ease;
                     &:hover{
-                        background: #F3F8FF;
+                        background: #d7e8ff;
                         border: 1px solid #F3F8FF;
+                        box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
                         .content-data{
                             .main-title{
                                 color: #07377F;
@@ -1046,6 +1051,11 @@
                 }
                 .kr-sg-input-text{
                     width: 300px;
+                    .input-text:focus{
+                        border: 1px solid rgb(131, 194, 240);
+                        box-shadow: 0 0 5px rgb(131, 194, 240);
+                        outline: none;
+                    }
                 }
             }
             .tabs-data-info-sample{
@@ -1180,6 +1190,12 @@
             align-items: center;
             justify-content: space-between;
             padding: 25px 164px;
+            .back_button:hover{
+                box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
+            }
+            .continue_button:hover{
+                box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
+            }
         }
     }
 }
