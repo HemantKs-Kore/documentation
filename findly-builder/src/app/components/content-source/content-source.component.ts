@@ -255,7 +255,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     window.addEventListener('scroll', this.scroll, true);
 
     this.templateState.subscribe( val => {
-      console.log(val)
+      // console.log(val)
     })
   }
   scroll = (event): void => {
@@ -267,7 +267,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
-    this.templateState.next('loadingContent1')
+    // this.templateState.next('loadingContent1')
     // setTimeout(()=>{
     //   if (!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')) {
     //     this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
@@ -513,11 +513,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         $('#searchContentSources').focus();
       }, 100);
       // this.filterTable(this.filterTableSource, this.filterTableheaderOption)
-      console.log('507--', res)
       if (res.sources.length > 0) {
         this.loadingContent = false;
         this.loadingData = false;
-        // this.loadingContent1 = true;
         if (!this.inlineManual.checkVisibility('CONTENT_OVERVIEW')) {
           this.inlineManual.openHelp('CONTENT_OVERVIEW')
           this.inlineManual.visited('CONTENT_OVERVIEW')
