@@ -6909,13 +6909,17 @@ FindlySDK.prototype.bindFacetsToggle = function () {
               _self.vars.totalNumOfResults = totalResultsCount;
             }
             res.results = results;
-            if (!$('.full-search-data-container').children().length) {
-              if (_self.isDev) {
-                $('.no-templates-defined-full-results-container').show();
-              } else {
-                $('.empty-full-results-container').removeClass('hide');
+            setTimeout(() => {
+              if (!$('.full-search-data-container').children().length) {
+                if (_self.isDev) {
+                  $('.no-templates-defined-full-results-container').show();
+                } else {
+                  $('.empty-full-results-container').removeClass('hide');
+                }
               }
-            }
+              
+            }, 500);
+            
           } else {
             var dataObj = {
               facets: facets || [],
@@ -7438,6 +7442,7 @@ FindlySDK.prototype.bindFacetsToggle = function () {
     if (type === 'user-conversation' && ($('#sa-conversation-box').val() !== null) && ($('#sa-conversation-box').val() !== undefined)) {
       messageData.text = $('#sa-conversation-box').val();
       messageData.from = 'user';
+      messageData.timeStamp = moment().format('LT');
       if ((messageData.text && messageData.text.trim() && _self.customSearchResult && !$('body').hasClass('top-down')) || ($('body').hasClass('top-down') && messageData.text && messageData.text.trim() && !_self.customSearchResult)) {
         var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
           msgData: messageData,
@@ -19808,7 +19813,8 @@ FindlySDK.prototype.enableRecent = function () {
     }
     FindlySDK.prototype.checkIsPreviousLiveSearchDataExists = function () {
       var _self = this;
-      if ($('body').hasClass('top-down')) {
+      setTimeout(() => {
+        if ($('body').hasClass('top-down')) {
         if ($('.live-search-data-container').children().length > 0) {
           if (_self.vars.enterIsClicked || !$(".search-top-down").val()) {
             $('#live-search-result-box').hide();
@@ -19822,6 +19828,8 @@ FindlySDK.prototype.enableRecent = function () {
         $('.searchBox.Search-BG-Copy').remove();
         $('.search-body .finalResults').show();
       }
+       }, 500);
+      
     };
 
     FindlySDK.prototype.getAvatarTopLeft = function () {
@@ -19975,14 +19983,14 @@ FindlySDK.prototype.enableRecent = function () {
               if(history.type ==='request'){
                 messageData.text = history.query;
                 messageData.from = 'user';
-                messageData.timeStamp =  _self.extractTime(history.timestamp);
+                messageData.timeStamp =  _self.extractTime(history.timeStamp);
                 messageData.isFromHistory = true;
                 //messageData.timestamp = history.timestamp;
               }else{
                 messageData.text =  'Sure, please find the matched results below';
                 messageData.from = 'bot';
                 messageData.count = _self.countTotalResults(history.response.message[0].component.payload.template,0);
-                messageData.timestamp = _self.extractTime(history.timestamp);
+                messageData.timeStamp = _self.extractTime(history.timeStamp);
               }
               var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
               var devMode = _self.isDev ? true : false;
