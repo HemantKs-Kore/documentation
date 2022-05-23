@@ -1161,6 +1161,24 @@
                                 font-size: 16px;
                             }
                         }
+                        .notifyAccount{
+                            background: #EAF6EC;
+                            border-radius: 4px;
+                            border: 1px solid #93D3A2;
+                            display: flex;
+                            align-items: center;
+                            padding: 11px;
+                            margin-bottom: 17px;
+                            i{
+                                color: #135423;
+                                margin-right: 10px;
+                            }
+                            span{
+                                font-weight: 400;
+                                font-size: 12px;
+                                color: #135423;
+                            }
+                        }
                         .title-w{
                             font-weight: 600;
                             font-size: 16px;
