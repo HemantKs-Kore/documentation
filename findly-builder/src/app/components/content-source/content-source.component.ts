@@ -14,7 +14,7 @@ import * as _ from 'underscore';
 import * as moment from 'moment';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { fromEvent } from 'rxjs';
+import { fromEvent, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
@@ -231,6 +231,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   @ViewChild('structuredDataModal') structuredDataModal: KRModalComponent;
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
+  templateState = new Subject();
+  loadingData: boolean = true;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -251,15 +253,21 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.getJobStatusForMessages();
     this.userInfo = this.authService.getUserInfo() || {};
     window.addEventListener('scroll', this.scroll, true);
+
+    this.templateState.subscribe( val => {
+      // console.log(val)
+    })
   }
   scroll = (event): void => {
     //console.log(event)
   };
   loadImageText: boolean = false;
   imageLoad() {
+    console.log('image load ')
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
+    // this.templateState.next('loadingContent1')
     // setTimeout(()=>{
     //   if (!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')) {
     //     this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
@@ -398,6 +406,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('get.source.list', quaryparms,payload).subscribe(res => {
       this.resources = res.sources;
+      console.log(this.resources, res)
       this.totalRecord = res.totalCount || 0;
       //  this.resourcesDoc=this.resources[0].fileMeta;
       //element.advanceSettings.scheduleOpts.interval.intervalType
@@ -499,22 +508,25 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.poling('content')
       }
       this.loadingContent = false;
+      this.loadingData = false;
       setTimeout(() => {
         $('#searchContentSources').focus();
       }, 100);
       // this.filterTable(this.filterTableSource, this.filterTableheaderOption)
-      if (res.length > 0) {
+      if (res.sources.length > 0) {
         this.loadingContent = false;
-        this.loadingContent1 = true;
+        this.loadingData = false;
         if (!this.inlineManual.checkVisibility('CONTENT_OVERVIEW')) {
           this.inlineManual.openHelp('CONTENT_OVERVIEW')
           this.inlineManual.visited('CONTENT_OVERVIEW')
         }
        
-      }
-      
-      else {
-        this.loadingContent1 = true;
+      } else {
+        if((searchValue === undefined && res.sources.length == 0) 
+            || ( searchValue.length <= 0 && res.sources.length == 0)) {
+          this.loadingContent1 = true;
+          this.loadingData  = true
+        }
         setTimeout(()=>{
           if (!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')) {
             this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
@@ -679,7 +691,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       } else {
         this.crwalOptionLabel = 'Crawl Everything'
       }
-      if (data.length) {
+      if (data.length || this.pagesSearch ) {
         this.swapSlider('page');
       }
       else {

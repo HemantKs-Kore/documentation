@@ -172,6 +172,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  allPageSelected: boolean = false;
+  checkedAll: any[] = [];
+  checkedAllState: any[] = [];
 
   constructor(
     public cdRef: ChangeDetectorRef,
@@ -371,8 +374,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       if (faqId) {
         if (addtion) {
-          //  delete this.faqSelectionObj.deSelectedItems
           this.faqSelectionObj.selectedItems[faqId] = {};
+          delete this.faqSelectionObj.deSelectedItems[faqId]
         } else {
           this.faqSelectionObj.deSelectedItems[faqId] = {}
           delete this.faqSelectionObj.selectedItems[faqId]
@@ -380,6 +383,22 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
       this.faqSelectionObj.selectedCount = Object.keys(this.faqSelectionObj.selectedItems).length;
+      setTimeout(() => {   
+        if(Object.keys(this.faqSelectionObj.deSelectedItems).length > 0) {
+
+          let totalCount = (
+          this.selectedtab === 'draft' ? 
+                  this.faqSelectionObj.stats.draft: (this.selectedtab === 'in_review' ?
+                       this.faqSelectionObj.stats.in_review:(this.selectedtab === 'approved' ?
+                         this.faqSelectionObj.stats.approved:'' )))
+          
+          if(this.allPageSelected == false) {
+            this.faqSelectionObj.selectedCount = Object.keys(this.faqSelectionObj.selectedItems).length;
+          } else {
+            this.faqSelectionObj.selectedCount = totalCount - Object.keys(this.faqSelectionObj.deSelectedItems).length
+          }
+        }
+      }, 0);
     }
   }
   resetCheckboxSelect() {
@@ -394,6 +413,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   selectAllPartially() {
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
     if (selectedElements.length !== this.faqs.length) {
+      this.allPageSelected = false
       this.faqSelectionObj.selectAll = true;
       this.selectAll();
       setTimeout(() => {
@@ -429,23 +449,59 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   selectAll(unselectAll?) {
     const allFaqs = $('.selectEachfaqInput');
-    if (allFaqs && allFaqs.length) {
+
+    if (allFaqs && allFaqs.length) { 
       $.each(allFaqs, (index, element) => {
         if ($(element) && $(element).length) {
-          $(element)[0].checked = unselectAll ? false : this.faqSelectionObj.selectAll;
+          let additions;   
           const faqId = $(element)[0].id.split('_')[1]
-          this.addRemoveFaqFromSelection(faqId, this.faqSelectionObj.selectAll);
+          if(this.allPageSelected )  {
+            if(this.faqSelectionObj.deSelectedItems.hasOwnProperty(faqId)) {
+              $(element)[0].checked = false;
+              additions = false
+            } else {
+              $(element)[0].checked = this.allPageSelected
+              additions =this.allPageSelected
+            }
+            // this.addRemoveFaqFromSelection(faqId, additions);
+          } else  {
+            $(element)[0].checked = unselectAll ? false : this.faqSelectionObj.selectAll;
+            additions = this.faqSelectionObj.selectAll
+          } 
+          // if(this.faqSelectionObj.selectAll) {
+          //   $(element)[0].checked = unselectAll ? false : this.faqSelectionObj.selectAll;
+          //   this.faqSelectionObj.selectedItems[faqId] = {};
+          //   delete this.faqSelectionObj.deSelectedItems[faqId]
+          //   additions = this.faqSelectionObj.selectAll
+          // } else {
+      
+          // }   
+          // console.log($(element)[0].checked )
+          this.addRemoveFaqFromSelection(faqId, additions);
         }
       });
     };
     if (unselectAll) {
       $('#selectAllFaqs')[0].checked = false;
       this.faqSelectionObj.selectAll = false;
+      this.allPageSelected = false;
     }
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
   }
   selectAllRecords() {
+    // if(this.faqSelectionObj.selectAll == false) {
+    //   this.checkedAll = [true, false]
+      
+    // } else {
+    //   this.checkedAll = [true, true]
+    // }
     this.faqSelectionObj.selectAll = true;
+    this.faqSelectionObj.deSelectedItems = {}
+    if(this.allPageSelected == false) {
+      console.log('not all  page selcted ')
+    }
+    // this.allPageSelected = true ? this.faqSelectionObj.selectAll = true : null;
+    this.allPageSelected = true
     this.selectAll();
   }
   checkUncheckfaqs(faq) {
@@ -470,8 +526,17 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   markSelectedFaqs(faqs) {
-    if (this.faqSelectionObj.selectAll) {
-      this.selectAllRecords()
+    if(this.allPageSelected == true  || this.faqSelectionObj.selectAll ) {
+      this.checkedAllState.push({paginate : true, allPageSelected: this.allPageSelected == true,selectAll : this.faqSelectionObj.selectAll })
+      if( Object.keys(this.faqSelectionObj.deSelectedItems).length > 0) {
+        console.log(this.faqSelectionObj.deSelectedItems)
+        this.faqSelectionObj.selectAll = false
+      }
+      if(this.faqSelectionObj.selectAll ) {
+        this.selectAll()
+      }
+        this.allPageSelected = true
+        this.selectAll()
       // faqs.forEach((e) => {
       //   $('#selectFaqCheckBox_' + e._id)[0].checked = true;
       //   this.checkUncheckfaqs(e);
@@ -634,7 +699,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   getStats(resourceId?, isInitialFaqCall?) {
     // console.log("resourceId", resourceId)
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.serachIndexId
     };
     let endPoint = 'get.faqStatics';
     if (resourceId) {
@@ -742,9 +807,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       let array=[];
       this.extractedResources.map(extractedElement => {
-        this.statusMsgArr.map(statusElement=>{ 
+        this.statusMsgArr.map(statusElement => { 
           let obj={};
-          if(extractedElement._id === statusElement.metadata.extractionSourceId){
+          if(extractedElement._id === statusElement.metadata.extractionSourceId ) {
             obj= {...extractedElement , message:statusElement.message}
             array.push(obj);
           }
