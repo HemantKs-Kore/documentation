@@ -72,19 +72,19 @@ export class AppExperimentsComponent implements OnInit {
   currentSubscriptionPlan: any;
   currentSubsciptionData: Subscription;
   componentType: string = "experiment";
-  skip =0;
+  skip = 0;
   ctrTooltip: string = 'Click Through Rate is the percentage of searches which got at least one click of all the searches performed';
   filterSystem: any = {
     'statusfilter': 'all',
   }
   sortedObject = {
     'type': 'fieldName',
-    'position':'up',
+    'position': 'up',
     "value": 1,
   }
-  filterObject={
+  filterObject = {
     'type': '',
-    'header':''
+    'header': ''
   }
   constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog, private appSelectionService: AppSelectionService, public inlineManual: InlineManualService, public mixpanel: MixpanelServiceService) { }
   async ngOnInit() {
@@ -401,7 +401,7 @@ export class AppExperimentsComponent implements OnInit {
     });
   }
 
-  getExperiments(searchValue?,Search?, source?,headerOption?,sort?,checkSortValue?,naviagtionArrow?) {
+  getExperiments(searchValue?, Search?, source?, headerOption?, sort?, checkSortValue?, naviagtionArrow?) {
     this.loadingContent = true;
     const header: any = {
       'x-timezone-offset': '-330'
@@ -412,15 +412,15 @@ export class AppExperimentsComponent implements OnInit {
       limit: 10,
       state: 'all',
       sortBy: 'state',
-      orderBy : 1
+      orderBy: 1
     };
-    if(sort && checkSortValue && naviagtionArrow){
+    if (sort && checkSortValue && naviagtionArrow) {
       quaryparms.orderBy = checkSortValue
     }
-    if(source && headerOption){
+    if (source && headerOption) {
       quaryparms.state = source
     }
-    if(this.searchFields){
+    if (this.searchFields) {
       quaryparms.search = this.searchFields
     }
     this.service.invoke('get.experiment', quaryparms, header).subscribe(res => {
@@ -463,26 +463,26 @@ export class AppExperimentsComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId
     };
-    const request :any = {
+    const request: any = {
       moduleName: "experiments",
     };
     // request.type = this.filterSystem.typefilter;
-    request.search= this.searchFields;
+    request.search = this.searchFields;
     if (request.type == 'all') {
-     delete  request.type;
+      delete request.type;
     }
     if (this.searchFields === '') {
       delete request.search;
-     }
+    }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
       // console.log(res, 'Filters')
       this.dynamicStatus = [...res.state];
-    }, 
-    // errRes => {
-    //   this.errorToaster(errRes, 'Failed to get filters');
-    // }
+    },
+      // errRes => {
+      //   this.errorToaster(errRes, 'Failed to get filters');
+      // }
     );
-    
+
   }
   filterTable(source, headerOption) {
     switch (headerOption) {
@@ -493,10 +493,10 @@ export class AppExperimentsComponent implements OnInit {
       header: headerOption
     }
 
-    this.getExperiments(null,null,source,headerOption);
+    this.getExperiments(null, null, source, headerOption);
   }
-  // synonymFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){  
-  //   // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)  
+  // synonymFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){
+  //   // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)
   //   // this.loadingContent = true;
   //   if(sortValue){
   //     this.sortedObject = {
@@ -518,8 +518,8 @@ export class AppExperimentsComponent implements OnInit {
   //     request = {
   //       "sort":{
   //         'type':1
-  //       }    
-  //   }   
+  //       }
+  //   }
   //   }
   //   else if(sortValue){
   //     const sort :any ={}
@@ -530,7 +530,7 @@ export class AppExperimentsComponent implements OnInit {
   //   else {
   //   request={}
   //   }
-      
+
   //   request.type = this.filterSystem.statusfilter;
   //   request.search= this.synonymSearch;
   //   if (request.type == 'all') {
@@ -539,7 +539,7 @@ export class AppExperimentsComponent implements OnInit {
   //   if (this.synonymSearch === '') {
   //    delete request.search;
   //   }
-  //   if(sortValue){  
+  //   if(sortValue){
   //     this.getSortIconVisibility(sortHeaderOption,navigate);
   //      //Sort start
   //      if(sortHeaderOption === 'name' ){
@@ -552,35 +552,34 @@ export class AppExperimentsComponent implements OnInit {
   //   }
   //   this.getSynonymsApi(searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
   // }
-  sortByApi(sort){
+  sortByApi(sort) {
     this.selectedSort = sort;
     if (this.selectedSort !== sort) {
       this.isAsc = true;
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow ='';
-    var checkSortValue= 1;
-    if(this.isAsc){
-      naviagtionArrow= 'up';
+    var naviagtionArrow = '';
+    var checkSortValue = 1;
+    if (this.isAsc) {
+      naviagtionArrow = 'up';
       checkSortValue = 1;
     }
-    else{
-      naviagtionArrow ='down';
+    else {
+      naviagtionArrow = 'down';
       checkSortValue = -1;
     }
-    this.getExperiments(null,null,null,null,sort,checkSortValue,naviagtionArrow)
+    this.getExperiments(null, null, null, null, sort, checkSortValue, naviagtionArrow)
   }
 
-  paginate(event){
-    this.skip =event.skip
-    this.getExperiments(this.searchFields,'search',this.filterObject.type,this.filterObject.header,this.sortedObject.type,this.sortedObject.value,this.sortedObject.position)
+  paginate(event) {
+    this.skip = event.skip
+    this.getExperiments(this.searchFields, 'search', this.filterObject.type, this.filterObject.header, this.sortedObject.type, this.sortedObject.value, this.sortedObject.position)
   }
   //dynamically show status
   dynamicStatus: any = [];
   statusList(result) {
     this.dynamicStatus = new Set();
-    this.dynamicStatus.add("all");
     for (let i in result) {
       this.dynamicStatus.add(result[i].state)
     }
