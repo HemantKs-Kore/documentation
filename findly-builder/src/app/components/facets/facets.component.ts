@@ -133,7 +133,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   facetType: any = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   emptySearchResults: boolean = false;
-  noItems: boolean = true;
+  SearchResults: boolean = false;
+  // noItems: boolean = true;
 
   constructor(
     public workflowService: WorkflowService,
@@ -484,7 +485,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
         this.loadingContent = false;
         this.loadingContent1 = true;
         this.loadingData = false;
-        this.noItems = false
+        // this.noItems = false
         this.emptySearchResults = false
         if (!this.inlineManual?.checkVisibility('FACETS_OVERVIEW')) {
           this.inlineManual?.openHelp('FACETS_OVERVIEW')
@@ -492,10 +493,10 @@ export class FacetsComponent implements OnInit, OnDestroy {
         }
       }
       else {
+        this.emptySearchResults = true;
         this.loadingContent1 = true;
         this.loadingData = false;
-        this.noItems = false 
-        this.emptySearchResults = true
+        // this.noItems = false 
         // if(!this.inlineManual.checkVisibility('FACETS')){
         //   this.inlineManual.openHelp('FACETS')
         //   this.inlineManual.visited('FACETS')
@@ -752,33 +753,46 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
 
   filterFacets(source, headerOption) {
-    // if (!this.beforeFilterFacets.length) {
-    //   this.beforeFilterFacets = JSON.parse(JSON.stringify(this.facets));
+    if (!this.beforeFilterFacets.length) {
+      this.beforeFilterFacets = JSON.parse(JSON.stringify(this.facets));
+    }
+    let tempFacets = this.beforeFilterFacets.filter((facet: any) => {
+      if (source !== 'all') {
+        if (headerOption === 'facetType') {
+          if (facet.type === source) {
+            return facet;
+          }
+        }
+        if (headerOption === 'isMultiSelect') {
+          if (facet.multiselect === source) {
+            return facet;
+          }
+        }
+        if (headerOption === 'statusType') {
+          if (facet.active === source) {
+            return facet;
+          }
+        }
+        if(headerOption === 'search') {
+          source = source.toLowerCase()
+          return facet.name.toLowerCase().includes(source) 
+        }
+      }
+      else {
+        return facet;
+      }
+    });
+    // if(tempFacets.length == 0 && headerOption === 'search') {
+    //   this.SearchResults = true
+    //   this.emptySearchResults = true
+    // } else if(tempFacets.length > 0 && headerOption === 'search') {
+    //   this.SearchResults = true
+    //   this.emptySearchResults = false
+    // } else {
+    //   this.SearchResults = false
     // }
-    // let tempFacets = this.beforeFilterFacets.filter((facet: any) => {
-    //   if (source !== 'all') {
-    //     if (headerOption === 'facetType') {
-    //       if (facet.type === source) {
-    //         return facet;
-    //       }
-    //     }
-    //     if (headerOption === 'isMultiSelect') {
-    //       if (facet.multiselect === source) {
-    //         return facet;
-    //       }
-    //     }
-    //     if (headerOption === 'statusType') {
-    //       if (facet.active === source) {
-    //         return facet;
-    //       }
-    //     }
-    //   }
-    //   else {
-    //     return facet;
-    //   }
-    // });
 
-    // this.facets = JSON.parse(JSON.stringify(tempFacets));
+    this.facets = JSON.parse(JSON.stringify(tempFacets));
   }
 
   validateFacetSize(event) {
@@ -798,6 +812,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.activeClose = false;
     }
     this.showSearch = !this.showSearch;
+    this.showSearch ? this.SearchResults = true :  this.SearchResults = false
   }
   focusinSearch(inputSearch) {
     setTimeout(() => {
