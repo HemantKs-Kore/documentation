@@ -11,7 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
 import { of, interval, Subject } from 'rxjs';
-import { startWith, take } from 'rxjs/operators';
+import { startWith, take, finalize } from 'rxjs/operators';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
 
@@ -104,6 +104,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() cancleEvent = new EventEmitter();
   @Output() closeSourcePopupEvent = new EventEmitter();
   faqUpdate: Subject<void> = new Subject<void>();
+  closePollingTimer$ = new Subject<any>();
   defaultStatusObj: any = {
     jobId: '',
     status: 'running',
@@ -393,7 +394,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       searchIndexId: this.searchIndexId,
       type: this.selectedSourceType.sourceType
     };
-    this.pollingSubscriber = interval(5000).pipe(startWith(0)).subscribe(() => {
+    this.pollingSubscriber = interval(5000).pipe(
+      startWith(0), 
+      finalize(() => { 
+        // console.log(pollingStatus = 'Stopped')
+      })
+    ).subscribe(() => {
       this.service.invoke('get.job.status', quaryparms).subscribe(res => {
         this.datainc = this.datainc + 1;
         this.statusObject = res;
@@ -407,6 +413,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         });
         if (queuedJobs && queuedJobs.length) {
           this.statusObject = queuedJobs[0];
+          this.statusObject.status = this.statusObject.status.toLowerCase();
+
           if (queuedJobs[0].validation && queuedJobs[0].validation.urlValidation) {
             this.crawlOkDisable = !queuedJobs[0].validation.urlValidation;
           }
@@ -432,6 +440,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           // }
         } else {
           this.statusObject = JSON.parse(JSON.stringify(this.defaultStatusObj));
+          this.statusObject.status = this.statusObject.status.toLowerCase();
           if (!schedule) this.statusObject.status = 'failed';
           this.crawlOkDisable = false;
         }
@@ -444,9 +453,21 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           this.notificationService.notify('Failed to extract web page', 'error');
         }
-      });
-    }
-    )
+        if( this.statusModalPopRef && this.statusModalPopRef.close) { 
+          setTimeout(() => {
+            this.closeStatusModal()
+          }, 4000);
+           }
+      },
+      );
+      
+    }).add(() => {
+      if( this.statusModalPopRef && this.statusModalPopRef.close) {
+        setTimeout(() => {
+          this.closeStatusModal()
+        }, 1000); 
+      }
+    })
   }
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
     // console.log(`${type}: ${event.value}`);
@@ -1852,7 +1873,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     const link: any = document.createElement('a');
     link.href = filePath;
     link.download = fileName,
-      link.click();
+    link.click();
     link.remove();
   }
   importFaq() {
@@ -1882,7 +1903,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.notificationService.notify('Failed ', 'error');
         }
 
-      });
+      }).add(() => {
+        if( this.statusModalPopRef && this.statusModalPopRef.close) {
+          setTimeout(() => {
+            this.closeStatusModal()
+          }, 1000); 
+        }
+        console.log('finally closed !!')
+      })
     // this.service.invoke('get.dockStatus', quaryparms, payload).subscribe(res1 => {
     // });
   }
