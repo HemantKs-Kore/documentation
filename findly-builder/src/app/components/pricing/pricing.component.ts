@@ -322,7 +322,7 @@ export class PricingComponent implements OnInit, OnDestroy {
     this.queryGraph = {
 
       grid: {
-        left: '8%',
+        left: '10%',
         right: '4%',
         bottom: '20%',
         containLabel: true
@@ -399,7 +399,7 @@ export class PricingComponent implements OnInit, OnDestroy {
     this.documentGraph = {
 
       grid: {
-        left: '10%',
+        left: '15%',
         right: '4%',
         bottom: '20%',
         containLabel: true

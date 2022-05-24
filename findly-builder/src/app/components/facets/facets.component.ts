@@ -30,6 +30,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   selectedFieldId: any;
   indexPipelineId;
   loadingContent = true;
+  loadingData : boolean = true
   addEditFacetObj: any = null;
   showSearch = false;
   activeClose = false;
@@ -131,6 +132,9 @@ export class FacetsComponent implements OnInit, OnDestroy {
   createNewTab: boolean = false;
   facetType: any = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  emptySearchResults: boolean = false;
+  SearchResults: boolean = false;
+  // noItems: boolean = true;
 
   constructor(
     public workflowService: WorkflowService,
@@ -156,6 +160,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   loadingContent1: boolean
   imageLoad() {
     this.loadingContent = false;
+    this.loadingData = true;
     this.loadingContent1 = true;
     this.loadImageText = true;
     if (!this.inlineManual.checkVisibility('FACETS')) {
@@ -469,6 +474,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.docTypeArr = [...new Set(this.docTypeArr)];
       this.selectTypeArr = [...new Set(this.selectTypeArr)];
       this.loadingContent = false;
+      this.loadingData = false;
       this.addRemovefacetFromSelection(null, null, true);
       this.filterSystem = {
         typefilter: 'all',
@@ -478,13 +484,19 @@ export class FacetsComponent implements OnInit, OnDestroy {
       if (res.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
+        this.loadingData = false;
+        // this.noItems = false
+        this.emptySearchResults = false
         if (!this.inlineManual?.checkVisibility('FACETS_OVERVIEW')) {
           this.inlineManual?.openHelp('FACETS_OVERVIEW')
           this.inlineManual?.visited('FACETS_OVERVIEW')
         }
       }
       else {
+        this.emptySearchResults = true;
         this.loadingContent1 = true;
+        this.loadingData = false;
+        // this.noItems = false 
         // if(!this.inlineManual.checkVisibility('FACETS')){
         //   this.inlineManual.openHelp('FACETS')
         //   this.inlineManual.visited('FACETS')
@@ -761,11 +773,24 @@ export class FacetsComponent implements OnInit, OnDestroy {
             return facet;
           }
         }
+        if(headerOption === 'search') {
+          source = source.toLowerCase()
+          return facet.name.toLowerCase().includes(source) 
+        }
       }
       else {
         return facet;
       }
     });
+    // if(tempFacets.length == 0 && headerOption === 'search') {
+    //   this.SearchResults = true
+    //   this.emptySearchResults = true
+    // } else if(tempFacets.length > 0 && headerOption === 'search') {
+    //   this.SearchResults = true
+    //   this.emptySearchResults = false
+    // } else {
+    //   this.SearchResults = false
+    // }
 
     this.facets = JSON.parse(JSON.stringify(tempFacets));
   }
@@ -787,6 +812,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.activeClose = false;
     }
     this.showSearch = !this.showSearch;
+    this.showSearch ? this.SearchResults = true :  this.SearchResults = false
   }
   focusinSearch(inputSearch) {
     setTimeout(() => {
