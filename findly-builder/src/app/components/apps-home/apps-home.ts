@@ -24,7 +24,12 @@ export class AppsListingComponent implements OnInit {
   openJourney = false;
   saveInProgress = false;
   toShowAppHeader: boolean;
+  demoType:string='';
+  SearchExperianceType:string='';
   appsData: any;
+  streamID:any;
+  searchIndexID:any;
+  demoOptions:boolean = false;
   createAppPopRef: any;
   onboardingpopupjourneyRef: any;
   confirmatiomAppPopRef: any;
@@ -34,6 +39,7 @@ export class AppsListingComponent implements OnInit {
   apps: any = [];
   displayApp:boolean = false;
   hideWelcomepage:boolean = true;
+  showSearchExperices:boolean =false;
   validateAppname:boolean = false;
   sharedApp=false;
   confirmApp: any='';
@@ -127,13 +133,35 @@ export class AppsListingComponent implements OnInit {
   exploreSampleDate(){
     this.hideWelcomepage = false; 
     this.displaydemoOptions = true;
+    this.demoOptions = true;
   }
-  backToWelcomePage(){
-    if(this.displaydemoOptions===true){
-      this.hideWelcomepage = true; 
+
+  selectDemoType(data){
+    this.demoType = data;
+  }
+  continue(){
+    if(this.displaydemoOptions == true ){
       this.displaydemoOptions = false;
+      this.showSearchExperices =true;
     }
-    else{
+    else if(this.showSearchExperices ==true){
+      this.displaydemoOptions = false;
+      this.showSearchExperices = false;
+      this.displayApp= true;
+    }
+  
+  }
+  selectSearchExperianceType(data){
+    this.SearchExperianceType = data;
+
+  }
+
+  backToWelcomePage(){
+    if(this.demoOptions===true){
+      this.hideWelcomepage = true; 
+      this.demoOptions = false;
+    }
+    else {
       this.displayApp = false;
       this.hideWelcomepage = true;
       this.validateAppname = false;
@@ -146,6 +174,33 @@ export class AppsListingComponent implements OnInit {
     else{
       this.validateAppname = true;
     }
+  }
+
+  createDemoApp(){
+    if(this.SearchExperianceType){
+      const payload = {
+        searchIndexId:this.searchIndexID,
+        streamId:this.streamID,
+        appType: this.demoType,
+        searchBarPosition: this.SearchExperianceType,
+       }
+       
+       this.service.invoke('post.createDemoApp', payload).subscribe(
+         res => {
+           if(res){
+             this.appCreationAtOnboarding();
+           }
+          
+         },
+         errRes => {
+           this.notificationService.notify('App creation has gone wrong', 'error');       
+         }
+       );
+
+    }
+     else{
+      this.appCreationAtOnboarding();
+     }
   }
 
   openDetails() {
