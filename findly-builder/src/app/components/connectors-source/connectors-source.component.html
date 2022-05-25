@@ -314,8 +314,7 @@
             </div>
         </div>
         <!---Edit functionality-->
-        <div class="connector-cards-data" *ngSwitchCase="'edit'">
-        
+        <div class="connector-cards-data" *ngSwitchCase="'edit'">        
                 <div class="inner-content-data">
                     <!-- <div class="desc-text">{{'connectors.editremoveconnectedsources'|translate}}</div> -->
                     <div class="back-to-block"><div class="back-to-page" (click)="backToPage('cancel')"><i class="si-carrotup"></i></div> Back</div>
@@ -410,10 +409,22 @@
                                                 <div class="label-text">{{'connectors.hostURL'|translate}}</div>
                                                 <input type="text" placeholder="Enter Host URL here" class="input-text" [(ngModel)]="configurationObj.hostUrl">
                                             </div>
-                                            <div class="kr-sg-input-text mb-3">
+                                            <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type!=='serviceNow'">
                                                 <div class="label-text">{{'connectors.host_domain_name'|translate}}</div>
                                                 <input type="text" placeholder="Enter Host DomainName here" class="input-text" [(ngModel)]="configurationObj.hostDomainName">
                                             </div>
+                                            <ng-container  *ngIf="selectedConnector.type==='serviceNow'">
+                                                <div class="kr-sg-input-text mb-3">
+                                                    <div class="label-text">{{'connectors.username'|translate}}</div>
+                                                    <input type="text" placeholder="Enter Username here" class="input-text" [(ngModel)]="configurationObj.username">
+                                                </div>
+                                                <div class="kr-sg-input-text mb-3">
+                                                    <div class="label-text">{{'connectors.password'|translate}}</div>
+                                                    <input [type]="showProtecedText.isPassword?'text':'password'" placeholder="Enter password here" class="input-text" [(ngModel)]="configurationObj.password">
+                                                    <i class="si-eye" *ngIf="!showProtecedText.isPassword" (click)="showProtecedText.isPassword=!showProtecedText.isPassword"></i>
+                                                    <i class="si-eyeshow" *ngIf="showProtecedText.isPassword" (click)="showProtecedText.isPassword=!showProtecedText.isPassword"></i>
+                                                </div>
+                                            </ng-container>                                           
                                         </div>
                                 </div>
                                 </perfect-scrollbar>
@@ -586,7 +597,7 @@
         </div>
         <div class="modal-footer text-right" *ngIf="!isPopupDelete">
             <button class="kr-sg-button-danger btn_lg" (click)="isAuthorizeStatus?goBacktoListPage():authorizeConnector()">{{isAuthorizeStatus?'Done':'Retry'}}</button>
-            <button class="kr-sg-button-secondary btn_lg" (click)="openDeleteModel('close')">Cancel</button>
+            <button class="kr-sg-button-secondary btn_lg" (click)="openDeleteModel('close')" *ngIf="!isAuthorizeStatus">Cancel</button>
         </div>
     </div>
 </kr-modal>

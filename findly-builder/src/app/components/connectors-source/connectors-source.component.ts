@@ -159,6 +159,8 @@ export class ConnectorsSourceComponent implements OnInit {
       this.configurationObj.clientId = res?.authDetails?.clientId;
       this.configurationObj.clientSecret = res?.authDetails?.clientSecret;
       this.configurationObj.isActive = res?.isActive;
+      this.configurationObj.username = res?.authDetails?.username;
+      this.configurationObj.password = res?.authDetails?.password;
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
@@ -212,7 +214,7 @@ export class ConnectorsSourceComponent implements OnInit {
         this.navigatePage();
       }
       else if (this.selectAddContent === 'configurtion') {
-        if (this.isEditable) {
+        if (this.isEditable || this.connectorId !== '') {
           this.updateConnector();
         } else {
           this.createConnector();
@@ -257,57 +259,59 @@ export class ConnectorsSourceComponent implements OnInit {
   }
   //authorize created connector
   authorizeConnector(data?) {
-    // const quaryparms: any = {
-    //   sidx: this.searchIndexId,
-    //   fcon: this.connectorId
-    // };
-    // this.service.invoke('post.authorizeConnector', quaryparms).subscribe(res => {
-    //   console.log("res", res.headers);
-    //   if (res) {
-    //     this.selectedContent = 'list';
-    //     this.notificationService.notify('Connector Authorized Successfully', 'success');
-    //     this.getConnectors();
+    const quaryparms: any = {
+      sidx: this.searchIndexId,
+      fcon: this.connectorId
+    };
+    this.service.invoke('post.authorizeConnector', quaryparms).subscribe(res => {
+      console.log("res", res);
+      if (res) {
+        this.isPopupDelete = false;
+        this.isAuthorizeStatus = true;
+        this.openDeleteModel('open');
+      }
+    }, errRes => {
+      this.isPopupDelete = false;
+      this.isAuthorizeStatus = false;
+      this.errorToaster(errRes.error.errors[0].msg, 'error');
+    });
+    // const authToken = this.auth.getAccessToken();
+    // const _bearer = 'bearer ' + authToken;
+    // const account_id = this.localStoreService?.getAuthInfo()?.currentAccount?.accountId;
+    // const connector_id = data?._id ? data?._id : this.connectorId;
+    // const url = `${environment.API_SERVER_URL}/searchassistapi/findly/${this.searchIndexId}/connectors/${connector_id}/authorize`;
+    // fetch(url, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Authorization: _bearer,
+    //     AccountId: account_id
+    //   },
+    // }).then(res => {
+    //   if (res.status === 200) {
+    //     if (data?.type === 'confluenceCloud') {
+    //       // fetch(res.url, {
+    //       //   method: 'GET',
+    //       //   referrerPolicy: "no-referrer-when-downgrade",
+    //       //   redirect: "manual"
+    //       // }).then(dat => {
+    //       //   console.log("res", dat);
+    //       // })
+    //       //window.open(res.url, '_blank');
+    //       //window.location.replace(res.url)
+    //     }
+    //     else {
+    //       //this.goBacktoListPage();
+    //       this.openDeleteModel('open');
+    //     }
     //   }
-    // }, errRes => {
-    //   this.errorToaster(errRes, 'Failed to get Connectors');
-    // });
-    const authToken = this.auth.getAccessToken();
-    const _bearer = 'bearer ' + authToken;
-    const account_id = this.localStoreService?.getAuthInfo()?.currentAccount?.accountId;
-    const connector_id = data?._id ? data?._id : this.connectorId;
-    const url = `${environment.API_SERVER_URL}/searchassistapi/findly/${this.searchIndexId}/connectors/${connector_id}/authorize`;
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: _bearer,
-        AccountId: account_id
-      },
-    }).then(res => {
-      if (res.status === 200) {
-        if (data?.type === 'confluenceCloud') {
-          // fetch(res.url, {
-          //   method: 'GET',
-          //   referrerPolicy: "no-referrer-when-downgrade",
-          //   redirect: "manual"
-          // }).then(dat => {
-          //   console.log("res", dat);
-          // })
-          //window.open(res.url, '_blank');
-          //window.location.replace(res.url)
-        }
-        else {
-          //this.goBacktoListPage();
-          this.openDeleteModel('open');
-        }
-      }
-      else {
-        this.errorToaster('Connectors API Failed', 'error');
-      }
-    })
-      .catch(error => {
-        console.log("error", error);
-      })
+    //   else {
+    //     this.errorToaster('Connectors API Failed', 'error');
+    //   }
+    // })
+    //   .catch(error => {
+    //     console.log("error", error);
+    //   })
   }
   //call if authorize api was success
   goBacktoListPage() {
@@ -353,7 +357,6 @@ export class ConnectorsSourceComponent implements OnInit {
     };
     let payload: any = {
       "name": Obj?.name,
-      "type": this.selectedConnector.type,
       "authDetails": {
         "clientId": Obj?.clientId,
         "clientSecret": Obj?.clientSecret
@@ -361,8 +364,7 @@ export class ConnectorsSourceComponent implements OnInit {
       "configuration": {
         "hostUrl": Obj?.hostUrl,
         "hostDomainName": Obj?.hostDomainName
-      },
-      "isActive": data ? checked.target.checked : Obj.isActive
+      }
     };
     if (this.selectedConnector.type === 'serviceNow') {
       payload.authDetails.username = this.configurationObj.username;
