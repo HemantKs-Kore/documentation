@@ -563,8 +563,8 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     }
   }
   closeAllColourPallets() {
-    this.toggle = false;
     this.inputBox1 = false;
+
     this.toggle1 = false;
     this.inputBox2 = false;
     this.toggle2 = false;
@@ -588,22 +588,10 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     this.color5 = this.searchObject.searchWidgetConfig.buttonBorderColor;
     this.color6 = this.searchObject.searchInteractionsConfig.welcomeMsgColor;
     this.color7 = this.searchObject.searchInteractionsConfig.welcomeMsgFillColor;
+    setTimeout(() => {
+      this.toggle = false;
+    }, 100)
   }
-  //put tour config data
-  // updateTourConfig() {
-  //   const appInfo: any = this.workflowService.selectedApp();
-  //   const quaryparms: any = {
-  //     streamId: appInfo._id
-  //   };
-  //   this.tourData.searchExperienceVisited = true;
-  //   const payload = { "tourConfigurations": this.tourData };
-  //   this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
-  //     //this.appSelectionService.updateTourConfig(this.componentType);
-  //     //this.tourGuide = '';
-  //   }, errRes => {
-  //     console.log(errRes);
-  //   });
-  // }
   //get default data
   getSearchExperience() {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;

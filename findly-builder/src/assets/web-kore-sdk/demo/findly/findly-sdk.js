@@ -268,11 +268,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.availableGroupsOrder = [];
       vars.defaultTabsList = [];
       vars.tabFacetFieldName = '';
-      vars.isHistroyloaded=true;
-      vars.configuration={};
-      vars.historySkip=0;
+      vars.isHistroyloaded = true;
+      vars.configuration = {};
+      vars.historySkip = 0;
       vars.loadingHistory = false;
-      vars.historyLimit=50;
+      vars.historyLimit = 50;
       vars.experimentsObject = {}; // Local Object for Storing Experiments-Related Data (QueryPipelineID, Relay, RequestID)
 
       // var IPBasedLocationURL = "http://ip-api.com/json";
@@ -313,7 +313,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }; //********************original widget.js start */
 
 
-    
+
     FindlySDK.prototype.setAPIDetails = function () {
 
       var _self = this;
@@ -454,7 +454,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         }
       }
-    }; 
+    };
     function xssAttack(txtStr) {
       //   if (compObj && compObj[0] && compObj[0].componentType === "text") {
 
@@ -463,22 +463,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         textHasXSS = txtStr.isNotAllowedHTMLTags();
       }
       if (textHasXSS && !textHasXSS.isValid) {
-       // txtStr = txtStr.escapeHTML();
-       txtStr = escapeHTML(txtStr)
+        // txtStr = txtStr.escapeHTML();
+        txtStr = escapeHTML(txtStr)
       }
       return txtStr;
       //return compObj[0].componentBody;
 
     }
-    function escapeHtml(unsafe)
-      {
-          return unsafe
-              .replace(/&/g, "&amp;")
-              .replace(/</g, "&lt;")
-              .replace(/>/g, "&gt;")
-              .replace(/"/g, "&quot;")
-              .replace(/'/g, "&#039;");
-      }
+    function escapeHtml(unsafe) {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
     FindlySDK.prototype.checkMarkdowns = function (val, hyperLinksMap) {
       if (val === '') {
         return val;
@@ -898,12 +897,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
     };
-     //********************original widget.js end */
+    //********************original widget.js end */
     //********************original widgetTemplate.js start */
     FindlySDK.prototype.addConversationTitle = function (config) {
       $('#' + config.container)
     }
-    
+
     FindlySDK.prototype.addConversationContainer = function (config) {
       var searchContainer = '<script type="text/x-jqury-tmpl">\
         <div class="search-container conversation kore-chat-window searchAssist-kore-chat-window liteTheme-one">\
@@ -2455,7 +2454,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
       return template;
     }
-    
+
     FindlySDK.prototype.getQuickReplyTemplate = function (messageData, helpers) {
       var quickReplyTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
                     {{if msgData.message}} \
@@ -2841,7 +2840,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.context_variables_textarea').hide();
         }
       });
-  
+
       $(document).off('click', '.telephone-icon').on('click', '.telephone-icon', function (event) {
         window.location.href = "tel:(212) 733-2323"
       })
@@ -2882,7 +2881,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.captureClickAnalytics(evet, $(evet.currentTarget).closest('.faqs-shadow').attr('contenttype'), 'click', $(evet.currentTarget).closest('.faqs-shadow').attr('contentId'), $(evet.currentTarget).closest('.faqs-shadow').attr('id'), $(evet.currentTarget).closest('.accordion').text());
           return;
         }
-  
+
         //if($(evet.target).next().length){
         if (panel[0].style.maxHeight || $(evet.target).hasClass('best-match')) {
           if (panel[0].style.maxHeight && panel[0].style.maxHeight.toString().split('px')[0] == '16') {
@@ -2893,14 +2892,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $(evet.target).removeClass('best-match')
           }
           panel[0].style.dispaly = 'none';
-  
+
           panel[0].style.overflow = "hidden";
           setTimeout(() => {
             $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").show();
             panel[0].style.maxHeight = null;
           }, 150)
         } else {
-  
+
           $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").hide();
           panel[0].style.dispaly = 'block';
           panel[0].style.maxHeight = panel[0].scrollHeight + "px";
@@ -2909,7 +2908,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           _self.captureClickAnalytics(evet, $(evet.currentTarget).closest('.faqs-shadow').attr('contenttype'), 'click', $(evet.currentTarget).closest('.faqs-shadow').attr('contentId'), $(evet.currentTarget).closest('.faqs-shadow').attr('id'), $(evet.currentTarget).closest('.accordion').text());
         }
-  
+
         //}
         if ($(evet.target).hasClass('acc-active')) {
           $(evet.target).next().parent().next().hide();
@@ -2952,12 +2951,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(event.target).attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtYmx1ZTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtYmx1ZSIgZmlsbD0iIzAwNkJCMCIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           $(event.target).parent().next().children().attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ncmF5PC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWdyYXkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           payload.feedbackType = "thumbsup";
-  
+
           if (_self.vars.showingMatchedResults == true) {
             //_self.captureClickAnalytics(event, $(event.target).closest('.title').attr('contenttype'), 'thumbsUp');
             _self.captureClickAnalytics(event, $(event.target).closest('.faqs-shadow').attr('contenttype'), 'thumbsUp', $(event.currentTarget).closest('.faqs-shadow').attr('contentId'), $(event.currentTarget).closest('.faqs-shadow').attr('id'), $(event.currentTarget).closest('.accordion').text());
           }
-  
+
           _self.newSearchFeedbackPost(_self.API.newSearchFeedbackUrl, 'POST', payload).then(function (res) {
           });
         } else {
@@ -2970,11 +2969,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(event.target).attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ibHVlPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWJsdWUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzAwNkJCMCIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           $(event.target).parent().prev().children().attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtZ3JheTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtZ3JheSIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           payload.feedbackType = "thumbsdown";
-  
+
           if (_self.vars.showingMatchedResults == true) {
             _self.captureClickAnalytics(event, $(event.target).closest('.faqs-shadow').attr('contenttype'), 'thumbsDown', $(event.currentTarget).closest('.faqs-shadow').attr('contentId'), $(event.currentTarget).closest('.faqs-shadow').attr('id'), $(event.currentTarget).closest('.accordion').text());
           }
-  
+
           _self.newSearchFeedbackPost(_self.API.newSearchFeedbackUrl, 'POST', payload).then(function (res) {
           });
         } else {
@@ -2992,21 +2991,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       return facets;
     }
-  
+
     FindlySDK.prototype.prepAllSearchData = function (selectedFacet, isFromTopdownTab) {
       var _self = this, facets = [], totalResultsCount = null, viewType = '', showingMatchedResults = '', devMode = '';
       if (!facets.length) {
         if (((_self.vars.searchObject || {}).liveData || {}).facets) {
-  
+
           // Object.keys(_self.vars.searchObject.liveData.facets).forEach(facet => {
           //   facets.push({ key: facet, value: _self.vars.searchObject.liveData.facets[facet] })
           // })
           facets = _self.getFacetsAsArray(_self.vars.searchObject.liveData.facets);
         }
       }
-  
+
       totalResultsCount = selectedFacet ? _self.vars.searchObject.liveData.facets[selectedFacet] : _self.vars.searchObject.liveData.facets["all results"];
-  
+
       viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
       showingMatchedResults = _self.vars.showingMatchedResults ? 'true' : 'false';
       devMode = _self.isDev ? 'true' : 'false';
@@ -3020,11 +3019,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         web: _self.vars.searchObject.liveData.web,
         selectedFacet: selectedFacet ? selectedFacet : "all results",
         faqs: _self.vars.searchObject.liveData.faqs,
-  
+
         files: _self.vars.searchObject.liveData.files,
         searchFacets: _self.vars.searchFacetFilters,
         viewType: viewType,
-  
+
         showingMatchedResults: showingMatchedResults,
         devMode: devMode,
         customSearchResult: _self.customSearchResult,
@@ -3035,7 +3034,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var searchFullData = $(_self.getSearchTemplate('searchFullData')).tmplProxy(tmplData);
       }
       var selectedFacet_temp = selectedFacet ? selectedFacet : "all results";
-  
+
       var dataObj = _self.vars.searchObject.liveData;
       if (!$('body').hasClass('top-down')) {
         _self.pubSub.publish('sa-st-data-search', {
@@ -3090,7 +3089,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         setTimeout(() => {
           _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' });
         }, 500)
-  
+
         // if(isFromTopdownTab){
         //   _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(_self.previousDataobj.facets));
         // } else {
@@ -3106,10 +3105,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // $('.kore-sdk-pagination-div').show();
         _self.handlePaginationUI(selectedFacet || _self.vars.selectedFacetFromSearch, dataObj);
       }
-  
+
       if (!selectedFacet || selectedFacet === "all results") {
         $('.facet:first').addClass('facetActive');
-  
+
         if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
           $('#viewTypeCheckboxControl').prop('checked', true);
           $(".pages-wrp, .tasks-wrp").sortable({
@@ -3125,14 +3124,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           });
           $(".pages-wrp, .tasks-wrp").sortable("option", "disabled", false);
           $(".pages-wrp, .tasks-wrp").disableSelection();
-  
+
           $(".faqs-shadow").addClass('custom-faqs-shadow');
           $(".faqs-wrp-content").addClass('custom-faqs-wrp-content-border');
-  
+
           // $(".divfeedback").css('display', 'none');
-  
+
           $(".custom-matched-results-container").css('display', 'block');
-  
+
           if (($('.custom-external-link-show-container').hasClass('display-none')) == true) {
             $('.image-url-sec').css('display', 'none');
             $('.desc-info').css('max-width', '65%');
@@ -3152,28 +3151,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.custom-external-link-show-container').addClass('display-none');
             $('.external-link-show').css('display', 'none');
           }
-  
+
           $(".faqs-shadow").removeClass('custom-faqs-shadow');
           $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content-border');
-  
+
           // $(".divfeedback").css('display', 'block');
-  
+
           $(".custom-matched-results-container").css('display', 'none');
-  
+
           $('.faqs-bottom-actions').css('display', 'none');
         }
-  
+
         // if (_self.vars.selectedFiltersArr.length > 0) {
         //   _self.vars.selectedFiltersArr.forEach(function (filter) {
         //     $("#" + filter).prop('checked', true)
         //   })
         // }
         _self.markSelectedFilters();
-  
+
         /*if (_self.vars.showingMatchedResults == true) {
           $('.tasks-wrp.results-wrp .faqs-shadow').first().find(".accordion").trigger('click'); // Triggering expand event of the first matched FAQ by the virtue of its position
         }*/
-  
+
       }
       else {
         $('#' + selectedFacet).addClass('facetActive').siblings().removeClass('active');
@@ -3196,12 +3195,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             });
             $(".pages-wrp").sortable("option", "disabled", false);
             $(".pages-wrp").disableSelection();
-  
+
             $(".faqs-shadow").addClass('custom-faqs-shadow');
             $(".faqs-wrp-content").addClass('custom-faqs-wrp-content-border');
-  
+
             $(".custom-matched-results-container").css('display', 'block');
-  
+
             if (($('.custom-external-link-show-container').hasClass('display-none')) == true) {
               $('.image-url-sec').css('display', 'none');
               $('.desc-info').css('max-width', '65%');
@@ -3216,7 +3215,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $(".pages-wrp").sortable("disable");
             }
             $(".custom-matched-results-container").css('display', 'none');
-  
+
             if (($('.custom-external-link-show-container').hasClass('display-none')) == false) {
               $('.image-url-sec').css('display', 'table-cell');
               $('.desc-info').css('max-width', '100%');
@@ -3225,15 +3224,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
             $('.faqs-bottom-actions').css('display', 'none');
           }
-  
+
           if (_self.vars.selectedFiltersArr.length > 0) {
             _self.vars.selectedFiltersArr.forEach(function (filter) {
               $("#" + filter).prop('checked', true)
             })
           }
-  
+
         }
-  
+
         if (selectedFacet === 'faq') {
           if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
             $('#viewTypeCheckboxControl').prop('checked', true);
@@ -3250,17 +3249,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             });
             $(".tasks-wrp").sortable("option", "disabled", false);
             $(".tasks-wrp").disableSelection();
-  
-  
+
+
             $(".faqs-shadow").addClass('custom-faqs-shadow');
             $(".faqs-wrp-content").addClass('custom-faqs-wrp-content-border');
-  
+
             // $(".divfeedback").css('display', 'none');
-  
+
             $(".custom-matched-results-container").css('display', 'block');
-  
+
             $('.desc-info').css('max-width', '65%');
-  
+
             // $('.faqs-bottom-actions').css('display', 'table');
           }
           else {
@@ -3268,39 +3267,39 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if ($(".tasks-wrp").hasClass('ui-sortable, ui-sortable-disabled')) {
               $(".tasks-wrp").sortable("disable");
             }
-  
+
             // $(".divfeedback").css('display', 'block');
-  
+
             $(".custom-matched-results-container").css('display', 'none');
             $('.desc-info').css('max-width', '100%');
-  
+
             $('.faqs-bottom-actions').css('display', 'none');
           }
-  
+
           if (_self.vars.selectedFiltersArr.length > 0) {
             _self.vars.selectedFiltersArr.forEach(function (filter) {
               $("#" + filter).prop('checked', true)
             })
           }
-  
+
           /*if (_self.vars.showingMatchedResults == true) {
             $('.tasks-wrp.results-wrp .faqs-shadow').first().find(".accordion").trigger('click'); // Triggering expand event of the first matched FAQ by the virtue of its position
           }*/
         }
-  
+
         if (_self.vars.selectedFiltersArr.length > 0) {
           _self.vars.selectedFiltersArr.forEach(function (filter) {
             $("#" + filter).prop('checked', true)
           })
         }
-  
+
       }
       _self.bindFacetsToggle();
       _self.bindAllResultsView();
       // if(_self.vars.searchObject.liveData.faqs.length) {
       //   _self.bindSearchAccordion();
       // }
-  
+
       var topMatchFAQ;
       if (_self.vars.searchObject && _self.vars.searchObject.liveData && _self.vars.searchObject.liveData.faqs) {
         var faqs = _self.vars.searchObject.liveData.faqs;
@@ -3318,7 +3317,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // debugger;
         if (topMatchFAQ) {
           var bestFAQTitleDiv = $(".search-body-full .faqs-wrp-content .title[contentid='" + topMatchFAQ.contentId + "']:last");
-  
+
           var bestFAQDiv = $(bestFAQTitleDiv).closest('.faqs-wrp-content');
           bestFAQDiv.addClass('faq-highlight');
           // bestFAQTitleDiv.find(".accordion").trigger('click');//
@@ -3358,40 +3357,40 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.getJWTByAPIKey = function (options, callback) {
       var _self = this;
-      var apiKey='';
+      var apiKey = '';
       if (options.apiKey) {
-          apiKey = options.apiKey;
+        apiKey = options.apiKey;
       }
       var jsonData = {};
       return $.ajax({
-          url: options.koreAPIUrl+'websdk/'+apiKey,
-          type: 'post',
-          data: jsonData,
-          dataType: 'json',
-          success: function (data) {
-           
-              options.assertion = data.jwt;
-             
-              if (callback) {
-                  callback(null, options);
-              }
-          },
-          error: function (err) {
+        url: options.koreAPIUrl + 'websdk/' + apiKey,
+        type: 'post',
+        data: jsonData,
+        dataType: 'json',
+        success: function (data) {
+
+          options.assertion = data.jwt;
+
+          if (callback) {
+            callback(null, options);
           }
+        },
+        error: function (err) {
+        }
       });
     }
-    FindlySDK.prototype.setupInternalAssertionFunction=function (){
+    FindlySDK.prototype.setupInternalAssertionFunction = function () {
       var _self = this;
-      _self.getJWTWithoutAPIKey(_self.config.botOptions).then(function(res){
+      _self.getJWTWithoutAPIKey(_self.config.botOptions).then(function (res) {
         _self.config.botOptions.callback(null, _self.config.botOptions);
         // _self.emit(_self.EVENTS.JWT_SUCCESS, res);
         _self.setJWT(res.jwt);
-        if(_self.vars.isHostedSdk){
+        if (_self.vars.isHostedSdk) {
           _self.initSearchAssistSDK(_self.config);
           _self.vars.isHostedSdk = false;
         }
-      },function(errRes){
-          console.log(errRes);
+      }, function (errRes) {
+        console.log(errRes);
       });
     }
     FindlySDK.prototype.setJWT = function (jwtToken) {
@@ -3399,142 +3398,1862 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       const options = _self.config.botOptions;
       options.assertion = jwtToken;
     };
-    FindlySDK.prototype.setupInternalAssertionFunctionWithAPIKey=function (){
+    FindlySDK.prototype.setupInternalAssertionFunctionWithAPIKey = function () {
       var _self = this;
-      _self.getJWTByAPIKey(_self.config.botOptions).then(function(res){
+      _self.getJWTByAPIKey(_self.config.botOptions).then(function (res) {
         _self.config.botOptions.callback(null, _self.config.botOptions);
         // _self.emit(_self.EVENTS.JWT_SUCCESS, res);
         _self.setJWT(res.jwt);
-      _self.config.botOptions.searchIndexID = res.botInfo.searchIndexId;
-        if(res.botInfo){
-          _self.config.botOptions.botInfo.chatBot=res.botInfo.name;
-          _self.config.botOptions.botInfo.taskBotId=res.botInfo._id;
+        _self.config.botOptions.searchIndexID = res.botInfo.searchIndexId;
+        if (res.botInfo) {
+          _self.config.botOptions.botInfo.chatBot = res.botInfo.name;
+          _self.config.botOptions.botInfo.taskBotId = res.botInfo._id;
           _self.config.botOptions.clientId = res.botInfo.clientId;
           _self.config.botOptions.clientSecretId = res.botInfo.clientSecretId;
         }
-        if(res.identity){
+        if (res.identity) {
           _self.config.botOptions.userIdentity = res.identity;
         }
-        if(_self.vars.isHostedSdk){
+        if (_self.vars.isHostedSdk) {
           _self.initSearchAssistSDK(_self.config);
           _self.vars.isHostedSdk = false;
         }
-      },function(errRes){
-          console.log(errRes);
+      }, function (errRes) {
+        console.log(errRes);
       });
     }
     FindlySDK.prototype.show = function (config) {
       var _self = this;
       _self.vars.isHostedSdk = true;
-    if(config && config.API_KEY_CONFIG && config.API_KEY_CONFIG.KEY!='YOUR_API_KEY'){
-      _self.config.botOptions["apiKey"] = config["API_KEY_CONFIG"].KEY;
-    }
+      if (config && config.API_KEY_CONFIG && config.API_KEY_CONFIG.KEY != 'YOUR_API_KEY') {
+        _self.config.botOptions["apiKey"] = config["API_KEY_CONFIG"].KEY;
+      }
       _self.config.botOptions.assertionFn = _self.getAssertionToken.bind(this);
-     _self.initKoreSDK();
+      _self.initKoreSDK();
     };
-    FindlySDK.prototype.getAssertionToken = function (options, callback){
-    var _self = this;
-    options.callback = callback;
-    if(_self.config && _self.config.API_KEY_CONFIG && _self.config.API_KEY_CONFIG.KEY !=='YOUR_API_KEY'){
-    _self.setupInternalAssertionFunctionWithAPIKey();
-    }else{
-      _self.setupInternalAssertionFunction();
+    FindlySDK.prototype.getAssertionToken = function (options, callback) {
+      var _self = this;
+      options.callback = callback;
+      if (_self.config && _self.config.API_KEY_CONFIG && _self.config.API_KEY_CONFIG.KEY !== 'YOUR_API_KEY') {
+        _self.setupInternalAssertionFunctionWithAPIKey();
+      } else {
+        _self.setupInternalAssertionFunction();
+      }
     }
-    }
-  
-   
-  FindlySDK.prototype.invokeSearch = function (showMoreData, fromBottomUP) {
-    if ($('body').hasClass('top-down')) {
-      // $('#loaderDIV').show();
-    }
-    var _self = this;
-    var url = _self.API.searchUrl;
-    var currentDate = new Date();
-    var dateTime = currentDate.getDate() + "/"
-      + (currentDate.getMonth() + 1) + "/"
-      + currentDate.getFullYear() + ", "
-      + currentDate.getHours() + ":"
-      + currentDate.getMinutes() + ":"
-      + currentDate.getSeconds();
 
-    var payload = {
-      "query": _self.vars.searchObject.searchText,
-      // "maxNumOfResults": 9,
-      "maxNumOfResults": 5,
-      "userId": _self.API.uuid,
-      "streamId": _self.API.streamId,
-      "lang": "en",
-      // "isDev": true,
-      "isDev": _self.isDev,
-      "searchRequestId":_self.vars.requestId
-    }
-    if (_self.isDev) {
-      payload['customize'] = _self.vars.customizeView;
-    }
-    if( _self.vars.displaySortable){
-      payload['sortableFacets']= [_self.vars.displaySortable];
-    }
-    if (showMoreData) {
-      if (showMoreData.fieldName) {
-        payload['resultGroups'] = {
-          'filter': {
-            'fieldName': showMoreData.fieldName,
-            'facetValue': [showMoreData.groupName]
+
+    FindlySDK.prototype.invokeSearch = function (showMoreData, fromBottomUP) {
+      if ($('body').hasClass('top-down')) {
+        // $('#loaderDIV').show();
+      }
+      var _self = this;
+      var url = _self.API.searchUrl;
+      var currentDate = new Date();
+      var dateTime = currentDate.getDate() + "/"
+        + (currentDate.getMonth() + 1) + "/"
+        + currentDate.getFullYear() + ", "
+        + currentDate.getHours() + ":"
+        + currentDate.getMinutes() + ":"
+        + currentDate.getSeconds();
+
+      var payload = {
+        "query": _self.vars.searchObject.searchText,
+        // "maxNumOfResults": 9,
+        "maxNumOfResults": 5,
+        "userId": _self.API.uuid,
+        "streamId": _self.API.streamId,
+        "lang": "en",
+        // "isDev": true,
+        "isDev": _self.isDev,
+        "searchRequestId": _self.vars.requestId
+      }
+      if (_self.isDev) {
+        payload['customize'] = _self.vars.customizeView;
+      }
+      if (_self.vars.displaySortable) {
+        payload['sortableFacets'] = [_self.vars.displaySortable];
+      }
+      if (showMoreData) {
+        if (showMoreData.fieldName) {
+          payload['resultGroups'] = {
+            'filter': {
+              'fieldName': showMoreData.fieldName,
+              'facetValue': [showMoreData.groupName]
+            }
+          }
+        } else if (showMoreData.groupName == 'defaultTemplate') {
+          payload['defaultGroups'] = _self.vars.availableGroupsList;
+        }
+        payload['pageNumber'] = showMoreData.pageNumber;
+      }
+
+
+      if (_self.vars.filterObject.length > 0) {
+        payload.filters = JSON.parse(JSON.stringify(_self.vars.filterObject));
+      }
+
+      if (_self.vars.selectedFacetFromSearch && _self.vars.selectedFacetFromSearch !== 'all results') {
+        var tabConfig = {
+          "filter": {
+            "fieldName": _self.vars.tabFacetFieldName,
+            "facetValue": [_self.vars.selectedFacetFromSearch]
           }
         }
-      } else if (showMoreData.groupName == 'defaultTemplate') {
-        payload['defaultGroups'] = _self.vars.availableGroupsList;
-      }
-      payload['pageNumber'] = showMoreData.pageNumber;
-    }
-
-
-    if (_self.vars.filterObject.length > 0) {
-      payload.filters = JSON.parse(JSON.stringify(_self.vars.filterObject));
-    }
-
-    if (_self.vars.selectedFacetFromSearch && _self.vars.selectedFacetFromSearch !== 'all results') {
-      var tabConfig = {
-        "filter": {
-          "fieldName": _self.vars.tabFacetFieldName,
-          "facetValue": [_self.vars.selectedFacetFromSearch]
+        payload.tabConfig = tabConfig;
+      } else {
+        let filters = payload.filters;
+        for (let i = (filters || []).length - 1; i >= 0; i--) {
+          if (filters[i].facetValue[0] == 'faq' || filters[i].facetValue[0] == 'task' || filters[i].facetValue[0] == 'web' || filters[i].facetValue[0] == 'file' || filters[i].facetValue[0] == 'data') {
+            payload.filters.splice(i, 1);
+          }
         }
       }
-      payload.tabConfig = tabConfig;
-    } else {
-      let filters = payload.filters;
-      for (let i = (filters || []).length - 1; i >= 0; i--) {
-        if (filters[i].facetValue[0] == 'faq' || filters[i].facetValue[0] == 'task' || filters[i].facetValue[0] == 'web' || filters[i].facetValue[0] == 'file' || filters[i].facetValue[0] == 'data') {
-          payload.filters.splice(i, 1);
-        }
+
+      if (_self.vars.resultRankingActionPerformed == true) {
+        _self.vars.resultRankingActionPerformed = false;
       }
-    }
 
-    if (_self.vars.resultRankingActionPerformed == true) {
-      _self.vars.resultRankingActionPerformed = false;
-    }
+      if (_self.vars.showingMatchedResults == true) {
+        _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
+          if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+            var responseObject = { 'type': 'fullResult', data: true, query: _self.vars.searchObject.searchText }
+            _self.parentEvent(responseObject);
+          }
 
-    if (_self.vars.showingMatchedResults == true) {
-      _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
+          $(".custom-insights-control-container").hide();
+          var faqs = [], web = [], tasks = [], files = [], facets = {}, data = {}, searchFacets = [];
+
+
+          if (res.template) {
+            res = res.template;
+            facets = res.tabFacet.buckets;
+            searchFacets = res.facets;
+            _self.vars.searchObject.liveData = {
+              facets: _self.vars.tabsList,
+              data: data,
+              originalQuery: res.originalQuery || '',
+              // searchFacets: searchFacets,
+            }
+            facets = [];
+            var totalResultsCount = 0;
+            if (res.tabFacet && res.tabFacet.buckets && res.tabFacet.buckets.length) {
+              res.tabFacet.buckets.forEach((tab) => {
+                totalResultsCount = totalResultsCount + tab.doc_count;
+                if (!tab.name) {
+                  tab.name = tab.key;
+                }
+              })
+              _self.vars.tabFacetFieldName = res.tabFacet.fieldName;
+            }
+            totalResultsCount = totalResultsCount;
+            // _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
+            _self.showMoreClick();
+            if (!showMoreData) {
+              _self.countTotalResults(res, totalResultsCount);
+              if (!$('body').hasClass('top-down')) {
+                // Sea all Results
+                var container = $('#show-all-results-container');
+                $('.search-container').addClass('bottom-up-results-showing');
+                if (!container.length) {
+                  $('body').append('<div class="show-all-results-container searchAssist-kore-chat-window" id="show-all-results-container"></div>');
+                  container = $('#show-all-results-container');
+                }
+                _self.vars.searchObject.liveData.facets = facets;
+                var dataObj = _self.vars.searchObject.liveData;
+                var facetdata = _self.vars.searchFacetFilters;
+                // _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length
+                // $('#loaderDIV').show();
+                _self.showAllResults();
+                setTimeout(() => {
+                  _self.bindCustomizeAction();
+                }, 300);
+                dataObj.tasks = res.tasks || [];
+                _self.pubSub.publish('sa-search-full-results', { container: container, isFullResults: true, selectedFacet: 'all', isLiveSearch: false, isSearch: false, facetData: searchFacets, dataObj });
+                setTimeout(() => {
+                  _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
+                }, 500);
+              } else {
+                // _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
+                // _self.prepAllSearchData(_self.vars.selectedFacetFromSearch);
+                _self.bindAllResultsView();
+                _self.bindSearchActionEvents();
+                $('#live-search-result-box').hide();
+                $('#frequently-searched-box').hide();
+                $('#loaderDIV').hide();
+                $(".content-data-sec").scrollTop(2);
+              }
+              $('.full-search-data-container').empty();
+              if (res && res.results && res.resultType == "grouped") {
+                var availableGroups = Object.keys(res.results);
+                if (fromBottomUP) {
+                  _self.vars.availableGroupsOrder = availableGroups;
+                } else {
+                  var reArrangeAvailableGroups = [];
+                  _self.vars.availableGroupsOrder.forEach((d) => {
+                    let group = availableGroups.find(g => g === d)
+                    if (group) {
+                      reArrangeAvailableGroups.push(group)
+                    }
+                  })
+                  availableGroups = reArrangeAvailableGroups;
+                }
+
+                if (!(res.tabFacet || {}).buckets) {
+                  totalResultsCount = 0;
+                }
+                if (availableGroups && availableGroups.length) {
+                  availableGroups.forEach((group) => {
+                    var results = res.results[group].data;
+                    if (!(res.tabFacet || {}).buckets) {
+                      totalResultsCount = totalResultsCount + res.results[group].doc_count;
+                    }
+
+                    var groupName = group == 'default_group' ? 'defaultTemplate' : group;
+                    var dataObj = {
+                      facets: facets,
+                      searchFacets: searchFacets,
+                      originalQuery: res.originalQuery || '',
+                      customSearchResult: _self.customSearchResult,
+                      data: results,
+                      groupName: groupName,
+                      doc_count: res.results[group].doc_count
+                    }
+                    if (!$('.empty-full-results-container').hasClass('hide')) {
+                      $('.empty-full-results-container').addClass('hide');
+                    }
+                    var publishSearchData = 'sa-' + groupName + '-search-data';
+                    _self.pubSub.publish(publishSearchData, { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
+                  });
+                } else {
+                  var dataObj = {
+                    facets: facets || [],
+                    searchFacets: searchFacets || [],
+                    originalQuery: res.originalQuery || '',
+                    customSearchResult: _self.customSearchResult,
+                    data: [],
+                    groupName: 'defaultTemplate',
+                    doc_count: 0
+                  }
+                  // _self.pubSub.publish('sa-defaultTemplate-search-data', { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
+                  if (!(res.tasks || []).length) {
+                    $('.empty-full-results-container').removeClass('hide');
+                    $('.no-templates-defined-full-results-container').hide();
+                  } else {
+                    if (!$('.empty-full-results-container').hasClass('hide')) {
+                      $('.empty-full-results-container').addClass('hide');
+                    }
+                    $('.no-templates-defined-full-results-container').hide();
+                  }
+                }
+
+                res.results = results;
+              } else {
+                var results = res.results.data;
+                if (!(res.tabFacet || {}).buckets) {
+                  totalResultsCount = res.results.doc_count || 0;
+                }
+                var dataObj = {
+                  facets: facets || [],
+                  searchFacets: searchFacets || [],
+                  originalQuery: res.originalQuery || '',
+                  customSearchResult: _self.customSearchResult,
+                  data: results,
+                  groupName: 'defaultTemplate',
+                  doc_count: res.results.doc_count
+                }
+                res.results = results;
+                if (totalResultsCount || (res.tasks || []).length) {
+                  _self.pubSub.publish('sa-defaultTemplate-search-data', { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
+                  if (!$('.empty-full-results-container').hasClass('hide')) {
+                    $('.empty-full-results-container').addClass('hide');
+                  }
+                  $('.no-templates-defined-full-results-container').hide();
+                } else {
+                  if (!(res.tasks || []).length) {
+                    $('.empty-full-results-container').removeClass('hide');
+                  } else {
+                    if (!$('.empty-full-results-container').hasClass('hide')) {
+                      $('.empty-full-results-container').addClass('hide');
+                    }
+                  }
+                }
+              }
+              // _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
+              facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults, name: 'ALL' });
+              facets = facets.concat((res.tabFacet || {}).buckets || [])
+              facets = _self.rearrangeTabsList(facets);
+              if ((res.tasks || []).length) {
+                facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+              }
+              _self.vars.tabsList = facets;
+              _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
+              _self.pubSub.publish('sa-source-type', facets);
+              var dataObj = _self.vars.searchObject.liveData;
+              _self.showMoreClick();
+              if ($('body').hasClass('top-down')) {
+                if (!_self.vars.filterObject.length && _self.vars.scrollPageNumber == 0) {
+                  _self.vars.searchFacetFilters = searchFacets;
+                  _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
+                  _self.markSelectedFilters();
+                  setTimeout(function () {
+                    _self.bindStructuredDataTriggeringOptions();
+                  }, 100);
+                }
+                setTimeout(function () {
+                  _self.vars['selectedFacetFromSearch'] = _self.vars.selectedFacetFromSearch || 'all results';
+                }, 100);
+              }
+
+              //live search hightlight faq start//
+              setTimeout(() => {
+                var topMatchSearchFAQ = faqs.filter(function (faq) {
+                  return faq.bestMatch
+                });
+                if (topMatchSearchFAQ.length) {
+                  //highlight faq;
+                  topMatchSearchFAQ = topMatchSearchFAQ[0];
+                } else {
+                  topMatchSearchFAQ = false;
+                }
+                if (topMatchSearchFAQ) {
+                  if (!$('body').hasClass('top-down')) {
+                    var bestFAQDiv = $(".show-all-results-outer-wrap .task-wrp[contentid='" + topMatchSearchFAQ.contentId + "']:last");
+                    bestFAQDiv.addClass('faq-highlight');
+                    // bestFAQDiv.find(".accordion").trigger('click');//
+                  }
+                }
+              }, 600)
+              _self.fullResultsScrollTop();
+              $(".content-data-sec").scrollTop(0);
+              $(".data-body-sec").scrollTop(0);
+            } else {
+              var dataObj = {
+                facets: facets || [],
+                searchFacets: searchFacets || [],
+                originalQuery: res.originalQuery || '',
+                customSearchResult: _self.customSearchResult,
+                data: res.results.data,
+                groupName: showMoreData.groupName,
+                doc_count: res.results.doc_count,
+                ShowMoreData: {
+                  templateName: showMoreData.templateName
+                }
+              }
+              var publishSearchData = 'sa-' + showMoreData.groupName + '-search-data';
+              _self.pubSub.publish(publishSearchData, { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
+            }
+            _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' });
+          }
+
+        })
+      }
+      else {
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
           var responseObject = { 'type': 'fullResult', data: true, query: _self.vars.searchObject.searchText }
           _self.parentEvent(responseObject);
         }
 
         $(".custom-insights-control-container").hide();
-        var faqs = [], web = [], tasks = [], files = [], facets = {}, data = {}, searchFacets = [];
+        _self.showAllResults();
+        setTimeout(() => {
+          _self.bindCustomizeAction();
+        }, 300);
+        //_self.prepAllSearchData();
+        // _self.bindAllResultsView();
+        // _self.bindSearchActionEvents();
+      }
+      // var topMatchFAQ;
+      // if(data && data.faqs){
+      //   var faqs=data.faqs;
+      //   topMatchFAQ=faqs.filter(function(faq){
+      //     return faq.bestMatch
+      //   });
+      //   if(topMatchFAQ.length){
+      //     //highlight faq;
+      //     topMatchFAQ=topMatchFAQ[0];
+      //   }else{
+      //     topMatchFAQ=false;
+      //   }
+      // }
+      // setTimeout(function(){
+      //   debugger;
+      //   if (topMatchFAQ) {
+      //     var bestFAQTitleDiv=$(".search-body-full .faqs-wrp-content .title[contentid='" + topMatchFAQ.contentId + "']:last");
+
+      //     var bestFAQDiv=$(bestFAQTitleDiv).closest('.faqs-wrp-content');
+      //     bestFAQDiv.addClass('faq-highlight');
+      //     bestFAQTitleDiv.find(".accordion").trigger('click');
+      //   }
+      // },500);
 
 
+    }
+    FindlySDK.prototype.bindAllResultsView = function () {
+      var _self = this;
+
+      if (_self.vars.showingMatchedResults == true) {
+        $('a.faqs-wrp-content').off('click').on('click', function (event) {
+          _self.captureClickAnalytics(event, $(event.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(event.currentTarget).closest('.faqs-shadow').attr('contentId'), $(event.currentTarget).closest('.faqs-shadow').attr('id'), $(event.currentTarget).find('.title').attr('title'));
+        })
+      }
+
+      $('.custom-header-nav-link-item').off('click').on('click', function (event) {
+        if ($('body').hasClass('top-down')) {
+          if ($(event.currentTarget).attr('id') == 'viewTypeCustomize') {
+            $('.top-down-search-background-div .dropdown_sortable_filter').css('right', '303px')
+          }
+          else {
+            $('.top-down-search-background-div .dropdown_sortable_filter').css('right', '190px')
+          }
+          if (($(event.currentTarget).attr('id') == 'viewTypeCustomize' && _self.vars.customizeView) || ($(event.currentTarget).attr('id') == 'viewTypePreview' && !_self.vars.customizeView)) {
+            return;
+          }
+        }
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        var navLinks = document.getElementsByClassName("custom-header-nav-link-item");
+
+        if (_self.config.viaSocket && _self.vars.resultRankingActionPerformed == true) {
+
+          var scrollHeight = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').prop("scrollHeight");
+          $('#searchChatContainer').animate({ scrollTop: scrollHeight }, 500);
+          if (!$('body').hasClass('top-down')) {
+            _self.sendMessage(_self.vars.searchObject.searchText);
+          }
+        }
+        /*var url = _self.API.searchUrl;
+        var payload = {
+          "query": _self.vars.searchObject.searchText,
+          "maxNumOfResults": 9,
+          "userId": _self.API.uuid,
+          "streamId": _self.API.streamId,
+          "lang": "en",
+        }*/
+
+        for (var i = 0; i < navLinks.length; i++) {
+          navLinks[i].className = navLinks[i].className.replace(" nav-link-item-active", "");
+        }
+        event.currentTarget.className += " nav-link-item-active";
+        if ($('body').hasClass('top-down')) {
+          var searchData;
+          // _self.vars.selectedFacetsList = [];
+          // _self.searchFacetsList([]);
+        }
+        if ($(searchData).find('.tasks-wrp .faqs-shadow')) {
+          $(searchData).find('.tasks-wrp .faqs-shadow').find(".accordion.acc-active").trigger('click');
+        }
+        if (_self.vars.showingMatchedResults == true) {
+          if ($(event.currentTarget).attr('id') == 'viewTypeCustomize') {
+            _self.vars.customizeView = true;
+            if ($('body').hasClass('top-down') && _self.isDev) {
+              $('.show_insights_top_down').show();
+              $('.custom-add-result-container').removeClass('display-none');
+              $('.content-data-sec').addClass('if-customize-mode');
+            }
+
+            // $(".custom-insights-control-container").show();
+
+            // $(".query-analytics-control-container").show(); // Temporary modification, made as per FLY-1012
+
+            $(".tasks-wrp").sortable();
+            $(".tasks-wrp").sortable("option", "disabled", false);
+            $(".tasks-wrp").disableSelection();
+
+            $(".faqs-shadow").addClass('custom-faqs-shadow');
+            $(".faqs-wrp-content").addClass('custom-faqs-wrp-content');
+
+            $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
+
+            $(".image-url-sec").css('display', 'none');
+            $(".faqs-bottom-actions").css('display', 'table');
+
+            $(".divfeedback").css('display', 'none');
+
+          }
+          else {
+            _self.vars.customizeView = false;
+            if ($('body').hasClass('top-down') && _self.isDev) {
+              $('.show_insights_top_down').hide();
+              $('.custom-add-result-container').addClass('display-none');
+              $('.content-data-sec').removeClass('if-customize-mode');
+            }
+            // $(".custom-insights-control-container").hide();
+
+            // $(".query-analytics-control-container").hide(); // Temporary modification, made as per FLY-1012
+
+            $(".faqs-shadow").removeClass('custom-faqs-shadow');
+            $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
+
+            $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
+
+            // $(".tasks-wrp").sortable("disable");
+            $(".image-url-sec").css('display', 'table-cell');
+            $(".faqs-bottom-actions").css('display', 'none');
+
+            // $(".divfeedback").css('display', 'block');
+
+            $('.notification-div').hide();
+          }
+          /*_self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
+          _self.handleSearchRes(response);
+          });*/
+          if ($('body').hasClass('top-down')) {
+            // _self.pubSub.publish('sa-show-all-results-top-down', {});
+            _self.invokeSearch();
+          }
+        }
+        else {
+          $('.search-container').css("top", 50);
+
+          // if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+          //   var responseObject = { 'type': 'fullResult', data: true, query: _self.vars.searchObject.searchText }
+          //   console.log(responseObject);
+          //   _self.parentEvent(responseObject);
+          if ($(event.currentTarget).attr('id') == 'viewTypeCustomize') {
+            _self.vars.customizeView = true;
+            if ($('body').hasClass('top-down') && _self.isDev) {
+              $('.show_insights_top_down').show();
+              $('.custom-add-result-container').removeClass('display-none');
+              $('.content-data-sec').addClass('if-customize-mode');
+            }
+          }
+          else {
+            _self.vars.customizeView = false;
+            if ($('body').hasClass('top-down') && _self.isDev) {
+              $('.show_insights_top_down').hide();
+              $('.custom-add-result-container').addClass('display-none');
+              $('.content-data-sec').removeClass('if-customize-mode');
+            }
+          }
+          if ($('body').hasClass('top-down')) {
+            _self.pubSub.publish('sa-show-all-results-top-down', {});
+
+          }
+        }
+        if (!$('body').hasClass('top-down')) {
+          _self.pubSub.publish('sa-update-search-customozation');
+        }
+        $('.structured-data-bottom-actions').css('display', 'none');
+        $('.structured-data-wrp-content').removeClass('custom-faqs-wrp-content');
+        $('.moreStructredData').addClass('display-none');
+      })
+      $('.sdk-tours-info-nxt').off('click').on('click', function (e) {
+
+      })
+      $('.sdk-tours-info-close').off('click').on('click', function (e) {
+
+      })
+      // $('#viewTypeCustomize').off('click').on('click', function (e) {
+      //   e.preventDefault();
+      //   e.stopImmediatePropagation();
+      //   _self.invokeSearch();
+      //   _self.vars.customizeView = true;
+      // })
+      $('.show-all-results').off('click').on('click', function (e) {
+        _self.vars.scrollPageNumber = 0;
+        _self.vars.selectedFacetFromSearch = "all results"
+        _self.vars.showingMatchedResults = true;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        _self.invokeSearch(false, true);
+        // $('#loaderDIV').show()
+      })
+      // $('.full-search-close').off('click').on('click', function (e)
+      $('.custom-chevron-right-icon').off('click').on('click', function (e) {
+        if (_self.overrideDefaultPoisition && !$('body').hasClass('setDefaultSearchTemplate')) {
+          var pos = _self.calculateContainerPosition(_self.getAvatarTopLeft())
+          $('.search-container').css('top', pos.y);
+          //$('.search-container').css('left', pos.x);
+        }
+        else {
+          $('.search-container').css('top', 'auto');
+        }
+
+        // if (_self.overrideDefaultPoisition) {
+        //   var pos = _self.calculateContainerPosition(_self.getAvatarTopLeft())
+        //   $('.search-container').css('top', pos.y);
+        //   //$('.search-container').css('left', pos.x);
+        // }
+        // if(!$('body').hasClass('demo')){
+        //   $('.search-container').css('top', 'unset');
+        // }
+        if (($('.external-link-show').css('display') == 'none')) {
+          $('.external-link-show').css('display', 'block');
+          $('.desc-info').css('max-width', '100%');
+
+        }
+
+        var responseObject = { 'type': 'fullResult', data: false, query: _self.vars.searchObject.searchText }
+        _self.parentEvent(responseObject);
+
+        $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content-border');
+        $('.search-container').removeClass('full-page');
+        $('.start-search-icon-div').removeClass('hide');
+        $('.search-body-full').html('');
+        $('.search-body-full').addClass('hide');
+
+        if ($('.custom-header-container-center').css('visibility') == "hidden") {
+          $('.custom-header-container-center').css('visibility', 'visible');
+        }
+
+        if (_self.vars.resultRankingActionPerformed == true) {
+          _self.vars.resultRankingActionPerformed = false;
+        }
+
+        if (_self.vars.customizeView == true) {
+          $('#viewTypeCustomize').trigger("click");
+        }
+        else {
+          $('#viewTypePreview').trigger("click");
+        }
+        // structuredData handling
+        $('.structured-data-bottom-actions').css('display', 'none');
+        $('.structured-data-wrp-content').removeClass('custom-faqs-wrp-content');
+        $('.moreStructredData').addClass('display-none');
+        $('.custom-matched-results-container').css('display', 'none');
+
+        e.keyCode = 13;
+        _self.searchEventBinding(_self.vars.searchObject.liveData, "livesearch", e, true, {});
+      })
+
+      $('.moreFaqs').off('click').on('click', function (e) {
+        var selectedFacet = "faq"
+        _self.prepAllSearchData(selectedFacet);
+      })
+
+      $('.ksa-showMore').off('click').on('click', function (e) {
+        var selectedFacet = "web"
+        _self.prepAllSearchData(selectedFacet);
+      })
+
+      $('.custom-add-new-result-container').off('click').on('click', function (event) {
+        var structure = 'bottom';
+        if ($('body').hasClass('top-down')) {
+          structure = 'top';
+        } else {
+          structure = 'bottom';
+        }
+        if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+          var responseObject = { 'type': 'addNew', data: true, query: _self.vars.searchObject.searchText, structure: structure }
+          _self.parentEvent(responseObject);
+        }
+      });
+
+      $('#viewTypeCheckboxControl').off('change').on('change', function (event) {
+        var facetActive = $('.facetActive').attr('id');
+        var responseObject = { type: 'showInsightFull', data: false, query: _self.vars.searchObject.searchText }
+        // $('#loaderDIV').show();
+        if ($(this).is(':checked')) {
+          // debugger;
+          _self.vars.customizeView = true;
+        }
+        else {
+          // debugger;
+          _self.vars.customizeView = false;
+        }
+        // _self.prepAllSearchData(facetActive);
+        _self.searchByFacetFilters(_self.vars.filterObject);
+        _self.parentEvent(responseObject);
+      });
+
+      $('#openFacetFilterControl').off('click').on('click', function (event) {
+        // if ($('.filters-container').css('display') == 'block') {
+        if ($('#facetFiltersContainerDIV').css('display') == 'block') {
+          // $('.filters-container').hide();
+          if (_self.vars.customizeView == true) {
+            $('.desc-info').css('max-width', '65%');
+          }
+          $('#resultsContainerDIV').css('width', '100%');
+          $('#facetFiltersContainerDIV').hide();
+
+          // $('.ksa-resultsContainer .resultsLeft').css('width', '100%');
+        }
+        else {
+          // $('.ksa-resultsContainer .resultsLeft').css('width', '70%');
+          if (_self.vars.customizeView == true) {
+            $('.desc-info').css('max-width', '50%');
+          }
+          $('#resultsContainerDIV').css('width', '65%');
+          $('#facetFiltersContainerDIV').show();
+
+          // $('.filters-container').show();
+        }
+      });
+
+      /*$('#closeFacetFilterControl').off('click').on('click', function (event) {
+        if($('.filters-container').css('display') == 'block') {
+          $('.filters-container').hide();
+        }
+      })*/
+
+      // $('.filter-checkbox').off('change').on('change', function (event) {
+      if (!$('body').hasClass('top-down')) {
+        $('.sdk-filter-checkbox').off('change').on('change', function (event) {
+          $('#loaderDIV').show();
+
+          if ($(this).is(':checked')) {
+            _self.vars.selectedFiltersArr.push($(this).attr("id"));
+            _self.vars.selectedFacetsList.push({ id: $(this).attr("id"), name: $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
+            _self.vars.countOfSelectedFilters += 1;
+
+            _self.filterResults(event, true);
+          }
+          else {
+            var unselectedFilterID = $(this).attr("id");
+            _self.vars.selectedFiltersArr.slice(0).forEach(function (filter) {
+              if (filter == unselectedFilterID) {
+                var index = _self.vars.selectedFiltersArr.indexOf(filter);
+                _self.vars.selectedFiltersArr.splice(index, 1)
+                _self.vars.selectedFacetsList.splice(index, 1);
+              }
+            })
+
+            _self.vars.countOfSelectedFilters -= 1;
+
+            _self.filterResults(event, false);
+          }
+
+        });
+      } else {
+        $('.sdk-filter-checkbox-top-down').off('change').on('change', function (event) {
+          _self.vars.isTopFacets = _self.vars.filterConfiguration.aligned === 'top' ? true : false;
+          if ($('.topdown-search-main-container').length && !_self.vars.isTopFacets) {
+            // $('#loaderDIV').show();
+          }
+
+          if ($(this).is(':checked')) {
+            _self.vars.selectedFiltersArr.push($(this).attr("id"));
+            /* top -down -search -experience -start */
+            _self.vars.selectedFacetsList.push({ id: $(this).attr("id"), name: $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
+            /* top -down -search -experience -end*/
+            _self.vars.countOfSelectedFilters += 1;
+            _self.filterResultsTopDown(event, true, false, _self.vars.isTopFacets);
+          }
+          else {
+            var unselectedFilterID = $(this).attr("id");
+            _self.vars.selectedFiltersArr.slice(0).forEach(function (filter) {
+              if (filter == unselectedFilterID) {
+                var index = _self.vars.selectedFiltersArr.indexOf(filter);
+                _self.vars.selectedFiltersArr.splice(index, 1)
+                /* top -down -search -experience -start */
+                _self.vars.selectedFacetsList.splice(index, 1);
+                /* top -down -search -experience -end */
+
+              }
+            })
+
+            _self.vars.countOfSelectedFilters -= 1;
+
+            _self.filterResultsTopDown(event, false, false, _self.vars.isTopFacets);
+          }
+          //top-down-search-facets-list-start//
+          if ($('.topdown-search-main-container').length && !_self.vars.isTopFacets) {
+            _self.getTopDownFacetsAddedList();
+          }
+          //top-down-search-facets-list-end//
+        });
+        $('.sdk-filter-radio-top-down').off('change').on('change', function (event) {
+          event.stopImmediatePropagation();
+          $('#loaderDIV').show();
+
+          // if(_self.vars['selectedFiltersRadio']){
+          //   _self.vars['selectedFiltersRadio'].push($(this).attr("id"));
+          // }
+          if (_self.vars.selectedFacetsList.length) {
+            var facetIndex = _self.vars.selectedFacetsList.findIndex(x => x.value === $(this).attr("name"));
+            if (facetIndex > -1) {
+              _self.vars.selectedFiltersArr.splice(facetIndex, 1, $(this).attr("id"));
+              _self.vars.selectedFacetsList.splice(facetIndex, 1, { id: $(this).attr("id"), value: $(this).attr("type") == 'radio' ? $(this).attr("name") : $(this).attr("value"), name: $(this).attr("type") == 'radio' ? $(this).attr("value") : $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
+              _self.filterResultsTopDown(event, false);
+            } else {
+              _self.vars.selectedFiltersArr.push($(this).attr("id"));
+              _self.vars.selectedFacetsList.push({ id: $(this).attr("id"), value: $(this).attr("type") == 'radio' ? $(this).attr("name") : $(this).attr("value"), name: $(this).attr("type") == 'radio' ? $(this).attr("value") : $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
+              _self.vars.countOfSelectedFilters += 1;
+              _self.filterResultsTopDown(event, true);
+            }
+          } else {
+            _self.vars.selectedFiltersArr.push($(this).attr("id"));
+            _self.vars.selectedFacetsList.push({ id: $(this).attr("id"), value: $(this).attr("type") == 'radio' ? $(this).attr("name") : $(this).attr("value"), name: $(this).attr("type") == 'radio' ? $(this).attr("value") : $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
+            _self.vars.countOfSelectedFilters += 1;
+            _self.filterResultsTopDown(event, true);
+          }
+          if ($('.topdown-search-main-container').length) {
+            _self.getTopDownFacetsAddedList(true);
+          }
+        });
+        $('.horizantal-filter-sec').off('click', '.apply-btn').on('click', '.apply-btn', function (event) {
+          // $('#loaderDIV').show();
+          _self.searchByFacetFilters(_self.vars.filterObject, _self.vars.selectedFiltersArr, _self.vars.selectedFacetsList);
+          if ($('.topdown-search-main-container').length && _self.vars.isTopFacets) {
+            if ($('.sdk-filter-radio-top-down').length) {
+              _self.getTopDownFacetsAddedList(true);
+            } else {
+              _self.getTopDownFacetsAddedList();
+            }
+            $('.dropdown-content').hide();
+          }
+          $('#loaderDIV').hide();
+        });
+      }
+
+
+      $('.filters-reset-anchor').off('click').on('click', function (event) {
+        // $('.filter-checkbox').prop('checked', false);
+        if (!$('body').hasClass('top-down')) {
+          $('.sdk-filter-checkbox').prop('checked', false);
+          $('.sdk-filter-radio').prop('checked', false);
+        } else {
+          $('.sdk-filter-checkbox-top-down').prop('checked', false);
+          $('.sdk-filter-radio-top-down').prop('checked', false);
+        }
+        $('#loaderDIV').show();
+        _self.vars.filterObject = [];
+        _self.vars.selectedFiltersArr = [];
+        _self.vars.tempSelectedFiltersArr = [];
+        _self.vars.tempSelectedFacetsList = [];
+        _self.vars.tempFilterObject = [];
+        _self.vars.selectedFacetsList = [];
+        _self.vars.isTopFacets = _self.vars.filterConfiguration.aligned === 'top' ? true : false;
+        _self.vars.countOfSelectedFilters = 0;
+
+        _self.searchByFacetFilters([]);
+        _self.searchFacetsList([]);
+      });
+
+      $('.show_insights').off('click').on('click', function (event) {
+        var responseObject = {};
+        // debugger;
+        if ($(this).attr('data-displayinsights') == "true") {
+          responseObject = { 'type': 'showInsightFull', data: true, query: _self.vars.searchObject.searchText };
+          $(this).attr('data-displayinsights', false);
+          _self.parentEvent(responseObject);
+        }
+        else {
+          responseObject = { 'type': 'showInsightFull', data: false, query: _self.vars.searchObject.searchText };
+          $(this).attr('data-displayinsights', true);
+          _self.parentEvent(responseObject);
+        }
+
+      })
+
+      $('.live-search-close-icon').off('click').on('click', function (e) {
+
+        _self.vars.showingMatchedResults = true;
+        _self.vars.searchObject.searchText = $('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val();
+        _self.vars.scrollPageNumber = 0;
+        _self.vars.selectedFacetFromSearch = "all results"
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        _self.invokeSearch();
+        // $('#loaderDIV').show()
+      });
+
+      $('.suggestions-close-icon').off('click').on('click', function (e) {
+        $('#autoSuggestionContainer').empty();
+        $('.suggestion-search-data-parent').css('display', 'none');
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      });
+    }
+    FindlySDK.prototype.getTopDownFacetsAddedList = function (isRadioBtn = false) {
+      var _self = this;
+      //top-down-search-facets-list-start//
+      if ($('.topdown-search-main-container').length) {
+        _self.searchFacetsList(_self.vars.selectedFacetsList);
+        $('#show-filters-added-data').off('click', '.close-filter-tag').on('click', '.close-filter-tag', function (event) {
+          var unselectedFilterID = $(this).attr("id");
+          // $('#loaderDIV').show();
+          _self.vars.selectedFiltersArr.slice(0).forEach(function (filter) {
+            if (filter == unselectedFilterID) {
+              var index1 = _self.vars.selectedFiltersArr.indexOf(filter);
+              _self.vars.selectedFiltersArr.splice(index1, 1)
+              _self.vars.selectedFacetsList.splice(index1, 1);
+              _self.searchFacetsList(_self.vars.selectedFacetsList);
+              $('.sdk-filter-checkbox-top-down').prop('checked', false);
+              $('.sdk-filter-radio-top-down').prop('checked', false);
+              _self.markSelectedFilters();
+            }
+          })
+          _self.vars.countOfSelectedFilters -= 1;
+          _self.filterResultsTopDown(event, false, isRadioBtn);
+        });
+      }
+
+      //top-down-search-facets-list-end//
+    }
+    FindlySDK.prototype.bindFacetsToggle = function () {
+      var _self = this;
+      $('.facet').off('click').on('click', function (e) {
+        var facetThis = this;
+        var selectedFacet = $(this).attr('id');
+        // if (_self.vars.selectedFacetFromSearch === selectedFacet) {
+        //   return;
+        // }
+        _self.vars.selectedFacetFromSearch = selectedFacet;
+        _self.pubSub.publish('facet-selected', { selectedFacet: selectedFacet });
+        if ($('body').hasClass('top-down')) {
+          _self.vars.scrollPageNumber = 0;
+          if (selectedFacet === 'all results') {
+            $('.kore-sdk-pagination-div').hide();
+            if (_self.vars.totalNumOfResults == 0) {
+              $('#top-down-all-tab-empty-state').removeClass('hide');
+            } else {
+              $('#top-down-all-tab-empty-state').addClass('hide');
+            }
+            _self.invokeSpecificSearch(selectedFacet)
+            // _self.prepAllSearchData(selectedFacet, true);
+
+          } else {
+            if (!$('#top-down-all-tab-empty-state').hasClass('hide')) {
+              $('#top-down-all-tab-empty-state').addClass('hide');
+            }
+            _self.invokeSpecificSearch(selectedFacet)
+          }
+
+          $(".content-data-sec").scrollTop(0);
+          if (selectedFacet == 'all results' || selectedFacet == 'task') {
+            $('#actions-container').show();
+          } else {
+            $('#actions-container').hide();
+          }
+        } else {
+          _self.prepAllSearchData(selectedFacet);
+
+        }
+
+      })
+    }
+
+    FindlySDK.prototype.recentClick = function () {
+      var _self = this;
+      $('.search-container').off('click', '.recentText').on('click', '.recentText', function (e) {
+        var recentSearch = $(this).attr('id');
+        //e.target.value = recentSearch;
+        if (!$('body').hasClass('top-down')) {
+          $('.custom-header-container-center').css('visibility', 'hidden');
+        }
+        $('#show-all-results-container').hide();
+        $('#search').val(recentSearch).focus();
+        _self.vars.searchObject.searchText = recentSearch;
+        _self.vars.showingMatchedResults = true;
+        _self.searchFacetsList([]);
+        var e = $.Event("keydown", { which: 13 });
+        $('#search').trigger(e);
+      })
+      $('.search-container').off('click', '.recent-search-delete').on('click', '.recent-search-delete', function (e) {
+        var recentSearch = $(this).attr('id');
+        _self.deleteRecentSearches(recentSearch).then(data => {
+          $(this).parent().remove();
+          if (!$('.search-recent-column').children().length) {
+            $('.searchBox.Search-BG-Copy').remove();
+            $('.search-body').hide();
+            $('.parent-search-live-auto-suggesition').hide();
+          }
+        })
+      })
+    }
+    FindlySDK.prototype.deleteRecentSearches = function (search) {
+      var _self = this;
+      var url = _self.API.deleteRecentSearch;
+      var payload = { "searches": [search] };
+      var headers = {};
+      var bearer = "bearer " + this.bot.options.accessToken;
+      headers["Authorization"] = bearer;
+      headers["Content-Type"] = "application/json";
+      headers.auth = _self.config.botOptions.assertion;
+      return $.ajax({
+        url: url,
+        type: 'delete',
+        headers: headers,
+        data: JSON.stringify(payload),
+        success: function (data) {
+        },
+        error: function (err) {
+        }
+      })
+    };
+
+    FindlySDK.prototype.deleteRecents = function () {
+      var _self = this;
+      $('.recentCloseIcon').off('click').on('click', function (e) {
+        var recentIndex = $(this).attr('id');
+        _self.vars.searchObject.recents.splice(recentIndex, 1);
+        _self.vars.searchObject.popularSearches.splice(recentIndex, 1);
+        window.localStorage.setItem('recents', JSON.stringify(_self.vars.searchObject.recents));
+        var tmplData = {
+          searchResults: _self.vars.searchObject.recentAPIResponse,
+          recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
+          recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+          popularSearches: []
+        };
+        if (!_self.customSearchResult) {
+          var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
+          $('.search-body .finalResults').hide();
+          $('.searchBox.Search-BG-Copy').remove();
+          $('.search-body').append(freqData);
+        } else {
+          _self.pubSub.publish('sa-freq-data', tmplData);
+          _self.pubSub.publish('sa-show-freq-data', tmplData);
+        }
+        setTimeout(function () {
+          $('.search-body').scrollTop(2);
+        }, 100);
+        _self.deleteRecents();
+        _self.recentClick();
+        e.stopPropagation();
+      })
+    }
+    FindlySDK.prototype.saveOrGetDataInStorage = function (type, dataArray, storageType, action) {
+      if (storageType === "localStorage") {
+        if (action === "get") {
+          return window.localStorage.getItem(type) ? JSON.parse(window.localStorage.getItem(type)) : [];
+        } else {
+          window.localStorage.setItem(type, JSON.stringify(dataArray));
+          return;
+        }
+      }
+
+    }
+    FindlySDK.prototype.closeGreetingMsg = function () {
+      if ($(".search-container").find(".greetingMsg").length) {
+        $('.greetingMsg').html('');
+        $('.greetingMsg').addClass('hide');
+        $('.search-container').css("box-shadow", "0 8px 16px 0 rgba(12, 51, 91, 0.2)")
+      }
+
+    }
+    FindlySDK.prototype.bindSearchActionEvents = function () {
+      var _self = this;
+      $('.search-task').off('click').on('click', function (e) {
+        e.stopPropagation();
+        var ele = $(e.target).closest('.search-task');
+        var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+        $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+        _self.pubSub.publish('sa-action-clicked', e);
+        var taskName = e.currentTarget.title.toLowerCase();
+        var payload;
+        if (_self.vars.searchObject && _self.vars.searchObject.searchText && _self.vars.searchObject.searchText.length) {
+          payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
+          // payload = _self.vars.searchObject.searchText;
+        }
+        else {
+          payload = $(e.currentTarget).attr('payload');
+        }
+        if (!_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.indexOf(taskName.toLowerCase()) == -1)) {
+          _self.vars.searchObject.recentTasks.unshift(taskName.toLowerCase());
+        }
+        var recentItem = []
+        recentItem.push(taskName);
+        _self.vars.searchObject.recentTasks = _.uniq(recentItem.concat(_self.vars.searchObject.recentTasks));
+        if (_self.vars.searchObject.recentTasks && _self.vars.searchObject.recentTasks.length) {
+          _self.vars.searchObject.recentTasks = _.filter(_self.vars.searchObject.recentTasks, function (task) {
+            return task;
+          })
+        }
+        if (_self.vars.showingMatchedResults == true) {
+          _self.captureClickAnalytics(e, $(e.currentTarget).attr('contentType'), 'click', $(e.currentTarget).attr('contentId'), $(e.currentTarget).attr('id'), $(e.currentTarget).attr('title'));
+        }
+        window.localStorage.setItem("recentTasks", JSON.stringify(_self.vars.searchObject.recentTasks));
+        if (!$('body').hasClass('top-down')) {
+          _self.bindFrequentData();
+        }
+        if (_self.config.viaSocket) {
+          var nlMeta = {
+            linkedBotNLMeta: {
+              'intent': $(e.currentTarget).attr('title'),
+              'seqLogId': $(e.currentTarget).attr('seqLogId') || null,
+              'childBotName': $(e.currentTarget).attr('childBotName') || null,
+              'isRefresh': true
+            }
+          };
+          _self.sendMessage(payload, null, nlMeta);
+        }
+        if ($('body').hasClass('top-down')) {
+          _self.sendMessageToSearch('user', null, null, (_self.isDev == true) ? true : false);
+          _self.resetPingMessage();
+          _self.resetSocketDisconnection();
+        }
+        if (_self.isDev || _self.vars.loggedInUser) {
+          _self.vars.searchObject.searchText = e.currentTarget.title.toLowerCase();
+          _self.sendMessageToSearch('botAction');
+        } else if ((e.currentTarget.title.toLowerCase() === 'pay bill') || (e.currentTarget.title.toLowerCase() === 'pay credit card bill')) {
+          _self.userLogin(e.currentTarget.title.toLowerCase());
+        } else {
+        }
+
+      })
+      $('.search-container').off('click', '.visibility').on('click', '.visibility', function (event) {
+        if ($(event.target).closest('.visibility').attr('data-viewmode') == "full") {
+
+          if (parseInt($(event.target).closest('.faqs-shadow').attr('pinindex')) == -1) {
+            if ($(event.target).closest('.faqs-shadow').attr('visible') == "true") {
+              _self.performRankActions(event, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
+            }
+            else {
+              _self.performRankActions(event, { visible: true }, _self.vars.searchObject.searchText, 'visibility');
+            }
+          }
+        }
+        else {
+
+          if (parseInt($(event.target).closest('.task-wrp').attr('pinindex')) == -1) {
+            if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
+              _self.performRankActions(event, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
+            }
+            else {
+              _self.performRankActions(event, { visible: true }, _self.vars.searchObject.searchText, 'visibility');
+            }
+          }
+        }
+      });
+      $('.search-container').off('click', '.pinning').on('click', '.pinning', function (event) {
+        if ($(event.target).closest('.pinning').attr('data-viewmode') == "full") {
+
+          if ($(event.target).closest('.faqs-shadow').attr('visible') == "true") {
+            var _selectedElement = $(event.target).closest('.faqs-shadow');
+            var _parentElement = $(event.target).closest('.results-wrp');
+            var childNodes = Array.prototype.slice.call(_parentElement[0].children);
+            var pinIndex = 0;
+            if ($(event.target).closest('.custom-actions-content').text() == "UNPIN") {
+              pinIndex = -1;
+            }
+            else {
+              pinIndex = childNodes.indexOf(_selectedElement[0]);
+            }
+            _self.performRankActions(event, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning');
+          }
+        }
+        else {
+          if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
+            var _selectedElement = $(event.target).closest('.task-wrp');
+            var _parentElement = $(event.target).closest('.tasks-wrp');
+            var childNodes = Array.prototype.slice.call(_parentElement[0].children);
+            var pinIndex = 0;
+            if ($(event.target).closest('.custom-actions-content').text() == "UNPIN") {
+              pinIndex = -1;
+            }
+            else {
+              pinIndex = childNodes.indexOf(_selectedElement[0]);
+            }
+            _self.performRankActions(event, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning');
+          }
+        }
+      });
+      $('.search-container').off('click', '.boosting').on('click', '.boosting', function (event) {
+        if ($(event.target).closest('.boosting').attr('data-viewMode') == "full") {
+
+          if ($(event.target).closest('.faqs-shadow').attr('visible') == "true" && parseInt($(event.target).closest('.faqs-shadow').attr('pinindex')) == -1) {
+            var boostByValue = parseFloat($(event.target).closest('.faqs-shadow').attr('boost'));
+            boostByValue = boostByValue + 0.25;
+            _self.performRankActions(event, { boost: boostByValue }, _self.vars.searchObject.searchText, 'boosting');
+          }
+        }
+        else {
+          if ($(event.target).closest('.task-wrp').attr('visible') == "true" && parseInt($(event.target).closest('.faqs-shadow').attr('pinindex')) == -1) {
+            var boostByValue = parseFloat($(event.target).closest('.task-wrp').attr('boost'));
+            boostByValue = boostByValue + 0.25;
+            _self.performRankActions(event, { boost: boostByValue }, _self.vars.searchObject.searchText, 'boosting');
+          }
+        }
+      });
+      $('.search-container').off('click', '.burying').on('click', '.burying', function (event) {
+        if ($(event.target).closest('.burying').attr('data-viewMode') == 'full') {
+          if ($(event.target).closest('.faqs-shadow').attr('visible') == "true" && parseInt($(event.target).closest('.faqs-shadow').attr('pinindex')) == -1) {
+            var buryByValue = parseFloat($(event.target).closest('.faqs-shadow').attr('boost'));
+            if (buryByValue > 0.25) {
+              buryByValue = buryByValue - 0.25;
+              _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
+            }
+            else {
+              buryByValue = 0.25 - buryByValue;
+              _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
+            }
+          }
+        }
+        else {
+
+          if ($(event.target).closest('.task-wrp').attr('visible') == "true" && parseInt($(event.target).closest('.faqs-shadow').attr('pinindex')) == -1) {
+            var buryByValue = parseFloat($(event.target).closest('.task-wrp').attr('boost'));
+            if (buryByValue > 0.25) {
+              buryByValue = buryByValue - 0.25;
+              _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
+            }
+            else {
+              buryByValue = 0.25 - buryByValue;
+              _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
+            }
+          }
+        }
+      })
+    };
+
+    FindlySDK.prototype.performRankActions = function (event, conf, searchText, actionType) {
+      var _self = this;
+      event.preventDefault();
+      event.stopPropagation();
+      if ($(event.target).closest('.' + actionType).attr('data-viewMode') == "full") {
+        var selectedElement = $(event.target).closest('.faqs-shadow');
+      }
+      else {
+        var selectedElement = $(event.target).closest('.task-wrp');
+      }
+      var contentID = selectedElement.attr('contentid');
+      var contentType = selectedElement.attr('contentType');
+      var queryString = _self.vars.searchObject.searchText;
+
+
+      var payload = {
+        "searchQuery": queryString,
+        "result": {
+          "contentType": contentType,
+          "contentId": contentID,
+          "config": conf,
+        }
+      }
+
+
+      var url = _self.API.queryConfig;
+
+      if (actionType == 'visibility') {
+        var elementHidden = selectedElement.find('.visibility > .custom-actions-content');
+        var indicatorMessage = '';
+        if (selectedElement.attr('visible') == "false") {
+          indicatorMessage = "UNHIDING";
+        }
+        else {
+          indicatorMessage = "HIDING";
+        }
+        _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
+          selectedElement.attr('visible', conf.visible);
+          if (selectedElement.attr('visible') == "false") {
+            selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+              $(this).hide();
+            })
+
+            if ($(event.target).closest('.visibility').attr('data-viewmode') == "full") {
+              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
+              if (selectedElement.find('#boostAction').hasClass('display-block')) {
+                selectedElement.find('#boostAction').removeClass('display-block');
+              }
+              selectedElement.find('#boostAction').hide();
+              if (selectedElement.find('#buryAction').hasClass('display-block')) {
+                selectedElement.find('#buryAction').removeClass('display-block');
+              }
+              selectedElement.find('#buryAction').hide();
+              selectedElement.find('#hideAction').removeClass('display-none');
+              selectedElement.find('#hideAction').show();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container').show();
+              if (selectedElement.find('#boostAction').hasClass('display-block')) {
+                selectedElement.find('#boostAction').removeClass('display-block');
+              }
+              selectedElement.find('#boostAction').hide();
+              if (selectedElement.find('#buryAction').hasClass('display-block')) {
+                selectedElement.find('#buryAction').removeClass('display-block');
+              }
+              selectedElement.find('#buryAction').hide();
+              selectedElement.find('#hideAction').removeClass('display-none');
+              selectedElement.find('#hideAction').show();
+            }
+            elementHidden.text("UNHIDE");
+            selectedElement.addClass('hide-actions');
+          }
+          else {
+            selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+              $(this).hide();
+            });
+            if ($(event.target).closest('.visibility').attr('data-viewmode') == "full") {
+              if (selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hasClass('display-block') && selectedElement.find('#hideAction').hasClass('display-block')) {
+                selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').removeClass("display-block");
+                selectedElement.find('#hideAction').removeClass("display-block");
+              }
+              else {
+                selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hide();
+                selectedElement.find('#hideAction').hide();
+              }
+            }
+            else {
+              if (selectedElement.find('.result-tuning-action-notification-container').hasClass('display-block') && selectedElement.find('#hideAction').hasClass('display-block')) {
+                selectedElement.find('.result-tuning-action-notification-container').removeClass("display-block");
+                selectedElement.find('#hideAction').removeClass("display-block");
+              }
+              else {
+                selectedElement.find('.result-tuning-action-notification-container').hide();
+                selectedElement.find('#hideAction').hide();
+              }
+            }
+            elementHidden.text("HIDE");
+            selectedElement.removeClass('hide-actions');
+          }
+
+          if (_self.vars.resultRankingActionPerformed == false) {
+            _self.vars.resultRankingActionPerformed = true;
+          }
+
+        }, function (eRes) {
+        });
+      } else if (actionType == 'pinning') {
+        var elementPinned = selectedElement.find('.pinning > .custom-actions-content');
+        var indicatorMessage = ''
+        if (elementPinned.text() == "PIN") {
+          indicatorMessage = "PINNING";
+        }
+        else {
+          indicatorMessage = "UNPINNING";
+        }
+        _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
+          selectedElement.attr('pinindex', conf.pinIndex);
+          if (elementPinned.text() == "UNPIN") {
+            selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+              $(this).hide();
+            });
+            if ($(event.target).closest('.pinning').attr('data-viewmode') == "full") {
+              if (selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hasClass('display-block') && selectedElement.find('#pinAction').hasClass('display-block')) {
+                selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').removeClass("display-block");
+                selectedElement.find('#pinAction').removeClass("display-block");
+              }
+              else {
+                selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hide();
+                selectedElement.find('#pinAction').hide();
+              }
+            }
+            else {
+              if (selectedElement.find('.result-tuning-action-notification-container').hasClass('display-block') && selectedElement.find('#pinAction').hasClass('display-block')) {
+                selectedElement.find('.result-tuning-action-notification-container').removeClass("display-block");
+                selectedElement.find('#pinAction').removeClass("display-block");
+              }
+              else {
+                selectedElement.find('.result-tuning-action-notification-container').hide();
+                selectedElement.find('#pinAction').hide();
+              }
+            }
+
+            elementPinned.text("PIN");
+            selectedElement.removeClass('hide-visibility-control');
+
+          }
+          else {
+            selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+              $(this).hide();
+            });
+            if ($(event.target).closest('.pinning').attr('data-viewmode') == "full") {
+              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
+              if (selectedElement.find('#boostAction').hasClass('display-block')) {
+                selectedElement.find('#boostAction').removeClass('display-block');
+              }
+              selectedElement.find('#boostAction').hide();
+              if (selectedElement.find('#buryAction').hasClass('display-block')) {
+                selectedElement.find('#buryAction').removeClass('display-block');
+              }
+              selectedElement.find('#buryAction').hide();
+              selectedElement.find('#pinAction').removeClass("display-none");
+              selectedElement.find('#pinAction').show();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container').show();
+              if (selectedElement.find('#boostAction').hasClass('display-block')) {
+                selectedElement.find('#boostAction').removeClass('display-block');
+              }
+              selectedElement.find('#boostAction').hide();
+              if (selectedElement.find('#buryAction').hasClass('display-block')) {
+                selectedElement.find('#buryAction').removeClass('display-block');
+              }
+              selectedElement.find('#buryAction').hide();
+              selectedElement.find('#pinAction').removeClass('display-none');
+              selectedElement.find('#pinAction').show();
+            }
+            elementPinned.text("UNPIN");
+            selectedElement.addClass('hide-visibility-control');
+          }
+
+          if (_self.vars.resultRankingActionPerformed == false) {
+            _self.vars.resultRankingActionPerformed = true;
+          }
+
+        }, function (eRes) {
+        });
+      } else if (actionType == 'boosting') {
+        var indicatorMessage = "BOOSTED";
+        _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
+          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+            $(this).hide();
+          });
+          // selectedElement.find('.notification-div').text(indicatorMessage).show();
+          if ($(event.target).closest('.boosting').attr('data-viewmode') == "full") {
+            if (selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hasClass('display-block')) {
+              if (selectedElement.find('#buryAction').hasClass('display-block')) {
+                selectedElement.find('#buryAction').removeClass("display-block");
+              }
+              selectedElement.find('#boostAction').removeClass("display-none");
+              selectedElement.find('#boostAction').show();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
+              if (selectedElement.find('#burytAction').hasClass('display-block')) {
+                selectedElement.find('#buryAction').removeClass('display-block');
+              }
+              selectedElement.find('#buryAction').hide();
+              if (selectedElement.find('#boostAction').hasClass('display-none')) {
+                selectedElement.find('#boostAction').removeClass('display-none');
+              }
+              selectedElement.find('#boostAction').show();
+            }
+          }
+          else {
+            if (selectedElement.find('.result-tuning-action-notification-container').hasClass('display-block') && selectedElement.find('#buryAction').hasClass('display-block')) {
+              selectedElement.find('#buryAction').removeClass("display-block");
+              selectedElement.find('#boostAction').removeClass("display-none");
+              selectedElement.find('#boostAction').show();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container').show();
+              selectedElement.find('#buryAction').hide();
+              selectedElement.find('#boostAction').removeClass("display-none");
+              selectedElement.find('#boostAction').show();
+            }
+          }
+
+          selectedElement.attr('boost', conf.boost);
+
+          if (_self.vars.resultRankingActionPerformed == false) {
+            _self.vars.resultRankingActionPerformed = true;
+          }
+
+        }, function (eRes) {
+        });
+      } else if (actionType == 'burying') {
+        var indicatorMessage = "LOWERED";
+        _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
+          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+            $(this).hide();
+          });
+          // selectedElement.find('.notification-div').text(indicatorMessage).show();
+          if (($(event.target).closest('.burying').attr('data-viewmode') == "full")) {
+            if (selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hasClass('display-block')) {
+              if (selectedElement.find('#boostAction').hasClass('display-block')) {
+                selectedElement.find('#boostAction').removeClass('display-block');
+              }
+              selectedElement.find('#buryAction').removeClass("display-none");
+              selectedElement.find('#buryAction').show();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
+              if (selectedElement.find('#boostAction').hasClass('display-block')) {
+                selectedElement.find('#boostAction').removeClass('display-block');
+              }
+              selectedElement.find('#boostAction').hide();
+              if (selectedElement.find('#buryAction').hasClass('display-none')) {
+                selectedElement.find('#buryAction').removeClass('display-none');
+              }
+              selectedElement.find('#buryAction').show();
+            }
+          }
+          else {
+            if (selectedElement.find('.result-tuning-action-notification-container').hasClass('display-block') && selectedElement.find('#boostAction').hasClass('display-block')) {
+              selectedElement.find('#boostAction').removeClass("display-block");
+              selectedElement.find('#buryAction').removeClass("display-none");
+              selectedElement.find('#buryAction').show();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container').show();
+              selectedElement.find('#boostAction').hide();
+              selectedElement.find('#buryAction').removeClass("display-none");
+              selectedElement.find('#buryAction').show();
+            }
+          }
+          selectedElement.attr('boost', conf.boost);
+
+          if (_self.vars.resultRankingActionPerformed == false) {
+            _self.vars.resultRankingActionPerformed = true;
+          }
+
+        }, function (eRes) {
+        });
+      } else {
+        _self.vars.resultRankingActionPerformed = false;
+      }
+
+    };
+
+    FindlySDK.prototype.filterResultsTopDown = function (event, isChecked, radioUncheck = false, isTopFacets = false) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      var _self = this;
+      var fieldMatches = false;
+      if ($('.topdown-search-main-container').length) {
+        var _filterContainer = $(event.target).closest('.filters-content-top-down');
+      } else {
+        var _filterContainer = $(event.target).closest('.filters-content');
+      }
+
+      var fieldName = _filterContainer.attr('data-fieldName');
+      var subtype = _filterContainer.attr('data-facetType');
+      var name = _filterContainer.attr('data-facetName');
+      var key = $(event.target).attr('name');
+      if ($('.topdown-search-main-container').length) {
+        if ($('.sdk-filter-radio-top-down').length && $(event.target).hasClass('sdk-filter-radio-top-down')) {
+          key = $(event.target).attr('value');
+        }
+      }
+
+      var responsePayload = {}
+
+      if (subtype == 'value') {
+        responsePayload.fieldName = fieldName,
+          responsePayload.subtype = subtype,
+          responsePayload.name = name,
+          responsePayload.facetValue = [];
+
+        responsePayload.facetValue[0] = key;
+      }
+      else {
+        var from = $(event.target).attr('data-from');
+        var to = $(event.target).attr('data-to');
+
+        responsePayload.fieldName = fieldName,
+          responsePayload.subtype = subtype,
+          responsePayload.name = name,
+          responsePayload.facetRange = [];
+
+        // key = { 'from': 0, 'to': 100 };
+        key = { 'from': parseInt(from), 'to': parseInt(to) };
+        responsePayload.facetRange[0] = key;
+      }
+
+
+      if (isChecked == true) {
+        if (_self.vars.filterObject.length == 0) {
+          _self.vars.filterObject.push(responsePayload);
+          fieldMatches = true;
+        }
+        if (_self.vars.filterObject.length > 0 && fieldMatches == false) {
+          _self.vars.filterObject.forEach(function (element) {
+            if (responsePayload.fieldName == element.fieldName && responsePayload.subtype == element.subtype) {
+              if (element.subtype == 'value') {
+                element.facetValue.push(key);
+              }
+              else {
+                element.facetRange.push(key);
+              }
+              fieldMatches = true;
+            }
+          })
+
+        }
+        if (fieldMatches == false) {
+          _self.vars.filterObject.push(responsePayload);
+        }
+      }
+      else {
+        if (_self.vars.filterObject.length > 0) {
+          _self.vars.filterObject.slice(0).forEach(function (element) {
+            if (responsePayload.fieldName == element.fieldName && responsePayload.subtype == element.subtype) {
+              // var indexOfMatchedFilter = 0, elementsTraversed = 0;
+              if (element.subtype == 'value') {
+                if (element.facetValue.length > 0) {
+                  element.facetValue.slice(0).forEach(function (item) {
+                    if (item === key) {
+                      element.facetValue.splice(element.facetValue.indexOf(item), 1);
+                      if (!element.facetValue.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
+                    } else if ($(event.target).hasClass('sdk-filter-radio-top-down') || $(event.target).hasClass('sdk-filter-radio')) {
+                      element.facetValue.splice(0, 1, key);
+                      if (!element.facetValue.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
+                    }
+                  })
+                }
+                else {
+                  if ($('.topdown-search-main-container').length && $('.sdk-filter-radio-top-down').length) {
+                    if (radioUncheck) {
+                      element.facetValue = [];
+                      _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                    } else {
+                      element.facetValue.splice(0, 1, key);
+                      if (!element.facetValue.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
+                    }
+                  } else {
+                    element.facetValue = [];
+                    _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                  }
+                }
+              }
+              else {
+
+                if (element.facetRange.length > 0) {
+                  element.facetRange.slice(0).forEach(function (item) {
+                    if (JSON.stringify(item) == JSON.stringify(key)) {
+                      element.facetRange.splice(element.facetRange.indexOf(item), 1)
+                      if (!element.facetRange.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
+                    }
+                  })
+                }
+                else {
+                  if ($('.topdown-search-main-container').length && $('.sdk-filter-radio-top-down').length) {
+                    if (radioUncheck) {
+                      element.facetRange = [];
+                      _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                    } else {
+                      element.facetRange.splice(0, 1, key);
+                      if (!element.facetRange.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
+                    }
+                  } else {
+                    element.facetRange = [];
+                    _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                  }
+                }
+              }
+            }
+          })
+        }
+      }
+      if (!isTopFacets) {
+        _self.searchByFacetFilters(_self.vars.filterObject, _self.vars.selectedFiltersArr, _self.vars.selectedFacetsList);
+      }
+    };
+    FindlySDK.prototype.filterResults = function (event, isChecked = false, radioUncheck = false) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      var _self = this;
+      var fieldMatches = false;
+      var _filterContainer;
+      if ($(event.target).closest('.filters-content').length) {
+        _filterContainer = $(event.target).closest('.filters-content');
+      } else {
+        _filterContainer = $(event.target).closest('.filter-data');
+      }
+      var fieldName = _filterContainer.attr('data-fieldName');
+      var subtype = _filterContainer.attr('data-facetType');
+      var name = _filterContainer.attr('data-facetName');
+      var key = $(event.target).attr('type') == 'radio' ? $(event.target).attr('value') : $(event.target).attr('name');
+      if ($('.topdown-search-main-container').length) {
+        if ($('.sdk-filter-radio-top-down').length) {
+          key = $(event.target).attr('value');
+        }
+      }
+
+      var responsePayload = {}
+
+      if (subtype == 'value') {
+        responsePayload.fieldName = fieldName,
+          responsePayload.subtype = subtype,
+          responsePayload.name = name,
+          responsePayload.facetValue = [];
+
+        responsePayload.facetValue[0] = key;
+      }
+      else {
+        var from = $(event.target).attr('data-from');
+        var to = $(event.target).attr('data-to');
+
+        responsePayload.fieldName = fieldName,
+          responsePayload.subtype = subtype,
+          responsePayload.name = name,
+          responsePayload.facetRange = [];
+
+        // key = { 'from': 0, 'to': 100 };
+        key = { 'from': parseInt(from), 'to': parseInt(to) };
+        responsePayload.facetRange[0] = key;
+      }
+
+
+      if (isChecked == true) {
+        if (_self.vars.filterObject.length == 0) {
+          _self.vars.filterObject.push(responsePayload);
+          fieldMatches = true;
+        }
+        if (_self.vars.filterObject.length > 0 && fieldMatches == false) {
+          _self.vars.filterObject.forEach(function (element) {
+            if (responsePayload.fieldName == element.fieldName && responsePayload.subtype == element.subtype) {
+              if (element.subtype == 'value') {
+                element.facetValue.push(key);
+              }
+              else {
+                element.facetRange.push(key);
+              }
+              fieldMatches = true;
+            }
+          })
+
+        }
+        if (fieldMatches == false) {
+          _self.vars.filterObject.push(responsePayload);
+        }
+      }
+      else {
+        if (_self.vars.filterObject.length == 0) {
+          _self.vars.filterObject.push(responsePayload);
+          fieldMatches = true;
+        }
+        if (_self.vars.filterObject.length > 0 && fieldMatches == false) {
+          _self.vars.filterObject.slice(0).forEach(function (element) {
+            if (responsePayload.fieldName == element.fieldName && responsePayload.subtype == element.subtype) {
+              // var indexOfMatchedFilter = 0, elementsTraversed = 0;
+              if (element.subtype == 'value') {
+                if (element.facetValue.length > 0) {
+                  element.facetValue.slice(0).forEach(function (item) {
+                    if (item === key) {
+                      element.facetValue.splice(element.facetValue.indexOf(item), 1);
+                      if (!element.facetValue.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
+                    } else if ($(event.target).hasClass('sdk-filter-radio-top-down') || $(event.target).hasClass('sdk-filter-radio')) {
+                      element.facetValue.splice(0, 1, key);
+                      if (!element.facetValue.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
+                    }
+                  })
+                }
+                else {
+                  if ($('.topdown-search-main-container').length && $('.sdk-filter-radio-top-down').length) {
+                    if (radioUncheck) {
+                      element.facetValue = [];
+                      _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                    } else {
+                      element.facetValue.splice(0, 1, key);
+                      if (!element.facetValue.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
+                    }
+                  } else {
+                    element.facetValue = [];
+                    _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                  }
+                }
+              }
+              else {
+                if (element.facetRange.length > 0) {
+                  element.facetRange.slice(0).forEach(function (item) {
+                    if (JSON.stringify(item) == JSON.stringify(key)) {
+                      element.facetRange.splice(element.facetRange.indexOf(item), 1)
+                      if (!element.facetRange.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
+                    }
+                  })
+                }
+                else {
+                  if ($('.topdown-search-main-container').length && $('.sdk-filter-radio-top-down').length) {
+                    if (radioUncheck) {
+                      element.facetRange = [];
+                      _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                    } else {
+                      element.facetRange.splice(0, 1, key);
+                      if (!element.facetRange.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
+                    }
+                  } else {
+                    element.facetRange = [];
+                    _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                  }
+                }
+              }
+              fieldMatches = true;
+            }
+          })
+        }
+        if (fieldMatches == false) {
+          _self.vars.filterObject.push(responsePayload);
+        }
+      }
+      var slectionType = "";
+      if (typeof (key) == 'string' && key.split('-').length == 2) {
+        if (key.split('-')[0] == "radio") {
+          slectionType = "radio"
+        }
+      }
+      if (_self.vars.filterConfiguration.aligned == "top" && (slectionType == "radio" || $(event.target).attr('type') == "radio")) {
+        _self.searchByFacetFilters(_self.vars.filterObject)
+      }
+      //_self.searchByFacetFilters(_self.vars.filterObject);
+    };
+    /** filter New Functions start*/
+
+    /** filter New Functions  end*/
+    FindlySDK.prototype.searchByFacetFilters = function (filterObject, selectedFiltersArr = [], selectedFacetsList = []) {
+      var _self = this;
+      if ($('body').hasClass('top-down')) {
+        _self.vars.tempSelectedFiltersArr = selectedFiltersArr;
+        _self.vars.tempSelectedFacetsList = selectedFacetsList;
+        _self.vars.tempFilterObject = filterObject;
+        _self.vars.scrollPageNumber = 0;
+      }
+      // var activeFacet = '';
+      var facetActive = '';
+      var url = _self.API.searchUrl;
+      var payload = {
+        "query": _self.vars.searchObject.searchText,
+        // "maxNumOfResults": 9,
+        "maxNumOfResults": 5,
+        "lang": "en",
+        // "isDev": true,
+        "isDev": _self.isDev,
+        "searchRequestId": _self.vars.requestId
+      }
+
+      if (_self.isDev) {
+        payload['customize'] = _self.vars.customizeView;
+      }
+
+      if (filterObject.length > 0) {
+        payload.filters = JSON.parse(JSON.stringify(filterObject));
+      }
+      var contentTypeFilter = {
+        "fieldName": "sys_content_type",
+        "name": "facetContentType",
+        "subtype": "value",
+        "multiselect": false,
+        "buckets": []
+      }
+      if (_self.vars.selectedFacetFromSearch && _self.vars.selectedFacetFromSearch !== 'all results') {
+        selectedTopFacet = {
+          "fieldName": contentTypeFilter.fieldName,
+          "subtype": contentTypeFilter.subtype,
+          "facetValue": [_self.vars.selectedFacetFromSearch],
+          "name": contentTypeFilter.name
+        }
+        var tabConfig = {
+          "filter": {
+            "fieldName": _self.vars.tabFacetFieldName,
+            "facetValue": [_self.vars.selectedFacetFromSearch]
+
+          }
+        }
+        payload.tabConfig = tabConfig;
+      } else {
+        let filters = payload.filters;
+      }
+      // payload.isDev = _self.isDev;
+
+      _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
+        var faqs = [], web = [], tasks = [], files = [], facets = {}, searchFacets = [];
         if (res.template) {
           res = res.template;
-          facets = res.tabFacet.buckets;
           searchFacets = res.facets;
+          facets = res.tabFacet.buckets;
           _self.vars.searchObject.liveData = {
             facets: _self.vars.tabsList,
             data: data,
             originalQuery: res.originalQuery || '',
+            customSearchResult: _self.customSearchResult
             // searchFacets: searchFacets,
           }
+
           facets = [];
           var totalResultsCount = 0;
           if (res.tabFacet && res.tabFacet.buckets && res.tabFacet.buckets.length) {
@@ -3547,1708 +5266,1542 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.tabFacetFieldName = res.tabFacet.fieldName;
           }
           totalResultsCount = totalResultsCount;
-          // _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
-          _self.showMoreClick();
-          if (!showMoreData) {
-            _self.countTotalResults(res,totalResultsCount);
-            if (!$('body').hasClass('top-down')) {
-              // Sea all Results
-              var container = $('#show-all-results-container');
-              $('.search-container').addClass('bottom-up-results-showing');
-              if (!container.length) {
-                $('body').append('<div class="show-all-results-container searchAssist-kore-chat-window" id="show-all-results-container"></div>');
-                container = $('#show-all-results-container');
-              }
-              _self.vars.searchObject.liveData.facets = facets;
-              var dataObj = _self.vars.searchObject.liveData;
-              var facetdata = _self.vars.searchFacetFilters;
-              // _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length
-              // $('#loaderDIV').show();
-              _self.showAllResults();
-              setTimeout(() => {
-                _self.bindCustomizeAction();
-              }, 300);
-              dataObj.tasks = res.tasks || [];
-              _self.pubSub.publish('sa-search-full-results', { container: container, isFullResults: true, selectedFacet: 'all', isLiveSearch: false, isSearch: false, facetData: searchFacets, dataObj });
-              setTimeout(() => {
-                _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-              }, 500);
-            } else {
-              // _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
-              // _self.prepAllSearchData(_self.vars.selectedFacetFromSearch);
-              _self.bindAllResultsView();
-              _self.bindSearchActionEvents();
-              $('#live-search-result-box').hide();
-              $('#frequently-searched-box').hide();
-              $('#loaderDIV').hide();
-              $(".content-data-sec").scrollTop(2);
+          $('.full-search-data-container').empty();
+          if (res && res.results && res.resultType == "grouped") {
+            var availableGroups = Object.keys(res.results);
+            if (!(res.tabFacet || {}).buckets) {
+              totalResultsCount = 0;
             }
-            $('.full-search-data-container').empty();
-            if (res && res.results && res.resultType == "grouped") {
-              var availableGroups = Object.keys(res.results);
-              if (fromBottomUP) {
-                _self.vars.availableGroupsOrder = availableGroups;
-              } else {
-                var reArrangeAvailableGroups = [];
-                _self.vars.availableGroupsOrder.forEach((d) => {
-                  let group = availableGroups.find(g => g === d)
-                  if (group) {
-                    reArrangeAvailableGroups.push(group)
-                  }
-                })
-                availableGroups = reArrangeAvailableGroups;
+            var reArrangeAvailableGroups = [];
+            _self.vars.availableGroupsOrder.forEach((d) => {
+              let group = availableGroups.find(g => g === d)
+              if (group) {
+                reArrangeAvailableGroups.push(group)
               }
-
-              if (!(res.tabFacet || {}).buckets) {
-                totalResultsCount = 0;
-              }
-              if (availableGroups && availableGroups.length) {
-                availableGroups.forEach((group) => {
-                  var results = res.results[group].data;
-                  if (!(res.tabFacet || {}).buckets) {
-                    totalResultsCount = totalResultsCount + res.results[group].doc_count;
-                  }
-
-                  var groupName = group == 'default_group' ? 'defaultTemplate' : group;
-                  var dataObj = {
-                    facets: facets,
-                    searchFacets: searchFacets,
-                    originalQuery: res.originalQuery || '',
-                    customSearchResult: _self.customSearchResult,
-                    data: results,
-                    groupName: groupName,
-                    doc_count: res.results[group].doc_count
-                  }
-                  if (!$('.empty-full-results-container').hasClass('hide')) {
-                    $('.empty-full-results-container').addClass('hide');
-                  }
-                  var publishSearchData = 'sa-' + groupName + '-search-data';
-                  _self.pubSub.publish(publishSearchData, { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-                });
-              } else {
+            })
+            availableGroups = reArrangeAvailableGroups;
+            if (availableGroups && availableGroups.length) {
+              availableGroups.forEach((group) => {
+                var results = res.results[group].data;
+                if (!(res.tabFacet || {}).buckets) {
+                  totalResultsCount = totalResultsCount + res.results[group].doc_count;
+                }
+                var groupName = group == 'default_group' ? 'defaultTemplate' : group;
                 var dataObj = {
-                  facets: facets || [],
-                  searchFacets: searchFacets || [],
+                  facets: facets,
+                  searchFacets: searchFacets,
                   originalQuery: res.originalQuery || '',
                   customSearchResult: _self.customSearchResult,
-                  data: [],
-                  groupName: 'defaultTemplate',
-                  doc_count: 0
+                  data: results,
+                  groupName: groupName,
+                  doc_count: res.results[group].doc_count
                 }
-                // _self.pubSub.publish('sa-defaultTemplate-search-data', { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-                if (!(res.tasks || []).length) {
-                  $('.empty-full-results-container').removeClass('hide');
-                  $('.no-templates-defined-full-results-container').hide();
-                } else {
-                  if (!$('.empty-full-results-container').hasClass('hide')) {
-                    $('.empty-full-results-container').addClass('hide');
-                  }
-                  $('.no-templates-defined-full-results-container').hide();
+                if (!$('.empty-full-results-container').hasClass('hide')) {
+                  $('.empty-full-results-container').addClass('hide');
                 }
-              }
-
+                var publishSearchData = 'sa-' + groupName + '-search-data';
+                _self.pubSub.publish(publishSearchData, { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
+              });
+              _self.vars.totalNumOfResults = totalResultsCount;
               res.results = results;
             } else {
-              var results = res.results.data;
-              if (!(res.tabFacet || {}).buckets) {
-                totalResultsCount = res.results.doc_count || 0;
-              }
               var dataObj = {
                 facets: facets || [],
                 searchFacets: searchFacets || [],
                 originalQuery: res.originalQuery || '',
                 customSearchResult: _self.customSearchResult,
-                data: results,
-                groupName: 'defaultTemplate',
-                doc_count: res.results.doc_count
+                data: [],
+                groupName: 'defaultTemplate'
               }
-              res.results = results;
-              if (totalResultsCount || (res.tasks || []).length) {
-                _self.pubSub.publish('sa-defaultTemplate-search-data', { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-                if (!$('.empty-full-results-container').hasClass('hide')) {
-                  $('.empty-full-results-container').addClass('hide');
-                }
-                 $('.no-templates-defined-full-results-container').hide();
-              } else {
-                if (!(res.tasks || []).length) {
-                  $('.empty-full-results-container').removeClass('hide');
-                } else {
-                  if (!$('.empty-full-results-container').hasClass('hide')) {
-                    $('.empty-full-results-container').addClass('hide');
-                  }
-                }
-              }
-            }
-            // _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
-            facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults, name: 'ALL' });
-            facets = facets.concat((res.tabFacet || {}).buckets || [])
-            facets = _self.rearrangeTabsList(facets);
-            if ((res.tasks || []).length) {
-              facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
-            }
-            _self.vars.tabsList = facets;
-            _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
-            _self.pubSub.publish('sa-source-type', facets);
-            var dataObj = _self.vars.searchObject.liveData;
-            _self.showMoreClick();
-            if ($('body').hasClass('top-down')) {
-              if (!_self.vars.filterObject.length && _self.vars.scrollPageNumber == 0) {
-                _self.vars.searchFacetFilters = searchFacets;
-                _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
-                _self.markSelectedFilters();
-                setTimeout(function () {
-                  _self.bindStructuredDataTriggeringOptions();
-                }, 100);
-              }
-              setTimeout(function () {
-                _self.vars['selectedFacetFromSearch'] = _self.vars.selectedFacetFromSearch || 'all results';
-              }, 100);
+              // _self.pubSub.publish('sa-defaultTemplate-search-data', { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
+              $('.empty-full-results-container').removeClass('hide');
             }
 
-            //live search hightlight faq start//
-            setTimeout(() => {
-              var topMatchSearchFAQ = faqs.filter(function (faq) {
-                return faq.bestMatch
-              });
-              if (topMatchSearchFAQ.length) {
-                //highlight faq;
-                topMatchSearchFAQ = topMatchSearchFAQ[0];
-              } else {
-                topMatchSearchFAQ = false;
-              }
-              if (topMatchSearchFAQ) {
-                if (!$('body').hasClass('top-down')) {
-                  var bestFAQDiv = $(".show-all-results-outer-wrap .task-wrp[contentid='" + topMatchSearchFAQ.contentId + "']:last");
-                  bestFAQDiv.addClass('faq-highlight');
-                  // bestFAQDiv.find(".accordion").trigger('click');//
-                }
-              }
-            }, 600)
-            _self.fullResultsScrollTop();
-            $(".content-data-sec").scrollTop(0);
-            $(".data-body-sec").scrollTop(0);
+
           } else {
+            var results = res.results.data;
+            if (!(res.tabFacet || {}).buckets) {
+              totalResultsCount = res.results.doc_count;
+            }
+
             var dataObj = {
               facets: facets || [],
               searchFacets: searchFacets || [],
               originalQuery: res.originalQuery || '',
               customSearchResult: _self.customSearchResult,
-              data: res.results.data,
-              groupName: showMoreData.groupName,
-              doc_count: res.results.doc_count,
-              ShowMoreData: {
-                templateName: showMoreData.templateName
+              data: res.results.doc_count,
+              groupName: 'defaultTemplate',
+              doc_count: res.results.doc_count
+            }
+            res.results = results;
+            if (totalResultsCount) {
+              _self.pubSub.publish('sa-defaultTemplate-search-data', { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
+              if (!$('.empty-full-results-container').hasClass('hide')) {
+                $('.empty-full-results-container').addClass('hide');
+              }
+            } else {
+              $('.empty-full-results-container').removeClass('hide');
+            }
+          }
+          _self.vars.totalNumOfResults = totalResultsCount;
+          facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
+          facets = facets.concat((res.tabFacet || {}).buckets || [])
+          facets = _self.rearrangeTabsList(facets);
+          if ((res.tasks || []).length) {
+            facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+          }
+          _self.vars.tabsList = facets;
+          _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
+          _self.pubSub.publish('sa-source-type', facets);
+          var dataObj = _self.vars.searchObject.liveData;
+          _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' });
+          _self.pubSub.publish('sa-search-facets', searchFacets);
+          if (!$('body').hasClass('top-down')) {
+
+            var container = $('#show-all-results-container');
+            var dataObj = _self.vars.searchObject.liveData;
+            var facetdata = _self.vars.searchFacetFilters;
+            _self.pubSub.publish('sa-search-full-results', { container: container, isFullResults: true, selectedFacet: 'all', isLiveSearch: false, isSearch: false, facetData: facetdata, dataObj });
+          }
+          else {
+
+            if (_self.isDev) {
+              $('.custom-header-container-center').removeClass('display-none');
+              if (_self.vars.customizeView) {
+                $('.custom-add-result-container').removeClass('display-none');
+              } else {
+                $(".query-analytics-control-container").hide();
               }
             }
-            var publishSearchData = 'sa-' + showMoreData.groupName + '-search-data';
-            _self.pubSub.publish(publishSearchData, { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
+            // _self.prepAllSearchData(facetActive);
+            setTimeout(function () {
+              _self.bindStructuredDataTriggeringOptions();
+            }, 100);
           }
-          _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' });
+          _self.clickNavigateToUrl();
+          setTimeout(() => {
+            _self.bindCustomizeAction();
+          }, 300);
+
+          $('#loaderDIV').hide()
+          _self.markSelectedFilters();
         }
-
-      })
-    }
-    else {
-      if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
-        var responseObject = { 'type': 'fullResult', data: true, query: _self.vars.searchObject.searchText }
-        _self.parentEvent(responseObject);
-      }
-
-      $(".custom-insights-control-container").hide();
-      _self.showAllResults();
-      setTimeout(() => {
-        _self.bindCustomizeAction();
-      }, 300);
-      //_self.prepAllSearchData();
-      // _self.bindAllResultsView();
-      // _self.bindSearchActionEvents();
-    }
-    // var topMatchFAQ;
-    // if(data && data.faqs){
-    //   var faqs=data.faqs;
-    //   topMatchFAQ=faqs.filter(function(faq){
-    //     return faq.bestMatch
-    //   });
-    //   if(topMatchFAQ.length){
-    //     //highlight faq;
-    //     topMatchFAQ=topMatchFAQ[0];
-    //   }else{
-    //     topMatchFAQ=false;
-    //   }
-    // }
-    // setTimeout(function(){
-    //   debugger;
-    //   if (topMatchFAQ) {
-    //     var bestFAQTitleDiv=$(".search-body-full .faqs-wrp-content .title[contentid='" + topMatchFAQ.contentId + "']:last");
-
-    //     var bestFAQDiv=$(bestFAQTitleDiv).closest('.faqs-wrp-content');
-    //     bestFAQDiv.addClass('faq-highlight');
-    //     bestFAQTitleDiv.find(".accordion").trigger('click');
-    //   }
-    // },500);
-
-
-  }
-  FindlySDK.prototype.bindAllResultsView = function () {
-    var _self = this;
-
-    if (_self.vars.showingMatchedResults == true) {
-      $('a.faqs-wrp-content').off('click').on('click', function (event) {
-        _self.captureClickAnalytics(event, $(event.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(event.currentTarget).closest('.faqs-shadow').attr('contentId'), $(event.currentTarget).closest('.faqs-shadow').attr('id'), $(event.currentTarget).find('.title').attr('title'));
-      })
+        _self.fullResultsScrollTop();
+        $(".content-data-sec").scrollTop(0);
+        $(".data-body-sec").scrollTop(0);
+      });
     }
 
-    $('.custom-header-nav-link-item').off('click').on('click', function (event) {
-      if ($('body').hasClass('top-down')) {
-        if (($(event.currentTarget).attr('id') == 'viewTypeCustomize' && _self.vars.customizeView) || ($(event.currentTarget).attr('id') == 'viewTypePreview' && !_self.vars.customizeView)) {
-          return;
-        }
-      }
-
-      event.preventDefault();
-      event.stopImmediatePropagation();
-
-      var navLinks = document.getElementsByClassName("custom-header-nav-link-item");
-
-      if (_self.config.viaSocket && _self.vars.resultRankingActionPerformed == true) {
-
-        var scrollHeight = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').prop("scrollHeight");
-        $('#searchChatContainer').animate({ scrollTop: scrollHeight }, 500);
-        if (!$('body').hasClass('top-down')) {
-          _self.sendMessage(_self.vars.searchObject.searchText);
-        }
-      }
-      /*var url = _self.API.searchUrl;
+    FindlySDK.prototype.captureClickAnalytics = function (event, resultType, eventType, resultID, resultPosition, resultName) {
+      var _self = this;
+      var url = _self.API.metricsUrl;
       var payload = {
         "query": _self.vars.searchObject.searchText,
-        "maxNumOfResults": 9,
-        "userId": _self.API.uuid,
+        "answerType": resultType,
+        "event": eventType,
         "streamId": _self.API.streamId,
-        "lang": "en",
+        "isDev": _self.isDev,
+        "searchRequestId": _self.vars.requestId
+      }
+
+      if (!payload.query || (payload.query && !payload.query.length)) {
+        payload.query = $('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val();
+      }
+      if (_self.isDev) {
+        payload['customize'] = _self.vars.customizeView;
+      }
+      if (!resultName) {
+        resultName = $(event.currentTarget).find('[title]').attr('title');
+      }
+      if (resultType == "web" || resultType == "faq" || resultType == "data" || resultType == "file") {
+        var experimentObjectProps = Object.getOwnPropertyNames(_self.vars.experimentsObject);
+        payload.answerInfo = {};
+
+        payload.answerInfo = {};
+        payload.answerInfo['id'] = resultID; // Content ID
+        payload.answerInfo['position'] = parseInt(resultPosition); // Key
+        payload.answerInfo['name'] = resultName; // Title
+
+        payload.clickRank = parseInt(resultPosition);
+        payload.clickRank = payload.clickRank + 1;
+
+        if (experimentObjectProps.length > 0) {
+          payload.indexPipelineId = _self.vars.experimentsObject ? _self.vars.experimentsObject.indexPipelineId : "";
+          payload.queryPipelineId = _self.vars.experimentsObject ? _self.vars.experimentsObject.queryPipelineId : "";
+          payload.relay = _self.vars.experimentsObject ? _self.vars.experimentsObject.relay : "";
+          if (_self.vars.experimentsObject.experimentId) {
+            payload.experimentId = _self.vars.experimentsObject.experimentId;
+          }
+        }
+
+      }
+
+      if (resultType == "task") {
+        payload.childBotId = $(event.currentTarget).attr('childBotId');
+        payload.childBotName = $(event.currentTarget).attr('childBotName');
+        payload.seqLogId = $(event.currentTarget).attr('seqLogId') || null;
+        payload.taskId = resultID;
+        payload.name = resultName;
+      }
+      if ((_self.vars.previousSearchObj || {}).requestId) {
+        payload.searchRequestId = _self.vars.previousSearchObj.requestId;
+      }
+
+
+
+      /*if (payload.event == 'expand' || payload.event == 'thumbsUp' || payload.event == 'thumbsDown') {
+        delete payload.clickRank;
       }*/
 
-      for (var i = 0; i < navLinks.length; i++) {
-        navLinks[i].className = navLinks[i].className.replace(" nav-link-item-active", "");
-      }
-      event.currentTarget.className += " nav-link-item-active";
-      if ($('body').hasClass('top-down')) {
-        var searchData;
-        // _self.vars.selectedFacetsList = [];
-        // _self.searchFacetsList([]);
-      }
-      if ($(searchData).find('.tasks-wrp .faqs-shadow')) {
-        $(searchData).find('.tasks-wrp .faqs-shadow').find(".accordion.acc-active").trigger('click');
-      }
-      if (_self.vars.showingMatchedResults == true) {
-        if ($(event.currentTarget).attr('id') == 'viewTypeCustomize') {
-          _self.vars.customizeView = true;
-          if ($('body').hasClass('top-down') && _self.isDev) {
-            $('.show_insights_top_down').show();
-            $('.custom-add-result-container').removeClass('display-none');
-            $('.content-data-sec').addClass('if-customize-mode');
-          }
 
-          // $(".custom-insights-control-container").show();
-
-          // $(".query-analytics-control-container").show(); // Temporary modification, made as per FLY-1012
-
-          $(".tasks-wrp").sortable();
-          $(".tasks-wrp").sortable("option", "disabled", false);
-          $(".tasks-wrp").disableSelection();
-
-          $(".faqs-shadow").addClass('custom-faqs-shadow');
-          $(".faqs-wrp-content").addClass('custom-faqs-wrp-content');
-
-          $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
-
-          $(".image-url-sec").css('display', 'none');
-          $(".faqs-bottom-actions").css('display', 'table');
-
-          $(".divfeedback").css('display', 'none');
-
-        }
-        else {
-          _self.vars.customizeView = false;
-          if ($('body').hasClass('top-down') && _self.isDev) {
-            $('.show_insights_top_down').hide();
-            $('.custom-add-result-container').addClass('display-none');
-            $('.content-data-sec').removeClass('if-customize-mode');
-          }
-          // $(".custom-insights-control-container").hide();
-
-          // $(".query-analytics-control-container").hide(); // Temporary modification, made as per FLY-1012
-
-          $(".faqs-shadow").removeClass('custom-faqs-shadow');
-          $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
-
-          $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
-
-          // $(".tasks-wrp").sortable("disable");
-          $(".image-url-sec").css('display', 'table-cell');
-          $(".faqs-bottom-actions").css('display', 'none');
-
-          // $(".divfeedback").css('display', 'block');
-
-          $('.notification-div').hide();
-        }
-        /*_self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
-        _self.handleSearchRes(response);
-        });*/
-        if ($('body').hasClass('top-down')) {
-          // _self.pubSub.publish('sa-show-all-results-top-down', {});
-          _self.invokeSearch();
-        }
-      }
-      else {
-        $('.search-container').css("top", 50);
-
-        // if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
-        //   var responseObject = { 'type': 'fullResult', data: true, query: _self.vars.searchObject.searchText }
-        //   console.log(responseObject);
-        //   _self.parentEvent(responseObject);
-        if ($(event.currentTarget).attr('id') == 'viewTypeCustomize') {
-          _self.vars.customizeView = true;
-          if ($('body').hasClass('top-down') && _self.isDev) {
-            $('.show_insights_top_down').show();
-            $('.custom-add-result-container').removeClass('display-none');
-            $('.content-data-sec').addClass('if-customize-mode');
-          }
-        }
-        else {
-          _self.vars.customizeView = false;
-          if ($('body').hasClass('top-down') && _self.isDev) {
-            $('.show_insights_top_down').hide();
-            $('.custom-add-result-container').addClass('display-none');
-            $('.content-data-sec').removeClass('if-customize-mode');
-          }
-        }
-        if ($('body').hasClass('top-down')) {
-          _self.pubSub.publish('sa-show-all-results-top-down', {});
-
-        }
-      }
-      if (!$('body').hasClass('top-down')) {
-        _self.pubSub.publish('sa-update-search-customozation');
-      }
-      $('.structured-data-bottom-actions').css('display', 'none');
-      $('.structured-data-wrp-content').removeClass('custom-faqs-wrp-content');
-      $('.moreStructredData').addClass('display-none');
-    })
-    $('.sdk-tours-info-nxt').off('click').on('click', function (e) {
-
-    })
-    $('.sdk-tours-info-close').off('click').on('click', function (e) {
-
-    })
-    // $('#viewTypeCustomize').off('click').on('click', function (e) {
-    //   e.preventDefault();
-    //   e.stopImmediatePropagation();
-    //   _self.invokeSearch();
-    //   _self.vars.customizeView = true;
-    // })
-    $('.show-all-results').off('click').on('click', function (e) {
-      _self.vars.scrollPageNumber = 0;
-      _self.vars.selectedFacetFromSearch = "all results"
-      _self.vars.showingMatchedResults = true;
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      _self.invokeSearch(false, true);
-      // $('#loaderDIV').show()
-    })
-    // $('.full-search-close').off('click').on('click', function (e)
-    $('.custom-chevron-right-icon').off('click').on('click', function (e) {
-      if (_self.overrideDefaultPoisition && !$('body').hasClass('setDefaultSearchTemplate')) {
-        var pos = _self.calculateContainerPosition(_self.getAvatarTopLeft())
-        $('.search-container').css('top', pos.y);
-        //$('.search-container').css('left', pos.x);
-      }
-      else {
-        $('.search-container').css('top', 'auto');
-      }
-
-      // if (_self.overrideDefaultPoisition) {
-      //   var pos = _self.calculateContainerPosition(_self.getAvatarTopLeft())
-      //   $('.search-container').css('top', pos.y);
-      //   //$('.search-container').css('left', pos.x);
-      // }
-      // if(!$('body').hasClass('demo')){
-      //   $('.search-container').css('top', 'unset');
-      // }
-      if (($('.external-link-show').css('display') == 'none')) {
-        $('.external-link-show').css('display', 'block');
-        $('.desc-info').css('max-width', '100%');
-
-      }
-
-      var responseObject = { 'type': 'fullResult', data: false, query: _self.vars.searchObject.searchText }
-      _self.parentEvent(responseObject);
-
-      $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content-border');
-      $('.search-container').removeClass('full-page');
-      $('.start-search-icon-div').removeClass('hide');
-      $('.search-body-full').html('');
-      $('.search-body-full').addClass('hide');
-
-      if ($('.custom-header-container-center').css('visibility') == "hidden") {
-        $('.custom-header-container-center').css('visibility', 'visible');
-      }
-
-      if (_self.vars.resultRankingActionPerformed == true) {
-        _self.vars.resultRankingActionPerformed = false;
-      }
-
-      if (_self.vars.customizeView == true) {
-        $('#viewTypeCustomize').trigger("click");
-      }
-      else {
-        $('#viewTypePreview').trigger("click");
-      }
-      // structuredData handling
-      $('.structured-data-bottom-actions').css('display', 'none');
-      $('.structured-data-wrp-content').removeClass('custom-faqs-wrp-content');
-      $('.moreStructredData').addClass('display-none');
-      $('.custom-matched-results-container').css('display', 'none');
-
-      e.keyCode = 13;
-      _self.searchEventBinding(_self.vars.searchObject.liveData, "livesearch", e, true, {});
-    })
-
-    $('.moreFaqs').off('click').on('click', function (e) {
-      var selectedFacet = "faq"
-      _self.prepAllSearchData(selectedFacet);
-    })
-
-    $('.ksa-showMore').off('click').on('click', function (e) {
-      var selectedFacet = "web"
-      _self.prepAllSearchData(selectedFacet);
-    })
-
-    $('.custom-add-new-result-container').off('click').on('click', function (event) {
-      var structure = 'bottom';
-      if ($('body').hasClass('top-down')) {
-        structure = 'top';
-      } else {
-        structure = 'bottom';
-      }
-      if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
-        var responseObject = { 'type': 'addNew', data: true, query: _self.vars.searchObject.searchText, structure: structure }
-        _self.parentEvent(responseObject);
-      }
-    });
-
-    $('#viewTypeCheckboxControl').off('change').on('change', function (event) {
-      var facetActive = $('.facetActive').attr('id');
-      var responseObject = { type: 'showInsightFull', data: false, query: _self.vars.searchObject.searchText }
-      // $('#loaderDIV').show();
-      if ($(this).is(':checked')) {
-        // debugger;
-        _self.vars.customizeView = true;
-      }
-      else {
-        // debugger;
-        _self.vars.customizeView = false;
-      }
-      // _self.prepAllSearchData(facetActive);
-      _self.searchByFacetFilters(_self.vars.filterObject);
-      _self.parentEvent(responseObject);
-    });
-
-    $('#openFacetFilterControl').off('click').on('click', function (event) {
-      // if ($('.filters-container').css('display') == 'block') {
-      if ($('#facetFiltersContainerDIV').css('display') == 'block') {
-        // $('.filters-container').hide();
-        if (_self.vars.customizeView == true) {
-          $('.desc-info').css('max-width', '65%');
-        }
-        $('#resultsContainerDIV').css('width', '100%');
-        $('#facetFiltersContainerDIV').hide();
-
-        // $('.ksa-resultsContainer .resultsLeft').css('width', '100%');
-      }
-      else {
-        // $('.ksa-resultsContainer .resultsLeft').css('width', '70%');
-        if (_self.vars.customizeView == true) {
-          $('.desc-info').css('max-width', '50%');
-        }
-        $('#resultsContainerDIV').css('width', '65%');
-        $('#facetFiltersContainerDIV').show();
-
-        // $('.filters-container').show();
-      }
-    });
-
-    /*$('#closeFacetFilterControl').off('click').on('click', function (event) {
-      if($('.filters-container').css('display') == 'block') {
-        $('.filters-container').hide();
-      }
-    })*/
-
-    // $('.filter-checkbox').off('change').on('change', function (event) {
-    if (!$('body').hasClass('top-down')) {
-      $('.sdk-filter-checkbox').off('change').on('change', function (event) {
-        $('#loaderDIV').show();
-
-        if ($(this).is(':checked')) {
-          _self.vars.selectedFiltersArr.push($(this).attr("id"));
-          _self.vars.selectedFacetsList.push({ id: $(this).attr("id"), name: $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
-          _self.vars.countOfSelectedFilters += 1;
-
-          _self.filterResults(event, true);
-        }
-        else {
-          var unselectedFilterID = $(this).attr("id");
-          _self.vars.selectedFiltersArr.slice(0).forEach(function (filter) {
-            if (filter == unselectedFilterID) {
-              var index = _self.vars.selectedFiltersArr.indexOf(filter);
-              _self.vars.selectedFiltersArr.splice(index, 1)
-              _self.vars.selectedFacetsList.splice(index, 1);
-            }
-          })
-
-          _self.vars.countOfSelectedFilters -= 1;
-
-          _self.filterResults(event, false);
-        }
-
-      });
-    } else {
-      $('.sdk-filter-checkbox-top-down').off('change').on('change', function (event) {
-        _self.vars.isTopFacets = _self.vars.filterConfiguration.aligned === 'top' ? true : false;
-        if ($('.topdown-search-main-container').length && !_self.vars.isTopFacets) {
-          // $('#loaderDIV').show();
-        }
-
-        if ($(this).is(':checked')) {
-          _self.vars.selectedFiltersArr.push($(this).attr("id"));
-          /* top -down -search -experience -start */
-          _self.vars.selectedFacetsList.push({ id: $(this).attr("id"), name: $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
-          /* top -down -search -experience -end*/
-          _self.vars.countOfSelectedFilters += 1;
-          _self.filterResultsTopDown(event, true, false, _self.vars.isTopFacets);
-        }
-        else {
-          var unselectedFilterID = $(this).attr("id");
-          _self.vars.selectedFiltersArr.slice(0).forEach(function (filter) {
-            if (filter == unselectedFilterID) {
-              var index = _self.vars.selectedFiltersArr.indexOf(filter);
-              _self.vars.selectedFiltersArr.splice(index, 1)
-              /* top -down -search -experience -start */
-              _self.vars.selectedFacetsList.splice(index, 1);
-              /* top -down -search -experience -end */
-
-            }
-          })
-
-          _self.vars.countOfSelectedFilters -= 1;
-
-          _self.filterResultsTopDown(event, false, false, _self.vars.isTopFacets);
-        }
-        //top-down-search-facets-list-start//
-        if ($('.topdown-search-main-container').length && !_self.vars.isTopFacets) {
-          _self.getTopDownFacetsAddedList();
-        }
-        //top-down-search-facets-list-end//
-      });
-      $('.sdk-filter-radio-top-down').off('change').on('change', function (event) {
-        event.stopImmediatePropagation();
-        $('#loaderDIV').show();
-
-        // if(_self.vars['selectedFiltersRadio']){
-        //   _self.vars['selectedFiltersRadio'].push($(this).attr("id"));
-        // }
-        if (_self.vars.selectedFacetsList.length) {
-          var facetIndex = _self.vars.selectedFacetsList.findIndex(x => x.value === $(this).attr("name"));
-          if (facetIndex > -1) {
-            _self.vars.selectedFiltersArr.splice(facetIndex, 1, $(this).attr("id"));
-            _self.vars.selectedFacetsList.splice(facetIndex, 1, { id: $(this).attr("id"), value: $(this).attr("type") == 'radio' ? $(this).attr("name") : $(this).attr("value"), name: $(this).attr("type") == 'radio' ? $(this).attr("value") : $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
-            _self.filterResultsTopDown(event, false);
-          } else {
-            _self.vars.selectedFiltersArr.push($(this).attr("id"));
-            _self.vars.selectedFacetsList.push({ id: $(this).attr("id"), value: $(this).attr("type") == 'radio' ? $(this).attr("name") : $(this).attr("value"), name: $(this).attr("type") == 'radio' ? $(this).attr("value") : $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
-            _self.vars.countOfSelectedFilters += 1;
-            _self.filterResultsTopDown(event, true);
-          }
-        } else {
-          _self.vars.selectedFiltersArr.push($(this).attr("id"));
-          _self.vars.selectedFacetsList.push({ id: $(this).attr("id"), value: $(this).attr("type") == 'radio' ? $(this).attr("name") : $(this).attr("value"), name: $(this).attr("type") == 'radio' ? $(this).attr("value") : $(this).attr("name"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
-          _self.vars.countOfSelectedFilters += 1;
-          _self.filterResultsTopDown(event, true);
-        }
-        if ($('.topdown-search-main-container').length) {
-          _self.getTopDownFacetsAddedList(true);
-        }
-      });
-      $('.horizantal-filter-sec').off('click', '.apply-btn').on('click', '.apply-btn', function (event) {
-        // $('#loaderDIV').show();
-        _self.searchByFacetFilters(_self.vars.filterObject, _self.vars.selectedFiltersArr, _self.vars.selectedFacetsList);
-        if ($('.topdown-search-main-container').length && _self.vars.isTopFacets) {
-          if ($('.sdk-filter-radio-top-down').length) {
-            _self.getTopDownFacetsAddedList(true);
-          } else {
-            _self.getTopDownFacetsAddedList();
-          }
-          $('.dropdown-content').hide();
-        }
-        $('#loaderDIV').hide();
-      });
-    }
-
-
-    $('.filters-reset-anchor').off('click').on('click', function (event) {
-      // $('.filter-checkbox').prop('checked', false);
-      if (!$('body').hasClass('top-down')) {
-        $('.sdk-filter-checkbox').prop('checked', false);
-        $('.sdk-filter-radio').prop('checked', false);
-      } else {
-        $('.sdk-filter-checkbox-top-down').prop('checked', false);
-        $('.sdk-filter-radio-top-down').prop('checked', false);
-      }
-      $('#loaderDIV').show();
-      _self.vars.filterObject = [];
-      _self.vars.selectedFiltersArr = [];
-      _self.vars.tempSelectedFiltersArr = [];
-      _self.vars.tempSelectedFacetsList = [];
-      _self.vars.tempFilterObject = [];
-      _self.vars.selectedFacetsList = [];
-      _self.vars.isTopFacets = _self.vars.filterConfiguration.aligned === 'top' ? true : false;
-      _self.vars.countOfSelectedFilters = 0;
-
-      _self.searchByFacetFilters([]);
-      _self.searchFacetsList([]);
-    });
-
-    $('.show_insights').off('click').on('click', function (event) {
-      var responseObject = {};
-      // debugger;
-      if ($(this).attr('data-displayinsights') == "true") {
-        responseObject = { 'type': 'showInsightFull', data: true, query: _self.vars.searchObject.searchText };
-        $(this).attr('data-displayinsights', false);
-        _self.parentEvent(responseObject);
-      }
-      else {
-        responseObject = { 'type': 'showInsightFull', data: false, query: _self.vars.searchObject.searchText };
-        $(this).attr('data-displayinsights', true);
-        _self.parentEvent(responseObject);
-      }
-
-    })
-
-    $('.live-search-close-icon').off('click').on('click', function (e) {
-
-      _self.vars.showingMatchedResults = true;
-      _self.vars.searchObject.searchText = $('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val();
-      _self.vars.scrollPageNumber = 0;
-      _self.vars.selectedFacetFromSearch = "all results"
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      _self.invokeSearch();
-      // $('#loaderDIV').show()
-    });
-
-    $('.suggestions-close-icon').off('click').on('click', function (e) {
-      $('#autoSuggestionContainer').empty();
-      $('.suggestion-search-data-parent').css('display', 'none');
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-    });
-  }
-  FindlySDK.prototype.getTopDownFacetsAddedList = function (isRadioBtn = false) {
-    var _self = this;
-    //top-down-search-facets-list-start//
-    if ($('.topdown-search-main-container').length) {
-      _self.searchFacetsList(_self.vars.selectedFacetsList);
-      $('#show-filters-added-data').off('click', '.close-filter-tag').on('click', '.close-filter-tag', function (event) {
-        var unselectedFilterID = $(this).attr("id");
-        // $('#loaderDIV').show();
-        _self.vars.selectedFiltersArr.slice(0).forEach(function (filter) {
-          if (filter == unselectedFilterID) {
-            var index1 = _self.vars.selectedFiltersArr.indexOf(filter);
-            _self.vars.selectedFiltersArr.splice(index1, 1)
-            _self.vars.selectedFacetsList.splice(index1, 1);
-            _self.searchFacetsList(_self.vars.selectedFacetsList);
-            $('.sdk-filter-checkbox-top-down').prop('checked', false);
-            $('.sdk-filter-radio-top-down').prop('checked', false);
-            _self.markSelectedFilters();
-          }
-        })
-        _self.vars.countOfSelectedFilters -= 1;
-        _self.filterResultsTopDown(event, false, isRadioBtn);
-      });
-    }
-
-    //top-down-search-facets-list-end//
-  }
-FindlySDK.prototype.bindFacetsToggle = function () {
-    var _self = this;
-    $('.facet').off('click').on('click', function (e) {
-      var facetThis = this;
-      var selectedFacet = $(this).attr('id');
-      // if (_self.vars.selectedFacetFromSearch === selectedFacet) {
-      //   return;
-      // }
-      _self.vars.selectedFacetFromSearch = selectedFacet;
-      _self.pubSub.publish('facet-selected', { selectedFacet: selectedFacet });
-      if ($('body').hasClass('top-down')) {
-        _self.vars.scrollPageNumber = 0;
-        if (selectedFacet === 'all results') {
-          $('.kore-sdk-pagination-div').hide();
-          if (_self.vars.totalNumOfResults == 0) {
-            $('#top-down-all-tab-empty-state').removeClass('hide');
-          } else {
-            $('#top-down-all-tab-empty-state').addClass('hide');
-          }
-          _self.invokeSpecificSearch(selectedFacet)
-          // _self.prepAllSearchData(selectedFacet, true);
-
-        } else {
-          if (!$('#top-down-all-tab-empty-state').hasClass('hide')) {
-            $('#top-down-all-tab-empty-state').addClass('hide');
-          }
-          _self.invokeSpecificSearch(selectedFacet)
-        }
-
-        $(".content-data-sec").scrollTop(0);
-        if (selectedFacet == 'all results' || selectedFacet == 'task') {
-          $('#actions-container').show();
-        } else {
-          $('#actions-container').hide();
-        }
-      } else {
-        _self.prepAllSearchData(selectedFacet);
-
-      }
-
-    })
-  }
-
-  FindlySDK.prototype.recentClick = function () {
-    var _self = this;
-    $('.search-container').off('click', '.recentText').on('click', '.recentText', function (e) {
-      var recentSearch = $(this).attr('id');
-      //e.target.value = recentSearch;
-      if (!$('body').hasClass('top-down')) {
-        $('.custom-header-container-center').css('visibility', 'hidden');
-      }
-      $('#show-all-results-container').hide();
-      $('#search').val(recentSearch).focus();
-      _self.vars.searchObject.searchText = recentSearch;
-      _self.vars.showingMatchedResults = true;
-      _self.searchFacetsList([]);
-      var e = $.Event("keydown", { which: 13 });
-      $('#search').trigger(e);
-    })
-    $('.search-container').off('click', '.recent-search-delete').on('click', '.recent-search-delete', function (e) {
-      var recentSearch = $(this).attr('id');
-      _self.deleteRecentSearches(recentSearch).then(data => {
-        $(this).parent().remove();
-        if(!$('.search-recent-column').children().length){
-          $('.searchBox.Search-BG-Copy').remove();
-          $('.search-body').hide();
-          $('.parent-search-live-auto-suggesition').hide();
-        }
-      })
-    })
-  }
-  FindlySDK.prototype.deleteRecentSearches = function (search) {
-    var _self = this;
-    var url = _self.API.deleteRecentSearch;
-    var payload = { "searches": [search] };
-    var headers = {};
-    var bearer = "bearer " + this.bot.options.accessToken;
-    headers["Authorization"] = bearer;
-    headers["Content-Type"] = "application/json";
-    headers.auth = _self.config.botOptions.assertion;
-    return $.ajax({
-      url: url,
-      type: 'delete',
-      headers: headers,
-      data: JSON.stringify(payload),
-      success: function (data) {
-      },
-      error: function (err) {
-      }
-    })
-  };
-
-  FindlySDK.prototype.deleteRecents = function () {
-    var _self = this;
-    $('.recentCloseIcon').off('click').on('click', function (e) {
-      var recentIndex = $(this).attr('id');
-      _self.vars.searchObject.recents.splice(recentIndex, 1);
-      _self.vars.searchObject.popularSearches.splice(recentIndex, 1);
-      window.localStorage.setItem('recents', JSON.stringify(_self.vars.searchObject.recents));
-      var tmplData = {
-        searchResults: _self.vars.searchObject.recentAPIResponse,
-        recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
-        recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-        popularSearches: []
-      };
-      if (!_self.customSearchResult) {
-        var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
-        $('.search-body .finalResults').hide();
-        $('.searchBox.Search-BG-Copy').remove();
-        $('.search-body').append(freqData);
-      } else {
-        _self.pubSub.publish('sa-freq-data', tmplData);
-        _self.pubSub.publish('sa-show-freq-data', tmplData);
-      }
-      setTimeout(function () {
-        $('.search-body').scrollTop(2);
-      }, 100);
-      _self.deleteRecents();
-      _self.recentClick();
-      e.stopPropagation();
-    })
-  }
-  FindlySDK.prototype.saveOrGetDataInStorage = function (type, dataArray, storageType, action) {
-    if (storageType === "localStorage") {
-      if (action === "get") {
-        return window.localStorage.getItem(type) ? JSON.parse(window.localStorage.getItem(type)) : [];
-      } else {
-        window.localStorage.setItem(type, JSON.stringify(dataArray));
-        return;
-      }
-    }
-
-  }
-  FindlySDK.prototype.closeGreetingMsg = function () {
-    if ($(".search-container").find(".greetingMsg").length) {
-      $('.greetingMsg').html('');
-      $('.greetingMsg').addClass('hide');
-      $('.search-container').css("box-shadow", "0 8px 16px 0 rgba(12, 51, 91, 0.2)")
-    }
-
-  }
-  FindlySDK.prototype.bindSearchActionEvents = function () {
-    var _self = this;
-    $('.search-task').off('click').on('click', function (e) {
-      e.stopPropagation();
-      var ele = $(e.target).closest('.search-task');
-      var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-      $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-      _self.pubSub.publish('sa-action-clicked', e);
-      var taskName = e.currentTarget.title.toLowerCase();
-      var payload;
-      if (_self.vars.searchObject && _self.vars.searchObject.searchText && _self.vars.searchObject.searchText.length) {
-        payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
-        // payload = _self.vars.searchObject.searchText;
-      }
-      else {
-        payload = $(e.currentTarget).attr('payload');
-      }
-      if (!_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.indexOf(taskName.toLowerCase()) == -1)) {
-        _self.vars.searchObject.recentTasks.unshift(taskName.toLowerCase());
-      }
-      var recentItem = []
-      recentItem.push(taskName);
-      _self.vars.searchObject.recentTasks = _.uniq(recentItem.concat(_self.vars.searchObject.recentTasks));
-      if (_self.vars.searchObject.recentTasks && _self.vars.searchObject.recentTasks.length) {
-        _self.vars.searchObject.recentTasks = _.filter(_self.vars.searchObject.recentTasks, function (task) {
-          return task;
+      if (_self.isDev == false) {
+        _self.dumpClickAnalyticsData(url, 'POST', JSON.stringify(payload)).then(function (res) {
         })
       }
-      if (_self.vars.showingMatchedResults == true) {
-        _self.captureClickAnalytics(e, $(e.currentTarget).attr('contentType'), 'click', $(e.currentTarget).attr('contentId'), $(e.currentTarget).attr('id'), $(e.currentTarget).attr('title'));
-      }
-      window.localStorage.setItem("recentTasks", JSON.stringify(_self.vars.searchObject.recentTasks));
-      if (!$('body').hasClass('top-down')) {
-        _self.bindFrequentData();
-      }
-      if (_self.config.viaSocket) {
-        var nlMeta = {
-          linkedBotNLMeta: {
-            'intent': $(e.currentTarget).attr('title'),
-            'seqLogId': $(e.currentTarget).attr('seqLogId') || null,
-            'childBotName': $(e.currentTarget).attr('childBotName') || null,
-            'isRefresh': true
+    }
+
+    FindlySDK.prototype.getRecentSearches = function (url, type) {
+      var _self = this;
+      _self.vars.isRecentSearchesLoading = false;
+      _self.pubSub.unsubscribe('sa-generate-recent-search');
+      _self.pubSub.subscribe('sa-generate-recent-search', data => {
+        if (_self.vars.isRecentSearchesLoading || ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) || (($('body').hasClass('top-down') && $('.search-top-down').val()))) {
+          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+            $('.search-body').css('display', 'none');
+            $('.search-body').addClass('hide');
+            $('#autoSuggestionContainer').empty();
           }
+          return;
+        }
+        _self.vars.isRecentSearchesLoading = true;
+        var bearer = this.API.jstBarrer;
+        var headers = {
+          "Authorization": 'bearer ' + this.bot.options.accessToken,
+          "Content-Type": "application/json"
         };
-        _self.sendMessage(payload, null, nlMeta);
-      }
-      if ($('body').hasClass('top-down')) {
-        _self.sendMessageToSearch('user', null, null, (_self.isDev == true) ? true : false);
-        _self.resetPingMessage();
-        _self.resetSocketDisconnection();
-      }
-      if (_self.isDev || _self.vars.loggedInUser) {
-        _self.vars.searchObject.searchText = e.currentTarget.title.toLowerCase();
-        _self.sendMessageToSearch('botAction');
-      } else if ((e.currentTarget.title.toLowerCase() === 'pay bill') || (e.currentTarget.title.toLowerCase() === 'pay credit card bill')) {
-        _self.userLogin(e.currentTarget.title.toLowerCase());
-      } else {
-      }
-
-    })
-    $('.search-container').off('click', '.visibility').on('click', '.visibility', function (event) {
-      if ($(event.target).closest('.visibility').attr('data-viewmode') == "full") {
-
-        if (parseInt($(event.target).closest('.faqs-shadow').attr('pinindex')) == -1) {
-          if ($(event.target).closest('.faqs-shadow').attr('visible') == "true") {
-            _self.performRankActions(event, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
-          }
-          else {
-            _self.performRankActions(event, { visible: true }, _self.vars.searchObject.searchText, 'visibility');
+        if (!_self.isDev) {
+          if (_self.config.botOptions.assertion) {
+            headers.auth = _self.config.botOptions.assertion;
           }
         }
-      }
-      else {
-
-        if (parseInt($(event.target).closest('.task-wrp').attr('pinindex')) == -1) {
-          if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
-            _self.performRankActions(event, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
+        $('#autoSuggestionContainer').empty();
+        $.ajax({
+          url: url,
+          type: type,
+          headers: headers,
+          data: {},
+          success: function (data) {
+            if (!data.isBotLocked) {
+              window.isBotLocked = false;
+              _self.vars.searchObject.recents = data.recentSearches;
+              if (!_self.vars.searchObject.recents) {
+                _self.vars.searchObject.recents = [];
+              }
+              if (_self.vars.searchObject.recents && _self.vars.searchObject.recents.length) {
+                if (!$('.search-container').hasClass('active')) {
+                  $('.search-container').addClass('active');
+                }
+              }
+              if ($('body').hasClass('top-down')) {
+                var freqDataTop = {
+                  // searchResults: searchResults,
+                  recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
+                  recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+                  popularSearches: []
+                };
+                _self.pubSub.publish('sa-freq-data', freqDataTop);
+                if (freqDataTop.recents.length) {
+                  $('#live-search-result-box').hide();
+                  if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
+                    $('#frequently-searched-box').show();
+                  }
+                  // _self.frequentlySearchedRecentTextClickEvent();
+                }
+              } else {
+                if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
+                  var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
+                    // searchResults: searchResults,
+                    recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
+                    recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+                    popularSearches: [],
+                    showSearches: searchConfigurationCopy ? searchConfigurationCopy.showSearches : 'recent'
+                  });
+                  if (_self.vars.searchObject.recents.length && !_self.vars.enterIsClicked && !window.isBotLocked) {
+                    $('.search-body').css('display', 'block');
+                    $('.search-body').removeClass('hide');
+                    $('.livesearchResultsNotFound').css('display', 'none');
+                    $('#autoSuggestionContainer').empty();
+                    if (!_self.vars.enterIsClicked && !window.isBotLocked) {
+                      $('.parent-search-live-auto-suggesition').show();
+                    }
+                  } else {
+                    $('.search-body').css('display', 'none');
+                    $('.search-body').addClass('hide');
+                    $('#autoSuggestionContainer').empty();
+                    $('.parent-search-live-auto-suggesition').hide();
+                    if ($('.search-body').hasClass('recent-search-show')) {
+                      $('.search-body').removeClass('recent-search-show');
+                    }
+                  }
+                  $('.search-body .finalResults').hide();
+                  $('.searchBox.Search-BG-Copy').remove();
+                  $('.search-body').append(freqData);
+                  if (!$('.search-body').hasClass('recent-search-show')) {
+                    $('.search-body').addClass('recent-search-show');
+                  }
+                  _self.changeSearchContainerBackground();
+                }
+              }
+            }
+            else {
+              window.isBotLocked = true;
+              $('.search-body').addClass('hide');
+              $('#autoSuggestionContainer').empty();
+              $('#searchChatContainer').removeClass('bgfocus');
+              $('.parent-search-live-auto-suggesition').hide();
+              if ($('.search-body').hasClass('recent-search-show')) {
+                $('.search-body').removeClass('recent-search-show');
+              }
+            }
+            _self.vars.isRecentSearchesLoading = false;
+            _self.vars.previousLivesearchData = '';
+          },
+          error: function (err) {
+            _self.vars.searchObject.recents = [];
           }
-          else {
-            _self.performRankActions(event, { visible: true }, _self.vars.searchObject.searchText, 'visibility');
-          }
-        }
-      }
-    });
-    $('.search-container').off('click', '.pinning').on('click', '.pinning', function (event) {
-      if ($(event.target).closest('.pinning').attr('data-viewmode') == "full") {
-
-        if ($(event.target).closest('.faqs-shadow').attr('visible') == "true") {
-          var _selectedElement = $(event.target).closest('.faqs-shadow');
-          var _parentElement = $(event.target).closest('.results-wrp');
-          var childNodes = Array.prototype.slice.call(_parentElement[0].children);
-          var pinIndex = 0;
-          if ($(event.target).closest('.custom-actions-content').text() == "UNPIN") {
-            pinIndex = -1;
-          }
-          else {
-            pinIndex = childNodes.indexOf(_selectedElement[0]);
-          }
-          _self.performRankActions(event, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning');
-        }
-      }
-      else {
-        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
-          var _selectedElement = $(event.target).closest('.task-wrp');
-          var _parentElement = $(event.target).closest('.tasks-wrp');
-          var childNodes = Array.prototype.slice.call(_parentElement[0].children);
-          var pinIndex = 0;
-          if ($(event.target).closest('.custom-actions-content').text() == "UNPIN") {
-            pinIndex = -1;
-          }
-          else {
-            pinIndex = childNodes.indexOf(_selectedElement[0]);
-          }
-          _self.performRankActions(event, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning');
-        }
-      }
-    });
-    $('.search-container').off('click', '.boosting').on('click', '.boosting', function (event) {
-      if ($(event.target).closest('.boosting').attr('data-viewMode') == "full") {
-
-        if ($(event.target).closest('.faqs-shadow').attr('visible') == "true" && parseInt($(event.target).closest('.faqs-shadow').attr('pinindex')) == -1) {
-          var boostByValue = parseFloat($(event.target).closest('.faqs-shadow').attr('boost'));
-          boostByValue = boostByValue + 0.25;
-          _self.performRankActions(event, { boost: boostByValue }, _self.vars.searchObject.searchText, 'boosting');
-        }
-      }
-      else {
-        if ($(event.target).closest('.task-wrp').attr('visible') == "true" && parseInt($(event.target).closest('.faqs-shadow').attr('pinindex')) == -1) {
-          var boostByValue = parseFloat($(event.target).closest('.task-wrp').attr('boost'));
-          boostByValue = boostByValue + 0.25;
-          _self.performRankActions(event, { boost: boostByValue }, _self.vars.searchObject.searchText, 'boosting');
-        }
-      }
-    });
-    $('.search-container').off('click', '.burying').on('click', '.burying', function (event) {
-      if ($(event.target).closest('.burying').attr('data-viewMode') == 'full') {
-        if ($(event.target).closest('.faqs-shadow').attr('visible') == "true" && parseInt($(event.target).closest('.faqs-shadow').attr('pinindex')) == -1) {
-          var buryByValue = parseFloat($(event.target).closest('.faqs-shadow').attr('boost'));
-          if (buryByValue > 0.25) {
-            buryByValue = buryByValue - 0.25;
-            _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
-          }
-          else {
-            buryByValue = 0.25 - buryByValue;
-            _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
-          }
-        }
-      }
-      else {
-
-        if ($(event.target).closest('.task-wrp').attr('visible') == "true" && parseInt($(event.target).closest('.faqs-shadow').attr('pinindex')) == -1) {
-          var buryByValue = parseFloat($(event.target).closest('.task-wrp').attr('boost'));
-          if (buryByValue > 0.25) {
-            buryByValue = buryByValue - 0.25;
-            _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
-          }
-          else {
-            buryByValue = 0.25 - buryByValue;
-            _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
-          }
-        }
-      }
-    })
-  };
-
-  FindlySDK.prototype.performRankActions = function (event, conf, searchText, actionType) {
-    var _self = this;
-    event.preventDefault();
-    event.stopPropagation();
-    if ($(event.target).closest('.'+actionType).attr('data-viewMode') == "full") {
-      var selectedElement = $(event.target).closest('.faqs-shadow');
-    }
-    else {
-      var selectedElement = $(event.target).closest('.task-wrp');
-    }
-    var contentID = selectedElement.attr('contentid');
-    var contentType = selectedElement.attr('contentType');
-    var queryString = _self.vars.searchObject.searchText;
-
-
-    var payload = {
-      "searchQuery": queryString,
-      "result": {
-        "contentType": contentType,
-        "contentId": contentID,
-        "config": conf,
-      }
+        });
+      });
     }
 
+    FindlySDK.prototype.searchEventBinding = function (dataHTML, templateType, e, ignorAppend, config) {
+      var _self = this;
+      _self.vars.searchObject.recents = []; _self.vars.searchObject.recentTasks = [];
+      var searchResults;
 
-    var url = _self.API.queryConfig;
+      try {
 
-    if (actionType == 'visibility') {
-      var elementHidden = selectedElement.find('.visibility > .custom-actions-content');
-      var indicatorMessage = '';
-      if (selectedElement.attr('visible') == "false") {
-        indicatorMessage = "UNHIDING";
+        // _self.vars.searchObject.recents = JSON.parse(window.localStorage.getItem('recents')) ? JSON.parse(window.localStorage.getItem('recents')) : [];
+        // _self.vars.searchObject.recentTasks = JSON.parse(window.localStorage.getItem('recentTasks')) ? JSON.parse(window.localStorage.getItem('recentTasks')) : [];
+      } catch (err) {
+
       }
-      else {
-        indicatorMessage = "HIDING";
+
+      if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
+        // $(".query-analytics-control-container").show(); // Temporary modification, made as per FLY-1012
+
+        /*if ($('.custom-header-container-left').css('visibility') == 'hidden') {
+          $('.custom-insights-control-container').show();
+        }*/
       }
-      _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
-        selectedElement.attr('visible', conf.visible);
-        if (selectedElement.attr('visible') == "false") {
-          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
-            $(this).hide();
+
+
+      $('.close-icon').off('click').on('click', function (e) {
+        if ($('body').hasClass('setDefaultSearchTemplate')) {
+          $('.search-body').html('');
+          $('.search-body').removeClass('h-100');
+          $('#search').val('');
+          $('#suggestion').val('');
+          $('.search-container').removeClass('active');
+
+          $('#show-all-results-container').hide();
+          $('.search-container').removeClass('bottom-up-results-showing');
+          $('.typingIndicatorContent').css('display', 'none');
+          _self.vars.selectedFacetFromSearch = "all results"
+          $('.start-search-icon-div').removeClass('hideStartIcon');
+          $('#introText').css('display', 'none');
+          _self.destroy();
+        }
+        else {
+          $('.search-container').css('display', 'none');
+          var pos = _self.getAvatarTopLeft();
+          $('.start-search-icon-div').removeClass('hideStartIcon');
+          $('.start-search-icon-div').animate({ 'left': pos.x, 'top': pos.y }, function () {
+            $('#introText').css('display', 'none');
+          });
+          $('#show-all-results-container').hide();
+          $('.search-container').removeClass('bottom-up-results-showing');
+          $('.typingIndicatorContent').css('display', 'none');
+          _self.vars.selectedFacetFromSearch = "all results";
+          _self.destroy();
+        }
+
+      })
+      //_self.bindSearchActionEvents();
+
+
+      // $('.custom-insights-control-container').off('click').on('click', function (event) {
+      $(dataHTML).off('click', '.query-analytics-control-container').on('click', '.query-analytics-control-container', function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+          var responseObject = { 'type': 'show', data: true, query: _self.vars.searchObject.searchText }
+          _self.parentEvent(responseObject);
+          setTimeout(function () {
+            $('.query_analytics_content').css('top', event.pageY - 50);
+            $('.query_analytics_content').css('left', event.pageX - 178 - event.offsetX);
+            $(document).on('click', function (event) {
+              if (!($(event.target).closest('.query_analytics_content').length)) {
+                $('.query_analytics_content').hide();
+              }
+            });
+          }, 100);
+
+        }
+        /*$('.custom-header-container-left').css('visibility', 'visible');
+        $('.custom-insights-control-container').hide();*/
+      })
+
+      /*$('.custom-header-container-left').off('click').on('click', function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+  
+        if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
+          $('.custom-insights-control-container').show();
+          var responseObject = { 'type': 'hide', data: true, query: _self.vars.searchObject.searchText }
+          _self.parentEvent(responseObject);
+        }
+        else {
+          $('.custom-insights-control-container').hide();
+          var responseObject = { 'type': 'hide', data: true, query: _self.vars.searchObject.searchText }
+          _self.parentEvent(responseObject);
+        }
+  
+        $('.custom-header-container-left').css('visibility', 'hidden');
+      })*/
+
+      // $('.pay-button').off('click').on('click')
+      if (templateType === "search-container") {
+
+        $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
+          _self.trimSearchQuery();
+          var keyCode = e.keyCode || e.which;
+          keyCode = Number(keyCode);
+          if (keyCode !== 13) {
+            _self.vars.enterIsClicked = false;
+          } else if ($('body').hasClass('top-down') && keyCode == 13) {
+            _self.vars.enterIsClicked = true;
+            $('.skelton-load-img').show();
+            $('#live-search-result-box').hide();
+            $('#frequently-searched-box').hide();
+          } else if (!$('body').hasClass('top-down') && keyCode == 13) {
+            $('.default-data-show-not-loaded').hide();
+            _self.vars.enterIsClicked = true;
+            $('.search-body').css('display', 'none');
+            $('.search-body').addClass('hide');
+          }
+          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val() && !window.isBotLocked)) {
+            _self.closeGreetingMsg();
+            // $('.search-body').css('display', 'block');
+            // $('.search-body').removeClass('hide');
+            // if (!window.isBotLocked) {
+            //   $('.parent-search-live-auto-suggesition').show();
+            // }
+          } else if ((!$('body').hasClass('top-down') && (!$('.bottom-up-search').val() || window.isBotLocked))) {
+            $('.search-body').css('display', 'none');
+            $('.search-body').addClass('hide');
+            $('#autoSuggestionContainer').empty();
+            $('.suggestion-search-data-parent').css('display', 'none');
+          }
+          _self.pubSub.publish('sa-handel-chat-container-view');
+          _self.pubSub.publish('sa-handel-go-button');
+          // if (!window.isBotLocked) {
+          //   $('.search-body').removeClass('hide');
+          //   $('#searchChatContainer').addClass('bgfocus');
+          // }
+          if (window.isBotLocked) {
+            $('.search-body').css('display', 'none');
+            $('.search-body').addClass('hide');
+          }
+          if (!self.customSearchResult) {
+            $('.search-chat-container').empty();
+          }
+          var code = e.keyCode || e.which;
+          code = Number(code);
+          if ($('body').hasClass('top-down') && code !== 13) {
+            _self.vars.enterIsClicked = false;
+          }
+          // if (code !== 13 && code !== 40 && code !== 38 && code !== 39) {
+          //   // if (($('body').hasClass('top-down') && $('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && $('.bottom-up-suggestion').val())) {
+          //   _self.pubSub.publish('sa-input-keyup');
+          //   // }
+          // }
+          if (code == 9 || code == 39) {
+            $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
+            $('.search-suggested-title.highlightSuggestion').removeClass('highlightSuggestion');
+            if (($('body').hasClass('top-down') && !$('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && !$('.bottom-up-suggestion').val())) {
+              setTimeout(() => {
+                if (!$('body').hasClass('top-down')) {
+                  $('.bottom-up-search').focus();
+                } else {
+                  $('.search-top-down').focus();
+                }
+              }, 100)
+              return;
+            } else {
+              $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
+            }
+            $('#search').focus();
+            if (!$('body').hasClass('top-down')) {
+              if ($('.bottom-up-suggestion').val()) {
+                $('.bottom-up-search').val(JSON.parse(JSON.stringify($('.bottom-up-suggestion').val())));
+              }
+              $('.bottom-up-search').focus();
+            } else {
+              if ($('.top-down-suggestion').val()) {
+                $('.search-top-down').val(JSON.parse(JSON.stringify($('.top-down-suggestion').val())));
+              }
+              $('.search-top-down').focus();
+            }
+          }
+          if (code == 40 || code == 38) {
+            _self.suggestionSelectedByNavigationKeys(e);
+
+          }
+          if ($('body').hasClass('top-down')) {
+            $('.top-down-suggestion').val('');
+          } else {
+            $('.bottom-up-suggestion').val('');
+          }
+          if (code == 9) {
+            e.preventDefault();
+          }
+          if (code == 13) {
+            $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
+            $('.search-suggested-title.highlightSuggestion').removeClass('highlightSuggestion');
+            $('.parent-search-live-auto-suggesition').hide();
+            if (!e.target.value.length) {
+              return;
+            }
+            $('#autoSuggestionContainer').addClass('hide');
+            if ($('body').hasClass('top-down')) {
+              _self.vars.enterIsClicked = true;
+              $('#live-search-result-box').hide();
+              $('#frequently-searched-box').hide();
+
+            } else {
+              if (!$('.search-container').hasClass('active')) {
+                $('.search-container').addClass('active');
+              }
+            }
+            e.preventDefault();
+            _self.hideAutoSuggestion();
+            // we need to remove close icon from builder
+            if ($('.start-search-icon-div') && $('.start-search-icon-div').hasClass('active')) {
+              $('.start-search-icon-div').removeClass('active');
+            }
+            prevStr = "";
+            if ($('.search-container').hasClass('conversation')) {
+              $('.search-body').addClass('hide');
+              $('#searchChatContainer').removeClass('bgfocus');
+            };
+
+            if (_self.vars.resultRankingActionPerformed == true) {
+              _self.vars.resultRankingActionPerformed = false;
+            }
+
+            if (_self.isDev) {
+              $('#searchChatContainer').animate({ scrollTop: $('#searchChatContainer').prop("scrollHeight") }, 0);
+              if (!_self.vars.customizeView) {
+                $(".query-analytics-control-container").hide();
+              }
+            }
+
+            _self.vars.searchObject.searchText = $('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val();
+
+            if ($('body').hasClass('top-down')) {
+              $('body').addClass('showFullResults');
+              $('.top-down-suggestion').val($('.search-top-down').val());
+              $('.sdk-filter-checkbox-top-down').prop('checked', false);
+              $('.sdk-filter-radio-top-down').prop('checked', false);
+              _self.vars.filterObject = [];
+              _self.vars.selectedFiltersArr = [];
+              _self.vars.tempSelectedFiltersArr = [];
+              _self.vars.tempSelectedFacetsList = [];
+              _self.vars.tempFilterObject = [];
+              _self.vars.selectedFacetsList = [];
+              _self.vars.isTopFacets = (_self.vars.filterConfiguration || {}).aligned === 'top' ? true : false;
+              _self.vars.countOfSelectedFilters = 0;
+              $('.kore-sdk-pagination-div').hide();
+              _self.searchFacetsList([]);
+            }
+            // debugger;
+            var searchText = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) || (_self.vars.searchObject.liveData ? _self.vars.searchObject.liveData.originalQuery : "") || null;
+            _self.closeGreetingMsg();
+            // if (!$('body').hasClass('top-down')) {
+            _self.resetPingMessage();
+            _self.resetSocketDisconnection();
+            _self.sendMessageToSearch('user', null, null, (_self.isDev == true) ? true : false);
+            if (_self.isDev) {
+              setTimeout(() => {
+                _self.pubSub.publish('sa-handle-retry-qery-view');
+              }, 500);
+            }
+            if (_self.config.viaSocket) {
+              _self.sendMessage(_self.vars.searchObject.searchText);
+            } else {
+              _self.bindLiveDataToChat();
+            }
+
+            // }
+            if ($('.search-body:visible').length) {
+              // if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
+              //   _self.vars.searchObject.recents.unshift(searchText.toLowerCase());
+              // }
+              // window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
+            }
+            $('.custom-header-container-center').css('visibility', 'visible');
+
+            _self.vars.filterObject = [];
+            _self.vars.selectedFiltersArr = [];
+            _self.vars.tempSelectedFiltersArr = [];
+            _self.vars.selectedFacetsList = [];
+            _self.vars.isTopFacets = (_self.vars.filterConfiguration || {}).aligned === 'top' ? true : false;
+            _self.vars.countOfSelectedFilters = 0;
+          }
+        })
+        $(dataHTML).off('click', '.search-button').on('click', '.search-button', function (e) {
+          e.stopPropagation();
+          // if($('#search').val()) {
+          //   e.preventDefault();
+          //   if($('.search-container').hasClass('conversation')){
+          //     $('.search-body').addClass('hide');
+          //     $('#searchChatContainer').removeClass('bgfocus');
+          //   };
+          //   _self.sendMessageToSearch('user');
+          //   _self.bindLiveDataToChat();
+          // }
+
+          //$('#search').trigger(jQuery.Event('keydown', { keycode: 13 }));
+          $('#search').focus().trigger({ type: 'keydown', which: 13 });
+        })
+        $(dataHTML).off('click', '#search').on('click', '#search', function (e) {
+          if (!$('body').hasClass('top-down')) {
+            if ($('#search').hasClass('from-result-ranking')) {
+              $("#search").removeClass('from-result-ranking');
+              _self.vars.customizeView = true;
+              // _self.invokeSearch();
+              $('#show-all-results-container').show();
+              if (!$('.search-container').hasClass('bottom-up-results-showing')) {
+                $('.search-container').addClass('bottom-up-results-showing');
+              }
+              setTimeout(function () {
+                $('#search').focus().trigger({ type: 'keydown', which: 13 });
+                setTimeout(function () {
+                  $('.show-all-results').click();
+
+                }, 1000);
+              }, 1000);
+
+            } else {
+              if (!($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
+                _self.bindFrequentData();
+              }
+            }
+          }
+          $('#search').trigger({ type: 'keydown', which: 39 });
+        })
+        var handle = setInterval(function () {
+          if (_self.bot.options.accessToken) {
+            initPopularSearchList();
+            clearInterval(handle);
+            handle = 0;
+          }
+        }, 1000);
+        function initPopularSearchList() {
+          _self.vars.searchObject.popularSearches = [];
+          var popSearchUrl = _self.API.popularSearchesUrl;
+          var tmplData = {
+            searchResults: _self.vars.searchObject.recentAPIResponse,
+            recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
+            recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+            popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5)
+          };
+          if (!_self.customSearchResult) {
+            // var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
+            // $('.search-body').html(freqData);
+            // if (!$('body').hasClass('top-down')) {
+            //   _self.pubSub.publish('sa-generate-recent-search');
+            // }
+          } else {
+            _self.pubSub.publish('sa-freq-data', tmplData);
+            _self.pubSub.publish('sa-show-freq-data', tmplData);
+          }
+          _self.getPopularSearchList(popSearchUrl, 'GET').then(function (response) {
+            _self.vars.searchObject.popularSearches = response;
+            var recentSearchUrl = _self.API.recentSearchUrl;
+            var defaultPopulardata = [{
+              "query": "Cosmetics"
+            }, {
+              "query": "Perfumes"
+            }, {
+              "query": "Daily Care Products"
+            }]
+            _self.appendPopularSearchResults(response && response.result && response.result.slice(0, 3) || defaultPopulardata || []);
+            _self.getRecentSearches(recentSearchUrl, 'GET');
+            var tmplData = {
+              searchResults: _self.vars.searchObject.recentAPIResponse,
+              recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
+              recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+              popularSearches: []
+            };
+            if (!_self.customSearchResult) {
+              var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
+              $('.search-body .finalResults').hide();
+              $('.searchBox.Search-BG-Copy').remove();
+              $('.search-body').append(freqData);
+              // _self.pubSub.publish('sa-generate-recent-search');
+            } else {
+              _self.pubSub.publish('sa-freq-data', tmplData);
+              _self.pubSub.publish('sa-show-freq-data', tmplData);
+            }
           })
-
-          if ($(event.target).closest('.visibility').attr('data-viewmode') == "full") {
-            selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
-            if (selectedElement.find('#boostAction').hasClass('display-block')) {
-              selectedElement.find('#boostAction').removeClass('display-block');
-            }
-            selectedElement.find('#boostAction').hide();
-            if (selectedElement.find('#buryAction').hasClass('display-block')) {
-              selectedElement.find('#buryAction').removeClass('display-block');
-            }
-            selectedElement.find('#buryAction').hide();
-            selectedElement.find('#hideAction').removeClass('display-none');
-            selectedElement.find('#hideAction').show();
-          }
-          else {
-            selectedElement.find('.result-tuning-action-notification-container').show();
-            if (selectedElement.find('#boostAction').hasClass('display-block')) {
-              selectedElement.find('#boostAction').removeClass('display-block');
-            }
-            selectedElement.find('#boostAction').hide();
-            if (selectedElement.find('#buryAction').hasClass('display-block')) {
-              selectedElement.find('#buryAction').removeClass('display-block');
-            }
-            selectedElement.find('#buryAction').hide();
-            selectedElement.find('#hideAction').removeClass('display-none');
-            selectedElement.find('#hideAction').show();
-          }
-          elementHidden.text("UNHIDE");
-          selectedElement.addClass('hide-actions');
         }
-        else {
-          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
-            $(this).hide();
+
+        var timerId;
+        var searchBoxDom = document.getElementById('search');
+
+        // This represents a very heavy method. Which takes a lot of time to execute
+        function makeAPICall() {
+          // $('#search').trigger("keydown");
+          if (_self.vars.enterIsClicked) {
+            return;
+          }
+          $('#search').trigger("keyup");
+          _self.pubSub.publish('sa-input-keyup');
+        }
+
+        // Debounce function: Input as function which needs to be debounced and delay is the debounced time in milliseconds
+        var debounceFunction = function (func, delay) {
+          // Cancels the setTimeout method execution
+          clearTimeout(timerId)
+          // Executes the func after delay time.
+          timerId = setTimeout(func, delay)
+        }
+
+        // Event listener on the input box
+        searchBoxDom.addEventListener('input', function (event) {
+          // Debounces makeAPICall method
+          debounceFunction(makeAPICall, 200, event);
+        })
+
+        $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
+          _self.trimSearchQuery();
+          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+            $('.search-container').removeClass('no-history');
+            if (!$('.search-container').hasClass('active')) {
+              $('.search-container').addClass('active');
+            }
+            if ($('.search-body').hasClass('recent-search-show')) {
+              $('.search-body').removeClass('recent-search-show');
+            }
+          }
+          var keyCode = e.keyCode || e.which;
+          keyCode = Number(keyCode);
+          if ($('body').hasClass('top-down') && keyCode !== 13) {
+            _self.vars.enterIsClicked = false;
+          } else if ($('body').hasClass('top-down') && keyCode == 13) {
+            _self.vars.enterIsClicked = true;
+            $('#live-search-result-box').hide();
+            $('#frequently-searched-box').hide();
+            return;
+          }
+          _self.pubSub.unsubscribe('sa-input-keyup');
+          _self.pubSub.publish('sa-handel-go-button');
+          _self.hideBottomUpAllResults();
+          _self.pubSub.subscribe('sa-input-keyup', (msg, data) => {
+            if (!$('body').hasClass('top-down') && _self.vars.enterIsClicked) {
+              $('.search-body').css('display', 'none');
+              $('.search-body').addClass('hide');
+              $('.parent-search-live-auto-suggesition').hide();
+              return;
+            }
+            if ($('body').hasClass('top-down')) {
+              $('.top-down-suggestion').val('');
+            } else {
+              $('.bottom-up-suggestion').val('');
+            }
+            // if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val()) && !window.isBotLocked && !_self.vars.enterIsClicked) {
+            //   $('.search-body').css('display', 'block');
+            //   $('.search-body').removeClass('hide');
+            //   if (!window.isBotLocked) {
+            //     $('.parent-search-live-auto-suggesition').show();
+            //   }
+            // } else 
+            if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val()) || window.isBotLocked) {
+              $('.search-body').css('display', 'none');
+              $('.search-body').addClass('hide');
+              $('#autoSuggestionContainer').empty();
+              $('.suggestion-search-data-parent').css('display', 'none');
+            }
+            _self.appendSuggestions();
+            if (!($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
+              if ($("#auto-query-box").find(".suggestion-box").length) {
+                $('.suggestion-box').remove();
+              }
+              $('.top-down-suggestion').val('');
+              $('#live-search-result-box').hide();
+              $('#frequently-searched-box').show();
+
+              // _self.frequentlySearchedRecentTextClickEvent();
+              if (((_self.vars.searchObject.recentTasks && !_self.vars.searchObject.recentTasks.length) || (_self.vars.searchObject.recents && !_self.vars.searchObject.recents.length)) && $('.search-container').hasClass('active')) {
+                // $('.search-container').removeClass('active');
+              }
+              if (keyCode == 8) {
+                if (!$('body').hasClass('top-down')) {
+                  $('.search-body').css('display', 'none');
+                  $('.search-body').addClass('hide');
+                  $('.parent-search-live-auto-suggesition').hide();
+                  $('#autoSuggestionContainer').empty();
+                }
+                return;
+              }
+              _self.bindFrequentData();
+              $('.custom-header-container-center').css('visibility', 'visible');
+            } else {
+              $('#frequently-searched-box').hide();
+              var code = e.keyCode || e.which;
+              code = Number(code);
+              if (_self.vars.enterIsClicked) {
+                $('#live-search-result-box').hide();
+                $('#frequently-searched-box').hide();
+                return;
+              }
+              if (code == 9 || code == 39) {
+                if (($('body').hasClass('top-down') && !$('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && !$('.bottom-up-suggestion').val())) {
+                  setTimeout(() => {
+                    if (!$('body').hasClass('top-down')) {
+                      $('.bottom-up-search').focus();
+                    } else {
+                      $('.search-top-down').focus();
+                    }
+                  }, 100)
+                  return;
+                } else {
+                  $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
+                }
+                $('#search').focus();
+                if (!$('body').hasClass('top-down')) {
+                  if ($('.bottom-up-suggestion').val()) {
+                    $('.bottom-up-search').val(JSON.parse(JSON.stringify($('.bottom-up-suggestion').val())));
+                  }
+                  $('.bottom-up-search').focus();
+                } else {
+                  if ($('.top-down-suggestion').val()) {
+                    $('.search-top-down').val(JSON.parse(JSON.stringify($('.top-down-suggestion').val())));
+                  }
+                  $('.search-top-down').focus();
+                }
+              }
+              if (code == 9) {
+                e.preventDefault();
+              }
+              if (e.target.value) {
+                var payload = {
+                  "query": e.target.value.toString(),
+                  "maxNumOfResults": 5,
+                  "userId": _self.API.uuid,
+                  "streamId": _self.API.streamId,
+                  "lang": "en"
+                }
+
+                var url = _self.API.livesearchUrl; //'https://qa-bots.kore.ai/searchAssistant/liveSearch';
+                var searchData;
+                if (code == 13) {
+                  // if (!($('.topdown-search-main-container').length)) {
+                  //   $('#search').val('');
+                  //   $('#suggestion').val('');
+                  //   $('.bottom-up-search').val('');
+                  //   $('.bottom-up-suggestion').val('');
+                  // }
+                  // _self.hideAutoSuggestion();
+                  if ($('body').hasClass('top-down')) {
+                    _self.vars.enterIsClicked = true
+                    $('#frequently-searched-box').hide();
+                    $('#live-search-result-box').hide();
+                  }
+                } else {
+                  if ($('body').hasClass('top-down') && _self.vars.enterIsClicked) {
+                    $('#frequently-searched-box').hide();
+                    $('#live-search-result-box').hide();
+                    return;
+                  }
+                  $('#autoSuggestionContainer').removeClass('hide');
+                  if (!$('body').hasClass('top-down')) { // bottomUp
+                    _self.hideBottomUpAllResults();
+                  } else {
+                    $(".top-down-suggestion").val(($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()));
+                    // $('#live-search-result-box').hide();
+                  }
+
+                  if ((searchConfigurationCopy.liveSearchResultsLimit !== 0)) {
+                    if (_self.vars.previousLivesearchData == ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
+                      _self.checkIsPreviousLiveSearchDataExists();
+                      return;
+                    }
+                    _self.vars.previousLivesearchData = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
+                    _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
+                      if ($('body').hasClass('top-down') && _self.vars.enterIsClicked) {
+                        $('#frequently-searched-box').hide();
+                        $('#live-search-result-box').hide();
+                        return;
+                      }
+                      if (res.queryPipelineId && res.relay) {
+                        _self.vars.experimentsObject = {};
+                        if (res.relay == "experiment") {
+                          if (res.experimentId) {
+                            _self.vars.experimentsObject['experimentId'] = res.experimentId;
+                          }
+                        }
+                        _self.vars.experimentsObject['indexPipelineId'] = res.indexPipelineId;
+                        _self.vars.experimentsObject['queryPipelineId'] = res.queryPipelineId;
+                        _self.vars.experimentsObject['relay'] = res.relay;
+                      }
+                      if (res.isBotLocked) {
+                        window.isBotLocked = true;
+                      }
+                      else {
+                        window.isBotLocked = false;
+                      }
+                      if (_self.vars.enterIsClicked) {
+                        if (!$('body').hasClass('top-down')) {
+                          $('#frequently-searched-box').hide();
+                          $('#live-search-result-box').hide();
+                          return;
+                        }
+                        return;
+                      }
+                      if (res && res.requestId && res.template && res.template.originalQuery) {
+                        _self.vars.previousSearchObj = {};
+                        _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
+                        _self.vars.previousSearchObj.searchText = res.template.originalQuery; // previous text
+                      }
+                      if (res.templateType === 'liveSearch') {
+                        $('#searchChatContainer').removeClass('bgfocus-override');
+                        $('.live-search-data-container').empty();
+                        res = res.template;
+                        var faqs = [], web = [], tasks = [], files = [], data = [], facets, viewType = "Preview";
+                        if (!$('.search-container').hasClass('active')) {
+                          $('.search-container').addClass('active');
+                        }
+                        if (((res.results || {}).data || []).length || (res.resultType == "grouped" && Object.keys(res.results).length)) {
+                          var tmplData = {
+                            faqs: [],
+                            web: [],
+                            tasks: [],
+                            files: [],
+                            data: [],
+                            showAllResults: true,
+                            noResults: false,
+                            taskPrefix: 'SUGGESTED',
+                            viewType: viewType,
+                            customSearchResult: _self.customSearchResult
+                          };
+                          _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
+                          searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
+                          $(searchData).data(dataObj);
+                          $('.search-body').html(searchData);
+                          $('.search-body').show();
+                          $('.search-body').removeClass('hide');
+                          $('.live-search-data-container').empty();
+                          if (res && res.results && res.resultType == "grouped") {
+                            var availableGroups = Object.keys(res.results);
+                            var selectedGroup = availableGroups[0];
+                            availableGroups.forEach((group) => {
+                              var results = res.results[group].data;
+                              var groupName = group == 'default_group' ? 'defaultTemplate' : group;
+                              var dataObj = {
+                                facets: [],
+                                searchFacets: [],
+                                originalQuery: res.originalQuery || '',
+                                customSearchResult: _self.customSearchResult,
+                                data: results,
+                                groupName: groupName
+                              }
+
+                              var publishSearchData = 'sa-' + groupName + '-search-data';
+                              _self.pubSub.publish(publishSearchData, { container: '.live-search-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
+                            });
+                            res.results = results;
+                          } else {
+                            var results = res.results.data;
+                            res.results = results
+                            var dataObj = {
+                              facets: facets || [],
+                              searchFacets: searchFacets || [],
+                              originalQuery: res.originalQuery || '',
+                              customSearchResult: _self.customSearchResult,
+                              data: results,
+                              groupName: 'defaultTemplate'
+                            }
+                            _self.pubSub.publish('sa-defaultTemplate-search-data', { container: '.live-search-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
+                          }
+
+                          _self.closeGreetingMsg();
+
+
+                          facets = res.facets;
+                          var dataObj = {
+                            faqs: faqs,
+                            web: web,
+                            tasks: tasks,
+                            files: files,
+                            data: data,
+                            facets: facets,
+                            originalQuery: res.originalQuery,
+                            customSearchResult: _self.customSearchResult
+                          }
+
+                          setTimeout(function () {
+                            $('.search-body').scrollTop(2);
+                          }, 100);
+                          _self.clickNavigateToUrl();
+                          _self.bindAllResultsView();
+                          if ($('body').hasClass('top-down')) {
+                            setTimeout(function () {
+                              _self.bindStructuredDataTriggeringOptions();
+                            }, 100);
+
+                          }
+                          var scoreArray = [
+                            {
+                              name: 'asstPage',
+                              score: web.length && web[0].score
+                            },
+                            {
+                              name: 'asstTask',
+                              score: tasks.length && tasks[0].score
+                            },
+                            {
+                              name: 'asstFaq',
+                              score: faqs.length && faqs[0].score
+                            }
+                          ];
+                          scoreArray.sort((a, b) => { return b.score - a.score });
+                          scoreArray.forEach((obj, index) => {
+                            $('.' + obj.name).css("order", index + 1);
+                          })
+
+                          //live search hightlight faq start//
+                          setTimeout(() => {
+                            var topMatchLivesearchFAQ = faqs.filter(function (faq) {
+                              return faq.bestMatch
+                            });
+                            if (topMatchLivesearchFAQ.length) {
+                              //highlight faq;
+                              topMatchLivesearchFAQ = topMatchLivesearchFAQ[0];
+                            } else {
+                              topMatchLivesearchFAQ = false;
+                            }
+                            if (topMatchLivesearchFAQ) {
+
+                              if ($('body').hasClass('top-down')) {
+                                var bestFAQDiv = $("#live-search-result-box  .task-wrp[contentid='" + topMatchLivesearchFAQ.contentId + "']:last");
+                                bestFAQDiv.addClass('faq-highlight');
+                              } else {
+                                var bestFAQDiv = $(".live-seach-auto-suggestion-parent .resultsOfSearch .task-wrp[contentid='" + topMatchLivesearchFAQ.contentId + "']:last");
+                                bestFAQDiv.addClass('faq-highlight');
+                              }
+                            }
+                          }, 200)
+                          //live search hightlight faq  end//
+                        } else {
+                          if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
+                            var dataObj = {
+                              faqs: faqs,
+                              web: web,
+                              tasks: tasks,
+                              files: files,
+                              facets: facets,
+                              data: data,
+                              customSearchResult: _self.customSearchResult
+                            }
+                            var tmplData = {
+                              faqs: faqs,
+                              web: web,
+                              tasks: tasks,
+                              files: files,
+                              data: data,
+                              showAllResults: false,
+                              noResults: true,
+                              taskPrefix: 'MATCHED',
+                              viewType: viewType,
+                              customSearchResult: _self.customSearchResult
+                            }
+                            $('.search-body').empty().append('<div class="livesearchResultsNotFound">No live search results found</div>');
+                            setTimeout(function () {
+                              $('.search-body').scrollTop(2);
+                            }, 100);
+                            if ($('body').hasClass('top-down')) {
+                              _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
+                              _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: true, isFullResults: false, selectedFacet: _self.vars.selectedFacetFromSearch | 'all results' } });
+
+                            } else {
+                              if (!_self.vars.enterIsClicked && !window.isBotLocked) {
+                                $('.search-body').css('display', 'block');
+                                $('.search-body').removeClass('hide');
+                              }
+                              _self.pubSub.publish('sa-search-result', dataObj);
+                              _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
+                            }
+                          }
+                        }
+                        _self.vars.searchObject.liveData = {
+                          faqs: faqs,
+                          web: web,
+                          tasks: tasks,
+                          files: files,
+                          facets: facets,
+                          originalQuery: res.originalQuery || '',
+                        }
+                        _self.searchEventBinding(searchData, "livesearch", e, config);
+                      } else if (res.templateType === 'liveSearchEmpty') {
+                        $('.search-body').hide();
+                        $('#searchChatContainer').addClass('bgfocus-override');
+                      }
+                      else {
+                        $('.search-body').hide();
+                      }
+                    })
+                  }
+                  else {
+                    $('.search-container').addClass('active');
+                    $('.search-body').removeClass('hide');
+                    $('.search-body').show();
+                  }
+                }
+              } else {
+                $('.search-body').html('');
+                $('.search-body').removeClass('h-100');
+              }
+              if (!$('body').hasClass('top-down')) {
+                $('.custom-header-container-center').css('visibility', 'hidden');
+              }
+            }
+            //top-down-suggestion box perfect scroll start //
+            if ($('.topdown-search-main-container').length) {
+              var topDownSuggBoxDataHTML = $('#heading');
+              _self.bindPerfectScroll(topDownSuggBoxDataHTML, '#live-search-result-box', null, 'y', 'suggestionBox');
+            }
+            //top-down-suggestion box perfect scroll -end//
           });
-          if ($(event.target).closest('.visibility').attr('data-viewmode') == "full") {
-            if (selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hasClass('display-block') && selectedElement.find('#hideAction').hasClass('display-block')) {
-              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').removeClass("display-block");
-              selectedElement.find('#hideAction').removeClass("display-block");
+        })
+
+        $(dataHTML).off('focus', '#search').on('focus', '#search', function (e) {
+          _self.vars.enterIsClicked = false;
+          if (!$('body').hasClass('top-down')) {
+            $('.search-container').removeClass('no-history');
+            if (!$('.search-container').hasClass('active')) {
+              $('.search-container').addClass('active');
             }
-            else {
-              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hide();
-              selectedElement.find('#hideAction').hide();
+          }
+          if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
+            _self.pubSub.publish('sa-input-keyup');
+          }
+          if (!_self.vars.isSocketInitialize) {
+            _self.bot.init(_self.vars.botConfig, _self.config.messageHistoryLimit);
+            _self.bindSocketEvents();
+            _self.vars.isSocketInitialize = true;
+            _self.resetSocketDisconnection();
+            _self.vars.isSocketReInitialize = true;
+          }
+          _self.pubSub.publish('sa-search-focus', {});
+          _self.pubSub.publish('sa-handel-chat-container-view');
+          if ($('.greetingMsg').length) {
+            $('.greetingMsg').hide();
+          }
+          if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
+            if (!window.isBotLocked) {
+              $('.search-body').removeClass('hide');
+            } else {
+              $('.search-body').addClass('hide');
+              $('.search-body').css('display', 'none');
+              $('.parent-search-live-auto-suggesition').hide();
             }
           }
           else {
-            if (selectedElement.find('.result-tuning-action-notification-container').hasClass('display-block') && selectedElement.find('#hideAction').hasClass('display-block')) {
-              selectedElement.find('.result-tuning-action-notification-container').removeClass("display-block");
-              selectedElement.find('#hideAction').removeClass("display-block");
+            $('.search-body').addClass('hide');
+            $('#searchChatContainer').removeClass('bgfocus');
+            $('.parent-search-live-auto-suggesition').hide();
+          }
+          clearTimeout(_self.vars.searchObject.clearGreetingTimeOut);
+
+          if ($('.search-container').hasClass('full-page')) {
+            $('.search-container').removeClass('full-page');
+            $('.start-search-icon-div').removeClass('hide');
+            $('.search-body-full').html('');
+            if (!$('.search-container').hasClass('active')) {
+              $('.search-container').addClass('active');
             }
-            else {
-              selectedElement.find('.result-tuning-action-notification-container').hide();
-              selectedElement.find('#hideAction').hide();
+            e.stopPropagation();
+          }
+          _self.changeSearchContainerBackground();
+          if ((_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recents || []).length || (_self.vars.searchObject.popularSearches && _self.vars.searchObject.popularSearches.length)) && !($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
+            $('.search-container').addClass('active');
+            if (_self.showGreetingMsg) {
+              _self.showGreetingMsg = false;
+            }
+            _self.closeGreetingMsg();
+            if (_self.customSearchResult) {
+              var tmplData = {
+                searchResults: searchResults,
+                recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
+                recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+                popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5)
+              };
+              _self.pubSub.publish('sa-show-freq-data', tmplData);
+            } else {
+              if (!$('body').hasClass('top-down') && !_self.vars.enterIsClicked && !($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
+                _self.pubSub.publish('sa-generate-recent-search');
+              }
+            }
+
+            setTimeout(function () {
+              $('.search-body').scrollTop(2);
+            }, 100);
+            _self.deleteRecents();
+            _self.bindSearchActionEvents();
+            _self.recentClick();
+          } else if ((_self.vars.searchObject.recentTasks.length || _self.vars.searchObject.recents.length || (_self.vars.searchObject.popularSearches && _self.vars.searchObject.popularSearches.length)) && ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
+            _self.closeGreetingMsg();
+            if (!$('.search-container').hasClass('active')) {
+              $('.search-container').addClass('active');
+              e.stopPropagation();
+            }
+          } else if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
+            $('#search').trigger("keyup");
+            _self.pubSub.publish('sa-input-keyup');
+            if (!$('body').hasClass('top-down')) {
+              $('.custom-header-container-center').css('visibility', 'hidden');
             }
           }
-          elementHidden.text("HIDE");
-          selectedElement.removeClass('hide-actions');
-        }
-
-        if (_self.vars.resultRankingActionPerformed == false) {
-          _self.vars.resultRankingActionPerformed = true;
-        }
-
-      }, function (eRes) {
-      });
-    } else if (actionType == 'pinning') {
-      var elementPinned = selectedElement.find('.pinning > .custom-actions-content');
-      var indicatorMessage = ''
-      if (elementPinned.text() == "PIN") {
-        indicatorMessage = "PINNING";
-      }
-      else {
-        indicatorMessage = "UNPINNING";
-      }
-      _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
-        selectedElement.attr('pinindex', conf.pinIndex);
-        if (elementPinned.text() == "UNPIN") {
-          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
-            $(this).hide();
-          });
-          if ($(event.target).closest('.pinning').attr('data-viewmode') == "full") {
-            if (selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hasClass('display-block') && selectedElement.find('#pinAction').hasClass('display-block')) {
-              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').removeClass("display-block");
-              selectedElement.find('#pinAction').removeClass("display-block");
-            }
-            else {
-              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hide();
-              selectedElement.find('#pinAction').hide();
-            }
-          }
-          else {
-            if (selectedElement.find('.result-tuning-action-notification-container').hasClass('display-block') && selectedElement.find('#pinAction').hasClass('display-block')) {
-              selectedElement.find('.result-tuning-action-notification-container').removeClass("display-block");
-              selectedElement.find('#pinAction').removeClass("display-block");
-            }
-            else {
-              selectedElement.find('.result-tuning-action-notification-container').hide();
-              selectedElement.find('#pinAction').hide();
-            }
-          }
-
-          elementPinned.text("PIN");
-          selectedElement.removeClass('hide-visibility-control');
-
-        }
-        else {
-          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
-            $(this).hide();
-          });
-          if ($(event.target).closest('.pinning').attr('data-viewmode') == "full") {
-            selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
-            if (selectedElement.find('#boostAction').hasClass('display-block')) {
-              selectedElement.find('#boostAction').removeClass('display-block');
-            }
-            selectedElement.find('#boostAction').hide();
-            if (selectedElement.find('#buryAction').hasClass('display-block')) {
-              selectedElement.find('#buryAction').removeClass('display-block');
-            }
-            selectedElement.find('#buryAction').hide();
-            selectedElement.find('#pinAction').removeClass("display-none");
-            selectedElement.find('#pinAction').show();
-          }
-          else {
-            selectedElement.find('.result-tuning-action-notification-container').show();
-            if (selectedElement.find('#boostAction').hasClass('display-block')) {
-              selectedElement.find('#boostAction').removeClass('display-block');
-            }
-            selectedElement.find('#boostAction').hide();
-            if (selectedElement.find('#buryAction').hasClass('display-block')) {
-              selectedElement.find('#buryAction').removeClass('display-block');
-            }
-            selectedElement.find('#buryAction').hide();
-            selectedElement.find('#pinAction').removeClass('display-none');
-            selectedElement.find('#pinAction').show();
-          }
-          elementPinned.text("UNPIN");
-          selectedElement.addClass('hide-visibility-control');
-        }
-
-        if (_self.vars.resultRankingActionPerformed == false) {
-          _self.vars.resultRankingActionPerformed = true;
-        }
-
-      }, function (eRes) {
-      });
-    } else if (actionType == 'boosting') {
-      var indicatorMessage = "BOOSTED";
-      _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
-        selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
-          $(this).hide();
         });
-        // selectedElement.find('.notification-div').text(indicatorMessage).show();
-        if ($(event.target).closest('.boosting').attr('data-viewmode') == "full") {
-          if (selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hasClass('display-block')) {
-            if (selectedElement.find('#buryAction').hasClass('display-block')) {
-              selectedElement.find('#buryAction').removeClass("display-block");
-            }
-            selectedElement.find('#boostAction').removeClass("display-none");
-            selectedElement.find('#boostAction').show();
+        $(dataHTML).off('click', '#histroybutton').on('click', '#histroybutton', function (e) {
+          e.stopPropagation();
+          if (_self.vars.isHistroyloaded) {
+            $('#histroybutton').hide();
+            $('#histroyChatContainer').show();
+            _self.searchHistroy(_self.vars.configuration);
           }
-          else {
-            selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
-            if (selectedElement.find('#burytAction').hasClass('display-block')) {
-              selectedElement.find('#buryAction').removeClass('display-block');
-            }
-            selectedElement.find('#buryAction').hide();
-            if (selectedElement.find('#boostAction').hasClass('display-none')) {
-              selectedElement.find('#boostAction').removeClass('display-none');
-            }
-            selectedElement.find('#boostAction').show();
-          }
+        })
+      }
+      if (templateType === "livesearch") {
+        if (!$('.search-container').hasClass('active')) {
+          $('.search-container').addClass('active');
+          e.stopPropagation();
         }
-        else {
-          if (selectedElement.find('.result-tuning-action-notification-container').hasClass('display-block') && selectedElement.find('#buryAction').hasClass('display-block')) {
-            selectedElement.find('#buryAction').removeClass("display-block");
-            selectedElement.find('#boostAction').removeClass("display-none");
-            selectedElement.find('#boostAction').show();
+        var searchText = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) || _self.vars.searchObject.liveData.originalQuery;
+        if (e.keyCode == 13) {
+          if ($('.search-container').hasClass('conversation')) {
+            $('.search-body').addClass('hide');
+            $('#searchChatContainer').removeClass('bgfocus');
+            var searchText = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) || _self.vars.searchObject.searchText;
+            if (!($('.topdown-search-main-container').length)) {
+              $('#search').val('');
+              $('.bottom-up-search').val('');
+              $('.bottom-up-suggestion').val('');
+              $('#suggestion').val('');
+            } else {
+              _self.invokeSearch();
+              $('.top-down-suggestion').val('');
+              $('#suggestion').val('');
+            }
+
+
           }
-          else {
-            selectedElement.find('.result-tuning-action-notification-container').show();
-            selectedElement.find('#buryAction').hide();
-            selectedElement.find('#boostAction').removeClass("display-none");
-            selectedElement.find('#boostAction').show();
+          if (!ignorAppend) {
+            _self.bindLiveDataToChat();
+          }
+          e.preventDefault();
+        }
+        _self.bindSearchActionEvents();
+        if (_self.isDev) {
+          if (!_self.vars.customizeView) {
+            $(".query-analytics-control-container").hide();
+          } else {
+            $(".query-analytics-control-container").show();
+
           }
         }
 
-        selectedElement.attr('boost', conf.boost);
+      }
+      if (templateType === "pay bill" || templateType === "pay credit card bill") {
 
-        if (_self.vars.resultRankingActionPerformed == false) {
-          _self.vars.resultRankingActionPerformed = true;
-        }
-
-      }, function (eRes) {
-      });
-    } else if (actionType == 'burying') {
-      var indicatorMessage = "LOWERED";
-      _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
-        selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
-          $(this).hide();
+        var creditCard = $(_self.getSearchTemplate('payBillContainer')).tmplProxy({
+          selectedBiller: templateType,
+          data: [
+            {
+              "biller_name": "AT&T",
+              "card_type": "master_card",
+              "card_number": "2313",
+              "bill_amount": "95.20",
+              "due_date": "03/07/2020"
+            },
+            {
+              "biller_name": "Verizon Wireless",
+              "card_type": "master_card",
+              "card_number": "2313",
+              "bill_amount": "64.45",
+              "due_date": "13/07/2020"
+            },
+            {
+              "biller_name": "Pico Energy",
+              "card_type": "master_card",
+              "card_number": "6724",
+              "bill_amount": "235.20",
+              "due_date": "05/07/2020"
+            }
+          ]
         });
-        // selectedElement.find('.notification-div').text(indicatorMessage).show();
-        if (($(event.target).closest('.burying').attr('data-viewmode') == "full")) {
-          if (selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hasClass('display-block')) {
-            if (selectedElement.find('#boostAction').hasClass('display-block')) {
-              selectedElement.find('#boostAction').removeClass('display-block');
+        $(creditCard).off('click', '.closeAction').on('click', '.closeAction', function (e) {
+          e.stopPropagation();
+          $('.search-body .finalResults').removeClass('hide');
+          $('.searchBox').removeClass('hide');
+          $('.pay-bill-container').remove();
+          $('.search-body').removeClass('h-100');
+        })
+        $(creditCard).off('click', '.pay-button').on('click', '.pay-button', function (e) {
+          var payData = $(this).attr('msgData');
+          $('.pay-bill-container .card-container').addClass('hide');
+          var gateway = $(_self.getSearchTemplate('paymentGateWayDemo')).tmplProxy({
+            paymentDetails: JSON.parse(payData)
+          });
+          var defaultlibConfig = {
+            format: 'MM-DD-YYYY',
+            alwaysOpen: false,
+            singleMonth: true,
+            showShortcuts: false,
+            singleDate: true,
+            showTopbar: false,
+            inline: true,
+            startDate: moment().format('MM-DD-YYYY'),
+            container: $(gateway).find('.datePicker'),
+          };
+          $(gateway).off('click', '#gatewayNextDemo').on('click', '#gatewayNextDemo', function (event1) {
+            event1.stopPropagation();
+            var confirmationModal = $(_self.getSearchTemplate('confirmationModal')).tmplProxy({
+            });
+            $('.confirmationModal').html(confirmationModal);
+            $('.confirmationModal').removeClass('hide');
+            $(confirmationModal).off('click', '#confirmGatwayPayment').on('click', '#confirmGatwayPayment', function (ev) {
+              ev.stopPropagation();
+              var gatwaySuccess = $(_self.getSearchTemplate('gatwaySuccess')).tmplProxy({
+                selectedDate: $('#demoDatePicker').val()
+              });
+              $('.payBillMain').remove();
+              $('.LoginWhiteBG ').remove();
+              $('.card-pay-title').addClass('hide');
+              $('.card-pay-legend').addClass('hide');
+              $(gatwaySuccess).off('click', '#makeAnotherPayDemo').on('click', '#makeAnotherPayDemo', function (e2) {
+                e2.stopPropagation();
+                $('.card-pay-title').removeClass('hide');
+                $('.card-pay-legend').removeClass('hide');
+                $('.card-container').removeClass('hide');
+                $('.search-body').addClass('h-100');
+                $('.successContainer').remove();
+
+              })
+              $(gatwaySuccess).off('click', '#closePayment').on('click', '#closePayment', function (e2) {
+                e2.stopPropagation();
+                $('.pay-bill-container').remove();
+                $('.search-body .finalResults').removeClass('hide');
+                $('.searchBox').removeClass('hide');
+                $('.search-body').removeClass('h-100');
+              })
+              $('.pay-bill-container').append(gatwaySuccess);
+              $('.confirmationModal').html('');
+              $('.confirmationModal').addClass('hide');
+              $('.search-body').scrollTop(0);
+            });
+            $(confirmationModal).off('click', '#cancelGatwayPayment').on('click', '#cancelGatwayPayment', function (ev) {
+              ev.stopPropagation();
+              $('.confirmationModal').html('');
+              $('.confirmationModal').addClass('hide');
+            });
+          });
+          $(gateway).off('blur', '#demoDatePicker').on('blur', '#demoDatePicker', function (eventBlur) {
+            if ($('#demoDatePicker').val()) {
+              $('#gatewayNextDemo').removeAttr('disabled');
+              $('#gatewayNextDemo').css('cursor', 'pointer');
+              $('#gatewayNextDemo').css('opacity', 1);
+            } else {
+              $('#gatewayNextDemo').attr('disabled');
+              $('#gatewayNextDemo').css('cursor', 'auto');
+              $('#gatewayNextDemo').css('opacity', 0.7);
             }
-            selectedElement.find('#buryAction').removeClass("display-none");
-            selectedElement.find('#buryAction').show();
+
+          });
+          $(gateway).find('#demoDatePicker').dateRangePicker(defaultlibConfig).bind('datepicker-open', function () {
+            setTimeout(function () {
+              var scrollBottom = $('.search-body').scrollTop() + $('.search-body').height();
+              $('.search-body').animate({ scrollTop: scrollBottom });
+            }, 150)
+          }).bind('datepicker-closed', function () {
+            setTimeout(function () {
+              if ($('#demoDatePicker').val()) {
+                $('#gatewayNextDemo').removeAttr('disabled');
+                $('#gatewayNextDemo').css('cursor', 'pointer');
+                $('#gatewayNextDemo').css('opacity', 1);
+              } else {
+                $('#gatewayNextDemo').attr('disabled');
+                $('#gatewayNextDemo').css('cursor', 'auto');
+                $('#gatewayNextDemo').css('opacity', 0.7);
+              }
+            }, 150)
+          });
+
+          $('.pay-bill-container').append(gateway);
+          $('.search-body').scrollTop(0);
+        });
+        $('.LoginWhiteBG').remove();
+        $('search-body .finalResults').addClass('hide');
+        $('.searchBox').addClass('hide');
+        $('.search-body').addClass('h-100');
+        $('.search-body').append(creditCard);
+        $('.search-body').removeClass('hide');
+        // $('#searchChatContainer').addClass('bgfocus');
+        $('.search-body').scrollTop(0);
+        _self.bindPerfectScroll(creditCard, '.card-container', null, 'x', 'creditcard');
+
+      }
+    }
+    FindlySDK.prototype.bindPerfectScroll = function (dataHtml, scrollContainer, update, scrollAxis, contentPSObj) {
+      contentPSObj = contentPSObj || 'contentPSObj'
+      var _self = this;
+      if (KRPerfectScrollbar) {
+        if (!update) {
+          if (scrollAxis && scrollAxis === 'x') {
+            _self.vars[contentPSObj] = new KRPerfectScrollbar($(dataHtml).find(scrollContainer).get(0), {
+              suppressScrollY: true
+            });
+          } else {
+            _self.vars[contentPSObj] = new KRPerfectScrollbar($(dataHtml).find(scrollContainer).get(0), {
+              suppressScrollX: true
+            });
           }
-          else {
-            selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
-            if (selectedElement.find('#boostAction').hasClass('display-block')) {
-              selectedElement.find('#boostAction').removeClass('display-block');
-            }
-            selectedElement.find('#boostAction').hide();
-            if (selectedElement.find('#buryAction').hasClass('display-none')) {
-              selectedElement.find('#buryAction').removeClass('display-none');
-            }
-            selectedElement.find('#buryAction').show();
+
+        } else {
+          _self.vars.contentPSObj.update();
+        }
+      }
+    }
+    FindlySDK.prototype.bindLiveDataToChat = function (botAction) {
+      if (!$('body').hasClass('top-down')) {
+        $('#search').val('');
+        $('#suggestion').val('');
+      }
+
+      var _self = this;
+      var payload = {
+        "query": _self.vars.searchObject.searchText,
+        // "maxNumOfResults": 9,
+        "maxNumOfResults": 5,
+        "userId": _self.API.uuid,
+        "streamId": _self.API.streamId,
+        "lang": "en"
+      }
+      if (botAction) {
+        if ($('body').hasClass('top-down')) {
+          _self.vars.searchObject.searchText = _self.previousDataobj;
+        } else {
+          _self.vars.searchObject.searchText = "";
+        }
+
+        payload.isBotAction = true;
+      }
+      payload.smallTalk = true;
+
+
+      var url = _self.API.searchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
+      var searchData;
+      if (!botAction) {
+        _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
+          _self.handleSearchRes(res);
+        });
+      }
+    }
+    FindlySDK.prototype.handleSearchRes = function (res) {
+      var _self = this;
+      $('.parent-search-live-auto-suggesition').hide();
+      setTimeout(function () {
+        $('.typingIndicatorContent').css('display', 'none');
+      }, 100);
+      try {
+      } catch (err) {
+
+      }
+      var faqs = [], web = [], tasks = [], files = [], facets, searchFacets = []; data = []; totalSearchResults = 0;
+
+      var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
+      _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
+      if (res && res.requestId && res.template && res.template.originalQuery) {
+        _self.vars.previousSearchObj = {};
+        _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
+        _self.vars.previousSearchObj.searchText = res.template.originalQuery; // previous text
+      }
+      if (res.templateType == undefined) {
+        var botResponse;
+        if ($('body').hasClass('top-down')) {
+          if ((res || {}).endOfTask) {
+            $('#sa-conversation-box').attr('placeholder', '');
+            $('#sa-conversation-box').prop('disabled', true);
+            var dataHTML = $(_self.getEndTaskMsgTopDownTemplate());
+            $('#searchChatContainer').append(dataHTML);
+            $('.task-ended-message').off('click', '.back-to-search').on('click', '.back-to-search', function (e) {
+              if (_self.isDev == false) {
+                $("#searchChatContainer .task-ended-message").remove();
+              }
+              $('#conversation-container').hide();
+            });
+            return;
           }
+        }
+        if ($('body').hasClass('top-down') && res.isAutoTriggeredBotAction || (res.payload || {}).template_type == 'quick_replies' && (res.payload || {}).isAutoTriggeredBotAction) {
+          if (!$('#conversation-container').is(':visible')) {
+            $('#conversation-container').show();
+            if ($('.search-container').hasClass('no-history')) {
+              $('.search-container').removeClass('no-history');
+            }
+            $('#sa-conversation-box').prop('disabled', false);
+            $('#sa-conversation-box').attr('placeholder', 'Type message...');
+          }
+        }
+        if (!$('body').hasClass('top-down')) {
+          if ((res || {}).endOfTask) {
+            return;
+          }
+        }
+        if (res.payload == undefined) {
+          if (res.cInfo) {
+            (res.text || {}).cInfo = res.cInfo;
+          }
+
+          botResponse = res.text;
+          _self.sendMessageToSearch('bot', botResponse);
         }
         else {
-          if (selectedElement.find('.result-tuning-action-notification-container').hasClass('display-block') && selectedElement.find('#boostAction').hasClass('display-block')) {
-            selectedElement.find('#boostAction').removeClass("display-block");
-            selectedElement.find('#buryAction').removeClass("display-none");
-            selectedElement.find('#buryAction').show();
-          }
-          else {
-            selectedElement.find('.result-tuning-action-notification-container').show();
-            selectedElement.find('#boostAction').hide();
-            selectedElement.find('#buryAction').removeClass("display-none");
-            selectedElement.find('#buryAction').show();
-          }
-        }
-        selectedElement.attr('boost', conf.boost);
 
-        if (_self.vars.resultRankingActionPerformed == false) {
-          _self.vars.resultRankingActionPerformed = true;
-        }
-
-      }, function (eRes) {
-      });
-    } else {
-      _self.vars.resultRankingActionPerformed = false;
-    }
-
-  };
-
-  FindlySDK.prototype.filterResultsTopDown = function (event, isChecked, radioUncheck = false, isTopFacets = false) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    var _self = this;
-    var fieldMatches = false;
-    if ($('.topdown-search-main-container').length) {
-      var _filterContainer = $(event.target).closest('.filters-content-top-down');
-    } else {
-      var _filterContainer = $(event.target).closest('.filters-content');
-    }
-
-    var fieldName = _filterContainer.attr('data-fieldName');
-    var subtype = _filterContainer.attr('data-facetType');
-    var name = _filterContainer.attr('data-facetName');
-    var key = $(event.target).attr('name');
-    if ($('.topdown-search-main-container').length) {
-      if ($('.sdk-filter-radio-top-down').length && $(event.target).hasClass('sdk-filter-radio-top-down')) {
-        key = $(event.target).attr('value');
-      }
-    }
-
-    var responsePayload = {}
-
-    if (subtype == 'value') {
-      responsePayload.fieldName = fieldName,
-        responsePayload.subtype = subtype,
-        responsePayload.name = name,
-        responsePayload.facetValue = [];
-
-      responsePayload.facetValue[0] = key;
-    }
-    else {
-      var from = $(event.target).attr('data-from');
-      var to = $(event.target).attr('data-to');
-
-      responsePayload.fieldName = fieldName,
-        responsePayload.subtype = subtype,
-        responsePayload.name = name,
-        responsePayload.facetRange = [];
-
-      // key = { 'from': 0, 'to': 100 };
-      key = { 'from': parseInt(from), 'to': parseInt(to) };
-      responsePayload.facetRange[0] = key;
-    }
-
-
-    if (isChecked == true) {
-      if (_self.vars.filterObject.length == 0) {
-        _self.vars.filterObject.push(responsePayload);
-        fieldMatches = true;
-      }
-      if (_self.vars.filterObject.length > 0 && fieldMatches == false) {
-        _self.vars.filterObject.forEach(function (element) {
-          if (responsePayload.fieldName == element.fieldName && responsePayload.subtype == element.subtype) {
-            if (element.subtype == 'value') {
-              element.facetValue.push(key);
-            }
-            else {
-              element.facetRange.push(key);
-            }
-            fieldMatches = true;
-          }
-        })
-
-      }
-      if (fieldMatches == false) {
-        _self.vars.filterObject.push(responsePayload);
-      }
-    }
-    else {
-      if (_self.vars.filterObject.length > 0) {
-        _self.vars.filterObject.slice(0).forEach(function (element) {
-          if (responsePayload.fieldName == element.fieldName && responsePayload.subtype == element.subtype) {
-            // var indexOfMatchedFilter = 0, elementsTraversed = 0;
-            if (element.subtype == 'value') {
-              if (element.facetValue.length > 0) {
-                element.facetValue.slice(0).forEach(function (item) {
-                  if (item === key) {
-                    element.facetValue.splice(element.facetValue.indexOf(item), 1);
-                    if (!element.facetValue.length) {
-                      _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                    }
-                  } else if ($(event.target).hasClass('sdk-filter-radio-top-down') || $(event.target).hasClass('sdk-filter-radio')) {
-                    element.facetValue.splice(0, 1, key);
-                    if (!element.facetValue.length) {
-                      _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                    }
-                  }
-                })
-              }
-              else {
-                if ($('.topdown-search-main-container').length && $('.sdk-filter-radio-top-down').length) {
-                  if (radioUncheck) {
-                    element.facetValue = [];
-                    _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                  } else {
-                    element.facetValue.splice(0, 1, key);
-                    if (!element.facetValue.length) {
-                      _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                    }
-                  }
-                } else {
-                  element.facetValue = [];
-                  _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                }
-              }
-            }
-            else {
-
-              if (element.facetRange.length > 0) {
-                element.facetRange.slice(0).forEach(function (item) {
-                  if (JSON.stringify(item) == JSON.stringify(key)) {
-                    element.facetRange.splice(element.facetRange.indexOf(item), 1)
-                    if (!element.facetRange.length) {
-                      _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                    }
-                  }
-                })
-              }
-              else {
-                if ($('.topdown-search-main-container').length && $('.sdk-filter-radio-top-down').length) {
-                  if (radioUncheck) {
-                    element.facetRange = [];
-                    _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                  } else {
-                    element.facetRange.splice(0, 1, key);
-                    if (!element.facetRange.length) {
-                      _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                    }
-                  }
-                } else {
-                  element.facetRange = [];
-                  _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                }
-              }
-            }
-          }
-        })
-      }
-    }
-    if (!isTopFacets) {
-      _self.searchByFacetFilters(_self.vars.filterObject, _self.vars.selectedFiltersArr, _self.vars.selectedFacetsList);
-    }
-  };
-  FindlySDK.prototype.filterResults = function (event, isChecked = false, radioUncheck = false) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    var _self = this;
-    var fieldMatches = false;
-    var _filterContainer;
-    if ($(event.target).closest('.filters-content').length) {
-      _filterContainer = $(event.target).closest('.filters-content');
-    } else {
-      _filterContainer = $(event.target).closest('.filter-data');
-    }
-    var fieldName = _filterContainer.attr('data-fieldName');
-    var subtype = _filterContainer.attr('data-facetType');
-    var name = _filterContainer.attr('data-facetName');
-    var key = $(event.target).attr('type') == 'radio' ? $(event.target).attr('value') : $(event.target).attr('name');
-    if ($('.topdown-search-main-container').length) {
-      if ($('.sdk-filter-radio-top-down').length) {
-        key = $(event.target).attr('value');
-      }
-    }
-
-    var responsePayload = {}
-
-    if (subtype == 'value') {
-      responsePayload.fieldName = fieldName,
-        responsePayload.subtype = subtype,
-        responsePayload.name = name,
-        responsePayload.facetValue = [];
-
-      responsePayload.facetValue[0] = key;
-    }
-    else {
-      var from = $(event.target).attr('data-from');
-      var to = $(event.target).attr('data-to');
-
-      responsePayload.fieldName = fieldName,
-        responsePayload.subtype = subtype,
-        responsePayload.name = name,
-        responsePayload.facetRange = [];
-
-      // key = { 'from': 0, 'to': 100 };
-      key = { 'from': parseInt(from), 'to': parseInt(to) };
-      responsePayload.facetRange[0] = key;
-    }
-
-
-    if (isChecked == true) {
-      if (_self.vars.filterObject.length == 0) {
-        _self.vars.filterObject.push(responsePayload);
-        fieldMatches = true;
-      }
-      if (_self.vars.filterObject.length > 0 && fieldMatches == false) {
-        _self.vars.filterObject.forEach(function (element) {
-          if (responsePayload.fieldName == element.fieldName && responsePayload.subtype == element.subtype) {
-            if (element.subtype == 'value') {
-              element.facetValue.push(key);
-            }
-            else {
-              element.facetRange.push(key);
-            }
-            fieldMatches = true;
-          }
-        })
-
-      }
-      if (fieldMatches == false) {
-        _self.vars.filterObject.push(responsePayload);
-      }
-    }
-    else {
-      if (_self.vars.filterObject.length == 0) {
-        _self.vars.filterObject.push(responsePayload);
-        fieldMatches = true;
-      }
-      if (_self.vars.filterObject.length > 0 && fieldMatches == false) {
-        _self.vars.filterObject.slice(0).forEach(function (element) {
-          if (responsePayload.fieldName == element.fieldName && responsePayload.subtype == element.subtype) {
-            // var indexOfMatchedFilter = 0, elementsTraversed = 0;
-            if (element.subtype == 'value') {
-              if (element.facetValue.length > 0) {
-                element.facetValue.slice(0).forEach(function (item) {
-                  if (item === key) {
-                    element.facetValue.splice(element.facetValue.indexOf(item), 1);
-                    if (!element.facetValue.length) {
-                      _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                    }
-                  } else if ($(event.target).hasClass('sdk-filter-radio-top-down') || $(event.target).hasClass('sdk-filter-radio')) {
-                    element.facetValue.splice(0, 1, key);
-                    if (!element.facetValue.length) {
-                      _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                    }
-                  }
-                })
-              }
-              else {
-                if ($('.topdown-search-main-container').length && $('.sdk-filter-radio-top-down').length) {
-                  if (radioUncheck) {
-                    element.facetValue = [];
-                    _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                  } else {
-                    element.facetValue.splice(0, 1, key);
-                    if (!element.facetValue.length) {
-                      _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                    }
-                  }
-                } else {
-                  element.facetValue = [];
-                  _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                }
-              }
-            }
-            else {
-              if (element.facetRange.length > 0) {
-                element.facetRange.slice(0).forEach(function (item) {
-                  if (JSON.stringify(item) == JSON.stringify(key)) {
-                    element.facetRange.splice(element.facetRange.indexOf(item), 1)
-                    if (!element.facetRange.length) {
-                      _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                    }
-                  }
-                })
-              }
-              else {
-                if ($('.topdown-search-main-container').length && $('.sdk-filter-radio-top-down').length) {
-                  if (radioUncheck) {
-                    element.facetRange = [];
-                    _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                  } else {
-                    element.facetRange.splice(0, 1, key);
-                    if (!element.facetRange.length) {
-                      _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                    }
-                  }
-                } else {
-                  element.facetRange = [];
-                  _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                }
-              }
-            }
-            fieldMatches = true;
-          }
-        })
-      }
-      if (fieldMatches == false) {
-        _self.vars.filterObject.push(responsePayload);
-      }
-    }
-    var slectionType = "";
-    if (typeof (key) == 'string' && key.split('-').length == 2) {
-      if (key.split('-')[0] == "radio") {
-        slectionType = "radio"
-      }
-    }
-    if (_self.vars.filterConfiguration.aligned == "top" && (slectionType == "radio" || $(event.target).attr('type') == "radio")) {
-      _self.searchByFacetFilters(_self.vars.filterObject)
-    }
-    //_self.searchByFacetFilters(_self.vars.filterObject);
-  };
-  /** filter New Functions start*/
-
-  /** filter New Functions  end*/
-  FindlySDK.prototype.searchByFacetFilters = function (filterObject, selectedFiltersArr = [], selectedFacetsList = []) {
-    var _self = this;
-    if ($('body').hasClass('top-down')) {
-      _self.vars.tempSelectedFiltersArr = selectedFiltersArr;
-      _self.vars.tempSelectedFacetsList = selectedFacetsList;
-      _self.vars.tempFilterObject = filterObject;
-      _self.vars.scrollPageNumber = 0;
-    }
-    // var activeFacet = '';
-    var facetActive = '';
-    var url = _self.API.searchUrl;
-    var payload = {
-      "query": _self.vars.searchObject.searchText,
-      // "maxNumOfResults": 9,
-      "maxNumOfResults": 5,
-      "lang": "en",
-      // "isDev": true,
-      "isDev": _self.isDev,
-      "searchRequestId":_self.vars.requestId
-    }
-
-    if (_self.isDev) {
-      payload['customize'] = _self.vars.customizeView;
-    }
-
-    if (filterObject.length > 0) {
-      payload.filters = JSON.parse(JSON.stringify(filterObject));
-    }
-    var contentTypeFilter = {
-      "fieldName": "sys_content_type",
-      "name": "facetContentType",
-      "subtype": "value",
-      "multiselect": false,
-      "buckets": []
-    }
-    if (_self.vars.selectedFacetFromSearch && _self.vars.selectedFacetFromSearch !== 'all results') {
-      selectedTopFacet = {
-        "fieldName": contentTypeFilter.fieldName,
-        "subtype": contentTypeFilter.subtype,
-        "facetValue": [_self.vars.selectedFacetFromSearch],
-        "name": contentTypeFilter.name
-      }
-      var tabConfig = {
-        "filter": {
-          "fieldName": _self.vars.tabFacetFieldName,
-          "facetValue": [_self.vars.selectedFacetFromSearch]
+          botResponse = res;
+          _self.sendMessageToSearch('bot', JSON.stringify(botResponse));
 
         }
       }
-      payload.tabConfig = tabConfig;
-    } else {
-      let filters = payload.filters;
-    }
-    // payload.isDev = _self.isDev;
+      if (res.templateType === 'search') {
+        _self.vars.requestId = res.requestId;
+        if (res.queryPipelineId && res.relay) {
 
-    _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
-      var faqs = [], web = [], tasks = [], files = [], facets = {}, searchFacets = [];
-      if (res.template) {
+          _self.vars.experimentsObject = {};
+
+          if (res.relay == "experiment") {
+            if (res.experimentId) {
+              _self.vars.experimentsObject['experimentId'] = res.experimentId;
+            }
+          }
+          _self.vars.experimentsObject['indexPipelineId'] = res.indexPipelineId;
+          _self.vars.experimentsObject['queryPipelineId'] = res.queryPipelineId;
+          _self.vars.experimentsObject['relay'] = res.relay;
+
+        }
         res = res.template;
-        searchFacets = res.facets;
-        facets = res.tabFacet.buckets;
-        _self.vars.searchObject.liveData = {
-          facets: _self.vars.tabsList,
-          data: data,
-          originalQuery: res.originalQuery || '',
-          customSearchResult: _self.customSearchResult
-          // searchFacets: searchFacets,
-        }
-
         facets = [];
         var totalResultsCount = 0;
         if (res.tabFacet && res.tabFacet.buckets && res.tabFacet.buckets.length) {
@@ -5261,215 +6814,1078 @@ FindlySDK.prototype.bindFacetsToggle = function () {
           _self.vars.tabFacetFieldName = res.tabFacet.fieldName;
         }
         totalResultsCount = totalResultsCount;
+
+        if (res.facets !== undefined) {
+          _self.vars.searchFacetFilters = res.facets;
+          // searchFacets = res.searchFacets;
+          searchFacets = _self.vars.searchFacetFilters;
+        }
+        else {
+          res.facets = [];
+          _self.vars.searchByFacetFilters = res.facets;
+          searchFacets = _self.vars.searchFacetFilters;
+        }
         $('.full-search-data-container').empty();
-        if (res && res.results && res.resultType == "grouped") {
-          var availableGroups = Object.keys(res.results);
-          if (!(res.tabFacet || {}).buckets) {
-            totalResultsCount = 0;
-          }
-          var reArrangeAvailableGroups = [];
-          _self.vars.availableGroupsOrder.forEach((d) => {
-            let group = availableGroups.find(g => g === d)
-            if (group) {
-              reArrangeAvailableGroups.push(group)
+        $('.no-templates-defined-full-results-container').hide();
+        if (((res.results || {}).data || []).length || (res.resultType == "grouped" && Object.keys(res.results).length)) {
+          var searchContainerName = $('body').hasClass('top-down') ? '.full-search-data-container' : '.search-data-container';
+
+          if (!$('body').hasClass('top-down')) {
+            _self.countTotalResults(res, totalResultsCount);
+            var dataObj = {
+              faqs: [],
+              web: [],
+              tasks: res.tasks || [],
+              facets: [],
+              files: [],
+              searchFacets: searchFacets,
+              originalQuery: res.originalQuery || '',
+              customSearchResult: _self.customSearchResult,
+              data: []
             }
-          })
-          availableGroups = reArrangeAvailableGroups;
-          if (availableGroups && availableGroups.length) {
-            availableGroups.forEach((group) => {
-              var results = res.results[group].data;
-              if (!(res.tabFacet || {}).buckets) {
-                totalResultsCount = totalResultsCount + res.results[group].doc_count;
+            if (_self.isDev) {
+              var responseObject = { 'type': 'onboardingjourney', data: 'test', query: _self.vars.searchObject.searchText, bottomUp: true, requestId: _self.vars.previousSearchObj.requestId }
+              _self.parentEvent(responseObject);
+            }
+            if (dataObj.smallTalk) {
+              _self.sendMessageToSearch('bot', dataObj.smallTalk);
+            } else {
+              var _botMessage = 'Sure, please find the matched results below';
+              searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
+                faqs: [],
+                web: [],
+                tasks: [],
+                showAllResults: true,
+                noResults: false,
+                taskPrefix: 'MATCHED',
+                viewType: viewType,
+                customSearchResult: _self.customSearchResult,
+                totalSearchResults: _self.vars.totalNumOfResults
+              });
+              setTimeout(function () {
+                _self.appendActionsContainerForBottomUp('search');
+                _self.pubSub.publish('sa-action-full-search', { container: '.actions-search-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
+              }, 300);
+              setTimeout(function () {
+                _self.bindSearchActionEvents();
+              }, 500);
+              $(searchData).data(dataObj);
+              if (!_self.customSearchResult) {
+                // if (!topMatchTask && !_self.customSearchResult) {
+                _self.sendMessageToSearch('bot', _botMessage, null, (_self.isDev == true) ? true : false);
+                if (_self.isDev) {
+                  setTimeout(() => {
+                    _self.pubSub.publish('sa-handle-customize-option-view');
+                  }, 500);
+                }
               }
-              var groupName = group == 'default_group' ? 'defaultTemplate' : group;
+              $('#searchChatContainer').append(searchData);
+            }
+          }
+          if (res && res.results && res.resultType == "grouped") {
+            var availableGroups = Object.keys(res.results);
+            _self.vars.availableGroupsOrder = availableGroups;
+            if (!(res.tabFacet || {}).buckets) {
+              totalResultsCount = 0;
+            }
+            if (availableGroups && availableGroups.length) {
+              availableGroups.forEach((group) => {
+                var results = res.results[group].data;
+                if (!(res.tabFacet || {}).buckets) {
+                  totalResultsCount = totalResultsCount + res.results[group].doc_count;
+                }
+                var groupName = group == 'default_group' ? 'defaultTemplate' : group;
+                var dataObj = {
+                  facets: facets,
+                  searchFacets: searchFacets,
+                  originalQuery: res.originalQuery || '',
+                  customSearchResult: _self.customSearchResult,
+                  data: results,
+                  groupName: groupName,
+                  doc_count: res.results[group].doc_count
+                }
+                var publishSearchData = 'sa-' + groupName + '-search-data';
+                _self.pubSub.publish(publishSearchData, { container: searchContainerName, isFullResults: $('body').hasClass('top-down') ? true : false, selectedFacet: 'all results', isLiveSearch: false, isSearch: $('body').hasClass('top-down') ? false : true, dataObj });
+                if (!$('.empty-full-results-container').hasClass('hide')) {
+                  $('.empty-full-results-container').addClass('hide');
+                }
+              });
+              if ($('body').hasClass('top-down')) {
+                _self.vars.totalNumOfResults = totalResultsCount;
+              }
+              res.results = results;
+              setTimeout(() => {
+                if (!$('.full-search-data-container').children().length) {
+                  if (_self.isDev) {
+                    $('.no-templates-defined-full-results-container').show();
+                  } else {
+                    $('.empty-full-results-container').removeClass('hide');
+                  }
+                }
+
+              }, 500);
+
+            } else {
               var dataObj = {
-                facets: facets,
-                searchFacets: searchFacets,
+                facets: facets || [],
+                searchFacets: searchFacets || [],
                 originalQuery: res.originalQuery || '',
                 customSearchResult: _self.customSearchResult,
-                data: results,
-                groupName: groupName,
-                doc_count: res.results[group].doc_count
+                data: [],
+                groupName: 'defaultTemplate'
               }
-              if (!$('.empty-full-results-container').hasClass('hide')) {
-                $('.empty-full-results-container').addClass('hide');
+              // _self.pubSub.publish('sa-defaultTemplate-search-data', { container: searchContainerName, isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
+              if (!(res.tasks || []).length) {
+                $('.empty-full-results-container').removeClass('hide');
+                $('.no-templates-defined-full-results-container').hide();
               }
-              var publishSearchData = 'sa-' + groupName + '-search-data';
-              _self.pubSub.publish(publishSearchData, { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-            });
-            _self.vars.totalNumOfResults = totalResultsCount;
-            res.results = results;
+            }
           } else {
+            var results = res.results.data;
+            if (!(res.tabFacet || {}).buckets) {
+              totalResultsCount = res.results.doc_count || 0;
+            }
+            _self.vars.totalNumOfResults = totalResultsCount;
             var dataObj = {
               facets: facets || [],
               searchFacets: searchFacets || [],
               originalQuery: res.originalQuery || '',
               customSearchResult: _self.customSearchResult,
-              data: [],
-              groupName: 'defaultTemplate'
+              data: results,
+              groupName: 'defaultTemplate',
+              doc_count: res.results.doc_count
             }
-            // _self.pubSub.publish('sa-defaultTemplate-search-data', { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-            $('.empty-full-results-container').removeClass('hide');
+            res.results = results;
+            if (totalResultsCount) {
+              _self.pubSub.publish('sa-defaultTemplate-search-data', { container: searchContainerName, isFullResults: $('body').hasClass('top-down') ? true : false, selectedFacet: 'all results', isLiveSearch: false, isSearch: $('body').hasClass('top-down') ? false : true, dataObj });
+              if (!$('.empty-full-results-container').hasClass('hide')) {
+                $('.empty-full-results-container').addClass('hide');
+              }
+
+              if (!$('.full-search-data-container').children().length) {
+                if (_self.isDev) {
+                  $('.no-templates-defined-full-results-container').show();
+                } else {
+                  $('.empty-full-results-container').removeClass('hide');
+                }
+              }
+            } else {
+              if (!(res.tasks || []).length) {
+                $('.empty-full-results-container').removeClass('hide');
+                $('.no-templates-defined-full-results-container').hide();
+              }
+            }
+          }
+          if ((res.tasks || []).length) {
+            var dataObj = {
+              facets: facets || [],
+              searchFacets: searchFacets || [],
+              originalQuery: res.originalQuery || '',
+              customSearchResult: _self.customSearchResult,
+              tasks: res.tasks || []
+            }
+            _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: (_self.vars.isFromTopDownKeyDown ? 'data' : 'all results') } });
           }
 
+          var liveResult = res.results;
+          var topMatch;
+          var topMatchTask;
+          topMatch = data.filter(function (data) {
+            return data.bestMatch
+          });
+          if (topMatch.length) {
+            //highlight faq;
+            topMatch = topMatch[0];
+          } else {
+            topMatch = false;
+          }
+
+          if (!$('body').hasClass('top-down')) {
+            setTimeout(() => {
+              if ($('.messageBubble .userMessage span').last().text() == _self.vars.searchObject.searchText && $('.messageBubble .messageBubble-content .botMessage span:nth-child(2)').last().text() === 'Sure, please find the matched results below') {
+                if ($('#searchChatContainer').prop('offsetHeight') < $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top) {
+                  $("#searchChatContainer").off('scroll').on('scroll', function () {
+                    if ($('.sdk-chat-container').scrollTop() == 0 && !$('#histroybutton').is(':visible')) {
+                      if (_self.vars.isHistroyloaded && !_self.isDev) {
+                        $('#histroybutton').hide();
+                        $('#histroyChatContainer').show();
+                        _self.searchHistroy(_self.vars.configuration);
+                      }
+                    }
+                    if ($('#searchChatContainer').prop('offsetHeight') >= $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top) {
+                      $('.more-results').css('display', 'none');
+                    } else {
+                      $('.more-results').css('display', 'block');
+                    }
+                  });
+                  $('.more-results').css('display', 'block');
+                }
+              }
+              if (!$('.search-data-container').last().children().length) {
+                $('#searchChatContainer .messageBubble').last().remove();
+                $('#searchChatContainer .finalResults').last().remove();
+                _self.sendMessageToSearch('bot', 'Unable to find results at this moment');
+              }
+            }, 500)
+          }
+          else {
+            $('#loaderDIV').hide();
+            $('#frequently-searched-box').hide();
+            $('#live-search-result-box').hide();
+
+
+            if (_self.isDev) {
+              $('.custom-header-container-center').removeClass('display-none');
+              if (_self.vars.customizeView) {
+                $('.custom-add-result-container').removeClass('display-none');
+              } else {
+                $(".query-analytics-control-container").hide();
+              }
+            }
+            setTimeout(function () {
+              _self.bindStructuredDataTriggeringOptions();
+            }, 100);
+          }
+          _self.clickNavigateToUrl();
+
+          _self.vars.searchObject.liveData = {
+            faqs: [],
+            web: [],
+            tasks: [],
+            facets: [],
+
+            files: [],
+
+            searchFacets: searchFacets,
+
+            originalQuery: res.originalQuery || '',
+
+            data: []
+          }
+
+          if (((res.results || {}).data || []).length) {
+
+            if (_self.vars.customizeView == true) {
+              $(searchData).find(".tasks-wrp").sortable();
+            }
+            else {
+              $(searchData).find(".tasks-wrp").sortable({ disabled: true });
+            }
+
+            $(searchData).attr('queryString', dataObj.originalQuery)
+            if (topMatchTask) {
+              // searchData.addClass("hide");
+            }
+            $('#searchChatContainer').append(searchData);
+            _self.vars.showingMatchedResults = true;
+
+            if (_self.vars.customizeView == true) {
+              $(".faqs-shadow").addClass('custom-faqs-shadow');
+              $(".faqs-wrp-content").addClass('custom-faqs-wrp-content');
+              $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
+              $(".image-url-sec").css('display', 'none');
+              $(".faqs-bottom-actions").css('display', 'table');
+
+              $(".divfeedback").css('display', 'none');
+
+
+            }
+            else {
+
+              $(".faqs-shadow").removeClass('custom-faqs-shadow');
+              $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
+              $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
+
+              $(".image-url-sec").css('display', 'table-cell');
+              $(".faqs-bottom-actions").css('display', 'none');
+
+            }
+
+
+          }
+          setTimeout(function () {
+            if (_self.isDev == false) {
+
+              if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && !$('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
+                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
+              } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
+                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").height()) }, 500)
+              } else {
+                if ($('.userMessage').last().parent().position()) {
+                  $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 25) }, 500)
+                }
+              }
+            }
+            else {
+
+              if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && !$('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
+                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
+              } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
+                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").height()) }, 500)
+              } else {
+                if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top > 34 || $('.userMessage').last().parent().position().top < 34)) {
+                  $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 25) }, 300)
+                }
+              }
+            }
+
+          }, 200);
 
         } else {
-          var results = res.results.data;
-          if (!(res.tabFacet || {}).buckets) {
-            totalResultsCount = res.results.doc_count;
-          }
-
-          var dataObj = {
-            facets: facets || [],
-            searchFacets: searchFacets || [],
-            originalQuery: res.originalQuery || '',
-            customSearchResult: _self.customSearchResult,
-            data: res.results.doc_count,
-            groupName: 'defaultTemplate',
-            doc_count: res.results.doc_count
-          }
-          res.results = results;
-          if (totalResultsCount) {
-            _self.pubSub.publish('sa-defaultTemplate-search-data', { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-            if (!$('.empty-full-results-container').hasClass('hide')) {
-              $('.empty-full-results-container').addClass('hide');
+          if ($('body').hasClass('top-down')) {
+            if ((res.tasks || []).length) {
+              var dataObj = {
+                tasks: res.tasks || [],
+                searchFacets: searchFacets,
+                originalQuery: res.originalQuery || '',
+                customSearchResult: _self.customSearchResult,
+              }
+              _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: (_self.vars.isFromTopDownKeyDown ? 'data' : 'all results') } });
+            } else {
+              $('.empty-full-results-container').removeClass('hide');
+              $('.no-templates-defined-full-results-container').hide();
             }
           } else {
-            $('.empty-full-results-container').removeClass('hide');
-          }
-        }
-        _self.vars.totalNumOfResults = totalResultsCount;
-        facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
-        facets = facets.concat((res.tabFacet || {}).buckets || [])
-        facets = _self.rearrangeTabsList(facets);
-        if ((res.tasks || []).length) {
-          facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
-        }
-        _self.vars.tabsList = facets;
-        _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
-        _self.pubSub.publish('sa-source-type', facets);
-        var dataObj = _self.vars.searchObject.liveData;
-        _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' });
-        _self.pubSub.publish('sa-search-facets', searchFacets);
-        if (!$('body').hasClass('top-down')) {
+            if ((res.tasks || []).length) {
+              var dataObj = {
+                tasks: res.tasks || [],
+                searchFacets: searchFacets,
+                originalQuery: res.originalQuery || '',
+                customSearchResult: _self.customSearchResult,
+              }
+              if (!$('body').hasClass('top-down')) {
+                var dataObj = {
+                  faqs: [],
+                  web: [],
+                  tasks: res.tasks || [],
+                  facets: [],
+                  files: [],
+                  searchFacets: searchFacets,
+                  originalQuery: res.originalQuery || '',
+                  customSearchResult: _self.customSearchResult,
+                  data: []
+                }
+                if (_self.isDev) {
+                  var responseObject = { 'type': 'onboardingjourney', data: 'test', query: _self.vars.searchObject.searchText, bottomUp: true, requestId: _self.vars.previousSearchObj.requestId }
+                  _self.parentEvent(responseObject);
+                }
+                if (dataObj.smallTalk) {
+                  _self.sendMessageToSearch('bot', dataObj.smallTalk);
+                } else {
+                  var _botMessage = 'Sure, please find the matched results below';
+                  searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
+                    faqs: [],
+                    web: [],
+                    tasks: res.tasks || [],
+                    showAllResults: true,
+                    noResults: false,
+                    taskPrefix: 'MATCHED',
+                    viewType: viewType,
+                    customSearchResult: _self.customSearchResult,
+                    totalSearchResults: (res.tasks || []).length
+                  });
+                  setTimeout(function () {
+                    _self.appendActionsContainerForBottomUp('search');
+                    _self.pubSub.publish('sa-action-full-search', { container: '.actions-search-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
+                  }, 300);
+                  setTimeout(function () {
+                    _self.bindSearchActionEvents();
+                  }, 500);
+                  $(searchData).data(dataObj);
+                  if (!_self.customSearchResult) {
+                    // if (!topMatchTask && !_self.customSearchResult) {
+                    _self.sendMessageToSearch('bot', _botMessage, null, (_self.isDev == true) ? true : false);
+                    if (_self.isDev) {
+                      setTimeout(() => {
+                        _self.pubSub.publish('sa-handle-customize-option-view');
+                      }, 500);
+                    }
+                  }
+                  $('#searchChatContainer').append(searchData);
+                }
+              }
 
-          var container = $('#show-all-results-container');
-          var dataObj = _self.vars.searchObject.liveData;
-          var facetdata = _self.vars.searchFacetFilters;
-          _self.pubSub.publish('sa-search-full-results', { container: container, isFullResults: true, selectedFacet: 'all', isLiveSearch: false, isSearch: false, facetData: facetdata, dataObj });
-        }
-        else {
-
-          if (_self.isDev) {
-            $('.custom-header-container-center').removeClass('display-none');
-            if (_self.vars.customizeView) {
-              $('.custom-add-result-container').removeClass('display-none');
-            } else {
-              $(".query-analytics-control-container").hide();
             }
           }
-          // _self.prepAllSearchData(facetActive);
-          setTimeout(function () {
-            _self.bindStructuredDataTriggeringOptions();
-          }, 100);
+          if ($('.search-container').hasClass('conversation') && !(res.tasks || []).length) {
+            $('.search-body').addClass('hide');
+            $('#searchChatContainer').removeClass('bgfocus');
+            clearTimeout(indicatorTimer);
+            $('.typingIndicatorContent').css('display', 'none');
+            _self.sendMessageToSearch('bot', 'Unable to find results at this moment');
+          }
+          _self.vars.totalNumOfResults = 0;
         }
-        _self.clickNavigateToUrl();
+
+        if ($('body').hasClass('top-down')) {
+          _self.showMoreClick();
+          facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
+          facets = facets.concat((res.tabFacet || {}).buckets || [])
+          facets = _self.rearrangeTabsList(facets);
+          if ((res.tasks || []).length) {
+            facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+          }
+          _self.vars.tabsList = facets;
+          if (!_self.vars.searchObject.liveData) {
+            _self.vars.searchObject.liveData = { facets: facets };
+          } else {
+            _self.vars.searchObject.liveData.facets = facets;
+          }
+          _self.pubSub.publish('sa-source-type', facets);
+          _self.pubSub.publish('sa-sortable-facet-search');
+          _self.pubSub.publish('sa-search-facets', searchFacets);
+          _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
+        }
+        _self.fullResultsScrollTop();
+        $(".content-data-sec").scrollTop(0);
+        $(".data-body-sec").scrollTop(0);
+      } else if (res.templateType === 'botAction') {
+        // debugger;
+        res = res.template;
+        var botResponse = res.webhookPayload.text;
+        _self.sendMessageToSearch('bot', botResponse);
+      } else if (res.templateType === 'botActionError') {
+        var errorMessage = (res.template && res.template.Error) ? res.template.Error : 'Failed to connect to the bot'
+        _self.sendMessageToSearch('bot', errorMessage);
+      } else if (res.templateType === 'liveSearchEmpty') {
+        _self.sendMessageToSearch('bot', 'No results found');
+      }
+      if ($('body').hasClass('top-down')) {
+        var conversationContainerHtml = $('#conversation-container');
+        _self.bindPerfectScroll(conversationContainerHtml, '#searchChatContainer', null, 'y', 'conversationContainer');
+      }
+      $('.parent-search-live-auto-suggesition').hide();
+    }
+
+    FindlySDK.prototype.bindFrequentData = function () {
+      var _self = this;
+      $('#suggestion').val('');
+      if (_self.customSearchResult) {
+        var tmplData = {
+          // searchResults: _self.vars.searchObject.recentAPIResponse,
+          recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
+          recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+          popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5)
+        };
+        _self.pubSub.publish('sa-freq-data', tmplData);
+        _self.pubSub.publish('sa-show-freq-data', tmplData);
+
+      } else {
+
+        setTimeout(function () {
+
+          if (!_self.vars.enterIsClicked && !($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
+            _self.pubSub.publish('sa-generate-recent-search');
+          }
+        }, 150);
+      }
+
+      setTimeout(function () {
+        $('.search-body').scrollTop(2);
+      }, 100);
+      _self.deleteRecents();
+      _self.recentClick();
+      _self.bindSearchActionEvents();
+    }
+    FindlySDK.prototype.clickOutsideSearch = function () {
+      setTimeout(() => {
+        var _self = this;
+        $(document).on('click', function (event) {
+          if (!$(event.target).closest('.search-container').length) {
+            if ($('.search-body').find('.pay-bill-container').length) {
+              return;
+            } else {
+              // $('.search-container').removeClass('active');
+            }
+          } else {
+            event.stopPropagation();
+            if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
+              if (!window.isBotLocked) {
+                $('.search-body').removeClass('hide');
+                // $('#searchChatContainer').addClass('bgfocus');
+              }
+            }
+            $('.suggestion-search-data-parent').css('display', 'block');
+          }
+          if ($(event.target).closest('#searchChatContainer').length && !$(event.target).closest('#search').length && !$(event.target).closest('.default-data-show-not-loaded').length) {
+            event.stopPropagation();
+            if ($('.search-container').hasClass('conversation')) {
+              $('.search-body').addClass('hide');
+              $('#searchChatContainer').removeClass('bgfocus');
+              $('.search-body').removeClass('h-100');
+              $('.parent-search-live-auto-suggesition').hide();
+
+              $('.custom-header-container-center').css('visibility', 'visible');
+              $('.suggestion-search-data-parent').css('display', 'none');
+            };
+          }
+          else if ($(event.target).closest('.heading').length) {
+            event.stopPropagation();
+            $('#searchChatContainer').removeClass('bgfocus');
+            $('.search-body').addClass('hide');
+            $('.suggestion-search-data-parent').css('display', 'none');
+            $('.parent-search-live-auto-suggesition').hide();
+            // if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history')) {
+            //   $('.search-container').addClass('no-history');
+            // }
+          } else {
+            if (!$(event.target).closest('.search-body').length && !$(event.target).closest('.show-all-results-outer-wrap').length && !$(event.target).closest('#search').length && !$(event.target).closest('.default-data-show-not-loaded').length) {
+              if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
+                if (!window.isBotLocked) {
+                  $('.search-body').addClass('hide');
+                  $('#searchChatContainer').removeClass('bgfocus');
+                  if (!window.isBotLocked) {
+                    $('.parent-search-live-auto-suggesition').show();
+                  }
+                }
+                if (!$('#search').val()) {
+                  $('.search-body').addClass('hide');
+                  $('.parent-search-live-auto-suggesition').hide();
+                  if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history') && !$(event.target).closest('.parent-search-live-auto-suggesition').length) {
+                    $('.search-container').addClass('no-history');
+                  }
+                }
+              }
+              $('.parent-search-live-auto-suggesition').hide();
+              $('.suggestion-search-data-parent').css('display', 'none');
+              if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history') && !$(event.target).closest('.parent-search-live-auto-suggesition')) {
+                $('.search-container').addClass('no-history');
+              }
+            }
+          }
+          if (!($(event.target).closest('#search-box-container').length || $(event.target).closest('#frequently-searched-box').length || $(event.target).closest('#live-search-result-box').length)) {
+            $('#frequently-searched-box').hide();
+            $('#live-search-result-box').hide();
+          }
+          // out side click for live search and frequent search dropdown close//
+          $('#live-search-result-box').off('click').on('click', function (event) {
+            if ($(event.target).closest('#live-search-result-box').length && !$(event.target).closest('.carousel').length && !$(event.target).closest('.data-container').length && !$(event.target).closest('.accordion').length) {
+              if ($('#live-search-result-box').height() < event.offsetY || event.offsetX < 0 || event.offsetX > $('#live-search-result-box').width()) {
+                $('#live-search-result-box').hide();
+              }
+            }
+          });
+          $('#frequently-searched-box').off('click').on('click', function (event) {
+            if ($(event.target).closest('#frequently-searched-box').length) {
+              if ($('#frequently-searched-box').height() < event.offsetY || event.offsetX < 0 || event.offsetX > $('#frequently-searched-box').width()) {
+                $('#frequently-searched-box').hide();
+              }
+            }
+          });
+          if (!($(event.target).closest('.dropdown_custom_filter').length)) {
+            $('.dropdown-content').hide();
+            $('.dropdown_custom_filter').find('.down-arrow').show();
+            $('.dropdown_custom_filter').find('.up-arrow').hide();
+          }
+          if (!($(event.target).closest('.sdk-facet-filter-data').length)) {
+            if ($('.sdk-facet-filter-data').is(':visible')) {
+              $('#facetRightIconId').click();
+            }
+          }
+        });
+        $('.parent-search-live-auto-suggesition').off('click').on('click', function (event) {
+          if ($(event.target).closest('.parent-search-live-auto-suggesition').length && !$('#search').val()) {
+            $('.search-body').addClass('hide');
+          }
+          $('.parent-search-live-auto-suggesition').hide();
+          if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history')) {
+            $('.search-container').addClass('no-history');
+          }
+        });
+      }, 3000)
+    }();
+    FindlySDK.prototype.setActionTitle = function (title, container) {
+      var actionTitleTmpl = '<div><div class="action-chat-title">${title}</div></div>';
+      var template = $(actionTitleTmpl).tmplProxy({
+        title: title
+      });
+      $('#' + container).append(template);
+    }
+    FindlySDK.prototype.sendMessageToSearch = function (type, mesageData, data, isSearchResultsMessage) {
+      var _self = this;
+      var messageData = {
+        'text': '',
+        'from': type,
+      }
+      var devMode = _self.isDev ? 'true' : 'false';
+      var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
+      $('.more-results').css('display', 'none');
+      if (type === 'user' && (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) !== null) && (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) !== undefined)) {
+        messageData.text = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
+        if (messageData.text && messageData.text.trim() && !_self.customSearchResult) {
+          if (isSearchResultsMessage) {
+            messageData.isSearchResultsMessage = true;
+          }
+          messageData.timeStamp = moment().format('LT');
+          var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+            msgData: messageData,
+            devMode: devMode,
+            viewType: viewType,
+            helpers: helpers
+          });
+          $('#searchChatContainer').append(template);
+          var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+          $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+          if (!$('body').hasClass('top-down')) {
+            setTimeout(function () {
+              if ($('.searchAssist-kore-chat-window.search-container').hasClass('active')) {
+                $('.typingIndicatorContent').css('display', 'block');
+                $("#searchChatContainer").off('scroll').on('scroll', function (event) {
+                  if ($('.userMessage').last().parent() && $('.userMessage').last().parent().next().find(".messageBubble-content").length) {
+                    $('.typingIndicatorContent').css('display', 'none');
+                  }
+
+                });
+              } else {
+                _self.showTypingIndicator();
+              }
+            }, 200);
+
+          }
+        }
+      }
+      if (type === 'user-conversation' && ($('#sa-conversation-box').val() !== null) && ($('#sa-conversation-box').val() !== undefined)) {
+        messageData.text = $('#sa-conversation-box').val();
+        messageData.from = 'user';
+        messageData.timeStamp = moment().format('LT');
+        if ((messageData.text && messageData.text.trim() && _self.customSearchResult && !$('body').hasClass('top-down')) || ($('body').hasClass('top-down') && messageData.text && messageData.text.trim() && !_self.customSearchResult)) {
+          var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+            msgData: messageData,
+            devMode: devMode,
+            viewType: viewType,
+            helpers: helpers
+          });
+          $('#searchChatContainer').append(template);
+        }
+      }
+      if (type === 'bot') {
+        clearTimeout(indicatorTimer);
+        $('.typingIndicatorContent').css('display', 'none');
+        try {
+          messageData = JSON.parse(mesageData);
+        } catch (error) {
+          messageData.text = mesageData;
+        }
+        var messagemessageHtmlHtml = '';
+        var defaultBotMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] };
+        if (messageData && typeof (messageData.text) == "object" && (messageData.text.type == 'image' || messageData.text.type == 'audio' || messageData.text.type == 'video' || messageData.text.type == 'link' || messageData.text.type == 'message')) {
+          defaultBotMessage.message[0].component = messageData.text;
+          if (messageData.text.cInfo) {
+            defaultBotMessage.message[0].cInfo = messageData.text.cInfo;
+          }
+        }
+        else {
+          defaultBotMessage.message[0].component = messageData;
+        }
+        defaultBotMessage.messageId = koreGenerateUUID();
+        messageHtml = _self.customTemplateObj.renderMessage(defaultBotMessage);
+        if (!messageHtml || !messageHtml.length) {
+          if (messageData && messageData.type && messageData.type === "template") {
+
+            if (messageData.payload && messageData.payload.template_type === "cardTemplate") {
+              var y = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": { "type": "template", "payload": { "template_type": "cardTemplate", "elements": [{ "biller_name": "REWARD AND SIGNATURE CARD", "card_type": "master_card", "card_number": "2313", "bill_amount": "95.20", "due_date": "03/07/2020" }, { "biller_name": "DINERS CARD", "card_type": "master_card", "card_number": "2313", "bill_amount": "64.45", "due_date": "13/07/2020" }] } }, "cInfo": { "body": "Here are your details" } }], "messageId": "ms-72023d22-2270-514c-9054-8af4c3408460", "botInfo": { "chatBot": "MyBank Virtual Assistant", "taskBotId": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1" }, "createdOn": "2020-09-08T18:39:24.689Z", "icon": "https://app.findly.ai:443/api/getMediaStream/market/f-6374e248-76ad-5fa9-bcc2-63cd116c4944.png?n=5797654043&s=IklOclpPZElVWWlEK2MzZFNKSTl2b1E5b3hiSWFuV3FtSGR4bElpT2dLaFU9Ig$$", "contextId": "dcx-5b5a373e-7e9b-5215-b074-671b616d4055", "usedtime": 395, "NLAnalysis": { "scoringModel": "original", "toneAnalysis": { "dialogTone": [{ "tone_name": "positive", "level": 2, "count": 1 }, { "tone_name": "joy", "level": 1, "count": 1 }] }, "nlProcessing": { "originalInput": "my balance", "canonical": "I balance", "wordAnalysis": [{ "word": "I", "ignored": true, "pos": "Pronoun_possessive ", "original": "my", "processedWord": "my" }, { "word": "balance", "ignored": false, "pos": "Noun_singular ", "role": "MAINSUBJECT ", "original": "balance", "processedWord": "balance" }] }, "noLabelMatch": ["st-d77caa4b-083a-533c-90d9-733c80ef1cb1"], "ml": { "possible": [{ "task": "CheckBalance", "state": "configured", "score": 0.9414263358151247, "scoringCriteria": "Probabilistic score", "matchType": "possible" }], "eliminated": [{ "task": "TransferMoney", "state": "configured", "score": 0.02181479727476244, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "MakePayment", "state": "configured", "score": 0.010900485239433579, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "ShowAccountDetails", "state": "configured", "score": 0.009582143296980096, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "Log In", "state": "configured", "score": 0.00538434196688181, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }], "namedEntityRecognition": [] }, "fm": { "definitive": [{ "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check } [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "task": "CheckBalance", "state": "configured", "foundVia": "pattern" }] }, "faq": { "demystify": { "SpellCorrectedInput": "my balance", "lemmatizer_used": "PATTERN", "normalizedQuery": "my balance", "OntologyTraits": [], "failed_questions": { "path_coverage": { "total_failures": 62, "questions": ["What is a term loan", "How can I contact customer service?", "What is a credit score", "How do I request a replacement card?", "Where can I find my ABA routing number on my check?"] }, "mandatory_node": { "total_failures": 0, "paths": [] }, "precondition_node": { "total_failures": 2, "paths": ["*locate atms", "*wire transfer"] } }, "SelectedPathCount": 25, "ExtractedEntities": ["balance"], "ContextEntities": [], "PreConditionNodes": [], "filtered_questions": { "score": [["What is the collected balance?", 0.5773502691896258], ["What is a CD?", 0], ["What is a traveler's check?", 0], ["what is individual retirement account", 0], ["What is a canceled check?", 0]], "traits": [] } } }, "finalResolver": { "ranking": [{ "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "intent": "CheckBalance", "activityType": "dialog", "state": "configured", "totalScore": 6450, "scoring": { "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check } [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "csMatch": true }, "identifyingEngines": { "fm": true }, "csMatch": true, "intentMatchVia": "pattern" }], "userInput": "my balance", "winningIntent": [{ "intent": "CheckBalance", "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "activityType": "dialog", "state": "configured", "score": 6450 }], "entities": [] } }, "traceId": "827bca70e1572629" };
+              var cardData = messageData.payload.elements;//y.message[0].component.payload.elements;
+
+              var template1 = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                msgData: {
+                  from: "bot",
+                  text: "Choose the credit card to pay bill"
+                },
+                helpers: helpers
+              });
+              $('#searchChatContainer').append(template1);
+              var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+              $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+              var creditCard = $(_self.getSearchTemplate('payBillContainer')).tmplProxy({
+                selectedBiller: "XYZ",
+                data: cardData
+              });
+              $(creditCard).off('click', '.pay-button').on('click', '.pay-button', function (e) {
+                var payData = $(e.currentTarget).attr('msgData');
+
+                payData = JSON.parse(payData);
+                _self.vars.searchObject.searchText = payData.postback_value
+                messageData.text = payData.postback_value;//"Pay nowwww";
+                messageData.from = 'user';
+                var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                  msgData: messageData,
+                  devMode: devMode,
+                  viewType: viewType,
+                  helpers: helpers
+                });
+                $('#searchChatContainer').append(template);
+                _self.bindLiveDataToChat();
+                setTimeout(function () {
+                  var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+                  $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+                }, 1000);
+
+              });
+              $('#searchChatContainer').append(creditCard);
+            }
+            else if (messageData.payload && messageData.payload.template_type === "carousel") {
+
+              var defaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] }
+              defaultMessage.message[0].component = messageData;
+              // var template = $(_self.getCarouselTemplate()).tmpl({
+              //   'msgData': defaultMessage,
+              //   'helpers': helpers,
+              //   'extension': {}
+              // });
+              var template = _self.getCarouselTemplate(defaultMessage, this.helpers);
+              $('#searchChatContainer').append(template);
+              setTimeout(function () {
+                $('.carousel:last').addClass("carousel" + carouselTemplateCount);
+                var count = $(".carousel" + carouselTemplateCount).children().length;
+                if (count > 1) {
+                  var carouselOneByOne = new PureJSCarousel({
+                    carousel: '.carousel' + carouselTemplateCount,
+                    slide: '.slide',
+                    oneByOne: true,
+                    jq: $,
+                  });
+                  $('.carousel' + carouselTemplateCount).parent().show();
+                  // $('.carousel' + carouselTemplateCount).attr('style', 'height: inherit !important');
+                  carouselEles.push(carouselOneByOne);
+                }
+                if ($('.carousel' + carouselTemplateCount).width() >= ($('.carousel' + carouselTemplateCount + ' .purejscarousel-slides-container').children().length * $('.carousel' + carouselTemplateCount + ' .purejscarousel-slides-container .slide:first').width())) {
+                  $('.carousel' + carouselTemplateCount + ' .purejscarousel-btn-prev').hide();
+                  $('.carousel' + carouselTemplateCount + ' .purejscarousel-btn-next').hide();
+                }
+                //window.dispatchEvent(new Event('resize'));
+                var evt = document.createEvent("HTMLEvents");
+                evt.initEvent('resize', true, false);
+                window.dispatchEvent(evt);
+                carouselTemplateCount += 1;
+                $('#searchChatContainer').animate({
+                  scrollTop: $('#searchChatContainer').prop("scrollHeight")
+                }, 0);
+              });
+              $(template).off('click', '.carouselButton').on('click', '.carouselButton', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                var type = $(this).attr('type');
+                if (type) {
+                  type = type.toLowerCase();
+                }
+                if (type == "postback" || type == "text") {
+                  //$('.chatInputBox').text($(this).attr('actual-value') || $(this).attr('value'));
+                  var _innerText = $(this).attr('value').trim();
+                  var displayMessage = ($(this)[0] && $(this)[0].innerText) ? $(this)[0].innerText.trim() : "" || ($(this) && $(this).attr('data-value')) ? $(this).attr('data-value').trim() : "";
+                  var messageData = {};
+                  messageData.text = _innerText;
+                  messageData.from = 'user';
+                  var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                    msgData: messageData,
+                    devMode: devMode,
+                    viewType: viewType,
+                    helpers: helpers
+                  });
+                  $('#searchChatContainer').append(templateMessageBubble);
+                  var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+                  $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+                  // var templateMessageBubble = _self.getSearchTemplate(defaultMessage, this.helpers);
+                  // $('#searchChatContainer').append(templateMessageBubble);
+                  _self.sendMessage(_innerText);
+                } else if (type == "url" || type == "web_url") {
+                  var a_link = $(this).attr('url');
+                  if (a_link.indexOf("http:") < 0 && a_link.indexOf("https:") < 0) {
+                    a_link = "http:////" + a_link;
+                  }
+                  var _tempWin = window.open(a_link, "_blank");
+                }
+              })
+              $('#searchChatContainer').append(template);
+            }
+            else if (messageData.payload && messageData.payload.template_type === "list") {
+              var defaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] }
+              defaultMessage.message[0].component = messageData;
+
+              var template = $(_self.getListTemplate()).tmpl({
+                'msgData': defaultMessage,
+                'helpers': helpers,
+                'extension': {}
+              });
+              $(template).off('click', '.listItemPath, .listRightContent,.buyBtn').on('click', '.listItemPath, .listRightContent,.buyBtn', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                var type = $(this).attr('type');
+                if (type) {
+                  type = type.toLowerCase();
+                }
+                if (type == "postback" || type == "text") {
+                  //$('.chatInputBox').text($(this).attr('actual-value') || $(this).attr('value'));
+                  var _innerText = $(this).attr('value').trim();
+                  var displayMessage = ($(this)[0] && $(this)[0].innerText) ? $(this)[0].innerText.trim() : "" || ($(this) && $(this).attr('data-value')) ? $(this).attr('data-value').trim() : "";
+                  var messageData = {};
+                  messageData.text = displayMessage;
+                  messageData.from = 'user';
+                  var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                    msgData: messageData,
+                    devMode: devMode,
+                    viewType: viewType,
+                    helpers: helpers
+                  });
+                  $('#searchChatContainer').append(templateMessageBubble);
+                  _self.sendMessage(_innerText);
+                } else if (type == "url" || type == "web_url") {
+                  var a_link = $(this).attr('url');
+                  if (a_link.indexOf("http:") < 0 && a_link.indexOf("https:") < 0) {
+                    a_link = "http:////" + a_link;
+                  }
+                  var _tempWin = window.open(a_link, "_blank");
+                }
+              })
+              $('#searchChatContainer').append(template);
+            }
+          }
+          else {
+            //simple text message
+            if (isSearchResultsMessage) {
+              messageData.isSearchResultsMessage = true;
+            }
+            if (messageData.text && typeof (messageData.text) == "object") {
+              messageData.text = messageData.text.text;
+            }
+            if (_typeof(messageData) == 'number') {
+              messageHtml = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                msgData: {
+                  from: "bot",
+                  text: messageData
+                },
+                helpers: helpers
+              });
+              $('#searchChatContainer').append(messageHtml);
+            } else {
+              messageHtml = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                msgData: messageData,
+                helpers: helpers
+              });
+              // $('#searchChatContainer').append(template);
+            }
+          }
+        }
+        if (messageData.payload && messageData.payload.text && !messageHtml) {
+          var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+            msgData: {
+              from: "bot",
+              text: messageData.payload.text
+            },
+            helpers: helpers
+          });
+          $('#searchChatContainer').append(template);
+        }
+        if ($(messageHtml).find('.barchart').length || $(messageHtml).find('.linechart').length || $(messageHtml).find('.tableChart').length || $(messageHtml).find('.pieChart').length) {
+          $(messageHtml).find('.messageBubble').addClass('hide')
+        }
+        $('#searchChatContainer').append(messageHtml);
         setTimeout(() => {
-          _self.bindCustomizeAction();
-        }, 300);
+          if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && !$('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
+          } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").height()) }, 500)
+          } else if ($('.messageBubble').last().find('.fromOtherUsers').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && $('.fromOtherUsers').last().parent().prev().find(".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.fromOtherUsers').last().parent().position().top - 25 - $('.fromOtherUsers').last().parent().prev().find(".messageBubble-content").height()) }, 500)
+          } else {
+            if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top > 34 || $('.userMessage').last().parent().position().top < 34)) {
+              $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 25) }, 500)
+            }
+          }
+        }, 200);
 
-        $('#loaderDIV').hide()
-        _self.markSelectedFilters();
       }
-      _self.fullResultsScrollTop();
-      $(".content-data-sec").scrollTop(0);
-      $(".data-body-sec").scrollTop(0);
-    });
-  }
+      if (type === 'botAction') {
+        messageData.text = _self.vars.searchObject.searchText;
+        messageData.from = 'user';
+        var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+          msgData: messageData,
+          devMode: devMode,
+          viewType: viewType,
+          helpers: helpers
+        });
+        //$('#searchChatContainer').append(template);
+        $('.search-body').hide();
+        $('#searchChatContainer').addClass('bgfocus-override');
+        _self.bindLiveDataToChat(true);
 
-  FindlySDK.prototype.captureClickAnalytics = function (event, resultType, eventType, resultID, resultPosition, resultName) {
-    var _self = this;
-    var url = _self.API.metricsUrl;
-    var payload = {
-      "query": _self.vars.searchObject.searchText,
-      "answerType": resultType,
-      "event": eventType,
-      "streamId": _self.API.streamId,
-      "isDev": _self.isDev,
-      "searchRequestId":_self.vars.requestId
-    }
-
-    if (!payload.query || (payload.query && !payload.query.length)) {
-      payload.query = $('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val();
-    }
-    if (_self.isDev) {
-      payload['customize'] = _self.vars.customizeView;
-    }
-    if (!resultName) {
-      resultName = $(event.currentTarget).find('[title]').attr('title');
-    }
-    if (resultType == "web" || resultType == "faq" || resultType == "data" || resultType == "file") {
-      var experimentObjectProps = Object.getOwnPropertyNames(_self.vars.experimentsObject);
-      payload.answerInfo = {};
-
-      payload.answerInfo = {};
-      payload.answerInfo['id'] = resultID; // Content ID
-      payload.answerInfo['position'] = parseInt(resultPosition); // Key
-      payload.answerInfo['name'] = resultName; // Title
-
-      payload.clickRank = parseInt(resultPosition);
-      payload.clickRank = payload.clickRank + 1;
-
-      if (experimentObjectProps.length > 0) {
-        payload.indexPipelineId = _self.vars.experimentsObject ? _self.vars.experimentsObject.indexPipelineId : "";
-        payload.queryPipelineId = _self.vars.experimentsObject ? _self.vars.experimentsObject.queryPipelineId : "";
-        payload.relay = _self.vars.experimentsObject ? _self.vars.experimentsObject.relay : "";
-        if (_self.vars.experimentsObject.experimentId) {
-          payload.experimentId = _self.vars.experimentsObject.experimentId;
+      }
+      setTimeout(function () {
+        if (_self.isDev == false) {
+          // var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+          // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+          if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && !$('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
+          } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").height()) }, 500)
+          } else if ($('.messageBubble').last().find('.fromOtherUsers').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && $('.fromOtherUsers').last().parent().prev().find(".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.fromOtherUsers').last().parent().position().top - 25 - $('.fromOtherUsers').last().parent().prev().find(".messageBubble-content").height()) }, 500)
+          } else {
+            if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top > 34 || $('.userMessage').last().parent().position().top < 34)) {
+              $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 25) }, 500)
+            }
+          }
         }
-      }
-
+      }, 200);
     }
 
-    if (resultType == "task") {
-      payload.childBotId = $(event.currentTarget).attr('childBotId');
-      payload.childBotName = $(event.currentTarget).attr('childBotName');
-      payload.seqLogId = $(event.currentTarget).attr('seqLogId') || null;
-      payload.taskId = resultID;
-      payload.name = resultName;
-    }
-    if ((_self.vars.previousSearchObj || {}).requestId) {
-      payload.searchRequestId = _self.vars.previousSearchObj.requestId;
-    }
-
-
-
-    /*if (payload.event == 'expand' || payload.event == 'thumbsUp' || payload.event == 'thumbsDown') {
-      delete payload.clickRank;
-    }*/
-
-
-    if (_self.isDev == false) {
-      _self.dumpClickAnalyticsData(url, 'POST', JSON.stringify(payload)).then(function (res) {
+    FindlySDK.prototype.userLogin = function (clickedAction) {
+      _self = this
+      var action = clickedAction;
+      var userLogin = $(_self.getSearchTemplate('userLogin')).tmplProxy({});
+      $(userLogin).off('keyup', '#testFutureUserId').on('keyup', '#testFutureUserId', function (event) {
+        $('.errorMsg').addClass('hide');
+        if ($('#testFuturePassword').val() && $('#testFutureUserId').val()) {
+          $('.testFutureLoginBtn').removeAttr('disabled');
+          $('.testFutureLoginBtn').css('cursor', 'pointer');
+          $('.testFutureLoginBtn').css('opacity', '1');
+        } else {
+          $('.testFutureLoginBtn').attr('disabled');
+          $('.testFutureLoginBtn').css('cursor', 'auto')
+          $('.testFutureLoginBtn').css('opacity', '0.7');
+        }
       })
-    }
-  }
-
-  FindlySDK.prototype.getRecentSearches = function (url, type) {
-    var _self = this;
-    _self.vars.isRecentSearchesLoading = false;
-    _self.pubSub.unsubscribe('sa-generate-recent-search');
-    _self.pubSub.subscribe('sa-generate-recent-search', data => {
-      if (_self.vars.isRecentSearchesLoading || ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) || (($('body').hasClass('top-down') && $('.search-top-down').val()))) {
-        if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
-          $('.search-body').css('display', 'none');
-          $('.search-body').addClass('hide');
-          $('#autoSuggestionContainer').empty();
+      $(userLogin).off('keyup', '#testFuturePassword').on('keyup', '#testFuturePassword', function (event) {
+        $('.errorMsg').addClass('hide');
+        if ($('#testFuturePassword').val() && $('#testFutureUserId').val()) {
+          $('.testFutureLoginBtn').removeAttr('disabled');
+          $('.testFutureLoginBtn').css('cursor', 'pointer');
+          $('.testFutureLoginBtn').css('opacity', '1');
+        } else {
+          $('.testFutureLoginBtn').attr('disabled');
+          $('.testFutureLoginBtn').css('cursor', 'auto')
+          $('.testFutureLoginBtn').css('opacity', '0.7');
         }
-        return;
+      })
+      $(userLogin).off('click', '.testFutureLoginBtn').on('click', '.testFutureLoginBtn', function (event) {
+        event.stopPropagation();
+        if (($('#testFutureUserId').val() === 'John') && ($('#testFuturePassword').val() === '1111')) {
+          _self.vars.loggedInUser = 'John';
+          $('.menu-link.login').addClass('hide');
+          $('.menu-link.loggedIn').removeClass('hide');
+          $('.errorMsg').addClass('hide');
+          //static pay bill removed
+          if (false && action === 'pay bill') {
+            _self.searchEventBinding('pay bill', action, event, {});
+          } else {
+            _self.vars.searchObject.searchText = action;
+            _self.sendMessageToSearch('botAction');
+          }
+
+        } else {
+          $('.errorMsg').removeClass('hide');
+        }
+      });
+      $('.search-body .finalResults').addClass('hide');
+      $('.searchBox').addClass('hide');
+      $('.search-body').append(userLogin);
+      $('.search-body').removeClass('hide');
+      // $('#searchChatContainer').addClass('bgfocus');
+    };
+    FindlySDK.prototype.getFrequentlySearched = function (url, type, payload) {
+      var bearer = "bearer " + this.bot.options.accessToken || this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
+      var headers = {};
+
+      payload = JSON.parse(payload);
+
+      headers["Authorization"] = bearer;
+      headers["Content-Type"] = "application/json";
+
+
+      var currentDate = new Date();
+      var dateTime = currentDate.getDate() + "/"
+        + (currentDate.getMonth() + 1) + "/"
+        + currentDate.getFullYear() + ", "
+        + currentDate.getHours() + ":"
+        + currentDate.getMinutes() + ":"
+        + currentDate.getSeconds();
+
+      payload.userId = this.bot.userInfo.userInfo.userId;
+
+      payload.streamId = this.bot.options.botInfo.taskBotId;
+      var _self = this;
+      if (!$('body').hasClass('demo')) {
+        payload.indexPipelineId = _self.API.indexpipelineId;
+        payload.queryPipelineId = _self.API.pipelineId;
       }
-      _self.vars.isRecentSearchesLoading = true;
+
+      payload["messagePayload"] = {
+        "clientMessageId": new Date().getTime(),
+        "message": {
+          "body": payload.query,
+        },
+        "resourceId": '/bot.message',
+        "timeDateDay": dateTime,
+        "currentPage": window.location.href,
+        "meta": {
+          "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
+          "locale": window.navigator.userLanguage || window.navigator.language,
+        },
+        "location": this.vars.locationObject.location,
+        "country": this.vars.locationObject.country
+      }
+
+      if (url != this.API.livesearchUrl) {
+        if (!payload.maxNumOfResults) {
+          payload['maxNumOfResults'] = 5;
+        }
+        if (!payload.pageNumber) {
+          payload['pageNumber'] = 0
+        }
+      }
+      if (this.bot.options) {
+        payload.messagePayload["client"] = this.bot.options.client || "sdk";
+        payload.messagePayload["botInfo"] = {};
+        payload.messagePayload["botInfo"].chatBot = this.bot.options.botInfo.chatBot;
+        payload.messagePayload["botInfo"].taskBotId = this.bot.options.botInfo.taskBotId;
+        payload.messagePayload["botInfo"].customData = {};
+        var contextObj = $("#contextjsonfield").val();
+        if (contextObj) {
+          contextObj.trim();
+          if (contextObj) {
+            try {
+              contextObj = JSON.parse(contextObj);
+            } catch (error) {
+              contextObj = {};
+            }
+          }
+          this.bot.options.botInfo.customData['userContext'] = contextObj;
+          payload.messagePayload["botInfo"].customData = this.bot.options.botInfo.customData;
+        } else {
+          if (window.localStorage.getItem('userName')) {
+            this.bot.options.botInfo.customData['userContext'] = { 'user_name': window.localStorage.getItem('userName'), 'location': window.localStorage.getItem('userLocation'), 'gender': window.localStorage.getItem('gender'), 'user_age': window.localStorage.getItem('userAge') };
+          }
+          payload.messagePayload["botInfo"].customData = _self.bot.options.botInfo.customData || {};
+        }
+      }
+
+      payload = JSON.stringify(payload);
+
+      if (!_self.isDev) {
+        if (_self.config.botOptions.assertion) {
+          headers.auth = _self.config.botOptions.assertion;
+        }
+      }
+
+      return $.ajax({
+        url: url,
+        type: type,
+        dataType: 'json',
+        /*headers: {
+          "Authorization": bearer,
+          "Content-Type": "application/json"
+        },*/
+        headers: headers,
+        data: payload,
+        success: function (data) {
+        },
+        error: function (err) {
+        }
+      })
+    };
+
+    FindlySDK.prototype.getPopularSearchList = function (url, type) {
       var bearer = this.API.jstBarrer;
+      var _self = this;
       var headers = {
         "Authorization": 'bearer ' + this.bot.options.accessToken,
         "Content-Type": "application/json"
@@ -5479,2778 +7895,368 @@ FindlySDK.prototype.bindFacetsToggle = function () {
           headers.auth = _self.config.botOptions.assertion;
         }
       }
-      $('#autoSuggestionContainer').empty();
-      $.ajax({
+      return $.ajax({
         url: url,
         type: type,
         headers: headers,
         data: {},
         success: function (data) {
-          if (!data.isBotLocked) {
-            window.isBotLocked = false;
-            _self.vars.searchObject.recents = data.recentSearches;
-            if (!_self.vars.searchObject.recents) {
-              _self.vars.searchObject.recents = [];
-            }
-            if (_self.vars.searchObject.recents && _self.vars.searchObject.recents.length) {
-              if (!$('.search-container').hasClass('active')) {
-                $('.search-container').addClass('active');
-              }
-            }
-            if ($('body').hasClass('top-down')) {
-              var freqDataTop = {
-                // searchResults: searchResults,
-                recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
-                recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-                popularSearches: []
-              };
-              _self.pubSub.publish('sa-freq-data', freqDataTop);
-              if (freqDataTop.recents.length) {
-                $('#live-search-result-box').hide();
-                if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
-                  $('#frequently-searched-box').show();
-                }
-                // _self.frequentlySearchedRecentTextClickEvent();
-              }
-            } else {
-              if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
-                var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
-                  // searchResults: searchResults,
-                  recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
-                  recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-                  popularSearches: [],
-                  showSearches: searchConfigurationCopy ? searchConfigurationCopy.showSearches : 'recent'
-                });
-                if (_self.vars.searchObject.recents.length && !_self.vars.enterIsClicked && !window.isBotLocked) {
-                  $('.search-body').css('display', 'block');
-                  $('.search-body').removeClass('hide');
-                  $('.livesearchResultsNotFound').css('display', 'none');
-                  $('#autoSuggestionContainer').empty();
-                  if (!_self.vars.enterIsClicked && !window.isBotLocked) {
-                    $('.parent-search-live-auto-suggesition').show();
-                  }
-                } else {
-                  $('.search-body').css('display', 'none');
-                  $('.search-body').addClass('hide');
-                  $('#autoSuggestionContainer').empty();
-                  $('.parent-search-live-auto-suggesition').hide();
-                  if ($('.search-body').hasClass('recent-search-show')) {
-                    $('.search-body').removeClass('recent-search-show');
-                  }
-                }
-                $('.search-body .finalResults').hide();
-                $('.searchBox.Search-BG-Copy').remove();
-                $('.search-body').append(freqData);
-                if (!$('.search-body').hasClass('recent-search-show')) {
-                  $('.search-body').addClass('recent-search-show');
-                }
-                _self.changeSearchContainerBackground();
-              }
-            }
-          }
-          else {
-            window.isBotLocked = true;
-            $('.search-body').addClass('hide');
-            $('#autoSuggestionContainer').empty();
-            $('#searchChatContainer').removeClass('bgfocus');
-            $('.parent-search-live-auto-suggesition').hide();
-            if ($('.search-body').hasClass('recent-search-show')) {
-              $('.search-body').removeClass('recent-search-show');
-            }
-          }
-          _self.vars.isRecentSearchesLoading = false;
-          _self.vars.previousLivesearchData = '';
         },
         error: function (err) {
-          _self.vars.searchObject.recents = [];
-        }
-      });
-    });
-  }
-
-  FindlySDK.prototype.searchEventBinding = function (dataHTML, templateType, e, ignorAppend, config) {
-    var _self = this;
-    _self.vars.searchObject.recents = []; _self.vars.searchObject.recentTasks = [];
-    var searchResults;
-
-    try {
-
-      // _self.vars.searchObject.recents = JSON.parse(window.localStorage.getItem('recents')) ? JSON.parse(window.localStorage.getItem('recents')) : [];
-      // _self.vars.searchObject.recentTasks = JSON.parse(window.localStorage.getItem('recentTasks')) ? JSON.parse(window.localStorage.getItem('recentTasks')) : [];
-    } catch (err) {
-
-    }
-
-    if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
-      // $(".query-analytics-control-container").show(); // Temporary modification, made as per FLY-1012
-
-      /*if ($('.custom-header-container-left').css('visibility') == 'hidden') {
-        $('.custom-insights-control-container').show();
-      }*/
-    }
-
-
-    $('.close-icon').off('click').on('click', function (e) {
-      if ($('body').hasClass('setDefaultSearchTemplate')) {
-        $('.search-body').html('');
-        $('.search-body').removeClass('h-100');
-        $('#search').val('');
-        $('#suggestion').val('');
-        $('.search-container').removeClass('active');
-
-        $('#show-all-results-container').hide();
-        $('.search-container').removeClass('bottom-up-results-showing');
-        $('.typingIndicatorContent').css('display', 'none');
-        _self.vars.selectedFacetFromSearch = "all results"
-        $('.start-search-icon-div').removeClass('hideStartIcon');
-        $('#introText').css('display', 'none');
-        _self.destroy();
-      }
-      else {
-        $('.search-container').css('display', 'none');
-        var pos = _self.getAvatarTopLeft();
-        $('.start-search-icon-div').removeClass('hideStartIcon');
-        $('.start-search-icon-div').animate({ 'left': pos.x, 'top': pos.y }, function () {
-          $('#introText').css('display', 'none');
-        });
-        $('#show-all-results-container').hide();
-        $('.search-container').removeClass('bottom-up-results-showing');
-        $('.typingIndicatorContent').css('display', 'none');
-        _self.vars.selectedFacetFromSearch = "all results";
-        _self.destroy();
-      }
-
-    })
-    //_self.bindSearchActionEvents();
-
-
-    // $('.custom-insights-control-container').off('click').on('click', function (event) {
-    $(dataHTML).off('click', '.query-analytics-control-container').on('click', '.query-analytics-control-container', function (event) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
-        var responseObject = { 'type': 'show', data: true, query: _self.vars.searchObject.searchText }
-        _self.parentEvent(responseObject);
-        setTimeout(function () {
-          $('.query_analytics_content').css('top', event.pageY - 50);
-          $('.query_analytics_content').css('left', event.pageX - 178 - event.offsetX);
-          $(document).on('click', function (event) {
-            if (!($(event.target).closest('.query_analytics_content').length)) {
-              $('.query_analytics_content').hide();
-            }
-          });
-        }, 100);
-
-      }
-      /*$('.custom-header-container-left').css('visibility', 'visible');
-      $('.custom-insights-control-container').hide();*/
-    })
-
-    /*$('.custom-header-container-left').off('click').on('click', function (event) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-
-      if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
-        $('.custom-insights-control-container').show();
-        var responseObject = { 'type': 'hide', data: true, query: _self.vars.searchObject.searchText }
-        _self.parentEvent(responseObject);
-      }
-      else {
-        $('.custom-insights-control-container').hide();
-        var responseObject = { 'type': 'hide', data: true, query: _self.vars.searchObject.searchText }
-        _self.parentEvent(responseObject);
-      }
-
-      $('.custom-header-container-left').css('visibility', 'hidden');
-    })*/
-
-    // $('.pay-button').off('click').on('click')
-    if (templateType === "search-container") {
-
-      $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
-        _self.trimSearchQuery();
-        var keyCode = e.keyCode || e.which;
-        keyCode = Number(keyCode);
-        if (keyCode !== 13) {
-          _self.vars.enterIsClicked = false;
-        } else if ($('body').hasClass('top-down') && keyCode == 13) {
-          _self.vars.enterIsClicked = true;
-          $('.skelton-load-img').show();
-          $('#live-search-result-box').hide();
-          $('#frequently-searched-box').hide();
-        } else if (!$('body').hasClass('top-down') && keyCode == 13) {
-          $('.default-data-show-not-loaded').hide();
-          _self.vars.enterIsClicked = true;
-          $('.search-body').css('display', 'none');
-          $('.search-body').addClass('hide');
-        }
-        if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val() && !window.isBotLocked)) {
-          _self.closeGreetingMsg();
-          // $('.search-body').css('display', 'block');
-          // $('.search-body').removeClass('hide');
-          // if (!window.isBotLocked) {
-          //   $('.parent-search-live-auto-suggesition').show();
-          // }
-        } else if ((!$('body').hasClass('top-down') && (!$('.bottom-up-search').val() || window.isBotLocked))) {
-          $('.search-body').css('display', 'none');
-          $('.search-body').addClass('hide');
-          $('#autoSuggestionContainer').empty();
-          $('.suggestion-search-data-parent').css('display', 'none');
-        }
-        _self.pubSub.publish('sa-handel-chat-container-view');
-        _self.pubSub.publish('sa-handel-go-button');
-        // if (!window.isBotLocked) {
-        //   $('.search-body').removeClass('hide');
-        //   $('#searchChatContainer').addClass('bgfocus');
-        // }
-        if (window.isBotLocked) {
-          $('.search-body').css('display', 'none');
-          $('.search-body').addClass('hide');
-        }
-        if (!self.customSearchResult) {
-          $('.search-chat-container').empty();
-        }
-        var code = e.keyCode || e.which;
-        code = Number(code);
-        if ($('body').hasClass('top-down') && code !== 13) {
-          _self.vars.enterIsClicked = false;
-        }
-        // if (code !== 13 && code !== 40 && code !== 38 && code !== 39) {
-        //   // if (($('body').hasClass('top-down') && $('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && $('.bottom-up-suggestion').val())) {
-        //   _self.pubSub.publish('sa-input-keyup');
-        //   // }
-        // }
-        if (code == 9 || code == 39) {
-          $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
-          $('.search-suggested-title.highlightSuggestion').removeClass('highlightSuggestion');
-          if (($('body').hasClass('top-down') && !$('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && !$('.bottom-up-suggestion').val())) {
-            setTimeout(() => {
-              if (!$('body').hasClass('top-down')) {
-                $('.bottom-up-search').focus();
-              } else {
-                $('.search-top-down').focus();
-              }
-            }, 100)
-            return;
-          } else {
-            $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
-          }
-          $('#search').focus();
-          if (!$('body').hasClass('top-down')) {
-            if ($('.bottom-up-suggestion').val()) {
-              $('.bottom-up-search').val(JSON.parse(JSON.stringify($('.bottom-up-suggestion').val())));
-            }
-            $('.bottom-up-search').focus();
-          } else {
-            if ($('.top-down-suggestion').val()) {
-              $('.search-top-down').val(JSON.parse(JSON.stringify($('.top-down-suggestion').val())));
-            }
-            $('.search-top-down').focus();
-          }
-        }
-        if (code == 40 || code == 38) {
-          _self.suggestionSelectedByNavigationKeys(e);
-
-        }
-        if ($('body').hasClass('top-down')) {
-          $('.top-down-suggestion').val('');
-        } else {
-          $('.bottom-up-suggestion').val('');
-        }
-        if (code == 9) {
-          e.preventDefault();
-        }
-        if (code == 13) {
-          $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
-          $('.search-suggested-title.highlightSuggestion').removeClass('highlightSuggestion');
-          $('.parent-search-live-auto-suggesition').hide();
-          if (!e.target.value.length) {
-            return;
-          }
-          $('#autoSuggestionContainer').addClass('hide');
-          if ($('body').hasClass('top-down')) {
-            _self.vars.enterIsClicked = true;
-            $('#live-search-result-box').hide();
-            $('#frequently-searched-box').hide();
-
-          } else {
-            if (!$('.search-container').hasClass('active')) {
-              $('.search-container').addClass('active');
-            }
-          }
-          e.preventDefault();
-          _self.hideAutoSuggestion();
-          // we need to remove close icon from builder
-          if ($('.start-search-icon-div') && $('.start-search-icon-div').hasClass('active')) {
-            $('.start-search-icon-div').removeClass('active');
-          }
-          prevStr = "";
-          if ($('.search-container').hasClass('conversation')) {
-            $('.search-body').addClass('hide');
-            $('#searchChatContainer').removeClass('bgfocus');
-          };
-
-          if (_self.vars.resultRankingActionPerformed == true) {
-            _self.vars.resultRankingActionPerformed = false;
-          }
-
-          if (_self.isDev) {
-            $('#searchChatContainer').animate({ scrollTop: $('#searchChatContainer').prop("scrollHeight") }, 0);
-            if (!_self.vars.customizeView) {
-              $(".query-analytics-control-container").hide();
-            }
-          }
-
-          _self.vars.searchObject.searchText = $('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val();
-
-          if ($('body').hasClass('top-down')) {
-            $('body').addClass('showFullResults');
-            $('.top-down-suggestion').val($('.search-top-down').val());
-            $('.sdk-filter-checkbox-top-down').prop('checked', false);
-            $('.sdk-filter-radio-top-down').prop('checked', false);
-            _self.vars.filterObject = [];
-            _self.vars.selectedFiltersArr = [];
-            _self.vars.tempSelectedFiltersArr = [];
-            _self.vars.tempSelectedFacetsList = [];
-            _self.vars.tempFilterObject = [];
-            _self.vars.selectedFacetsList = [];
-            _self.vars.isTopFacets = (_self.vars.filterConfiguration || {}).aligned === 'top' ? true : false;
-            _self.vars.countOfSelectedFilters = 0;
-            $('.kore-sdk-pagination-div').hide();
-            _self.searchFacetsList([]);
-          }
-          // debugger;
-          var searchText = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) || (_self.vars.searchObject.liveData ? _self.vars.searchObject.liveData.originalQuery : "") || null;
-          _self.closeGreetingMsg();
-          // if (!$('body').hasClass('top-down')) {
-          _self.resetPingMessage();
-          _self.resetSocketDisconnection();
-          _self.sendMessageToSearch('user', null, null, (_self.isDev == true) ? true : false);
-          if (_self.isDev) {
-            setTimeout(() => {
-              _self.pubSub.publish('sa-handle-retry-qery-view');
-            }, 500);
-          }
-          if (_self.config.viaSocket) {
-            _self.sendMessage(_self.vars.searchObject.searchText);
-          } else {
-            _self.bindLiveDataToChat();
-          }
-
-          // }
-          if ($('.search-body:visible').length) {
-            // if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
-            //   _self.vars.searchObject.recents.unshift(searchText.toLowerCase());
-            // }
-            // window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
-          }
-          $('.custom-header-container-center').css('visibility', 'visible');
-
-          _self.vars.filterObject = [];
-          _self.vars.selectedFiltersArr = [];
-          _self.vars.tempSelectedFiltersArr = [];
-          _self.vars.selectedFacetsList = [];
-          _self.vars.isTopFacets = (_self.vars.filterConfiguration || {}).aligned === 'top' ? true : false;
-          _self.vars.countOfSelectedFilters = 0;
         }
       })
-      $(dataHTML).off('click', '.search-button').on('click', '.search-button', function (e) {
-        e.stopPropagation();
-        // if($('#search').val()) {
-        //   e.preventDefault();
-        //   if($('.search-container').hasClass('conversation')){
-        //     $('.search-body').addClass('hide');
-        //     $('#searchChatContainer').removeClass('bgfocus');
-        //   };
-        //   _self.sendMessageToSearch('user');
-        //   _self.bindLiveDataToChat();
-        // }
-
-        //$('#search').trigger(jQuery.Event('keydown', { keycode: 13 }));
-        $('#search').focus().trigger({ type: 'keydown', which: 13 });
-      })
-      $(dataHTML).off('click', '#search').on('click', '#search', function (e) {
-        if (!$('body').hasClass('top-down')) {
-          if ($('#search').hasClass('from-result-ranking')) {
-            $("#search").removeClass('from-result-ranking');
-            _self.vars.customizeView = true;
-            // _self.invokeSearch();
-            $('#show-all-results-container').show();
-            if (!$('.search-container').hasClass('bottom-up-results-showing')) {
-              $('.search-container').addClass('bottom-up-results-showing');
-            }
-            setTimeout(function () {
-              $('#search').focus().trigger({ type: 'keydown', which: 13 });
-              setTimeout(function () {
-                $('.show-all-results').click();
-
-              }, 1000);
-            }, 1000);
-
-          } else {
-            if (!($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
-              _self.bindFrequentData();
-            }
-          }
-        }
-        $('#search').trigger({ type: 'keydown', which: 39 });
-      })
-      var handle = setInterval(function () {
-        if (_self.bot.options.accessToken) {
-          initPopularSearchList();
-          clearInterval(handle);
-          handle = 0;
-        }
-      }, 1000);
-      function initPopularSearchList() {
-        _self.vars.searchObject.popularSearches = [];
-        var popSearchUrl = _self.API.popularSearchesUrl;
-        var tmplData = {
-          searchResults: _self.vars.searchObject.recentAPIResponse,
-          recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
-          recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-          popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5)
-        };
-        if (!_self.customSearchResult) {
-          // var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
-          // $('.search-body').html(freqData);
-          // if (!$('body').hasClass('top-down')) {
-          //   _self.pubSub.publish('sa-generate-recent-search');
-          // }
-        } else {
-          _self.pubSub.publish('sa-freq-data', tmplData);
-          _self.pubSub.publish('sa-show-freq-data', tmplData);
-        }
-        _self.getPopularSearchList(popSearchUrl, 'GET').then(function (response) {
-          _self.vars.searchObject.popularSearches = response;
-          var recentSearchUrl = _self.API.recentSearchUrl;
-          var defaultPopulardata = [{
-            "query": "Cosmetics"
-          }, {
-            "query": "Perfumes"
-          }, {
-            "query": "Daily Care Products"
-          }]
-          _self.appendPopularSearchResults(response && response.result && response.result.slice(0, 3) || defaultPopulardata || []);
-          _self.getRecentSearches(recentSearchUrl, 'GET');
-          var tmplData = {
-            searchResults: _self.vars.searchObject.recentAPIResponse,
-            recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
-            recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-            popularSearches: []
-          };
-          if (!_self.customSearchResult) {
-            var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
-            $('.search-body .finalResults').hide();
-            $('.searchBox.Search-BG-Copy').remove();
-            $('.search-body').append(freqData);
-            // _self.pubSub.publish('sa-generate-recent-search');
-          } else {
-            _self.pubSub.publish('sa-freq-data', tmplData);
-            _self.pubSub.publish('sa-show-freq-data', tmplData);
-          }
-        })
-      }
-
-      var timerId;
-      var searchBoxDom = document.getElementById('search');
-
-      // This represents a very heavy method. Which takes a lot of time to execute
-      function makeAPICall() {
-        // $('#search').trigger("keydown");
-        if (_self.vars.enterIsClicked) {
-          return;
-        }
-        $('#search').trigger("keyup");
-        _self.pubSub.publish('sa-input-keyup');
-      }
-
-      // Debounce function: Input as function which needs to be debounced and delay is the debounced time in milliseconds
-      var debounceFunction = function (func, delay) {
-        // Cancels the setTimeout method execution
-        clearTimeout(timerId)
-        // Executes the func after delay time.
-        timerId = setTimeout(func, delay)
-      }
-
-      // Event listener on the input box
-      searchBoxDom.addEventListener('input', function (event) {
-        // Debounces makeAPICall method
-        debounceFunction(makeAPICall, 200, event);
-      })
-
-      $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
-        _self.trimSearchQuery();
-        if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
-          $('.search-container').removeClass('no-history');
-          if (!$('.search-container').hasClass('active')) {
-            $('.search-container').addClass('active');
-          }
-          if ($('.search-body').hasClass('recent-search-show')) {
-            $('.search-body').removeClass('recent-search-show');
-          }
-        }
-        var keyCode = e.keyCode || e.which;
-        keyCode = Number(keyCode);
-        if ($('body').hasClass('top-down') && keyCode !== 13) {
-          _self.vars.enterIsClicked = false;
-        } else if ($('body').hasClass('top-down') && keyCode == 13) {
-          _self.vars.enterIsClicked = true;
-          $('#live-search-result-box').hide();
-          $('#frequently-searched-box').hide();
-          return;
-        }
-        _self.pubSub.unsubscribe('sa-input-keyup');
-        _self.pubSub.publish('sa-handel-go-button');
-        _self.hideBottomUpAllResults();
-        _self.pubSub.subscribe('sa-input-keyup', (msg, data) => {
-          if (!$('body').hasClass('top-down') && _self.vars.enterIsClicked) {
-            $('.search-body').css('display', 'none');
-            $('.search-body').addClass('hide');
-            $('.parent-search-live-auto-suggesition').hide();
-            return;
-          }
-          if ($('body').hasClass('top-down')) {
-            $('.top-down-suggestion').val('');
-          } else {
-            $('.bottom-up-suggestion').val('');
-          }
-          // if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val()) && !window.isBotLocked && !_self.vars.enterIsClicked) {
-          //   $('.search-body').css('display', 'block');
-          //   $('.search-body').removeClass('hide');
-          //   if (!window.isBotLocked) {
-          //     $('.parent-search-live-auto-suggesition').show();
-          //   }
-          // } else 
-          if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val()) || window.isBotLocked) {
-            $('.search-body').css('display', 'none');
-            $('.search-body').addClass('hide');
-            $('#autoSuggestionContainer').empty();
-            $('.suggestion-search-data-parent').css('display', 'none');
-          }
-          _self.appendSuggestions();
-          if (!($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
-            if ($("#auto-query-box").find(".suggestion-box").length) {
-              $('.suggestion-box').remove();
-            }
-            $('.top-down-suggestion').val('');
-            $('#live-search-result-box').hide();
-            $('#frequently-searched-box').show();
-
-            // _self.frequentlySearchedRecentTextClickEvent();
-            if (((_self.vars.searchObject.recentTasks && !_self.vars.searchObject.recentTasks.length) || (_self.vars.searchObject.recents && !_self.vars.searchObject.recents.length)) && $('.search-container').hasClass('active')) {
-              // $('.search-container').removeClass('active');
-            }
-            if (keyCode == 8) {
-              if (!$('body').hasClass('top-down')) {
-                $('.search-body').css('display', 'none');
-                $('.search-body').addClass('hide');
-                $('.parent-search-live-auto-suggesition').hide();
-                $('#autoSuggestionContainer').empty();
-              }
-              return;
-            }
-            _self.bindFrequentData();
-            $('.custom-header-container-center').css('visibility', 'visible');
-          } else {
-            $('#frequently-searched-box').hide();
-            var code = e.keyCode || e.which;
-            code = Number(code);
-            if (_self.vars.enterIsClicked) {
-              $('#live-search-result-box').hide();
-              $('#frequently-searched-box').hide();
-              return;
-            }
-            if (code == 9 || code == 39) {
-              if (($('body').hasClass('top-down') && !$('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && !$('.bottom-up-suggestion').val())) {
-                setTimeout(() => {
-                  if (!$('body').hasClass('top-down')) {
-                    $('.bottom-up-search').focus();
-                  } else {
-                    $('.search-top-down').focus();
-                  }
-                }, 100)
-                return;
-              } else {
-                $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
-              }
-              $('#search').focus();
-              if (!$('body').hasClass('top-down')) {
-                if ($('.bottom-up-suggestion').val()) {
-                  $('.bottom-up-search').val(JSON.parse(JSON.stringify($('.bottom-up-suggestion').val())));
-                }
-                $('.bottom-up-search').focus();
-              } else {
-                if ($('.top-down-suggestion').val()) {
-                  $('.search-top-down').val(JSON.parse(JSON.stringify($('.top-down-suggestion').val())));
-                }
-                $('.search-top-down').focus();
-              }
-            }
-            if (code == 9) {
-              e.preventDefault();
-            }
-            if (e.target.value) {
-              var payload = {
-                "query": e.target.value.toString(),
-                "maxNumOfResults": 5,
-                "userId": _self.API.uuid,
-                "streamId": _self.API.streamId,
-                "lang": "en"
-              }
-
-              var url = _self.API.livesearchUrl; //'https://qa-bots.kore.ai/searchAssistant/liveSearch';
-              var searchData;
-              if (code == 13) {
-                // if (!($('.topdown-search-main-container').length)) {
-                //   $('#search').val('');
-                //   $('#suggestion').val('');
-                //   $('.bottom-up-search').val('');
-                //   $('.bottom-up-suggestion').val('');
-                // }
-                // _self.hideAutoSuggestion();
-                if ($('body').hasClass('top-down')) {
-                  _self.vars.enterIsClicked = true
-                  $('#frequently-searched-box').hide();
-                  $('#live-search-result-box').hide();
-                }
-              } else {
-                if ($('body').hasClass('top-down') && _self.vars.enterIsClicked) {
-                  $('#frequently-searched-box').hide();
-                  $('#live-search-result-box').hide();
-                  return;
-                }
-                $('#autoSuggestionContainer').removeClass('hide');
-                if (!$('body').hasClass('top-down')) { // bottomUp
-                  _self.hideBottomUpAllResults();
-                } else {
-                  $(".top-down-suggestion").val(($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()));
-                  // $('#live-search-result-box').hide();
-                }
-
-                if ((searchConfigurationCopy.liveSearchResultsLimit !== 0)) {
-                  if (_self.vars.previousLivesearchData == ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
-                    _self.checkIsPreviousLiveSearchDataExists();
-                    return;
-                  }
-                  _self.vars.previousLivesearchData = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
-                  _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
-                    if ($('body').hasClass('top-down') && _self.vars.enterIsClicked) {
-                      $('#frequently-searched-box').hide();
-                      $('#live-search-result-box').hide();
-                      return;
-                    }
-                    if (res.queryPipelineId && res.relay) {
-                      _self.vars.experimentsObject = {};
-                      if (res.relay == "experiment") {
-                        if (res.experimentId) {
-                          _self.vars.experimentsObject['experimentId'] = res.experimentId;
-                        }
-                      }
-                      _self.vars.experimentsObject['indexPipelineId'] = res.indexPipelineId;
-                      _self.vars.experimentsObject['queryPipelineId'] = res.queryPipelineId;
-                      _self.vars.experimentsObject['relay'] = res.relay;
-                    }
-                    if (res.isBotLocked) {
-                      window.isBotLocked = true;
-                    }
-                    else {
-                      window.isBotLocked = false;
-                    }
-                    if (_self.vars.enterIsClicked) {
-                      if (!$('body').hasClass('top-down')) {
-                        $('#frequently-searched-box').hide();
-                        $('#live-search-result-box').hide();
-                        return;
-                      }
-                      return;
-                    }
-                    if (res && res.requestId && res.template && res.template.originalQuery) {
-                      _self.vars.previousSearchObj = {};
-                      _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
-                      _self.vars.previousSearchObj.searchText = res.template.originalQuery; // previous text
-                    }
-                    if (res.templateType === 'liveSearch') {
-                      $('#searchChatContainer').removeClass('bgfocus-override');
-                      $('.live-search-data-container').empty();
-                      res = res.template;
-                      var faqs = [], web = [], tasks = [], files = [], data = [], facets, viewType = "Preview";
-                      if (!$('.search-container').hasClass('active')) {
-                        $('.search-container').addClass('active');
-                      }
-                      if (((res.results || {}).data || []).length || (res.resultType == "grouped" && Object.keys(res.results).length)) {
-                        var tmplData = {
-                          faqs: [],
-                          web: [],
-                          tasks: [],
-                          files: [],
-                          data: [],
-                          showAllResults: true,
-                          noResults: false,
-                          taskPrefix: 'SUGGESTED',
-                          viewType: viewType,
-                          customSearchResult: _self.customSearchResult
-                        };
-                        _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
-                        searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
-                        $(searchData).data(dataObj);
-                        $('.search-body').html(searchData);
-                        $('.search-body').show();
-                        $('.search-body').removeClass('hide');
-                        $('.live-search-data-container').empty();
-                        if (res && res.results && res.resultType == "grouped") {
-                          var availableGroups = Object.keys(res.results);
-                          var selectedGroup = availableGroups[0];
-                          availableGroups.forEach((group) => {
-                            var results = res.results[group].data;
-                            var groupName = group == 'default_group' ? 'defaultTemplate' : group;
-                            var dataObj = {
-                              facets: [],
-                              searchFacets: [],
-                              originalQuery: res.originalQuery || '',
-                              customSearchResult: _self.customSearchResult,
-                              data: results,
-                              groupName: groupName
-                            }
-
-                            var publishSearchData = 'sa-' + groupName + '-search-data';
-                            _self.pubSub.publish(publishSearchData, { container: '.live-search-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
-                          });
-                          res.results = results;
-                        } else {
-                          var results = res.results.data;
-                          res.results = results
-                          var dataObj = {
-                            facets: facets || [],
-                            searchFacets: searchFacets || [],
-                            originalQuery: res.originalQuery || '',
-                            customSearchResult: _self.customSearchResult,
-                            data: results,
-                            groupName: 'defaultTemplate'
-                          }
-                          _self.pubSub.publish('sa-defaultTemplate-search-data', { container: '.live-search-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
-                        }
-
-                        _self.closeGreetingMsg();
-
-
-                        facets = res.facets;
-                        var dataObj = {
-                          faqs: faqs,
-                          web: web,
-                          tasks: tasks,
-                          files: files,
-                          data: data,
-                          facets: facets,
-                          originalQuery: res.originalQuery,
-                          customSearchResult: _self.customSearchResult
-                        }
-
-                        setTimeout(function () {
-                          $('.search-body').scrollTop(2);
-                        }, 100);
-                        _self.clickNavigateToUrl();
-                        _self.bindAllResultsView();
-                        if ($('body').hasClass('top-down')) {
-                          setTimeout(function () {
-                            _self.bindStructuredDataTriggeringOptions();
-                          }, 100);
-
-                        }
-                        var scoreArray = [
-                          {
-                            name: 'asstPage',
-                            score: web.length && web[0].score
-                          },
-                          {
-                            name: 'asstTask',
-                            score: tasks.length && tasks[0].score
-                          },
-                          {
-                            name: 'asstFaq',
-                            score: faqs.length && faqs[0].score
-                          }
-                        ];
-                        scoreArray.sort((a, b) => { return b.score - a.score });
-                        scoreArray.forEach((obj, index) => {
-                          $('.' + obj.name).css("order", index + 1);
-                        })
-
-                        //live search hightlight faq start//
-                        setTimeout(() => {
-                          var topMatchLivesearchFAQ = faqs.filter(function (faq) {
-                            return faq.bestMatch
-                          });
-                          if (topMatchLivesearchFAQ.length) {
-                            //highlight faq;
-                            topMatchLivesearchFAQ = topMatchLivesearchFAQ[0];
-                          } else {
-                            topMatchLivesearchFAQ = false;
-                          }
-                          if (topMatchLivesearchFAQ) {
-
-                            if ($('body').hasClass('top-down')) {
-                              var bestFAQDiv = $("#live-search-result-box  .task-wrp[contentid='" + topMatchLivesearchFAQ.contentId + "']:last");
-                              bestFAQDiv.addClass('faq-highlight');
-                            } else {
-                              var bestFAQDiv = $(".live-seach-auto-suggestion-parent .resultsOfSearch .task-wrp[contentid='" + topMatchLivesearchFAQ.contentId + "']:last");
-                              bestFAQDiv.addClass('faq-highlight');
-                            }
-                          }
-                        }, 200)
-                        //live search hightlight faq  end//
-                      } else {
-                        if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
-                          var dataObj = {
-                            faqs: faqs,
-                            web: web,
-                            tasks: tasks,
-                            files: files,
-                            facets: facets,
-                            data: data,
-                            customSearchResult: _self.customSearchResult
-                          }
-                          var tmplData = {
-                            faqs: faqs,
-                            web: web,
-                            tasks: tasks,
-                            files: files,
-                            data: data,
-                            showAllResults: false,
-                            noResults: true,
-                            taskPrefix: 'MATCHED',
-                            viewType: viewType,
-                            customSearchResult: _self.customSearchResult
-                          }
-                          $('.search-body').empty().append('<div class="livesearchResultsNotFound">No live search results found</div>');
-                          setTimeout(function () {
-                            $('.search-body').scrollTop(2);
-                          }, 100);
-                          if ($('body').hasClass('top-down')) {
-                            _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
-                            _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: true, isFullResults: false, selectedFacet: _self.vars.selectedFacetFromSearch | 'all results' } });
-
-                          } else {
-                            if (!_self.vars.enterIsClicked && !window.isBotLocked) {
-                              $('.search-body').css('display', 'block');
-                              $('.search-body').removeClass('hide');
-                            }
-                            _self.pubSub.publish('sa-search-result', dataObj);
-                            _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
-                          }
-                        }
-                      }
-                      _self.vars.searchObject.liveData = {
-                        faqs: faqs,
-                        web: web,
-                        tasks: tasks,
-                        files: files,
-                        facets: facets,
-                        originalQuery: res.originalQuery || '',
-                      }
-                      _self.searchEventBinding(searchData, "livesearch", e, config);
-                    } else if (res.templateType === 'liveSearchEmpty') {
-                      $('.search-body').hide();
-                      $('#searchChatContainer').addClass('bgfocus-override');
-                    }
-                    else {
-                      $('.search-body').hide();
-                    }
-                  })
-                }
-                else {
-                  $('.search-container').addClass('active');
-                  $('.search-body').removeClass('hide');
-                  $('.search-body').show();
-                }
-              }
-            } else {
-              $('.search-body').html('');
-              $('.search-body').removeClass('h-100');
-            }
-            if (!$('body').hasClass('top-down')) {
-              $('.custom-header-container-center').css('visibility', 'hidden');
-            }
-          }
-          //top-down-suggestion box perfect scroll start //
-          if ($('.topdown-search-main-container').length) {
-            var topDownSuggBoxDataHTML = $('#heading');
-            _self.bindPerfectScroll(topDownSuggBoxDataHTML, '#live-search-result-box', null, 'y', 'suggestionBox');
-          }
-          //top-down-suggestion box perfect scroll -end//
-        });
-      })
-
-      $(dataHTML).off('focus', '#search').on('focus', '#search', function (e) {
-        _self.vars.enterIsClicked = false;
-        if (!$('body').hasClass('top-down')) {
-          $('.search-container').removeClass('no-history');
-          if (!$('.search-container').hasClass('active')) {
-            $('.search-container').addClass('active');
-          }
-        }
-        if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
-          _self.pubSub.publish('sa-input-keyup');
-        }
-        if (!_self.vars.isSocketInitialize) {
-          _self.bot.init(_self.vars.botConfig, _self.config.messageHistoryLimit);
-          _self.bindSocketEvents();
-          _self.vars.isSocketInitialize = true;
-          _self.resetSocketDisconnection();
-          _self.vars.isSocketReInitialize = true;
-        }
-        _self.pubSub.publish('sa-search-focus', {});
-        _self.pubSub.publish('sa-handel-chat-container-view');
-        if ($('.greetingMsg').length) {
-          $('.greetingMsg').hide();
-        }
-        if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
-          if (!window.isBotLocked) {
-            $('.search-body').removeClass('hide');
-          } else {
-            $('.search-body').addClass('hide');
-            $('.search-body').css('display', 'none');
-            $('.parent-search-live-auto-suggesition').hide();
-          }
-        }
-        else {
-          $('.search-body').addClass('hide');
-          $('#searchChatContainer').removeClass('bgfocus');
-          $('.parent-search-live-auto-suggesition').hide();
-        }
-        clearTimeout(_self.vars.searchObject.clearGreetingTimeOut);
-
-        if ($('.search-container').hasClass('full-page')) {
-          $('.search-container').removeClass('full-page');
-          $('.start-search-icon-div').removeClass('hide');
-          $('.search-body-full').html('');
-          if (!$('.search-container').hasClass('active')) {
-            $('.search-container').addClass('active');
-          }
-          e.stopPropagation();
-        }
-        _self.changeSearchContainerBackground();
-        if ((_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recents || []).length || (_self.vars.searchObject.popularSearches && _self.vars.searchObject.popularSearches.length)) && !($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
-          $('.search-container').addClass('active');
-          if (_self.showGreetingMsg) {
-            _self.showGreetingMsg = false;
-          }
-          _self.closeGreetingMsg();
-          if (_self.customSearchResult) {
-            var tmplData = {
-              searchResults: searchResults,
-              recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
-              recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-              popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5)
-            };
-            _self.pubSub.publish('sa-show-freq-data', tmplData);
-          } else {
-            if (!$('body').hasClass('top-down') && !_self.vars.enterIsClicked && !($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
-              _self.pubSub.publish('sa-generate-recent-search');
-            }
-          }
-
-          setTimeout(function () {
-            $('.search-body').scrollTop(2);
-          }, 100);
-          _self.deleteRecents();
-          _self.bindSearchActionEvents();
-          _self.recentClick();
-        } else if ((_self.vars.searchObject.recentTasks.length || _self.vars.searchObject.recents.length || (_self.vars.searchObject.popularSearches && _self.vars.searchObject.popularSearches.length)) && ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
-          _self.closeGreetingMsg();
-          if (!$('.search-container').hasClass('active')) {
-            $('.search-container').addClass('active');
-            e.stopPropagation();
-          }
-        } else if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
-          $('#search').trigger("keyup");
-          _self.pubSub.publish('sa-input-keyup');
-          if (!$('body').hasClass('top-down')) {
-            $('.custom-header-container-center').css('visibility', 'hidden');
-          }
-        }
-      });
-      $(dataHTML).off('click','#histroybutton').on('click','#histroybutton' ,function (e) {
-        e.stopPropagation();
-        if(_self.vars.isHistroyloaded){
-          $('#histroybutton').hide();
-           $('#histroyChatContainer').show();
-           _self.searchHistroy(_self.vars.configuration);             
+    };
+    FindlySDK.prototype.newSearchFeedbackPost = function (url, type, payload) {
+      var bearer = this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
+      return $.ajax({
+        url: url,
+        type: type,
+        dataType: 'json',
+        headers: {
+          "Authorization": bearer,
+          "Content-Type": "application/json"
+        },
+        data: JSON.stringify(payload),
+        success: function (data) {
+        },
+        error: function (err) {
         }
       })
-    }
-    if (templateType === "livesearch") {
-      if (!$('.search-container').hasClass('active')) {
-        $('.search-container').addClass('active');
-        e.stopPropagation();
-      }
-      var searchText = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) || _self.vars.searchObject.liveData.originalQuery;
-      if (e.keyCode == 13) {
-        if ($('.search-container').hasClass('conversation')) {
-          $('.search-body').addClass('hide');
-          $('#searchChatContainer').removeClass('bgfocus');
-          var searchText = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) || _self.vars.searchObject.searchText;
-          if (!($('.topdown-search-main-container').length)) {
-            $('#search').val('');
-            $('.bottom-up-search').val('');
-            $('.bottom-up-suggestion').val('');
-            $('#suggestion').val('');
-          } else {
-            _self.invokeSearch();
-            $('.top-down-suggestion').val('');
-            $('#suggestion').val('');
-          }
-
-
+    };
+    FindlySDK.prototype.makeAPItoFindly = function (url, type, payload) {
+      return $.ajax({
+        url: url,
+        type: type,
+        dataType: 'json',
+        headers: {
+          "Authorization": 'bearer ' + window.findlyAccessToken,
+          "AccountId": window.findlyAccountId,
+          "Content-Type": "application/json"
+        },
+        data: payload,
+        success: function (data) {
+        },
+        error: function (err) {
         }
-        if (!ignorAppend) {
-          _self.bindLiveDataToChat();
-        }
-        e.preventDefault();
-      }
-      _self.bindSearchActionEvents();
-      if (_self.isDev) {
-        if (!_self.vars.customizeView) {
-          $(".query-analytics-control-container").hide();
-        } else {
-          $(".query-analytics-control-container").show();
-
-        }
-      }
-
-    }
-    if (templateType === "pay bill" || templateType === "pay credit card bill") {
-
-      var creditCard = $(_self.getSearchTemplate('payBillContainer')).tmplProxy({
-        selectedBiller: templateType,
-        data: [
-          {
-            "biller_name": "AT&T",
-            "card_type": "master_card",
-            "card_number": "2313",
-            "bill_amount": "95.20",
-            "due_date": "03/07/2020"
-          },
-          {
-            "biller_name": "Verizon Wireless",
-            "card_type": "master_card",
-            "card_number": "2313",
-            "bill_amount": "64.45",
-            "due_date": "13/07/2020"
-          },
-          {
-            "biller_name": "Pico Energy",
-            "card_type": "master_card",
-            "card_number": "6724",
-            "bill_amount": "235.20",
-            "due_date": "05/07/2020"
-          }
-        ]
-      });
-      $(creditCard).off('click', '.closeAction').on('click', '.closeAction', function (e) {
-        e.stopPropagation();
-        $('.search-body .finalResults').removeClass('hide');
-        $('.searchBox').removeClass('hide');
-        $('.pay-bill-container').remove();
-        $('.search-body').removeClass('h-100');
       })
-      $(creditCard).off('click', '.pay-button').on('click', '.pay-button', function (e) {
-        var payData = $(this).attr('msgData');
-        $('.pay-bill-container .card-container').addClass('hide');
-        var gateway = $(_self.getSearchTemplate('paymentGateWayDemo')).tmplProxy({
-          paymentDetails: JSON.parse(payData)
-        });
-        var defaultlibConfig = {
-          format: 'MM-DD-YYYY',
-          alwaysOpen: false,
-          singleMonth: true,
-          showShortcuts: false,
-          singleDate: true,
-          showTopbar: false,
-          inline: true,
-          startDate: moment().format('MM-DD-YYYY'),
-          container: $(gateway).find('.datePicker'),
-        };
-        $(gateway).off('click', '#gatewayNextDemo').on('click', '#gatewayNextDemo', function (event1) {
-          event1.stopPropagation();
-          var confirmationModal = $(_self.getSearchTemplate('confirmationModal')).tmplProxy({
-          });
-          $('.confirmationModal').html(confirmationModal);
-          $('.confirmationModal').removeClass('hide');
-          $(confirmationModal).off('click', '#confirmGatwayPayment').on('click', '#confirmGatwayPayment', function (ev) {
-            ev.stopPropagation();
-            var gatwaySuccess = $(_self.getSearchTemplate('gatwaySuccess')).tmplProxy({
-              selectedDate: $('#demoDatePicker').val()
-            });
-            $('.payBillMain').remove();
-            $('.LoginWhiteBG ').remove();
-            $('.card-pay-title').addClass('hide');
-            $('.card-pay-legend').addClass('hide');
-            $(gatwaySuccess).off('click', '#makeAnotherPayDemo').on('click', '#makeAnotherPayDemo', function (e2) {
-              e2.stopPropagation();
-              $('.card-pay-title').removeClass('hide');
-              $('.card-pay-legend').removeClass('hide');
-              $('.card-container').removeClass('hide');
-              $('.search-body').addClass('h-100');
-              $('.successContainer').remove();
+    };
 
-            })
-            $(gatwaySuccess).off('click', '#closePayment').on('click', '#closePayment', function (e2) {
-              e2.stopPropagation();
-              $('.pay-bill-container').remove();
-              $('.search-body .finalResults').removeClass('hide');
-              $('.searchBox').removeClass('hide');
-              $('.search-body').removeClass('h-100');
-            })
-            $('.pay-bill-container').append(gatwaySuccess);
-            $('.confirmationModal').html('');
-            $('.confirmationModal').addClass('hide');
-            $('.search-body').scrollTop(0);
-          });
-          $(confirmationModal).off('click', '#cancelGatwayPayment').on('click', '#cancelGatwayPayment', function (ev) {
-            ev.stopPropagation();
-            $('.confirmationModal').html('');
-            $('.confirmationModal').addClass('hide');
-          });
-        });
-        $(gateway).off('blur', '#demoDatePicker').on('blur', '#demoDatePicker', function (eventBlur) {
-          if ($('#demoDatePicker').val()) {
-            $('#gatewayNextDemo').removeAttr('disabled');
-            $('#gatewayNextDemo').css('cursor', 'pointer');
-            $('#gatewayNextDemo').css('opacity', 1);
-          } else {
-            $('#gatewayNextDemo').attr('disabled');
-            $('#gatewayNextDemo').css('cursor', 'auto');
-            $('#gatewayNextDemo').css('opacity', 0.7);
-          }
-
-        });
-        $(gateway).find('#demoDatePicker').dateRangePicker(defaultlibConfig).bind('datepicker-open', function () {
-          setTimeout(function () {
-            var scrollBottom = $('.search-body').scrollTop() + $('.search-body').height();
-            $('.search-body').animate({ scrollTop: scrollBottom });
-          }, 150)
-        }).bind('datepicker-closed', function () {
-          setTimeout(function () {
-            if ($('#demoDatePicker').val()) {
-              $('#gatewayNextDemo').removeAttr('disabled');
-              $('#gatewayNextDemo').css('cursor', 'pointer');
-              $('#gatewayNextDemo').css('opacity', 1);
-            } else {
-              $('#gatewayNextDemo').attr('disabled');
-              $('#gatewayNextDemo').css('cursor', 'auto');
-              $('#gatewayNextDemo').css('opacity', 0.7);
-            }
-          }, 150)
-        });
-
-        $('.pay-bill-container').append(gateway);
-        $('.search-body').scrollTop(0);
-      });
-      $('.LoginWhiteBG').remove();
-      $('search-body .finalResults').addClass('hide');
-      $('.searchBox').addClass('hide');
-      $('.search-body').addClass('h-100');
-      $('.search-body').append(creditCard);
-      $('.search-body').removeClass('hide');
-      // $('#searchChatContainer').addClass('bgfocus');
-      $('.search-body').scrollTop(0);
-      _self.bindPerfectScroll(creditCard, '.card-container', null, 'x', 'creditcard');
-
-    }
-  }
-  FindlySDK.prototype.bindPerfectScroll = function (dataHtml, scrollContainer, update, scrollAxis, contentPSObj) {
-    contentPSObj = contentPSObj || 'contentPSObj'
-    var _self = this;
-    if (KRPerfectScrollbar) {
-      if (!update) {
-        if (scrollAxis && scrollAxis === 'x') {
-          _self.vars[contentPSObj] = new KRPerfectScrollbar($(dataHtml).find(scrollContainer).get(0), {
-            suppressScrollY: true
-          });
-        } else {
-          _self.vars[contentPSObj] = new KRPerfectScrollbar($(dataHtml).find(scrollContainer).get(0), {
-            suppressScrollX: true
-          });
-        }
-
-      } else {
-        _self.vars.contentPSObj.update();
-      }
-    }
-  }
-  FindlySDK.prototype.bindLiveDataToChat = function (botAction) {
-    if (!$('body').hasClass('top-down')) {
-      $('#search').val('');
-      $('#suggestion').val('');
-    }
-
-    var _self = this;
-    var payload = {
-      "query": _self.vars.searchObject.searchText,
-      // "maxNumOfResults": 9,
-      "maxNumOfResults": 5,
-      "userId": _self.API.uuid,
-      "streamId": _self.API.streamId,
-      "lang": "en"
-    }
-    if (botAction) {
-      if ($('body').hasClass('top-down')) {
-        _self.vars.searchObject.searchText = _self.previousDataobj;
-      } else {
-        _self.vars.searchObject.searchText = "";
-      }
-
-      payload.isBotAction = true;
-    }
-    payload.smallTalk = true;
-
-
-    var url = _self.API.searchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
-    var searchData;
-    if (!botAction) {
-      _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
-        _self.handleSearchRes(res);
-      });
-    }
-  }
-  FindlySDK.prototype.handleSearchRes = function (res) {
-    var _self = this;
-    $('.parent-search-live-auto-suggesition').hide();
-    setTimeout(function () {
-      $('.typingIndicatorContent').css('display', 'none');
-    }, 100);
-    try {
-    } catch (err) {
-
-    }
-    var faqs = [], web = [], tasks = [], files = [], facets, searchFacets = []; data = []; totalSearchResults = 0;
-
-    var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
-    _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
-    if (res && res.requestId && res.template && res.template.originalQuery) {
-      _self.vars.previousSearchObj = {};
-      _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
-      _self.vars.previousSearchObj.searchText = res.template.originalQuery; // previous text
-    }
-    if (res.templateType == undefined) {
-      var botResponse;
-      if ($('body').hasClass('top-down')) {
-        if ((res || {}).endOfTask) {
-          $('#sa-conversation-box').attr('placeholder', '');
-          $('#sa-conversation-box').prop('disabled', true);
-          var dataHTML = $(_self.getEndTaskMsgTopDownTemplate());
-          $('#searchChatContainer').append(dataHTML);
-          $('.task-ended-message').off('click', '.back-to-search').on('click', '.back-to-search', function (e) {
-            if (_self.isDev == false) {
-              $("#searchChatContainer .task-ended-message").remove();
-            }
-            $('#conversation-container').hide();
-          });
-          return;
-        }
-      }
-      if ($('body').hasClass('top-down') && res.isAutoTriggeredBotAction || (res.payload || {}).template_type == 'quick_replies' && (res.payload || {}).isAutoTriggeredBotAction) {
-        if (!$('#conversation-container').is(':visible')) {
-          $('#conversation-container').show();
-          if ($('.search-container').hasClass('no-history')) {
-            $('.search-container').removeClass('no-history');
-          }
-          $('#sa-conversation-box').prop('disabled', false);
-          $('#sa-conversation-box').attr('placeholder', 'Type message...');
-        }
-      }
-      if (!$('body').hasClass('top-down')) {
-        if ((res || {}).endOfTask) {
-          return;
-        }
-      }
-      if (res.payload == undefined) {
-        if (res.cInfo) {
-          (res.text || {}).cInfo = res.cInfo;
-        }
-
-        botResponse = res.text;
-        _self.sendMessageToSearch('bot', botResponse);
-      }
-      else {
-
-        botResponse = res;
-        _self.sendMessageToSearch('bot', JSON.stringify(botResponse));
-
-      }
-    }
-    if (res.templateType === 'search') {
-      _self.vars.requestId = res.requestId;
-      if (res.queryPipelineId && res.relay) {
-
-        _self.vars.experimentsObject = {};
-
-        if (res.relay == "experiment") {
-          if (res.experimentId) {
-            _self.vars.experimentsObject['experimentId'] = res.experimentId;
-          }
-        }
-        _self.vars.experimentsObject['indexPipelineId'] = res.indexPipelineId;
-        _self.vars.experimentsObject['queryPipelineId'] = res.queryPipelineId;
-        _self.vars.experimentsObject['relay'] = res.relay;
-
-      }
-      res = res.template;
-      facets = [];
-      var totalResultsCount = 0;
-      if (res.tabFacet && res.tabFacet.buckets && res.tabFacet.buckets.length) {
-        res.tabFacet.buckets.forEach((tab) => {
-          totalResultsCount = totalResultsCount + tab.doc_count;
-          if (!tab.name) {
-            tab.name = tab.key;
-          }
-        })
-        _self.vars.tabFacetFieldName = res.tabFacet.fieldName;
-      }
-      totalResultsCount = totalResultsCount;
-
-      if (res.facets !== undefined) {
-        _self.vars.searchFacetFilters = res.facets;
-        // searchFacets = res.searchFacets;
-        searchFacets = _self.vars.searchFacetFilters;
-      }
-      else {
-        res.facets = [];
-        _self.vars.searchByFacetFilters = res.facets;
-        searchFacets = _self.vars.searchFacetFilters;
-      }
-      $('.full-search-data-container').empty();
-      $('.no-templates-defined-full-results-container').hide();
-      if (((res.results || {}).data || []).length || (res.resultType == "grouped" && Object.keys(res.results).length)) {
-        var searchContainerName = $('body').hasClass('top-down') ? '.full-search-data-container' : '.search-data-container';
-
-        if (!$('body').hasClass('top-down')) {
-          _self.countTotalResults(res,totalResultsCount);
-          var dataObj = {
-            faqs: [],
-            web: [],
-            tasks: res.tasks || [],
-            facets: [],
-            files: [],
-            searchFacets: searchFacets,
-            originalQuery: res.originalQuery || '',
-            customSearchResult: _self.customSearchResult,
-            data: []
-          }
-          if (_self.isDev) {
-            var responseObject = { 'type': 'onboardingjourney', data: 'test', query: _self.vars.searchObject.searchText, bottomUp: true, requestId: _self.vars.previousSearchObj.requestId }
-            _self.parentEvent(responseObject);
-          }
-          if (dataObj.smallTalk) {
-            _self.sendMessageToSearch('bot', dataObj.smallTalk);
-          } else {
-            var _botMessage = 'Sure, please find the matched results below';
-            searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
-              faqs: [],
-              web: [],
-              tasks: [],
-              showAllResults: true,
-              noResults: false,
-              taskPrefix: 'MATCHED',
-              viewType: viewType,
-              customSearchResult: _self.customSearchResult,
-              totalSearchResults: _self.vars.totalNumOfResults
-            });
-            setTimeout(function () {
-              _self.appendActionsContainerForBottomUp('search');
-              _self.pubSub.publish('sa-action-full-search', { container: '.actions-search-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-            }, 300);
-            setTimeout(function () {
-              _self.bindSearchActionEvents();
-            }, 500);
-            $(searchData).data(dataObj);
-            if (!_self.customSearchResult) {
-              // if (!topMatchTask && !_self.customSearchResult) {
-              _self.sendMessageToSearch('bot', _botMessage, null, (_self.isDev == true) ? true : false);
-              if (_self.isDev) {
-                setTimeout(() => {
-                  _self.pubSub.publish('sa-handle-customize-option-view');
-                }, 500);
-              }
-            }
-            $('#searchChatContainer').append(searchData);
-          }
-        }
-        if (res && res.results && res.resultType == "grouped") {
-          var availableGroups = Object.keys(res.results);
-          _self.vars.availableGroupsOrder = availableGroups;
-          if (!(res.tabFacet || {}).buckets) {
-            totalResultsCount = 0;
-          }
-          if (availableGroups && availableGroups.length) {
-            availableGroups.forEach((group) => {
-              var results = res.results[group].data;
-              if (!(res.tabFacet || {}).buckets) {
-                totalResultsCount = totalResultsCount + res.results[group].doc_count;
-              }
-              var groupName = group == 'default_group' ? 'defaultTemplate' : group;
-              var dataObj = {
-                facets: facets,
-                searchFacets: searchFacets,
-                originalQuery: res.originalQuery || '',
-                customSearchResult: _self.customSearchResult,
-                data: results,
-                groupName: groupName,
-                doc_count: res.results[group].doc_count
-              }
-              var publishSearchData = 'sa-' + groupName + '-search-data';
-              _self.pubSub.publish(publishSearchData, { container: searchContainerName, isFullResults: $('body').hasClass('top-down') ? true : false, selectedFacet: 'all results', isLiveSearch: false, isSearch: $('body').hasClass('top-down') ? false : true, dataObj });
-              if (!$('.empty-full-results-container').hasClass('hide')) {
-                $('.empty-full-results-container').addClass('hide');
-              }
-            });
-            if($('body').hasClass('top-down')){
-              _self.vars.totalNumOfResults = totalResultsCount;
-            }
-            res.results = results;
-            setTimeout(() => {
-              if (!$('.full-search-data-container').children().length) {
-                if (_self.isDev) {
-                  $('.no-templates-defined-full-results-container').show();
-                } else {
-                  $('.empty-full-results-container').removeClass('hide');
-                }
-              }
-              
-            }, 500);
-            
-          } else {
-            var dataObj = {
-              facets: facets || [],
-              searchFacets: searchFacets || [],
-              originalQuery: res.originalQuery || '',
-              customSearchResult: _self.customSearchResult,
-              data: [],
-              groupName: 'defaultTemplate'
-            }
-            // _self.pubSub.publish('sa-defaultTemplate-search-data', { container: searchContainerName, isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-            if (!(res.tasks || []).length) {
-              $('.empty-full-results-container').removeClass('hide');
-              $('.no-templates-defined-full-results-container').hide();
-            }
-          }
-        } else {
-          var results = res.results.data;
-          if (!(res.tabFacet || {}).buckets) {
-            totalResultsCount = res.results.doc_count || 0;
-          }
-          _self.vars.totalNumOfResults = totalResultsCount;
-          var dataObj = {
-            facets: facets || [],
-            searchFacets: searchFacets || [],
-            originalQuery: res.originalQuery || '',
-            customSearchResult: _self.customSearchResult,
-            data: results,
-            groupName: 'defaultTemplate',
-            doc_count: res.results.doc_count
-          }
-          res.results = results;
-          if (totalResultsCount) {
-            _self.pubSub.publish('sa-defaultTemplate-search-data', { container: searchContainerName, isFullResults: $('body').hasClass('top-down') ? true : false, selectedFacet: 'all results', isLiveSearch: false, isSearch: $('body').hasClass('top-down') ? false : true, dataObj });
-            if (!$('.empty-full-results-container').hasClass('hide')) {
-              $('.empty-full-results-container').addClass('hide');
-            }
-
-            if (!$('.full-search-data-container').children().length) {
-              if (_self.isDev) {
-                $('.no-templates-defined-full-results-container').show();
-              } else {
-                $('.empty-full-results-container').removeClass('hide');
-              }
-            }
-          } else {
-            if (!(res.tasks || []).length) {
-              $('.empty-full-results-container').removeClass('hide');
-              $('.no-templates-defined-full-results-container').hide();
-            }
-          }
-        }
-        if ((res.tasks || []).length) {
-          var dataObj = {
-            facets: facets || [],
-            searchFacets: searchFacets || [],
-            originalQuery: res.originalQuery || '',
-            customSearchResult: _self.customSearchResult,
-            tasks: res.tasks || []
-          }
-          _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: (_self.vars.isFromTopDownKeyDown ? 'data' : 'all results') } });
-        }
-
-        var liveResult = res.results;
-        var topMatch;
-        var topMatchTask;
-        topMatch = data.filter(function (data) {
-          return data.bestMatch
-        });
-        if (topMatch.length) {
-          //highlight faq;
-          topMatch = topMatch[0];
-        } else {
-          topMatch = false;
-        }
-
-        if (!$('body').hasClass('top-down')) {
-          setTimeout(() => {
-            if ($('.messageBubble .userMessage span').last().text() == _self.vars.searchObject.searchText && $('.messageBubble .messageBubble-content .botMessage span:nth-child(2)').last().text() === 'Sure, please find the matched results below') {
-              if ($('#searchChatContainer').prop('offsetHeight') < $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top) {
-                $("#searchChatContainer").off('scroll').on('scroll', function () {
-                  if($('.sdk-chat-container').scrollTop()==0 && !$('#histroybutton').is(':visible')){
-                    if(_self.vars.isHistroyloaded && !_self.isDev){
-                      $('#histroybutton').hide();
-                       $('#histroyChatContainer').show();
-                       _self.searchHistroy(_self.vars.configuration);             
-                    }
-                  }
-                  if ($('#searchChatContainer').prop('offsetHeight') >= $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top) {
-                    $('.more-results').css('display', 'none');
-                  } else {
-                    $('.more-results').css('display', 'block');
-                  }
-                });
-                $('.more-results').css('display', 'block');
-              }
-            }
-            if (!$('.search-data-container').last().children().length) {
-              $('#searchChatContainer .messageBubble').last().remove();
-              $('#searchChatContainer .finalResults').last().remove();
-              _self.sendMessageToSearch('bot', 'Unable to find results at this moment');
-            }
-          }, 500)
-        }
-        else {
-          $('#loaderDIV').hide();
-          $('#frequently-searched-box').hide();
-          $('#live-search-result-box').hide();
-
-
-          if (_self.isDev) {
-            $('.custom-header-container-center').removeClass('display-none');
-            if (_self.vars.customizeView) {
-              $('.custom-add-result-container').removeClass('display-none');
-            } else {
-              $(".query-analytics-control-container").hide();
-            }
-          }
-          setTimeout(function () {
-            _self.bindStructuredDataTriggeringOptions();
-          }, 100);
-        }
-        _self.clickNavigateToUrl();
-
-        _self.vars.searchObject.liveData = {
-          faqs: [],
-          web: [],
-          tasks: [],
-          facets: [],
-
-          files: [],
-
-          searchFacets: searchFacets,
-
-          originalQuery: res.originalQuery || '',
-
-          data: []
-        }
-
-        if (((res.results || {}).data || []).length) {
-
-          if (_self.vars.customizeView == true) {
-            $(searchData).find(".tasks-wrp").sortable();
-          }
-          else {
-            $(searchData).find(".tasks-wrp").sortable({ disabled: true });
-          }
-
-          $(searchData).attr('queryString', dataObj.originalQuery)
-          if (topMatchTask) {
-            // searchData.addClass("hide");
-          }
-          $('#searchChatContainer').append(searchData);
-          _self.vars.showingMatchedResults = true;
-
-          if (_self.vars.customizeView == true) {
-            $(".faqs-shadow").addClass('custom-faqs-shadow');
-            $(".faqs-wrp-content").addClass('custom-faqs-wrp-content');
-            $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
-            $(".image-url-sec").css('display', 'none');
-            $(".faqs-bottom-actions").css('display', 'table');
-
-            $(".divfeedback").css('display', 'none');
-
-
-          }
-          else {
-
-            $(".faqs-shadow").removeClass('custom-faqs-shadow');
-            $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
-            $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
-
-            $(".image-url-sec").css('display', 'table-cell');
-            $(".faqs-bottom-actions").css('display', 'none');
-
-          }
-
-
-        }
-        setTimeout(function () {
-          if (_self.isDev == false) {
-
-            if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && !$('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
-              $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
-            } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
-              $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").height()) }, 500)
-            } else {
-              if ($('.userMessage').last().parent().position()) {
-                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 25) }, 500)
-              }
-            }
-          }
-          else {
-
-            if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && !$('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
-              $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
-            } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
-              $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").height()) }, 500)
-            } else {
-              if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top > 34 || $('.userMessage').last().parent().position().top < 34)) {
-                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 25) }, 300)
-              }
-            }
-          }
-
-        }, 200);
-
-      } else {
-        if ($('body').hasClass('top-down')) {
-          if ((res.tasks || []).length) {
-            var dataObj = {
-              tasks: res.tasks || [],
-              searchFacets: searchFacets,
-              originalQuery: res.originalQuery || '',
-              customSearchResult: _self.customSearchResult,
-            }
-            _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: (_self.vars.isFromTopDownKeyDown ? 'data' : 'all results') } });
-          } else {
-            $('.empty-full-results-container').removeClass('hide');
-            $('.no-templates-defined-full-results-container').hide();
-          }
-        } else {
-          if ((res.tasks || []).length) {
-            var dataObj = {
-              tasks: res.tasks || [],
-              searchFacets: searchFacets,
-              originalQuery: res.originalQuery || '',
-              customSearchResult: _self.customSearchResult,
-            }
-            if (!$('body').hasClass('top-down')) {
-              var dataObj = {
-                faqs: [],
-                web: [],
-                tasks: res.tasks || [],
-                facets: [],
-                files: [],
-                searchFacets: searchFacets,
-                originalQuery: res.originalQuery || '',
-                customSearchResult: _self.customSearchResult,
-                data: []
-              }
-              if (_self.isDev) {
-                var responseObject = { 'type': 'onboardingjourney', data: 'test', query: _self.vars.searchObject.searchText, bottomUp: true, requestId: _self.vars.previousSearchObj.requestId }
-                _self.parentEvent(responseObject);
-              }
-              if (dataObj.smallTalk) {
-                _self.sendMessageToSearch('bot', dataObj.smallTalk);
-              } else {
-                var _botMessage = 'Sure, please find the matched results below';
-                searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
-                  faqs: [],
-                  web: [],
-                  tasks: res.tasks || [],
-                  showAllResults: true,
-                  noResults: false,
-                  taskPrefix: 'MATCHED',
-                  viewType: viewType,
-                  customSearchResult: _self.customSearchResult,
-                  totalSearchResults: (res.tasks || []).length
-                });
-                setTimeout(function () {
-                  _self.appendActionsContainerForBottomUp('search');
-                  _self.pubSub.publish('sa-action-full-search', { container: '.actions-search-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-                }, 300);
-                setTimeout(function () {
-                  _self.bindSearchActionEvents();
-                }, 500);
-                $(searchData).data(dataObj);
-                if (!_self.customSearchResult) {
-                  // if (!topMatchTask && !_self.customSearchResult) {
-                  _self.sendMessageToSearch('bot', _botMessage, null, (_self.isDev == true) ? true : false);
-                  if (_self.isDev) {
-                    setTimeout(() => {
-                      _self.pubSub.publish('sa-handle-customize-option-view');
-                    }, 500);
-                  }
-                }
-                $('#searchChatContainer').append(searchData);
-              }
-            }
-
-          }
-        }
-        if ($('.search-container').hasClass('conversation') && !(res.tasks || []).length) {
-          $('.search-body').addClass('hide');
-          $('#searchChatContainer').removeClass('bgfocus');
-          clearTimeout(indicatorTimer);
-          $('.typingIndicatorContent').css('display', 'none');
-          _self.sendMessageToSearch('bot', 'Unable to find results at this moment');
-        }
-        _self.vars.totalNumOfResults = 0;
-      }
-
-      if ($('body').hasClass('top-down')) {
-        _self.showMoreClick();
-        facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
-        facets = facets.concat((res.tabFacet || {}).buckets || [])
-        facets = _self.rearrangeTabsList(facets);
-        if ((res.tasks || []).length) {
-          facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
-        }
-        _self.vars.tabsList = facets;
-        if (!_self.vars.searchObject.liveData) {
-          _self.vars.searchObject.liveData = { facets: facets };
-        } else {
-          _self.vars.searchObject.liveData.facets = facets;
-        }
-        _self.pubSub.publish('sa-source-type', facets);
-        _self.pubSub.publish('sa-sortable-facet-search');
-        _self.pubSub.publish('sa-search-facets', searchFacets);
-        _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
-      }
-      _self.fullResultsScrollTop();
-      $(".content-data-sec").scrollTop(0);
-      $(".data-body-sec").scrollTop(0);
-    } else if (res.templateType === 'botAction') {
-      // debugger;
-      res = res.template;
-      var botResponse = res.webhookPayload.text;
-      _self.sendMessageToSearch('bot', botResponse);
-    } else if (res.templateType === 'botActionError') {
-      var errorMessage = (res.template && res.template.Error) ? res.template.Error : 'Failed to connect to the bot'
-      _self.sendMessageToSearch('bot', errorMessage);
-    } else if (res.templateType === 'liveSearchEmpty') {
-      _self.sendMessageToSearch('bot', 'No results found');
-    }
-    if ($('body').hasClass('top-down')) {
-      var conversationContainerHtml = $('#conversation-container');
-      _self.bindPerfectScroll(conversationContainerHtml, '#searchChatContainer', null, 'y', 'conversationContainer');
-    }
-    $('.parent-search-live-auto-suggesition').hide();
-  }
-
-  FindlySDK.prototype.bindFrequentData = function () {
-    var _self = this;
-    $('#suggestion').val('');
-    if (_self.customSearchResult) {
-      var tmplData = {
-        // searchResults: _self.vars.searchObject.recentAPIResponse,
-        recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
-        recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-        popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5)
-      };
-      _self.pubSub.publish('sa-freq-data', tmplData);
-      _self.pubSub.publish('sa-show-freq-data', tmplData);
-
-    } else {
-
-      setTimeout(function () {
-
-        if (!_self.vars.enterIsClicked && !($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
-          _self.pubSub.publish('sa-generate-recent-search');
-        }
-      }, 150);
-    }
-
-    setTimeout(function () {
-      $('.search-body').scrollTop(2);
-    }, 100);
-    _self.deleteRecents();
-    _self.recentClick();
-    _self.bindSearchActionEvents();
-  }
-  FindlySDK.prototype.clickOutsideSearch = function () {
-    setTimeout(() => {
+    FindlySDK.prototype.dumpClickAnalyticsData = function (url, type, payload) {
+      var bearer = 'bearer ' + this.bot.options.accessToken;
       var _self = this;
-      $(document).on('click', function (event) {
-        if (!$(event.target).closest('.search-container').length) {
-          if ($('.search-body').find('.pay-bill-container').length) {
-            return;
-          } else {
-            // $('.search-container').removeClass('active');
-          }
-        } else {
-          event.stopPropagation();
-          if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
-            if (!window.isBotLocked) {
-              $('.search-body').removeClass('hide');
-              // $('#searchChatContainer').addClass('bgfocus');
-            }
-          }
-          $('.suggestion-search-data-parent').css('display', 'block');
-        }
-        if ($(event.target).closest('#searchChatContainer').length && !$(event.target).closest('#search').length && !$(event.target).closest('.default-data-show-not-loaded').length) {
-          event.stopPropagation();
-          if ($('.search-container').hasClass('conversation')) {
-            $('.search-body').addClass('hide');
-            $('#searchChatContainer').removeClass('bgfocus');
-            $('.search-body').removeClass('h-100');
-            $('.parent-search-live-auto-suggesition').hide();
-
-            $('.custom-header-container-center').css('visibility', 'visible');
-            $('.suggestion-search-data-parent').css('display', 'none');
-          };
-        }
-        else if ($(event.target).closest('.heading').length) {
-          event.stopPropagation();
-          $('#searchChatContainer').removeClass('bgfocus');
-          $('.search-body').addClass('hide');
-          $('.suggestion-search-data-parent').css('display', 'none');
-          $('.parent-search-live-auto-suggesition').hide();
-          // if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history')) {
-          //   $('.search-container').addClass('no-history');
-          // }
-        } else {
-          if (!$(event.target).closest('.search-body').length && !$(event.target).closest('.show-all-results-outer-wrap').length && !$(event.target).closest('#search').length && !$(event.target).closest('.default-data-show-not-loaded').length) {
-            if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
-              if (!window.isBotLocked) {
-                $('.search-body').addClass('hide');
-                $('#searchChatContainer').removeClass('bgfocus');
-                if (!window.isBotLocked) {
-                  $('.parent-search-live-auto-suggesition').show();
-                }
-              }
-              if (!$('#search').val()) {
-                $('.search-body').addClass('hide');
-                $('.parent-search-live-auto-suggesition').hide();
-                if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history') && !$(event.target).closest('.parent-search-live-auto-suggesition').length) {
-                  $('.search-container').addClass('no-history');
-                }
-              }
-            }
-            $('.parent-search-live-auto-suggesition').hide();
-            $('.suggestion-search-data-parent').css('display', 'none');
-            if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history') && !$(event.target).closest('.parent-search-live-auto-suggesition')) {
-              $('.search-container').addClass('no-history');
-            }
-          }
-        }
-        if (!($(event.target).closest('#search-box-container').length || $(event.target).closest('#frequently-searched-box').length || $(event.target).closest('#live-search-result-box').length)) {
-          $('#frequently-searched-box').hide();
-          $('#live-search-result-box').hide();
-        }
-        // out side click for live search and frequent search dropdown close//
-        $('#live-search-result-box').off('click').on('click', function (event) {
-          if ($(event.target).closest('#live-search-result-box').length && !$(event.target).closest('.carousel').length && !$(event.target).closest('.data-container').length && !$(event.target).closest('.accordion').length) {
-            if ($('#live-search-result-box').height() < event.offsetY || event.offsetX < 0 || event.offsetX > $('#live-search-result-box').width()) {
-              $('#live-search-result-box').hide();
-            }
-          }
-        });
-        $('#frequently-searched-box').off('click').on('click', function (event) {
-          if ($(event.target).closest('#frequently-searched-box').length) {
-            if ($('#frequently-searched-box').height() < event.offsetY || event.offsetX < 0 || event.offsetX > $('#frequently-searched-box').width()) {
-              $('#frequently-searched-box').hide();
-            }
-          }
-        });
-        if (!($(event.target).closest('.dropdown_custom_filter').length)) {
-          $('.dropdown-content').hide();
-          $('.dropdown_custom_filter').find('.down-arrow').show();
-          $('.dropdown_custom_filter').find('.up-arrow').hide();
-        }
-        if (!($(event.target).closest('.sdk-facet-filter-data').length)) {
-          if ($('.sdk-facet-filter-data').is(':visible')) {
-            $('#facetRightIconId').click();
-          }
-        }
-      });
-      $('.parent-search-live-auto-suggesition').off('click').on('click', function (event) {
-        if ($(event.target).closest('.parent-search-live-auto-suggesition').length && !$('#search').val()) {
-          $('.search-body').addClass('hide');
-        }
-        $('.parent-search-live-auto-suggesition').hide();
-        if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history')) {
-          $('.search-container').addClass('no-history');
-        }
-      });
-    }, 3000)
-  }();
-  FindlySDK.prototype.setActionTitle = function (title, container) {
-    var actionTitleTmpl = '<div><div class="action-chat-title">${title}</div></div>';
-    var template = $(actionTitleTmpl).tmplProxy({
-      title: title
-    });
-    $('#' + container).append(template);
-  }
-  FindlySDK.prototype.sendMessageToSearch = function (type, mesageData, data, isSearchResultsMessage) {
-    var _self = this;
-    var messageData = {
-      'text': '',
-      'from': type,
-    }
-    var devMode = _self.isDev ? 'true' : 'false';
-    var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
-    $('.more-results').css('display', 'none');
-    if (type === 'user' && (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) !== null) && (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) !== undefined)) {
-      messageData.text = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
-      if (messageData.text && messageData.text.trim() && !_self.customSearchResult) {
-        if (isSearchResultsMessage) {
-          messageData.isSearchResultsMessage = true;
-        }
-        messageData.timeStamp = moment().format('LT');
-        var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-          msgData: messageData,
-          devMode: devMode,
-          viewType: viewType,
-          helpers: helpers
-        });
-        $('#searchChatContainer').append(template);
-        var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-        $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-        if (!$('body').hasClass('top-down')) {
-          setTimeout(function () {
-            if ($('.searchAssist-kore-chat-window.search-container').hasClass('active')) {
-              $('.typingIndicatorContent').css('display', 'block');
-              $("#searchChatContainer").off('scroll').on('scroll', function (event) {
-                if ($('.userMessage').last().parent() && $('.userMessage').last().parent().next().find(".messageBubble-content").length) {
-                  $('.typingIndicatorContent').css('display', 'none');
-                }
-
-              });
-            } else {
-              _self.showTypingIndicator();
-            }
-          }, 200);
-
-        }
-      }
-    }
-    if (type === 'user-conversation' && ($('#sa-conversation-box').val() !== null) && ($('#sa-conversation-box').val() !== undefined)) {
-      messageData.text = $('#sa-conversation-box').val();
-      messageData.from = 'user';
-      if ((messageData.text && messageData.text.trim() && _self.customSearchResult && !$('body').hasClass('top-down')) || ($('body').hasClass('top-down') && messageData.text && messageData.text.trim() && !_self.customSearchResult)) {
-        var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-          msgData: messageData,
-          devMode: devMode,
-          viewType: viewType,
-          helpers: helpers
-        });
-        $('#searchChatContainer').append(template);
-      }
-    }
-    if (type === 'bot') {
-      clearTimeout(indicatorTimer);
-      $('.typingIndicatorContent').css('display', 'none');
-      try {
-        messageData = JSON.parse(mesageData);
-      } catch (error) {
-        messageData.text = mesageData;
-      }
-      var messagemessageHtmlHtml = '';
-      var defaultBotMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] };
-      if (messageData && typeof (messageData.text) == "object" && (messageData.text.type == 'image' || messageData.text.type == 'audio' || messageData.text.type == 'video' || messageData.text.type == 'link' || messageData.text.type == 'message')) {
-        defaultBotMessage.message[0].component = messageData.text;
-        if (messageData.text.cInfo) {
-          defaultBotMessage.message[0].cInfo = messageData.text.cInfo;
-        }
-      }
-      else {
-        defaultBotMessage.message[0].component = messageData;
-      }
-      defaultBotMessage.messageId = koreGenerateUUID();
-      messageHtml = _self.customTemplateObj.renderMessage(defaultBotMessage);
-      if (!messageHtml || !messageHtml.length) {
-        if (messageData && messageData.type && messageData.type === "template") {
-
-          if (messageData.payload && messageData.payload.template_type === "cardTemplate") {
-            var y = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": { "type": "template", "payload": { "template_type": "cardTemplate", "elements": [{ "biller_name": "REWARD AND SIGNATURE CARD", "card_type": "master_card", "card_number": "2313", "bill_amount": "95.20", "due_date": "03/07/2020" }, { "biller_name": "DINERS CARD", "card_type": "master_card", "card_number": "2313", "bill_amount": "64.45", "due_date": "13/07/2020" }] } }, "cInfo": { "body": "Here are your details" } }], "messageId": "ms-72023d22-2270-514c-9054-8af4c3408460", "botInfo": { "chatBot": "MyBank Virtual Assistant", "taskBotId": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1" }, "createdOn": "2020-09-08T18:39:24.689Z", "icon": "https://app.findly.ai:443/api/getMediaStream/market/f-6374e248-76ad-5fa9-bcc2-63cd116c4944.png?n=5797654043&s=IklOclpPZElVWWlEK2MzZFNKSTl2b1E5b3hiSWFuV3FtSGR4bElpT2dLaFU9Ig$$", "contextId": "dcx-5b5a373e-7e9b-5215-b074-671b616d4055", "usedtime": 395, "NLAnalysis": { "scoringModel": "original", "toneAnalysis": { "dialogTone": [{ "tone_name": "positive", "level": 2, "count": 1 }, { "tone_name": "joy", "level": 1, "count": 1 }] }, "nlProcessing": { "originalInput": "my balance", "canonical": "I balance", "wordAnalysis": [{ "word": "I", "ignored": true, "pos": "Pronoun_possessive ", "original": "my", "processedWord": "my" }, { "word": "balance", "ignored": false, "pos": "Noun_singular ", "role": "MAINSUBJECT ", "original": "balance", "processedWord": "balance" }] }, "noLabelMatch": ["st-d77caa4b-083a-533c-90d9-733c80ef1cb1"], "ml": { "possible": [{ "task": "CheckBalance", "state": "configured", "score": 0.9414263358151247, "scoringCriteria": "Probabilistic score", "matchType": "possible" }], "eliminated": [{ "task": "TransferMoney", "state": "configured", "score": 0.02181479727476244, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "MakePayment", "state": "configured", "score": 0.010900485239433579, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "ShowAccountDetails", "state": "configured", "score": 0.009582143296980096, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "Log In", "state": "configured", "score": 0.00538434196688181, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }], "namedEntityRecognition": [] }, "fm": { "definitive": [{ "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check } [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "task": "CheckBalance", "state": "configured", "foundVia": "pattern" }] }, "faq": { "demystify": { "SpellCorrectedInput": "my balance", "lemmatizer_used": "PATTERN", "normalizedQuery": "my balance", "OntologyTraits": [], "failed_questions": { "path_coverage": { "total_failures": 62, "questions": ["What is a term loan", "How can I contact customer service?", "What is a credit score", "How do I request a replacement card?", "Where can I find my ABA routing number on my check?"] }, "mandatory_node": { "total_failures": 0, "paths": [] }, "precondition_node": { "total_failures": 2, "paths": ["*locate atms", "*wire transfer"] } }, "SelectedPathCount": 25, "ExtractedEntities": ["balance"], "ContextEntities": [], "PreConditionNodes": [], "filtered_questions": { "score": [["What is the collected balance?", 0.5773502691896258], ["What is a CD?", 0], ["What is a traveler's check?", 0], ["what is individual retirement account", 0], ["What is a canceled check?", 0]], "traits": [] } } }, "finalResolver": { "ranking": [{ "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "intent": "CheckBalance", "activityType": "dialog", "state": "configured", "totalScore": 6450, "scoring": { "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check } [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "csMatch": true }, "identifyingEngines": { "fm": true }, "csMatch": true, "intentMatchVia": "pattern" }], "userInput": "my balance", "winningIntent": [{ "intent": "CheckBalance", "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "activityType": "dialog", "state": "configured", "score": 6450 }], "entities": [] } }, "traceId": "827bca70e1572629" };
-            var cardData = messageData.payload.elements;//y.message[0].component.payload.elements;
-
-            var template1 = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-              msgData: {
-                from: "bot",
-                text: "Choose the credit card to pay bill"
-              },
-              helpers: helpers
-            });
-            $('#searchChatContainer').append(template1);
-            var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-            $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-            var creditCard = $(_self.getSearchTemplate('payBillContainer')).tmplProxy({
-              selectedBiller: "XYZ",
-              data: cardData
-            });
-            $(creditCard).off('click', '.pay-button').on('click', '.pay-button', function (e) {
-              var payData = $(e.currentTarget).attr('msgData');
-
-              payData = JSON.parse(payData);
-              _self.vars.searchObject.searchText = payData.postback_value
-              messageData.text = payData.postback_value;//"Pay nowwww";
-              messageData.from = 'user';
-              var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-                msgData: messageData,
-                devMode: devMode,
-                viewType: viewType,
-                helpers: helpers
-              });
-              $('#searchChatContainer').append(template);
-              _self.bindLiveDataToChat();
-              setTimeout(function () {
-                var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-                $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-              }, 1000);
-
-            });
-            $('#searchChatContainer').append(creditCard);
-          }
-          else if (messageData.payload && messageData.payload.template_type === "carousel") {
-
-            var defaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] }
-            defaultMessage.message[0].component = messageData;
-            // var template = $(_self.getCarouselTemplate()).tmpl({
-            //   'msgData': defaultMessage,
-            //   'helpers': helpers,
-            //   'extension': {}
-            // });
-            var template = _self.getCarouselTemplate(defaultMessage, this.helpers);
-            $('#searchChatContainer').append(template);
-            setTimeout(function () {
-              $('.carousel:last').addClass("carousel" + carouselTemplateCount);
-              var count = $(".carousel" + carouselTemplateCount).children().length;
-              if (count > 1) {
-                var carouselOneByOne = new PureJSCarousel({
-                  carousel: '.carousel' + carouselTemplateCount,
-                  slide: '.slide',
-                  oneByOne: true,
-                  jq: $,
-                });
-                $('.carousel' + carouselTemplateCount).parent().show();
-                // $('.carousel' + carouselTemplateCount).attr('style', 'height: inherit !important');
-                carouselEles.push(carouselOneByOne);
-              }
-              if ($('.carousel' + carouselTemplateCount).width() >= ($('.carousel' + carouselTemplateCount + ' .purejscarousel-slides-container').children().length * $('.carousel' + carouselTemplateCount + ' .purejscarousel-slides-container .slide:first').width())) {
-                $('.carousel' + carouselTemplateCount + ' .purejscarousel-btn-prev').hide();
-                $('.carousel' + carouselTemplateCount + ' .purejscarousel-btn-next').hide();
-              }
-              //window.dispatchEvent(new Event('resize'));
-              var evt = document.createEvent("HTMLEvents");
-              evt.initEvent('resize', true, false);
-              window.dispatchEvent(evt);
-              carouselTemplateCount += 1;
-              $('#searchChatContainer').animate({
-                scrollTop: $('#searchChatContainer').prop("scrollHeight")
-              }, 0);
-            });
-            $(template).off('click', '.carouselButton').on('click', '.carouselButton', function (event) {
-              event.preventDefault();
-              event.stopPropagation();
-              var type = $(this).attr('type');
-              if (type) {
-                type = type.toLowerCase();
-              }
-              if (type == "postback" || type == "text") {
-                //$('.chatInputBox').text($(this).attr('actual-value') || $(this).attr('value'));
-                var _innerText = $(this).attr('value').trim();
-                var displayMessage = ($(this)[0] && $(this)[0].innerText) ? $(this)[0].innerText.trim() : "" || ($(this) && $(this).attr('data-value')) ? $(this).attr('data-value').trim() : "";
-                var messageData = {};
-                messageData.text = _innerText;
-                messageData.from = 'user';
-                var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-                  msgData: messageData,
-                  devMode: devMode,
-                  viewType: viewType,
-                  helpers: helpers
-                });
-                $('#searchChatContainer').append(templateMessageBubble);
-                var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-                $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-                // var templateMessageBubble = _self.getSearchTemplate(defaultMessage, this.helpers);
-                // $('#searchChatContainer').append(templateMessageBubble);
-                _self.sendMessage(_innerText);
-              } else if (type == "url" || type == "web_url") {
-                var a_link = $(this).attr('url');
-                if (a_link.indexOf("http:") < 0 && a_link.indexOf("https:") < 0) {
-                  a_link = "http:////" + a_link;
-                }
-                var _tempWin = window.open(a_link, "_blank");
-              }
-            })
-            $('#searchChatContainer').append(template);
-          }
-          else if (messageData.payload && messageData.payload.template_type === "list") {
-            var defaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] }
-            defaultMessage.message[0].component = messageData;
-
-            var template = $(_self.getListTemplate()).tmpl({
-              'msgData': defaultMessage,
-              'helpers': helpers,
-              'extension': {}
-            });
-            $(template).off('click', '.listItemPath, .listRightContent,.buyBtn').on('click', '.listItemPath, .listRightContent,.buyBtn', function (event) {
-              event.preventDefault();
-              event.stopPropagation();
-              var type = $(this).attr('type');
-              if (type) {
-                type = type.toLowerCase();
-              }
-              if (type == "postback" || type == "text") {
-                //$('.chatInputBox').text($(this).attr('actual-value') || $(this).attr('value'));
-                var _innerText = $(this).attr('value').trim();
-                var displayMessage = ($(this)[0] && $(this)[0].innerText) ? $(this)[0].innerText.trim() : "" || ($(this) && $(this).attr('data-value')) ? $(this).attr('data-value').trim() : "";
-                var messageData = {};
-                messageData.text = displayMessage;
-                messageData.from = 'user';
-                var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-                  msgData: messageData,
-                  devMode: devMode,
-                  viewType: viewType,
-                  helpers: helpers
-                });
-                $('#searchChatContainer').append(templateMessageBubble);
-                _self.sendMessage(_innerText);
-              } else if (type == "url" || type == "web_url") {
-                var a_link = $(this).attr('url');
-                if (a_link.indexOf("http:") < 0 && a_link.indexOf("https:") < 0) {
-                  a_link = "http:////" + a_link;
-                }
-                var _tempWin = window.open(a_link, "_blank");
-              }
-            })
-            $('#searchChatContainer').append(template);
-          }
-        }
-        else {
-          //simple text message
-          if (isSearchResultsMessage) {
-            messageData.isSearchResultsMessage = true;
-          }
-          if (messageData.text && typeof (messageData.text) == "object") {
-            messageData.text = messageData.text.text;
-          }
-          if (_typeof(messageData) == 'number') {
-            messageHtml = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-              msgData: {
-                from: "bot",
-                text: messageData
-              },
-              helpers: helpers
-            });
-            $('#searchChatContainer').append(messageHtml);
-          } else {
-            messageHtml = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-              msgData: messageData,
-              helpers: helpers
-            });
-            // $('#searchChatContainer').append(template);
-          }
-        }
-      }
-      if (messageData.payload && messageData.payload.text && !messageHtml) {
-        var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-          msgData: {
-            from: "bot",
-            text: messageData.payload.text
-          },
-          helpers: helpers
-        });
-        $('#searchChatContainer').append(template);
-      }
-      if ($(messageHtml).find('.barchart').length || $(messageHtml).find('.linechart').length || $(messageHtml).find('.tableChart').length || $(messageHtml).find('.pieChart').length) {
-        $(messageHtml).find('.messageBubble').addClass('hide')
-      }
-      $('#searchChatContainer').append(messageHtml);
-      setTimeout(() => {
-        if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && !$('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
-          $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
-        } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
-          $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").height()) }, 500)
-        } else if ($('.messageBubble').last().find('.fromOtherUsers').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && $('.fromOtherUsers').last().parent().prev().find(".messageBubble-content").length)) {
-          $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.fromOtherUsers').last().parent().position().top - 25 - $('.fromOtherUsers').last().parent().prev().find(".messageBubble-content").height()) }, 500)
-        } else {
-          if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top > 34 || $('.userMessage').last().parent().position().top < 34)) {
-            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 25) }, 500)
-          }
-        }
-      }, 200);
-
-    }
-    if (type === 'botAction') {
-      messageData.text = _self.vars.searchObject.searchText;
-      messageData.from = 'user';
-      var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-        msgData: messageData,
-        devMode: devMode,
-        viewType: viewType,
-        helpers: helpers
-      });
-      //$('#searchChatContainer').append(template);
-      $('.search-body').hide();
-      $('#searchChatContainer').addClass('bgfocus-override');
-      _self.bindLiveDataToChat(true);
-
-    }
-    setTimeout(function () {
-      if (_self.isDev == false) {
-        // var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-        // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-        if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && !$('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
-          $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
-        } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").length)) {
-          $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find(".messageBubble-content").height()) }, 500)
-        } else if ($('.messageBubble').last().find('.fromOtherUsers').length && (!$('.messageBubble-content').last().parent().prev().find(".userMessage").length && $('.fromOtherUsers').last().parent().prev().find(".messageBubble-content").length)) {
-          $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.fromOtherUsers').last().parent().position().top - 25 - $('.fromOtherUsers').last().parent().prev().find(".messageBubble-content").height()) }, 500)
-        } else {
-          if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top > 34 || $('.userMessage').last().parent().position().top < 34)) {
-            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 25) }, 500)
-          }
-        }
-      }
-    }, 200);
-  }
-
-  FindlySDK.prototype.userLogin = function (clickedAction) {
-    _self = this
-    var action = clickedAction;
-    var userLogin = $(_self.getSearchTemplate('userLogin')).tmplProxy({});
-    $(userLogin).off('keyup', '#testFutureUserId').on('keyup', '#testFutureUserId', function (event) {
-      $('.errorMsg').addClass('hide');
-      if ($('#testFuturePassword').val() && $('#testFutureUserId').val()) {
-        $('.testFutureLoginBtn').removeAttr('disabled');
-        $('.testFutureLoginBtn').css('cursor', 'pointer');
-        $('.testFutureLoginBtn').css('opacity', '1');
-      } else {
-        $('.testFutureLoginBtn').attr('disabled');
-        $('.testFutureLoginBtn').css('cursor', 'auto')
-        $('.testFutureLoginBtn').css('opacity', '0.7');
-      }
-    })
-    $(userLogin).off('keyup', '#testFuturePassword').on('keyup', '#testFuturePassword', function (event) {
-      $('.errorMsg').addClass('hide');
-      if ($('#testFuturePassword').val() && $('#testFutureUserId').val()) {
-        $('.testFutureLoginBtn').removeAttr('disabled');
-        $('.testFutureLoginBtn').css('cursor', 'pointer');
-        $('.testFutureLoginBtn').css('opacity', '1');
-      } else {
-        $('.testFutureLoginBtn').attr('disabled');
-        $('.testFutureLoginBtn').css('cursor', 'auto')
-        $('.testFutureLoginBtn').css('opacity', '0.7');
-      }
-    })
-    $(userLogin).off('click', '.testFutureLoginBtn').on('click', '.testFutureLoginBtn', function (event) {
-      event.stopPropagation();
-      if (($('#testFutureUserId').val() === 'John') && ($('#testFuturePassword').val() === '1111')) {
-        _self.vars.loggedInUser = 'John';
-        $('.menu-link.login').addClass('hide');
-        $('.menu-link.loggedIn').removeClass('hide');
-        $('.errorMsg').addClass('hide');
-        //static pay bill removed
-        if (false && action === 'pay bill') {
-          _self.searchEventBinding('pay bill', action, event, {});
-        } else {
-          _self.vars.searchObject.searchText = action;
-          _self.sendMessageToSearch('botAction');
-        }
-
-      } else {
-        $('.errorMsg').removeClass('hide');
-      }
-    });
-    $('.search-body .finalResults').addClass('hide');
-    $('.searchBox').addClass('hide');
-    $('.search-body').append(userLogin);
-    $('.search-body').removeClass('hide');
-    // $('#searchChatContainer').addClass('bgfocus');
-  };
-  FindlySDK.prototype.getFrequentlySearched = function (url, type, payload) {
-    var bearer = "bearer " + this.bot.options.accessToken || this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
-    var headers = {};
-
-    payload = JSON.parse(payload);
-
-    headers["Authorization"] = bearer;
-    headers["Content-Type"] = "application/json";
-
-
-    var currentDate = new Date();
-    var dateTime = currentDate.getDate() + "/"
-      + (currentDate.getMonth() + 1) + "/"
-      + currentDate.getFullYear() + ", "
-      + currentDate.getHours() + ":"
-      + currentDate.getMinutes() + ":"
-      + currentDate.getSeconds();
-
-    payload.userId = this.bot.userInfo.userInfo.userId;
-
-    payload.streamId = this.bot.options.botInfo.taskBotId;
-    var _self = this;
-    if (!$('body').hasClass('demo')) {
-      payload.indexPipelineId = _self.API.indexpipelineId;
-      payload.queryPipelineId = _self.API.pipelineId;
-    }
-
-    payload["messagePayload"] = {
-      "clientMessageId": new Date().getTime(),
-      "message": {
-        "body": payload.query,
-      },
-      "resourceId": '/bot.message',
-      "timeDateDay": dateTime,
-      "currentPage": window.location.href,
-      "meta": {
-        "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
-        "locale": window.navigator.userLanguage || window.navigator.language,
-      },
-      "location": this.vars.locationObject.location,
-      "country": this.vars.locationObject.country
-    }
-
-    if (url != this.API.livesearchUrl) {
-      if (!payload.maxNumOfResults) {
-        payload['maxNumOfResults'] = 5;
-      }
-      if (!payload.pageNumber) {
-        payload['pageNumber'] = 0
-      }
-    }
-    if (this.bot.options) {
-      payload.messagePayload["client"] = this.bot.options.client || "sdk";
-      payload.messagePayload["botInfo"] = {};
-      payload.messagePayload["botInfo"].chatBot = this.bot.options.botInfo.chatBot;
-      payload.messagePayload["botInfo"].taskBotId = this.bot.options.botInfo.taskBotId;
-      payload.messagePayload["botInfo"].customData = {};
-      var contextObj = $("#contextjsonfield").val();
-      if (contextObj) {
-        contextObj.trim();
-        if (contextObj) {
-          try {
-            contextObj = JSON.parse(contextObj);
-          } catch (error) {
-            contextObj = {};
-          }
-        }
-        this.bot.options.botInfo.customData['userContext'] = contextObj;
-        payload.messagePayload["botInfo"].customData = this.bot.options.botInfo.customData;
-      } else {
-        if (window.localStorage.getItem('userName')) {
-          this.bot.options.botInfo.customData['userContext'] = { 'user_name': window.localStorage.getItem('userName'), 'location': window.localStorage.getItem('userLocation'), 'gender': window.localStorage.getItem('gender'), 'user_age': window.localStorage.getItem('userAge') };
-        }
-        payload.messagePayload["botInfo"].customData = _self.bot.options.botInfo.customData || {};
-      }
-    }
-
-    payload = JSON.stringify(payload);
-
-    if (!_self.isDev) {
-      if (_self.config.botOptions.assertion) {
-        headers.auth = _self.config.botOptions.assertion;
-      }
-    }
-
-    return $.ajax({
-      url: url,
-      type: type,
-      dataType: 'json',
-      /*headers: {
+      var headers = {
         "Authorization": bearer,
         "Content-Type": "application/json"
-      },*/
-      headers: headers,
-      data: payload,
-      success: function (data) {
-      },
-      error: function (err) {
+      };
+      if (!_self.isDev) {
+        if (_self.config.botOptions.assertion) {
+          headers.auth = _self.config.botOptions.assertion;
+        }
       }
-    })
-  };
-
-  FindlySDK.prototype.getPopularSearchList = function (url, type) {
-    var bearer = this.API.jstBarrer;
-    var _self = this;
-    var headers = {
-      "Authorization": 'bearer ' + this.bot.options.accessToken,
-      "Content-Type": "application/json"
+      return $.ajax({
+        url: url,
+        type: type,
+        dataType: 'json',
+        headers: headers,
+        data: payload,
+        success: function (data) {
+        },
+        error: function (err) {
+        }
+      })
     };
-    if (!_self.isDev) {
-      if (_self.config.botOptions.assertion) {
-        headers.auth = _self.config.botOptions.assertion;
-      }
-    }
-    return $.ajax({
-      url: url,
-      type: type,
-      headers: headers,
-      data: {},
-      success: function (data) {
-      },
-      error: function (err) {
-      }
-    })
-  };
-  FindlySDK.prototype.newSearchFeedbackPost = function (url, type, payload) {
-    var bearer = this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
-    return $.ajax({
-      url: url,
-      type: type,
-      dataType: 'json',
-      headers: {
-        "Authorization": bearer,
-        "Content-Type": "application/json"
-      },
-      data: JSON.stringify(payload),
-      success: function (data) {
-      },
-      error: function (err) {
-      }
-    })
-  };
-  FindlySDK.prototype.makeAPItoFindly = function (url, type, payload) {
-    return $.ajax({
-      url: url,
-      type: type,
-      dataType: 'json',
-      headers: {
-        "Authorization": 'bearer ' + window.findlyAccessToken,
-        "AccountId": window.findlyAccountId,
-        "Content-Type": "application/json"
-      },
-      data: payload,
-      success: function (data) {
-      },
-      error: function (err) {
-      }
-    })
-  };
 
-  FindlySDK.prototype.dumpClickAnalyticsData = function (url, type, payload) {
-    var bearer = 'bearer ' + this.bot.options.accessToken;
-    var _self = this;
-    var headers = {
-      "Authorization": bearer,
-      "Content-Type": "application/json"
+    FindlySDK.prototype.bindCloseGreeting = function () {
+      var _self = this;
+      $('.search-greeting-close-container').off('click').on('click', function (e) {
+        _self.closeGreetingMsg();
+      })
     };
-    if (!_self.isDev) {
-      if (_self.config.botOptions.assertion) {
-        headers.auth = _self.config.botOptions.assertion;
+
+    var final_transcript = '';
+    var recognizing = false;
+    var recognition = null;
+    var prevStr = "";
+    function getSIDToken() {
+      // if (allowGoogleSpeech) {
+      if (recognition) { // using webkit speech recognition
+        startGoogleWebKitRecognization();
       }
-    }
-    return $.ajax({
-      url: url,
-      type: type,
-      dataType: 'json',
-      headers: headers,
-      data: payload,
-      success: function (data) {
-      },
-      error: function (err) {
+      else { // using google cloud speech API
+        micEnable();
       }
-    })
-  };
 
-  FindlySDK.prototype.bindCloseGreeting = function () {
-    var _self = this;
-    $('.search-greeting-close-container').off('click').on('click', function (e) {
-      _self.closeGreetingMsg();
-    })
-  };
-
-  var final_transcript = '';
-  var recognizing = false;
-  var recognition = null;
-  var prevStr = "";
-  function getSIDToken() {
-    // if (allowGoogleSpeech) {
-    if (recognition) { // using webkit speech recognition
-      startGoogleWebKitRecognization();
     }
-    else { // using google cloud speech API
-      micEnable();
+    var two_line = /\n\n/g;
+    var one_line = /\n/g;
+    function linebreak(s) {
+      return s.replace(two_line, '<p></p>').replace(one_line, '<br>');
     }
 
-  }
-  var two_line = /\n\n/g;
-  var one_line = /\n/g;
-  function linebreak(s) {
-    return s.replace(two_line, '<p></p>').replace(one_line, '<br>');
-  }
-
-  function capitalize(s) {
-    return s.replace(s.substr(0, 1), function (m) { return m.toUpperCase(); });
-  }
-  function startGoogleWebKitRecognization() {
-    if (recognizing) {
-      recognition.stop();
-      return;
+    function capitalize(s) {
+      return s.replace(s.substr(0, 1), function (m) { return m.toUpperCase(); });
     }
-    final_transcript = '';
-    recognition.lang = 'en-US';
-    recognition.start();
-  }
-  function startGoogleSpeech() {
-    if (rec) {
-      rec.record();
-      $('.recordingMicrophone').css('display', 'block');
-      $('.notRecordingMicrophone').css('display', 'none');
-      intervalKey = setInterval(function () {
-        rec.export16kMono(function (blob) {
-          if (allowGoogleSpeech) {
-            sendBlobToSpeech(blob, 'LINEAR16', 16000);
-          }
-          else {
-            socketSend(blob);
-          }
-          rec.clear();
-        }, 'audio/x-raw');
-      }, 1000);
-    }
-  }
-
-  function micEnable() {
-    if (isRecordingStarted) {
-      return;
-    }
-    if (!navigator.getUserMedia) {
-      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-    }
-    if (navigator.getUserMedia) {
-      isRecordingStarted = true;
-      navigator.getUserMedia({
-        audio: true
-      }, success, function (e) {
-        isRecordingStarted = false;
-        alert('Please enable the microphone permission for this page');
-        return;
-      });
-    } else {
-      isRecordingStarted = false;
-      alert('getUserMedia is not supported in this browser.');
-    }
-  }
-
-  function afterMicEnable() {
-    if (navigator.getUserMedia) {
-      if (!rec) {
-        isRecordingStarted = false;
-        console.error("Recorder undefined");
+    function startGoogleWebKitRecognization() {
+      if (recognizing) {
+        recognition.stop();
         return;
       }
-      if (_connection) {
-        cancel();
-      }
-      try {
-        _connection = createSocket();
-      } catch (e) {
-        isRecordingStarted = false;
-        console.error('Web socket not supported in the browser');
-      }
-    }
-  }
-  function stop() {
-
-    $('.recordingMicrophone').css('display', 'none');
-    $('.notRecordingMicrophone').css('display', 'block');
-
-    if (recognizing) {
-      recognition.stop();
-      recognizing = false;
-    }
-  };
-  FindlySDK.prototype.initWebKitSpeech = function () {
-    var _self = this;
-    if ('webkitSpeechRecognition' in window && isChrome()) {
-      recognition = new window.webkitSpeechRecognition;
       final_transcript = '';
-      recognition.continuous = true;
-      recognition.interimResults = true;
-
-      recognition.onstart = function () {
-        prevStr = "";
-        recognizing = true;
+      recognition.lang = 'en-US';
+      recognition.start();
+    }
+    function startGoogleSpeech() {
+      if (rec) {
+        rec.record();
         $('.recordingMicrophone').css('display', 'block');
         $('.notRecordingMicrophone').css('display', 'none');
-      };
+        intervalKey = setInterval(function () {
+          rec.export16kMono(function (blob) {
+            if (allowGoogleSpeech) {
+              sendBlobToSpeech(blob, 'LINEAR16', 16000);
+            }
+            else {
+              socketSend(blob);
+            }
+            rec.clear();
+          }, 'audio/x-raw');
+        }, 1000);
+      }
+    }
 
-      recognition.onerror = function (event) {
-        $('.recordingMicrophone').trigger('click');
-        $('.recordingMicrophone').css('display', 'none');
-        $('.notRecordingMicrophone').css('display', 'block');
-      };
+    function micEnable() {
+      if (isRecordingStarted) {
+        return;
+      }
+      if (!navigator.getUserMedia) {
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+      }
+      if (navigator.getUserMedia) {
+        isRecordingStarted = true;
+        navigator.getUserMedia({
+          audio: true
+        }, success, function (e) {
+          isRecordingStarted = false;
+          alert('Please enable the microphone permission for this page');
+          return;
+        });
+      } else {
+        isRecordingStarted = false;
+        alert('getUserMedia is not supported in this browser.');
+      }
+    }
 
-      recognition.onend = function () {
+    function afterMicEnable() {
+      if (navigator.getUserMedia) {
+        if (!rec) {
+          isRecordingStarted = false;
+          console.error("Recorder undefined");
+          return;
+        }
+        if (_connection) {
+          cancel();
+        }
+        try {
+          _connection = createSocket();
+        } catch (e) {
+          isRecordingStarted = false;
+          console.error('Web socket not supported in the browser');
+        }
+      }
+    }
+    function stop() {
+
+      $('.recordingMicrophone').css('display', 'none');
+      $('.notRecordingMicrophone').css('display', 'block');
+
+      if (recognizing) {
+        recognition.stop();
         recognizing = false;
-        $('.recordingMicrophone').trigger('click');
-        $('.recordingMicrophone').css('display', 'none');
-        $('.notRecordingMicrophone').css('display', 'block');
-      };
-
-      recognition.onresult = function (event) {
+      }
+    };
+    FindlySDK.prototype.initWebKitSpeech = function () {
+      var _self = this;
+      if ('webkitSpeechRecognition' in window && isChrome()) {
+        recognition = new window.webkitSpeechRecognition;
         final_transcript = '';
-        var interim_transcript = '';
-        for (var i = event.resultIndex; i < event.results.length; ++i) {
-          if (event.results[i].isFinal) {
-            final_transcript += event.results[i][0].transcript;
-          } else {
-            interim_transcript += event.results[i][0].transcript;
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onstart = function () {
+          prevStr = "";
+          recognizing = true;
+          $('.recordingMicrophone').css('display', 'block');
+          $('.notRecordingMicrophone').css('display', 'none');
+        };
+
+        recognition.onerror = function (event) {
+          $('.recordingMicrophone').trigger('click');
+          $('.recordingMicrophone').css('display', 'none');
+          $('.notRecordingMicrophone').css('display', 'block');
+        };
+
+        recognition.onend = function () {
+          recognizing = false;
+          $('.recordingMicrophone').trigger('click');
+          $('.recordingMicrophone').css('display', 'none');
+          $('.notRecordingMicrophone').css('display', 'block');
+        };
+
+        recognition.onresult = function (event) {
+          final_transcript = '';
+          var interim_transcript = '';
+          for (var i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+              final_transcript += event.results[i][0].transcript;
+            } else {
+              interim_transcript += event.results[i][0].transcript;
+            }
+          }
+          final_transcript = capitalize(final_transcript);
+          final_transcript = linebreak(final_transcript);
+          interim_transcript = linebreak(interim_transcript);
+          if (final_transcript !== "") {
+            prevStr += final_transcript;
+          }
+          if (recognizing) {
+            //$('.chatInputBox').html(prevStr + "" + interim_transcript);
+
+            $("#search").val((prevStr + "" + interim_transcript));
+            $('#search').focus().trigger({ type: 'keyup', which: 32 });
+            //8
+            //$('.sendButton').removeClass('disabled');
+          }
+        };
+      }
+    };
+    function isChrome() {
+      var isChromium = window.chrome,
+        winNav = window.navigator,
+        vendorName = winNav.vendor,
+        isOpera = winNav.userAgent.indexOf("OPR") > -1,
+        isIEedge = winNav.userAgent.indexOf("Edge") > -1,
+        isIOSChrome = winNav.userAgent.match("CriOS");
+
+      if (isIOSChrome) {
+        return true;
+      } else if (
+        isChromium !== null &&
+        typeof isChromium !== "undefined" &&
+        vendorName === "Google Inc." &&
+        isOpera === false &&
+        isIEedge === false
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    FindlySDK.prototype.initializeCustomTemplate = function (findlyConfig) {
+      var _self = this;
+      _self.customTemplateObj = new customTemplate(null, _self);
+      _self.customTemplateObj.helpers = helpers;
+      _self.customTemplateObj.config = findlyConfig;
+      _self.searchTemplateObj = new searchTemplate(_self);
+      _self.initializeCustomTemplateEvent();
+    }
+
+    FindlySDK.prototype.initializeCustomTemplateEvent = function () {
+      var _self = this;
+      _self.onPostback = function (data) {
+        var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
+        var devMode = _self.isDev ? true : false;
+        var messageData = {};
+        messageData.text = data.title;
+        messageData.from = 'user';
+        var templateBotMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+          msgData: messageData,
+          devMode: devMode,
+          viewType: viewType,
+          helpers: helpers
+        });
+        $('#searchChatContainer').append(templateBotMessageBubble);
+        var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height() + 34;
+        if ($('.messageBubble').last().find('.messageBubble-content').length) {
+        } else {
+          if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top > 34 || $('.userMessage').last().parent().position().top < 34)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 25) }, 300)
           }
         }
-        final_transcript = capitalize(final_transcript);
-        final_transcript = linebreak(final_transcript);
-        interim_transcript = linebreak(interim_transcript);
-        if (final_transcript !== "") {
-          prevStr += final_transcript;
-        }
-        if (recognizing) {
-          //$('.chatInputBox').html(prevStr + "" + interim_transcript);
-
-          $("#search").val((prevStr + "" + interim_transcript));
-          $('#search').focus().trigger({ type: 'keyup', which: 32 });
-          //8
-          //$('.sendButton').removeClass('disabled');
-        }
+        _self.sendMessage(data.payload);
       };
     }
-  };
-  function isChrome() {
-    var isChromium = window.chrome,
-      winNav = window.navigator,
-      vendorName = winNav.vendor,
-      isOpera = winNav.userAgent.indexOf("OPR") > -1,
-      isIEedge = winNav.userAgent.indexOf("Edge") > -1,
-      isIOSChrome = winNav.userAgent.match("CriOS");
 
-    if (isIOSChrome) {
-      return true;
-    } else if (
-      isChromium !== null &&
-      typeof isChromium !== "undefined" &&
-      vendorName === "Google Inc." &&
-      isOpera === false &&
-      isIEedge === false
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  FindlySDK.prototype.initializeCustomTemplate = function (findlyConfig) {
-    var _self = this;
-    _self.customTemplateObj = new customTemplate(null, _self);
-    _self.customTemplateObj.helpers = helpers;
-    _self.customTemplateObj.config = findlyConfig;
-    _self.searchTemplateObj = new searchTemplate(_self);
-    _self.initializeCustomTemplateEvent();
-  }
-
-  FindlySDK.prototype.initializeCustomTemplateEvent = function () {
-    var _self = this;
-    _self.onPostback = function (data) {
-      var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
-      var devMode = _self.isDev ? true : false;
-      var messageData = {};
-      messageData.text = data.title;
-      messageData.from = 'user';
-      var templateBotMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-        msgData: messageData,
-        devMode: devMode,
-        viewType: viewType,
-        helpers: helpers
-      });
-      $('#searchChatContainer').append(templateBotMessageBubble);
-      var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height() + 34;
-      if ($('.messageBubble').last().find('.messageBubble-content').length) {
+    FindlySDK.prototype.initialize = function (findlyConfig, fromTopDown) {
+      var _self = this;
+      var _findlyConfig = findlyConfig;
+      _self.vars.configuration = findlyConfig;
+      _self.initializeCustomTemplate(findlyConfig);
+      if (findlyConfig.botOptions) {
+        _findlyConfig = findlyConfig.botOptions;
+      }
+      _self.isDev = false;
+      if (_self.config && _self.config.API_KEY_CONFIG && _self.config.API_KEY_CONFIG.KEY !== 'YOUR_API_KEY') {
+        window["KoreSDK"].findlyConfig.botOptions.assertionFn = _self.getAssertionToken.bind(this);
       } else {
-        if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top > 34 || $('.userMessage').last().parent().position().top < 34)) {
-          $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 25) }, 300)
+        window["KoreSDK"].findlyConfig.botOptions.assertionFn = this.getJWT;
+      }
+      if (_findlyConfig.searchIndexID && _findlyConfig.queryPipelineId) {
+        const searchData = {
+          _id: _findlyConfig.searchIndexID,
+          pipelineId: _findlyConfig.queryPipelineId,
         }
+        window["selectedFindlyApp"] = searchData;
+        window.appConfig ||= {};
+        window.appConfig.API_SERVER_URL = _findlyConfig.koreAPIUrl;
+        window.appConfig.API_SERVER_URL = window.appConfig.API_SERVER_URL.replace('/api', '');
       }
-      _self.sendMessage(data.payload);
-    };
-  }
-
-  FindlySDK.prototype.initialize = function (findlyConfig, fromTopDown) {
-    var _self = this;
-    var _findlyConfig = findlyConfig;
-    _self.vars.configuration=findlyConfig;
-    _self.initializeCustomTemplate(findlyConfig);
-    if (findlyConfig.botOptions) {
-      _findlyConfig = findlyConfig.botOptions;
-    }
-    _self.isDev = false;
-    if(_self.config && _self.config.API_KEY_CONFIG && _self.config.API_KEY_CONFIG.KEY !=='YOUR_API_KEY'){
-    window["KoreSDK"].findlyConfig.botOptions.assertionFn = _self.getAssertionToken.bind(this);
-      }else{
-    window["KoreSDK"].findlyConfig.botOptions.assertionFn = this.getJWT;
-      }
-    if (_findlyConfig.searchIndexID && _findlyConfig.queryPipelineId) {
-      const searchData = {
-        _id: _findlyConfig.searchIndexID,
-        pipelineId: _findlyConfig.queryPipelineId,
-      }
-      window["selectedFindlyApp"] = searchData;
-      window.appConfig ||= {};
-      window.appConfig.API_SERVER_URL = _findlyConfig.koreAPIUrl;
-      window.appConfig.API_SERVER_URL = window.appConfig.API_SERVER_URL.replace('/api', '');
-    }
 
 
-    /*if (!$('body').hasClass('demo')) {
-      _self.isDev = true;
-    }*/
-    if (window.appConfig.API_SERVER_URL) {
-      _self.baseAPIServer = window.appConfig.API_SERVER_URL;
-    }
-    if (fromTopDown) {
-      _self.baseAPIServer = window.appConfig.API_SERVER_URL + '/searchassistapi/businessapp/';
-    }
-    if (findlyConfig.autoConnect) {
-      _self.initWebKitSpeech();
-      _self.setAPIDetails();
+      /*if (!$('body').hasClass('demo')) {
+        _self.isDev = true;
+      }*/
+      if (window.appConfig && window.appConfig.API_SERVER_URL) {
+        _self.baseAPIServer = window.appConfig.API_SERVER_URL;
+      }
       if (fromTopDown) {
-        _self.initKoreSDK(_findlyConfig);
+        _self.baseAPIServer = window.appConfig.API_SERVER_URL + '/searchassistapi/businessapp/';
       }
-      setTimeout(() => {
+      if (findlyConfig.autoConnect) {
         _self.initWebKitSpeech();
-      }, 1000);
-    }
-
-    window.koreWidgetSDKInstance = _self;
-  }
-  FindlySDK.prototype.initKorePicker = function (findlyConfig) {
-    setTimeout(() => {
-      if (window.KorePickers) {
-        this.config = findlyConfig;
-        this.config.chatContainer = $('.search-container');
-        var pickerConfig = {
-          chatWindowInstance: this,
-          chatConfig: this.config,
+        _self.setAPIDetails();
+        if (fromTopDown) {
+          _self.initKoreSDK(_findlyConfig);
         }
-        var korePicker = new KorePickers(pickerConfig);
-        korePicker.init();
+        setTimeout(() => {
+          _self.initWebKitSpeech();
+        }, 1000);
       }
-      function addBottomSlider() {
-        $('.kore-chat-window').remove('.kore-action-sheet');
-        var actionSheetTemplate = '<div class="kore-action-sheet hide">\
+
+      window.koreWidgetSDKInstance = _self;
+    }
+    FindlySDK.prototype.initKorePicker = function (findlyConfig) {
+      setTimeout(() => {
+        if (window.KorePickers) {
+          this.config = findlyConfig;
+          this.config.chatContainer = $('.search-container');
+          var pickerConfig = {
+            chatWindowInstance: this,
+            chatConfig: this.config,
+          }
+          var korePicker = new KorePickers(pickerConfig);
+          korePicker.init();
+        }
+        function addBottomSlider() {
+          $('.kore-chat-window').remove('.kore-action-sheet');
+          var actionSheetTemplate = '<div class="kore-action-sheet hide">\
           <div class="actionSheetContainer"></div>\
           </div>';
-        $('.kore-chat-window').append(actionSheetTemplate);
-      }
-      addBottomSlider();
-    }, 3000)
-  }
-FindlySDK.prototype.enableRecent = function () {
+          $('.kore-chat-window').append(actionSheetTemplate);
+        }
+        addBottomSlider();
+      }, 3000)
+    }
+    FindlySDK.prototype.enableRecent = function () {
       var _self = this;
       _self.pubSub.unsubscribe('sa-show-freq-data');
       _self.pubSub.subscribe('sa-show-freq-data', (msg, data) => {
@@ -8334,13 +8340,13 @@ FindlySDK.prototype.enableRecent = function () {
         if (config.templateId === 'top-down-sortable-tabs-template') {
           var dataHTML = $(_self.getTopDownSortableFacetsTabs()).tmplProxy({
             sortablefacets: sortablefacets,
-            displaySortable : _self.vars.displaySortable
+            displaySortable: _self.vars.displaySortable
           });
         }
-        else if( config.templateId === 'bottom-up-sortable-tabs-template'){
+        else if (config.templateId === 'bottom-up-sortable-tabs-template') {
           var dataHTML = $(_self.getBottomUpSortableFacetsTabs()).tmplProxy({
             sortablefacets: sortablefacets,
-            displaySortable : _self.vars.displaySortable
+            displaySortable: _self.vars.displaySortable
           });
         }
         $('#' + config.container).empty().append(dataHTML);
@@ -8348,30 +8354,30 @@ FindlySDK.prototype.enableRecent = function () {
       setTimeout(() => {
         _self.pubSub.unsubscribe('sa-sortable-facet-search');
         _self.pubSub.subscribe('sa-sortable-facet-search', (topic, data) => {
-          $('.clear-sort-by' ).off('click' ).on('click', function (event) {
+          $('.clear-sort-by').off('click').on('click', function (event) {
             event.stopPropagation();
-            _self.vars.displaySortable ='';
+            _self.vars.displaySortable = '';
             $('#sa-select-sort-option').html('');
-          _self.invokeSearch();
-          $('.sa-sortable-dropdown').hide();
+            _self.invokeSearch();
+            $('.sa-sortable-dropdown').hide();
           })
           $('.sa-sortable-dropbtn').off('click').on('click', function (e) {
             $('.sa-sortable-dropdown').show();
-              
-            setTimeout(()=>{
-              $('.sa-sortable-facet-options' ).off('click' ).on('click', function (event) {
+
+            setTimeout(() => {
+              $('.sa-sortable-facet-options').off('click').on('click', function (event) {
                 event.stopPropagation();
                 _self.vars.displaySortable = JSON.parse($(event.currentTarget).closest('.sa-sortable-facet-options').attr('value'));
                 $('#sa-select-sort-option').html($(event.currentTarget).closest('.sa-sortable-facet-options').attr('name'));
-              _self.invokeSearch();
-              $('.sa-sortable-dropdown').hide();
+                _self.invokeSearch();
+                $('.sa-sortable-dropdown').hide();
               })
-            },1000)
-           
+            }, 1000)
+
           });
         });
       }, 500);
-     
+
     }
 
     FindlySDK.prototype.addSourceType = function (config) {
@@ -8535,8 +8541,8 @@ FindlySDK.prototype.enableRecent = function () {
       _self.pubSub.subscribe('sa-search-result', (msg, data) => {
         if (!data.selectedFacet) {
           data.selectedFacet = 'all results';
-          if(data.isFullResults){
-          _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
+          if (data.isFullResults) {
+            _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
           }
         }
         if (data.selectedFacet && data.selectedFacet === 'faq') {
@@ -8819,9 +8825,9 @@ FindlySDK.prototype.enableRecent = function () {
       }
       var overrideDefaultPoisition = true;
       var _self = this;
-      if(config){
-        _self.vars.configuration['botOptions']=config;      
-        }
+      if (config) {
+        _self.vars.configuration['botOptions'] = config;
+      }
       if (!isDev) {
         if (!$('body').hasClass('demo')) {
           $('body').addClass('demo')
@@ -8964,13 +8970,13 @@ FindlySDK.prototype.enableRecent = function () {
       if (_self.isDev) {
         _self.initKorePicker(config);
       }
-      if (!window.localStorage.getItem('userName') && !(_self.isDev)){
-        $(dataHTML).find('#histroybutton').css('display','block');        
+      if (!window.localStorage.getItem('userName') && !(_self.isDev)) {
+        $(dataHTML).find('#histroybutton').css('display', 'block');
       }
     };
     FindlySDK.prototype.initSearchAssistSDK = function (findlyConfig) {
       var _self = this;
-      _self.vars.configuration=findlyConfig;
+      _self.vars.configuration = findlyConfig;
       $('body').addClass('sdk-body');
       _self.configureSearchInterface(findlyConfig.botOptions).then(function (response) {
         _self.vars.indexPipelineId = response.indexPipelineId;
@@ -9149,7 +9155,7 @@ FindlySDK.prototype.enableRecent = function () {
       _self.bindSocketEvents();
       _self.resetSocketDisconnection();
     };
-   
+
     FindlySDK.prototype.destroy = function (config) {
       var _self = this;
       this.bot.destroy();
@@ -9426,7 +9432,7 @@ FindlySDK.prototype.enableRecent = function () {
     };
     FindlySDK.prototype.checkWbInitialized = function (messageToBot, clientMessageId) {
       var _self = this;
-      if(websockeRrefreshed){
+      if (websockeRrefreshed) {
         return;
       }
       var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 2000 : 0;
@@ -11963,7 +11969,7 @@ FindlySDK.prototype.enableRecent = function () {
                 'widgetTitle': initialWidgetData.panels[i].widgets[j].title || initialWidgetData.panels[i].widgets[j].name,
                 'widgetTemplate': initialWidgetData.panels[i].widgets[j].templateType,
                 'viewmore': initialWidgetData.panels[i].widgets.length === 1 ? false : true
-              }; 
+              };
               _self.getServerData('widgetsdk/' + config.botOptions.botInfo._id + '/widgets/' + initialWidgetData.panels[i].widgets[j]._id, 'post', {
                 "from": config.botOptions.userIdentity || "user-name",
               }, {}, panelDetail);
@@ -15091,15 +15097,15 @@ FindlySDK.prototype.enableRecent = function () {
         success: function (data) {
           // _self.vars.defaultTabsList = data.tabs || data.tabFacet || [];
           var facet = [];
-          if(data){
-            for(var i=0 ; i< data.length ; i ++){
-              if(data[i].type ==  'sortable'){
-              facet.push(data[i])
+          if (data) {
+            for (var i = 0; i < data.length; i++) {
+              if (data[i].type == 'sortable') {
+                facet.push(data[i])
               }
             }
           }
           _self.vars.sortableFacetList = facet || [];
-          if($('body').hasClass('top-down')){
+          if ($('body').hasClass('top-down')) {
             _self.addSortableDropdown({
               container: 'sa-sdk-sortable-dropdown',
               templateId: 'top-down-sortable-tabs-template',
@@ -15391,20 +15397,20 @@ FindlySDK.prototype.enableRecent = function () {
         data['structuredData'] = structuredData;
         var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
         var devMode = _self.isDev ? true : false;
-          var templates = _self.searchTemplateObj.resultTemplates().structuredData;
-          for (let i = 0; i < templates.length; i++) {
-            // search
-            if ((templates[i].templateType === selected[groupName + templateInterfaceType + 'TemplateType']) && (templates[i].layoutType === selected[groupName + templateInterfaceType + 'LayoutType'])) {
-              // check for templateId from CustomTemplateConfig and it should onle be give for matched Template
-              // Even user sends both templte string and templateId, will consider templateId as final template
-              if (customTemplateConfig && customTemplateConfig.templateId && customTemplateConfig.templateId.length) {
-                templates[i].templateId = customTemplateConfig.templateId;
-              }
-              if (templates[i].templateId && templates[i].templateId.length) {
-                finalTemplate = '#' + templates[i].templateId;
-              }
-              else {
-                finalTemplate = templates[i].template;
+        var templates = _self.searchTemplateObj.resultTemplates().structuredData;
+        for (let i = 0; i < templates.length; i++) {
+          // search
+          if ((templates[i].templateType === selected[groupName + templateInterfaceType + 'TemplateType']) && (templates[i].layoutType === selected[groupName + templateInterfaceType + 'LayoutType'])) {
+            // check for templateId from CustomTemplateConfig and it should onle be give for matched Template
+            // Even user sends both templte string and templateId, will consider templateId as final template
+            if (customTemplateConfig && customTemplateConfig.templateId && customTemplateConfig.templateId.length) {
+              templates[i].templateId = customTemplateConfig.templateId;
+            }
+            if (templates[i].templateId && templates[i].templateId.length) {
+              finalTemplate = '#' + templates[i].templateId;
+            }
+            else {
+              finalTemplate = templates[i].template;
             }
           }
         }
@@ -15534,7 +15540,7 @@ FindlySDK.prototype.enableRecent = function () {
             }
           }, 200)
         }
-      
+
         setTimeout(() => {
           _self.showMoreClick();
           _self.bindAllResultRankingOperations();
@@ -15953,16 +15959,16 @@ FindlySDK.prototype.enableRecent = function () {
             truncateText: truncateText
           });
           $(data.container).empty().append(showAllHTML);
-          if(!$('body').hasClass('top-down')){
+          if (!$('body').hasClass('top-down')) {
             _self.addSortableDropdown({
               container: 'sa-sdk-sortable-dropdown-bottom-up',
               templateId: 'bottom-up-sortable-tabs-template',
               sortableFacetList: _self.vars.sortableFacetList
             })
-            setTimeout(()=>{
+            setTimeout(() => {
               _self.pubSub.publish('sa-sortable-facet-search');
-            },1000)
-         
+            }, 1000)
+
           }
           // _self.vars.seeAllResultsOSObj = new KRPerfectScrollbar(data.container);
           setTimeout(() => {
@@ -16185,7 +16191,7 @@ FindlySDK.prototype.enableRecent = function () {
         // "isDev": true,
         "isDev": _self.isDev,
         "filters": [],
-        "searchRequestId":_self.vars.requestId
+        "searchRequestId": _self.vars.requestId
       }
 
       if (_self.isDev) {
@@ -18862,7 +18868,7 @@ FindlySDK.prototype.enableRecent = function () {
                               </script>'
       return sortableFacets;
     }
-    FindlySDK.prototype. getBottomUpSortableFacetsTabs = function () {
+    FindlySDK.prototype.getBottomUpSortableFacetsTabs = function () {
       var sortableFacets = '<script id="bottom-up-sortable-tabs-template" type="text/x-jqury-tmpl">\
                                  <div class="sortable-dropdown-filter added-dropdown-filters">\
                                  {{if displaySortable && displaySortable.name}}\
@@ -19054,7 +19060,7 @@ FindlySDK.prototype.enableRecent = function () {
                                             {{each(key, recent) recents }}\
                                             {{if recent}}\
                                               <div class="tile_with_header recentText recent-list-container">\
-                                              <a class="tile-title" title="${recent}" id="${recent}"><img class="RecentIcon-topDown" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMiIGhlaWdodD0iMTMiIHZpZXdCb3g9IjAgMCAxMyAxMyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTYuNSAwQzIuOTE0MDYgMCAwIDIuOTE0MDYgMCA2LjVDMCAxMC4wODU5IDIuOTE0MDYgMTMgNi41IDEzQzEwLjA4NTkgMTMgMTMgMTAuMDg1OSAxMyA2LjVDMTMgNi4yMjM4NiAxMi43NzYxIDYgMTIuNSA2QzEyLjIyMzkgNiAxMiA2LjIyMzg2IDEyIDYuNUMxMiA5LjU0Mjk3IDkuNTQyOTcgMTIgNi41IDEyQzMuNDU3MDMgMTIgMSA5LjU0Mjk3IDEgNi41QzEgMy40NTcwMyAzLjQ1NzAzIDEgNi41IDFDOC4xNDA2MiAxIDkuNTk3NjYgMS43MjI2NiAxMC42MDU1IDIuODU5MzhMOS45NzY5OCAzLjQ4Nzg3QzkuNzg3OTkgMy42NzY4NiA5LjkyMTg0IDQgMTAuMTg5MSA0SDEyLjdDMTIuODY1NyA0IDEzIDMuODY1NjkgMTMgMy43VjEuMTg5MTFDMTMgMC45MjE4MzcgMTIuNjc2OSAwLjc4Nzk4NyAxMi40ODc5IDAuOTc2OTc2TDExLjMxMjUgMi4xNTIzNEMxMC4xMjExIDAuODM1OTM4IDguNDEwMTYgMCA2LjUgMFpNNi41IDJDNi4yMjM4NiAyIDYgMi4yMjM4NiA2IDIuNVY2SDQuNUM0LjIyMzg2IDYgNCA2LjIyMzg2IDQgNi41QzQgNi43NzYxNCA0LjIyMzg2IDcgNC41IDdINi43MjcyN0M2Ljg3NzkgNyA3IDYuODc3OSA3IDYuNzI3MjdWMi41QzcgMi4yMjM4NiA2Ljc3NjE0IDIgNi41IDJaIiBmaWxsPSIjMjAyMTI0Ii8+Cjwvc3ZnPgo=" alt="Recent search Icon">\
+                                              <a class="tile-title" id="${recent}"><img class="RecentIcon-topDown" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMiIGhlaWdodD0iMTMiIHZpZXdCb3g9IjAgMCAxMyAxMyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTYuNSAwQzIuOTE0MDYgMCAwIDIuOTE0MDYgMCA2LjVDMCAxMC4wODU5IDIuOTE0MDYgMTMgNi41IDEzQzEwLjA4NTkgMTMgMTMgMTAuMDg1OSAxMyA2LjVDMTMgNi4yMjM4NiAxMi43NzYxIDYgMTIuNSA2QzEyLjIyMzkgNiAxMiA2LjIyMzg2IDEyIDYuNUMxMiA5LjU0Mjk3IDkuNTQyOTcgMTIgNi41IDEyQzMuNDU3MDMgMTIgMSA5LjU0Mjk3IDEgNi41QzEgMy40NTcwMyAzLjQ1NzAzIDEgNi41IDFDOC4xNDA2MiAxIDkuNTk3NjYgMS43MjI2NiAxMC42MDU1IDIuODU5MzhMOS45NzY5OCAzLjQ4Nzg3QzkuNzg3OTkgMy42NzY4NiA5LjkyMTg0IDQgMTAuMTg5MSA0SDEyLjdDMTIuODY1NyA0IDEzIDMuODY1NjkgMTMgMy43VjEuMTg5MTFDMTMgMC45MjE4MzcgMTIuNjc2OSAwLjc4Nzk4NyAxMi40ODc5IDAuOTc2OTc2TDExLjMxMjUgMi4xNTIzNEMxMC4xMjExIDAuODM1OTM4IDguNDEwMTYgMCA2LjUgMFpNNi41IDJDNi4yMjM4NiAyIDYgMi4yMjM4NiA2IDIuNVY2SDQuNUM0LjIyMzg2IDYgNCA2LjIyMzg2IDQgNi41QzQgNi43NzYxNCA0LjIyMzg2IDcgNC41IDdINi43MjcyN0M2Ljg3NzkgNyA3IDYuODc3OSA3IDYuNzI3MjdWMi41QzcgMi4yMjM4NiA2Ljc3NjE0IDIgNi41IDJaIiBmaWxsPSIjMjAyMTI0Ii8+Cjwvc3ZnPgo=" alt="Recent search Icon">\
                                               ${recent}</span>\
                                                 <span id="${recent}" class="recent-search-delete"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgOCA4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KPHBhdGggZD0iTTQuNDM0NzUgNC4wMDAxTDYuOTg2NDUgMS40NDgzOUM3LjEwNjYyIDEuMzI4MjMgNy4xMDY2MiAxLjEzMzQxIDYuOTg2NDUgMS4wMTMyNUM2Ljg2NjI5IDAuODkzMDg2IDYuNjcxNDcgMC44OTMwODYgNi41NTEzMSAxLjAxMzI1TDMuOTk5NTkgMy41NjQ5N0wxLjQ0Nzk5IDEuMDEzNDdDMS4zMjc4MyAwLjg5MzMxNCAxLjEzMzAxIDAuODkzMzE4IDEuMDEyODUgMS4wMTM0OEMwLjg5MjY5MiAxLjEzMzY1IDAuODkyNjk2IDEuMzI4NDcgMS4wMTI4NiAxLjQ0ODYyTDMuNTY0NDUgNC4wMDAxMUwxLjAxMjg1IDYuNTUxNzJDMC44OTI2ODkgNi42NzE4OCAwLjg5MjY4OSA2Ljg2NjcgMS4wMTI4NSA2Ljk4Njg2QzEuMTMzMDEgNy4xMDcwMiAxLjMyNzgzIDcuMTA3MDIgMS40NDc5OSA2Ljk4Njg2TDMuOTk5NiA0LjQzNTI1TDYuNTUxMzIgNi45ODY4NkM2LjY3MTQ5IDcuMTA3MDIgNi44NjYzMSA3LjEwNzAyIDYuOTg2NDYgNi45ODY4NUM3LjEwNjYyIDYuODY2NjkgNy4xMDY2MiA2LjY3MTg3IDYuOTg2NDYgNi41NTE3MUw0LjQzNDc1IDQuMDAwMVoiIGZpbGw9IiMyMDIxMjQiLz4NCjwvc3ZnPg0K" alt="close-icon" height="15"/>\
                                                 </a>\
@@ -19258,14 +19264,14 @@ FindlySDK.prototype.enableRecent = function () {
         e.preventDefault();
         e.stopImmediatePropagation();
         e.stopPropagation()
-        var recentText= $(this).attr('id');
+        var recentText = $(this).attr('id');
         _self.deleteRecentSearches(recentText).then(data => {
           $(this).parent().remove();
-          if(!$('.recent-list-container').children().length){    
+          if (!$('.recent-list-container').children().length) {
             $('#frequently-searched-box').hide();
             $('.live-search-result-box').hide();
           }
-         ;
+          ;
         })
       })
     }
@@ -19279,19 +19285,19 @@ FindlySDK.prototype.enableRecent = function () {
       }
       if (textHasXSS && !textHasXSS.isValid) {
         txtStr = txtStr.escapeHTML();
-          // txtStr = txtStr.replace(/&/g, "&amp;")
-          // .replace(/</g, "&lt;")
-          //     .replace(/>/g, "&gt;")
-          //     .replace(/"/g, "&quot;")
-          //     .replace(/'/g, "&#039;")
-          //     .replace(/</g, "<").replace(/>/g, ">")
-          //     .replace(/=alert/g, "");
+        // txtStr = txtStr.replace(/&/g, "&amp;")
+        // .replace(/</g, "&lt;")
+        //     .replace(/>/g, "&gt;")
+        //     .replace(/"/g, "&quot;")
+        //     .replace(/'/g, "&#039;")
+        //     .replace(/</g, "<").replace(/>/g, ">")
+        //     .replace(/=alert/g, "");
       }
       return txtStr;
       //return compObj[0].componentBody;
 
     }
-    
+
     var helpers = {
       'nl2br': function (str, runEmojiCheck) {
         if (runEmojiCheck && window.emojione) {
@@ -19814,21 +19820,21 @@ FindlySDK.prototype.enableRecent = function () {
       var _self = this;
       setTimeout(() => {
         if ($('body').hasClass('top-down')) {
-        if ($('.live-search-data-container').children().length > 0) {
-          if (_self.vars.enterIsClicked || !$(".search-top-down").val()) {
+          if ($('.live-search-data-container').children().length > 0) {
+            if (_self.vars.enterIsClicked || !$(".search-top-down").val()) {
+              $('#live-search-result-box').hide();
+              return;
+            }
+            $('#live-search-result-box').show();
+          } else {
             $('#live-search-result-box').hide();
-            return;
           }
-          $('#live-search-result-box').show();
         } else {
-          $('#live-search-result-box').hide();
+          $('.searchBox.Search-BG-Copy').remove();
+          $('.search-body .finalResults').show();
         }
-      } else {
-        $('.searchBox.Search-BG-Copy').remove();
-        $('.search-body .finalResults').show();
-      }
-       }, 500);
-      
+      }, 500);
+
     };
 
     FindlySDK.prototype.getAvatarTopLeft = function () {
@@ -19930,8 +19936,8 @@ FindlySDK.prototype.enableRecent = function () {
     }
 
     FindlySDK.prototype.searchHistroy = function (findlyConfig) {
-      
-      var _self=this;
+
+      var _self = this;
       //console.log(this.API);
       // var headers = {
       //   "Authorization": 'bearer ' + this.bot.options.accessToken,
@@ -19947,49 +19953,51 @@ FindlySDK.prototype.enableRecent = function () {
       //   // "identity": "cs-f0cba3cc-4054-503c-a9cc-f25d257305ce__b8a7c380-0810-4000-8000-000000000000"       
       //   "userIdentity": findlyConfig.botOptions.userIdentity,
       // };
-      var dataObj={userConfig :{
-        "clientId": _self.config.botOptions.clientId,      
-        "userIdentity": _self.config.botOptions.userIdentity,      
-      }}; 
-      var skip= _self.vars.historySkip;
-      var limit= _self.vars.historyLimit;    
-      if( _self.vars.loadingHistory){
+      var dataObj = {
+        userConfig: {
+          "clientId": _self.config.botOptions.clientId,
+          "userIdentity": _self.config.botOptions.userIdentity,
+        }
+      };
+      var skip = _self.vars.historySkip;
+      var limit = _self.vars.historyLimit;
+      if (_self.vars.loadingHistory) {
         return;
-      }else{
+      } else {
         _self.vars.loadingHistory = true;
       }
       return $.ajax({
-        url: this.API.searchHistroyUrl +"?skip="+skip+"&limit="+limit,
+        url: this.API.searchHistroyUrl + "?skip=" + skip + "&limit=" + limit,
         type: 'post',
         // data: JSON.stringify(userConfig),
         data: JSON.stringify(dataObj),
         dataType: 'json',
-        headers:headers,
+        headers: headers,
         success: function (data) {
           _self.vars.loadingHistory = false;
           console.log(data);
-          _self.vars.isHistroyloaded=data.hasMore;
-          if(_self.vars.isHistroyloaded){
-            _self.vars.historySkip=_self.vars.historySkip+1;            
+          _self.vars.isHistroyloaded = data.hasMore;
+          if (_self.vars.isHistroyloaded) {
+            _self.vars.historySkip = _self.vars.historySkip + 1;
           }
-          data = data.history;   
-          if(skip==0){
+          data = data.history;
+          if (skip == 0) {
             $('#histroyChatContainer').empty();
-          }       
-          if((data ||[]).length){
-            data.forEach((history)=>{
+          }
+          if ((data || []).length) {
+            data.forEach((history) => {
               var messageData = {};
-              if(history.type ==='request'){
+              if (history.type === 'request') {
                 messageData.text = history.query;
                 messageData.from = 'user';
-                messageData.timeStamp =  _self.extractTime(history.timestamp);
+                messageData.timeStamp = _self.extractTime(history.timestamp);
                 messageData.isFromHistory = true;
                 //messageData.timestamp = history.timestamp;
-              }else{
-                messageData.text =  'Sure, please find the matched results below';
+              } else {
+                messageData.text = 'Sure, please find the matched results below';
                 messageData.from = 'bot';
-                messageData.count = _self.countTotalResults(history.response.message[0].component.payload.template,0);
-                messageData.timestamp = _self.extractTime(history.timestamp);
+                messageData.count = _self.countTotalResults(history.response.message[0].component.payload.template, 0);
+                messageData.timeStamp = _self.extractTime(history.timestamp);
               }
               var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
               var devMode = _self.isDev ? true : false;
@@ -19998,12 +20006,12 @@ FindlySDK.prototype.enableRecent = function () {
                 devMode: devMode,
                 viewType: viewType,
                 helpers: helpers
-                });
-                $('#histroyChatContainer').append(templateMessageBubble);
-                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 60) }, 500)
-                
+              });
+              $('#histroyChatContainer').append(templateMessageBubble);
+              $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 60) }, 500)
+
             })
-            $('#histroyChatContainer').off('click','.search-agin-tag').on('click','.search-agin-tag', function(e){
+            $('#histroyChatContainer').off('click', '.search-agin-tag').on('click', '.search-agin-tag', function (e) {
               var seachQuery = $(e.target).closest('.search-agin-tag').attr('title');
               $('#search').val(seachQuery).focus();
               _self.vars.searchObject.searchText = seachQuery;
@@ -20012,23 +20020,23 @@ FindlySDK.prototype.enableRecent = function () {
               var event = $.Event("keydown", { which: 13 });
               $('#search').trigger(event);
             })
-            $('#searchBox').off('scroll','.sdk-chat-container').on('scroll','.sdk-chat-container' ,function (e) {
+            $('#searchBox').off('scroll', '.sdk-chat-container').on('scroll', '.sdk-chat-container', function (e) {
               e.stopPropagation();
-              if($('.sdk-chat-container').scrollTop()== 0 && !$('#histroybutton').is(':visible')){
-                if(_self.vars.isHistroyloaded && !_self.dev){
+              if ($('.sdk-chat-container').scrollTop() == 0 && !$('#histroybutton').is(':visible')) {
+                if (_self.vars.isHistroyloaded && !_self.dev) {
                   $('#histroybutton').hide();
-                   $('#histroyChatContainer').show();
-                   _self.searchHistroy(_self.vars.configuration);             
+                  $('#histroyChatContainer').show();
+                  _self.searchHistroy(_self.vars.configuration);
                 }
               }
-             
+
             })
-            if(!_self.vars.isHistroyloaded){
+            if (!_self.vars.isHistroyloaded) {
               $('#histroyChatContainer').append(`<div class="history-timp-stamp">
               <span>Today</span>
-              </div>`);            
+              </div>`);
             }
-         
+
           }
           // options.assertion = data.jwt;
           // if (callback) {
@@ -20293,9 +20301,9 @@ FindlySDK.prototype.enableRecent = function () {
         _self.invokeSearch(showMoreData)
       });
       $('.full-search-data-container, .live-search-data-container , .search-data-container').off('mouseover', '.dataheading').on('mouseover', '.dataheading', function (e) {
-          var converted_title = _self.customTemplateObj.helpers.convertMDtoHTML(e.target.innerText)
-          $(e.target).closest('.dataheading').attr('title', converted_title);
-        });
+        var converted_title = _self.customTemplateObj.helpers.convertMDtoHTML(e.target.innerText)
+        $(e.target).closest('.dataheading').attr('title', converted_title);
+      });
     }
 
 
@@ -20346,14 +20354,14 @@ FindlySDK.prototype.enableRecent = function () {
       }
     }
     FindlySDK.prototype.extractTime = function (timeStamp) {
-        if(timeStamp){
-          var d = new Date(timeStamp);
-          // var hours_min = d.getHours() + ":" + d.getMinutes() + ", " + d.toDateString();
-          var hours_min = d.getHours() + ":" + d.getMinutes();
-          hours_min = moment(timeStamp).format('LT');
-          console.log(hours_min)
-          return hours_min;
-        }
+      if (timeStamp) {
+        var d = new Date(timeStamp);
+        // var hours_min = d.getHours() + ":" + d.getMinutes() + ", " + d.toDateString();
+        var hours_min = d.getHours() + ":" + d.getMinutes();
+        hours_min = moment(timeStamp).format('LT');
+        console.log(hours_min)
+        return hours_min;
+      }
     }
     FindlySDK.prototype.countTotalResults = function (res, totalResultsCount) {
       var _self = this;
@@ -20363,8 +20371,8 @@ FindlySDK.prototype.enableRecent = function () {
         _self.vars.availableGroupsOrder = availableGroups;
         if (!(res.tabFacet || {}).buckets) {
           totalResultsCount = 0;
-        }else{
-          res.tabFacet.buckets.forEach((d)=>{
+        } else {
+          res.tabFacet.buckets.forEach((d) => {
             totalResultsCount = totalResultsCount + d.doc_count;
           })
           _self.vars.totalNumOfResults = totalResultsCount;
@@ -20374,15 +20382,15 @@ FindlySDK.prototype.enableRecent = function () {
             if (!(res.tabFacet || {}).buckets) {
               totalResultsCount = totalResultsCount + res.results[group].doc_count;
             }
-          });          
+          });
         }
-        _self.vars.totalNumOfResults = totalResultsCount + (res.tasks ||[]).length;
+        _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
       } else {
         var results = res.results.data;
         if (!(res.tabFacet || {}).buckets) {
           totalResultsCount = res.results.doc_count || 0;
         }
-        _self.vars.totalNumOfResults = totalResultsCount + (res.tasks ||[]).length;
+        _self.vars.totalNumOfResults = totalResultsCount + (res.tasks || []).length;
       }
       return _self.vars.totalNumOfResults;
     }
@@ -20415,7 +20423,7 @@ FindlySDK.prototype.enableRecent = function () {
       })
       return truncatedText;
     }
-    window.KoreSDK = {FindlySDK:FindlySDK}
+    window.KoreSDK = { FindlySDK: FindlySDK }
     // window.KoreSDK.FindlySDK = FindlySDK;
     return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);

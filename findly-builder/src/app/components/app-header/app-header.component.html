@@ -107,8 +107,7 @@
                             (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'"
                             [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
                         <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchText">
-                        <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}"
-                            (click)="focusoutSearch()">
+                        <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}" (click)="focusoutSearch()">
                     </div>
                 </li>
                 <!-- <div class="text-right nav-item trainBlock d-none">

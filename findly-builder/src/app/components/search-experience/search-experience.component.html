@@ -129,7 +129,7 @@
                                         <input [style.background]="color" [(colorPicker)]="color"
                                             [cpOutputFormat]="'hex'" [cpAlphaChannel]="'always'"
                                             (colorPickerChange)="selectedColor=$event" [cpCloseClickOutside]="false"
-                                            [(cpToggle)]='toggle' readonly />
+                                            [(cpToggle)]="inputBox1" readonly />
                                         <div class="box-color-content" *ngIf="inputBox1" (click)="checkColorPallets($event)">
                                             <div class="header-title-close">
                                                 <div class="title-name">{{'searchexperience.choose_color' | translate}}
@@ -161,7 +161,7 @@
                                         <input [style.background]="color1" [(colorPicker)]="color1"
                                             [cpOutputFormat]="'hex'" [cpAlphaChannel]="'always'"
                                             (colorPickerChange)="selectedColor=$event" [cpCloseClickOutside]="false"
-                                            [(cpToggle)]='toggle1' readonly />
+                                            [(cpToggle)]='inputBox2' readonly />
 
                                         <div class="box-color-content" *ngIf="inputBox2" (click)="checkColorPallets($event)">
                                             <div class="header-title-close">
@@ -206,7 +206,7 @@
                                         <input [style.background]="color2" [(colorPicker)]="color2"
                                             [cpOutputFormat]="'hex'" [cpAlphaChannel]="'always'"
                                             (colorPickerChange)="selectedColor=$event" [cpCloseClickOutside]="false"
-                                            [(cpToggle)]='toggle2' readonly id="inpBox" />
+                                            [(cpToggle)]='placeholBox' readonly id="inpBox" />
 
                                         <div class="box-color-content" *ngIf="placeholBox" (click)="checkColorPallets($event)">
                                             <div class="header-title-close">
@@ -288,7 +288,7 @@
                                             <input [style.background]="color3" [(colorPicker)]="color3"
                                                 [cpOutputFormat]="'hex'" [cpAlphaChannel]="'always'"
                                                 (colorPickerChange)="selectedColor=$event" [cpCloseClickOutside]="false"
-                                                [(cpToggle)]='toggle3' readonly
+                                                [(cpToggle)]='buttonTextColor' readonly
                                                 [ngClass]="{'input_disable':!(searchObject.searchWidgetConfig.searchButtonEnabled)}" />
 
                                             <div class="box-color-content" *ngIf="buttonTextColor" (click)="checkColorPallets($event)">
@@ -322,7 +322,7 @@
                                             <input [style.background]="color4" [(colorPicker)]="color4"
                                                 [cpOutputFormat]="'hex'" [cpAlphaChannel]="'always'"
                                                 (colorPickerChange)="selectedColor=$event" [cpCloseClickOutside]="false"
-                                                [(cpToggle)]='toggle4' readonly
+                                                [(cpToggle)]='buttonFill' readonly
                                                 [ngClass]="{'input_disable':!(searchObject.searchWidgetConfig.searchButtonEnabled)}" />
 
                                             <div class="box-color-content" *ngIf="buttonFill" (click)="checkColorPallets($event)">
@@ -356,7 +356,7 @@
                                             <input [style.background]="color5" [(colorPicker)]="color5"
                                                 [cpOutputFormat]="'hex'" [cpAlphaChannel]="'always'"
                                                 (colorPickerChange)="selectedColor=$event" [cpCloseClickOutside]="false"
-                                                [(cpToggle)]='toggle5' readonly
+                                                [(cpToggle)]='buttonBorder' readonly
                                                 [ngClass]="{'input_disable':!(searchObject.searchWidgetConfig.searchButtonEnabled)}" />
 
                                             <div class="box-color-content" *ngIf="buttonBorder" (click)="checkColorPallets($event)">
@@ -442,7 +442,7 @@
                                                     <input [style.background]="color6" [(colorPicker)]="color6"
                                                         [cpOutputFormat]="'hex'" [cpAlphaChannel]="'always'"
                                                         (colorPickerChange)="selectedColor=$event"
-                                                        [cpCloseClickOutside]="false" [(cpToggle)]='toggle6' readonly />
+                                                        [cpCloseClickOutside]="false" [(cpToggle)]='msgColor' readonly />
 
                                                     <div class="box-color-content" *ngIf="msgColor" (click)="checkColorPallets($event)">
                                                         <div class="header-title-close">
@@ -481,7 +481,7 @@
                                                     <input [style.background]="color7" [(colorPicker)]="color7"
                                                         [cpOutputFormat]="'hex'" [cpAlphaChannel]="'always'"
                                                         (colorPickerChange)="selectedColor=$event"
-                                                        [cpCloseClickOutside]="false" [(cpToggle)]='toggle7' readonly />
+                                                        [cpCloseClickOutside]="false" [(cpToggle)]='bgColor' readonly />
 
                                                     <div class="box-color-content" *ngIf="bgColor" (click)="checkColorPallets($event)">
                                                         <div class="header-title-close">
