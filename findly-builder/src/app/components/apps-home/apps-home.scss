@@ -889,8 +889,8 @@
             .back-btn{
                 display: inline-block;
                 cursor: pointer;
-                color: #E4E5E7;
-                font-size: 16px;
+                color: #BDC1C6;
+                font-size: 14px;
                 margin-bottom: 10px;
             }
             .explore-data-cards{
@@ -909,12 +909,12 @@
                     transition: 0.2s all ease;
                     &:hover{
                         background: #d7e8ff;
-                        border: 1px solid #F3F8FF;
-                        box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
+                        // border: 1px solid #F3F8FF;
+                        // box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
                         .content-data{
                             .main-title{
                                 color: #07377F;
-                                bottom: 1p solid #85B7FE;
+                                border-bottom: 1px solid #85B7FE;
                             }
                         }
                         .arrow-block{
@@ -926,7 +926,7 @@
                         .content-data{
                             .main-title{
                                 color: #07377F;
-                                bottom: 1p solid #85B7FE;
+                                border-bottom: 1px solid #85B7FE;
                             }
                         }
                         .arrow-block{
@@ -995,7 +995,7 @@
             padding: 0;
             position: relative;
             .content-block{
-                padding: 40px 100px 0px 100px;
+                padding: 30px 50px 0px 50px;
                 position: relative;
                 .indicator-title{
                     width: 42px;
@@ -1008,7 +1008,7 @@
                     font-size: 26px;
                     line-height: 31px;
                     color: #FFFFFF;
-                    margin-bottom: 22px;
+                    margin-bottom: 20px;
                 }
                 .desc-text{
                     font-weight: 500;
@@ -1018,7 +1018,16 @@
                 }
             }
             .img-gif-block{
-                height: 296px;
+                // height: 296px;
+                position: relative;
+                &::before{
+                    content: "";
+                    position: absolute;
+                    width: 100%;
+                    background: #898BCD;
+                    height: 4px;
+                    bottom: 0px;
+                }
                 img{
                     width: 100%;
                     height: 100%;
@@ -1029,6 +1038,13 @@
 
     .sample-data-info{
         height: 100%;
+        .back-btn{
+            display: inline-block;
+            cursor: pointer;
+            color: #BDC1C6;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
         perfect-scrollbar{
             height: calc(100% - 84px);
         }
@@ -1181,29 +1197,11 @@
                 }
             }
         }
-        .footer-btns-data1{
+        .footer-btns-data{
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 25px 164px;
-            .back_button:hover{
-                box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
-            }
-            .continue_button:hover{
-                box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
-            }
-        }
-        .footer-btns-data2{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 25px 0px;
-            .back_button:hover{
-                box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
-            }
-            .continue_button:hover{
-                box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
-            }
         }
     }
 }

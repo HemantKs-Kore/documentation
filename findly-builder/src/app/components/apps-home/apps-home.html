@@ -310,8 +310,8 @@
                   <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div>
                   <div class="not-active-bar"></div>
                 </div>
-                <div class="py-2">
-                  <img (click)="backToWelcomePage()" style="padding: 2px" src="assets/images/back-arrow.svg" alt="back-btn">
+                <div class="back-btn" (click)="backToWelcomePage()">
+                  <i class="si-back-arrow"></i>
                 </div>
                 <div *ngIf="displayApp" class="title-start">Give a name to your App</div>
                 <div *ngIf="displaydemoOptions" class="title-start">Choose the sample data you would like to start with</div>
@@ -393,9 +393,6 @@
                         </div>
                       </div>
                     </div>
-                    <div class="footer-btns-data2">
-                      <button *ngIf="displaydemoOptions" (click)="continue()" class="kr-sg-button-primary btn_lg continue_button">Continue</button>
-                    </div>
                   </ng-container>
   
                   <ng-container *ngIf="showSearchExperices">
@@ -430,9 +427,6 @@
                         </div>
                       </div>
                     </div>
-                    <div class="footer-btns-data2">
-                      <button *ngIf="showSearchExperices" (click)="continue()" class="kr-sg-button-primary btn_lg continue_button">Continue</button>
-                    </div>
                   </ng-container>
                 </ng-container>
 
@@ -448,10 +442,20 @@
                 </ng-container>
               </div>
             </perfect-scrollbar>
-            <div class="footer-btns-data1">
+            <div class="footer-btns-data" *ngIf="displayApp">
               <!-- <button *ngIf="displayApp" class="kr-sg-button-secondary btn_lg back_button" (click)="backToWelcomePage()">Back</button> -->
-              <button *ngIf="displayApp" class="kr-sg-button-primary btn_lg continue_button" (click)='createDemoApp()'>Continue</button>
+              <button *ngIf="displayApp" class="kr-sg-button-primary btn_lg" (click)='createDemoApp()'>Continue</button>
             </div>
+            <ng-container *ngIf="demoOptions">
+              <div class="footer-btns-data" *ngIf="displaydemoOptions">
+                <button class="kr-sg-button-secondary btn_lg" (click)="backToWelcomePage()">Back</button>
+                <button (click)="continue()" class="kr-sg-button-primary btn_lg">Continue</button>
+              </div>
+              <div class="footer-btns-data" *ngIf="showSearchExperices">
+                <button class="kr-sg-button-secondary btn_lg" (click)="backToWelcomePage()">Back</button>
+                <button (click)="continue()" class="kr-sg-button-primary btn_lg">Continue</button>
+              </div>
+            </ng-container>
           </div>
         </ng-container>
         <!-- End -->
@@ -505,12 +509,13 @@
   
   <!-- <div class="close_icon" (click)="closeBoradingJourney()"><img src="assets/icons/modal-close.svg"></div> -->
   <div class="modal-header p-0">
-    <div class="close_icon" (click)="closeBoradingJourney()"><img src="assets/icons/modal-close.svg"></div>
+    <div class="close_icon" (click)="closeBoradingJourney()">
+      <i class="si-close"></i>
+    </div>
   </div>
   <perfect-scrollbar class="perfect-scroll-modal-body d-none">
     <div class="modal-body">
-      <div id="createBoardingJourney" class="carousel slide" data-ride="carousel" data-interval="false"
-        data-pause="hover">
+      <div id="createBoardingJourney" class="carousel slide" data-ride="carousel" data-interval="false" data-pause="hover">
         <!-- The slideshow -->
         <div class="carousel-inner">
           <div class="carousel-item active">
@@ -608,9 +613,9 @@
     </div>
   </perfect-scrollbar>
 
-  <div class="video-section-block" style="padding: 10px">
+  <div class="video-section-block">
       <div class="video-player">
-        <iframe _ngcontent-hbc-c46=""  width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="" src="https://player.vimeo.com/video/49583118"></iframe>
+        <iframe width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="" src="https://player.vimeo.com/video/49583118"></iframe>
       </div>
       <div class="video-header">Welcome to SearchAssist</div>
       <div class="video-desc">Watch a quick introductory video on the SearchAssist’s features.</div>
