@@ -43,7 +43,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isEdittitle;
   contentId
   content_id;
-  skip=0;
+  skip = 0;
   edit: any = {};
   Id;
   editConfObj: any = {};
@@ -78,8 +78,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   btnCount;
   btnAllCount;
   pagingData: any[] = [];
-  statusArr=[];
-  docTypeArr =[];
+  statusArr = [];
+  docTypeArr = [];
   selectedFilter: any = ''
   executionLogStatus = false;
   componentType: string = 'addData';
@@ -211,18 +211,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   crawlDepth: number;
   maxUrlLimit: number;
   crwalOptionLabel = '';
-  structuredDataModalRef : any;
+  structuredDataModalRef: any;
   addStructuredDataModalPopRef: any;
-  selectedSourceType : any;
-  isStructuredDataAdd : boolean = false;
+  selectedSourceType: any;
+  isStructuredDataAdd: boolean = false;
   sortedObject = {
     'type': 'fieldName',
-    'position':'up',
+    'position': 'up',
     "value": 1,
   }
-  filterObject={
+  filterObject = {
     'type': '',
-    'header':''
+    'header': ''
   }
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
@@ -254,7 +254,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.userInfo = this.authService.getUserInfo() || {};
     window.addEventListener('scroll', this.scroll, true);
 
-    this.templateState.subscribe( val => {
+    this.templateState.subscribe(val => {
       // console.log(val)
     })
   }
@@ -284,19 +284,19 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     // this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
   }
 
-  addStructuredDataSource(){
+  addStructuredDataSource() {
     // this.structuredDataModalRef = this.structuredDataModal.open();
     this.isStructuredDataAdd = true;
     this.selectedSourceType = JSON.parse(JSON.stringify(this.availableStructuredDataSources[0]));
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
   }
 
-  openStructuredData(){
+  openStructuredData() {
     this.structuredDataModalRef = this.structuredDataModal.open();
   }
 
-  closeAddStructuredDataModal(){
-    if(this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close){
+  closeAddStructuredDataModal() {
+    if (this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close) {
       this.isStructuredDataAdd = false;
       this.addStructuredDataModalPopRef.close();
     }
@@ -376,7 +376,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         return '';
     }
   }
-  getSourceList(nxt?,searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?,request?) {
+  getSourceList(nxt?, searchValue?, searchSource?, source?, headerOption?, sortHeaderOption?, sortValue?, navigate?, request?) {
     // this.statusArr = [];
     // this.docTypeArr = [];
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
@@ -386,25 +386,25 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       offset: this.skip || 0,
       limit: 10
     };
-    let payload:any = {}
-    if(!sortHeaderOption && !headerOption){
-       payload ={
+    let payload: any = {}
+    if (!sortHeaderOption && !headerOption) {
+      payload = {
         "extractionType": "content",
-        "sort":{
-          "name" : -1
-        } 
+        "sort": {
+          "name": -1
+        }
       }
     }
-    else{
+    else {
       payload = request
     }
-    if(this.searchSources){
+    if (this.searchSources) {
       payload.search = this.searchSources;
     }
-    if(this.pagesSearch){
+    if (this.pagesSearch) {
       payload.search = this.pagesSearch;
     }
-    this.service.invoke('get.source.list', quaryparms,payload).subscribe(res => {
+    this.service.invoke('get.source.list', quaryparms, payload).subscribe(res => {
       this.resources = res.sources;
       console.log(this.resources, res)
       this.totalRecord = res.totalCount || 0;
@@ -499,9 +499,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         //   source.name = source.fileMeta.fileName; // source title for upload file (considerig fileName)
         // }
         // else{
-         
+
         // }
-        
+
       });
       this.resources = this.resources.reverse();
       if (this.resources && this.resources.length && !nxt) {
@@ -520,14 +520,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           this.inlineManual.openHelp('CONTENT_OVERVIEW')
           this.inlineManual.visited('CONTENT_OVERVIEW')
         }
-       
+
       } else {
-        if((searchValue === undefined && res.sources.length == 0) 
-            || ( searchValue.length <= 0 && res.sources.length == 0)) {
+        if ((searchValue === undefined && res.sources.length == 0)
+          || (searchValue.length <= 0 && res.sources.length == 0)) {
           this.loadingContent1 = true;
-          this.loadingData  = true
+          this.loadingData = true
         }
-        setTimeout(()=>{
+        setTimeout(() => {
           if (!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')) {
             this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
             this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')
@@ -539,7 +539,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         // }
       }
       this.getDyanmicFilterData(searchValue);
-      
+
     }, errRes => {
       // console.log(errRes);
       this.loadingContent = false;
@@ -560,7 +560,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
       if (res && res.length) {
         res.forEach(element => {
-          this.resourcesStatusObj[element._id] = element;  
+          this.resourcesStatusObj[element._id] = element;
         });
       }
 
@@ -652,19 +652,19 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       quaryparms.contentType = 'docContent'
     }
     //  const payload = request;
-    const payload : any={
-      sort :{
+    const payload: any = {
+      sort: {
         lMod: -1,
       }
     };
     // if(this.searchSources){
     //   payload.search = this.searchSources;
     // }
-    if(this.pagesSearch){
+    if (this.pagesSearch) {
       payload.search = this.pagesSearch;
     }
     // payload.sort.lMod = -1;
-    this.service.invoke('get.extracted.pags', quaryparms,payload).subscribe(res => {
+    this.service.invoke('get.extracted.pags', quaryparms, payload).subscribe(res => {
       this.loadingSliderContent = false;
       this.selectedSource.pages = res.content;
       this.totalCrawledCount = res.count;
@@ -691,7 +691,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       } else {
         this.crwalOptionLabel = 'Crawl Everything'
       }
-      if (data.length || this.pagesSearch ) {
+      if (data.length || this.pagesSearch) {
         this.swapSlider('page');
       }
       else {
@@ -861,7 +861,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.crawlDepth = source.advanceSettings.crawlDepth;
         this.maxUrlLimit = source.advanceSettings.maxUrlLimit
       }
-      
+
       this.openStatusModal();
       this.loadingSliderContent = true;
       this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
@@ -1229,14 +1229,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   filterTable(source, headerOption) {
     switch (headerOption) {
-      case 'contentSource': {this.filterSystem.typefilter = source; break; };
-      case 'recentStatus': {this.filterSystem.statusFilter = source; break; };
+      case 'contentSource': { this.filterSystem.typefilter = source; break; };
+      case 'recentStatus': { this.filterSystem.statusFilter = source; break; };
     };
     this.filterObject = {
       type: source,
       header: headerOption
     }
-    if(headerOption) {
+    if (headerOption) {
       this.filterContent(null, null, source, headerOption);
     }
   }
@@ -1346,15 +1346,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
   //   this.filterContent(null,null,source, headerOption);
   //   }
-   
+
   //   //this.getSourceList();
   // }
- 
-  filterContent(searchValue?,searchSource?,source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){
-    if(sortValue){
+
+  filterContent(searchValue?, searchSource?, source?, headerOption?, sortHeaderOption?, sortValue?, navigate?) {
+    if (sortValue) {
       this.sortedObject = {
-        type : sortHeaderOption,
-        value : sortValue,
+        type: sortHeaderOption,
+        value: sortValue,
         position: navigate
       }
     }
@@ -1365,67 +1365,67 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       offset: 0,
       limit: 10
     };
-    let request:any={}
-    if(!sortValue){
+    let request: any = {}
+    if (!sortValue) {
       request = {
         "extractionType": "content",
-        "sort":{
-          "name":1
-        }    
-    }   
+        "sort": {
+          "name": 1
+        }
+      }
     }
-    else if(sortValue){
-      const sort :any ={}
-      request= {
+    else if (sortValue) {
+      const sort: any = {}
+      request = {
         sort
       }
     }
     else {
-    request={}
+      request = {}
     }
     request.extractionType = "content",
-    request.contentSource = this.filterSystem.typefilter;
+      request.contentSource = this.filterSystem.typefilter;
     request.recentStatus = this.filterSystem.statusFilter;
-    request.search= this.searchSources;
+    request.search = this.searchSources;
     if (request.contentSource == 'all') {
-     delete request.contentSource;
+      delete request.contentSource;
     }
-     if (request.recentStatus == 'all') {
-      delete request.recentStatus; 
+    if (request.recentStatus == 'all') {
+      delete request.recentStatus;
     }
     if (this.searchSources === '') {
       delete request.search;
-     }
-    if(sortValue){  
-      this.getSortIconVisibility(sortHeaderOption,navigate);
-       //Sort start
-    if(sortHeaderOption === 'contentSource' ){
-      request.sort.contentSource = sortValue
     }
-    if(sortHeaderOption === 'recentStatus' ){
-      request.sort.recentStatus = sortValue
+    if (sortValue) {
+      this.getSortIconVisibility(sortHeaderOption, navigate);
+      //Sort start
+      if (sortHeaderOption === 'contentSource') {
+        request.sort.contentSource = sortValue
+      }
+      if (sortHeaderOption === 'recentStatus') {
+        request.sort.recentStatus = sortValue
+      }
+      if (sortHeaderOption === 'name') {
+        request.sort.name = sortValue
+      }
+      if (sortHeaderOption === 'numOfDocs') {
+        request.sort.numOfDocs = sortValue
+      }
+      if (sortHeaderOption === 'triggeredBy') {
+        request.sort.triggeredBy = sortValue
+      }
+      if (sortHeaderOption === 'lastUpdated') {
+        this.getCrawledPages();
+      }
+
+      // end
     }
-    if(sortHeaderOption === 'name' ){
-      request.sort.name = sortValue
-    }
-    if(sortHeaderOption === 'numOfDocs' ){
-      request.sort.numOfDocs = sortValue
-    }
-    if(sortHeaderOption === 'triggeredBy' ){
-      request.sort.triggeredBy = sortValue
-    }
-    if(sortHeaderOption === 'lastUpdated' ){
-      this.getCrawledPages();
-    }
-    
-    // end
-    }
-    
-    this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
+
+    this.getSourceList(null, searchValue, searchSource, source, headerOption, sortHeaderOption, sortValue, navigate, request);
     // if(sortHeaderOption === 'lastUpdated'){
     //   this.getCrawledPages()
     // }
-    
+
   }
 
 
@@ -1438,7 +1438,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId
     };
-    const request :any = {
+    const request: any = {
       moduleName: "content"
     };
     // if (request.contentSource == 'all') {
@@ -1457,7 +1457,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get filters');
     });
-    
+
   }
   getDyanmicFilterData(search?) {
     // this.fieldDataTypeArr = [];
@@ -1468,7 +1468,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId
     };
-    const request :any = {
+    const request: any = {
       moduleName: "content"
     };
     request.contentSource = this.filterSystem.typefilter;
@@ -1476,16 +1476,16 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     // request.isStored = this.filterSystem.isStoredFilter;
     // request.isIndexed = this.filterSystem.isIndexedFilter;
     // request.isRequired = this.filterSystem.isRequiredFilter;
-    request.search= this.searchSources;
+    request.search = this.searchSources;
     if (request.contentSource == 'all') {
-     delete  request.contentSource;
+      delete request.contentSource;
     }
-     if (request.recentStatus == 'all') {
-      delete request.recentStatus; 
+    if (request.recentStatus == 'all') {
+      delete request.recentStatus;
     }
     if (this.searchSources === '') {
       delete request.search;
-     }
+    }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
       console.log(res, 'Filters')
       this.statusArr = [...res.recentStatus];
@@ -1493,33 +1493,33 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get filters');
     });
-    
+
   }
-  sortByApi(sort){
+  sortByApi(sort) {
     this.selectedSort = sort;
     if (this.selectedSort !== sort) {
       this.isAsc = true;
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow ='';
-    var checkSortValue= 1;
-    if(this.isAsc){
-      naviagtionArrow= 'up';
+    var naviagtionArrow = '';
+    var checkSortValue = 1;
+    if (this.isAsc) {
+      naviagtionArrow = 'up';
       checkSortValue = 1;
     }
-    else{
-      naviagtionArrow ='down';
+    else {
+      naviagtionArrow = 'down';
       checkSortValue = -1;
+    }
+    this.filterContent(null, null, null, null, sort, checkSortValue, naviagtionArrow)
   }
-  this.filterContent(null,null,null,null,sort,checkSortValue,naviagtionArrow)
-}
-paginateContent(event) {
-  this.skip= event.skip
-   this.filterContent(this.searchSources,'search',this.filterObject.type,this.filterObject.header,this.sortedObject.type,this.sortedObject.value,this.sortedObject.position)
-  // this.getFileds(event.skip, this.searchFields)
+  paginateContent(event) {
+    this.skip = event.skip
+    this.filterContent(this.searchSources, 'search', this.filterObject.type, this.filterObject.header, this.sortedObject.type, this.sortedObject.value, this.sortedObject.position)
+    // this.getFileds(event.skip, this.searchFields)
 
-}
+  }
   transform(date: string): any {
     const _date = new Date(date);
     if (_date.toString() === 'Invalid Date') {
@@ -2104,8 +2104,8 @@ paginateContent(event) {
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
     }
-    else if(value == null || value.includes("-")){
-      this.notificationService.notify('Range cannot be entered','error');
+    else if (value == null || value.includes("-")) {
+      this.notificationService.notify('Range cannot be entered', 'error');
     }
     // if(value < 500 && valueFrom == 'maxUrlLimit'){
     //   this.maxUrlLimit = 500;
@@ -2131,7 +2131,7 @@ paginateContent(event) {
   }
 }
 
-// class CrwalObj{  
+// class CrwalObj{
 
 //   url: String = '';
 //   desc: String = '';
@@ -2145,7 +2145,7 @@ paginateContent(event) {
 // scheduleOpts:boolean = true;
 //     schedulePeriod: String ="";
 //     repeatInterval: String ="";
-//     crawlEverything: boolean = true; 
+//     crawlEverything: boolean = true;
 //        allowedURLs:AllowUrl[] = [];
 //        blockedURLs: BlockUrl[] = [];
 // }
