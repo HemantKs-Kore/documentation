@@ -82,7 +82,7 @@ export class ConnectorsSourceComponent implements OnInit {
         sessionStorage.clear();
       }
       else {
-        this.callbackURL();
+
       }
     }
   }
@@ -266,9 +266,14 @@ export class ConnectorsSourceComponent implements OnInit {
     this.service.invoke('post.authorizeConnector', quaryparms).subscribe(res => {
       console.log("res", res);
       if (res) {
-        this.isPopupDelete = false;
-        this.isAuthorizeStatus = true;
-        this.openDeleteModel('open');
+        if (data?.type === 'confluenceCloud') {
+          window.open(res.url, '_self')
+        }
+        else {
+          this.isPopupDelete = false;
+          this.isAuthorizeStatus = true;
+          this.openDeleteModel('open');
+        }
       }
     }, errRes => {
       this.isPopupDelete = false;
@@ -336,7 +341,7 @@ export class ConnectorsSourceComponent implements OnInit {
       .subscribe(result => {
         this.connectorId = data?._id;
         if (result === 'yes') {
-          if (data?.type === 'confluenceCloud' && data?.isActive) {
+          if ((data?.type === 'confluenceCloud' || data?.type === 'confluenceServer') && data?.isActive) {
             this.authorizeConnector(data);
           }
           else {
@@ -400,21 +405,6 @@ export class ConnectorsSourceComponent implements OnInit {
       if (res) {
         this.notificationService.notify('Connector Updated Successfully', 'success');
       }
-    }, errRes => {
-      this.errorToaster(errRes, 'Connectors API Failed');
-    });
-  }
-  //callback url after redirect in confluence cloud
-  callbackURL() {
-    const quaryparms: any = {
-      searchIndexId: this.searchIndexId,
-      connectorId: this.sessionData?.connectorId,
-      code: this.sessionData?.code,
-      state: this.sessionData?.state
-    };
-    this.service.invoke('get.callbackConnector', quaryparms).subscribe(res => {
-      sessionStorage.clear();
-      this.ingestConnector();
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
