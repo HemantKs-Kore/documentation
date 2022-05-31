@@ -42,6 +42,7 @@ export class AppHeaderComponent implements OnInit {
   progressPrecent=0;
   pagetitle: any;
   field_name: any;
+  workspace_search: any;
   profile_display: any;
   associate_profile_display: any;
   selected_profile_display: any;
@@ -50,6 +51,7 @@ export class AppHeaderComponent implements OnInit {
   alphabetSeries3:any=['K','L','M','N','O'];
   alphabetSeries4:any=['P','Q','R','S','T'];
   alphabetSeries5:any=['U','V','W','X','Y','Z'];
+  alphabetSeries: any = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T', 'U','V','W','X','Y','Z']
   training: boolean = false;
   fromCallFlow = '';
   showSwichAccountOption = false;
@@ -141,6 +143,12 @@ export class AppHeaderComponent implements OnInit {
   public readDocs: any = [];
   public unReadDocs: any = [];
   trainingInitiated = false;
+  WorkspaceList: any = [];
+  loadingContent: boolean = false;
+  loadingProgress: boolean;
+  emptyContent: boolean;
+  currentAppControlList: any;
+
   constructor(
     private authService: AuthService,
     public headerService: SideBarService,
@@ -173,6 +181,7 @@ export class AppHeaderComponent implements OnInit {
       }
     })
     this.toShowAppHeader = this.workflowService.showAppCreationHeader();
+    this.currentAppControlList = this.authService.getApplictionControls()
     this.getAllApps();
     this.headerService.change.subscribe(data => {
       if (this.workflowService.selectedApp() && this.workflowService.selectedApp().name) {
@@ -375,8 +384,63 @@ export class AppHeaderComponent implements OnInit {
 
     //       }
     //       this.router.navigate([''], { skipLocationChange: true })
+    // this.getAllOtherWorkspaces(account['accountId'])
     this.redirectHome();
     window.location.reload();
+
+  }
+
+  openBrowseWorkspace() {
+    this.browseWorkspaceRef = this.browseWorkspace.open()
+    const AccountId = this.currentAppControlList.accountId
+    this.loadingContent = true
+    this.loadingProgress = true
+    const header: any = {
+      'AccountId': AccountId
+    };
+
+    // https://qa1-bots.kore.ai/api/1.1/builder/allowedDomains?rnd=0yiw5b
+    // AccountId: 626f77fd38535539c9882b4a
+    this.service.invoke('app.allowedDomains', header).subscribe((res)=> {
+      if(res){
+        this.loadingProgress = false
+        this.WorkspaceList = res
+        const requestedAccounts  = this.currentAppControlList.requestedAccounts
+
+        for (let index = 0; index < this.WorkspaceList.length; index++) {
+          const element = this.WorkspaceList[index];
+          if(!this.WorkspaceList[index].displayName) {
+            this.WorkspaceList[index]['displayName'] = ''
+          }
+          this.WorkspaceList[index].alreadyJoined = false
+          for (let i = 0; i < requestedAccounts.length; i++) {
+            let account = requestedAccounts[i]
+            if(element._id == account.acctId) {
+              this.WorkspaceList[index].alreadyJoined = true
+            }
+          }
+
+          let avatar =  this.WorkspaceList[index]['displayName'] ? this.WorkspaceList[index]['displayName'] : '';
+          if(avatar.length > 0) {
+            let firstChar = avatar.split(' ')[0][0]
+            let SecondChar = avatar.split(' ')[1] ? avatar.split(' ')[1][0] : avatar.split(' ')[0][1]
+            let displayShortName = (firstChar + SecondChar).trim().toUpperCase()
+            this.WorkspaceList[index]['displayShortName'] = displayShortName
+            this.setAssociateprofilebackground(this.WorkspaceList, displayShortName, index)
+          } else {
+            this.WorkspaceList[index]['displayShortName'] = ''
+          }
+         }
+
+        if(this.WorkspaceList.length == 0) {
+          this.emptyContent = true
+        } else {
+          this.emptyContent = false
+        }
+       
+      }
+    }
+    )
   }
   redirectHome(){
     let prDetails
@@ -952,112 +1016,85 @@ export class AppHeaderComponent implements OnInit {
       } 
       if(!this.loginusername){
         this.loginusername=this.domain;
-      }
-      // if(this.associatedAccounts.length==1){
-      //   this.loginusername=this.associatedAccounts[0].userFullName;
-      // }
-      if(this.loginusername==this.domain){
         this.extractFirstLetter();
-      }
-      else{
+      } else{
       this.extractProfiledisplayname();  
       }      
       for(let i=0;i<this.associatedAccounts.length;i++){  
-        this.extractAssociatedisplayname(this.associatedAccounts[i].userFullName,i)
+        // this.extractAssociatedisplayname(this.associatedAccounts[i].userFullName,i)
+        this.extractAssociatedisplayname(this.associatedAccounts[i].emailId,i)
+        
     }
-    this.extractSelecteddisplayname(this.selectAccountDetails.userFullName)  
+    this.extractAssociatedisplayname(this.selectAccountDetails.emailId)  
   }
-  extractSelecteddisplayname(username){
-    let name = username;
-    //match the spaces
-    var matches = name.split(/(?<=^\S+)\s/)
-    var firstName = matches[0];
-    var lastName = matches[1];
+
+
+  extractAssociatedisplayname(empmail,i?){    
+    let splitor = empmail.includes(".");
+    let fullName;
+    if(splitor) {
+      fullName =  empmail.split('@')[0].split('.')
+    } else {
+      fullName = empmail.split('@')[0].split('_');
+    }
+    let firstName = fullName[0];
+    let lastName = fullName[fullName.length-1] 
+
     var firstLetter=firstName.charAt(0);
     var secondLetter=lastName.charAt(0);
-    this.selected_profile_display=firstLetter.concat(secondLetter);
-    this.selected_profile_display=this.selected_profile_display.toUpperCase();
-        
-    this.setselectedbackground(this.selected_profile_display);
+    if(i > -1) {
+      this.associatedAccounts[i]['associate_profile_display']=firstLetter.concat(secondLetter).toUpperCase();
+
+      setTimeout(() => {
+        this.setAssociateprofilebackground( this.associatedAccounts, this.associatedAccounts[i]['associate_profile_display'],i);
+      }, 1000); 
+    } else {
+      this.selected_profile_display=firstLetter.concat(secondLetter);
+      this.selected_profile_display=this.selected_profile_display.toUpperCase();
+      this.setAssociateprofilebackground([],this.selected_profile_display);
+
+    }
+    
+    
   }
-  setselectedbackground(displayname){
+ 
+  setAssociateprofilebackground(array?, displayname?, index?){
+    // to find in series1
     for(let i=0;i<this.alphabetSeries1.length;i++){
       if(displayname.charAt(0)===this.alphabetSeries1[i]){
+        (index > -1 && array.length > 0) ? array[index]['color'] =  '#AA336A' :
         document.getElementById('selected_profile').style.backgroundColor = '#AA336A' ;             
+        ;
       }      
     }
     // to find in series2
     for(let i=0;i<this.alphabetSeries2.length;i++){
       if(displayname.charAt(0)===this.alphabetSeries2[i]){
-        document.getElementById('selected_profile').style.backgroundColor = '#006400' ;
+        (index > -1 && array.length > 0) ?  array[index]['color']= '#006400' : 
+       document.getElementById('selected_profile').style.backgroundColor = '#006400' ;             
+       ;   
       }      
     }
     // to find in series3
     for(let i=0;i<this.alphabetSeries3.length;i++){
       if(displayname.charAt(0)===this.alphabetSeries3[i]){
+        (index > -1 && array.length > 0) ?  array[index]['color']= '#C71585' : 
         document.getElementById('selected_profile').style.backgroundColor = '#C71585' ;
       }      
     }
     // to find in series4
     for(let i=0;i<this.alphabetSeries4.length;i++){
       if(displayname.charAt(0)===this.alphabetSeries4[i]){
+        (index > -1 && array.length > 0) ? array[index]['color'] ='#6A5ACD':
         document.getElementById('selected_profile').style.backgroundColor = '#6A5ACD' ;
       }      
     }
     // to find in series5
     for(let i=0;i<this.alphabetSeries5.length;i++){
       if(displayname.charAt(0)===this.alphabetSeries5[i]){
-        document.getElementById('selected_profile').style.backgroundColor = '#B22222' ;
-      }      
-    }
-  }
-
-  extractAssociatedisplayname(userFullName,i){    
-    let name = userFullName;
-    //match the spaces
-    var matches = name.split(/(?<=^\S+)\s/)
-    var firstName = matches[0];
-    var lastName = matches[1];
-    var firstLetter=firstName.charAt(0);
-    var secondLetter=lastName.charAt(0);
-    this.associatedAccounts[i]['associate_profile_display']=firstLetter.concat(secondLetter).toUpperCase();
-    // this.associate_profile_display=firstLetter.concat(secondLetter);
-    // this.associate_profile_display=this.profile_display.toUpperCase(); 
-    setTimeout(() => {
-      this.setAssociateprofilebackground(this.associatedAccounts[i]['associate_profile_display'],i);
-    }, 1000);      
-    
-  }
- 
-  setAssociateprofilebackground(displayname?,index?){
-    // to find in series1
-    for(let i=0;i<this.alphabetSeries1.length;i++){
-      if(displayname.charAt(0)===this.alphabetSeries1[i]){
-        document.getElementById('associateprofiledisplay'+index).style.backgroundColor = '#AA336A';        
-      }      
-    }
-    // to find in series2
-    for(let i=0;i<this.alphabetSeries2.length;i++){
-      if(displayname.charAt(0)===this.alphabetSeries2[i]){
-        document.getElementById('associateprofiledisplay'+index).style.backgroundColor = '#006400';   
-      }      
-    }
-    // to find in series3
-    for(let i=0;i<this.alphabetSeries3.length;i++){
-      if(displayname.charAt(0)===this.alphabetSeries3[i]){
-        document.getElementById('associateprofiledisplay'+index).style.backgroundColor = '#C71585'; 
-      }      
-    }
-    // to find in series4
-    for(let i=0;i<this.alphabetSeries4.length;i++){
-      if(displayname.charAt(0)===this.alphabetSeries4[i]){
-        document.getElementById('associateprofiledisplay'+index).style.backgroundColor = '#6A5ACD'; 
-      }      
-    }
-    // to find in series5
-    for(let i=0;i<this.alphabetSeries5.length;i++){
-      if(displayname.charAt(0)===this.alphabetSeries5[i]){
-        document.getElementById('associateprofiledisplay'+index).style.backgroundColor = '#B22222'; 
+        (index > -1 && array.length > 0) ? array[index]['color'] = '#B22222' :
+       document.getElementById('selected_profile').style.backgroundColor = '#B22222' ;
+       ; 
       }      
     }
     
@@ -1376,11 +1413,31 @@ export class AppHeaderComponent implements OnInit {
   openSDK(){
     this.openOrCloseSearchSDK();
   }
-  openBrowseWorkspace() {
-    this.browseWorkspaceRef = this.browseWorkspace.open();
-  }
+
   closeBrowseWorkspace() {
+    if (this.browseWorkspaceRef && this.browseWorkspaceRef.close) {
     this.browseWorkspaceRef.close();
+    }
+  }
+  JoinWorkspace(workspace, i) {
+    const payload : any[] = this.currentAppControlList.requestedAccounts
+    payload.push({ acctId : workspace._id})
+
+    const quaryparms: any = {
+      type: 'joinAccount'
+    };
+    this.service.invoke('post.requestToDomains', quaryparms, payload).subscribe((res)=> {
+      if(res.ok === 1){
+
+        this.notificationService.notify(`Successfully joined ${workspace.displayName}`, 'success');
+
+      } else {
+        this.notificationService.notify(`Failed to Join ${workspace.displayName}`, 'error');
+      }
+    },
+    errRes => {
+      this.notificationService.notify(`Failed to Join ${workspace.displayName}`, 'error');
+    });
   }
 }
 
