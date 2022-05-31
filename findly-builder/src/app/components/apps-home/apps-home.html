@@ -43,26 +43,23 @@
                   <div class="e-title">Create your first app</div>
                 </div>
               </ng-container>
+              <div *ngIf="emptyApp" class="start-scrtch-user-data">
+                <div class="user-details">
+                  <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
+                </div>
+                <div class="title-start">Create your first Search Experience</div>  
+                <div  class="add-scrtch-app" (click)="openCreateApp()">
+                  <div class="icon-block-plus">
+                    <i class="si-add-plus"></i>
+                  </div>
+                  <div class="content-data">
+                    <div class="title">Start from Scratch</div>
+                    <div class="text-desc">Create a new Search App from scratch.</div>
+                  </div>
+                </div>               
+              </div>
 
               <ng-container *ngIf="!emptyApp">
-
-                <div class="start-scrtch-user-data">
-                  <div class="user-details">
-                    <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
-                  </div>
-                  <div class="title-start">Create your first Search Experience</div>
-                  <div class="add-scrtch-app" (click)="openCreateApp()">
-                    <div class="icon-block-plus">
-                      <i class="si-add-plus"></i>
-                    </div>
-                    <div class="content-data">
-                      <div class="title">Start from Scratch</div>
-                      <div class="text-desc">Create a new Search App from scratch.</div>
-                    </div>
-                  </div>
-                </div>
-
-
                 <div class="m-title col-12 m-10">Recently Visited</div>  
                 <div class="cards-content" (click)="app.disabled?null:openApp(app)" *ngFor="let app of recentApps | filter: [ searchApp, 'name']" placement="top-center"
                   [ngbTooltip]="app.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0">
@@ -260,7 +257,7 @@
               </div>
               <div class="title-start">How would you like to start?</div>
               <div class="explore-data-cards">
-                <div class="explore-card sample-data">
+                <div  class="explore-card sample-data"  (click)="1!=1?null:exploreSampleDate()">
                   <div class="icon-block">
                     <img src="assets/icons/onboarding/sample-data.svg">
                   </div>
@@ -311,23 +308,28 @@
                 <div class="on-b-progress-bar">
                   <div class="not-active-bar active-bar"></div>
                   <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div>
+                  <div class="not-active-bar"></div>
                 </div>
-                <div class="title-start">How would you like to start?</div>
+                <div class="back-btn" (click)="backToWelcomePage()">
+                  <i class="si-back-arrow"></i>
+                </div>
+                <div *ngIf="displayApp" class="title-start">Give a name to your App</div>
+                <div *ngIf="displaydemoOptions" class="title-start">Choose the sample data you would like to start with</div>
 
 
-                <ng-container *ngIf="false">
-                  <ng-container *ngIf="true">
+                <ng-container *ngIf="demoOptions">
+                  <ng-container *ngIf="displaydemoOptions">
                     <div class="tabs-data-info-sample">
                       <ul class="nav nav-pills">
                         <li class="nav-item">
-                          <a class="nav-link active" data-toggle="pill" href="#ecommerce">E-Commerce <i class="si-check"></i></a>
+                          <a class="nav-link" data-toggle="pill" (click)="selectDemoType('e-commerce')" href="#ecommerce">E-Commerce <i class="si-check"></i></a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" data-toggle="pill" href="#ks">Knowledge Search <i class="si-check"></i></a>
+                          <a class="nav-link" data-toggle="pill" (click)="selectDemoType('knowledge-search')" href="#ks">Knowledge Search <i class="si-check"></i></a>
                         </li>
-                        <li class="nav-item">
-                          <a class="nav-link" data-toggle="pill" href="#ws">Website Search <i class="si-check"></i></a>
-                        </li>
+                        <!-- <li class="nav-item">
+                          <a class="nav-link" data-toggle="pill" (change)="ApptypeSelection('website-search')" href="#ws">Website Search <i class="si-check"></i></a>
+                        </li> -->
                       </ul>
                       <!-- Tab panes -->
                       <div class="tab-content">
@@ -393,17 +395,17 @@
                     </div>
                   </ng-container>
   
-                  <ng-container *ngIf="false">
+                  <ng-container *ngIf="showSearchExperices">
                     <div class="tabs-data-info-sample seach-virtual-assistance">
                       <ul class="nav nav-pills">
-                        <li class="nav-item">
-                          <a class="nav-link active" data-toggle="pill" href="#searchbar"> 
+                        <li class="nav-item" (click)="selectSearchExperianceType('top')" >
+                          <a class="nav-link" data-toggle="pill" href="#searchbar"> 
                            <span class="title">Search Bar</span>
                            <i class="si-check"></i>
                             <div class="text-desc">A traditional search bar experiance where end users query your website using a search bar that is usually positioned at the top of your website.</div>
                           </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" (click)="selectSearchExperianceType('bottom')">
                           <a class="nav-link" data-toggle="pill" href="#virtualassistance">
                             <span class="title">Virtual Assistant</span>
                             <i class="si-check"></i>
@@ -440,10 +442,20 @@
                 </ng-container>
               </div>
             </perfect-scrollbar>
-            <div class="footer-btns-data">
-              <button class="kr-sg-button-secondary btn_lg" (click)="backToWelcomePage()">Back</button>
-              <button class="kr-sg-button-primary btn_lg" (click)='appCreationAtOnboarding()'>Continue</button>
+            <div class="footer-btns-data" *ngIf="displayApp">
+              <!-- <button *ngIf="displayApp" class="kr-sg-button-secondary btn_lg back_button" (click)="backToWelcomePage()">Back</button> -->
+              <button *ngIf="displayApp" class="kr-sg-button-primary btn_lg" (click)='createDemoApp()'>Continue</button>
             </div>
+            <ng-container *ngIf="demoOptions">
+              <div class="footer-btns-data" *ngIf="displaydemoOptions">
+                <button class="kr-sg-button-secondary btn_lg" (click)="backToWelcomePage()">Back</button>
+                <button (click)="continue()" class="kr-sg-button-primary btn_lg">Continue</button>
+              </div>
+              <div class="footer-btns-data" *ngIf="showSearchExperices">
+                <button class="kr-sg-button-secondary btn_lg" (click)="backToWelcomePage()">Back</button>
+                <button (click)="continue()" class="kr-sg-button-primary btn_lg">Continue</button>
+              </div>
+            </ng-container>
           </div>
         </ng-container>
         <!-- End -->
@@ -497,12 +509,13 @@
   
   <!-- <div class="close_icon" (click)="closeBoradingJourney()"><img src="assets/icons/modal-close.svg"></div> -->
   <div class="modal-header p-0">
-    <div class="close_icon" (click)="closeBoradingJourney()"><img src="assets/icons/modal-close.svg"></div>
+    <div class="close_icon" (click)="closeBoradingJourney()">
+      <i class="si-close"></i>
+    </div>
   </div>
   <perfect-scrollbar class="perfect-scroll-modal-body d-none">
     <div class="modal-body">
-      <div id="createBoardingJourney" class="carousel slide" data-ride="carousel" data-interval="false"
-        data-pause="hover">
+      <div id="createBoardingJourney" class="carousel slide" data-ride="carousel" data-interval="false" data-pause="hover">
         <!-- The slideshow -->
         <div class="carousel-inner">
           <div class="carousel-item active">
@@ -601,13 +614,11 @@
   </perfect-scrollbar>
 
   <div class="video-section-block">
-    <perfect-scrollbar class="perfect-scroll-modal-body">
       <div class="video-player">
-        <iframe _ngcontent-hbc-c46="" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="" src="https://player.vimeo.com/video/49583118"></iframe>
+        <iframe width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="" src="https://player.vimeo.com/video/49583118"></iframe>
       </div>
       <div class="video-header">Welcome to SearchAssist</div>
-      <div class="video-desc">Watch a quick introductory video on the SearchAssist’s features</div>
-    </perfect-scrollbar>
+      <div class="video-desc">Watch a quick introductory video on the SearchAssist’s features.</div>
   </div>
   <!-- <div class="modal-footer d-none">
     <div class="indicator-icons">

@@ -30,7 +30,7 @@ export class ResultTemplatesComponent implements OnInit {
   preview_desc1: any = '';
   preview_img: any = '';
   preview_url: any = '';
-  groupname: any='';
+  groupname: any = '';
   templateDataBind: any = {
     layout: {
       behaviour: "webpage",
@@ -178,7 +178,7 @@ export class ResultTemplatesComponent implements OnInit {
     } else if (type == 'description1') {
       this.templateDataBind.mapping.description1 = field._id;
       this.preview_desc1 = field.fieldName;
-      this.desc_fieldData1= [...this.allFieldData];
+      this.desc_fieldData1 = [...this.allFieldData];
       this.templateFieldValidateObj.description1 = true;
     } else if (type == 'image') {
       this.templateDataBind.mapping.img = field._id;
@@ -342,19 +342,19 @@ export class ResultTemplatesComponent implements OnInit {
     this.templateDataBind.layout.behaviour = behaviour;
   }
   //Open Template Modal
-  openTemplateConatiner(templateData, type,groupname?) {
+  openTemplateConatiner(templateData, type, groupname?) {
     const templateName = this.tabList.filter(data => data.id == this.selectedTab);
     this.selectedTemplateName = templateName[0].name;
     this.selectedGroupName = templateData?.templateId ? (templateData?.fieldValue) : (templateData?.defaultTemplateType);
     this.customtemplateBtndisable = true;
-    if(groupname=='Default'){
-      this.selectedGroupName=groupname;
+    if (groupname == 'Default') {
+      this.selectedGroupName = groupname;
     }
     if (templateData?.templateId) {
       this.getTemplate(templateData, type)
     }
     else {
-      this.getTemplate({ templateId: templateData?.defaultTemplateId }, type);
+      this.getTemplate({ templateId: this.resultListObj.defaultTemplateId }, type);
     }
     this.preview_title = '';
     this.preview_desc = '';
@@ -492,13 +492,13 @@ export class ResultTemplatesComponent implements OnInit {
       })
   }
   //scroll to preview
-  scrollPreview(){
+  scrollPreview() {
     var element = document.getElementById("imgScroll");
     setTimeout(() => {
-      if(element){
+      if (element) {
         element.scrollIntoView();
-        }
-    },500);
+      }
+    }, 500);
   }
   //update settings
   updateSettings(dialogRef?, type?) {
@@ -725,7 +725,7 @@ export class ResultTemplatesComponent implements OnInit {
     }
 
   }
-  
+
   // clear content for image
   clearcontentimage() {
     if ($('#searchBoxId2') && $('#searchBoxId2').length) {

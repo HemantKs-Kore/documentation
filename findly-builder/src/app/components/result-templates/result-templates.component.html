@@ -184,7 +184,7 @@
                 <button class="dropdown-toggle dropdown-input"
                   data-toggle="dropdown">{{resultListObj?.defaultTemplateType|titlecase}}</button>
                 <ul class="dropdown-menu content-menu">
-                  <li *ngFor="let template of templateNames" (click)="getTemplateData(template,'default')">
+                  <li *ngFor="let template of templateNames" (click)="getTemplateData(template,'default');">
                     <a>{{template|titlecase}}</a>
                   </li>
                 </ul>
@@ -328,43 +328,42 @@
         <perfect-scrollbar>
           <div class="scroll-data">
             <div class="title">Template Type</div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l1'}"
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l1'}"
               (click)="templateTypeSelection('l1')">
               <img src="assets/icons/resultTemplate/type-1.svg">
             </div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l2'}"
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l2'}"
               (click)="templateTypeSelection('l2')">
               <img src="assets/icons/resultTemplate/type-2.svg">
             </div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l3'}"
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l3'}"
               (click)="templateTypeSelection('l3')">
               <img src="assets/icons/resultTemplate/type-3.svg">
             </div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l4'}"
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l4'}"
               (click)="templateTypeSelection('l4')">
               <img src="assets/icons/resultTemplate/type-4.svg">
             </div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l5'}"
-              (click)="templateTypeSelection('l5')" *ngIf="templateDataBind.type !='list'">
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l5'}"
+              (click)="templateTypeSelection('l5')" *ngIf="templateDataBind?.type !='list'">
               <img src="assets/icons/resultTemplate/type-5.svg">
             </div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l6'}"
-              (click)="templateTypeSelection('l6')">
-              <img *ngIf="templateDataBind.type =='list'" src="assets/icons/resultTemplate/type6List.svg">
-              <img *ngIf="templateDataBind.type == 'grid'" src="assets/icons/resultTemplate/type-6.svg">
-              <img *ngIf="templateDataBind.type == 'carousel'" src="assets/icons/resultTemplate/type-6.svg">
+            <div class="template-type-image"  [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l6'}" (click)="templateTypeSelection('l6')">
+              <img *ngIf="templateDataBind?.type =='list'" src="assets/icons/resultTemplate/type6List.svg">
+              <img *ngIf="templateDataBind?.type == 'grid'" src="assets/icons/resultTemplate/type-6.svg">
+              <img *ngIf="templateDataBind?.type == 'carousel'" src="assets/icons/resultTemplate/type-6.svg">
             </div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l7'}"
-              (click)="templateTypeSelection('l7')" *ngIf="templateDataBind.type !='list'">
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l7'}"
+              (click)="templateTypeSelection('l7')" *ngIf="templateDataBind?.type !='list'">
               <img src="assets/icons/resultTemplate/type-7.svg">
             </div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l8'}"
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l8'}"
               (click)="templateTypeSelection('l8')" *ngIf="templateDataBind.type !='list'">
               <img src="assets/icons/resultTemplate/type-8.svg">
             </div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l9'}"
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l9'}"
               (click)="templateTypeSelection('l9')" *ngIf="templateDataBind.type !='list'">
-              <img src="assets/icons/resultTemplate/type-9.svg">
+              <img src="assets/icons/resultTemplate/type-9.png">
             </div>
           </div>
         </perfect-scrollbar>

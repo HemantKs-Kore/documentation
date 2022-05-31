@@ -1216,6 +1216,11 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/apps/:streamId/unlinkApp',
       method: 'delete'
     }
+     /** create Demo app API */
+     this.serviceList['post.createDemoApp'] = {
+      endpoint: this.API_SERVER_URL + '/findly/createDemoApp',
+      method: 'post'
+    }
     
 
   }
