@@ -324,7 +324,7 @@
                     <div class="kr-sg-dropdowns workspace-dropdwon" ngbDropdown>
                         <button type="button" tooltipClass="tooltip-global-" container="'body'" placement='left'  class="dropdown-input workspace-btn" id="workspace" ngbDropdownToggle>
                             <div class="workspace-active">
-                                <div class="alphabet-name"  [ngStyle]="{'background-color':selectAccountDetails.color}"  id="profiledisplay">{{selected_profile_display}}</div>
+                                <div class="alphabet-name"  [ngStyle]="{'background-color':selectAccountDetails.color}" id="profiledisplay">{{selected_profile_display}}</div>
                                 <div class="name-workspace">{{selectAccountDetails.accountName}}</div>
                                 <i class="arrow-icon si-dropdownsort"></i>
                             </div>
@@ -380,12 +380,12 @@
                     <div class="kr-sg-dropdowns top-dropdown-user" (click)="clearcontent()" ngbDropdown #myDrop2="ngbDropdown" [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
-                                <div class="alphabet" id="profiledisplay1"  [ngStyle]="{'background-color':selectAccountDetails.color}">{{selected_profile_display}}</div>
+                                <div class="alphabet" id="profiledisplay1">{{profile_display}}</div>
                             </button>
                             <ul class="dropdown-menu content-menu" ngbDropdownMenu>
                                 <li ngbDropdownItem class="profile-info-user">
                                     <div class="icon-block">
-                                        <span class="alphbet"  [ngStyle]="{'background-color':selectAccountDetails.color}" id="profiledisplaydrop">{{selected_profile_display}}</span>
+                                        <span class="alphbet"  id="profiledisplaydrop">{{profile_display}}</span>
                                         <img class="d-none" src="https://bots.kore.ai/api/1.1/getMediaStream/profilePictures/u-51486224-6c09-5ba7-a2d1-d682de65a19a/r_64x64_profile.png?v=1.1648.191250174519573.93958993385552377.61343219061547528.7335828735257">
                                     </div>
                                     <div class="info-user text-truncate">
