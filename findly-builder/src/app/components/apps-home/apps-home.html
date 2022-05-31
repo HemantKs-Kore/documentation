@@ -248,16 +248,21 @@
                 <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
               </div>
               <div class="on-b-progress-bar">
+                <div *ngFor="let bar of progressBar;let i=index" class="not-active-bar" [ngClass]="{'active-bar': i==0}" ></div>
+                <!-- <div class="not-active-bar active-bar"></div>
+                <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div> -->  
+              </div>
+              <!-- <div class="on-b-progress-bar">
                 <div class="not-active-bar active-bar"></div>
                 <div class="not-active-bar" ></div>
                 <div class="not-active-bar"></div>
-              </div>
+              </div> -->
               <div class="back-btn d-none">
                 <i class="si-back-arrow"></i>
               </div>
               <div class="title-start">How would you like to start?</div>
               <div class="explore-data-cards">
-                <div  class="explore-card sample-data"  (click)="1!=1?null:exploreSampleDate()">
+                <div  class="explore-card sample-data"  (mouseenter)="progressBarFun(3,1)" (mouseleave)="progressBarFun(0,0)" >
                   <div class="icon-block">
                     <img src="assets/icons/onboarding/sample-data.svg">
                   </div>
@@ -269,7 +274,7 @@
                     <i class="si-right-arrow-large"></i>
                   </div>
                 </div>
-                <div class="explore-card my-self"  (click)="exploreMyself()">
+                <div class="explore-card my-self" (mouseenter)="progressBarFun(2,1)" (mouseleave)="progressBarFun(0,0)" (click)="exploreMyself();progressBar.length=2">
                   <div class="icon-block">
                     <img src="assets/icons/onboarding/my-self.svg">
                   </div>
@@ -306,11 +311,11 @@
                   <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
                 </div>
                 <div class="on-b-progress-bar">
-                  <div class="not-active-bar active-bar"></div>
-                  <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div>
-                  <div class="not-active-bar"></div>
+                  <div *ngFor="let bar of progressBar;let i=index" class="not-active-bar" [ngClass]="{'active-bar': i<=stepBar}"></div>
+                  <!-- <div class="not-active-bar active-bar"></div>
+                  <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div> -->  
                 </div>
-                <div class="back-btn" (click)="backToWelcomePage()">
+                <div class="back-btn" (click)="backToWelcomePage();progressBar.length=0">
                   <i class="si-back-arrow"></i>
                 </div>
                 <div *ngIf="displayApp" class="title-start">Give a name to your App</div>
@@ -327,9 +332,9 @@
                         <li class="nav-item">
                           <a class="nav-link" data-toggle="pill" (click)="selectDemoType('knowledge-search')" href="#ks">Knowledge Search <i class="si-check"></i></a>
                         </li>
-                        <!-- <li class="nav-item">
+                        <li class="nav-item">
                           <a class="nav-link" data-toggle="pill" (change)="ApptypeSelection('website-search')" href="#ws">Website Search <i class="si-check"></i></a>
-                        </li> -->
+                        </li>
                       </ul>
                       <!-- Tab panes -->
                       <div class="tab-content">
@@ -431,7 +436,7 @@
                 </ng-container>
 
                 <!-- Last step app name -->
-                <ng-container *ngIf="displayApp==true">
+                <ng-container *ngIf="displayApp">
                  <div class="create-app-data">
                   <div class="kr-sg-input-text">
                     <div class="label-text">App Name</div>
