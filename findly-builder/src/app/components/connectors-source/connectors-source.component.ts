@@ -1,16 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '@kore.services/auth.service';
-import { LocalStoreService } from '@kore.services/localstore.service';
-import { environment } from '@kore.environment';
-import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-connectors-source',
   templateUrl: './connectors-source.component.html',
@@ -47,6 +41,7 @@ export class ConnectorsSourceComponent implements OnInit {
     }
   ];
   componentType = 'Connectors';
+  searchContent: string = '';
   selectedApp: any;
   selectedContent: string = 'list';
   selectAddContent: string = 'instructions';
@@ -59,6 +54,7 @@ export class ConnectorsSourceComponent implements OnInit {
   selectedTab: string = 'overview';
   configurationObj: any = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '' };
   checkConfigButton: Boolean = true;
+  overViewData: any = { overview: [], coneten: [] };
   connectorId: string = '';
   deleteModelRef: any;
   showProtecedText: Object = { isClientShow: false, isSecretShow: false, isPassword: false };
@@ -68,7 +64,7 @@ export class ConnectorsSourceComponent implements OnInit {
   isAuthorizeStatus: boolean = false;
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
-  constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private location: Location, private activeRoute: ActivatedRoute, private auth: AuthService, private localStoreService: LocalStoreService, public sanitizer: DomSanitizer) { }
+  constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -77,12 +73,11 @@ export class ConnectorsSourceComponent implements OnInit {
     if (sessionStorage.getItem('connector') !== null) {
       const session_connector_data = sessionStorage.getItem('connector');
       this.sessionData = JSON.parse(session_connector_data);
-      if (this.sessionData?.error === 'access_denied') {
-        this.notificationService.notify(this.sessionData?.error_description, 'error');
+      if (this.sessionData?.isRedirect) {
+        this.isPopupDelete = false;
+        this.isAuthorizeStatus = true;
+        this.openDeleteModel('open');
         sessionStorage.clear();
-      }
-      else {
-
       }
     }
   }
@@ -153,6 +148,7 @@ export class ConnectorsSourceComponent implements OnInit {
     };
     this.service.invoke('get.connectorById', quaryparms).subscribe(res => {
       this.connectorId = res?._id;
+      this.overViewData.overview = res?.overview;
       this.configurationObj.name = res?.name;
       this.configurationObj.hostUrl = res?.configuration?.hostUrl;
       this.configurationObj.hostDomainName = res?.configuration?.hostDomainName;
@@ -161,6 +157,37 @@ export class ConnectorsSourceComponent implements OnInit {
       this.configurationObj.isActive = res?.isActive;
       this.configurationObj.username = res?.authDetails?.username;
       this.configurationObj.password = res?.authDetails?.password;
+      this.getConentData();
+    }, errRes => {
+      this.errorToaster(errRes, 'Connectors API Failed');
+    });
+  }
+  //get content data api
+  getConentData() {
+    const quaryparms: any = {
+      searchIndexId: this.searchIndexId,
+      connectorId: this.connectorId,
+      offset: 0,
+      limit: 10
+    };
+    this.service.invoke('get.contentData', quaryparms).subscribe(res => {
+      this.overViewData.content = res?.content;
+    }, errRes => {
+      this.errorToaster(errRes, 'Connectors API Failed');
+    });
+  }
+  //disable connector
+  disableConnector(data, dialogRef) {
+    const quaryparms: any = {
+      sidx: this.searchIndexId,
+      fcon: data?._id
+    };
+    this.service.invoke('post.disableConnector', quaryparms).subscribe(res => {
+      if (res) {
+        dialogRef.close();
+        this.getConnectors();
+        this.notificationService.notify('Connector Disabled Successfully', 'success');
+      }
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
@@ -258,21 +285,30 @@ export class ConnectorsSourceComponent implements OnInit {
     });
   }
   //authorize created connector
-  authorizeConnector(data?) {
+  authorizeConnector(data?, dialogRef?) {
     const quaryparms: any = {
       sidx: this.searchIndexId,
       fcon: this.connectorId
     };
-    this.service.invoke('post.authorizeConnector', quaryparms).subscribe(res => {
-      console.log("res", res);
+    let payload: any = {};
+    if (data?.type === 'confluenceCloud') {
+      payload.url = window.location.protocol + '//' + window.location.host + '/home?isRedirect=true'
+    }
+    this.service.invoke('post.authorizeConnector', quaryparms, payload).subscribe(res => {
       if (res) {
         if (data?.type === 'confluenceCloud') {
           window.open(res.url, '_self')
         }
         else {
-          this.isPopupDelete = false;
-          this.isAuthorizeStatus = true;
-          this.openDeleteModel('open');
+          if (dialogRef) {
+            dialogRef.close();
+            this.getConnectors();
+          }
+          else {
+            this.isPopupDelete = false;
+            this.isAuthorizeStatus = true;
+            this.openDeleteModel('open');
+          }
         }
       }
     }, errRes => {
@@ -325,7 +361,7 @@ export class ConnectorsSourceComponent implements OnInit {
     if (this.selectedContent !== 'edit') this.selectedContent = 'list';
   }
   //update connector 
-  openConnectorDialog(data, event) {
+  openConnectorDialog(data) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
@@ -341,11 +377,11 @@ export class ConnectorsSourceComponent implements OnInit {
       .subscribe(result => {
         this.connectorId = data?._id;
         if (result === 'yes') {
-          if ((data?.type === 'confluenceCloud' || data?.type === 'confluenceServer') && data?.isActive) {
-            this.authorizeConnector(data);
+          if (data?.isActive) {
+            this.authorizeConnector(data, dialogRef);
           }
           else {
-            this.updateConnector(data, event, dialogRef);
+            this.disableConnector(data, dialogRef);
           }
         } else if (result === 'no') {
           dialogRef.close();

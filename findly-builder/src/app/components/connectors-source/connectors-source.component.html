@@ -346,26 +346,10 @@
                                                     <div class="title">{{'connectors.source_type'|translate}}</div>
                                                     <div class="title text-right">{{'connectors.items'|translate}}</div>
                                                 </div>
-                                                <ng-container>
+                                                <ng-container *ngFor="let overview of overViewData?.overview">
                                                     <div class="repeat-table-body">
-                                                        <div class="title user-type">Users</div>
-                                                        <div class="title item-count">256</div>
-                                                    </div>
-                                                    <div class="repeat-table-body">
-                                                        <div class="title user-type">PNG</div>
-                                                        <div class="title item-count">17526</div>
-                                                    </div>
-                                                    <div class="repeat-table-body">
-                                                        <div class="title user-type">DOX</div>
-                                                        <div class="title item-count">261873</div>
-                                                    </div>
-                                                    <div class="repeat-table-body">
-                                                        <div class="title user-type">XLSX</div>
-                                                        <div class="title item-count">279164</div>
-                                                    </div>
-                                                    <div class="repeat-table-body">
-                                                        <div class="title user-type">Folders</div>
-                                                        <div class="title item-count">672</div>
+                                                        <div class="title user-type">{{overview?.key|titlecase}}</div>
+                                                        <div class="title item-count">{{overview?.doc_count}}</div>
                                                     </div>
                                                 </ng-container>
                                             </div>
@@ -434,9 +418,9 @@
                                 <div class="content-settings-tab-data">
                                     <div class="search-tab">
                                         <div class="kr-sg-input-search">
-                                            <input autocomplete="off" class="input-search pl-33" id="inputSearch" maxlength="60" placeholder="Search" type="text">
+                                            <input autocomplete="off" class="input-search pl-33" id="inputSearch" maxlength="60" placeholder="Search" type="text" [(ngModel)]="searchContent">
                                           <img class="search-icon" src="assets/icons/search_gray.svg">
-                                          <img class="close-icon" src="assets/icons/close_icon.svg">
+                                          <img class="close-icon" src="assets/icons/close_icon.svg" (click)="searchContent=''">
                                         </div>
                                     </div>
                                     <div class="content-data-table">
@@ -447,30 +431,10 @@
                                                     <div class="col-4">URL</div>
                                                     <div class="col-4">Last Update</div>
                                                 </header>
-                                                <div class="content-body">
-                                                    <div class="col-4 p-0">Lorem Ipsum</div>
-                                                    <div class="col-4"><a href="#" class="url-link">https://nthrw.cofluence.net</a></div>
-                                                    <div class="col-4">5/12/2022; 2:41:22 PM</div>
-                                                </div>
-                                                <div class="content-body">
-                                                    <div class="col-4 p-0">Lorem Ipsum</div>
-                                                    <div class="col-4"><a href="#" class="url-link">https://nthrw.cofluence.net</a></div>
-                                                    <div class="col-4">5/12/2022; 2:41:22 PM</div>
-                                                </div>
-                                                <div class="content-body">
-                                                    <div class="col-4 p-0">Lorem Ipsum</div>
-                                                    <div class="col-4"><a href="#" class="url-link">https://nthrw.cofluence.net</a></div>
-                                                    <div class="col-4">5/12/2022; 2:41:22 PM</div>
-                                                </div>
-                                                <div class="content-body">
-                                                    <div class="col-4 p-0">Lorem Ipsum</div>
-                                                    <div class="col-4"><a href="#" class="url-link">https://nthrw.cofluence.net</a></div>
-                                                    <div class="col-4">5/12/2022; 2:41:22 PM</div>
-                                                </div>
-                                                <div class="content-body">
-                                                    <div class="col-4 p-0">Lorem Ipsum</div>
-                                                    <div class="col-4"><a href="#" class="url-link">https://nthrw.cofluence.net</a></div>
-                                                    <div class="col-4">5/12/2022; 2:41:22 PM</div>
+                                                <div class="content-body" *ngFor="let content of overViewData.content | filter: [ searchContent, 'title']">
+                                                    <div class="col-4 p-0">{{content?.title}}</div>
+                                                    <div class="col-4"><a [href]="content?.url" class="url-link" target="_blank">{{content?.url}}</a></div>
+                                                    <div class="col-4">{{content?.lastUpdatedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
                                                 </div>
                                             </section>                               
                                         </div>

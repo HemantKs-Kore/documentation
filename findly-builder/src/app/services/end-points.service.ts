@@ -1241,5 +1241,13 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon/queue-content',
       method: 'post'
     }
+    this.serviceList['get.contentData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/connectors/:connectorId/content?offset=:offset&limit=:limit',
+      method: 'get'
+    }
+    this.serviceList['post.disableConnector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon/disable',
+      method: 'post'
+    }
   }
 }
