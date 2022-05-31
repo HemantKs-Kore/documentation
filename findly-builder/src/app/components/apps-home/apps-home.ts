@@ -37,6 +37,8 @@ export class AppsListingComponent implements OnInit {
   creatingInProgress = false;
   searchApp = '';
   apps: any = [];
+  progressBar:any = [];
+  stepBar=1;
   displayApp:boolean = false;
   hideWelcomepage:boolean = true;
   showSearchExperices:boolean =false;
@@ -125,6 +127,24 @@ export class AppsListingComponent implements OnInit {
       this.mixpanel.postEvent('User Onboarding - Journey Cancelled', {});
     }
     this.showBoarding = false;
+  }
+
+  progressBarFun(val,step){
+    this.stepBar=step;
+    if(val){
+      this.progressBar = [];
+        for(let i=0; i<val; i++){
+          var obj = {
+            class:'active-bar'
+          }
+
+          this.progressBar.push(obj)
+        }
+      }
+      else {
+        this.progressBar = [];
+      }
+    // this.progressBar = val;
   }
   exploreMyself(){
     this.displayApp = true;
