@@ -492,9 +492,9 @@
                     <input type="text" placeholder="Search" class="input-search"  name="workspace_search" [(ngModel)]="workspace_search">
                     <i class="search-icon si-search"></i>
                 </div>
-                <!-- <div class="notifyAccount"><i class="si-check-round"></i>
-                    <span>Successfully joined Costco HR.</span>
-                </div> -->
+                <div *ngIf="notifyAccount" class="notifyAccount"><i class="si-check-round"></i>
+                    <span>{{notifyAccountInfo }}</span>
+                </div>
                 <div class="title-w">Your Workspaces</div>
                 <div class="desc-text-data">All the workspaces that you have access to</div>
                 <div class="your-w-box-content mb-4">
@@ -539,7 +539,7 @@
                                     <div class="member-count">{{workspace.usersCount}}</div>
                                 </div>
                                 <button class="joined-btn" [ngClass]="{'disabled':workspace.alreadyJoined}"
-                                 (click)="JoinWorkspace(workspace, i)">{{(workspace.alreadyJoined) ? 'Joined' : 'Join'}}</button>
+                                 (click)="JoinWorkspace(workspace, i);openBrowseWorkspace()">{{(workspace.alreadyJoined) ? 'Joined' : 'Join'}}</button>
                             </div>
                             </ng-container>
                         </div>

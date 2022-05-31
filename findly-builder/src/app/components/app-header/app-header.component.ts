@@ -148,6 +148,8 @@ export class AppHeaderComponent implements OnInit {
   loadingProgress: boolean;
   emptyContent: boolean;
   currentAppControlList: any;
+  notifyAccount : boolean =  false;
+  notifyAccountInfo: any;
 
   constructor(
     private authService: AuthService,
@@ -1428,15 +1430,15 @@ export class AppHeaderComponent implements OnInit {
     };
     this.service.invoke('post.requestToDomains', quaryparms, payload).subscribe((res)=> {
       if(res.ok === 1){
-
-        this.notificationService.notify(`Successfully joined ${workspace.displayName}`, 'success');
-
-      } else {
-        this.notificationService.notify(`Failed to Join ${workspace.displayName}`, 'error');
+        this.notifyAccount = true
+        this.notifyAccountInfo = workspace.displayName ? `Successfully Joined ${workspace.displayName}` : `Successfully Joined ${workspace.accountName}`;
+        setTimeout(() => {
+          this.notifyAccount = false
+        }, 1000)
       }
     },
     errRes => {
-      this.notificationService.notify(`Failed to Join ${workspace.displayName}`, 'error');
+      this.notifyAccountInfo = workspace.displayName ? `Failed to Join ${workspace.displayName}` : `Failed to Join ${workspace.accountName}`;
     });
   }
 }
