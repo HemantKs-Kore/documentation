@@ -43,6 +43,15 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL_PLATFORM + '/users/:userId/AppControlList',
       method: 'get'
     };
+
+    this.serviceList['app.allowedDomains'] = {
+      endpoint:  this.API_SERVER_URL_PLATFORM  + '/builder/allowedDomains',
+      method: 'get'
+    };
+    this.serviceList['post.requestToDomains'] = {
+      endpoint: this.API_SERVER_URL_PLATFORM  + '/builder/requestToDomains?type=:type',
+      method: 'post'
+    };
     /** Get Account Configuration API */
     this.serviceList['app.account-configuratuion'] = {
       endpoint: this.API_SERVER_URL_PLATFORM + '/findly/users/:userId/accountConfigs',

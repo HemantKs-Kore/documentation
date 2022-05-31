@@ -121,7 +121,7 @@
                                     <div class="apps-block">
                                         <div class="title-secondary">{{ 'header.recentApps' | translate }}</div>
                                         <div class="app-name-block" *ngFor='let app of recentApps'
-                                            (click)="app.disabled?null:[openApp(app),myDrop.close()]"
+                                            (click)="app.disabled?null:[myDrop.close(), openApp(app)]"
                                             [ngStyle]="app.disabled&&{'opacity':'0.4','cursor':'default'}"
                                             placement="top-center" [ngbTooltip]="app.disableReason" [container]='"body"'
                                             tooltipClass="metrics_tooltips m-0">
@@ -324,8 +324,8 @@
                     <div class="kr-sg-dropdowns workspace-dropdwon" ngbDropdown>
                         <button type="button" tooltipClass="tooltip-global-" container="'body'" placement='left'  class="dropdown-input workspace-btn" id="workspace" ngbDropdownToggle>
                             <div class="workspace-active">
-                                <div class="alphabet-name" id="profiledisplay">{{profile_display}}</div>
-                                <div class="name-workspace">{{loginusername}}</div>
+                                <div class="alphabet-name"  [ngStyle]="{'background-color':selectAccountDetails.color}"  id="profiledisplay">{{selected_profile_display}}</div>
+                                <div class="name-workspace">{{selectAccountDetails.accountName}}</div>
                                 <i class="arrow-icon si-dropdownsort"></i>
                             </div>
                         </button>
@@ -336,7 +336,8 @@
                                     <div class="icon-block" id="selected_profile">{{selected_profile_display}}</div>
                                     <div class="content-sec text-truncate">
                                         <div class="name-w text-truncate">{{selectAccountDetails.accountName}}</div>
-                                        <div class="members text-truncate">{{selectAccountDetails.userFullName}}</div>
+                                        <div class="members text-truncate">{{selectAccountDetails.emailId}}</div>
+                                        <div class="member-count">{{selectAccountDetails.usersCount}}</div>
                                     </div>
                                     <!-- <div class="markas-default">
                                         <div class="title-mark">Mark as Default</div>
@@ -356,71 +357,15 @@
                                             <ng-container>
                                                 <div class="w-item" *ngFor="let app of associatedAccounts | filter : [field_name,'userFullName']; let i=index"
                                                 (click)="switchAccountInternal(app)" [ngClass]="{'selected-swith-account' : app.userFullName === selectAccountDetails.userFullName}">
-                                                    <div class="icon-block" attr.id="associateprofiledisplay{{i}}">{{app.associate_profile_display}}</div>
+                                                    <div class="icon-block"  [ngStyle]="{'background-color':app.color}" attr.id="associateprofiledisplay{{i}}">{{app.associate_profile_display}}</div>
                                                     <div class="content-sec text-truncate">
                                                         <div class="name-w text-truncate">{{app.accountName}}</div>
-                                                        <div class="members text-truncate">{{app.userFullName}}</div>
+                                                        <div class="members text-truncate">{{app.emailId}}</div>
+                                                        <div class="member-count">{{app.usersCount}}</div>
                                                     </div>
-                                                    <!-- <div class="markas-default">
-                                                        <div class="title-mark">Mark as Default</div>
-                                                        <div class="default d-none">Default</div>
-                                                    </div> -->
+                                                 
                                                 </div>
-                                                <!-- <div class="w-item">
-                                                    <div class="icon-block">AH</div>
-                                                    <div class="content-sec text-truncate">
-                                                        <div class="name-w text-truncate">Acme HR</div>
-                                                        <div class="members text-truncate">4 members</div>
-                                                    </div>
-                                                    <div class="markas-default">
-                                                        <div class="title-mark">Mark as Default</div>
-                                                        <div class="default d-none">Default</div>
-                                                    </div>
-                                                </div>
-                                                <div class="w-item default-added">
-                                                    <div class="icon-block">AH</div>
-                                                    <div class="content-sec text-truncate">
-                                                        <div class="name-w text-truncate">Acme HR</div>
-                                                        <div class="members text-truncate">4 members</div>
-                                                    </div>
-                                                    <div class="markas-default">
-                                                        <div class="title-mark d-none">Mark as Default</div>
-                                                        <div class="default">Default</div>
-                                                    </div>
-                                                </div>
-                                                <div class="w-item">
-                                                    <div class="icon-block">AH</div>
-                                                    <div class="content-sec text-truncate">
-                                                        <div class="name-w text-truncate">Acme HR</div>
-                                                        <div class="members text-truncate">4 members</div>
-                                                    </div>
-                                                    <div class="markas-default">
-                                                        <div class="title-mark">Mark as Default</div>
-                                                        <div class="default d-none">Default</div>
-                                                    </div>
-                                                </div>
-                                                <div class="w-item">
-                                                    <div class="icon-block">AH</div>
-                                                    <div class="content-sec text-truncate">
-                                                        <div class="name-w text-truncate">Acme HR</div>
-                                                        <div class="members text-truncate">4 members</div>
-                                                    </div>
-                                                    <div class="markas-default">
-                                                        <div class="title-mark">Mark as Default</div>
-                                                        <div class="default d-none">Default</div>
-                                                    </div>
-                                                </div>
-                                                <div class="w-item">
-                                                    <div class="icon-block">AH</div>
-                                                    <div class="content-sec text-truncate">
-                                                        <div class="name-w text-truncate">Acme HR</div>
-                                                        <div class="members text-truncate">4 members</div>
-                                                    </div>
-                                                    <div class="markas-default">
-                                                        <div class="title-mark">Mark as Default</div>
-                                                        <div class="default d-none">Default</div>
-                                                    </div>
-                                                </div> -->
+                                         
                                             </ng-container>
                                         </div>
                                     </perfect-scrollbar>
@@ -432,19 +377,21 @@
                 </li>
 
                 <li class="nav-item user_icon mr-0">
-                    <div class="kr-sg-dropdowns top-dropdown-user" (click)="clearcontent()" ngbDropdown #myDrop="ngbDropdown" [placement]="'bottom-right'">
+                    <div class="kr-sg-dropdowns top-dropdown-user" (click)="clearcontent()" ngbDropdown #myDrop2="ngbDropdown" [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
-                                <div class="alphabet" id="profiledisplay1">{{profile_display}}</div>
+                                <div class="alphabet" id="profiledisplay1"  [ngStyle]="{'background-color':selectAccountDetails.color}">{{selected_profile_display}}</div>
                             </button>
                             <ul class="dropdown-menu content-menu" ngbDropdownMenu>
                                 <li ngbDropdownItem class="profile-info-user">
                                     <div class="icon-block">
-                                        <span class="alphbet" id="profiledisplaydrop">{{profile_display}}</span>
+                                        <span class="alphbet"  [ngStyle]="{'background-color':selectAccountDetails.color}" id="profiledisplaydrop">{{selected_profile_display}}</span>
                                         <img class="d-none" src="https://bots.kore.ai/api/1.1/getMediaStream/profilePictures/u-51486224-6c09-5ba7-a2d1-d682de65a19a/r_64x64_profile.png?v=1.1648.191250174519573.93958993385552377.61343219061547528.7335828735257">
                                     </div>
                                     <div class="info-user text-truncate">
-                                        <div class="u-name text-truncate">{{loginusername}}</div>
+                                        <div class="u-name text-truncate">{{currentAppControlList.accountName}}</div>
+                                        <div class="u-name text-truncate">{{currentAppControlList.domain}}</div>
+
                                         <!-- <div class="u-mail text-truncate">devendar.bala@kore.com</div> -->
                                     </div>
                                 </li>
@@ -517,7 +464,11 @@
 
 <!-- Browse all workspace -->
 
+
+
+
 <kr-modal modalType="full" #browseWorkspace modalClass="browse-workspace-full-popup">
+
     <div class="bg-1">
         <img src="assets/icons/onboarding/bg-worksapce.png">
     </div>
@@ -533,142 +484,76 @@
             <span>Cancel</span>
         </div>
     </div>
-    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <perfect-scrollbar class="perfect-scroll-modal-body" *ngIf="!loadingProgress">
         <div class="modal-body">
             <div class="workspace-data">
                 <div class="main-heading">Workspaces</div>
                 <div class="kr-sg-input-search">                               
-                    <input type="text" placeholder="Search" class="input-search">
+                    <input type="text" placeholder="Search" class="input-search"  name="workspace_search" [(ngModel)]="workspace_search">
                     <i class="search-icon si-search"></i>
                 </div>
-                <div class="notifyAccount"><i class="si-check-round"></i>
+                <!-- <div class="notifyAccount"><i class="si-check-round"></i>
                     <span>Successfully joined Costco HR.</span>
-                </div>
+                </div> -->
                 <div class="title-w">Your Workspaces</div>
                 <div class="desc-text-data">All the workspaces that you have access to</div>
                 <div class="your-w-box-content mb-4">
                     <perfect-scrollbar>
                         <div class="scroll-data">
                             <ng-container>
-                                <div class="w-item-list active-w">
+                                <div class="w-item-list"  *ngFor="let app of associatedAccounts | filter : [workspace_search,'accountName']; let i=index"
+                                (click)="switchAccountInternal(app)" [ngClass]="{'selected-w' : app.userFullName === selectAccountDetails.userFullName}">
                                     <div class="arrow-icon">
                                         <i class="si-carrotup"></i>
                                     </div>
-                                    <div class="icon-tetx">
-                                        <span class="alphabet">cf</span>
+                                    <div class="icon-tetx" [ngStyle]="{'background-color':app.color}">
+                                        <span class="alphabet" attr.id="associateprofiledisplay{{i}}">{{app.associate_profile_display}}</span>
                                     </div>
                                     <div class="content-data">
-                                        <div class="w-name">Costco HR</div>
-                                        <div class="member-count">2 Members</div>
+                                        <div class="w-name">{{app.accountName}}</div>
+                                        <div class="member-count">{{app.usersCount}}</div>
                                     </div>
                                 </div>
-                                <div class="w-item-list selected-w">
-                                    <div class="arrow-icon">
-                                        <i class="si-carrotup"></i>
-                                    </div>
-                                    <div class="icon-tetx">
-                                        <span class="alphabet">cf</span>
-                                    </div>
-                                    <div class="content-data">
-                                        <div class="w-name">Costco HR</div>
-                                        <div class="member-count">2 Members</div>
-                                    </div>
-                                </div>
-                                <div class="w-item-list">
-                                    <div class="arrow-icon">
-                                        <i class="si-carrotup"></i>
-                                    </div>
-                                    <div class="icon-tetx">
-                                        <span class="alphabet">cf</span>
-                                    </div>
-                                    <div class="content-data">
-                                        <div class="w-name">Costco HR</div>
-                                        <div class="member-count">2 Members</div>
-                                    </div>
-                                </div>
-                                <div class="w-item-list">
-                                    <div class="arrow-icon">
-                                        <i class="si-carrotup"></i>
-                                    </div>
-                                    <div class="icon-tetx">
-                                        <span class="alphabet">cf</span>
-                                    </div>
-                                    <div class="content-data">
-                                        <div class="w-name">Costco HR</div>
-                                        <div class="member-count">2 Members</div>
-                                    </div>
-                                </div>
+
                             </ng-container>
                         </div>
                     </perfect-scrollbar>
                 </div>
-    
+                
                 <div class="title-w">Other Workspaces</div>
                 <div class="desc-text-data">Workspaces from your organisation that you can join </div>
                 <div class="your-w-box-content other-workspace-box mb-4">
                     <perfect-scrollbar>
                         <div class="scroll-data">
-                            <div class="empty-w">
+                            <div class="empty-w" *ngIf="emptyContent">
                                 <div class="e-title">There are no other workspces <br/> that we could find for Acme.org</div>
                             </div>
                             <ng-container>
-                                <div class="w-item-list joined">
-                                    <div class="icon-tetx">
-                                        <span class="alphabet">cf</span>
-                                    </div>
-                                    <div class="content-data">
-                                        <div class="w-name">Costco HR</div>
-                                        <div class="member-count">2 Members</div>
-                                    </div>
-                                    <button class="joined-btn">Join</button>
+                                <div class="w-item-list" [ngClass]="{'joined':workspace.alreadyJoined}"
+                                *ngFor="let workspace of WorkspaceList| filter : [workspace_search, 'displayName']; let i=index">
+                                <div class="icon-tetx"  [ngStyle]="{'background-color':workspace.color}">
+                                    <span class="alphabet">{{workspace.displayShortName}}</span>
                                 </div>
-                                <div class="w-item-list">
-                                    <div class="icon-tetx">
-                                        <span class="alphabet">cf</span>
-                                    </div>
-                                    <div class="content-data">
-                                        <div class="w-name">Costco HR</div>
-                                        <div class="member-count">2 Members</div>
-                                    </div>
-                                    <button class="joined-btn">Join</button>
+                                <div class="content-data">
+                                    <div class="w-name">{{workspace.displayName}}</div>
+                                    <div class="member-count">{{workspace.usersCount}}</div>
                                 </div>
-                                <div class="w-item-list">
-                                    <div class="icon-tetx">
-                                        <span class="alphabet">cf</span>
-                                    </div>
-                                    <div class="content-data">
-                                        <div class="w-name">Costco HR</div>
-                                        <div class="member-count">2 Members</div>
-                                    </div>
-                                    <button class="joined-btn">Join</button>
-                                </div>
-                                <div class="w-item-list">
-                                    <div class="icon-tetx">
-                                        <span class="alphabet">cf</span>
-                                    </div>
-                                    <div class="content-data">
-                                        <div class="w-name">Costco HR</div>
-                                        <div class="member-count">2 Members</div>
-                                    </div>
-                                    <button class="joined-btn">Join</button>
-                                </div>
-                                <div class="w-item-list">
-                                    <div class="icon-tetx">
-                                        <span class="alphabet">cf</span>
-                                    </div>
-                                    <div class="content-data">
-                                        <div class="w-name">Costco HR</div>
-                                        <div class="member-count">2 Members</div>
-                                    </div>
-                                    <button class="joined-btn">Join</button>
-                                </div>
+                                <button class="joined-btn" [ngClass]="{'disabled':workspace.alreadyJoined}"
+                                 (click)="JoinWorkspace(workspace, i)">{{(workspace.alreadyJoined) ? 'Joined' : 'Join'}}</button>
+                            </div>
                             </ng-container>
                         </div>
                     </perfect-scrollbar>
                 </div>
+
+               
             </div>
         </div>
     </perfect-scrollbar>
+    <div class="mainLoadingSpinner1" *ngIf="loadingProgress">
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <!-- <span class="please-wait-message">{{'Please Wait!' | translate}}</span> -->
+    </div>
 </kr-modal>
 
 <!-- Browse all workspace close-->

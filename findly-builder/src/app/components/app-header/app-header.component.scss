@@ -646,7 +646,7 @@
                         box-shadow: 0px 5px 26px rgba(32, 33, 36, 0.25);
                         border-radius: 4px;
                         padding: 0;
-                        min-width: 229px;
+                        min-width: 281px;
                         margin-top: 15px;
                         .profile-info-user{
                             display: flex;
@@ -1187,3 +1187,33 @@
         }
     }
 }
+
+.member-count {
+    font-size: 12px !important;
+}
+
+
+
+
+.mainLoadingSpinner1 {
+    position: absolute;
+    top: 66%;
+    left: 47%;
+    z-index: 2;
+    padding-left:50px;
+    background: transparent;
+    width: 223px;
+    height: 40px;
+    padding-top: 10px;
+    border-radius: 4px;
+    opacity: 0.95;
+    padding-left: 5px;
+    width: 100%;
+    .please-wait-message1 {
+      position: relative;
+      color: #29293b;
+      top: -16px;
+      left: 25px;
+      font-size: 12px;
+    }    
+  }
