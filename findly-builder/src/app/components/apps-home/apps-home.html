@@ -237,7 +237,7 @@
     </perfect-scrollbar>
   </ng-container>
 
-    <!-- Onbaording Data -->
+    <!-- New Onbaording Data -->
     <ng-container *ngIf="emptyApp">
       <div class="onboarding-new-user-data">
         <!-- Boarding screen -->
@@ -257,18 +257,18 @@
                 <div class="not-active-bar" ></div>
                 <div class="not-active-bar"></div>
               </div> -->
-              <div class="back-btn d-none">
+              <!-- <div class="back-btn d-none">
                 <i class="si-back-arrow"></i>
-              </div>
+              </div> -->
               <div class="title-start">How would you like to start?</div>
               <div class="explore-data-cards">
-                <div  class="explore-card sample-data"  (mouseenter)="progressBarFun(3,1)" (mouseleave)="progressBarFun(0,0)" >
+                <div  class="explore-card sample-data"  (mouseenter)="progressBarFun(3,1)" (mouseleave)="progressBarFun(0,0)">
                   <div class="icon-block">
                     <img src="assets/icons/onboarding/sample-data.svg">
                   </div>
                   <div class="content-data">
-                    <div class="main-title">Explore with sample data</div>
-                    <div class="desc-text">Get started using one of our prebuilt search application with sample data to suit your business use case </div>
+                    <div class="main-title">Create app with sample data</div>
+                    <div class="desc-text">Explore SearchAssist using sample data for various use cases with  pre-built search experiences</div>
                   </div>
                   <div class="arrow-block">
                     <i class="si-right-arrow-large"></i>
@@ -279,8 +279,8 @@
                     <img src="assets/icons/onboarding/my-self.svg">
                   </div>
                   <div class="content-data">
-                    <div class="main-title">Explore Myself</div>
-                    <div class="desc-text">Start creating a new App from scratch</div>
+                    <div class="main-title">Start from Scratch</div>
+                    <div class="desc-text">Start by creating a new app from scratch by adding your data and building custom search experiance</div>
                   </div>
                   <div class="arrow-block">
                     <i class="si-right-arrow-large"></i>
@@ -315,9 +315,9 @@
                   <!-- <div class="not-active-bar active-bar"></div>
                   <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div> -->  
                 </div>
-                <div class="back-btn" (click)="backToWelcomePage();progressBar.length=0">
+                <!-- <div class="back-btn" (click)="backToWelcomePage();progressBar.length=0">
                   <i class="si-back-arrow"></i>
-                </div>
+                </div> -->
                 <div *ngIf="displayApp" class="title-start">Give a name to your App</div>
                 <div *ngIf="displaydemoOptions" class="title-start">Choose the sample data you would like to start with</div>
 
@@ -418,7 +418,7 @@
                           </a>
                         </li>
                       </ul>
-                      <!-- Tab panes -->
+                      <!-- Tab panes  -->
                       <div class="tab-content">
                         <div class="tab-pane active" id="searchbar">
                           <div class="img-block">
@@ -448,7 +448,7 @@
               </div>
             </perfect-scrollbar>
             <div class="footer-btns-data" *ngIf="displayApp">
-              <!-- <button *ngIf="displayApp" class="kr-sg-button-secondary btn_lg back_button" (click)="backToWelcomePage()">Back</button> -->
+              <button *ngIf="displayApp" class="kr-sg-button-secondary btn_lg back_button" (click)="backToWelcomePage();progressBar.length=0">Back</button>
               <button *ngIf="displayApp" class="kr-sg-button-primary btn_lg" (click)='createDemoApp()'>Continue</button>
             </div>
             <ng-container *ngIf="demoOptions">
