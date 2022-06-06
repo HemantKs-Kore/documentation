@@ -474,6 +474,7 @@ export class UpgradePlanComponent implements OnInit {
       this.directiveScroll.directiveRef.scrollTo(420)
     }, 500)
   }
+
   //download invoice
   downloadInvoice() {
     this.selectedApp = this.workflowService.selectedApp();
