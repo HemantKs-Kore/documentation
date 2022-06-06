@@ -2254,7 +2254,6 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
 
   painlessScriptChanged(event) {
     let count = this.codemirror.codeMirror.lineCount();
-    console.log("lines", this.codemirror.codeMirror.lineCount());
   }
   //matchip method
   add(event: MatChipInputEvent, index): void {

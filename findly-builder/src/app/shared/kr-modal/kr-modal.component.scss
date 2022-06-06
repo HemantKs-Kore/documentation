@@ -632,6 +632,7 @@
                                     line-height: 19px;
                                     color: #3C4043;
                                     margin-bottom: 4px;
+                                    margin-top: 20px
                                 }
 
                                 .sub-text {
@@ -641,38 +642,40 @@
                                     color: #202124;
                                 }
 
-                                .hint-connector-text {
-                                    background: #EAF6EC;
-                                    padding: 5px 8px;
-                                    display: flex;
-                                    align-items: center;
-                                    margin: 8px 0;
 
-                                    &.if-error {
-                                        background: #FFF1ED;
+                            }
+                        }
 
-                                        i {
-                                            color: #DD3646;
-                                        }
+                        .hint-connector-text {
+                            background: #EAF6EC;
+                            padding: 5px 8px;
+                            display: flex;
+                            align-items: center;
+                            margin: 8px 0;
 
-                                        span {
-                                            color: #DD3646;
-                                        }
-                                    }
+                            &.if-error {
+                                background: #FFF1ED;
 
-                                    i {
-                                        margin-right: 6px;
-                                        color: #28A745;
-                                        font-size: 13px;
-                                    }
-
-                                    span {
-                                        font-weight: 400;
-                                        font-size: 12px;
-                                        line-height: 20px;
-                                        color: #28A745;
-                                    }
+                                i {
+                                    color: #DD3646;
                                 }
+
+                                span {
+                                    color: #DD3646;
+                                }
+                            }
+
+                            i {
+                                margin-right: 6px;
+                                color: #28A745;
+                                font-size: 13px;
+                            }
+
+                            span {
+                                font-weight: 400;
+                                font-size: 12px;
+                                line-height: 20px;
+                                color: #28A745;
                             }
                         }
                     }
@@ -876,7 +879,7 @@
                     }
 
                     &.red {
-                        background-color: $warningRed !important;
+                        background-color: $warningRed  !important;
                         border: none !important;
                     }
                 }

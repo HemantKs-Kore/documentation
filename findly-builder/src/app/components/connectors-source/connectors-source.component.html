@@ -141,7 +141,7 @@
                                         <div class="steps-hint-data">
                                             <div class="step-data-title">Step 3</div>
                                             <div class="steps-info-sec">
-                                                <div class="h-title">Follow authentification flow</div>
+                                                <div class="h-title">Follow authentication flow</div>
                                                 <div class="text-desc">Follow the {{selectedConnector?.connector_name}}
                                                     authentication flow
                                                     as
@@ -436,7 +436,9 @@
                                                     <div class="col-4"><a [href]="content?.url" class="url-link" target="_blank">{{content?.url}}</a></div>
                                                     <div class="col-4">{{content?.lastUpdatedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
                                                 </div>
-                                            </section>                               
+                                            </section>
+                                            <app-record-pagination [totalRecord]='total_records' [limitpage]='10' (pageChanged)="paginate($event)">
+                                            </app-record-pagination>                               
                                         </div>
                                     </div>
                                 </div>
@@ -542,17 +544,18 @@
                 </div>
                 <div class="c-content-sec">
                     <div class="title">{{selectedConnector?.connector_name}}</div>
-                    <div class="sub-text">Tomcat web server and hsql database, and also supports other databases.</div>
+                    <!-- <div class="sub-text">Tomcat web server and hsql database, and also supports other databases.</div> -->
                     <!--show authorization success or failure-->
-                    <div class="hint-connector-text" *ngIf="!isPopupDelete&&isAuthorizeStatus">
-                        <i class="si-check-round"></i>
-                        <span>Connection authenticated successfully</span>
-                    </div>
-                    <div class="hint-connector-text if-error" *ngIf="!isPopupDelete&&!isAuthorizeStatus">
-                        <i class="si-warning"></i>
-                        <span>Connection authenticated successfully</span>
-                    </div>
+                   
                 </div>
+            </div>
+            <div class="hint-connector-text" *ngIf="!isPopupDelete&&isAuthorizeStatus">
+                <i class="si-check-round"></i>
+                <span>Connection authenticated successfully</span>
+            </div>
+            <div class="hint-connector-text if-error" *ngIf="!isPopupDelete&&!isAuthorizeStatus">
+                <i class="si-warning"></i>
+                <span>Connection Authentication failed</span>
             </div>
         </div>
         <div class="modal-footer text-right" *ngIf="isPopupDelete">
@@ -560,7 +563,7 @@
             <button class="kr-sg-button-secondary btn_lg" (click)="openDeleteModel('close')">No</button>
         </div>
         <div class="modal-footer text-right" *ngIf="!isPopupDelete">
-            <button class="kr-sg-button-danger btn_lg" (click)="isAuthorizeStatus?goBacktoListPage():authorizeConnector()">{{isAuthorizeStatus?'Done':'Retry'}}</button>
+            <button class="kr-sg-button-primary btn_lg" (click)="isAuthorizeStatus?goBacktoListPage():authorizeConnector()">{{isAuthorizeStatus?'Done':'Retry'}}</button>
             <button class="kr-sg-button-secondary btn_lg" (click)="openDeleteModel('close')" *ngIf="!isAuthorizeStatus">Cancel</button>
         </div>
     </div>

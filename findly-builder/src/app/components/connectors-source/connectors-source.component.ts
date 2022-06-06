@@ -62,6 +62,7 @@ export class ConnectorsSourceComponent implements OnInit {
   syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
   isPopupDelete: boolean = true;
   isAuthorizeStatus: boolean = false;
+  total_records: number;
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
   constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog) { }
@@ -88,6 +89,7 @@ export class ConnectorsSourceComponent implements OnInit {
     }
     else if (type === 'close') {
       this.deleteModelRef.close();
+      this.getConnectors();
     }
   }
   //common for toast messages
@@ -163,15 +165,16 @@ export class ConnectorsSourceComponent implements OnInit {
     });
   }
   //get content data api
-  getConentData() {
+  getConentData(offset?) {
     const quaryparms: any = {
       searchIndexId: this.searchIndexId,
       connectorId: this.connectorId,
-      offset: 0,
+      offset: offset || 0,
       limit: 10
     };
     this.service.invoke('get.contentData', quaryparms).subscribe(res => {
       this.overViewData.content = res?.content;
+      this.total_records = res?.count;
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
@@ -203,6 +206,10 @@ export class ConnectorsSourceComponent implements OnInit {
       this.getConnectorData();
       this.getSyncCount();
     }
+  }
+  //content pagination 
+  paginate(event) {
+    this.getConentData(event?.skip);
   }
   //loop sync count numbers
   getSyncCount() {
@@ -314,45 +321,10 @@ export class ConnectorsSourceComponent implements OnInit {
     }, errRes => {
       this.isPopupDelete = false;
       this.isAuthorizeStatus = false;
+      if (dialogRef) dialogRef.close();
+      this.openDeleteModel('open');
       this.errorToaster(errRes.error.errors[0].msg, 'error');
     });
-    // const authToken = this.auth.getAccessToken();
-    // const _bearer = 'bearer ' + authToken;
-    // const account_id = this.localStoreService?.getAuthInfo()?.currentAccount?.accountId;
-    // const connector_id = data?._id ? data?._id : this.connectorId;
-    // const url = `${environment.API_SERVER_URL}/searchassistapi/findly/${this.searchIndexId}/connectors/${connector_id}/authorize`;
-    // fetch(url, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     Authorization: _bearer,
-    //     AccountId: account_id
-    //   },
-    // }).then(res => {
-    //   if (res.status === 200) {
-    //     if (data?.type === 'confluenceCloud') {
-    //       // fetch(res.url, {
-    //       //   method: 'GET',
-    //       //   referrerPolicy: "no-referrer-when-downgrade",
-    //       //   redirect: "manual"
-    //       // }).then(dat => {
-    //       //   console.log("res", dat);
-    //       // })
-    //       //window.open(res.url, '_blank');
-    //       //window.location.replace(res.url)
-    //     }
-    //     else {
-    //       //this.goBacktoListPage();
-    //       this.openDeleteModel('open');
-    //     }
-    //   }
-    //   else {
-    //     this.errorToaster('Connectors API Failed', 'error');
-    //   }
-    // })
-    //   .catch(error => {
-    //     console.log("error", error);
-    //   })
   }
   //call if authorize api was success
   goBacktoListPage() {
@@ -378,6 +350,7 @@ export class ConnectorsSourceComponent implements OnInit {
         this.connectorId = data?._id;
         if (result === 'yes') {
           if (data?.isActive) {
+            this.selectedConnector = data;
             this.authorizeConnector(data, dialogRef);
           }
           else {
@@ -439,6 +412,7 @@ export class ConnectorsSourceComponent implements OnInit {
     }
     this.service.invoke('put.connector', quaryparms, payload).subscribe(res => {
       if (res) {
+        this.getConnectors();
         this.notificationService.notify('Connector Updated Successfully', 'success');
       }
     }, errRes => {
