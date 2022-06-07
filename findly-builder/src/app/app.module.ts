@@ -118,6 +118,7 @@ import { GeneralSettingsComponent } from './components/general-settings/general-
 import { ResultTemplatesComponent } from './components/result-templates/result-templates.component';
 import { OnboardingComponentComponent } from './components/onboarding-component/onboarding-component.component';
 import { AnalyticsDropdownComponent } from './helpers/components/analytics-dropdown/analytics-dropdown.component';
+import { ConnectorsSourceComponent } from './components/connectors-source/connectors-source.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -202,8 +203,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     valueFormatPipe,
     GeneralSettingsComponent,
     ResultTemplatesComponent,
-    OnboardingComponentComponent,
-    AnalyticsDropdownComponent
+    AnalyticsDropdownComponent,
+    ConnectorsSourceComponent,
+    OnboardingComponentComponent
   ],
   imports: [
     BrowserModule,

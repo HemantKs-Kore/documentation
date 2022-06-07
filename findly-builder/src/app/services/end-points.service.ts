@@ -46,11 +46,11 @@ export class EndPointsService {
     };
 
     this.serviceList['app.allowedDomains'] = {
-      endpoint:  this.API_SERVER_URL_PLATFORM  + '/builder/allowedDomains',
+      endpoint: this.API_SERVER_URL_PLATFORM + '/builder/allowedDomains',
       method: 'get'
     };
     this.serviceList['post.requestToDomains'] = {
-      endpoint: this.API_SERVER_URL_PLATFORM  + '/builder/requestToDomains?type=:type',
+      endpoint: this.API_SERVER_URL_PLATFORM + '/builder/requestToDomains?type=:type',
       method: 'post'
     };
     /** Get Account Configuration API */
@@ -1217,12 +1217,51 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/apps/:streamId/unlinkApp',
       method: 'delete'
     }
-     /** create Demo app API */
-     this.serviceList['post.createDemoApp'] = {
+    /** create Demo app API */
+    this.serviceList['post.createDemoApp'] = {
       endpoint: this.API_SERVER_URL + '/findly/createDemoApp',
       method: 'post'
     }
-    
-
+    // Connectors API'S
+    this.serviceList['get.connectors'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors',
+      method: 'get'
+    }
+    this.serviceList['get.connectorById'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon',
+      method: 'get'
+    }
+    this.serviceList['post.connector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors',
+      method: 'post'
+    }
+    this.serviceList['post.authorizeConnector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon/authorize',
+      method: 'post'
+    }
+    this.serviceList['put.connector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon',
+      method: 'put'
+    }
+    this.serviceList['get.callbackConnector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/connectors/callback?searchIndexId=:searchIndexId&connectorId=:connectorId&code=:code&state=:state',
+      method: 'get'
+    }
+    this.serviceList['delete.connector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon',
+      method: 'delete'
+    }
+    this.serviceList['post.ingestConnector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon/queue-content',
+      method: 'post'
+    }
+    this.serviceList['get.contentData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/connectors/:connectorId/content?offset=:offset&limit=:limit',
+      method: 'get'
+    }
+    this.serviceList['post.disableConnector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon/disable',
+      method: 'post'
+    }
   }
 }
