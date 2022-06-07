@@ -432,6 +432,10 @@ and open the template in the editor.
     min-width: 60px;
     text-align: center;
     transition: 0.2s all ease-in;
+    i{
+        font-size: 12px;
+        margin-right: 10px;
+    }
     &:hover{
         background: #bc000b;
     }
@@ -3283,5 +3287,12 @@ pre{
 .dropdown-toggle{
     &::after{
         display: none;
+    }
+}
+a{
+    color: #0D6EFD;
+    text-decoration: none !important;
+    &:hover{
+        color: #0D6EFD;
     }
 }
