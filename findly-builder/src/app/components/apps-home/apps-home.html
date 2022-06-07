@@ -26,6 +26,8 @@
                       src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                 </div>
                 <div class="add_feild" (click)="openCreateApp()">
+                  <button (click)="createDemoApp()">createDemoApp</button>
+
                   <img src="assets/icons/add_plus.svg">Add Application
                 </div>
                 <button (click)="openDetails()" class="d-none">Details</button>
@@ -236,12 +238,11 @@
       </div>
     </perfect-scrollbar>
   </ng-container>
-
     <!-- New Onbaording Data -->
     <ng-container *ngIf="emptyApp">
       <div class="onboarding-new-user-data">
         <!-- Boarding screen -->
-        <ng-container *ngIf="hideWelcomepage && emptyApp">
+        <ng-container *ngIf="!steps && emptyApp">
           <div class="ob-data-info">
             <div class="left-sec">
               <div class="user-details">
@@ -262,7 +263,7 @@
               </div> -->
               <div class="title-start">How would you like to start?</div>
               <div class="explore-data-cards">
-                <div  class="explore-card sample-data"  (mouseenter)="progressBarFun(3,1)" (mouseleave)="progressBarFun(0,0)">
+                <div  class="explore-card sample-data"  (mouseenter)="progressBarFun(3,1)" (mouseleave)="progressBarFun(0,0)" (click)="welcomeStep('sampleData')">
                   <div class="icon-block">
                     <img src="assets/icons/onboarding/sample-data.svg">
                   </div>
@@ -274,7 +275,7 @@
                     <i class="si-right-arrow-large"></i>
                   </div>
                 </div>
-                <div class="explore-card my-self" (mouseenter)="progressBarFun(2,1)" (mouseleave)="progressBarFun(0,0)" (click)="exploreMyself();progressBar.length=2">
+                <div class="explore-card my-self" (mouseenter)="progressBarFun(2,1)" (mouseleave)="progressBarFun(0,0)" (click)="welcomeStep('selfExplore');progressBar.length=2">
                   <div class="icon-block">
                     <img src="assets/icons/onboarding/my-self.svg">
                   </div>
@@ -303,7 +304,7 @@
         <!-- End -->
 
         <!-- sample data ad explore screen -->
-        <ng-container *ngIf="true">
+        <ng-container>
           <div class="sample-data-info">
             <perfect-scrollbar>
               <div class="scroll-data">
@@ -318,12 +319,12 @@
                 <!-- <div class="back-btn" (click)="backToWelcomePage();progressBar.length=0">
                   <i class="si-back-arrow"></i>
                 </div> -->
-                <div *ngIf="displayApp" class="title-start">Give a name to your App</div>
+                <div *ngIf="steps=='displayApp'" class="title-start">Give a name to your App</div>
                 <div *ngIf="displaydemoOptions" class="title-start">Choose the sample data you would like to start with</div>
 
 
-                <ng-container *ngIf="demoOptions">
-                  <ng-container *ngIf="displaydemoOptions">
+                <ng-container>
+                  <ng-container *ngIf="steps=='demoOptions'">
                     <div class="tabs-data-info-sample">
                       <ul class="nav nav-pills">
                         <li class="nav-item">
@@ -400,7 +401,7 @@
                     </div>
                   </ng-container>
   
-                  <ng-container *ngIf="showSearchExperices">
+                  <ng-container *ngIf="steps=='showSearchExperience'">
                     <div class="tabs-data-info-sample seach-virtual-assistance">
                       <ul class="nav nav-pills">
                         <li class="nav-item" (click)="selectSearchExperianceType('top')" >
@@ -436,7 +437,7 @@
                 </ng-container>
 
                 <!-- Last step app name -->
-                <ng-container *ngIf="displayApp">
+                <ng-container *ngIf="steps=='displayApp'">
                  <div class="create-app-data">
                   <div class="kr-sg-input-text">
                     <div class="label-text">App Name</div>
@@ -447,20 +448,20 @@
                 </ng-container>
               </div>
             </perfect-scrollbar>
-            <div class="footer-btns-data" *ngIf="displayApp">
-              <button *ngIf="displayApp" class="kr-sg-button-secondary btn_lg back_button" (click)="backToWelcomePage();progressBar.length=0">Back</button>
-              <button *ngIf="displayApp" class="kr-sg-button-primary btn_lg" (click)='createDemoApp()'>Continue</button>
+            <div class="footer-btns-data" *ngIf="steps">
+              <button class="kr-sg-button-secondary btn_lg back_button" (click)="back()">Back</button>
+              <button class="kr-sg-button-primary btn_lg" (click)='checkExperience()'>Continue</button>
             </div>
-            <ng-container *ngIf="demoOptions">
+            <!-- <ng-container *ngIf="steps=='demoOptions'" class="d-none">
               <div class="footer-btns-data" *ngIf="displaydemoOptions">
-                <button class="kr-sg-button-secondary btn_lg" (click)="backToWelcomePage()">Back</button>
+                <button class="kr-sg-button-secondary btn_lg" (click)="backToPreviousPage()">Back</button>
                 <button (click)="continue()" class="kr-sg-button-primary btn_lg">Continue</button>
               </div>
               <div class="footer-btns-data" *ngIf="showSearchExperices">
                 <button class="kr-sg-button-secondary btn_lg" (click)="backToWelcomePage()">Back</button>
                 <button (click)="continue()" class="kr-sg-button-primary btn_lg">Continue</button>
               </div>
-            </ng-container>
+            </ng-container> -->
           </div>
         </ng-container>
         <!-- End -->
