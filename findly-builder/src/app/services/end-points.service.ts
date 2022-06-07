@@ -22,6 +22,7 @@ export class EndPointsService {
     } else {
       this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX;
       this.API_SERVER_URL_PLATFORM = environment.API_SERVER_URL + this.API_URL_PREFIX //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
+      // Comment for  static URLS
       // this.API_SERVER_URL_PLATFORM = "https://50b6e8fd7c49.ngrok.io" + "/api/1.1"
       // this.API_SERVER_URL = "http://3cbe-2401-4900-1c0a-1381-4677-75fc-9139-453.ngrok.io" + "/searchassistapi"
       // this.API_SERVER_URL_PLATFORM = "http://3cbe-2401-4900-1c0a-1381-4677-75fc-9139-453.ngrok.io" + this.API_URL_PREFIX
@@ -42,6 +43,15 @@ export class EndPointsService {
     this.serviceList['app.controls'] = {
       endpoint: this.API_SERVER_URL_PLATFORM + '/users/:userId/AppControlList',
       method: 'get'
+    };
+
+    this.serviceList['app.allowedDomains'] = {
+      endpoint:  this.API_SERVER_URL_PLATFORM  + '/builder/allowedDomains',
+      method: 'get'
+    };
+    this.serviceList['post.requestToDomains'] = {
+      endpoint: this.API_SERVER_URL_PLATFORM  + '/builder/requestToDomains?type=:type',
+      method: 'post'
     };
     /** Get Account Configuration API */
     this.serviceList['app.account-configuratuion'] = {
@@ -1206,6 +1216,11 @@ export class EndPointsService {
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType/:pageId',
       endpoint: this.API_SERVER_URL + '/findly/apps/:streamId/unlinkApp',
       method: 'delete'
+    }
+     /** create Demo app API */
+     this.serviceList['post.createDemoApp'] = {
+      endpoint: this.API_SERVER_URL + '/findly/createDemoApp',
+      method: 'post'
     }
     
 

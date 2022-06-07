@@ -795,13 +795,65 @@
     /*--Regular Modal Basic Styles Ends Here--*/
     &.onboardingJourney-landing-popup{
         .modal-dialog{
-            width: 875px !important;
-            max-width: 875px !important;
-            height: calc(100% - 80px);
-            max-height: 617px;
+            width: 780px !important;
+            max-width: 780px !important;
+            // height: calc(100% - 80px);
+            height: auto;
+            max-height: 500px;
             .modal-content{
                 background: #FFFFFF;
                 border-radius: 6px;
+                display: block;
+                flex-direction: unset;
+                overflow: inherit;
+                overflow: initial;
+                .close_icon{
+                    width: 32px;
+                    height: 32px;
+                    line-height: normal;
+                    background: #FFFFFF;
+                    border-radius: 3px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #202124;
+                    font-size: 13px;
+                    position: absolute;
+                    right: -40px;
+                    top: 0;
+                    font-size: 12px;
+                }
+                .video-section-block{
+                    padding:20px;
+                    .perfect-scroll-modal-body{
+                        height: calc(100vh - 120px);
+                        padding: 20px 20px;
+                    }
+                    .video-player{
+                        position: relative;
+                        min-height: 300px;
+                        iframe{
+                            border: 0;
+                            width: 100%;
+                            height: 370px;
+                            background: #0e1d3a;
+                            border-radius: 4px;
+                        }
+                    }
+                    .video-header{
+                        font-weight: 700;
+                        font-size: 18px;
+                        line-height: 22px;
+                        color: #202124;
+                        padding: 10px 0 8px 0;
+                    }
+                    .video-desc{
+                        font-weight: 500;
+                        font-size: 16px;
+                        line-height: 19px;
+                        color: #5F6368;
+                    }
+                }
                 .modal-header{
                     height: auto;
                     padding: 8px 20px;
@@ -1050,6 +1102,235 @@
                     box-shadow: 0px -2px 4px rgba(32, 33, 36, 0.2);
                     border-radius: 4px;
                     padding: 10px 30px !important;
+                }
+            }
+        }
+    }
+    &.browse-workspace-full-popup{
+        .modal-dialog{
+            background: #E5E5E5;
+            .modal-content{
+                background: transparent;
+                .bg-1{
+                    position: absolute;
+                    left: 70px;
+                    bottom: 60px;
+                    img{
+
+                    }
+                }
+                .bg-2{
+                    position: absolute;
+                    right: 20px;
+                    top: 40px;
+                    img{
+
+                    }
+                }
+                .modal-header{
+                    padding: 18px 20px;
+                    height: auto;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    background: transparent;
+                    z-index: 1;
+                    .logo-data{
+
+                    }
+                    .close-modal{
+                        display: flex;
+                        align-items: center;
+                        font-weight: 400;
+                        font-size: 14px;
+                        line-height: 17px;
+                        color: #5F6368;
+                        cursor: pointer;
+                        i{
+                            font-size: 10px;
+                            margin-right: 10px;
+                        }
+                    }
+                }
+                .modal-body{
+                    padding: 10px 0px 20px 0px;
+                    .workspace-data{
+                        width: 480px;
+                        margin: 0 auto;
+                        text-align: left;
+                        .main-heading{
+                            font-weight: 500;
+                            font-size: 20px;
+                            line-height: 24px;
+                            color: #5F6368;
+                            text-align: center;
+                            margin-bottom: 10px;
+                        }
+                        .kr-sg-input-search{
+                            margin-bottom: 16px;
+                            input{
+                                padding: 5px 10px 5px 30px;
+                            }
+                            i{
+                                color: #BDC1C6;
+                                font-size: 16px;
+                            }
+                        }
+                        .notifyAccount{
+                            background: #EAF6EC;
+                            border-radius: 4px;
+                            border: 1px solid #93D3A2;
+                            display: flex;
+                            align-items: center;
+                            padding: 11px;
+                            margin-bottom: 17px;
+                            i{
+                                color: #135423;
+                                margin-right: 10px;
+                            }
+                            span{
+                                font-weight: 400;
+                                font-size: 12px;
+                                color: #135423;
+                            }
+                        }
+                        .title-w{
+                            font-weight: 600;
+                            font-size: 16px;
+                            line-height: 19px;
+                            color: #202124;
+                            margin-bottom: 5px;
+                        }
+                        .desc-text-data{
+                            font-weight: 400;
+                            font-size: 12px;
+                            line-height: 15px;
+                            color: #5F6368;
+                        }
+                        .your-w-box-content{
+                            margin: 12px 0;
+                            border: 1px solid #BDC1C6;
+                            border-radius: 6px;
+                            display: inline-block;
+                            width: 100%;
+                            &.other-workspace-box{
+                                .w-item-list{
+                                    &.joined{
+                                        .joined-btn{
+                                            background: #EAF6EC;
+                                            border-radius: 4px;
+                                            color: #28A745;
+                                            border: 1px solid #EAF6EC;
+                                        }
+                                    }
+                                    .content-data{
+                                        width: 242px;
+                                        padding-right: 10px;
+                                    }
+                                    .joined-btn{
+                                        padding: 6px 20px;
+                                        background: #FFFFFF;
+                                        border: 1px solid #BDC1C6;
+                                        border-radius: 4px;
+                                        font-weight: 400;
+                                        font-size: 14px;
+                                        line-height: 20px;
+                                        color: #202124;
+                                        outline: 0;
+                                        cursor: pointer;
+                                        width: 143px;
+                                    }
+                                }
+                            }
+                            .scroll-data{
+                                max-height: 250px;
+                            }
+                            .w-item-list{
+                                background: #FFFFFF;
+                                padding: 14px 19px;
+                                display: flex;
+                                align-items: center;
+                                border-bottom: 1px solid #E4E5E7;
+                                min-height: 72px;
+                                cursor: pointer;
+                                position: relative;
+                                transition: 0.2s all ease;
+                                &:first-child{
+                                    border-radius: 6px 6px 0px 0px;
+                                }
+                                &:last-child{
+                                    border-radius: 0px 0px 6px 6px;
+                                    border-bottom: 0;
+                                }
+                                &:hover{
+                                    background: #F3F8FF;
+                                    .arrow-icon{
+                                        display: block;
+                                    }
+                                }
+                                &.active-w{
+                                    background: #F3F8FF;
+                                    .arrow-icon{
+                                        display: block;
+                                    }
+                                }
+                                &.selected-w{
+                                    background: #FFFBEA;
+                                    .arrow-icon{
+                                        display: block;
+                                    }
+                                }
+                                .arrow-icon{
+                                    position: absolute;
+                                    right: 15px;
+                                    top: auto;
+                                    color: #202124;
+                                    font-size: 14px;
+                                    display: none;
+                                }
+                                .icon-tetx{
+                                    width: 40px;
+                                    height: 40px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    background: #93D3A2;
+                                    border-radius: 100%;
+                                    font-weight: 600;
+                                    font-size: 18px;
+                                    line-height: 22px;
+                                    color: #EAF6EC;
+                                    text-transform: uppercase;
+                                    margin-right: 15px;
+                                }
+                                .content-data{
+                                    .w-name{
+                                        font-weight: 500;
+                                        font-size: 14px;
+                                        line-height: 17px;
+                                        color: #202124;
+                                        margin-bottom: 4px;
+                                    }
+                                    .member-count{
+                                        font-weight: 500;
+                                        font-size: 12px;
+                                        line-height: 15px;
+                                        color: #9AA0A6;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .empty-w{
+                        padding: 40px;
+                        text-align: center;
+                        .e-title{
+                            font-weight: 500;
+                            font-size: 14px;
+                            line-height: 21px;
+                            color: #9AA0A6;
+                        }
+                    }
                 }
             }
         }
