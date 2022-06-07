@@ -77,6 +77,7 @@ export class ConnectorsSourceComponent implements OnInit {
       if (this.sessionData?.isRedirect) {
         this.isPopupDelete = false;
         this.isAuthorizeStatus = true;
+        this.ingestConnector();
         this.openDeleteModel('open');
         sessionStorage.clear();
       }
@@ -304,9 +305,10 @@ export class ConnectorsSourceComponent implements OnInit {
     this.service.invoke('post.authorizeConnector', quaryparms, payload).subscribe(res => {
       if (res) {
         if (data?.type === 'confluenceCloud') {
-          window.open(res.url, '_self')
+          window.open(res.url, '_self');
         }
         else {
+          this.ingestConnector();
           if (dialogRef) {
             dialogRef.close();
             this.getConnectors();
@@ -328,7 +330,6 @@ export class ConnectorsSourceComponent implements OnInit {
   }
   //call if authorize api was success
   goBacktoListPage() {
-    this.ingestConnector();
     this.openDeleteModel('close');
     if (this.selectedContent !== 'edit') this.selectedContent = 'list';
   }
@@ -443,9 +444,6 @@ export class ConnectorsSourceComponent implements OnInit {
       fcon: this.connectorId
     };
     this.service.invoke('post.ingestConnector', quaryparms).subscribe(res => {
-      if (res) {
-        this.getConnectors();
-      }
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });

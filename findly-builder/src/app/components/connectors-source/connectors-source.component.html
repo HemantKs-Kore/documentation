@@ -112,55 +112,39 @@
                                         <div class="icon-config">
                                             <i class="si-instructions"></i>
                                         </div>
-                                        <div class="title">Introduction</div>
+                                        <div class="title">{{'connectors.introduction'|translate}}</div>
                                     </div>
                                 </div>
                                 <div class="desc-text mb-4">{{'connectors.quick_setup_desc'|translate}}</div>
                                 <div class="instruction-steps-data">
                                     <div class="right-block">
                                         <div class="steps-hint-data">
-                                            <div class="step-data-title">Step 1</div>
+                                            <div class="step-data-title">{{'connectors.step_1'|translate}}</div>
                                             <div class="steps-info-sec">
-                                                <div class="h-title">Configure an OAuth application</div>
-                                                <a [href]="selectedConnector.doc_url" target="_blank"><i class="si-external-link"></i> Documentation</a>
-                                                <div class="text-desc">Setup a secure OAuth application through the
-                                                    content source that you or your team will use to connect and
-                                                    synchronize content. You only have to do this once per content
-                                                    source.</div>
+                                                <div class="h-title">{{'connectors.configure_an_OAuth_application'|translate}}</div>
+                                                <a [href]="selectedConnector.doc_url" target="_blank"><i class="si-external-link"></i> {{'connectors.documentation'|translate}}</a>
+                                                <div class="text-desc">{{'connectors.set_up_secure_oauth'|translate}}</div>
                                             </div>
                                         </div>
                                         <div class="steps-hint-data">
-                                            <div class="step-data-title">Step 2</div>
+                                            <div class="step-data-title">{{'connectors.step_2'|translate}}</div>
                                             <div class="steps-info-sec">
-                                                <div class="h-title">Connect the content source</div>
-                                                <div class="text-desc">Use the new OAuth application to connect any
-                                                    number of instances of the content source to Search Assist.
-                                                </div>
+                                                <div class="h-title">{{'connectors.connect_the_content_source'|translate}}</div>
+                                                <div class="text-desc">{{'connectors.use_new_oauth'|translate}}</div>
                                             </div>
                                         </div>
                                         <div class="steps-hint-data">
-                                            <div class="step-data-title">Step 3</div>
+                                            <div class="step-data-title">{{'connectors.step_3'|translate}}</div>
                                             <div class="steps-info-sec">
-                                                <div class="h-title">Follow authentication flow</div>
-                                                <div class="text-desc">Follow the {{selectedConnector?.connector_name}}
-                                                    authentication flow
-                                                    as
-                                                    presented in the <a [href]="selectedConnector.doc_url" target="_blank">documentation link</a>.</div>
+                                                <div class="h-title">{{'connectors.follow_authentication_flow'|translate}}</div>
+                                                <div class="text-desc">{{'connectors.follow_the'|translate}} {{selectedConnector?.connector_name}} {{'connectors.authentication_flow'|translate}}<a [href]="selectedConnector.doc_url" target="_blank">{{'connectors.documentation_link'|translate}}</a>.</div>
                                             </div>
                                         </div>
                                         <div class="steps-hint-data">
-                                            <div class="step-data-title">Step 4</div>
+                                            <div class="step-data-title">{{'connectors.step_4'|translate}}</div>
                                             <div class="steps-info-sec">
-                                                <div class="h-title">Authentication</div>
-                                                <div class="text-desc">Upon the successful authentication flow, you
-                                                    will
-                                                    be redirected to Search
-                                                    Assist.<br /><br />{{selectedConnector?.connector_name}} content
-                                                    will
-                                                    now be captured and will be ready for search gradually as it is
-                                                    synced. Once successfully configured and connected, the
-                                                    {{selectedConnector?.connector_name}}
-                                                    will synchronize automatically.</div>
+                                                <div class="h-title">{{'connectors.authentication'|translate}}</div>
+                                                <div class="text-desc">{{'connectors.upon_the_success'|translate}}<br /><br />{{selectedConnector?.connector_name}} {{selectedConnector?.content_now_captured}} {{selectedConnector?.connector_name}} {{'connectors.will_synchronize_automatically'|translate}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -172,16 +156,10 @@
                                         <div class="icon-config">
                                             <i class="si-instructions"></i>
                                         </div>
-                                        <div class="title">Configuration & Authentication</div>
+                                        <div class="title">{{'connectors.configuration_authentication'|translate}}</div>
                                     </div>
                                 </div>
-                                <div class="desc-text">Setup a secure OAuth application through the content source
-                                    that
-                                    you or your team will use to connect and synchronize content. You only have to
-                                    do
-                                    this once per content source. Follow the {{selectedConnector?.connector_name}}
-                                    authentication flow as
-                                    presented in the <a [href]="selectedConnector.doc_url" target="_blank">documentation link.</a></div>
+                                <div class="desc-text">{{'connectors.set_up_secure_oauth'|translate}} {{selectedConnector?.connector_name}} {{'connectors.authentication_flowe'|translate}} <a [href]="selectedConnector.doc_url" target="_blank">{{'connectors.documentation_link'|translate}}.</a></div>
                                 <!-- <div class="connector-brand">
                                     <div class="c-img">
                                         <img [src]="selectedConnector?.image">
@@ -241,60 +219,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="right-box" *ngIf="false">
-                                        <div class="inner-content">
-                                            <div class="h-title">Document - level permissions</div>
-                                            <div class="desc-text">document - level permission information will be syncronized. Additional configuration is required following the initial connection before documents are available for search</div>
-                                            <div class="d-flex align-items-center">
-                                                <div class="b-text pr-3">Enable document - level permission synchronization</div>
-                                                <label class="kr-sg-toggle">
-                                                    <input type="checkbox" checked>
-                                                    <div class="slider"></div>
-                                                </label>
-                                            </div>
-                                            <div class="info-tip">
-                                                <i class="si-info"></i>
-                                                <span>Which option should I choose?</span>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="authentication-sec" *ngSwitchCase="'authentication'">
-                                <div class="desc-text">Upon successful authentication,
-                                    {{selectedConnector?.connector_name}} content will now
-                                    be
-                                    captured and will be ready for search gradually as it is synced. Once
-                                    successfully
-                                    configured and connected, the {{selectedConnector?.connector_name}} synchronization
-                                    automatically.</div>
+                                <div class="desc-text">{{'connectors.upon_successful_authentication'|translate}}, {{selectedConnector?.connector_name}} {{'connectors.content_now_captured'|translate}} {{selectedConnector?.connector_name}} {{'connectors.will_synchronize_automatically'|translate}}.</div>
                                 <div class="connector-brand">
                                     <div class="c-img">
                                         <img [src]="selectedConnector?.image">
                                     </div>
                                     <div class="c-content-sec">
                                         <div class="title m-0">{{selectedConnector?.connector_name}}</div>
-                                        <!-- <div class="sub-text">File Sharing, Storage, Cloud, G Suite</div> -->
                                     </div>
                                 </div>
-                                <!-- <div class="documentation-text">
-                                    {{'connectors.document_level_permissions'|translate}}
-                                </div>
-                                <div class="document-desc">
-                                    {{'connectors.document_level_permissions_info'|translate}}
-                                </div>
-                                <div class="toggle-with-text">
-                                    <div class="t-title">
-                                        {{'connectors.enable_document_level_permission_synchronization'|translate}}
-                                    </div>
-                                    <label class="kr-sg-toggle">
-                                        <input type="checkbox" checked>
-                                        <div class="slider"></div>
-                                    </label>
-                                </div>
-                                <div class="info-link">
-                                    <i class="si-info"></i>{{'connectors.which_option_should_i_choose'|translate}}
-                                </div> -->
                             </div>
                             </perfect-scrollbar>
                         </div>
@@ -317,7 +253,7 @@
         <div class="connector-cards-data" *ngSwitchCase="'edit'">        
                 <div class="inner-content-data">
                     <!-- <div class="desc-text">{{'connectors.editremoveconnectedsources'|translate}}</div> -->
-                    <div class="back-to-block"><div class="back-to-page" (click)="backToPage('cancel')"><i class="si-carrotup"></i></div> Back</div>
+                    <div class="back-to-block"><div class="back-to-page" (click)="backToPage('cancel')"><i class="si-carrotup"></i></div>{{'connectors.back'|translate}}</div>
                     <div class="connector-brand">
                         <div class="c-img">
                             <img [src]="selectedConnector.image">
@@ -355,9 +291,9 @@
                                             </div>
                                             <div class="source-data">
                                                 <div class="source-card sync-source-card">
-                                                    <div class="sync-card-title">Synchronization</div>
-                                                    <div class="sync-card-btn"><button class="kr-sg-button-primary btn_lg" (click)="selectedTab='configurations'">Synchronize content now</button></div>
-                                                    <div class="sync-card-desc">You can also configure your <span class="sync-card-link">sync frequency.</span></div>
+                                                    <div class="sync-card-title">{{'connectors.synchronization'|translate}}</div>
+                                                    <div class="sync-card-btn"><button class="kr-sg-button-primary btn_lg" (click)="selectedTab='configurations'">{{'connectors.synchronize_content_now'|translate}}</button></div>
+                                                    <div class="sync-card-desc">{{'connectors.you_can_also_configure_your'|translate}} <span class="sync-card-link">{{'connectors.sync_frequency'|translate}}.</span></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -368,8 +304,8 @@
                                 <perfect-scrollbar class="tab-content-scroll-data">
                                 <div class="connection-settings-tab-data">
                                         <div class="connection-settings-title">
-                                            Content source configuration
-                                            <span class="connection-settings-desc pl-2">Edit content source connector settings</span>
+                                            {{'connectors.content_source_configuration'|translate}}
+                                            <span class="connection-settings-desc pl-2">{{'connectors.edit_connector_settings'|translate}}</span>
                                         </div>
                                         <div class="connection-settings-form">
                                             <div class="kr-sg-input-text mb-3">
@@ -427,9 +363,9 @@
                                         <div class="kr-sg-data-table">
                                             <section class="table-content">
                                                 <header class="table-header">
-                                                    <div class="col-4 p-0">Title</div>
-                                                    <div class="col-4">URL</div>
-                                                    <div class="col-4">Last Update</div>
+                                                    <div class="col-4 p-0">{{'connectors.title'|translate}}</div>
+                                                    <div class="col-4">{{'connectors.URL'|translate}}</div>
+                                                    <div class="col-4">{{'connectors.last_update'|translate}}</div>
                                                 </header>
                                                 <div class="content-body" *ngFor="let content of overViewData.content | filter: [ searchContent, 'title']">
                                                     <div class="col-4 p-0">{{content?.title}}</div>
@@ -448,8 +384,8 @@
                                 <perfect-scrollbar class="tab-content-scroll-data">
                                 <div class="configurations-tab-data">
                                     <div class="connection-settings-title">
-                                        Content source name
-                                        <span class="connection-settings-desc pl-2">Customize the name of the content source</span>
+                                       {{'connectors.content_source_name'|translate}}
+                                        <span class="connection-settings-desc pl-2">{{'connectors.customize_the_name'|translate}}</span>
                                     </div>
                                     <div class="configurations-form w-60">
                                         <div class="kr-sg-input-text mb-3">
@@ -457,10 +393,10 @@
                                         </div>
                                     </div>
                                     <div class="sync-frequency-block">
-                                        <div class="sync-frequency-title">Sync frequency</div>
+                                        <div class="sync-frequency-title">{{'connectors.sync_frequency'|translate}}</div>
                                         <div class="sync-frequency-form-block">
                                             <div class="sync-frequency-left">
-                                                <div class="label-text sync-title col-2 pl-0">Sync every</div>
+                                                <div class="label-text sync-title col-2 pl-0">{{'connectors.sync_every'|translate}}</div>
                                                 <div class="kr-sg-dropdowns">
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.days===0?'Days':syncCount.days}}</button>
@@ -511,11 +447,11 @@
             
             <div class="view-more-btn">
                 <div *ngIf="['connectionSettings','configurations'].includes(selectedTab)">
-                    <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('cancel')">Cancel</button>
+                    <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('cancel')">{{'connectors.cancel'|translate}}</button>
                     <button class="kr-sg-button-primary btn_lg" (click)="selectedTab==='configurations'?updateSyncFrequency():updateConnector()">{{selectedTab==='configurations'?'Save Changes':'Connect'}}</button>
                 </div>
                 <div *ngIf="selectedTab==='connectionSettings'">
-                    <button class="kr-sg-button-danger btn_lg" (click)="openDeleteModel('open')"><i class="si-delete"></i>Remove this content source</button>
+                    <button class="kr-sg-button-danger btn_lg" (click)="openDeleteModel('open')"><i class="si-delete"></i>{{'connectors.remove_this_content_source'|translate}}</button>
                 </div>
             </div>
         </div>
@@ -525,17 +461,17 @@
 <kr-modal modalType="center" modalClass="modal_popups_ delete-connectors-data" #deleteModel>
     <div class="delete-connectors-info">
         <div class="modal-header" *ngIf="isPopupDelete">
-            <div class="title">Remove Content Source</div>
+            <div class="title">{{'connectors.remove_content_source'|translate}}</div>
             <div class="close_icon" (click)="openDeleteModel('close')">
                 <img src="assets/icons/modal-close.svg">
             </div>
         </div>
         <div class="modal-body">
             <ng-container *ngIf="isPopupDelete">
-            <div class="title-text">Are you sure you want to remove following content source?</div>
+            <div class="title-text">{{'connectors.are_you_sure_remove'|translate}}</div>
             <div class="info-text">
                 <i class="si-info"></i>
-                <span>This action cannot be undone.</span>
+                <span>{{'connectors.action_cannot_be_undone'|translate}}.</span>
             </div>
            </ng-container>
             <div class="connector-brand">
@@ -551,20 +487,20 @@
             </div>
             <div class="hint-connector-text" *ngIf="!isPopupDelete&&isAuthorizeStatus">
                 <i class="si-check-round"></i>
-                <span>Connection authenticated successfully</span>
+                <span>{{'connectors.connection_success'|translate}}</span>
             </div>
             <div class="hint-connector-text if-error" *ngIf="!isPopupDelete&&!isAuthorizeStatus">
                 <i class="si-warning"></i>
-                <span>Connection Authentication failed</span>
+                <span>{{'connectors.connection_failed'|translate}}</span>
             </div>
         </div>
         <div class="modal-footer text-right" *ngIf="isPopupDelete">
-            <button class="kr-sg-button-danger btn_lg"  (click)="deleteConnector()">Yes</button>
-            <button class="kr-sg-button-secondary btn_lg" (click)="openDeleteModel('close')">No</button>
+            <button class="kr-sg-button-danger btn_lg"  (click)="deleteConnector()">{{'connectors.yes'|translate}}</button>
+            <button class="kr-sg-button-secondary btn_lg" (click)="openDeleteModel('close')">{{'connectors.no'|translate}}</button>
         </div>
         <div class="modal-footer text-right" *ngIf="!isPopupDelete">
             <button class="kr-sg-button-primary btn_lg" (click)="isAuthorizeStatus?goBacktoListPage():authorizeConnector()">{{isAuthorizeStatus?'Done':'Retry'}}</button>
-            <button class="kr-sg-button-secondary btn_lg" (click)="openDeleteModel('close')" *ngIf="!isAuthorizeStatus">Cancel</button>
+            <button class="kr-sg-button-secondary btn_lg" (click)="openDeleteModel('close')" *ngIf="!isAuthorizeStatus">{{'connectors.cancel'|translate}}</button>
         </div>
     </div>
 </kr-modal>
