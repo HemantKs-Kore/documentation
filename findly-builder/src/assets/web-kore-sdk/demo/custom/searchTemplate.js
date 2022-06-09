@@ -872,6 +872,107 @@
               </script>',
           "layoutType": "l9",
           "templateType": "carousel"
+        },
+        {
+          "id": 25,
+          "template": '<script type="text/x-jqury-tmpl">\
+          <div class="siemens-template">\
+            <div class="siemens-list-template redirecting-link click-to-navigate-url isClickable" href="#" target="_blank">\
+              <div class="icon-with-title">\
+                <img src="images/icon1-blue.svg" class="siemens-icon-blue">\
+                <span class="name-title">Cloud Security Controls for Asset Managers</span>\
+                <span class="redirecting-link click-to-navigate-url faqs-shadow isClickable" href="#" target="_blank">\
+                  <img class="siemens-link-icon" src="images/externallink-gray.svg">\
+                </span>\
+              </div>\
+              <div class="info-test-content four-line-description">Target of the trainingSecurity plays a fundamental role in the cloud. Cloud Security refers to a broad set of policies, technologies, applications and controls used to protect data, applications</div>\
+              <div class="author-updates-sec">\
+                <div class="author-names">\
+                  <span class="author-title">Author:</span>\
+                  <span class="author_name">Dwayne Chris</span>\
+                </div>\
+                <div class="updates-on">\
+                  <span class="title">Updated on:</span>\
+                  <span class="time-updates">5th Jan 2022, Wed at 3:56 PM</span>\
+                </div>\
+              </div>\
+              <div class="button-chips">\
+                <button class="btn-chip" style="color:#EF9AA3;background:#EF9AA3;border:1px solid #EF9AA3">Gmail</button>\
+              </div>\
+              </div>\
+              </div>\
+          </script>',
+          "layoutType": "l10",
+          "templateType": "list"
+        },
+        {
+          "id": 26,
+          'template': '<script type="text/x-jqury-tmpl">\
+          <div class="cosmetics-grid-template2">\
+                <div class="arrivals-grids-template">\
+                  <div class="slide-gride cosmetics-product-view">\
+                    <div class="inner-content-data">\
+                      <div class="img-block">\
+                        <img class="banner-img" src="">\
+                      </div>\
+                      <div class="content-block">\
+                        <div class="type-tag display-inline-block">Best Seller</div>\
+                        <div class="type-tag offer">15% off</div>\
+                        <div class="title">Essi: Lipstick - Peach</div>\
+                        <div class="text-desc">Peach Matte lipstick that offers a non-drying and un-crackable finish throughout the day</div>\
+                        <div class="amount-info">$6.79</div>\
+                        <div class="amount-info strike-text">$7.99</div>\
+                      </div>\
+                    </div>\
+                  </div>\
+                </div>\
+                </div>\
+          </script>',
+          "layoutType": "l11",
+          "templateType": "list"
+        },
+        {
+          "id": 27,
+          "template": '<script type="text/x-jqury-tmpl">\
+          <div class="banking-demo-list">\
+              <div class="banking-list-template">\
+                <div class="title-heading-banking {{if data.subtitle}}display-block{{else}}display-none{{/if}}">${data.subtitle}</div>\
+                <div class="banking-carousel-template-data">\
+                  <div class="carousel bankCarouselId${key+1}">\
+                      <div class="slide">\
+                        <div class="inner-content-list">\
+                          <div class="img-block-with-text">\
+                              <div class="img-block">\
+                                  <img src="">\
+                              </div>\
+                              <div class="text-content">\
+                                  <div class="main-heading text-truncate">Luxor Hotel & Casino</div>\
+                                  <div class="stars">\
+                                    <span>4.5</span>\
+                                    <img src="images/banking/star-fill.svg">\
+                                    <img src="images/banking/star-fill.svg">\
+                                    <img src="images/banking/star-fill.svg">\
+                                    <img src="images/banking/star-fill.svg">\
+                                    <img src="images/banking/star-unfil.svg">\
+                                  </div>\
+                                  <div class="info-content two-line-description">Significant reduce time and costs with the U.S Bank purchasing card, a fast, flexible purchasing tool, which offers you an.</div>\
+                              </div>\
+                          </div>\
+                          <div class="chips-data">\
+                            <div class="chip-name">25% off</div>\
+                            <div class="chip-name">Complimentary meals</div>\
+                            <div class="chip-name">No chargeable Reschedule</div>\
+                            <div class="chip-name">3x Reward points</div>\
+                          </div>\
+                        </div>\
+                    </div>\
+                </div>\
+              </div>\
+              </div>\
+            </div>\
+          </script>',
+          "layoutType": "l12",
+          "templateType": "list"
         }
       ]
     }
