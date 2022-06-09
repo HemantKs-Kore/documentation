@@ -1,5 +1,5 @@
 {
-    "deleteToConfirm":"Please type the phrase 'DELETE' to confirm",
+    "deleteToConfirm": "Please type the phrase 'DELETE' to confirm",
     "Hi": "Hi, ",
     "WelcometoFindly": "Welcome to SearchAssist.ai",
     "Your_Applications": "Your Applications",
@@ -328,7 +328,7 @@
         "analytics": "Analytics",
         "dash_board_view": {
             "dashboard": "Dashboard",
-            "Chooseindex":"Choose index to display analytics",
+            "Chooseindex": "Choose index to display analytics",
             "total_user": "Total Users",
             "total_searches": "Total Searches",
             "search_trends": "Search Trends",
@@ -349,7 +349,7 @@
             "Top_Search_Queries_with_No_Result": "Top Search Queries with No Result",
             "Top_Search_Results": "Top Search Results",
             "Searched_Intent": "Query",
-            "Search_Results" : "Search Results",
+            "Search_Results": "Search Results",
             "Count": "Count",
             "Appearances": "Appearances",
             "Clicks": "Clicks",
@@ -872,7 +872,11 @@
         "cardBody": "This is a preview for displaying text in the expanded state and your description of the search result will be displayed here in the same format.",
         "save": "Save",
         "cancel": "Cancel",
-        "previewTemplate": "Preview Template"
+        "previewTemplate": "Preview Template",
+        "icon": "Icon",
+        "text_field1": "Text Field1",
+        "text_field2": "Text Field2",
+        "chips": "Chips"
     },
     "faqSource": {
         "faqs": "FAQs",
@@ -967,10 +971,9 @@
     },
     "manageExtracts": {
         "no_faq_sources_are_available": "No FAQ sources are available",
-        "source_title":"SOURCE TITLE",
-        "type":"TYPE",
-        "status":"STATUS"
-
+        "source_title": "SOURCE TITLE",
+        "type": "TYPE",
+        "status": "STATUS"
     },
     "traits": {
         "traits": "Traits",
