@@ -32,6 +32,7 @@ export class AppsListingComponent implements OnInit {
   demoOptions:boolean = false;
   createAppPopRef: any;
   onboardingpopupjourneyRef: any;
+  loadingAppcreationRef:any;
   confirmatiomAppPopRef: any;
   detailsPopUpRef:any;
   creatingInProgress = false;
@@ -74,6 +75,7 @@ export class AppsListingComponent implements OnInit {
   testRepeat = false;
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
+  @ViewChild('loadingAppcreation') loadingAppcreation: KRModalComponent;
   @ViewChild('confirmatiomAppPop') confirmatiomAppPop: KRModalComponent;
   @ViewChild('detailsPopUp') detailsPopUp: KRModalComponent;
   constructor(
@@ -171,6 +173,7 @@ export class AppsListingComponent implements OnInit {
     else if(this.steps=='showSearchExperience' && this.SearchExperianceType){
       this.progressBarFun(3,3);
       this.appCreationAtOnboarding();
+      this.openAppLoadingScreen();
     }
     else{
         if(this.newApp.name){
@@ -178,6 +181,12 @@ export class AppsListingComponent implements OnInit {
         }
     }
    
+  }
+  openAppLoadingScreen(){
+    this.loadingAppcreationRef = this.loadingAppcreation.open();
+  }
+  CloseAppLoadingScreen(){
+    this.loadingAppcreationRef.close();
   }
 
   selectDemoType(data){
@@ -228,6 +237,7 @@ export class AppsListingComponent implements OnInit {
   }
   createDemoApp(obj?){   
     if(this.SearchExperianceType){
+      this.openAppLoadingScreen();
       const payload = {
         searchIndexId:obj?._id,
         streamId:obj?.streamId,   
@@ -237,6 +247,9 @@ export class AppsListingComponent implements OnInit {
        this.service.invoke('post.createDemoApp',{},payload).subscribe(
          res => {
            if(res){
+             setTimeout(() => {
+               this.loadingAppcreationRef.close();
+             }, 5000);
              this.notificationService.notify('Demo App created Successfully', 'success'); 
            }
           
