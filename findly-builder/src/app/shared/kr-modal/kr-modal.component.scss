@@ -217,7 +217,7 @@
             right: 0;
             height: 100%;
             margin: 0;
-           
+
             .modal-content {
                 border: none;
                 border-radius: 0;
@@ -273,7 +273,7 @@
                     box-shadow: 0px -2px 4px rgb(32 33 36 / 20%);
                     border-radius: 4px;
                     height: 56px;
-                    padding: 0 26px;                
+                    padding: 0 26px;
                 }
             }
         }
@@ -324,7 +324,7 @@
                                 line-height: 24px;
                                 margin: 10px 0 20px 0;
                             }
-                            
+
                         }
                     }
                 }
@@ -470,13 +470,13 @@
         .modal-content{
             border: 0;
             .modal-header{
-                justify-content: center;   
+                justify-content: center;
                 height: 69px;
                 border-bottom: solid 0px #e5e8ec;
-                background-color: #f2f3f5;    
+                background-color: #f2f3f5;
                 .modal-title{
                     font-size: $font-xxl;
-                    font-weight: 300;  
+                    font-weight: 300;
                     color: #202124;
                 }
             }
@@ -506,12 +506,12 @@
                         color: $placeholderColor;
                         font-size: $font-sm;
                       }
-                      
+
                       :-ms-input-placeholder { /* Internet Explorer 10-11 */
                         color: $placeholderColor;
                         font-size: $font-sm;
                       }
-                      
+
                       ::placeholder {
                         color: $placeholderColor;
                         font-size: $font-sm;
@@ -520,8 +520,8 @@
                         position: relative;
                         float: right;
                         bottom: 29px;
-                        right: 12px; 
-                        cursor: pointer;  
+                        right: 12px;
+                        cursor: pointer;
                        }
                       .ststusDropDown{
                           .dropdown-toggle{
@@ -600,7 +600,7 @@
                 }
             }
             .modal-footer{
-                // justify-content: center !important; 
+                // justify-content: center !important;
                 height: 60px;
                 border-top: solid 0px #e5e8ec;
                 background-color: #f2f3f5;
@@ -698,8 +698,8 @@
                         }
                     }
                 }
-                .group 			  { 
-                    position:relative; 
+                .group 			  {
+                    position:relative;
                   }
                   input 				{
                     font-size:$font-md;
@@ -710,21 +710,21 @@
                     border-bottom:1px solid $borderColor;
                   }
                   input:focus 		{ outline:none; }
-                  
+
                   /* LABEL ======================================= */
                   label 				 {
-                    color:$secondaryColor; 
+                    color:$secondaryColor;
                     font-size:$font-md;
                     font-weight:normal;
                     position:absolute;
                     pointer-events:none;
                     left:5px;
                     top:10px;
-                    transition:0.2s ease all; 
-                    -moz-transition:0.2s ease all; 
+                    transition:0.2s ease all;
+                    -moz-transition:0.2s ease all;
                     -webkit-transition:0.2s ease all;
                   }
-                  
+
                   /* active state */
                   input:focus ~ label, input:valid ~ label 		{
                     top:-10px;
@@ -732,50 +732,50 @@
                     font-weight: bold;
                     color:$primaryColor;
                   }
-                  
+
                   /* BOTTOM BARS ================================= */
                   .bar 	{ position:relative; display:block; width:100%; }
                   .bar:before, .bar:after 	{
                     content:'';
-                    height:2px; 
+                    height:2px;
                     width:0;
-                    bottom:1px; 
+                    bottom:1px;
                     position:absolute;
-                    background:$buttonhoverBgColor; 
-                    transition:0.2s ease all; 
-                    -moz-transition:0.2s ease all; 
+                    background:$buttonhoverBgColor;
+                    transition:0.2s ease all;
+                    -moz-transition:0.2s ease all;
                     -webkit-transition:0.2s ease all;
                   }
                   .bar:before {
                     left:50%;
                   }
                   .bar:after {
-                    right:50%; 
+                    right:50%;
                   }
-                  
+
                   /* active state */
                   input:focus ~ .bar:before, input:focus ~ .bar:after {
                     width:50%;
                   }
-                  
+
                   /* HIGHLIGHTER ================================== */
                   .highlight {
                     position:absolute;
-                    height:60%; 
-                    width:100px; 
-                    top:25%; 
+                    height:60%;
+                    width:100px;
+                    top:25%;
                     left:0;
                     pointer-events:none;
                     opacity:0.5;
                   }
-                  
+
                   /* active state */
                   input:focus ~ .highlight {
                     -webkit-animation:inputHighlighter 0.3s ease;
                     -moz-animation:inputHighlighter 0.3s ease;
                     animation:inputHighlighter 0.3s ease;
                   }
-                  
+
                   /* ANIMATIONS ================ */
                   @-webkit-keyframes inputHighlighter {
                       from { background:$primaryColor; }
@@ -872,18 +872,18 @@
                             width: auto;
                             float: none;
                         }
-                        .sliders-sec{  
+                        .sliders-sec{
                             .learn-more{
                                 color: #0D6EFD;
                                 font-weight: normal;
                                 font-size: 14px;
-                                line-height: 20px;   
+                                line-height: 20px;
                                 display: block;
-                                margin: 12px 0 0 0;                             
+                                margin: 12px 0 0 0;
                                 span{
                                     cursor: pointer;
                                 }
-                            }                      
+                            }
                             .u-name{
                                 color: #3C4043;
                                 font-weight: 600;
@@ -907,7 +907,7 @@
                                 &.move-right{
                                     transform: translateX(-115%);
                                     -webkit-transform:translateX(-115%);
-                                }                           
+                                }
                                 .wel-text{
                                     color: #3C4043;
                                     font-weight: 600;
@@ -918,7 +918,7 @@
                                 .img-block{
                                     text-align: center;
                                     margin: 30px 0;
-                                }                                
+                                }
                             }
                             &.slider-two{
                                 text-align: center;
@@ -938,7 +938,7 @@
                                         z-index: 1;
                                         bottom: 0;
                                     }
-                                    .box-content{                                        
+                                    .box-content{
                                         box-sizing: border-box;
                                         border-radius: 8px;
                                         width: 422px;
@@ -975,10 +975,10 @@
                                     }
                                 }
                             }
-    
-                        }  
 
-                    }                                      
+                        }
+
+                    }
                 }
                 .modal-footer{
                     height: auto;
@@ -992,8 +992,8 @@
                         justify-content: center;
                         .indicator-sliders{
                             width: 8px;
-                            height: 8px;     
-                            background: #E4E5E7;                       
+                            height: 8px;
+                            background: #E4E5E7;
                             border-radius: 100%;
                             margin: 0 5px;
                             transition: 0.3s all ease;
@@ -1064,13 +1064,13 @@
                     }
                 }
             }
-        }       
+        }
     }
     &.enterprise-plan-contact{
         .modal-dialog{
             height: 220px;
             width: 625px;
-            background: #FFFFFF;            
+            background: #FFFFFF;
             border-radius: 8px;
             .modal-content{
                 background: #FFFFFF;
@@ -1305,6 +1305,7 @@
                                     margin-right: 15px;
                                 }
                                 .content-data{
+                                  width: 86%;
                                     .w-name{
                                         font-weight: 500;
                                         font-size: 14px;
@@ -1370,7 +1371,7 @@
                                 label{
                                     &::before{
                                         left: 0;
-                                    }                                
+                                    }
                                     span{
                                         text-align: left;
                                         width: 100%;
@@ -1419,7 +1420,7 @@
                         .kr-sg-multi-line-notification{
                             margin: 20px 0;
                         }
-                    }                    
+                    }
                     .add-values-sec-inputs{
                         height: calc(100% - 160px); //temperory until implementation of file upload //
                         // height: calc(100% - 330px);
@@ -1435,7 +1436,7 @@
                                     display: inline-block;
                                     width: 95%;
                                 }
-                                .close-minus-btn{                                   
+                                .close-minus-btn{
                                     float: right;
                                     position: relative;
                                     top: 8px;
@@ -1467,5 +1468,5 @@
                 }
             }
         }
-    }                
+    }
 }

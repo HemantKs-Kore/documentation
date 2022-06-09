@@ -319,13 +319,13 @@
                     (click)="openUserMetaTagsSlider()">
                     <img src="assets/icons/sidemenu/help.svg">
                 </li>
-                
+
                 <li class="nav-item workspace-data">
                     <div class="kr-sg-dropdowns workspace-dropdwon" ngbDropdown>
-                        <button type="button" tooltipClass="tooltip-global-" container="'body'" placement='left'  class="dropdown-input workspace-btn" id="workspace" ngbDropdownToggle>
+                        <button type="button" tooltipClass="tooltip-global-" container="'body'" placement='left'  class="dropdown-input workspace-btn" id="workspace" ngbDropdownToggle (click)="dropdownToggle()" >
                             <div class="workspace-active">
                                 <div class="alphabet-name"  [ngStyle]="{'background-color':selectAccountDetails.color}" id="profiledisplay">{{selected_profile_display}}</div>
-                                <div class="name-workspace">{{selectAccountDetails.accountName}}</div>
+                                <div class="name-workspace">{{selectAccountDetails.accountName | lowercase}}</div>
                                 <i class="arrow-icon si-dropdownsort"></i>
                             </div>
                         </button>
@@ -336,8 +336,8 @@
                                     <div class="icon-block" id="selected_profile">{{selected_profile_display}}</div>
                                     <div class="content-sec text-truncate">
                                         <div class="name-w text-truncate">{{selectAccountDetails.accountName}}</div>
-                                        <div class="members text-truncate">{{selectAccountDetails.emailId}}</div>
-                                        <div class="member-count">{{selectAccountDetails.usersCount}}</div>
+                                        <div class="member-count">{{selectAccountDetails.usersCount}} members</div>
+                                        <!-- <div class="members text-truncate">{{selectAccountDetails.userFullName}}</div> -->
                                     </div>
                                     <!-- <div class="markas-default">
                                         <div class="title-mark">Mark as Default</div>
@@ -347,9 +347,10 @@
                             </div>
                             <div class="switch-workspace-data">
                                 <div class="title">SWITCH WORKSPACE</div>
-                                <div class="kr-sg-input-search">                               
+                                <div class="kr-sg-input-search">
                                     <input type="text" placeholder="Search" class="input-search" name="field_search" [(ngModel)]="field_name">
                                     <i class="si-search search-icon"></i>
+                                    <img src="assets/icons/close.svg"  *ngIf="field_name?.length> 0" class="close-search" (click)="clearRecords('field_name')">
                                 </div>
                                 <ng-container>
                                     <perfect-scrollbar>
@@ -360,16 +361,20 @@
                                                     <div class="icon-block"  [ngStyle]="{'background-color':app.color}" attr.id="associateprofiledisplay{{i}}">{{app.associate_profile_display}}</div>
                                                     <div class="content-sec text-truncate">
                                                         <div class="name-w text-truncate">{{app.accountName}}</div>
-                                                        <div class="members text-truncate">{{app.emailId}}</div>
-                                                        <div class="member-count">{{app.usersCount}}</div>
+                                                        <div class="d-flex justify-content-between">
+                                                          <div class="members text-truncate">{{app.userFullName}}</div>
+                                                          <div class="member-count">{{app.usersCount}} members</div>
+                                                        </div>
                                                     </div>
+
                                                 </div>
+
                                             </ng-container>
-                                            <div class="empty-worspace-search">No workspace found</div>
+                                            <div *ngIf="(associatedAccounts | filter : [field_name,'userFullName']).length === 0" class="empty-worspace-search">No workspace found</div>
                                         </div>
                                     </perfect-scrollbar>
                                 </ng-container>
-                                <button class="kr-sg-button-secondary btn_lg w-100 mt-2" (click)="openBrowseWorkspace()">Browse Workspaces</button>
+                                <button class="kr-sg-button-secondary btn_lg w-100 mt-2" (click)="openBrowseWorkspace(true)">Browse Workspaces</button>
                             </div>
                         </ul>
                     </div>
@@ -487,9 +492,10 @@
         <div class="modal-body">
             <div class="workspace-data">
                 <div class="main-heading">Workspaces</div>
-                <div class="kr-sg-input-search">                               
-                    <input type="text" placeholder="Search" class="input-search"  name="workspace_search" [(ngModel)]="workspace_search">
+                <div class="kr-sg-input-search">
+                    <input type="text" placeholder="Search" class="input-search" name="workspace_search" [(ngModel)]="workspace_search">
                     <i class="search-icon si-search"></i>
+                    <img src="assets/icons/close.svg" *ngIf="workspace_search?.length > 0"  class="close-icon" (click)="clearRecords('workspace_search')">
                 </div>
                 <div *ngIf="notifyAccount" class="notifyAccount"><i class="si-check-round"></i>
                     <span>{{notifyAccountInfo }}</span>
@@ -501,7 +507,7 @@
                         <div class="scroll-data">
                             <ng-container>
                                 <div class="w-item-list"  *ngFor="let app of associatedAccounts | filter : [workspace_search,'accountName']; let i=index"
-                                (click)="switchAccountInternal(app)" [ngClass]="{'selected-w' : app.userFullName === selectAccountDetails.userFullName}">
+                                (click)="switchAccountInternal(app)">
                                     <div class="arrow-icon">
                                         <i class="si-carrotup"></i>
                                     </div>
@@ -509,43 +515,53 @@
                                         <span class="alphabet" attr.id="associateprofiledisplay{{i}}">{{app.associate_profile_display}}</span>
                                     </div>
                                     <div class="content-data">
+                                      <div class="d-flex justify-content-between">
                                         <div class="w-name">{{app.accountName}}</div>
-                                        <div class="member-count">{{app.usersCount}}</div>
+                                        <div class="member-count">Created by: {{app.userFullName}}</div>
+                                      </div>
+                                        <div class="member-count">{{app.usersCount}} members</div>
                                     </div>
                                 </div>
-
+                                <div class="empty-w" *ngIf="(associatedAccounts | filter : [workspace_search, 'displayName']).length === 0">
+                                  <div class="e-title">We Couldn’t find any result.</div>
+                              </div>
                             </ng-container>
                         </div>
                     </perfect-scrollbar>
                 </div>
-                
+
                 <div class="title-w">Other Workspaces</div>
                 <div class="desc-text-data">Workspaces from your organisation that you can join </div>
                 <div class="your-w-box-content other-workspace-box mb-4">
                     <perfect-scrollbar>
                         <div class="scroll-data">
+                            <div class="empty-w" *ngIf="(WorkspaceList | filter : [workspace_search, 'accountName']).length === 0">
+                                <div class="e-title">We Couldn’t find any result.</div>
+                            </div>
                             <div class="empty-w" *ngIf="emptyContent">
-                                <div class="e-title">There are no other workspces <br/> that we could find for Acme.org</div>
+                              <div class="e-title">There are no other workspces <br/> that we could find for {{loginusername}}</div>
                             </div>
                             <ng-container>
                                 <div class="w-item-list" [ngClass]="{'joined':workspace.alreadyJoined}"
-                                *ngFor="let workspace of WorkspaceList| filter : [workspace_search, 'displayName']; let i=index">
+                                *ngFor="let workspace of WorkspaceList| filter : [workspace_search, 'accountName']; let i=index">
                                 <div class="icon-tetx"  [ngStyle]="{'background-color':workspace.color}">
                                     <span class="alphabet">{{workspace.displayShortName}}</span>
                                 </div>
                                 <div class="content-data">
-                                    <div class="w-name">{{workspace.displayName}}</div>
-                                    <div class="member-count">{{workspace.usersCount}}</div>
+                                    <div class="w-name">{{workspace.accountName}}
+                                    </div>
+                                    <div class="member-count">Created by: {{workspace.userFullName}}</div>
+                                    <div class="member-count">{{workspace.usersCount}} Members</div>
                                 </div>
-                                <button class="joined-btn" [ngClass]="{'disabled':workspace.alreadyJoined}"
-                                 (click)="JoinWorkspace(workspace, i);openBrowseWorkspace()">{{(workspace.alreadyJoined) ? 'Joined' : 'Join'}}</button>
+                                <button class="joined-btn" [ngClass]="{'disabled':workspace.alreadyJoined}" [disabled]="workspace.alreadyJoined"
+                                 (click)="JoinWorkspace(workspace, i)">{{(workspace.alreadyJoined) ? 'Joined' : 'Join'}}</button>
                             </div>
                             </ng-container>
                         </div>
                     </perfect-scrollbar>
                 </div>
 
-               
+
             </div>
         </div>
     </perfect-scrollbar>
