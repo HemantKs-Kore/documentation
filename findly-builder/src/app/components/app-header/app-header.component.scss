@@ -910,8 +910,17 @@
                         }
                         .item-scroll{
                             max-height: 200px;
+                            .empty-worspace-search{
+                                background: #F8F9FA;
+                                border-radius: 4px;
+                                font-weight: 400;
+                                font-size: 14px;
+                                line-height: 20px;
+                                color: #9AA0A6;
+                                text-align: center;
+                                padding: 25px 10px;
+                            }
                         }
-
                     }
                 }
             }
