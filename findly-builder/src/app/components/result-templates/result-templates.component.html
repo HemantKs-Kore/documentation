@@ -365,10 +365,12 @@
               (click)="templateTypeSelection('l9')" *ngIf="templateDataBind.type !='list'">
               <img src="assets/icons/resultTemplate/type-9.png">
             </div>
-            <div class="template-type-image">
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l10'}" 
+              (click)="templateTypeSelection('l10')" >
               <img src="assets/icons/resultTemplate/scmlist.svg">
             </div>
-            <div class="template-type-image">
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l11'}"
+            (click)="templateTypeSelection('l11')" >
               <img src="assets/icons/resultTemplate/banking-list.svg">
             </div>
           </div>
@@ -1167,8 +1169,8 @@
                   </ng-container>
                   
                   <!-- SCm List -->
-                  <ng-container *ngIf="true">
-                    <div class="template-preview-box">
+                  <ng-container>
+                    <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l10'">
                       <div class="scm-list-data-type">
                         <div class="heading-data">
                           <img src="assets/icons/resultTemplate/dummy-small.svg">
@@ -1209,7 +1211,7 @@
                       </div>
 
                       <!-- Grid -->
-                      <div class="scm-grid-data-type">
+                      <div class="scm-grid-data-type d-none">
                         <div class="scm-inner-data-grid">
                           <div class="scm-list-data-type">
                             <div class="heading-data">
@@ -1278,7 +1280,7 @@
                   </ng-container>
 
                   <!-- SCM E commerce -->
-                  <ng-container *ngIf="true">
+                  <ng-container>
                     <div class="template-preview-box">
                       <div class="scm-e-commerce-list">
                         <div class="img-block">
@@ -1379,7 +1381,7 @@
                   </ng-container>
 
                   <!-- Banking -->
-                  <ng-container *ngIf="true">
+                  <ng-container>
                     <div class="template-preview-box">
                       <div class="banking-list-temlate">
                         <div class="top-data">
