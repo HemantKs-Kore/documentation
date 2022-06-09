@@ -133,6 +133,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Plan Details', routeId: '/pricing', quaryParms: {} },
     { displayName: 'Usage Log', routeId: '/usageLog', quaryParms: {} },
     { displayName: 'Invoices', routeId: '/invoices', quaryParms: {} },
+    { displayName: 'Connectors', routeId: '/connectors', quaryParms: {} },
     { displayName: 'Results Ranking', routeId: '/resultranking', quaryParms: {} }
   ]
   public dockersList: Array<any> = [];
@@ -537,7 +538,7 @@ export class AppHeaderComponent implements OnInit {
       this.showMainMenu = false;
     } else {
       this.showMainMenu = true;
-      if (menu == '/source' || menu == '/content' || menu == '/faqs' || menu == '/botActions' || menu == '/structuredData') {
+      if (menu == '/source' || menu == '/content' || menu == '/faqs' || menu == '/botActions' || menu == '/structuredData' || menu == '/connectors') {
         this.sourcesFlag = true;
         this.menuFlag = false;
       }

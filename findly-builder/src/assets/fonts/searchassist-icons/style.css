@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'searchassist-icons';
-  src:  url('fonts/searchassist-icons.eot?pezg90');
-  src:  url('fonts/searchassist-icons.eot?pezg90#iefix') format('embedded-opentype'),
+  src: url('fonts/searchassist-icons.eot?pezg90');
+  src: url('fonts/searchassist-icons.eot?pezg90#iefix') format('embedded-opentype'),
     url('fonts/searchassist-icons.ttf?pezg90') format('truetype'),
     url('fonts/searchassist-icons.woff?pezg90') format('woff'),
     url('fonts/searchassist-icons.svg?pezg90#searchassist-icons') format('svg');
@@ -10,7 +10,8 @@
   font-display: block;
 }
 
-[class^="si-"], [class*=" si-"] {
+[class^="si-"],
+[class*=" si-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'searchassist-icons' !important;
   speak: never;
@@ -28,87 +29,115 @@
 .si-back-arrow:before {
   content: "\e91b";
 }
+
 .si-right-arrow-large:before {
   content: "\e91c";
 }
+
 .si-dropdownsort:before {
   content: "\e91a";
 }
+
 .si-edit:before {
   content: "\e919";
 }
+
 .si-warning:before {
   content: "\e918";
 }
+
 .si-key:before {
   content: "\e912";
 }
+
 .si-eyeshow:before {
   content: "\e917";
 }
+
 .si-external-horizantal:before {
   content: "\e916";
 }
+
 .si-pencil-edit:before {
   content: "\e914";
 }
+
 .si-delete1:before {
   content: "\e915";
 }
+
 .si-instructions:before {
   content: "\e90a";
 }
+
 .si-delete:before {
   content: "\e90b";
 }
+
 .si-eye:before {
   content: "\e90c";
 }
+
 .si-info:before {
   content: "\e90d";
 }
+
 .si-external-link:before {
   content: "\e90e";
 }
+
 .si-lock:before {
   content: "\e90f";
 }
+
 .si-user:before {
   content: "\e910";
 }
+
 .si-add-plus:before {
   content: "\e911";
 }
+
 .si-settings:before {
   content: "\e913";
 }
+
 .si-check:before {
   content: "\e909";
 }
+
 .si-check-round:before {
   content: "\e908";
 }
+
 .si-help:before {
   content: "\e907";
 }
+
 .si-externallink:before {
   content: "\e900";
 }
+
 .si-faq:before {
   content: "\e901";
 }
+
 .si-home:before {
   content: "\e902";
 }
+
 .si-list:before {
   content: "\e903";
 }
+
 .si-search:before {
   content: "\e904";
 }
+
 .si-carrotup:before {
   content: "\e905";
 }
+
 .si-close:before {
   content: "\e906";
 }
