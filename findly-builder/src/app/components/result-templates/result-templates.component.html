@@ -2586,6 +2586,7 @@
             <div class="search-result-mapping">
               <div class="label-text">Search Result Mapping</div>
               <div class="desc-text">Map the existing or custom added fields here</div>
+
                <!-- icon Field -->
                <div class="search_block" *ngIf="['l10'].includes(templateDataBind.layout.layoutType)">
                 <div class="label-text mb-1">{{'resultTemplate.icon'|translate}}</div>
@@ -2719,6 +2720,7 @@
                   </div>
                 </div>
               </div>
+
               <!-- Description1 field -->
               <div class="search_block" *ngIf="['l6'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
                 <div class="label-text mb-1">Description 1</div>
@@ -2751,6 +2753,7 @@
                   </div>
                 </div>
               </div>
+
               <!-- Label1 field -->
               <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
                 <div class="label-text mb-1">Label 1</div>
@@ -2783,6 +2786,7 @@
                   </div>
                 </div>
               </div>
+
               <!-- Label2 field -->
               <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
                 <div class="label-text mb-1">Label 2</div>
@@ -2815,71 +2819,105 @@
                   </div>
                 </div>
               </div>
-                            <!-- Rate field -->
-                            <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
-                              <div class="label-text mb-1"> Rate field</div>
-                              <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
-                                <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentRateField()"
-                                  #descDrop="ngbDropdown">
-                                  <div class="dropdown dropdown-open">
-                                    <button class="dropdown-toggle dropdown-input" id="dropdownBasicRate"
-                                      data-toggle="dropdown" (click)="clearcontentRateField();" ngbDropdownToggle>
-                                      {{preview_rateFiled ? preview_rateFiled :"Choose field"}}
-                                    </button>
-                                    <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
-                                      ngbDropdownMenu>
-                                      <li class="search-box">
-                                        <input id="searchBoxIdRateField" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
-                                          placeholder="Search" class="seach-input pl-3"
-                                          (keyup)="searchlist('rateField',$event.target.value,fieldData)"
-                                          (focus)="searchlist('rateField',$event.target.value,fieldData);" autofocus />
-                                      </li>
-                                      <perfect-scrollbar class="scroll-search-field h-189">
-                                        <ng-container *ngIf="rate_fieldData && rate_fieldData.length">
-                                          <li ngbDropdownItem *ngFor="let field of rate_fieldData"
-                                            (click)="filedSelect('rateField',field)"
-                                            [ngClass]="{'highlight':preview_rateFiled===field.fieldName}">
-                                            {{ field.fieldName }}</li>
-                                        </ng-container>
-                                      </perfect-scrollbar>
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <!--Striked Off Rate field -->
-                            <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
-                              <div class="label-text mb-1">Striked off Rate field</div>
-                              <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
-                                <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentStrikedRateField()"
-                                  #descDrop="ngbDropdown">
-                                  <div class="dropdown dropdown-open">
-                                    <button class="dropdown-toggle dropdown-input" id="dropdownBasicStrikedRate"
-                                      data-toggle="dropdown" (click)="clearcontentStrikedRateField();" ngbDropdownToggle>
-                                      {{preview_StrikedrateFiled ? preview_StrikedrateFiled :"Choose field"}}
-                                    </button>
-                                    <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
-                                      ngbDropdownMenu>
-                                      <li class="search-box">
-                                        <input id="searchBoxIdStrikedRateField" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
-                                          placeholder="Search" class="seach-input pl-3"
-                                          (keyup)="searchlist('StrikedrateField',$event.target.value,fieldData)"
-                                          (focus)="searchlist('StrikedrateField',$event.target.value,fieldData);" autofocus />
-                                      </li>
-                                      <perfect-scrollbar class="scroll-search-field h-189">
-                                        <ng-container *ngIf="Strikedrate_fieldData && Strikedrate_fieldData.length">
-                                          <li ngbDropdownItem *ngFor="let field of Strikedrate_fieldData"
-                                            (click)="filedSelect('StrikedrateField',field)"
-                                            [ngClass]="{'highlight':preview_StrikedrateFiled===field.fieldName}">
-                                            {{ field.fieldName }}</li>
-                                        </ng-container>
-                                      </perfect-scrollbar>
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+
+                <!-- Rate field -->
+                <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
+                  <div class="label-text mb-1"> Rate</div>
+                  <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                    <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentRateField()"
+                      #descDrop="ngbDropdown">
+                      <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" id="dropdownBasicRate"
+                          data-toggle="dropdown" (click)="clearcontentRateField();" ngbDropdownToggle>
+                          {{preview_rateFiled ? preview_rateFiled :"Choose field"}}
+                        </button>
+                        <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                          ngbDropdownMenu>
+                          <li class="search-box">
+                            <input id="searchBoxIdRateField" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                              placeholder="Search" class="seach-input pl-3"
+                              (keyup)="searchlist('rateField',$event.target.value,fieldData)"
+                              (focus)="searchlist('rateField',$event.target.value,fieldData);" autofocus />
+                          </li>
+                          <perfect-scrollbar class="scroll-search-field h-189">
+                            <ng-container *ngIf="rate_fieldData && rate_fieldData.length">
+                              <li ngbDropdownItem *ngFor="let field of rate_fieldData"
+                                (click)="filedSelect('rateField',field)"
+                                [ngClass]="{'highlight':preview_rateFiled===field.fieldName}">
+                                {{ field.fieldName }}</li>
+                            </ng-container>
+                          </perfect-scrollbar>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>     
+
+                <!--Striked Off Rate field -->
+                <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
+                  <div class="label-text mb-1">Striked off Rate</div>
+                  <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                    <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentStrikedRateField()"
+                      #descDrop="ngbDropdown">
+                      <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" id="dropdownBasicStrikedRate"
+                          data-toggle="dropdown" (click)="clearcontentStrikedRateField();" ngbDropdownToggle>
+                          {{preview_StrikedrateFiled ? preview_StrikedrateFiled :"Choose field"}}
+                        </button>
+                        <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                          ngbDropdownMenu>
+                          <li class="search-box">
+                            <input id="searchBoxIdStrikedRateField" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                              placeholder="Search" class="seach-input pl-3"
+                              (keyup)="searchlist('StrikedrateField',$event.target.value,fieldData)"
+                              (focus)="searchlist('StrikedrateField',$event.target.value,fieldData);" autofocus />
+                          </li>
+                          <perfect-scrollbar class="scroll-search-field h-189">
+                            <ng-container *ngIf="Strikedrate_fieldData && Strikedrate_fieldData.length">
+                              <li ngbDropdownItem *ngFor="let field of Strikedrate_fieldData"
+                                (click)="filedSelect('StrikedrateField',field)"
+                                [ngClass]="{'highlight':preview_StrikedrateFiled===field.fieldName}">
+                                {{ field.fieldName }}</li>
+                            </ng-container>
+                          </perfect-scrollbar>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>            
               
+                 <!--Rating field -->
+                 <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
+                  <div class="label-text mb-1">Rating</div>
+                  <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                    <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentStrikedRateField()"
+                      #descDrop="ngbDropdown">
+                      <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" id="dropdownBasicStrikedRate"
+                          data-toggle="dropdown" (click)="clearcontentStrikedRateField();" ngbDropdownToggle>
+                          {{preview_rating ? preview_rating :"Choose field"}}
+                        </button>
+                        <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                          ngbDropdownMenu>
+                          <li class="search-box">
+                            <input id="searchBoxIdRatingField" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                              placeholder="Search" class="seach-input pl-3"
+                              (keyup)="searchlist('rating',$event.target.value,fieldData)"
+                              (focus)="searchlist('rating',$event.target.value,fieldData);" autofocus />
+                          </li>
+                          <perfect-scrollbar class="scroll-search-field h-189">
+                            <ng-container *ngIf="rating_fieldData && rating_fieldData.length">
+                              <li ngbDropdownItem *ngFor="let field of rating_fieldData"
+                                (click)="filedSelect('rating',field)"
+                                [ngClass]="{'highlight':preview_rating===field.fieldName}">
+                                {{ field.fieldName }}</li>
+                            </ng-container>
+                          </perfect-scrollbar>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>   
 
               <!-- text Field1 -->
               <div class="search_block" *ngIf="['l10'].includes(templateDataBind.layout.layoutType)">

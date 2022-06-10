@@ -35,6 +35,7 @@ export class ResultTemplatesComponent implements OnInit {
   preview_img: any = '';
   preview_url: any = '';
   preview_icon: any = '';
+  preview_rating: any = '';
   preview_textField1: any = '';
   preview_textField2: any = '';
   preview_chips: any = '';
@@ -63,7 +64,8 @@ export class ResultTemplatesComponent implements OnInit {
       icon: "",
       textField1: "",
       textField2: "",
-      chips: ""
+      chips: "",
+      rating: ""
     },
     type: ''
   };
@@ -71,16 +73,17 @@ export class ResultTemplatesComponent implements OnInit {
     heading: true,
     description: true,
     description1: true,
-    label1:true,
-    label2:true,
-    rateField:true,
-    StrikedrateField:true,
+    label1: true,
+    label2: true,
+    rateField: true,
+    StrikedrateField: true,
     image: true,
     url: true,
     icon: true,
     textField1: true,
     textField2: true,
-    chips: true
+    chips: true,
+    rating: true
   }
   templateDatalistext: any;
   customtemplateBtndisable: boolean = false;
@@ -97,6 +100,7 @@ export class ResultTemplatesComponent implements OnInit {
   textField1_fieldData: any;
   textField2_fieldData: any;
   chips_fieldData: any;
+  rating_fieldData: any;
   fieldData: any;
   templateData: any;
   subscription: Subscription;
@@ -196,6 +200,7 @@ export class ResultTemplatesComponent implements OnInit {
       this.textField1_fieldData = [...res];
       this.textField2_fieldData = [...res];
       this.chips_fieldData = [...res];
+      this.rating_fieldData = [...res];
       this.fieldData = [...res];
       this.allFieldData = res;
       // console.log('Field Data ....', res)
@@ -240,7 +245,13 @@ export class ResultTemplatesComponent implements OnInit {
       this.preview_StrikedrateFiled = field.fieldName;
       this.Strikedrate_fieldData = [...this.allFieldData];
       this.templateFieldValidateObj.StrikedrateField = true;
-    } 
+    }
+    else if (type == 'rating') {
+      this.templateDataBind.mapping.rating = field._id;
+      this.preview_rating = field.fieldName;
+      this.rating_fieldData = [...this.allFieldData];
+      this.templateFieldValidateObj.rating = true;
+    }
     else if (type == 'image') {
       this.templateDataBind.mapping.img = field._id;
       this.preview_img = field.fieldName;
@@ -315,6 +326,9 @@ export class ResultTemplatesComponent implements OnInit {
       } else if (type == 'chips') {
         this.chips_fieldData = [...data]
       }
+      else if (type == 'rating') {
+        this.rating_fieldData = [...data]
+      }
     } else {
       if (type == 'heading') {
         this.heading_fieldData = [...filedData]
@@ -342,6 +356,8 @@ export class ResultTemplatesComponent implements OnInit {
         this.textField2_fieldData = [...filedData]
       } else if (type == 'chips') {
         this.chips_fieldData = [...filedData]
+      } else if (type == 'rating') {
+        this.rating_fieldData = [...filedData]
       }
     }
 
@@ -448,6 +464,8 @@ export class ResultTemplatesComponent implements OnInit {
           this.preview_textField1 = element.fieldName;
         } else if (`${property}` == 'textField2' && element._id == `${mapping[property]}`) {
           this.preview_textField2 = element.fieldName;
+        } else if (`${property}` == 'rating' && element._id == `${mapping[property]}`) {
+          this.preview_rating = element.fieldName;
         }
       });
     }
@@ -495,6 +513,7 @@ export class ResultTemplatesComponent implements OnInit {
     this.preview_icon = '';
     this.preview_textField1 = '';
     this.preview_textField2 = '';
+    this.preview_rating = '';
   }
   //open add/edit fields dialog
   openCustomModal(type) {
@@ -711,7 +730,7 @@ export class ResultTemplatesComponent implements OnInit {
       this.templateDataBind.mapping.img = '';
       return this.preview_desc.length ? true : false;
     }
-    else if (this.templateDataBind.layout.layoutType === 'l3' || this.templateDataBind.layout.layoutType === 'l10') {
+    else if (this.templateDataBind.layout.layoutType === 'l3' || this.templateDataBind.layout.layoutType === 'l10' || this.templateDataBind.layout.layoutType === 'l11') {
       this.templateDataBind.mapping.img = '';
       return (this.preview_title.length && this.preview_desc.length) ? true : false;
     }
