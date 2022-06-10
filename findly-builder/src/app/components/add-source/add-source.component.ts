@@ -285,7 +285,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
-    // this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+    // this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ??  null;
     if (this.workflowService.selectedApp()?.configuredBots[0]) {
       this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
     }
