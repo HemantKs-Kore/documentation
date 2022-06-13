@@ -546,7 +546,6 @@ export class PricingComponent implements OnInit, OnDestroy {
     });
   }
   updateUsageDetails() {
-    // console.log("currentSubscriptionPlan", this.currentSubscriptionPlan);
     if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.usage && this.currentSubscriptionPlan.usage.ingestDocs) {
       this.usageDetails.ingestDocs = this.currentSubscriptionPlan.usage.ingestDocs;
       if (this.usageDetails.ingestDocs.percentageUsed >= 80) {

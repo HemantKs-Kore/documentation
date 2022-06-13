@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'searchassist-icons';
-  src:  url('fonts/searchassist-icons.eot?3wfcxx');
-  src:  url('fonts/searchassist-icons.eot?3wfcxx#iefix') format('embedded-opentype'),
+  src: url('fonts/searchassist-icons.eot?3wfcxx');
+  src: url('fonts/searchassist-icons.eot?3wfcxx#iefix') format('embedded-opentype'),
     url('fonts/searchassist-icons.ttf?3wfcxx') format('truetype'),
     url('fonts/searchassist-icons.woff?3wfcxx') format('woff'),
     url('fonts/searchassist-icons.svg?3wfcxx#searchassist-icons') format('svg');
@@ -10,7 +10,8 @@
   font-display: block;
 }
 
-[class^="si-"], [class*=" si-"] {
+[class^="si-"],
+[class*=" si-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'searchassist-icons' !important;
   speak: never;
@@ -28,333 +29,411 @@
 .si-document:before {
   content: "\e94e";
 }
+
 .si-check-circle .path1:before {
   content: "\e91d";
   color: rgb(200, 230, 201);
 }
+
 .si-check-circle .path2:before {
   content: "\e91e";
   margin-left: -1em;
   color: rgb(76, 175, 80);
 }
+
 .si-check-document:before {
   content: "\e91f";
   color: #93d3a2;
 }
+
 .si-close-red:before {
   content: "\e920";
   color: #ef4444;
 }
+
 .si-download-file:before {
   content: "\e921";
 }
+
 .si-ellipsis-horizontal:before {
   content: "\e922";
   color: #9ca3af;
 }
+
 .si-file-help .path1:before {
   content: "\e923";
   color: rgb(133, 183, 254);
 }
+
 .si-file-help .path2:before {
   content: "\e924";
   margin-left: -1em;
   color: rgb(60, 64, 67);
   opacity: 0.0500;
 }
+
 .si-file-help .path3:before {
   content: "\e925";
   margin-left: -1em;
   color: rgb(60, 64, 67);
   opacity: 0.0700;
 }
+
 .si-file-help .path4:before {
   content: "\e926";
   margin-left: -1em;
   color: rgb(133, 183, 254);
 }
+
 .si-file-help .path5:before {
   content: "\e927";
   margin-left: -1em;
   color: rgb(7, 55, 127);
 }
+
 .si-file-help .path6:before {
   content: "\e928";
   margin-left: -1em;
   color: rgb(7, 55, 127);
 }
+
 .si-graph-filter:before {
   content: "\e929";
   color: #9aa0a6;
 }
+
 .si-graph-lines:before {
   content: "\e92a";
 }
+
 .si-green-check:before {
   content: "\e92b";
   color: #22c55e;
 }
+
 .si-grid-view:before {
   content: "\e92c";
 }
+
 .si-grow-up-arrow:before {
   content: "\e92d";
   color: #0d6efd;
 }
+
 .si-Internet:before {
   content: "\e92e";
   color: #85b7fe;
 }
+
 .si-link-file:before {
   content: "\e92f";
   color: #dd3646;
 }
+
 .si-loading .path1:before {
   content: "\e930";
   color: rgb(144, 189, 252);
 }
+
 .si-loading .path2:before {
   content: "\e931";
   margin-left: -1em;
   color: rgb(85, 151, 243);
 }
+
 .si-loading .path3:before {
   content: "\e932";
   margin-left: -1em;
   color: rgb(231, 241, 255);
 }
+
 .si-loading .path4:before {
   content: "\e933";
   margin-left: -1em;
   color: rgb(179, 210, 253);
 }
+
 .si-loading .path5:before {
   content: "\e934";
   margin-left: -1em;
   color: rgb(13, 110, 253);
 }
+
 .si-maximize:before {
   content: "\e935";
   color: #0d6efd;
 }
+
 .si-minus-circle-o:before {
   content: "\e936";
 }
+
 .si-no-files-found .path1:before {
   content: "\e937";
   color: rgb(0, 179, 215);
   opacity: 0.4;
 }
+
 .si-no-files-found .path2:before {
   content: "\e938";
   margin-left: -1em;
   color: rgb(61, 217, 235);
   opacity: 0.4;
 }
+
 .si-no-files-found .path3:before {
   content: "\e939";
   margin-left: -1em;
   color: rgb(61, 217, 235);
   opacity: 0.4;
 }
+
 .si-no-files-found .path4:before {
   content: "\e93a";
   margin-left: -1em;
   color: rgb(61, 217, 235);
   opacity: 0.4;
 }
+
 .si-no-files-found .path5:before {
   content: "\e93b";
   margin-left: -1em;
   color: rgb(0, 179, 215);
   opacity: 0.4;
 }
+
 .si-no-files-found .path6:before {
   content: "\e93c";
   margin-left: -1em;
   color: rgb(0, 179, 215);
   opacity: 0.4;
 }
+
 .si-no-files-found .path7:before {
   content: "\e93d";
   margin-left: -1em;
   color: rgb(0, 179, 215);
   opacity: 0.4;
 }
+
 .si-no-files-found .path8:before {
   content: "\e93e";
   margin-left: -1em;
   color: rgb(0, 179, 215);
   opacity: 0.4;
 }
+
 .si-plan-crown .path1:before {
   content: "\e93f";
   color: rgb(255, 193, 7);
 }
+
 .si-plan-crown .path2:before {
   content: "\e940";
   margin-left: -1em;
   color: rgb(255, 152, 0);
 }
+
 .si-progress-indicator .path1:before {
   content: "\e941";
   color: rgb(69, 161, 255);
 }
+
 .si-progress-indicator .path2:before {
   content: "\e942";
   margin-left: -1em;
   color: rgb(0, 99, 196);
 }
+
 .si-progress-indicator .path3:before {
   content: "\e943";
   margin-left: -1em;
   color: rgb(0, 122, 247);
 }
+
 .si-progress-indicator .path4:before {
   content: "\e944";
   margin-left: -1em;
   color: rgb(0, 80, 140);
 }
+
 .si-progress-indicator .path5:before {
   content: "\e945";
   margin-left: -1em;
   color: rgb(69, 161, 255);
 }
+
 .si-progress-indicator .path6:before {
   content: "\e946";
   margin-left: -1em;
   color: rgb(0, 99, 196);
 }
+
 .si-progress-indicator .path7:before {
   content: "\e947";
   margin-left: -1em;
   color: rgb(0, 122, 247);
 }
+
 .si-progress-indicator .path8:before {
   content: "\e948";
   margin-left: -1em;
   color: rgb(0, 80, 140);
 }
+
 .si-publish:before {
   content: "\e949";
 }
+
 .si-re-cycle-square:before {
   content: "\e94a";
   color: #28a745;
 }
+
 .si-re-fresh:before {
   content: "\e94b";
   color: #0d6efd;
 }
+
 .si-share:before {
   content: "\e94c";
   color: #803c25;
 }
+
 .si-tc-filter:before {
   content: "\e94d";
   color: #0d6efd;
 }
+
 .si-back-arrow:before {
   content: "\e91b";
   color: #e4e5e7;
 }
+
 .si-right-arrow-large:before {
   content: "\e91c";
 }
+
 .si-dropdownsort:before {
   content: "\e91a";
 }
+
 .si-edit:before {
   content: "\e919";
 }
+
 .si-warning:before {
   content: "\e918";
   color: #dd3646;
 }
+
 .si-key:before {
   content: "\e912";
 }
+
 .si-eyeshow:before {
   content: "\e917";
 }
+
 .si-external-horizantal:before {
   content: "\e916";
   color: #0d6efd;
 }
+
 .si-pencil-edit:before {
   content: "\e914";
 }
+
 .si-delete1:before {
   content: "\e915";
   color: #dd3646;
 }
+
 .si-instructions:before {
   content: "\e90a";
   color: #0d6efd;
 }
+
 .si-delete:before {
   content: "\e90b";
   color: #fff;
 }
+
 .si-eye:before {
   content: "\e90c";
 }
+
 .si-info:before {
   content: "\e90d";
   color: #07377f;
 }
+
 .si-external-link:before {
   content: "\e90e";
   color: #0d6efd;
 }
+
 .si-lock:before {
   content: "\e90f";
 }
+
 .si-user:before {
   content: "\e910";
 }
+
 .si-add-plus:before {
   content: "\e911";
   color: #0d6efd;
 }
+
 .si-settings:before {
   content: "\e913";
   color: #fff;
 }
+
 .si-check:before {
   content: "\e909";
   color: #28a745;
 }
+
 .si-check-round:before {
   content: "\e908";
   color: #135423;
 }
+
 .si-help:before {
   content: "\e907";
   color: #5f6368;
 }
+
 .si-externallink:before {
   content: "\e900";
   color: #0d6efd;
 }
+
 .si-faq:before {
   content: "\e901";
   color: #7027e5;
 }
+
 .si-home:before {
   content: "\e902";
   color: #fff;
 }
+
 .si-list:before {
   content: "\e903";
   color: #7027e5;
 }
+
 .si-search:before {
   content: "\e904";
 }
+
 .si-carrotup:before {
   content: "\e905";
 }
+
 .si-close:before {
   content: "\e906";
 }
