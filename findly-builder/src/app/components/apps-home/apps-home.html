@@ -249,18 +249,8 @@
               </div>
               <div class="on-b-progress-bar">
                 <div *ngFor="let bar of progressBar;let i=index" class="not-active-bar" [ngClass]="{'active-bar': i==0}" ></div>
-                <!-- <div class="not-active-bar active-bar"></div>
-                <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div> -->  
               </div>
               <button style="width: 50px;height:15px" (click)="openAppLoadingScreen()"></button>
-              <!-- <div class="on-b-progress-bar">
-                <div class="not-active-bar active-bar"></div>
-                <div class="not-active-bar" ></div>
-                <div class="not-active-bar"></div>
-              </div> -->
-              <!-- <div class="back-btn d-none">
-                <i class="si-back-arrow"></i>
-              </div> -->
               <div class="title-start">How would you like to start?</div>
               <div class="explore-data-cards">
                 <div  class="explore-card sample-data"  (mouseenter)="progressBarFun(3,1)" (mouseleave)="progressBarFun(0,0)" (click)="welcomeStep('sampleData')">
@@ -729,6 +719,16 @@
     </div>
   </div>
 </kr-modal>
-<kr-modal modalType="default" #loadingAppcreation modalClass="creating-new-app-modal app-homes-component-page">
- <div class="modal-header" (click)="CloseAppLoadingScreen()">close</div>
+
+
+
+<kr-modal modalType="nodrop" #loadingAppcreation modalClass="loading-new-sample-data">
+ <!-- <div class="modal-header" (click)="CloseAppLoadingScreen()">close</div> -->
+ <div class="modal-body">
+  <div class="img-block">
+    <img src="assets/icons/empty-loading.svg">
+  </div>
+  <div class="loading-text">Loading...</div>
+  <div class="text-desc">Uploading sample data to your app</div>
+ </div>
 </kr-modal>
