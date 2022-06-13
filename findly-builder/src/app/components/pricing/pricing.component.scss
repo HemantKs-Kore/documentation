@@ -79,8 +79,15 @@
                                 font-size: 16px;
                                 line-height: 19px;
                                 color: #202124;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
 
-                                .plan-crown-img {}
+                                .plan-crown-img {
+                                    padding: 0 5px 0 0;
+                                    position: relative;
+                                    top: -3px;
+                                }
 
                                 .plan-duration {
                                     color: #5F6368;
@@ -154,6 +161,10 @@
                                 font-size: 11px;
                                 line-height: 12px;
                                 color: #135423;
+                            }
+
+                            &.plan-status-active {
+                                background: #EAF6EC;
                             }
                         }
                     }
@@ -230,6 +241,24 @@
                             &:last-child {
                                 padding: 0;
                             }
+                        }
+                    }
+
+                    .btn-add-overage {
+                        border: 1px solid #E4E5E7;
+                        border-radius: 4px;
+                        background: #FFFFFF;
+                        color: #0D6EFD;
+                        width: 100%;
+
+                        &:hover {
+                            background: #dde9fb;
+                        }
+
+                        &:focus {
+                            border: solid 1px transparent;
+                            outline: none !important;
+                            box-shadow: none;
                         }
                     }
                 }
@@ -354,6 +383,7 @@
             border-radius: 6px;
             width: 100%;
             color: #0D6EFD;
+            font-weight: 500;
 
             &:focus {
                 outline: none;
@@ -362,6 +392,15 @@
 
             &:hover {
                 background: #caddf8;
+            }
+
+            &.current-paln {
+                background: #EAF6EC;
+                color: #28A745;
+
+                &:hover {
+                    background: #caf6d1;
+                }
             }
         }
     }
@@ -422,10 +461,274 @@
 // plan details tile block related css start from here
 
 
+// change plan related css start from here
+.pricing-paln-change-modal {
+    background: #F9FAFB;
 
+    .close-modal {
+        display: flex;
+        justify-content: flex-end;
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 16px;
+        color: #000000;
+        cursor: pointer;
+        padding: 60px 60px 10px 60px;
 
+        .close-span {
+            padding: 0 0 0 10px;
 
+            .close-icon {
+                font-size: 10px;
+            }
+        }
+    }
 
+    .pricing-main-header {
+        padding: 10px 0;
+        text-align: center;
+
+        .pricing-header {
+            font-weight: 700;
+            font-size: 36px;
+            color: #111827;
+            margin: 0 0 16px;
+            font-family: Inter !important;
+        }
+
+        .pricing-desc {
+            color: #6B7280;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+        }
+    }
+
+    .pricing-paln-types {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+
+        .pricing-paln-tab {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 17px;
+            color: #202124;
+            cursor: pointer;
+            padding: 10px 0;
+
+            &.tab-active {
+                border-bottom: 2px solid #0D6EFD;
+                font-weight: 700;
+            }
+        }
+    }
+
+    .pricing-plan-tiles-block {
+        display: flex;
+        padding: 60px 60px;
+        width: 100%;
+
+        .plan-tile-block {
+            position: relative;
+            padding: 20px 20px;
+            margin: 0 15px;
+            width: 33.33%;
+            background: #FFFFFF;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+
+            &.plan-tile-active {
+                box-shadow: 0px 25px 50px -12px rgb(16 24 40 / 25%);
+                border-radius: 12px;
+                border: 3px solid #93D3A2;
+            }
+
+            .plan-close {
+                display: none;
+            }
+
+            .plan-type-block {
+                .plan-details {
+                    flex: 1 1;
+
+                    .plan-type {
+                        justify-content: space-between;
+
+                        .plan-current-status {
+                            .free-forever {
+                                background: #EDEDFF;
+                                color: #3537B0;
+                            }
+                        }
+                    }
+
+                    .plan-cost-details {
+                        .plan-cost {
+                            &.enterprise-paln {
+                                font-weight: 600;
+                                font-size: 32px;
+                                line-height: 40px;
+                                color: #111827;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .compare-plans-section {
+        background: #fff;
+        padding: 60px 60px;
+
+        .compare-plan-tabs {
+            margin: 0;
+
+            .compare-plan-tab-name {
+                font-weight: 700;
+                font-size: 24px;
+                line-height: 32px;
+                color: #111827;
+                text-align: center;
+            }
+        }
+
+        .plan-table-block {
+            .plan-table-header {
+                font-weight: 700;
+                font-size: 16px;
+                padding: 20px 0 5px 15px;
+                color: #111827;
+            }
+
+            .plan-table-body {
+                padding: 10px 0;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 20px;
+                color: #202124;
+                text-align: center;
+                margin: 0px 0px;
+
+                .col {
+                    &:first-child {
+                        text-align: left !important;
+                    }
+                }
+            }
+
+            .border-btm {
+                border-bottom: 1px solid #E5E7EB;
+            }
+
+            .pad-10-0 {
+                padding: 10px 0;
+            }
+
+            .border-btm-dasshed {
+                border-bottom: 1px dashed #4B5563;
+            }
+        }
+
+        .paln-help-text {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            color: #8A959F;
+            text-align: center;
+            font-style: italic;
+            padding: 35px 0;
+        }
+    }
+
+    .faq-list-section {
+        background: #F9FAFB;
+        padding: 60px 120px;
+
+        .faq-list-block {
+            background: #FFFFFF;
+            border: 1px solid #E5E7EB;
+            border-radius: 6px;
+            padding: 32px 32px;
+
+            .faq-list-header {
+                color: #111827;
+                font-weight: 800;
+                font-size: 28px;
+                line-height: 36px;
+                padding: 0 0 16px 0;
+                border-bottom: 1px solid #E5E7EB;
+            }
+
+            .faq-list-acc-section {
+                .p-pricing-faq-tile {
+                    border-top: 1px solid #e4e5e7;
+
+                    .p-pricing-accordian-faq {
+                        .p-pricing-accordian-faq-header {
+                            color: #3C4043;
+                            font-weight: 500;
+                            font-size: 16px;
+                            text-decoration: none;
+                            position: relative;
+                            display: block;
+                            background: #f8f9fa;
+
+                            .p-pricing-accordian-faq-py {
+                                line-height: normal;
+                                padding: 16px !important;
+                            }
+
+                            .icon-chev-angle {
+                                position: absolute;
+                                right: 20px;
+                                top: 20px;
+                                transform: rotate(270deg);
+                            }
+
+                            &.collapsed {
+                                background: #fff;
+
+                                .icon-chev-angle {
+                                    transform: rotate(90deg);
+                                }
+                            }
+                        }
+                    }
+
+                    .p-pricing-faq-ans {
+                        color: #5F6368;
+                        font-weight: normal;
+                        font-size: 14px;
+                        line-height: 15px;
+                        padding: 10px 16px;
+                        background: #f8f9fa;
+
+                        .desc {
+                            line-height: 23px;
+                            margin-bottom: 15px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// change plan related css ends here
+
+::ng-deep ngb-modal-window {
+    &.kr-full {
+        .modal-dialog {
+            .modal-content {
+                .modal-body {
+                    padding: 0px 0px !important;
+                }
+            }
+        }
+    }
+}
 
 
 
