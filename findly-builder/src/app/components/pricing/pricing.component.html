@@ -8,103 +8,16 @@
       translate):("plan.reactivate_btn"| translate)}}</button>
   </div>
   <perfect-scrollbar class="pricing-scroll">
-    <div class="pricing-details-main-sec"
-      [ngStyle]='{"opacity":currentSubscriptionPlan&&currentSubscriptionPlan.subscription&&currentSubscriptionPlan.subscription.status=="expired"?"0.3":null}'>
-      <div class="row col-12 card-plans">
-        <div class="col-6 current-plan">
-          <div class="inner-content">
-            <div class="title">
-              {{currentSubscriptionPlan?.subscription?.status=="expired"?("plan.subscription_cancelled"|
-              translate):("plan.current_subscription_plan"| translate)}}</div>
-            <div class="kr-sg-dropdowns">
-              <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img
-                    src="assets/icons/pricing/overflow.svg"></button>
-                <ul class="dropdown-menu content-menu" *ngIf="currentSubscriptionPlan">
-                  <li (click)="addOverage()"
-                    [hidden]="currentSubscriptionPlan.subscription.planName==='Free'||currentSubscriptionPlan?.subscription?.changesScheduledFor==='cancel'">
-                    <a>{{"plan.add_overage"| translate}}</a>
-                  </li>
-                  <li (click)="compare('choosePlans',currentSubscriptionPlan.subscription)"
-                    [hidden]="currentSubscriptionPlan?.subscription?.changesScheduledFor==='cancel'">
-                    <a>{{"plan.change_plan"| translate}}</a>
-                  </li>
-                  <li (click)="openPopup5()"
-                    [hidden]="currentSubscriptionPlan.subscription.planName==='Free'||currentSubscriptionPlan?.subscription?.changesScheduledFor==='cancel'">
-                    <a>{{"plan.cancel_subscription"| translate}}</a>
-                  </li>
-                  <li (click)="revertCancel()"
-                    [hidden]="currentSubscriptionPlan?.subscription?.changesScheduledFor!=='cancel'">
-                    <a>{{"plan.revert_cancellation_btn"| translate}}</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="plan-details" *ngIf="currentSubscriptionPlan">
-              <div class="type-plan-sec">
-                <div class="type-plan">{{ currentSubscriptionPlan.subscription.planName || 'Free' }} </div>
-                <div class="amount" *ngIf="currentSubscriptionPlan.subscription.planName != 'Free'">
-                  ${{currentSubscriptionPlan.subscription.planAmount}}<span>/
-                    {{currentSubscriptionPlan.subscription.billingUnit=='Monthly'?("plan.month"|
-                    translate):("plan.year"| translate)}}</span></div>
-              </div>
-              <div class="plan-time">
-                <div class="started-title">{{currentSubscriptionPlan.subscription.planName=='Free'?("plan.started_on"|
-                  translate):currentSubscriptionPlan.subscription.changesScheduledFor=='none'?("plan.renewal_date"|
-                  translate):currentSubscriptionPlan.subscription.status=='expired'?("plan.end_date"|
-                  translate):("plan.valid_till"| translate)}}</div>
-                <div class="started-date">
-                  {{(currentSubscriptionPlan.subscription.planName=='Free'?currentSubscriptionPlan.subscription.createdAt:currentSubscriptionPlan.subscription.changesScheduledFor=='none'?currentSubscriptionPlan.subscription.endDate:currentSubscriptionPlan.subscription.status=='expired'?currentSubscriptionPlan.subscription.expiredOn:currentSubscriptionPlan.subscription.endDate)|
-                  dateFormatPipe:'D MMMM YYYY'}}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-6 current-plan usage-plan">
-          <div class="inner-content">
-            <div class="title-head">
-              <div class="title">{{"plan.usage"| translate}}</div>
-              <div class="title-overage" (click)="addOverage()"
-                *ngIf="currentSubscriptionPlan?.subscription?.planName != 'Free'&&(usageDetails?.searchQueries?.percentageUsed >= 80||usageDetails?.ingestDocs?.percentageUsed >= 80)">
-                <img width="12" height="12" src="assets/icons/plus-blue.svg" /> {{"plan.add_overage"| translate}}
-              </div>
-            </div>
-            <div class="queries">
-              <div class="queries-title">{{"plan.queries"| translate}}</div>
-              <div class="queries-count"
-                *ngIf="(usageDetails?.searchQueries?.used||usageDetails?.searchQueries?.limit)"><span
-                  class="">{{(usageDetails?.searchQueries?.used)| valueFormat}}</span> /
-                {{(usageDetails?.searchQueries?.limit)|valueFormat}}</div>
-            </div>
-            <!-- <div class="bg_queries"></div> -->
-            <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails.searchQueries?.type"
-              [value]="usageDetails.searchQueries?.used" [max]="usageDetails.searchQueries?.limit">
-            </ngb-progressbar>
-            <div class="queries">
-              <div class="queries-title">{{"plan.documents"| translate}}</div>
-              <div class="queries-count" *ngIf="(usageDetails?.ingestDocs?.used||usageDetails?.ingestDocs?.limit)">
-                <span class="">{{usageDetails?.ingestDocs?.used | valueFormat}}</span> /
-                {{(usageDetails?.ingestDocs?.limit)| valueFormat}}</div>
-            </div>
-            <!-- <div class="bg_queries"></div> -->
-            <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails.ingestDocs?.type"
-              [value]="usageDetails.ingestDocs?.used" [max]="usageDetails.ingestDocs?.limit">
-            </ngb-progressbar>
-          </div>
-        </div>
-      </div>
-
-      <ng-container
-        *ngIf="(currentSubscriptionPlan?.subscription?.planName=='Pro'&&currentSubscriptionPlan?.subscription?.changesScheduledFor=='downgrade')||currentSubscriptionPlan?.subscription?.changesScheduledFor=='cancel'">
-        <div class="info-note" [ngClass]='{"d-none":proInfo}'>
+    <div class="pricing-details-main-sec">
+      
+      <!-- <ng-container>
+        <div class="info-note proInfo">
           <div class="col-10 d-flex align-items-center p-0">
             <img src="assets/icons/Info-pdf.svg">
             <span
               class="info-text">{{currentSubscriptionPlan?.subscription?.changesScheduledFor=='cancel'?("plan.your_plan_will_cancelled"|
               translate):("plan.your_plan_will_changed"| translate)}}
               {{(currentSubscriptionPlan?.subscription?.endDate)| dateFormatPipe:'D MMMM YYYY'}}</span>
-            <!-- <span class="info-text" *ngIf="currentSubscriptionPlan?.subscription?.changesScheduledFor=='cancel'">{{"plan.your_plan_will_cancelled"| translate}} {{(currentSubscriptionPlan?.subscription?.endDate)| dateFormatPipe:'D MMMM YYYY'}}</span> -->
           </div>
           <div class="close-info col-2 p-0 text-right">
             <span
@@ -113,111 +26,117 @@
             <img src="assets/icons/close-small.svg" (click)="proInfo=true">
           </div>
         </div>
-      </ng-container>
-      <div class="upgrade-details-prices row col-12"
-        *ngIf="currentSubscriptionPlan&&currentSubscriptionPlan.subscription.planName =='Free'">
-        <div class="row col-12 upgrade-header-sec">
-          <div class="title col-5 p-0">{{"plan.upgrade_to"| translate}}</div>
-          <div class="upgrader-btn-sec col-7 p-0">
-            <div class="btn-monthly" [ngClass]="{'active-btn' : termPlan == 'Monthly'}" (click)="typeOfPlan('Monthly')">
-              {{"plan.monthly"| translate}}</div>
-            <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'Yearly' }" (click)="typeOfPlan('Yearly')">
-              {{"plan.yearly"| translate}}</div>
-            <div class="compare-plan" (click)="compare('choosePlans',currentSubscriptionPlan.subscription)">
-              {{"plan.compare_plans"| translate}}</div>
-          </div>
-        </div>
-        <div class="col-4 upgrade-price-card" *ngFor='let plan of filterPlansData'>
-          <div class="inner-content" *ngIf="plan.type!='free'">
-            <img src="assets/icons/pricing/standard.png" class="standard-img" *ngIf="plan.name == 'Standard'">
-            <img src="assets/icons/pricing/pro.png" class="pro-img" *ngIf="plan.name == 'Pro'">
-            <img src="assets/icons/pricing/enterprise.png" class="enterprise-img" *ngIf="plan.name == 'Enterprise'">
-            <div class="title-sec">
-              <div class="title">{{plan.name}}</div>
-              <div class="price" [ngClass]='{"d-none":currentPlan===plan.name||plan.name=="Enterprise" || true}'>
-                ${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?("plan.month"| translate):("plan.year"|
-                  translate)}}</span></div>
-              <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise" || true}'>{{"plan.custom"| translate}}
-              </div>
-            </div>
-            <div class="card-desc" *ngFor="let info of plan.featureData" [hidden]="!(info.displayOnBanner)">
-              {{info.displayText}}</div>
-            <!-- <div class="card-desc">50k Queries per month</div>
-                <div class="card-desc">Scheduled Crawling</div>
-                <div class="card-desc">Experiments</div>
-                <div class="card-desc">Community Support</div> -->
-            <!-- Contact US -->
-            <!-- <button class="kr-sg-button-secondary btn_lg"
-                (click)="enterpriseContactus()">{{("plan.contact_us"|
-                translate)}}</button> -->
-            <!-- Contact US -->
-            <!-- Commented as part of FLY-3643 -->
-            <button class="kr-sg-button-secondary btn_lg"
-              (click)="plan.name==='Enterprise'?enterpriseContactus():compare('order',plan)">{{plan.name==='Enterprise'?("plan.contact_us"|
-              translate):("plan.choose_plan"| translate)}}</button>
-          </div>
-        </div>
+      </ng-container> -->
 
-        <!-- <div class="col-4 upgrade-price-card">
-            <div class="inner-content">
-              <img src="assets/icons/pricing/pro.svg" class="pro-img">
-                <div class="title-sec">
-                  <div class="title">Pro</div>
-                  <div class="price">$399 <span>/ month</span></div>
+        <div class="row col-12 m-0 tile-block">
+          <div class="col-4 tile-left">
+            <div class="tile-header">
+              <span class="pr-1"><i class="si-document"></i></span>  Current Plan details
+            </div>
+            <div class="tile-plan-overview">
+
+              <div class="tile-current-plan">
+                <div class="tile-plan-details">
+                  <div class="plan-type">STANDARD PLAN</div> 
+                  <div class="plan-price">
+                   <span class="plan-crown-img"></span> $199 <span class="plan-duration">/ Year</span>
+                  </div>
+                  <div class="plan-options">
+                    <div class="plan-view">
+                      <button class="kr-sg-button-ghost btn_md" data-toggle="modal" data-target="#viewPlanModal" >View Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
+                    </div>
+                    <div class="plan-change">
+                      <button class="kr-sg-button-ghost btn_md" (click)="addOverage()">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
+                    </div>
+                  </div>
                 </div>
-                <div class="card-desc">50k Documents  </div>
-                <div class="card-desc">100k Queries per month</div>
-                <div class="card-desc">Connectors & Unstructured content</div>
-                <div class="card-desc">Multiple indices</div>
-                <div class="card-desc">E-mail Support</div>
-                <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
-            </div>
-          </div>
-
-          <div class="col-4 upgrade-price-card custom_">
-            <div class="inner-content">
-              <img src="assets/icons/pricing/enterprise.svg" class="enterprise-img">
-              <div class="title-sec">
-                <div class="title">Enterprise</div>
-                <div class="custom-title">Custom</div>
+                <div class="tile-plan-status">
+                  <div class="plan-subscription"><span class="plan-current-status"></span> Active</div>
+                  <div class="plan-subscription-duration">Forever</div>
+                </div>
               </div>
-              <div class="card-desc">Any no. of documents </div>
-              <div class="card-desc">Any no. of documents</div>
-              <div class="card-desc">Custom SLAs</div>
-              <div class="custom-desc-text">Fully Customizable & Tailored Solution for your business needs</div>
-              <button class="kr-sg-button-secondary btn_lg">Contact US</button>
-            </div>
-          </div> -->
-      </div>
 
-      <div class="usage-metrics-sec row col-12 m-0">
-        <div class="col-12 main-title">{{"plan.usage_metrics"| translate}}</div>
-        <div class="row col-12 m-0 p-0 cards-usage-metrics">
-          <div class="col-6 metrics-data">
-            <div class="inner-content"
-              [ngStyle]="{'opacity':isyAxisDocumentdata?'none':'0.5','pointer-events':isyAxisDocumentdata?'auto':'none'}">
-              <!-- [ngStyle]="{'opacity':isyAxisDocumentdata?'0':'0.5','pointer-events':isyAxisDocumentdata?'auto':'none'}"-->
-              <div class="title">{{"plan.document_ingestion_analytics"| translate}} <span>| {{monthRange}}
-                  ({{"plan.last_6_months"| translate}})</span></div>
-              <div echarts [options]="documentGraph" class="demo-chart-graphMode" style="height: 320px;"></div>
+              <div class="tile-plan-utilization plan-current-usage">
+                <div class="plan-current-and-overage">
+                  <div class="plan-current-usage">CURRENT USAGE</div>
+                  <div class="plan-add-btn">
+                    <button class="kr-sg-button-ghost btn_md">+ADD</button>
+                  </div>
+                </div>
+                <div class="plan-progress-bar-block">
+                  <div class="plan-progress-bar-header-block">
+                    <div class="plan-progress-bar-header">Documents</div>
+                    <div class="plan-progress-bar-count">13000 <span class="total-count">/ 20000</span></div>
+                  </div>
+                  <div class="plan-progress-bar">
+                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails.searchQueries?.type"
+                  [value]="usageDetails.searchQueries?.used" [max]="usageDetails.searchQueries?.limit">
+                  </ngb-progressbar>
+                  </div>
+                  <div class="plan-progress-bar-duration">
+                    12.Oct.22 to 12.Nov.22
+                  </div>
+                </div>
+
+                <div class="plan-progress-bar-block">
+                  <div class="plan-progress-bar-header-block">
+                    <div class="plan-progress-bar-header">Queries</div>
+                    <div class="plan-progress-bar-count">13000 <span class="total-count">/ 20000</span></div>
+                  </div>
+                  <div class="plan-progress-bar">
+                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails.searchQueries?.type"
+                  [value]="usageDetails.searchQueries?.used" [max]="usageDetails.searchQueries?.limit">
+                  </ngb-progressbar>
+                  </div>
+                  <div class="plan-progress-bar-duration">
+                    12.Oct.22 to 12.Nov.22
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="tile-plan-utilization plan-overview">
+                <div class="plan-current-and-overage">
+                  <div class="plan-current-usage">CURRENT USAGE</div>
+                  <div class="plan-add-btn">
+                    <button class="kr-sg-button-ghost btn_md">+ADD</button>
+                  </div>
+                </div>
+                <div class="plan-progress-bar-block">
+                  <div class="plan-progress-bar-header-block">
+                    <div class="plan-progress-bar-header">Documents</div>
+                    <div class="plan-progress-bar-count">13000 <span class="total-count">/ 20000</span></div>
+                  </div>
+                  <div class="plan-progress-bar">
+                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails.searchQueries?.type"
+                  [value]="usageDetails.searchQueries?.used" [max]="usageDetails.searchQueries?.limit">
+                  </ngb-progressbar>
+                  </div>
+                  <div class="plan-progress-bar-duration">
+                    12.Oct.22 to 12.Nov.22
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
-          <div class="col-6 metrics-data">
-            <div class="inner-content"
-              [ngStyle]="{'opacity':isyAxisQuerydata?'none':'0.5','pointer-events':isyAxisQuerydata?'auto':'none'}">
-              <!-- [ngStyle]="{'opacity':isyAxisQuerydata?'0':'0.5','pointer-events':isyAxisQuerydata?'auto':'none'}" -->
-              <div class="title">{{"plan.query_usage_analytics"| translate}} <span>| {{monthRange}}
-                  ({{"plan.last_6_months"| translate}})</span></div>
-              <div echarts [options]="queryGraph" class="demo-chart-graphMode" style="height: 320px;"></div>
+          <div class="col-8 tile-right">
+            <div class="tile-header">
+              <span class="pr-1"><i class="si-graph-lines"></i></span> Usage Metrics <span><i class="si-info"></i></span>
             </div>
+            <div class="tile-chart"
+            [ngStyle]="{'opacity':isyAxisQuerydata?'none':'0.5','pointer-events':isyAxisQuerydata?'auto':'none'}">
+            <div class="title">{{"plan.query_usage_analytics"| translate}} <span>| {{monthRange}}
+                ({{"plan.last_6_months"| translate}})</span></div>
+            <div echarts [options]="queryGraph" class="demo-chart-graphMode" style="height: 320px;"></div>
+          </div>
           </div>
         </div>
-      </div>
     </div>
   </perfect-scrollbar>
 </div>
 
-<kr-modal modalType="center" modalClass="modal_popups_ overage_plan" #addOverageModel>
+<kr-modal modalType="center" modalClass="modal_popups_ kr-full" #addOverageModel>
   <div class="modal-header">
     <div class="title">{{"plan.overage_plan"| translate}}</div>
     <div class="close_icon">
@@ -287,12 +206,12 @@
       </div>
     </div>
   </perfect-scrollbar>
-  <div class="modal-footer text-right">
+  <!-- <div class="modal-footer text-right">
     <button class="kr-sg-button-primary btn_lg mr-3" [disabled]="!addDocOver && !addQueOver"
       (click)="compare('orderOverage')">{{"plan.proceed"| translate}}</button>
     <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closeOveragePopup()">{{"plan.cancel"|
       translate}}</button>
-  </div>
+  </div> -->
 </kr-modal>
 
 <kr-modal modalType="center" modalClass="modal_popups_ cancel_subscription" #cancelSubscriptionModel>
@@ -355,3 +274,62 @@
 </kr-modal>
 
 <app-upgrade-plan #plans (overageModel)="closeOveragePopup()"></app-upgrade-plan>
+
+
+  <!-- The Modal -->
+  <div class="modal fade" id="viewPlanModal">
+    <div class="modal-dialog single-plan">
+      <div class="modal-content">
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="plan-tile-block">
+            <div class="plan-type-block">
+              <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-free.svg" /></div>
+              <div class="plan-details">
+                <div class="plan-type">
+                  <div class="plan-name">Free</div>
+                  <div class="plan-current-status">Current Plan</div>
+                </div>
+                <div class="plan-cost-details">
+                  <div class="plan-cost">$0 <span class="plan-duration-type">Forever</span></div>
+                </div>
+              </div>
+              <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>
+            </div>
+            <div class="plan-tag-line">
+              <div>Try our platform for free.</div>
+              <div>No credit card required.</div>
+            </div>
+            <div class="plan-upgrade-block">
+              <button class="btn">Upgrade Plan</button>
+            </div>
+            <div class="plan-features-block">
+              <perfect-scrollbar class="paln-overflow-scroll">
+                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">records</span> </div>
+                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">queries/month</span> </div>
+                <div class="plan-sub-features">
+                  <div class="plan-sub-feature-hding">Features Includes</div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Website Crawler </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Weights,Synonyms & Stopwords </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Indexing & Workbench </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Connectors </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
+                </div>
+                <div class="plan-sub-features">
+                  <div class="plan-sub-feature-hding">Features Includes</div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
+                </div>
+              </perfect-scrollbar>
+            </div>
+          </div>
+        </div>
+        <!-- Modal body -->
+      </div>
+    </div>
+  </div>
