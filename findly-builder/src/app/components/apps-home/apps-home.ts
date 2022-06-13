@@ -172,7 +172,6 @@ export class AppsListingComponent implements OnInit {
     else if(this.steps=='showSearchExperience' && this.SearchExperianceType){
       this.progressBarFun(3,3);
       this.appCreationAtOnboarding();
-      // this.openAppLoadingScreen();
     }
     else{
         if(this.newApp.name){
@@ -185,7 +184,9 @@ export class AppsListingComponent implements OnInit {
     this.loadingAppcreationRef = this.loadingAppcreation.open();
   }
   CloseAppLoadingScreen(){
-    this.loadingAppcreationRef.close();
+    setTimeout(() => {
+      this.loadingAppcreationRef.close()
+    }, 6000);
   }
 
   selectDemoType(data) {
@@ -236,7 +237,7 @@ export class AppsListingComponent implements OnInit {
   }
   createDemoApp(obj?){   
     if(this.SearchExperianceType){
-      // this.openAppLoadingScreen();
+      this.openAppLoadingScreen();
       const payload = {
         searchIndexId:obj?._id,
         streamId:obj?.streamId,   
@@ -246,9 +247,7 @@ export class AppsListingComponent implements OnInit {
        this.service.invoke('post.createDemoApp',{},payload).subscribe(
          res => {
            if(res){
-            //  setTimeout(() => {
-            //    this.loadingAppcreationRef.close();
-            //  }, 5000);
+             this.CloseAppLoadingScreen();
              this.notificationService.notify('Demo App created Successfully', 'success'); 
            }
           
@@ -508,11 +507,14 @@ export class AppsListingComponent implements OnInit {
     if (validField) {
       let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|<>\/?→←↑↓]+/;
       if (!specialCharacters.test(this.newApp.description)) {
-        this.createFindlyApp()
+        this.createFindlyApp();
       }
       else {
         this.notificationService.notify('Special characters not allowed', 'error');
       }
+    }
+    if(this.newApp.name) {
+      this.createFindlyApp();
     }
 
   }
