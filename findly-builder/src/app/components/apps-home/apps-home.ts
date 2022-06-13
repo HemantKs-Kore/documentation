@@ -181,12 +181,12 @@ export class AppsListingComponent implements OnInit {
     }
 
   }
-  // openAppLoadingScreen(){
-  //   this.loadingAppcreationRef = this.loadingAppcreation.open();
-  // }
-  // CloseAppLoadingScreen(){
-  //   this.loadingAppcreationRef.close();
-  // }
+  openAppLoadingScreen(){
+    this.loadingAppcreationRef = this.loadingAppcreation.open();
+  }
+  CloseAppLoadingScreen(){
+    this.loadingAppcreationRef.close();
+  }
 
   selectDemoType(data) {
     this.demoType = data;
