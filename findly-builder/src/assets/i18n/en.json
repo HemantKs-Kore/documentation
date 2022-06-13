@@ -965,7 +965,11 @@
         "cardBody": "This is a preview for displaying text in the expanded state and your description of the search result will be displayed here in the same format.",
         "save": "Save",
         "cancel": "Cancel",
-        "previewTemplate": "Preview Template"
+        "previewTemplate": "Preview Template",
+        "icon": "Icon",
+        "text_field1": "Text Field1",
+        "text_field2": "Text Field2",
+        "chips": "Chips"
     },
     "faqSource": {
         "faqs": "FAQs",

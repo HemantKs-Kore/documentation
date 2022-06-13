@@ -28,8 +28,17 @@ export class ResultTemplatesComponent implements OnInit {
   preview_title: any = '';
   preview_desc: any = '';
   preview_desc1: any = '';
+  preview_label1: any = '';
+  preview_label2: any = '';
+  preview_rateFiled: any = '';
+  preview_StrikedrateFiled: any = '';
   preview_img: any = '';
   preview_url: any = '';
+  preview_icon: any = '';
+  preview_rating: any = '';
+  preview_textField1: any = '';
+  preview_textField2: any = '';
+  preview_chips: any = '';
   groupname: any = '';
   templateDataBind: any = {
     layout: {
@@ -44,10 +53,19 @@ export class ResultTemplatesComponent implements OnInit {
     mapping: {
       description: "",
       description1: "",
+      label1: "",
+      label2: "",
+      rateField: "",
+      StrikedrateField: "",
       heading: "",
       img: "",
       url: "",
       searchIndexId: "",
+      icon: "",
+      textField1: "",
+      textField2: "",
+      chips: "",
+      rating: ""
     },
     type: ''
   };
@@ -55,16 +73,34 @@ export class ResultTemplatesComponent implements OnInit {
     heading: true,
     description: true,
     description1: true,
+    label1: true,
+    label2: true,
+    rateField: true,
+    StrikedrateField: true,
     image: true,
-    url: true
+    url: true,
+    icon: true,
+    textField1: true,
+    textField2: true,
+    chips: true,
+    rating: true
   }
   templateDatalistext: any;
   customtemplateBtndisable: boolean = false;
   heading_fieldData: any;
   desc_fieldData: any;
   desc_fieldData1: any;
+  label1_fieldData: any;
+  label2_fieldData: any;
+  rate_fieldData: any;
+  Strikedrate_fieldData: any;
   img_fieldData: any;
   url_fieldData: any;
+  icon_fieldData: any;
+  textField1_fieldData: any;
+  textField2_fieldData: any;
+  chips_fieldData: any;
+  rating_fieldData: any;
   fieldData: any;
   templateData: any;
   subscription: Subscription;
@@ -154,8 +190,17 @@ export class ResultTemplatesComponent implements OnInit {
       this.heading_fieldData = [...res];
       this.desc_fieldData = [...res];
       this.desc_fieldData1 = [...res];
+      this.label1_fieldData = [...res];
+      this.label2_fieldData = [...res];
+      this.rate_fieldData = [...res];
+      this.Strikedrate_fieldData = [...res];
       this.img_fieldData = [...res];
       this.url_fieldData = [...res];
+      this.icon_fieldData = [...res];
+      this.textField1_fieldData = [...res];
+      this.textField2_fieldData = [...res];
+      this.chips_fieldData = [...res];
+      this.rating_fieldData = [...res];
       this.fieldData = [...res];
       this.allFieldData = res;
       // console.log('Field Data ....', res)
@@ -180,7 +225,34 @@ export class ResultTemplatesComponent implements OnInit {
       this.preview_desc1 = field.fieldName;
       this.desc_fieldData1 = [...this.allFieldData];
       this.templateFieldValidateObj.description1 = true;
-    } else if (type == 'image') {
+    } else if (type == 'label1') {
+      this.templateDataBind.mapping.label1 = field._id;
+      this.preview_label1 = field.fieldName;
+      this.label1_fieldData = [...this.allFieldData];
+      this.templateFieldValidateObj.label1 = true;
+    } else if (type == 'label2') {
+      this.templateDataBind.mapping.label2 = field._id;
+      this.preview_label2 = field.fieldName;
+      this.label2_fieldData = [...this.allFieldData];
+      this.templateFieldValidateObj.label2 = true;
+    } else if (type == 'rateField') {
+      this.templateDataBind.mapping.rateField = field._id;
+      this.preview_rateFiled = field.fieldName;
+      this.rate_fieldData = [...this.allFieldData];
+      this.templateFieldValidateObj.rateField = true;
+    } else if (type == 'StrikedrateField') {
+      this.templateDataBind.mapping.StrikedrateField = field._id;
+      this.preview_StrikedrateFiled = field.fieldName;
+      this.Strikedrate_fieldData = [...this.allFieldData];
+      this.templateFieldValidateObj.StrikedrateField = true;
+    }
+    else if (type == 'rating') {
+      this.templateDataBind.mapping.rating = field._id;
+      this.preview_rating = field.fieldName;
+      this.rating_fieldData = [...this.allFieldData];
+      this.templateFieldValidateObj.rating = true;
+    }
+    else if (type == 'image') {
       this.templateDataBind.mapping.img = field._id;
       this.preview_img = field.fieldName;
       this.img_fieldData = [...this.allFieldData];
@@ -190,6 +262,26 @@ export class ResultTemplatesComponent implements OnInit {
       this.preview_url = field.fieldName;
       this.url_fieldData = [...this.allFieldData];
       this.templateFieldValidateObj.url = true;
+    } else if (type == 'icon') {
+      this.templateDataBind.mapping.icon = field._id;
+      this.preview_icon = field.fieldName;
+      this.icon_fieldData = [...this.allFieldData];
+      this.templateFieldValidateObj.icon = true;
+    } else if (type == 'textField1') {
+      this.templateDataBind.mapping.textField1 = field._id;
+      this.preview_textField1 = field.fieldName;
+      this.textField1_fieldData = [...this.allFieldData];
+      this.templateFieldValidateObj.textField1 = true;
+    } else if (type == 'textField2') {
+      this.templateDataBind.mapping.textField2 = field._id;
+      this.preview_textField2 = field.fieldName;
+      this.textField2_fieldData = [...this.allFieldData];
+      this.templateFieldValidateObj.textField2 = true;
+    } else if (type == 'chips') {
+      this.templateDataBind.mapping.chips = field._id;
+      this.preview_chips = field.fieldName;
+      this.icon_fieldData = [...this.allFieldData];
+      this.templateFieldValidateObj.chips = true;
     }
   }
   searchlist(type, valToSearch, filedData) {
@@ -213,22 +305,59 @@ export class ResultTemplatesComponent implements OnInit {
         this.desc_fieldData = [...data]
       } else if (type == 'description1') {
         this.desc_fieldData1 = [...data]
+      } else if (type == 'label1') {
+        this.label1_fieldData = [...data]
+      } else if (type == 'label2') {
+        this.label2_fieldData = [...data]
+      } else if (type == 'rateField') {
+        this.rate_fieldData = [...data]
+      } else if (type == 'StrikedrateField') {
+        this.Strikedrate_fieldData = [...data]
       } else if (type == 'image') {
         this.img_fieldData = [...data]
       } else if (type == 'url') {
         this.url_fieldData = [...data]
+      } else if (type == 'icon') {
+        this.icon_fieldData = [...data]
+      } else if (type == 'textField1') {
+        this.textField1_fieldData = [...data]
+      } else if (type == 'textField2') {
+        this.textField2_fieldData = [...data]
+      } else if (type == 'chips') {
+        this.chips_fieldData = [...data]
+      }
+      else if (type == 'rating') {
+        this.rating_fieldData = [...data]
       }
     } else {
       if (type == 'heading') {
         this.heading_fieldData = [...filedData]
       } else if (type == 'description1') {
         this.desc_fieldData1 = [...filedData]
+      } else if (type == 'label1') {
+        this.label1_fieldData = [...filedData]
+      } else if (type == 'label2') {
+        this.label2_fieldData = [...filedData]
+      } else if (type == 'rateField') {
+        this.rate_fieldData = [...filedData]
+      } else if (type == 'StrikedrateField') {
+        this.Strikedrate_fieldData = [...filedData]
       } else if (type == 'description') {
         this.desc_fieldData = [...filedData]
       } else if (type == 'image') {
         this.img_fieldData = [...filedData]
       } else if (type == 'url') {
         this.url_fieldData = [...filedData]
+      } else if (type == 'icon') {
+        this.icon_fieldData = [...filedData]
+      } else if (type == 'textField1') {
+        this.textField1_fieldData = [...filedData]
+      } else if (type == 'textField2') {
+        this.textField2_fieldData = [...filedData]
+      } else if (type == 'chips') {
+        this.chips_fieldData = [...filedData]
+      } else if (type == 'rating') {
+        this.rating_fieldData = [...filedData]
       }
     }
 
@@ -317,10 +446,26 @@ export class ResultTemplatesComponent implements OnInit {
           this.preview_desc = element.fieldName;
         } else if (`${property}` == 'description1' && element._id == `${mapping[property]}`) {
           this.preview_desc1 = element.fieldName;
+        } else if (`${property}` == 'label1' && element._id == `${mapping[property]}`) {
+          this.preview_label1 = element.fieldName;
+        } else if (`${property}` == 'label2' && element._id == `${mapping[property]}`) {
+          this.preview_label2 = element.fieldName;
+        } else if (`${property}` == 'rateFiled' && element._id == `${mapping[property]}`) {
+          this.preview_rateFiled = element.fieldName;
+        } else if (`${property}` == 'StrikedrateFiled' && element._id == `${mapping[property]}`) {
+          this.preview_StrikedrateFiled = element.fieldName;
         } else if (`${property}` == 'img' && element._id == `${mapping[property]}`) {
           this.preview_img = element.fieldName;
         } else if (`${property}` == 'url' && element._id == `${mapping[property]}`) {
           this.preview_url = element.fieldName;
+        } else if (`${property}` == 'chips' && element._id == `${mapping[property]}`) {
+          this.preview_chips = element.fieldName;
+        } else if (`${property}` == 'textField1' && element._id == `${mapping[property]}`) {
+          this.preview_textField1 = element.fieldName;
+        } else if (`${property}` == 'textField2' && element._id == `${mapping[property]}`) {
+          this.preview_textField2 = element.fieldName;
+        } else if (`${property}` == 'rating' && element._id == `${mapping[property]}`) {
+          this.preview_rating = element.fieldName;
         }
       });
     }
@@ -359,8 +504,16 @@ export class ResultTemplatesComponent implements OnInit {
     this.preview_title = '';
     this.preview_desc = '';
     this.preview_desc1 = '';
+    this.preview_label1 = '';
+    this.preview_label2 = '';
+    this.preview_rateFiled = '';
+    this.preview_StrikedrateFiled = '';
     this.preview_img = '';
     this.preview_url = '';
+    this.preview_icon = '';
+    this.preview_textField1 = '';
+    this.preview_textField2 = '';
+    this.preview_rating = '';
   }
   //open add/edit fields dialog
   openCustomModal(type) {
@@ -577,7 +730,7 @@ export class ResultTemplatesComponent implements OnInit {
       this.templateDataBind.mapping.img = '';
       return this.preview_desc.length ? true : false;
     }
-    else if (this.templateDataBind.layout.layoutType === 'l3') {
+    else if (this.templateDataBind.layout.layoutType === 'l3' || this.templateDataBind.layout.layoutType === 'l10' || this.templateDataBind.layout.layoutType === 'l11') {
       this.templateDataBind.mapping.img = '';
       return (this.preview_title.length && this.preview_desc.length) ? true : false;
     }
@@ -721,6 +874,38 @@ export class ResultTemplatesComponent implements OnInit {
     if ($('#searchBoxIdDec') && $('#searchBoxIdDec').length) {
       $('#searchBoxIdDec')[0].value = "";
       this.searchlist('description1', '', this.fieldData);
+      this.field_name = '';
+    }
+
+  }
+  clearcontentLabel1() {
+    if ($('#searchBoxIdLabel1') && $('#searchBoxIdLabel1').length) {
+      $('#searchBoxIdLabel1')[0].value = "";
+      this.searchlist('label1', '', this.fieldData);
+      this.field_name = '';
+    }
+
+  }
+  clearcontentLabel2() {
+    if ($('#searchBoxIdLabel2') && $('#searchBoxIdLabel2').length) {
+      $('#searchBoxIdLabel2')[0].value = "";
+      this.searchlist('label2', '', this.fieldData);
+      this.field_name = '';
+    }
+
+  }
+  clearcontentRateField() {
+    if ($('#searchBoxIdRateField') && $('#searchBoxIdRateField').length) {
+      $('#searchBoxIdRateField')[0].value = "";
+      this.searchlist('rateField', '', this.fieldData);
+      this.field_name = '';
+    }
+
+  }
+  clearcontentStrikedRateField() {
+    if ($('#searchBoxIdStrikedRateField') && $('#searchBoxIdStrikedRateField').length) {
+      $('#searchBoxIdStrikedRateField')[0].value = "";
+      this.searchlist('StrikedrateField', '', this.fieldData);
       this.field_name = '';
     }
 

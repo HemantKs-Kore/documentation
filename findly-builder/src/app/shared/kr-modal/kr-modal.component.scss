@@ -1732,6 +1732,43 @@
         }
     }
 
+    &.loading-new-sample-data{
+        background: rgba(32, 33, 36, 0.5);
+        margin-top: 60px;
+        .modal-dialog{
+            width: 440px;
+            height: 406px;
+            position: relative;
+            margin-top: -60px !important;
+            background: #FFFFFF;
+            border-radius: 16px;
+            .modal-content{
+                background: #FFFFFF;
+                border-radius: 16px;
+                .modal-body{
+                    text-align: center;
+                    padding: 70px 35px;
+                    .img-block{
+                        margin-bottom: 40px;
+                    }
+                    .loading-text{
+                        font-weight: 400;
+                        font-size: 14px;
+                        line-height: 17px;
+                        color: #3C4043;
+                    }
+                    .text-desc{
+                        font-weight: 600;
+                        font-size: 14px;
+                        line-height: 17px;
+                        color: #9AA0A6;
+                        margin-top: 30px;
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 .above-modal-drop-class {

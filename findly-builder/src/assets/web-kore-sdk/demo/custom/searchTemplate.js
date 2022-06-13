@@ -872,6 +872,113 @@
               </script>',
           "layoutType": "l9",
           "templateType": "carousel"
+        },
+        {
+          "id": 25,
+          "template": '<script type="text/x-jqury-tmpl">\
+          <div class="siemens-template">\
+          {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
+            <div class="siemens-list-template">\
+              <div class="icon-with-title">\
+                <img src="assets/web-kore-sdk/demo/images/icon1-blue.svg" class="siemens-icon-blue">\
+                <span class="name-title">{{html helpers.convertMDtoHTML(data.heading)}}</span>\
+                <span class="redirecting-link click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
+                  <img class="siemens-link-icon" src="assets/web-kore-sdk/demo/images/externallink-gray.svg">\
+                </span>\
+              </div>\
+              <div class="info-test-content four-line-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+              <div class="author-updates-sec">\
+                <div class="author-names">\
+                  <span class="author-title">Author:</span>\
+                  <span class="author_name">{{html helpers.convertMDtoHTML(data.scm_author)}}</span>\
+                </div>\
+                <div class="updates-on">\
+                  <span class="title">Updated on:</span>\
+                  <span class="time-updates">{{html helpers.convertMDtoHTML(data.scm_createdAt)}}</span>\
+                </div>\
+              </div>\
+              <div class="button-chips">\
+              {{each(key, chip) data.chips}}\
+              <button class="btn-chip" style="color:${chip.color};background:${chip.background};border:1px solid ${chip.color}">{{html helpers.convertMDtoHTML(chip.name)}}</button>\
+              {{/each}}\
+              </div>\
+              </div>\
+              {{/each}}\
+              </div>\
+          </script>',
+          "layoutType": "l10",
+          "templateType": "list"
+        },
+        {
+          "id": 26,
+          'template': '<script type="text/x-jqury-tmpl">\
+          <div class="cosmetics-grid-template2">\
+                <div class="arrivals-grids-template">\
+                {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
+                  <div class="slide-gride cosmetics-product-view">\
+                    <div class="inner-content-data">\
+                      <div class="img-block">\
+                        <img class="banner-img" src="${data.ecommerce_image}">\
+                      </div>\
+                      <div class="content-block">\
+                        <div class="type-tag {{if data.ecommerce_bestseller == true}} display-inline-block{{else}}display-none{{/if}}">Best Seller</div>\
+                        <div class="type-tag offer">${data.ecommerce_percentage_offer}</div>\
+                        <div class="title">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                        <div class="text-desc">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                        <div class="amount-info">${data.ecommerce_price}</div>\
+                        <div class="amount-info strike-text">${data.ecommerce_original_price}</div>\
+                      </div>\
+                    </div>\
+                  </div>\
+                {{/each}}\
+                </div>\
+                </div>\
+          </script>',
+          "layoutType": "l11",
+          "templateType": "list"
+        },
+        {
+          "id": 27,
+          "template": '<script type="text/x-jqury-tmpl">\
+          <div class="banking-demo-list">\
+              <div class="banking-list-template">\
+                <div class="title-heading-banking {{if data.subtitle}}display-block{{else}}display-none{{/if}}">${data.subtitle}</div>\
+                <div class="banking-carousel-template-data">\
+                  <div class="carousel bankCarouselId${key+1}">\
+                      <div class="slide">\
+                        <div class="inner-content-list">\
+                          <div class="img-block-with-text">\
+                              <div class="img-block">\
+                                  <img src="">\
+                              </div>\
+                              <div class="text-content">\
+                                  <div class="main-heading text-truncate">Luxor Hotel & Casino</div>\
+                                  <div class="stars">\
+                                    <span>4.5</span>\
+                                    <img src="images/banking/star-fill.svg">\
+                                    <img src="images/banking/star-fill.svg">\
+                                    <img src="images/banking/star-fill.svg">\
+                                    <img src="images/banking/star-fill.svg">\
+                                    <img src="images/banking/star-unfil.svg">\
+                                  </div>\
+                                  <div class="info-content two-line-description">Significant reduce time and costs with the U.S Bank purchasing card, a fast, flexible purchasing tool, which offers you an.</div>\
+                              </div>\
+                          </div>\
+                          <div class="chips-data">\
+                            <div class="chip-name">25% off</div>\
+                            <div class="chip-name">Complimentary meals</div>\
+                            <div class="chip-name">No chargeable Reschedule</div>\
+                            <div class="chip-name">3x Reward points</div>\
+                          </div>\
+                        </div>\
+                    </div>\
+                </div>\
+              </div>\
+              </div>\
+            </div>\
+          </script>',
+          "layoutType": "l12",
+          "templateType": "list"
         }
       ]
     }
