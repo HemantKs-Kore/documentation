@@ -488,7 +488,7 @@ export class AppsListingComponent implements OnInit {
         if (res.length > 0) {
           this.emptyApp = true;
         }
-        this.callStream();
+        // this.callStream();
       },
       errRes => {
         this.errorToaster(errRes, 'Error in creating app');
@@ -513,9 +513,9 @@ export class AppsListingComponent implements OnInit {
         this.notificationService.notify('Special characters not allowed', 'error');
       }
     }
-    if(this.newApp.name) {
-      this.createFindlyApp();
-    }
+    // if(this.newApp.name) {
+    //   this.createFindlyApp();
+    // }
 
   }
   inputChanged(type, i?) {
