@@ -125,7 +125,6 @@ export class PricingComponent implements OnInit, OnDestroy {
         this.overageDeatils = element.overage;
       }
     });
-
   }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -136,19 +135,9 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-  compare(type, data?) {
-    if (this.proInfo) {
-      this.proInfo = false;
-    }
-    if (type == 'choosePlans') {
-      this.plans.openChoosePlanPopup(data);
-    }
-    else if (type == 'order') {
-      this.plans.openOrderConfPopup(data);
-    } else if (type == 'orderOverage') {
-      let planData = this.totalPlansData.filter(plan => plan._id == this.currentSubscriptionPlan.subscription.planId);
-      let obj = { overageShow: true, docCount: this.addDocOver ? this.numberDoc > 0 ? this.numberDoc : null : null, queryCount: this.addQueOver ? this.numberQuery > 0 ? this.numberQuery : null : null, overageDeatils: this.overageDeatils }
-      this.plans.openOrderConfPopup(planData[0], obj);
+  selectModal(type) {
+    if (type == 'choose_plan') {
+      this.plans.openChoosePlanPopup();
     }
   }
 

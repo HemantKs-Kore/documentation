@@ -45,13 +45,13 @@
                       <button class="kr-sg-button-ghost btn_md" data-toggle="modal" data-target="#viewPlanModal">View Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
                     </div>
                     <div class="plan-change">
-                      <button class="kr-sg-button-ghost btn_md" (click)="openPopup5()">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
+                      <button class="kr-sg-button-ghost btn_md" (click)="selectModal('choose_plan')">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
                     </div>
                   </div>
                 </div>
                 <div class="tile-plan-status plan-status-active">
                   <div class="plan-subscription"><span class="plan-current-status"></span> Active</div>
-                  <div class="plan-subscription-duration">{{(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'&&'Till '}}{{(currentSubscriptionPlan?.subscription?.planName|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D MMMM YYYY'}}</div>
+                  <div class="plan-subscription-duration">{{(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'?'Till':''}}{{(currentSubscriptionPlan?.subscription?.planName|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MMM.YYYY'}}</div>
                 </div>
               </div>
 
@@ -598,7 +598,7 @@
   <perfect-scrollbar>
     <div class="modal-body">
       <div class="plan-order-steps">
-        <!-- order conformation start from here -->
+        <!-- order conformation start fr`om here -->
         <div class="row col-12 m-0 align-items-center">
           <div class="col-6">
             <div class="order-img">
@@ -638,7 +638,9 @@
           </div>
         </div>
         <!-- order conformation ends here -->
-
+        <div>
+          <iframe></iframe>
+        </div>
         <!-- payment mode success screen start here -->
         <div class="row col-12 m-0 align-items-center payment-status-block">
           <div class="col-6">
@@ -760,14 +762,14 @@
         <div class="modal-body">
           <div class="plan-tile-block">
             <div class="plan-type-block">
-              <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-free.svg" /></div>
+              <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-{{currentSubscriptionPlan?.subscription?.planName|lowercase}}.svg" /></div>
               <div class="plan-details">
                 <div class="plan-type">
-                  <div class="plan-name">Free</div>
+                  <div class="plan-name">{{currentSubscriptionPlan?.subscription?.planName}}</div>
                   <div class="plan-current-status">Current Plan</div>
                 </div>
                 <div class="plan-cost-details">
-                  <div class="plan-cost">$0 <span class="plan-duration-type">Forever</span></div>
+                  <div class="plan-cost">${{currentSubscriptionPlan?.subscription?.planAmount}} <span class="plan-duration-type">{{(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'?'/ ':''}}{{(currentSubscriptionPlan?.subscription?.planName|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.billingUnit}}</span></div>
                 </div>
               </div>
               <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>

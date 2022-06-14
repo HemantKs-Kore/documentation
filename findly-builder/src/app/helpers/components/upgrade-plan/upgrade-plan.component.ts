@@ -89,7 +89,7 @@ export class UpgradePlanComponent implements OnInit {
   @Output() overageModel = new EventEmitter<string>();
   @ViewChild(PerfectScrollbarComponent) public directiveScroll: PerfectScrollbarComponent;
   ngOnInit(): void {
-    this.getPlan();
+    this.getAllPlans();
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     // this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
@@ -139,7 +139,7 @@ export class UpgradePlanComponent implements OnInit {
     });
   }
   //get plans api
-  getPlan() {
+  getAllPlans() {
     this.service.invoke('get.pricingPlans').subscribe(res => {
       this.totalPlansData = res.sort((a, b) => { return a.displayOrder - b.displayOrder });
       this.typeOfPlan("Monthly");
@@ -194,30 +194,13 @@ export class UpgradePlanComponent implements OnInit {
       this.btnDisable = false;
     }
   }
-  //open popup1
-  openChoosePlanPopup(data?, info?) {
-    this.count_info.show = info?.show != undefined ? info?.show : false;
-    this.count_info.msg = info?.msg;
+  //open choose plan popup
+  openChoosePlanPopup() {
     this.choosePlanModalPopRef = this.choosePlanModel.open();
-    if (this.appSelectionService.currentsubscriptionPlanDetails) {
-      this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
-      this.selectedPlan = this.currentSubscriptionPlan.subscription;
-      if (this.currentSubscriptionPlan.subscription.billingUnit) {
-        this.termPlan = this.currentSubscriptionPlan.subscription.billingUnit;
-        this.typeOfPlan(this.termPlan);
-      }
-    }
-    else {
-      this.selectedPlan = data;
-    }
   }
-  //close popup1
+  //close choose plan popup
   closeChoosePlanPopup() {
-    if (this.choosePlanModalPopRef && this.choosePlanModalPopRef.close) {
-      this.choosePlanModalPopRef.close();
-      this.gotoDetails('')
-      this.count_info = { show: false, msg: '' };
-    }
+    if (this.choosePlanModalPopRef && this.choosePlanModalPopRef.close) this.choosePlanModalPopRef.close();
   }
 
   //open payment gateway popup

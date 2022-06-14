@@ -1,151 +1,391 @@
 <!--choose plan popup-->
-<kr-modal modalType="center" modalClass="modal_popups_ chooseplan-price" #choosePlanModel>
-  <div class="modal-header">
-    <div class="title">{{"plan.choose_plan"| translate}}</div>
-    <div class="d-flex align-items-center justify-content-end position-relative">
-      <div class="btn-monthly"
-        [ngClass]="{'active-btn' : termPlan == 'Monthly','disable-text':selectedPlan?.billingUnit=='Yearly'}"
-        (click)="typeOfPlan('Monthly')">{{"plan.monthly"| translate}}</div>
-      <div class="btn-monthly"
-        [ngClass]="{ 'active-btn' : (termPlan == 'Yearly'&&selectedPlan.billingUnit!=='Yearly'),'btn-disable-active':selectedPlan?.billingUnit == 'Yearly' }"
-        (click)="typeOfPlan('Yearly')">{{"plan.yearly"| translate}}
-        <!-- [ngbTooltip]="selectedPlan?.billingUnit == 'Yearly'&&selectedPlan?.planName=='Pro'?'Contact Us if you want to change to monthly plan':''" [container]='"body"' tooltipClass="metrics_tooltips m-0"  -->
-        <span class="tooltip_top_">
-          <span (click)="openContactusModel(selectedPlan.planName)">Contact Us</span> if you want to change to monthly
-          plan
-        </span>
-      </div>
-      <div class="close_icon ml-4">
-        <img (click)="closeChoosePlanPopup()" src="assets/icons/modal-close.svg">
-      </div>
-    </div>
-  </div>
+<kr-modal modalType="center" modalClass="modal_popups_ kr-full" #choosePlanModel>
   <perfect-scrollbar>
     <div class="modal-body">
-      <div class="mian-title-desc" *ngIf="count_info?.show">{{count_info?.msg}}</div>
-      <div class="upgrade-details-prices row col-12 p-0" *ngIf="selectedPlan">
-        <div class="col-4 upgrade-price-card" *ngFor='let plan of filterPlansData'
-          [ngClass]='{"current-plan":(selectedPlan.status!="expired"&&selectedPlan.planName===plan.name),"d-none":plan.type=="free"}'>
-          <div class="main-content">
-            <div class="inner-content"
-              [ngStyle]="{'background':(selectedPlan.status=='expired'&&selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan)?'#F1E9FB':null}">
-              <img src="assets/icons/pricing/standard.png" class="standard-img" *ngIf="plan.name == 'Standard'">
-              <img src="assets/icons/pricing/pro.png" class="pro-img" *ngIf="plan.name == 'Pro'">
-              <img src="assets/icons/pricing/enterprise.png" class="enterprise-img" *ngIf="plan.name == 'Enterprise'">
-              <div class="title-sec">
-                <div class="title">{{plan.name}}</div>
-                <div class="price" [ngClass]='{"d-none":plan.name=="Enterprise" || true}'>${{plan.planAmount}} <span>/
-                    {{termPlan==='Monthly'?("plan.month"| translate):("plan.year"| translate)}}</span></div>
-                <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise" || true}'>{{"plan.custom"| translate}}
+      <div class="pricing-paln-change-modal">
+        <div class="close-modal" (click)="closeChoosePlanPopup()">close <span class="close-span"><i class="si-close close-icon"></i></span></div>     
+        <div class="pricing-main-header">
+          <h2 class="pricing-header">Straight Forward Pricing</h2>
+          <p class="pricing-desc">Simple usage-based pricing that align with your business goals.</p>
+        </div>
+  
+        <div class="pricing-paln-types">
+          <div class="pricing-paln-tab">Monthly</div>
+          <div class="pricing-paln-tab tab-active">Annually</div>
+        </div>
+        
+        <div class="pricing-plan-tiles-block">
+          <!-- free plan start -->
+          <div class="plan-tile-block plan-tile-active">
+            <div class="plan-type-block">
+              <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-free.svg" /></div>
+              <div class="plan-details">
+                <div class="plan-type">
+                  <div class="plan-name">Free</div>
+                  <div class="plan-current-status free-forever">Free Forever</div>
                 </div>
-                <div class="current-plan-title"
-                  *ngIf="selectedPlan.planName===plan.name&&selectedPlan?.billingUnit==termPlan"><img
-                    [src]="selectedPlan.status!='expired'?'assets/icons/pricing/check-round.svg':'assets/icons/pricing/Vector.svg'">{{selectedPlan.status!="expired"?("plan.current_plan"|
-                  translate):("plan.last_active_plan"| translate)}}</div>
+                <div class="plan-cost-details">
+                  <div class="plan-cost">$0 <span class="plan-duration-type">Forever</span></div>
+                </div>
               </div>
-              <div class="card-desc" *ngFor="let info of plan.featureData" [hidden]="!(info.displayOnBanner)">
-                {{info.displayText}}</div>
-              <!-- <button class="kr-sg-button-secondary btn_lg"
-                (click)="openContactusModel(plan.name)">{{("plan.contact_us"|
-                translate)}}</button> -->
-              <!-- Commented as part of FLY-3643 -->
-              <button class="kr-sg-button-secondary btn_lg" *ngIf="selectedPlan?.planName=='Free'"
-                (click)="plan.name==='Enterprise'?openContactusModel(plan.name):openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"|
-                translate):("plan.choose_plan"| translate)}}</button>
-              <!-- <button class="kr-sg-button-secondary btn_lg" > Contact Us</button> -->
-              <!-- <button class="kr-sg-button-secondary btn_lg"   > Contact Us</button> -->
-              <button class="kr-sg-button-secondary btn_lg" *ngIf="selectedPlan?.planName=='Standard'"
-                [ngStyle]="{'display':(selectedPlan?.planName==plan.name&&selectedPlan?.billingUnit==termPlan)?'none':'block'}"
-                (click)="plan.name==='Enterprise'?openContactusModel(plan.name):openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"|
-                translate):(selectedPlan?.billingUnit=='Monthly'&&selectedPlan.planName=='Standard'&&plan.name=="Standard")?'Switch
-                to Annually':("plan.choose_plan"| translate)}}</button>
-              <button class="kr-sg-button-secondary btn_lg" *ngIf="selectedPlan?.planName=='Pro'" placement="top-center"
-                [ngbTooltip]="plan.name=='Standard'?'Please contact us to downgrade to standard subscription':''"
-                [container]='"body"' tooltipClass="metrics_tooltips m-0"
-                [ngStyle]="{'display':(selectedPlan?.planName==plan.name&&selectedPlan?.billingUnit==termPlan)?'none':'block'}"
-                (click)="plan.name==='Enterprise'||plan.name=='Standard'?openContactusModel(plan.name):openOrderConfPopup(plan)">{{plan.name==='Enterprise'||plan.name=='Standard'?("plan.contact_us"|
-                translate):(selectedPlan?.billingUnit=='Monthly'&&selectedPlan.planName=='Pro'&&plan.name=="Pro")?'Switch
-                to Annually':("plan.choose_plan"| translate)}}</button>
+              <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>
             </div>
-            <div class="goto_details" (click)="gotoDetails(plan.name)">{{"plan.go_to_details"| translate}}</div>
+            <div class="plan-tag-line">
+              <div>Try our platform for free. No credit card required. </div>
+            </div>
+            <div class="plan-upgrade-block">
+              <button class="btn current-paln">Current Plan</button>
+            </div>
+            <div class="plan-features-block">
+              <perfect-scrollbar class="paln-overflow-scroll">
+                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">records</span> </div>
+                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">queries/month</span> </div>
+                <div class="plan-sub-features">
+                  <div class="plan-sub-feature-hding">Features Includes</div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Website Crawler </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Weights,Synonyms & Stopwords </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Indexing & Workbench </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Connectors </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
+                </div>
+                <div class="plan-sub-features">
+                  <div class="plan-sub-feature-hding">Features Includes</div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
+                </div>
+              </perfect-scrollbar>
+            </div>
           </div>
+          <!-- free plan end -->
+  
+          <!-- standard plan start -->
+          <div class="plan-tile-block">
+            <div class="plan-type-block">
+              <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-standard.svg" /></div>
+              <div class="plan-details">
+                <div class="plan-type">
+                  <div class="plan-name">Standard</div>
+                  <div class="plan-current-status">Current Plan</div>
+                </div>
+                <div class="plan-cost-details">
+                  <div class="plan-cost">$0 <span class="plan-duration-type">Forever</span></div>
+                </div>
+              </div>
+              <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>
+            </div>
+            <div class="plan-tag-line">
+              <div>Our most popular plan which adds more intelligence to your search.</div>
+            </div>
+            <div class="plan-upgrade-block">
+              <button class="btn">Choose Plan</button>
+            </div>
+            <div class="plan-features-block">
+              <perfect-scrollbar class="paln-overflow-scroll">
+                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">records</span> </div>
+                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">queries/month</span> </div>
+                <div class="plan-sub-features">
+                  <div class="plan-sub-feature-hding">Features Includes</div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Website Crawler </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Weights,Synonyms & Stopwords </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Indexing & Workbench </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Connectors </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
+                </div>
+                <div class="plan-sub-features">
+                  <div class="plan-sub-feature-hding">Features Includes</div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
+                </div>
+              </perfect-scrollbar>
+            </div>
+          </div>
+          <!-- standard plan end -->
+  
+          <!-- enterprise plan start -->
+          <div class="plan-tile-block">
+            <div class="plan-type-block">
+              <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-enterprise.svg" /></div>
+              <div class="plan-details">
+                <div class="plan-type">
+                  <div class="plan-name">Enterprise</div>
+                  <div class="plan-current-status">Current Plan</div>
+                </div>
+                <div class="plan-cost-details">
+                  <!-- <div class="plan-cost">$0 <span class="plan-duration-type">Forever</span></div> -->
+                  <div class="plan-cost enterprise-paln">Custom Plans</div>
+                </div>
+              </div>
+              <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>
+            </div>
+            <div class="plan-tag-line">
+              <div>Contact us for custom session pricing and volume discounts.</div>
+            </div>
+            <div class="plan-upgrade-block">
+              <button class="btn">Talk to us</button>
+            </div>
+            <div class="plan-features-block">
+              <perfect-scrollbar class="paln-overflow-scroll">
+                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">records</span> </div>
+                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">queries/month</span> </div>
+                <div class="plan-sub-features">
+                  <div class="plan-sub-feature-hding">Features Includes</div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Website Crawler </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Weights,Synonyms & Stopwords </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Indexing & Workbench </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Connectors </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
+                </div>
+                <div class="plan-sub-features">
+                  <div class="plan-sub-feature-hding">Features Includes</div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
+                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
+                </div>
+              </perfect-scrollbar>
+            </div>
+          </div>
+          <!-- enterprise paln end -->
         </div>
-      </div>
 
-      <div class="choose-plan-data-table if-pro" *ngIf="showPlanDetails!=''"
-        [ngClass]="{'if-standard':showPlanDetails=='Standard','if-pro':showPlanDetails=='Pro','if-enterprise':showPlanDetails=='Enterprise'}">
-        <!-- if-free, if-standard, if-pro, if-enterprise   add this classes based on type selected-->
-        <div class="header-table-plan row m-0">
-          <div class="type-title width-24">
+        <!-- compare plan start from here -->
+        <div class="compare-plans-section">
+          <div class="pricing-main-header">
+            <h2 class="pricing-header">Compare Plans</h2>
+            <p class="pricing-desc">Comapre the features of each plan and find the one that suites you best.</p>
           </div>
-          <div class="type-title width-19" *ngFor="let plan of filterPlansData">
-            <div class="title">{{plan.name}}</div>
-            <div class="plan-duration " *ngIf="plan.name!='Enterprise'&&plan.type!='free'">${{plan.planAmount}} /
-              {{termPlan==='Monthly'?("plan.month"| translate):("plan.year"| translate)}}</div>
-            <div class="plan-duration " *ngIf="plan.name=='Enterprise'">{{"plan.custom_pricing"| translate}}</div>
-            <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'&&selectedPlan?.planName=='Free'"
-              (click)="plan.name==='Enterprise'?openContactusModel(plan.name):openOrderConfPopup(plan)">
-              {{plan.name==='Enterprise'?("plan.contact_us"|translate):("plan.choose_plan"| translate)}}</button>
-            <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'&&selectedPlan?.planName=='Standard'"
-              (click)="plan.name==='Enterprise'?openContactusModel(plan.name):(plan.name==selectedPlan.planName&&termPlan==selectedPlan.billingUnit)?null:openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"|
-              translate):(selectedPlan?.billingUnit=='Monthly'&&selectedPlan.planName=='Standard'&&plan.name=="Standard"&&selectedPlan?.billingUnit!=termPlan)?'Switch
-              to Annually':("plan.choose_plan"| translate)}}</button>
-            <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'&&selectedPlan?.planName=='Pro'"
-              (click)="plan.name==='Enterprise'||plan.name=='Standard'?openContactusModel(plan.name):(plan.name==selectedPlan.planName&&termPlan==selectedPlan.billingUnit)?null:openOrderConfPopup(plan)"
-              placement="top-center"
-              [ngbTooltip]="plan.name=='Standard'?'Please contact us to downgrade to standard subscription':''"
-              [container]='"body"'
-              tooltipClass="metrics_tooltips m-0">{{plan.name==='Enterprise'||plan.name=='Standard'?("plan.contact_us"|
-              translate):(selectedPlan?.billingUnit=='Monthly'&&selectedPlan.planName=='Pro'&&plan.name=="Pro"&&selectedPlan?.billingUnit!=termPlan)?'Switch
-              to Annually':("plan.choose_plan"| translate)}}</button>
+
+          <div class="compare-plan-tabs row">
+            <div class="compare-plan-tab-name col-lg-3 offset-lg-3">Free</div>
+            <div class="compare-plan-tab-name col-lg-3">Standard</div>
+            <div class="compare-plan-tab-name col-lg-3">Enterprise</div>
+          </div>
+
+          <div class="plan-table-block">
+            <div class="plan-table-header">USAGE</div>
+            <div class="row plan-table-body border-btm pad-10-0">
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">Price ( Per Month)</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span>Free</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">$199 / mo</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">Custom</span></div>
+              </div>
+            </div>
+            <div class="row plan-table-body border-btm pad-10-0">
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">Records</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span>Free</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">$199 / mo</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">Custom</span></div>
+              </div>
+            </div>
+            <div class="row plan-table-body border-btm pad-10-0">
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">Queries (Per Month)</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span>Free</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">$199 / mo</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">Custom</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="plan-table-block">
+            <div class="plan-table-header">Overage</div>
+            <div class="row plan-table-body border-btm pad-10-0">
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">Records</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span>Free</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">$199 / mo</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">Custom</span></div>
+              </div>
+            </div>
+            <div class="row plan-table-body border-btm pad-10-0">
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">Queries</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span>Free</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">$25 / 50K</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">Custom</span></div>
+              </div>
+            </div>
+            <div class="row plan-table-body border-btm pad-10-0">
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">Price ( Per Month)</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span>Free</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">$199 / mo</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">Custom</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="paln-help-text">
+            .... all other existing tables go here. At the bottom, add these two tables for support
+          </div>
+
+          <div class="plan-table-block">
+            <div class="plan-table-header">FEATURES</div>
+            <div class="row plan-table-body border-btm pad-10-0">
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">Webpages Crawelr</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span>1 Crawl per Day</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">3 Crawls per Day</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">Unlimited</span></div>
+              </div>
+            </div>
+            <div class="row plan-table-body border-btm pad-10-0">
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">Documents</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span>Free</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span><i class="si-green-check"></i></span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span><i class="si-green-check"></i></span></div>
+              </div>
+            </div>
+            <div class="row plan-table-body border-btm pad-10-0">
+              <div class="col col-lg-3">
+                <div><span class="border-btm-dasshed">E - Commerce Integrations</span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span><i class="si-close-red"></i></span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span><i class="si-close-red"></i></span></div>
+              </div>
+              <div class="col col-lg-3">
+                <div><span><i class="si-green-check"></i></span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- compare plan ends here -->
+
+        <!-- faq section start from here -->
+        <div class="faq-list-section">
+          <div class="faq-list-block">
+            <div class="faq-list-header">
+              Frequently Asked Questions
+            </div>
+            <div class="faq-list-acc-section">
+              <div class="p-pricing-faq-tile">
+                <div class="p-pricing-accordian-faq">
+                    <a href="#pricingFaq2" data-toggle="collapse" class="p-pricing-accordian-faq-header collapsed">
+                        <div class="d-flex justify-content-between align-items-center p-pricing-accordian-faq-py">
+                            <div class="ng-binding">Can end-users interact with the Virtual Assistants for free?</div>
+                        </div>
+                        <i class="si si-carrotup icon-chev-angle"></i>
+                    </a>
+                </div>
+                <div id="pricingFaq2" class="p-pricing-faq-ans collapse">
+                    <div class="desc">
+                      Yes, end-users can interact with your Virtual Assistant even if you are on the Free Forever Plan. 
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-pricing-faq-tile">
+              <div class="p-pricing-accordian-faq">
+                  <a href="#pricingFaq3" data-toggle="collapse" class="p-pricing-accordian-faq-header collapsed">
+                      <div class="d-flex justify-content-between align-items-center p-pricing-accordian-faq-py">
+                          <div class="ng-binding">Can end-users interact with the Virtual Assistants for free?</div>
+                      </div>
+                      <i class="si si-carrotup icon-chev-angle"></i>
+                  </a>
+              </div>
+              <div id="pricingFaq3" class="p-pricing-faq-ans collapse">
+                  <div class="desc">
+                    Yes, end-users can interact with your Virtual Assistant even if you are on the Free Forever Plan. 
+                  </div>
+              </div>
+          </div>
+
+          <div class="p-pricing-faq-tile">
+            <div class="p-pricing-accordian-faq">
+                <a href="#pricingFaq4" data-toggle="collapse" class="p-pricing-accordian-faq-header collapsed">
+                    <div class="d-flex justify-content-between align-items-center p-pricing-accordian-faq-py">
+                        <div class="ng-binding">Can end-users interact with the Virtual Assistants for free?</div>
+                    </div>
+                    <i class="si si-carrotup icon-chev-angle"></i>
+                </a>
+            </div>
+            <div id="pricingFaq4" class="p-pricing-faq-ans collapse">
+                <div class="desc">
+                  Yes, end-users can interact with your Virtual Assistant even if you are on the Free Forever Plan. 
+                </div>
+            </div>
+        </div>
+            </div>
           </div>
         </div>
-        <!-- <span placement="top-center" [ngbTooltip]="feature[1].desc" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span> -->
-        <div class="body-content-plan" *ngIf="listPlanFeaturesData">
-          <div class="body-table-plan row" *ngFor="let feature of listPlanFeaturesData[0]"
-            [hidden]="feature[1].name==undefined">
-            <div class="title width-24 pl-4">{{feature[1].name}}</div>
-            <div class="title width-19"
-              *ngIf="feature[1].fullDisplayText!=undefined&&feature[1].fullDisplayText!='-'||['none','limited'].includes(feature[1].access)">
-              {{feature[1].access=='none'?'-':feature[1].access=='limited'?feature[1].fullDisplayText==undefined?feature[1].limit:feature[1].fullDisplayText:feature[1].fullDisplayText}}
-            </div>
-            <div class="title width-19"
-              *ngIf="feature[2].fullDisplayText!=undefined&&feature[2].fullDisplayText!='-'||['none','limited'].includes(feature[2].access)">
-              {{feature[2].access=='none'?'-':feature[2].access=='limited'?feature[2].fullDisplayText==undefined?feature[2].limit:feature[2].fullDisplayText:feature[2].fullDisplayText}}
-            </div>
-            <div class="title width-19"
-              *ngIf="feature[3].fullDisplayText!=undefined&&feature[3].fullDisplayText!='-'||['none','limited'].includes(feature[3].access)">
-              {{feature[3].access=='none'?'-':feature[3].access=='limited'?feature[3].fullDisplayText==undefined?feature[3].limit:feature[3].fullDisplayText:feature[3].fullDisplayText}}
-            </div>
-            <div class="title width-19"
-              *ngIf="feature[4].fullDisplayText!=undefined&&feature[4].fullDisplayText!='-'||['none','limited'].includes(feature[4].access)">
-              {{feature[4].access=='none'?'-':feature[4].access=='limited'?feature[4].fullDisplayText==undefined?feature[4].limit:feature[4].fullDisplayText:feature[4].fullDisplayText}}
-            </div>
-            <div class="title width-19"
-              *ngIf="feature[1].access!='none'&&['full','custom'].includes(feature[1].access)&&['-',undefined].includes(feature[1].fullDisplayText)">
-              <img src="assets/icons/pricing/check.svg">
-            </div>
-            <div class="title width-19"
-              *ngIf="feature[2].access!='none'&&['full','custom'].includes(feature[2].access)&&['-',undefined].includes(feature[2].fullDisplayText)">
-              <img src="assets/icons/pricing/check.svg">
-            </div>
-            <div class="title width-19"
-              *ngIf="feature[3].access!='none'&&['full','custom'].includes(feature[3].access)&&['-',undefined].includes(feature[3].fullDisplayText)">
-              <img src="assets/icons/pricing/check.svg">
-            </div>
-            <div class="title width-19"
-              *ngIf="feature[4].access!='none'&&['full','custom'].includes(feature[4].access)&&['-',undefined].includes(feature[4].fullDisplayText)">
-              <img src="assets/icons/pricing/check.svg">
-            </div>
-          </div>
-        </div>
+        <!-- faq section ends here -->
       </div>
-    </div>
+   </div>
   </perfect-scrollbar>
   <!-- <div class="modal-footer text-right">
-      <button class="kr-sg-button-primary btn_lg mr-3">Proceed</button>
-      <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePopup3()">Cancel</button>
-    </div> -->
+    <button class="kr-sg-button-primary btn_lg mr-3" [disabled]="!addDocOver && !addQueOver"
+      (click)="compare('orderOverage')">{{"plan.proceed"| translate}}</button>
+    <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closeOveragePopup()">{{"plan.cancel"|
+      translate}}</button>
+  </div> -->
 </kr-modal>
 
 <!--order confirm popup-->
