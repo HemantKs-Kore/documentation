@@ -1,8 +1,10 @@
 <div class="pricing-container-wrapper">
   <div class="title-header d-flex align-items-center justify-content-between">
     <div>{{"plan.plan_head"| translate}}</div>
-    <button class="kr-sg-button-secondary btn_lg" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)==='free'"><i class="si-minus-circle-o"></i>Cancel Subscription</button>
-    <button class="kr-sg-button-primary btn_lg"><i class="si-publish"></i>Upgrade Plan</button>
+    <div class="btns-block">
+    <button class="kr-sg-button-secondary btn_lg mr-2"><i class="si-minus-circle-o"></i>Cancel Subscription</button>
+    <button class="kr-sg-button-primary btn_lg"><i class="si-publish si-icon"></i>Upgrade Plan</button>
+    </div>
   </div>
   <perfect-scrollbar class="pricing-scroll">
     <div class="pricing-details-main-sec">
@@ -43,7 +45,7 @@
                       <button class="kr-sg-button-ghost btn_md" data-toggle="modal" data-target="#viewPlanModal">View Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
                     </div>
                     <div class="plan-change">
-                      <button class="kr-sg-button-ghost btn_md" (click)="addOverage()">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
+                      <button class="kr-sg-button-ghost btn_md" (click)="openPopup5()">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
                     </div>
                   </div>
                 </div>
@@ -586,24 +588,126 @@
   </div> -->
 </kr-modal>
 
-<kr-modal modalType="center" modalClass="modal_popups_ cancel_subscription" #cancelSubscriptionModel>
+<kr-modal modalType="center" modalClass="modal_popups_ payment_gateway" #cancelSubscriptionModel>
   <div class="modal-header">
-    <div class="title">{{"plan.cancel_subscription"| translate}}</div>
+    <div class="title">{{"plan.order_confirmation"| translate}}</div>
     <div class="close_icon">
       <img (click)="closeCancelSubsPopup()" src="assets/icons/modal-close.svg">
     </div>
   </div>
   <perfect-scrollbar>
     <div class="modal-body">
-      <ul class="cancel-subscription-list">
+      <div class="plan-order-steps">
+        <!-- order conformation start from here -->
+        <div class="row col-12 m-0 align-items-center">
+          <div class="col-6">
+            <div class="order-img">
+              <img src="assets/images/pricing-plan/plan-order/order-cart.svg" class="order-stage-img" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="order-header text-center">Order Summary</div>
+
+            <div class="order-summary-table">
+
+              <div class="order-summary-header">You are changing from Standard plan to Enterprise Plan</div>
+              <div class="row order-summary-table-body">
+                <div class="col col-lg-6">
+                  <div class="order-summary-table-header">PLAN</div>
+                </div>
+                <div class="col col-lg-6">
+                  <div class="order-summary-table-header text-right">AMOUNT</div>
+                </div>
+              </div>
+
+              <div class="row order-summary-table-body">
+                <div class="col col-lg-6">
+                  <div class="order-summary-table-row">STANDARD PLAN</div>
+                </div>
+                <div class="col col-lg-6">
+                  <div class="order-summary-table-row text-right">$ 199</div>
+                </div>
+              </div>
+
+              <div class="order-type">
+                <div class="order-type-option order-option-selected">Monthly</div>
+                <div class="order-type-option">Annually</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- order conformation ends here -->
+
+        <!-- payment mode success screen start here -->
+        <div class="row col-12 m-0 align-items-center payment-status-block">
+          <div class="col-6">
+            <div class="order-img">
+              <img src="assets/images/pricing-plan/plan-order/payment-confirm.svg" class="order-stage-img" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="payment-status-overview">
+              <div class="payment-status-img"> <img src="assets/images/pricing-plan/plan-order/payment-confirm-success.svg" /></div>
+              <div class="payment-status-header">Yay! Payment Successful...</div>
+              <div class="payment-status-desc">10K Searches added and 10K Queries added per month</div>
+              <div class="payment-status-expire">Expires on 20 June 2022</div>
+              <div class="payment-status-btn">
+                <button class="kr-sg-button-secondary btn_lg">Download Invoice <span class="px-2"><i class="si si-download-file primaryColor"></i></span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- payment mode success screen ends here -->
+
+        <!-- payment mode failure screen start here -->
+        <div class="row col-12 m-0 align-items-center payment-status-block">
+          <div class="col-6">
+            <div class="order-img">
+              <img src="assets/images/pricing-plan/plan-order/payment-failed.svg" class="order-stage-img" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="payment-status-overview">
+              <div class="payment-status-img"> <img src="assets/images/pricing-plan/plan-order/payment-confirm-fail.svg" /></div>
+              <div class="payment-status-header">Payment Failed!</div>
+              <div class="payment-status-desc">10K Searches added and 10K Queries added per month</div>
+              <div class="payment-status-expire">Something Went Wrong</div>
+              <div class="payment-status-btn">
+                <button class="kr-sg-button-secondary btn_lg">Retry Payment <span class="px-2"><i class="si si-re-fresh primaryColor"></i></span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- payment mode failure screen ends here -->
+
+        <!-- payment mode hold screen start here -->
+        <div class="row col-12 m-0 align-items-center payment-status-block">
+          <div class="col-6">
+            <div class="order-img">
+              <img src="assets/images/pricing-plan/plan-order/payment-hold.svg" class="order-stage-img" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="payment-status-overview">
+              <div class="payment-status-img"> <img src="assets/images/pricing-plan/plan-order/payment-confirm-hold.svg" /></div>
+              <div class="payment-status-header">Payment On Hold!</div>
+              <div class="payment-status-desc">We will send you an email if we need any further information from you. You can either wait or close this window to continue with your work. </div>
+            </div>
+          </div>
+        </div>
+        <!-- payment mode hold screen ends here -->
+
+      </div>
+      <!-- <ul class="cancel-subscription-list">
         <li>{{"plan.end_of_billing_cycle"| translate}}.
           <span>{{(currentSubscriptionPlan&&currentSubscriptionPlan.subscription&&currentSubscriptionPlan.subscription.endDate)|
             dateFormatPipe:'D MMMM YYYY'}}</span>.
         </li>
         <li>{{"plan.post_billing_cycle"| translate}}.</li>
         <li>{{"plan.access_to_your_app_for_15_more_days"| translate}}.</li>
-      </ul>
-      <div class="cancel-subscription-data row m-0">
+      </ul> -->
+      <!-- <div class="cancel-subscription-data row m-0">
         <div class="img-block col-8"><img src="assets/icons/pricing/cancel_subscription.png"></div>
         <div class="cancel-subscription-reasons col-4 p-0">
           <div class="group-checkbox">
@@ -635,13 +739,13 @@
             <textarea placeholder="Optional" id="text_area" class="input-text"></textarea>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="cancelSubscription()">{{"plan.cancel_subscription"|
+    <button class="kr-sg-button-primary btn_lg" (click)="closeCancelSubsPopup()">{{"plan.proceed"| translate}}</button>
+    <button class="kr-sg-button-ghost btn_lg" (click)="cancelSubscription()">{{"plan.no_thanks"|
       translate}}</button>
-    <button class="kr-sg-button-secondary btn_lg" (click)="closeCancelSubsPopup()">{{"plan.later"| translate}}</button>
   </div>
 </kr-modal>
 

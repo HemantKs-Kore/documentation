@@ -674,7 +674,8 @@
         "delete_excess": "delete the excess Document, Index, Rules, Workbench stages and Experiments",
         "features": "FEATURES",
         "excess": "Excess",
-        "okay": "Okay"
+        "okay": "Okay",
+        "no_thanks": "No, Thanks"
     },
     "credentials": {
         "no_configured_credentials": "You haven’t configured any credentials yet!",
