@@ -231,13 +231,11 @@ export class AppsListingComponent implements OnInit {
     else {
       if(this.appType=='sampleData'){
         this.exploreSampleDate();
-        this.appCreationAtOnboarding();
       }
     }
   }
   createDemoApp(obj?){   
     if(this.SearchExperianceType){
-      this.openAppLoadingScreen();
       const payload = {
         searchIndexId:obj?._id,
         streamId:obj?.streamId,   
@@ -469,15 +467,15 @@ export class AppsListingComponent implements OnInit {
     };
     this.service.invoke('create.app', {}, payload).subscribe(
       res => {
-        this.createDemoApp(res?.searchIndexes[0]);
         this.notificationService.notify('App created successfully', 'success');
+        this.createDemoApp(res?.searchIndexes[0]);
         this.mixpanel.postEvent('New App Created', {});
         self.apps.push(res);
         this.prepareApps(self.apps);
         this.openApp(res)
         this.displayApp = false;
         self.workflowService.showAppCreationHeader(true);
-        // self.router.navigate(['/source'], { skipLocationChange: true });
+        self.router.navigate(['/source'], { skipLocationChange: true });
         this.closeCreateApp();
         const toogleObj = {
           title: '',
@@ -504,7 +502,7 @@ export class AppsListingComponent implements OnInit {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
       validField = false
     }
-    if (validField) {
+    if (validField && this.newApp.description ) {
       let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|<>\/?→←↑↓]+/;
       if (!specialCharacters.test(this.newApp.description)) {
         this.createFindlyApp();
@@ -513,9 +511,10 @@ export class AppsListingComponent implements OnInit {
         this.notificationService.notify('Special characters not allowed', 'error');
       }
     }
-    // if(this.newApp.name) {
-    //   this.createFindlyApp();
-    // }
+    if(this.newApp.name) {
+      this.createFindlyApp();
+      this.openAppLoadingScreen();
+    }
 
   }
   inputChanged(type, i?) {
