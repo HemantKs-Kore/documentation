@@ -261,7 +261,7 @@
                     }
                     .dropdown-menu{
                         background: #FFFFFF;
-                        box-shadow: none !important;                       
+                        box-shadow: none !important;
                         width: 339px;
                         max-height: 428px;
                         border: 0;
@@ -331,7 +331,7 @@
                                 font-size: 13px;
                                 line-height: 16px;
                                 text-align: center;
-                                padding: 17px 0;                                
+                                padding: 17px 0;
                                 border-bottom: 1px solid #E4E5E7;
                                 cursor: pointer;
                             }
@@ -341,8 +341,8 @@
                                 font-size: 13px;
                                 line-height: 16px;
                                 text-align: center;
-                                padding: 17px 0;     
-                                cursor: pointer;                          
+                                padding: 17px 0;
+                                cursor: pointer;
                             }
                         }
                     }
@@ -370,7 +370,7 @@
                 justify-content: center;
                 border-radius: 4px;
                 margin: 0 10px;
-                transition: 0.2s all ease;   
+                transition: 0.2s all ease;
                 &.active-train{
                     background: #E7F1FF;
                     pointer-events: none;
@@ -401,7 +401,7 @@
                 justify-content: center;
                 border-radius: 4px;
                 margin: 0 10px;
-                transition: 0.2s all ease;                                
+                transition: 0.2s all ease;
                 .search_icon{
                     width: 34px;
                     height: 34px;
@@ -409,7 +409,7 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    border-radius: 4px;                    
+                    border-radius: 4px;
                     transition: 0.2s all ease;
                     &.active-search-top{
                         background: #F8F9FA;
@@ -465,8 +465,8 @@
                     }
                 }
             }
-            &.notification-block{                              
-                margin: 0 10px;               
+            &.notification-block{
+                margin: 0 10px;
                 .kr-sg-dropdowns {
                     &.show {
                        .dropdown-open{
@@ -485,7 +485,7 @@
                             text-align: center;
                             display: flex;
                             align-items: center;
-                            justify-content: center;             
+                            justify-content: center;
                             border-radius: 4px;
                             margin: 0;
                             transition: 0.2s all ease;
@@ -495,7 +495,7 @@
                             &::before{
                                 display: none !important;
                             }
-                        }                        
+                        }
                     }
                     .dropdown-menu{
                         background: #FFFFFF;
@@ -561,7 +561,7 @@
                         }
                     }
                 }
-                sup{                    
+                sup{
                     width: 4px;
                     height: 4px;
                     margin: 0;
@@ -576,7 +576,7 @@
                         background: #0D6EFD;
                     }
                 }
-               
+
             }
             &.help-icon{
                 width: 34px;
@@ -584,7 +584,7 @@
                 text-align: center;
                 display: flex;
                 align-items: center;
-                justify-content: center;                
+                justify-content: center;
                 border-radius: 4px;
                 margin: 0 10px;
                 transition: 0.2s all ease;
@@ -694,7 +694,7 @@
                                     overflow: hidden;
                                     white-space: nowrap;
                                     text-overflow: ellipsis;
-                                    text-transform: capitalize;
+//                                     text-transform: capitalize;
                                 }
                                 .u-mail{
                                     font-weight: 400;
@@ -749,7 +749,7 @@
                                 font-size: 14px;
                                 color: #202124;
                                 span{
-                    
+
                                 }
                             }
                         }
@@ -887,6 +887,7 @@
                         .kr-sg-input-search{
                             width: 100%;
                             margin-bottom: 10px;
+                            position: relative;
                             .input-search{
                                 padding: 4px 10px 4px 30px !important;
                                 font-weight: 400;
@@ -899,6 +900,11 @@
                                     color: #BDC1C6;
                                 }
                             }
+                            .close-search {
+                              position: absolute;
+                              right: 10px;
+                              top: 12px;
+                            }
                             i{
                                 left: 10px;
                                 top: 10px;
@@ -910,8 +916,17 @@
                         }
                         .item-scroll{
                             max-height: 200px;
+                            .empty-worspace-search{
+                                background: #F8F9FA;
+                                border-radius: 4px;
+                                font-weight: 400;
+                                font-size: 14px;
+                                line-height: 20px;
+                                color: #9AA0A6;
+                                text-align: center;
+                                padding: 25px 10px;
+                            }
                         }
-
                     }
                 }
             }
@@ -1016,7 +1031,7 @@
                 }
             }
         }
-    }    
+    }
     .inProgress{
         width: 20px;
         height: 20px;
@@ -1069,7 +1084,7 @@
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }
   }
-  
+
   @keyframes spin-loader {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -1114,7 +1129,7 @@
 .horizontal-line{
     padding: 5px 0;
     border-top: 1px solid #E4E5E7;
-    
+
 
 }
 
@@ -1215,5 +1230,5 @@
       top: -16px;
       left: 25px;
       font-size: 12px;
-    }    
+    }
   }

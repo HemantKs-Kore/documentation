@@ -219,7 +219,22 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
       ]
-    }
+    },
+    {
+      title: 'Connecting sources and add searchable distinct entities',
+      sources: [
+        {
+          name: 'Link Searchable Sources',
+          description: 'shared content across organisation',
+          icon: 'assets/icons/content/View.svg',
+          id: 'connectorsId',
+          sourceType: 'connectors',
+          resourceType: 'connectors'
+        }
+
+      ]
+    },
+    
   ];
   anntationObj: any = {};
   addManualFaqModalPopRef: any;
@@ -270,7 +285,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
-    // this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+    // this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ??  null;
     if (this.workflowService.selectedApp()?.configuredBots[0]) {
       this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
     }
@@ -568,6 +583,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
         this.inlineManual.visited('IMPORT_STRUCTURED_DATA')
       }
+    }
+    else if(selectedCrawlMethod && selectedCrawlMethod.resourceType === 'connectors'){
+      this.router.navigate(['/connectors'], { skipLocationChange: true });
     }
     else {
       this.selectedSourceType = selectedCrawlMethod;

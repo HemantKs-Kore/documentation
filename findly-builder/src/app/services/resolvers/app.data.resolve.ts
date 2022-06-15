@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
 import { MatSnackBar, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { AuthService } from '@kore.services/auth.service';
@@ -12,7 +12,14 @@ export class AppDataResolver implements Resolve<any> {
 
 
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-  constructor(private authService: AuthService, public snackBar: MatSnackBar) { }
+  constructor(private authService: AuthService, public snackBar: MatSnackBar, private route: ActivatedRoute) {
+    this.route.queryParams.subscribe(param => {
+      const params = Object.keys(param).length;
+      if (params) {
+        sessionStorage.setItem('connector', JSON.stringify(param));
+      }
+    })
+  }
   // tslint:disable-next-line:max-line-length
   configNote = { duration: 600000, panelClass: ['background-logout'], verticalPosition: this.verticalPosition, data: { msg: '', action: '', stat: false } };
 

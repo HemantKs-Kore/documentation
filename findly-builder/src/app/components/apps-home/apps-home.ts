@@ -8,7 +8,6 @@ import { NotificationService } from '@kore.services/notification.service';
 import { SideBarService } from '@kore.services/header.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { AuthService } from '@kore.services/auth.service';
-import { NONE_TYPE } from '@angular/compiler';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 declare const $: any;
@@ -24,34 +23,40 @@ export class AppsListingComponent implements OnInit {
   openJourney = false;
   saveInProgress = false;
   toShowAppHeader: boolean;
-  demoType:string='';
-  SearchExperianceType:string='';
+  demoType: string = '';
+  SearchExperianceType: string = '';
   appsData: any;
-  streamID:any;
-  searchIndexID:any;
-  demoOptions:boolean = false;
+  streamID: any;
+  searchIndexID: any;
+  demoOptions: boolean = false;
   createAppPopRef: any;
   onboardingpopupjourneyRef: any;
+  loadingAppcreationRef:any;
   confirmatiomAppPopRef: any;
-  detailsPopUpRef:any;
+  detailsPopUpRef: any;
   creatingInProgress = false;
   searchApp = '';
   apps: any = [];
-  progressBar:any = [];
-  stepBar=1;
-  displayApp:boolean = false;
-  hideWelcomepage:boolean = true;
-  showSearchExperices:boolean =false;
-  validateAppname:boolean = false;
-  sharedApp=false;
-  confirmApp: any='';
-  validateName:any='';
-  displaydemoOptions:boolean =false;
-  slectedAppId:any ='';
-  slectedUnlinkAppId:any ='';
+  progressBar: any = [];
+  stepBar = 1;
+  displayApp: boolean = false;
+  hideWelcomepage: boolean = true;
+  showSearchExperices: boolean = false;
+  validateAppname: boolean = false;
+  sharedApp = false;
+  selectedApp: any;
+  serachIndexId: any;
+  strmId: any;
+  confirmApp: any = '';
+  validateName: any = '';
+  appType: any;
+  steps: any;
+  displaydemoOptions: boolean = false;
+  slectedAppId: any = '';
+  slectedUnlinkAppId: any = '';
   unlinkPop = true;
   showSearch = false;
-  submitted:boolean=false;
+  submitted: boolean = false;
   activeClose = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   carousel: any = [];
@@ -69,6 +74,7 @@ export class AppsListingComponent implements OnInit {
   testRepeat = false;
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
+  @ViewChild('loadingAppcreation') loadingAppcreation: KRModalComponent;
   @ViewChild('confirmatiomAppPop') confirmatiomAppPop: KRModalComponent;
   @ViewChild('detailsPopUp') detailsPopUp: KRModalComponent;
   constructor(
@@ -96,7 +102,7 @@ export class AppsListingComponent implements OnInit {
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
-    // this.buildCarousel();
+    // this.buildCarousel();    
   }
   //call mixpanel api for tellmemore button
   callMixPanel() {
@@ -114,7 +120,7 @@ export class AppsListingComponent implements OnInit {
   openApp(app) {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     this.appSelectionService.openApp(app);
-    this.workflowService.selectedIndexPipelineId='';
+    this.workflowService.selectedIndexPipelineId = '';
   }
   openBoradingJourney() {
     this.headerService.openJourneyForfirstTime = true;
@@ -129,86 +135,118 @@ export class AppsListingComponent implements OnInit {
     this.showBoarding = false;
   }
 
-  progressBarFun(val,step){
-    this.stepBar=step;
-    if(val){
+  progressBarFun(val, step) {
+    this.stepBar = step;
+    if (val) {
       this.progressBar = [];
-        for(let i=0; i<val; i++){
-          var obj = {
-            class:'active-bar'
-          }
-
-          this.progressBar.push(obj)
+      for (let i = 0; i < val; i++) {
+        var obj = {
+          class: 'active-bar'
         }
+
+        this.progressBar.push(obj)
       }
-      else {
-        this.progressBar = [];
-      }
+    }
+    else {
+      this.progressBar = [];
+    }
     // this.progressBar = val;
   }
-  exploreMyself(){
+  welcomeStep(type) {
+    this.appType = type;
+    this.steps = 'displayApp';
+    // this.displayApp = true;
+    this.hideWelcomepage = false;
+  }
+
+  exploreMyself() {
     this.displayApp = true;
-    this.hideWelcomepage = false; 
+    this.hideWelcomepage = false;
   }
   exploreSampleDate(){
     this.hideWelcomepage = false; 
-    this.displaydemoOptions = true;
-    this.demoOptions = true;
+    if(this.steps=='demoOptions' && this.demoType){
+      this.steps='showSearchExperience'
+      this.progressBarFun(3,2)
+    }
+    else if(this.steps=='showSearchExperience' && this.SearchExperianceType){
+      this.progressBarFun(3,3);
+      this.appCreationAtOnboarding();
+    }
+    else{
+        if(this.newApp.name){
+          this.steps='demoOptions';
+        }
+    }
+
+  }
+  openAppLoadingScreen(){
+    this.loadingAppcreationRef = this.loadingAppcreation.open();
+  }
+  CloseAppLoadingScreen(){
+    setTimeout(() => {
+      this.loadingAppcreationRef.close()
+    }, 6000);
   }
 
-  selectDemoType(data){
+  selectDemoType(data) {
     this.demoType = data;
-  }
-  continue(){
-    if(this.displaydemoOptions == true ){
-      this.displaydemoOptions = false;
-      this.showSearchExperices =true;
-    }
-    else if(this.showSearchExperices ==true){
-      this.displaydemoOptions = false;
-      this.showSearchExperices = false;
-      this.displayApp= true;
-    }
-  
   }
   selectSearchExperianceType(data){
     this.SearchExperianceType = data;
 
   }
-
-  backToWelcomePage(){
-    if(this.demoOptions===true){
-      this.hideWelcomepage = true; 
-      this.demoOptions = false;
+  back(){
+    this.validateAppname = false;
+    if(this.steps=='showSearchExperience'){
+      this.steps='demoOptions';
+      this.SearchExperianceType ='';
     }
-    else {
-      this.displayApp = false;
-      this.hideWelcomepage = true;
-      this.validateAppname = false;
-    }    
+    else if (this.steps == 'demoOptions') {
+      this.steps = 'displayApp';
+      this.demoType = '';
+    }
+    else if (this.steps == 'displayApp'){
+     this.steps ='';
+     this.progressBar.length=0
+     this.newApp.name='';
+    }
   }
   appCreationAtOnboarding(){
-    if(this.newApp.name){
+    if(this.appType=='selfExplore' && this.newApp.name){
       this.validateSource();
     }
-    else{
+    else if(this.appType=='sampleData' && this.newApp.name && this.SearchExperianceType){
+      this.validateSource();
+    }
+    else {
       this.validateAppname = true;
     }
   }
 
-  createDemoApp(){
+  checkExperience() {
+    if (this.appType == 'selfExplore') {
+      this.appCreationAtOnboarding();
+    }
+    else {
+      if(this.appType=='sampleData'){
+        this.exploreSampleDate();
+      }
+    }
+  }
+  createDemoApp(obj?){   
     if(this.SearchExperianceType){
       const payload = {
-        searchIndexId:this.searchIndexID,
-        streamId:this.streamID,
+        searchIndexId:obj?._id,
+        streamId:obj?.streamId,   
         appType: this.demoType,
         searchBarPosition: this.SearchExperianceType,
        }
-       
-       this.service.invoke('post.createDemoApp', payload).subscribe(
+       this.service.invoke('post.createDemoApp',{},payload).subscribe(
          res => {
            if(res){
-             this.appCreationAtOnboarding();
+             this.CloseAppLoadingScreen();
+             this.notificationService.notify('Demo App created Successfully', 'success'); 
            }
           
          },
@@ -216,13 +254,9 @@ export class AppsListingComponent implements OnInit {
            this.notificationService.notify('App creation has gone wrong', 'error');       
          }
        );
-
     }
-     else{
-      this.appCreationAtOnboarding();
-     }
+   
   }
-
   openDetails() {
     this.detailsPopUpRef = this.detailsPopUp.open();
   }
@@ -240,9 +274,9 @@ export class AppsListingComponent implements OnInit {
       this.onboardingpopupjourneyRef.close();
     }
   }
-  openDeleteApp(event,appInfo) {
-    this.unlinkPop =false;
-    this.submitted =false;
+  openDeleteApp(event, appInfo) {
+    this.unlinkPop = false;
+    this.submitted = false;
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
@@ -255,30 +289,30 @@ export class AppsListingComponent implements OnInit {
     if (this.confirmatiomAppPopRef && this.confirmatiomAppPopRef.close) {
       this.confirmatiomAppPopRef.close();
       this.confirmApp = '';
-      this.unlinkPop=false;
+      this.unlinkPop = false;
     }
   }
 
   //Delete App function
   deleteApp() {
-    this.submitted=true;
+    this.submitted = true;
     let quaryparms: any = {};
     quaryparms.streamId = this.slectedAppId;
-    if(this.confirmApp == 'DELETE' ){
-    this.service.invoke('delete.app', quaryparms).subscribe(res => {
-      if (res) {
-        this.notificationService.notify('Deleted Successfully', 'success');
-        this.closeConfirmApp();
-        this.apps=this.apps.filter((val) => { return val._id!=this.slectedAppId });
-        this.prepareApps(this.apps);
-        // this.getAllApps();
-        this.selectedAppType(this.app_type);
-        this.confirmApp = '';
-      }
-    }, errRes => {
-      this.notificationService.notify('Deletion has gone wrong.', 'error');
-    });
-  }
+    if (this.confirmApp == 'DELETE') {
+      this.service.invoke('delete.app', quaryparms).subscribe(res => {
+        if (res) {
+          this.notificationService.notify('Deleted Successfully', 'success');
+          this.closeConfirmApp();
+          this.apps = this.apps.filter((val) => { return val._id != this.slectedAppId });
+          this.prepareApps(this.apps);
+          // this.getAllApps();
+          this.selectedAppType(this.app_type);
+          this.confirmApp = '';
+        }
+      }, errRes => {
+        this.notificationService.notify('Deletion has gone wrong.', 'error');
+      });
+    }
     // for (let i=0; i<this.apps.length; i++){
     // if (this.apps[i].name === this.confirmApp){
     // let quaryparms: any = {};
@@ -294,43 +328,43 @@ export class AppsListingComponent implements OnInit {
     //       });
     //  }
     // }
+  }
+  openUnlinkApp(event, appInfo) {
+    this.unlinkPop = true;
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
     }
-    openUnlinkApp(event,appInfo) {
-      this.unlinkPop =true;
-      if (event) {
-        event.stopImmediatePropagation();
-        event.preventDefault();
-      }
-      this.slectedUnlinkAppId = appInfo._id;
-      this.confirmatiomAppPopRef = this.confirmatiomAppPop.open();
-    } 
-     unlinkApp() {
-  
-      let quaryparms: any = {};
-      quaryparms.streamId = this.slectedUnlinkAppId;
-      
-      this.service.invoke('Unlink.app', quaryparms).subscribe(res => {
-        if (res) {
-          this.notificationService.notify('Removed Successfully', 'success');
-          this.closeConfirmApp();
-          setTimeout(() => {
-            this.getAllApps();
-          }, 400);
-        }
-      }, errRes => {
-        this.notificationService.notify('Something has gone wrong.', 'error');
-      });
-    }
+    this.slectedUnlinkAppId = appInfo._id;
+    this.confirmatiomAppPopRef = this.confirmatiomAppPop.open();
+  }
+  unlinkApp() {
 
-    checkForSharedApp(){
-      // if(this.apps.filter(item => item.createdBy != this.userId))
-      for(let i=0;i<this.apps.length;i++){
-        if(this.apps[i].createdBy!=this.userId){
-          this.sharedApp=true;
-        }
+    let quaryparms: any = {};
+    quaryparms.streamId = this.slectedUnlinkAppId;
+
+    this.service.invoke('Unlink.app', quaryparms).subscribe(res => {
+      if (res) {
+        this.notificationService.notify('Removed Successfully', 'success');
+        this.closeConfirmApp();
+        setTimeout(() => {
+          this.getAllApps();
+        }, 400);
+      }
+    }, errRes => {
+      this.notificationService.notify('Something has gone wrong.', 'error');
+    });
+  }
+
+  checkForSharedApp() {
+    // if(this.apps.filter(item => item.createdBy != this.userId))
+    for (let i = 0; i < this.apps.length; i++) {
+      if (this.apps[i].createdBy != this.userId) {
+        this.sharedApp = true;
       }
     }
-  
+  }
+
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -355,9 +389,9 @@ export class AppsListingComponent implements OnInit {
   public getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
       if (res && res.length) {
-        if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
+        if (localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")) {
           let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
-          if(prDetails && prDetails.formAccount){
+          if (prDetails && prDetails.formAccount) {
             this.redirectHome()
           }
         }
@@ -369,9 +403,9 @@ export class AppsListingComponent implements OnInit {
         this.emptyApp = false;
       }
       else {
-        if(localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")){
+        if (localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")) {
           this.redirectHome()
-        }else {
+        } else {
 
           /** Issue Fix for multiple onboarding  function called */
           // if (this.headerService.openJourneyForfirstTime) {
@@ -394,15 +428,15 @@ export class AppsListingComponent implements OnInit {
       // console.log(errRes);
     });
   }
-  clearAccount(){    
-    let prDetails = localStorage.getItem('krPreviousState')?JSON.parse(localStorage.getItem('krPreviousState')):null;
-        if(prDetails && prDetails.formAccount){
-           prDetails.formAccount = false;
-        }
-        localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
+  clearAccount() {
+    let prDetails = localStorage.getItem('krPreviousState') ? JSON.parse(localStorage.getItem('krPreviousState')) : null;
+    if (prDetails && prDetails.formAccount) {
+      prDetails.formAccount = false;
+    }
+    localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
   }
-  redirectHome(){
-    let prDetails = localStorage.getItem('krPreviousState')?JSON.parse(localStorage.getItem('krPreviousState')):null;
+  redirectHome() {
+    let prDetails = localStorage.getItem('krPreviousState') ? JSON.parse(localStorage.getItem('krPreviousState')) : null;
     prDetails.route = "/home";
     localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
     this.router.navigate(['/home'], { skipLocationChange: true });
@@ -434,13 +468,14 @@ export class AppsListingComponent implements OnInit {
     this.service.invoke('create.app', {}, payload).subscribe(
       res => {
         this.notificationService.notify('App created successfully', 'success');
+        this.createDemoApp(res?.searchIndexes[0]);
         this.mixpanel.postEvent('New App Created', {});
         self.apps.push(res);
         this.prepareApps(self.apps);
         this.openApp(res)
         this.displayApp = false;
         self.workflowService.showAppCreationHeader(true);
-        // self.router.navigate(['/source'], { skipLocationChange: true });
+        self.router.navigate(['/source'], { skipLocationChange: true });
         this.closeCreateApp();
         const toogleObj = {
           title: '',
@@ -467,14 +502,18 @@ export class AppsListingComponent implements OnInit {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
       validField = false
     }
-    if (validField) {
+    if (validField && this.newApp.description ) {
       let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|<>\/?→←↑↓]+/;
       if (!specialCharacters.test(this.newApp.description)) {
-        this.createFindlyApp()
+        this.createFindlyApp();
       }
       else {
         this.notificationService.notify('Special characters not allowed', 'error');
       }
+    }
+    if(this.newApp.name) {
+      this.createFindlyApp();
+      this.openAppLoadingScreen();
     }
 
   }
