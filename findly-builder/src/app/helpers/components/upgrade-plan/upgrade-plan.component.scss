@@ -1310,7 +1310,6 @@
 }
 
 // plan tile block ends here
-
 ::ng-deep ngb-modal-window {
     &.kr-full {
         .modal-dialog {
@@ -1322,3 +1321,181 @@
         }
     }
 }
+
+// payment gateway order summary screen css start from here
+::ng-deep .payment_gateway {
+    .modal-dialog {
+        height: calc(100% - 40px) !important;
+        max-height: 689px;
+        width: 1116px;
+        max-width: 100% !important;
+
+        .modal-content {
+            background: #FFFFFF;
+            box-shadow: 0px 20px 40px rgb(32 33 36 / 20%);
+            border-radius: 4px !important;
+            position: relative;
+
+            .modal-header {
+                display: flex !important;
+                align-items: center;
+                justify-content: space-between;
+                box-shadow: none;
+
+                .title {
+                    font-weight: 700;
+                    font-size: 16px;
+                    line-height: 19px;
+                    color: #000000;
+                }
+            }
+
+            .modal-body {
+                padding: 10px 30px !important;
+
+                .plan-order-steps {
+                    .order-img {}
+
+                    .order-header {
+                        color: #5F6368;
+                        font-weight: 600;
+                        font-size: 14px;
+                        line-height: 17px;
+                        padding: 0 0 45px 0;
+                        text-align: center;
+
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            width: 45px;
+                            height: 4px;
+                            background: #FFDA2D;
+                            left: 45%;
+                            top: 25px;
+                            z-index: 0;
+                        }
+                    }
+
+                    .order-summary-table {
+                        background: #F8F9FA;
+                        border-radius: 4px;
+                        padding: 35px 35px;
+
+                        .order-summary-header {
+                            font-weight: 400;
+                            font-size: 13px;
+                            line-height: 16px;
+                            color: #5F6368;
+                            padding: 0 0 22px 0;
+                        }
+
+                        .order-summary-table-body {
+                            padding: 8px 0;
+
+                            .order-summary-table-header {
+                                color: #9AA0A6;
+                                font-weight: 500;
+                                font-size: 12px;
+                                line-height: 15px;
+                            }
+
+                            .order-summary-table-row {
+                                padding: 8px 0;
+                                font-weight: 700;
+                                font-size: 14px;
+                                line-height: 17px;
+                                color: #202124;
+                            }
+                        }
+                    }
+
+                    .order-type {
+                        display: flex;
+                        border: 1px solid #E4E5E7;
+                        border-radius: 4px;
+                        background: #F8F9FA;
+                        width: auto;
+                        display: inline-flex;
+                        padding: 12px 6px;
+
+                        .order-type-option {
+                            font-weight: 400;
+                            font-size: 14px;
+                            line-height: 17px;
+                            color: #202124;
+                            padding: 0px 6px;
+                            cursor: pointer;
+
+                            &.order-option-selected {
+                                color: #0D6EFD;
+                                font-weight: 700;
+                            }
+
+                            &:first-child {
+                                border-right: 1px solid #BDC1C6;
+                            }
+                        }
+                    }
+
+                    .payment-status-block {
+                        .payment-status-overview {
+                            text-align: center;
+
+                            .primaryColor {
+                                color: #202124;
+
+                                &.si {
+                                    &::before {
+                                        color: #202124;
+                                    }
+                                }
+                            }
+
+                            .order-img {}
+
+                            .payment-status-img {}
+
+                            .payment-status-header {
+                                font-weight: 700;
+                                font-size: 24px;
+                                line-height: 29px;
+                                color: #202124;
+                                padding: 25px 0 15px 0;
+                            }
+
+                            .payment-status-desc {
+                                font-weight: 400;
+                                font-size: 14px;
+                                line-height: 17px;
+                                color: #202124;
+                                padding: 15px 0;
+                            }
+
+                            .payment-status-expire {
+                                font-weight: 400;
+                                font-size: 12px;
+                                line-height: 15px;
+                                color: #5F6368;
+                                padding: 0 0 15px 0;
+                            }
+
+                            .payment-status-btn {
+                                padding: 15px 0;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .modal-footer {
+                box-shadow: none;
+
+                .kr-sg-button-ghost {
+                    color: #202124;
+                }
+            }
+        }
+    }
+}
+
+// payment gateway order summary screen css ends here

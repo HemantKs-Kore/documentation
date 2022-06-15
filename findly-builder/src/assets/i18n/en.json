@@ -1,5 +1,5 @@
 {
-    "deleteToConfirm":"Please type the phrase 'DELETE' to confirm",
+    "deleteToConfirm": "Please type the phrase 'DELETE' to confirm",
     "Hi": "Hi, ",
     "WelcometoFindly": "Welcome to SearchAssist.ai",
     "Your_Applications": "Your Applications",
@@ -328,7 +328,7 @@
         "analytics": "Analytics",
         "dash_board_view": {
             "dashboard": "Dashboard",
-            "Chooseindex":"Choose index to display analytics",
+            "Chooseindex": "Choose index to display analytics",
             "total_user": "Total Users",
             "total_searches": "Total Searches",
             "search_trends": "Search Trends",
@@ -349,7 +349,7 @@
             "Top_Search_Queries_with_No_Result": "Top Search Queries with No Result",
             "Top_Search_Results": "Top Search Results",
             "Searched_Intent": "Query",
-            "Search_Results" : "Search Results",
+            "Search_Results": "Search Results",
             "Count": "Count",
             "Appearances": "Appearances",
             "Clicks": "Clicks",
@@ -675,7 +675,8 @@
         "features": "FEATURES",
         "excess": "Excess",
         "okay": "Okay",
-        "no_thanks": "No, Thanks"
+        "no_thanks": "No, Thanks",
+        "close": "Close"
     },
     "credentials": {
         "no_configured_credentials": "You haven’t configured any credentials yet!",
@@ -968,10 +969,9 @@
     },
     "manageExtracts": {
         "no_faq_sources_are_available": "No FAQ sources are available",
-        "source_title":"SOURCE TITLE",
-        "type":"TYPE",
-        "status":"STATUS"
-
+        "source_title": "SOURCE TITLE",
+        "type": "TYPE",
+        "status": "STATUS"
     },
     "traits": {
         "traits": "Traits",

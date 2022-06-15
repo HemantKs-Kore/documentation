@@ -69,7 +69,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   updateUsageData: Subscription;
   currentPlan: any;
   upgradeBannerFlag: boolean;
-  componentType:any='';
+  componentType: any = '';
   @Input() show;
   @Input() settingMainMenu;
   @Input() sourceMenu;
@@ -97,21 +97,16 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       title: selection,
     };
     this.headerService.toggle(toogleObj);
-    if (selection =='weights'|| selection == 'synonyms'||selection=='stopWords'||selection=='resultranking'){
+    if (selection == 'weights' || selection == 'synonyms' || selection == 'stopWords' || selection == 'resultranking') {
       this.appSelectionService.updateTourConfig('configure');
     }
-    if (selection =='fields'|| selection == 'traits'||selection=='workbench'){
+    if (selection == 'fields' || selection == 'traits' || selection == 'workbench') {
       this.appSelectionService.updateTourConfig('indexing');
     }
   }
   //upgrade plan
   upgrade(data?) {
-    if (data) {
-      this.plans.openChoosePlanPopup('choosePlans', { show: true, msg: data });
-    }
-    else {
-      this.plans.openChoosePlanPopup('choosePlans');
-    }
+
   }
   reloadCurrentRoute() {
     let route = '/summary';
@@ -580,7 +575,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         /**made changes on 24/02 as per new api contract in response we no longer use the key
          dockStatuses added updated code in 576 line*/
         // this.dockersList = res.dockStatuses;
-           this.dockersList = res;
+        this.dockersList = res;
       },
       errRes => {
         this.statusDockerLoading = false;

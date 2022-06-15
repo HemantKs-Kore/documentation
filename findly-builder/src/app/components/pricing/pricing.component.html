@@ -2,8 +2,8 @@
   <div class="title-header d-flex align-items-center justify-content-between">
     <div>{{"plan.plan_head"| translate}}</div>
     <div class="btns-block">
-    <button class="kr-sg-button-secondary btn_lg mr-2"><i class="si-minus-circle-o"></i>Cancel Subscription</button>
-    <button class="kr-sg-button-primary btn_lg"><i class="si-publish si-icon"></i>Upgrade Plan</button>
+    <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'"><i class="si-minus-circle-o"></i>Cancel Subscription</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="selectModal('choose_plan')"><i class="si-publish si-icon"></i>Upgrade Plan</button>
     </div>
   </div>
   <perfect-scrollbar class="pricing-scroll">
@@ -51,7 +51,7 @@
                 </div>
                 <div class="tile-plan-status plan-status-active">
                   <div class="plan-subscription"><span class="plan-current-status"></span> Active</div>
-                  <div class="plan-subscription-duration">{{(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'?'Till':''}}{{(currentSubscriptionPlan?.subscription?.planName|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MMM.YYYY'}}</div>
+                  <div class="plan-subscription-duration">{{(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'?'Till  ':''}}{{(currentSubscriptionPlan?.subscription?.planName|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MMM.YYYY'}}</div>
                 </div>
               </div>
 
@@ -779,7 +779,7 @@
               <div>No credit card required.</div>
             </div>
             <div class="plan-upgrade-block">
-              <button class="btn">Upgrade Plan</button>
+              <button class="btn" (click)="selectModal('choose_plan')">Upgrade Plan</button>
             </div>
             <div class="plan-features-block">
               <perfect-scrollbar class="paln-overflow-scroll">

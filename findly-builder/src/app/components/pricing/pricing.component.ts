@@ -137,7 +137,7 @@ export class PricingComponent implements OnInit, OnDestroy {
   }
   selectModal(type) {
     if (type == 'choose_plan') {
-      this.plans.openChoosePlanPopup();
+      this.plans.openSelectedPopup('choose_plan');
     }
   }
 

@@ -3,7 +3,6 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { viewClassName } from '@angular/compiler';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { AuthService } from '@kore.services/auth.service';
@@ -25,6 +24,7 @@ export class UpgradePlanComponent implements OnInit {
   changePlanModelPopRef: any;
   contactusModelPopRef: any;
   contactusSuccessModelPopRef: any;
+
   termPlan = "Monthly";
   totalPlansData: any;
   filterPlansData: any;
@@ -34,7 +34,6 @@ export class UpgradePlanComponent implements OnInit {
   selectedApp: any;
   serachIndexId: any;
   userInfo: any;
-  currentSubscriptionPlan: any;
   urlSafe: any;
   transactionId: any;
   payementSuccess: true;
@@ -48,6 +47,7 @@ export class UpgradePlanComponent implements OnInit {
   count_info: any = { show: false, msg: '' };
   contact_us_planName: string;
   showOverageErrorMsg: boolean = false;
+  selectedPaymentPage: string = 'payment_confirm';
   payementResponse: any = {
     hostedPage: {
       transactionId: "",
@@ -92,21 +92,6 @@ export class UpgradePlanComponent implements OnInit {
     this.getAllPlans();
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    // this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
-    // if (!this.currentSubscriptionPlan) {
-    //   this.currentsubscriptionPlan(this.selectedApp)
-    // }
-  }
-  currentsubscriptionPlan(app) {
-    const payload = {
-      streamId: app._id
-    };
-    const appObserver = this.service.invoke('get.currentPlans', payload);
-    appObserver.subscribe(res => {
-      this.currentSubscriptionPlan = res
-    }, errRes => {
-      this.errorToaster(errRes, 'failed to get plans');
-    });
   }
   poling(type?) {
     this.paymentStatusInterval = setInterval(() => {
@@ -124,13 +109,11 @@ export class UpgradePlanComponent implements OnInit {
         if (type == 'overage') {
           this.overageModel.emit();
         }
-        this.closeChoosePlanPopup();
         this.closeOrderConfPopup();
         this.openSuccessFailurePopup(true);
         this.notificationService.notify(type == "overage" ? res.state : 'Plan Changed successfully', 'success');
         clearInterval(this.paymentStatusInterval);
       } else if (res.state == 'failed') {
-        this.closeChoosePlanPopup();
         this.openSuccessFailurePopup(false);
         clearInterval(this.paymentStatusInterval);
       }
@@ -170,10 +153,6 @@ export class UpgradePlanComponent implements OnInit {
   openOrderConfPopup(data?, obj?) {
     this.overageData = obj == undefined ? { overageShow: false } : obj;
     this.orderConfirmData = data;
-    if (this.appSelectionService.currentsubscriptionPlanDetails) {
-      this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
-      this.selectedPlan = this.currentSubscriptionPlan.subscription;
-    }
     this.orderConfirmModelPopRef = this.orderConfirmModel.open();
   }
   //close order confirm popup
@@ -194,13 +173,28 @@ export class UpgradePlanComponent implements OnInit {
       this.btnDisable = false;
     }
   }
-  //open choose plan popup
-  openChoosePlanPopup() {
-    this.choosePlanModalPopRef = this.choosePlanModel.open();
+  //open popup based on input parameter
+  openSelectedPopup(type) {
+    if (type === 'choose_plan') {
+      if (this.appSelectionService.currentsubscriptionPlanDetails) {
+        const currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+        this.selectedPlan = currentSubscriptionPlan?.subscription;
+        this.choosePlanModalPopRef = this.choosePlanModel.open();
+      }
+    }
+    else if (type === 'payment_gateway') {
+      this.paymentGatewayModelPopRef = this.paymentGatewayModel.open();
+    }
   }
-  //close choose plan popup
-  closeChoosePlanPopup() {
-    if (this.choosePlanModalPopRef && this.choosePlanModalPopRef.close) this.choosePlanModalPopRef.close();
+  //close popup based on input parameter
+  closeSelectedPopup(type) {
+    if (type === 'choose_plan') {
+      if (this.choosePlanModalPopRef?.close) this.choosePlanModalPopRef.close();
+    }
+    else if (type === 'payment_gateway') {
+      this.selectedPaymentPage = 'payment_confirm';
+      if (this.paymentGatewayModelPopRef?.close) this.paymentGatewayModelPopRef.close();
+    }
   }
 
   //open payment gateway popup
@@ -273,7 +267,6 @@ export class UpgradePlanComponent implements OnInit {
     enterpriseRequest.subscribe(res => {
       this.btnDisable = false;
       this.closeContatcusModel();
-      this.closeChoosePlanPopup();
       this.closeOrderConfPopup();
       this.openContactusSuccessModel();
     }, errRes => {
@@ -286,62 +279,62 @@ export class UpgradePlanComponent implements OnInit {
     this.showLoader = false;
   }
   //payment plan for upgrade/downgrade
-  paymentPlan(show?) {
-    this.btnDisable = true;
-    this.selectedApp = this.workflowService.selectedApp();
-    this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
-    if (show == undefined) {
-      show = this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free ? true : false;
-    }
-    if (show) {
-      this.buyOveragePayment();
-    }
-    else {
-      if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free || this.selectedPlan && this.selectedPlan.status == 'expired') {
-        this.openPaymentGatewayPopup();
-      }
-      else {
-        const payload = { "streamId": this.selectedApp._id, "targetPlanId": this.orderConfirmData._id };
-        const upgradePlan = this.service.invoke('put.planChange', {}, payload);
-        upgradePlan.subscribe(res => {
-          if (res.status == 'success') {
-            this.invoiceOrderId = res.orderId;
-            this.btnDisable = false;
-            this.closeChoosePlanPopup();
-            this.closeOrderConfPopup();
-            if (res.type == 'downgrade') {
-              this.notificationService.notify('Plan Changed successfully', 'success');
-              this.appSelectionService.getCurrentSubscriptionData();
-            }
-            else {
-              this.openSuccessFailurePopup(true);
-            }
-          }
-          else if (res.status == "processing") {
-            this.payementResponse.hostedPage.transactionId = res.transactionId;
-            this.invoiceOrderId = res.orderId;
-            this.poling("upgrade");
-          }
-          else if (res.status == 'failed') {
-            this.openChangePlanModel();
-            this.featuresExceededUsage = res.featuresExceededUsage;
-          }
-        }, errRes => {
-          if (errRes && errRes.error && errRes.error.errors[0].code == 'ERR_FAILED_ACCESS_EXCEEDED') {
-            this.openChangePlanModel();
-            this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
-          }
-          else {
-            this.btnDisable = false;
-            this.errorToaster(errRes, 'failed upgrade');
-            this.openSuccessFailurePopup(false);
-            this.closeChoosePlanPopup();
-            this.closeOrderConfPopup();
-          }
-        });
-      }
-    }
-  }
+  // paymentPlan(show?) {
+  //   this.btnDisable = true;
+  //   this.selectedApp = this.workflowService.selectedApp();
+  //   this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+  //   if (show == undefined) {
+  //     show = this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free ? true : false;
+  //   }
+  //   if (show) {
+  //     this.buyOveragePayment();
+  //   }
+  //   else {
+  //     if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free || this.selectedPlan && this.selectedPlan.status == 'expired') {
+  //       this.openPaymentGatewayPopup();
+  //     }
+  //     else {
+  //       const payload = { "streamId": this.selectedApp._id, "targetPlanId": this.orderConfirmData._id };
+  //       const upgradePlan = this.service.invoke('put.planChange', {}, payload);
+  //       upgradePlan.subscribe(res => {
+  //         if (res.status == 'success') {
+  //           this.invoiceOrderId = res.orderId;
+  //           this.btnDisable = false;
+  //           this.closeChoosePlanPopup();
+  //           this.closeOrderConfPopup();
+  //           if (res.type == 'downgrade') {
+  //             this.notificationService.notify('Plan Changed successfully', 'success');
+  //             this.appSelectionService.getCurrentSubscriptionData();
+  //           }
+  //           else {
+  //             this.openSuccessFailurePopup(true);
+  //           }
+  //         }
+  //         else if (res.status == "processing") {
+  //           this.payementResponse.hostedPage.transactionId = res.transactionId;
+  //           this.invoiceOrderId = res.orderId;
+  //           this.poling("upgrade");
+  //         }
+  //         else if (res.status == 'failed') {
+  //           this.openChangePlanModel();
+  //           this.featuresExceededUsage = res.featuresExceededUsage;
+  //         }
+  //       }, errRes => {
+  //         if (errRes && errRes.error && errRes.error.errors[0].code == 'ERR_FAILED_ACCESS_EXCEEDED') {
+  //           this.openChangePlanModel();
+  //           this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
+  //         }
+  //         else {
+  //           this.btnDisable = false;
+  //           this.errorToaster(errRes, 'failed upgrade');
+  //           this.openSuccessFailurePopup(false);
+  //           this.closeChoosePlanPopup();
+  //           this.closeOrderConfPopup();
+  //         }
+  //       });
+  //     }
+  //   }
+  // }
   //close payment gateway popup
   closePaymentGatewayPopup() {
     if (this.paymentGatewayModelPopRef && this.paymentGatewayModelPopRef.close) {
@@ -378,30 +371,6 @@ export class UpgradePlanComponent implements OnInit {
         this.filterPlansData.push(data);
       }
     }
-    let listData = [...this.totalPlansData];
-    this.listPlanFeaturesData = [];
-    let listDataMonthlyFeature = [];
-    listData.forEach(data => {
-      Object.keys(data.featureAccess);
-      Object.values(data.featureAccess);
-      Object.entries(data.featureAccess);
-      /** Pick only the Month Plans */
-      if (data.planId == this.plansIdList.free || data.type == this.plansIdList.standardMonth || data.type == this.plansIdList.proMonth || data.type == this.plansIdList.enterpriceMonth) {
-        listDataMonthlyFeature.push(Object.entries(data.featureAccess))
-      }
-    })
-    for (let i = 1; i <= listDataMonthlyFeature.length; i++) {
-      if (listDataMonthlyFeature[i]) {
-        for (let j = 0; j < listDataMonthlyFeature[i].length; j++) {
-          if (listDataMonthlyFeature[i][j]) {
-            if (listDataMonthlyFeature[i][j][0] == listDataMonthlyFeature[0][j][0]) { //comapre 3 records with 1st record's Key
-              listDataMonthlyFeature[0][j].push(listDataMonthlyFeature[i][j][1])       // push the values array in 1st record
-            }
-          }
-        }
-      }
-    }
-    this.listPlanFeaturesData = listDataMonthlyFeature;
   }
   //based on choosePlanType in order confirm popup
   choosePlanType(type) {
@@ -421,35 +390,35 @@ export class UpgradePlanComponent implements OnInit {
     }
   }
   //buy overage payment
-  buyOveragePayment() {
-    this.selectedApp = this.workflowService.selectedApp();
-    let overage = [];
-    if (this.overageData.docCount != null && this.overageData.docCount > 0) {
-      overage.push({ "feature": "ingestDocs", "quantity": this.overageData.docCount })
-    }
-    if (this.overageData.queryCount != null && this.overageData.queryCount > 0) {
-      overage.push({ "feature": "searchQueries", "quantity": this.overageData.queryCount })
-    }
-    if (overage.length) {
-      this.showOverageErrorMsg = false;
-      const queryParams = {
-        "streamId": this.selectedApp._id,
-        "subscriptionId": this.currentSubscriptionPlan.subscription._id
-      }
-      const payload = { "overages": overage };
-      const buyOverage = this.service.invoke('put.buyOverage', queryParams, payload);
-      buyOverage.subscribe(res => {
-        this.invoiceOrderId = res.transactionId;
-        this.poling("overage");
-      }, errRes => {
-        this.errorToaster(errRes, 'failed buy overage');
-      });
-    }
-    else {
-      this.btnDisable = false;
-      this.showOverageErrorMsg = true;
-    }
-  }
+  // buyOveragePayment() {
+  //   this.selectedApp = this.workflowService.selectedApp();
+  //   let overage = [];
+  //   if (this.overageData.docCount != null && this.overageData.docCount > 0) {
+  //     overage.push({ "feature": "ingestDocs", "quantity": this.overageData.docCount })
+  //   }
+  //   if (this.overageData.queryCount != null && this.overageData.queryCount > 0) {
+  //     overage.push({ "feature": "searchQueries", "quantity": this.overageData.queryCount })
+  //   }
+  //   if (overage.length) {
+  //     this.showOverageErrorMsg = false;
+  //     const queryParams = {
+  //       "streamId": this.selectedApp._id,
+  //       "subscriptionId": this.currentSubscriptionPlan.subscription._id
+  //     }
+  //     const payload = { "overages": overage };
+  //     const buyOverage = this.service.invoke('put.buyOverage', queryParams, payload);
+  //     buyOverage.subscribe(res => {
+  //       this.invoiceOrderId = res.transactionId;
+  //       this.poling("overage");
+  //     }, errRes => {
+  //       this.errorToaster(errRes, 'failed buy overage');
+  //     });
+  //   }
+  //   else {
+  //     this.btnDisable = false;
+  //     this.showOverageErrorMsg = true;
+  //   }
+  // }
   //gotoDetails
   gotoDetails(name) {
     this.showPlanDetails = name;
@@ -459,36 +428,37 @@ export class UpgradePlanComponent implements OnInit {
   }
 
   //download invoice
-  downloadInvoice() {
-    this.selectedApp = this.workflowService.selectedApp();
-    let queryParams = { "streamId": this.selectedApp._id };
-    let url;
-    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free || this.overageData.overageShow || this.currentSubscriptionPlan == undefined) {
-      queryParams = Object.assign({ ...queryParams, "transactionId": this.invoiceOrderId });
-      url = 'get.getInvoiceDownload';
-    }
-    else {
-      queryParams = Object.assign({ ...queryParams, "orderId": this.invoiceOrderId });
-      url = 'get.paidInvoiceDownload';
-    }
-    const getInvoice = this.service.invoke(url, queryParams);
-    getInvoice.subscribe(res => {
-      if (this.overageData.overageShow) {
-        for (let data of res) {
-          FileSaver.saveAs(data.viewInvoice + '&DownloadPdf=true', 'invoice_' + data._id + '.pdf');
-        }
-      }
-      else {
-        if (res?.length) {
-          FileSaver.saveAs(res[0].viewInvoice + '&DownloadPdf=true', 'invoice_' + res[0]._id + '.pdf');
-        }
-        else {
-          FileSaver.saveAs(res.viewInvoice + '&DownloadPdf=true', 'invoice_' + res._id + '.pdf');
-        }
-      }
-      // this.notificationService.notify('res.status', 'success');
-    }, errRes => {
-      this.errorToaster(errRes, 'Downloading Invoice failed');
-    });
-  }
+  // downloadInvoice() {
+  //   this.selectedApp = this.workflowService.selectedApp();
+  //   let queryParams = { "streamId": this.selectedApp._id };
+  //   let url;
+  //   if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free || this.overageData.overageShow || this.currentSubscriptionPlan == undefined) {
+  //     queryParams = Object.assign({ ...queryParams, "transactionId": this.invoiceOrderId });
+  //     url = 'get.getInvoiceDownload';
+  //   }
+  //   else {
+  //     queryParams = Object.assign({ ...queryParams, "orderId": this.invoiceOrderId });
+  //     url = 'get.paidInvoiceDownload';
+  //   }
+  //   const getInvoice = this.service.invoke(url, queryParams);
+  //   getInvoice.subscribe(res => {
+  //     if (this.overageData.overageShow) {
+  //       for (let data of res) {
+  //         FileSaver.saveAs(data.viewInvoice + '&DownloadPdf=true', 'invoice_' + data._id + '.pdf');
+  //       }
+  //     }
+  //     else {
+  //       if (res?.length) {
+  //         FileSaver.saveAs(res[0].viewInvoice + '&DownloadPdf=true', 'invoice_' + res[0]._id + '.pdf');
+  //       }
+  //       else {
+  //         FileSaver.saveAs(res.viewInvoice + '&DownloadPdf=true', 'invoice_' + res._id + '.pdf');
+  //       }
+  //     }
+  //     // this.notificationService.notify('res.status', 'success');
+  //   }, errRes => {
+  //     this.errorToaster(errRes, 'Downloading Invoice failed');
+  //   });
+  // }
+
 }

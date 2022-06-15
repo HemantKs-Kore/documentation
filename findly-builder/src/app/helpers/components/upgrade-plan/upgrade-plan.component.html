@@ -3,7 +3,7 @@
   <perfect-scrollbar>
     <div class="modal-body">
       <div class="pricing-paln-change-modal">
-        <div class="close-modal" (click)="closeChoosePlanPopup()">close <span class="close-span"><i class="si-close close-icon"></i></span></div>     
+        <div class="close-modal" (click)="closeSelectedPopup('choose_plan')">close <span class="close-span"><i class="si-close close-icon"></i></span></div>     
         <div class="pricing-main-header">
           <h2 class="pricing-header">Straight Forward Pricing</h2>
           <p class="pricing-desc">Simple usage-based pricing that align with your business goals.</p>
@@ -82,7 +82,7 @@
               <div>Our most popular plan which adds more intelligence to your search.</div>
             </div>
             <div class="plan-upgrade-block">
-              <button class="btn">Choose Plan</button>
+              <button class="btn" (click)="openSelectedPopup('payment_gateway')">Choose Plan</button>
             </div>
             <div class="plan-features-block">
               <perfect-scrollbar class="paln-overflow-scroll">
@@ -388,156 +388,118 @@
   </div> -->
 </kr-modal>
 
-<!--order confirm popup-->
-<kr-modal modalType="above-modal-drop" modalClass="modal_popups_ order-confirmation" #orderConfirmModel>
+<!--order confirm & payment gateway popup-->
+<kr-modal modalType="center" modalClass="modal_popups_ payment_gateway" #paymentGatewayModel>
   <div class="modal-header">
     <div class="title">{{"plan.order_confirmation"| translate}}</div>
-    <div class="close_icon"><img (click)="closeOrderConfPopup()" src="assets/icons/modal-close.svg"></div>
-  </div>
-  <perfect-scrollbar>
-    <div class="modal-body" *ngIf="orderConfirmData&&overageData">
-      <div class="plan-desc"
-        *ngIf="!overageData.overageShow&&selectedPlan&&(['Free']).includes(selectedPlan.planName)||selectedPlan?.status=='expired'">
-        {{"plan.you_are_subscribing_to"| translate}} <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>.
-        {{"plan.please_find_the_order"| translate}}.</div>
-      <div class="plan-desc"
-        *ngIf="!overageData.overageShow&&selectedPlan&&(['Standard']).includes(selectedPlan.planName)&&selectedPlan?.status!='expired'">
-        {{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan?.planName}} {{selectedPlan?.billingUnit}}
-          {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}}
-          {{orderConfirmData?.billingUnit=='Yearly'?'Annually':orderConfirmData?.billingUnit}} {{"plan.plan"|
-          translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
-      <div class="plan-desc"
-        *ngIf="!overageData.overageShow&&selectedPlan&&(['Pro']).includes(selectedPlan.planName)&&orderConfirmData?.name=='Pro'&&selectedPlan?.status!='expired'">
-        {{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan?.planName}} {{selectedPlan?.billingUnit}}
-          {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}}
-          {{orderConfirmData?.billingUnit=='Yearly'?'Annually':orderConfirmData?.billingUnit}} {{"plan.plan"|
-          translate}}</span>.{{"plan.please_find_the_order"| translate}}.</div>
-      <div class="plan-desc" *ngIf="overageData.overageShow">{{"plan.you_have_added_additional"| translate}} <span
-          *ngIf="overageData.docCount!=null">{{overageData.docCount==0?'0k':
-          (overageData.overageDeatils.ingestDocs.limit| valueFormat)}} {{"plan.plan_documents"| translate}}
-        </span>{{(overageData.queryCount!=null&&overageData.docCount!=null)?("plan.and"| translate):''}}<span
-          *ngIf="overageData.queryCount!=null">
-          {{overageData.queryCount==0?'0k':(overageData.overageDeatils.searchQueries.limit | valueFormat)}}
-          {{"plan.plan_queries"| translate}} </span> {{"plan.to_your_plan"| translate}}. {{"plan.please_find_the_order"|
-        translate}}.</div>
-      <ng-container
-        *ngIf="!overageData.overageShow&&selectedPlan?.planName=='Pro'&&orderConfirmData?.name=='Standard'&&selectedPlan?.status!='expired'">
-        <ul class="order-plan-details">
-          <li>{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan?.planName}} {{"plan.to"| translate}}
-              {{orderConfirmData?.name}} {{"plan.plan"| translate}}</span>.</li>
-          <li>{{"plan.your_plan_will_charged"| translate}}. {{selectedPlan?.endDate|dateFormatPipe:'D MMMM YYYY'}}</li>
-        </ul>
-        <div class="s-text">{{"plan.please_find_the_order"| translate}}.</div>
-      </ng-container>
-      <div class="order-confirmation-table"
-        [ngStyle]="{'border-color':(overageData?.overageShow&&showOverageErrorMsg)?'#DD3646':'#EFF0F1'}">
-        <div class="order-confirmation-table-header row col-12 m-0">
-          <div class="title col-9">{{"plan.PLAN"| translate}}</div>
-          <div class="title col-3">{{"plan.Amount"| translate}}</div>
-        </div>
-        <div class="order-confirmation-table-body row col-12 m-0" *ngIf="!overageData.overageShow">
-          <div class="col-9 plan_details">
-            <div class="plan-type">{{orderConfirmData.name}} {{"plan.subscription"| translate}}</div>
-            <!-- disable-text -->
-            <div class="btn-monthly"
-              [ngClass]="{'active-btn' : orderConfirmData.billingUnit == 'Monthly','disable-text':((selectedPlan?.billingUnit == 'Yearly'&&['Pro','Standard'].includes(selectedPlan?.planName))||(selectedPlan?.billingUnit == 'Monthly'&&selectedPlan?.planName=='Pro')||(termPlan == 'Yearly'&&selectedPlan?.planName=='Standard'&&orderConfirmData.name=='Standard'))}"
-              (click)="(selectedPlan?.billingUnit == 'Yearly'||selectedPlan?.billingUnit == 'Monthly'&&selectedPlan?.planName=='Pro'||(termPlan == 'Yearly'&&selectedPlan?.planName=='Standard'&&orderConfirmData.name=='Standard'))?null:choosePlanType('Monthly')">
-              {{"plan.monthly"| translate}}
-              <span class="tooltip_top_">
-                <span (click)="openContactusModel(orderConfirmData.name)">Contact Us</span> if you want to change to
-                monthly plan
-              </span>
-            </div>
-            <!-- btn-disable-active -->
-            <div class="btn-monthly" [ngClass]="{ 'active-btn' : orderConfirmData.billingUnit == 'Yearly' }"
-              (click)="orderConfirmData?.name==selectedPlan?.planName&&selectedPlan?.billingUnit == 'Yearly'?null:choosePlanType('Yearly')">
-              {{"plan.yearly"| translate}}</div>
-          </div>
-
-          <div class="amount col-3">$ {{orderConfirmData.planAmount}}</div>
-        </div>
-        <div class="order-confirmation-table-body row col-12 m-0"
-          *ngIf="overageData?.overageShow&&overageData?.overageDeatils&&overageData?.docCount!=null">
-          <ng-container>
-            <div class="col-9 plan_details">
-              <div class="plan-type col-5 p-0 m-0">{{"plan.document_overage"| translate}}</div>
-              <div class="add-doc-btn-sec">
-                <div class="minus" (click)="count('doc','minus')"><img src="assets/icons/pricing/minus-small.svg"></div>
-                <div class="increase-num">{{overageData.docCount}}</div>
-                <div class="plus" (click)="count('doc','plus')"><img src="assets/icons/pricing/plus-small.svg"></div>
-              </div>
-              <div class="amount-increased">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}}</div>
-            </div>
-            <div class="amount col-3">$ {{overageData.overageDeatils.ingestDocs.amount * overageData.docCount}}</div>
-          </ng-container>
-        </div>
-        <div class="order-confirmation-table-body row col-12 m-0"
-          *ngIf="overageData?.overageShow&&overageData?.overageDeatils&&overageData?.queryCount!=null">
-          <ng-container>
-            <div class="col-9 plan_details">
-              <div class="plan-type col-5 p-0 m-0">{{"plan.query_overage"| translate}}</div>
-              <div class="add-doc-btn-sec">
-                <div class="minus" (click)="count('query','minus')"><img src="assets/icons/pricing/minus-small.svg">
-                </div>
-                <div class="increase-num">{{overageData.queryCount}}</div>
-                <div class="plus" (click)="count('query','plus')"><img src="assets/icons/pricing/plus-small.svg"></div>
-              </div>
-              <div class="amount-increased">{{overageData.overageDeatils.searchQueries.limit | valueFormat}}</div>
-            </div>
-            <div class="amount col-3">$ {{overageData.overageDeatils.searchQueries.amount * overageData.queryCount}}
-            </div>
-          </ng-container>
-        </div>
-        <div class="order-confirmation-table-body row col-12 m-0">
-          <div class="col-9 total-amount text-right">{{"plan.total_amount"| translate}}</div>
-          <div class="amount col-3">$
-            {{overageData&&overageData.overageShow?overageData.overageDeatils.ingestDocs.amount *
-            overageData.docCount+overageData.overageDeatils.searchQueries.amount *
-            overageData.queryCount:orderConfirmData.planAmount}}</div>
-        </div>
-      </div>
-      <div class="error-text" *ngIf="overageData?.overageShow&&showOverageErrorMsg"><img
-          src="assets/icons/warning_escalation.svg" /> <span>Please select valid quantity for document and query overage
-          to pay</span></div>
-      <div class="note-text" *ngIf="selectedPlan?.planName!='Free'&&selectedPlan?.status!='expired'">
-        <span>{{"plan.note"| translate}}:</span> {{"plan.same_payment_method"| translate}}.
-      </div>
-    </div>
-  </perfect-scrollbar>
-  <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="paymentPlan(overageData.overageShow)"
-      [disabled]="btnDisable">{{overageData&&!overageData.overageShow&&selectedPlan&&selectedPlan.planName!='Free'?("plan.confirm"|
-      translate):("plan.pay"| translate)}}</button>
-    <button class="kr-sg-button-secondary backbtn btn_md" (click)="closeOrderConfPopup()">{{"plan.cancel"|
-      translate}}</button>
-  </div>
-</kr-modal>
-
-<!--payment gateway iframe-->
-<kr-modal modalType="center" modalClass="modal_popups_ chooseplan-price" #paymentGatewayModel>
-  <div class="modal-header">
-    <div class="title">{{"plan.payment_details"| translate}}</div>
-    <div class="d-flex align-items-center justify-content-end">
-      <div class="close_icon ml-4">
-        <img src="assets/icons/modal-close.svg" (click)="closePaymentGatewayPopup()" />
-      </div>
+    <div class="close_icon" (click)="closeSelectedPopup('payment_gateway')">
+      <img src="assets/icons/modal-close.svg">
     </div>
   </div>
   <perfect-scrollbar>
     <div class="modal-body">
-      <div class="loaderContainer iframe-loader" *ngIf="showLoader">
-        <img src="assets/images/logoIcon.png" class="loaderLogoImage">
+      <div class="plan-order-steps" [ngSwitch]="selectedPaymentPage">
+               <!-- order conformation start fr`om here -->
+               <div class="row col-12 m-0 align-items-center payment-status-block" *ngSwitchCase="'payment_confirm'">
+                <div class="col-6">
+                  <div class="order-img">
+                    <img src="assets/images/pricing-plan/plan-order/order-cart.svg" class="order-stage-img" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="order-header text-center">Order Summary</div>
+                  <div class="order-summary-table">
+                    <div class="order-summary-header">You are changing from Standard plan to Enterprise Plan</div>
+                    <div class="row order-summary-table-body">
+                      <div class="col col-lg-6">
+                        <div class="order-summary-table-header">PLAN</div>
+                      </div>
+                      <div class="col col-lg-6">
+                        <div class="order-summary-table-header text-right">AMOUNT</div>
+                      </div>
+                    </div>
+      
+                    <div class="row order-summary-table-body">
+                      <div class="col col-lg-6">
+                        <div class="order-summary-table-row">STANDARD PLAN</div>
+                      </div>
+                      <div class="col col-lg-6">
+                        <div class="order-summary-table-row text-right">$ 199</div>
+                      </div>
+                    </div>
+      
+                    <div class="order-type">
+                      <div class="order-type-option order-option-selected">Monthly</div>
+                      <div class="order-type-option">Annually</div>
+                    </div>
+      
+                  </div>
+                </div>
+              </div>
+              <!-- iframe page start here -->
+              <div class="row col-12 m-0" *ngSwitchCase="'payment_iframe'">
+                <iframe width="100%" height="100vh" frameBorder="0" [src]="urlSafe"></iframe>
+              </div>
+              <!-- payment mode success screen start here -->
+              <div class="row col-12 m-0 align-items-center payment-status-block" *ngSwitchCase="'payment_success'">
+                <div class="col-6">
+                  <div class="order-img">
+                    <img src="assets/images/pricing-plan/plan-order/payment-confirm.svg" class="order-stage-img" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="payment-status-overview">
+                    <div class="payment-status-img"> <img src="assets/images/pricing-plan/plan-order/payment-confirm-success.svg" /></div>
+                    <div class="payment-status-header">Yay! Payment Successful...</div>
+                    <div class="payment-status-desc">10K Searches added and 10K Queries added per month</div>
+                    <div class="payment-status-expire">Expires on 20 June 2022</div>
+                    <div class="payment-status-btn">
+                      <button class="kr-sg-button-secondary btn_lg">Download Invoice <span class="px-2"><i class="si si-download-file primaryColor"></i></span></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- payment mode failure screen start here -->
+              <div class="row col-12 m-0 align-items-center payment-status-block" *ngSwitchCase="'payment_fail'">
+                <div class="col-6">
+                  <div class="order-img">
+                    <img src="assets/images/pricing-plan/plan-order/payment-failed.svg" class="order-stage-img" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="payment-status-overview">
+                    <div class="payment-status-img"> <img src="assets/images/pricing-plan/plan-order/payment-confirm-fail.svg" /></div>
+                    <div class="payment-status-header">Payment Failed!</div>
+                    <div class="payment-status-desc">10K Searches added and 10K Queries added per month</div>
+                    <div class="payment-status-expire">Something Went Wrong</div>
+                    <div class="payment-status-btn">
+                      <button class="kr-sg-button-secondary btn_lg">Retry Payment <span class="px-2"><i class="si si-re-fresh primaryColor"></i></span></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- payment mode hold screen start here -->
+              <div class="row col-12 m-0 align-items-center payment-status-block" *ngSwitchCase="'payment_hold'">
+                <div class="col-6">
+                  <div class="order-img">
+                    <img src="assets/images/pricing-plan/plan-order/payment-hold.svg" class="order-stage-img" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="payment-status-overview">
+                    <div class="payment-status-img"> <img src="assets/images/pricing-plan/plan-order/payment-confirm-hold.svg" /></div>
+                    <div class="payment-status-header">Payment On Hold!</div>
+                    <div class="payment-status-desc">We will send you an email if we need any further information from you. You can either wait or close this window to continue with your work. </div>
+                  </div>
+                </div>
+              </div>
       </div>
-      <!-- <div class="mian-title-desc">You can add maximum of 2 Business Rules in your current plan, Please Upgrade the plan to add more.</div> -->
-      <!-- <iframe src="{{ payementResponse.hostedPage.url }}" width="100%" height="100%" frameborder="0"></iframe> -->
-      <iframe width="100%" height="100%" frameBorder="0" [src]="urlSafe" [class.d-none]="showLoader"
-        (load)="showSpinner()"></iframe>
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <!-- <button class="kr-sg-button-primary btn_lg mr-3" (click)="openSuccessFailurePopup()">Proceed</button> -->
-    <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePaymentGatewayPopup()">{{"plan.cancel"|
-      translate}}</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="selectedPaymentPage='payment_iframe'" *ngIf="selectedPaymentPage==='payment_confirm'">{{"plan.proceed"| translate}}</button>
+    <button class="kr-sg-button-ghost btn_lg" (click)="closeSelectedPopup('payment_gateway')" *ngIf="['payment_confirm','payment_iframe'].includes(selectedPaymentPage)">{{"plan.cancel"|translate}}</button>
+    <button class="kr-sg-button-ghost btn_lg" (click)="closeSelectedPopup('payment_gateway')" *ngIf="['payment_fail','payment_hold'].includes(selectedPaymentPage)">{{"plan.close"|translate}}</button>
   </div>
 </kr-modal>
 

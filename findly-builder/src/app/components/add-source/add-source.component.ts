@@ -1425,7 +1425,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   //upgrade plan
   upgrade() {
-    this.plans.openChoosePlanPopup('choosePlans');
+
   }
   callWebCraller(crawler, searchIndex) {
     let payload = {}
