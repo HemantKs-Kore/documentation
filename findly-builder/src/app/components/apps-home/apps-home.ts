@@ -172,7 +172,6 @@ export class AppsListingComponent implements OnInit {
     else if(this.steps=='showSearchExperience' && this.SearchExperianceType){
       this.progressBarFun(3,3);
       this.appCreationAtOnboarding();
-      // this.openAppLoadingScreen();
     }
     else{
         if(this.newApp.name){
@@ -181,12 +180,14 @@ export class AppsListingComponent implements OnInit {
     }
 
   }
-  // openAppLoadingScreen(){
-  //   this.loadingAppcreationRef = this.loadingAppcreation.open();
-  // }
-  // CloseAppLoadingScreen(){
-  //   this.loadingAppcreationRef.close();
-  // }
+  openAppLoadingScreen(){
+    this.loadingAppcreationRef = this.loadingAppcreation.open();
+  }
+  CloseAppLoadingScreen(){
+    setTimeout(() => {
+      this.loadingAppcreationRef.close()
+    }, 6000);
+  }
 
   selectDemoType(data) {
     this.demoType = data;
@@ -230,13 +231,11 @@ export class AppsListingComponent implements OnInit {
     else {
       if(this.appType=='sampleData'){
         this.exploreSampleDate();
-        this.appCreationAtOnboarding();
       }
     }
   }
   createDemoApp(obj?){   
     if(this.SearchExperianceType){
-      // this.openAppLoadingScreen();
       const payload = {
         searchIndexId:obj?._id,
         streamId:obj?.streamId,   
@@ -246,9 +245,7 @@ export class AppsListingComponent implements OnInit {
        this.service.invoke('post.createDemoApp',{},payload).subscribe(
          res => {
            if(res){
-            //  setTimeout(() => {
-            //    this.loadingAppcreationRef.close();
-            //  }, 5000);
+             this.CloseAppLoadingScreen();
              this.notificationService.notify('Demo App created Successfully', 'success'); 
            }
           
@@ -470,15 +467,15 @@ export class AppsListingComponent implements OnInit {
     };
     this.service.invoke('create.app', {}, payload).subscribe(
       res => {
-        this.createDemoApp(res?.searchIndexes[0]);
         this.notificationService.notify('App created successfully', 'success');
+        this.createDemoApp(res?.searchIndexes[0]);
         this.mixpanel.postEvent('New App Created', {});
         self.apps.push(res);
         this.prepareApps(self.apps);
         this.openApp(res)
         this.displayApp = false;
         self.workflowService.showAppCreationHeader(true);
-        // self.router.navigate(['/source'], { skipLocationChange: true });
+        self.router.navigate(['/source'], { skipLocationChange: true });
         this.closeCreateApp();
         const toogleObj = {
           title: '',
@@ -489,7 +486,7 @@ export class AppsListingComponent implements OnInit {
         if (res.length > 0) {
           this.emptyApp = true;
         }
-        this.callStream();
+        // this.callStream();
       },
       errRes => {
         this.errorToaster(errRes, 'Error in creating app');
@@ -505,14 +502,18 @@ export class AppsListingComponent implements OnInit {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
       validField = false
     }
-    if (validField) {
+    if (validField && this.newApp.description ) {
       let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|<>\/?→←↑↓]+/;
       if (!specialCharacters.test(this.newApp.description)) {
-        this.createFindlyApp()
+        this.createFindlyApp();
       }
       else {
         this.notificationService.notify('Special characters not allowed', 'error');
       }
+    }
+    if(this.newApp.name) {
+      this.createFindlyApp();
+      this.openAppLoadingScreen();
     }
 
   }

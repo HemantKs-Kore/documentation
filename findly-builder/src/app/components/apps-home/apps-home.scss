@@ -859,7 +859,8 @@
     }
     .on-b-progress-bar{
         display: flex;
-        margin-bottom: 15px;
+        // margin-bottom: 15px;
+        height: 17px;
         .not-active-bar{
             width: 33px;
             height: 2px;
@@ -1204,4 +1205,11 @@
             padding: 25px 164px;
         }
     }
+}
+
+
+::ng-deep .no-back-drop{
+    background: #fff;
+    opacity: 0 !important;
+    z-index: 1 !important;
 }
