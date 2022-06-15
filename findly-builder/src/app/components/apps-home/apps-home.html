@@ -48,7 +48,7 @@
                 <div class="user-details">
                   <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
                 </div>
-                <div class="title-start">Create your first Search Experience</div>  
+                <div class="title-start">Create your first Search Experience</div>
                 <div  class="add-scrtch-app" (click)="openCreateApp()">
                   <div class="icon-block-plus">
                     <i class="si-add-plus"></i>
@@ -57,11 +57,11 @@
                     <div class="title">Start from Scratch</div>
                     <div class="text-desc">Create a new Search App from scratch.</div>
                   </div>
-                </div>               
+                </div>
               </div>
 
               <ng-container *ngIf="!emptyApp">
-                <div class="m-title col-12 m-10">Recently Visited</div>  
+                <div class="m-title col-12 m-10">Recently Visited</div>
                 <div class="cards-content" (click)="app.disabled?null:openApp(app)" *ngFor="let app of recentApps | filter: [ searchApp, 'name']" placement="top-center"
                   [ngbTooltip]="app.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0">
                   <div class="box" [ngStyle]="app.disabled&&{'opacity':'0.4','cursor':'default'}">
@@ -73,8 +73,8 @@
                     <div class="user-name text-truncate" *ngIf="app.createdBy!==userId" ngbTooltip="{{app.userDetails.fullName}}">{{app.userDetails.fullName}}</div>
                   </div>
                 </div>
-  
-  
+
+
                 <div class="row m-0 col-12 filters-dropdown">
                   <div class="col-6 d-flex align-items-center p-0 left">
                     <div class="tabs-sec">
@@ -99,7 +99,7 @@
                         src="assets/icons/dashboard/maxFilter.svg"></div>
                   </div>
                 </div>
-  
+
                 <div class="cards-content" *ngFor="let filter of filteredApps | filter: [ searchApp, 'name']"
                   (click)="filter.disabled?null:openApp(filter)" placement="top-center"
                   [ngbTooltip]="filter.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0">
@@ -186,7 +186,7 @@
                   <div class="coursel-cards-data col-4">
                     <div class="inner-c-data search-experience">
                       <div class="learn-more-">
-                        <span class="link"> 
+                        <span class="link">
                           <a href="https://docs.kore.ai/searchassist/search-experience/design-search-experience/" target="_blank">Learn More<img src="assets/icons/content/carrotright.svg"></a></span>
                       </div>
                       <div class="img-block">
@@ -250,7 +250,7 @@
               <div class="on-b-progress-bar">
                 <div *ngFor="let bar of progressBar;let i=index" class="not-active-bar" [ngClass]="{'active-bar': i==0}" ></div>
                 <!-- <div class="not-active-bar active-bar"></div>
-                <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div> -->  
+                <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div> -->
               </div>
               <!-- <button style="width: 50px;height:15px" (click)="openAppLoadingScreen()"></button> -->
               <!-- <div class="on-b-progress-bar">
@@ -261,7 +261,7 @@
               <!-- <div class="back-btn d-none">
                 <i class="si-back-arrow"></i>
               </div> -->
-              <div class="title-start">How would you like to start?</div>
+              <div class="title-start">How would you like to create your first app?</div>
               <div class="explore-data-cards">
                 <div  class="explore-card sample-data"  (mouseenter)="progressBarFun(3,1)" (mouseleave)="progressBarFun(0,0)" (click)="welcomeStep('sampleData')">
                   <div class="icon-block">
@@ -314,7 +314,7 @@
                 <div class="on-b-progress-bar">
                   <div *ngFor="let bar of progressBar;let i=index" class="not-active-bar" [ngClass]="{'active-bar': i<=stepBar}"></div>
                   <!-- <div class="not-active-bar active-bar"></div>
-                  <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div> -->  
+                  <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div> -->
                 </div>
                 <!-- <div class="back-btn" (click)="backToWelcomePage();progressBar.length=0">
                   <i class="si-back-arrow"></i>
@@ -400,12 +400,12 @@
                       </div>
                     </div>
                   </ng-container>
-  
+
                   <ng-container *ngIf="steps=='showSearchExperience'">
                     <div class="tabs-data-info-sample seach-virtual-assistance">
                       <ul class="nav nav-pills">
                         <li class="nav-item" (click)="selectSearchExperianceType('top')" >
-                          <a class="nav-link" data-toggle="pill" href="#searchbar"> 
+                          <a class="nav-link" data-toggle="pill" href="#searchbar">
                            <span class="title">Search Bar</span>
                            <i class="si-check"></i>
                             <div class="text-desc">A traditional search bar experiance where end users query your website using a search bar that is usually positioned at the top of your website.</div>
@@ -512,7 +512,7 @@
 </kr-modal>
 
 <kr-modal modalType="center" #createBoardingJourney modalClass="modal_popups_ onboardingJourney-landing-popup">
-  
+
   <!-- <div class="close_icon" (click)="closeBoradingJourney()"><img src="assets/icons/modal-close.svg"></div> -->
   <div class="modal-header p-0">
     <div class="close_icon" (click)="closeBoradingJourney()">
@@ -701,8 +701,8 @@
           <div class="kr-sg-dropdowns mb-20">
             <div class="label-text">Department</div>
             <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select</button>                                            
-                <ul class="dropdown-menu content-menu">                                             
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select</button>
+                <ul class="dropdown-menu content-menu">
                   <li><a href="#">Option 1</a></li>
                   <li><a href="#">Option 2</a></li>
                   <li><a href="#">Option 3</a></li>
@@ -712,8 +712,8 @@
           <div class="kr-sg-dropdowns mb-2">
             <div class="label-text">Industry</div>
             <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Others</button>                                            
-                <ul class="dropdown-menu content-menu">                                             
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Others</button>
+                <ul class="dropdown-menu content-menu">
                   <li><a href="#">Option 1</a></li>
                   <li><a href="#">Option 2</a></li>
                   <li><a href="#">Option 3</a></li>

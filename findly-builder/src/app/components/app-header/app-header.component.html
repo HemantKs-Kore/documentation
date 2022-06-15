@@ -142,11 +142,11 @@
                     </div>
                 </li>
                 <li class="nav-item test-button">
-                    <button placement="bottom" triggers="hover" #testButtonTooltip="ngbTooltip"
-                        ngbTooltip="{{ 'header.previewAndCustomize' | translate }}" container='body'
-                        tooltipClass="test-icon-tooltip" class="kr-sg-button-secondary btn_lg rr-tour-test-btn"
-                        id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()">{{ 'header.test' | translate
-                        }}</button>
+                  <button placement="bottom" triggers="hover" #testButtonTooltip="ngbTooltip"
+                      ngbTooltip="{{ 'header.previewAndCustomize' | translate }}" container='body'
+                      tooltipClass="test-icon-tooltip" class="kr-sg-button-secondary btn_lg rr-tour-test-btn"
+                      id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()">{{ 'header.test' | translate
+                      }}</button>
                 </li>
                 <li (click)="train()" class="nav-item train-btn" ngbTooltip="{{ 'header.trainYourApp' | translate }}"
                     container='body' tooltipClass="train-icon-tooltip" [ngClass]='{"active-train":training}'>
@@ -324,11 +324,11 @@
                 <li class="nav-item workspace-data">
                     <div class="kr-sg-dropdowns workspace-dropdwon" ngbDropdown>
                         <button type="button" tooltipClass="tooltip-global-" container="'body'" placement='left'  class="dropdown-input workspace-btn" id="workspace" ngbDropdownToggle (click)="dropdownToggle()" >
-                            <div class="workspace-active">
-                                <div class="alphabet-name"  [ngStyle]="{'background-color':selectAccountDetails.color}" id="profiledisplay">{{selected_profile_display}}</div>
-                                <div class="name-workspace">{{selectAccountDetails.accountName | lowercase}}</div>
-                                <i class="arrow-icon si-dropdownsort"></i>
-                            </div>
+                          <div class="workspace-active">
+                            <div class="alphabet-name"  [ngStyle]="{'background-color':selectAccountDetails.color}" id="profiledisplay">{{selected_profile_display}}</div>
+                            <div class="name-workspace">{{selectAccountDetails.accountName | lowercase}}</div>
+                            <i class="arrow-icon si-dropdownsort"></i>
+                        </div>
                         </button>
                         <ul class="dropdown-menu-content" aria-labelledby="workspace" ngbDropdownMenu>
                             <div class="current-workspace">
@@ -357,7 +357,7 @@
                                     <perfect-scrollbar>
                                         <div class="item-scroll">
                                             <ng-container>
-                                                <div class="w-item" *ngFor="let app of associatedAccounts | filter : [field_name,'userFullName']; let i=index"
+                                                <div class="w-item" *ngFor="let app of associatedAccounts | filter : [field_name, 'emailId', 'userFullName']; let i=index"
                                                 (click)="switchAccountInternal(app)" [ngClass]="{'selected-swith-account' : app.userFullName === selectAccountDetails.userFullName}">
                                                     <div class="icon-block"  [ngStyle]="{'background-color':app.color}" attr.id="associateprofiledisplay{{i}}">{{app.associate_profile_display}}</div>
                                                     <div class="content-sec text-truncate">
@@ -494,7 +494,7 @@
             <div class="workspace-data">
                 <div class="main-heading">Workspaces</div>
                 <div class="kr-sg-input-search">
-                    <input type="text" placeholder="Search" class="input-search" name="workspace_search" [(ngModel)]="workspace_search">
+                    <input type="text" placeholder="Search Workspaces" class="input-search" name="workspace_search" [(ngModel)]="workspace_search">
                     <i class="search-icon si-search"></i>
                     <img src="assets/icons/close.svg" *ngIf="workspace_search?.length > 0"  class="close-icon" (click)="clearRecords('workspace_search')">
                 </div>
@@ -518,7 +518,7 @@
                                     <div class="content-data">
                                       <div class="d-flex justify-content-between">
                                         <div class="w-name">{{app.accountName}}</div>
-                                        <div class="member-count">Created by: {{app.userFullName}}</div>
+                                        <div class="member-count" style="white-space: nowrap;">Created by: {{app.userFullName}}</div>
                                       </div>
                                         <div class="member-count">{{app.usersCount}} members</div>
                                     </div>
@@ -546,12 +546,12 @@
                                 <div class="w-item-list" [ngClass]="{'joined':workspace.alreadyJoined}"
                                 *ngFor="let workspace of WorkspaceList| filter : [workspace_search, 'accountName']; let i=index">
                                 <div class="icon-tetx"  [ngStyle]="{'background-color':workspace.color}">
-                                    <span class="alphabet">{{workspace.displayShortName}}</span>
+                                    <span class="alphabet">{{workspace.accountShortName}}</span>
                                 </div>
                                 <div class="content-data">
                                     <div class="w-name">{{workspace.accountName}}
                                     </div>
-                                    <div class="member-count">Created by: {{workspace.userFullName}}</div>
+                                    <div class="member-count" style="white-space: nowrap;">Created by: {{workspace.userFullName}}</div>
                                     <div class="member-count">{{workspace.usersCount}} Members</div>
                                 </div>
                                 <button class="joined-btn" [ngClass]="{'disabled':workspace.alreadyJoined}" [disabled]="workspace.alreadyJoined"
