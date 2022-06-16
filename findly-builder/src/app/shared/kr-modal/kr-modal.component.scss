@@ -1749,7 +1749,22 @@
                     text-align: center;
                     padding: 70px 35px;
                     .img-block{
-                        margin-bottom: 40px;
+                        margin-bottom: 30px;
+                        position: relative;
+                        .normal-img{
+                            width: 165px;
+                            z-index: 1;
+                            position: relative;
+                        }
+                        .gif-search-animation{
+                            position: absolute;
+                            top: 29px;
+                            left: -19px;
+                            width: 83px;
+                            margin: 0 auto;
+                            right: 0;
+                            z-index: 0;
+                        }
                     }
                     .loading-text{
                         font-weight: 400;

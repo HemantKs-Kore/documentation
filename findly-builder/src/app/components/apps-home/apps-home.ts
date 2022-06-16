@@ -182,11 +182,12 @@ export class AppsListingComponent implements OnInit {
   }
   openAppLoadingScreen(){
     this.loadingAppcreationRef = this.loadingAppcreation.open();
+    this.CloseAppLoadingScreen();
   }
   CloseAppLoadingScreen(){
     setTimeout(() => {
       this.loadingAppcreationRef.close()
-    }, 6000);
+    }, 5000);
   }
 
   selectDemoType(data) {
@@ -234,6 +235,7 @@ export class AppsListingComponent implements OnInit {
       }
     }
   }
+
   createDemoApp(obj?){   
     if(this.SearchExperianceType){
       const payload = {
@@ -245,7 +247,6 @@ export class AppsListingComponent implements OnInit {
        this.service.invoke('post.createDemoApp',{},payload).subscribe(
          res => {
            if(res){
-             this.CloseAppLoadingScreen();
              this.notificationService.notify('Demo App created Successfully', 'success'); 
            }
           
@@ -468,7 +469,9 @@ export class AppsListingComponent implements OnInit {
     this.service.invoke('create.app', {}, payload).subscribe(
       res => {
         this.notificationService.notify('App created successfully', 'success');
-        this.createDemoApp(res?.searchIndexes[0]);
+        if(this.appType=='sampleData'){
+          this.createDemoApp(res?.searchIndexes[0]);
+        }
         this.mixpanel.postEvent('New App Created', {});
         self.apps.push(res);
         this.prepareApps(self.apps);
@@ -502,20 +505,19 @@ export class AppsListingComponent implements OnInit {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
       validField = false
     }
-    if (validField && this.newApp.description ) {
+    if (validField && this.newApp.name) {
       let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|<>\/?→←↑↓]+/;
       if (!specialCharacters.test(this.newApp.description)) {
+
+        if(this.appType=='sampleData'){
+          this.openAppLoadingScreen();
+        }
         this.createFindlyApp();
       }
       else {
         this.notificationService.notify('Special characters not allowed', 'error');
       }
     }
-    if(this.newApp.name) {
-      this.createFindlyApp();
-      this.openAppLoadingScreen();
-    }
-
   }
   inputChanged(type, i?) {
     if (type == 'enterName') {
