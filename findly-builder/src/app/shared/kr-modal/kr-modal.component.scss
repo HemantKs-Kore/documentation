@@ -1471,7 +1471,6 @@
     &.browse-workspace-full-popup {
         .modal-dialog {
             background: #E5E5E5;
-
             .modal-content {
                 background: transparent;
 
@@ -1500,7 +1499,13 @@
                     background: transparent;
                     z-index: 1;
 
-                    .logo-data {}
+                    .logo-data {
+                        width: 180px;
+                        margin-left: -10px;
+                        img{
+                            width: 100%;
+                        }
+                    }
 
                     .close-modal {
                         display: flex;
@@ -1600,6 +1605,13 @@
                                             color: #28A745;
                                             border: 1px solid #EAF6EC;
                                         }
+                                        .joined-animation{
+                                            display: block;
+                                        }
+                                    }
+                                    .joined-animation{
+                                        display: none;
+                                        position: absolute;
                                     }
 
                                     .content-data {
