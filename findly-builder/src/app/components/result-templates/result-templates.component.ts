@@ -56,7 +56,7 @@ export class ResultTemplatesComponent implements OnInit {
       label1: "",
       label2: "",
       rateField: "",
-      StrikedrateField: "",
+      StrikedrateFiled: "",
       heading: "",
       img: "",
       url: "",
@@ -76,7 +76,7 @@ export class ResultTemplatesComponent implements OnInit {
     label1: true,
     label2: true,
     rateField: true,
-    StrikedrateField: true,
+    StrikedrateFiled: true,
     image: true,
     url: true,
     icon: true,
@@ -240,11 +240,11 @@ export class ResultTemplatesComponent implements OnInit {
       this.preview_rateFiled = field.fieldName;
       this.rate_fieldData = [...this.allFieldData];
       this.templateFieldValidateObj.rateField = true;
-    } else if (type == 'StrikedrateField') {
-      this.templateDataBind.mapping.StrikedrateField = field._id;
+    } else if (type == 'StrikedrateFiled') {
+      this.templateDataBind.mapping.StrikedrateFiled = field._id;
       this.preview_StrikedrateFiled = field.fieldName;
       this.Strikedrate_fieldData = [...this.allFieldData];
-      this.templateFieldValidateObj.StrikedrateField = true;
+      this.templateFieldValidateObj.StrikedrateFiled = true;
     }
     else if (type == 'rating') {
       this.templateDataBind.mapping.rating = field._id;
@@ -311,7 +311,7 @@ export class ResultTemplatesComponent implements OnInit {
         this.label2_fieldData = [...data]
       } else if (type == 'rateField') {
         this.rate_fieldData = [...data]
-      } else if (type == 'StrikedrateField') {
+      } else if (type == 'StrikedrateFiled') {
         this.Strikedrate_fieldData = [...data]
       } else if (type == 'image') {
         this.img_fieldData = [...data]
@@ -340,7 +340,7 @@ export class ResultTemplatesComponent implements OnInit {
         this.label2_fieldData = [...filedData]
       } else if (type == 'rateField') {
         this.rate_fieldData = [...filedData]
-      } else if (type == 'StrikedrateField') {
+      } else if (type == 'StrikedrateFiled') {
         this.Strikedrate_fieldData = [...filedData]
       } else if (type == 'description') {
         this.desc_fieldData = [...filedData]
@@ -452,7 +452,7 @@ export class ResultTemplatesComponent implements OnInit {
           this.preview_label2 = element.fieldName;
         } else if (`${property}` == 'rateField' && element._id == `${mapping[property]}`) {
           this.preview_rateFiled = element.fieldName;
-        } else if (`${property}` == 'StrikedrateField' && element._id == `${mapping[property]}`) {
+        } else if (`${property}` == 'StrikedrateFiled' && element._id == `${mapping[property]}`) {
           this.preview_StrikedrateFiled = element.fieldName;
         } else if (`${property}` == 'img' && element._id == `${mapping[property]}`) {
           this.preview_img = element.fieldName;
@@ -905,7 +905,7 @@ export class ResultTemplatesComponent implements OnInit {
   clearcontentStrikedRateField() {
     if ($('#searchBoxIdStrikedRateField') && $('#searchBoxIdStrikedRateField').length) {
       $('#searchBoxIdStrikedRateField')[0].value = "";
-      this.searchlist('StrikedrateField', '', this.fieldData);
+      this.searchlist('StrikedrateFiled', '', this.fieldData);
       this.field_name = '';
     }
 
