@@ -9,6 +9,7 @@ import { SideBarService } from '@kore.services/header.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { AuthService } from '@kore.services/auth.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+import { AppHeaderComponent } from '../app-header/app-header.component';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 declare const $: any;
 declare var PureJSCarousel: any;
@@ -77,6 +78,8 @@ export class AppsListingComponent implements OnInit {
   @ViewChild('loadingAppcreation') loadingAppcreation: KRModalComponent;
   @ViewChild('confirmatiomAppPop') confirmatiomAppPop: KRModalComponent;
   @ViewChild('detailsPopUp') detailsPopUp: KRModalComponent;
+  @ViewChild('appHeaderComponent') appHeaderComponent: AppHeaderComponent;
+
   constructor(
     public localstore: LocalStoreService,
     private service: ServiceInvokerService,
@@ -183,6 +186,7 @@ export class AppsListingComponent implements OnInit {
   openAppLoadingScreen(){
     this.loadingAppcreationRef = this.loadingAppcreation.open();
     this.CloseAppLoadingScreen();
+    // this.appHeaderComponent.openSDK();
   }
   CloseAppLoadingScreen(){
     setTimeout(() => {
@@ -248,6 +252,7 @@ export class AppsListingComponent implements OnInit {
          res => {
            if(res){
              this.notificationService.notify('Demo App created Successfully', 'success'); 
+             this.appSelectionService.getTourConfig();
            }
           
          },

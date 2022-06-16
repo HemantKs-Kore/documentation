@@ -88,7 +88,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     self = this;
     this.onResize();
-
     this.previousState = this.appSelectionService.getPreviousState();
     this.showHideSearch(false);
     this.showHideTopDownSearch(false);
