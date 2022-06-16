@@ -856,7 +856,7 @@
             }
 
             .modal-footer {
-                // justify-content: center !important; 
+                // justify-content: center !important;
                 height: 60px;
                 border-top: solid 0px #e5e8ec;
                 background-color: #f2f3f5;
@@ -1697,12 +1697,17 @@
                                 }
 
                                 .content-data {
+                                      width: 84%;
                                     .w-name {
                                         font-weight: 500;
                                         font-size: 14px;
                                         line-height: 17px;
                                         color: #202124;
                                         margin-bottom: 4px;
+                                        width: 168px;
+                                        overflow: hidden;
+                                        white-space: nowrap;
+                                        text-overflow: ellipsis;
                                     }
 
                                     .member-count {

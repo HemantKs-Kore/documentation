@@ -1,4 +1,4 @@
-/* 
+/*
     Created on : 23 Aug, 2018, 3:52:47 PM
     Author     : Ravi Kiran Maddi
 */
@@ -7,7 +7,7 @@ html, body {
 	font-family: Inter !important;
 }
 
-// COLORS 
+// COLORS
 $primaryColor:#202124;
 $secondaryColor:#9B9B9B;
 $hoverColor:#009dab;
@@ -36,12 +36,12 @@ $green:#36ba5a;
 $placeholderColor:rgba(0, 0, 0, 0.3);
 // STANDARD SIZES
 $font-xs: 10px;
-$font-sm: 12px;	
-$font-md: 14px; 	
-$font-lg: 16px;		
-$font-xl: 18px;		
-$font-xxl: 24px; 	
-$font-xxxl: 30px; 
+$font-sm: 12px;
+$font-md: 14px;
+$font-lg: 16px;
+$font-xl: 18px;
+$font-xxl: 24px;
+$font-xxxl: 30px;
 
 %font-normal{font-weight: normal;}
 %font-bold{font-weight: bold;}
@@ -140,10 +140,10 @@ $mediaSmall: "(max-width: 767px)";
 //Buttons Starts Here
 %buttonCancel{
 	border:1px solid $borderColor;
-	background:$whiteColor; 
+	background:$whiteColor;
 	color:$secondaryColor;
 	border-radius:4px;
-	min-width:auto; 
+	min-width:auto;
 	font-size: 13px;
 	font-weight: normal;
 	line-height: 30px;
@@ -158,10 +158,10 @@ $mediaSmall: "(max-width: 767px)";
 
 %buttonBorder{
 	border:1px solid $secondaryColor;
-	background:$whiteColor; 
+	background:$whiteColor;
 	color:$secondaryColor;
 	border-radius:4px;
-	min-width:auto; 
+	min-width:auto;
 	font-size: 13px;
 	font-weight: normal;
 	line-height: 30px;
@@ -175,10 +175,10 @@ $mediaSmall: "(max-width: 767px)";
 }
 %buttonSolid{
 	border:1px solid $hoverColor;
-	background:$hoverColor; 
+	background:$hoverColor;
 	color:$whiteColor;
 	border-radius:4px;
-	min-width:auto; 
+	min-width:auto;
 	font-size: 13px;
 	font-weight: normal;
 	line-height: 30px;
@@ -191,10 +191,10 @@ $mediaSmall: "(max-width: 767px)";
 }
 %buttonTransprant{
 	border:1px solid  rgba(0, 157, 171, 0.4);
-	background:  rgba(0, 157, 171, 0.1); 
+	background:  rgba(0, 157, 171, 0.1);
 	color:$hoverColor;
 	border-radius:4px;
-	min-width:auto; 
+	min-width:auto;
 	font-size: 13px;
 	font-weight: normal;
 	line-height: 30px;
@@ -208,10 +208,10 @@ $mediaSmall: "(max-width: 767px)";
 }
 %buttonDelete{
 	border:1px solid $warningRed;
-	background:$warningRed; 
+	background:$warningRed;
 	color:$whiteColor;
 	border-radius:4px;
-	min-width:auto;  
+	min-width:auto;
 	font-size: 13px;
 	font-weight: normal;
 	line-height: 30px;
@@ -329,7 +329,7 @@ input::placeholder{
 	display: block;
 	padding-right: 0;
     padding-left: 0;
-}   
+}
 .mat-menu-panel{
 	&.headerDropDown{
 		// min-width: 240px;
@@ -373,7 +373,7 @@ input::placeholder{
 				margin-right: 10px;
 			}
 	   }
-	} 
+	}
 }
 //SLIDER STYLING STARTS HERE
 .cdk-overlay-container{
@@ -449,7 +449,7 @@ input::placeholder{
 		box-shadow: none !important;
 		position: relative;
 		margin: 2px auto;
-		&::before{			
+		&::before{
 			content: "";
 			position: absolute;
 			width: 14px;
@@ -466,7 +466,7 @@ input::placeholder{
 			padding-right: 30px;
 			text-align: left;
 		}
-		.toast-close-button{			
+		.toast-close-button{
 			height: 10px !important;
 			position: absolute;
 			width: 10px;
@@ -497,7 +497,7 @@ input::placeholder{
 		box-shadow: none !important;
 		position: relative;
 		margin: 2px 0;
-		&::before{			
+		&::before{
 			content: "";
 			position: absolute;
 			width: 14px;
@@ -513,7 +513,7 @@ input::placeholder{
 			padding-left: 25px;
 			padding-right: 20px;
 		}
-		.toast-close-button{			
+		.toast-close-button{
 			height: 10px !important;
 			position: absolute;
 			width: 10px;
@@ -544,7 +544,7 @@ input::placeholder{
 		box-shadow: none !important;
 		position: relative;
 		margin: 2px 0;
-		&::before{			
+		&::before{
 			content: "";
 			position: absolute;
 			width: 16px;
@@ -560,7 +560,7 @@ input::placeholder{
 			padding-left: 25px;
 			padding-right: 20px;
 		}
-		.toast-close-button{			
+		.toast-close-button{
 			height: 10px !important;
 			position: absolute;
 			width: 10px;
@@ -591,7 +591,7 @@ input::placeholder{
 		box-shadow: none !important;
 		position: relative;
 		margin: 2px 0;
-		&::before{			
+		&::before{
 			content: "";
 			position: absolute;
 			width: 16px;
@@ -607,7 +607,7 @@ input::placeholder{
 			padding-left: 25px;
 			padding-right: 20px;
 		}
-		.toast-close-button{			
+		.toast-close-button{
 			height: 10px !important;
 			position: absolute;
 			width: 10px;
@@ -719,16 +719,16 @@ input::placeholder{
 	// }
 }
 
-//ProTip 
+//ProTip
 
-.hintDiv{    
+.hintDiv{
     background: $hintBgColor;
     clear: both;
     border: solid 1px #f3d19b;
     padding: 10px 20px;
     color: #ec7d01;
     display: block;
-    border-radius: 4px;    
+    border-radius: 4px;
     position: relative;
     top: 8px;
     margin-bottom: 10px;
