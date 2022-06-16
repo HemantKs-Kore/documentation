@@ -32,8 +32,9 @@
         outline: none;
         cursor: pointer;
         &.landing-screen{
-            width: 141px;
+            width: auto;
             height: 40px;
+            margin-left: -11px;
         }
         &.no-landing-screen{
             height: 22px;
