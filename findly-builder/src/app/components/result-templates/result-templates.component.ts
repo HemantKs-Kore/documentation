@@ -450,9 +450,9 @@ export class ResultTemplatesComponent implements OnInit {
           this.preview_label1 = element.fieldName;
         } else if (`${property}` == 'label2' && element._id == `${mapping[property]}`) {
           this.preview_label2 = element.fieldName;
-        } else if (`${property}` == 'rateFiled' && element._id == `${mapping[property]}`) {
+        } else if (`${property}` == 'rateField' && element._id == `${mapping[property]}`) {
           this.preview_rateFiled = element.fieldName;
-        } else if (`${property}` == 'StrikedrateFiled' && element._id == `${mapping[property]}`) {
+        } else if (`${property}` == 'StrikedrateField' && element._id == `${mapping[property]}`) {
           this.preview_StrikedrateFiled = element.fieldName;
         } else if (`${property}` == 'img' && element._id == `${mapping[property]}`) {
           this.preview_img = element.fieldName;
