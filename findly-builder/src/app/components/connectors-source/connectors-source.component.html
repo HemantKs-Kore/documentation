@@ -40,7 +40,7 @@
                                             <div class="content-block text-truncate">
                                                 <div class="title add-new-link">
                                                     <div class="connector-name text-truncate">{{connector?.connector_name}}</div>
-                                                    <div class="details-span" (click)="connector.isActive?changeContent('edit',connector):null"><a href="javascript:void(0)" class="details-link">details</a></div>
+                                                    <div class="details-span" (click)="changeContent('edit',connector)"><a href="javascript:void(0)" class="details-link">details</a></div>
                                                 </div>
                                                     <!-- <div class="title" *ngIf="connector?.type==='confluenceServer'">(Server)</div> -->
                                                 <div class="desc-text text-truncate">({{connector?.name}})</div>
@@ -137,7 +137,7 @@
                                             <div class="step-data-title">{{'connectors.step_3'|translate}}</div>
                                             <div class="steps-info-sec">
                                                 <div class="h-title">{{'connectors.follow_authentication_flow'|translate}}</div>
-                                                <div class="text-desc">{{'connectors.follow_the'|translate}} {{selectedConnector?.connector_name}} {{'connectors.authentication_flow'|translate}}<a [href]="selectedConnector.doc_url" target="_blank">{{'connectors.documentation_link'|translate}}</a>.</div>
+                                                <div class="text-desc">{{'connectors.follow_the'|translate}} {{selectedConnector?.connector_name}} {{'connectors.authentication_flow'|translate}} <a [href]="selectedConnector.doc_url" target="_blank">{{'connectors.documentation_link'|translate}}</a>.</div>
                                             </div>
                                         </div>
                                         <div class="steps-hint-data">
@@ -159,7 +159,7 @@
                                         <div class="title">{{'connectors.configuration_authentication'|translate}}</div>
                                     </div>
                                 </div>
-                                <div class="desc-text">{{'connectors.set_up_secure_oauth'|translate}} {{selectedConnector?.connector_name}} {{'connectors.authentication_flowe'|translate}} <a [href]="selectedConnector.doc_url" target="_blank">{{'connectors.documentation_link'|translate}}.</a></div>
+                                <div class="desc-text">{{'connectors.set_up_secure_oauth'|translate}} {{selectedConnector?.connector_name}} {{'connectors.authentication_flow'|translate}} <a [href]="selectedConnector.doc_url" target="_blank">{{'connectors.documentation_link'|translate}}.</a></div>
                                 <!-- <div class="connector-brand">
                                     <div class="c-img">
                                         <img [src]="selectedConnector?.image">
@@ -292,7 +292,7 @@
                                             <div class="source-data">
                                                 <div class="source-card sync-source-card">
                                                     <div class="sync-card-title">{{'connectors.synchronization'|translate}}</div>
-                                                    <div class="sync-card-btn"><button class="kr-sg-button-primary btn_lg" (click)="selectedTab='configurations'">{{'connectors.synchronize_content_now'|translate}}</button></div>
+                                                    <div class="sync-card-btn"><button class="kr-sg-button-primary btn_lg" (click)="ingestConnector(true)">{{'connectors.synchronize_content_now'|translate}}</button></div>
                                                     <div class="sync-card-desc">{{'connectors.you_can_also_configure_your'|translate}} <span class="sync-card-link">{{'connectors.sync_frequency'|translate}}.</span></div>
                                                 </div>
                                             </div>
@@ -367,9 +367,9 @@
                                                     <div class="col-4">{{'connectors.URL'|translate}}</div>
                                                     <div class="col-4">{{'connectors.last_update'|translate}}</div>
                                                 </header>
-                                                <div class="content-body" *ngFor="let content of overViewData.content | filter: [ searchContent, 'title']">
+                                                <div class="content-body cursor-pointer" *ngFor="let content of overViewData.content | filter: [ searchContent, 'title']">
                                                     <div class="col-4 p-0">{{content?.title}}</div>
-                                                    <div class="col-4"><a [href]="content?.url" class="url-link" target="_blank">{{content?.url}}</a></div>
+                                                    <div class="col-4 text-overflow" [title]="content?.url"><a [href]="content?.url" class="url-link" target="_blank">{{content?.url}}</a></div>
                                                     <div class="col-4">{{content?.lastUpdatedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
                                                 </div>
                                             </section>

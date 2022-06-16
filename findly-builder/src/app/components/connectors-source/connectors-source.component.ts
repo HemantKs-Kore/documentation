@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
@@ -65,7 +66,7 @@ export class ConnectorsSourceComponent implements OnInit {
   total_records: number;
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
-  constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog) { }
+  constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private appSelectionService: AppSelectionService) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -304,11 +305,12 @@ export class ConnectorsSourceComponent implements OnInit {
     }
     this.service.invoke('post.authorizeConnector', quaryparms, payload).subscribe(res => {
       if (res) {
+        this.ingestConnector();
         if (data?.type === 'confluenceCloud') {
           window.open(res.url, '_self');
         }
         else {
-          this.ingestConnector();
+          this.appSelectionService.updateTourConfig('addData');
           if (dialogRef) {
             dialogRef.close();
             this.getConnectors();
@@ -324,8 +326,8 @@ export class ConnectorsSourceComponent implements OnInit {
       this.isPopupDelete = false;
       this.isAuthorizeStatus = false;
       if (dialogRef) dialogRef.close();
-      this.openDeleteModel('open');
-      this.errorToaster(errRes.error.errors[0].msg, 'error');
+      this.errorToaster(errRes, 'error');
+      if (document.getElementsByClassName("modal").length === 0) this.openDeleteModel('open');
     });
   }
   //call if authorize api was success
@@ -431,19 +433,20 @@ export class ConnectorsSourceComponent implements OnInit {
         this.openDeleteModel('close');
         this.notificationService.notify('Connector Deleted Successfully', 'success');
         this.selectedContent = 'list';
-        this.getConnectors();
+        this.backToPage('cancel');
       }
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
   // queue-content API
-  ingestConnector() {
+  ingestConnector(isShow?) {
     const quaryparms: any = {
       sidx: this.searchIndexId,
       fcon: this.connectorId
     };
     this.service.invoke('post.ingestConnector', quaryparms).subscribe(res => {
+      if (isShow) this.notificationService.notify('Connector Synchronized Successfully', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
