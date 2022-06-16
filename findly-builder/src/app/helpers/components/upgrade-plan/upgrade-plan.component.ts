@@ -24,7 +24,6 @@ export class UpgradePlanComponent implements OnInit {
   changePlanModelPopRef: any;
   contactusModelPopRef: any;
   contactusSuccessModelPopRef: any;
-
   termPlan = "Monthly";
   totalPlansData: any;
   filterPlansData: any;
@@ -183,6 +182,7 @@ export class UpgradePlanComponent implements OnInit {
   //close popup based on input parameter
   closeSelectedPopup(type) {
     if (type === 'choose_plan') {
+      this.termPlan = 'Monthly';
       if (this.choosePlanModalPopRef?.close) this.choosePlanModalPopRef.close();
     }
     else if (type === 'payment_gateway') {
@@ -361,10 +361,11 @@ export class UpgradePlanComponent implements OnInit {
     this.filterPlansData = [];
     this.termPlan = type;
     for (let data of this.totalPlansData) {
-      if (data.billingUnit && data.billingUnit == type || data.planId == 'fp_free') {
+      if (data?.billingUnit == type || data?.planId === 'fp_free') {
         this.filterPlansData.push(data);
       }
     }
+    console.log("filterPlansData", this.filterPlansData);
   }
   //based on choosePlanType in order confirm popup
   choosePlanType(type) {

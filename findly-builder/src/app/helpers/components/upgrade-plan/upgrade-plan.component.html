@@ -10,22 +10,20 @@
         </div>
   
         <div class="pricing-paln-types">
-          <div class="pricing-paln-tab">Monthly</div>
-          <div class="pricing-paln-tab tab-active">Annually</div>
+          <div class="pricing-paln-tab" *ngFor="let type of ['Monthly','Yearly']" (click)="typeOfPlan(type)" [ngClass]="{'tab-active':type===termPlan}">{{type}}</div>
         </div>
         
-        <div class="pricing-plan-tiles-block">
-          <!-- free plan start -->
-          <div class="plan-tile-block plan-tile-active">
+        <div class="pricing-plan-tiles-block"> 
+          <div class="plan-tile-block" *ngFor="let plan of filterPlansData" [ngClass]="{'plan-tile-active':(plan?.name===selectedPlan?.planName)}">
             <div class="plan-type-block">
-              <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-free.svg" /></div>
+              <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-{{plan?.name|lowercase}}.svg" /></div>
               <div class="plan-details">
                 <div class="plan-type">
-                  <div class="plan-name">Free</div>
-                  <div class="plan-current-status free-forever">Free Forever</div>
+                  <div class="plan-name">{{plan?.name}}</div>
+                  <div class="plan-current-status" [ngClass]="{'d-none':(plan?.name|lowercase)!=='free'}">Free Forever</div>
                 </div>
                 <div class="plan-cost-details">
-                  <div class="plan-cost">$0 <span class="plan-duration-type">Forever</span></div>
+                  <div class="plan-cost">{{['free','standard'].includes(plan?.name|lowercase)?'$':'Custom Plans'}}{{plan?.planAmount}} <span class="plan-duration-type">{{['free','enterprise'].includes(plan?.name|lowercase)?'':'/ '}}{{(plan?.name|lowercase)==='free'?'Forever':(plan?.name|lowercase)==='enterprise'?'':plan?.billingUnit}}</span></div>
                 </div>
               </div>
               <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>
@@ -34,7 +32,7 @@
               <div>Try our platform for free. No credit card required. </div>
             </div>
             <div class="plan-upgrade-block">
-              <button class="btn current-paln">Current Plan</button>
+              <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Choose Plan'}}</button>
             </div>
             <div class="plan-features-block">
               <perfect-scrollbar class="paln-overflow-scroll">
@@ -61,104 +59,6 @@
               </perfect-scrollbar>
             </div>
           </div>
-          <!-- free plan end -->
-  
-          <!-- standard plan start -->
-          <div class="plan-tile-block">
-            <div class="plan-type-block">
-              <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-standard.svg" /></div>
-              <div class="plan-details">
-                <div class="plan-type">
-                  <div class="plan-name">Standard</div>
-                  <div class="plan-current-status">Current Plan</div>
-                </div>
-                <div class="plan-cost-details">
-                  <div class="plan-cost">$0 <span class="plan-duration-type">Forever</span></div>
-                </div>
-              </div>
-              <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>
-            </div>
-            <div class="plan-tag-line">
-              <div>Our most popular plan which adds more intelligence to your search.</div>
-            </div>
-            <div class="plan-upgrade-block">
-              <button class="btn" (click)="openSelectedPopup('payment_gateway')">Choose Plan</button>
-            </div>
-            <div class="plan-features-block">
-              <perfect-scrollbar class="paln-overflow-scroll">
-                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">records</span> </div>
-                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">queries/month</span> </div>
-                <div class="plan-sub-features">
-                  <div class="plan-sub-feature-hding">Features Includes</div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Website Crawler </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Weights,Synonyms & Stopwords </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Indexing & Workbench </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Connectors </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
-                </div>
-                <div class="plan-sub-features">
-                  <div class="plan-sub-feature-hding">Features Includes</div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
-                </div>
-              </perfect-scrollbar>
-            </div>
-          </div>
-          <!-- standard plan end -->
-  
-          <!-- enterprise plan start -->
-          <div class="plan-tile-block">
-            <div class="plan-type-block">
-              <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-enterprise.svg" /></div>
-              <div class="plan-details">
-                <div class="plan-type">
-                  <div class="plan-name">Enterprise</div>
-                  <div class="plan-current-status">Current Plan</div>
-                </div>
-                <div class="plan-cost-details">
-                  <!-- <div class="plan-cost">$0 <span class="plan-duration-type">Forever</span></div> -->
-                  <div class="plan-cost enterprise-paln">Custom Plans</div>
-                </div>
-              </div>
-              <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>
-            </div>
-            <div class="plan-tag-line">
-              <div>Contact us for custom session pricing and volume discounts.</div>
-            </div>
-            <div class="plan-upgrade-block">
-              <button class="btn">Talk to us</button>
-            </div>
-            <div class="plan-features-block">
-              <perfect-scrollbar class="paln-overflow-scroll">
-                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">records</span> </div>
-                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">queries/month</span> </div>
-                <div class="plan-sub-features">
-                  <div class="plan-sub-feature-hding">Features Includes</div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Website Crawler </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Weights,Synonyms & Stopwords </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Indexing & Workbench </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Connectors </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
-                </div>
-                <div class="plan-sub-features">
-                  <div class="plan-sub-feature-hding">Features Includes</div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
-                </div>
-              </perfect-scrollbar>
-            </div>
-          </div>
-          <!-- enterprise paln end -->
         </div>
 
         <!-- compare plan start from here -->
