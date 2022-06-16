@@ -549,7 +549,7 @@
                                     <span class="alphabet">{{workspace.accountShortName}}</span>
                                 </div>
                                 <div class="content-data">
-                                    <div class="w-name">{{workspace.accountName}}
+                                    <div class="w-name">{{workspace.displayName?workspace.displayName:workspace.accountName}}
                                     </div>
                                     <div class="member-count" style="white-space: nowrap;">Created by: {{workspace.userFullName}}</div>
                                     <div class="member-count">{{workspace.usersCount}} Members</div>
