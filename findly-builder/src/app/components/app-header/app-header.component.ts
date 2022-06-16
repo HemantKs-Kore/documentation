@@ -318,8 +318,8 @@ export class AppHeaderComponent implements OnInit {
     var matches = name.split(/(?<=^\S+)\s/)
     var firstName = matches[0];
     var lastName = matches[1];
-    var firstLetter = firstName.charAt(0);
-    var secondLetter = lastName.charAt(0);
+    var firstLetter =firstName?firstName.charAt(0):'';
+    var secondLetter =lastName?lastName.charAt(0):'';
     this.profile_display = firstLetter.concat(secondLetter);
     this.profile_display = this.profile_display.toUpperCase();
     this.setprofilebackground(this.profile_display);
@@ -1015,7 +1015,6 @@ export class AppHeaderComponent implements OnInit {
     });
   }
   checkroute() {
-
     this.headerService.fromCallFlowExpand.subscribe(data => {
       this.fromCallFlow = data.title;
       this.toShowAppHeader = false;
