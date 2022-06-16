@@ -58,8 +58,6 @@ export class UpgradePlanComponent implements OnInit {
     free: 'fp_free',
     standardMonth: 'standard_monthly',
     standardYear: 'standard_yearly',
-    proMonth: 'pro_monthly',
-    proYear: 'pro_yearly',
     enterpriceMonth: 'enterprise_monthly',
     enterpriceYear: 'enterprise_yearly'
   }
@@ -126,10 +124,6 @@ export class UpgradePlanComponent implements OnInit {
     this.service.invoke('get.pricingPlans').subscribe(res => {
       this.totalPlansData = res.sort((a, b) => { return a.displayOrder - b.displayOrder });
       this.typeOfPlan("Monthly");
-      this.totalPlansData.forEach(data => {
-        let dat = Object.values(data.featureAccess);
-        data = Object.assign(data, { "featureData": dat });
-      });
     }, errRes => {
       if (localStorage.jStorage) {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
