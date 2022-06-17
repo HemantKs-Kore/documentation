@@ -32,26 +32,26 @@ export class AppHeaderComponent implements OnInit {
   toShowAppHeader: boolean;
   mainMenu = '';
   showMainMenu: boolean = true;
-  currentRouteData:any="";
-  displyStatusBar:boolean=true;
-  onboardingOpened:boolean= false;
-  tourData:any;
-  browseWorkspaceRef:any;
-  tourConfigData:any=[];
-  checklistCount:any;
-  progressPrecent=0;
+  currentRouteData: any = "";
+  displyStatusBar: boolean = true;
+  onboardingOpened: boolean = false;
+  tourData: any;
+  browseWorkspaceRef: any;
+  tourConfigData: any = [];
+  checklistCount: any;
+  progressPrecent = 0;
   pagetitle: any;
   field_name: any;
   workspace_search: any;
   profile_display: any;
   associate_profile_display: any;
   selected_profile_display: any;
-  alphabetSeries1:any=['A','B','C','D','E'];
-  alphabetSeries2:any=['F','G','H','I','J'];
-  alphabetSeries3:any=['K','L','M','N','O'];
-  alphabetSeries4:any=['P','Q','R','S','T'];
-  alphabetSeries5:any=['U','V','W','X','Y','Z'];
-  alphabetSeries: any = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T', 'U','V','W','X','Y','Z']
+  alphabetSeries1: any = ['A', 'B', 'C', 'D', 'E'];
+  alphabetSeries2: any = ['F', 'G', 'H', 'I', 'J'];
+  alphabetSeries3: any = ['K', 'L', 'M', 'N', 'O'];
+  alphabetSeries4: any = ['P', 'Q', 'R', 'S', 'T'];
+  alphabetSeries5: any = ['U', 'V', 'W', 'X', 'Y', 'Z'];
+  alphabetSeries: any = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
   training: boolean = false;
   fromCallFlow = '';
   showSwichAccountOption = false;
@@ -150,8 +150,9 @@ export class AppHeaderComponent implements OnInit {
   loadingProgress: boolean;
   emptyContent: boolean;
   currentAppControlList: any;
-  notifyAccount : boolean =  false;
+  notifyAccount: boolean = false;
   notifyAccountInfo: any;
+  isJoinedClicked: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -216,161 +217,161 @@ export class AppHeaderComponent implements OnInit {
     //       : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
     //   )
     // this.formatter = (x: { displayName: string }) => (x.displayName || '');
-  //   if(this.selectAccountDetails==null){
-  //     for(let i=0;i<this.associatedAccounts.length;i++)
-  //   {
-  //     if(this.associatedAccounts[i].status=="active")
-  //     {
-  //       this.selectAccountDetails=this.associatedAccounts[i];
-  //     }
+    //   if(this.selectAccountDetails==null){
+    //     for(let i=0;i<this.associatedAccounts.length;i++)
+    //   {
+    //     if(this.associatedAccounts[i].status=="active")
+    //     {
+    //       this.selectAccountDetails=this.associatedAccounts[i];
+    //     }
 
-  //   }
-  // }
-  //   this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
-  //   for(let i=0;i<this.associatedAccounts.length;i++)
-  //   {
-  //     if(this.associatedAccounts[i].status=="active")
-  //     {
-  //       this.loginusername=this.associatedAccounts[i].userFullName;
-  //     }
-  //   }
-  //   this.extractProfiledisplayname();
-  /**added code to fetch the associated accounts from*/
+    //   }
+    // }
+    //   this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
+    //   for(let i=0;i<this.associatedAccounts.length;i++)
+    //   {
+    //     if(this.associatedAccounts[i].status=="active")
+    //     {
+    //       this.loginusername=this.associatedAccounts[i].userFullName;
+    //     }
+    //   }
+    //   this.extractProfiledisplayname();
+    /**added code to fetch the associated accounts from*/
     // if(localStorage.krPreviousState=='{}'|| localStorage.krPreviousState=="null"  || localStorage.krPreviousState==undefined){
     //   this.analyticsClick('/home');
     // }
-  //   if(localStorage.krPreviousState=='{}'|| localStorage.krPreviousState=="null"  || localStorage.krPreviousState==undefined){
-  //       //this.analyticsClick('/home');
-  //     }
-  //     else if (localStorage.krPreviousState && JSON.parse(localStorage.krPreviousState)) {
-  //         if(this.appsnum.length==='undefined' || this.appsnum.length==0) {
-  //             this.analyticsClick(JSON.parse(localStorage.krPreviousState).route,true);
-  //           }
-  //         else{
-  //           this.analyticsClick(JSON.parse(localStorage.krPreviousState).route,false);
-  //         }
-  //   }
+    //   if(localStorage.krPreviousState=='{}'|| localStorage.krPreviousState=="null"  || localStorage.krPreviousState==undefined){
+    //       //this.analyticsClick('/home');
+    //     }
+    //     else if (localStorage.krPreviousState && JSON.parse(localStorage.krPreviousState)) {
+    //         if(this.appsnum.length==='undefined' || this.appsnum.length==0) {
+    //             this.analyticsClick(JSON.parse(localStorage.krPreviousState).route,true);
+    //           }
+    //         else{
+    //           this.analyticsClick(JSON.parse(localStorage.krPreviousState).route,false);
+    //         }
+    //   }
 
-  //   this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
-  //     if (res) {
-  //       this.mainMenu = res;
-  //     }
-  //   });
-  //   this.selectedApp = this.workflowService.selectedApp();
-  //   this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-  //   this.loadHeader();
-  //   this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
-  //     this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
-  //       this.loadHeader();
-  //     })
-  //   })
-  //   this.workflowService.mainMenuRouter$.subscribe(route => {
-  //     this.mainMenu = route;
-  //   });
-  //   this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
-  //   this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
-  //   this.domain = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
-  //   if(this.selectAccountDetails==null){
-  //       for(let i=0;i<this.associatedAccounts.length;i++)
-  //     {
-  //       if(this.associatedAccounts[i].status=="active")
-  //       {
-  //         this.selectAccountDetails=this.associatedAccounts[i];
-  //       }
+    //   this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
+    //     if (res) {
+    //       this.mainMenu = res;
+    //     }
+    //   });
+    //   this.selectedApp = this.workflowService.selectedApp();
+    //   this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
+    //   this.loadHeader();
+    //   this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+    //     this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
+    //       this.loadHeader();
+    //     })
+    //   })
+    //   this.workflowService.mainMenuRouter$.subscribe(route => {
+    //     this.mainMenu = route;
+    //   });
+    //   this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
+    //   this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
+    //   this.domain = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
+    //   if(this.selectAccountDetails==null){
+    //       for(let i=0;i<this.associatedAccounts.length;i++)
+    //     {
+    //       if(this.associatedAccounts[i].status=="active")
+    //       {
+    //         this.selectAccountDetails=this.associatedAccounts[i];
+    //       }
 
-  //     }
-  //     if((!this.selectAccountDetails) || this.selectAccountDetails=="null"  || this.selectAccountDetails==undefined){
-  //       this.selectAccountDetails=this.associatedAccounts[0];
-  //     }
+    //     }
+    //     if((!this.selectAccountDetails) || this.selectAccountDetails=="null"  || this.selectAccountDetails==undefined){
+    //       this.selectAccountDetails=this.associatedAccounts[0];
+    //     }
 
-  //   }
+    //   }
 
-  //   for(let i=0;i<this.associatedAccounts.length;i++)
-  //   {
-  //     if(this.associatedAccounts[i].status=="active")
-  //     {
-  //       this.loginusername=this.associatedAccounts[i].userFullName;
-  //     }
-  //   }
-  //   if(!this.loginusername){
-  //     this.loginusername=this.domain;
-  //   }
-  //   // if(this.associatedAccounts.length==1){
-  //   //   this.loginusername=this.associatedAccounts[0].userFullName;
-  //   // }
-  //   if(this.loginusername==this.domain){
-  //     this.extractFirstLetter();
-  //   }
-  //   else{
-  //   this.extractProfiledisplayname();
-  //   }
+    //   for(let i=0;i<this.associatedAccounts.length;i++)
+    //   {
+    //     if(this.associatedAccounts[i].status=="active")
+    //     {
+    //       this.loginusername=this.associatedAccounts[i].userFullName;
+    //     }
+    //   }
+    //   if(!this.loginusername){
+    //     this.loginusername=this.domain;
+    //   }
+    //   // if(this.associatedAccounts.length==1){
+    //   //   this.loginusername=this.associatedAccounts[0].userFullName;
+    //   // }
+    //   if(this.loginusername==this.domain){
+    //     this.extractFirstLetter();
+    //   }
+    //   else{
+    //   this.extractProfiledisplayname();
+    //   }
   }
-  extractFirstLetter(){
-      let firstLetter=this.domain.charAt(0);
-      this.profile_display=firstLetter;
-      this.profile_display=this.profile_display.toUpperCase();
-      this.setprofilebackground(this.profile_display);
+  extractFirstLetter() {
+    let firstLetter = this.domain.charAt(0);
+    this.profile_display = firstLetter;
+    this.profile_display = this.profile_display.toUpperCase();
+    this.setprofilebackground(this.profile_display);
 
   }
-  extractProfiledisplayname(){
+  extractProfiledisplayname() {
     let name = this.loginusername
     //match the spaces
     var matches = name.split(/(?<=^\S+)\s/)
     var firstName = matches[0];
     var lastName = matches[1];
-    var firstLetter=firstName.charAt(0);
-    var secondLetter=lastName.charAt(0);
-    this.profile_display=firstLetter.concat(secondLetter);
-    this.profile_display=this.profile_display.toUpperCase();
+    var firstLetter =firstName?firstName.charAt(0):'';
+    var secondLetter =lastName?lastName.charAt(0):'';
+    this.profile_display = firstLetter.concat(secondLetter);
+    this.profile_display = this.profile_display.toUpperCase();
     this.setprofilebackground(this.profile_display);
   }
-  clearcontent(){
+  clearcontent() {
 
-    if($('#searchBoxId') && $('#searchBoxId').length){
-    $('#searchBoxId')[0].value = "";
-    this.field_name='';
-   }
+    if ($('#searchBoxId') && $('#searchBoxId').length) {
+      $('#searchBoxId')[0].value = "";
+      this.field_name = '';
+    }
   }
 
-  setprofilebackground(displayname?){
+  setprofilebackground(displayname?) {
     // to find in series1
-    for(let i=0;i<this.alphabetSeries1.length;i++){
-      if(displayname.charAt(0)===this.alphabetSeries1[i]){
-        document.getElementById('profiledisplay').style.backgroundColor = '#AA336A' ;
-        document.getElementById('profiledisplay1').style.backgroundColor = '#AA336A' ;
-        document.getElementById('profiledisplaydrop').style.backgroundColor = '#AA336A' ;
+    for (let i = 0; i < this.alphabetSeries1.length; i++) {
+      if (displayname.charAt(0) === this.alphabetSeries1[i]) {
+        document.getElementById('profiledisplay').style.backgroundColor = '#AA336A';
+        document.getElementById('profiledisplay1').style.backgroundColor = '#AA336A';
+        document.getElementById('profiledisplaydrop').style.backgroundColor = '#AA336A';
       }
     }
     // to find in series2
-    for(let i=0;i<this.alphabetSeries2.length;i++){
-      if(displayname.charAt(0)===this.alphabetSeries2[i]){
-        document.getElementById('profiledisplay').style.backgroundColor = '#006400' ;
-        document.getElementById('profiledisplay1').style.backgroundColor = '#006400' ;
-        document.getElementById('profiledisplaydrop').style.backgroundColor = '#006400' ;
+    for (let i = 0; i < this.alphabetSeries2.length; i++) {
+      if (displayname.charAt(0) === this.alphabetSeries2[i]) {
+        document.getElementById('profiledisplay').style.backgroundColor = '#006400';
+        document.getElementById('profiledisplay1').style.backgroundColor = '#006400';
+        document.getElementById('profiledisplaydrop').style.backgroundColor = '#006400';
       }
     }
     // to find in series3
-    for(let i=0;i<this.alphabetSeries3.length;i++){
-      if(displayname.charAt(0)===this.alphabetSeries3[i]){
-        document.getElementById('profiledisplay').style.backgroundColor = '#C71585' ;
-        document.getElementById('profiledisplay1').style.backgroundColor = '#C71585' ;
-        document.getElementById('profiledisplaydrop').style.backgroundColor = '#C71585' ;
+    for (let i = 0; i < this.alphabetSeries3.length; i++) {
+      if (displayname.charAt(0) === this.alphabetSeries3[i]) {
+        document.getElementById('profiledisplay').style.backgroundColor = '#C71585';
+        document.getElementById('profiledisplay1').style.backgroundColor = '#C71585';
+        document.getElementById('profiledisplaydrop').style.backgroundColor = '#C71585';
       }
     }
     // to find in series4
-    for(let i=0;i<this.alphabetSeries4.length;i++){
-      if(displayname.charAt(0)===this.alphabetSeries4[i]){
-        document.getElementById('profiledisplay').style.backgroundColor = '#6A5ACD' ;
-        document.getElementById('profiledisplay1').style.backgroundColor = '#6A5ACD' ;
-        document.getElementById('profiledisplaydrop').style.backgroundColor = '#6A5ACD' ;
+    for (let i = 0; i < this.alphabetSeries4.length; i++) {
+      if (displayname.charAt(0) === this.alphabetSeries4[i]) {
+        document.getElementById('profiledisplay').style.backgroundColor = '#6A5ACD';
+        document.getElementById('profiledisplay1').style.backgroundColor = '#6A5ACD';
+        document.getElementById('profiledisplaydrop').style.backgroundColor = '#6A5ACD';
       }
     }
     // to find in series5
-    for(let i=0;i<this.alphabetSeries5.length;i++){
-      if(displayname.charAt(0)===this.alphabetSeries5[i]){
-        document.getElementById('profiledisplay').style.backgroundColor = '#B22222' ;
-        document.getElementById('profiledisplay1').style.backgroundColor = '#B22222' ;
-        document.getElementById('profiledisplaydrop').style.backgroundColor = '#B22222' ;
+    for (let i = 0; i < this.alphabetSeries5.length; i++) {
+      if (displayname.charAt(0) === this.alphabetSeries5[i]) {
+        document.getElementById('profiledisplay').style.backgroundColor = '#B22222';
+        document.getElementById('profiledisplay1').style.backgroundColor = '#B22222';
+        document.getElementById('profiledisplaydrop').style.backgroundColor = '#B22222';
       }
     }
 
@@ -395,7 +396,7 @@ export class AppHeaderComponent implements OnInit {
   }
 
   openBrowseWorkspace(value) {
-    if(value) {
+    if (value) {
       this.browseWorkspaceRef = this.browseWorkspace.open()
     }
     const AccountId = this.currentAppControlList.accountId
@@ -407,89 +408,63 @@ export class AppHeaderComponent implements OnInit {
 
     // https://qa1-bots.kore.ai/api/1.1/builder/allowedDomains?rnd=0yiw5b
     // AccountId: 626f77fd38535539c9882b4a
-    this.service.invoke('app.allowedDomains', header).subscribe((res)=> {
-      if(res){
+    this.service.invoke('app.allowedDomains', header).subscribe((res) => {
+      if (res) {
         this.loadingProgress = false
         this.WorkspaceList = res
-        const requestedAccounts  = this.currentAppControlList.requestedAccounts
+        const requestedAccounts = this.currentAppControlList.requestedAccounts
 
         for (let index = 0; index < this.WorkspaceList.length; index++) {
           const element = this.WorkspaceList[index];
-          if(!this.WorkspaceList[index].displayName) {
+          if (!this.WorkspaceList[index].displayName) {
             this.WorkspaceList[index]['displayName'] = ''
           }
 
+          // this.WorkspaceList[index].alreadyJoined = false
+          // for (let i = 0; i < requestedAccounts.length; i++) {
+          //   let account = requestedAccounts[i]
+          //   if (element._id == account.acctId) {
+          //     this.WorkspaceList[index].alreadyJoined = true
+          //   }
+          // }
+
           const splitBy = '/';
-          if(this.WorkspaceList[index]['accountName'].includes('/')) {
+          if (this.WorkspaceList[index]['accountName'].includes('/')) {
             this.WorkspaceList[index]['accountName'] = this.WorkspaceList[index]['accountName'].split(splitBy)[1]
           }
-          let avatar =  this.WorkspaceList[index]['displayName'] ? this.WorkspaceList[index]['displayName'] : '';
+          let avatar = this.WorkspaceList[index]['displayName'] ? this.WorkspaceList[index]['displayName'] : '';
 
           let avatar2 = this.WorkspaceList[index]['accountName'] ? this.WorkspaceList[index]['accountName'] : '';
           let splitor = this.WorkspaceList[index]['accountName'].includes(".");
           let fullName;
-          if(splitor) {
-            fullName =  this.WorkspaceList[index]['accountName'].split('@')[0].split('.')
+          if (splitor) {
+            fullName = this.WorkspaceList[index]['accountName'].split('@')[0].split('.')
           } else {
             fullName = this.WorkspaceList[index]['accountName'].split('@')[0].split('_');
           }
           let firstName = fullName[0];
-          let lastName = fullName[fullName.length-1]
+          let lastName = fullName[fullName.length - 1]
 
-          var firstLetter=firstName.charAt(0);
-          var secondLetter=lastName.charAt(0);
-          if(avatar2.length > 0) {
+          var firstLetter = firstName.charAt(0);
+          var secondLetter = lastName.charAt(0);
+          if (avatar2.length > 0) {
             let displayShortName = (firstLetter + secondLetter).trim().toUpperCase()
             this.WorkspaceList[index]['accountShortName'] = displayShortName
             this.setAssociateprofilebackground(this.WorkspaceList, displayShortName, index)
           }
-          if(avatar.length > 0) {
-            let firstChar = avatar.split(' ')[0][0]
-            let SecondChar = avatar.split(' ')[1] ? avatar.split(' ')[1][0] : avatar.split(' ')[0][1]
-            let displayShortName = (firstChar + SecondChar).trim().toUpperCase()
-            this.WorkspaceList[index]['displayShortName'] = displayShortName
-            this.setAssociateprofilebackground(this.WorkspaceList, displayShortName, index)
+          if (avatar.length > 0) {
+            //             let firstChar = avatar.split(' ')[0][0]
+            //             let SecondChar = avatar.split(' ')[1] ? avatar.split(' ')[1][0] : avatar.split(' ')[0][1]
+            //             let displayShortName = (firstChar + SecondChar).trim().toUpperCase()
+            //             this.WorkspaceList[index]['displayShortName'] = displayShortName
+            //             this.setAssociateprofilebackground(this.WorkspaceList, displayShortName, index)
           } else {
             this.WorkspaceList[index]['displayShortName'] = ''
           }
-          this.WorkspaceList[index].alreadyJoined = false
-          for (let i = 0; i < requestedAccounts.length; i++) {
-            let account = requestedAccounts[i]
-            if(element._id == account.acctId) {
-              this.WorkspaceList[index].alreadyJoined = true
-              let obj = {
-                accountId: element._id,
-                accountName: element.accountName,
-                accountType: element.accountType,
-                adminPreferences: {autoApproval: true, autoAssignment: false},
-                associate_profile_display: element.accountShortName || element.displayShortName ,
-                canAccessWorkbench: false,
-                canCreateBot: true,
-                color: element.color,
-                customerLicenseType: "Online",
-                displayName: element.displayName ? element.displayName : element.accountName,
-                enableDebugInfo: true,
-                hasDataTableAndViewAccess: true,
-                isDeveloper: true,
-                isFreeDomain: false,
-                licenses: [],
-                orgId: "",
-                permissions: [],
-                preferences: {defaultAccountId:  element._id},
-                roles: [],
-                userFullName: element.userFullName ? element.userFullName : element.accountName.split('@')[0],
-               }
-              this.associatedRedAccounts.push(obj)
-              this.WorkspaceList.splice(index, 1)
-            }
-          }
-         }
-         const key = 'accountId';
 
-          let arrayUniqueByKey = [...new Map(this.associatedRedAccounts.map(item => [item[key], item])).values()];
-          this.associatedAccounts = [...this.associatedAccounts, ...arrayUniqueByKey]
-          this.associatedAccounts = [...new Map(this.associatedAccounts.map(item => [item[key], item])).values()];
-        if(this.WorkspaceList.length == 0) {
+        }
+        this.cancelButton()
+        if (this.WorkspaceList.length == 0) {
           this.emptyContent = true
         } else {
           this.emptyContent = false
@@ -499,12 +474,53 @@ export class AppHeaderComponent implements OnInit {
     }
     )
   }
-  redirectHome(){
-    let prDetails
-    if(localStorage.getItem('krPreviousState')){
-      prDetails=JSON.parse(localStorage.getItem('krPreviousState'))
+
+  cancelButton() {
+    const requestedAccounts = this.currentAppControlList.requestedAccounts
+    for (let index = 0; index < this.WorkspaceList.length; index++) {
+      const element = this.WorkspaceList[index];
+      for (let i = 0; i < requestedAccounts.length; i++) {
+        let account = requestedAccounts[i]
+        if (element._id == account.acctId) {
+          let obj = {
+            accountId: element._id,
+            accountName: element.accountName,
+            accountType: element.accountType,
+            adminPreferences: { autoApproval: true, autoAssignment: false },
+            associate_profile_display: element.accountShortName || element.displayShortName,
+            canAccessWorkbench: false,
+            canCreateBot: true,
+            color: element.color,
+            customerLicenseType: "Online",
+            displayName: element.displayName ? element.displayName : element.accountName,
+            enableDebugInfo: true,
+            hasDataTableAndViewAccess: true,
+            isDeveloper: true,
+            isFreeDomain: false,
+            licenses: [],
+            orgId: "",
+            permissions: [],
+            preferences: { defaultAccountId: element._id },
+            roles: [],
+            userFullName: element.userFullName ? element.userFullName : element.accountName.split('@')[0],
+          }
+          this.associatedRedAccounts.push(obj)
+          this.WorkspaceList.splice(index, 1)
+        }
+      }
+      // const key = 'accountId';
+      // let arrayUniqueByKey = [...new Map(this.associatedRedAccounts.map(item => [item[key], item])).values()];
+      // this.associatedAccounts = [...this.associatedAccounts, ...arrayUniqueByKey]
+      // this.associatedAccounts = [...new Map(this.associatedAccounts.map(item => [item[key], item])).values()];
     }
-    if(prDetails){
+  }
+
+  redirectHome() {
+    let prDetails
+    if (localStorage.getItem('krPreviousState')) {
+      prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
+    }
+    if (prDetails) {
       prDetails.route = "/home";
       localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
     }
@@ -693,8 +709,8 @@ export class AppHeaderComponent implements OnInit {
         /**made changes on 09/03 as per new api contract in response we no longer use the key
          dockStatuses added updated code in 536 line*/
         // if((!res) || !res.dockStatuses.length){
-        if((!res || !res.length)){
-          this.training=false;
+        if ((!res || !res.length)) {
+          this.training = false;
           this.isAnyRecordInprogress = false;
         }
         this.statusDockerLoading = false;
@@ -704,8 +720,8 @@ export class AppHeaderComponent implements OnInit {
         this.dockersList = JSON.parse(JSON.stringify(res));
         /**made code updates in line no 503 on 03/01 added new condition for success and jobType,since SUCCESS is updated to success and action is updated to jobType and TRAIN has been updated to TRAINING */
         // if (this.trainingInitiated && this.dockersList[0].status === 'SUCCESS' && this.dockersList[0].action === "TRAIN") {
-          if (this.trainingInitiated && (this.dockersList[0].status === 'SUCCESS' || this.dockersList[0].status === 'success') && this.dockersList[0].jobType === "TRAINING") {
-           this.trainingInitiated = false;
+        if (this.trainingInitiated && (this.dockersList[0].status === 'SUCCESS' || this.dockersList[0].status === 'success') && this.dockersList[0].jobType === "TRAINING") {
+          this.trainingInitiated = false;
           if (this.training) {
             this.notificationService.notify('Training Completed', 'success');
           }
@@ -713,7 +729,7 @@ export class AppHeaderComponent implements OnInit {
         }
         /**made code updates in line no 512 on 03/01 added new condition for FAILED,jobType,TRAINING since FAILURE is updated to FAILED  and action is updated to jobType and TRAIN has been updated to TRAINING as per new api contract*/
         // if (this.trainingInitiated && this.dockersList[0].status === 'FAILURE' && this.dockersList[0].action === "TRAIN") {
-          if (this.trainingInitiated && (this.dockersList[0].status === 'FAILURE' || this.dockersList[0].status ==="FAILED") && this.dockersList[0].jobType === "TRAINING") {
+        if (this.trainingInitiated && (this.dockersList[0].status === 'FAILURE' || this.dockersList[0].status === "FAILED") && this.dockersList[0].jobType === "TRAINING") {
           this.trainingInitiated = false;
           if (this.training) {
             this.notificationService.notify(this.dockersList[0].message, 'error');
@@ -725,8 +741,8 @@ export class AppHeaderComponent implements OnInit {
           /**added condition for success on 24/02 in line 519 as per new api contract since SUCCESS is updated to success */
           // if ((record.status === 'SUCCESS') && record.fileId && (record.store && !record.store.toastSeen)) {
           if ((record.status === 'SUCCESS' || record.status === 'success') && record.fileId && (record.store && !record.store.toastSeen)) {
-          /**added condition for jobType in 570,since we are no longer recieving action in jobs api response,using the jobType for condition check as per new api contract 10/03 */
-          // if (record.action === 'EXPORT') {
+            /**added condition for jobType in 570,since we are no longer recieving action in jobs api response,using the jobType for condition check as per new api contract 10/03 */
+            // if (record.action === 'EXPORT') {
             if (record.jobType === "DATA_EXPORT") {
               this.downloadDockFile(record.fileId, record.store.urlParams, record.streamId, record._id);
             }
@@ -735,23 +751,23 @@ export class AppHeaderComponent implements OnInit {
         /**made changes on 24/02 as per new api contract in response we no longer use the key
          dockStatuses added updated code in 413 line*/
         // const queuedJobs = _.filter(res.dockStatuses, (source) => {
-          const queuedJobs = _.filter(res, (source) => {
+        const queuedJobs = _.filter(res, (source) => {
           /** added condition for running and INPROGRESS on 24/02 in line 531 as per new api contract since IN_Progress is updated to running */
           // return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED') || (source.status === 'validation'));
-          return ((source.status === 'IN_PROGRESS' || source.status === 'INPROGRESS' || source.status==='running') || (source.status === 'QUEUED') || (source.status === 'validation'));
+          return ((source.status === 'IN_PROGRESS' || source.status === 'INPROGRESS' || source.status === 'running') || (source.status === 'QUEUED') || (source.status === 'validation'));
         });
 
         if (recordStatistics) {
           /**made changes on 24/02 as per new api contract in response we no longer use the key
          dockStatuses added updated code in 421 line*/
           // this.readDocs = _.filter(res.dockStatuses, (source) => {
-            this.readDocs = _.filter(res, (source) => {
+          this.readDocs = _.filter(res, (source) => {
             return (source.read && (source.read === true));
           });
           /**made changes on 24/02 as per new api contract in response we no longer use the key
          dockStatuses added updated code in 427 line*/
           // this.unReadDocs = _.filter(res.dockStatuses, (source) => {
-            this.unReadDocs = _.filter(res, (source) => {
+          this.unReadDocs = _.filter(res, (source) => {
             return (source.read === false);
           });
           recordStatistics = false;
@@ -768,7 +784,7 @@ export class AppHeaderComponent implements OnInit {
           let successElements = this.unReadDocs.filter(element => {
             /**made code updates in line no 563 on 03/01 added new condition for success,since SUCCESS is upadted to success*/
             // if (element && element.status === 'SUCCESS') {
-            if (element && (element.status === 'SUCCESS' || element.status === 'success')){
+            if (element && (element.status === 'SUCCESS' || element.status === 'success')) {
               return element;
             }
           });
@@ -822,7 +838,7 @@ export class AppHeaderComponent implements OnInit {
     if (other) {
       /**made code updates in line no 619 on 03/01 added new condition for halted,since HALTED is updated to halted as per new api contract*/
       // if (status === 'HALTED'){
-      if (status === 'HALTED' || status ==='halted') {
+      if (status === 'HALTED' || status === 'halted') {
         return 'Stopped';
       }
       else if (status === 'QUEUED') {
@@ -830,7 +846,7 @@ export class AppHeaderComponent implements OnInit {
       }
       /**updated condition in line no 617 on 24/02,added condition for running since in_progress is updated to running as per new api contract  */
       // else if (status === 'IN_PROGRESS' || status === 'validation') {
-      else if ((status === 'IN_PROGRESS' ||status ===  'INPROGRESS' || status === 'running' ) || status === 'validation') {
+      else if ((status === 'IN_PROGRESS' || status === 'INPROGRESS' || status === 'running') || status === 'validation') {
         return 'In-progress';
       }
       /**made code updates in line no 630 on 03/01 added new condition for FAILED,since FAILURE is updated to FAILED as per new api contract*/
@@ -940,13 +956,13 @@ export class AppHeaderComponent implements OnInit {
     }
   }
 
-  downloadDockFile(fileId,fileName,streamId,dockId) {
+  downloadDockFile(fileId, fileName, streamId, dockId) {
     const params = {
       fileId,
       streamId: streamId,
       dockId: dockId,
       jobId: dockId,
-      sidx:this.serachIndexId
+      sidx: this.serachIndexId
     }
     let payload = {
       "store": {
@@ -981,8 +997,8 @@ export class AppHeaderComponent implements OnInit {
   getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
 
-        this.appsnum=res;
-        this.checkroute();
+      this.appsnum = res;
+      this.checkroute();
 
       // if(this.appsnum.length==="undefined" || this.appsnum.length==0){
       //   this.routeFlag=true;
@@ -999,8 +1015,7 @@ export class AppHeaderComponent implements OnInit {
       // console.log(errRes);
     });
   }
-  checkroute(){
-
+  checkroute() {
     this.headerService.fromCallFlowExpand.subscribe(data => {
       this.fromCallFlow = data.title;
       this.toShowAppHeader = false;
@@ -1017,141 +1032,137 @@ export class AppHeaderComponent implements OnInit {
       )
     this.formatter = (x: { displayName: string }) => (x.displayName || '');
 
-      if(localStorage.krPreviousState=='{}'|| localStorage.krPreviousState=="null"  || localStorage.krPreviousState==undefined){
-          //this.analyticsClick('/home');
-        }
-        else if (localStorage.krPreviousState && JSON.parse(localStorage.krPreviousState)) {
-            if(this.appsnum.length==='undefined' || this.appsnum.length==0) {
-                this.analyticsClick(JSON.parse(localStorage.krPreviousState).route,true);
-              }
-            else{
-              this.analyticsClick(JSON.parse(localStorage.krPreviousState).route,false);
-            }
+    if (localStorage.krPreviousState == '{}' || localStorage.krPreviousState == "null" || localStorage.krPreviousState == undefined) {
+      //this.analyticsClick('/home');
+    }
+    else if (localStorage.krPreviousState && JSON.parse(localStorage.krPreviousState)) {
+      if (this.appsnum.length === 'undefined' || this.appsnum.length == 0) {
+        this.analyticsClick(JSON.parse(localStorage.krPreviousState).route, true);
       }
+      else {
+        this.analyticsClick(JSON.parse(localStorage.krPreviousState).route, false);
+      }
+    }
 
 
-      this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
-        if (res) {
-          this.mainMenu = res;
-        }
-      });
-      this.selectedApp = this.workflowService.selectedApp();
-      this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-      this.loadHeader();
-      this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
-        this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
-          this.loadHeader();
-        })
+    this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
+      if (res) {
+        this.mainMenu = res;
+      }
+    });
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
+    this.loadHeader();
+    this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+      this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
+        this.loadHeader();
       })
-      this.workflowService.mainMenuRouter$.subscribe(route => {
-        this.mainMenu = route;
-      });
-      this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
-      this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
-      this.domain = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
-      if(this.selectAccountDetails==null){
-          for(let i=0;i<this.associatedAccounts.length;i++)
-        {
-          if(this.associatedAccounts[i].status=="active")
-          {
-            this.selectAccountDetails=this.associatedAccounts[i];
-          }
-
-        }
-        if((!this.selectAccountDetails) || this.selectAccountDetails=="null"  || this.selectAccountDetails==undefined){
-          this.selectAccountDetails=this.associatedAccounts[0];
+    })
+    this.workflowService.mainMenuRouter$.subscribe(route => {
+      this.mainMenu = route;
+    });
+    this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
+    this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
+    this.domain = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
+    if (this.selectAccountDetails == null) {
+      for (let i = 0; i < this.associatedAccounts.length; i++) {
+        if (this.associatedAccounts[i].status == "active") {
+          this.selectAccountDetails = this.associatedAccounts[i];
         }
 
       }
+      if ((!this.selectAccountDetails) || this.selectAccountDetails == "null" || this.selectAccountDetails == undefined) {
+        this.selectAccountDetails = this.associatedAccounts[0];
+      }
 
-      for(let i=0;i<this.associatedAccounts.length;i++)
-      {
-        if(this.associatedAccounts[i].status=="active")
-        {
-          this.loginusername=this.associatedAccounts[i].userFullName;
-        }
+    }
+
+    for (let i = 0; i < this.associatedAccounts.length; i++) {
+      if (this.associatedAccounts[i].status == "active") {
+        this.loginusername = this.associatedAccounts[i].userFullName;
       }
-      if(!this.loginusername){
-        this.loginusername=this.domain;
-        this.extractFirstLetter();
-      } else{
-        this.extractProfiledisplayname();
-      }
-      for(let i=0;i<this.associatedAccounts.length;i++){
-        // this.extractAssociatedisplayname(this.associatedAccounts[i].userFullName,i)
-        this.extractAssociatedisplayname(this.associatedAccounts[i].accountName,i)
+    }
+    if (!this.loginusername) {
+      this.loginusername = this.domain;
+      this.extractFirstLetter();
+    } else {
+      this.extractProfiledisplayname();
+    }
+    for (let i = 0; i < this.associatedAccounts.length; i++) {
+      // this.extractAssociatedisplayname(this.associatedAccounts[i].userFullName,i)
+      this.extractAssociatedisplayname(this.associatedAccounts[i].accountName, i)
 
     }
     this.extractAssociatedisplayname(this.selectAccountDetails.accountName)
   }
 
 
-  extractAssociatedisplayname(empmail,i?){
+  extractAssociatedisplayname(empmail, i?) {
     let splitor = empmail.includes(".");
     let fullName;
-    if(splitor) {
-      fullName =  empmail.split('@')[0].split('.')
+    if (splitor) {
+      fullName = empmail.split('@')[0].split('.')
     } else {
       fullName = empmail.split('@')[0].split('_');
     }
     let firstName = fullName[0];
-    let lastName = fullName[fullName.length-1]
+    let lastName = fullName[fullName.length - 1]
 
-    var firstLetter=firstName.charAt(0);
-    var secondLetter=lastName.charAt(0);
-    if(i > -1) {
-      this.associatedAccounts[i]['associate_profile_display']=firstLetter.concat(secondLetter).toUpperCase();
+    var firstLetter = firstName.charAt(0);
+    var secondLetter = lastName.charAt(0);
+    if (i > -1) {
+      this.associatedAccounts[i]['associate_profile_display'] = firstLetter.concat(secondLetter).toUpperCase();
 
       setTimeout(() => {
-        this.setAssociateprofilebackground( this.associatedAccounts, this.associatedAccounts[i]['associate_profile_display'],i);
+        this.setAssociateprofilebackground(this.associatedAccounts, this.associatedAccounts[i]['associate_profile_display'], i);
       }, 1000);
     } else {
-      this.selected_profile_display=firstLetter.concat(secondLetter);
-      this.selected_profile_display=this.selected_profile_display.toUpperCase();
-      this.setAssociateprofilebackground([],this.selected_profile_display);
+      this.selected_profile_display = firstLetter.concat(secondLetter);
+      this.selected_profile_display = this.selected_profile_display.toUpperCase();
+      this.setAssociateprofilebackground([], this.selected_profile_display);
 
     }
 
 
   }
 
-  setAssociateprofilebackground(array?, displayname?, index?){
+  setAssociateprofilebackground(array?, displayname?, index?) {
     // to find in series1
-    for(let i=0;i<this.alphabetSeries1.length;i++){
-      if(displayname.charAt(0)===this.alphabetSeries1[i]){
-        (index > -1 && array.length > 0) ? array[index]['color'] =  '#AA336A' :
-        document.getElementById('selected_profile').style.backgroundColor = '#AA336A' ;
+    for (let i = 0; i < this.alphabetSeries1.length; i++) {
+      if (displayname.charAt(0) === this.alphabetSeries1[i]) {
+        (index > -1 && array.length > 0) ? array[index]['color'] = '#AA336A' :
+          document.getElementById('selected_profile').style.backgroundColor = '#AA336A';
         ;
       }
     }
     // to find in series2
-    for(let i=0;i<this.alphabetSeries2.length;i++){
-      if(displayname.charAt(0)===this.alphabetSeries2[i]){
-        (index > -1 && array.length > 0) ?  array[index]['color']= '#006400' :
-       document.getElementById('selected_profile').style.backgroundColor = '#006400' ;
-       ;
+    for (let i = 0; i < this.alphabetSeries2.length; i++) {
+      if (displayname.charAt(0) === this.alphabetSeries2[i]) {
+        (index > -1 && array.length > 0) ? array[index]['color'] = '#006400' :
+          document.getElementById('selected_profile').style.backgroundColor = '#006400';
+        ;
       }
     }
     // to find in series3
-    for(let i=0;i<this.alphabetSeries3.length;i++){
-      if(displayname.charAt(0)===this.alphabetSeries3[i]){
-        (index > -1 && array.length > 0) ?  array[index]['color']= '#C71585' :
-        document.getElementById('selected_profile').style.backgroundColor = '#C71585' ;
+    for (let i = 0; i < this.alphabetSeries3.length; i++) {
+      if (displayname.charAt(0) === this.alphabetSeries3[i]) {
+        (index > -1 && array.length > 0) ? array[index]['color'] = '#C71585' :
+          document.getElementById('selected_profile').style.backgroundColor = '#C71585';
       }
     }
     // to find in series4
-    for(let i=0;i<this.alphabetSeries4.length;i++){
-      if(displayname.charAt(0)===this.alphabetSeries4[i]){
-        (index > -1 && array.length > 0) ? array[index]['color'] ='#6A5ACD':
-        document.getElementById('selected_profile').style.backgroundColor = '#6A5ACD' ;
+    for (let i = 0; i < this.alphabetSeries4.length; i++) {
+      if (displayname.charAt(0) === this.alphabetSeries4[i]) {
+        (index > -1 && array.length > 0) ? array[index]['color'] = '#6A5ACD' :
+          document.getElementById('selected_profile').style.backgroundColor = '#6A5ACD';
       }
     }
     // to find in series5
-    for(let i=0;i<this.alphabetSeries5.length;i++){
-      if(displayname.charAt(0)===this.alphabetSeries5[i]){
+    for (let i = 0; i < this.alphabetSeries5.length; i++) {
+      if (displayname.charAt(0) === this.alphabetSeries5[i]) {
         (index > -1 && array.length > 0) ? array[index]['color'] = '#B22222' :
-       document.getElementById('selected_profile').style.backgroundColor = '#B22222' ;
-       ;
+          document.getElementById('selected_profile').style.backgroundColor = '#B22222';
+        ;
       }
     }
 
@@ -1171,7 +1182,7 @@ export class AppHeaderComponent implements OnInit {
       this.workflowService.mainMenuRouter$.next('');
     }, 100);
     this.checkTrainingProgress();
-    this.workflowService.selectedIndexPipelineId='';
+    this.workflowService.selectedIndexPipelineId = '';
   }
   //check training in progress
   checkTrainingProgress() {
@@ -1403,36 +1414,36 @@ export class AppHeaderComponent implements OnInit {
   }
   /**opening slider component and closing slider component  */
   openUserMetaTagsSlider() {
-    this.currentRouteData=this.router.url;
-    if(this.onboardingOpened == false){
+    this.currentRouteData = this.router.url;
+    if (this.onboardingOpened == false) {
       this.sliderComponent.openSlider("#supportOnboarding", "width500");
       this.onboardingOpened = true;
     }
-    else if(this.onboardingOpened== true){
+    else if (this.onboardingOpened == true) {
       this.closeUserMetaTagsSlider();
     }
-   }
+  }
   closeUserMetaTagsSlider() {
-     if( this.onboardingOpened == true){
+    if (this.onboardingOpened == true) {
       this.sliderComponent.closeSlider("#supportOnboarding");
       this.onboardingOpened = false;
       this.onBoardingComponent.closeSupport();
-     }
-   }
-  emitStatus(event) {
-    this.displyStatusBar=event;
-  }
-  closeStatusBar(){
-    if(this.displyStatusBar){
-      this.displyStatusBar=false;
     }
-    else{
-      this.displyStatusBar=true;
+  }
+  emitStatus(event) {
+    this.displyStatusBar = event;
+  }
+  closeStatusBar() {
+    if (this.displyStatusBar) {
+      this.displyStatusBar = false;
+    }
+    else {
+      this.displyStatusBar = true;
     }
     // this.closeStatus.emit(false);
   }
-   //track checklist count and show count number
-   trackChecklist() {
+  //track checklist count and show count number
+  trackChecklist() {
     let arr = [];
     let Index = [];
     this.tourData.forEach((item) => {
@@ -1455,27 +1466,27 @@ export class AppHeaderComponent implements OnInit {
     this.checklistCount = count;
     this.percentCaluculate();
   }
-  percentCaluculate(){
-    if(this.checklistCount){
-      this.progressPrecent = (this.checklistCount/6)*(100);
+  percentCaluculate() {
+    if (this.checklistCount) {
+      this.progressPrecent = (this.checklistCount / 6) * (100);
     }
     else {
       this.progressPrecent = 0;
     }
   }
-  viewCheckList(){
+  viewCheckList() {
     this.openUserMetaTagsSlider();
-     this.onBoardingComponent.openCheckList();
+    this.onBoardingComponent.openCheckList();
   }
-  openSDK(){
+  openSDK() {
     this.openOrCloseSearchSDK();
   }
 
-  clearRecords(search : string) {
-    if(search == 'workspace_search') {
+  clearRecords(search: string) {
+    if (search == 'workspace_search') {
       this.workspace_search = ''
     }
-    if(search == 'field_name') {
+    if (search == 'field_name') {
       this.field_name = ''
     }
   }
@@ -1486,29 +1497,56 @@ export class AppHeaderComponent implements OnInit {
 
   closeBrowseWorkspace() {
     if (this.browseWorkspaceRef && this.browseWorkspaceRef.close) {
-    this.browseWorkspaceRef.close();
+      this.browseWorkspaceRef.close();
+      if (this.isJoinedClicked) this.getAppControlListData();
     }
   }
   JoinWorkspace(workspace, i) {
-    const payload : any[] = this.currentAppControlList.requestedAccounts
-    payload.push({ acctId : workspace._id})
+    const payload: any[] = this.currentAppControlList.requestedAccounts
+    payload.push({ acctId: workspace._id })
 
     const quaryparms: any = {
       type: 'joinAccount'
     };
-    this.service.invoke('post.requestToDomains', quaryparms, payload).subscribe((res)=> {
-      if(res.ok === 1){
-        this.notifyAccount = true
+    this.service.invoke('post.requestToDomains', quaryparms, payload).subscribe((res) => {
+      if (res.ok === 1) {
+        this.notifyAccount = true;
+        this.isJoinedClicked = true;
         this.notifyAccountInfo = workspace.displayName ? `Successfully Joined ${workspace.displayName}` : `Successfully Joined ${workspace.accountName}`;
-        this.openBrowseWorkspace(false)
+        const requestedAccounts = this.currentAppControlList.requestedAccounts
+
+        for (let index = 0; index < this.WorkspaceList.length; index++) {
+          const element = this.WorkspaceList[index];
+          let account = requestedAccounts[i]
+          if (element._id == workspace._id) {
+            this.WorkspaceList[index].alreadyJoined = true
+          }
+        }
+        // this.openBrowseWorkspace(false)
         setTimeout(() => {
           this.notifyAccount = false
         }, 1000)
       }
     },
-    errRes => {
-      this.notifyAccountInfo = workspace.displayName ? `Failed to Join ${workspace.displayName}` : `Failed to Join ${workspace.accountName}`;
-    });
+      errRes => {
+        this.notifyAccountInfo = workspace.displayName ? `Failed to Join ${workspace.displayName}` : `Failed to Join ${workspace.accountName}`;
+      });
+  }
+  //appcontrol list API
+  getAppControlListData() {
+    this.associatedAccounts = [];
+    const quaryparms: any = { userId: this.userId };
+    this.service.invoke('app.controls', quaryparms).subscribe((res) => {
+      this.associatedAccounts = res.associatedAccounts;
+      const storage = window.localStorage.getItem('jStorage');
+      let updateAssociatedAccounts = JSON.parse(storage);
+      updateAssociatedAccounts.currentAccount.associatedAccounts = this.associatedAccounts;
+      window.localStorage.setItem('jStorage', JSON.stringify(updateAssociatedAccounts));
+      this.isJoinedClicked = false;
+    },
+      errRes => {
+        console.log("error", errRes);
+      });
   }
 }
 

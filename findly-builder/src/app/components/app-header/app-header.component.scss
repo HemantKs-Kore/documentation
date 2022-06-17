@@ -32,8 +32,9 @@
         outline: none;
         cursor: pointer;
         &.landing-screen{
-            width: 141px;
+            width: auto;
             height: 40px;
+            margin-left: -11px;
         }
         &.no-landing-screen{
             height: 22px;
@@ -694,7 +695,7 @@
                                     overflow: hidden;
                                     white-space: nowrap;
                                     text-overflow: ellipsis;
-                                    text-transform: capitalize;
+//                                     text-transform: capitalize;
                                 }
                                 .u-mail{
                                     font-weight: 400;
