@@ -114,7 +114,7 @@
                 <li class="nav-item app-dropdown">
                     <div class="kr-sg-dropdowns" ngbDropdown #myDrop="ngbDropdown" [placement]="'bottom-center'">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle
+                            <button class="dropdown-toggle dropdown-input text-truncate" title="{{appName}}" id="dropdownBasic1" ngbDropdownToggle
                                 (click)="getAllApps()">{{appName}}</button>
                             <ul class="dropdown-menu content-menu" ngbDropdownMenu>
                                 <div class="search-assist-apps">
@@ -323,12 +323,12 @@
 
                 <li class="nav-item workspace-data">
                     <div class="kr-sg-dropdowns workspace-dropdwon" ngbDropdown>
-                        <button type="button" tooltipClass="tooltip-global-" container="'body'" placement='left'  class="dropdown-input workspace-btn" id="workspace" ngbDropdownToggle (click)="dropdownToggle()" >
-                          <div class="workspace-active">
-                            <div class="alphabet-name"  [ngStyle]="{'background-color':selectAccountDetails.color}" id="profiledisplay">{{selected_profile_display}}</div>
-                            <div class="name-workspace">{{selectAccountDetails.accountName | lowercase}}</div>
-                            <i class="arrow-icon si-dropdownsort"></i>
-                        </div>
+                        <button type="button" tooltipClass="tooltip-global-" container="'body'" ngbTooltip="{{selectAccountDetails.accountName | lowercase}}" placement='left' class="dropdown-input workspace-btn" id="workspace" ngbDropdownToggle (click)="dropdownToggle()" >
+                            <div class="workspace-active">
+                                <div class="alphabet-name"  [ngStyle]="{'background-color':selectAccountDetails.color}" id="profiledisplay">{{selected_profile_display}}</div>
+                                <div class="name-workspace text-truncate" title="{{selectAccountDetails.accountName | lowercase}}">{{selectAccountDetails.accountName | lowercase}}</div>
+                                <i class="arrow-icon si-dropdownsort"></i>
+                            </div>
                         </button>
                         <ul class="dropdown-menu-content" aria-labelledby="workspace" ngbDropdownMenu>
                             <div class="current-workspace">
@@ -554,6 +554,7 @@
                                     <div class="member-count" style="white-space: nowrap;">Created by: {{workspace.userFullName}}</div>
                                     <div class="member-count">{{workspace.usersCount}} Members</div>
                                 </div>
+                                <!-- <img src="assets/icons/join-celebrations.gif" class="joined-animation"> -->
                                 <button class="joined-btn" [ngClass]="{'disabled':workspace.alreadyJoined}" [disabled]="workspace.alreadyJoined"
                                  (click)="JoinWorkspace(workspace, i)">{{(workspace.alreadyJoined) ? 'Joined' : 'Join'}}</button>
                             </div>
