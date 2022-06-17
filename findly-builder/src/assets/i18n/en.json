@@ -677,7 +677,8 @@
         "okay": "Okay",
         "no_thanks": "No, Thanks",
         "close": "Close",
-        "done": "Done"
+        "done": "Done",
+        "cancel_request_sent": "Cancel Request Sent"
     },
     "credentials": {
         "no_configured_credentials": "You haven’t configured any credentials yet!",

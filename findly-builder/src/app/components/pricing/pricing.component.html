@@ -6,6 +6,19 @@
     <button class="kr-sg-button-primary btn_lg" (click)="selectModal('choose_plan')"><i class="si-publish si-icon"></i>Upgrade Plan</button>
     </div>
   </div>
+
+
+    <div class="info-note proInfo proInfoSuccess row m-0">
+      <div class="col-10 d-flex align-items-center p-0">
+        <span class="info-proTip-icon"><i class="si-green-check"></i></span>
+        <span class="info-text">Your previous payment of $100 is processed successfully. You can Publish your bot now to upgrade to the Standard plan.</span>
+      </div>
+      <div class="close-info col-2 text-right">
+        <span class="info-proTip-close" (click)="proInfo=true"><i class="si-close"></i></span>
+      </div>
+    </div>
+
+
   <perfect-scrollbar class="pricing-scroll">
     <div class="pricing-details-main-sec">
       
@@ -45,16 +58,21 @@
                       <button class="kr-sg-button-ghost btn_md" data-toggle="modal" data-target="#viewPlanModal">View Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
                     </div>
                     <div class="plan-change">
-                      <button class="kr-sg-button-ghost btn_md" (click)="selectModal('choose_plan')">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
-                      <!-- <button class="kr-sg-button-ghost btn_md" (click)="openPopup5();">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button> -->
+                      <!-- <button class="kr-sg-button-ghost btn_md" (click)="selectModal('choose_plan')">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button> -->
+                      <button class="kr-sg-button-ghost btn_md" (click)="openPopup5();">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
 
                       
                     </div>
                   </div>
                 </div>
-                <div class="tile-plan-status plan-status-active">
+                <!-- <div class="tile-plan-status plan-status-active">
                   <div class="plan-subscription"><span class="plan-current-status"></span> Active</div>
                   <div class="plan-subscription-duration">{{(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'?'Till  ':''}}{{(currentSubscriptionPlan?.subscription?.planName|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MMM.YYYY'}}</div>
+                </div> -->
+
+                <div class="tile-plan-status plan-status-cancel">
+                  <div class="plan-subscription"><span class="plan-current-status"></span> {{"plan.cancel_request_sent" | translate}}</div>
+                  <div class="plan-subscription-duration">{{"plan.revert_cancellation_btn" | translate}}</div>
                 </div>
               </div>
 
@@ -765,7 +783,7 @@
   <perfect-scrollbar>
     <div class="modal-body">
         <!-- cancel subscription ui screen start here -->
-        <div class="row col-12 m-0 cancel-subscription-block">
+        <div class="row col-12 m-0 cancel-subscription-block d-none">
           <div class="col-6">
             <div class="order-img">
               <img src="assets/images/pricing-plan/plan-order/payment-hold.svg" class="order-stage-img" />
@@ -832,6 +850,92 @@
           </div>
         </div>
         <!-- cancel subscription ui screen ends here -->
+
+        <!-- add overage plan ui screen start from here -->
+        <div class="row col-12 m-0 add-overage-block">
+          <div class="col-5">
+            <div class="order-img">
+              <img src="assets/images/pricing-plan/plan-order/order-cart.svg" class="order-stage-img" />
+            </div>
+          </div>
+          <div class="col-7">
+           <section class="add-overage-section">
+            <div class="order-header text-center">Order Summary</div>
+            <div class="order-summary-table">
+              <div class="row order-summary-table-body">
+                <div class="col col-lg-10">
+                  <div class="order-summary-table-header">PLAN</div>
+                </div>
+                <div class="col col-lg-2">
+                  <div class="order-summary-table-header text-right">AMOUNT</div>
+                </div>
+              </div>
+
+              <div class="row order-summary-table-body">
+                <div class="col col-lg-10">
+                  <div class="order-summary-table-row">
+                    <div class="order-summary-header">Document Overage</div>
+                    <div class="count-btn-group">
+                      <div class="count-btn count-dec">-</div>
+                      <div class="count-input"><input class="count-value" type="text" value="1" name="count-num" title="count-num" /></div>
+                      <div class="count-btn count-inc">+</div>
+                    </div>
+                    <div class="count-amount">10 k</div>
+                  </div>
+                </div>
+                <div class="col col-lg-2 d-flex align-items-center">
+                  <div class="order-summary-table-row text-right">
+                    <div class="row-amount-total">$ 199</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row order-summary-table-body">
+                <div class="col col-lg-10">
+                  <div class="order-summary-table-row">
+                    <div class="order-summary-header">Queries Overage</div>
+                    <div class="count-btn-group">
+                      <div class="count-btn count-dec">-</div>
+                      <div class="count-input"><input class="count-value" type="text" value="1" name="count-num" title="count-num" /></div>
+                      <div class="count-btn count-inc">+</div>
+                    </div>
+                    <div class="count-amount">10 k</div>
+                  </div>
+                </div>
+                <div class="col col-lg-2 d-flex align-items-center">
+                  <div class="order-summary-table-row text-right">
+                    <div class="row-amount-total">$ 199</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row order-summary-table-body table-footer">
+                <div class="col col-lg-10">
+                  <div class="order-summary-table-row">
+                    <div class="order-summary-header">Total Charges</div>
+                  </div>
+                </div>
+                <div class="col col-lg-2 d-flex align-items-center">
+                  <div class="order-summary-table-row text-right">
+                    <div class="row-amount-total">$ 199</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="order-compare-plan">
+              <div class="order-suggation-type">
+                <div class="suggation-text">You can also compare and upgrade to Enterprise plan</div>
+                <div class="suggation-text">Pro Plan - 50K Documents and 100K Queries per month.</div>
+              </div>
+              <div class="compare-plans-link">Compare all plans</div>
+            </div>
+
+           </section>
+          </div>
+        </div>
+         <!-- add overage plan ui screen ends here -->
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
