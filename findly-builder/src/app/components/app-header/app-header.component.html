@@ -554,7 +554,7 @@
                                     <div class="member-count" style="white-space: nowrap;">Created by: {{workspace.userFullName}}</div>
                                     <div class="member-count">{{workspace.usersCount}} Members</div>
                                 </div>
-                                <!-- <img src="assets/icons/join-celebrations.gif" class="joined-animation"> -->
+                                <img src="assets/icons/join-celebrations.gif" class="joined-animation">
                                 <button class="joined-btn" [ngClass]="{'disabled':workspace.alreadyJoined}" [disabled]="workspace.alreadyJoined"
                                  (click)="JoinWorkspace(workspace, i)">{{(workspace.alreadyJoined) ? 'Joined' : 'Join'}}</button>
                             </div>
