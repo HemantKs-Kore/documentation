@@ -789,7 +789,8 @@
         "connection_success": "Connection authenticated successfully",
         "connection_failed": "Connection Authentication failed",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "no_content": "No content available"
     },
     "actions": {
         "actions": "Actions",

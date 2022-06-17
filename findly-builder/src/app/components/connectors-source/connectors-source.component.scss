@@ -487,6 +487,7 @@
 
                                                 .sync-card-link {
                                                     color: #0D6EFD;
+                                                    cursor: pointer;
                                                 }
                                             }
                                         }
@@ -760,6 +761,12 @@
 
                                         .content-body {
                                             border-bottom: 1px solid transparent !important;
+                                        }
+
+                                        .no-content {
+                                            text-align: center;
+                                            padding-top: 20px;
+                                            font-weight: 600;
                                         }
                                     }
                                 }

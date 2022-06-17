@@ -144,7 +144,7 @@
                                             <div class="step-data-title">{{'connectors.step_4'|translate}}</div>
                                             <div class="steps-info-sec">
                                                 <div class="h-title">{{'connectors.authentication'|translate}}</div>
-                                                <div class="text-desc">{{'connectors.upon_the_success'|translate}}<br /><br />{{selectedConnector?.connector_name}} {{selectedConnector?.content_now_captured}} {{selectedConnector?.connector_name}} {{'connectors.will_synchronize_automatically'|translate}}</div>
+                                                <div class="text-desc">{{'connectors.upon_the_success'|translate}}<br /><br />{{selectedConnector?.connector_name}} {{'connectors.content_now_captured'|translate}} {{selectedConnector?.connector_name}} {{'connectors.will_synchronize_automatically'|translate}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -270,7 +270,8 @@
                             </li>                                                      
                         </ul>
 
-                        <div class="tab-content" [ngSwitch]="selectedTab">                           
+                        <div class="tab-content" [ngSwitch]="selectedTab">    
+                            <!--Overview tab-->                       
                             <div class="tab-pane active" *ngSwitchCase="'overview'">
                                 <perfect-scrollbar class="tab-content-scroll-data">
                                     <div class="overview-tab-data">
@@ -293,13 +294,14 @@
                                                 <div class="source-card sync-source-card">
                                                     <div class="sync-card-title">{{'connectors.synchronization'|translate}}</div>
                                                     <div class="sync-card-btn"><button class="kr-sg-button-primary btn_lg" (click)="ingestConnector(true)">{{'connectors.synchronize_content_now'|translate}}</button></div>
-                                                    <div class="sync-card-desc">{{'connectors.you_can_also_configure_your'|translate}} <span class="sync-card-link">{{'connectors.sync_frequency'|translate}}.</span></div>
+                                                    <div class="sync-card-desc">{{'connectors.you_can_also_configure_your'|translate}} <span class="sync-card-link" (click)="selectedTab='configurations'">{{'connectors.sync_frequency'|translate}}.</span></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </perfect-scrollbar>
                             </div>
+                            <!--Connection Settings tab-->
                             <div class="tab-pane active" *ngSwitchCase="'connectionSettings'">
                                 <perfect-scrollbar class="tab-content-scroll-data">
                                 <div class="connection-settings-tab-data">
@@ -349,6 +351,7 @@
                                 </div>
                                 </perfect-scrollbar>
                             </div>
+                            <!--content list tab-->
                             <div class="tab-pane active" *ngSwitchCase="'content'">
                                 <perfect-scrollbar class="tab-content-scroll-data">
                                 <div class="content-settings-tab-data">
@@ -372,14 +375,16 @@
                                                     <div class="col-4 text-overflow" [title]="content?.url"><a [href]="content?.url" class="url-link" target="_blank">{{content?.url}}</a></div>
                                                     <div class="col-4">{{content?.lastUpdatedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
                                                 </div>
+                                                <div *ngIf="overViewData.content?.length===0" class="no-content">{{'connectors.no_content'|translate}}</div>
                                             </section>
-                                            <app-record-pagination [totalRecord]='total_records' [limitpage]='10' (pageChanged)="paginate($event)">
+                                            <app-record-pagination [totalRecord]='total_records' [limitpage]='10' (pageChanged)="paginate($event)" *ngIf="overViewData.content?.length">
                                             </app-record-pagination>                               
                                         </div>
                                     </div>
                                 </div>
                                 </perfect-scrollbar>
                             </div>
+                            <!--configuration or sync frequency tab-->
                             <div class="tab-pane active" *ngSwitchCase="'configurations'">
                                 <perfect-scrollbar class="tab-content-scroll-data">
                                 <div class="configurations-tab-data">

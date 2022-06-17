@@ -91,6 +91,8 @@ export class ConnectorsSourceComponent implements OnInit {
     }
     else if (type === 'close') {
       this.deleteModelRef.close();
+      this.isAuthorizeStatus = false;
+      this.isPopupDelete = true;
       this.getConnectors();
     }
   }
@@ -231,6 +233,8 @@ export class ConnectorsSourceComponent implements OnInit {
       this.selectedConnector = {};
       this.isEditable = false;
       this.connectorId = '';
+      this.isAuthorizeStatus = false;
+      this.isPopupDelete = true;
       this.syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
       this.configurationObj = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '' };
       this.addConnectorSteps = this.addConnectorSteps.map((item, index) => {
