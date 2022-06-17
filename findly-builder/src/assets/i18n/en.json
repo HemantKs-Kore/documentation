@@ -676,7 +676,8 @@
         "excess": "Excess",
         "okay": "Okay",
         "no_thanks": "No, Thanks",
-        "close": "Close"
+        "close": "Close",
+        "done": "Done"
     },
     "credentials": {
         "no_configured_credentials": "You haven’t configured any credentials yet!",

@@ -907,6 +907,149 @@
 }
 // payment gateway order summary screen css ends here
 
+// cancel subscription css start from here
+::ng-deep .cancel_subscription_new {
+    .modal-dialog {
+        height: calc(100% - 40px) !important;
+        max-height: 689px;
+        width: 1116px;
+        max-width: 100% !important;
+        .modal-content {
+            background: #FFFFFF;
+            box-shadow: 0px 20px 40px rgb(32 33 36 / 20%);
+            border-radius: 4px !important;
+            position: relative;
+            .modal-header {
+                display: flex !important;
+                align-items: center;
+                justify-content: space-between;
+                box-shadow: none;
+                .title {
+                    font-weight: 700;
+                    font-size: 16px;
+                    line-height: 19px;
+                    color: #000000;
+                }
+            }
+            .modal-body {
+                padding: 10px 30px !important;
+                .cancel-subscription-block{
+                    .cancel-subscription-section{
+                     .terms-list-block{
+                        font-weight: 400;
+                        font-size: 13px;
+                        color: #5F6368;
+                        .terms-list{
+                            display: flex;
+                            align-items: flex-start;
+                            padding: 10px 0;
+                            .check-icon{
+                                padding: 0 10px 0 0;
+                                .si-check{
+                                    font-size: 11px;
+                                    &::before{
+                                        color: #202124;
+                                    }
+                                }
+                            }
+                        }
+                     }
+                     .reason-header{
+                        font-weight: 500;
+                        font-size: 14px;
+                        line-height: 17px;
+                        color: #202124;
+                        padding: 26px 0 20px 0;
+                     }
+                     .reason-check-list{
+                        .group-checkbox{
+                            .kr-sg-checkbox{
+                               padding: 10px 0;
+                               margin-bottom: 8px;
+                               border-bottom: 1px solid #E4E5E7;
+                                .checkbox-custom{
+                                   opacity: 0;
+                                   position: absolute;
+                                   right: 0;
+                                   cursor: pointer;
+                                   margin: 0;
+                                   height: auto;
+                                   + .checkbox-custom-label{
+                                       display: inline-block;
+                                       vertical-align: middle;
+                                       cursor: pointer;
+                                       position: relative;
+                                       font-size: 14px;
+                                       color:#202124;
+                                       margin: 0;
+                                       font-weight: normal;
+                                       width: 100%;
+                                       &::before{
+                                           content: '';
+                                           display: inline-block;
+                                           vertical-align: middle;
+                                           width: 18px;
+                                           height: 18px;
+                                           top: 0;
+                                           padding: 0;
+                                           margin-right: 12px;
+                                           text-align: center;
+                                           border-radius: 2px;
+                                           border: solid 1px #BDC1C6;
+                                           background-color: #ffffff;
+                                           margin-top: -3px;
+                                           position: absolute;
+                                           right: 0;
+                                       }
+                                   }
+                                   &:checked{
+                                       + .checkbox-custom-label{
+                                           &::before{
+                                               content: "";                   
+                                               background-color: #0D6EFD;                    
+                                               background-image: url('^assets/icons/check-white.svg');
+                                               color: #ffffff;
+                                               font-size: 12px;
+                                               background-size: 14px;
+                                               background-repeat: no-repeat;
+                                               background-position: center;
+                                               border: 0 !important;
+                                               position: absolute;
+                                               right: 0;
+                                           }
+                                       }
+                                   }
+                                }
+                            }
+                        }
+                    }
+                    .reason-comment{
+                        padding: 10px 0;
+                        .kr-sg-input-text-area{
+                            .textarea{
+                                padding: 10px 10px 10px 10px;
+                            }
+                        }
+                    }
+                    }
+                }
+            }
+            .modal-footer{
+                box-shadow: none;
+                .kr-sg-button-ghost{
+                    color: #202124;
+                }
+            }
+        }
+    }
+    .modal-footer{
+        box-shadow: none;
+        .kr-sg-button-ghost{
+            color: #202124;
+        }
+    }
+}
+// cancel subscription css ends here
 
 
 

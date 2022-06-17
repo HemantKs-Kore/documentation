@@ -46,6 +46,9 @@
                     </div>
                     <div class="plan-change">
                       <button class="kr-sg-button-ghost btn_md" (click)="selectModal('choose_plan')">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
+                      <!-- <button class="kr-sg-button-ghost btn_md" (click)="openPopup5();">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button> -->
+
+                      
                     </div>
                   </div>
                 </div>
@@ -588,7 +591,7 @@
   </div> -->
 </kr-modal>
 
-<kr-modal modalType="center" modalClass="modal_popups_ payment_gateway" #cancelSubscriptionModel>
+<kr-modal modalType="center" modalClass="modal_popups_ payment_gateway" #cancelSubscriptionModelNew>
   <div class="modal-header">
     <div class="title">{{"plan.order_confirmation"| translate}}</div>
     <div class="close_icon">
@@ -699,7 +702,6 @@
           </div>
         </div>
         <!-- payment mode hold screen ends here -->
-
       </div>
       <!-- <ul class="cancel-subscription-list">
         <li>{{"plan.end_of_billing_cycle"| translate}}.
@@ -748,6 +750,92 @@
     <button class="kr-sg-button-primary btn_lg" (click)="closeCancelSubsPopup()">{{"plan.proceed"| translate}}</button>
     <button class="kr-sg-button-ghost btn_lg" (click)="cancelSubscription()">{{"plan.no_thanks"|
       translate}}</button>
+  </div>
+</kr-modal>
+
+
+
+<kr-modal modalType="center" modalClass="modal_popups_ cancel_subscription_new" #cancelSubscriptionModel>
+  <div class="modal-header">
+    <div class="title">{{"plan.cancel_subscription"| translate}}</div>
+    <div class="close_icon">
+      <img (click)="closeCancelSubsPopup()" src="assets/icons/modal-close.svg">
+    </div>
+  </div>
+  <perfect-scrollbar>
+    <div class="modal-body">
+        <!-- cancel subscription ui screen start here -->
+        <div class="row col-12 m-0 cancel-subscription-block">
+          <div class="col-6">
+            <div class="order-img">
+              <img src="assets/images/pricing-plan/plan-order/payment-hold.svg" class="order-stage-img" />
+            </div>
+          </div>
+          <div class="col-6">
+           <section class="cancel-subscription-section">
+            <div class="terms-list-block">
+              <div class="terms-list">
+                <div class="check-icon"><i class="si-check"></i></div>
+                <div>
+                  Your Subscription is valid till the end of billing cycle - 21 Nov 2021.
+                </div>
+              </div>
+              <div class="terms-list">
+                <div class="check-icon"><i class="si-check"></i></div>
+                <div>
+                  Post billing cycle your app will not respond to the end users
+                </div>
+              </div>
+              <div class="terms-list">
+                <div class="check-icon"><i class="si-check"></i></div>
+                <div>
+                  However, you will have access to your app for 15 more days after cancellantion to either reactive or take a backup of your application. After 15 days your app will be permanently deleted.
+                </div>
+              </div>
+            </div>
+            <div class="reason-header">What is the reason you want to cancel?</div>
+
+            <div class="reason-check-list">
+              <div class="group-checkbox">
+                <div class="kr-sg-checkbox d-block">
+                  <input id="checkbox_grp3" class="checkbox-custom" type="checkbox">
+                  <label for="checkbox_grp3" class="checkbox-custom-label">{{"plan.it’s_too_costly"| translate}}</label>
+                </div>
+                <div class="kr-sg-checkbox d-block">
+                  <input id="checkbox_grp1" class="checkbox-custom" type="checkbox">
+                  <label for="checkbox_grp1" class="checkbox-custom-label">{{"plan.found_another_product"|
+                    translate}}</label>
+                </div>
+                <div class="kr-sg-checkbox d-block">
+                  <input id="checkbox_grp4" class="checkbox-custom" type="checkbox">
+                  <label for="checkbox_grp4" class="checkbox-custom-label">{{"plan.don’t_use_it_enough"| translate}}</label>
+                </div>
+                <div class="kr-sg-checkbox d-block">
+                  <input id="checkbox_grp5" class="checkbox-custom" type="checkbox">
+                  <label for="checkbox_grp5" class="checkbox-custom-label">{{"plan.don’t_need_it_now"| translate}}</label>
+                </div>
+                <div class="kr-sg-checkbox d-block">
+                  <input id="checkbox_grp15" class="checkbox-custom" type="checkbox">
+                  <label for="checkbox_grp15" class="checkbox-custom-label">{{"plan.other"| translate}}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="reason-comment">
+              <div class="kr-sg-input-text-area">
+                <div class="label-text">{{"plan.comments"| translate}}</div>
+                <textarea placeholder="Start typing here" id="text_area" class="input-text"></textarea>
+              </div>
+            </div>
+
+           </section>
+          </div>
+        </div>
+        <!-- cancel subscription ui screen ends here -->
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer text-right">
+    <button class="kr-sg-button-primary btn_lg" (click)="closeCancelSubsPopup()">{{"plan.done"| translate}}</button>
   </div>
 </kr-modal>
 
@@ -811,3 +899,5 @@
       </div>
     </div>
   </div>
+
+
