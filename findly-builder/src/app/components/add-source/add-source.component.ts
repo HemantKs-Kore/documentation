@@ -281,7 +281,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     }
-
+    this.appSelectionService.getTourConfig();
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
