@@ -790,7 +790,8 @@
         "connection_failed": "Connection Authentication failed",
         "yes": "Yes",
         "no": "No",
-        "no_content": "No content available"
+        "no_content": "No content available",
+        "sync_progress": "Sync in progress"
     },
     "actions": {
         "actions": "Actions",
