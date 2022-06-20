@@ -152,6 +152,7 @@ export class AppHeaderComponent implements OnInit {
   currentAppControlList: any;
   notifyAccount: boolean = false;
   notifyAccountInfo: any;
+  isJoinedClicked: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -318,8 +319,8 @@ export class AppHeaderComponent implements OnInit {
     var matches = name.split(/(?<=^\S+)\s/)
     var firstName = matches[0];
     var lastName = matches[1];
-    var firstLetter = firstName.charAt(0);
-    var secondLetter = lastName.charAt(0);
+    var firstLetter =firstName?firstName.charAt(0):'';
+    var secondLetter =lastName?lastName.charAt(0):'';
     this.profile_display = firstLetter.concat(secondLetter);
     this.profile_display = this.profile_display.toUpperCase();
     this.setprofilebackground(this.profile_display);
@@ -512,10 +513,10 @@ export class AppHeaderComponent implements OnInit {
           this.WorkspaceList.splice(index, 1)
         }
       }
-      const key = 'accountId';
-      let arrayUniqueByKey = [...new Map(this.associatedRedAccounts.map(item => [item[key], item])).values()];
-      this.associatedAccounts = [...this.associatedAccounts, ...arrayUniqueByKey]
-      this.associatedAccounts = [...new Map(this.associatedAccounts.map(item => [item[key], item])).values()];
+      // const key = 'accountId';
+      // let arrayUniqueByKey = [...new Map(this.associatedRedAccounts.map(item => [item[key], item])).values()];
+      // this.associatedAccounts = [...this.associatedAccounts, ...arrayUniqueByKey]
+      // this.associatedAccounts = [...new Map(this.associatedAccounts.map(item => [item[key], item])).values()];
     }
   }
 
@@ -1020,7 +1021,6 @@ export class AppHeaderComponent implements OnInit {
     });
   }
   checkroute() {
-
     this.headerService.fromCallFlowExpand.subscribe(data => {
       this.fromCallFlow = data.title;
       this.toShowAppHeader = false;
@@ -1503,7 +1503,7 @@ export class AppHeaderComponent implements OnInit {
   closeBrowseWorkspace() {
     if (this.browseWorkspaceRef && this.browseWorkspaceRef.close) {
       this.browseWorkspaceRef.close();
-      // this.cancelButton()
+      if (this.isJoinedClicked) this.getAppControlListData();
     }
   }
   JoinWorkspace(workspace, i) {
@@ -1515,16 +1515,17 @@ export class AppHeaderComponent implements OnInit {
     };
     this.service.invoke('post.requestToDomains', quaryparms, payload).subscribe((res) => {
       if (res.ok === 1) {
-        this.notifyAccount = true
+        this.notifyAccount = true;
+        this.isJoinedClicked = true;
         this.notifyAccountInfo = workspace.displayName ? `Successfully Joined ${workspace.displayName}` : `Successfully Joined ${workspace.accountName}`;
         const requestedAccounts = this.currentAppControlList.requestedAccounts
 
         for (let index = 0; index < this.WorkspaceList.length; index++) {
           const element = this.WorkspaceList[index];
-            let account = requestedAccounts[i]
-            if (element._id == workspace._id) {
-              this.WorkspaceList[index].alreadyJoined = true
-            }
+          let account = requestedAccounts[i]
+          if (element._id == workspace._id) {
+            this.WorkspaceList[index].alreadyJoined = true
+          }
         }
         // this.openBrowseWorkspace(false)
         setTimeout(() => {
@@ -1534,6 +1535,22 @@ export class AppHeaderComponent implements OnInit {
     },
       errRes => {
         this.notifyAccountInfo = workspace.displayName ? `Failed to Join ${workspace.displayName}` : `Failed to Join ${workspace.accountName}`;
+      });
+  }
+  //appcontrol list API
+  getAppControlListData() {
+    this.associatedAccounts = [];
+    const quaryparms: any = { userId: this.userId };
+    this.service.invoke('app.controls', quaryparms).subscribe((res) => {
+      this.associatedAccounts = res.associatedAccounts;
+      const storage = window.localStorage.getItem('jStorage');
+      let updateAssociatedAccounts = JSON.parse(storage);
+      updateAssociatedAccounts.currentAccount.associatedAccounts = this.associatedAccounts;
+      window.localStorage.setItem('jStorage', JSON.stringify(updateAssociatedAccounts));
+      this.isJoinedClicked = false;
+    },
+      errRes => {
+        console.log("error", errRes);
       });
   }
 }

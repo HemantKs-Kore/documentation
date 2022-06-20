@@ -32,8 +32,9 @@
         outline: none;
         cursor: pointer;
         &.landing-screen{
-            width: 141px;
+            width: auto;
             height: 40px;
+            margin-left: -11px;
         }
         &.no-landing-screen{
             height: 22px;
@@ -66,6 +67,9 @@
                     outline: none;
                     position: relative;
                     transition: 0.3s all ease;
+                    @media screen and (max-width: 1201px) {
+                        margin-right: 10px;
+                    }
                     &::before {
                         content: "";
                         position: absolute;
@@ -244,6 +248,9 @@
             position: relative;
             &.app-dropdown{
                 margin: 0 10px;
+                @media screen and (max-width: 1201px) {
+                    margin: 0 5px;
+                }
                 .kr-sg-dropdowns {
                     .dropdown-open{
                         .dropdown-input{
@@ -252,7 +259,8 @@
                             font-weight: 600;
                             font-size: 12px;
                             line-height: 15px;
-                            padding: 0 25px;
+                            padding: 0 25px 0 10px;
+                            max-width: 120px;
                             &::before{
                                 right: 4px !important;
                                 top: 1px !important;
@@ -352,6 +360,9 @@
                 margin: 0 10px;
                 position: relative;
                 z-index: 9999;
+                @media screen and (max-width: 1201px) {
+                    margin: 0 5px;
+                }
                 button{
                     &.active-test{
                         background: #E4E5E7;
@@ -371,6 +382,9 @@
                 border-radius: 4px;
                 margin: 0 10px;
                 transition: 0.2s all ease;
+                @media screen and (max-width: 1201px) {
+                    margin: 0 5px;
+                }
                 &.active-train{
                     background: #E7F1FF;
                     pointer-events: none;
@@ -402,6 +416,9 @@
                 border-radius: 4px;
                 margin: 0 10px;
                 transition: 0.2s all ease;
+                @media screen and (max-width: 1201px) {
+                    margin: 0 5px;
+                }
                 .search_icon{
                     width: 34px;
                     height: 34px;
@@ -467,6 +484,9 @@
             }
             &.notification-block{
                 margin: 0 10px;
+                @media screen and (max-width: 1201px) {
+                    margin: 0 5px;
+                }
                 .kr-sg-dropdowns {
                     &.show {
                        .dropdown-open{
@@ -588,6 +608,9 @@
                 border-radius: 4px;
                 margin: 0 10px;
                 transition: 0.2s all ease;
+                @media screen and (max-width: 1201px) {
+                    margin: 0 10px 0 5px;
+                }
                 &:hover{
                     background: #F8F9FA;
                 }
@@ -597,6 +620,9 @@
             }
             &.user_icon{
                 margin: 0 10px;
+                @media screen and (max-width: 1201px) {
+                    margin: 0 5px;
+                }
                 .top-dropdown-user {
                     &.show{
                         .dropdown-open{
@@ -771,6 +797,9 @@
                         background: #FFFFFF;
                         outline: 0;
                         transition: 0.2s all ease;
+                        @media screen and (max-width: 1201px) {
+                            padding: 8px;
+                        }
                         &:hover{
                             border: 1px solid #0D6EFD;
                         }
@@ -791,6 +820,9 @@
                                 line-height: 16px;
                                 color: #EAF6EC;
                                 margin-right: 6px;
+                                @media screen and (max-width: 1201px) {
+                                    margin: 0;
+                                }
                             }
                             .name-workspace{
                                 font-weight: 500;
@@ -798,9 +830,16 @@
                                 line-height: 16px;
                                 color: #3C4043;
                                 margin-right: 15px;
+                                max-width: 85px;
+                                @media screen and (max-width: 1201px) {
+                                    display: none;
+                                }
                             }
                             i{
                                 font-size: 15px;
+                                @media screen and (max-width: 1201px) {
+                                    display: none;
+                                }
                             }
                         }
                     }

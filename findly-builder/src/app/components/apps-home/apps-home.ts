@@ -10,6 +10,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service'
 import { AuthService } from '@kore.services/auth.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+import { AppHeaderComponent } from '../app-header/app-header.component';
 declare const $: any;
 declare var PureJSCarousel: any;
 @Component({
@@ -31,7 +32,7 @@ export class AppsListingComponent implements OnInit {
   demoOptions: boolean = false;
   createAppPopRef: any;
   onboardingpopupjourneyRef: any;
-  loadingAppcreationRef:any;
+  loadingAppcreationRef: any;
   confirmatiomAppPopRef: any;
   detailsPopUpRef: any;
   creatingInProgress = false;
@@ -77,6 +78,7 @@ export class AppsListingComponent implements OnInit {
   @ViewChild('loadingAppcreation') loadingAppcreation: KRModalComponent;
   @ViewChild('confirmatiomAppPop') confirmatiomAppPop: KRModalComponent;
   @ViewChild('detailsPopUp') detailsPopUp: KRModalComponent;
+  @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(
     public localstore: LocalStoreService,
     private service: ServiceInvokerService,
@@ -163,60 +165,61 @@ export class AppsListingComponent implements OnInit {
     this.displayApp = true;
     this.hideWelcomepage = false;
   }
-  exploreSampleDate(){
-    this.hideWelcomepage = false; 
-    if(this.steps=='demoOptions' && this.demoType){
-      this.steps='showSearchExperience'
-      this.progressBarFun(3,2)
+  exploreSampleDate() {
+    this.hideWelcomepage = false;
+    if (this.steps == 'demoOptions' && this.demoType) {
+      this.steps = 'showSearchExperience'
+      this.progressBarFun(3, 2)
     }
-    else if(this.steps=='showSearchExperience' && this.SearchExperianceType){
-      this.progressBarFun(3,3);
+    else if (this.steps == 'showSearchExperience' && this.SearchExperianceType) {
+      this.progressBarFun(3, 3);
       this.appCreationAtOnboarding();
     }
-    else{
-        if(this.newApp.name){
-          this.steps='demoOptions';
-        }
+    else {
+      if (this.newApp.name) {
+        this.steps = 'demoOptions';
+      }
     }
 
   }
-  openAppLoadingScreen(){
+  openAppLoadingScreen() {
     this.loadingAppcreationRef = this.loadingAppcreation.open();
+    this.CloseAppLoadingScreen();
   }
-  CloseAppLoadingScreen(){
+  CloseAppLoadingScreen() {
     setTimeout(() => {
       this.loadingAppcreationRef.close()
-    }, 6000);
+    }, 5000);
   }
 
   selectDemoType(data) {
     this.demoType = data;
   }
-  selectSearchExperianceType(data){
+  selectSearchExperianceType(data) {
     this.SearchExperianceType = data;
 
   }
-  back(){
+  back() {
     this.validateAppname = false;
-    if(this.steps=='showSearchExperience'){
-      this.steps='demoOptions';
-      this.SearchExperianceType ='';
+    if (this.steps == 'showSearchExperience') {
+      this.steps = 'demoOptions';
+      this.SearchExperianceType = '';
     }
     else if (this.steps == 'demoOptions') {
       this.steps = 'displayApp';
       this.demoType = '';
     }
-    else if (this.steps == 'displayApp'){
-     this.steps ='';
-     this.progressBar.length=0
-     this.newApp.name='';
+    else if (this.steps == 'displayApp') {
+      this.steps = '';
+      this.progressBar.length = 0
+      this.newApp.name = '';
     }
   }
-  appCreationAtOnboarding(){
-    if(this.appType=='selfExplore' && this.newApp.name){
+  appCreationAtOnboarding() {
+    if (this.appType == 'selfExplore' && this.newApp.name) {
       this.validateSource();
     }
-    else if(this.appType=='sampleData' && this.newApp.name && this.SearchExperianceType){
+    else if (this.appType == 'sampleData' && this.newApp.name && this.SearchExperianceType) {
       this.validateSource();
     }
     else {
@@ -229,33 +232,35 @@ export class AppsListingComponent implements OnInit {
       this.appCreationAtOnboarding();
     }
     else {
-      if(this.appType=='sampleData'){
+      if (this.appType == 'sampleData') {
         this.exploreSampleDate();
       }
     }
   }
-  createDemoApp(obj?){   
-    if(this.SearchExperianceType){
+
+  createDemoApp(obj?) {
+    if (this.SearchExperianceType) {
       const payload = {
-        searchIndexId:obj?._id,
-        streamId:obj?.streamId,   
+        searchIndexId: obj?._id,
+        streamId: obj?.streamId,
         appType: this.demoType,
         searchBarPosition: this.SearchExperianceType,
-       }
-       this.service.invoke('post.createDemoApp',{},payload).subscribe(
-         res => {
-           if(res){
-             this.CloseAppLoadingScreen();
-             this.notificationService.notify('Demo App created Successfully', 'success'); 
-           }
-          
-         },
-         errRes => {
-           this.notificationService.notify('App creation has gone wrong', 'error');       
-         }
-       );
+      }
+      this.service.invoke('post.createDemoApp', {}, payload).subscribe(
+        res => {
+          if (res) {
+            this.notificationService.notify('Demo App created Successfully', 'success');
+            this.appSelectionService.getTourConfig();
+            this.headerService.openSearchSDK(true);
+          }
+
+        },
+        errRes => {
+          this.notificationService.notify('App creation has gone wrong', 'error');
+        }
+      );
     }
-   
+
   }
   openDetails() {
     this.detailsPopUpRef = this.detailsPopUp.open();
@@ -468,7 +473,9 @@ export class AppsListingComponent implements OnInit {
     this.service.invoke('create.app', {}, payload).subscribe(
       res => {
         this.notificationService.notify('App created successfully', 'success');
-        this.createDemoApp(res?.searchIndexes[0]);
+        if (this.appType == 'sampleData') {
+          this.createDemoApp(res?.searchIndexes[0]);
+        }
         this.mixpanel.postEvent('New App Created', {});
         self.apps.push(res);
         this.prepareApps(self.apps);
@@ -502,20 +509,19 @@ export class AppsListingComponent implements OnInit {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
       validField = false
     }
-    if (validField && this.newApp.description ) {
+    if (validField && this.newApp.name) {
       let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|<>\/?→←↑↓]+/;
       if (!specialCharacters.test(this.newApp.description)) {
+
+        if (this.appType == 'sampleData') {
+          this.openAppLoadingScreen();
+        }
         this.createFindlyApp();
       }
       else {
         this.notificationService.notify('Special characters not allowed', 'error');
       }
     }
-    if(this.newApp.name) {
-      this.createFindlyApp();
-      this.openAppLoadingScreen();
-    }
-
   }
   inputChanged(type, i?) {
     if (type == 'enterName') {

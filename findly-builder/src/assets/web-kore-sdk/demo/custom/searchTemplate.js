@@ -915,7 +915,7 @@
           <div class="cosmetics-grid-template2">\
                 <div class="arrivals-grids-template">\
                 {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                  <div class="slide-gride cosmetics-product-view" style="width:{{if isTopdown}}50%{{else}}100%{{/if}}">\
+                  <div class="slide-gride cosmetics-product-view" style="width:100%">\
                     <div class="inner-content-data">\
                       <div class="img-block">\
                         <img class="banner-img" src="${data.ecommerce_image}">\

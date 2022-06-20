@@ -3,10 +3,10 @@
         <div id="open-chat-window-no-clicks" class="open-chat-window-no-clicks"></div>
         <div class="container-fluid p-0">
             <div class="logoTabsContainer align-items-center">
-                <img src="assets/images/logos/searchassisst_logo.svg" class="logoKoreIcon landing-screen"
+                <img src="assets/images/logos/searchassist-new-logo.svg" class="logoKoreIcon landing-screen"
                     [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange
                     (click)="analyticsClick('apps',true);closeUserMetaTagsSlider()">
-                <img src="assets/images/logos/searchassisst_logo-small.svg" class="logoKoreIcon no-landing-screen"
+                <img src="assets/images/logos/searchAssistIcon-small-logo.svg" class="logoKoreIcon no-landing-screen"
                     [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange
                     (click)="analyticsClick('apps',true);closeUserMetaTagsSlider()">
                 <div class="headerTabsContainer">
@@ -114,7 +114,7 @@
                 <li class="nav-item app-dropdown">
                     <div class="kr-sg-dropdowns" ngbDropdown #myDrop="ngbDropdown" [placement]="'bottom-center'">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle
+                            <button class="dropdown-toggle dropdown-input text-truncate" title="{{appName}}" id="dropdownBasic1" ngbDropdownToggle
                                 (click)="getAllApps()">{{appName}}</button>
                             <ul class="dropdown-menu content-menu" ngbDropdownMenu>
                                 <div class="search-assist-apps">
@@ -323,12 +323,12 @@
 
                 <li class="nav-item workspace-data">
                     <div class="kr-sg-dropdowns workspace-dropdwon" ngbDropdown>
-                        <button type="button" tooltipClass="tooltip-global-" container="'body'" placement='left'  class="dropdown-input workspace-btn" id="workspace" ngbDropdownToggle (click)="dropdownToggle()" >
-                          <div class="workspace-active">
-                            <div class="alphabet-name"  [ngStyle]="{'background-color':selectAccountDetails.color}" id="profiledisplay">{{selected_profile_display}}</div>
-                            <div class="name-workspace">{{selectAccountDetails.accountName | lowercase}}</div>
-                            <i class="arrow-icon si-dropdownsort"></i>
-                        </div>
+                        <button type="button" tooltipClass="tooltip-global-" container="'body'" ngbTooltip="{{selectAccountDetails.accountName | lowercase}}" placement='left' class="dropdown-input workspace-btn" id="workspace" ngbDropdownToggle (click)="dropdownToggle()" >
+                            <div class="workspace-active">
+                                <div class="alphabet-name"  [ngStyle]="{'background-color':selectAccountDetails.color}" id="profiledisplay">{{selected_profile_display}}</div>
+                                <div class="name-workspace text-truncate" title="{{selectAccountDetails.accountName | lowercase}}">{{selectAccountDetails.accountName | lowercase}}</div>
+                                <i class="arrow-icon si-dropdownsort"></i>
+                            </div>
                         </button>
                         <ul class="dropdown-menu-content" aria-labelledby="workspace" ngbDropdownMenu>
                             <div class="current-workspace">
@@ -482,7 +482,7 @@
     </div>
     <div class="modal-header">
         <div class="logo-data">
-            <img src="assets/icons/onboarding/logo.svg">
+            <img src="assets/images/logos/searchassist-new-logo.svg">
         </div>
         <div class="close-modal" (click)="closeBrowseWorkspace()">
             <i class="si-close"></i>
@@ -549,11 +549,12 @@
                                     <span class="alphabet">{{workspace.accountShortName}}</span>
                                 </div>
                                 <div class="content-data">
-                                    <div class="w-name">{{workspace.accountName}}
+                                    <div class="w-name">{{workspace.displayName?workspace.displayName:workspace.accountName}}
                                     </div>
                                     <div class="member-count" style="white-space: nowrap;">Created by: {{workspace.userFullName}}</div>
                                     <div class="member-count">{{workspace.usersCount}} Members</div>
                                 </div>
+                                <img src="assets/icons/join-celebrations.gif" class="joined-animation">
                                 <button class="joined-btn" [ngClass]="{'disabled':workspace.alreadyJoined}" [disabled]="workspace.alreadyJoined"
                                  (click)="JoinWorkspace(workspace, i)">{{(workspace.alreadyJoined) ? 'Joined' : 'Join'}}</button>
                             </div>
