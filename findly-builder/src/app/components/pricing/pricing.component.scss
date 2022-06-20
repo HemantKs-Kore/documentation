@@ -55,8 +55,48 @@
         }
     }
 
+    // protiop in header css start from here
+    .info-note{
+        padding: 16px 16px 16px 10px;
+        // success case css
+        &.proInfoSuccess{
+            background: #EAF6EC;
+            .info-text{
+                color: #135423;
+            }
+        }
+        // Error case css
+        &.proInfoError{
+            background: #FCEAED;
+            .info-text{
+                color: #59141C;
+            }
+        }
+        // Warning case css
+        &.proInfoWarning{
+            background: #FFED96;
+            .info-text{
+                color: #806D16;
+            }
+        }
+        .info-proTip-icon{
+            padding: 0 10px 0 0;
+        }
+        .info-text{
+            color: #202124;
+        }
+        .close-info{
+            padding: 0 10px 0 0;
+            .info-proTip-close{
+                i{
+                    font-size: 10px;
+                }
+            }
+        }
+    }
+
     .pricing-scroll {
-        height: calc(100vh - 116px);
+        height: calc(100vh - 116px) !important;
     }
 
     .pricing-details-main-sec {
@@ -156,13 +196,11 @@
                             border-radius: 0px 0px 5px 5px;
                             padding: 13px 13px;
                             align-items: center;
-
                             .plan-subscription {
                                 font-weight: 500;
                                 font-size: 14px;
                                 line-height: 17px;
                                 color: #135423;
-
                                 .plan-current-status {
                                     background: #28A745;
                                     width: 8px;
@@ -175,16 +213,30 @@
                                     top: -1px;
                                 }
                             }
-
                             .plan-subscription-duration {
                                 font-weight: 400;
                                 font-size: 11px;
                                 line-height: 12px;
                                 color: #135423;
                             }
-
                             &.plan-status-active {
                                 background: #EAF6EC;
+                            }
+                            &.plan-status-cancel{
+                                display: block;
+                                text-align: center;
+                                .plan-subscription{
+                                    color: #59141C;
+                                    .plan-current-status{
+                                        background: #FF784B;
+                                        border: 1px solid #FF784B;
+                                    }
+                                }
+                                .plan-subscription-duration{
+                                    color: #0D6EFD;
+                                    padding: 7px 0 0 0;
+                                    cursor: pointer;
+                                }
                             }
                         }
                     }
@@ -267,7 +319,7 @@
                     .btn-add-overage {
                         border: 1px solid #E4E5E7;
                         border-radius: 4px;
-                        // background: #FFFFFF;
+                        background: #FFFFFF;
                         color: #0D6EFD;
                         width: 100%;
 
@@ -933,6 +985,7 @@
             }
             .modal-body {
                 padding: 10px 30px !important;
+                // cancel subscription css strat from here
                 .cancel-subscription-block{
                     .cancel-subscription-section{
                      .terms-list-block{
@@ -1026,13 +1079,166 @@
                     .reason-comment{
                         padding: 10px 0;
                         .kr-sg-input-text-area{
-                            .textarea{
+                            textarea{
                                 padding: 10px 10px 10px 10px;
                             }
                         }
                     }
                     }
                 }
+                  // cancel subscription css ends here
+
+                // add overage css start from  here
+                .add-overage-block{
+                    .order-img{
+                        img{
+                            &.order-stage-img{
+                                width: 100%;
+                            }
+                        }
+                    }
+                   .add-overage-section{
+                    .order-header{
+                        color: #5F6368;
+                        font-weight: 600;
+                        font-size: 14px;
+                        line-height: 17px;
+                        padding: 0 0 45px 0;
+                        text-align: center;
+                        &::after{
+                            content: "";
+                            position: absolute;
+                            width: 45px;
+                            height: 4px;
+                            background: #FFDA2D;
+                            left: 45%;
+                            top: 25px;
+                            z-index: 0;
+                        }
+                    }
+                    .order-summary-table{
+                        background: #F8F9FA;
+                        border-radius: 4px;
+                        padding: 35px 35px;
+                        .order-summary-header{
+                            font-weight: 400;
+                            font-size: 13px;
+                            line-height: 16px;
+                            color: #5F6368;
+                            padding: 0 0 22px 0;
+                        }
+                        .order-summary-table-body{
+                            padding: 8px 0;
+                            &.table-footer{
+                                border-top: 1px solid #E4E5E7;
+                                border-bottom: 1px solid #E4E5E7;
+                                margin-top: 30px;
+                                padding: 15px 0 15px 0;
+                            }
+                            .order-summary-table-header{
+                                color: #9AA0A6;
+                                font-weight: 500;
+                                font-size: 12px;
+                                line-height: 15px;
+                            }
+                            .order-summary-table-row{
+                                display: flex;
+                                align-items: center;
+                                justify-content: flex-start;
+                                .order-summary-header{
+                                    padding: 8px 0;
+                                    font-weight: 700;
+                                    font-size: 14px;
+                                    line-height: 17px;
+                                    color: #202124;
+                                    max-width: 150px;
+                                    text-overflow: ellipsis;
+                                    overflow: hidden;
+                                    white-space: nowrap;
+                                    display: inline-block;
+                                    min-width: auto;
+                                    width: 150px;
+                                }
+                                .row-amount-total{
+                                    font-weight: 700;
+                                    font-size: 14px;
+                                    line-height: 17px;
+                                    color: #202124;
+                                }
+                                .count-btn-group{
+                                    display: flex;
+                                    align-items: center;
+                                    padding: 0 15px 0 15px;
+                                    .count-btn{
+                                        background: #FFFFFF;
+                                        border: 1px solid #E4E5E7;
+                                        border-radius: 17px;
+                                        width: 22px;
+                                        height: 22px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        cursor: pointer;
+                                        &:hover{
+                                            background: #E7F1FF;
+                                            border: 1px solid #0D6EFD;
+                                        }
+                                    }
+                                    .count-input{
+                                        .count-value{
+                                            height: 34px;
+                                            border-radius: 4px;
+                                            border: solid 1px transparent;
+                                            background-color: transparent;
+                                            outline: none;
+                                            padding: 5px;
+                                            color: #202124;
+                                            font-size: 14px;
+                                            width: 35px;
+                                            text-align: center;
+                                            pointer-events: none;
+                                        }
+                                    }
+                                }
+                                .count-amount{
+                                    font-weight: 400;
+                                    font-size: 14px;
+                                    line-height: 20px;
+                                    color: #3C4043;
+                                    padding: 0 15px;
+                                    border-left: 1px solid #E4E5E7;
+                                }
+                            }
+                        }
+                    }
+                    .order-compare-plan{
+                        background: #F8F9FA;
+                        border-radius: 4px;     
+                        padding: 20px 30px 20px 20px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: flex-start;
+                        margin: 15px 0 0 0;
+                        .order-suggation-type{
+                            font-weight: 400;
+                            font-size: 13px;
+                            line-height: 16px;
+                            color: #5F6368;
+                            .suggation-text{
+                                padding: 5px 0;
+                            }
+                        }
+                        .compare-plans-link{
+                            color: #0D6EFD;
+                            font-weight: 400;
+                            font-size: 13px;
+                            line-height: 16px;
+                            cursor: pointer;
+                        }
+                    }
+                   }     
+                }
+                // add overage css ends  here
             }
             .modal-footer{
                 box-shadow: none;
@@ -1040,12 +1246,6 @@
                     color: #202124;
                 }
             }
-        }
-    }
-    .modal-footer{
-        box-shadow: none;
-        .kr-sg-button-ghost{
-            color: #202124;
         }
     }
 }
