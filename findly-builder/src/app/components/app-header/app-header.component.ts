@@ -399,11 +399,16 @@ export class AppHeaderComponent implements OnInit {
     if (value) {
       this.browseWorkspaceRef = this.browseWorkspace.open()
     }
-    const AccountId = this.currentAppControlList.accountId
+    let accountId;
+    if ((!this.selectAccountDetails) || this.selectAccountDetails == "null" || this.selectAccountDetails == undefined) {
+      accountId = this.selectAccountDetails.accountId
+    } else {
+      accountId = this.currentAppControlList.accountId
+    }
     this.loadingContent = true
     this.loadingProgress = true
     const header: any = {
-      'AccountId': AccountId
+      'AccountId': accountId
     };
 
     // https://qa1-bots.kore.ai/api/1.1/builder/allowedDomains?rnd=0yiw5b
