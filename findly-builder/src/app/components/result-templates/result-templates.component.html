@@ -2869,13 +2869,13 @@
                           <li class="search-box">
                             <input id="searchBoxIdStrikedRateField" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
                               placeholder="Search" class="seach-input pl-3"
-                              (keyup)="searchlist('StrikedrateField',$event.target.value,fieldData)"
-                              (focus)="searchlist('StrikedrateField',$event.target.value,fieldData);" autofocus />
+                              (keyup)="searchlist('strikedOffRate',$event.target.value,fieldData)"
+                              (focus)="searchlist('strikedOffRate',$event.target.value,fieldData);" autofocus />
                           </li>
                           <perfect-scrollbar class="scroll-search-field h-189">
                             <ng-container *ngIf="Strikedrate_fieldData && Strikedrate_fieldData.length">
                               <li ngbDropdownItem *ngFor="let field of Strikedrate_fieldData"
-                                (click)="filedSelect('StrikedrateField',field)"
+                                (click)="filedSelect('strikedOffRate',field)"
                                 [ngClass]="{'highlight':preview_StrikedrateFiled===field.fieldName}">
                                 {{ field.fieldName }}</li>
                             </ng-container>

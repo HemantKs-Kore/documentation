@@ -56,7 +56,7 @@ export class ResultTemplatesComponent implements OnInit {
       label1: "",
       label2: "",
       rateField: "",
-      StrikedrateFiled: "",
+      strikedOffRate: "",
       heading: "",
       img: "",
       url: "",
@@ -76,7 +76,7 @@ export class ResultTemplatesComponent implements OnInit {
     label1: true,
     label2: true,
     rateField: true,
-    StrikedrateFiled: true,
+    strikedOffRate: true,
     image: true,
     url: true,
     icon: true,
@@ -240,11 +240,11 @@ export class ResultTemplatesComponent implements OnInit {
       this.preview_rateFiled = field.fieldName;
       this.rate_fieldData = [...this.allFieldData];
       this.templateFieldValidateObj.rateField = true;
-    } else if (type == 'StrikedrateFiled') {
-      this.templateDataBind.mapping.StrikedrateFiled = field._id;
+    } else if (type == 'strikedOffRate') {
+      this.templateDataBind.mapping.strikedOffRate = field._id;
       this.preview_StrikedrateFiled = field.fieldName;
       this.Strikedrate_fieldData = [...this.allFieldData];
-      this.templateFieldValidateObj.StrikedrateFiled = true;
+      this.templateFieldValidateObj.strikedOffRate = true;
     }
     else if (type == 'rating') {
       this.templateDataBind.mapping.rating = field._id;
@@ -280,7 +280,7 @@ export class ResultTemplatesComponent implements OnInit {
     } else if (type == 'chips') {
       this.templateDataBind.mapping.chips = field._id;
       this.preview_chips = field.fieldName;
-      this.icon_fieldData = [...this.allFieldData];
+      this.chips_fieldData = [...this.allFieldData];
       this.templateFieldValidateObj.chips = true;
     }
   }
@@ -311,7 +311,7 @@ export class ResultTemplatesComponent implements OnInit {
         this.label2_fieldData = [...data]
       } else if (type == 'rateField') {
         this.rate_fieldData = [...data]
-      } else if (type == 'StrikedrateFiled') {
+      } else if (type == 'strikedOffRate') {
         this.Strikedrate_fieldData = [...data]
       } else if (type == 'image') {
         this.img_fieldData = [...data]
@@ -325,8 +325,7 @@ export class ResultTemplatesComponent implements OnInit {
         this.textField2_fieldData = [...data]
       } else if (type == 'chips') {
         this.chips_fieldData = [...data]
-      }
-      else if (type == 'rating') {
+      } else if (type == 'rating') {
         this.rating_fieldData = [...data]
       }
     } else {
@@ -340,7 +339,7 @@ export class ResultTemplatesComponent implements OnInit {
         this.label2_fieldData = [...filedData]
       } else if (type == 'rateField') {
         this.rate_fieldData = [...filedData]
-      } else if (type == 'StrikedrateFiled') {
+      } else if (type == 'strikedOffRate') {
         this.Strikedrate_fieldData = [...filedData]
       } else if (type == 'description') {
         this.desc_fieldData = [...filedData]
@@ -452,12 +451,14 @@ export class ResultTemplatesComponent implements OnInit {
           this.preview_label2 = element.fieldName;
         } else if (`${property}` == 'rateField' && element._id == `${mapping[property]}`) {
           this.preview_rateFiled = element.fieldName;
-        } else if (`${property}` == 'StrikedrateFiled' && element._id == `${mapping[property]}`) {
+        } else if (`${property}` == 'strikedOffRate' && element._id == `${mapping[property]}`) {
           this.preview_StrikedrateFiled = element.fieldName;
         } else if (`${property}` == 'img' && element._id == `${mapping[property]}`) {
           this.preview_img = element.fieldName;
         } else if (`${property}` == 'url' && element._id == `${mapping[property]}`) {
           this.preview_url = element.fieldName;
+        } else if (`${property}` == 'icon' && element._id == `${mapping[property]}`) {
+          this.preview_icon = element.fieldName;
         } else if (`${property}` == 'chips' && element._id == `${mapping[property]}`) {
           this.preview_chips = element.fieldName;
         } else if (`${property}` == 'textField1' && element._id == `${mapping[property]}`) {
@@ -511,6 +512,7 @@ export class ResultTemplatesComponent implements OnInit {
     this.preview_img = '';
     this.preview_url = '';
     this.preview_icon = '';
+    this.preview_chips = '';
     this.preview_textField1 = '';
     this.preview_textField2 = '';
     this.preview_rating = '';
@@ -905,7 +907,7 @@ export class ResultTemplatesComponent implements OnInit {
   clearcontentStrikedRateField() {
     if ($('#searchBoxIdStrikedRateField') && $('#searchBoxIdStrikedRateField').length) {
       $('#searchBoxIdStrikedRateField')[0].value = "";
-      this.searchlist('StrikedrateFiled', '', this.fieldData);
+      this.searchlist('strikedOffRate', '', this.fieldData);
       this.field_name = '';
     }
 
