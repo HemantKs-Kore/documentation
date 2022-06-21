@@ -238,7 +238,7 @@
     </perfect-scrollbar>
   </ng-container>
     <!-- New Onbaording Data -->
-    <ng-container *ngIf="emptyApp">
+    <ng-container *ngIf="showBoarding">
       <div class="onboarding-new-user-data">
         <!-- Boarding screen -->
         <ng-container *ngIf="!steps && emptyApp">
@@ -271,7 +271,7 @@
                   </div>
                   <div class="content-data">
                     <div class="main-title">Start from Scratch</div>
-                    <div class="desc-text">Start by creating a new app from scratch by adding your data and building custom search experiance</div>
+                    <div class="desc-text">Start by creating a new app from scratch by adding your data and building custom search experience</div>
                   </div>
                   <div class="arrow-block">
                     <i class="si-right-arrow-large"></i>
@@ -398,14 +398,14 @@
                           <a class="nav-link" data-toggle="pill" href="#searchbar">
                            <span class="title">Search Bar</span>
                            <i class="si-check"></i>
-                            <div class="text-desc">A traditional search bar experiance where end users query your website using a search bar that is usually positioned at the top of your website.</div>
+                            <div class="text-desc">A traditional search bar experience where end users query your website using a search bar that is usually positioned at the top of your website.</div>
                           </a>
                         </li>
                         <li class="nav-item" (click)="selectSearchExperianceType('bottom')">
                           <a class="nav-link" data-toggle="pill" href="#virtualassistance">
                             <span class="title">Virtual Assistant</span>
                             <i class="si-check"></i>
-                            <div class="text-desc">A unique search experiance tailored to integrate a search plus chat experiance to your end users and is ususally positioned like a virtual assistant.</div>
+                            <div class="text-desc">A unique search experience tailored to integrate a search plus chat experience to your end users and is ususally positioned like a virtual assistant.</div>
                           </a>
                         </li>
                       </ul>
@@ -440,7 +440,8 @@
             </perfect-scrollbar>
             <div class="footer-btns-data" *ngIf="steps">
               <button class="kr-sg-button-secondary btn_lg back_button" (click)="back()">Back</button>
-              <button class="kr-sg-button-primary btn_lg" (click)='checkExperience()'>Continue</button>
+              <button *ngIf="steps!='showSearchExperience'" class="kr-sg-button-primary btn_lg" (click)='checkExperience()'>Continue</button>
+              <button *ngIf="steps=='showSearchExperience'" class="kr-sg-button-primary btn_lg" (click)='checkExperience()'>Get Started</button>
             </div>
             <!-- <ng-container *ngIf="steps=='demoOptions'" class="d-none">
               <div class="footer-btns-data" *ngIf="displaydemoOptions">
