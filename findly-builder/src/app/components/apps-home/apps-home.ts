@@ -179,8 +179,11 @@ export class AppsListingComponent implements OnInit {
       this.steps == 'showSearchExperience'
     }
     else {
-      if (this.newApp.name) {
-        this.steps = 'demoOptions';
+      if (this.displayApp = true && this.newApp.name) {
+        this.steps = 'demoOptions'; 
+      }
+      else {
+        this.validateAppname  = true;
       }
     }
 
