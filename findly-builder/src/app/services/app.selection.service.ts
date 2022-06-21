@@ -186,7 +186,6 @@ export class AppSelectionService {
     });
   }
   openApp(app) {
-    //this.currentsubscriptionPlan(app._id)
     this.workflowService.selectedQueryPipeline([]);
     this.workflowService.appQueryPipelines({});
     this.setAppWorkFlowData(app);
@@ -195,24 +194,10 @@ export class AppSelectionService {
       title: '',
     };
     this.headerService.toggle(toogleObj);
-    //this.headerService.closeSdk();
-    // this.headerService.updateSearchConfiguration();
     this.router.navigate(['/summary'], { skipLocationChange: true });
     this.getInlineManualcall();
-    //this.routeChanged.next({ name: undefined, path: '' });
+
   }
-  // currentsubscriptionPlan(id) {
-  //   const payload = {
-  //     streamId: id
-  //   };
-  //   const appObserver = this.service.invoke('get.currentPlans', payload);
-  //   appObserver.subscribe(res => {
-  //     this.currentsubscriptionPlanDetails = res;
-  //     this.currentSubscription.next(res);
-  //   }, errRes => {
-  //     this.errorToaster(errRes, 'failed to get plans');
-  //   });
-  // }
   //get current subscription data
   getCurrentSubscriptionData() {
     const data = this.workflowService.selectedApp();

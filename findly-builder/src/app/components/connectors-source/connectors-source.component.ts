@@ -42,29 +42,34 @@ export class ConnectorsSourceComponent implements OnInit {
     }
   ];
   componentType = 'Connectors';
-  searchContent: string = '';
-  selectedApp: any;
   selectedContent: string = 'list';
   selectAddContent: string = 'instructions';
-  selectedConnector: any = {};
-  isEditable: boolean = false;
+  selectedTab: string = 'overview';
+  searchContent: string = '';
+  connectorId: string = '';
   searchIndexId: string;
+  selectedApp: any;
+  deleteModelRef: any;
+  selectedConnector: any = {};
+  sessionData: any = {};
   connectorsData: any = [];
   availableConnectorsData: any = [];
-  connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' }];
-  selectedTab: string = 'overview';
   configurationObj: any = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '' };
-  checkConfigButton: Boolean = true;
   overViewData: any = { overview: [], coneten: [] };
-  connectorId: string = '';
-  deleteModelRef: any;
-  showProtecedText: Object = { isClientShow: false, isSecretShow: false, isPassword: false };
-  sessionData: any = {};
   syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
+  showProtecedText: Object = { isClientShow: false, isSecretShow: false, isPassword: false };
+  isEditable: boolean = false;
+  checkConfigButton: Boolean = true;
   isPopupDelete: boolean = true;
   isAuthorizeStatus: boolean = false;
+  isSyncLoading: boolean = false;
+  searchField: string = '';
+  isShowSearch: boolean = false;
+  isloadingBtn: boolean = false;
   total_records: number;
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
+  connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' }];
+
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
   constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private appSelectionService: AppSelectionService) { }
 
@@ -91,6 +96,8 @@ export class ConnectorsSourceComponent implements OnInit {
     }
     else if (type === 'close') {
       this.deleteModelRef.close();
+      this.isAuthorizeStatus = false;
+      this.isPopupDelete = true;
       this.getConnectors();
     }
   }
@@ -230,7 +237,10 @@ export class ConnectorsSourceComponent implements OnInit {
       this.selectAddContent = 'instructions';
       this.selectedConnector = {};
       this.isEditable = false;
+      this.isloadingBtn = false;
       this.connectorId = '';
+      this.isAuthorizeStatus = false;
+      this.isPopupDelete = true;
       this.syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
       this.configurationObj = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '' };
       this.addConnectorSteps = this.addConnectorSteps.map((item, index) => {
@@ -250,10 +260,12 @@ export class ConnectorsSourceComponent implements OnInit {
         this.navigatePage();
       }
       else if (this.selectAddContent === 'configurtion') {
-        if (this.isEditable || this.connectorId !== '') {
-          this.updateConnector();
-        } else {
-          this.createConnector();
+        if (this.fieldsValidation()) {
+          if (this.isEditable || this.connectorId !== '') {
+            this.updateConnector();
+          } else {
+            this.createConnector();
+          }
         }
       }
     }
@@ -261,6 +273,20 @@ export class ConnectorsSourceComponent implements OnInit {
   //navaigate to next page based on selectAddContent
   navigatePage() {
     this.selectAddContent = this.selectAddContent === 'instructions' ? 'configurtion' : 'instructions';
+  }
+  //create connector validation
+  fieldsValidation() {
+    if (this.selectedConnector.type === 'confluenceServer') {
+      if (this.configurationObj.hostDomainName.length > 0) {
+        return true;
+      }
+      else {
+        this.notificationService.notify('Domain name field is required', 'error');
+      }
+    }
+    else {
+      return true;
+    }
   }
   //save connectors create api
   createConnector() {
@@ -305,6 +331,7 @@ export class ConnectorsSourceComponent implements OnInit {
     }
     this.service.invoke('post.authorizeConnector', quaryparms, payload).subscribe(res => {
       if (res) {
+        this.isloadingBtn = false;
         this.ingestConnector();
         if (data?.type === 'confluenceCloud') {
           window.open(res.url, '_self');
@@ -325,6 +352,7 @@ export class ConnectorsSourceComponent implements OnInit {
     }, errRes => {
       this.isPopupDelete = false;
       this.isAuthorizeStatus = false;
+      this.isloadingBtn = false;
       if (dialogRef) dialogRef.close();
       this.errorToaster(errRes, 'error');
       if (document.getElementsByClassName("modal").length === 0) this.openDeleteModel('open');
@@ -367,6 +395,7 @@ export class ConnectorsSourceComponent implements OnInit {
   }
   //update connector method
   updateConnector(data?, checked?, dialog?) {
+    this.isloadingBtn = true;
     const Obj = data ? data : this.configurationObj;
     const quaryparms: any = {
       sidx: this.searchIndexId,
@@ -441,11 +470,13 @@ export class ConnectorsSourceComponent implements OnInit {
   }
   // queue-content API
   ingestConnector(isShow?) {
+    this.isSyncLoading = true;
     const quaryparms: any = {
       sidx: this.searchIndexId,
       fcon: this.connectorId
     };
     this.service.invoke('post.ingestConnector', quaryparms).subscribe(res => {
+      this.isSyncLoading = false;
       if (isShow) this.notificationService.notify('Connector Synchronized Successfully', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');

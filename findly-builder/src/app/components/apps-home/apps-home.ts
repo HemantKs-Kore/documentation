@@ -483,7 +483,7 @@ export class AppsListingComponent implements OnInit {
         this.openApp(res)
         this.displayApp = false;
         self.workflowService.showAppCreationHeader(true);
-        self.router.navigate(['/source'], { skipLocationChange: true });
+        this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/source' });
         this.closeCreateApp();
         const toogleObj = {
           title: '',

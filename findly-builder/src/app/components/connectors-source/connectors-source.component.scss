@@ -38,6 +38,12 @@
                 cursor: pointer;
             }
 
+            .seach-icon {
+                position: absolute;
+                top: 11px;
+                left: 9px;
+            }
+
             .input-search {
                 border: 1px solid #E4E5E7;
                 border-radius: 4px;
@@ -487,6 +493,7 @@
 
                                                 .sync-card-link {
                                                     color: #0D6EFD;
+                                                    cursor: pointer;
                                                 }
                                             }
                                         }
@@ -760,6 +767,12 @@
 
                                         .content-body {
                                             border-bottom: 1px solid transparent !important;
+                                        }
+
+                                        .no-content {
+                                            text-align: center;
+                                            padding-top: 20px;
+                                            font-weight: 600;
                                         }
                                     }
                                 }
