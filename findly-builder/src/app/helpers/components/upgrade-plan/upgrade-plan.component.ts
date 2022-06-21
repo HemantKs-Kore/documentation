@@ -18,12 +18,14 @@ declare const $: any;
 })
 export class UpgradePlanComponent implements OnInit {
   orderConfirmModelPopRef: any;
+  addOverageModalPopRef: any;
   choosePlanModalPopRef: any;
   paymentGatewayModelPopRef: any;
   successFailureModelPopRef: any;
   changePlanModelPopRef: any;
   contactusModelPopRef: any;
   contactusSuccessModelPopRef: any;
+
   termPlan = "Monthly";
   totalPlansData: any;
   filterPlansData: any;
@@ -32,20 +34,14 @@ export class UpgradePlanComponent implements OnInit {
   selectedPlan: any;
   selectedApp: any;
   serachIndexId: any;
-  userInfo: any;
   urlSafe: any;
   transactionId: any;
   payementSuccess: true;
-  overageData: any;
   listPlanFeaturesData: any;
   paymentStatusInterval: any;
-  showLoader: boolean;
-  btnDisable: boolean;
   invoiceOrderId: any;
   featuresExceededUsage: any;
-  count_info: any = { show: false, msg: '' };
   contact_us_planName: string;
-  showOverageErrorMsg: boolean = false;
   selectedPaymentPage: string = 'payment_confirm';
   payementResponse: any = {
     hostedPage: {
@@ -60,9 +56,9 @@ export class UpgradePlanComponent implements OnInit {
     enterpriceMonth: 'enterprise_monthly',
     enterpriceYear: 'enterprise_yearly'
   }
-  enterpriseForm: any = {
-    name: '', email: '', message: '', phone: ''
-  }
+  overageDeatils: any = {}
+  isOverageShow: boolean = false;
+  enterpriseForm: any = { name: '', email: '', message: '', phone: '' };
   @Input() componentType: string;
   @Output() upgradedEvent = new EventEmitter();
   constructor(public dialog: MatDialog,
@@ -73,11 +69,9 @@ export class UpgradePlanComponent implements OnInit {
     public sanitizer: DomSanitizer,
     private notificationService: NotificationService,
     public localstore: LocalStoreService) { }
+  @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
   @ViewChild('orderConfirmModel') orderConfirmModel: KRModalComponent;
-  @ViewChild('addPricingModel2') addPricingModel2: KRModalComponent;
   @ViewChild('choosePlanModel') choosePlanModel: KRModalComponent;
-  @ViewChild('addPricingModel4') addPricingModel4: KRModalComponent;
-  @ViewChild('addPricingModel5') addPricingModel5: KRModalComponent;
   @ViewChild('paymentGatewayModel') paymentGatewayModel: KRModalComponent;
   @ViewChild('successFailureModel') successFailureModel: KRModalComponent;
   @ViewChild('changePlanModel') changePlanModel: KRModalComponent;
@@ -89,34 +83,6 @@ export class UpgradePlanComponent implements OnInit {
     this.getAllPlans();
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-  }
-  poling(type?) {
-    this.paymentStatusInterval = setInterval(() => {
-      this.getPayementStatus(type);
-    }, 3000)
-  }
-  getPayementStatus(type?) {
-    const queryParams = {
-      streamId: this.selectedApp._id,
-      transactionId: this.payementResponse.hostedPage.transactionId || this.invoiceOrderId
-    };
-    this.service.invoke('get.payementStatus', queryParams).subscribe(res => {
-      if (res.state == 'success') {
-        this.btnDisable = false;
-        if (type == 'overage') {
-          this.overageModel.emit();
-        }
-        this.closeOrderConfPopup();
-        this.openSuccessFailurePopup(true);
-        this.notificationService.notify(type == "overage" ? res.state : 'Plan Changed successfully', 'success');
-        clearInterval(this.paymentStatusInterval);
-      } else if (res.state == 'failed') {
-        this.openSuccessFailurePopup(false);
-        clearInterval(this.paymentStatusInterval);
-      }
-    }, errRes => {
-      this.errorToaster(errRes, 'failed to payment status');
-    });
   }
   //get plans api
   getAllPlans() {
@@ -144,7 +110,6 @@ export class UpgradePlanComponent implements OnInit {
   }
   //open order confirm popup
   openOrderConfPopup(data?, obj?) {
-    this.overageData = obj == undefined ? { overageShow: false } : obj;
     this.orderConfirmData = data;
     this.orderConfirmModelPopRef = this.orderConfirmModel.open();
   }
@@ -152,7 +117,6 @@ export class UpgradePlanComponent implements OnInit {
   closeOrderConfPopup() {
     if (this.orderConfirmModelPopRef && this.orderConfirmModelPopRef.close) {
       this.orderConfirmModelPopRef.close();
-      this.btnDisable = false;
     }
   }
   //open changePlanModel popup
@@ -163,7 +127,6 @@ export class UpgradePlanComponent implements OnInit {
   closeChangePlanModel() {
     if (this.changePlanModelPopRef && this.changePlanModelPopRef.close) {
       this.changePlanModelPopRef.close();
-      this.btnDisable = false;
     }
   }
   //open popup based on input parameter
@@ -178,6 +141,9 @@ export class UpgradePlanComponent implements OnInit {
     else if (type === 'payment_gateway') {
       this.paymentGatewayModelPopRef = this.paymentGatewayModel.open();
     }
+    else if (type === 'add_overage') {
+      this.overageModal('open');
+    }
   }
   //close popup based on input parameter
   closeSelectedPopup(type) {
@@ -187,22 +153,22 @@ export class UpgradePlanComponent implements OnInit {
     }
     else if (type === 'payment_gateway') {
       this.selectedPaymentPage = 'payment_confirm';
+      if (this.paymentStatusInterval) clearInterval(this.paymentStatusInterval);
       if (this.paymentGatewayModelPopRef?.close) this.paymentGatewayModelPopRef.close();
     }
   }
 
   //open payment gateway popup
-  openPaymentGatewayPopup() {
+  openPaymentGateway() {
     this.selectedApp = this.workflowService.selectedApp();
-    this.showLoader = true;
-    this.userInfo = this.authService.getUserInfo() || {};
+    const userInfo: any = this.authService.getUserInfo() || {};
     const queryParams = {
       planId: this.orderConfirmData._id
     };
     const payload = {
       "streamId": this.selectedApp._id,
-      "fName": this.userInfo.fName,
-      "lName": this.userInfo.lName,
+      "fName": userInfo.fName,
+      "lName": userInfo.lName,
       "country": "India",
       "city": "Hyd",
       "address": "some address",
@@ -211,10 +177,9 @@ export class UpgradePlanComponent implements OnInit {
       "streamName": this.selectedApp.name,
       "quantity": 1
     }
-    //let url = "https://store.payproglobal.com/checkout?products[1][id]=65066&products[1][qty]=1&page-template=2339&language=en&currency=USD&x-accountId=5ecfbf1407c1bd2347c4f199&x-resourceId=st-7a270f50-338b-5d82-8022-c2ef8e6b46da&x-transactionId=faTYYAH3g2GsdmthszR5kDT179I4&x-streamName=AmazeBot&exfo=742&use-test-mode=true&secret-key=_npaisT4eQ&emailoverride=akshay.gupta%40kore.com&x-isSearchbot=true" 
-    //this.urlSafe= this.sanitizer.bypassSecurityTrustResourceUrl(url);
     const appObserver = this.service.invoke('post.payement', queryParams, payload);
     appObserver.subscribe(res => {
+      this.selectedPaymentPage = 'payment_iframe';
       this.payementResponse = res;
       let url = this.payementResponse.hostedPage.url;
       this.invoiceOrderId = this.payementResponse.hostedPage.transactionId;
@@ -223,9 +188,37 @@ export class UpgradePlanComponent implements OnInit {
     }, errRes => {
       this.errorToaster(errRes, 'failed');
     });
-    // this.closeChoosePlanPopup();
-    this.closeOrderConfPopup();
-    this.paymentGatewayModelPopRef = this.paymentGatewayModel.open();
+  }
+  poling() {
+    this.paymentStatusInterval = setInterval(() => {
+      this.getPayementStatus();
+    }, 3000)
+  }
+  //payment status api
+  getPayementStatus() {
+    const queryParams = {
+      streamId: this.selectedApp._id,
+      transactionId: this.payementResponse.hostedPage.transactionId || this.invoiceOrderId
+    };
+    this.service.invoke('get.payementStatus', queryParams).subscribe(res => {
+      if (res.state == 'success') {
+        clearInterval(this.paymentStatusInterval);
+        this.appSelectionService.getCurrentSubscriptionData();
+        const message = this.isOverageShow ? 'Overages added successfully' : 'Plan Changed successfully';
+        this.notificationService.notify(message, 'success');
+        if (!this.isOverageShow) {
+          this.selectedPaymentPage = 'payment_success';
+        }
+        else {
+          this.overageModal('close');
+        }
+      } else if (res.state == 'failed') {
+        clearInterval(this.paymentStatusInterval);
+        if (!this.isOverageShow) this.selectedPaymentPage = 'payment_fail';
+      }
+    }, errRes => {
+      this.errorToaster(errRes, 'failed to payment status');
+    });
   }
   //open contact us popup
   openContactusModel(type) {
@@ -254,23 +247,16 @@ export class UpgradePlanComponent implements OnInit {
   }
   //submitEnterpriseRequest method
   submitEnterpriseRequest() {
-    this.btnDisable = true;
     this.selectedApp = this.workflowService.selectedApp();
     const queryParams = { "streamId": this.selectedApp?._id };
     const enterpriseRequest = this.service.invoke('post.enterpriseRequest', queryParams, this.enterpriseForm);
     enterpriseRequest.subscribe(res => {
-      this.btnDisable = false;
       this.closeContatcusModel();
       this.closeOrderConfPopup();
       this.openContactusSuccessModel();
     }, errRes => {
-      this.btnDisable = false;
       this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
     });
-  }
-  //load iframe
-  showSpinner() {
-    this.showLoader = false;
   }
   //payment plan for upgrade/downgrade
   // paymentPlan(show?) {
@@ -336,7 +322,6 @@ export class UpgradePlanComponent implements OnInit {
         clearInterval(this.paymentStatusInterval);
       }
       this.paymentGatewayModelPopRef.close();
-      //this.overageData = {};
     }
   }
   //open payment success/failure popup
@@ -350,7 +335,6 @@ export class UpgradePlanComponent implements OnInit {
   closeSuccessFailurePopup() {
     if (this.successFailureModelPopRef && this.successFailureModelPopRef.close) {
       this.successFailureModelPopRef.close();
-      this.overageData = {};
       if (this.componentType == 'experiment') {
         this.upgradedEvent.emit();
       }
@@ -365,55 +349,55 @@ export class UpgradePlanComponent implements OnInit {
         this.filterPlansData.push(data);
       }
     }
-    console.log("filterPlansData", this.filterPlansData);
   }
   //based on choosePlanType in order confirm popup
   choosePlanType(type) {
-    for (let plan of this.totalPlansData) {
-      if (plan.name == this.orderConfirmData.name && plan.billingUnit == type) {
-        this.orderConfirmData = plan;
-      }
+    let data = this.totalPlansData.filter(plan => plan.name == this.orderConfirmData.name && plan.billingUnit == type);
+    this.orderConfirmData = data[0];
+  }
+  //open | close add overage modal
+  overageModal(type) {
+    if (type === 'open') {
+      const currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+      this.totalPlansData.forEach(element => {
+        if (element._id == currentSubscriptionPlan?.subscription?.planId) {
+          this.overageDeatils = element.overage;
+          this.overageDeatils = { ...this.overageDeatils, docCount: 0, queriesCount: 0 };
+        }
+      });
+      this.addOverageModalPopRef = this.addOverageModel.open();
+    }
+    else if (type === 'close') {
+      this.overageDeatils = {};
+      this.isOverageShow = false;
+      if (this.addOverageModalPopRef?.close) this.addOverageModalPopRef.close();
     }
   }
-  //based on count change cost
-  count(type, operator) {
-    if (type == 'doc') {
-      this.overageData.docCount = operator == 'plus' ? this.overageData.docCount + 1 : this.overageData.docCount >= 1 ? this.overageData.docCount - 1 : this.overageData.docCount = 0;
+  //add overage api
+  buyOverage() {
+    this.selectedApp = this.workflowService.selectedApp();
+    const currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+    let overage = [];
+    if (this.overageDeatils.docCount > 0) {
+      overage.push({ "feature": "ingestDocs", "quantity": this.overageDeatils.docCount })
     }
-    else if (type == 'query') {
-      this.overageData.queryCount = operator == 'plus' ? this.overageData.queryCount + 1 : this.overageData.queryCount >= 1 ? this.overageData.queryCount - 1 : this.overageData.queryCount = 0;;
+    if (this.overageDeatils.queriesCount > 0) {
+      overage.push({ "feature": "searchQueries", "quantity": this.overageDeatils.queriesCount })
     }
+    const queryParams = {
+      "streamId": this.selectedApp._id,
+      "subscriptionId": currentSubscriptionPlan?.subscription?._id
+    }
+    const payload = { "overages": overage };
+    const buyOverage = this.service.invoke('put.buyOverage', queryParams, payload);
+    buyOverage.subscribe(res => {
+      this.invoiceOrderId = res?.transactionId;
+      this.isOverageShow = true;
+      this.poling();
+    }, errRes => {
+      this.errorToaster(errRes, 'failed buy overage');
+    });
   }
-  //buy overage payment
-  // buyOveragePayment() {
-  //   this.selectedApp = this.workflowService.selectedApp();
-  //   let overage = [];
-  //   if (this.overageData.docCount != null && this.overageData.docCount > 0) {
-  //     overage.push({ "feature": "ingestDocs", "quantity": this.overageData.docCount })
-  //   }
-  //   if (this.overageData.queryCount != null && this.overageData.queryCount > 0) {
-  //     overage.push({ "feature": "searchQueries", "quantity": this.overageData.queryCount })
-  //   }
-  //   if (overage.length) {
-  //     this.showOverageErrorMsg = false;
-  //     const queryParams = {
-  //       "streamId": this.selectedApp._id,
-  //       "subscriptionId": this.currentSubscriptionPlan.subscription._id
-  //     }
-  //     const payload = { "overages": overage };
-  //     const buyOverage = this.service.invoke('put.buyOverage', queryParams, payload);
-  //     buyOverage.subscribe(res => {
-  //       this.invoiceOrderId = res.transactionId;
-  //       this.poling("overage");
-  //     }, errRes => {
-  //       this.errorToaster(errRes, 'failed buy overage');
-  //     });
-  //   }
-  //   else {
-  //     this.btnDisable = false;
-  //     this.showOverageErrorMsg = true;
-  //   }
-  // }
   //gotoDetails
   gotoDetails(name) {
     this.showPlanDetails = name;

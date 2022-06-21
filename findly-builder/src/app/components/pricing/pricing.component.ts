@@ -18,9 +18,8 @@ declare var $: any;
 export class PricingComponent implements OnInit, OnDestroy {
   documentGraph: EChartOption;
   queryGraph: EChartOption;
-  addPricing3ModalPopRef: any;
-  addOverageModalPopRef: any;
   cancelSubscriptionModelPopRef: any;
+  cancellationCheckboxText: any = ['It’s too costly', 'I found another product that fulfils my needs', 'I don’t use it enough', 'I don’t need it now'];
   termPlan = "Monthly";
   templateShow: boolean = false;
   currentSubscriptionPlan: any;
@@ -28,26 +27,10 @@ export class PricingComponent implements OnInit, OnDestroy {
   serachIndexId;
   totalPlansData: any;
   filterPlansData: any;
-  addDocOver = false;
-  addQueOver = false;
-  numberDoc = 1;
-  numberQuery = 1;
-  overageDeatils = {
-    ingestDocs: {
-      amount: 0,
-      limit: 0
-    },
-    searchQueries: {
-      amount: 0,
-      limit: 0
-    }
-  }
   plansIdList = {
     free: 'fp_free',
     standardMonth: '65066',
     standardYear: '65451',
-    proMonth: '65123',
-    proYear: '65453',
     enterpriceMonth: 'fp_enterprise_custom_monthly',
     enterpriceYear: 'fp_enterprise_custom_yearly'
   };
@@ -65,8 +48,6 @@ export class PricingComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService) { }
-  @ViewChild('addPricingModel3') addPricingModel3: KRModalComponent;
-  @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
   @ViewChild('cancelSubscriptionModel') cancelSubscriptionModel: KRModalComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
 
@@ -82,6 +63,7 @@ export class PricingComponent implements OnInit, OnDestroy {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
   }
+  //get all plans api
   getPlan() {
     this.service.invoke('get.pricingPlans').subscribe(res => {
       this.totalPlansData = res.sort((a, b) => { return a.displayOrder - b.displayOrder });
@@ -97,7 +79,7 @@ export class PricingComponent implements OnInit, OnDestroy {
         Object.values(data.featureAccess);
         Object.entries(data.featureAccess);
         /** Pick only the Month Plans */
-        if (data._id == this.plansIdList.free || data._id == this.plansIdList.standardMonth || data._id == this.plansIdList.proMonth || data._id == this.plansIdList.enterpriceMonth) {
+        if (data._id == this.plansIdList.free || data._id == this.plansIdList.standardMonth || data._id == this.plansIdList.enterpriceMonth) {
           listDataMonthlyFeature.push(Object.entries(data.featureAccess))
         }
       })
@@ -116,16 +98,6 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'failed to get plans');
     });
   }
-  getOverage() {
-    this.totalPlansData.forEach(element => {
-      if (element._id == this.currentSubscriptionPlan.subscription.planId) {
-        this.overageDeatils = element.overage;
-      }
-      if (element._id == this.plansIdList.proMonth) {
-        this.overageDeatils = element.overage;
-      }
-    });
-  }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -135,44 +107,29 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+  //select upgrade component methods
   selectModal(type) {
     if (type == 'choose_plan') {
       this.plans.openSelectedPopup('choose_plan');
     }
-  }
-
-  //open popup1
-  openPopup3() {
-    this.addPricing3ModalPopRef = this.addPricingModel3.open();
-  }
-  //close popup1
-  closePopup3() {
-    if (this.addPricing3ModalPopRef && this.addPricing3ModalPopRef.close) {
-      this.addPricing3ModalPopRef.close();
+    else if (type === 'add_overage') {
+      this.plans.openSelectedPopup('add_overage');
     }
   }
-
-  //open popup1
-  addOverage() {
-    this.getOverage();
-    this.addOverageModalPopRef = this.addOverageModel.open();
-  }
-  //close popup1
-  closeOveragePopup() {
-    if (this.addOverageModalPopRef && this.addOverageModalPopRef.close) {
-      this.addOverageModalPopRef.close();
+  //open | Cancel subscription modal
+  cancelSubscriptionModal(type) {
+    if (type === 'open') {
+      this.cancelSubscriptionModelPopRef = this.cancelSubscriptionModel.open();
     }
-    this.cancelOveragePopup();
-  }
-  cancelOveragePopup() {
-    this.addDocOver = false;
-    this.addQueOver = false;
-    this.numberQuery = 1;
-    this.numberDoc = 1;
-  }
-  //open popup1
-  openPopup5() {
-    this.cancelSubscriptionModelPopRef = this.cancelSubscriptionModel.open();
+    else if (type === 'close') {
+      const commentInput: any = document.getElementById("cancel_comment_text");
+      const checkboxes: any = document.querySelectorAll('.checkbox-custom');
+      commentInput.value = '';
+      for (let check of checkboxes) {
+        check.checked = false;
+      }
+      this.cancelSubscriptionModelPopRef.close();
+    }
   }
   //cancel subscription dialog(pro to standard)
   cancelProSubscription() {
@@ -213,56 +170,22 @@ export class PricingComponent implements OnInit, OnDestroy {
   enterpriseContactus() {
     this.plans.openContactusModel("Enterprise");
   }
-  //close popup1
-  cancelSubscription(dialogRef?) {
+  //cancel subscription api
+  cancelSubscription() {
     const queryParam = {
       streamId: this.selectedApp._id
     }
     const payload = {
-      subscriptionId: this.currentSubscriptionPlan.subscription._id,
+      subscriptionId: this.currentSubscriptionPlan?.subscription?._id,
       status: "success"
     };
     this.service.invoke('put.cancelSubscribtion', queryParam, payload).subscribe(res => {
-      this.proInfo = false;
       this.appSelectionService.getCurrentSubscriptionData();
-      //this.currentsubscriptionPlan(this.selectedApp)
       this.notificationService.notify('Cancellation request submitted', 'success');
-      if (dialogRef) dialogRef.close();
+      this.cancelSubscriptionModal('close');
     }, errRes => {
       this.errorToaster(errRes, 'failed to Cancel subscription');
     });
-    this.closeCancelSubsPopup();
-  }
-  closeCancelSubsPopup() {
-    if (this.cancelSubscriptionModelPopRef && this.cancelSubscriptionModelPopRef.close) {
-      $("input:checkbox").prop('checked', false);
-      $("#text_area").val('');
-      this.cancelSubscriptionModelPopRef.close();
-    }
-  }
-  addDocument() {
-    this.addDocOver = true
-    this.numberDoc = 1;
-  }
-  addQuerry() {
-    this.addQueOver = true;
-    this.numberQuery = 1;
-  }
-  count(type, operation) {
-    if (type == 'doc') {
-      if (operation == 'plus') {
-        this.numberDoc = this.numberDoc + 1;
-      } else {
-
-        this.numberDoc > 1 ? this.numberDoc = this.numberDoc - 1 : (this.numberDoc = 0, this.addDocOver = false);
-      }
-    } else {
-      if (operation == 'plus') {
-        this.numberQuery = this.numberQuery + 1;
-      } else {
-        this.numberQuery > 1 ? this.numberQuery = this.numberQuery - 1 : (this.numberQuery = 0, this.addQueOver = false);
-      }
-    }
   }
   //Grap data
   pricingChart() {

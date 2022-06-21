@@ -2,13 +2,11 @@
   <div class="title-header d-flex align-items-center justify-content-between">
     <div>{{"plan.plan_head"| translate}}</div>
     <div class="btns-block">
-    <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'"><i class="si-minus-circle-o"></i>Cancel Subscription</button>
+    <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'" (click)="cancelSubscriptionModal('open')"><i class="si-minus-circle-o"></i>Cancel Subscription</button>
     <button class="kr-sg-button-primary btn_lg" (click)="selectModal('choose_plan')"><i class="si-publish si-icon"></i>Upgrade Plan</button>
     </div>
   </div>
-
-
-    <div class="info-note proInfo proInfoSuccess row m-0">
+    <div class="info-note proInfo proInfoSuccess row m-0 d-none">
       <div class="col-10 d-flex align-items-center p-0">
         <span class="info-proTip-icon"><i class="si-green-check"></i></span>
         <span class="info-text">Your previous payment of $100 is processed successfully. You can Publish your bot now to upgrade to the Standard plan.</span>
@@ -17,30 +15,9 @@
         <span class="info-proTip-close" (click)="proInfo=true"><i class="si-close"></i></span>
       </div>
     </div>
-
-
   <perfect-scrollbar class="pricing-scroll">
     <div class="pricing-details-main-sec">
-      
-      <!-- <ng-container>
-        <div class="info-note proInfo">
-          <div class="col-10 d-flex align-items-center p-0">
-            <img src="assets/icons/Info-pdf.svg">
-            <span
-              class="info-text">{{currentSubscriptionPlan?.subscription?.changesScheduledFor=='cancel'?("plan.your_plan_will_cancelled"|
-              translate):("plan.your_plan_will_changed"| translate)}}
-              {{(currentSubscriptionPlan?.subscription?.endDate)| dateFormatPipe:'D MMMM YYYY'}}</span>
-          </div>
-          <div class="close-info col-2 p-0 text-right">
-            <span
-              (click)="currentSubscriptionPlan?.subscription?.changesScheduledFor=='cancel'?revertCancel():cancelProSubscription()">{{"plan.cancel_request"|
-              translate}}</span>
-            <img src="assets/icons/close-small.svg" (click)="proInfo=true">
-          </div>
-        </div>
-      </ng-container> -->
-
-        <div class="row col-12 m-0 tile-block">
+       <div class="row col-12 m-0 tile-block">
           <div class="col-4 tile-left">
             <div class="tile-header">
               <span class="pr-1"><i class="si-instructions"></i></span>  Current Plan details
@@ -65,15 +42,15 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="tile-plan-status plan-status-active">
+                <div class="tile-plan-status plan-status-active">
                   <div class="plan-subscription"><span class="plan-current-status"></span> Active</div>
                   <div class="plan-subscription-duration">{{(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'?'Till  ':''}}{{(currentSubscriptionPlan?.subscription?.planName|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MMM.YYYY'}}</div>
-                </div> -->
+                </div>
 
-                <div class="tile-plan-status plan-status-cancel">
+                <!-- <div class="tile-plan-status plan-status-cancel">
                   <div class="plan-subscription"><span class="plan-current-status"></span> {{"plan.cancel_request_sent" | translate}}</div>
                   <div class="plan-subscription-duration">{{"plan.revert_cancellation_btn" | translate}}</div>
-                </div>
+                </div> -->
               </div>
 
               <div class="tile-plan-utilization plan-current-usage">
@@ -101,14 +78,13 @@
                 </div>
               </div>
 
-              <button class="btn btn-add-overage" *ngIf="currentSubscriptionPlan?.overages.length===0; else overageUsage"><span class="pr-2"><i class="si-grow-up-arrow"></i></span>Add Overage</button>
-              
+              <button class="btn btn-add-overage" *ngIf="currentSubscriptionPlan?.overages.length===0; else overageUsage" (click)="selectModal('add_overage')"><span class="pr-2"><i class="si-grow-up-arrow"></i></span>Add Overage</button>              
               <ng-template #overageUsage>
               <div class="tile-plan-utilization plan-overview">
                 <div class="plan-current-and-overage">
                   <div class="plan-current-usage">OVERAGE</div>
                   <div class="plan-add-btn">
-                    <button class="kr-sg-button-ghost btn_md">+ADD</button>
+                    <button class="kr-sg-button-ghost btn_md" (click)="selectModal('add_overage')">+ADD</button>
                   </div>
                 </div>
                 <div class="plan-progress-bar-block">
@@ -149,641 +125,17 @@
   </perfect-scrollbar>
 </div>
 
-<kr-modal modalType="center" modalClass="modal_popups_ kr-full" #addOverageModel>
-  <!-- <div class="modal-header">
-    <div class="title">{{"plan.overage_plan"| translate}}</div>
-    <div class="close_icon">
-      <img (click)="closeOveragePopup()" src="assets/icons/modal-close.svg">
-    </div>
-  </div> -->
-  <perfect-scrollbar>
-    <div class="modal-body">
-      <div class="pricing-paln-change-modal">
-        <div class="close-modal" (click)="closeOveragePopup()">close <span class="close-span"><i class="si-close close-icon"></i></span></div>
-     
-        <div class="pricing-main-header">
-          <h2 class="pricing-header">Straight Forward Pricing</h2>
-          <p class="pricing-desc">Simple usage-based pricing that align with your business goals.</p>
-        </div>
-  
-        <div class="pricing-paln-types">
-          <div class="pricing-paln-tab">Monthly</div>
-          <div class="pricing-paln-tab tab-active">Annually</div>
-        </div>
-        
-        <div class="pricing-plan-tiles-block">
-          <!-- free plan start -->
-          <div class="plan-tile-block plan-tile-active">
-            <div class="plan-type-block">
-              <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-free.svg" /></div>
-              <div class="plan-details">
-                <div class="plan-type">
-                  <div class="plan-name">Free</div>
-                  <div class="plan-current-status free-forever">Free Forever</div>
-                </div>
-                <div class="plan-cost-details">
-                  <div class="plan-cost">$0 <span class="plan-duration-type">Forever</span></div>
-                </div>
-              </div>
-              <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>
-            </div>
-            <div class="plan-tag-line">
-              <div>Try our platform for free. No credit card required. </div>
-            </div>
-            <div class="plan-upgrade-block">
-              <button class="btn current-paln">Current Plan</button>
-            </div>
-            <div class="plan-features-block">
-              <perfect-scrollbar class="paln-overflow-scroll">
-                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">records</span> </div>
-                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">queries/month</span> </div>
-                <div class="plan-sub-features">
-                  <div class="plan-sub-feature-hding">Features Includes</div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Website Crawler </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Weights,Synonyms & Stopwords </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Indexing & Workbench </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Connectors </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
-                </div>
-                <div class="plan-sub-features">
-                  <div class="plan-sub-feature-hding">Features Includes</div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
-                </div>
-              </perfect-scrollbar>
-            </div>
-          </div>
-          <!-- free plan end -->
-  
-          <!-- standard plan start -->
-          <div class="plan-tile-block">
-            <div class="plan-type-block">
-              <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-standard.svg" /></div>
-              <div class="plan-details">
-                <div class="plan-type">
-                  <div class="plan-name">Standard</div>
-                  <div class="plan-current-status">Current Plan</div>
-                </div>
-                <div class="plan-cost-details">
-                  <div class="plan-cost">$0 <span class="plan-duration-type">Forever</span></div>
-                </div>
-              </div>
-              <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>
-            </div>
-            <div class="plan-tag-line">
-              <div>Our most popular plan which adds more intelligence to your search.</div>
-            </div>
-            <div class="plan-upgrade-block">
-              <button class="btn">Choose Plan</button>
-            </div>
-            <div class="plan-features-block">
-              <perfect-scrollbar class="paln-overflow-scroll">
-                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">records</span> </div>
-                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">queries/month</span> </div>
-                <div class="plan-sub-features">
-                  <div class="plan-sub-feature-hding">Features Includes</div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Website Crawler </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Weights,Synonyms & Stopwords </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Indexing & Workbench </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Connectors </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
-                </div>
-                <div class="plan-sub-features">
-                  <div class="plan-sub-feature-hding">Features Includes</div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
-                </div>
-              </perfect-scrollbar>
-            </div>
-          </div>
-          <!-- standard plan end -->
-  
-          <!-- enterprise plan start -->
-          <div class="plan-tile-block">
-            <div class="plan-type-block">
-              <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-enterprise.svg" /></div>
-              <div class="plan-details">
-                <div class="plan-type">
-                  <div class="plan-name">Enterprise</div>
-                  <div class="plan-current-status">Current Plan</div>
-                </div>
-                <div class="plan-cost-details">
-                  <!-- <div class="plan-cost">$0 <span class="plan-duration-type">Forever</span></div> -->
-                  <div class="plan-cost enterprise-paln">Custom Plans</div>
-                </div>
-              </div>
-              <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>
-            </div>
-            <div class="plan-tag-line">
-              <div>Contact us for custom session pricing and volume discounts.</div>
-            </div>
-            <div class="plan-upgrade-block">
-              <button class="btn">Talk to us</button>
-            </div>
-            <div class="plan-features-block">
-              <perfect-scrollbar class="paln-overflow-scroll">
-                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">records</span> </div>
-                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">queries/month</span> </div>
-                <div class="plan-sub-features">
-                  <div class="plan-sub-feature-hding">Features Includes</div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Website Crawler </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Weights,Synonyms & Stopwords </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Indexing & Workbench </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Connectors </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
-                </div>
-                <div class="plan-sub-features">
-                  <div class="plan-sub-feature-hding">Features Includes</div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
-                </div>
-              </perfect-scrollbar>
-            </div>
-          </div>
-          <!-- enterprise paln end -->
-        </div>
-
-        <!-- compare plan start from here -->
-        <div class="compare-plans-section">
-          <div class="pricing-main-header">
-            <h2 class="pricing-header">Compare Plans</h2>
-            <p class="pricing-desc">Comapre the features of each plan and find the one that suites you best.</p>
-          </div>
-
-          <div class="compare-plan-tabs row">
-            <div class="compare-plan-tab-name col-lg-3 offset-lg-3">Free</div>
-            <div class="compare-plan-tab-name col-lg-3">Standard</div>
-            <div class="compare-plan-tab-name col-lg-3">Enterprise</div>
-          </div>
-
-          <div class="plan-table-block">
-            <div class="plan-table-header">USAGE</div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Price ( Per Month)</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span>Free</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">$199 / mo</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Custom</span></div>
-              </div>
-            </div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Records</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span>Free</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">$199 / mo</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Custom</span></div>
-              </div>
-            </div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Queries (Per Month)</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span>Free</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">$199 / mo</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Custom</span></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="plan-table-block">
-            <div class="plan-table-header">Overage</div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Records</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span>Free</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">$199 / mo</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Custom</span></div>
-              </div>
-            </div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Queries</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span>Free</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">$25 / 50K</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Custom</span></div>
-              </div>
-            </div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Price ( Per Month)</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span>Free</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">$199 / mo</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Custom</span></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="paln-help-text">
-            .... all other existing tables go here. At the bottom, add these two tables for support
-          </div>
-
-          <div class="plan-table-block">
-            <div class="plan-table-header">FEATURES</div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Webpages Crawelr</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span>1 Crawl per Day</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">3 Crawls per Day</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Unlimited</span></div>
-              </div>
-            </div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Documents</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span>Free</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span><i class="si-green-check"></i></span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span><i class="si-green-check"></i></span></div>
-              </div>
-            </div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">E - Commerce Integrations</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span><i class="si-close-red"></i></span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span><i class="si-close-red"></i></span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span><i class="si-green-check"></i></span></div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <!-- compare plan ends here -->
-
-        <!-- faq section start from here -->
-        <div class="faq-list-section">
-          <div class="faq-list-block">
-            <div class="faq-list-header">
-              Frequently Asked Questions
-            </div>
-            <div class="faq-list-acc-section">
-              <div class="p-pricing-faq-tile">
-                <div class="p-pricing-accordian-faq">
-                    <a href="#pricingFaq2" data-toggle="collapse" class="p-pricing-accordian-faq-header collapsed">
-                        <div class="d-flex justify-content-between align-items-center p-pricing-accordian-faq-py">
-                            <div class="ng-binding">Can end-users interact with the Virtual Assistants for free?</div>
-                        </div>
-                        <i class="si si-carrotup icon-chev-angle"></i>
-                    </a>
-                </div>
-                <div id="pricingFaq2" class="p-pricing-faq-ans collapse">
-                    <div class="desc">
-                      Yes, end-users can interact with your Virtual Assistant even if you are on the Free Forever Plan. 
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-pricing-faq-tile">
-              <div class="p-pricing-accordian-faq">
-                  <a href="#pricingFaq3" data-toggle="collapse" class="p-pricing-accordian-faq-header collapsed">
-                      <div class="d-flex justify-content-between align-items-center p-pricing-accordian-faq-py">
-                          <div class="ng-binding">Can end-users interact with the Virtual Assistants for free?</div>
-                      </div>
-                      <i class="si si-carrotup icon-chev-angle"></i>
-                  </a>
-              </div>
-              <div id="pricingFaq3" class="p-pricing-faq-ans collapse">
-                  <div class="desc">
-                    Yes, end-users can interact with your Virtual Assistant even if you are on the Free Forever Plan. 
-                  </div>
-              </div>
-          </div>
-
-          <div class="p-pricing-faq-tile">
-            <div class="p-pricing-accordian-faq">
-                <a href="#pricingFaq4" data-toggle="collapse" class="p-pricing-accordian-faq-header collapsed">
-                    <div class="d-flex justify-content-between align-items-center p-pricing-accordian-faq-py">
-                        <div class="ng-binding">Can end-users interact with the Virtual Assistants for free?</div>
-                    </div>
-                    <i class="si si-carrotup icon-chev-angle"></i>
-                </a>
-            </div>
-            <div id="pricingFaq4" class="p-pricing-faq-ans collapse">
-                <div class="desc">
-                  Yes, end-users can interact with your Virtual Assistant even if you are on the Free Forever Plan. 
-                </div>
-            </div>
-        </div>
-
-
-
-            </div>
-          </div>
-        </div>
-        <!-- faq section ends here -->
-      </div>
-
-
-      <!-- <div class="mian-title-desc">{{"plan.overage_desc"| translate}}</div>
-      <div class="col-12 p-0 mian-title">{{"plan.add_overage"| translate}}</div> -->
-      <!-- <div class="add_overage_data">
-        <div class="overage_card">
-          <div class="titles-sec">
-            <div class="title">{{"plan.documents"| translate}}</div>
-            <div class="price d-none">${{overageDeatils.ingestDocs.amount}} <span>/ {{"plan.month"| translate}}</span>
-            </div>
-          </div>
-          <div class="info-card-overage">{{"plan.add"| translate}} <span>{{"plan.additional"| translate}}
-              {{overageDeatils.ingestDocs.limit | valueFormat}}</span> {{"plan.documents_to_your_plan"| translate}}
-          </div>
-          <div class="btn_add_doc text-right">
-            <button class="kr-sg-button-secondary btn_lg" [ngClass]="{'d-none': addDocOver}"
-              (click)="addDocument()">{{"plan.add_documents"| translate}}</button>
-            <div class="add-doc-block" [ngClass]="{'d-none': !addDocOver}">
-              <div class="minus-btn" (click)="count('doc','minus')"><img src="assets/icons/pricing/minus.svg"></div>
-              <div class="number-doc">{{numberDoc}}</div>
-              <div class="plus-btn" (click)="count('doc','plus')"><img src="assets/icons/pricing/plus.svg"></div>
-            </div>
-          </div>
-        </div>
-        <div class="overage_card">
-          <div class="titles-sec">
-            <div class="title">{{"plan.queries"| translate}}</div>
-            <div class="price d-none">${{overageDeatils.searchQueries.amount}} <span>/ {{"plan.month"|
-                translate}}</span></div>
-          </div>
-          <div class="info-card-overage">{{"plan.add"| translate}} <span>{{"plan.additional"| translate}}
-              {{overageDeatils.searchQueries.limit | valueFormat}}</span> {{"plan.queries_to_your_plan"| translate}}
-          </div>
-          <div class="btn_add_doc text-right">
-            <button class="kr-sg-button-secondary btn_lg" [ngClass]="{'d-none': addQueOver}"
-              (click)="addQuerry()">{{"plan.add_queries"| translate}}</button>
-            <div class="add-doc-block" [ngClass]="{'d-none': !addQueOver}">
-              <div class="minus-btn" (click)="count('query','minus')"><img src="assets/icons/pricing/minus.svg"></div>
-              <div class="number-doc">{{numberQuery}}</div>
-              <div class="plus-btn" (click)="count('query','plus')"><img src="assets/icons/pricing/plus.svg"></div>
-            </div>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- <div class="change-plan-container" *ngIf="currentSubscriptionPlan">
-        <button class="kr-sg-button-secondary btn_lg"
-          (click)="compare('choosePlans',currentSubscriptionPlan.subscription)">{{"plan.change_plan"|
-          translate}}</button>
-        <div class="info-text">{{"plan.you_can_also_choose_to"| translate}} <span>{{"plan.upgrade_your_plan"|
-            translate}}</span> </div>
-        <div class="info-text" *ngIf="currentSubscriptionPlan.subscription.planId == plansIdList.standardMonth">
-          {{"plan.upgrade_to"| translate}} <u>{{"plan.pro"| translate}}</u> {{"plan.to_get"| translate}}
-          <span>{{overageDeatils.ingestDocs.limit | valueFormat}} {{"plan.plan_documents"| translate}}</span>
-          {{"plan.and"| translate}} <span>{{overageDeatils.searchQueries.limit | valueFormat}} {{"plan.queries"|
-            translate}}</span> {{"plan.per_month"| translate}}
-        </div>
-        <div class="info-text">{{"plan.upgrade_to"| translate}} <u>{{"plan.enterprise"| translate}}</u> {{"plan.to_get"|
-          translate}} <span>{{"plan.custom"| translate}}</span> {{"plan.no_of_documents_and_queries_per_month"|
-          translate}} </div>
-      </div> -->
-    </div>
-  </perfect-scrollbar>
-  <!-- <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg mr-3" [disabled]="!addDocOver && !addQueOver"
-      (click)="compare('orderOverage')">{{"plan.proceed"| translate}}</button>
-    <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closeOveragePopup()">{{"plan.cancel"|
-      translate}}</button>
-  </div> -->
-</kr-modal>
-
-<kr-modal modalType="center" modalClass="modal_popups_ payment_gateway" #cancelSubscriptionModelNew>
-  <div class="modal-header">
-    <div class="title">{{"plan.order_confirmation"| translate}}</div>
-    <div class="close_icon">
-      <img (click)="closeCancelSubsPopup()" src="assets/icons/modal-close.svg">
-    </div>
-  </div>
-  <perfect-scrollbar>
-    <div class="modal-body">
-      <div class="plan-order-steps">
-        <!-- order conformation start fr`om here -->
-        <div class="row col-12 m-0 align-items-center">
-          <div class="col-6">
-            <div class="order-img">
-              <img src="assets/images/pricing-plan/plan-order/order-cart.svg" class="order-stage-img" />
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="order-header text-center">Order Summary</div>
-
-            <div class="order-summary-table">
-
-              <div class="order-summary-header">You are changing from Standard plan to Enterprise Plan</div>
-              <div class="row order-summary-table-body">
-                <div class="col col-lg-6">
-                  <div class="order-summary-table-header">PLAN</div>
-                </div>
-                <div class="col col-lg-6">
-                  <div class="order-summary-table-header text-right">AMOUNT</div>
-                </div>
-              </div>
-
-              <div class="row order-summary-table-body">
-                <div class="col col-lg-6">
-                  <div class="order-summary-table-row">STANDARD PLAN</div>
-                </div>
-                <div class="col col-lg-6">
-                  <div class="order-summary-table-row text-right">$ 199</div>
-                </div>
-              </div>
-
-              <div class="order-type">
-                <div class="order-type-option order-option-selected">Monthly</div>
-                <div class="order-type-option">Annually</div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <!-- order conformation ends here -->
-        <div>
-          <iframe></iframe>
-        </div>
-        <!-- payment mode success screen start here -->
-        <div class="row col-12 m-0 align-items-center payment-status-block">
-          <div class="col-6">
-            <div class="order-img">
-              <img src="assets/images/pricing-plan/plan-order/payment-confirm.svg" class="order-stage-img" />
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="payment-status-overview">
-              <div class="payment-status-img"> <img src="assets/images/pricing-plan/plan-order/payment-confirm-success.svg" /></div>
-              <div class="payment-status-header">Yay! Payment Successful...</div>
-              <div class="payment-status-desc">10K Searches added and 10K Queries added per month</div>
-              <div class="payment-status-expire">Expires on 20 June 2022</div>
-              <div class="payment-status-btn">
-                <button class="kr-sg-button-secondary btn_lg">Download Invoice <span class="px-2"><i class="si si-download-file primaryColor"></i></span></button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- payment mode success screen ends here -->
-
-        <!-- payment mode failure screen start here -->
-        <div class="row col-12 m-0 align-items-center payment-status-block">
-          <div class="col-6">
-            <div class="order-img">
-              <img src="assets/images/pricing-plan/plan-order/payment-failed.svg" class="order-stage-img" />
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="payment-status-overview">
-              <div class="payment-status-img"> <img src="assets/images/pricing-plan/plan-order/payment-confirm-fail.svg" /></div>
-              <div class="payment-status-header">Payment Failed!</div>
-              <div class="payment-status-desc">10K Searches added and 10K Queries added per month</div>
-              <div class="payment-status-expire">Something Went Wrong</div>
-              <div class="payment-status-btn">
-                <button class="kr-sg-button-secondary btn_lg">Retry Payment <span class="px-2"><i class="si si-re-fresh primaryColor"></i></span></button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- payment mode failure screen ends here -->
-
-        <!-- payment mode hold screen start here -->
-        <div class="row col-12 m-0 align-items-center payment-status-block">
-          <div class="col-6">
-            <div class="order-img">
-              <img src="assets/images/pricing-plan/plan-order/payment-hold.svg" class="order-stage-img" />
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="payment-status-overview">
-              <div class="payment-status-img"> <img src="assets/images/pricing-plan/plan-order/payment-confirm-hold.svg" /></div>
-              <div class="payment-status-header">Payment On Hold!</div>
-              <div class="payment-status-desc">We will send you an email if we need any further information from you. You can either wait or close this window to continue with your work. </div>
-            </div>
-          </div>
-        </div>
-        <!-- payment mode hold screen ends here -->
-      </div>
-      <!-- <ul class="cancel-subscription-list">
-        <li>{{"plan.end_of_billing_cycle"| translate}}.
-          <span>{{(currentSubscriptionPlan&&currentSubscriptionPlan.subscription&&currentSubscriptionPlan.subscription.endDate)|
-            dateFormatPipe:'D MMMM YYYY'}}</span>.
-        </li>
-        <li>{{"plan.post_billing_cycle"| translate}}.</li>
-        <li>{{"plan.access_to_your_app_for_15_more_days"| translate}}.</li>
-      </ul> -->
-      <!-- <div class="cancel-subscription-data row m-0">
-        <div class="img-block col-8"><img src="assets/icons/pricing/cancel_subscription.png"></div>
-        <div class="cancel-subscription-reasons col-4 p-0">
-          <div class="group-checkbox">
-            <div class="heading-title">{{"plan.reason_you_want_cancel"| translate}}</div>
-            <div class="kr-sg-checkbox d-block">
-              <input id="checkbox_grp3" class="checkbox-custom" type="checkbox">
-              <label for="checkbox_grp3" class="checkbox-custom-label">{{"plan.it’s_too_costly"| translate}}</label>
-            </div>
-            <div class="kr-sg-checkbox d-block">
-              <input id="checkbox_grp1" class="checkbox-custom" type="checkbox">
-              <label for="checkbox_grp1" class="checkbox-custom-label">{{"plan.found_another_product"|
-                translate}}</label>
-            </div>
-            <div class="kr-sg-checkbox d-block">
-              <input id="checkbox_grp4" class="checkbox-custom" type="checkbox">
-              <label for="checkbox_grp4" class="checkbox-custom-label">{{"plan.don’t_use_it_enough"| translate}}</label>
-            </div>
-            <div class="kr-sg-checkbox d-block">
-              <input id="checkbox_grp5" class="checkbox-custom" type="checkbox">
-              <label for="checkbox_grp5" class="checkbox-custom-label">{{"plan.don’t_need_it_now"| translate}}</label>
-            </div>
-            <div class="kr-sg-checkbox d-block">
-              <input id="checkbox_grp15" class="checkbox-custom" type="checkbox">
-              <label for="checkbox_grp15" class="checkbox-custom-label">{{"plan.other"| translate}}</label>
-            </div>
-          </div>
-          <div class="kr-sg-input-text-area">
-            <div class="label-text">{{"plan.comments"| translate}}</div>
-            <textarea placeholder="Optional" id="text_area" class="input-text"></textarea>
-          </div>
-        </div>
-      </div> -->
-    </div>
-  </perfect-scrollbar>
-  <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="closeCancelSubsPopup()">{{"plan.proceed"| translate}}</button>
-    <button class="kr-sg-button-ghost btn_lg" (click)="cancelSubscription()">{{"plan.no_thanks"|
-      translate}}</button>
-  </div>
-</kr-modal>
-
-
-
+<!--cancel subscription modal-->
 <kr-modal modalType="center" modalClass="modal_popups_ cancel_subscription_new" #cancelSubscriptionModel>
   <div class="modal-header">
     <div class="title">{{"plan.cancel_subscription"| translate}}</div>
-    <div class="close_icon">
-      <img (click)="closeCancelSubsPopup()" src="assets/icons/modal-close.svg">
+    <div class="close_icon" (click)="cancelSubscriptionModal('close')">
+      <img src="assets/icons/modal-close.svg">
     </div>
   </div>
   <perfect-scrollbar>
     <div class="modal-body">
-        <!-- cancel subscription ui screen start here -->
-        <div class="row col-12 m-0 cancel-subscription-block d-none">
+        <div class="row col-12 m-0 cancel-subscription-block">
           <div class="col-6">
             <div class="order-img">
               <img src="assets/images/pricing-plan/plan-order/payment-hold.svg" class="order-stage-img" />
@@ -795,7 +147,7 @@
               <div class="terms-list">
                 <div class="check-icon"><i class="si-check"></i></div>
                 <div>
-                  Your Subscription is valid till the end of billing cycle - 21 Nov 2021.
+                  Your Subscription is valid till the end of billing cycle - {{currentSubscriptionPlan?.subscription?.endDate|date:'dd MMM yyyy'}}.
                 </div>
               </div>
               <div class="terms-list">
@@ -815,26 +167,9 @@
 
             <div class="reason-check-list">
               <div class="group-checkbox">
-                <div class="kr-sg-checkbox d-block">
-                  <input id="checkbox_grp3" class="checkbox-custom" type="checkbox">
-                  <label for="checkbox_grp3" class="checkbox-custom-label">{{"plan.it’s_too_costly"| translate}}</label>
-                </div>
-                <div class="kr-sg-checkbox d-block">
-                  <input id="checkbox_grp1" class="checkbox-custom" type="checkbox">
-                  <label for="checkbox_grp1" class="checkbox-custom-label">{{"plan.found_another_product"|
-                    translate}}</label>
-                </div>
-                <div class="kr-sg-checkbox d-block">
-                  <input id="checkbox_grp4" class="checkbox-custom" type="checkbox">
-                  <label for="checkbox_grp4" class="checkbox-custom-label">{{"plan.don’t_use_it_enough"| translate}}</label>
-                </div>
-                <div class="kr-sg-checkbox d-block">
-                  <input id="checkbox_grp5" class="checkbox-custom" type="checkbox">
-                  <label for="checkbox_grp5" class="checkbox-custom-label">{{"plan.don’t_need_it_now"| translate}}</label>
-                </div>
-                <div class="kr-sg-checkbox d-block">
-                  <input id="checkbox_grp15" class="checkbox-custom" type="checkbox">
-                  <label for="checkbox_grp15" class="checkbox-custom-label">{{"plan.other"| translate}}</label>
+                <div class="kr-sg-checkbox d-block" *ngFor="let data of cancellationCheckboxText;let i=index">
+                  <input [id]="i" class="checkbox-custom cancel-checkbox" type="checkbox">
+                  <label [for]="i" class="checkbox-custom-label">{{data}}</label>
                 </div>
               </div>
             </div>
@@ -842,109 +177,18 @@
             <div class="reason-comment">
               <div class="kr-sg-input-text-area">
                 <div class="label-text">{{"plan.comments"| translate}}</div>
-                <textarea placeholder="Start typing here" id="text_area" class="input-text"></textarea>
+                <textarea placeholder="Start typing here" id="cancel_comment_text" class="input-text"></textarea>
               </div>
             </div>
-
            </section>
           </div>
         </div>
-        <!-- cancel subscription ui screen ends here -->
-
-        <!-- add overage plan ui screen start from here -->
-        <div class="row col-12 m-0 add-overage-block">
-          <div class="col-5">
-            <div class="order-img">
-              <img src="assets/images/pricing-plan/plan-order/order-cart.svg" class="order-stage-img" />
-            </div>
-          </div>
-          <div class="col-7">
-           <section class="add-overage-section">
-            <div class="order-header text-center">Order Summary</div>
-            <div class="order-summary-table">
-              <div class="row order-summary-table-body">
-                <div class="col col-lg-10">
-                  <div class="order-summary-table-header">PLAN</div>
-                </div>
-                <div class="col col-lg-2">
-                  <div class="order-summary-table-header text-right">AMOUNT</div>
-                </div>
-              </div>
-
-              <div class="row order-summary-table-body">
-                <div class="col col-lg-10">
-                  <div class="order-summary-table-row">
-                    <div class="order-summary-header">Document Overage</div>
-                    <div class="count-btn-group">
-                      <div class="count-btn count-dec">-</div>
-                      <div class="count-input"><input class="count-value" type="text" value="1" name="count-num" title="count-num" /></div>
-                      <div class="count-btn count-inc">+</div>
-                    </div>
-                    <div class="count-amount">10 k</div>
-                  </div>
-                </div>
-                <div class="col col-lg-2 d-flex align-items-center">
-                  <div class="order-summary-table-row text-right">
-                    <div class="row-amount-total">$ 199</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row order-summary-table-body">
-                <div class="col col-lg-10">
-                  <div class="order-summary-table-row">
-                    <div class="order-summary-header">Queries Overage</div>
-                    <div class="count-btn-group">
-                      <div class="count-btn count-dec">-</div>
-                      <div class="count-input"><input class="count-value" type="text" value="1" name="count-num" title="count-num" /></div>
-                      <div class="count-btn count-inc">+</div>
-                    </div>
-                    <div class="count-amount">10 k</div>
-                  </div>
-                </div>
-                <div class="col col-lg-2 d-flex align-items-center">
-                  <div class="order-summary-table-row text-right">
-                    <div class="row-amount-total">$ 199</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row order-summary-table-body table-footer">
-                <div class="col col-lg-10">
-                  <div class="order-summary-table-row">
-                    <div class="order-summary-header">Total Charges</div>
-                  </div>
-                </div>
-                <div class="col col-lg-2 d-flex align-items-center">
-                  <div class="order-summary-table-row text-right">
-                    <div class="row-amount-total">$ 199</div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="order-compare-plan">
-              <div class="order-suggation-type">
-                <div class="suggation-text">You can also compare and upgrade to Enterprise plan</div>
-                <div class="suggation-text">Pro Plan - 50K Documents and 100K Queries per month.</div>
-              </div>
-              <div class="compare-plans-link">Compare all plans</div>
-            </div>
-
-           </section>
-          </div>
-        </div>
-         <!-- add overage plan ui screen ends here -->
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="closeCancelSubsPopup()">{{"plan.done"| translate}}</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="cancelSubscription()">{{"plan.done"| translate}}</button>
   </div>
 </kr-modal>
-
-<app-upgrade-plan #plans (overageModel)="closeOveragePopup()"></app-upgrade-plan>
-
 
   <!-- View plan Modal -->
   <div class="modal fade" id="viewPlanModal">
@@ -1004,4 +248,4 @@
     </div>
   </div>
 
-
+  <app-upgrade-plan #plans (overageModel)="closeOveragePopup()"></app-upgrade-plan>

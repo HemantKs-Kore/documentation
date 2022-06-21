@@ -32,7 +32,9 @@
               <div>Try our platform for free. No credit card required. </div>
             </div>
             <div class="plan-upgrade-block">
-              <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Choose Plan'}}</button>
+              <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName||selectedPlan?.planName==='Standard')?null:[openSelectedPopup('payment_gateway'),orderConfirmData=plan]">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
+               <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='standard'" (click)="plan?.name===selectedPlan?.planName?null:[openSelectedPopup('payment_gateway'),orderConfirmData=plan]">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Choose Plan'}}</button>
+              <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='enterprise'">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
             </div>
             <div class="plan-features-block">
               <perfect-scrollbar class="paln-overflow-scroll">
@@ -309,7 +311,7 @@
                 <div class="col-6">
                   <div class="order-header text-center">Order Summary</div>
                   <div class="order-summary-table">
-                    <div class="order-summary-header">You are changing from Standard plan to Enterprise Plan</div>
+                    <div class="order-summary-header">You are changing from {{selectedPlan?.planName}} plan to {{orderConfirmData?.name}} Plan</div>
                     <div class="row order-summary-table-body">
                       <div class="col col-lg-6">
                         <div class="order-summary-table-header">PLAN</div>
@@ -321,18 +323,15 @@
       
                     <div class="row order-summary-table-body">
                       <div class="col col-lg-6">
-                        <div class="order-summary-table-row">STANDARD PLAN</div>
+                        <div class="order-summary-table-row">{{orderConfirmData?.name}} PLAN</div>
                       </div>
                       <div class="col col-lg-6">
-                        <div class="order-summary-table-row text-right">$ 199</div>
+                        <div class="order-summary-table-row text-right">$ {{orderConfirmData?.planAmount}}</div>
                       </div>
-                    </div>
-      
+                    </div>      
                     <div class="order-type">
-                      <div class="order-type-option order-option-selected">Monthly</div>
-                      <div class="order-type-option">Annually</div>
-                    </div>
-      
+                      <div class="order-type-option" *ngFor="let type of ['Monthly','Yearly']" (click)="typeOfPlan(type);choosePlanType(type);" [ngClass]="{'order-option-selected':type===termPlan}">{{type}}</div>
+                    </div>      
                   </div>
                 </div>
               </div>
@@ -397,7 +396,7 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="selectedPaymentPage='payment_iframe'" *ngIf="selectedPaymentPage==='payment_confirm'">{{"plan.proceed"| translate}}</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="openPaymentGateway()" *ngIf="selectedPaymentPage==='payment_confirm'">{{"plan.proceed"| translate}}</button>
     <button class="kr-sg-button-ghost btn_lg" (click)="closeSelectedPopup('payment_gateway')" *ngIf="['payment_confirm','payment_iframe'].includes(selectedPaymentPage)">{{"plan.cancel"|translate}}</button>
     <button class="kr-sg-button-ghost btn_lg" (click)="closeSelectedPopup('payment_gateway')" *ngIf="['payment_fail','payment_hold'].includes(selectedPaymentPage)">{{"plan.close"|translate}}</button>
   </div>
@@ -436,6 +435,101 @@
   <!-- <div class="modal-footer text-right">
     <button class="kr-sg-button-primary btn_lg" (click)="closePopup2()">Done</button>     
   </div> -->
+</kr-modal>
+
+<!--Add overage modal-->
+<kr-modal modalType="center" modalClass="modal_popups_ cancel_subscription_new" #addOverageModel>
+  <div class="modal-header">
+    <div class="title">{{"plan.order_confirmation"| translate}}</div>
+    <div class="close_icon" (click)="overageModal('close')">
+      <img src="assets/icons/modal-close.svg">
+    </div>
+  </div>
+  <perfect-scrollbar>
+    <div class="modal-body">
+      <div class="row col-12 m-0 add-overage-block">
+        <div class="col-5">
+          <div class="order-img">
+            <img src="assets/images/pricing-plan/plan-order/order-cart.svg" class="order-stage-img" />
+          </div>
+        </div>
+        <div class="col-7">
+         <section class="add-overage-section">
+          <div class="order-header text-center">Order Summary</div>
+          <div class="order-summary-table">
+            <div class="row order-summary-table-body">
+              <div class="col col-lg-10">
+                <div class="order-summary-table-header">PLAN</div>
+              </div>
+              <div class="col col-lg-2">
+                <div class="order-summary-table-header text-right">AMOUNT</div>
+              </div>
+            </div>
+            <div class="row order-summary-table-body">
+              <div class="col col-lg-10">
+                <div class="order-summary-table-row">
+                  <div class="order-summary-header">Document Overage</div>
+                  <div class="count-btn-group">
+                    <div class="count-btn count-dec" (click)="overageDeatils.docCount=overageDeatils.docCount>0?overageDeatils.docCount-1:0">-</div>
+                    <div class="count-input"><input class="count-value" type="text" [value]="overageDeatils?.docCount" name="count-num" readonly/></div>
+                    <div class="count-btn count-inc" (click)="overageDeatils.docCount=overageDeatils.docCount+1">+</div>
+                  </div>
+                  <div class="count-amount">{{(overageDeatils?.ingestDocs?.limit|valueFormat)}}</div>
+                </div>
+              </div>
+              <div class="col col-lg-2 d-flex align-items-center">
+                <div class="order-summary-table-row text-right">
+                  <div class="row-amount-total">$ {{(overageDeatils?.ingestDocs?.amount*overageDeatils.docCount)}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="row order-summary-table-body">
+              <div class="col col-lg-10">
+                <div class="order-summary-table-row">
+                  <div class="order-summary-header">Queries Overage</div>
+                  <div class="count-btn-group">
+                    <div class="count-btn count-dec" (click)="overageDeatils.queriesCount=overageDeatils.queriesCount>0?overageDeatils.queriesCount-1:0">-</div>
+                    <div class="count-input"><input class="count-value" type="text" [value]="overageDeatils?.queriesCount" name="count-num" readonly/></div>
+                    <div class="count-btn count-inc" (click)="overageDeatils.queriesCount=overageDeatils.queriesCount+1">+</div>
+                  </div>
+                  <div class="count-amount">{{(overageDeatils?.searchQueries?.limit|valueFormat)}}</div>
+                </div>
+              </div>
+              <div class="col col-lg-2 d-flex align-items-center">
+                <div class="order-summary-table-row text-right">
+                  <div class="row-amount-total">$ {{(overageDeatils?.searchQueries?.amount*overageDeatils.queriesCount)}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="row order-summary-table-body table-footer">
+              <div class="col col-lg-10">
+                <div class="order-summary-table-row">
+                  <div class="order-summary-header">Total Charges</div>
+                </div>
+              </div>
+              <div class="col col-lg-2 d-flex align-items-center">
+                <div class="order-summary-table-row text-right">
+                  <div class="row-amount-total">$ {{(overageDeatils?.ingestDocs?.amount*overageDeatils?.docCount)+(overageDeatils?.searchQueries?.amount*overageDeatils.queriesCount)}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="order-compare-plan">
+            <div class="order-suggation-type">
+              <div class="suggation-text">You can also compare and upgrade to Enterprise plan</div>
+              <div class="suggation-text">Pro Plan - 50K Documents and 100K Queries per month.</div>
+            </div>
+            <div class="compare-plans-link" (click)="selectModal('choose_plan')">Compare all plans</div>
+          </div>
+         </section>
+        </div>
+      </div>
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer text-right">
+    <button class="kr-sg-button-primary btn_lg" (click)="buyOverage()" [disabled]="(overageDeatils?.docCount===0&&overageDeatils?.queriesCount===0)">{{"plan.proceed"| translate}}</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="overageModal('close')">{{"plan.no_thanks"| translate}}</button>
+  </div>
 </kr-modal>
 
 <!--change plan/excess data show popup-->
@@ -499,7 +593,7 @@
           <textarea placeholder="Optional" class="input-text" autocomplete="off"
             [(ngModel)]="enterpriseForm.message"></textarea>
         </div>
-        <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()" [disabled]="btnDisable">Submit
+        <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()">Submit
           Request</button>
       </div>
     </perfect-scrollbar>
