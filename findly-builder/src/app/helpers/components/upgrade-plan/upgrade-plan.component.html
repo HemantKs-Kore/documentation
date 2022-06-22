@@ -34,7 +34,7 @@
             <div class="plan-upgrade-block">
               <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName||selectedPlan?.planName==='Standard')?null:[openSelectedPopup('payment_gateway'),orderConfirmData=plan]">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
                <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='standard'" (click)="plan?.name===selectedPlan?.planName?null:[openSelectedPopup('payment_gateway'),orderConfirmData=plan]">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Choose Plan'}}</button>
-              <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='enterprise'">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
+              <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='enterprise'" (click)="plan?.name===selectedPlan?.planName?null:contactusModel('open')">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
             </div>
             <div class="plan-features-block">
               <perfect-scrollbar class="paln-overflow-scroll">
@@ -559,21 +559,10 @@
 
 <!--contact us form popup-->
 <kr-modal modalType="above-modal-drop" modalClass="modal_popups_ contact-us-modal_" #contactUsModel>
-  <div class="left-sec-form">
-    <div class="logo-searchassist">
-      <img src="assets/icons/pricing/logo.svg">
-    </div>
-    <div class="img-block-content">
-      <div class="img-block">
-        <img src="assets/icons/pricing/contactus.png">
-      </div>
-      <div class="title">Try SearchAssist for an ultimate search experience</div>
-    </div>
-  </div>
-  <div class="right-sec-form">
-    <perfect-scrollbar>
+  <div class="right-sec-form"> 
+  <perfect-scrollbar>
       <div class="scroll-content">
-        <div class="close_icon"><img (click)="closeContatcusModel()" src="assets/icons/modal-close.svg"></div>
+        <div class="close_icon"><img (click)="contactusModel('close')" src="assets/icons/modal-close.svg"></div>
         <div class="kr-sg-input-text mb-3">
           <div class="label-text">Name</div>
           <input type="text" placeholder="Name" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.name">
@@ -596,20 +585,6 @@
         <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()">Submit
           Request</button>
       </div>
-    </perfect-scrollbar>
-  </div>
-</kr-modal>
-
-<!--contact us success popup-->
-<kr-modal modalType="center" modalClass="modal_popups_ enterprise-plan-contact" #contactUsSuccessModel>
-  <div class="modal-header">
-    <div class="title">{{contact_us_planName}} Plan</div>
-    <div class="close_icon"><img (click)="closeContatcusSuccessModel()" src="assets/icons/modal-close.svg"></div>
-  </div>
-  <div class="modal-body">
-    <div class="title">Thanks for providing the details. Our sales team will reach out soon!</div>
-  </div>
-  <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="closeContatcusSuccessModel()">Done</button>
-  </div>
+  </perfect-scrollbar>
+</div> 
 </kr-modal>

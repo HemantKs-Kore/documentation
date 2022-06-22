@@ -1,6 +1,6 @@
 <!-- Sidebar -->
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
-	<ng-container *ngIf="!settingMainMenu && !sourceMenu || sourceMenu">
+	<ng-container *ngIf="settingMainMenu && !sourceMenu || sourceMenu">
 		<div class="upgrade_your_plan_price" [ngClass]="{'d-none':showUpgrade}">
 			<span
 				[ngClass]="{'status-type':upgradeBannerFlag,'red':usageDetails?.ingestDocs>=80||usageDetails.searchQueries>=80}"></span>

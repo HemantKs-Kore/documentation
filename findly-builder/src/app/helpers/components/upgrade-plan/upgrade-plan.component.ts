@@ -41,7 +41,6 @@ export class UpgradePlanComponent implements OnInit {
   paymentStatusInterval: any;
   invoiceOrderId: any;
   featuresExceededUsage: any;
-  contact_us_planName: string;
   selectedPaymentPage: string = 'payment_confirm';
   payementResponse: any = {
     hostedPage: {
@@ -76,7 +75,6 @@ export class UpgradePlanComponent implements OnInit {
   @ViewChild('successFailureModel') successFailureModel: KRModalComponent;
   @ViewChild('changePlanModel') changePlanModel: KRModalComponent;
   @ViewChild('contactUsModel') contactUsModel: KRModalComponent;
-  @ViewChild('contactUsSuccessModel') contactUsSuccessModel: KRModalComponent;
   @Output() overageModel = new EventEmitter<string>();
   @ViewChild(PerfectScrollbarComponent) public directiveScroll: PerfectScrollbarComponent;
   ngOnInit(): void {
@@ -221,28 +219,16 @@ export class UpgradePlanComponent implements OnInit {
     });
   }
   //open contact us popup
-  openContactusModel(type) {
-    this.contact_us_planName = type;
-    const userInfo = this.localstore.getAuthInfo();
-    this.enterpriseForm.name = userInfo.currentAccount.userInfo.fName;
-    this.enterpriseForm.email = userInfo.currentAccount.userInfo.emailId;
-    this.contactusModelPopRef = this.contactUsModel.open();
-  }
-  //close contactus popup
-  closeContatcusModel() {
-    if (this.contactusModelPopRef && this.contactusModelPopRef.close) {
-      this.enterpriseForm = { name: '', email: '', message: '', phone: '' };
-      this.contactusModelPopRef.close();
+  contactusModel(type) {
+    if (type === 'open') {
+      const userInfo = this.localstore.getAuthInfo();
+      this.enterpriseForm.name = userInfo.currentAccount.userInfo.fName;
+      this.enterpriseForm.email = userInfo.currentAccount.userInfo.emailId;
+      this.contactusModelPopRef = this.contactUsModel.open();
     }
-  }
-  //open contact us success popup
-  openContactusSuccessModel() {
-    this.contactusSuccessModelPopRef = this.contactUsSuccessModel.open();
-  }
-  //close contactus popup
-  closeContatcusSuccessModel() {
-    if (this.contactusSuccessModelPopRef && this.contactusSuccessModelPopRef.close) {
-      this.contactusSuccessModelPopRef.close();
+    else if (type === 'close') {
+      this.enterpriseForm = { name: '', email: '', message: '', phone: '' };
+      if (this.contactusModelPopRef?.close) this.contactusModelPopRef.close();
     }
   }
   //submitEnterpriseRequest method
@@ -251,9 +237,7 @@ export class UpgradePlanComponent implements OnInit {
     const queryParams = { "streamId": this.selectedApp?._id };
     const enterpriseRequest = this.service.invoke('post.enterpriseRequest', queryParams, this.enterpriseForm);
     enterpriseRequest.subscribe(res => {
-      this.closeContatcusModel();
-      this.closeOrderConfPopup();
-      this.openContactusSuccessModel();
+      this.contactusModel('close');
     }, errRes => {
       this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
     });
