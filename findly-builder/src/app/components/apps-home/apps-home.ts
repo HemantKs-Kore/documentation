@@ -134,7 +134,7 @@ export class AppsListingComponent implements OnInit {
       this.onboardingpopupjourneyRef.close();
       this.mixpanel.postEvent('User Onboarding - Journey Cancelled', {});
     }
-    this.showBoarding = false;
+    // this.showBoarding = false;
   }
 
   progressBarFun(val, step) {
@@ -175,9 +175,15 @@ export class AppsListingComponent implements OnInit {
       this.progressBarFun(3, 3);
       this.appCreationAtOnboarding();
     }
+    else if (this.steps == 'showSearchExperience' && !this.SearchExperianceType) {
+      this.steps == 'showSearchExperience'
+    }
     else {
-      if (this.newApp.name) {
-        this.steps = 'demoOptions';
+      if (this.displayApp = true && this.newApp.name) {
+        this.steps = 'demoOptions'; 
+      }
+      else {
+        this.validateAppname  = true;
       }
     }
 
@@ -187,9 +193,9 @@ export class AppsListingComponent implements OnInit {
     this.CloseAppLoadingScreen();
   }
   CloseAppLoadingScreen() {
-    setTimeout(() => {
-      this.loadingAppcreationRef.close()
-    }, 5000);
+   setTimeout(() => {
+    this.loadingAppcreationRef.close()
+   }, 9000);
   }
 
   selectDemoType(data) {
@@ -249,9 +255,7 @@ export class AppsListingComponent implements OnInit {
       this.service.invoke('post.createDemoApp', {}, payload).subscribe(
         res => {
           if (res) {
-            this.notificationService.notify('Demo App created Successfully', 'success');
             this.appSelectionService.getTourConfig();
-            this.headerService.openSearchSDK(true);
           }
 
         },
@@ -472,7 +476,7 @@ export class AppsListingComponent implements OnInit {
     };
     this.service.invoke('create.app', {}, payload).subscribe(
       res => {
-        this.notificationService.notify('App created successfully', 'success');
+        this.notificationService.notify(`${this.newApp.name} created successfully`, 'success');
         if (this.appType == 'sampleData') {
           this.createDemoApp(res?.searchIndexes[0]);
         }

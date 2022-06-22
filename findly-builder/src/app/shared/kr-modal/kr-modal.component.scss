@@ -1612,6 +1612,10 @@
                                     .joined-animation{
                                         display: none;
                                         position: absolute;
+                                        width: 230px;
+                                        height: 230px;
+                                        right: -23px;
+                                        top: auto;
                                     }
 
                                     .content-data {
@@ -1631,6 +1635,7 @@
                                         outline: 0;
                                         cursor: pointer;
                                         width: 143px;
+                                        z-index: 1;
                                     }
                                 }
                             }
@@ -1649,7 +1654,7 @@
                                 cursor: pointer;
                                 position: relative;
                                 transition: 0.2s all ease;
-
+                                z-index: 9;
                                 &:first-child {
                                     border-radius: 6px 6px 0px 0px;
                                 }

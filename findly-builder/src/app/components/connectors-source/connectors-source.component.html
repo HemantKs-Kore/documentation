@@ -294,7 +294,7 @@
                                             <div class="source-data">
                                                 <div class="source-card sync-source-card">
                                                     <div class="sync-card-title">{{'connectors.synchronization'|translate}}</div>
-                                                    <div class="sync-card-btn"><button class="kr-sg-button-primary btn_lg" [ngStyle]="{'background':isSyncLoading?'#85B7FE':'#0D6EFD'}" (click)="isSyncLoading?null:ingestConnector(true)"><img src="assets/images/connector-loader.png" *ngIf="isSyncLoading"> {{isSyncLoading?('connectors.sync_progress'|translate):('connectors.synchronize_content_now'|translate)}}</button></div>
+                                                    <div class="sync-card-btn"><button class="kr-sg-button-primary btn_lg" [ngStyle]="{'background':isSyncLoading?'#85B7FE':'#0D6EFD'}" (click)="isSyncLoading?null:ingestConnector(true)"><span class="loader-spin-inside-btn" *ngIf="isSyncLoading"></span>{{isSyncLoading?('connectors.sync_progress'|translate):('connectors.synchronize_content_now'|translate)}}</button></div>
                                                     <div class="sync-card-desc">{{'connectors.you_can_also_configure_your'|translate}} <span class="sync-card-link" (click)="selectedTab='configurations'">{{'connectors.sync_frequency'|translate}}.</span></div>
                                                 </div>
                                             </div>
@@ -454,7 +454,7 @@
             <div class="view-more-btn">
                 <div *ngIf="['connectionSettings','configurations'].includes(selectedTab)">
                     <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('cancel')">{{'connectors.cancel'|translate}}</button>
-                    <button class="kr-sg-button-primary btn_lg" (click)="selectedTab==='configurations'?updateSyncFrequency():fieldsValidation()?updateConnector():null" [disabled]="isloadingBtn">{{selectedTab==='configurations'?'Save Changes':'Connect'}}</button>
+                    <button class="kr-sg-button-primary btn_lg" (click)="selectedTab==='configurations'?updateSyncFrequency():fieldsValidation()?updateConnector():null" [disabled]="isloadingBtn"><span class="spin-loader-button mr-2"></span> {{selectedTab==='configurations'?'Save Changes':'Connect'}}</button>
                 </div>
                 <div *ngIf="selectedTab==='connectionSettings'">
                     <button class="kr-sg-button-danger btn_lg" (click)="openDeleteModel('open')"><i class="si-delete"></i>{{'connectors.remove_this_content_source'|translate}}</button>
