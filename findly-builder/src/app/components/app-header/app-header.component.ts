@@ -399,11 +399,16 @@ export class AppHeaderComponent implements OnInit {
     if (value) {
       this.browseWorkspaceRef = this.browseWorkspace.open()
     }
-    const AccountId = this.currentAppControlList.accountId
+    let accountId;
+    if ((!this.selectAccountDetails) || this.selectAccountDetails == "null" || this.selectAccountDetails == undefined) {
+      accountId = this.selectAccountDetails.accountId
+    } else {
+      accountId = this.currentAppControlList.accountId
+    }
     this.loadingContent = true
     this.loadingProgress = true
     const header: any = {
-      'AccountId': AccountId
+      'AccountId': accountId
     };
 
     // https://qa1-bots.kore.ai/api/1.1/builder/allowedDomains?rnd=0yiw5b
@@ -419,15 +424,6 @@ export class AppHeaderComponent implements OnInit {
           if (!this.WorkspaceList[index].displayName) {
             this.WorkspaceList[index]['displayName'] = ''
           }
-
-          // this.WorkspaceList[index].alreadyJoined = false
-          // for (let i = 0; i < requestedAccounts.length; i++) {
-          //   let account = requestedAccounts[i]
-          //   if (element._id == account.acctId) {
-          //     this.WorkspaceList[index].alreadyJoined = true
-          //   }
-          // }
-
           const splitBy = '/';
           if (this.WorkspaceList[index]['accountName'].includes('/')) {
             this.WorkspaceList[index]['accountName'] = this.WorkspaceList[index]['accountName'].split(splitBy)[1]
@@ -453,11 +449,6 @@ export class AppHeaderComponent implements OnInit {
             this.setAssociateprofilebackground(this.WorkspaceList, displayShortName, index)
           }
           if (avatar.length > 0) {
-            //             let firstChar = avatar.split(' ')[0][0]
-            //             let SecondChar = avatar.split(' ')[1] ? avatar.split(' ')[1][0] : avatar.split(' ')[0][1]
-            //             let displayShortName = (firstChar + SecondChar).trim().toUpperCase()
-            //             this.WorkspaceList[index]['displayShortName'] = displayShortName
-            //             this.setAssociateprofilebackground(this.WorkspaceList, displayShortName, index)
           } else {
             this.WorkspaceList[index]['displayShortName'] = ''
           }
