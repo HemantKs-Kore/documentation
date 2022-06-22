@@ -25,6 +25,7 @@ export class AppSelectionService {
   public updateUsageData = new Subject<any>();
   public routeChanged = new BehaviorSubject<any>({ name: undefined, path: '' });
   public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });
+  public openSDKApp = new Subject<any>();
   public resumingApp = false;
   public currentsubscriptionPlanDetails: any;
   public inlineManualInfo: any = [];
@@ -185,7 +186,7 @@ export class AppSelectionService {
       this.queryList = null;
     });
   }
-  openApp(app) {
+  openApp(app, isDemo?) {
     this.workflowService.selectedQueryPipeline([]);
     this.workflowService.appQueryPipelines({});
     this.setAppWorkFlowData(app);
@@ -194,9 +195,11 @@ export class AppSelectionService {
       title: '',
     };
     this.headerService.toggle(toogleObj);
-    this.router.navigate(['/summary'], { skipLocationChange: true });
+    const route = isDemo ? '/source' : '/summary';
+    // this.router.navigate([route], { skipLocationChange: true });
+    this.routeChanged.next({ name: 'pathchanged', path: route });
     this.getInlineManualcall();
-
+    if (isDemo) this.openSDKApp.next();
   }
   //get current subscription data
   getCurrentSubscriptionData() {
@@ -286,7 +289,7 @@ export class AppSelectionService {
     const appInfo: any = this.workflowService.selectedApp();
     // console.log("appInfo", appInfo)
     const quaryparms: any = {
-      streamId: appInfo._id
+      streamId: appInfo?._id
     };
     const appObserver = this.service.invoke('get.tourConfig', quaryparms);
     appObserver.subscribe(res => {
