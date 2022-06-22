@@ -1,51 +1,59 @@
 <!-- Sidebar -->
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
 	<ng-container *ngIf="settingMainMenu && !sourceMenu || sourceMenu">
-		<div class="upgrade_your_plan_price" [ngClass]="{'d-none':showUpgrade}">
-			<span
-				[ngClass]="{'status-type':upgradeBannerFlag,'red':usageDetails?.ingestDocs>=80||usageDetails.searchQueries>=80}"></span>
-			<div class="upgrade-plan-btn" (mouseover)="readUpgradeBanner()" (click)="upgrade()">Upgrade Your Plan<img
-					src="assets/icons/pricing/carrotright.svg"></div>
-			<div class="hover-documnet-show-data">
-				<div class="card-data- card1">
-					<div class="img-block">
-						<img src="assets/icons/pricing/query-limits.svg">
-					</div>
-					<div class="content-sec">
-						<div class="title">Query limit</div>
-						<div class="desc-text">Percentage of queries asked by the user</div>
-						<div class="count-data">
-							<div class="linit-k">
-								<span>{{usageDetails.searchCount | valueFormat}}</span> / {{usageDetails.searchLimit|
-								valueFormat}}
-							</div>
-							<div class="percentage">{{usageDetails.searchQueries}}% </div>
-						</div>
-					</div>
-					<ng-container>
-						<ngb-progressbar height="10px" [type]="usageDetails?.searchQueries>=80?'danger':'primary'"
-							[value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
-					</ng-container>
+		<div class="upgrade_your_plan_price">
+			<span [ngClass]="{'status-type':upgradeBannerFlag,'red':usageDetails?.ingestDocs>=80||usageDetails.searchQueries>=80}"></span>
+			<div class="product-subscription-alert">
+				<p class="product-subscription-desc">You have utilized more than 80% of your current plan, please upgrade plan to enjoy uninturrepted services.</p>
+				<img src="assets/images/pricing-plan/plan-subscrition/product-launch.svg" class="product-subscription-img"/>
+				<div class="upgrade-plan-btn" (mouseover)="readUpgradeBanner()" (click)="upgrade()">Upgrade Your Plan
+					<img src="assets/icons/pricing/carrotright.svg">
 				</div>
-				<div class="card-data- card2">
-					<div class="img-block">
-						<img src="assets/icons/pricing/document-limit.svg">
-					</div>
-					<div class="content-sec">
-						<div class="title">Document limit</div>
-						<div class="desc-text">Percentage of documents ingested</div>
-						<div class="count-data">
-							<div class="linit-k">
-								<span>{{usageDetails.ingestCount| valueFormat}}</span> / {{usageDetails.ingestLimit|
-								valueFormat}}
-							</div>
-							<div class="percentage">{{usageDetails.ingestDocs}}%</div>
+				<div class="hover-documnet-show-data">
+					<div class="card-data- card1">
+						<div class="img-block">
+							<img src="assets/icons/pricing/query-limits.svg">
 						</div>
+						<div class="content-sec">
+							<div class="title">Query limit</div>
+							<div class="desc-text">Percentage of queries asked by the user</div>
+							<div class="count-data">
+								<div class="linit-k">
+									<span>{{usageDetails.searchCount | valueFormat}}</span> / {{usageDetails.searchLimit|
+									valueFormat}}
+								</div>
+								<div class="percentage">{{usageDetails.searchQueries}}% </div>
+							</div>
+						</div>
+						<ng-container>
+							<ngb-progressbar height="10px" [type]="usageDetails?.searchQueries>=80?'danger':'primary'"
+								[value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
+						</ng-container>
 					</div>
-					<ng-container>
-						<ngb-progressbar height="10px" [type]="usageDetails?.ingestDocs>=80?'danger':'success'"
-							[value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
-					</ng-container>
+					<div class="card-data- card2">
+						<div class="img-block">
+							<img src="assets/icons/pricing/document-limit.svg">
+						</div>
+						<div class="content-sec">
+							<div class="title">Document limit</div>
+							<div class="desc-text">Percentage of documents ingested</div>
+							<div class="count-data">
+								<div class="linit-k">
+									<span>{{usageDetails.ingestCount| valueFormat}}</span> / {{usageDetails.ingestLimit|
+									valueFormat}}
+								</div>
+								<div class="percentage">{{usageDetails.ingestDocs}}%</div>
+							</div>
+						</div>
+						<ng-container>
+							<ngb-progressbar height="10px" [type]="usageDetails?.ingestDocs>=80?'danger':'success'"
+								[value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
+						</ng-container>
+					</div>
+				</div>
+				<div class="bottm-btns">
+					<div><button class="btn" type="button"><span class="px-1"><i class="si-externallink"></i></span>Know More</button></div>
+					<div><button class="btn" type="button"><span class="px-1"><i class="si-close-red"></i></span>Close</button></div>
 				</div>
 			</div>
 		</div>

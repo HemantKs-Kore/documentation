@@ -1052,6 +1052,15 @@
                         text-align: left !important;
                     }
                 }
+                .si-close-red{
+                    &::before{
+                        color: #EF4444;
+                    }
+                    
+                }
+                .si-green-check{
+                    color: #22C55E;
+                }
             }
 
             .border-btm {
@@ -1192,7 +1201,7 @@
             .plan-cost-details {
                 .plan-cost {
                     font-weight: 700;
-                    font-size: 36px;
+                    font-size: 32px;
                     line-height: 44px;
                     color: #111827;
 
@@ -1273,6 +1282,12 @@
 
             .icon-si {
                 padding: 0 10px 0 0;
+                .si-green-check{
+                    color: #22C55E;
+                }
+                .si-ellipsis-horizontal{
+                    color: #9CA3AF;
+                }
             }
 
             .plan-records {
@@ -1294,6 +1309,11 @@
 
             span {
                 padding: 0 10px 0 0;
+            }
+            .icon-si {
+                .si-ellipsis-horizontal{
+                    color: #9CA3AF;
+                }
             }
         }
 
@@ -1483,6 +1503,29 @@
                                 padding: 15px 0;
                             }
                         }
+                        .payment-success-route{
+                            text-align: center;
+                            border: 1px solid #E4E5E7;
+                            padding: 50px 85px;
+                            height: 350px;
+                            .rotaion-img{
+                                animation: rotationSpinner 1.5s infinite linear;
+                            }
+                            .request-hding{
+                                color: #202124;
+                                font-weight: 600;
+                                font-size: 16px;
+                                line-height: 19px;
+                                padding: 15px 0;
+                            }
+                            .request-desc{
+                                color: #202124;
+                                font-weight: 500;
+                                font-size: 14px;
+                                line-height: 22px;
+                                padding: 15px 0;
+                            }
+                        }
                     }
                 }
             }
@@ -1497,6 +1540,15 @@
         }
     }
 }
+
+@keyframes rotationSpinner {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
 
 // payment gateway order summary screen css ends here
 // add overage css start from here
@@ -1831,3 +1883,34 @@
 }
 
 // add overage  css ends here
+
+
+// contact us enterprise custom plans css start from here
+
+::ng-deep ngb-modal-window{
+    &.contact-us-modal_{
+        .modal-dialog{
+            width: 500px !important;
+            height: 500px !important;
+            .modal-content{
+                .right-sec-form{
+                    width: 100% !important;
+                    .scroll-content{
+                        padding: 20px 20px !important;
+                    }
+                    .modal-header{
+                        padding: 20px 20px 0 20px !important;
+                        height: auto !important;
+                        box-shadow: none !important;
+                        .modal-hding{
+                            font-weight: 500;
+                            font-size: 16px;
+                            line-height: 19px;
+                            color: #000000;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

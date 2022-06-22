@@ -481,11 +481,12 @@ app-mainmenu{
 
 .upgrade_your_plan_price{
 	position: absolute;
-    bottom: 24px;
-    width: 185px;
+    bottom: 10px;
+    width: 195px;
     margin: 0 auto;
     left: 0;
     right: 0;
+	z-index: 1;
 	.status-type{
 		width: 12px;
 		height: 12px;		
@@ -537,7 +538,7 @@ app-mainmenu{
 		width: 283px;
 		height: 215px;
 		z-index: 999;
-		bottom: 15px;
+		bottom: 51px;
 		left: 225px;
 		padding: 18px 15px;
 		&::before{
@@ -648,6 +649,43 @@ app-mainmenu{
 			// 		}		
 			// 	}
 			// }
+		}
+	}
+	// upgrade plan subscription css strat
+	.product-subscription-alert{
+		background: #FFFFFF;
+		box-shadow: 0px 4px 8px rgba(32, 33, 36, 0.15);
+		border-radius: 4px;
+		padding: 15px 12px;
+		.product-subscription-desc{
+			color: #5F6368;
+			font-weight: 400;
+			font-size: 10px;
+			line-height: 12px;
+			margin: 0;
+		}
+		.product-subscription-img{
+			padding: 20px 0 15px 0;
+		}
+		.bottm-btns{
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 10px 0 0 0;
+			.btn{
+				font-weight: 400;
+				font-size: 10px;
+				line-height: 12px;
+				color: #5F6368;
+				padding: 0.375rem 0rem;
+				cursor: pointer;
+				.si-close-red{
+					font-size: 8px;
+					&::before{
+						color: #5F6368;
+					}
+				}
+			}
 		}
 	}
 }

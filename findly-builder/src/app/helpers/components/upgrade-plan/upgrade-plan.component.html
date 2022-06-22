@@ -303,6 +303,27 @@
       <div class="plan-order-steps" [ngSwitch]="selectedPaymentPage">
                <!-- order conformation start fr`om here -->
                <div class="row col-12 m-0 align-items-center payment-status-block" *ngSwitchCase="'payment_confirm'">
+              <div class="col-12">
+                <div class="payment-success-route">
+                  <div class="rotaion-img">
+                    <img src="assets/images/pricing-plan/rotaion-spinner.svg" />
+                  </div>
+                  <div class="request-hding">Please wait</div>
+                  <div class="request-desc">Thank you for your order, please wait while we get the order confirmation details. </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="payment-success-route">
+                  <div class="rotaion-img">
+                    <img src="assets/images/pricing-plan/rotaion-spinner.svg" />
+                  </div>
+                  <div class="request-hding">Please wait</div>
+                  <div class="request-desc">Looks like it is taking longer than usual to process your transaction. </div>
+                  <div class="request-desc">You can either choose to wait or close this window to continue with your work. We will let you know once the payment is done.</div>
+                </div>
+              </div>
+              </div>
+               <div class="row col-12 m-0 align-items-center payment-status-block" *ngSwitchCase="'!payment_confirm'">
                 <div class="col-6">
                   <div class="order-img">
                     <img src="assets/images/pricing-plan/plan-order/order-cart.svg" class="order-stage-img" />
@@ -519,7 +540,7 @@
               <div class="suggation-text">You can also compare and upgrade to Enterprise plan</div>
               <div class="suggation-text">Pro Plan - 50K Documents and 100K Queries per month.</div>
             </div>
-            <div class="compare-plans-link" (click)="selectModal('choose_plan')">Compare all plans</div>
+            <div class="compare-plans-link">Compare all plans</div>
           </div>
          </section>
         </div>
@@ -560,9 +581,13 @@
 <!--contact us form popup-->
 <kr-modal modalType="above-modal-drop" modalClass="modal_popups_ contact-us-modal_" #contactUsModel>
   <div class="right-sec-form"> 
+    <div class="modal-header">
+      <div class="modal-hding">Talk to us</div>
+      <div class="close_icon"><img (click)="contactusModel('close')" src="assets/icons/modal-close.svg"></div>
+    </div>
   <perfect-scrollbar>
       <div class="scroll-content">
-        <div class="close_icon"><img (click)="contactusModel('close')" src="assets/icons/modal-close.svg"></div>
+       
         <div class="kr-sg-input-text mb-3">
           <div class="label-text">Name</div>
           <input type="text" placeholder="Name" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.name">
@@ -582,8 +607,10 @@
           <textarea placeholder="Optional" class="input-text" autocomplete="off"
             [(ngModel)]="enterpriseForm.message"></textarea>
         </div>
-        <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()">Submit
-          Request</button>
+        <div class="text-right">
+          <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()">Submit
+            Request</button>
+        </div>
       </div>
   </perfect-scrollbar>
 </div> 
