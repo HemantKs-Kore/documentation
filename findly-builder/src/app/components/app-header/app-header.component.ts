@@ -401,9 +401,9 @@ export class AppHeaderComponent implements OnInit {
     }
     let accountId;
     if ((!this.selectAccountDetails) || this.selectAccountDetails == "null" || this.selectAccountDetails == undefined) {
-      accountId = this.selectAccountDetails.accountId
-    } else {
       accountId = this.currentAppControlList.accountId
+    } else {
+      accountId = this.selectAccountDetails.accountId
     }
     this.loadingContent = true
     this.loadingProgress = true
