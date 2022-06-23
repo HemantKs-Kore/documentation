@@ -1,4 +1,3 @@
-
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -13,121 +12,142 @@ and open the template in the editor.
 
 /*---- TOGGLE STARTS HERE---*/
 
-.label_text{
+.label_text {
     color: $primaryColor;
     font-size: 14px;
     margin-bottom: 5px;
     font-weight: bold;
 }
-.desc-info-text{
+
+.desc-info-text {
     font-size: 12px;
     color: $secondaryColor;
     margin-bottom: 4px;
-    .clickable-text{
+
+    .clickable-text {
         color: $hoverBlue;
         cursor: pointer;
         font-weight: 500;
     }
 }
+
 .kr-sg-toggle {
     position: relative;
     display: inline-block;
     width: 40px;
     height: 20px;
     margin: 0;
-    &.with-label{
+
+    &.with-label {
         margin-left: 25px;
-        &.large{
+
+        &.large {
             .slider {
-                span{
-                    &.yes{
+                span {
+                    &.yes {
                         padding-left: 58px;
                     }
-                }                
+                }
             }
         }
     }
-    &.large{
+
+    &.large {
         width: 50px;
         height: 20px;
-        input{
-            &:checked{
-                + .slider{                    
-                    &::before{
+
+        input {
+            &:checked {
+                +.slider {
+                    &::before {
                         -webkit-transform: translateX(25px);
                         -ms-transform: translateX(25px);
                         transform: translateX(25px);
                     }
-                    + span{
-                        color: $primaryColor;                                        
-                    }                   
-                }             
+
+                    +span {
+                        color: $primaryColor;
+                    }
+                }
             }
         }
-        .slider{
-            &::before{
+
+        .slider {
+            &::before {
                 height: 14px;
                 width: 14px;
             }
-            span{
-                &.enabled{
+
+            span {
+                &.enabled {
                     padding-left: 58px;
                 }
-                &.disabled{
+
+                &.disabled {
                     padding-left: 58px;
                 }
             }
         }
     }
-    input{
+
+    input {
         opacity: 0;
         width: 0;
         height: 0;
-        &:checked{
-            + .slider{
+
+        &:checked {
+            +.slider {
                 background-color: $hoverBlue;
                 box-shadow: 0 0 1px $hoverBlue;
                 border: 1px solid $hoverBlue;
-                &::before{
+
+                &::before {
                     -webkit-transform: translateX(20px);
                     -ms-transform: translateX(20px);
                     transform: translateX(20px);
                     background-color: #FFFFFF;
                 }
-                span{
-                    &.yes{
+
+                span {
+                    &.yes {
                         color: $primaryColor;
-                    }                                                            
+                    }
                 }
-                span{
-                    &.enabled{
+
+                span {
+                    &.enabled {
                         color: $primaryColor;
                         display: block;
-                    }  
-                    &.disabled{
+                    }
+
+                    &.disabled {
                         display: none;
-                    }                                                          
-                }                
+                    }
+                }
             }
-            &:disabled{
-                + .slider{
+
+            &:disabled {
+                +.slider {
                     background-color: $hoverBlue;
                     opacity: 0.3;
                     box-shadow: 0 0 1px $hoverBlue;
                 }
             }
         }
-        &:focus{
-            + .slider{                
+
+        &:focus {
+            +.slider {
                 // box-shadow: 0 0 1px $hoverBlue;
                 border: 1px solid #1372ff;
             }
-        }   
-        &:disabled{
-            cursor: auto;            
-        }   
+        }
+
+        &:disabled {
+            cursor: auto;
+        }
     }
-    .slider{
+
+    .slider {
         position: absolute;
         cursor: pointer;
         top: 0;
@@ -139,32 +159,38 @@ and open the template in the editor.
         transition: .4s;
         border-radius: 18px;
         border: 1px solid #BDC1C6;
-        span{
+
+        span {
             font-size: 12px;
             color: $secondaryColor;
-            &.yes{                
+
+            &.yes {
                 padding-left: 45px;
                 position: absolute;
                 top: -2px;
             }
-            &.no{                
+
+            &.no {
                 position: absolute;
                 top: -2px;
                 margin-left: -25px;
             }
-            &.enabled{
+
+            &.enabled {
                 padding-left: 45px;
                 position: absolute;
                 top: -2px;
                 display: none;
-            }  
-            &.disabled{
+            }
+
+            &.disabled {
                 padding-left: 45px;
                 position: absolute;
                 top: -2px;
-            }            
+            }
         }
-        &::before{
+
+        &::before {
             position: absolute;
             content: "";
             height: 12px;
@@ -182,346 +208,413 @@ and open the template in the editor.
 /*---- TOGGLE ENDS HERE---*/
 
 /*---- BUTTON STYLES START HERE---*/
-.kr-sg-button-primary{
+.kr-sg-button-primary {
     border: 1px solid transparent;
     background: #0D6EFD;
     padding: 0px 20px;
-    height: 26px;    
+    height: 26px;
     font-size: 12px;
     border-radius: 4px;
     color: $whiteColor;
     min-width: 60px;
     text-align: center;
     transition: 0.2s all ease-in;
-    &:hover{
+
+    &:hover {
         background: #0D6EFD;
     }
-    &:active{
-        background:#0D6EFD;
+
+    &:active {
+        background: #0D6EFD;
     }
-    &:focus{
+
+    &:focus {
         border: solid 1px #0D6EFD;
     }
-    &:disabled{
-        background: #EFF0F1;
-        color: #BDC1C6;
+
+    &:disabled {
+        // background: #EFF0F1;
+        // color: #BDC1C6;
+        background: #85B7FE;
+        border: 1px solid #0D6EFD;
+        color: #FFFFFF;
     }
-    &.btn_md{
+
+    &.btn_md {
         height: 30px;
         font-size: 14px;
     }
-    &.btn_lg{
+
+    &.btn_lg {
         height: 34px;
         font-size: 14px;
     }
-    &.w-100{
+
+    &.w-100 {
         width: 100%;
     }
 }
 
-.kr-sg-button-secondary{
+.kr-sg-button-secondary {
     border: 1px solid #BDC1C6;
     background: #FFFFFF;
     padding: 0px 20px;
-    height: 26px;    
+    height: 26px;
     font-size: 12px;
     border-radius: 4px;
     color: #202124;
     min-width: 60px;
     text-align: center;
     transition: 0.2s all ease-in;
-    &:hover{
-        background:#FFFFFF;
+
+    &:hover {
+        background: #FFFFFF;
     }
-    &:active{
-        background:#BDC1C6;
+
+    &:active {
+        background: #BDC1C6;
     }
-    &:focus{
-        background:$whiteColor;
+
+    &:focus {
+        background: $whiteColor;
         border: solid 1px #1372ff;
     }
-    &:disabled{
+
+    &:disabled {
         background: $whiteColor;
         color: #cdd3d8;
         border: solid 1px #eaecf0;
         opacity: 1;
     }
-    &.btn_md{
+
+    &.btn_md {
         height: 30px;
         font-size: 14px;
     }
-    &.btn_lg{
+
+    &.btn_lg {
         height: 34px;
         font-size: 14px;
     }
-    &.w-100{
+
+    &.w-100 {
         width: 100%;
     }
 }
-.kr-sg-button-secondary-pricing{
+
+.kr-sg-button-secondary-pricing {
     border: 1px solid #BDC1C6;
     background: #FFFFFF;
     padding: 0px 20px;
-    height: 26px;    
+    height: 26px;
     font-size: 12px;
     border-radius: 4px;
     color: #202124;
     min-width: 60px;
     text-align: center;
     transition: 0.2s all ease-in;
-    &:hover{
-        background:#FFFFFF;
+
+    &:hover {
+        background: #FFFFFF;
     }
-    &:active{
-        background:#BDC1C6;
+
+    &:active {
+        background: #BDC1C6;
     }
-    &:focus{
-        background:$whiteColor;
+
+    &:focus {
+        background: $whiteColor;
         border: solid 1px #1372ff;
     }
-    &:disabled{
+
+    &:disabled {
         background: $whiteColor;
         color: #cdd3d8;
         border: solid 1px #eaecf0;
         opacity: 1;
     }
-    &.btn_md{
+
+    &.btn_md {
         height: 30px;
         font-size: 14px;
     }
-    &.btn_lg{
+
+    &.btn_lg {
         height: 34px;
         font-size: 14px;
     }
-    &.w-100{
+
+    &.w-100 {
         width: 100%;
     }
 }
-.kr-sg-button-secondary-two{
+
+.kr-sg-button-secondary-two {
     border: solid 1px rgba(0, 157, 171, 0.4);
     background: rgba(0, 157, 171, 0.1);
     padding: 0px 20px;
-    height: 26px;    
+    height: 26px;
     font-size: 12px;
     border-radius: 4px;
     color: $hoverBlue;
     min-width: 60px;
     text-align: center;
     transition: 0.2s all ease-in;
-    &:hover{
+
+    &:hover {
         background-color: rgba(0, 157, 171, 0.2);
         border: solid 1px rgba(0, 157, 171, 0.7);
     }
-    &:active{
+
+    &:active {
         background-color: rgba(0, 157, 171, 0.3);
         border: solid 1px rgba(0, 157, 171, 0.7);
     }
-    &:focus{        
+
+    &:focus {
         border: solid 1px #1372ff;
     }
-    &:disabled{
+
+    &:disabled {
         background: rgba(0, 157, 171, 0.05);
         color: #bbdee1;
         border: solid 1px rgba(0, 157, 171, 0.2);
         opacity: 1;
     }
-    &.btn_md{
+
+    &.btn_md {
         height: 30px;
         font-size: 14px;
     }
-    &.btn_lg{
+
+    &.btn_lg {
         height: 34px;
         font-size: 14px;
     }
-    &.w-100{
+
+    &.w-100 {
         width: 100%;
     }
 }
 
-.kr-sg-button-tertiary{
+.kr-sg-button-tertiary {
     border: 1px solid transparent;
     background: $secondaryColor;
     padding: 0px 20px;
-    height: 26px;    
+    height: 26px;
     font-size: 12px;
     border-radius: 4px;
     color: $whiteColor;
     min-width: 60px;
     text-align: center;
     transition: 0.2s all ease-in;
-    &:hover{
-        background:#7b858e;
+
+    &:hover {
+        background: #7b858e;
     }
-    &:active{
-        background:#6e777f;
+
+    &:active {
+        background: #6e777f;
     }
-    &:focus{
+
+    &:focus {
         border: solid 1px #1372ff;
     }
-    &:disabled{
+
+    &:disabled {
         background: #dcdfe2;
         color: #f3f5f7;
         opacity: 1;
     }
-    &.btn_md{
+
+    &.btn_md {
         height: 30px;
         font-size: 14px;
     }
-    &.btn_lg{
+
+    &.btn_lg {
         height: 34px;
         font-size: 14px;
     }
-    &.w-100{
+
+    &.w-100 {
         width: 100%;
     }
 }
 
-.kr-sg-button-ghost{
+.kr-sg-button-ghost {
     border: 1px solid transparent;
     background: $whiteColor;
     padding: 0px 20px;
-    height: 26px;    
+    height: 26px;
     font-size: 12px;
     border-radius: 4px;
-    color:$hoverBlue;
+    color: $hoverBlue;
     min-width: 60px;
     text-align: center;
     transition: 0.2s all ease-in;
-    &:hover{            
-        span{
+
+    &:hover {
+        span {
             border-bottom: 1px solid $hoverBlue;
-        }           
+        }
     }
-    &:active{
-        color:#007d88;
+
+    &:active {
+        color: #007d88;
     }
-    &:focus{
+
+    &:focus {
         border: solid 1px #1372ff;
     }
-    &:disabled{
+
+    &:disabled {
         color: #a9e1e5;
         border-bottom: 0 !important;
         opacity: 1;
-        &:hover{            
-            span{
+
+        &:hover {
+            span {
                 border-bottom: 0px solid $hoverBlue;
-            }           
+            }
         }
     }
-    &.btn_md{
+
+    &.btn_md {
         height: 30px;
         font-size: 14px;
     }
-    &.btn_lg{
+
+    &.btn_lg {
         height: 34px;
         font-size: 14px;
     }
-    &.w-100{
+
+    &.w-100 {
         width: 100%;
     }
 }
 
-.kr-sg-button-danger{
+.kr-sg-button-danger {
     border: 1px solid transparent;
     background: #d2000d;
     padding: 0px 20px;
-    height: 26px;    
+    height: 26px;
     font-size: 12px;
     border-radius: 4px;
     color: $whiteColor;
     min-width: 60px;
     text-align: center;
     transition: 0.2s all ease-in;
-    i{
+
+    i {
         font-size: 12px;
         margin-right: 10px;
     }
-    &:hover{
+
+    &:hover {
         background: #bc000b;
     }
-    &:active{
-        background:#a8000a;
+
+    &:active {
+        background: #a8000a;
     }
-    &:focus{
+
+    &:focus {
         // border: solid 1px #1372ff;
     }
-    &:disabled{
-        background:#f1b3b6;
+
+    &:disabled {
+        background: #f1b3b6;
         color: #ffdbdd;
         opacity: 1;
     }
-    &.btn_md{
+
+    &.btn_md {
         height: 30px;
         font-size: 14px;
     }
-    &.btn_lg{
+
+    &.btn_lg {
         height: 34px;
         font-size: 14px;
     }
-    &.w-100{
+
+    &.w-100 {
         width: 100%;
     }
 }
 
-.kr-sg-buttonicon-primary{
+.kr-sg-buttonicon-primary {
     border: 1px solid transparent;
     background: $hoverBlue;
     padding: 0px 15px;
-    height: 26px;    
+    height: 26px;
     font-size: 12px;
     border-radius: 4px;
     color: $whiteColor;
     min-width: 75px;
     text-align: center;
     transition: 0.2s all ease-in;
-    img{
+
+    img {
         width: 14px;
         height: 14px;
         margin-right: 13px;
     }
-    &:hover{
+
+    &:hover {
         background: #008c99;
     }
-    &:active{
-        background:#007d88;
+
+    &:active {
+        background: #007d88;
     }
-    &:focus{
+
+    &:focus {
         border: solid 1px #1372ff;
     }
-    &:disabled{
+
+    &:disabled {
         background: #66c4cc;
         color: #b5e3e7;
         opacity: 1;
-        img{
+
+        img {
             opacity: .5;
         }
     }
-    &.btn_md{
+
+    &.btn_md {
         height: 30px;
         font-size: 14px;
-        img{
+
+        img {
             width: 16px;
             height: 16px;
             margin-right: 13px;
         }
     }
-    &.btn_lg{
+
+    &.btn_lg {
         height: 34px;
         font-size: 14px;
-        img{
+
+        img {
             width: 18px;
             height: 18px;
             margin-right: 13px;
         }
     }
-    &.w-100{
+
+    &.w-100 {
         width: 100%;
     }
 }
 
-.kr-sg-buttonicon-secondary{
+.kr-sg-buttonicon-secondary {
     border: 1px solid $borderColor;
-    background: $whiteColor;    
+    background: $whiteColor;
     height: 26px;
     padding: 0px 15px;
     font-size: 12px;
@@ -530,284 +623,340 @@ and open the template in the editor.
     min-width: 75px;
     text-align: center;
     transition: 0.2s all ease-in;
-    img{
+
+    img {
         width: 14px;
         height: 14px;
         margin-right: 13px;
     }
-    &:hover{
-        background:#f6f8fa;
+
+    &:hover {
+        background: #f6f8fa;
     }
-    &:active{
-        background:$borderColor;
+
+    &:active {
+        background: $borderColor;
         border: solid 1px $borderColor;
     }
-    &:focus{
-        background:$whiteColor;
+
+    &:focus {
+        background: $whiteColor;
         border: solid 1px #1372ff;
     }
-    &:disabled{
+
+    &:disabled {
         background: $whiteColor;
         color: #cdd3d8;
         border: solid 1px #eaecf0;
         opacity: 1;
-        img{
+
+        img {
             opacity: .5;
         }
     }
-    &.btn_md{
+
+    &.btn_md {
         height: 30px;
         font-size: 14px;
-        img{
+
+        img {
             width: 16px;
             height: 16px;
             margin-right: 13px;
         }
     }
-    &.btn_lg{
+
+    &.btn_lg {
         height: 34px;
         font-size: 14px;
-        img{
+
+        img {
             width: 18px;
             height: 18px;
             margin-right: 13px;
         }
     }
-    &.w-100{
+
+    &.w-100 {
         width: 100%;
     }
 }
 
-.kr-sg-buttonicon-secondary-two{
+.kr-sg-buttonicon-secondary-two {
     border: solid 1px rgba(0, 157, 171, 0.4);
     background: rgba(0, 157, 171, 0.1);
     padding: 0px 15px;
-    height: 26px;    
+    height: 26px;
     font-size: 12px;
     border-radius: 4px;
     color: $hoverBlue;
     min-width: 75px;
     text-align: center;
     transition: 0.2s all ease-in;
-    img{
+
+    img {
         width: 14px;
         height: 14px;
         margin-right: 13px;
     }
-    &:hover{
+
+    &:hover {
         background-color: rgba(0, 157, 171, 0.2);
         border: solid 1px rgba(0, 157, 171, 0.7);
     }
-    &:active{
+
+    &:active {
         background-color: rgba(0, 157, 171, 0.3);
         border: solid 1px rgba(0, 157, 171, 0.7);
     }
-    &:focus{        
+
+    &:focus {
         border: solid 1px #1372ff;
     }
-    &:disabled{
+
+    &:disabled {
         background: rgba(0, 157, 171, 0.05);
         color: #bbdee1;
         border: solid 1px rgba(0, 157, 171, 0.2);
         opacity: 1;
-        img{
+
+        img {
             opacity: .5;
         }
     }
-    &.btn_md{
+
+    &.btn_md {
         height: 30px;
         font-size: 14px;
-        img{
+
+        img {
             width: 16px;
             height: 16px;
             margin-right: 13px;
         }
     }
-    &.btn_lg{
+
+    &.btn_lg {
         height: 34px;
         font-size: 14px;
-        img{
+
+        img {
             width: 18px;
             height: 18px;
             margin-right: 13px;
         }
     }
-    &.w-100{
+
+    &.w-100 {
         width: 100%;
     }
 }
 
-.kr-sg-buttonicon-tertiary{
+.kr-sg-buttonicon-tertiary {
     border: 1px solid transparent;
     background: $secondaryColor;
     padding: 0px 15px;
-    height: 26px;    
+    height: 26px;
     font-size: 12px;
     border-radius: 4px;
     color: $whiteColor;
     min-width: 75px;
     text-align: center;
     transition: 0.2s all ease-in;
-    img{
+
+    img {
         width: 14px;
         height: 14px;
         margin-right: 13px;
     }
-    &:hover{
+
+    &:hover {
         background: #7b858e;
     }
-    &:active{
-        background:#6e777f;
+
+    &:active {
+        background: #6e777f;
     }
-    &:focus{
+
+    &:focus {
         border: solid 1px #1372ff;
     }
-    &:disabled{
-        background:#dcdfe2;
-        color:#f3f5f7;
+
+    &:disabled {
+        background: #dcdfe2;
+        color: #f3f5f7;
         opacity: 1;
-        img{
+
+        img {
             opacity: .5;
         }
     }
-    &.btn_md{
+
+    &.btn_md {
         height: 30px;
         font-size: 14px;
-        img{
+
+        img {
             width: 16px;
             height: 16px;
             margin-right: 13px;
         }
     }
-    &.btn_lg{
+
+    &.btn_lg {
         height: 34px;
         font-size: 14px;
-        img{
+
+        img {
             width: 18px;
             height: 18px;
             margin-right: 13px;
         }
     }
-    &.w-100{
+
+    &.w-100 {
         width: 100%;
     }
 }
 
-.kr-sg-buttonicon-ghost{
+.kr-sg-buttonicon-ghost {
     border: 1px solid transparent;
     background: $whiteColor;
     padding: 0px 15px;
-    height: 26px;    
+    height: 26px;
     font-size: 12px;
     border-radius: 4px;
-    color:$hoverBlue;
+    color: $hoverBlue;
     min-width: 75px;
     text-align: center;
     transition: 0.2s all ease-in;
-    img{
+
+    img {
         width: 14px;
         height: 14px;
         margin-right: 13px;
     }
-    &:hover{            
-        span{
+
+    &:hover {
+        span {
             border-bottom: 1px solid $hoverBlue;
-        }           
+        }
     }
-    &:active{
-        color:#007d88;
+
+    &:active {
+        color: #007d88;
     }
-    &:focus{
+
+    &:focus {
         border: solid 1px #1372ff;
     }
-    &:disabled{
+
+    &:disabled {
         color: #a9e1e5;
         border-bottom: 0 !important;
         opacity: 1;
-        img{
+
+        img {
             opacity: .5;
         }
-        &:hover{            
-            span{
+
+        &:hover {
+            span {
                 border-bottom: 0px solid $hoverBlue;
-            }           
+            }
         }
     }
-    &.btn_md{
+
+    &.btn_md {
         height: 30px;
         font-size: 14px;
-        img{
+
+        img {
             width: 16px;
             height: 16px;
             margin-right: 13px;
         }
     }
-    &.btn_lg{
+
+    &.btn_lg {
         height: 34px;
         font-size: 14px;
-        img{
+
+        img {
             width: 18px;
             height: 18px;
             margin-right: 13px;
         }
     }
-    &.w-100{
+
+    &.w-100 {
         width: 100%;
     }
 }
 
-.kr-sg-buttonicon-danger{
+.kr-sg-buttonicon-danger {
     border: 1px solid transparent;
     background: #d2000d;
     padding: 0px 15px;
-    height: 26px;    
+    height: 26px;
     font-size: 12px;
     border-radius: 4px;
     color: $whiteColor;
     min-width: 75px;
     text-align: center;
     transition: 0.2s all ease-in;
-    img{
+
+    img {
         width: 14px;
         height: 14px;
         margin-right: 13px;
     }
-    &:hover{
+
+    &:hover {
         background: #bc000b;
     }
-    &:active{
-        background:#a8000a;
+
+    &:active {
+        background: #a8000a;
     }
-    &:focus{
+
+    &:focus {
         border: solid 1px #1372ff;
     }
-    &:disabled{
-        background:#f1b3b6;
+
+    &:disabled {
+        background: #f1b3b6;
         color: #ffdbdd;
         opacity: 1;
-        img{
+
+        img {
             opacity: .5;
         }
     }
-    &.btn_md{
+
+    &.btn_md {
         height: 30px;
         font-size: 14px;
-        img{
+
+        img {
             width: 16px;
             height: 16px;
             margin-right: 13px;
         }
     }
-    &.btn_lg{
+
+    &.btn_lg {
         height: 34px;
         font-size: 14px;
-        img{
+
+        img {
             width: 18px;
             height: 18px;
             margin-right: 13px;
         }
     }
-    &.w-100{
+
+    &.w-100 {
         width: 100%;
     }
 }
@@ -815,30 +964,34 @@ and open the template in the editor.
 /*---- BUTTON STYLES ENDS HERE---*/
 
 /*---- CHECKBOX STYLES START HERE---*/
-.kr-sg-checkbox{
+.kr-sg-checkbox {
     display: inline-flex;
     padding-right: 32px;
     margin-bottom: 8px;
     position: relative;
-    &.d-block{
+
+    &.d-block {
         display: block;
     }
-    .checkbox-custom{
+
+    .checkbox-custom {
         opacity: 0;
-        position: absolute;          
+        position: absolute;
         cursor: pointer;
         margin: 0;
         height: auto;
-        + .checkbox-custom-label{
+
+        +.checkbox-custom-label {
             display: inline-block;
             vertical-align: middle;
             cursor: pointer;
             position: relative;
             font-size: 14px;
-            color:$primaryColor;
+            color: $primaryColor;
             margin: 0;
             font-weight: normal;
-            &::before{
+
+            &::before {
                 content: '';
                 display: inline-block;
                 vertical-align: middle;
@@ -854,30 +1007,34 @@ and open the template in the editor.
                 margin-top: -3px;
             }
         }
-        &:hover{
-            &:not([disabled]):checked{
-                + .checkbox-custom-label{
-                    color: $primaryColor; 
-                    &::before{
+
+        &:hover {
+            &:not([disabled]):checked {
+                +.checkbox-custom-label {
+                    color: $primaryColor;
+
+                    &::before {
                         border: solid 1px #BDC1C6;
                     }
                 }
-            }  
-            &:not([disabled]){
-                + .checkbox-custom-label{
-                    color: #0D6EFD; 
-                    &::before{
+            }
+
+            &:not([disabled]) {
+                +.checkbox-custom-label {
+                    color: #0D6EFD;
+
+                    &::before {
                         border: solid 1px #1372ff;
                     }
                 }
-            }            
+            }
         }
-        
-        &:checked{
-            + .checkbox-custom-label{
-                &::before{
-                    content: "";                   
-                    background-color: #0D6EFD;                    
+
+        &:checked {
+            +.checkbox-custom-label {
+                &::before {
+                    content: "";
+                    background-color: #0D6EFD;
                     background-image: url('^assets/icons/check-white.svg');
                     color: $whiteColor;
                     font-size: 12px;
@@ -887,85 +1044,102 @@ and open the template in the editor.
                     border: 0 !important;
                 }
             }
-            &:focus{
-                + .checkbox-custom-label{
+
+            &:focus {
+                +.checkbox-custom-label {
                     color: $primaryColor;
                 }
             }
-            &:disabled{
-                + .checkbox-custom-label{
-                    &::before{                        
-                        background-color: #a6dce1;                        
+
+            &:disabled {
+                +.checkbox-custom-label {
+                    &::before {
+                        background-color: #a6dce1;
                     }
                 }
             }
         }
-        &:disabled{           
-            + .checkbox-custom-label{
-                &::before{
+
+        &:disabled {
+            +.checkbox-custom-label {
+                &::before {
                     border: solid 1px $borderColor;
                 }
             }
         }
-        &:focus{
-            + .checkbox-custom-label{
-                color: #0D6EFD;  
-                &::before{
-                    border: 1px solid #1372ff; 
+
+        &:focus {
+            +.checkbox-custom-label {
+                color: #0D6EFD;
+
+                &::before {
+                    border: 1px solid #1372ff;
                 }
             }
         }
-    }   
+    }
 }
-.group-checkbox{
-    .heading-title{
+
+.group-checkbox {
+    .heading-title {
         color: #0e0e0e;
         font-size: 14px;
         font-weight: bold;
         margin-bottom: 5px;
     }
 }
+
 /*---- CHECKBOX STYLES ENDS HERE---*/
 
 
 /*---- DATA TABLE STYLES START HERE---*/
-.kr-sg-data-table{
+.kr-sg-data-table {
     margin-bottom: 20px;
-    .kr-sg-checkbox{
+
+    .kr-sg-checkbox {
         padding-right: 0;
         margin-bottom: 0;
-        .checkbox-custom-label{
+
+        .checkbox-custom-label {
             padding-left: 0;
             padding-right: 6px;
             padding-top: 3px;
-            &::after{
+
+            &::after {
                 display: none;
             }
-            &::before{
+
+            &::before {
                 position: relative;
                 top: -1px !important;
             }
         }
     }
-    .table-title-info{
+
+    .table-title-info {
         padding: 22px 0px 20px 10px;
-        .title{
+
+        .title {
             color: #202124;
             font-size: 14px;
             font-weight: bold;
         }
-        .desc{
+
+        .desc {
             color: #8a959f;
             font-size: 12px;
         }
     }
-    &.with-checkbox{
-        .table-action-header{
+
+    &.with-checkbox {
+        .table-action-header {
             justify-content: space-between;
-            div{
+
+            div {
                 margin-left: 0px;
                 display: inline-block;
-                &.selected-length{
+
+                &.selected-length {
                     color: #009dab;
                     line-height: 1.29;
                     font-size: 14px;
@@ -974,64 +1148,75 @@ and open the template in the editor.
                 }
             }
         }
-        .kr-sg-checkbox{
+
+        .kr-sg-checkbox {
             padding-right: 0;
             margin-bottom: 0;
         }
-        section{
-            &.table-content{
-                .col{
+
+        section {
+            &.table-content {
+                .col {
                     padding: 0px 10px;
                 }
             }
         }
     }
-    &.accordion-table{        
-        header{
-            &.table-header{               
-                .col{
+
+    &.accordion-table {
+        header {
+            &.table-header {
+                .col {
                     flex: 1;
-                    display: flex;                    
+                    display: flex;
                     align-items: center;
-                    padding: 0px 10px;              
+                    padding: 0px 10px;
                 }
             }
         }
-        section{
-            &.table-content{
-                > *{
+
+        section {
+            &.table-content {
+                >* {
                     // display: flex;
                     // justify-content: space-between;
-                }               
-                .col{
+                }
+
+                .col {
                     // flex: 1;
                     width: 100%;
-                    display: flex;                    
+                    display: flex;
                     align-items: center;
-                    padding: 0px 10px;                    
+                    padding: 0px 10px;
                 }
-                .collapse{
+
+                .collapse {
                     display: none !important;
-                    &.show{
+
+                    &.show {
                         display: block !important;
                         transition: all 0.4s ease-in;
                     }
                 }
-                .table-header{
-                    .col{
-                        &:nth-child(2){
+
+                .table-header {
+                    .col {
+                        &:nth-child(2) {
                             padding-left: 30px;
                         }
                     }
                 }
-                .collapsed-default{
+
+                .collapsed-default {
                     position: relative;
-                    .col{
-                        &:first-child{
+
+                    .col {
+                        &:first-child {
                             padding-left: 30px;
                         }
                     }
-                    &::before{
+
+                    &::before {
                         content: "";
                         background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTZweCIgaGVpZ2h0PSI5cHgiIHZpZXdCb3g9IjAgMCAxNiA5IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA1My4yICg3MjY0MykgLSBodHRwczovL3NrZXRjaGFwcC5jb20gLS0+CiAgICA8dGl0bGU+Y2Fycm90LXVwLWNvbXA8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0iY2Fycm90LXVwLWNvbXAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuMDAwMDAwLCAtNC4wMDAwMDApIiBmaWxsLXJ1bGU9Im5vbnplcm8iPgogICAgICAgICAgICA8cG9seWdvbiBpZD0iUGF0aCIgZmlsbC1vcGFjaXR5PSIwIiBmaWxsPSIjRDhEOEQ4IiBwb2ludHM9IjAgMCAxNiAwIDE2IDE2IDAgMTYiPjwvcG9seWdvbj4KICAgICAgICAgICAgPHBhdGggZD0iTTcuNjI4LDQuNTk5IEM3LjgyMSw0LjQwNSA4LjEyOCw0LjM5NCA4LjMzNSw0LjU2NSBMOC4zNzIsNC41OTkgTDE0Ljk1NywxMS4xODMgQzE1LjE2MywxMS4zODkgMTUuMTYzLDExLjcyMyAxNC45NTcsMTEuOTI4IEMxNC43NjMsMTIuMTIyIDE0LjQ1NywxMi4xMzMgMTQuMjQ5LDExLjk2MiBMMTQuMjEyLDExLjkyOCBMOCw1LjcxNiBMMS43ODgsMTEuOTI4IEMxLjU5NCwxMi4xMjIgMS4yODgsMTIuMTMzIDEuMDgxLDExLjk2MiBMMS4wNDMsMTEuOTI4IEMwLjg1LDExLjczNCAwLjgzOCwxMS40MjggMS4wMDksMTEuMjIxIEwxLjA0MywxMS4xODMgTDcuNjI4LDQuNiBMNy42MjgsNC41OTkgWiIgaWQ9IlBhdGgiIGZpbGw9IiMyNjM0NEEiPjwvcGF0aD4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==');
                         background-size: 14px;
@@ -1045,8 +1230,9 @@ and open the template in the editor.
                         left: 10px;
                         color: #202124;
                     }
-                    &.collapsed{
-                        &::before{
+
+                    &.collapsed {
+                        &::before {
                             content: "";
                             background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTZweCIgaGVpZ2h0PSI5cHgiIHZpZXdCb3g9IjAgMCAxNiA5IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA1My4yICg3MjY0MykgLSBodHRwczovL3NrZXRjaGFwcC5jb20gLS0+CiAgICA8dGl0bGU+Y2Fycm90LWRvd24tY29tcDwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJjYXJyb3QtZG93bi1jb21wIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjAwMDAwMCwgLTQuMDAwMDAwKSIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBvbHlnb24gaWQ9IlBhdGgiIGZpbGwtb3BhY2l0eT0iMCIgZmlsbD0iI0Q4RDhEOCIgcG9pbnRzPSIwIDAgMTYgMCAxNiAxNiAwIDE2Ij48L3BvbHlnb24+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik03LjYyOCwxMS45MjggQzcuODIxLDEyLjEyMiA4LjEyOCwxMi4xMzMgOC4zMzUsMTEuOTYyIEw4LjM3MiwxMS45MjggTDE0Ljk1Nyw1LjM0NCBDMTUuMTYzLDUuMTM4IDE1LjE2Myw0LjgwNCAxNC45NTcsNC41OTkgQzE0Ljc2Myw0LjQwNSAxNC40NTcsNC4zOTQgMTQuMjQ5LDQuNTY1IEwxNC4yMTIsNC41OTkgTDgsMTAuODEgTDEuNzg4LDQuNTk5IEMxLjU5NCw0LjQwNSAxLjI4OCw0LjM5NCAxLjA4MSw0LjU2NSBMMS4wNDMsNC41OTkgQzAuODUsNC43OTIgMC44MzgsNS4wOTkgMS4wMDksNS4zMDYgTDEuMDQzLDUuMzQ0IEw3LjYyOCwxMS45MjggWiIgaWQ9IlBhdGgiIGZpbGw9IiMyNjM0NEEiPjwvcGF0aD4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==');
                             background-size: 14px;
@@ -1057,40 +1243,42 @@ and open the template in the editor.
                             line-height: 50px;
                             font-size: 18px;
                             height: 100%;
-                            left: 10px;    
-                            color: #202124;                        
+                            left: 10px;
+                            color: #202124;
                         }
                     }
                 }
-                .accordion-table{
+
+                .accordion-table {
                     padding: 20px 10px;
                 }
             }
         }
     }
-    .table-action-header{
+
+    .table-action-header {
         height: 50px;
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        div{
+
+        div {
             margin-left: 21px;
-            i{
+
+            i {
                 color: #202124;
                 font-size: 14px;
             }
         }
-        .search{
 
-        }
-        .close-icon{
+        .search {}
 
-        }
-        .info{
+        .close-icon {}
 
-        }
-        .action{
-            button{
+        .info {}
+
+        .action {
+            button {
                 border-radius: 4px;
                 border: solid 1px rgba(0, 157, 171, 0.4);
                 background-color: rgba(0, 157, 171, 0.1);
@@ -1100,21 +1288,22 @@ and open the template in the editor.
                 color: #009dab;
                 line-height: 1;
                 font-size: 14px;
-            }            
+            }
         }
     }
+
     section {
-        &.table-content{
+        &.table-content {
             display: table;
             width: 100%;
-            .table-header{
 
-            }
+            .table-header {}
+
             // > *{
             //     display: table-row;
             //     height: 50px;
             // }
-            .col{
+            .col {
                 display: table-cell;
                 vertical-align: middle;
                 // border-bottom: 1px solid $borderColor;
@@ -1127,34 +1316,40 @@ and open the template in the editor.
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
-                &.pr-0{
+
+                &.pr-0 {
                     padding-right: 0;
                     overflow: inherit;
                 }
-                span{
-                    &.actions-links{
+
+                span {
+                    &.actions-links {
                         width: 32px;
                         display: inline-block;
                         text-align: center;
-                        background: transparent;                        
+                        background: transparent;
                         height: 32px;
                         line-height: 32px;
-                        .dropdown{
+
+                        .dropdown {
                             display: block;
-                            .btn{
+
+                            .btn {
                                 margin: 0;
                                 padding: 0;
                                 line-height: 0px;
                             }
-                            &.open{
+
+                            &.open {
                                 background-color: #ffffff;
                                 box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
                                 display: block;
                             }
                         }
-                        .dropdown-menu{
+
+                        .dropdown-menu {
                             right: 0;
-                            top: 32px;                            
+                            top: 32px;
                             left: auto;
                             box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
                             background-color: #ffffff;
@@ -1162,13 +1357,15 @@ and open the template in the editor.
                             border: 0px;
                             margin: 0;
                             padding: 0;
-                            li{
-                                a{
+
+                            li {
+                                a {
                                     line-height: 40px;
                                     padding: 0 12px;
                                     color: #202124;
                                     font-size: 14px;
-                                    img{
+
+                                    img {
                                         margin-right: 10px;
                                         width: 14px;
                                         height: 14px;
@@ -1176,19 +1373,22 @@ and open the template in the editor.
                                 }
                             }
                         }
-                        img{
-                            &.action_icon{
+
+                        img {
+                            &.action_icon {
                                 width: 12px;
                                 height: 12px;
-                                &.arrow-icon{
+
+                                &.arrow-icon {
                                     // transform: rotate(-90deg);
                                 }
                             }
                         }
-                    }                   
-                }               
+                    }
+                }
             }
-            .table-header{
+
+            .table-header {
                 display: flex;
                 align-items: center;
                 padding: 17px 0;
@@ -1196,58 +1396,68 @@ and open the template in the editor.
                 font-size: 12px;
                 color: #9AA0A6;
                 font-weight: 500;
-                .col{
-                    border-bottom: 0px solid #8a959f;                    
+
+                .col {
+                    border-bottom: 0px solid #8a959f;
                     font-size: 12px;
                     color: #8a959f;
-                    text-transform: uppercase;                    
-                }                
+                    text-transform: uppercase;
+                }
             }
-            .content-body{
+
+            .content-body {
                 transition: all 0.3s ease;
                 transition: all 0.3s ease;
                 display: flex;
                 align-items: center;
                 padding: 16px 0;
-                border-bottom: 1px solid #e5e8ec;    
-                cursor: pointer;          
-                &.disabled{
+                border-bottom: 1px solid #e5e8ec;
+                cursor: pointer;
+
+                &.disabled {
                     pointer-events: none;
-                    &::before{
+
+                    &::before {
                         opacity: 0.3;
                     }
-                    .col{
+
+                    .col {
                         color: #202124;
                         opacity: 0.3;
                     }
                 }
-                &:hover{
+
+                &:hover {
                     background-color: #f3f3f4;
                 }
-                &:focus{
+
+                &:focus {
                     outline: 1px solid #1372ff;
                 }
-            }             
-        }           
+            }
+        }
     }
 }
+
 /*---- DATA TABLE STYLES ENDS HERE---*/
 
 
 /*---- DATA TABLE STYLES START HERE---*/
 
-.kr-sg-dropdowns{    
+.kr-sg-dropdowns {
     width: 100%;
-    &.show{
-        .dropdown-open{
-            .dropdown-input{
-                &.before-none{
-                    &::before{
+
+    &.show {
+        .dropdown-open {
+            .dropdown-input {
+                &.before-none {
+                    &::before {
                         display: none !important;
                     }
                 }
-                &::before{
-                    content: "";                  
+
+                &::before {
+                    content: "";
                     position: absolute;
                     line-height: 34px;
                     font-size: 18px;
@@ -1257,36 +1467,41 @@ and open the template in the editor.
                     color: $primaryColor;
                     transition: all 0.3s ease-in;
                     // z-index: 99; remove z-index because of onboarding dropdown issue icon overlapping
-                    z-index: 8;   
-                    background-image: url('^assets/icons/carrot-up-comp.svg') !important;                
+                    z-index: 8;
+                    background-image: url('^assets/icons/carrot-up-comp.svg') !important;
                     background-size: 14px;
-                    background-repeat: no-repeat; 
+                    background-repeat: no-repeat;
                     background-position: center;
-                    width: 14px;                     
+                    width: 14px;
                 }
             }
-        }               
+        }
     }
-    &.w-100{
+
+    &.w-100 {
         width: 100%;
     }
-    .label-text{
+
+    .label-text {
         color: $primaryColor;
         font-size: 12px;
         margin-bottom: 4px;
         font-weight: 600;
     }
-    .error-text{
+
+    .error-text {
         font-size: 12px;
-        color:#DD3646;
+        color: #DD3646;
         padding: 3px 0px;
     }
-    .dropdown-open{
-        position: relative;              
-        &.show{
-            .dropdown-input{
-                &::before{
-                    content: "";                  
+
+    .dropdown-open {
+        position: relative;
+
+        &.show {
+            .dropdown-input {
+                &::before {
+                    content: "";
                     position: absolute;
                     line-height: 34px;
                     font-size: 18px;
@@ -1295,16 +1510,17 @@ and open the template in the editor.
                     right: 10px;
                     color: $primaryColor;
                     transition: all 0.3s ease-in;
-                    z-index: 99;   
-                    background-image: url('^assets/icons/carrot-up-comp.svg');                
+                    z-index: 99;
+                    background-image: url('^assets/icons/carrot-up-comp.svg');
                     background-size: 14px;
-                    background-repeat: no-repeat; 
+                    background-repeat: no-repeat;
                     background-position: center;
-                    width: 14px;                     
+                    width: 14px;
                 }
-            }       
+            }
         }
-        .dropdown-input{
+
+        .dropdown-input {
             position: relative;
             height: 34px;
             width: 100%;
@@ -1312,23 +1528,26 @@ and open the template in the editor.
             border-radius: 4px;
             border: solid 1px $borderColor;
             background-color: $whiteColor;
-            padding: 0 10px;       
-            text-align: left;  
+            padding: 0 10px;
+            text-align: left;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             padding-right: 25px;
-            .multi-selected-items{
+
+            .multi-selected-items {
                 background: $borderColor;
                 padding: 4px 8px;
                 border-radius: 12px;
-                min-width: 40px;                                  
+                min-width: 40px;
                 margin-right: 10px;
-                .length-count{
+
+                .length-count {
                     font-size: 12px;
                     color: $primaryColor;
                 }
-                .cross-icon{
+
+                .cross-icon {
                     border-radius: 100px;
                     padding: 0px 5px;
                     position: relative;
@@ -1339,18 +1558,21 @@ and open the template in the editor.
                     display: inline-block;
                     position: relative;
                     transition: all 0.3s ease-in;
-                    img{
+
+                    img {
                         width: 10px;
                         height: 10px;
-                        vertical-align: inherit;                      
+                        vertical-align: inherit;
                         position: absolute;
                         top: 3px;
                         left: 3px;
                     }
-                    &:hover{
+
+                    &:hover {
                         background-color: #c9cdd4;
                     }
-                    i{
+
+                    i {
                         position: relative;
                         top: -2px;
                         font-size: 10px;
@@ -1358,8 +1580,9 @@ and open the template in the editor.
                     }
                 }
             }
-            &::before{
-                content: "";              
+
+            &::before {
+                content: "";
                 position: absolute;
                 line-height: 34px;
                 font-size: 18px;
@@ -1369,52 +1592,61 @@ and open the template in the editor.
                 color: $primaryColor;
                 transition: all 0.3s ease-in;
                 z-index: 99;
-                background-image: url('^assets/icons/carrot-down-comp.svg');                
+                background-image: url('^assets/icons/carrot-down-comp.svg');
                 background-size: 14px;
-                background-repeat: no-repeat; 
+                background-repeat: no-repeat;
                 background-position: center;
-                width: 14px;   
+                width: 14px;
             }
-            &::after{
+
+            &::after {
                 border: 0;
                 display: none;
             }
-            &.inline{
-                border:0;
+
+            &.inline {
+                border: 0;
                 border-radius: 0px;
                 border-bottom: 1px solid $backgroundColor;
-                &:hover{
-                    border:0;
+
+                &:hover {
+                    border: 0;
                     border-bottom: 1px solid $hoverBlue;
                 }
-                &:focus{
+
+                &:focus {
                     border: solid 1px #1372ff;
                 }
-                &:disabled{
-                    border:0;
+
+                &:disabled {
+                    border: 0;
                     border-bottom: solid 1px #f3f3f4;
                     color: $primaryColor;
                     opacity: 0.3;
                 }
-            } 
-            &.error{
+            }
+
+            &.error {
                 border: solid 1px #DD3646 !important;
             }
-            &:hover{               
+
+            &:hover {
                 border: solid 1px #ccd1d7;
             }
+
             // &:focus{
             //     border: solid 1px #1372ff;
             // }
-            &:disabled{
+            &:disabled {
                 // border: solid 1px #f3f3f4;
-                color: $primaryColor;	
+                color: $primaryColor;
                 // opacity: 0.3;	
-                cursor: not-allowed;	
+                cursor: not-allowed;
                 pointer-events: none;
             }
         }
-        .content-menu{
+
+        .content-menu {
             border: 0;
             border-radius: 2px;
             // box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
@@ -1423,31 +1655,35 @@ and open the template in the editor.
             padding: 0;
             margin: 0;
             z-index: 999999;
-            .kr-sg-checkbox{
+
+            .kr-sg-checkbox {
                 margin: 0;
                 padding: 9.5px 10px 9.05px 10px;
             }
-            .search-box{
+
+            .search-box {
                 position: relative;
                 margin: 0 10px;
                 position: relative;
                 padding: 0;
                 border-radius: 0;
-                &::before{
-                    content: "";                  
+
+                &::before {
+                    content: "";
                     position: absolute;
                     line-height: 34px;
                     font-size: 12px;
                     height: 100%;
                     left: 0px;
-                    color: $secondaryColor;  
-                    background-image: url('^assets/icons/search.svg');                
+                    color: $secondaryColor;
+                    background-image: url('^assets/icons/search.svg');
                     background-size: 14px;
-                    background-repeat: no-repeat; 
+                    background-repeat: no-repeat;
                     background-position: center;
-                    width: 14px;   
+                    width: 14px;
                 }
-                .seach-input{
+
+                .seach-input {
                     width: 100%;
                     line-height: 34px;
                     height: 34px;
@@ -1458,86 +1694,97 @@ and open the template in the editor.
                     padding-left: 20px;
                     outline: 0 !important;
                     border-radius: 0;
-                    &::placeholder{
-                        color:$secondaryColor;
+
+                    &::placeholder {
+                        color: $secondaryColor;
                     }
                 }
-            }            
-            li{
-                a{
+            }
+
+            li {
+                a {
                     line-height: 40px;
                     padding: 0 10px;
                     color: $primaryColor;
                     font-size: 14px;
-                    text-decoration: none !important;	
+                    text-decoration: none !important;
                     display: block;
                     cursor: pointer;
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     max-width: 100%;
-                    &.selected{
+
+                    &.selected {
                         position: relative;
                         background-color: $backgroundColor;
-                        &::before{
+
+                        &::before {
                             content: "";
-                            background: url("/assets/icons/checkTickIconGray.svg") no-repeat;                            
+                            background: url("/assets/icons/checkTickIconGray.svg") no-repeat;
                             position: absolute;
                             line-height: 40px;
                             height: 100%;
                             right: 16px;
                             transition: all 0.3s ease-in;
-                            z-index: 99;                        
+                            z-index: 99;
                             height: 100%;
                             width: 14px;
                             background-position: center;
                             background-size: 100%;
                         }
                     }
-                    &:hover{               
+
+                    &:hover {
                         background-color: $backgroundColor;
                     }
                 }
             }
         }
     }
-    .content-menu{
+
+    .content-menu {
         border: 0;
         border-radius: 2px;
         box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
-       // box-shadow: 0px 10px 30px rgba(32, 33, 36, 0.3);
+        // box-shadow: 0px 10px 30px rgba(32, 33, 36, 0.3);
         width: 100%;
         padding: 0;
         margin: 0;
         z-index: 999999;
-        &.if-shadow-box{
+
+        &.if-shadow-box {
             box-shadow: 0px 10px 30px rgba(32, 33, 36, 0.3);
         }
-        .kr-sg-checkbox{
+
+        .kr-sg-checkbox {
             margin: 0;
             padding: 9.5px 10px 9.05px 10px;
         }
-        .search-box{
+
+        .search-box {
             position: relative;
             margin: 0 10px;
             position: relative;
             padding: 0;
             border-radius: 0;
-            &::before{
-                content: "";                  
+
+            &::before {
+                content: "";
                 position: absolute;
                 line-height: 34px;
                 font-size: 12px;
                 height: 100%;
                 left: 0px;
-                color: $secondaryColor;  
-                background-image: url('^assets/icons/search.svg');                
+                color: $secondaryColor;
+                background-image: url('^assets/icons/search.svg');
                 background-size: 14px;
-                background-repeat: no-repeat; 
+                background-repeat: no-repeat;
                 background-position: center;
-                width: 14px;   
+                width: 14px;
             }
-            .seach-input{
+
+            .seach-input {
                 width: 100%;
                 line-height: 34px;
                 height: 34px;
@@ -1548,78 +1795,90 @@ and open the template in the editor.
                 padding-left: 20px;
                 outline: 0 !important;
                 border-radius: 0;
-                &::placeholder{
-                    color:$secondaryColor;
+
+                &::placeholder {
+                    color: $secondaryColor;
                 }
             }
-        }            
-        li{
-            &.dropdown-item{
+        }
+
+        li {
+            &.dropdown-item {
                 // padding: 0;
-                outline: 0;                
+                outline: 0;
             }
-            &:active{
+
+            &:active {
                 background: transparent !important;
                 color: #202124 !important;
             }
-            a{
+
+            a {
                 line-height: 40px;
                 padding: 0 10px;
                 color: $primaryColor;
                 font-size: 14px;
-                text-decoration: none !important;	
+                text-decoration: none !important;
                 display: block;
                 cursor: pointer;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 max-width: 100%;
-                &.selected{
+
+                &.selected {
                     position: relative;
                     background-color: $backgroundColor;
-                    &::before{
+
+                    &::before {
                         content: "";
-                        background: url("/assets/icons/checkTickIconGray.svg") no-repeat;                            
+                        background: url("/assets/icons/checkTickIconGray.svg") no-repeat;
                         position: absolute;
                         line-height: 40px;
                         height: 100%;
                         right: 16px;
                         transition: all 0.3s ease-in;
-                        z-index: 99;                        
+                        z-index: 99;
                         height: 100%;
                         width: 14px;
                         background-position: center;
                         background-size: 100%;
                     }
                 }
-                &:hover{               
+
+                &:hover {
                     background-color: $backgroundColor;
                 }
             }
         }
     }
 }
+
 /*---- DATA TABLE STYLES ENDS HERE---*/
 
 /*---- FILE UPLOAD STYLES START HERE---*/
 
-.kr-sg-fileupload{
+.kr-sg-fileupload {
     width: 100%;
-    &.w-100{
+
+    &.w-100 {
         width: 100%;
     }
-    .label-text{
+
+    .label-text {
         font-size: 14px;
         font-weight: bold;
         color: $primaryColor;
         margin-bottom: 4px;
     }
-    .custom-file{
+
+    .custom-file {
         position: relative;
         display: inline-block;
         width: 100%;
         height: 34px;
-        .custom-file-input{
+
+        .custom-file-input {
             position: relative;
             z-index: 2;
             width: 100%;
@@ -1628,7 +1887,8 @@ and open the template in the editor.
             opacity: 0;
             cursor: pointer;
         }
-        label{
+
+        label {
             position: absolute;
             top: 0;
             right: 0;
@@ -1643,12 +1903,14 @@ and open the template in the editor.
             margin: 0;
             line-height: 34px;
             background-color: $whiteColor;
-            span{
+
+            span {
                 padding: 0 10px;
                 width: calc(100% - 140px);
                 display: inline-block;
             }
-            &::before{
+
+            &::before {
                 content: "";
                 position: absolute;
                 height: 100%;
@@ -1656,7 +1918,8 @@ and open the template in the editor.
                 border: solid 1px $borderColor;
                 border-radius: 2px 0px 0px 2px;
             }
-            &::after{
+
+            &::after {
                 content: "Choose File";
                 position: absolute;
                 width: 140px;
@@ -1667,7 +1930,7 @@ and open the template in the editor.
                 display: block;
                 height: 100%;
                 color: $whiteColor;
-                background-color: $hoverBlue;            
+                background-color: $hoverBlue;
                 border-radius: 0px 2px 2px 0px;
                 font-size: 14px;
                 text-align: center;
@@ -1675,7 +1938,8 @@ and open the template in the editor.
             }
         }
     }
-    .uploaded-file-name{
+
+    .uploaded-file-name {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -1688,27 +1952,33 @@ and open the template in the editor.
         margin-top: 5px;
         transition: all 0.4s ease;
         cursor: pointer;
-        &.error{
+
+        &.error {
             border: solid 1px $warningRed;
-            i{
-                color: $warningRed !important;
+
+            i {
+                color: $warningRed  !important;
             }
         }
-        &:hover{
+
+        &:hover {
             background-color: #d9ead1;
         }
-        .file-close-text{
+
+        .file-close-text {
             display: flex;
             align-items: center;
-            img{
-                &.close-file{
+
+            img {
+                &.close-file {
                     height: 11px;
                     width: 11px;
-                    position: relative;                  
+                    position: relative;
                     margin-right: 12px;
                 }
             }
-            .file-name{
+
+            .file-name {
                 color: #3a773a;
                 font-size: 14px;
                 word-break: break-word;
@@ -1716,18 +1986,21 @@ and open the template in the editor.
                 padding-right: 20px;
             }
         }
-        .progress-status{
-            i{
+
+        .progress-status {
+            i {
                 font-size: 14px;
                 color: $whiteColor;
             }
-            img{
+
+            img {
                 height: 11px;
                 width: 11px;
             }
-        }       
+        }
     }
-    .error-text{
+
+    .error-text {
         margin-top: 7px;
         font-size: 14px;
         color: $warningRed;
@@ -1738,13 +2011,14 @@ and open the template in the editor.
 
 /*---- TEXT STYLES START HERE---*/
 
-.text{
-    .heading{
+.text {
+    .heading {
         font-size: 20px;
         font-weight: bold;
         color: $primaryColor;
     }
-    .desc{
+
+    .desc {
         font-size: 12px;
         color: $secondaryColor;
     }
@@ -1754,22 +2028,25 @@ and open the template in the editor.
 
 /*---- TEXT-INPUT STYLES START HERE---*/
 
-.kr-sg-input-text{
+.kr-sg-input-text {
     width: 100%;
     position: relative;
-    .label-text{
+
+    .label-text {
         font-size: 14px;
         font-weight: bold;
         color: $primaryColor;
         margin-bottom: 4px;
-        span{	
-            color: $hoverBlue;	
-            float: right;	
-            cursor: pointer;	
-            font-weight: normal;	
+
+        span {
+            color: $hoverBlue;
+            float: right;
+            cursor: pointer;
+            font-weight: normal;
         }
     }
-    input{
+
+    input {
         background-color: $whiteColor;
         border: solid 1px #BDC1C6;
         border-radius: 4px;
@@ -1781,37 +2058,46 @@ and open the template in the editor.
         line-height: normal;
         margin: 0 !important;
         outline: 0 !important;
-        &::placeholder{
-            color: $secondaryColor;         
+
+        &::placeholder {
+            color: $secondaryColor;
         }
-        &:focus{
+
+        &:focus {
             border: solid 1px #1372ff;
         }
-        &:active{
+
+        &:active {
             border: solid 1px $hoverBlue;
         }
-        &:disabled{
+
+        &:disabled {
             border: solid 1px #f3f3f4;
             color: $secondaryColor;
         }
-        &.error{
+
+        &.error {
             border: solid 1px#DD3646;
-            &::placeholder{
-                color: $primaryColor;   
-                opacity: 1;      
+
+            &::placeholder {
+                color: $primaryColor;
+                opacity: 1;
             }
         }
-        &:read-only{	
-            background-color: $backgroundColor;	
-        }	
-        &:-moz-read-only{	
-            background-color: $backgroundColor;	
-        } 
+
+        &:read-only {
+            background-color: $backgroundColor;
+        }
+
+        &:-moz-read-only {
+            background-color: $backgroundColor;
+        }
     }
-    .error-msg{
+
+    .error-msg {
         font-size: 12px;
         margin-top: 5px;
-        color:#DD3646;
+        color: #DD3646;
         line-height: 1.17;
     }
 }
@@ -1820,26 +2106,30 @@ and open the template in the editor.
 
 /*---- TEXT-AREA STYLES START HERE---*/
 
-.kr-sg-input-text-area{
+.kr-sg-input-text-area {
     width: 100%;
-    &.domain-name{
-        textarea{
+
+    &.domain-name {
+        textarea {
             min-height: 50px;
             resize: none;
         }
     }
-    .label-text{
+
+    .label-text {
         font-size: 14px;
         font-weight: bold;
         color: $primaryColor;
         margin-bottom: 4px;
     }
-    .helper-text{
+
+    .helper-text {
         font-size: 12px;
         color: $primaryColor;
         margin-bottom: 6px;
     }
-    textarea{
+
+    textarea {
         background-color: $whiteColor;
         border: solid 1px #BDC1C6;
         border-radius: 4px;
@@ -1850,29 +2140,36 @@ and open the template in the editor.
         width: 100%;
         line-height: normal;
         resize: none;
-        &::placeholder{
-            color: $secondaryColor;         
+
+        &::placeholder {
+            color: $secondaryColor;
         }
-        &:focus{
+
+        &:focus {
             border: solid 1px #1372ff;
             outline: 0;
         }
-        &:active{
+
+        &:active {
             border: solid 1px $hoverBlue;
         }
-        &:disabled{
+
+        &:disabled {
             border: solid 1px #f3f3f4;
             color: $secondaryColor;
         }
-        &.error{
+
+        &.error {
             border: solid 1px $warningRed;
-            &::placeholder{
-                color: $primaryColor;   
-                opacity: 1;      
+
+            &::placeholder {
+                color: $primaryColor;
+                opacity: 1;
             }
         }
     }
-    .error-msg{
+
+    .error-msg {
         font-size: 12px;
         margin-top: 5px;
         color: $warningRed;
@@ -1884,31 +2181,35 @@ and open the template in the editor.
 
 
 /*---- RADIO BUTTON STYLES START HERE---*/
-.kr-sg-radiobutton{
+.kr-sg-radiobutton {
     display: inline-flex;
-    padding:0 32px 0 0 !important;    
+    padding: 0 32px 0 0 !important;
     position: relative;
-    &.d-block{
+
+    &.d-block {
         display: block;
         margin-bottom: 8px !important;
     }
-    .radio-custom{
+
+    .radio-custom {
         opacity: 0;
-        position: absolute;          
+        position: absolute;
         cursor: pointer;
         margin: 0;
         height: auto;
-        + .radio-custom-label{
+
+        +.radio-custom-label {
             display: inline-block;
             vertical-align: middle;
             cursor: pointer;
             position: relative;
             font-size: 14px;
-            color:$primaryColor;
+            color: $primaryColor;
             margin: 0;
             font-weight: normal;
             padding-left: 28px;
-            &::before{
+
+            &::before {
                 content: '';
                 display: inline-block;
                 vertical-align: middle;
@@ -1928,29 +2229,33 @@ and open the template in the editor.
                 top: 5px;
             }
         }
-        &:hover{
-            &:not([disabled]):checked{
-                + .radio-custom-label{
-                    color: $primaryColor; 
-                    &::before{
+
+        &:hover {
+            &:not([disabled]):checked {
+                +.radio-custom-label {
+                    color: $primaryColor;
+
+                    &::before {
                         border: solid 1px $hoverBlue;
                     }
                 }
-            }  
-            &:not([disabled]){
-                + .radio-custom-label{
-                    color: $hoverBlue; 
-                    &::before{
+            }
+
+            &:not([disabled]) {
+                +.radio-custom-label {
+                    color: $hoverBlue;
+
+                    &::before {
                         border: solid 1px #1372ff;
                     }
                 }
-            }            
+            }
         }
-        
-        &:checked{
-            + .radio-custom-label{
-                &::before{
-                    content: "";              
+
+        &:checked {
+            +.radio-custom-label {
+                &::before {
+                    content: "";
                     color: $whiteColor;
                     font-size: 12px;
                     background-color: $hoverBlue;
@@ -1958,79 +2263,95 @@ and open the template in the editor.
                     box-shadow: inset 0 0 0 3px $whiteColor;
                 }
             }
-            &:focus{
-                + .radio-custom-label{
+
+            &:focus {
+                +.radio-custom-label {
                     color: $primaryColor;
                 }
             }
-            &:disabled{
-                + .radio-custom-label{
+
+            &:disabled {
+                +.radio-custom-label {
                     color: #dde1e7;
-                    &::before{                        
+
+                    &::before {
                         border: solid 1px #a6dce1;
-                        box-shadow: inset 0 0 0 3px $whiteColor;      
-                        background-color: #a6dce1;                  
+                        box-shadow: inset 0 0 0 3px $whiteColor;
+                        background-color: #a6dce1;
                     }
                 }
             }
         }
-        &:disabled{
-            + .radio-custom-label{
+
+        &:disabled {
+            +.radio-custom-label {
                 color: #dde1e7;
-                &::before{
+
+                &::before {
                     border: solid 1px #a6dce1;
                     // box-shadow: inset 0 0 0 3px $whiteColor;    
                     // background-color: #a6dce1;  
                 }
             }
         }
-        &:focus{
-            + .radio-custom-label{
-                color: $hoverBlue;  
-                &::before{
-                    border: 1px solid #1372ff; 
+
+        &:focus {
+            +.radio-custom-label {
+                color: $hoverBlue;
+
+                &::before {
+                    border: 1px solid #1372ff;
                 }
             }
         }
-    }   
+    }
 }
-.group-radiobutton{
-    .heading-title{
+
+.group-radiobutton {
+    .heading-title {
         color: #0e0e0e;
         font-size: 14px;
         font-weight: bold;
         margin-bottom: 5px;
     }
 }
+
 /*---- RADIO BUTTON STYLES ENDS HERE---*/
 
 
 /*---- NOTIFICATION STYLES STARTS HERE---*/
 
-.kr-sg-notification{
+.kr-sg-notification {
     background: $whiteColor;
     padding: 16px 17px;
     border: 1px solid #1372ff;
     position: relative;
-    &.error-notification{
+
+    &.error-notification {
         border: solid 1px $warningRed;
-        &::before{
+
+        &::before {
             background-color: $warningRed;
         }
     }
-    &.warning-notification{
+
+    &.warning-notification {
         border: solid 1px #f5a623;
-        &::before{
+
+        &::before {
             background-color: #f5a623;
         }
     }
-    &.success-notification{
+
+    &.success-notification {
         border: solid 1px #09a624;
-        &::before{
+
+        &::before {
             background-color: #09a624;
         }
     }
-    &::before{
+
+    &::before {
         content: "";
         position: absolute;
         left: 0;
@@ -2039,149 +2360,177 @@ and open the template in the editor.
         width: 6px;
         background-color: #1372ff;
     }
-    .right-icon{
+
+    .right-icon {
         display: inline-block;
         padding-right: 10px;
-        img{
+
+        img {
             width: 14px;
             height: 14px;
         }
     }
-    .tost-text{        
+
+    .tost-text {
         display: inline-block;
         font-size: 14px;
         color: $primaryColor;
     }
-    .close-icon{
+
+    .close-icon {
         float: right;
         cursor: pointer;
-        img{
+
+        img {
             width: 12px;
             height: 12px;
         }
     }
 }
 
-.kr-sg-multi-line-notification{
+.kr-sg-multi-line-notification {
     display: flex;
     align-items: center;
     padding: 9px 16px;
     border-radius: 4px;
     background-color: rgba(19, 114, 255, 0.1);
     border: solid 1px #c8d7f0;
-    &.error-notification{
+
+    &.error-notification {
         border: solid 1px #efc7cc;
         background-color: rgba(255, 0, 31, 0.1);
-        .tost-text{
+
+        .tost-text {
             color: $warningRed;
         }
     }
-    &.warning-notification{
+
+    &.warning-notification {
         border: solid 1px #f3d19b;
         background-color: rgba(245, 166, 35, 0.12);
-        .tost-text{
+
+        .tost-text {
             color: $orange;
         }
     }
-    &.success-notification{
+
+    &.success-notification {
         border: solid 1px #bde0c4;
         background-color: rgba(9, 166, 36, 0.1);
-        .tost-text{
+
+        .tost-text {
             color: #09a624;
         }
     }
-    .bulb-icon{
-        margin-right: 15px;
-        img{
 
-        }
+    .bulb-icon {
+        margin-right: 15px;
+
+        img {}
     }
-    .tost-text{
+
+    .tost-text {
         font-size: 14px;
-        color: #1372ff;   
+        color: #1372ff;
     }
 }
 
-.kr-sg-multi-line-notification-link{
+.kr-sg-multi-line-notification-link {
     border-radius: 4px;
     border: solid 1px #c8d7f0;
     background-color: rgba(19, 114, 255, 0.1);
     padding: 10px 15px;
-    &.link-error-notification{
+
+    &.link-error-notification {
         border: solid 1px #efc7cc;
         background-color: rgba(255, 0, 31, 0.1);
-        .main-heading{
+
+        .main-heading {
             color: $warningRed;
         }
-        .tost-text{
+
+        .tost-text {
             color: $warningRed;
-        }        
+        }
     }
-    &.link-warning-notification{
+
+    &.link-warning-notification {
         border: solid 1px #f3d19b;
         background-color: rgba(245, 166, 35, 0.12);
-        .main-heading{
+
+        .main-heading {
             color: $orange;
         }
-        .tost-text{
+
+        .tost-text {
             color: $orange;
-        }        
+        }
     }
-    &.link-success-notification{
+
+    &.link-success-notification {
         border: solid 1px #bde0c4;
         background-color: rgba(9, 166, 36, 0.1);
-        .main-heading{
+
+        .main-heading {
             color: #09a624;
         }
-        .tost-text{
+
+        .tost-text {
             color: #09a624;
-        }        
+        }
     }
-    .main-heading{
+
+    .main-heading {
         color: #1372ff;
         font-size: 14px;
         font-weight: bold;
     }
-    .tost-text{
+
+    .tost-text {
         color: #1372ff;
         font-size: 14px;
     }
-    .know-link{
-        a{
+
+    .know-link {
+        a {
             color: $hoverBlue;
             font-size: 14px;
-            border-bottom:1px solid $hoverBlue;
+            border-bottom: 1px solid $hoverBlue;
         }
     }
 }
 
-.kr-sg-inline-notification{
+.kr-sg-inline-notification {
     display: flex;
-    align-items: center;    
-    &.error-notification{        
-        .tost-text{
+    align-items: center;
+
+    &.error-notification {
+        .tost-text {
             color: $warningRed;
         }
     }
-    &.warning-notification{       
-        .tost-text{
+
+    &.warning-notification {
+        .tost-text {
             color: $orange;
         }
     }
-    &.success-notification{        
-        .tost-text{
+
+    &.success-notification {
+        .tost-text {
             color: #09a624;
         }
     }
-    .bulb-icon{
-        margin-right: 15px;
-        img{
 
-        }
+    .bulb-icon {
+        margin-right: 15px;
+
+        img {}
     }
-    .tost-text{
+
+    .tost-text {
         font-size: 14px;
-        color: #1372ff;   
+        color: #1372ff;
     }
 }
 
@@ -2189,10 +2538,11 @@ and open the template in the editor.
 
 /*---- INPUT SEARCH STYLES STARTS HERE---*/
 
-.kr-sg-input-search{
+.kr-sg-input-search {
     width: 100%;
     position: relative;
-    input{
+
+    input {
         border: solid 1px $borderColor;
         background-color: $whiteColor;
         color: $primaryColor;
@@ -2202,44 +2552,52 @@ and open the template in the editor.
         line-height: 34px;
         width: 100%;
         outline: 0 !important;
-        &:hover{
-            &::placeholder{
+
+        &:hover {
+            &::placeholder {
                 color: #5F6368;
                 opacity: 1;
             }
         }
-        &::placeholder{
+
+        &::placeholder {
             color: $secondaryColor;
             opacity: 0.5;
             font-size: 14px;
         }
-        &:focus{
+
+        &:focus {
             border: 1px solid #1372ff;
-            &::placeholder{
+
+            &::placeholder {
                 color: #BDC1C6;
                 opacity: 1;
             }
         }
-        &:active{
+
+        &:active {
             border: solid 1px $hoverBlue;
         }
-        &:disabled{
+
+        &:disabled {
             border: solid 1px $borderColor;
             opacity: 0.5;
         }
     }
-    .search-icon{
+
+    .search-icon {
         position: absolute;
         left: 11px;
-        top: 10px;        
+        top: 10px;
         //cursor: pointer;
     }
 }
 
-.kr-sg-input-inline-search{
+.kr-sg-input-inline-search {
     width: 100%;
     position: relative;
-    input{
+
+    input {
         border: 0;
         border-bottom: solid 1px $borderColor;
         background-color: $whiteColor;
@@ -2250,30 +2608,36 @@ and open the template in the editor.
         line-height: 30px;
         outline: 0 !important;
         width: 100%;
-        &::placeholder{
+
+        &::placeholder {
             color: $secondaryColor;
             opacity: 0.5;
             font-size: 14px;
         }
-        &:focus{
+
+        &:focus {
             border: 1px solid #1372ff;
         }
-        &:active{
+
+        &:active {
             border-bottom: solid 1px $hoverBlue;
         }
-        &:disabled{
+
+        &:disabled {
             border-bottom: solid 1px $borderColor;
             opacity: 0.5;
         }
     }
-    .search-icon{
+
+    .search-icon {
         position: absolute;
         left: 10px;
         top: 9px;
         // width: 12px;
         // height: 12px;
         cursor: pointer;
-        &.close-icon{
+
+        &.close-icon {
             right: 10px;
             left: inherit;
         }
@@ -2283,228 +2647,276 @@ and open the template in the editor.
 /*---- INPUT SEARCH STYLES ENDS HERE---*/
 
 /*---- TAGS STYLES STARTS HERE---*/
-.kr-sg-tags{
-    font-weight: bold;    
-    img{
+.kr-sg-tags {
+    font-weight: bold;
+
+    img {
         margin-left: 7px;
         width: 12px;
         height: 12px;
-    } 
-    &.blue{
-        color: #1372ff;      
-        background-color: #e7f0ff;  
-        transition: all 0.3s ease;  
-        border: 1px solid transparent;    
-        &.disable{
-            background-color: #f3f7ff;           
+    }
+
+    &.blue {
+        color: #1372ff;
+        background-color: #e7f0ff;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+
+        &.disable {
+            background-color: #f3f7ff;
             pointer-events: none;
-            span{
-                opacity: 0.3;                    
+
+            span {
+                opacity: 0.3;
             }
         }
-        span{
-            &.fa{
+
+        span {
+            &.fa {
                 padding-left: 7px;
-            }  
-            &.tag-name{
+            }
+
+            &.tag-name {
                 color: #1372ff;
-            }                     
+            }
         }
-        &.small{
-            padding: 4px 12px;
-            border-radius: 4px;   
-            font-size: 12px;     
-        }
-        &.medium{
+
+        &.small {
             padding: 4px 12px;
             border-radius: 4px;
-            font-size: 14px;              
+            font-size: 12px;
         }
-        &.large{
+
+        &.medium {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        &.large {
             padding: 5px 12px;
             border-radius: 4px;
-            font-size: 16px;            
+            font-size: 16px;
         }
-        &:hover{
+
+        &:hover {
             // cursor: pointer;
             background-color: #dbe3f2;
         }
-        &:focus{
+
+        &:focus {
             border: 1px solid #1372ff;
         }
     }
-    &.green{
-        color: #09a624;      
-        background-color: #e6f6e9;  
-        transition: all 0.3s ease;  
-        border: 1px solid transparent;    
-        &.disable{
-            background-color: #f2faf4;           
+
+    &.green {
+        color: #09a624;
+        background-color: #e6f6e9;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+
+        &.disable {
+            background-color: #f2faf4;
             pointer-events: none;
-            span{
-                opacity: 0.3;                    
+
+            span {
+                opacity: 0.3;
             }
         }
-        span{
-            &.fa{
+
+        span {
+            &.fa {
                 padding-left: 7px;
-            }  
-            &.tag-name{
+            }
+
+            &.tag-name {
                 color: #09a624;
-            }                     
+            }
         }
-        &.small{
-            padding: 4px 12px;
-            border-radius: 4px;   
-            font-size: 12px;     
-        }
-        &.medium{
+
+        &.small {
             padding: 4px 12px;
             border-radius: 4px;
-            font-size: 14px;              
+            font-size: 12px;
         }
-        &.large{
+
+        &.medium {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        &.large {
             padding: 5px 12px;
             border-radius: 4px;
-            font-size: 16px;            
+            font-size: 16px;
         }
-        &:hover{
+
+        &:hover {
             cursor: pointer;
             background-color: #dae9dd;
         }
-        &:focus{
+
+        &:focus {
             border: 1px solid #1372ff;
         }
     }
 
-    &.grey{
-        color: $secondaryColor;      
-        background-color: $borderColor;  
-        transition: all 0.3s ease;  
-        border: 1px solid transparent;    
-        &.disable{
-            background-color: $backgroundColor;           
+    &.grey {
+        color: $secondaryColor;
+        background-color: $borderColor;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+
+        &.disable {
+            background-color: $backgroundColor;
             pointer-events: none;
-            span{
-                opacity: 0.3;                    
+
+            span {
+                opacity: 0.3;
             }
         }
-        span{
-            &.fa{
+
+        span {
+            &.fa {
                 padding-left: 7px;
-            }  
-            &.tag-name{
+            }
+
+            &.tag-name {
                 color: $secondaryColor;
-            }                     
+            }
         }
-        &.small{
-            padding: 4px 12px;
-            border-radius: 4px;   
-            font-size: 12px;     
-        }
-        &.medium{
+
+        &.small {
             padding: 4px 12px;
             border-radius: 4px;
-            font-size: 14px;              
+            font-size: 12px;
         }
-        &.large{
+
+        &.medium {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        &.large {
             padding: 5px 12px;
             border-radius: 4px;
-            font-size: 16px;            
+            font-size: 16px;
         }
-        &:hover{
+
+        &:hover {
             cursor: pointer;
             background-color: #d9dcdf;
         }
-        &:focus{
+
+        &:focus {
             border: 1px solid #1372ff;
         }
     }
 
-    &.red{
-        color: $warningRed;      
-        background-color: #ffe5e8;  
-        transition: all 0.3s ease;  
-        border: 1px solid transparent;    
-        &.disable{
-            background-color: #fff2f3;           
+    &.red {
+        color: $warningRed;
+        background-color: #ffe5e8;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+
+        &.disable {
+            background-color: #fff2f3;
             pointer-events: none;
-            span{
-                opacity: 0.3;                    
+
+            span {
+                opacity: 0.3;
             }
         }
-        span{
-            &.fa{
+
+        span {
+            &.fa {
                 padding-left: 7px;
-            }  
-            &.tag-name{
+            }
+
+            &.tag-name {
                 color: $warningRed;
-            }                     
+            }
         }
-        &.small{
-            padding: 4px 12px;
-            border-radius: 4px;   
-            font-size: 12px;     
-        }
-        &.medium{
+
+        &.small {
             padding: 4px 12px;
             border-radius: 4px;
-            font-size: 14px;              
+            font-size: 12px;
         }
-        &.large{
+
+        &.medium {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        &.large {
             padding: 5px 12px;
             border-radius: 4px;
-            font-size: 16px;            
+            font-size: 16px;
         }
-        &:hover{
+
+        &:hover {
             cursor: pointer;
             background-color: #f2d9dc;
         }
-        &:focus{
+
+        &:focus {
             border: 1px solid #1372ff;
         }
     }
 
-    &.orange{
-        color: #fc8500;      
-        background-color: #fef5e6;  
-        transition: all 0.3s ease;  
-        border: 1px solid transparent;    
-        &.disable{
-            background-color: #fefaf2;           
+    &.orange {
+        color: #fc8500;
+        background-color: #fef5e6;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+
+        &.disable {
+            background-color: #fefaf2;
             pointer-events: none;
-            span{
-                opacity: 0.3;                    
+
+            span {
+                opacity: 0.3;
             }
         }
-        span{
-            &.fa{
+
+        span {
+            &.fa {
                 padding-left: 7px;
-            }  
-            &.tag-name{
+            }
+
+            &.tag-name {
                 color: #fc8500;
-            }                     
+            }
         }
-        &.small{
-            padding: 4px 12px;
-            border-radius: 4px;   
-            font-size: 12px;     
-        }
-        &.medium{
+
+        &.small {
             padding: 4px 12px;
             border-radius: 4px;
-            font-size: 14px;              
+            font-size: 12px;
         }
-        &.large{
+
+        &.medium {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        &.large {
             padding: 5px 12px;
             border-radius: 4px;
-            font-size: 16px;            
+            font-size: 16px;
         }
-        &:hover{
+
+        &:hover {
             cursor: pointer;
             background-color: #f1e8da;
         }
-        &:focus{
+
+        &:focus {
             border: 1px solid #1372ff;
         }
     }
@@ -2514,47 +2926,55 @@ and open the template in the editor.
 
 /*---- MODAL STYLES STARTS HERE---*/
 
-.kr-sg-modal{
+.kr-sg-modal {
     background-color: #939AA5;
     z-index: 1040;
     overflow: hidden !important;
-    .modal-dialog{
+
+    .modal-dialog {
         width: 446px;
-        border-radius: 4px;    
+        border-radius: 4px;
         height: 100%;
         display: flex;
-        align-items: center; 
-        .modal-content{
+        align-items: center;
+
+        .modal-content {
             box-shadow: none;
             border: 0px;
             top: 0 !important;
-            .modal-header{
+
+            .modal-header {
                 background-color: $backgroundColor;
                 padding: 13px 0;
                 height: 60px;
                 box-shadow: none;
-                h4{
+
+                h4 {
                     color: $primaryColor;
                     font-size: 24px;
                     margin: 0;
                 }
             }
-            .modal-body{
+
+            .modal-body {
                 padding: 62px 50px;
-                text-align: center;                
-                p{
+                text-align: center;
+
+                p {
                     line-height: 1.57;
                     margin: 0;
                     font-size: 14px;
                     color: $secondaryColor;
                 }
             }
-            .modal-footer{
+
+            .modal-footer {
                 background-color: $backgroundColor;
                 padding: 15px 0;
                 height: 60px;
                 text-align: center;
-                button{
+
+                button {
                     margin: 0 5px;
                     min-width: 100px;
                 }
@@ -2568,31 +2988,36 @@ and open the template in the editor.
 
 /*---- ACCORDION STYLES STARTS HERE---*/
 
-.kr-sg-accordion{
-    &.panel-group{
-        .panel{
+.kr-sg-accordion {
+    &.panel-group {
+        .panel {
             margin: 0;
-            &:last-child{
-                .panel-heading{
-                    h4{
-                        a{
+
+            &:last-child {
+                .panel-heading {
+                    h4 {
+                        a {
                             border-bottom: 1px solid $borderColor;
                         }
                     }
                 }
-                .panel-collapse{
-                    .panel-body{
+
+                .panel-collapse {
+                    .panel-body {
                         border-bottom: 1px solid $borderColor;
                     }
                 }
             }
-            .panel-heading{
+
+            .panel-heading {
                 padding: 0;
                 border: 0;
-                background-color: $whiteColor;                  
-                h4{
+                background-color: $whiteColor;
+
+                h4 {
                     margin: 0;
-                    a{
+
+                    a {
                         display: block;
                         text-decoration: none;
                         font-size: 14px;
@@ -2602,8 +3027,9 @@ and open the template in the editor.
                         padding: 12px 15px;
                         border-top: 1px solid $borderColor;
                         transition: all 0.4s ease;
-                        &.accor-collapse{
-                            &::before{
+
+                        &.accor-collapse {
+                            &::before {
                                 content: "";
                                 position: absolute;
                                 background-image: url('^assets/icons/carrot-down-comp.svg');
@@ -2613,45 +3039,53 @@ and open the template in the editor.
                                 width: 14px;
                                 right: 15px;
                                 font-size: 18px;
-                                height: 100%;   
+                                height: 100%;
                                 top: 0;
-                                display: flex;                                
-                                align-items: center;                            
+                                display: flex;
+                                align-items: center;
                             }
-                            &.disabled{
+
+                            &.disabled {
                                 pointer-events: none;
-                                &::before{
+
+                                &::before {
                                     color: $borderColor;
                                 }
                             }
                         }
-                        &:hover{
+
+                        &:hover {
                             text-decoration: none;
                             background-color: #f3f3f4;
                         }
-                        &:active{
+
+                        &:active {
                             text-decoration: none;
                         }
-                        &:focus{
+
+                        &:focus {
                             text-decoration: none;
                             outline: 2px solid #1372ff;
-                        }                    
+                        }
                     }
                 }
-                &.active{                    
-                    h4{
-                        a{
+
+                &.active {
+                    h4 {
+                        a {
                             border-bottom: 0px;
-                            &::before{
+
+                            &::before {
                                 content: "";
-                                background-image: url('^assets/icons/carrot-up-comp.svg');                              
+                                background-image: url('^assets/icons/carrot-up-comp.svg');
                             }
                         }
                     }
                 }
             }
-            .panel-collapse{
-                .panel-body{
+
+            .panel-collapse {
+                .panel-body {
                     border: 0;
                     padding: 5px 15px 25px 15px;
                     font-size: 14px;
@@ -2667,18 +3101,20 @@ and open the template in the editor.
 
 /*---- TABS STYLES STARTS HERE---*/
 
-.kr-sg-tabs{
-    &.nav-tabs{
-        li{
-            &.active{
-                a{
+.kr-sg-tabs {
+    &.nav-tabs {
+        li {
+            &.active {
+                a {
                     border-bottom: 2px solid $hoverBlue;
-                    &:focus{
-                        color:$hoverBlue;
+
+                    &:focus {
+                        color: $hoverBlue;
                     }
                 }
             }
-            a{
+
+            a {
                 margin: 0;
                 padding: 0;
                 padding: 9px 10px;
@@ -2688,58 +3124,69 @@ and open the template in the editor.
                 border-bottom: 2px solid $borderColor;
                 overflow: hidden;
                 white-space: nowrap;
-                text-overflow: ellipsis;   
+                text-overflow: ellipsis;
                 font-size: 14px;
                 border-radius: 0;
-                cursor: pointer;     
-                color: $primaryColor;           
-                &.disabled{
+                cursor: pointer;
+                color: $primaryColor;
+
+                &.disabled {
                     border-bottom: 2px solid $borderColor;
                     pointer-events: none;
                     opacity: 0.3;
                 }
-                &:hover{
+
+                &:hover {
                     border-bottom: 2px solid $secondaryColor;
                 }
-                &:focus{
+
+                &:focus {
                     outline: solid 2px #1372ff;
                     background: none;
                 }
             }
         }
     }
-    &.block-tabs{
+
+    &.block-tabs {
         display: inline-block;
-        li{
+
+        li {
             float: none;
-            &.active{
-                a{
+
+            &.active {
+                a {
                     border: 0;
                     border-left: 2px solid $hoverBlue;
-                    &:focus{
-                        color:$hoverBlue;
+
+                    &:focus {
+                        color: $hoverBlue;
                     }
                 }
             }
-            a{
+
+            a {
                 border: 0;
                 border-left: 2px solid $borderColor;
-                &.disabled{
+
+                &.disabled {
                     border: 0;
                     border-left: 2px solid $borderColor;
                     pointer-events: none;
                     opacity: 0.3;
                 }
-                &:hover{
+
+                &:hover {
                     border: 0;
                     border-left: 2px solid $secondaryColor;
                 }
-                &:focus{
+
+                &:focus {
                     outline: solid 2px #1372ff;
                     background: none;
                 }
             }
-        }        
+        }
     }
 }
 
@@ -2748,23 +3195,26 @@ and open the template in the editor.
 
 /*---- TOOLTIP STYLES STARTS HERE---*/
 
-.tooltip-hover{
+.tooltip-hover {
     cursor: pointer;
-    + .tooltip{
-        > .tooltip-inner{
-            background-color:$primaryColor;
+
+    +.tooltip {
+        >.tooltip-inner {
+            background-color: $primaryColor;
             max-width: 200px;
             padding: 10px 15px;
             text-align: left;
             line-height: 1.33;
             font-size: 12px;
             color: $whiteColor;
-            .tooltip-arrow{
-               border-color: $primaryColor;
+
+            .tooltip-arrow {
+                border-color: $primaryColor;
             }
         }
     }
-    &:hover{
+
+    &:hover {
         color: $hoverBlue;
     }
 }
@@ -2773,17 +3223,19 @@ and open the template in the editor.
 
 /*---- PROGRESS INDICATOR STYLES STARTS HERE---*/
 
-.kr-sg-progress-indicator{
+.kr-sg-progress-indicator {
     margin: 0;
     padding: 0;
-    li{        
+
+    li {
         list-style: none;
         float: left;
         width: 100px;
         position: relative;
-        transition: all 0.5s ease;   
-        span{
-            &.active-text-img{
+        transition: all 0.5s ease;
+
+        span {
+            &.active-text-img {
                 position: absolute;
                 left: 14px;
                 color: $secondaryColor;
@@ -2791,45 +3243,53 @@ and open the template in the editor.
                 top: 1px;
                 text-align: center;
                 line-height: 20px;
-                img{
-                    position: relative;                    
+
+                img {
+                    position: relative;
                 }
             }
         }
-        &:last-child{
-            a{
-                &::before{
+
+        &:last-child {
+            a {
+                &::before {
                     display: none;
                 }
             }
-        }    
-        &.in-progress{
-            span{
-                &.active-text-img{
-                   color:$hoverBlue;
+        }
+
+        &.in-progress {
+            span {
+                &.active-text-img {
+                    color: $hoverBlue;
                 }
             }
-            &::before{
+
+            &::before {
                 border: solid 1px $hoverBlue;
             }
         }
-        &.active{
-            span{
-                &.active-text-img{
-                   color: $whiteColor;
+
+        &.active {
+            span {
+                &.active-text-img {
+                    color: $whiteColor;
                 }
             }
-            &::before{
+
+            &::before {
                 background-color: $hoverBlue;
                 border: solid 1px $hoverBlue;
             }
-            a{
-                &::before{
+
+            a {
+                &::before {
                     background: $hoverBlue;
                 }
             }
         }
-        &::before{
+
+        &::before {
             content: "";
             width: 20px;
             height: 20px;
@@ -2839,24 +3299,30 @@ and open the template in the editor.
             border-radius: 100px;
             left: 8px;
         }
-        a{           
-            position: relative; 
+
+        a {
+            position: relative;
             color: $primaryColor;
             display: inline-block;
             text-decoration: none !important;
-            &.disable{               
+
+            &.disable {
                 pointer-events: none;
-                span{
+
+                span {
                     opacity: 0.3;
                 }
             }
-            &:hover{
+
+            &:hover {
                 color: $hoverBlue;
             }
-            &:focus{
+
+            &:focus {
                 border-bottom: 2px solid #1372ff;
             }
-            &::before{
+
+            &::before {
                 content: "";
                 position: absolute;
                 height: 1px;
@@ -2867,75 +3333,86 @@ and open the template in the editor.
                 z-index: -1;
                 display: block;
             }
-            span{
+
+            span {
                 display: block;
                 margin-top: 30px;
                 white-space: nowrap;
                 text-overflow: ellipsis;
-                max-width: 85px;   
-                overflow: hidden;         
+                max-width: 85px;
+                overflow: hidden;
             }
         }
     }
 }
 
-.kr-sg-progress-indicator-block{
+.kr-sg-progress-indicator-block {
     margin: 0;
     padding: 0;
-    li{        
-        list-style: none;              
+
+    li {
+        list-style: none;
         position: relative;
-        transition: all 0.5s ease; 
-        padding-bottom: 30px; 
+        transition: all 0.5s ease;
+        padding-bottom: 30px;
         padding-left: 18px;
-        span{
-            &.active-text-img{
+
+        span {
+            &.active-text-img {
                 position: absolute;
                 left: -3px;
                 color: $secondaryColor;
                 font-size: 12px;
                 top: 3px;
                 text-align: center;
-                img{
-                    position: relative;                  
+
+                img {
+                    position: relative;
                 }
             }
         }
-        &:last-child{
-            a{
-                &::before{
+
+        &:last-child {
+            a {
+                &::before {
                     display: none;
                 }
             }
-        }    
-        &.in-progress{
-            span{
-                &.active-text-img{
-                   color:$hoverBlue;
+        }
+
+        &.in-progress {
+            span {
+                &.active-text-img {
+                    color: $hoverBlue;
                 }
             }
-            &::before{
+
+            &::before {
                 border: solid 1px $hoverBlue;
             }
         }
-        &.active{
-            span{
-                &.active-text-img{
-                   color: $whiteColor;
+
+        &.active {
+            span {
+                &.active-text-img {
+                    color: $whiteColor;
                 }
             }
-            &::before{
+
+            &::before {
                 background-color: $hoverBlue;
                 border: solid 1px $hoverBlue;
             }
-            a{
-                &::before{
+
+            a {
+                &::before {
                     background: $hoverBlue;
                 }
             }
         }
-        &::before{
-            content: "";           
+
+        &::before {
+            content: "";
             position: absolute;
             height: 20px;
             width: 20p;
@@ -2945,24 +3422,30 @@ and open the template in the editor.
             border-radius: 100%;
             left: -10px;
             top: 1px;
-        } 
-        a{           
+        }
+
+        a {
             color: $primaryColor;
             display: inline-block;
             text-decoration: none !important;
-            &.disable{               
+
+            &.disable {
                 pointer-events: none;
-                span{
+
+                span {
                     opacity: 0.3;
                 }
             }
-            &:hover{
+
+            &:hover {
                 color: $hoverBlue;
             }
-            &:focus{
+
+            &:focus {
                 border-bottom: 2px solid #1372ff;
             }
-            &::before{
+
+            &::before {
                 content: "";
                 position: absolute;
                 height: 100%;
@@ -2971,8 +3454,8 @@ and open the template in the editor.
                 left: 0;
                 top: 20px;
                 z-index: -1;
-            } 
-        }       
+            }
+        }
     }
 }
 
@@ -2980,36 +3463,41 @@ and open the template in the editor.
 
 /*---- OVERFLOW MENU STYLES STARTS HERE---*/
 
-.kr-sg-overflow-menu{    
+.kr-sg-overflow-menu {
     display: inline-block;
     margin-left: 15px;
     text-align: center;
-    background: transparent;                        
+    background: transparent;
     height: 34px;
     width: 34px;
     line-height: 32px;
+
     // &:hover{
     //     background-color: $backgroundColor;
     // }
-    &.dropdown{
+    &.dropdown {
         display: inline-block;
-        .dropdown-toggle{
+
+        .dropdown-toggle {
             margin: 0;
-            padding: 0;            
+            padding: 0;
             // cursor: pointer;
             height: 100%;
-            &::after{
+
+            &::after {
                 border: 0;
                 display: none;
             }
         }
-        &.show{
+
+        &.show {
             background-color: $whiteColor;
             box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
             display: inline-block;
         }
     }
-    .dropdown-menu{
+
+    .dropdown-menu {
         right: 0;
         top: 0px !important;
         left: initial !important;
@@ -3017,75 +3505,86 @@ and open the template in the editor.
         transform: translate3d(0px, 34px, 0px) !important;
         background-color: $whiteColor;
         width: 100px !important;
-        min-width: 100px;        
+        min-width: 100px;
         border: 0px;
         margin: 0;
         padding: 0;
         border-radius: 0;
-        li{
+
+        li {
             line-height: 40px;
             font-size: 14px;
             padding-left: 20px;
             cursor: pointer;
-            a{
+
+            a {
                 line-height: 40px;
                 padding: 0 20px;
                 color: $primaryColor;
                 font-size: 14px;
                 transition: all 0.3s ease;
-                &.disable{
+
+                &.disable {
                     pointer-events: none;
                     opacity: 0.3;
                 }
-                &:hover{
+
+                &:hover {
                     background-color: #f3f3f4;
                 }
-                &:focus{
+
+                &:focus {
                     outline: 2px solid #1372ff;
                 }
-                img{
-                    margin:0 10px 0 -8px;
+
+                img {
+                    margin: 0 10px 0 -8px;
                     width: 12px;
                     height: 12px;
                 }
             }
         }
     }
-}   
+}
 
 /*---- OVERFLOW MENU STYLES ENDS HERE---*/
 
 /*---- FILE UPLOAD DRAG AND DROP STYLES STARTS HERE---*/
 
-.kr-sg-file-drag-drop{     
-    .label_text{
+.kr-sg-file-drag-drop {
+    .label_text {
         font-size: 14px;
         font-weight: bold;
         color: $primaryColor;
         margin-bottom: 5px;
-    }       
-    .drag-drop-sec{
+    }
+
+    .drag-drop-sec {
         border-radius: 2px;
         border: solid 1px $borderColor;
         background-color: $whiteColor;
         padding: 27px 0;
         text-align: center;
-        .drag-text{
+
+        .drag-text {
             font-size: 18px;
-            color: $primaryColor; 
+            color: $primaryColor;
             font-weight: bold;
             line-height: 20px;
         }
-        .divider-text{
-            font-size: 18px; 
+
+        .divider-text {
+            font-size: 18px;
             color: $secondaryColor;
             font-weight: bold;
             line-height: 22px;
         }
-        .custom-file{
+
+        .custom-file {
             position: relative;
             display: inline-block;
-            .custom-file-input{
+
+            .custom-file-input {
                 position: relative;
                 z-index: 2;
                 width: 100%;
@@ -3094,7 +3593,8 @@ and open the template in the editor.
                 opacity: 0;
                 cursor: pointer;
             }
-            label{
+
+            label {
                 position: absolute;
                 top: 0;
                 right: 0;
@@ -3107,19 +3607,21 @@ and open the template in the editor.
                 border-radius: 2px;
                 width: 100%;
                 margin: 0;
-                background-color: $whiteColor; 
+                background-color: $whiteColor;
                 cursor: pointer;
-                span{
+
+                span {
                     color: $hoverBlue;
                     font-size: 18px;
                     line-height: 1;
                     font-weight: bold;
                     border-bottom: 1px solid $hoverBlue;
-                }              
+                }
             }
         }
     }
-    .uploaded-file-name{
+
+    .uploaded-file-name {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -3132,19 +3634,24 @@ and open the template in the editor.
         margin-top: 5px;
         transition: all 0.4s ease;
         cursor: pointer;
-        &.error{
+
+        &.error {
             border: solid 1px $warningRed;
-            i{
-                color: $warningRed !important;
+
+            i {
+                color: $warningRed  !important;
             }
         }
-        &:hover{
+
+        &:hover {
             background-color: #d9ead1;
         }
-        .file-close-text{
+
+        .file-close-text {
             display: inherit;
-            img{
-                &.close-file{
+
+            img {
+                &.close-file {
                     height: 11px;
                     width: 11px;
                     position: relative;
@@ -3152,7 +3659,8 @@ and open the template in the editor.
                     margin-right: 12px;
                 }
             }
-            .file-name{
+
+            .file-name {
                 color: #3a773a;
                 font-size: 14px;
                 word-break: break-word;
@@ -3160,42 +3668,49 @@ and open the template in the editor.
                 padding-right: 20px;
             }
         }
-        .progress-status{
-            i{
+
+        .progress-status {
+            i {
                 font-size: 14px;
                 color: $whiteColor;
             }
-            img{
+
+            img {
                 height: 11px;
                 width: 11px;
             }
-        }       
+        }
     }
-    .error-text{
+
+    .error-text {
         margin-top: 7px;
         font-size: 14px;
         color: $warningRed;
     }
-    .long-info-text{
+
+    .long-info-text {
         font-size: 14px;
-        color: $primaryColor;        
+        color: $primaryColor;
     }
 }
 
-.custom-mat-select{
+.custom-mat-select {
     width: 100%;
     margin-bottom: 15px;
-    &.drp-down-mat{        
-        .mat-form-field-wrapper{
-            .mat-form-field-flex{
+
+    &.drp-down-mat {
+        .mat-form-field-wrapper {
+            .mat-form-field-flex {
                 border: 0;
                 border-right: solid 1px $borderColor;
             }
         }
     }
-    .mat-form-field-wrapper{
+
+    .mat-form-field-wrapper {
         padding: 0;
-        .mat-form-field-flex{
+
+        .mat-form-field-flex {
             position: relative;
             height: 34px;
             width: 100%;
@@ -3207,22 +3722,26 @@ and open the template in the editor.
             text-align: left;
             color: $secondaryColor;
             font-size: 14px;
-            .mat-form-field-infix{
+
+            .mat-form-field-infix {
                 border: 0;
                 padding: 0;
-                .mat-select{
-                    font-family: Inter !important;                    
-                    .mat-select-arrow-wrapper{
-                        .mat-select-arrow{
+
+                .mat-select {
+                    font-family: Inter !important;
+
+                    .mat-select-arrow-wrapper {
+                        .mat-select-arrow {
                             border: 0;
-                            &::before{
-                                content: "";                              
+
+                            &::before {
+                                content: "";
                                 background-image: url('^assets/icons/carrot-down-comp.svg');
                                 background-size: 14px;
                                 background-repeat: no-repeat;
                                 background-position: center;
-                                width: 14px;                       
-                                position: absolute;                            
+                                width: 14px;
+                                position: absolute;
                                 font-size: 18px;
                                 height: 100%;
                                 right: 0px;
@@ -3234,14 +3753,17 @@ and open the template in the editor.
                         }
                     }
                 }
-                .mat-form-field-label-wrapper{
+
+                .mat-form-field-label-wrapper {
                     padding: 0;
                     top: 0;
-                    .mat-form-field-label{
+
+                    .mat-form-field-label {
                         width: 100%;
                         margin: 0;
                         top: 0;
-                        mat-label{
+
+                        mat-label {
                             top: 0;
                             margin: 0;
                         }
@@ -3249,23 +3771,26 @@ and open the template in the editor.
                 }
             }
         }
-        .mat-form-field-underline{
+
+        .mat-form-field-underline {
             display: none !important;
-        }       
+        }
     }
 }
 
-.mat-select{
+.mat-select {
     font-family: Inter !important;
-    color: $primaryColor !important;
-    font-size: 14px !important; 
+    color: $primaryColor  !important;
+    font-size: 14px !important;
 }
-.mat-option{
+
+.mat-option {
     font-family: Inter !important;
-    color: $primaryColor !important;
-    font-size: 14px !important; 
+    color: $primaryColor  !important;
+    font-size: 14px !important;
 }
-pre{
+
+pre {
     display: block;
     padding: 9.5px;
     margin: 0 0 10px;
@@ -3280,19 +3805,60 @@ pre{
     overflow: auto;
     white-space: break-spaces;
 }
+
 /*---- FILE UPLOAD DRAG AND DROP STYLES ENDS HERE---*/
 
 /* -------------------- COMPONENTS STYLES STARTS HERE ---------------------*/
 
-.dropdown-toggle{
-    &::after{
+.dropdown-toggle {
+    &::after {
         display: none;
     }
 }
-a{
+
+a {
     color: #0D6EFD;
     text-decoration: none !important;
-    &:hover{
+
+    &:hover {
         color: #0D6EFD;
+    }
+}
+
+// Loader spin inside button
+
+.loader-spin-inside-btn {
+    border: 2px solid rgba(243, 248, 255, 0.5);
+    border-radius: 50%;
+    border-top: 2px solid #F3F8FF;
+    width: 17px;
+    height: 17px;
+    -webkit-animation: spin-loader-button 2s linear infinite;
+    /* Safari */
+    animation: spin-loader-button 2s linear infinite;
+    display: inline-block;
+    position: relative;
+    top: 4px;
+    margin-right: 6px;
+}
+
+/* Safari */
+@-webkit-keyframes spin-loader-button {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin-loader-button {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
     }
 }
