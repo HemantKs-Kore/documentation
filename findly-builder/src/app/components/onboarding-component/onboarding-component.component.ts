@@ -164,8 +164,12 @@ faqData = [{
    childData:[{
        ques:"What are the Questions?",
        ans:"these are the answer",
-       link:""
-
+       link:"https://docs.kore.ai/searchassist/searchassist/overview/"
+   },
+   {
+      ques:"What are the content types supported by SearchAssist?",
+       ans:"these are the answer",
+       link:"https://docs.kore.ai/searchassist/concepts/managing-content/introduction-to-content-sources/"
    }]
 },
 {
@@ -175,20 +179,19 @@ faqData = [{
    childData:[{
        ques:"How to add content from your website by crawling?",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/concepts/managing-content/crawling-web-pages/"
 
    },
    {
     ques:"How to schedule Auto- crawl for your website?",
     ans:"these are the answer",
-    link:""
+    link:"https://docs.kore.ai/searchassist/concepts/managing-content/crawling-web-pages/#Scheduling_Crawls"
 
 },
 {
   ques:"How to upload files as content to your App?",
   ans:"these are the answer",
-  link:""
-
+  link:"https://docs.kore.ai/searchassist/concepts/managing-content/adding-documents/"
 }]
 },
 {
@@ -198,37 +201,37 @@ faqData = [{
    childData:[{
     ques:"How to extract FAQ’s from a PDF file?",
     ans:"these are the answer",
-    link:""
+    link:"https://docs.kore.ai/searchassist/concepts/managing-content/adding-faqs/#Extracting_FAQs_From_Files"
 
 },
 {
     ques:"What is annotate & extract FAQ’s?",
     ans:"these are the answer",
-    link:""
+    link:"https://docs.kore.ai/searchassist/concepts/managing-content/adding-faqs/#Annotating_Extracting_FAQs"
 
 },
 {
     ques:" How to extract FAQ’s from a URL?",
     ans:"these are the answer",
-    link:""
+    link:"https://docs.kore.ai/searchassist/concepts/managing-content/adding-faqs/#Extracting_FAQs_from_a_URL"
 
 },
 {
     ques:"How to add FAQ’s manually?",
     ans:"these are the answer",
-    link:""
+    link:"https://docs.kore.ai/searchassist/concepts/managing-content/adding-faqs/#Adding_FAQs_Manually"
 
 },
 {
     ques:"How to add conditional responses to FAQ’s",
     ans:"these are the answer",
-    link:""
+    link:"https://docs.kore.ai/searchassist/concepts/managing-content/adding-faqs/#Managing_Conditional_Responses"
 
 },
 {
     ques:"What is a FAQ workflow and how does it work?",
     ans:"these are the answer",
-    link:""
+    link:"https://docs.kore.ai/searchassist/concepts/managing-content/adding-faqs/#FAQ_Review_Workflow"
 
 }]
 },
@@ -239,13 +242,13 @@ faqData = [{
    childData:[{
        ques:"What are bot actions?",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/concepts/managing-content/introduction-to-content-sources/"
 
    },
    {
       ques:"How to integrate a bot to SearchAssist as a content?",
       ans:"these are the answer",
-      link:""
+      link:"https://docs.kore.ai/searchassist/concepts/managing-content/linking-your-virtual-assistant/"
 
 }]
 },
@@ -256,13 +259,13 @@ faqData = [{
    childData:[{
        ques:"What are Synonyms and their types?",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/#Adding_Synonyms"
 
    },
    {
       ques:"How do I add Synonyms?",
       ans:"these are the answer",
-      link:""
+      link:"https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/#Adding_Synonyms-2"
 
 }]
 },
@@ -273,13 +276,13 @@ faqData = [{
    childData:[{
        ques:" What are traits?",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/concepts/managing-indices/configuring-traits/"
 
    },
    {
     ques:"How to configure traits in SearchAssist?",
     ans:"these are the answer",
-    link:""
+    link:"https://docs.kore.ai/searchassist/concepts/managing-indices/configuring-traits/#Adding_Traits"
 
 }]
 },
@@ -288,27 +291,27 @@ faqData = [{
    key:"rules",
    icon:"",
    childData:[{
-       ques:"What are Business rules ?",
+       ques:"What are Business rules?",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/concepts/personalizing-results/personalizing-results-ranking/#Configuring_Business_Rules"
 
    },
    {
     ques:"How to add conditions and define an outcome?",
     ans:"these are the answer",
-    link:""
+    link:"https://docs.kore.ai/searchassist/concepts/personalizing-results/personalizing-results-ranking/#More_About_Business_Rules"
 
 },
 {
   ques:"What are contexts in Business rules?",
   ans:"these are the answer",
-  link:""
+  link:"https://docs.kore.ai/searchassist/concepts/personalizing-results/personalizing-results-ranking/#Scenarios"
 
 },
 {
   ques:"How do I edit/delete Business rules?",
   ans:"these are the answer",
-  link:""
+  link:"https://docs.kore.ai/searchassist/concepts/personalizing-results/personalizing-results-ranking/#Applying_Business_Rules"
 
 }]
 },
@@ -319,25 +322,25 @@ faqData = [{
    childData:[{
        ques:"What are Facets and its types in Search Assist?",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/#Creating_Facets"
 
    },
    {
       ques:"How to configure a Filter Facet?",
       ans:"these are the answer",
-      link:""
+      link:"https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/#Filter_Facets"
 
 },
 {
       ques:"How to configure a sortable Facet?",
       ans:"these are the answer",
-      link:""
+      link:"https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/#Sortable_Facets"
 
 },
 {
       ques:"How to configure a Tab Facet?",
       ans:"these are the answer",
-      link:""
+      link:"https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/#Tab_Facets"
 
 }]
 },
@@ -354,43 +357,43 @@ faqData = [{
    {
     ques:"What are the different pipelines available in the workbench?",
     ans:"these are the answer",
-    link:""
+    link:"https://docs.kore.ai/searchassist/concepts/managing-indices/managing-index-pipeline/"
 
 },
 {
   ques:"How do I map fields using the field mapping stage?",
   ans:"these are the answer",
-  link:""
+  link:"https://docs.kore.ai/searchassist/concepts/managing-indices/managing-index-pipeline/#Field_Mapping"
 
 },
 {
   ques:"How do I extract keywords using the keyword extraction stage?",
   ans:"these are the answer",
-  link:""
+  link:"https://docs.kore.ai/searchassist/concepts/managing-indices/managing-index-pipeline/#Keyword_Extraction"
 
 },
 {
   ques:"How do I extract entities  using the field mapping stage?",
   ans:"these are the answer",
-  link:""
+  link:"https://docs.kore.ai/searchassist/concepts/managing-indices/managing-index-pipeline/#Entity_Extraction"
 
 },
 {
   ques:"How do I map fields using the field mapping stage?",
   ans:"these are the answer",
-  link:""
+  link:"https://docs.kore.ai/searchassist/concepts/managing-indices/managing-index-pipeline/#Traits_Extraction"
 
 },
 {
   ques:" How to write a custom script as a part of a workbench stage?",
   ans:"these are the answer",
-  link:""
+  link:"https://docs.kore.ai/searchassist/concepts/managing-indices/managing-index-pipeline/#Custom_Script"
 
 },
 {
   ques:"How do I exclude certain documents from my search index?",
   ans:"these are the answer",
-  link:""
+  link:"https://docs.kore.ai/searchassist/concepts/managing-indices/managing-index-pipeline/#Exclude_Documents"
 
 }]
 },
@@ -399,21 +402,21 @@ faqData = [{
    key:"experiments",
    icon:"",
    childData:[{
-       ques:"What are experiments ?",
+       ques:"What are experiments?",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/concepts/experimenting-with-search-variants/introduction-to-experiments/"
 
    },
    {
     ques:"How do I configure experiments?",
     ans:"these are the answer",
-    link:""
+    link:"https://docs.kore.ai/searchassist/concepts/experimenting-with-search-variants/experiments//"
 
 },
 {
   ques:"How to check insights after running an experiment?",
   ans:"these are the answer",
-  link:""
+  link:"https://docs.kore.ai/searchassist/concepts/experimenting-with-search-variants/experiments/#Getting_Insights_from_Experiments"
 
 }]
 },
@@ -424,19 +427,19 @@ faqData = [{
    childData:[{
        ques:"What are Stop words?",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/#Adding_Stop_Words"
 
    },
    {
       ques:"How do I add custom Stop words?",
       ans:"these are the answer",
-      link:""
+      link:"https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/#Adding_New_Stop_Words"
 
 },
 {
       ques:"How do I disable stop words ?",
       ans:"these are the answer",
-      link:""
+      link:"https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/#Managing_Stop_Words"
 
 }]
 },
@@ -447,13 +450,13 @@ faqData = [{
    childData:[{
        ques:"What are weights?",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/#Adding_Weights"
 
    },
    {
         ques:"How do I configure weights?",
         ans:"these are the answer",
-        link:""
+        link:"https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/#Assigning_Weights"
 
 }]
 },
@@ -464,25 +467,25 @@ faqData = [{
    childData:[{
        ques:"What is Results Ranking ?",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/concepts/personalizing-results/personalizing-results-ranking/#Tuning_Results_Ranking"
 
    },
    {
     ques:"How can you simulate your search Application?",
     ans:"these are the answer",
-    link:""
+    link:"https://docs.kore.ai/searchassist/concepts/testing-as-you-build/testing-as-you-build/"
 
 },
 {
   ques:"How to customize my results?",
   ans:"these are the answer",
-  link:""
+  link:"https://docs.kore.ai/searchassist/concepts/personalizing-results/personalizing-results-ranking/#Adding_Personalizations"
 
 },
 {
   ques:"How to edit/ delete result customization?",
   ans:"these are the answer",
-  link:""
+  link:"https://docs.kore.ai/searchassist/concepts/personalizing-results/personalizing-results-ranking/#Reset_Customization"
 
 }]
 },
@@ -505,61 +508,101 @@ faqData = [{
        ques:"What are the Questions?",
        ans:"these are the answer",
        link:""
-
-   }]
+   },
+    {
+      ques:"How do I check metrics for a particular date range?",
+      ans:"these are the answer",
+      link:"https://docs.kore.ai/searchassist/concepts/analyzing-performance/analyzing-search-performance/#Accessing_the_SearchAssist_Dashboard"
+    },
+  {
+    ques: "How to track metrics based on index?",
+    ans:"these are the answer",
+    link:"https://docs.kore.ai/searchassist/concepts/analyzing-performance/analyzing-search-performance/#Metrics"
+  }]
 },
 {
    display:"User Engagment",
    key:"userEngagement",
    icon:"",
-   childData:[{
-       ques:"What are the Questions?",
+   childData:[
+    {
+       ques:"What metrics that can i track as a part of measuring User Engagement?",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/concepts/analyzing-performance/analyzing-search-performance/#Metrics-2"
+    },
+    {
+      ques:"When do I see metrics for user engagement?",
+      ans:"these are the answer",
+      link:"https://docs.kore.ai/searchassist/concepts/analyzing-performance/analyzing-search-performance/#Filtering-2"
+   },
 
-   }]
+  ]
 },
 {
    display:"Search Insights",
    key:"searchInsights",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:"How can I use my search insights to improve relevance?",
        ans:"these are the answer",
-       link:""
-
-   }]
+       link:"https://docs.kore.ai/searchassist/concepts/analyzing-performance/analyzing-search-performance/#Getting_Insights_from_Search_Queries"
+      },
+      {
+        ques:"What are positive and negative feedback metrics?",
+        ans:"these are the answer",
+        link:"https://docs.kore.ai/searchassist/concepts/analyzing-performance/analyzing-search-performance/?preview=true#Insights_from_Feedback_on_Results"
+      },
+      {
+        ques:"How do I enable / disable user feedback for search?",
+        ans:"these are the answer",
+        link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/designing-search-experience/#Results_Feedback"
+      }
+    ]
 },
 {
    display:"Results Insights",
    key:"resultInsights",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:"What are the metrics that can be tracked as a part of Result Insights?",
        ans:"these are the answer",
-       link:""
-
-   }]
+       link:"https://docs.kore.ai/searchassist/concepts/analyzing-performance/analyzing-search-performance/#Getting_Insights_from_Results"
+   },
+   {
+      ques:"When do I see metrics for Result Insights?",
+       ans:"these are the answer",
+       link:"https://docs.kore.ai/searchassist/concepts/analyzing-performance/analyzing-search-performance/#Filtering-3"
+   }
+  ]
 },
 {
    display:"Settings",
    key:"settings",
    icon:"",
-   childData:[{
-       ques:"What are the Questions?",
+   childData:[
+    {
+       ques:"How do i auto-execute winning intent",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/concepts/managing-content/linking-your-virtual-assistant/#End-Users_Experience_Virtual_Assistant_Actions_From_Search"
 
-   }]
+   },
+   {
+    ques:"How to enable/disable small talk?",
+    ans:"these are the answer",
+    link:"https://docs.kore.ai/searchassist/administration/managing-channels-2/#Small_Talk"
+   },
+
+  ]
 },
 {
    display:"Credentials-List",
    key:"credentials-list",
    icon:"",
-   childData:[{
-       ques:"What are the Questions?",
+   childData:[
+    {
+       ques:"How do i delete my credential?",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/administration/managing-credentials/#Deleting_a_Credential"
 
    }]
 },
@@ -603,13 +646,13 @@ faqData = [{
    childData:[{
        ques:"What are fields in SearchAssist ?",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/concepts/managing-indices/configuring-search-fields/"
 
    },
    {
     ques:"How do i add custom fields?",
     ans:"these are the answer",
-    link:""
+    link:"https://docs.kore.ai/searchassist/concepts/managing-indices/configuring-search-fields/#Adding_Fields"
 
 }]
 },
@@ -618,11 +661,22 @@ faqData = [{
    key:"searchInterface",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
-       ans:"these are the answer",
-       link:""
+    ques:"How to customize search Experience?",
+    ans:"these are the answer",
+    link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/designing-search-experience/"
 
-   }]
+},
+{
+ ques:"What is the Search bar and Assistant experience?",
+ ans:"these are the answer",
+ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/designing-search-experience/#Search_Experience"
+
+},
+{
+ques:"How to design my search bar experience?",
+ans:"these are the answer",
+link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/designing-search-experience/#Configuring_Search_Experience"
+}]
 },
 {
    display:"Result-Template",
@@ -631,13 +685,13 @@ faqData = [{
    childData:[{
        ques:"What are Result templates?",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/designing-search-experience/#Designing_Results_Templates"
 
    },
    {
     ques:"How to design templates for the search results?",
     ans:"these are the answer",
-    link:""
+    link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/designing-search-experience/#Configuring_Result_Views"
 
 }]
 },
@@ -648,13 +702,13 @@ faqData = [{
    childData:[{
        ques:"How to import structured data from a CSV or JSON file?",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/concepts/managing-content/adding-structured-data/#Importing_Structured_Data"
 
    },
    {
     ques:"How to add Structured data manually?",
     ans:"these are the answer",
-    link:""
+    link:"https://docs.kore.ai/searchassist/concepts/managing-content/adding-structured-data/#Manually_Adding_Structured_Data"
 
 }]
 },
@@ -663,9 +717,9 @@ faqData = [{
    key:"team-management",
    icon:"",
    childData:[{
-       ques:"What are the Questions?",
+       ques:"How do i add members to collaborate?",
        ans:"these are the answer",
-       link:""
+       link:"https://docs.kore.ai/searchassist/managing-searchassist-apps/collaboration/"
 
    }]
 },
@@ -674,21 +728,9 @@ faqData = [{
    key:"search-experience",
    icon:"",
    childData:[{
-       ques:"How to customize search Experience?",
-       ans:"these are the answer",
-       link:""
-
-   },
-   {
-    ques:"What is the Search bar and Assistant experience?",
+    ques:"What are the Questions?",
     ans:"these are the answer",
     link:""
-
-},
-{
-  ques:"How to design my search bar experience?",
-  ans:"these are the answer",
-  link:""
 
 }]
 },
@@ -731,7 +773,7 @@ faqData = [{
     private notificationService: NotificationService,
     private service: ServiceInvokerService,
     public router: Router,) {
-      
+
    }
 
   ngOnInit(): void {
@@ -739,13 +781,13 @@ faqData = [{
       this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourConfigData = res;
       this.tourData = res.onBoardingChecklist;
-      this.checkList=[{ step: 'Step 1',title:'Add Data',desc:'Data is fetched from various sources and ingested into the application for accurate search results', imgURL:'assets/icons/onboarding/database.svg',route:'/source',tourdata:this.tourData[0].addData, videoUrl:'https://www.w3schools.com/tags/movie.mp4'}, 
+      this.checkList=[{ step: 'Step 1',title:'Add Data',desc:'Data is fetched from various sources and ingested into the application for accurate search results', imgURL:'assets/icons/onboarding/database.svg',route:'/source',tourdata:this.tourData[0].addData, videoUrl:'https://www.w3schools.com/tags/movie.mp4'},
       { step: 'Step 2',title:'Review Index configurations',desc:'Index configurations allows you to configure the fields, traits,keywords or create workbench pipelines to suit your business needs.', imgURL: 'assets/icons/onboarding/review-index.svg',route:'/FieldManagementComponent',tourdata:this.tourData[1].indexData, videoUrl:'https://www.w3schools.com/tags/movie.mp4'},
       {step: 'Step 3',title:'Review Search Configurations',desc:'Search Configuration allows you to improve search relevance by configuring  syonyms, weights, stop words, re-ranking results, adding rules or facets.', imgURL: 'assets/icons/onboarding/review-search.svg',route:'/weights',tourdata:this.tourData[2].optimiseSearchResults,  videoUrl:'https://www.w3schools.com/tags/movie.mp4'},
-      {step: 'Step 4',title:'Design Search Experience',desc:'SearchAssist allows you to customise the search experiance and design the search interface based on the business context.', imgURL: 'assets/icons/onboarding/search-design.svg',route:'/search-experience',tourdata:this.tourData[3].designSearchExperience,  videoUrl:'https://www.w3schools.com/tags/movie.mp4'}, 
-      {step: 'Step 5',title:'Simulate Application',desc:'SearchAssist allows you to validate the configuration and search experience before deploying the app by just clicking on the Preview button.', 
-      imgURL: 'assets/icons/onboarding/acid-surface.svg',route:'test' ,tourdata:this.tourData[4].testApp, videoUrl:'https://www.w3schools.com/tags/movie.mp4'}, 
-      {step: 'Step 6',title:'Deploy your application',desc:'Configure your application to connect to any of the channels available', 
+      {step: 'Step 4',title:'Design Search Experience',desc:'SearchAssist allows you to customise the search experiance and design the search interface based on the business context.', imgURL: 'assets/icons/onboarding/search-design.svg',route:'/search-experience',tourdata:this.tourData[3].designSearchExperience,  videoUrl:'https://www.w3schools.com/tags/movie.mp4'},
+      {step: 'Step 5',title:'Simulate Application',desc:'SearchAssist allows you to validate the configuration and search experience before deploying the app by just clicking on the Preview button.',
+      imgURL: 'assets/icons/onboarding/acid-surface.svg',route:'test' ,tourdata:this.tourData[4].testApp, videoUrl:'https://www.w3schools.com/tags/movie.mp4'},
+      {step: 'Step 6',title:'Deploy your application',desc:'Configure your application to connect to any of the channels available',
       imgURL:'assets/icons/onboarding/hand.svg',route:'/settings',tourdata:this.tourData[5].fineTuneRelevance, videoUrl:'https://www.w3schools.com/tags/movie.mp4'}];
       this.trackChecklist();
     })
@@ -769,27 +811,27 @@ faqData = [{
      this.breadcrumbNameFaq = faq.display;
   }
   // openAccordiandata(index) {
-  //   $(document).ready(function(){    
+  //   $(document).ready(function(){
   //     $(".data"+index).mouseenter(function(){
   //        $(".data"+index).trigger( "click" );
   //        $(".video"+index ).trigger( "play" );
-  //     });   
+  //     });
   // });
   // }
 
   // playPause(index) {
   //   $(document).ready(function(){
-  //     $(".data"+index).mouseleave(function(){  
+  //     $(".data"+index).mouseleave(function(){
   //         $(".data"+index).trigger( "click" );
   //         $(".video"+index ).trigger( "pause" );
   //     });
   // });
   // }
   openAccordianFaq(index) {
-    $(document).ready(function(){    
+    $(document).ready(function(){
       $(".dataFaq"+index).mouseover(function(){
          $(".dataFaq"+index).trigger( "click" );
-      });   
+      });
   });
   }
 
@@ -856,7 +898,7 @@ faqData = [{
     arr.map((item, index) => {
       if (item == false) Index.push(index)
     })
-    
+
     let count = 0;
     for (let key in this.tourData) {
       for (let key1 in this.tourData[key]) {
@@ -865,7 +907,7 @@ faqData = [{
         }
       }
     }
-    this.checklistCount = count;    
+    this.checklistCount = count;
   }
   closeSupport(){
     this.closeSlid.emit();
@@ -905,7 +947,7 @@ faqData = [{
      }
     }, errRes => {
       this.notificationService.notify('Something has gone wrong.', 'error');
-    }); 
+    });
   }
 
 }

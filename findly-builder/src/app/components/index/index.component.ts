@@ -229,6 +229,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     createdStages: [],
     deletedStages: []
   }
+  sourceList: any = ['all', 'faq', 'web', 'file', 'data', 'serviceNow', 'confluenceCloud', 'confluenceServer'];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   entityName: string;
   constructor(
@@ -1541,11 +1542,14 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         noOfDocuments: this.simulteObj.docCount || 5,
         // pipelineConfig: this.preparepayload()
       }
+      if (['serviceNow', 'confluenceCloud', 'confluenceServer'].includes(this.sourceType)) {
+        payload.connectorType = this.sourceType;
+        payload.sourceType = 'connector';
+      }
       const stages = this.preparepayload();
       if (this.currentEditIndex > -1) {
         payload.pipelineConfig = stages.slice(0, this.currentEditIndex + 1);
         //payload.pipelineConfig = [stages[this.currentEditIndex]];
-
       } else {
         payload.pipelineConfig = stages
       }
@@ -2249,7 +2253,6 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
 
   painlessScriptChanged(event) {
     let count = this.codemirror.codeMirror.lineCount();
-    console.log("lines", this.codemirror.codeMirror.lineCount());
   }
   //matchip method
   add(event: MatChipInputEvent, index): void {

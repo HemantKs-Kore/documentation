@@ -182,6 +182,10 @@ export class UpgradePlanComponent implements OnInit {
       let url = this.payementResponse.hostedPage.url;
       this.invoiceOrderId = this.payementResponse.hostedPage.transactionId;
       this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      setTimeout(() => {
+        const iframePage = document.getElementById('i_frame_page');
+        iframePage.style.height = '100vh';
+      }, 100)
       this.poling();
     }, errRes => {
       this.errorToaster(errRes, 'failed');
@@ -382,6 +386,7 @@ export class UpgradePlanComponent implements OnInit {
       this.errorToaster(errRes, 'failed buy overage');
     });
   }
+
   //gotoDetails
   gotoDetails(name) {
     this.showPlanDetails = name;

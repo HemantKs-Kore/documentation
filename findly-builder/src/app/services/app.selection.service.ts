@@ -186,7 +186,6 @@ export class AppSelectionService {
     });
   }
   openApp(app) {
-    //this.currentsubscriptionPlan(app._id)
     this.workflowService.selectedQueryPipeline([]);
     this.workflowService.appQueryPipelines({});
     this.setAppWorkFlowData(app);
@@ -195,11 +194,9 @@ export class AppSelectionService {
       title: '',
     };
     this.headerService.toggle(toogleObj);
-    //this.headerService.closeSdk();
-    // this.headerService.updateSearchConfiguration();
     this.router.navigate(['/summary'], { skipLocationChange: true });
     this.getInlineManualcall();
-    //this.routeChanged.next({ name: undefined, path: '' });
+
   }
   //get current subscription data
   getCurrentSubscriptionData() {

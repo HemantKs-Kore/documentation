@@ -302,7 +302,7 @@
     <div class="modal-body">
       <div class="plan-order-steps" [ngSwitch]="selectedPaymentPage">
                <!-- order conformation start fr`om here -->
-               <div class="row col-12 m-0 align-items-center payment-status-block" *ngSwitchCase="'payment_confirm'">
+               <div class="row col-12 m-0 align-items-center payment-status-block" *ngSwitchCase="'!payment_confirm'">
               <div class="col-12">
                 <div class="payment-success-route">
                   <div class="rotaion-img">
@@ -323,7 +323,7 @@
                 </div>
               </div>
               </div>
-               <div class="row col-12 m-0 align-items-center payment-status-block" *ngSwitchCase="'!payment_confirm'">
+               <div class="row col-12 m-0 align-items-center payment-status-block" *ngSwitchCase="'payment_confirm'">
                 <div class="col-6">
                   <div class="order-img">
                     <img src="assets/images/pricing-plan/plan-order/order-cart.svg" class="order-stage-img" />
@@ -357,7 +357,7 @@
                 </div>
               </div>
               <!-- iframe page start here -->
-              <div class="row col-12 m-0" *ngSwitchCase="'payment_iframe'">
+              <div class="row col-12 m-0" id="i_frame_page" *ngSwitchCase="'payment_iframe'">
                 <iframe width="100%" scrolling="yes" frameborder="0" [src]="urlSafe" allowfullscreen></iframe>
               </div>
               <!-- payment mode success screen start here -->

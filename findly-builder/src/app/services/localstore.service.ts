@@ -43,6 +43,7 @@ export class LocalStoreService {
     try {
       window[this.storageType].setItem('jStorage', '{}');
       window[this.storageType].setItem('krPreviousState', '{}');
+      window[this.storageType].setItem('selectedAccount', null);
       return true;
     } catch (error) {
       return false;
