@@ -220,7 +220,8 @@ export class AppsListingComponent implements OnInit {
     else if (this.steps == 'displayApp') {
       this.steps = '';
       this.progressBar.length = 0
-      this.newApp.name = '';
+      this.newApp = { name: '', description: '' };
+
     }
   }
   appCreationAtOnboarding() {
