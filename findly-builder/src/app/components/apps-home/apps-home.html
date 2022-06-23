@@ -433,6 +433,10 @@
                     <div class="label-text">App Name</div>
                     <input type="text"  [(ngModel)]="newApp.name" placeholder="Type The App Name" class="input-text" [ngClass]="{'error' : validateAppname }">
                     <div class="error-msg" *ngIf="validateAppname">Enter The App Name</div>
+                    <div class="kr-sg-input-text">
+                      <div class="label-text">Description</div>
+                      <input class="text" placeholder="Enter App Description" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
+                    </div>
                   </div>
                  </div>
                 </ng-container>
