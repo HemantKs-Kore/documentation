@@ -73,6 +73,8 @@ export class AppsListingComponent implements OnInit {
   recentApps: any;
   currentPage: number = 1;
   testRepeat = false;
+  createdAppData: any = {};
+  pollingInterval;
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
   @ViewChild('loadingAppcreation') loadingAppcreation: KRModalComponent;
@@ -121,7 +123,8 @@ export class AppsListingComponent implements OnInit {
   }
   openApp(app) {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
-    this.appSelectionService.openApp(app);
+    const isDemo = this.appType == 'sampleData' ? true : false;
+    this.appSelectionService.openApp(app, isDemo);
     this.workflowService.selectedIndexPipelineId = '';
   }
   openBoradingJourney() {
@@ -168,7 +171,8 @@ export class AppsListingComponent implements OnInit {
   exploreSampleDate() {
     this.hideWelcomepage = false;
     if (this.steps == 'demoOptions' && this.demoType) {
-      this.steps = 'showSearchExperience'
+      this.steps = 'showSearchExperience';
+      this.SearchExperianceType ='top';
       this.progressBarFun(3, 2)
     }
     else if (this.steps == 'showSearchExperience' && this.SearchExperianceType) {
@@ -180,22 +184,20 @@ export class AppsListingComponent implements OnInit {
     }
     else {
       if (this.displayApp = true && this.newApp.name) {
-        this.steps = 'demoOptions'; 
+        this.steps = 'demoOptions';
+        this.demoType = 'e-commerce';
       }
       else {
-        this.validateAppname  = true;
+        this.validateAppname = true;
       }
     }
 
   }
   openAppLoadingScreen() {
     this.loadingAppcreationRef = this.loadingAppcreation.open();
-    this.CloseAppLoadingScreen();
   }
   CloseAppLoadingScreen() {
-   setTimeout(() => {
-    this.loadingAppcreationRef.close()
-   }, 9000);
+    if (this.loadingAppcreationRef?.close) this.loadingAppcreationRef.close()
   }
 
   selectDemoType(data) {
@@ -243,29 +245,6 @@ export class AppsListingComponent implements OnInit {
       }
     }
   }
-
-  createDemoApp(obj?) {
-    if (this.SearchExperianceType) {
-      const payload = {
-        searchIndexId: obj?._id,
-        streamId: obj?.streamId,
-        appType: this.demoType,
-        searchBarPosition: this.SearchExperianceType,
-      }
-      this.service.invoke('post.createDemoApp', {}, payload).subscribe(
-        res => {
-          if (res) {
-            this.appSelectionService.getTourConfig();
-          }
-
-        },
-        errRes => {
-          this.notificationService.notify('App creation has gone wrong', 'error');
-        }
-      );
-    }
-
-  }
   openDetails() {
     this.detailsPopUpRef = this.detailsPopUp.open();
   }
@@ -274,8 +253,8 @@ export class AppsListingComponent implements OnInit {
   }
   closeCreateApp() {
     this.showBoarding = false;
-    this.createAppPopRef.close();
     this.newApp = { name: '', description: '' };
+    if (this.createAppPopRef?.close) this.createAppPopRef.close();
   }
   openCreateApp() {
     this.createAppPopRef = this.createAppPop.open();
@@ -476,34 +455,90 @@ export class AppsListingComponent implements OnInit {
     };
     this.service.invoke('create.app', {}, payload).subscribe(
       res => {
+        this.createdAppData = res;
         this.notificationService.notify(`${this.newApp.name} created successfully`, 'success');
         if (this.appType == 'sampleData') {
           this.createDemoApp(res?.searchIndexes[0]);
         }
-        this.mixpanel.postEvent('New App Created', {});
-        self.apps.push(res);
-        this.prepareApps(self.apps);
-        this.openApp(res)
-        this.displayApp = false;
-        self.workflowService.showAppCreationHeader(true);
-        this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/source' });
-        this.closeCreateApp();
-        const toogleObj = {
-          title: '',
-        };
-        this.headerService.toggle(toogleObj);
-        self.creatingInProgress = false;
-        $('.toShowAppHeader').removeClass('d-none');
-        if (res.length > 0) {
-          this.emptyApp = true;
+        else {
+          this.openCreatedApp();
         }
-        // this.callStream();
       },
       errRes => {
         this.errorToaster(errRes, 'Error in creating app');
         self.creatingInProgress = false;
       }
     );
+  }
+  //common method for create sample/scratch app
+  openCreatedApp() {
+    const res = this.createdAppData;
+    this.mixpanel.postEvent('New App Created', {});
+    this.apps.push(res);
+    this.prepareApps(this.apps);
+    this.openApp(res)
+    this.displayApp = false;
+    this.workflowService.showAppCreationHeader(true);
+    // this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/source' });
+    this.closeCreateApp();
+    const toogleObj = {
+      title: '',
+    };
+    this.headerService.toggle(toogleObj);
+    this.creatingInProgress = false;
+    $('.toShowAppHeader').removeClass('d-none');
+    if (res.length > 0) {
+      this.emptyApp = true;
+    }
+  }
+  // create demo app API
+  createDemoApp(obj?) {
+    if (this.SearchExperianceType) {
+      const payload = {
+        searchIndexId: obj?._id,
+        streamId: obj?.streamId,
+        appType: this.demoType,
+        searchBarPosition: this.SearchExperianceType,
+      }
+      this.service.invoke('post.createDemoApp', {}, payload).subscribe(
+        res => {
+          if (res) {
+            this.openAppLoadingScreen();
+            this.polling();
+            this.appSelectionService.getTourConfig();
+            this.headerComp.viewCheckList();
+          }
+        },
+        errRes => {
+          this.notificationService.notify('App creation has gone wrong', 'error');
+        }
+      );
+    }
+  }
+  //calling polling API To get traing status
+  polling() {
+    this.pollingInterval = setInterval(() => { this.dockStatus() }, 700);
+  }
+  //call dock status API
+  dockStatus() {
+    const queryParms = {
+      searchIndexId: this.createdAppData?.searchIndexes[0]?._id
+    }
+    this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
+      const doc_status = JSON.parse(JSON.stringify(res));
+      console.log("doc_status", doc_status);
+      if ((doc_status[0].status === 'SUCCESS' || doc_status[0].status === 'success') && doc_status[0].jobType === "TRAINING") {
+        clearInterval(this.pollingInterval);
+        this.CloseAppLoadingScreen();
+        this.openCreatedApp();
+      }
+      else if ((doc_status[0].status === 'FAILURE' || doc_status[0].status === "FAILED") && doc_status[0].jobType === "TRAINING") {
+        this.CloseAppLoadingScreen();
+        this.notificationService.notify(doc_status[0].message, 'error');
+      }
+    }), errRes => {
+      this.notificationService.notify('Failed to get Status of Docker.', 'error');
+    }
   }
   validateSource() {
     let validField = true
@@ -516,10 +551,6 @@ export class AppsListingComponent implements OnInit {
     if (validField && this.newApp.name) {
       let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|<>\/?→←↑↓]+/;
       if (!specialCharacters.test(this.newApp.description)) {
-
-        if (this.appType == 'sampleData') {
-          this.openAppLoadingScreen();
-        }
         this.createFindlyApp();
       }
       else {

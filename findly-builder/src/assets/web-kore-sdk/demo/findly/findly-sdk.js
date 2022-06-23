@@ -15604,6 +15604,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if (obj.rating) {
             item.ecommerce_rating = obj.rating;
+            var reviweArr =['n_fill','n_fill','n_fill','n_fill','n_fill'];
+              for(let i=0;i<item.ecommerce_rating;i++){
+                reviweArr[i] = 'fill';
+              } 
+            item.ecommerce_ratingArr = reviweArr;  
           }
           if (obj.prod_percentage_offer) {
             item.ecommerce_percentage_offer = obj.prod_percentage_offer;
