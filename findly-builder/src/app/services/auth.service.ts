@@ -72,12 +72,7 @@ export class AuthService {
     let _uid = '';
     if (this.isAuthenticated) {
       try {
-        let _selectedAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : null;
-        if(_selectedAccountDetails && _selectedAccountDetails.userId){
-          _uid = _selectedAccountDetails.userId;
-        }else{
-          _uid = this.authInfo.currentAccount.userInfo.id;
-        }
+        _uid = this.authInfo.currentAccount.userInfo.id;
       } catch (error) {
         return false;
       }

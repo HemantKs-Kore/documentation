@@ -1542,6 +1542,10 @@ export class AppHeaderComponent implements OnInit {
   //appcontrol list API
   getAppControlListData() {
     this.associatedAccounts = [];
+    // let _selectedAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : null;
+    //     if(_selectedAccountDetails && _selectedAccountDetails.userId){
+    //       this.userId = _selectedAccountDetails.userId;
+    //     }
     const quaryparms: any = { userId: this.userId };
     this.service.invoke('app.controls', quaryparms).subscribe((res) => {
       this.associatedAccounts = res.associatedAccounts;
