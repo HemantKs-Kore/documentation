@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input,OnDestroy } from '@angular/core';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,19 +10,18 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import * as FileSaver from 'file-saver';
+import { Subscription } from 'rxjs';
 declare const $: any;
 @Component({
   selector: 'app-upgrade-plan',
   templateUrl: './upgrade-plan.component.html',
   styleUrls: ['./upgrade-plan.component.scss']
 })
-export class UpgradePlanComponent implements OnInit {
-  orderConfirmModelPopRef: any;
+export class UpgradePlanComponent implements OnInit,OnDestroy {
   addOverageModalPopRef: any;
   choosePlanModalPopRef: any;
   paymentGatewayModelPopRef: any;
   successFailureModelPopRef: any;
-  changePlanModelPopRef: any;
   contactusModelPopRef: any;
   contactusSuccessModelPopRef: any;
 
@@ -31,7 +30,7 @@ export class UpgradePlanComponent implements OnInit {
   filterPlansData: any;
   showPlanDetails: string = '';
   orderConfirmData: any;
-  selectedPlan: any;
+  selectedPlan: any={};
   selectedApp: any;
   serachIndexId: any;
   urlSafe: any;
@@ -42,10 +41,11 @@ export class UpgradePlanComponent implements OnInit {
   invoiceOrderId: any;
   featuresExceededUsage: any;
   selectedPaymentPage: string = 'payment_confirm';
+  showLoader:boolean;
   payementResponse: any = {
     hostedPage: {
       transactionId: "",
-      url: "https://store.payproglobal.com/checkout?products[1][id]=65066&products[1][qty]=1&page-template=2339&language=en&currency=USD&x-accountId=5ecfbf1407c1bd2347c4f199&x-resourceId=st-7a270f50-338b-5d82-8022-c2ef8e6b46da&x-transactionId=faTYYAH3g2GsdmthszR5kDT179I4&x-streamName=AmazeBot&exfo=742&use-test-mode=true&secret-key=_npaisT4eQ&emailoverride=akshay.gupta%40kore.com&x-isSearchbot=true"
+      url: ""
     }
   };
   plansIdList = {
@@ -56,6 +56,7 @@ export class UpgradePlanComponent implements OnInit {
     enterpriceYear: 'enterprise_yearly'
   }
   overageDeatils: any = {}
+  currentSubsciptionData: Subscription;
   isOverageShow: boolean = false;
   enterpriseForm: any = { name: '', email: '', message: '', phone: '' };
   @Input() componentType: string;
@@ -69,11 +70,9 @@ export class UpgradePlanComponent implements OnInit {
     private notificationService: NotificationService,
     public localstore: LocalStoreService) { }
   @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
-  @ViewChild('orderConfirmModel') orderConfirmModel: KRModalComponent;
   @ViewChild('choosePlanModel') choosePlanModel: KRModalComponent;
   @ViewChild('paymentGatewayModel') paymentGatewayModel: KRModalComponent;
   @ViewChild('successFailureModel') successFailureModel: KRModalComponent;
-  @ViewChild('changePlanModel') changePlanModel: KRModalComponent;
   @ViewChild('contactUsModel') contactUsModel: KRModalComponent;
   @Output() overageModel = new EventEmitter<string>();
   @ViewChild(PerfectScrollbarComponent) public directiveScroll: PerfectScrollbarComponent;
@@ -81,11 +80,14 @@ export class UpgradePlanComponent implements OnInit {
     this.getAllPlans();
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
+    this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
+      this.selectedPlan = res?.subscription;
+    });
   }
   //get plans api
   getAllPlans() {
     this.service.invoke('get.pricingPlans').subscribe(res => {
-      this.totalPlansData = res.sort((a, b) => { return a.displayOrder - b.displayOrder });
+      this.totalPlansData = res?.plans?.sort((a, b) => { return a.displayOrder - b.displayOrder });
       this.typeOfPlan("Monthly");
     }, errRes => {
       if (localStorage.jStorage) {
@@ -104,27 +106,6 @@ export class UpgradePlanComponent implements OnInit {
       this.notificationService.notify(message, 'error');
     } else {
       this.notificationService.notify('Somthing went worng', 'error');
-    }
-  }
-  //open order confirm popup
-  openOrderConfPopup(data?, obj?) {
-    this.orderConfirmData = data;
-    this.orderConfirmModelPopRef = this.orderConfirmModel.open();
-  }
-  //close order confirm popup
-  closeOrderConfPopup() {
-    if (this.orderConfirmModelPopRef && this.orderConfirmModelPopRef.close) {
-      this.orderConfirmModelPopRef.close();
-    }
-  }
-  //open changePlanModel popup
-  openChangePlanModel() {
-    this.changePlanModelPopRef = this.changePlanModel.open();
-  }
-  //close changePlanModel popup
-  closeChangePlanModel() {
-    if (this.changePlanModelPopRef && this.changePlanModelPopRef.close) {
-      this.changePlanModelPopRef.close();
     }
   }
   //open popup based on input parameter
@@ -155,9 +136,16 @@ export class UpgradePlanComponent implements OnInit {
       if (this.paymentGatewayModelPopRef?.close) this.paymentGatewayModelPopRef.close();
     }
   }
-
+//hide spinner in payment page
+showHideSpinner(){
+  setTimeout(()=>{
+    this.showLoader = false;
+  },1500)
+}
   //open payment gateway popup
   openPaymentGateway() {
+    this.selectedPaymentPage = 'payment_iframe';
+    this.showLoader = true;
     this.selectedApp = this.workflowService.selectedApp();
     const userInfo: any = this.authService.getUserInfo() || {};
     const queryParams = {
@@ -177,15 +165,14 @@ export class UpgradePlanComponent implements OnInit {
     }
     const appObserver = this.service.invoke('post.payement', queryParams, payload);
     appObserver.subscribe(res => {
-      this.selectedPaymentPage = 'payment_iframe';
       this.payementResponse = res;
       let url = this.payementResponse.hostedPage.url;
       this.invoiceOrderId = this.payementResponse.hostedPage.transactionId;
       this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-      setTimeout(() => {
-        const iframePage = document.getElementById('i_frame_page');
-        iframePage.style.height = '100vh';
-      }, 100)
+      // setTimeout(() => {
+        //   const iframePage = document.getElementById('i_frame_page');
+        //   iframePage.style.height = '100vh';
+      // }, 100)
       this.poling();
     }, errRes => {
       this.errorToaster(errRes, 'failed');
@@ -242,6 +229,7 @@ export class UpgradePlanComponent implements OnInit {
     const enterpriseRequest = this.service.invoke('post.enterpriseRequest', queryParams, this.enterpriseForm);
     enterpriseRequest.subscribe(res => {
       this.contactusModel('close');
+      this.notificationService.notify('Thanks for providing the details', 'success');
     }, errRes => {
       this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
     });
@@ -347,6 +335,7 @@ export class UpgradePlanComponent implements OnInit {
   overageModal(type) {
     if (type === 'open') {
       const currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+      this.selectedPlan = currentSubscriptionPlan;
       this.totalPlansData.forEach(element => {
         if (element._id == currentSubscriptionPlan?.subscription?.planId) {
           this.overageDeatils = element.overage;
@@ -357,6 +346,7 @@ export class UpgradePlanComponent implements OnInit {
     }
     else if (type === 'close') {
       this.overageDeatils = {};
+      this.selectedPlan={};
       this.isOverageShow = false;
       if (this.addOverageModalPopRef?.close) this.addOverageModalPopRef.close();
     }
@@ -387,46 +377,24 @@ export class UpgradePlanComponent implements OnInit {
     });
   }
 
-  //gotoDetails
-  gotoDetails(name) {
-    this.showPlanDetails = name;
-    setTimeout(() => {
-      this.directiveScroll.directiveRef.scrollTo(420)
-    }, 500)
-  }
-
   //download invoice
-  // downloadInvoice() {
-  //   this.selectedApp = this.workflowService.selectedApp();
-  //   let queryParams = { "streamId": this.selectedApp._id };
-  //   let url;
-  //   if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free || this.overageData.overageShow || this.currentSubscriptionPlan == undefined) {
-  //     queryParams = Object.assign({ ...queryParams, "transactionId": this.invoiceOrderId });
-  //     url = 'get.getInvoiceDownload';
-  //   }
-  //   else {
-  //     queryParams = Object.assign({ ...queryParams, "orderId": this.invoiceOrderId });
-  //     url = 'get.paidInvoiceDownload';
-  //   }
-  //   const getInvoice = this.service.invoke(url, queryParams);
-  //   getInvoice.subscribe(res => {
-  //     if (this.overageData.overageShow) {
-  //       for (let data of res) {
-  //         FileSaver.saveAs(data.viewInvoice + '&DownloadPdf=true', 'invoice_' + data._id + '.pdf');
-  //       }
-  //     }
-  //     else {
-  //       if (res?.length) {
-  //         FileSaver.saveAs(res[0].viewInvoice + '&DownloadPdf=true', 'invoice_' + res[0]._id + '.pdf');
-  //       }
-  //       else {
-  //         FileSaver.saveAs(res.viewInvoice + '&DownloadPdf=true', 'invoice_' + res._id + '.pdf');
-  //       }
-  //     }
-  //     // this.notificationService.notify('res.status', 'success');
-  //   }, errRes => {
-  //     this.errorToaster(errRes, 'Downloading Invoice failed');
-  //   });
-  // }
-
+  downloadInvoice() {
+    this.selectedApp = this.workflowService.selectedApp();
+    const queryParams = { "streamId": this.selectedApp?._id,"transactionId": this.invoiceOrderId };
+    const getInvoice = this.service.invoke('get.getInvoiceDownload', queryParams);
+    getInvoice.subscribe(res => {
+        if (res?.length) {
+          FileSaver.saveAs(res[0].viewInvoice + '&DownloadPdf=true', 'invoice_' + res[0]._id + '.pdf');
+        }
+        else {
+          FileSaver.saveAs(res.viewInvoice + '&DownloadPdf=true', 'invoice_' + res._id + '.pdf');
+        }
+       this.notificationService.notify('Invoice Downloaded successfully', 'success');
+    }, errRes => {
+      this.errorToaster(errRes, 'Downloading Invoice failed');
+    });
+  }
+  ngOnDestroy() {
+    this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;
+  }
 }

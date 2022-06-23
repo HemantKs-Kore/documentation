@@ -19,9 +19,9 @@ app-mainmenu{
 			transition: 0.33s;	
 			z-index: 2;
 			.perfect-scroll{
-				&.if-upgrade-plan{
-					height: calc(100% - 76px);
-				}
+				// &.if-upgrade-plan{
+				// 	height: calc(100% - 76px);
+				// }
 				.list-group{
 					padding: 10px 20px;
 					cursor: pointer;
@@ -666,6 +666,10 @@ app-mainmenu{
 		}
 		.product-subscription-img{
 			padding: 20px 0 15px 0;
+			width: 50%;
+			display: flex;
+			align-items: center;
+			margin: 0 auto;
 		}
 		.bottm-btns{
 			display: flex;

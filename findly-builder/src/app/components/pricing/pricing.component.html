@@ -2,7 +2,7 @@
   <div class="title-header d-flex align-items-center justify-content-between">
     <div>{{"plan.plan_head"| translate}}</div>
     <div class="btns-block">
-    <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'" (click)="cancelSubscriptionModal('open')"><i class="si-minus-circle-o"></i>Cancel Subscription</button>
+    <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'&&(currentSubscriptionPlan?.subscription?.changesScheduledFor==='none')" (click)="cancelSubscriptionModal('open')"><i class="si-minus-circle-o"></i>Cancel Subscription</button>
     <button class="kr-sg-button-primary btn_lg" (click)="selectModal('choose_plan')"><i class="si-publish si-icon"></i>Upgrade Plan</button>
     </div>
   </div>
@@ -36,18 +36,17 @@
                     </div>
                     <div class="plan-change">
                       <button class="kr-sg-button-ghost btn_md" (click)="selectModal('choose_plan')">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
-                      <!-- <button class="kr-sg-button-ghost btn_md" (click)="openPopup5();">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button> -->
-
-                      
+                      <!-- <button class="kr-sg-button-ghost btn_md" (click)="openPopup5();">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button> -->                      
                     </div>
                   </div>
                 </div>
-                <div class="tile-plan-status plan-status-active">
-                  <div class="plan-subscription"><span class="plan-current-status"></span> Active</div>
-                  <div class="plan-subscription-duration">{{(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'?'Till  ':''}}{{(currentSubscriptionPlan?.subscription?.planName|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MMM.YYYY'}}</div>
+                <div class="tile-plan-status" [ngClass]="{'plan-status-active':currentSubscriptionPlan?.subscription?.changesScheduledFor==='none','plan-status-cancel':currentSubscriptionPlan?.subscription?.changesScheduledFor==='cancel'}">
+                  <div class="plan-subscription"><span class="plan-current-status"></span>{{(currentSubscriptionPlan?.subscription?.changesScheduledFor==='none')?("plan.active" | translate):("plan.cancel_request_sent" | translate)}}</div>
+                  <div class="plan-subscription-duration" *ngIf="currentSubscriptionPlan?.subscription?.changesScheduledFor==='none'">{{(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'?'Till  ':''}}{{(currentSubscriptionPlan?.subscription?.planName|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MMM.YYYY'}}</div>
+                  <div class="plan-subscription-duration" *ngIf="currentSubscriptionPlan?.subscription?.changesScheduledFor==='cancel'" (click)="revertCancel()">{{"plan.revert_cancellation_btn" | translate}}</div>
                 </div>
-
-                <!-- <div class="tile-plan-status plan-status-cancel">
+<!-- 
+                <div class="tile-plan-status plan-status-cancel">
                   <div class="plan-subscription"><span class="plan-current-status"></span> {{"plan.cancel_request_sent" | translate}}</div>
                   <div class="plan-subscription-duration">{{"plan.revert_cancellation_btn" | translate}}</div>
                 </div> -->

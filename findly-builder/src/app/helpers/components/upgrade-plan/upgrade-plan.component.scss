@@ -1374,8 +1374,6 @@
                 padding: 10px 30px !important;
 
                 .plan-order-steps {
-                    .order-img {}
-
                     .order-header {
                         color: #5F6368;
                         font-weight: 600;
@@ -1525,6 +1523,27 @@
                                 line-height: 22px;
                                 padding: 15px 0;
                             }
+                        }
+                    }
+
+                    .payment-loader{
+                        text-align: center;
+                        display: flex;
+                        height: 100vh;
+                        position: relative;
+                        align-items: center;
+                        justify-content: center;
+                        .loaderLogoImage{
+                            width: 50px;
+                            height: 50px;
+                            display: block;
+                            position: absolute;
+                            top: calc(50% - 90px);
+                            left: calc(50% - 25px);
+                            margin: auto;
+                            outline: 1px solid transparent;
+                            -webkit-animation: spin 0.5s linear infinite;
+                            animation: spin 0.5s linear infinite;
                         }
                     }
                 }

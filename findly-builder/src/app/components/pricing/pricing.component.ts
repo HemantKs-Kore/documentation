@@ -42,7 +42,6 @@ export class PricingComponent implements OnInit, OnDestroy {
   isyAxisDocumentdata: boolean = true;
   isyAxisQuerydata: boolean = true;
   componentType: string = 'addData';
-  disableRevertBtn: boolean = false;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -66,7 +65,7 @@ export class PricingComponent implements OnInit, OnDestroy {
   //get all plans api
   getPlan() {
     this.service.invoke('get.pricingPlans').subscribe(res => {
-      this.totalPlansData = res.sort((a, b) => { return a.displayOrder - b.displayOrder });
+      this.totalPlansData = res?.plans?.sort((a, b) => { return a.displayOrder - b.displayOrder });
       this.typeOfPlan("Monthly");
       this.totalPlansData.forEach(data => {
         let dat = Object.values(data.featureAccess);
@@ -177,7 +176,7 @@ export class PricingComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('put.cancelSubscribtion', queryParam, payload).subscribe(res => {
       this.appSelectionService.getCurrentSubscriptionData();
-      this.notificationService.notify('Cancellation request submitted', 'success');
+      this.notificationService.notify('Cancellation Request Submitted', 'success');
       this.cancelSubscriptionModal('close');
     }, errRes => {
       this.errorToaster(errRes, 'failed to Cancel subscription');
@@ -426,30 +425,24 @@ export class PricingComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          if (this.disableRevertBtn === false) {
             this.renewSubscription(dialogRef);
-          }
         } else if (result === 'no') {
           dialogRef.close();
-          this.disableRevertBtn = false;
         }
       })
   }
   //renew subscription
   renewSubscription(dialogRef) {
-    this.disableRevertBtn = true;
     const queryParam = {
-      streamId: this.selectedApp._id
+      streamId: this.selectedApp?._id
     }
     this.service.invoke('get.renewSubscribtion', queryParam).subscribe(res => {
       setTimeout(() => {
         dialogRef.close();
-        this.disableRevertBtn = false;
         this.appSelectionService.getCurrentSubscriptionData();
       }, 2000)
       // this.notificationService.notify('Cancel Subscription', 'success');
     }, errRes => {
-      this.disableRevertBtn = false;
       this.errorToaster(errRes, 'failed to renew subscription');
     });
   }

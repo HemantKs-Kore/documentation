@@ -1,7 +1,7 @@
 <!-- Sidebar -->
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
-	<ng-container *ngIf="settingMainMenu && !sourceMenu || sourceMenu">
-		<div class="upgrade_your_plan_price">
+	<ng-container *ngIf="(!settingMainMenu && sourceMenu)">
+		<div class="upgrade_your_plan_price" [ngClass]="{'d-none':showUpgrade}">
 			<span [ngClass]="{'status-type':upgradeBannerFlag,'red':usageDetails?.ingestDocs>=80||usageDetails.searchQueries>=80}"></span>
 			<div class="product-subscription-alert">
 				<p class="product-subscription-desc">You have utilized more than 80% of your current plan, please upgrade plan to enjoy uninturrepted services.</p>
@@ -53,12 +53,12 @@
 				</div>
 				<div class="bottm-btns">
 					<div><button class="btn" type="button"><span class="px-1"><i class="si-externallink"></i></span>Know More</button></div>
-					<div><button class="btn" type="button"><span class="px-1"><i class="si-close-red"></i></span>Close</button></div>
+					<div (click)="showUpgrade=!showUpgrade"><button class="btn" type="button"><span class="px-1"><i class="si-close-red"></i></span>Close</button></div>
 				</div>
 			</div>
 		</div>
 	</ng-container>
-	<perfect-scrollbar class="perfect-scroll" [ngClass]='{"if-upgrade-plan":!showUpgrade}'>
+	<perfect-scrollbar class="perfect-scroll">
 		<div class="list-group list-group-flush" *ngIf="!settingMainMenu && !sourceMenu">
 			<div class="default-index-title">
 				<div class="kr-sg-dropdowns" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom'">
@@ -372,45 +372,10 @@
 			</div>
 		</div>
 
-
 		<!-- Inside config tab menus -->
 		<div class="list-group list-group-flush inside-config-tab-left-menus" *ngIf="settingMainMenu && !sourceMenu">
 
 			<div class="inside-menu-title d-none">BOT RESULTS</div>
-
-			<!-- <div mat-button class="mat-button" [routerLink]="['/search-experience']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Search Interface</span>
-			</div>
-
-			<div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Result Templates </span>
-			</div> -->
-
-			<!-- <div mat-button class="mat-button" [routerLink]="['/actions']" skipLocationChange routerLinkActive="active"
-				(click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/actions-config.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/actions-config.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Actions</span>
-			</div>
-
-			<div mat-button class="mat-button" [routerLink]="['/smallTalk']" skipLocationChange routerLinkActive="active"
-				(click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/smalltalk.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/smalltalk.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Small Talk</span>
-			</div> -->
 			<div mat-button class="mat-button" [routerLink]="['/generalSettings']" skipLocationChange
 				routerLinkActive="active" (click)="preview('traits')" mat-button>
 				<span class="inlineIconBox leftAdjust">

@@ -674,7 +674,8 @@
         "no_thanks": "No, Thanks",
         "close": "Close",
         "done": "Done",
-        "cancel_request_sent": "Cancel Request Sent"
+        "cancel_request_sent": "Cancel Request Sent",
+        "active":"Active"
     },
     "credentials": {
         "no_configured_credentials": "You haven’t configured any credentials yet!",
