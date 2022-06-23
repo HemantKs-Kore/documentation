@@ -318,7 +318,7 @@
                     <div class="tabs-data-info-sample">
                       <ul class="nav nav-pills">
                         <li class="nav-item">
-                          <a class="nav-link" id="#e-commerece"  data-toggle="pill" (click)="selectDemoType('e-commerce')" href="#ecommerce">E-Commerce <i *ngIf="demoType=='e-commerce'" class="si-check"></i></a>
+                          <a class="nav-link active" id="#e-commerece"  data-toggle="pill" (click)="selectDemoType('e-commerce')" href="#ecommerce">E-Commerce <i *ngIf="demoType=='e-commerce'" class="si-check"></i></a>
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" data-toggle="pill" (click)="selectDemoType('knowledge-search')" href="#ks">Knowledge Search <i *ngIf="demoType=='knowledge-search'" class="si-check"></i></a>
@@ -395,7 +395,7 @@
                     <div class="tabs-data-info-sample seach-virtual-assistance">
                       <ul class="nav nav-pills">
                         <li id="#topExperience" class="nav-item" (click)="selectSearchExperianceType('top')" >
-                          <a class="nav-link" data-toggle="pill" href="#searchbar">
+                          <a class="nav-link active" data-toggle="pill" href="#searchbar">
                            <span class="title">Search Bar</span>
                            <i *ngIf="SearchExperianceType=='top'" class="si-check"></i>
                             <div class="text-desc">A traditional search bar experience where end users query your website using a search bar that is usually positioned at the top of your website.</div>
@@ -433,6 +433,10 @@
                     <div class="label-text">App Name</div>
                     <input type="text"  [(ngModel)]="newApp.name" placeholder="Type The App Name" class="input-text" [ngClass]="{'error' : validateAppname }">
                     <div class="error-msg" *ngIf="validateAppname">Enter The App Name</div>
+                    <div class="kr-sg-input-text">
+                      <div class="label-text">Description</div>
+                      <input class="text" placeholder="Enter App Description" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
+                    </div>
                   </div>
                  </div>
                 </ng-container>
