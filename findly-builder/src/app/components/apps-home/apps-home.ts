@@ -171,7 +171,8 @@ export class AppsListingComponent implements OnInit {
   exploreSampleDate() {
     this.hideWelcomepage = false;
     if (this.steps == 'demoOptions' && this.demoType) {
-      this.steps = 'showSearchExperience'
+      this.steps = 'showSearchExperience';
+      this.SearchExperianceType ='top';
       this.progressBarFun(3, 2)
     }
     else if (this.steps == 'showSearchExperience' && this.SearchExperianceType) {
@@ -184,6 +185,7 @@ export class AppsListingComponent implements OnInit {
     else {
       if (this.displayApp = true && this.newApp.name) {
         this.steps = 'demoOptions';
+        this.demoType = 'e-commerce';
       }
       else {
         this.validateAppname = true;
@@ -504,6 +506,7 @@ export class AppsListingComponent implements OnInit {
             this.openAppLoadingScreen();
             this.polling();
             this.appSelectionService.getTourConfig();
+            this.headerComp.viewCheckList();
           }
         },
         errRes => {

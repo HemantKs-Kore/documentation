@@ -3243,6 +3243,7 @@ display: none !important;
 
 .arrivals-grids-template .slide-gride .inner-content-data .content-block {
   padding-left: 10px;
+  width: 100%;
 }
 
 .arrivals-grids-template .slide-gride .inner-content-data .content-block .type-tag {
@@ -3315,6 +3316,22 @@ display: none !important;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 6;
   margin-bottom: 5px;
+}
+
+.arrivals-grids-template .slide-gride .inner-content-data .content-block .price-and-rating{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.arrivals-grids-template .slide-gride .inner-content-data .content-block .price-and-rating .rating-flex .rating-star-pd{
+  padding: 0 3px;
+}
+
+.arrivals-grids-template .slide-gride .inner-content-data .content-block .price-and-rating .rating-flex{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .arrivals-grids-template .slide-gride .inner-content-data .content-block .amount-info {
