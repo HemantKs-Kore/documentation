@@ -41,6 +41,7 @@ export class AppsListingComponent implements OnInit {
   progressBar: any = [];
   stepBar = 1;
   displayApp: boolean = false;
+  newUser:boolean = false;
   hideWelcomepage: boolean = true;
   showSearchExperices: boolean = false;
   validateAppname: boolean = false;
@@ -99,6 +100,7 @@ export class AppsListingComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkForNewUser();
     $('.krFindlyAppComponent').removeClass('appSelected');
     //const apps = this.workflowService.findlyApps();
     //this.prepareApps(apps);
@@ -108,6 +110,15 @@ export class AppsListingComponent implements OnInit {
     }, 100);
     // this.buildCarousel();    
   }
+   //Checks whether user is new or not
+   checkForNewUser(){
+    this.service.invoke('get.checkNewUser').subscribe(res => {
+      this.newUser = res.isInitialAppCreated;
+    }, errRes => {
+      this.notificationService.notify('Checking for New User has gone wrong ', 'error');
+    });
+   }
+
   //call mixpanel api for tellmemore button
   callMixPanel() {
     this.mixpanel.postEvent('User Onboarding - Journey Started', {});
@@ -128,9 +139,9 @@ export class AppsListingComponent implements OnInit {
     this.workflowService.selectedIndexPipelineId = '';
   }
   openBoradingJourney() {
-    this.headerService.openJourneyForfirstTime = true;
-    this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
-    this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
+      this.headerService.openJourneyForfirstTime = true;
+      this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
+      this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
   }
   closeBoradingJourney() {
     if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
@@ -294,7 +305,6 @@ export class AppsListingComponent implements OnInit {
           this.closeConfirmApp();
           this.apps = this.apps.filter((val) => { return val._id != this.slectedAppId });
           this.prepareApps(this.apps);
-          // this.getAllApps();
           this.selectedAppType(this.app_type);
           this.confirmApp = '';
         }
@@ -377,7 +387,7 @@ export class AppsListingComponent implements OnInit {
   showBoarding: boolean = true;
   public getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
-      if (res && res.length) {
+      if (this.newUser) {
         if (localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")) {
           let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
           if (prDetails && prDetails.formAccount) {

@@ -1262,5 +1262,9 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon/disable',
       method: 'post'
     }
+    this.serviceList['get.checkNewUser'] = {
+      endpoint: this.API_SERVER_URL + '/findly/account',
+      method: 'get'
+    }
   }
 }
