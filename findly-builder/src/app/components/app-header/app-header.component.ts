@@ -91,6 +91,7 @@ export class AppHeaderComponent implements OnInit {
   subscription: Subscription;
   routeChanged: Subscription;
   updateHeaderMainMenuSubscription: Subscription;
+  accountIdRef = "";
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
   @Output() showSourceMenu = new EventEmitter();
@@ -173,6 +174,7 @@ export class AppHeaderComponent implements OnInit {
     }
   }
   ngOnInit() {
+    this.getUserInfo();
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourConfigData = res;
       this.tourData = res.onBoardingChecklist;
@@ -399,12 +401,14 @@ export class AppHeaderComponent implements OnInit {
     if (value) {
       this.browseWorkspaceRef = this.browseWorkspace.open()
     }
+    let selectAccountDetail = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
     let accountId;
-    if ((!this.selectAccountDetails) || this.selectAccountDetails == "null" || this.selectAccountDetails == undefined) {
+    if ((!selectAccountDetail) || selectAccountDetail == "null" || selectAccountDetail == undefined) {
       accountId = this.currentAppControlList.accountId
     } else {
-      accountId = this.selectAccountDetails.accountId
+      accountId = selectAccountDetail.accountId
     }
+    //let accountId = this.currentAppControlList.accountId
     this.loadingContent = true
     this.loadingProgress = true
     const header: any = {
@@ -413,7 +417,7 @@ export class AppHeaderComponent implements OnInit {
 
     // https://qa1-bots.kore.ai/api/1.1/builder/allowedDomains?rnd=0yiw5b
     // AccountId: 626f77fd38535539c9882b4a
-    this.service.invoke('app.allowedDomains', header).subscribe((res) => {
+    this.service.invoke('app.allowedDomains',{},{},header).subscribe((res) => {
       if (res) {
         this.loadingProgress = false
         this.WorkspaceList = res
@@ -1495,11 +1499,23 @@ export class AppHeaderComponent implements OnInit {
   JoinWorkspace(workspace, i) {
     const payload: any[] = this.currentAppControlList.requestedAccounts
     payload.push({ acctId: workspace._id })
-
+// adding Header
+  let selectAccountDetail = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
+    let accountId;
+    if ((!selectAccountDetail) || selectAccountDetail == "null" || selectAccountDetail == undefined) {
+      accountId = this.currentAppControlList.accountId
+    } else {
+      accountId = selectAccountDetail.accountId
+    }
+    const header: any = {
+      'AccountId': accountId
+    };
+// addeing Header
+//let accountId = this.currentAppControlList.accountId
     const quaryparms: any = {
       type: 'joinAccount'
     };
-    this.service.invoke('post.requestToDomains', quaryparms, payload).subscribe((res) => {
+    this.service.invoke('post.requestToDomains', quaryparms, payload ,header).subscribe((res) => {
       if (res.ok === 1) {
         this.notifyAccount = true;
         this.isJoinedClicked = true;
@@ -1526,6 +1542,10 @@ export class AppHeaderComponent implements OnInit {
   //appcontrol list API
   getAppControlListData() {
     this.associatedAccounts = [];
+    // let _selectedAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : null;
+    //     if(_selectedAccountDetails && _selectedAccountDetails.userId){
+    //       this.userId = _selectedAccountDetails.userId;
+    //     }
     const quaryparms: any = { userId: this.userId };
     this.service.invoke('app.controls', quaryparms).subscribe((res) => {
       this.associatedAccounts = res.associatedAccounts;
@@ -1538,6 +1558,15 @@ export class AppHeaderComponent implements OnInit {
       errRes => {
         console.log("error", errRes);
       });
+  }
+  getUserInfo() {
+    const quaryparms: any = {
+      id: this.authService.getUserId()
+    };
+    this.service.invoke('get.userinfo', quaryparms).subscribe(res => {
+      this.accountIdRef = res[0].accountId;
+    }, errRes => {
+    });
   }
 }
 
