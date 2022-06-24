@@ -32,31 +32,21 @@
               <div>Try our platform for free. No credit card required. </div>
             </div>
             <div class="plan-upgrade-block">
-              <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName||selectedPlan?.planName==='Standard')?null:[openSelectedPopup('payment_gateway'),orderConfirmData=plan]">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
+              <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName||selectedPlan?.planName==='Enterprise')?null:downgradePlan(plan)">{{(plan?.name===selectedPlan?.planName)?'Current Plan':(selectedPlan?.planName==='Enterprise')?'Talk to us':'Choose Plan'}}</button>
                <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='standard'" (click)="plan?.name===selectedPlan?.planName?null:[openSelectedPopup('payment_gateway'),orderConfirmData=plan]">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Choose Plan'}}</button>
               <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='enterprise'" (click)="plan?.name===selectedPlan?.planName?null:contactusModel('open')">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
             </div>
             <div class="plan-features-block">
               <perfect-scrollbar class="paln-overflow-scroll">
-                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">records</span> </div>
-                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">queries/month</span> </div>
+                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span>{{(plan?.name|lowercase)==='enterprise'?plan?.featureAccess?.ingestDocs?.displayText:plan?.featureAccess?.ingestDocs?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">records</span> </div>
+                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span> {{(plan?.name|lowercase)==='enterprise'?plan?.featureAccess?.searchQueries?.displayText:plan?.featureAccess?.searchQueries?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">queries/month</span> </div>
                 <div class="plan-sub-features">
-                  <div class="plan-sub-feature-hding">Features Includes</div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Website Crawler </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Weights,Synonyms & Stopwords </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Indexing & Workbench </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Connectors </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
-                </div>
-                <div class="plan-sub-features">
-                  <div class="plan-sub-feature-hding">Features Includes</div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
+                  <div class="plan-sub-feature-hding" *ngIf="(plan?.name|lowercase)==='free'"><strong>Free</strong> Includes</div>
+                  <div class="plan-sub-feature-hding" *ngIf="['standard','enterprise'].includes(plan?.name|lowercase)">Everything in <strong>{{(plan?.name|lowercase)==='standard'?'Free':'Standard'}}</strong>, plus:</div>
+                  <ng-container *ngFor="let feature of plan?.featureData|slice:0:featureLimit">
+                    <div class="plan-feature-desc" *ngIf="feature?.displayOnBanner"><span class="icon-si"><i class="si-green-check"></i></span> {{(feature?.name)}} </div>
+                  </ng-container>
+                  <div class="show-more" (click)="featureLimit=(plan?.featureData?.length);" [ngClass]="{'d-none':featureLimit!==8}"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>10</span> more features </div>
                 </div>
               </perfect-scrollbar>
             </div>
@@ -75,149 +65,31 @@
             <div class="compare-plan-tab-name col-lg-3">Standard</div>
             <div class="compare-plan-tab-name col-lg-3">Enterprise</div>
           </div>
-
+         <ng-container *ngFor="let feature of featureTypes">
           <div class="plan-table-block">
-            <div class="plan-table-header">USAGE</div>
-            <div class="row plan-table-body border-btm pad-10-0">
+            <div class="plan-table-header">{{feature}}</div>
+            <div class="row plan-table-body border-btm pad-10-0" *ngFor="let plan of listPlanFeaturesData[0]" [ngClass]="{'d-none':feature!==(plan[1]?.featureType)}">
               <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Price ( Per Month)</span></div>
+                <div><span class="border-btm-dasshed">{{plan[1].name}}</span></div>
               </div>
               <div class="col col-lg-3">
-                <div><span>Free</span></div>
+                <div *ngIf="plan[1]?.fullDisplayText&&plan[1]?.fullDisplayText!=='-'"><span>{{plan[1]?.fullDisplayText}}</span></div>
+                <div *ngIf="(plan[1]?.fullDisplayText===undefined||plan[1]?.fullDisplayText==='-')&&plan[1]?.featureActive"><span><i class="si-green-check"></i></span></div>
+                <div *ngIf="(plan[1]?.fullDisplayText===undefined||plan[1]?.fullDisplayText==='-')&&plan[1]?.featureActive===false"><span><i class="si-close-red"></i></span></div>
               </div>
               <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">$199 / mo</span></div>
+                <div *ngIf="plan[2]?.fullDisplayText&&plan[2]?.fullDisplayText!=='-'"><span>{{plan[2]?.fullDisplayText}}</span></div>
+                <div *ngIf="(plan[2]?.fullDisplayText===undefined||plan[2]?.fullDisplayText==='-')&&plan[2]?.featureActive"><span><i class="si-green-check"></i></span></div>
+                <div *ngIf="(plan[2]?.fullDisplayText===undefined||plan[2]?.fullDisplayText==='-')&&plan[2]?.featureActive===false"><span><i class="si-close-red"></i></span></div>
               </div>
               <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Custom</span></div>
-              </div>
-            </div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Records</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span>Free</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">$199 / mo</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Custom</span></div>
-              </div>
-            </div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Queries (Per Month)</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span>Free</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">$199 / mo</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Custom</span></div>
+                <div *ngIf="plan[3]?.fullDisplayText&&plan[3]?.fullDisplayText!=='-'"><span>{{plan[3]?.fullDisplayText}}</span></div>
+                <div *ngIf="(plan[3]?.fullDisplayText===undefined||plan[3]?.fullDisplayText==='-')&&plan[3]?.featureActive"><span><i class="si-green-check"></i></span></div>
+                <div *ngIf="(plan[3]?.fullDisplayText===undefined||plan[3]?.fullDisplayText==='-')&&plan[3]?.featureActive===false"><span><i class="si-close-red"></i></span></div>
               </div>
             </div>
           </div>
-
-          <div class="plan-table-block">
-            <div class="plan-table-header">Overage</div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Records</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span>Free</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">$199 / mo</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Custom</span></div>
-              </div>
-            </div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Queries</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span>Free</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">$25 / 50K</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Custom</span></div>
-              </div>
-            </div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Price ( Per Month)</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span>Free</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">$199 / mo</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Custom</span></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="paln-help-text">
-            .... all other existing tables go here. At the bottom, add these two tables for support
-          </div>
-
-          <div class="plan-table-block">
-            <div class="plan-table-header">FEATURES</div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Webpages Crawelr</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span>1 Crawl per Day</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">3 Crawls per Day</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Unlimited</span></div>
-              </div>
-            </div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">Documents</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span>Free</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span><i class="si-green-check"></i></span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span><i class="si-green-check"></i></span></div>
-              </div>
-            </div>
-            <div class="row plan-table-body border-btm pad-10-0">
-              <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">E - Commerce Integrations</span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span><i class="si-close-red"></i></span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span><i class="si-close-red"></i></span></div>
-              </div>
-              <div class="col col-lg-3">
-                <div><span><i class="si-green-check"></i></span></div>
-              </div>
-            </div>
-          </div>
-
+        </ng-container>
         </div>
         <!-- compare plan ends here -->
 
@@ -541,9 +413,9 @@
           <div class="order-compare-plan">
             <div class="order-suggation-type">
               <div class="suggation-text">You can also compare and upgrade to Enterprise plan</div>
-              <div class="suggation-text">{{selectedPlan?.subscription?.planName}} Plan - {{(selectedPlan?.usage?.ingestDocs?.limit)}}K Documents and {{(selectedPlan?.usage?.searchQueries?.limit)}}K Queries per month.</div>
+              <div class="suggation-text">{{selectedPlan?.subscription?.planName}} Plan - {{(selectedPlan?.usage?.ingestDocs?.limit|valueFormat)}} Documents and {{(selectedPlan?.usage?.searchQueries?.limit|valueFormat)}} Queries per month.</div>
             </div>
-            <div class="compare-plans-link">Compare all plans</div>
+            <div class="compare-plans-link" (click)="openSelectedPopup('choose_plan')">Compare all plans</div>
           </div>
          </section>
         </div>

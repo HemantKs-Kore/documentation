@@ -25,7 +25,9 @@ export class UpgradePlanComponent implements OnInit,OnDestroy {
   contactusModelPopRef: any;
   contactusSuccessModelPopRef: any;
 
+  featureLimit:number=8;
   termPlan = "Monthly";
+  featureTypes:any=[];
   totalPlansData: any;
   filterPlansData: any;
   showPlanDetails: string = '';
@@ -87,8 +89,14 @@ export class UpgradePlanComponent implements OnInit,OnDestroy {
   //get plans api
   getAllPlans() {
     this.service.invoke('get.pricingPlans').subscribe(res => {
+      this.featureTypes = res?.featureTypes;
       this.totalPlansData = res?.plans?.sort((a, b) => { return a.displayOrder - b.displayOrder });
       this.typeOfPlan("Monthly");
+      this.totalPlansData.forEach(data => {
+        let dat = Object.values(data.featureAccess);
+        data = Object.assign(data, { "featureData": dat });
+      });
+      console.log("totalPlansData",this.totalPlansData)
     }, errRes => {
       if (localStorage.jStorage) {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -235,62 +243,21 @@ showHideSpinner(){
     });
   }
   //payment plan for upgrade/downgrade
-  // paymentPlan(show?) {
-  //   this.btnDisable = true;
-  //   this.selectedApp = this.workflowService.selectedApp();
-  //   this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
-  //   if (show == undefined) {
-  //     show = this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free ? true : false;
-  //   }
-  //   if (show) {
-  //     this.buyOveragePayment();
-  //   }
-  //   else {
-  //     if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free || this.selectedPlan && this.selectedPlan.status == 'expired') {
-  //       this.openPaymentGatewayPopup();
-  //     }
-  //     else {
-  //       const payload = { "streamId": this.selectedApp._id, "targetPlanId": this.orderConfirmData._id };
-  //       const upgradePlan = this.service.invoke('put.planChange', {}, payload);
-  //       upgradePlan.subscribe(res => {
-  //         if (res.status == 'success') {
-  //           this.invoiceOrderId = res.orderId;
-  //           this.btnDisable = false;
-  //           this.closeChoosePlanPopup();
-  //           this.closeOrderConfPopup();
-  //           if (res.type == 'downgrade') {
-  //             this.notificationService.notify('Plan Changed successfully', 'success');
-  //             this.appSelectionService.getCurrentSubscriptionData();
-  //           }
-  //           else {
-  //             this.openSuccessFailurePopup(true);
-  //           }
-  //         }
-  //         else if (res.status == "processing") {
-  //           this.payementResponse.hostedPage.transactionId = res.transactionId;
-  //           this.invoiceOrderId = res.orderId;
-  //           this.poling("upgrade");
-  //         }
-  //         else if (res.status == 'failed') {
-  //           this.openChangePlanModel();
-  //           this.featuresExceededUsage = res.featuresExceededUsage;
-  //         }
-  //       }, errRes => {
-  //         if (errRes && errRes.error && errRes.error.errors[0].code == 'ERR_FAILED_ACCESS_EXCEEDED') {
-  //           this.openChangePlanModel();
-  //           this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
-  //         }
-  //         else {
-  //           this.btnDisable = false;
-  //           this.errorToaster(errRes, 'failed upgrade');
-  //           this.openSuccessFailurePopup(false);
-  //           this.closeChoosePlanPopup();
-  //           this.closeOrderConfPopup();
-  //         }
-  //       });
-  //     }
-  //   }
-  // }
+  downgradePlan(planData) {
+        this.selectedApp = this.workflowService.selectedApp();
+        const payload = { "streamId": this.selectedApp._id, "targetPlanId": planData?._id };
+        const upgradePlan = this.service.invoke('put.planChange', {}, payload);
+        upgradePlan.subscribe(res => {
+          if (res.status == 'success') {
+            if (res.type == 'downgrade') {
+              this.notificationService.notify('Plan Changed successfully', 'success');
+              this.appSelectionService.getCurrentSubscriptionData();
+            }
+          }
+        }), errRes => {
+            this.errorToaster(errRes,errRes?.error?.errors[0].code);     
+        };
+  }
   //close payment gateway popup
   closePaymentGatewayPopup() {
     if (this.paymentGatewayModelPopRef && this.paymentGatewayModelPopRef.close) {
@@ -325,6 +292,31 @@ showHideSpinner(){
         this.filterPlansData.push(data);
       }
     }
+    let listData = [...this.totalPlansData];
+    this.listPlanFeaturesData = [];
+    let listDataMonthlyFeature = [];
+    listData.forEach(data => {
+      Object.keys(data.featureAccess);
+      Object.values(data.featureAccess);
+      Object.entries(data.featureAccess);
+      /** Pick only the Month Plans */
+      if (data.planId == this.plansIdList.free || data.type == this.plansIdList.standardMonth  || data.type == this.plansIdList.enterpriceMonth) {
+        listDataMonthlyFeature.push(Object.entries(data.featureAccess))
+      }
+    })
+    for (let i = 1; i <= listDataMonthlyFeature.length; i++) {
+      if (listDataMonthlyFeature[i]) {
+        for (let j = 0; j < listDataMonthlyFeature[i].length; j++) {
+          if (listDataMonthlyFeature[i][j]) {
+            if (listDataMonthlyFeature[i][j][0] == listDataMonthlyFeature[0][j][0]) { //comapre 3 records with 1st record's Key
+              listDataMonthlyFeature[0][j].push(listDataMonthlyFeature[i][j][1])       // push the values array in 1st record
+            }
+          }
+        }
+      }
+    }
+    this.listPlanFeaturesData = listDataMonthlyFeature;
+    console.log("this.listPlanFeaturesData",this.listPlanFeaturesData)
   }
   //based on choosePlanType in order confirm popup
   choosePlanType(type) {
