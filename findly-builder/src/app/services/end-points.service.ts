@@ -1263,7 +1263,7 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['get.checkNewUser'] = {
-      endpoint: this.API_SERVER_URL + '/findly/account',
+      endpoint: this.API_SERVER_URL + '/findly/account?accountId=:accountId',
       method: 'get'
     }
   }

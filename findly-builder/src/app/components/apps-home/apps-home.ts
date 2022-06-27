@@ -28,6 +28,8 @@ export class AppsListingComponent implements OnInit {
   SearchExperianceType: string = '';
   appsData: any;
   streamID: any;
+  accoundID:any;
+  private storageType = 'localStorage';
   searchIndexID: any;
   demoOptions: boolean = false;
   createAppPopRef: any;
@@ -112,7 +114,13 @@ export class AppsListingComponent implements OnInit {
   }
    //Checks whether user is new or not
    checkForNewUser(){
-    this.service.invoke('get.checkNewUser').subscribe(res => {
+    // Should Refactor this code
+    let selectAccountDetail = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
+    let accountId = selectAccountDetail?selectAccountDetail.accountId:null;
+    const quaryParms: any = {
+      accountId : accountId
+    };
+    this.service.invoke('get.checkNewUser',quaryParms).subscribe(res => {
       this.newUser = res.isInitialAppCreated;
     }, errRes => {
       this.notificationService.notify('Checking for New User has gone wrong ', 'error');
