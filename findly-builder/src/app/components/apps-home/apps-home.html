@@ -2,7 +2,7 @@
   <ng-container *ngIf="!emptyApp">
     <perfect-scrollbar class="dashboard-perfect-scroll">
       <div class="scrollContainer">
-        <div class="findly-dashboard" *ngIf="newUser">
+        <div class="findly-dashboard">
           <div class="main-heading d-none" role="doc-introduction">{{'WelcometoFindly' | translate}}</div>
           <div class="header-sec">
             <div class="row m-0 adjust-width">
@@ -44,7 +44,7 @@
                   <div class="e-title">Create your first app</div>
                 </div>
               </ng-container>
-              <div *ngIf="!apps.length" class="start-scrtch-user-data">
+              <div *ngIf="!filteredApps.length" class="start-scrtch-user-data">
                 <div class="user-details">
                   <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
                 </div>
@@ -61,9 +61,9 @@
               </div>
 
               <ng-container *ngIf="!emptyApp">
-                <div *ngIf="apps.length" class="m-title col-12 m-10">Recently Visited</div>
+                <div *ngIf="recentApps.length" class="m-title col-12 m-10">Recently Visited</div>
                 <div class="cards-content" (click)="app.disabled?null:openApp(app)" *ngFor="let app of recentApps | filter: [ searchApp, 'name']" placement="top-center"
-                  [ngbTooltip]="app.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0"[ngClass]="{'d-none': !apps.length}">
+                  [ngbTooltip]="app.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0"[ngClass]="{'d-none': !recentApps.length}">
                   <div class="box" [ngStyle]="app.disabled&&{'opacity':'0.4','cursor':'default'}">
                     <div class="content-sec">
                       <div class="name"><span>{{app.name}}</span></div>
