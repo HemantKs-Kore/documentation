@@ -49,7 +49,69 @@ export class PricingComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService) { }
   @ViewChild('cancelSubscriptionModel') cancelSubscriptionModel: KRModalComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
-
+  optionNew = {
+    title: {
+      text: 'World Population'
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'none'
+      }
+    },
+    legend: {},
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: [{
+      type: 'category',
+      data: ['OCT', 'NOV', 'DEC', 'JAN', 'FEB',
+      'MAR' , 'FEB'],
+          axisLine: {
+              show: false,
+          },
+          axisTick: {
+              show: false,
+          },
+    },{
+       position: 'bottom',
+          offset: 15,
+          axisLine: {
+              show: false,
+          },
+          axisTick: {
+              show: false,
+          },
+          data: ['2021', '2021', '2021', '2021','2021', '2021', '2021']
+    }],
+    yAxis: {
+      type: 'value',
+      boundaryGap: [0, 0.01],
+    },
+    series: [
+      {
+        name: 'DOC',
+        type: 'bar',
+        data: [18203, 23489, 29034, 104970, 131744, 630230],
+          barWidth: 10,
+          barCategoryGap: '10%',
+          itemStyle: {normal: {color: '#FFBCA5'}},
+          emphasis : {itemStyle : {color: "#ff8000"} },
+      },
+      {
+        name: 'QUERY',
+        type: 'bar',
+        data: [19325, 23438, 31000, 121594, 134141, 681807],
+        barWidth: 10,
+          barCategoryGap: '10%',
+          itemStyle: {normal: {color: '#B893F2'}},
+          emphasis : {itemStyle : {color: "#7027E5"}},
+      }
+    ]
+  };
   async ngOnInit() {
     this.getPlan();
     await this.appSelectionService.getCurrentSubscriptionData();
@@ -70,7 +132,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.totalPlansData.forEach(data => {
         let dat = Object.values(data.featureAccess);
         data = Object.assign(data, { "featureData": dat });
-      })``
+      })
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
     });

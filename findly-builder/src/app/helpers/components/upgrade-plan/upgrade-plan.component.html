@@ -29,7 +29,7 @@
               <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>
             </div>
             <div class="plan-tag-line">
-              <div>Try our platform for free. No credit card required. </div>
+              <div>{{plan?.description}}</div>
             </div>
             <div class="plan-upgrade-block">
               <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName||selectedPlan?.planName==='Enterprise')?null:downgradePlan(plan)">{{(plan?.name===selectedPlan?.planName)?'Current Plan':(selectedPlan?.planName==='Enterprise')?'Talk to us':'Choose Plan'}}</button>
@@ -43,10 +43,14 @@
                 <div class="plan-sub-features">
                   <div class="plan-sub-feature-hding" *ngIf="(plan?.name|lowercase)==='free'"><strong>Free</strong> Includes</div>
                   <div class="plan-sub-feature-hding" *ngIf="['standard','enterprise'].includes(plan?.name|lowercase)">Everything in <strong>{{(plan?.name|lowercase)==='standard'?'Free':'Standard'}}</strong>, plus:</div>
-                  <ng-container *ngFor="let feature of plan?.featureData|slice:0:featureLimit">
+                  <ng-container *ngFor="let feature of plan?.featureData|slice:0:((plan?.name|lowercase)==='free'?featureLimit:(plan?.featureData?.length))">
                     <div class="plan-feature-desc" *ngIf="feature?.displayOnBanner"><span class="icon-si"><i class="si-green-check"></i></span> {{(feature?.name)}} </div>
                   </ng-container>
-                  <div class="show-more" (click)="featureLimit=(plan?.featureData?.length);" [ngClass]="{'d-none':featureLimit!==8}"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>10</span> more features </div>
+                  <div class="show-more" (click)="featureLimit=(plan?.featureData?.length);" [ngClass]="{'d-none':(featureLimit!==8||(plan?.name|lowercase)!=='free')}"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>10</span> more features </div>
+                  <div class="plan-sub-feature-hding"><strong>{{(plan?.name|lowercase)==='free'?'Self-Service Support':'Support'}}</strong></div>
+                  <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>Kore.ai Community</div>
+                  <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>Kore.ai Academy</div>
+                  <div class="plan-feature-desc" *ngIf="['standard','enterprise'].includes(plan?.name|lowercase)"><span class="icon-si"><i class="si-green-check"></i></span>{{plan?.name}} support upgrade option</div>
                 </div>
               </perfect-scrollbar>
             </div>
@@ -74,18 +78,18 @@
               </div>
               <div class="col col-lg-3">
                 <div *ngIf="plan[1]?.fullDisplayText&&plan[1]?.fullDisplayText!=='-'"><span>{{plan[1]?.fullDisplayText}}</span></div>
-                <div *ngIf="(plan[1]?.fullDisplayText===undefined||plan[1]?.fullDisplayText==='-')&&plan[1]?.featureActive"><span><i class="si-green-check"></i></span></div>
-                <div *ngIf="(plan[1]?.fullDisplayText===undefined||plan[1]?.fullDisplayText==='-')&&plan[1]?.featureActive===false"><span><i class="si-close-red"></i></span></div>
+                <div *ngIf="(plan[1]?.fullDisplayText===undefined||plan[1]?.fullDisplayText==='-')&&plan[1]?.access!=='none'"><span><i class="si-green-check"></i></span></div>
+                <div *ngIf="(plan[1]?.fullDisplayText===undefined||plan[1]?.fullDisplayText==='-')&&plan[1]?.access==='none'"><span><i class="si-close-red"></i></span></div>
               </div>
               <div class="col col-lg-3">
                 <div *ngIf="plan[2]?.fullDisplayText&&plan[2]?.fullDisplayText!=='-'"><span>{{plan[2]?.fullDisplayText}}</span></div>
-                <div *ngIf="(plan[2]?.fullDisplayText===undefined||plan[2]?.fullDisplayText==='-')&&plan[2]?.featureActive"><span><i class="si-green-check"></i></span></div>
-                <div *ngIf="(plan[2]?.fullDisplayText===undefined||plan[2]?.fullDisplayText==='-')&&plan[2]?.featureActive===false"><span><i class="si-close-red"></i></span></div>
+                <div *ngIf="(plan[2]?.fullDisplayText===undefined||plan[2]?.fullDisplayText==='-')&&plan[2]?.access!=='none'"><span><i class="si-green-check"></i></span></div>
+                <div *ngIf="(plan[2]?.fullDisplayText===undefined||plan[2]?.fullDisplayText==='-')&&plan[2]?.access==='none'"><span><i class="si-close-red"></i></span></div>
               </div>
               <div class="col col-lg-3">
                 <div *ngIf="plan[3]?.fullDisplayText&&plan[3]?.fullDisplayText!=='-'"><span>{{plan[3]?.fullDisplayText}}</span></div>
-                <div *ngIf="(plan[3]?.fullDisplayText===undefined||plan[3]?.fullDisplayText==='-')&&plan[3]?.featureActive"><span><i class="si-green-check"></i></span></div>
-                <div *ngIf="(plan[3]?.fullDisplayText===undefined||plan[3]?.fullDisplayText==='-')&&plan[3]?.featureActive===false"><span><i class="si-close-red"></i></span></div>
+                <div *ngIf="(plan[3]?.fullDisplayText===undefined||plan[3]?.fullDisplayText==='-')&&plan[3]?.access!=='none'"><span><i class="si-green-check"></i></span></div>
+                <div *ngIf="(plan[3]?.fullDisplayText===undefined||plan[3]?.fullDisplayText==='-')&&plan[3]?.access==='none'"><span><i class="si-close-red"></i></span></div>
               </div>
             </div>
           </div>
@@ -100,53 +104,19 @@
               Frequently Asked Questions
             </div>
             <div class="faq-list-acc-section">
-              <div class="p-pricing-faq-tile">
+              <div class="p-pricing-faq-tile" *ngFor="let faq of frequentFAQs;let i=index;">
                 <div class="p-pricing-accordian-faq">
-                    <a href="#pricingFaq2" data-toggle="collapse" class="p-pricing-accordian-faq-header collapsed">
+                    <a [href]="'#collap'+i" data-toggle="collapse" class="p-pricing-accordian-faq-header collapsed">
                         <div class="d-flex justify-content-between align-items-center p-pricing-accordian-faq-py">
-                            <div class="ng-binding">Can end-users interact with the Virtual Assistants for free?</div>
+                            <div class="ng-binding">{{faq?.question}}</div>
                         </div>
                         <i class="si si-carrotup icon-chev-angle"></i>
                     </a>
                 </div>
-                <div id="pricingFaq2" class="p-pricing-faq-ans collapse">
-                    <div class="desc">
-                      Yes, end-users can interact with your Virtual Assistant even if you are on the Free Forever Plan. 
-                    </div>
+                <div [id]="'collap'+i" class="p-pricing-faq-ans collapse">
+                    <div class="desc">{{faq?.answer}}</div>                                          
                 </div>
             </div>
-
-            <div class="p-pricing-faq-tile">
-              <div class="p-pricing-accordian-faq">
-                  <a href="#pricingFaq3" data-toggle="collapse" class="p-pricing-accordian-faq-header collapsed">
-                      <div class="d-flex justify-content-between align-items-center p-pricing-accordian-faq-py">
-                          <div class="ng-binding">Can end-users interact with the Virtual Assistants for free?</div>
-                      </div>
-                      <i class="si si-carrotup icon-chev-angle"></i>
-                  </a>
-              </div>
-              <div id="pricingFaq3" class="p-pricing-faq-ans collapse">
-                  <div class="desc">
-                    Yes, end-users can interact with your Virtual Assistant even if you are on the Free Forever Plan. 
-                  </div>
-              </div>
-          </div>
-
-          <div class="p-pricing-faq-tile">
-            <div class="p-pricing-accordian-faq">
-                <a href="#pricingFaq4" data-toggle="collapse" class="p-pricing-accordian-faq-header collapsed">
-                    <div class="d-flex justify-content-between align-items-center p-pricing-accordian-faq-py">
-                        <div class="ng-binding">Can end-users interact with the Virtual Assistants for free?</div>
-                    </div>
-                    <i class="si si-carrotup icon-chev-angle"></i>
-                </a>
-            </div>
-            <div id="pricingFaq4" class="p-pricing-faq-ans collapse">
-                <div class="desc">
-                  Yes, end-users can interact with your Virtual Assistant even if you are on the Free Forever Plan. 
-                </div>
-            </div>
-        </div>
             </div>
           </div>
         </div>
@@ -154,12 +124,6 @@
       </div>
    </div>
   </perfect-scrollbar>
-  <!-- <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg mr-3" [disabled]="!addDocOver && !addQueOver"
-      (click)="compare('orderOverage')">{{"plan.proceed"| translate}}</button>
-    <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closeOveragePopup()">{{"plan.cancel"|
-      translate}}</button>
-  </div> -->
 </kr-modal>
 
 <!--order confirm & payment gateway popup-->

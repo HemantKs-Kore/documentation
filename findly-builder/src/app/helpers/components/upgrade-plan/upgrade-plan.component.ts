@@ -28,6 +28,7 @@ export class UpgradePlanComponent implements OnInit,OnDestroy {
   featureLimit:number=8;
   termPlan = "Monthly";
   featureTypes:any=[];
+  frequentFAQs:any=[];
   totalPlansData: any;
   filterPlansData: any;
   showPlanDetails: string = '';
@@ -90,6 +91,7 @@ export class UpgradePlanComponent implements OnInit,OnDestroy {
   getAllPlans() {
     this.service.invoke('get.pricingPlans').subscribe(res => {
       this.featureTypes = res?.featureTypes;
+      this.frequentFAQs = res?.FAQS;
       this.totalPlansData = res?.plans?.sort((a, b) => { return a.displayOrder - b.displayOrder });
       this.typeOfPlan("Monthly");
       this.totalPlansData.forEach(data => {
