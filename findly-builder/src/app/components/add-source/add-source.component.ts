@@ -27,6 +27,8 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -264,7 +266,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
-
+    public mixpanel: MixpanelServiceService
   ) { }
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -432,6 +434,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
 
           if ((queuedJobs[0].status !== 'running') && (queuedJobs[0].status !== 'queued')) {
+            if (this.selectedSourceType.sourceType === 'content'){
+              this.mixpanel.postEvent('Content Crawl web domain success', {});
+            } 
             this.pollingSubscriber.unsubscribe();
             let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
             if (currentPlan?.subscription?.planId == 'fp_free') {
@@ -1412,6 +1417,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.addSourceModalPopRef.close();
           if (this.selectedSourceType.sourceType === 'content') {
             this.statusObject = { ...this.statusObject, validation: res.validations };
+            this.mixpanel.postEvent('Content Crawl web domain added', {});
           }
           if (this.selectedSourceType.sourceType === 'faq') {
             this.poling(res._id, 'scheduler');
@@ -1426,6 +1432,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.btnDisabled = false;
               }, 500)
             } else {
+              if (this.selectedSourceType.sourceType === 'content') {
+                this.mixpanel.postEvent('Content Crawl web domain failed', {});
+              }
               this.btnDisabled = false;
               this.notificationService.notify(errRes.error.errors[0].msg, 'error');
             }
@@ -1999,6 +2008,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       sourceId: this.extract_sourceId
     };
     this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
+      this.mixpanel.postEvent('Content Crawl web domain started', {});
       this.crwal_jobId = res._id;
       //this.openStatusModal();
       //this.notificationService.notify('Bot linked, successfully', 'success');

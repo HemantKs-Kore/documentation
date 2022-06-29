@@ -279,6 +279,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.executionLogStatus = true;
   }
   addNewContentSource(type) {
+    console.log("mix event:Enter Upload Content File")
     this.showSourceAddition = type;
     // this.openAddSourceModal();
     // this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
