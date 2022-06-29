@@ -195,10 +195,6 @@
                                         }
                                     }
                                 }
-
-                                .plan-view {}
-
-                                .plan-change {}
                             }
                         }
 
@@ -240,6 +236,10 @@
                                 background: #EAF6EC;
                             }
 
+                            &.plan-status-downgrade{
+                                background: #FFF1ED;
+                            }
+
                             &.plan-status-cancel {
                                 display: block;
                                 text-align: center;
@@ -258,6 +258,25 @@
                                     padding: 7px 0 0 0;
                                     cursor: pointer;
                                 }
+                            }
+                            .plan-downgrade{
+                                font-weight: 500;
+                                font-size: 14px;
+                                line-height: 17px;
+                                color: #803C25;
+                            }
+                            .plan-downgrade-duration {
+                                font-weight: 400;
+                                font-size: 11px;
+                                line-height: 12px;
+                                color: #803C25;
+                            }
+                            .plan-downgrade-cancel{
+                                display: block;
+                                text-align: center;
+                                color:#202124;
+                                padding: 7px 0 0 0;
+                                cursor: pointer;
                             }
                         }
                     }

@@ -387,7 +387,7 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="buyOverage()" [disabled]="(overageDeatils?.docCount===0&&overageDeatils?.queriesCount===0)">{{"plan.proceed"| translate}}</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="buyOverage()" [disabled]="(overageDeatils?.docCount===0&&overageDeatils?.queriesCount===0)||btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>{{"plan.proceed"| translate}}</button>
     <button class="kr-sg-button-secondary btn_lg" (click)="overageModal('close')">{{"plan.no_thanks"| translate}}</button>
   </div>
 </kr-modal>
@@ -443,7 +443,7 @@
           <textarea placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.message"></textarea>
         </div>
         <div class="text-right">
-          <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()">Submit Request</button>
+          <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()" [disabled]="btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>Submit Request</button>
         </div>
       </div>
   </perfect-scrollbar>

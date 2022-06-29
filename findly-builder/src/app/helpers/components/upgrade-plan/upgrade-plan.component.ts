@@ -61,6 +61,7 @@ export class UpgradePlanComponent implements OnInit,OnDestroy {
   overageDeatils: any = {}
   currentSubsciptionData: Subscription;
   isOverageShow: boolean = false;
+  btnLoader:boolean = false;
   enterpriseForm: any = { name: '', email: '', message: '', phone: '' };
   @Input() componentType: string;
   @Output() upgradedEvent = new EventEmitter();
@@ -209,10 +210,12 @@ showHideSpinner(){
           this.selectedPaymentPage = 'payment_success';
         }
         else {
+          if(this.btnLoader) this.btnLoader = false;
           this.overageModal('close');
         }
       } else if (res.state == 'failed') {
         clearInterval(this.paymentStatusInterval);
+        if(this.btnLoader) this.btnLoader = false;
         if (!this.isOverageShow) this.selectedPaymentPage = 'payment_fail';
       }
     }, errRes => {
@@ -234,13 +237,16 @@ showHideSpinner(){
   }
   //submitEnterpriseRequest method
   submitEnterpriseRequest() {
+    this.btnLoader = true;
     this.selectedApp = this.workflowService.selectedApp();
     const queryParams = { "streamId": this.selectedApp?._id };
     const enterpriseRequest = this.service.invoke('post.enterpriseRequest', queryParams, this.enterpriseForm);
     enterpriseRequest.subscribe(res => {
+      this.btnLoader = false;
       this.contactusModel('close');
       this.notificationService.notify('Thanks for providing the details', 'success');
     }, errRes => {
+      this.btnLoader = false;
       this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
     });
   }
@@ -250,11 +256,14 @@ showHideSpinner(){
         const payload = { "streamId": this.selectedApp._id, "targetPlanId": planData?._id };
         const upgradePlan = this.service.invoke('put.planChange', {}, payload);
         upgradePlan.subscribe(res => {
-          if (res.status == 'success') {
-            if (res.type == 'downgrade') {
+          if (res.status === 'success'&&res.type === 'downgrade') {
+              this.closeSelectedPopup('choose_plan');
               this.notificationService.notify('Plan Changed successfully', 'success');
               this.appSelectionService.getCurrentSubscriptionData();
-            }
+          }
+          else if(res.status === 'processing'&&res.type==='upgrade'){
+            this.invoiceOrderId = res.transactionId;
+            this.getPayementStatus();
           }
         }), errRes => {
             this.errorToaster(errRes,errRes?.error?.errors[0].code);     
@@ -347,6 +356,7 @@ showHideSpinner(){
   }
   //add overage api
   buyOverage() {
+    this.btnLoader=true;
     this.selectedApp = this.workflowService.selectedApp();
     const currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
     let overage = [];

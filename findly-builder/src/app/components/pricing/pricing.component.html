@@ -40,16 +40,17 @@
                     </div>
                   </div>
                 </div>
-                <div class="tile-plan-status" [ngClass]="{'plan-status-active':currentSubscriptionPlan?.subscription?.changesScheduledFor==='none','plan-status-cancel':currentSubscriptionPlan?.subscription?.changesScheduledFor==='cancel'}">
-                  <div class="plan-subscription"><span class="plan-current-status"></span>{{(currentSubscriptionPlan?.subscription?.changesScheduledFor==='none')?("plan.active" | translate):("plan.cancel_request_sent" | translate)}}</div>
+                <div class="tile-plan-status" [ngClass]="{'plan-status-active':currentSubscriptionPlan?.subscription?.changesScheduledFor==='none','plan-status-cancel':currentSubscriptionPlan?.subscription?.changesScheduledFor==='cancel','plan-status-downgrade':currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade'}">
+                  <!--cancel subscription buttons-->
+                  <div class="plan-subscription" *ngIf="['none','cancel'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)"><span class="plan-current-status"></span>{{(currentSubscriptionPlan?.subscription?.changesScheduledFor==='none')?("plan.active" | translate):("plan.cancel_request_sent" | translate)}}</div>
                   <div class="plan-subscription-duration" *ngIf="currentSubscriptionPlan?.subscription?.changesScheduledFor==='none'">{{(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'?'Till  ':''}}{{(currentSubscriptionPlan?.subscription?.planName|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MMM.YYYY'}}</div>
-                  <div class="plan-subscription-duration" *ngIf="currentSubscriptionPlan?.subscription?.changesScheduledFor==='cancel'" (click)="revertCancel()">{{"plan.revert_cancellation_btn" | translate}}</div>
+                  <div class="plan-subscription-duration" *ngIf="['cancel'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)" (click)="revertCancel()">{{"plan.revert_cancellation_btn" | translate}}</div>
+                  <!--downgrade buttons-->
+
+                  <div class="plan-downgrade" *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')"><span class="plan-current-status"></span>Downgraded</div>
+                  <!-- <div class="plan-downgrade-duration" *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')">Billing cycle {{currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MM.YY'}}</div> -->
+                  <div class="plan-downgrade-cancel" *ngIf="['downgrade'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)" (click)="revertCancel()">{{"plan.cancel_request" | translate}}</div>
                 </div>
-<!-- 
-                <div class="tile-plan-status plan-status-cancel">
-                  <div class="plan-subscription"><span class="plan-current-status"></span> {{"plan.cancel_request_sent" | translate}}</div>
-                  <div class="plan-subscription-duration">{{"plan.revert_cancellation_btn" | translate}}</div>
-                </div> -->
               </div>
 
               <div class="tile-plan-utilization plan-current-usage">
@@ -167,8 +168,8 @@
             <div class="reason-check-list">
               <div class="group-checkbox">
                 <div class="kr-sg-checkbox d-block" *ngFor="let data of cancellationCheckboxText;let i=index">
-                  <input [id]="i" class="checkbox-custom cancel-checkbox" type="checkbox">
-                  <label [for]="i" class="checkbox-custom-label">{{data}}</label>
+                  <input [id]="i" class="checkbox-custom cancel-checkbox" type="checkbox" (change)="data.selected=!data.selected">
+                  <label [for]="i" class="checkbox-custom-label">{{data?.name}}</label>
                 </div>
               </div>
             </div>
@@ -185,7 +186,7 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="cancelSubscription()">{{"plan.done"| translate}}</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="cancelSubscription()" [disabled]="btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>{{"plan.done"| translate}}</button>
   </div>
 </kr-modal>
 
@@ -195,39 +196,36 @@
       <div class="modal-content">
         <!-- Modal body -->
         <div class="modal-body">
-          <div class="plan-tile-block">
+          <div class="plan-tile-block" *ngFor="let plan of plans?.filterPlansData" [ngClass]="{'d-none':plan?.name!==currentSubscriptionPlan?.subscription?.planName}">
             <div class="plan-type-block">
               <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-{{currentSubscriptionPlan?.subscription?.planName|lowercase}}.svg" /></div>
               <div class="plan-details">
                 <div class="plan-type">
-                  <div class="plan-name">{{currentSubscriptionPlan?.subscription?.planName}}</div>
+                  <div class="plan-name">{{plan?.name}}</div>
                   <div class="plan-current-status">Current Plan</div>
                 </div>
                 <div class="plan-cost-details">
-                  <div class="plan-cost">${{currentSubscriptionPlan?.subscription?.planAmount}} <span class="plan-duration-type">{{(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'?'/ ':''}}{{(currentSubscriptionPlan?.subscription?.planName|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.billingUnit}}</span></div>
+                  <div class="plan-cost">${{plan?.planAmount}} <span class="plan-duration-type">{{(plan?.name|lowercase)!=='free'?'/ ':''}}{{(plan?.name|lowercase)==='free'?'Forever':plan?.billingUnit}}</span></div>
                 </div>
               </div>
               <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>
             </div>
             <div class="plan-tag-line">
-              <div>Try our platform for free.</div>
-              <div>No credit card required.</div>
+              <div>{{plan?.description}}</div>
             </div>
             <div class="plan-upgrade-block">
               <button class="btn" (click)="selectModal('choose_plan')">Upgrade Plan</button>
             </div>
             <div class="plan-features-block">
               <perfect-scrollbar class="paln-overflow-scroll">
-                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">records</span> </div>
-                <div class="plan-feature-desc font-weight-bold"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 <span class="plan-records">queries/month</span> </div>
+                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span>{{(plan?.name|lowercase)==='enterprise'?plan?.featureAccess?.ingestDocs?.displayText:plan?.featureAccess?.ingestDocs?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">records</span> </div>
+                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span> {{(plan?.name|lowercase)==='enterprise'?plan?.featureAccess?.searchQueries?.displayText:plan?.featureAccess?.searchQueries?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">queries/month</span> </div>
                 <div class="plan-sub-features">
                   <div class="plan-sub-feature-hding">Features Includes</div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Website Crawler </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Weights,Synonyms & Stopwords </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Indexing & Workbench </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> Connectors </div>
-                  <div class="plan-feature-desc"><span class="icon-si"><i class="si-green-check"></i></span> 10,000 records </div>
-                  <div class="show-more"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
+                  <ng-container *ngFor="let feature of plan?.featureData|slice:0:featureLimit">
+                    <div class="plan-feature-desc" *ngIf="feature?.displayOnBanner"><span class="icon-si"><i class="si-green-check"></i></span> {{(feature?.name)}} </div>
+                  </ng-container>
+                  <div class="show-more" [ngClass]="{'d-none':featureLimit!==4}" (click)="featureLimit=(plan?.featureData?.length);"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
                 </div>
               </perfect-scrollbar>
             </div>

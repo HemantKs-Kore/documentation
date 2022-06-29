@@ -19,9 +19,11 @@ export class PricingComponent implements OnInit, OnDestroy {
   documentGraph: EChartOption;
   queryGraph: EChartOption;
   cancelSubscriptionModelPopRef: any;
-  cancellationCheckboxText: any = ['It’s too costly', 'I found another product that fulfils my needs', 'I don’t use it enough', 'I don’t need it now'];
+  cancellationCheckboxText: any = [{selected:false,name:'It’s too costly'}, {selected:false,name:'I found another product that fulfils my needs'}, {selected:false,name:'I don’t use it enough'},{selected:false,name:'I don’t need it now'}];
   termPlan = "Monthly";
   templateShow: boolean = false;
+  featureLimit:number=4;
+  btnLoader:boolean=false;
   currentSubscriptionPlan: any;
   selectedApp;
   serachIndexId;
@@ -36,7 +38,6 @@ export class PricingComponent implements OnInit, OnDestroy {
   };
   proInfo: boolean = false;
   currentSubsciptionData: Subscription;
-  showUpgradeBtn: boolean;
   usageDetails: any = {};
   monthRange = "Jan - June";
   isyAxisDocumentdata: boolean = true;
@@ -113,29 +114,14 @@ export class PricingComponent implements OnInit, OnDestroy {
     ]
   };
   async ngOnInit() {
-    this.getPlan();
     await this.appSelectionService.getCurrentSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.currentSubscriptionPlan = res;
       this.updateUsageDetails();
       this.pricingChart()
-      this.showUpgradeBtn = this.currentSubscriptionPlan.subscription.planName != 'Free' ? true : false;
     });
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-  }
-  //get all plans api
-  getPlan() {
-    this.service.invoke('get.pricingPlans').subscribe(res => {
-      this.totalPlansData = res?.plans?.sort((a, b) => { return a.displayOrder - b.displayOrder });
-      this.typeOfPlan("Monthly");
-      this.totalPlansData.forEach(data => {
-        let dat = Object.values(data.featureAccess);
-        data = Object.assign(data, { "featureData": dat });
-      })
-    }, errRes => {
-      this.errorToaster(errRes, 'failed to get plans');
-    });
   }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -207,18 +193,27 @@ export class PricingComponent implements OnInit, OnDestroy {
   }
   //cancel subscription api
   cancelSubscription() {
-    const queryParam = {
-      streamId: this.selectedApp._id
+    this.btnLoader = true;
+    let checkedData = [];
+   const comment_data:any = document.getElementById('cancel_comment_text'); 
+    for(let data of this.cancellationCheckboxText){
+      if(data.selected) checkedData.push(data.name);
     }
+    const queryParam = {streamId: this.selectedApp._id};
     const payload = {
       subscriptionId: this.currentSubscriptionPlan?.subscription?._id,
-      status: "success"
+      feedback : {
+      reasons: checkedData,
+      comment: comment_data?.value
+      }
     };
     this.service.invoke('put.cancelSubscribtion', queryParam, payload).subscribe(res => {
       this.appSelectionService.getCurrentSubscriptionData();
+      this.btnLoader = false;
       this.notificationService.notify('Cancellation Request Submitted', 'success');
       this.cancelSubscriptionModal('close');
     }, errRes => {
+      this.btnLoader = false;
       this.errorToaster(errRes, 'failed to Cancel subscription');
     });
   }
@@ -437,16 +432,6 @@ export class PricingComponent implements OnInit, OnDestroy {
       delete this.documentGraph.xAxis.nameLocation
       delete this.documentGraph.xAxis.nameGap
       this.documentGraph.grid.bottom = "3%"
-    }
-  }
-  //select type plan like monthly or yearly
-  typeOfPlan(type) {
-    this.filterPlansData = [];
-    this.termPlan = type;
-    for (let data of this.totalPlansData) {
-      if (data.billingUnit && data.billingUnit == type) {
-        this.filterPlansData.push(data);
-      }
     }
   }
   //revert subscription dialog
