@@ -106,7 +106,9 @@ export class AppsListingComponent implements OnInit {
     $('.krFindlyAppComponent').removeClass('appSelected');
     //const apps = this.workflowService.findlyApps();
     //this.prepareApps(apps);
-    this.getAllApps();
+    if(this.newUser){
+      this.getAllApps();
+    }
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
@@ -115,8 +117,18 @@ export class AppsListingComponent implements OnInit {
    //Checks whether user is new or not
    checkForNewUser(){
     // Should Refactor this code
+    let accountId = this.authService.getApplictionControls().accoundId;
     let selectAccountDetail = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
-    let accountId = selectAccountDetail?selectAccountDetail.accountId:null;
+    let currentAccountDetail = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')) : {};
+    let currentAccountID = currentAccountDetail?currentAccountDetail.currentAccount.accoundId:null;
+
+    if(!accountId){
+      accountId = selectAccountDetail?selectAccountDetail.accountId:null;
+    }
+    if(!currentAccountID){
+      currentAccountID = currentAccountDetail.currentAccount.accountId;
+    }
+  if( accountId == null ||currentAccountID == accountId){
     const quaryParms: any = {
       accountId : accountId
     };
@@ -125,6 +137,7 @@ export class AppsListingComponent implements OnInit {
     }, errRes => {
       this.notificationService.notify('Checking for New User has gone wrong ', 'error');
     });
+  }
    }
 
   //call mixpanel api for tellmemore button
@@ -320,21 +333,6 @@ export class AppsListingComponent implements OnInit {
         this.notificationService.notify('Deletion has gone wrong.', 'error');
       });
     }
-    // for (let i=0; i<this.apps.length; i++){
-    // if (this.apps[i].name === this.confirmApp){
-    // let quaryparms: any = {};
-    // quaryparms.streamId = this.apps[i]._id;
-    //  this.service.invoke('delete.app', quaryparms).subscribe(res => {
-    //  if (res) {
-    //           this.notificationService.notify('Deleted Successfully', 'success');
-    //           this. closeDeleteApp();
-    //           this.getAllApps();
-    //         }
-    //       }, errRes => {
-    //         this.notificationService.notify('Deletion has gone wrong.', 'error');
-    //       });
-    //  }
-    // }
   }
   openUnlinkApp(event, appInfo) {
     this.unlinkPop = true;
@@ -395,7 +393,7 @@ export class AppsListingComponent implements OnInit {
   showBoarding: boolean = true;
   public getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
-      if (this.newUser) {
+      if (res && res.length) {
         if (localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")) {
           let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
           if (prDetails && prDetails.formAccount) {

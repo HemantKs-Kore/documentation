@@ -44,7 +44,8 @@
                   <div class="e-title">Create your first app</div>
                 </div>
               </ng-container>
-              <div *ngIf="!filteredApps.length" class="start-scrtch-user-data">
+              <button (click)="openAppLoadingScreen()">open</button>
+              <div *ngIf="emptyApp" class="start-scrtch-user-data">
                 <div class="user-details">
                   <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
                 </div>
@@ -61,7 +62,7 @@
               </div>
 
               <ng-container *ngIf="!emptyApp">
-                <div *ngIf="recentApps.length" class="m-title col-12 m-10">Recently Visited</div>
+                <div *ngIf="apps.length" class="m-title col-12 m-10">Recently Visited</div>
                 <div class="cards-content" (click)="app.disabled?null:openApp(app)" *ngFor="let app of recentApps | filter: [ searchApp, 'name']" placement="top-center"
                   [ngbTooltip]="app.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0"[ngClass]="{'d-none': !recentApps.length}">
                   <div class="box" [ngStyle]="app.disabled&&{'opacity':'0.4','cursor':'default'}">
@@ -238,7 +239,7 @@
     </perfect-scrollbar>
   </ng-container>
     <!-- New Onbaording Data -->
-    <ng-container *ngIf="!newUser">
+    <ng-container *ngIf="newUser">
       <div class="onboarding-new-user-data">
         <!-- Boarding screen -->
         <ng-container *ngIf="!steps && emptyApp">
