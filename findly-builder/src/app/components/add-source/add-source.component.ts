@@ -436,7 +436,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           if ((queuedJobs[0].status !== 'running') && (queuedJobs[0].status !== 'queued')) {
             if (this.selectedSourceType.sourceType === 'content'){
               this.mixpanel.postEvent('Content Crawl web domain success', {});
+            }
+            else if(this.selectedSourceType.sourceType === 'faq'&&this.selectedSourceType.resourceType === ''){
+               this.mixpanel.postEvent('FAQ Web extract success', {});  
             } 
+
             this.pollingSubscriber.unsubscribe();
             let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
             if (currentPlan?.subscription?.planId == 'fp_free') {
@@ -1266,6 +1270,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   proceedSource() {
+    if(this.selectedSourceType.resourceType === 'file'){
+      this.mixpanel.postEvent('Content File extraction started', {});
+    }
+    else if(this.selectedSourceType.sourceType === 'faq'&&this.selectedSourceType.resourceType === ''){
+       this.mixpanel.postEvent('FAQ Web extract added', {});      
+    }
+    else if(this.selectedSourceType.resourceType === 'importfaq'&&this.selectedSourceType.sourceType === "faq"){
+      console.log("mix event:FAQ File extraction started")
+       //this.mixpanel.postEvent('FAQ File extraction started', {});      
+    }
     let payload: any = {};
     let schdVal = true;
     const crawler = this.crwalObject;
@@ -1422,6 +1436,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           if (this.selectedSourceType.sourceType === 'faq') {
             this.poling(res._id, 'scheduler');
           }
+          if(this.selectedSourceType.resourceType === 'file'){
+            this.mixpanel.postEvent('Content File extraction success', {});
+          }
+          if(this.selectedSourceType.resourceType === ''&&this.selectedSourceType.sourceType === "faq"){
+            this.mixpanel.postEvent('FAQ Web extract started', {});       
+          }
+          if(this.selectedSourceType.resourceType === 'importfaq'&&this.selectedSourceType.sourceType === "faq"){
+            console.log("mix event:FAQ File extraction started")
+             //this.mixpanel.postEvent('FAQ File extraction started', {});      
+          }
           //this.dockService.trigger(true)
         }, errRes => {
           if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -1512,6 +1536,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.selectedSourceType = null;
       this.closeAddManualFAQModal();
       this.appSelectionService.updateTourConfig('addData');
+      this.mixpanel.postEvent('Manual FAQ added', {});
       event.cb('success');
       if (this.resourceIDToOpen) {
         const eve: any = {}
@@ -1904,6 +1929,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       // streamId: this.streamId,
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
+      if(this.selectedSourceType.resourceType === 'importfaq'&&this.selectedSourceType.sourceType === "faq"){
+         this.mixpanel.postEvent('FAQ File extraction success', {});      
+      }
       // console.log("imp faq res", res);
       this.importFaqInprogress = true;
       this.openStatusModal();

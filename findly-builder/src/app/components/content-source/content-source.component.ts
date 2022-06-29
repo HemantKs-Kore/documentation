@@ -23,6 +23,8 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+
 declare var require: any
 const FileSaver = require('file-saver');
 @Component({
@@ -242,7 +244,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public inlineManual: InlineManualService,
     public dockService: DockStatusService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    public mixpanel: MixpanelServiceService
   ) { }
 
   ngOnInit(): void {
@@ -279,7 +282,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.executionLogStatus = true;
   }
   addNewContentSource(type) {
-    console.log("mix event:Enter Upload Content File")
+    if(type==='contentWeb'){
+      this.mixpanel.postEvent('Enter Crawl web domain', {});
+    }
+    else if(type==='contentDoc'){
+      this.mixpanel.postEvent('Enter Upload Content File', {});
+    }
     this.showSourceAddition = type;
     // this.openAddSourceModal();
     // this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
