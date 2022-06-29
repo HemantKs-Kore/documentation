@@ -139,6 +139,7 @@ export class UpgradePlanComponent implements OnInit,OnDestroy {
   closeSelectedPopup(type) {
     if (type === 'choose_plan') {
       this.termPlan = 'Monthly';
+      this.typeOfPlan("Monthly");
       if (this.choosePlanModalPopRef?.close) this.choosePlanModalPopRef.close();
     }
     else if (type === 'payment_gateway') {

@@ -14,7 +14,7 @@
         </div>
         
         <div class="pricing-plan-tiles-block"> 
-          <div class="plan-tile-block" *ngFor="let plan of filterPlansData" [ngClass]="{'plan-tile-active':(plan?.name===selectedPlan?.planName)}">
+          <div class="plan-tile-block" *ngFor="let plan of filterPlansData" [ngClass]="{'plan-tile-active':(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===plan?.billingUnit)}">
             <div class="plan-type-block">
               <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-{{plan?.name|lowercase}}.svg" /></div>
               <div class="plan-details">
@@ -33,7 +33,7 @@
             </div>
             <div class="plan-upgrade-block">
               <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName||selectedPlan?.planName==='Enterprise')?null:downgradePlan(plan)">{{(plan?.name===selectedPlan?.planName)?'Current Plan':(selectedPlan?.planName==='Enterprise')?'Talk to us':'Choose Plan'}}</button>
-               <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='standard'" (click)="plan?.name===selectedPlan?.planName?null:[openSelectedPopup('payment_gateway'),orderConfirmData=plan]">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Choose Plan'}}</button>
+               <button class="btn" [ngClass]="{'current-paln':(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===plan?.billingUnit)}" *ngIf="(plan?.name|lowercase)==='standard'" (click)="((plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan))?null:(selectedPlan?.billingUnit==='Monthly')?downgradePlan(plan):(selectedPlan?.billingUnit==='Yearly')?contactusModel('open'):[openSelectedPopup('payment_gateway'),orderConfirmData=plan]">{{(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan)?'Current Plan':(selectedPlan?.billingUnit==='Yearly')?'Talk to us':'Choose Plan'}}</button>
               <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='enterprise'" (click)="plan?.name===selectedPlan?.planName?null:contactusModel('open')">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
             </div>
             <div class="plan-features-block">
