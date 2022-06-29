@@ -349,6 +349,16 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   addFaqSource(type) {
     this.showSourceAddition = type;
+    if(type==='faqWeb'){
+    this.mixpanel.postEvent('Enter FAQ Web extract', {});      
+    }
+    else if(type==='faqDoc'){
+      this.mixpanel.postEvent('Enter upload FAQ file', {}); 
+    }
+    else if(type==='manual'){
+      console.log("mix event:Enter FAQ Manual")
+      // this.mixpanel.postEvent('Enter FAQ Manual', {}); 
+    }
     // this.addAltFaq={
     //   _source :{
     //     faq_alt_question : []
@@ -626,10 +636,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       conditionalAnswers: event.conditionalAnswers || [],
       keywords: event.tags
     };
-    this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {
+    this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {      
       this.showAddFaqSection = false;
       this.selectTab('draft');
-      event.cb('success');
+      event.cb('success');      
     }, errRes => {
       event.cb('error');
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
