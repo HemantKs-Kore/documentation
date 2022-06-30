@@ -134,7 +134,7 @@ export class PricingComponent implements OnInit, OnDestroy {
   }
   //show or hide banner
   showBanner(obj){
-   this.bannerObj = {...this.bannerObj,msg:obj?.msg,type:obj?.type};
+   this.bannerObj = {...this.bannerObj,msg:obj?.msg,type:obj?.type,show:true};
   }
   //select upgrade component methods
   selectModal(type) {

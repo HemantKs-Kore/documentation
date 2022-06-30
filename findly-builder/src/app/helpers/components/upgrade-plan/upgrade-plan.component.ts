@@ -215,6 +215,8 @@ showHideSpinner(){
         }
       } else if (res.state == 'failed') {
         clearInterval(this.paymentStatusInterval);
+        const obj = {msg:`Your previous payment of $ ${this.orderConfirmData?.planAmount} was not processed. Please retry to upgrade your plan.`,type:'failed'};
+        this.updateBanner.emit(obj);
         if(this.btnLoader) this.btnLoader = false;
         if (!this.isOverageShow) this.selectedPaymentPage = 'payment_fail';
       }
@@ -255,19 +257,23 @@ showHideSpinner(){
         this.selectedApp = this.workflowService.selectedApp();
         const payload = { "streamId": this.selectedApp._id, "targetPlanId": planData?._id };
         const upgradePlan = this.service.invoke('put.planChange', {}, payload);
-        upgradePlan.subscribe(res => {
-          if (res.status === 'success'&&res.type === 'downgrade') {
-              this.closeSelectedPopup('choose_plan');
-              this.notificationService.notify('Plan Changed successfully', 'success');
-              this.appSelectionService.getCurrentSubscriptionData();
-          }
-          else if(res.status === 'processing'&&res.type==='upgrade'){
-            this.invoiceOrderId = res.transactionId;
-            this.getPayementStatus();
-          }
-        }), errRes => {
-            this.errorToaster(errRes,errRes?.error?.errors[0].code);     
-        };
+        const obj = {msg:`Your plan will be changed from Pro to Standard by the end of the billing cycle i.e. 18th April 2021.`,type:'downgrade'};
+        this.updateBanner.emit(obj);
+        // upgradePlan.subscribe(res => {
+        //   if (res.status === 'success'&&res.type === 'downgrade') {
+        //       this.closeSelectedPopup('choose_plan');
+        //       this.notificationService.notify('Plan Changed successfully', 'success');
+        //       this.appSelectionService.getCurrentSubscriptionData();
+        //       const obj = {msg:`Your plan will be changed from Pro to Standard by the end of the billing cycle i.e. 18th April 2021.`,type:'downgrade'};
+        //       this.updateBanner.emit(obj);
+        //   }
+        //   else if(res.status === 'processing'&&res.type==='upgrade'){
+        //     this.invoiceOrderId = res.transactionId;
+        //     this.getPayementStatus();
+        //   }
+        // }), errRes => {
+        //     this.errorToaster(errRes,errRes?.error?.errors[0].code);     
+        // };
   }
   //close payment gateway popup
   closePaymentGatewayPopup() {

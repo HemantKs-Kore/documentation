@@ -88,7 +88,17 @@
                 color: #806D16;
             }
         }
-
+        &.proInfoInfo{
+            background: #F3F8FF;
+            .info-text {
+                color: #07377F;
+            }
+            .cancel-request{
+                margin-right: 15px;
+                cursor: pointer;
+                color:#0D6EFD;
+            }
+        }
         .info-proTip-icon {
             padding: 0 10px 0 0;
         }
@@ -101,6 +111,7 @@
             padding: 0 10px 0 0;
 
             .info-proTip-close {
+                cursor: pointer;
                 i {
                     font-size: 10px;
                 }

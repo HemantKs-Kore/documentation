@@ -6,13 +6,18 @@
     <button class="kr-sg-button-primary btn_lg" (click)="selectModal('choose_plan')"><i class="si-publish si-icon"></i>Upgrade Plan</button>
     </div>
   </div>
-    <div class="info-note proInfo proInfoSuccess row m-0" *ngIf="(bannerObj?.show)">
+    <div class="info-note proInfo row m-0" *ngIf="(bannerObj?.show)" [ngClass]="{'proInfoSuccess':bannerObj.type==='success','proInfoError':bannerObj.type==='failed','proInfoInfo':bannerObj.type==='downgrade'}">
       <div class="col-10 d-flex align-items-center p-0">
-        <span class="info-proTip-icon"><i class="si-check-round"></i></span>
+        <span class="info-proTip-icon">
+          <i class="si-check-round" *ngIf="bannerObj?.type==='success'"></i>
+          <i class="si-warning" *ngIf="bannerObj?.type==='failed'"></i>
+          <i class="si-info" *ngIf="bannerObj.type==='downgrade'"></i>
+        </span>
         <span class="info-text">{{bannerObj?.msg}}</span>
       </div>
       <div class="close-info col-2 text-right">
-        <span class="info-proTip-close"><i class="si-close"></i></span>
+        <span class="cancel-request" *ngIf="bannerObj.type==='downgrade'">Cancel request</span>
+        <span class="info-proTip-close" (click)="bannerObj.show=false"><i class="si-close"></i></span>
       </div>
     </div>
   <perfect-scrollbar class="pricing-scroll">
