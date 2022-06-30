@@ -1772,7 +1772,7 @@
                     text-align: center;
                     padding: 70px 35px;
                     .img-block{
-                        margin-bottom: 30px;
+                        margin-bottom: 18px;
                         position: relative;
                         .normal-img{
                             width: 165px;
@@ -1800,7 +1800,9 @@
                         font-size: 14px;
                         line-height: 17px;
                         color: #9AA0A6;
-                        margin-top: 30px;
+                        img{
+                            width: 100%;
+                        }
                     }
                 }
             }

@@ -114,8 +114,6 @@ export class AppsListingComponent implements OnInit {
   }
    //Checks whether user is new or not
    checkForNewUser(){
-    // Should Refactor this code
-    // let accountId = this.authService.getApplictionControls().accoundId;
     let accountId:any;
     let selectAccountDetail = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
     let currentAccountDetail = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')) : {};
@@ -158,9 +156,11 @@ export class AppsListingComponent implements OnInit {
     this.workflowService.selectedIndexPipelineId = '';
   }
   openBoradingJourney() {
-      this.headerService.openJourneyForfirstTime = true;
+      if(!this.newUser){
+        this.headerService.openJourneyForfirstTime = true;
       this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
       this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
+      }
   }
   closeBoradingJourney() {
     if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {

@@ -45,7 +45,7 @@
                 </div>
               </ng-container>
               <button (click)="openAppLoadingScreen()">open</button>
-              <div *ngIf="displayStartFromStcratch"  class="start-scrtch-user-data">
+              <div *ngIf="emptyApp"  class="start-scrtch-user-data">
                 <div class="user-details">
                   <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
                 </div>
@@ -62,7 +62,7 @@
               </div>
 
               <ng-container>
-                <div *ngIf="!displayStartFromStcratch" class="m-title col-12 m-10">Recently Visited</div>
+                <div *ngIf="!emptyApp" class="m-title col-12 m-10">Recently Visited</div>
                 <div class="cards-content" (click)="app.disabled?null:openApp(app)" *ngFor="let app of recentApps | filter: [ searchApp, 'name']" placement="top-center"
                   [ngbTooltip]="app.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0"[ngClass]="{'d-none': !recentApps.length}">
                   <div class="box" [ngStyle]="app.disabled&&{'opacity':'0.4','cursor':'default'}">
@@ -429,17 +429,25 @@
 
                 <!-- Last step app name -->
                 <ng-container *ngIf="steps=='displayApp'">
-                 <div class="create-app-data">
-                  <div class="kr-sg-input-text">
-                    <div class="label-text">App Name</div>
-                    <input type="text"  [(ngModel)]="newApp.name" placeholder="Type The App Name" class="input-text" [ngClass]="{'error' : validateAppname }">
-                    <div class="error-msg" *ngIf="validateAppname">Enter The App Name</div>
-                    <div class="kr-sg-input-text">
-                      <div class="label-text">Description</div>
-                      <input class="text" placeholder="Enter App Description" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
+                  <div class="welcome-user-screen">
+                    <div class="welcome-user-form">
+                      <div class="create-app-data">
+                        <div class="kr-sg-input-text form-group">
+                          <div class="label-text">App Name</div>
+                          <input type="text"  [(ngModel)]="newApp.name" placeholder="Type The App Name" class="input-text" [ngClass]="{'error' : validateAppname }">
+                          <div class="error-msg" *ngIf="validateAppname">Enter The App Name</div>
+                        </div>
+                        <div class="kr-sg-input-text-area form-group">
+                          <div class="label-text">Description</div>
+                          <textarea class="input-text" [(ngModel)]="newApp.description" placeholder="Enter App Description" autocomplete="off"  name="appDesc"></textarea>
+                        </div>
+                       </div>
+                    </div>
+                    <div class="welcome-user-img">
+                      <img src="assets/icons/onboarding/welcome-user-app-creation.svg" title="welcome-user-app-creation" alt="welcome-user-app-creation" />
                     </div>
                   </div>
-                 </div>
+              
                 </ng-container>
               </div>
             </perfect-scrollbar>
@@ -738,7 +746,7 @@
   </div>
   <div class="loading-text">Loading...</div>
   <!-- <div class="text-desc">Uploading sample data to your app</div> -->
-  <div class="text-desc"><img src="assets/icons/onboarding/text-loadingScreen.gif"></div>
+  <div class="text-desc"><img src="assets/icons/onboarding/Loading-text-gif.gif"></div>
   <!-- <div class="text-desc">Applying default search configurations to your app</div>
   <div class="text-desc">Configuring search experiences to your app</div> -->
  </div>
