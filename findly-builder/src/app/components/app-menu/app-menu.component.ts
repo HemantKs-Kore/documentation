@@ -105,8 +105,8 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     }
   }
   //upgrade plan
-  upgrade(data?) {
-
+  upgrade() {
+  this.plans?.openSelectedPopup('choose_plan');
   }
   reloadCurrentRoute() {
     let route = '/summary';
@@ -267,7 +267,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
             this.closeIndexModalPopup();
             this.errorToaster(errRes, errRes.error.errors[0].msg);
-            this.upgrade(errRes.error.errors[0].msg);
+            this.upgrade();
           }
           else {
             this.errorToaster(errRes, 'Failed to Create indexPipeline');
@@ -333,7 +333,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
             this.closeModalPopup();
             this.errorToaster(errRes, errRes.error.errors[0].msg);
-            this.upgrade(errRes.error.errors[0].msg);
+            this.upgrade();
           } else {
             this.errorToaster(errRes, 'Failed to Create searchconfig');
           }

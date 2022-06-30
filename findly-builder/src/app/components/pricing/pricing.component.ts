@@ -24,6 +24,7 @@ export class PricingComponent implements OnInit, OnDestroy {
   templateShow: boolean = false;
   featureLimit:number=4;
   btnLoader:boolean=false;
+  bannerObj={msg:'',show:false,type:''};
   currentSubscriptionPlan: any;
   selectedApp;
   serachIndexId;
@@ -36,7 +37,6 @@ export class PricingComponent implements OnInit, OnDestroy {
     enterpriceMonth: 'fp_enterprise_custom_monthly',
     enterpriceYear: 'fp_enterprise_custom_yearly'
   };
-  proInfo: boolean = false;
   currentSubsciptionData: Subscription;
   usageDetails: any = {};
   monthRange = "Jan - June";
@@ -132,6 +132,10 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+  //show or hide banner
+  showBanner(obj){
+   this.bannerObj = {...this.bannerObj,msg:obj?.msg,type:obj?.type};
+  }
   //select upgrade component methods
   selectModal(type) {
     if (type == 'choose_plan') {
@@ -183,7 +187,6 @@ export class PricingComponent implements OnInit, OnDestroy {
       streamId: this.selectedApp._id
     }
     this.service.invoke('post.downgradeCancellation', queryParam, {}).subscribe(res => {
-      this.proInfo = true;
       this.appSelectionService.getCurrentSubscriptionData();
       this.notificationService.notify('Cancellation request submitted', 'success');
       if (dialogRef) dialogRef.close();

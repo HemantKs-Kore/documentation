@@ -78,7 +78,7 @@ export class UpgradePlanComponent implements OnInit,OnDestroy {
   @ViewChild('paymentGatewayModel') paymentGatewayModel: KRModalComponent;
   @ViewChild('successFailureModel') successFailureModel: KRModalComponent;
   @ViewChild('contactUsModel') contactUsModel: KRModalComponent;
-  @Output() overageModel = new EventEmitter<string>();
+  @Output() updateBanner = new EventEmitter<{}>();
   @ViewChild(PerfectScrollbarComponent) public directiveScroll: PerfectScrollbarComponent;
   ngOnInit(): void {
     this.getAllPlans();
@@ -144,6 +144,7 @@ export class UpgradePlanComponent implements OnInit,OnDestroy {
     }
     else if (type === 'payment_gateway') {
       this.selectedPaymentPage = 'payment_confirm';
+      this.orderConfirmData={};      
       if (this.paymentStatusInterval) clearInterval(this.paymentStatusInterval);
       if (this.paymentGatewayModelPopRef?.close) this.paymentGatewayModelPopRef.close();
     }
@@ -181,10 +182,6 @@ showHideSpinner(){
       let url = this.payementResponse.hostedPage.url;
       this.invoiceOrderId = this.payementResponse.hostedPage.transactionId;
       this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-      // setTimeout(() => {
-        //   const iframePage = document.getElementById('i_frame_page');
-        //   iframePage.style.height = '100vh';
-      // }, 100)
       this.poling();
     }, errRes => {
       this.errorToaster(errRes, 'failed');
@@ -209,6 +206,8 @@ showHideSpinner(){
         this.notificationService.notify(message, 'success');
         if (!this.isOverageShow) {
           this.selectedPaymentPage = 'payment_success';
+          const obj = {msg:`Your previous payment of $ ${this.orderConfirmData?.planAmount} is processed successfully. You can Publish your bot now to upgrade to the ${this.orderConfirmData?.name} plan.`,type:'success'};
+          this.updateBanner.emit(obj);
         }
         else {
           if(this.btnLoader) this.btnLoader = false;
@@ -378,6 +377,7 @@ showHideSpinner(){
       this.isOverageShow = true;
       this.poling();
     }, errRes => {
+      this.btnLoader=false;
       this.errorToaster(errRes, 'failed buy overage');
     });
   }

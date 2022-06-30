@@ -2,13 +2,11 @@
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
 	<ng-container *ngIf="(!settingMainMenu && sourceMenu)">
 		<div class="upgrade_your_plan_price" [ngClass]="{'d-none':showUpgrade}">
-			<span [ngClass]="{'status-type':upgradeBannerFlag,'red':usageDetails?.ingestDocs>=80||usageDetails.searchQueries>=80}"></span>
+			<span [ngClass]="{'status-type':upgradeBannerFlag}"></span>
 			<div class="product-subscription-alert">
-				<p class="product-subscription-desc">You have utilized more than 80% of your current plan, please upgrade plan to enjoy uninturrepted services.</p>
+				<p class="product-subscription-desc" *ngIf="(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80)">You have utilized more than 80% of your current plan, please upgrade plan to enjoy uninturrepted services.</p>
 				<img src="assets/images/pricing-plan/plan-subscrition/product-launch.svg" class="product-subscription-img"/>
-				<div class="upgrade-plan-btn" (mouseover)="readUpgradeBanner()" (click)="upgrade()">Upgrade Your Plan
-					<img src="assets/icons/pricing/carrotright.svg">
-				</div>
+				<div class="upgrade-plan-btn" [ngClass]="{'danger':(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80),'warning':((usageDetails?.searchQueries>50&&usageDetails?.searchQueries<=80)||(usageDetails?.ingestDocs>50&&usageDetails?.ingestDocs<=80))}" (mouseover)="readUpgradeBanner()" (click)="upgrade()"><i class="si-publish si-icon m-r-2"></i>Upgrade Plan</div>
 				<div class="hover-documnet-show-data">
 					<div class="card-data- card1">
 						<div class="img-block">
@@ -19,15 +17,13 @@
 							<div class="desc-text">Percentage of queries asked by the user</div>
 							<div class="count-data">
 								<div class="linit-k">
-									<span>{{usageDetails.searchCount | valueFormat}}</span> / {{usageDetails.searchLimit|
-									valueFormat}}
+									<span>{{usageDetails.searchCount | valueFormat}}</span> / {{usageDetails.searchLimit|valueFormat}}
 								</div>
 								<div class="percentage">{{usageDetails.searchQueries}}% </div>
 							</div>
 						</div>
 						<ng-container>
-							<ngb-progressbar height="10px" [type]="usageDetails?.searchQueries>=80?'danger':'primary'"
-								[value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
+							<ngb-progressbar height="10px" [type]="usageDetails?.searchQueries>80?'danger':(usageDetails?.searchQueries>50&&usageDetails?.searchQueries<=80)?'warning':'primary'" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
 						</ng-container>
 					</div>
 					<div class="card-data- card2">
@@ -39,15 +35,13 @@
 							<div class="desc-text">Percentage of documents ingested</div>
 							<div class="count-data">
 								<div class="linit-k">
-									<span>{{usageDetails.ingestCount| valueFormat}}</span> / {{usageDetails.ingestLimit|
-									valueFormat}}
+									<span>{{usageDetails.ingestCount| valueFormat}}</span> / {{usageDetails.ingestLimit|valueFormat}}
 								</div>
 								<div class="percentage">{{usageDetails.ingestDocs}}%</div>
 							</div>
 						</div>
 						<ng-container>
-							<ngb-progressbar height="10px" [type]="usageDetails?.ingestDocs>=80?'danger':'success'"
-								[value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
+							<ngb-progressbar height="10px" [type]="usageDetails?.ingestDocs>80?'danger':(usageDetails?.ingestDocs>50&&usageDetails?.ingestDocs<=80)?'warning':'primary'" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
 						</ng-container>
 					</div>
 				</div>

@@ -495,10 +495,6 @@ app-mainmenu{
 		right: -5px;
 		//background: #FFDA2D;
 		top: -5px;
-		&.red{
-			background: #DD3646;
-			border: 2px solid #EFF0F1;
-		}
 	}
 	&:hover{
 		.hover-documnet-show-data{
@@ -510,14 +506,15 @@ app-mainmenu{
 		}
 	}
 	.upgrade-plan-btn{
-		background: linear-gradient(180deg, rgba(221, 54, 70, 0.3) 0%, rgba(255, 255, 255, 0) 100%), rgba(112, 39, 229, 0.8);
+		// background: linear-gradient(180deg, rgba(221, 54, 70, 0.3) 0%, rgba(255, 255, 255, 0) 100%), rgba(112, 39, 229, 0.8);
+		background: #93D3A2;
 		box-shadow: 0px 0px 5px rgb(13 110 253 / 20%);
 		border-radius: 4px;
 		height: 36px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: #F8F9FA;
+		color: #202124;
 		font-weight: normal;
 		font-size: 14px;
 		line-height: 20px;
@@ -525,7 +522,16 @@ app-mainmenu{
 		cursor: pointer;
 		img{
 			margin-left: 5px;
+		}		
+		.m-r-2{
+			margin-right: 8px;
 		}
+	}
+	.danger{
+		background: #FF784B;
+	}
+	.warning{
+		background:#FAB900;
 	}
 	.hover-documnet-show-data{
 		visibility: hidden;

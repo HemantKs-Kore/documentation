@@ -6,13 +6,13 @@
     <button class="kr-sg-button-primary btn_lg" (click)="selectModal('choose_plan')"><i class="si-publish si-icon"></i>Upgrade Plan</button>
     </div>
   </div>
-    <div class="info-note proInfo proInfoSuccess row m-0 d-none">
+    <div class="info-note proInfo proInfoSuccess row m-0" *ngIf="(bannerObj?.show)">
       <div class="col-10 d-flex align-items-center p-0">
-        <span class="info-proTip-icon"><i class="si-green-check"></i></span>
-        <span class="info-text">Your previous payment of $100 is processed successfully. You can Publish your bot now to upgrade to the Standard plan.</span>
+        <span class="info-proTip-icon"><i class="si-check-round"></i></span>
+        <span class="info-text">{{bannerObj?.msg}}</span>
       </div>
       <div class="close-info col-2 text-right">
-        <span class="info-proTip-close" (click)="proInfo=true"><i class="si-close"></i></span>
+        <span class="info-proTip-close"><i class="si-close"></i></span>
       </div>
     </div>
   <perfect-scrollbar class="pricing-scroll">
@@ -205,7 +205,7 @@
                   <div class="plan-current-status">Current Plan</div>
                 </div>
                 <div class="plan-cost-details">
-                  <div class="plan-cost">${{plan?.planAmount}} <span class="plan-duration-type">{{(plan?.name|lowercase)!=='free'?'/ ':''}}{{(plan?.name|lowercase)==='free'?'Forever':plan?.billingUnit}}</span></div>
+                  <div class="plan-cost">${{currentSubscriptionPlan?.subscription?.planAmount}} <span class="plan-duration-type">{{(plan?.name|lowercase)!=='free'?'/ ':''}}{{(plan?.name|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.billingUnit}}</span></div>
                 </div>
               </div>
               <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>
@@ -226,6 +226,10 @@
                     <div class="plan-feature-desc" *ngIf="feature?.displayOnBanner"><span class="icon-si"><i class="si-green-check"></i></span> {{(feature?.name)}} </div>
                   </ng-container>
                   <div class="show-more" [ngClass]="{'d-none':featureLimit!==4}" (click)="featureLimit=(plan?.featureData?.length);"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
+                  <div class="plan-sub-feature-hding"><strong>{{(plan?.name|lowercase)==='free'?'Self-Service Support':'Support'}}</strong></div>
+                  <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>Kore.ai Community</div>
+                  <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>Kore.ai Academy</div>
+                  <div class="plan-feature-desc" *ngIf="['standard','enterprise'].includes(plan?.name|lowercase)"><span class="icon-si"><i class="si-green-check"></i></span>{{plan?.name}} support upgrade option</div>
                 </div>
               </perfect-scrollbar>
             </div>
@@ -236,4 +240,4 @@
     </div>
   </div>
 
-  <app-upgrade-plan #plans></app-upgrade-plan>
+  <app-upgrade-plan #plans (updateBanner)="showBanner($event)"></app-upgrade-plan>
