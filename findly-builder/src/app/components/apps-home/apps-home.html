@@ -1,5 +1,5 @@
 <div class="emptyStateContainer" aria-live="polite">
-  <ng-container *ngIf="!emptyApp">
+  <ng-container *ngIf="newUser">
     <perfect-scrollbar class="dashboard-perfect-scroll">
       <div class="scrollContainer">
         <div class="findly-dashboard">
@@ -45,7 +45,7 @@
                 </div>
               </ng-container>
               <button (click)="openAppLoadingScreen()">open</button>
-              <div *ngIf="emptyApp" class="start-scrtch-user-data">
+              <div *ngIf="displayStartFromStcratch"  class="start-scrtch-user-data">
                 <div class="user-details">
                   <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
                 </div>
@@ -61,8 +61,8 @@
                 </div>
               </div>
 
-              <ng-container *ngIf="!emptyApp">
-                <div *ngIf="apps.length" class="m-title col-12 m-10">Recently Visited</div>
+              <ng-container>
+                <div *ngIf="!displayStartFromStcratch" class="m-title col-12 m-10">Recently Visited</div>
                 <div class="cards-content" (click)="app.disabled?null:openApp(app)" *ngFor="let app of recentApps | filter: [ searchApp, 'name']" placement="top-center"
                   [ngbTooltip]="app.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0"[ngClass]="{'d-none': !recentApps.length}">
                   <div class="box" [ngStyle]="app.disabled&&{'opacity':'0.4','cursor':'default'}">
@@ -239,7 +239,7 @@
     </perfect-scrollbar>
   </ng-container>
     <!-- New Onbaording Data -->
-    <ng-container *ngIf="newUser">
+    <ng-container *ngIf="!newUser">
       <div class="onboarding-new-user-data">
         <!-- Boarding screen -->
         <ng-container *ngIf="!steps && emptyApp">
@@ -737,7 +737,8 @@
     <!-- <img src="assets/icons/loadingScreen.svg"> -->
   </div>
   <div class="loading-text">Loading...</div>
-  <div class="text-desc">Uploading sample data to your app</div>
+  <!-- <div class="text-desc">Uploading sample data to your app</div> -->
+  <div class="text-desc"><img src="assets/icons/onboarding/text-loadingScreen.gif"></div>
   <!-- <div class="text-desc">Applying default search configurations to your app</div>
   <div class="text-desc">Configuring search experiences to your app</div> -->
  </div>

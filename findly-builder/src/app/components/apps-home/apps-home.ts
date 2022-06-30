@@ -106,9 +106,7 @@ export class AppsListingComponent implements OnInit {
     $('.krFindlyAppComponent').removeClass('appSelected');
     //const apps = this.workflowService.findlyApps();
     //this.prepareApps(apps);
-    if(this.newUser){
       this.getAllApps();
-    }
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
@@ -117,27 +115,27 @@ export class AppsListingComponent implements OnInit {
    //Checks whether user is new or not
    checkForNewUser(){
     // Should Refactor this code
-    let accountId = this.authService.getApplictionControls().accoundId;
+    // let accountId = this.authService.getApplictionControls().accoundId;
+    let accountId:any;
     let selectAccountDetail = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
     let currentAccountDetail = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')) : {};
     let currentAccountID = currentAccountDetail?currentAccountDetail.currentAccount.accoundId:null;
-
-    if(!accountId){
-      accountId = selectAccountDetail?selectAccountDetail.accountId:null;
+    if(selectAccountDetail.accountId == null){
+      accountId = currentAccountID;
     }
-    if(!currentAccountID){
-      currentAccountID = currentAccountDetail.currentAccount.accountId;
+    else if(selectAccountDetail.accountId){
+      accountId = selectAccountDetail.accountId;
     }
-  if( accountId == null ||currentAccountID == accountId){
-    const quaryParms: any = {
-      accountId : accountId
-    };
-    this.service.invoke('get.checkNewUser',quaryParms).subscribe(res => {
-      this.newUser = res.isInitialAppCreated;
-    }, errRes => {
-      this.notificationService.notify('Checking for New User has gone wrong ', 'error');
-    });
-  }
+    if(accountId){
+      const quaryParms: any = {
+        accountId : accountId
+      };
+      this.service.invoke('get.checkNewUser',quaryParms).subscribe(res => {
+        this.newUser = res.isInitialAppCreated;
+      }, errRes => {
+        this.notificationService.notify('Checking for New User has gone wrong ', 'error');
+      });  
+    }
    }
 
   //call mixpanel api for tellmemore button
@@ -523,7 +521,6 @@ export class AppsListingComponent implements OnInit {
             this.openAppLoadingScreen();
             this.polling();
             this.appSelectionService.getTourConfig();
-            this.headerComp.viewCheckList();
           }
         },
         errRes => {
