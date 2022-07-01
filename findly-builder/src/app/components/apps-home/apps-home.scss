@@ -1053,24 +1053,29 @@
             padding: 26px 164px;
             display: inline-block;
             width: 100%;
-            .create-app-data{
-                margin-top: 50px;
-                .label-text{
-                    font-weight: 500;
-                    font-size: 12px;
-                    line-height: 15px;
-                    color: #202124;
-                    margin: 6px;
-                }
-                .kr-sg-input-text{
-                    width: 300px;
-                    .input-text:focus{
-                        border: 1px solid rgb(131, 194, 240);
-                        box-shadow: 0 0 5px rgb(131, 194, 240);
-                        outline: none;
+                .welcome-user-screen{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    .welcome-user-form{
+                        width: 300px;
+                        padding-top: 55px;
+                        .create-app-data{
+                            .label-text{
+                                font-weight: 500;
+                                font-size: 12px;
+                                line-height: 15px;
+                                color: #202124;
+                                margin-bottom: 6px;
+                            }
+                        }
+                    }
+                
+                    .welcome-user-img{
+                
                     }
                 }
-            }
+            
             .tabs-data-info-sample{
                 display: flex;
                 margin-top: 50px;
@@ -1213,3 +1218,4 @@
     opacity: 0 !important;
     z-index: 1 !important;
 }
+
