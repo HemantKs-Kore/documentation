@@ -112,6 +112,7 @@ export class AppsListingComponent implements OnInit {
     }, 100);
     // this.buildCarousel();    
   }
+  
    //Checks whether user is new or not
    checkForNewUser(){
     let accountId:any;
