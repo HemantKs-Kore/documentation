@@ -136,6 +136,10 @@ export class PricingComponent implements OnInit, OnDestroy {
   showBanner(obj){
    this.bannerObj = {...this.bannerObj,msg:obj?.msg,type:obj?.type,show:true};
   }
+  //clear banner
+  clearBanner(){
+    this.bannerObj = {msg:'',type:'',show:false};
+  }
   //select upgrade component methods
   selectModal(type) {
     if (type == 'choose_plan') {
@@ -468,6 +472,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         dialogRef.close();
         this.appSelectionService.getCurrentSubscriptionData();
+        if(this.bannerObj.show) this.clearBanner();
       }, 2000)
       // this.notificationService.notify('Cancel Subscription', 'success');
     }, errRes => {
