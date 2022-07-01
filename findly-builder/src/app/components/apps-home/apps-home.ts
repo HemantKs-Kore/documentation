@@ -118,10 +118,10 @@ export class AppsListingComponent implements OnInit {
     let selectAccountDetail = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
     let currentAccountDetail = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')) : {};
     let currentAccountID = currentAccountDetail?currentAccountDetail.currentAccount.accoundId:null;
-    if(selectAccountDetail.accountId == null){
+    if(!selectAccountDetail){
       accountId = currentAccountID;
     }
-    else if(selectAccountDetail.accountId){
+    else if(selectAccountDetail && selectAccountDetail.accountId){
       accountId = selectAccountDetail.accountId;
     }
     if(accountId){
