@@ -43,7 +43,7 @@ export class AppsListingComponent implements OnInit {
   progressBar: any = [];
   stepBar = 1;
   displayApp: boolean = false;
-  newUser:boolean = false;
+  newUser:boolean = true;
   hideWelcomepage: boolean = true;
   showSearchExperices: boolean = false;
   validateAppname: boolean = false;
@@ -102,7 +102,7 @@ export class AppsListingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.checkForNewUser();
+    // this.checkForNewUser();
     $('.krFindlyAppComponent').removeClass('appSelected');
     //const apps = this.workflowService.findlyApps();
     //this.prepareApps(apps);

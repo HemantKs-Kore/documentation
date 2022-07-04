@@ -21,7 +21,7 @@ export class PricingComponent implements OnInit, OnDestroy {
   cancelSubscriptionModelPopRef: any;
   cancellationCheckboxText: any = [{selected:false,name:'It’s too costly'}, {selected:false,name:'I found another product that fulfils my needs'}, {selected:false,name:'I don’t use it enough'},{selected:false,name:'I don’t need it now'}];
   termPlan = "Monthly";
-  templateShow: boolean = false;
+  pageLoading: boolean = true;
   featureLimit:number=4;
   btnLoader:boolean=false;
   bannerObj={msg:'',show:false,type:''};
@@ -505,6 +505,7 @@ export class PricingComponent implements OnInit, OnDestroy {
     else {
       this.usageDetails.searchQueries = {};
     }
+    this.pageLoading = false;
   }
   ngOnDestroy() {
     this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;

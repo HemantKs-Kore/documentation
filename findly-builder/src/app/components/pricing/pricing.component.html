@@ -1,4 +1,8 @@
-<div class="pricing-container-wrapper">
+<div class="mainLoadingSpinner" *ngIf="pageLoading">
+  <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+  <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
+</div>
+<div class="pricing-container-wrapper" *ngIf="(currentSubscriptionPlan?.subscription)">
   <div class="title-header d-flex align-items-center justify-content-between">
     <div>{{"plan.plan_head"| translate}}</div>
     <div class="btns-block">
