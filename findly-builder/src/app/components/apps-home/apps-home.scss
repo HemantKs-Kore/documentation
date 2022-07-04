@@ -336,6 +336,7 @@
                 width: 100%;
                 padding: 0 10px;
                 .user-details{
+                    
                     .user-name{
                         font-weight: 600;
                         font-size: 22px;
@@ -855,6 +856,11 @@
             line-height: 27px;
             color: #202124;
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            img{
+                margin-left: 6px;
+            }
         }
     }
     .on-b-progress-bar{

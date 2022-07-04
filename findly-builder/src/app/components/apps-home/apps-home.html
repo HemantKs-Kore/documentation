@@ -245,7 +245,7 @@
           <div class="ob-data-info">
             <div class="left-sec">
               <div class="user-details">
-                <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
+                <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} <img src="assets/icons/hand-hellow.svg"></div>
               </div>
               <div class="on-b-progress-bar">
                 <div *ngFor="let bar of progressBar;let i=index" class="not-active-bar" [ngClass]="{'active-bar': i==0}" ></div>
