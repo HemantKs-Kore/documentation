@@ -1063,9 +1063,10 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-start;
+                    position: relative;
                     .welcome-user-form{
                         width: 300px;
-                        padding-top: 55px;
+                        padding-top: 40px;
                         .create-app-data{
                             .label-text{
                                 font-weight: 500;
@@ -1076,9 +1077,17 @@
                             }
                         }
                     }
-                
                     .welcome-user-img{
-                
+                        position: absolute;
+                        right: 0;
+                        top: -52px;
+                        height: 100%;
+                        img{
+                            height: 350px;
+                            @media screen and (min-width: 1366px) {
+                                height: auto;
+                            }
+                        }
                     }
                 }
             
