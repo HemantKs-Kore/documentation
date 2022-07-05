@@ -315,7 +315,7 @@
                 </li>
 
                 <li class="nav-item help-icon" [container]="'body'" ngbTooltip="Help" tooltipClass="train-icon-tooltip"
-                    (click)="openUserMetaTagsSlider()">
+                    (click)="openUserMetaTagsSlider()" [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**'}">
                     <img src="assets/icons/sidemenu/help.svg">
                 </li>
 

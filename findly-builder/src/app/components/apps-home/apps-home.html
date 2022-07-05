@@ -1,5 +1,9 @@
 <div class="emptyStateContainer" aria-live="polite">
-  <ng-container *ngIf="newUser">
+  <div class="mainLoadingSpinner" *ngIf="loadingApps">
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">{{'synonyms.please_wait' | translate }}</span>
+  </div>
+  <ng-container *ngIf="!newUser && !loadingApps">
     <perfect-scrollbar class="dashboard-perfect-scroll">
       <div class="scrollContainer">
         <div class="findly-dashboard">
@@ -44,9 +48,9 @@
                   <div class="e-title">Create your first app</div>
                 </div>
               </ng-container>
-              <div *ngIf="emptyApp"  class="start-scrtch-user-data">
+              <div *ngIf="emptyApp && !loadingApps"  class="start-scrtch-user-data">
                 <div class="user-details">
-                  <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
+                  <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} <img src="assets/icons/hand-hellow.svg"></div>
                 </div>
                 <div class="title-start">Create your first Search Experience</div>
                 <div  class="add-scrtch-app" (click)="openCreateApp()">
@@ -61,9 +65,9 @@
               </div>
 
               <ng-container>
-                <div *ngIf="!emptyApp" class="m-title col-12 m-10">Recently Visited</div>
+                <div *ngIf="!emptyApp && !loadingApps"  class="m-title col-12 m-10">Recently Visited</div>
                 <div class="cards-content" (click)="app.disabled?null:openApp(app)" *ngFor="let app of recentApps | filter: [ searchApp, 'name']" placement="top-center"
-                  [ngbTooltip]="app.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0"[ngClass]="{'d-none': !recentApps.length}">
+                  [ngbTooltip]="app.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0"[ngClass]="{'d-none': !apps.length && !loadingApps}">
                   <div class="box" [ngStyle]="app.disabled&&{'opacity':'0.4','cursor':'default'}">
                     <div class="content-sec">
                       <div class="name"><span>{{app.name}}</span></div>
@@ -238,7 +242,7 @@
     </perfect-scrollbar>
   </ng-container>
     <!-- New Onbaording Data -->
-    <ng-container *ngIf="!newUser">
+    <ng-container *ngIf="newUser &&!loadingApps">
       <div class="onboarding-new-user-data">
         <!-- Boarding screen -->
         <ng-container *ngIf="!steps && emptyApp">
@@ -253,7 +257,7 @@
               <!-- <button style="width: 50px;height:15px" (click)="openAppLoadingScreen()"></button> -->
               <div class="title-start">How would you like to create your first app?</div>
               <div class="explore-data-cards">
-                <div  class="explore-card sample-data"  (mouseenter)="progressBarFun(3,1)" (mouseleave)="progressBarFun(0,0)" (click)="welcomeStep('sampleData')">
+                <div  class="explore-card sample-data"  (mouseenter)="progressBarFun(4,1)" (mouseleave)="progressBarFun(0,0)" (click)="welcomeStep('sampleData')">
                   <div class="icon-block">
                     <img src="assets/icons/onboarding/sample-data.svg">
                   </div>
@@ -299,7 +303,7 @@
             <perfect-scrollbar>
               <div class="scroll-data">
                 <div class="user-details">
-                  <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
+                  <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} <img src="assets/icons/hand-hellow.svg"></div>
                 </div>
                 <div class="on-b-progress-bar">
                   <div *ngFor="let bar of progressBar;let i=index" class="not-active-bar" [ngClass]="{'active-bar': i<=stepBar}"></div>
