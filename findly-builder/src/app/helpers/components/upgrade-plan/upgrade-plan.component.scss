@@ -1251,13 +1251,15 @@
             }
 
             &:hover {
-                background: #caddf8;
+                background: #0D6EFD;
+                color: white;              
             }
 
             &.current-paln {
                 background: #EAF6EC;
                 color: #28A745;
                 cursor: default;
+                pointer-events: none;
 
                 &:hover {
                     background: #caf6d1;

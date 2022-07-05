@@ -30,13 +30,6 @@ export class PricingComponent implements OnInit, OnDestroy {
   serachIndexId;
   totalPlansData: any;
   filterPlansData: any;
-  plansIdList = {
-    free: 'fp_free',
-    standardMonth: '65066',
-    standardYear: '65451',
-    enterpriceMonth: 'fp_enterprise_custom_monthly',
-    enterpriceYear: 'fp_enterprise_custom_yearly'
-  };
   currentSubsciptionData: Subscription;
   usageDetails: any = {};
   monthRange = "Jan - June";
@@ -482,8 +475,8 @@ export class PricingComponent implements OnInit, OnDestroy {
   }
   updateUsageDetails() {
     if(this.plans?.totalPlansData){
-      const planId = this.currentSubscriptionPlan?.subscription?.planId;
-      const currentPlan = this.plans?.totalPlansData?.filter(plan=>plan?.planId===planId);
+      const planName = this.currentSubscriptionPlan?.subscription?.planName;
+      const currentPlan = this.plans?.totalPlansData?.filter(plan=>plan?.name===planName);
       this.usageDetails.ingestDocsLimit = currentPlan[0].featureAccess?.ingestDocs?.limit;
       this.usageDetails.ingestDocsUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used<=this.usageDetails.ingestDocsLimit)?(this.currentSubscriptionPlan?.usage?.ingestDocs?.used):(this.usageDetails?.ingestDocsLimit)
       this.usageDetails.searchQueriesLimit = currentPlan[0].featureAccess?.searchQueries?.limit;

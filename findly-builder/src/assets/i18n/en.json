@@ -792,7 +792,9 @@
         "yes": "Yes",
         "no": "No",
         "no_content": "No content available",
-        "sync_progress": "Sync in progress"
+        "sync_progress": "Sync in progress",
+        "upgrade":"Upgrade",
+        "empty_connectors": "Oops!! Connectors is not available in your current Plan"
     },
     "actions": {
         "actions": "Actions",

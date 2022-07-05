@@ -21,7 +21,6 @@ export class UpgradePlanComponent implements OnInit,OnDestroy {
   addOverageModalPopRef: any;
   choosePlanModalPopRef: any;
   paymentGatewayModelPopRef: any;
-  successFailureModelPopRef: any;
   contactusModelPopRef: any;
   contactusSuccessModelPopRef: any;
 
@@ -76,7 +75,6 @@ export class UpgradePlanComponent implements OnInit,OnDestroy {
   @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
   @ViewChild('choosePlanModel') choosePlanModel: KRModalComponent;
   @ViewChild('paymentGatewayModel') paymentGatewayModel: KRModalComponent;
-  @ViewChild('successFailureModel') successFailureModel: KRModalComponent;
   @ViewChild('contactUsModel') contactUsModel: KRModalComponent;
   @Output() updateBanner = new EventEmitter<{}>();
   @ViewChild(PerfectScrollbarComponent) public directiveScroll: PerfectScrollbarComponent;
@@ -146,6 +144,9 @@ export class UpgradePlanComponent implements OnInit,OnDestroy {
       this.orderConfirmData={};      
       if (this.paymentStatusInterval) clearInterval(this.paymentStatusInterval);
       if (this.paymentGatewayModelPopRef?.close) this.paymentGatewayModelPopRef.close();
+      if (this.componentType == 'experiment') {
+        this.upgradedEvent.emit();
+      }
     }
   }
 //hide spinner in payment page
@@ -279,22 +280,6 @@ showHideSpinner(){
         clearInterval(this.paymentStatusInterval);
       }
       this.paymentGatewayModelPopRef.close();
-    }
-  }
-  //open payment success/failure popup
-  openSuccessFailurePopup(state?) {
-    this.payementSuccess = state
-    this.closePaymentGatewayPopup();
-    this.successFailureModelPopRef = this.successFailureModel.open();
-    this.appSelectionService.getCurrentSubscriptionData();
-  }
-  //close payment success/failure popup
-  closeSuccessFailurePopup() {
-    if (this.successFailureModelPopRef && this.successFailureModelPopRef.close) {
-      this.successFailureModelPopRef.close();
-      if (this.componentType == 'experiment') {
-        this.upgradedEvent.emit();
-      }
     }
   }
   //select type plan like monthly or yearly

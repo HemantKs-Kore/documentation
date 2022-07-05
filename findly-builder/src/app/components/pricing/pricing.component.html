@@ -212,7 +212,7 @@
         <div class="modal-body">
           <div class="plan-tile-block" *ngFor="let plan of plans?.filterPlansData" [ngClass]="{'d-none':plan?.name!==currentSubscriptionPlan?.subscription?.planName}">
             <div class="plan-type-block">
-              <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-{{currentSubscriptionPlan?.subscription?.planName|lowercase}}.svg" /></div>
+              <div class="plan-img"><img src="assets/images/pricing-plan/pricing-plan-{{plan?.name|lowercase}}.svg" /></div>
               <div class="plan-details">
                 <div class="plan-type">
                   <div class="plan-name">{{plan?.name}}</div>
