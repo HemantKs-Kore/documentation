@@ -28,7 +28,6 @@ export class AppsListingComponent implements OnInit {
   SearchExperianceType: string = '';
   appsData: any;
   streamID: any;
-  accoundID:any;
   private storageType = 'localStorage';
   searchIndexID: any;
   demoOptions: boolean = false;
@@ -66,6 +65,7 @@ export class AppsListingComponent implements OnInit {
   carousel: any = [];
   carouselTemplateCount = 0;
   searchFocusIn = false;
+  loadingApps = true;
   newApp: any = {
     name: '',
     description: ''
@@ -129,7 +129,7 @@ export class AppsListingComponent implements OnInit {
         accountId : accountId
       };
       this.service.invoke('get.checkNewUser',quaryParms).subscribe(res => {
-        this.newUser = res.isInitialAppCreated;
+        this.newUser = !res.isInitialAppCreated;
       }, errRes => {
         this.notificationService.notify('Checking for New User has gone wrong ', 'error');
       });  
@@ -156,7 +156,7 @@ export class AppsListingComponent implements OnInit {
     this.workflowService.selectedIndexPipelineId = '';
   }
   openBoradingJourney() {
-      if(!this.newUser){
+      if(this.newUser){
         this.headerService.openJourneyForfirstTime = true;
       this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
       this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
@@ -203,10 +203,9 @@ export class AppsListingComponent implements OnInit {
     if (this.steps == 'demoOptions' && this.demoType) {
       this.steps = 'showSearchExperience';
       this.SearchExperianceType ='top';
-      this.progressBarFun(3, 2)
+      this.progressBarFun(4, 3)
     }
     else if (this.steps == 'showSearchExperience' && this.SearchExperianceType) {
-      this.progressBarFun(3, 3);
       this.appCreationAtOnboarding();
     }
     else if (this.steps == 'showSearchExperience' && !this.SearchExperianceType) {
@@ -216,6 +215,7 @@ export class AppsListingComponent implements OnInit {
       if (this.displayApp = true && this.newApp.name) {
         this.steps = 'demoOptions';
         this.demoType = 'e-commerce';
+        this.progressBarFun(4, 2)
       }
       else {
         this.validateAppname = true;
@@ -242,10 +242,12 @@ export class AppsListingComponent implements OnInit {
     if (this.steps == 'showSearchExperience') {
       this.steps = 'demoOptions';
       this.SearchExperianceType = '';
+      this.progressBarFun(4, 2)
     }
     else if (this.steps == 'demoOptions') {
       this.steps = 'displayApp';
       this.demoType = '';
+      this.progressBarFun(4, 1)
     }
     else if (this.steps == 'displayApp') {
       this.steps = '';
@@ -326,6 +328,15 @@ export class AppsListingComponent implements OnInit {
           this.prepareApps(this.apps);
           this.selectedAppType(this.app_type);
           this.confirmApp = '';
+          if(!this.apps.length){
+          this.emptyApp = true;
+          }
+          else{
+            let filteredApps = this.apps.filter(item => item.createdBy == this.userId)
+            if(!filteredApps.length){
+              this.emptyApp = true;
+            }
+          }
         }
       }, errRes => {
         this.notificationService.notify('Deletion has gone wrong.', 'error');
@@ -387,7 +398,7 @@ export class AppsListingComponent implements OnInit {
     }, 100);
   }
   //get all apps
-  emptyApp: boolean;
+  emptyApp: boolean = true;
   showBoarding: boolean = true;
   public getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
@@ -425,6 +436,7 @@ export class AppsListingComponent implements OnInit {
           }
         }
       }
+      this.loadingApps = false;
       this.clearAccount();
       //this.checkForSharedApp();
     }, errRes => {
@@ -505,6 +517,7 @@ export class AppsListingComponent implements OnInit {
     if (res.length > 0) {
       this.emptyApp = true;
     }
+    this.appSelectionService.getTourConfig();
   }
   // create demo app API
   createDemoApp(obj?) {
@@ -520,7 +533,7 @@ export class AppsListingComponent implements OnInit {
           if (res) {
             this.openAppLoadingScreen();
             this.polling();
-            this.appSelectionService.getTourConfig();
+            $('body').addClass('demoScenarioCssForInlinemanual');
           }
         },
         errRes => {

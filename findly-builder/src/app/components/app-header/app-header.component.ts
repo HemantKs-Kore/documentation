@@ -186,6 +186,9 @@ export class AppHeaderComponent implements OnInit {
       if (res.name != undefined) {
         this.analyticsClick(res.path, false);
       }
+      if (res?.isDemo == true) {
+        this.viewCheckList();
+      }
     })
     this.toShowAppHeader = this.workflowService.showAppCreationHeader();
     this.currentAppControlList = this.authService.getApplictionControls()
