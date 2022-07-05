@@ -99,7 +99,6 @@ export class UpgradePlanComponent implements OnInit,OnDestroy {
         let dat = Object.values(data.featureAccess);
         data = Object.assign(data, { "featureData": dat });
       });
-      console.log("totalPlansData",this.totalPlansData)
     }, errRes => {
       if (localStorage.jStorage) {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -331,7 +330,6 @@ showHideSpinner(){
       }
     }
     this.listPlanFeaturesData = listDataMonthlyFeature;
-    console.log("this.listPlanFeaturesData",this.listPlanFeaturesData)
   }
   //based on choosePlanType in order confirm popup
   choosePlanType(type) {

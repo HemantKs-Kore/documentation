@@ -7,7 +7,8 @@
     <div>{{"plan.plan_head"| translate}}</div>
     <div class="btns-block">
     <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'&&(currentSubscriptionPlan?.subscription?.changesScheduledFor==='none')" (click)="cancelSubscriptionModal('open')"><i class="si-minus-circle-o"></i>Cancel Subscription</button>
-    <button class="kr-sg-button-primary btn_lg" (click)="selectModal('choose_plan')"><i class="si-publish si-icon"></i>Upgrade Plan</button>
+    <button class="kr-sg-button-primary btn_lg" [ngClass]="{'d-none':(currentSubscriptionPlan?.subscription?.planName|lowercase)==='enterprise'}" (click)="selectModal('choose_plan')"><i class="si-publish si-icon"></i>Upgrade Plan</button>
+    <button class="kr-sg-button-primary btn_lg" [ngClass]="{'d-none':(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='enterprise'}" (click)="selectModal('choose_plan')"><img src="assets/icons/pricing/move_down.png">  Downgrade Plan</button>
     </div>
   </div>
     <div class="info-note proInfo row m-0" *ngIf="(bannerObj?.show)" [ngClass]="{'proInfoSuccess':bannerObj.type==='success','proInfoError':bannerObj.type==='failed','proInfoInfo':bannerObj.type==='downgrade','downGradeAlert':bannerObj.type==='downgrade'}">
@@ -37,7 +38,7 @@
                 <div class="tile-plan-details">
                   <div class="plan-type">{{currentSubscriptionPlan?.subscription?.planName|uppercase}} PLAN  <i class="si-info"></i></div> 
                   <div class="plan-price">
-                   <span class="plan-crown-img" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'"><img src="assets/images/pricing-plan/plan-crown.svg" /></span> ${{currentSubscriptionPlan?.subscription?.planAmount}} <span class="plan-duration" *ngIf="currentSubscriptionPlan?.subscription?.planAmount>0">/ {{currentSubscriptionPlan?.subscription?.billingUnit}}</span>
+                   <span class="plan-crown-img" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'"><img src="assets/images/pricing-plan/plan-crown.svg" /></span> <span *ngIf="currentSubscriptionPlan?.subscription?.planAmount>=0">$</span>{{currentSubscriptionPlan?.subscription?.planAmount>=0?(currentSubscriptionPlan?.subscription?.planAmount):'CUSTOM '}} <span class="plan-duration" *ngIf="currentSubscriptionPlan?.subscription?.planAmount>0||((currentSubscriptionPlan?.subscription?.planName|lowercase)==='enterprise')">/ {{currentSubscriptionPlan?.subscription?.billingUnit}}</span>
                   </div>
                   <div class="plan-options">
                     <div class="plan-view">
@@ -45,7 +46,6 @@
                     </div>
                     <div class="plan-change">
                       <button class="kr-sg-button-ghost btn_md" (click)="selectModal('choose_plan')">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
-                      <!-- <button class="kr-sg-button-ghost btn_md" (click)="openPopup5();">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button> -->                      
                     </div>
                   </div>
                 </div>
@@ -74,25 +74,25 @@
                 <div class="plan-progress-bar-block">
                   <div class="plan-progress-bar-header-block">
                     <div class="plan-progress-bar-header">Documents</div>
-                    <div class="plan-progress-bar-count">{{usageDetails?.ingestDocs?.used}} <span class="total-count">/ {{usageDetails?.ingestDocs?.limit}}</span></div>
+                    <div class="plan-progress-bar-count" *ngIf="usageDetails?.ingestDocsLimit">{{usageDetails?.ingestDocsUsed}} <span class="total-count">/ {{usageDetails?.ingestDocsLimit}}</span></div>
                   </div>
                   <div class="plan-progress-bar">
-                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails.ingestDocs?.type" [value]="usageDetails.ingestDocs?.used" [max]="usageDetails.ingestDocs?.limit"></ngb-progressbar>
+                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails?.ingestDocs?.percentageUsed>80?'danger':(usageDetails?.ingestDocs?.percentageUsed>50&&usageDetails?.ingestDocs?.percentageUsed<=80)?'warning':'primary'" [value]="usageDetails.ingestDocs?.used" [max]="usageDetails.ingestDocs?.limit"></ngb-progressbar>
                   </div>
                 </div>
 
                 <div class="plan-progress-bar-block">
                   <div class="plan-progress-bar-header-block">
                     <div class="plan-progress-bar-header">Queries</div>
-                    <div class="plan-progress-bar-count">{{usageDetails?.searchQueries?.used}} <span class="total-count">/ {{usageDetails?.searchQueries?.limit}}</span></div>
+                    <div class="plan-progress-bar-count" *ngIf="usageDetails?.searchQueriesLimit">{{usageDetails?.searchQueriesUsed}} <span class="total-count">/ {{usageDetails?.searchQueriesLimit}}</span></div>
                   </div>
                   <div class="plan-progress-bar">
-                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails.searchQueries?.type" [value]="usageDetails.searchQueries?.used" [max]="usageDetails.searchQueries?.limit"></ngb-progressbar>
+                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails?.searchQueries?.percentageUsed>80?'danger':(usageDetails?.searchQueries?.percentageUsed>50&&usageDetails?.searchQueries?.percentageUsed<=80)?'warning':'primary'" [value]="usageDetails.searchQueries?.used" [max]="usageDetails.searchQueries?.limit"></ngb-progressbar>
                   </div>
                 </div>
               </div>
 
-              <button class="btn btn-add-overage" *ngIf="currentSubscriptionPlan?.overages.length===0; else overageUsage" (click)="selectModal('add_overage')"><span class="pr-2"><i class="si-grow-up-arrow"></i></span>Add Overage</button>              
+              <button class="btn btn-add-overage" [ngClass]="{'d-none':(currentSubscriptionPlan?.subscription?.planName|lowercase)==='enterprise'}" *ngIf="currentSubscriptionPlan?.overages.length===0; else overageUsage" (click)="selectModal('add_overage')"><span class="pr-2"><i class="si-grow-up-arrow"></i></span>Add Overage</button>              
               <ng-template #overageUsage>
               <div class="tile-plan-utilization plan-overview">
                 <div class="plan-current-and-overage">
@@ -104,19 +104,19 @@
                 <div class="plan-progress-bar-block">
                   <div class="plan-progress-bar-header-block">
                     <div class="plan-progress-bar-header">Documents</div>
-                    <div class="plan-progress-bar-count">13000 <span class="total-count">/ 20000</span></div>
+                    <div class="plan-progress-bar-count">{{usageDetails?.ingestDocsOverageUsed}} <span class="total-count">/ {{usageDetails?.ingestDocsOverageLimit}}</span></div>
                   </div>
                   <div class="plan-progress-bar">
-                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails.searchQueries?.type" [value]="usageDetails.searchQueries?.used" [max]="usageDetails.searchQueries?.limit"></ngb-progressbar>
+                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails?.ingestDocsUsedPercentage>80?'danger':(usageDetails?.ingestDocsUsedPercentage>50&&usageDetails?.ingestDocsUsedPercentage<=80)?'warning':'primary'" [value]="usageDetails?.ingestDocsOverageUsed" [max]="usageDetails?.ingestDocsOverageLimit"></ngb-progressbar>
                   </div>
                 </div>
                 <div class="plan-progress-bar-block">
                   <div class="plan-progress-bar-header-block">
                     <div class="plan-progress-bar-header">Queries</div>
-                    <div class="plan-progress-bar-count">13000 <span class="total-count">/ 20000</span></div>
+                    <div class="plan-progress-bar-count">{{usageDetails?.searchQueriesOverageUsed}} <span class="total-count">/ {{usageDetails?.searchQueriesOverageLimit}}</span></div>
                   </div>
                   <div class="plan-progress-bar">
-                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails.searchQueries?.type" [value]="usageDetails.searchQueries?.used" [max]="usageDetails.searchQueries?.limit"></ngb-progressbar>
+                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails?.searchQueriesUsedPercentage>80?'danger':(usageDetails?.searchQueriesUsedPercentage>50&&usageDetails?.searchQueriesUsedPercentage<=80)?'warning':'primary'" [value]="usageDetails?.searchQueriesOverageUsed" [max]="usageDetails?.searchQueriesOverageLimit"></ngb-progressbar>
                   </div>
                 </div>
               </div>
@@ -219,7 +219,8 @@
                   <div class="plan-current-status">Current Plan</div>
                 </div>
                 <div class="plan-cost-details">
-                  <div class="plan-cost">${{currentSubscriptionPlan?.subscription?.planAmount}} <span class="plan-duration-type">{{(plan?.name|lowercase)!=='free'?'/ ':''}}{{(plan?.name|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.billingUnit}}</span></div>
+                  <div class="plan-cost" [ngClass]="{'d-none':(currentSubscriptionPlan?.subscription?.planName|lowercase)==='enterprise'}">${{currentSubscriptionPlan?.subscription?.planAmount}} <span class="plan-duration-type">{{(plan?.name|lowercase)!=='free'?'/ ':''}}{{(plan?.name|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.billingUnit}}</span></div>
+                  <div class="plan-cost" [ngClass]="{'d-none':['free','standard'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}">Custom Plans</div>
                 </div>
               </div>
               <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>
@@ -227,7 +228,7 @@
             <div class="plan-tag-line">
               <div>{{plan?.description}}</div>
             </div>
-            <div class="plan-upgrade-block">
+            <div class="plan-upgrade-block" [ngClass]="{'d-none':((currentSubscriptionPlan?.subscription?.planName|lowercase)==='enterprise')}">
               <button class="btn" (click)="selectModal('choose_plan')">Upgrade Plan</button>
             </div>
             <div class="plan-features-block">
@@ -239,7 +240,7 @@
                   <ng-container *ngFor="let feature of plan?.featureData|slice:0:featureLimit">
                     <div class="plan-feature-desc" *ngIf="feature?.displayOnBanner"><span class="icon-si"><i class="si-green-check"></i></span> {{(feature?.name)}} </div>
                   </ng-container>
-                  <div class="show-more" [ngClass]="{'d-none':featureLimit!==4}" (click)="featureLimit=(plan?.featureData?.length);"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span>23</span> more features </div>
+                  <div class="show-more" [ngClass]="{'d-none':(featureLimit!==6||['standard','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase))}" (click)="featureLimit=(plan?.featureData?.length);"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show 10  more features </div>
                   <div class="plan-sub-feature-hding"><strong>{{(plan?.name|lowercase)==='free'?'Self-Service Support':'Support'}}</strong></div>
                   <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>Kore.ai Community</div>
                   <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>Kore.ai Academy</div>

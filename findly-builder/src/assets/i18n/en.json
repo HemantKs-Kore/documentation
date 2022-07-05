@@ -828,14 +828,19 @@
         "cancel": "Cancel"
     },
     "invoices": {
-        "invoices": "Invoices",
+        "invoices": "Orders & Invoices",
         "current_plan": "Current Plan",
-        "invoices_id_caps": "INVOICE ID",
-        "BILLING_period": "BILLING period",
-        "invoice_amount_caps": "INVOICE AMOUNT",
+        "invoices_id_caps": "Order ID",
+        "BILLING_period": "Billing Cycle",
+        "plan_name":"Plan Name",
+        "order_status":"Order Status",
+        "details":"Details",
+        "invoice":"Invoice",
+        "invoice_amount_caps": "Amount",
         "subscription_caps": "SUBSCRIPTION",
         "invoice_date_caps": "INVOICE DATE",
-        "after_subscribing_to_any_of_the_plans_offered_your_invoices_will_appear_here": "After subscribing to any of the plans offered, your invoices will appear here"
+        "download_all": "Download All",
+        "no_invoice_log": "No Invoice Log Available"
     },
     "ussageLog": {
         "ussageLog": "Usage Log",
