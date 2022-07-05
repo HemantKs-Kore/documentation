@@ -19,9 +19,9 @@ app-mainmenu{
 			transition: 0.33s;	
 			z-index: 2;
 			.perfect-scroll{
-				&.if-upgrade-plan{
-					height: calc(100% - 76px);
-				}
+				// &.if-upgrade-plan{
+				// 	height: calc(100% - 76px);
+				// }
 				.list-group{
 					padding: 10px 20px;
 					cursor: pointer;
@@ -481,11 +481,12 @@ app-mainmenu{
 
 .upgrade_your_plan_price{
 	position: absolute;
-    bottom: 24px;
-    width: 185px;
+    bottom: 10px;
+    width: 195px;
     margin: 0 auto;
     left: 0;
     right: 0;
+	z-index: 1;
 	.status-type{
 		width: 12px;
 		height: 12px;		
@@ -494,10 +495,6 @@ app-mainmenu{
 		right: -5px;
 		//background: #FFDA2D;
 		top: -5px;
-		&.red{
-			background: #DD3646;
-			border: 2px solid #EFF0F1;
-		}
 	}
 	&:hover{
 		.hover-documnet-show-data{
@@ -509,14 +506,15 @@ app-mainmenu{
 		}
 	}
 	.upgrade-plan-btn{
-		background: linear-gradient(180deg, rgba(221, 54, 70, 0.3) 0%, rgba(255, 255, 255, 0) 100%), rgba(112, 39, 229, 0.8);
+		// background: linear-gradient(180deg, rgba(221, 54, 70, 0.3) 0%, rgba(255, 255, 255, 0) 100%), rgba(112, 39, 229, 0.8);
+		background: #93D3A2;
 		box-shadow: 0px 0px 5px rgb(13 110 253 / 20%);
 		border-radius: 4px;
 		height: 36px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: #F8F9FA;
+		color: #202124;
 		font-weight: normal;
 		font-size: 14px;
 		line-height: 20px;
@@ -524,7 +522,16 @@ app-mainmenu{
 		cursor: pointer;
 		img{
 			margin-left: 5px;
+		}		
+		.m-r-2{
+			margin-right: 8px;
 		}
+	}
+	.danger{
+		background: #FF784B;
+	}
+	.warning{
+		background:#FAB900;
 	}
 	.hover-documnet-show-data{
 		visibility: hidden;
@@ -537,7 +544,7 @@ app-mainmenu{
 		width: 283px;
 		height: 215px;
 		z-index: 999;
-		bottom: 15px;
+		bottom: 51px;
 		left: 225px;
 		padding: 18px 15px;
 		&::before{
@@ -648,6 +655,47 @@ app-mainmenu{
 			// 		}		
 			// 	}
 			// }
+		}
+	}
+	// upgrade plan subscription css strat
+	.product-subscription-alert{
+		background: #FFFFFF;
+		box-shadow: 0px 4px 8px rgba(32, 33, 36, 0.15);
+		border-radius: 4px;
+		padding: 15px 12px;
+		.product-subscription-desc{
+			color: #5F6368;
+			font-weight: 400;
+			font-size: 10px;
+			line-height: 12px;
+			margin: 0;
+		}
+		.product-subscription-img{
+			padding: 20px 0 15px 0;
+			// width: 50%;
+			display: flex;
+			align-items: center;
+			margin: 0 auto;
+		}
+		.bottm-btns{
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 10px 0 0 0;
+			.btn{
+				font-weight: 400;
+				font-size: 10px;
+				line-height: 12px;
+				color: #5F6368;
+				padding: 0.375rem 0rem;
+				cursor: pointer;
+				.si-close-red{
+					font-size: 8px;
+					&::before{
+						color: #5F6368;
+					}
+				}
+			}
 		}
 	}
 }

@@ -69,7 +69,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   updateUsageData: Subscription;
   currentPlan: any;
   upgradeBannerFlag: boolean;
-  componentType:any='';
+  componentType: any = '';
   @Input() show;
   @Input() settingMainMenu;
   @Input() sourceMenu;
@@ -97,21 +97,16 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       title: selection,
     };
     this.headerService.toggle(toogleObj);
-    if (selection =='weights'|| selection == 'synonyms'||selection=='stopWords'||selection=='resultranking'){
+    if (selection == 'weights' || selection == 'synonyms' || selection == 'stopWords' || selection == 'resultranking') {
       this.appSelectionService.updateTourConfig('configure');
     }
-    if (selection =='fields'|| selection == 'traits'||selection=='workbench'){
+    if (selection == 'fields' || selection == 'traits' || selection == 'workbench') {
       this.appSelectionService.updateTourConfig('indexing');
     }
   }
   //upgrade plan
-  upgrade(data?) {
-    if (data) {
-      this.plans.openChoosePlanPopup('choosePlans', { show: true, msg: data });
-    }
-    else {
-      this.plans.openChoosePlanPopup('choosePlans');
-    }
+  upgrade() {
+  this.plans?.openSelectedPopup('choose_plan');
   }
   reloadCurrentRoute() {
     let route = '/summary';
@@ -272,7 +267,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
             this.closeIndexModalPopup();
             this.errorToaster(errRes, errRes.error.errors[0].msg);
-            this.upgrade(errRes.error.errors[0].msg);
+            this.upgrade();
           }
           else {
             this.errorToaster(errRes, 'Failed to Create indexPipeline');
@@ -338,7 +333,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
             this.closeModalPopup();
             this.errorToaster(errRes, errRes.error.errors[0].msg);
-            this.upgrade(errRes.error.errors[0].msg);
+            this.upgrade();
           } else {
             this.errorToaster(errRes, 'Failed to Create searchconfig');
           }
@@ -580,7 +575,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         /**made changes on 24/02 as per new api contract in response we no longer use the key
          dockStatuses added updated code in 576 line*/
         // this.dockersList = res.dockStatuses;
-           this.dockersList = res;
+        this.dockersList = res;
       },
       errRes => {
         this.statusDockerLoading = false;

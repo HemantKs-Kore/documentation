@@ -631,10 +631,6 @@
         "post_billing_cycle": "Post billing cycle your app will not respond to the end users",
         "access_to_your_app_for_15_more_days": "However, you will have access to your app for 15 more days after the billing cycle is completed to reactivate  the plan. After 15 days your app will be permanently deleted",
         "reason_you_want_cancel": "What is the Reason you want to Cancel?",
-        "it’s_too_costly": "It’s too costly",
-        "found_another_product": "I found another product that fulfils my needs",
-        "don’t_use_it_enough": "I don’t use it enough",
-        "don’t_need_it_now": "I don’t need it now",
         "other": "Other",
         "comments": "Comments",
         "later": "Later",
@@ -674,7 +670,12 @@
         "delete_excess": "delete the excess Document, Index, Rules, Workbench stages and Experiments",
         "features": "FEATURES",
         "excess": "Excess",
-        "okay": "Okay"
+        "okay": "Okay",
+        "no_thanks": "No, Thanks",
+        "close": "Close",
+        "done": "Done",
+        "cancel_request_sent": "Cancel Request Sent",
+        "active":"Active"
     },
     "credentials": {
         "no_configured_credentials": "You haven’t configured any credentials yet!",
@@ -791,7 +792,9 @@
         "yes": "Yes",
         "no": "No",
         "no_content": "No content available",
-        "sync_progress": "Sync in progress"
+        "sync_progress": "Sync in progress",
+        "upgrade":"Upgrade",
+        "empty_connectors": "Oops!! Connectors is not available in your current Plan"
     },
     "actions": {
         "actions": "Actions",
@@ -827,14 +830,19 @@
         "cancel": "Cancel"
     },
     "invoices": {
-        "invoices": "Invoices",
+        "invoices": "Orders & Invoices",
         "current_plan": "Current Plan",
-        "invoices_id_caps": "INVOICE ID",
-        "BILLING_period": "BILLING period",
-        "invoice_amount_caps": "INVOICE AMOUNT",
+        "invoices_id_caps": "Order ID",
+        "BILLING_period": "Billing Cycle",
+        "plan_name":"Plan Name",
+        "order_status":"Order Status",
+        "details":"Details",
+        "invoice":"Invoice",
+        "invoice_amount_caps": "Amount",
         "subscription_caps": "SUBSCRIPTION",
         "invoice_date_caps": "INVOICE DATE",
-        "after_subscribing_to_any_of_the_plans_offered_your_invoices_will_appear_here": "After subscribing to any of the plans offered, your invoices will appear here"
+        "download_all": "Download All",
+        "no_invoice_log": "No Invoice Log Available"
     },
     "ussageLog": {
         "ussageLog": "Usage Log",
