@@ -336,6 +336,7 @@
                 width: 100%;
                 padding: 0 10px;
                 .user-details{
+                    
                     .user-name{
                         font-weight: 600;
                         font-size: 22px;
@@ -855,6 +856,11 @@
             line-height: 27px;
             color: #202124;
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            img{
+                margin-left: 6px;
+            }
         }
     }
     .on-b-progress-bar{
@@ -1057,9 +1063,10 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-start;
+                    position: relative;
                     .welcome-user-form{
                         width: 300px;
-                        padding-top: 55px;
+                        padding-top: 40px;
                         .create-app-data{
                             .label-text{
                                 font-weight: 500;
@@ -1070,9 +1077,17 @@
                             }
                         }
                     }
-                
                     .welcome-user-img{
-                
+                        position: absolute;
+                        right: 0;
+                        top: -52px;
+                        height: 100%;
+                        img{
+                            height: 350px;
+                            @media screen and (min-width: 1366px) {
+                                height: auto;
+                            }
+                        }
                     }
                 }
             

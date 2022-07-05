@@ -245,7 +245,7 @@
           <div class="ob-data-info">
             <div class="left-sec">
               <div class="user-details">
-                <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
+                <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} <img src="assets/icons/hand-hellow.svg"></div>
               </div>
               <div class="on-b-progress-bar">
                 <div *ngFor="let bar of progressBar;let i=index" class="not-active-bar" [ngClass]="{'active-bar': i==0}" ></div>
@@ -429,6 +429,9 @@
                 <!-- Last step app name -->
                 <ng-container *ngIf="steps=='displayApp'">
                   <div class="welcome-user-screen">
+                    <div class="welcome-user-img">
+                      <img src="assets/icons/onboarding/welcome-user-app-creation.png" title="welcome-user-app-creation" alt="welcome-user-app-creation" />
+                    </div>
                     <div class="welcome-user-form">
                       <div class="create-app-data">
                         <div class="kr-sg-input-text form-group">
@@ -442,11 +445,7 @@
                         </div>
                        </div>
                     </div>
-                    <div class="welcome-user-img">
-                      <img src="assets/icons/onboarding/welcome-user-app-creation.svg" title="welcome-user-app-creation" alt="welcome-user-app-creation" />
-                    </div>
                   </div>
-              
                 </ng-container>
               </div>
             </perfect-scrollbar>
