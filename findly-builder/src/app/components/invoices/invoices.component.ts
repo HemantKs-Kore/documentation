@@ -16,8 +16,8 @@ const FileSaver = require('file-saver');
 })
 export class InvoicesComponent implements OnInit, OnDestroy {
   invoices = [];
-  showSearch;
-  searchInvoice = '';
+  showSearch = false;
+  searchInvoice:string='';
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   selectedApp;
@@ -49,11 +49,6 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.loadInvoices();
-    // this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
-    //   this.loadInvoices();
-    // })
-    let subscription_data = this.appSelectionService.currentsubscriptionPlanDetails;
-    this.current_plan_name = subscription_data.subscription.planName;
   }
   toggleSearch() {
     if (this.showSearch && this.searchInvoice) {
@@ -168,8 +163,13 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     this.getInvoices(event.skip)
   }
 
+  downloadAll(){
+    this.invoices.forEach(item=>{
+      this.downloadInvoice(item?.viewInvoice,item?._id);
+    })
+  }
+
   downloadInvoice(url, invoiceId) {
-    // FileSaver.saveAs("https://httpbin.org/image", "image.jpg");
     FileSaver.saveAs(url + '&DownloadPdf=true', 'invoice_' + invoiceId + '.pdf');
   }
 

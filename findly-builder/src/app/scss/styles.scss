@@ -3174,6 +3174,18 @@ nouislider{
     }
 }
 
+.scoll-iframe-load-payment{
+    .ps-content{
+        height: 100%;
+        .modal-body{
+            height: 100%;
+            .plan-order-steps{
+                height: 100%;
+            }
+        }
+    }
+}
+
 // Test button in header
 
 .start-search-icon-div{

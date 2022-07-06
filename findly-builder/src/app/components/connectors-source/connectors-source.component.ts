@@ -4,7 +4,9 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
+import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 @Component({
   selector: 'app-connectors-source',
@@ -66,17 +68,29 @@ export class ConnectorsSourceComponent implements OnInit {
   searchField: string = '';
   isShowSearch: boolean = false;
   isloadingBtn: boolean = false;
+  pageLoading: boolean = false;
   total_records: number;
+  currentSubsciptionData: Subscription;
+  currentSubscriptionPlan: any;
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
   connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' }];
-
+  @ViewChild('plans') plans: UpgradePlanComponent;
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
   constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private appSelectionService: AppSelectionService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
-    this.getConnectors();
+    await this.appSelectionService.getCurrentSubscriptionData();
+    this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
+      this.currentSubscriptionPlan = res.subscription;
+      if (['Enterprise'].includes(this.currentSubscriptionPlan?.planName)) {
+        this.getConnectors();
+      }
+      else{
+        this.pageLoading = true;
+      }
+    })
     if (sessionStorage.getItem('connector') !== null) {
       const session_connector_data = sessionStorage.getItem('connector');
       this.sessionData = JSON.parse(session_connector_data);
@@ -100,6 +114,10 @@ export class ConnectorsSourceComponent implements OnInit {
       this.isPopupDelete = true;
       this.getConnectors();
     }
+  }
+  //upgrade plan
+  upgrade(){
+    this.plans?.openSelectedPopup('choose_plan');
   }
   //common for toast messages
   errorToaster(errRes, message) {
@@ -135,7 +153,7 @@ export class ConnectorsSourceComponent implements OnInit {
 
             }
           })
-        })
+        })        
       }
       if (this.connectorsData.length) {
         for (let item of this.Connectors) {
@@ -147,6 +165,7 @@ export class ConnectorsSourceComponent implements OnInit {
       else {
         this.availableConnectorsData = this.Connectors;
       }
+      this.pageLoading = true;
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get Connectors');
     });
@@ -312,7 +331,6 @@ export class ConnectorsSourceComponent implements OnInit {
     this.service.invoke('post.connector', quaryparms, payload).subscribe(res => {
       if (res) {
         this.connectorId = res?._id;
-        this.notificationService.notify('Connector Created Successfully', 'success');
         this.authorizeConnector(this.selectedConnector);
       }
     }, errRes => {
@@ -481,5 +499,8 @@ export class ConnectorsSourceComponent implements OnInit {
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
+  }
+  ngOnDestroy() {
+    this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : null;
   }
 }
