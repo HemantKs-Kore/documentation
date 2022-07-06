@@ -19,6 +19,7 @@ export class PricingComponent implements OnInit, OnDestroy {
   documentGraph: EChartOption;
   queryGraph: EChartOption;
   cancelSubscriptionModelPopRef: any;
+  revertCancelModelPopRef: any;
   cancellationCheckboxText: any = [{selected:false,name:'It’s too costly'}, {selected:false,name:'I found another product that fulfils my needs'}, {selected:false,name:'I don’t use it enough'},{selected:false,name:'I don’t need it now'}];
   termPlan = "Monthly";
   pageLoading: boolean = true;
@@ -42,6 +43,7 @@ export class PricingComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService) { }
   @ViewChild('cancelSubscriptionModel') cancelSubscriptionModel: KRModalComponent;
+  @ViewChild('revertCancelModel') revertCancelModel: KRModalComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
   optionNew = {
     title: {
@@ -158,6 +160,15 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.cancelSubscriptionModelPopRef.close();
     }
   }
+  //open | close revert cancel model
+  revertCancelModal(type){
+   if(type==='open'){
+     this.revertCancelModelPopRef = this.revertCancelModel.open();
+   }
+   else if(type==='close'){
+    if(this.revertCancelModelPopRef.close) this.revertCancelModelPopRef.close();
+   }
+  }
   //cancel subscription dialog(pro to standard)
   cancelProSubscription() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -263,7 +274,6 @@ export class PricingComponent implements OnInit, OnDestroy {
     }
     xAxisQueryData.length ? this.monthRange = xAxisQueryData[0] + ' - ' + xAxisQueryData[xAxisQueryData.length - 1] : this.monthRange = "Jan - June";
     this.queryGraph = {
-
       grid: {
         left: '10%',
         right: '4%',

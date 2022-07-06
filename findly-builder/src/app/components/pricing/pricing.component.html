@@ -9,7 +9,8 @@
     <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'&&(currentSubscriptionPlan?.subscription?.changesScheduledFor==='none')" (click)="cancelSubscriptionModal('open')"><i class="si-minus-circle-o"></i>Cancel Subscription</button>
     <button class="kr-sg-button-primary btn_lg" [ngClass]="{'d-none':(currentSubscriptionPlan?.subscription?.planName|lowercase)==='enterprise'}" (click)="selectModal('choose_plan')"><i class="si-publish si-icon"></i>Upgrade Plan</button>
     <button class="kr-sg-button-primary btn_lg" [ngClass]="{'d-none':(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='enterprise'}" (click)="selectModal('choose_plan')"><img src="assets/icons/pricing/move_down.png">  Downgrade Plan</button>
-    </div>
+    <!-- <button (click)="revertCancelModal('open')">Revert cancel</button>   -->
+  </div>
   </div>
     <div class="info-note proInfo row m-0" *ngIf="(bannerObj?.show)" [ngClass]="{'proInfoSuccess':bannerObj.type==='success','proInfoError':bannerObj.type==='failed','proInfoInfo':bannerObj.type==='downgrade','downGradeAlert':bannerObj.type==='downgrade'}">
       <div class="col-10 d-flex align-items-center p-0">
@@ -127,8 +128,7 @@
             <div class="tile-header">
               <span class="pr-1"><i class="si-graph-lines"></i></span> Usage Metrics <span><i class="si-info"></i></span>
             </div>
-            <div class="tile-chart"
-            [ngStyle]="{'opacity':isyAxisQuerydata?'none':'0.5','pointer-events':isyAxisQuerydata?'auto':'none'}">
+            <div class="tile-chart" [ngStyle]="{'opacity':isyAxisQuerydata?'none':'0.5','pointer-events':isyAxisQuerydata?'auto':'none'}">
             <div class="title">{{"plan.query_usage_analytics"| translate}} <span>| {{monthRange}}
                 ({{"plan.last_6_months"| translate}})</span></div>
             <div echarts [options]="queryGraph" class="demo-chart-graphMode" style="height: 320px;"></div>
@@ -204,6 +204,70 @@
   </div>
 </kr-modal>
 
+<!--Revert cancellation modal-->
+<kr-modal modalType="center" modalClass="modal_popups_ cancel_subscription_new" #revertCancelModel>
+  <div class="modal-header">
+    <div class="title">Revert cancellation</div>
+    <div class="close_icon" (click)="revertCancelModal('close')">
+      <img src="assets/icons/modal-close.svg">
+    </div>
+  </div>
+  <perfect-scrollbar>
+    <div class="modal-body">
+        <div class="row col-12 m-0 cancel-subscription-block">
+          <div class="col-6">
+            <div class="order-img">
+              <img src="assets/images/pricing-plan/plan-order/payment-hold.svg" class="order-stage-img" />
+            </div>
+          </div>
+          <div class="col-6">
+           <section class="cancel-subscription-section">
+            <div class="terms-list-block">
+              <div class="terms-list">
+                <div class="check-icon"><i class="si-check"></i></div>
+                <div>
+                  Your Subscription is valid till the end of billing cycle - {{currentSubscriptionPlan?.subscription?.endDate|date:'dd MMM yyyy'}}.
+                </div>
+              </div>
+              <div class="terms-list">
+                <div class="check-icon"><i class="si-check"></i></div>
+                <div>
+                  Post billing cycle your app will not respond to the end users
+                </div>
+              </div>
+              <div class="terms-list">
+                <div class="check-icon"><i class="si-check"></i></div>
+                <div>
+                  However, you will have access to your app for 15 more days after cancellantion to either reactive or take a backup of your application. After 15 days your app will be permanently deleted.
+                </div>
+              </div>
+            </div>
+            <div class="reason-header">What is the reason you want to cancel?</div>
+
+            <div class="reason-check-list">
+              <div class="group-checkbox">
+                <div class="kr-sg-checkbox d-block" *ngFor="let data of cancellationCheckboxText;let i=index">
+                  <input [id]="i" class="checkbox-custom cancel-checkbox" type="checkbox" (change)="data.selected=!data.selected">
+                  <label [for]="i" class="checkbox-custom-label">{{data?.name}}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="reason-comment">
+              <div class="kr-sg-input-text-area">
+                <div class="label-text">{{"plan.comments"| translate}}</div>
+                <textarea placeholder="Start typing here" id="cancel_comment_text" class="input-text"></textarea>
+              </div>
+            </div>
+           </section>
+          </div>
+        </div>
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer text-right">
+    <button class="kr-sg-button-primary btn_lg" [disabled]="btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>{{"plan.done"| translate}}</button>
+  </div>
+</kr-modal>
   <!-- View plan Modal -->
   <div class="modal fade" id="viewPlanModal">
     <div class="modal-dialog single-plan">

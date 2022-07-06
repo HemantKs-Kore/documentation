@@ -102,7 +102,7 @@ export class AppsListingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.checkForNewUser();
+    //this.checkForNewUser();
     $('.krFindlyAppComponent').removeClass('appSelected');
     //const apps = this.workflowService.findlyApps();
     //this.prepareApps(apps);
