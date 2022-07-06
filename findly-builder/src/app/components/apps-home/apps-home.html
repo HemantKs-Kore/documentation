@@ -3,7 +3,7 @@
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">{{'synonyms.please_wait' | translate }}</span>
   </div>
-  <ng-container *ngIf="!newUser && !loadingApps">
+  <ng-container *ngIf="!emptyApp && !loadingApps">
     <perfect-scrollbar class="dashboard-perfect-scroll">
       <div class="scrollContainer">
         <div class="findly-dashboard">
@@ -242,7 +242,7 @@
     </perfect-scrollbar>
   </ng-container>
     <!-- New Onbaording Data -->
-    <ng-container *ngIf="newUser &&!loadingApps">
+    <ng-container *ngIf="showBoarding &&!loadingApps">
       <div class="onboarding-new-user-data">
         <!-- Boarding screen -->
         <ng-container *ngIf="!steps && emptyApp">
