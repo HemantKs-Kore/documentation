@@ -245,7 +245,7 @@
     <ng-container *ngIf="newUser &&!loadingApps">
       <div class="onboarding-new-user-data">
         <!-- Boarding screen -->
-        <ng-container *ngIf="!steps">
+        <ng-container *ngIf="!steps && emptyApp">
           <div class="ob-data-info">
             <div class="left-sec">
               <div class="user-details">
