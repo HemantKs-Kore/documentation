@@ -961,7 +961,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   upgrade() {
-    this.plans.openChoosePlanPopup('choosePlans');
+    this.plans?.openSelectedPopup('choose_plan');
   }
   openModalPopup() {
     this.loadingFields = true;

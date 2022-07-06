@@ -195,12 +195,10 @@ export class AppSelectionService {
       title: '',
     };
     this.headerService.toggle(toogleObj);
-    const route = isDemo ? '/summary' : '/summary';
-    // this.router.navigate([route], { skipLocationChange: true });
-    this.routeChanged.next({ name: 'pathchanged', path: route });
+    this.routeChanged.next({ name: 'pathchanged', path: '/summary' });
     this.getInlineManualcall();
     if (isDemo) this.openSDKApp.next();
-    if(isDemo) this.routeChanged.next({ name: 'pathchanged', path: route , isDemo:true});
+    if(isDemo) this.routeChanged.next({ name: 'pathchanged', path: '/summary' , isDemo:true});
   }
   //get current subscription data
   getCurrentSubscriptionData() {
