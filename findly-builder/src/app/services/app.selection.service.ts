@@ -23,7 +23,7 @@ export class AppSelectionService {
   public currentSubscription = new Subject<any>();
   // public refreshSummaryPage = new Subject<any>();
   public updateUsageData = new Subject<any>();
-  public routeChanged = new BehaviorSubject<any>({ name: undefined, path: '' });
+  public routeChanged = new BehaviorSubject<any>({ name: undefined, path: '', isDemo:false});
   public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });
   public openSDKApp = new Subject<any>();
   public resumingApp = false;
@@ -195,11 +195,10 @@ export class AppSelectionService {
       title: '',
     };
     this.headerService.toggle(toogleObj);
-    const route = isDemo ? '/source' : '/summary';
-    // this.router.navigate([route], { skipLocationChange: true });
-    this.routeChanged.next({ name: 'pathchanged', path: route });
+    this.routeChanged.next({ name: 'pathchanged', path: '/summary' });
     this.getInlineManualcall();
     if (isDemo) this.openSDKApp.next();
+    if(isDemo) this.routeChanged.next({ name: 'pathchanged', path: '/summary' , isDemo:true});
   }
   //get current subscription data
   getCurrentSubscriptionData() {

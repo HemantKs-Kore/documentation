@@ -42,7 +42,8 @@ export class KRModalComponent implements OnInit, AfterViewInit {
     const config: any = {
       backdropClass: 'kr-back-drop',
       windowClass: 'kr-modal',
-      backdrop: 'static'
+      backdrop: 'static',
+      keyboard : false
     };
     if (this.modalClass) {
       config.windowClass = config.windowClass + ' ' + this.modalClass;
@@ -54,14 +55,16 @@ export class KRModalComponent implements OnInit, AfterViewInit {
       _.extend(config, {
         backdropClass: 'kr-back-drop full-back-drop',
         windowClass: 'kr-modal kr-full ' + (this.modalClass || ''),
-        backdrop: 'static'
+        backdrop: 'static',
+        keyboard : false
       });
     }
     if (this.modalType === this.modalTypes.CENTER) {
       _.extend(config, {
         backdropClass: 'kr-back-drop full-back-drop',
         windowClass: 'kr-modal kr-center ' + (this.modalClass || ''),
-        backdrop: 'static'
+        backdrop: 'static',
+        keyboard : false
       });
     }
 
@@ -69,7 +72,8 @@ export class KRModalComponent implements OnInit, AfterViewInit {
       _.extend(config, {
         backdropClass: 'kr-back-drop no-back-drop',
         windowClass: 'kr-modal kr-center ' + (this.modalClass || ''),
-        backdrop: 'static'
+        backdrop: 'static',
+        keyboard : false
       });
     }
 
@@ -77,7 +81,8 @@ export class KRModalComponent implements OnInit, AfterViewInit {
       _.extend(config, {
         backdropClass: 'kr-back-drop above-modal-drop-class',
         windowClass: 'kr-modal kr-center ' + (this.modalClass || ''),
-        backdrop: 'static'
+        backdrop: 'static',
+        keyboard : false
       });
     }
 
@@ -85,7 +90,8 @@ export class KRModalComponent implements OnInit, AfterViewInit {
       _.extend(config, {
         backdropClass: 'kr-back-drop',
         windowClass: 'kr-modal kr-slide ' + (this.modalClass || ''),
-        backdrop: 'static'
+        backdrop: 'static',
+        keyboard : false
       });
     }
 

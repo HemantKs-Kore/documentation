@@ -28,6 +28,7 @@ export class AppsListingComponent implements OnInit {
   SearchExperianceType: string = '';
   appsData: any;
   streamID: any;
+  private storageType = 'localStorage';
   searchIndexID: any;
   demoOptions: boolean = false;
   createAppPopRef: any;
@@ -41,6 +42,7 @@ export class AppsListingComponent implements OnInit {
   progressBar: any = [];
   stepBar = 1;
   displayApp: boolean = false;
+  newUser:boolean = false;
   hideWelcomepage: boolean = true;
   showSearchExperices: boolean = false;
   validateAppname: boolean = false;
@@ -63,6 +65,7 @@ export class AppsListingComponent implements OnInit {
   carousel: any = [];
   carouselTemplateCount = 0;
   searchFocusIn = false;
+  loadingApps = true;
   newApp: any = {
     name: '',
     description: ''
@@ -99,15 +102,40 @@ export class AppsListingComponent implements OnInit {
   }
 
   ngOnInit() {
+    // this.checkForNewUser();
     $('.krFindlyAppComponent').removeClass('appSelected');
     //const apps = this.workflowService.findlyApps();
     //this.prepareApps(apps);
-    this.getAllApps();
+      this.getAllApps();
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
     // this.buildCarousel();    
   }
+   //Checks whether user is new or not
+   checkForNewUser(){
+    let accountId:any;
+    let selectAccountDetail = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
+    let currentAccountDetail = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')) : {};
+    let currentAccountID = currentAccountDetail?currentAccountDetail?.currentAccount?.accountId:null;
+    if(!selectAccountDetail){
+      accountId = currentAccountID;
+    }
+    else if(selectAccountDetail && selectAccountDetail.accountId){
+      accountId = selectAccountDetail.accountId;
+    }
+    if(accountId){
+      const quaryParms: any = {
+        accountId : accountId
+      };
+      this.service.invoke('get.checkNewUser',quaryParms).subscribe(res => {
+        this.newUser = !res.isInitialAppCreated;
+      }, errRes => {
+        this.notificationService.notify('Checking for New User has gone wrong ', 'error');
+      });  
+    }
+   }
+
   //call mixpanel api for tellmemore button
   callMixPanel() {
     this.mixpanel.postEvent('User Onboarding - Journey Started', {});
@@ -128,9 +156,9 @@ export class AppsListingComponent implements OnInit {
     this.workflowService.selectedIndexPipelineId = '';
   }
   openBoradingJourney() {
-    this.headerService.openJourneyForfirstTime = true;
-    this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
-    this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
+        this.headerService.openJourneyForfirstTime = true;
+      this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
+      this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
   }
   closeBoradingJourney() {
     if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
@@ -173,10 +201,9 @@ export class AppsListingComponent implements OnInit {
     if (this.steps == 'demoOptions' && this.demoType) {
       this.steps = 'showSearchExperience';
       this.SearchExperianceType ='top';
-      this.progressBarFun(3, 2)
+      this.progressBarFun(4, 3)
     }
     else if (this.steps == 'showSearchExperience' && this.SearchExperianceType) {
-      this.progressBarFun(3, 3);
       this.appCreationAtOnboarding();
     }
     else if (this.steps == 'showSearchExperience' && !this.SearchExperianceType) {
@@ -186,6 +213,7 @@ export class AppsListingComponent implements OnInit {
       if (this.displayApp = true && this.newApp.name) {
         this.steps = 'demoOptions';
         this.demoType = 'e-commerce';
+        this.progressBarFun(4, 2)
       }
       else {
         this.validateAppname = true;
@@ -212,10 +240,12 @@ export class AppsListingComponent implements OnInit {
     if (this.steps == 'showSearchExperience') {
       this.steps = 'demoOptions';
       this.SearchExperianceType = '';
+      this.progressBarFun(4, 2)
     }
     else if (this.steps == 'demoOptions') {
       this.steps = 'displayApp';
       this.demoType = '';
+      this.progressBarFun(4, 1)
     }
     else if (this.steps == 'displayApp') {
       this.steps = '';
@@ -294,29 +324,17 @@ export class AppsListingComponent implements OnInit {
           this.closeConfirmApp();
           this.apps = this.apps.filter((val) => { return val._id != this.slectedAppId });
           this.prepareApps(this.apps);
-          // this.getAllApps();
           this.selectedAppType(this.app_type);
           this.confirmApp = '';
+          if(!this.apps.length){
+          this.emptyApp = true;
+          this.showBoarding = true;
+          }
         }
       }, errRes => {
         this.notificationService.notify('Deletion has gone wrong.', 'error');
       });
     }
-    // for (let i=0; i<this.apps.length; i++){
-    // if (this.apps[i].name === this.confirmApp){
-    // let quaryparms: any = {};
-    // quaryparms.streamId = this.apps[i]._id;
-    //  this.service.invoke('delete.app', quaryparms).subscribe(res => {
-    //  if (res) {
-    //           this.notificationService.notify('Deleted Successfully', 'success');
-    //           this. closeDeleteApp();
-    //           this.getAllApps();
-    //         }
-    //       }, errRes => {
-    //         this.notificationService.notify('Deletion has gone wrong.', 'error');
-    //       });
-    //  }
-    // }
   }
   openUnlinkApp(event, appInfo) {
     this.unlinkPop = true;
@@ -373,7 +391,7 @@ export class AppsListingComponent implements OnInit {
     }, 100);
   }
   //get all apps
-  emptyApp: boolean;
+  emptyApp: boolean = true;
   showBoarding: boolean = true;
   public getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
@@ -411,6 +429,7 @@ export class AppsListingComponent implements OnInit {
           }
         }
       }
+      this.loadingApps = false;
       this.clearAccount();
       //this.checkForSharedApp();
     }, errRes => {
@@ -491,6 +510,7 @@ export class AppsListingComponent implements OnInit {
     if (res.length > 0) {
       this.emptyApp = true;
     }
+    this.appSelectionService.getTourConfig();
   }
   // create demo app API
   createDemoApp(obj?) {
@@ -506,8 +526,7 @@ export class AppsListingComponent implements OnInit {
           if (res) {
             this.openAppLoadingScreen();
             this.polling();
-            this.appSelectionService.getTourConfig();
-            this.headerComp.viewCheckList();
+            $('body').addClass('demoScenarioCssForInlinemanual');
           }
         },
         errRes => {
@@ -534,6 +553,7 @@ export class AppsListingComponent implements OnInit {
         this.openCreatedApp();
       }
       else if ((doc_status[0].status === 'FAILURE' || doc_status[0].status === "FAILED") && doc_status[0].jobType === "TRAINING") {
+        clearInterval(this.pollingInterval);
         this.CloseAppLoadingScreen();
         this.notificationService.notify(doc_status[0].message, 'error');
       }

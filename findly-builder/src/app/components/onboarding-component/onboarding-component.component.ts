@@ -956,4 +956,9 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
     });
   }
 
+  goToLink(url: string) {
+    if(url.length > 0 ) {
+      window.open(url, "_blank");
+    }
+}
 }

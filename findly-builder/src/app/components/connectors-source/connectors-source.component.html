@@ -1,5 +1,21 @@
 <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-<div class="connectors-container">
+<div class="mainLoadingSpinner" *ngIf="!pageLoading">
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
+  </div>
+<!--check for enterprise plan-->
+<ng-container *ngIf="(currentSubscriptionPlan?.planName|lowercase)!=='enterprise'&&pageLoading">
+    <div class="upgrade-experience">
+      <div class="img-block">
+        <img src="assets/icons/pricing/upgrade-experience.png">
+      </div>
+      <div class="title">{{"connectors.empty_connectors"| translate}}</div>
+      <button class="kr-sg-button-primary btn_lg" (click)="upgrade()">{{"connectors.upgrade"| translate}}</button>
+    </div>
+  </ng-container>
+  <!--check for enterprise plan-->
+  <!--If plan is enterprise show below container-->
+<div class="connectors-container" *ngIf="(currentSubscriptionPlan?.planName|lowercase)==='enterprise'&&pageLoading">
     <div class="seach_add_feild">
         <div class="title">{{'connectors.connector'|translate}}</div>
         <div class="d-flex align-items-center">
@@ -511,3 +527,5 @@
         </div>
     </div>
 </kr-modal>
+
+<app-upgrade-plan #plans></app-upgrade-plan>

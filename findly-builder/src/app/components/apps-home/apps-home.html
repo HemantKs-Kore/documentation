@@ -1,8 +1,12 @@
 <div class="emptyStateContainer" aria-live="polite">
-  <ng-container *ngIf="!emptyApp">
+  <div class="mainLoadingSpinner" *ngIf="loadingApps">
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">{{'synonyms.please_wait' | translate }}</span>
+  </div>
+  <ng-container *ngIf="!emptyApp && !loadingApps">
     <perfect-scrollbar class="dashboard-perfect-scroll">
       <div class="scrollContainer">
-        <div class="findly-dashboard" *ngIf="!showBoarding">
+        <div class="findly-dashboard">
           <div class="main-heading d-none" role="doc-introduction">{{'WelcometoFindly' | translate}}</div>
           <div class="header-sec">
             <div class="row m-0 adjust-width">
@@ -44,9 +48,9 @@
                   <div class="e-title">Create your first app</div>
                 </div>
               </ng-container>
-              <div *ngIf="emptyApp" class="start-scrtch-user-data">
+              <div *ngIf="emptyApp && !loadingApps"  class="start-scrtch-user-data">
                 <div class="user-details">
-                  <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
+                  <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} <img src="assets/icons/hand-hellow.svg"></div>
                 </div>
                 <div class="title-start">Create your first Search Experience</div>
                 <div  class="add-scrtch-app" (click)="openCreateApp()">
@@ -60,10 +64,10 @@
                 </div>
               </div>
 
-              <ng-container *ngIf="!emptyApp">
-                <div class="m-title col-12 m-10">Recently Visited</div>
+              <ng-container>
+                <div *ngIf="!emptyApp && !loadingApps"  class="m-title col-12 m-10">Recently Visited</div>
                 <div class="cards-content" (click)="app.disabled?null:openApp(app)" *ngFor="let app of recentApps | filter: [ searchApp, 'name']" placement="top-center"
-                  [ngbTooltip]="app.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0">
+                  [ngbTooltip]="app.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0"[ngClass]="{'d-none': !apps.length && !loadingApps}">
                   <div class="box" [ngStyle]="app.disabled&&{'opacity':'0.4','cursor':'default'}">
                     <div class="content-sec">
                       <div class="name"><span>{{app.name}}</span></div>
@@ -238,14 +242,14 @@
     </perfect-scrollbar>
   </ng-container>
     <!-- New Onbaording Data -->
-    <ng-container *ngIf="showBoarding">
+    <ng-container *ngIf="showBoarding &&!loadingApps">
       <div class="onboarding-new-user-data">
         <!-- Boarding screen -->
         <ng-container *ngIf="!steps && emptyApp">
           <div class="ob-data-info">
             <div class="left-sec">
               <div class="user-details">
-                <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
+                <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} <img src="assets/icons/hand-hellow.svg"></div>
               </div>
               <div class="on-b-progress-bar">
                 <div *ngFor="let bar of progressBar;let i=index" class="not-active-bar" [ngClass]="{'active-bar': i==0}" ></div>
@@ -253,7 +257,7 @@
               <!-- <button style="width: 50px;height:15px" (click)="openAppLoadingScreen()"></button> -->
               <div class="title-start">How would you like to create your first app?</div>
               <div class="explore-data-cards">
-                <div  class="explore-card sample-data"  (mouseenter)="progressBarFun(3,1)" (mouseleave)="progressBarFun(0,0)" (click)="welcomeStep('sampleData')">
+                <div  class="explore-card sample-data"  (mouseenter)="progressBarFun(4,1)" (mouseleave)="progressBarFun(0,0)" (click)="welcomeStep('sampleData')">
                   <div class="icon-block">
                     <img src="assets/icons/onboarding/sample-data.svg">
                   </div>
@@ -299,7 +303,7 @@
             <perfect-scrollbar>
               <div class="scroll-data">
                 <div class="user-details">
-                  <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
+                  <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} <img src="assets/icons/hand-hellow.svg"></div>
                 </div>
                 <div class="on-b-progress-bar">
                   <div *ngFor="let bar of progressBar;let i=index" class="not-active-bar" [ngClass]="{'active-bar': i<=stepBar}"></div>
@@ -428,17 +432,24 @@
 
                 <!-- Last step app name -->
                 <ng-container *ngIf="steps=='displayApp'">
-                 <div class="create-app-data">
-                  <div class="kr-sg-input-text">
-                    <div class="label-text">App Name</div>
-                    <input type="text"  [(ngModel)]="newApp.name" placeholder="Type The App Name" class="input-text" [ngClass]="{'error' : validateAppname }">
-                    <div class="error-msg" *ngIf="validateAppname">Enter The App Name</div>
-                    <div class="kr-sg-input-text">
-                      <div class="label-text">Description</div>
-                      <input class="text" placeholder="Enter App Description" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
+                  <div class="welcome-user-screen">
+                    <div class="welcome-user-img">
+                      <img src="assets/icons/onboarding/welcome-user-app-creation.png" title="welcome-user-app-creation" alt="welcome-user-app-creation" />
+                    </div>
+                    <div class="welcome-user-form">
+                      <div class="create-app-data">
+                        <div class="kr-sg-input-text form-group">
+                          <div class="label-text">App Name</div>
+                          <input type="text"  [(ngModel)]="newApp.name" placeholder="Type The App Name" class="input-text" [ngClass]="{'error' : validateAppname }">
+                          <div class="error-msg" *ngIf="validateAppname">Enter The App Name</div>
+                        </div>
+                        <div class="kr-sg-input-text-area form-group">
+                          <div class="label-text">Description</div>
+                          <textarea class="input-text" [(ngModel)]="newApp.description" placeholder="Enter App Description" autocomplete="off"  name="appDesc"></textarea>
+                        </div>
+                       </div>
                     </div>
                   </div>
-                 </div>
                 </ng-container>
               </div>
             </perfect-scrollbar>
@@ -736,7 +747,8 @@
     <!-- <img src="assets/icons/loadingScreen.svg"> -->
   </div>
   <div class="loading-text">Loading...</div>
-  <div class="text-desc">Uploading sample data to your app</div>
+  <!-- <div class="text-desc">Uploading sample data to your app</div> -->
+  <div class="text-desc"><img src="assets/icons/onboarding/Loading-text-gif.gif"></div>
   <!-- <div class="text-desc">Applying default search configurations to your app</div>
   <div class="text-desc">Configuring search experiences to your app</div> -->
  </div>

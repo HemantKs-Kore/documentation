@@ -14,6 +14,7 @@ import { OnboardingComponentComponent } from 'src/app/components/onboarding-comp
 import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { from, interval, Subject, Subscription } from 'rxjs';
 import { environment } from '@kore.environment';
 import { startWith, elementAt } from 'rxjs/operators';
@@ -165,6 +166,7 @@ export class AppHeaderComponent implements OnInit {
     private localStoreService: LocalStoreService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
+    public mixpanel: MixpanelServiceService,
     public dockService: DockStatusService,
     private appSelectionService: AppSelectionService,
   ) {
@@ -185,6 +187,9 @@ export class AppHeaderComponent implements OnInit {
     this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
       if (res.name != undefined) {
         this.analyticsClick(res.path, false);
+      }
+      if (res?.isDemo == true) {
+        this.viewCheckList();
       }
     })
     this.toShowAppHeader = this.workflowService.showAppCreationHeader();
@@ -382,6 +387,9 @@ export class AppHeaderComponent implements OnInit {
 
 
   switchAccountInternal(account) {
+    if(account.alreadyJoined) {
+
+    }
     window[this.storageType].setItem('selectedAccount', JSON.stringify(account))
     this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
     // let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
@@ -1472,6 +1480,7 @@ export class AppHeaderComponent implements OnInit {
   viewCheckList() {
     this.openUserMetaTagsSlider();
     this.onBoardingComponent.openCheckList();
+    this.mixpanel.postEvent('SETUP - Enter Add data',{})
   }
   openSDK() {
     this.openOrCloseSearchSDK();

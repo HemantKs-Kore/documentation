@@ -960,7 +960,7 @@ export class AppExperimentsComponent implements OnInit {
   }
   //upgrade plan
   upgrade() {
-    this.plans.openChoosePlanPopup('choosePlans');
+    this.plans?.openSelectedPopup('choose_plan');
   }
   focusoutSearch() {
     if (this.activeClose) {
