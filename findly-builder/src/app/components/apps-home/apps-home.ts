@@ -560,6 +560,7 @@ export class AppsListingComponent implements OnInit {
         this.openCreatedApp();
       }
       else if ((doc_status[0].status === 'FAILURE' || doc_status[0].status === "FAILED") && doc_status[0].jobType === "TRAINING") {
+        clearInterval(this.pollingInterval);
         this.CloseAppLoadingScreen();
         this.notificationService.notify(doc_status[0].message, 'error');
       }
