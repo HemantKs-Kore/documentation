@@ -387,6 +387,9 @@ export class AppHeaderComponent implements OnInit {
 
 
   switchAccountInternal(account) {
+    if(account.alreadyJoined) {
+
+    }
     window[this.storageType].setItem('selectedAccount', JSON.stringify(account))
     this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
     // let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
