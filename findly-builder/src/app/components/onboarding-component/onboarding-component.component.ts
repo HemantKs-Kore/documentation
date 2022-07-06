@@ -129,39 +129,42 @@ export class OnboardingComponentComponent implements OnInit {
     }]
 }];
 
-faqData = [{
-  display:"Apps",
-  key:"apps",
-  icon:"",
-  childData:[{
-      ques:"What are the Questions?",
-      ans:"these are the Answer",
-      link:""
+faqData = [
+//   {
+//   display:"Apps",
+//   key:"apps",
+//   icon:"",
+//   childData:[
+//     {
+//       ques:"What are the Questions?",
+//       ans:"these are the Answer",
+//       link:""
 
-  },
-  {
-    ques:"What are the Questions?",
-    ans:"these are the Answer",
-    link:""
+//   },
+//   {
+//     ques:"What are the Questions?",
+//     ans:"these are the Answer",
+//     link:""
 
-}]
-},
-{
-   display:"Overview",
-   key:"summary",
-   icon:"",
-   childData:[{
-       ques:"What are the Questions?",
-       ans:"these are the answer",
-       link:""
+// }]
+// },
+// {
+//    display:"Overview",
+//    key:"summary",
+//    icon:"",
+//    childData:[{
+//        ques:"What are the Questions?",
+//        ans:"these are the answer",
+//        link:""
 
-   }]
-},
+//    }]
+// },
 {
    display:"Source",
    key:"source",
    icon:"",
-   childData:[{
+   childData:[
+    {
        ques:"What are the Questions?",
        ans:"these are the answer",
        link:"https://docs.kore.ai/searchassist/searchassist/overview/"
@@ -348,12 +351,13 @@ faqData = [{
    display:"Workbench",
    key:"index",
    icon:"",
-   childData:[{
-     ques:"What is a workbench?",
-     ans:"these are the answer",
-     link:""
+   childData:[
+  //   {
+  //    ques:"What is a workbench?",
+  //    ans:"these are the answer",
+  //    link:""
 
-   },
+  //  },
    {
     ques:"What are the different pipelines available in the workbench?",
     ans:"these are the answer",
@@ -489,26 +493,27 @@ faqData = [{
 
 }]
 },
-{
-   display:"Metrics",
-   key:"metrics",
-   icon:"",
-   childData:[{
-       ques:"What are the Questions?",
-       ans:"these are the answer",
-       link:""
+// {
+//    display:"Metrics",
+//    key:"metrics",
+//    icon:"",
+//    childData:[{
+//        ques:"What are the Questions?",
+//        ans:"these are the answer",
+//        link:""
 
-   }]
-},
+//    }]
+// },
 {
    display:"Dash Boards",
    key:"dashboard",
    icon:"",
-   childData:[{
-       ques:"What are the Questions?",
-       ans:"these are the answer",
-       link:""
-   },
+   childData:[
+  //   {
+  //      ques:"What are the Questions?",
+  //      ans:"these are the answer",
+  //      link:""
+  //  },
     {
       ques:"How do I check metrics for a particular date range?",
       ans:"these are the answer",
@@ -606,39 +611,39 @@ faqData = [{
 
    }]
 },
-{
-   display:"Actions",
-   key:"actions",
-   icon:"",
-   childData:[{
-       ques:"What are the Questions?",
-       ans:"these are the answer",
-       link:""
+// {
+//    display:"Actions",
+//    key:"actions",
+//    icon:"",
+//    childData:[{
+//        ques:"What are the Questions?",
+//        ans:"these are the answer",
+//        link:""
 
-   }]
-},
-{
-   display:"SmallTalk",
-   key:"smallTalk",
-   icon:"",
-   childData:[{
-       ques:"What are the Questions?",
-       ans:"these are the answer",
-       link:""
+//    }]
+// },
+// {
+//    display:"SmallTalk",
+//    key:"smallTalk",
+//    icon:"",
+//    childData:[{
+//        ques:"What are the Questions?",
+//        ans:"these are the answer",
+//        link:""
 
-   }]
-},
-{
-   display:"General Settings",
-   key:"generalSettings",
-   icon:"",
-   childData:[{
-       ques:"What are the Questions?",
-       ans:"these are the answer",
-       link:""
+//    }]
+// },
+// {
+//    display:"General Settings",
+//    key:"generalSettings",
+//    icon:"",
+//    childData:[{
+//        ques:"What are the Questions?",
+//        ans:"these are the answer",
+//        link:""
 
-   }]
-},
+//    }]
+// },
 {
    display:"Field Management",
    key:"FieldManagementComponent",
@@ -722,51 +727,52 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
        link:"https://docs.kore.ai/searchassist/managing-searchassist-apps/collaboration/"
 
    }]
-},
-{
-   display:"Search Experience",
-   key:"search-experience",
-   icon:"",
-   childData:[{
-    ques:"What are the Questions?",
-    ans:"these are the answer",
-    link:""
+}
+// {
+//    display:"Search Experience",
+//    key:"search-experience",
+//    icon:"",
+//    childData:[{
+//     ques:"What are the Questions?",
+//     ans:"these are the answer",
+//     link:""
 
-}]
-},
-{
-   display:"Pricing",
-   key:"pricing",
-   icon:"",
-   childData:[{
-       ques:"What are the Questions?",
-       ans:"these are the answer",
-       link:""
+// }]
+// },
+// {
+//    display:"Pricing",
+//    key:"pricing",
+//    icon:"",
+//    childData:[{
+//        ques:"What are the Questions?",
+//        ans:"these are the answer",
+//        link:""
 
-   }]
-},
-{
-   display:"Invoices",
-   key:"invoices",
-   icon:"",
-   childData:[{
-       ques:"What are the Questions?",
-       ans:"these are the answer",
-       link:""
+//    }]
+// },
+// {
+//    display:"Invoices",
+//    key:"invoices",
+//    icon:"",
+//    childData:[{
+//        ques:"What are the Questions?",
+//        ans:"these are the answer",
+//        link:""
 
-   }]
-},
-{
-   display:"UsageLog",
-   key:"usageLog",
-   icon:"",
-   childData:[{
-       ques:"What are the Questions?",
-       ans:"these are the answer",
-       link:""
+//    }]
+// },
+// {
+//    display:"UsageLog",
+//    key:"usageLog",
+//    icon:"",
+//    childData:[{
+//        ques:"What are the Questions?",
+//        ans:"these are the answer",
+//        link:""
 
-   }]
-}];
+//    }]
+// }
+];
 
   constructor(
     private appSelectionService: AppSelectionService,
