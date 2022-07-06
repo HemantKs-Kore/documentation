@@ -128,10 +128,9 @@
             <div class="tile-header">
               <span class="pr-1"><i class="si-graph-lines"></i></span> Usage Metrics <span><i class="si-info"></i></span>
             </div>
-            <div class="tile-chart" [ngStyle]="{'opacity':isyAxisQuerydata?'none':'0.5','pointer-events':isyAxisQuerydata?'auto':'none'}">
-            <div class="title">{{"plan.query_usage_analytics"| translate}} <span>| {{monthRange}}
-                ({{"plan.last_6_months"| translate}})</span></div>
-            <div echarts [options]="queryGraph" class="demo-chart-graphMode" style="height: 320px;"></div>
+            <div class="tile-chart">
+            <div class="title">{{"plan.query_usage_analytics"| translate}}</div>
+            <div echarts [options]="queryGraph" style="height: 320px;"></div>
           </div>
           </div>
         </div>

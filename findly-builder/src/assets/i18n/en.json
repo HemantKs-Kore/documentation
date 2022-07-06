@@ -607,7 +607,7 @@
         "usage_metrics": "Usage Metrics",
         "document_ingestion_analytics": "Document Ingestion Analytics",
         "last_6_months": "Last 6 Months",
-        "query_usage_analytics": "Query Usage Analytics",
+        "query_usage_analytics": "Ingestion Analytics",
         "overage_plan": "Overage Plan",
         "overage_desc": "The document/query is reaching maximum limit for your current plan. No worries, We got you covered!!",
         "add": "Add",

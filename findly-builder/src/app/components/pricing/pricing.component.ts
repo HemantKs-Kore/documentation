@@ -16,16 +16,79 @@ declare var $: any;
   styleUrls: ['./pricing.component.scss']
 })
 export class PricingComponent implements OnInit, OnDestroy {
+  option = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'none'
+      },
+      formatter: `
+      <div class="metrics-tooltips-hover agent_drop_tolltip">
+      <div>
+        <div class="main-title">Query Usage on</div>
+      </div> 
+    </div>
+    `,
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: [{
+      type: 'category',
+      data: ['OCT', 'NOV', 'DEC', 'JAN', 'FEB', 'MAR', 'FEB'],
+      axisLine: {
+        show: false,
+      },
+      axisTick: {
+        show: false,
+      },
+    }, {
+      position: 'bottom',
+      offset: 15,
+      axisLine: {
+        show: false,
+      },
+      axisTick: {
+        show: false,
+      },
+      data: ['2021', '2021', '2021', '2021', '2021', '2021', '2021']
+    }],
+    yAxis: {
+      type: 'value',
+      boundaryGap: [0, 0.01],
+    },
+    series: [
+      {
+        type: 'bar',
+        data: [18203, 23489, 29034, 104970, 131744, 630230],
+        barWidth: 10,
+        barCategoryGap: '10%',
+        itemStyle: { normal: { color: '#FFBCA5' } },
+        emphasis: { itemStyle: { color: "#ff8000" } },
+      },
+      {
+        type: 'bar',
+        data: [19325, 23438, 31000, 121594, 134141, 681807],
+        barWidth: 10,
+        barCategoryGap: '10%',
+        itemStyle: { normal: { color: '#B893F2' } },
+        emphasis: { itemStyle: { color: "#7027E5" } },
+      }
+    ]
+  };
   documentGraph: EChartOption;
   queryGraph: EChartOption;
   cancelSubscriptionModelPopRef: any;
   revertCancelModelPopRef: any;
-  cancellationCheckboxText: any = [{selected:false,name:'It’s too costly'}, {selected:false,name:'I found another product that fulfils my needs'}, {selected:false,name:'I don’t use it enough'},{selected:false,name:'I don’t need it now'}];
+  cancellationCheckboxText: any = [{ selected: false, name: 'It’s too costly' }, { selected: false, name: 'I found another product that fulfils my needs' }, { selected: false, name: 'I don’t use it enough' }, { selected: false, name: 'I don’t need it now' }];
   termPlan = "Monthly";
   pageLoading: boolean = true;
-  featureLimit:number=6;
-  btnLoader:boolean=false;
-  bannerObj={msg:'',show:false,type:''};
+  featureLimit: number = 6;
+  btnLoader: boolean = false;
+  bannerObj = { msg: '', show: false, type: '' };
   currentSubscriptionPlan: any;
   selectedApp;
   serachIndexId;
@@ -45,74 +108,11 @@ export class PricingComponent implements OnInit, OnDestroy {
   @ViewChild('cancelSubscriptionModel') cancelSubscriptionModel: KRModalComponent;
   @ViewChild('revertCancelModel') revertCancelModel: KRModalComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
-  optionNew = {
-    title: {
-      text: 'World Population'
-    },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'none'
-      }
-    },
-    legend: {},
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true
-    },
-    xAxis: [{
-      type: 'category',
-      data: ['OCT', 'NOV', 'DEC', 'JAN', 'FEB',
-      'MAR' , 'FEB'],
-          axisLine: {
-              show: false,
-          },
-          axisTick: {
-              show: false,
-          },
-    },{
-       position: 'bottom',
-          offset: 15,
-          axisLine: {
-              show: false,
-          },
-          axisTick: {
-              show: false,
-          },
-          data: ['2021', '2021', '2021', '2021','2021', '2021', '2021']
-    }],
-    yAxis: {
-      type: 'value',
-      boundaryGap: [0, 0.01],
-    },
-    series: [
-      {
-        name: 'DOC',
-        type: 'bar',
-        data: [18203, 23489, 29034, 104970, 131744, 630230],
-          barWidth: 10,
-          barCategoryGap: '10%',
-          itemStyle: {normal: {color: '#FFBCA5'}},
-          emphasis : {itemStyle : {color: "#ff8000"} },
-      },
-      {
-        name: 'QUERY',
-        type: 'bar',
-        data: [19325, 23438, 31000, 121594, 134141, 681807],
-        barWidth: 10,
-          barCategoryGap: '10%',
-          itemStyle: {normal: {color: '#B893F2'}},
-          emphasis : {itemStyle : {color: "#7027E5"}},
-      }
-    ]
-  };
   async ngOnInit() {
     await this.appSelectionService.getCurrentSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.currentSubscriptionPlan = res;
-      if(['Standard','Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName)) this.featureLimit = 100;
+      if (['Standard', 'Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName)) this.featureLimit = 100;
       this.updateUsageDetails();
       this.pricingChart()
     });
@@ -129,20 +129,20 @@ export class PricingComponent implements OnInit, OnDestroy {
     }
   }
   //show or hide banner
-  showBanner(obj){
-   this.bannerObj = {...this.bannerObj,msg:obj?.msg,type:obj?.type,show:true};
+  showBanner(obj) {
+    this.bannerObj = { ...this.bannerObj, msg: obj?.msg, type: obj?.type, show: true };
   }
   //clear banner
-  clearBanner(){
-    this.bannerObj = {msg:'',type:'',show:false};
+  clearBanner() {
+    this.bannerObj = { msg: '', type: '', show: false };
   }
   //select upgrade component methods
   selectModal(type) {
     if (type == 'choose_plan') {
       this.plans.openSelectedPopup('choose_plan');
     }
-    else if (type === 'add_overage') {      
-     if(this.currentSubscriptionPlan?.subscription?.planName!=='Free') this.plans.openSelectedPopup('add_overage');
+    else if (type === 'add_overage') {
+      if (this.currentSubscriptionPlan?.subscription?.planName !== 'Free') this.plans.openSelectedPopup('add_overage');
     }
   }
   //open | Cancel subscription modal
@@ -161,13 +161,13 @@ export class PricingComponent implements OnInit, OnDestroy {
     }
   }
   //open | close revert cancel model
-  revertCancelModal(type){
-   if(type==='open'){
-     this.revertCancelModelPopRef = this.revertCancelModel.open();
-   }
-   else if(type==='close'){
-    if(this.revertCancelModelPopRef.close) this.revertCancelModelPopRef.close();
-   }
+  revertCancelModal(type) {
+    if (type === 'open') {
+      this.revertCancelModelPopRef = this.revertCancelModel.open();
+    }
+    else if (type === 'close') {
+      if (this.revertCancelModelPopRef.close) this.revertCancelModelPopRef.close();
+    }
   }
   //cancel subscription dialog(pro to standard)
   cancelProSubscription() {
@@ -207,16 +207,16 @@ export class PricingComponent implements OnInit, OnDestroy {
   cancelSubscription() {
     this.btnLoader = true;
     let checkedData = [];
-   const comment_data:any = document.getElementById('cancel_comment_text'); 
-    for(let data of this.cancellationCheckboxText){
-      if(data.selected) checkedData.push(data.name);
+    const comment_data: any = document.getElementById('cancel_comment_text');
+    for (let data of this.cancellationCheckboxText) {
+      if (data.selected) checkedData.push(data.name);
     }
-    const queryParam = {streamId: this.selectedApp._id};
+    const queryParam = { streamId: this.selectedApp._id };
     const payload = {
       subscriptionId: this.currentSubscriptionPlan?.subscription?._id,
-      feedback : {
-      reasons: checkedData,
-      comment: comment_data?.value
+      feedback: {
+        reasons: checkedData,
+        comment: comment_data?.value
       }
     };
     this.service.invoke('put.cancelSubscribtion', queryParam, payload).subscribe(res => {
@@ -231,8 +231,8 @@ export class PricingComponent implements OnInit, OnDestroy {
   }
   //Grap data
   pricingChart() {
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     let xAxisQueryData = [];
+    let years=[];
     let xAxisDocumentData = [];
     let yAxisQueryData = [];
     let yAxisDocumentData = [];
@@ -242,6 +242,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.currentSubscriptionPlan.analytics.search.forEach(element => {
         xAxisQueryData.push(element.month)
         yAxisQueryData.push(element.total)
+        years.push(2022);
       });
     }
     if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.analytics && this.currentSubscriptionPlan.analytics.content) {
@@ -254,7 +255,6 @@ export class PricingComponent implements OnInit, OnDestroy {
       xAxisDocumentData = ['Jan', 'Feb', 'Apr', 'May', 'Jun'];
     }
     if (Math.max(...yAxisDocumentData) == 0 || yAxisDocumentData.length == 0) {
-      yAxisDocumentData = [120, 200, 150, 80, 70, 110, 130];
       this.isyAxisDocumentdata = false;
       barDocColor = "#EFF0F1";
     } else {
@@ -265,7 +265,6 @@ export class PricingComponent implements OnInit, OnDestroy {
       xAxisQueryData = ['Jan', 'Feb', 'Apr', 'May', 'Jun'];
     }
     if (Math.max(...yAxisQueryData) == 0 || yAxisQueryData.length == 0) {
-      yAxisQueryData = [120, 200, 150, 80, 70, 110, 130];
       this.isyAxisQuerydata = false;
       barQueColor = "#EFF0F1";
     } else {
@@ -273,82 +272,72 @@ export class PricingComponent implements OnInit, OnDestroy {
       barQueColor = "#7027E5";
     }
     xAxisQueryData.length ? this.monthRange = xAxisQueryData[0] + ' - ' + xAxisQueryData[xAxisQueryData.length - 1] : this.monthRange = "Jan - June";
-    this.queryGraph = {
-      grid: {
-        left: '10%',
-        right: '4%',
-        bottom: '20%',
-        containLabel: true
-      },
+    this.queryGraph  = {
       tooltip: {
-        trigger: 'axis',
+        trigger: 'item',
         axisPointer: {
           type: 'none'
         },
-        formatter: `
-          <div class="metrics-tooltips-hover agent_drop_tolltip">
-          <div class="">
-            <div class="main-title">Query Usage on {b0} is {c0}</div>
-          </div> 
-        </div>
-        
-        `,
-        position: 'top',
-        padding: 0
-
+        formatter: 
+        `<div class="metrics-tooltips-hover agent_drop_tolltip">
+        <div>
+          <div class="main-title"><i class="si-graph-lines"></i> <strong>{c0}</strong> {a0}
+          <div><i class="si-graph-lines"></i> 59% Than Avg. 3021/Mo</div>
+          <div>1st March - 25th March</div></div>
+        </div> 
+      </div>`,
       },
-
-      xAxis: {
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: [{
         type: 'category',
-        name: 'No Data Available',
-        nameLocation: 'middle',
-        nameGap: 50,
-        data: xAxisQueryData, //['Jan', 'Feb', 'Apr', 'May', 'Jun'], //data//
-        axisLabel: {
-          //margin: 20,
-          color: "#9AA0A6",
-          fontWeight: "normal",
-          fontSize: 12,
-          fontFamily: "Inter"
-        },
-      },
+        data: xAxisDocumentData,
+            axisLine: {
+                show: false,
+            },
+            axisTick: {
+                show: false,
+            },
+      },{
+         position: 'bottom',
+            offset: 15,
+            axisLine: {
+                show: false,
+            },
+            axisTick: {
+                show: false,
+            },
+            data: years
+      }],
       yAxis: {
         type: 'value',
-        name: 'Query Ingested',
-        nameLocation: 'middle',
-        nameGap: 50,
-        min: 0,
-        max: 5,
-        nameTextStyle: {
-          color: "#9AA0A6",
-          fontWeight: "normal",
-          fontSize: 12,
-          fontFamily: "Inter"
-        },
-        axisLabel: {
-          //margin: 20,
-          color: "#9AA0A6",
-          fontWeight: "normal",
-          fontSize: 12,
-          fontFamily: "Inter"
-        },
+        boundaryGap: [0, 0.01],
       },
-      series: [{
-        data: yAxisQueryData, //[120, 200, 150, 80, 70, 110, 130],
-        type: 'bar',
-        barWidth: 10,
-        itemStyle: {
-          normal: {
-            color: barQueColor,
-            barBorderRadius: [50, 50, 50, 50]
-          },
+      series: [
+        {
+          name: 'Documents',
+          type: 'bar',
+          data: [10,50,100,150,200],//yAxisQueryData,
+            barWidth: 10,
+            barCategoryGap: '10%',
+            itemStyle: {normal: {color: '#FFBCA5'}},
+            emphasis : {itemStyle : {color: "#ff8000"} },
         },
-        lineStyle: {
-          color: '#0D6EFD',
-        },
-      }]
-    }
-
+        {
+          name: 'Queries',
+          type: 'bar',
+          data: [40,70,150,190,240],//yAxisDocumentData,
+          barWidth: 10,
+            barCategoryGap: '10%',
+            itemStyle: {normal: {color: '#B893F2'}},
+            emphasis : {itemStyle : {color: "#7027E5"}},
+        }
+      ]
+    };
     this.documentGraph = {
 
       grid: {
@@ -424,26 +413,26 @@ export class PricingComponent implements OnInit, OnDestroy {
         },
       }]
     };
-    if (Math.max(...yAxisQueryData) > 5) {
-      delete this.queryGraph.yAxis.min;
-      delete this.queryGraph.yAxis.max;
-    }
-    if (this.isyAxisQuerydata) {
-      delete this.queryGraph.xAxis.name
-      delete this.queryGraph.xAxis.nameLocation
-      delete this.queryGraph.xAxis.nameGap
-      this.queryGraph.grid.bottom = "3%"
-    }
-    if (Math.max(...yAxisDocumentData) > 5) {
-      delete this.documentGraph.yAxis.min;
-      delete this.documentGraph.yAxis.max;
-    }
-    if (this.isyAxisDocumentdata) {
-      delete this.documentGraph.xAxis.name
-      delete this.documentGraph.xAxis.nameLocation
-      delete this.documentGraph.xAxis.nameGap
-      this.documentGraph.grid.bottom = "3%"
-    }
+    // if (Math.max(...yAxisQueryData) > 5) {
+    //   delete this.queryGraph.yAxis.min;
+    //   delete this.queryGraph.yAxis.max;
+    // }
+    // if (this.isyAxisQuerydata) {
+    //   delete this.queryGraph.xAxis.name
+    //   delete this.queryGraph.xAxis.nameLocation
+    //   delete this.queryGraph.xAxis.nameGap
+    //   this.queryGraph.grid.bottom = "3%"
+    // }
+    // if (Math.max(...yAxisDocumentData) > 5) {
+    //   delete this.documentGraph.yAxis.min;
+    //   delete this.documentGraph.yAxis.max;
+    // }
+    // if (this.isyAxisDocumentdata) {
+    //   delete this.documentGraph.xAxis.name
+    //   delete this.documentGraph.xAxis.nameLocation
+    //   delete this.documentGraph.xAxis.nameGap
+    //   this.documentGraph.grid.bottom = "3%"
+    // }
   }
   //revert subscription dialog
   revertCancel() {
@@ -461,7 +450,7 @@ export class PricingComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-            this.renewSubscription(dialogRef);
+          this.renewSubscription(dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
         }
@@ -476,7 +465,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         dialogRef.close();
         this.appSelectionService.getCurrentSubscriptionData();
-        if(this.bannerObj.show) this.clearBanner();
+        if (this.bannerObj.show) this.clearBanner();
       }, 2000)
       // this.notificationService.notify('Cancel Subscription', 'success');
     }, errRes => {
@@ -484,28 +473,28 @@ export class PricingComponent implements OnInit, OnDestroy {
     });
   }
   updateUsageDetails() {
-    if(this.plans?.totalPlansData){
+    if (this.plans?.totalPlansData) {
       const planName = this.currentSubscriptionPlan?.subscription?.planName;
-      const currentPlan = this.plans?.totalPlansData?.filter(plan=>plan?.name===planName);
+      const currentPlan = this.plans?.totalPlansData?.filter(plan => plan?.name === planName);
       this.usageDetails.ingestDocsLimit = currentPlan[0].featureAccess?.ingestDocs?.limit;
-      this.usageDetails.ingestDocsUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used<=this.usageDetails.ingestDocsLimit)?(this.currentSubscriptionPlan?.usage?.ingestDocs?.used):(this.usageDetails?.ingestDocsLimit)
+      this.usageDetails.ingestDocsUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used <= this.usageDetails.ingestDocsLimit) ? (this.currentSubscriptionPlan?.usage?.ingestDocs?.used) : (this.usageDetails?.ingestDocsLimit)
       this.usageDetails.searchQueriesLimit = currentPlan[0].featureAccess?.searchQueries?.limit;
-      this.usageDetails.searchQueriesUsed = (this.currentSubscriptionPlan?.usage?.searchQueries?.used<=this.usageDetails.searchQueriesLimit)?(this.currentSubscriptionPlan?.usage?.searchQueries?.used):(this.usageDetails?.searchQueriesLimit)
-     //overages data
-     if(this.currentSubscriptionPlan?.overages?.length){
-      const ingestDocs = this.currentSubscriptionPlan?.overages?.filter(item=>item.feature==='ingestDocs');
-      const searchQueries = this.currentSubscriptionPlan?.overages?.filter(item=>item.feature==='searchQueries');
-      this.usageDetails.ingestDocsOverageLimit = (ingestDocs.length*ingestDocs[0]?.totalFeatureLimit);
-      this.usageDetails.searchQueriesOverageLimit = (searchQueries.length*searchQueries[0]?.totalFeatureLimit);
-      this.usageDetails.ingestDocsOverageUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used<=this.usageDetails.ingestDocsLimit)?0:(this.currentSubscriptionPlan?.usage?.ingestDocs?.used-this.usageDetails.ingestDocsLimit)
-      this.usageDetails.searchQueriesOverageUsed = (this.currentSubscriptionPlan?.usage?.searchQueries?.used<=this.usageDetails.searchQueriesLimit)?0:(this.currentSubscriptionPlan?.usage?.searchQueries?.used-this.usageDetails.searchQueriesLimit)
-      this.usageDetails.ingestDocsUsedPercentage = (this.usageDetails.ingestDocsOverageUsed/ this.usageDetails.ingestDocsOverageLimit)*100
-      this.usageDetails.searchQueriesUsedPercentage = (this.usageDetails.searchQueriesOverageUsed/ this.usageDetails.searchQueriesOverageLimit)*100
-    }
+      this.usageDetails.searchQueriesUsed = (this.currentSubscriptionPlan?.usage?.searchQueries?.used <= this.usageDetails.searchQueriesLimit) ? (this.currentSubscriptionPlan?.usage?.searchQueries?.used) : (this.usageDetails?.searchQueriesLimit)
+      //overages data
+      if (this.currentSubscriptionPlan?.overages?.length) {
+        const ingestDocs = this.currentSubscriptionPlan?.overages?.filter(item => item.feature === 'ingestDocs');
+        const searchQueries = this.currentSubscriptionPlan?.overages?.filter(item => item.feature === 'searchQueries');
+        this.usageDetails.ingestDocsOverageLimit = (ingestDocs.length * ingestDocs[0]?.totalFeatureLimit);
+        this.usageDetails.searchQueriesOverageLimit = (searchQueries.length * searchQueries[0]?.totalFeatureLimit);
+        this.usageDetails.ingestDocsOverageUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used <= this.usageDetails.ingestDocsLimit) ? 0 : (this.currentSubscriptionPlan?.usage?.ingestDocs?.used - this.usageDetails.ingestDocsLimit)
+        this.usageDetails.searchQueriesOverageUsed = (this.currentSubscriptionPlan?.usage?.searchQueries?.used <= this.usageDetails.searchQueriesLimit) ? 0 : (this.currentSubscriptionPlan?.usage?.searchQueries?.used - this.usageDetails.searchQueriesLimit)
+        this.usageDetails.ingestDocsUsedPercentage = (this.usageDetails.ingestDocsOverageUsed / this.usageDetails.ingestDocsOverageLimit) * 100
+        this.usageDetails.searchQueriesUsedPercentage = (this.usageDetails.searchQueriesOverageUsed / this.usageDetails.searchQueriesOverageLimit) * 100
+      }
     }
     // if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.usage && this.currentSubscriptionPlan.usage.ingestDocs) {
     //   this.usageDetails.ingestDocs = this.currentSubscriptionPlan.usage.ingestDocs;
-       
+
     // }
     // else {
     //   this.usageDetails.ingestDocs = {};
