@@ -102,7 +102,7 @@ export class AppsListingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.checkForNewUser();
+    // this.checkForNewUser();
     $('.krFindlyAppComponent').removeClass('appSelected');
     //const apps = this.workflowService.findlyApps();
     //this.prepareApps(apps);
@@ -156,11 +156,9 @@ export class AppsListingComponent implements OnInit {
     this.workflowService.selectedIndexPipelineId = '';
   }
   openBoradingJourney() {
-      if(this.newUser){
         this.headerService.openJourneyForfirstTime = true;
       this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
       this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
-      }
   }
   closeBoradingJourney() {
     if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
@@ -330,12 +328,7 @@ export class AppsListingComponent implements OnInit {
           this.confirmApp = '';
           if(!this.apps.length){
           this.emptyApp = true;
-          }
-          else{
-            let filteredApps = this.apps.filter(item => item.createdBy == this.userId)
-            if(!filteredApps.length){
-              this.emptyApp = true;
-            }
+          this.showBoarding = true;
           }
         }
       }, errRes => {
@@ -560,6 +553,7 @@ export class AppsListingComponent implements OnInit {
         this.openCreatedApp();
       }
       else if ((doc_status[0].status === 'FAILURE' || doc_status[0].status === "FAILED") && doc_status[0].jobType === "TRAINING") {
+        clearInterval(this.pollingInterval);
         this.CloseAppLoadingScreen();
         this.notificationService.notify(doc_status[0].message, 'error');
       }
