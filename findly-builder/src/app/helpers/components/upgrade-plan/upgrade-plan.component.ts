@@ -253,6 +253,7 @@ showHideSpinner(){
       this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
     });
   }
+  
   //payment plan for upgrade/downgrade
   downgradePlan(planData) {
         this.orderConfirmData = planData;
