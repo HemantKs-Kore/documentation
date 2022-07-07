@@ -204,67 +204,19 @@
 </kr-modal>
 
 <!--Revert cancellation modal-->
-<kr-modal modalType="center" modalClass="modal_popups_ cancel_subscription_new" #revertCancelModel>
+<kr-modal modalType="center" modalClass="modal_popups_ revert-cancellation-popup" #revertCancelModel>
   <div class="modal-header">
-    <div class="title">Revert cancellation</div>
+    <div class="title">Are you sure you want to Revert?</div>
     <div class="close_icon" (click)="revertCancelModal('close')">
       <img src="assets/icons/modal-close.svg">
     </div>
   </div>
-  <perfect-scrollbar>
-    <div class="modal-body">
-        <div class="row col-12 m-0 cancel-subscription-block">
-          <div class="col-6">
-            <div class="order-img">
-              <img src="assets/images/pricing-plan/plan-order/payment-hold.svg" class="order-stage-img" />
-            </div>
-          </div>
-          <div class="col-6">
-           <section class="cancel-subscription-section">
-            <div class="terms-list-block">
-              <div class="terms-list">
-                <div class="check-icon"><i class="si-check"></i></div>
-                <div>
-                  Your Subscription is valid till the end of billing cycle - {{currentSubscriptionPlan?.subscription?.endDate|date:'dd MMM yyyy'}}.
-                </div>
-              </div>
-              <div class="terms-list">
-                <div class="check-icon"><i class="si-check"></i></div>
-                <div>
-                  Post billing cycle your app will not respond to the end users
-                </div>
-              </div>
-              <div class="terms-list">
-                <div class="check-icon"><i class="si-check"></i></div>
-                <div>
-                  However, you will have access to your app for 15 more days after cancellantion to either reactive or take a backup of your application. After 15 days your app will be permanently deleted.
-                </div>
-              </div>
-            </div>
-            <div class="reason-header">What is the reason you want to cancel?</div>
-
-            <div class="reason-check-list">
-              <div class="group-checkbox">
-                <div class="kr-sg-checkbox d-block" *ngFor="let data of cancellationCheckboxText;let i=index">
-                  <input [id]="i" class="checkbox-custom cancel-checkbox" type="checkbox" (change)="data.selected=!data.selected">
-                  <label [for]="i" class="checkbox-custom-label">{{data?.name}}</label>
-                </div>
-              </div>
-            </div>
-
-            <div class="reason-comment">
-              <div class="kr-sg-input-text-area">
-                <div class="label-text">{{"plan.comments"| translate}}</div>
-                <textarea placeholder="Start typing here" id="cancel_comment_text" class="input-text"></textarea>
-              </div>
-            </div>
-           </section>
-          </div>
-        </div>
-    </div>
-  </perfect-scrollbar>
+  <div class="modal-body">
+    <div class="desc-text-info">Your cancellation request will be reverted and current plan will be retained</div>
+  </div>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" [disabled]="btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>{{"plan.done"| translate}}</button>
+    <button class="kr-sg-button-primary btn_lg">Revert Cancellation</button>
+    <button class="kr-sg-button-secondary btn_lg">Cancel</button>
   </div>
 </kr-modal>
   <!-- View plan Modal -->
