@@ -27,6 +27,7 @@ export class SearchInterfaceComponent implements OnInit {
   selectedApp: any;
   serachIndexId: any;
   indexPipelineId: any;
+  queryPipelineId : any;
   allFieldData: any;
   heading_fieldData: any;
   desc_fieldData: any;
@@ -180,6 +181,7 @@ export class SearchInterfaceComponent implements OnInit {
   loadFiledsData() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       this.getFieldAutoComplete();
       this.defaultTemplate();
       //this.getSettings('search');
@@ -264,7 +266,8 @@ export class SearchInterfaceComponent implements OnInit {
     this.selectedSettingText = setting ? setting.text : 'Conversational Search';
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId,
     };
     this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
       this.allSettings = res;

@@ -24,6 +24,7 @@ export class ResultTemplatesComponent implements OnInit {
   copyConfigObj: any = { loader: false, message: '' };
   serachIndexId: any;
   indexPipelineId: any;
+  queryPipelineId : any;
   allFieldData: any;
   preview_title: any = '';
   preview_desc: any = '';
@@ -169,6 +170,7 @@ export class ResultTemplatesComponent implements OnInit {
   loadFiledsData() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       this.getFieldAutoComplete();
       // this.getAllSettings(this.selectedTab)
     }
@@ -382,6 +384,7 @@ export class ResultTemplatesComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId,
       interface: setting
     };
     this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
@@ -407,7 +410,8 @@ export class ResultTemplatesComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       templateId: templateData.templateId,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId,
     };
     this.service.invoke('get.templateById', quaryparms).subscribe((res: any) => {
       this.templateDataBind = res;
@@ -596,7 +600,8 @@ export class ResultTemplatesComponent implements OnInit {
   getTemplateData(type, index?, value?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      queryPipelineId : this.queryPipelineId,
     };
     const payload = { type: type };
     this.service.invoke('post.templates', quaryparms, payload).subscribe(res => {
@@ -660,7 +665,8 @@ export class ResultTemplatesComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       settingsId: this.settingsId,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId,
     };
     this.resultListObj.resultsLimit = 20;
     if (dialogRef) {
@@ -692,7 +698,8 @@ export class ResultTemplatesComponent implements OnInit {
       const quaryparms: any = {
         searchIndexId: this.serachIndexId,
         templateId: this.templateDataBind._id,
-        indexPipelineId: this.indexPipelineId
+        indexPipelineId: this.indexPipelineId,
+        queryPipelineId : this.queryPipelineId
       };
       if (this.templateDataBind.layout.renderTitle === false) {
         this.templateDataBind.layout.title = '';
@@ -827,6 +834,7 @@ export class ResultTemplatesComponent implements OnInit {
       const quaryparms: any = {
         searchIndexId: this.serachIndexId,
         indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+        queryPipelineId : this.queryPipelineId,
         settingsId: this.resultListObj._id,
         fromInterface: tab
       };

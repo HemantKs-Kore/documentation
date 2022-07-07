@@ -64,7 +64,9 @@ export class AppComponent implements OnInit, OnDestroy {
   searchExperienceConfig: any;
   searchExperinceLoading: boolean = false;
   indexPipelineId: any;
+  queryPipelineId: any;
   isDemoApp: boolean = false;
+  selectedApp : any;
   @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(private router: Router,
     private authService: AuthService,
@@ -125,6 +127,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.getSearchExperience();
     })
     this.inlineManual.loadInlineManualScripts();
+    this.selectedApp = this.workflowService.selectedApp();
   }
   showMenu(event) {
     this.showMainMenu = event
@@ -342,6 +345,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   loadSearchExperience() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
     if (this.indexPipelineId && this.searchExperinceLoading === false) {
       this.getSearchExperience();
     }
@@ -646,7 +650,8 @@ export class AppComponent implements OnInit, OnDestroy {
     const searchIndex = selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      indexPipelineId: this.workflowService.selectedIndexPipeline()
+      indexPipelineId: this.workflowService.selectedIndexPipeline(),
+      queryPipelineId : this.queryPipelineId,
     };
     setTimeout(function () {
       if (quaryparms.indexPipelineId) {

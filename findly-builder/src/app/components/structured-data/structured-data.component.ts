@@ -113,6 +113,7 @@ export class StructuredDataComponent implements OnInit {
   showSelectAllQues: boolean
   enableSearchBlock: boolean = false;
   indexPipelineId: any;
+  queryPipelineId : any;
   subscription: Subscription;
   activeClose = false;
   paginateEvent:any;
@@ -151,6 +152,7 @@ export class StructuredDataComponent implements OnInit {
   loadData() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       this.getAllSettings();
     }
   }
@@ -1339,6 +1341,7 @@ export class StructuredDataComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId,
       interface: 'fullSearch'
     };
     this.isResultTemplateLoading = true;

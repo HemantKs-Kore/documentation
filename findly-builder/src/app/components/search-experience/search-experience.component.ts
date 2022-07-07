@@ -25,6 +25,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   selectedApp: any = {};
   serachIndexId: any;
   indexPipelineId: any;
+  queryPipelineId: any;
   suggestions: any = [];
   searchObject: any = {
     "searchExperienceConfig": {
@@ -228,6 +229,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   loadSearchExperience() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       this.getSearchExperience();
     }
   }
@@ -597,7 +599,8 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId,
     };
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
       this.searchObject = { searchExperienceConfig: res.experienceConfig, searchWidgetConfig: res.widgetConfig, searchInteractionsConfig: res.interactionsConfig }
@@ -673,7 +676,8 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId
     };
     this.service.invoke('put.searchexperience', quaryparms, obj).subscribe(res => {
       this.searchIcon = res.widgetConfig.searchBarIcon;

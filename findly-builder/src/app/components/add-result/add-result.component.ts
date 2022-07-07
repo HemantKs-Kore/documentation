@@ -98,6 +98,7 @@ export class AddResultComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId,
       interface: 'fullSearch',
     };
     this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
@@ -145,7 +146,8 @@ export class AddResultComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       templateId: templateId,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId,
     };
     this.service.invoke('get.templateById', quaryparms).subscribe(res => {
       this.fieldData.forEach(element => {
