@@ -129,9 +129,73 @@
               <span class="pr-1"><i class="si-graph-lines"></i></span> Usage Metrics <span><i class="si-info"></i></span>
             </div>
             <div class="tile-chart">
-            <div class="title">{{"plan.query_usage_analytics"| translate}}</div>
-            <div echarts [options]="queryGraph" style="height: 320px;"></div>
-          </div>
+              <div class="title">{{"plan.query_usage_analytics"| translate}}</div>
+              <div class="date-filter-data">
+                <div class="label-text-data">Date</div>
+                <div class="kr-sg-dropdowns preview-template" ngbDropdown [placement]="'bottom-right'">                
+                  <div class="dropdown dropdown-open">
+                      <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>Mar 01 2022 to Mar 29 2022</button>                                            
+                      <ul class="dropdown-menu content-menu" ngbDropdownMenu>                                               
+                          <div class="dates-data-info">
+                            <div class="left-sec-tabs">
+                              <div class="tab-name">Last 24 Hrs</div>
+                              <div class="tab-name">Today</div>
+                              <div class="tab-name">Yesterday</div>
+                              <div class="tab-name">Last 7 days</div>
+                              <div class="tab-name">Last 30 days</div>
+                              <div class="tab-name">Last 90 days</div>
+                              <div class="tab-name selected">Custom</div>
+                            </div>
+                            <div class="right-sec-callendar">
+                              <div class="tabs-fixed-since">
+                                  <div class="tab-name selected">Fixed</div>
+                                  <div class="tab-name">Since</div>
+                                  <div class="tab-name">Last</div>
+                              </div>
+                              <div class="tab-content-data">
+                                <div class="inputs-data-date">
+                                  <input type="text" value="Mar 01 2022">
+                                  <input type="text" value="Mar 01 2022">
+                                </div>
+                              </div>
+                              <div class="callendar-container"></div>
+                            </div>
+                          </div>
+                          <div class="footer-done">
+                            <button class="kr-sg-button-primary btn_lg">Done</button>
+                          </div>
+                      </ul>
+                  </div>
+                </div>
+                <i class="si-info"></i>
+              </div>
+              <div echarts [options]="queryGraph" style="height: 320px;"></div>
+              <div class="legent-data-ingestion-analysis">
+                <div class="legent-title">LEGEND</div>
+                <div class="left-sec">
+                  <div class="info-legend">
+                    <div class="indication-document"></div>
+                    <div class="title">Documents Ingested</div>
+                  </div>
+                  <div class="info-legend p-0">
+                    <i class="si-avg"></i>
+                    <div class="avg-title">Avg.</div>
+                    <div class="count">1602/Mo</div>
+                  </div>
+                </div>
+                <div class="left-sec before-none">
+                  <div class="info-legend">
+                    <div class="search-quiries"></div>
+                    <div class="title">Search Queries Ingested</div>
+                  </div>
+                  <div class="info-legend p-0">
+                    <i class="si-avg"></i>
+                    <div class="avg-title">Avg.</div>
+                    <div class="count">3021/Mo</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
     </div>

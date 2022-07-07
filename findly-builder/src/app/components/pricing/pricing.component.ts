@@ -279,12 +279,20 @@ export class PricingComponent implements OnInit, OnDestroy {
           type: 'none'
         },
         formatter: 
-        `<div class="metrics-tooltips-hover agent_drop_tolltip">
-        <div>
-          <div class="main-title"><i class="si-graph-lines"></i> <strong>{c0}</strong> {a0}
-          <div><i class="si-graph-lines"></i> 59% Than Avg. 3021/Mo</div>
-          <div>1st March - 25th March</div></div>
-        </div> 
+        `<div class="pricing-hover-tooltip">
+        <div class="row-data-info">
+          <i class="si-interuptions"></i>
+          <span class="count-text">{c0}</span>
+          <span class="title">{a0}</span>
+        </div>
+        <div class="row-data-info">
+          <i class="si-checkround-up"></i>
+          <span class="success-text">59% </span>
+          <span class="title">Than Avg. 3021/Mo</span>
+        </div>
+        <div class="row-data-info">
+          <span class="title">1st March - 25th March</span>
+        </div>
       </div>`,
       },
       grid: {
