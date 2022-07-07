@@ -6,9 +6,9 @@
   <div class="title-header d-flex align-items-center justify-content-between">
     <div>{{"plan.plan_head"| translate}}</div>
     <div class="btns-block">
-    <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'&&(currentSubscriptionPlan?.subscription?.changesScheduledFor==='none')" (click)="cancelSubscriptionModal('open')"><i class="si-minus-circle-o"></i>Cancel Subscription</button>
-    <button class="kr-sg-button-primary btn_lg" [ngClass]="{'d-none':(currentSubscriptionPlan?.subscription?.planName|lowercase)==='enterprise'}" (click)="selectModal('choose_plan')"><i class="si-publish si-icon"></i>Upgrade Plan</button>
-    <button class="kr-sg-button-primary btn_lg" [ngClass]="{'d-none':(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='enterprise'}" (click)="selectModal('choose_plan')"><img src="assets/icons/pricing/move_down.png">  Downgrade Plan</button>
+    <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)==='standard'&&(currentSubscriptionPlan?.subscription?.changesScheduledFor==='none')" (click)="cancelSubscriptionModal('open')"><i class="si-minus-circle-o"></i>Cancel Subscription</button>
+    <button class="kr-sg-button-primary btn_lg" [ngClass]="{'d-none':['unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}" (click)="selectModal('choose_plan')"><i class="si-publish si-icon"></i>Upgrade Plan</button>
+    <button class="kr-sg-button-primary btn_lg" [ngClass]="{'d-none':!['enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}" (click)="selectModal('choose_plan')"><img src="assets/icons/pricing/move_down.png">  Downgrade Plan</button>
     </div>
   </div>
     <div class="info-note proInfo row m-0" *ngIf="(bannerObj?.show)" [ngClass]="{'proInfoSuccess':bannerObj.type==='success','proInfoError':bannerObj.type==='failed','proInfoInfo':bannerObj.type==='downgrade','downGradeAlert':bannerObj.type==='downgrade'}">
@@ -33,14 +33,13 @@
               <span class="pr-1"><i class="si-instructions"></i></span>  Current Plan details
             </div>
             <div class="tile-plan-overview">
-
               <div class="tile-current-plan">
                 <div class="tile-plan-details">
-                  <div class="plan-type">{{currentSubscriptionPlan?.subscription?.planName|uppercase}} PLAN  <i class="si-info"></i></div> 
+                  <div class="plan-type">{{currentSubscriptionPlan?.subscription?.planName|uppercase}} PLAN</div> 
                   <div class="plan-price">
-                   <span class="plan-crown-img" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'"><img src="assets/images/pricing-plan/plan-crown.svg" /></span> <span *ngIf="currentSubscriptionPlan?.subscription?.planAmount>=0">$</span>{{currentSubscriptionPlan?.subscription?.planAmount>=0?(currentSubscriptionPlan?.subscription?.planAmount):'CUSTOM '}} <span class="plan-duration" *ngIf="currentSubscriptionPlan?.subscription?.planAmount>0||((currentSubscriptionPlan?.subscription?.planName|lowercase)==='enterprise')">/ {{currentSubscriptionPlan?.subscription?.billingUnit}}</span>
+                   <span class="plan-crown-img" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'"><img src="assets/images/pricing-plan/plan-crown.svg" /></span> <span *ngIf="currentSubscriptionPlan?.subscription?.planAmount>=0">$</span>{{currentSubscriptionPlan?.subscription?.planAmount>=0?(currentSubscriptionPlan?.subscription?.planAmount):'CUSTOM '}} <span class="plan-duration" *ngIf="currentSubscriptionPlan?.subscription?.planAmount>0||(['unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase))">/ {{currentSubscriptionPlan?.subscription?.billingUnit}}</span>
                   </div>
-                  <div class="plan-options">
+                  <div class="plan-options" [ngClass]="{'d-none':(currentSubscriptionPlan?.subscription?.planName|lowercase)==='unlimited'}">
                     <div class="plan-view">
                       <button class="kr-sg-button-ghost btn_md" data-toggle="modal" data-target="#viewPlanModal">View Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
                     </div>
@@ -52,7 +51,7 @@
                 <div class="tile-plan-status" [ngClass]="{'plan-status-active':currentSubscriptionPlan?.subscription?.changesScheduledFor==='none','plan-status-cancel':currentSubscriptionPlan?.subscription?.changesScheduledFor==='cancel','plan-status-downgrade':currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade','d-block':(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')}">
                   <!--cancel subscription buttons-->
                   <div class="plan-subscription" *ngIf="['none','cancel'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)"><span class="plan-current-status"></span>{{(currentSubscriptionPlan?.subscription?.changesScheduledFor==='none')?("plan.active" | translate):("plan.cancel_request_sent" | translate)}}</div>
-                  <div class="plan-subscription-duration" *ngIf="currentSubscriptionPlan?.subscription?.changesScheduledFor==='none'">{{(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'?'Till  ':''}}{{(currentSubscriptionPlan?.subscription?.planName|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MMM.YYYY'}}</div>
+                  <div class="plan-subscription-duration" *ngIf="currentSubscriptionPlan?.subscription?.changesScheduledFor==='none'">{{((currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'&&currentSubscriptionPlan?.subscription?.endDate)?'Till  ':''}}{{(currentSubscriptionPlan?.subscription?.planName|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MMM.YYYY'}}</div>
                   <div class="plan-subscription-duration" *ngIf="['cancel'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)" (click)="revertCancel()">{{"plan.revert_cancellation_btn" | translate}}</div>
                   <!--downgrade buttons-->
 
@@ -63,7 +62,6 @@
                     </div>
                    <div class="plan-downgrade-cancel" *ngIf="['downgrade'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)" (click)="revertCancel()">{{"plan.cancel_request" | translate}}</div>
                   </ng-container>
-
                 </div>
               </div>
 
@@ -92,7 +90,7 @@
                 </div>
               </div>
 
-              <button class="btn btn-add-overage" [ngClass]="{'d-none':(currentSubscriptionPlan?.subscription?.planName|lowercase)==='enterprise'}" *ngIf="currentSubscriptionPlan?.overages.length===0; else overageUsage" (click)="selectModal('add_overage')"><span class="pr-2"><i class="si-grow-up-arrow"></i></span>Add Overage</button>              
+              <button class="btn btn-add-overage" [ngClass]="{'d-none':['unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}" *ngIf="currentSubscriptionPlan?.overages.length===0; else overageUsage" (click)="selectModal('add_overage')"><span class="pr-2"><i class="si-grow-up-arrow"></i></span>Add Overage</button>              
               <ng-template #overageUsage>
               <div class="tile-plan-utilization plan-overview">
                 <div class="plan-current-and-overage">
@@ -125,7 +123,7 @@
           </div>
           <div class="col-8 tile-right">
             <div class="tile-header">
-              <span class="pr-1"><i class="si-graph-lines"></i></span> Usage Metrics <span><i class="si-info"></i></span>
+              <span class="pr-1"><i class="si-graph-lines"></i></span> Usage Metrics
             </div>
             <div class="tile-chart"
             [ngStyle]="{'opacity':isyAxisQuerydata?'none':'0.5','pointer-events':isyAxisQuerydata?'auto':'none'}">
@@ -219,7 +217,7 @@
                   <div class="plan-current-status">Current Plan</div>
                 </div>
                 <div class="plan-cost-details">
-                  <div class="plan-cost" [ngClass]="{'d-none':(currentSubscriptionPlan?.subscription?.planName|lowercase)==='enterprise'}">${{currentSubscriptionPlan?.subscription?.planAmount}} <span class="plan-duration-type">{{(plan?.name|lowercase)!=='free'?'/ ':''}}{{(plan?.name|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.billingUnit}}</span></div>
+                  <div class="plan-cost" [ngClass]="{'d-none':['unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}">${{currentSubscriptionPlan?.subscription?.planAmount}} <span class="plan-duration-type">{{(plan?.name|lowercase)!=='free'?'/ ':''}}{{(plan?.name|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.billingUnit}}</span></div>
                   <div class="plan-cost" [ngClass]="{'d-none':['free','standard'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}">Custom Plans</div>
                 </div>
               </div>
@@ -228,23 +226,23 @@
             <div class="plan-tag-line">
               <div>{{plan?.description}}</div>
             </div>
-            <div class="plan-upgrade-block" [ngClass]="{'d-none':((currentSubscriptionPlan?.subscription?.planName|lowercase)==='enterprise')}">
+            <div class="plan-upgrade-block" [ngClass]="{'d-none':['unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}">
               <button class="btn" (click)="selectModal('choose_plan')">Upgrade Plan</button>
             </div>
             <div class="plan-features-block">
               <perfect-scrollbar class="paln-overflow-scroll">
-                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span>{{(plan?.name|lowercase)==='enterprise'?plan?.featureAccess?.ingestDocs?.displayText:plan?.featureAccess?.ingestDocs?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">records</span> </div>
-                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span> {{(plan?.name|lowercase)==='enterprise'?plan?.featureAccess?.searchQueries?.displayText:plan?.featureAccess?.searchQueries?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">queries/month</span> </div>
+                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span>{{['unlimited','enterprise'].includes(plan?.name|lowercase)?plan?.featureAccess?.ingestDocs?.displayText:plan?.featureAccess?.ingestDocs?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">records</span> </div>
+                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span> {{['unlimited','enterprise'].includes(plan?.name|lowercase)?plan?.featureAccess?.searchQueries?.displayText:plan?.featureAccess?.searchQueries?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">queries/month</span> </div>
                 <div class="plan-sub-features">
                   <div class="plan-sub-feature-hding">Features Includes</div>
                   <ng-container *ngFor="let feature of plan?.featureData|slice:0:featureLimit">
                     <div class="plan-feature-desc" *ngIf="feature?.displayOnBanner"><span class="icon-si"><i class="si-green-check"></i></span> {{(feature?.name)}} </div>
                   </ng-container>
-                  <div class="show-more" [ngClass]="{'d-none':(featureLimit!==6||['standard','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase))}" (click)="featureLimit=(plan?.featureData?.length);"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show 10  more features </div>
+                  <div class="show-more" [ngClass]="{'d-none':(featureLimit!==6||['standard','enterprise','unlimited'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase))}" (click)="featureLimit=(plan?.featureData?.length);"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show 10  more features </div>
                   <div class="plan-sub-feature-hding"><strong>{{(plan?.name|lowercase)==='free'?'Self-Service Support':'Support'}}</strong></div>
                   <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>Kore.ai Community</div>
                   <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>Kore.ai Academy</div>
-                  <div class="plan-feature-desc" *ngIf="['standard','enterprise'].includes(plan?.name|lowercase)"><span class="icon-si"><i class="si-green-check"></i></span>{{plan?.name}} support upgrade option</div>
+                  <div class="plan-feature-desc" *ngIf="['standard','enterprise','unlimited'].includes(plan?.name|lowercase)"><span class="icon-si"><i class="si-green-check"></i></span>{{plan?.name}} support upgrade option</div>
                 </div>
               </perfect-scrollbar>
             </div>

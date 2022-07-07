@@ -84,7 +84,7 @@ export class ConnectorsSourceComponent implements OnInit {
     await this.appSelectionService.getCurrentSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.currentSubscriptionPlan = res.subscription;
-      if (['Enterprise'].includes(this.currentSubscriptionPlan?.planName)) {
+      if (['Enterprise','Unlimited'].includes(this.currentSubscriptionPlan?.planName)) {
         this.getConnectors();
       }
       else{
