@@ -487,33 +487,19 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.usageDetails.ingestDocsLimit = currentPlan[0].featureAccess?.ingestDocs?.limit;
       this.usageDetails.ingestDocsUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used <= this.usageDetails.ingestDocsLimit) ? (this.currentSubscriptionPlan?.usage?.ingestDocs?.used) : (this.usageDetails?.ingestDocsLimit)
       this.usageDetails.searchQueriesLimit = currentPlan[0].featureAccess?.searchQueries?.limit;
-      this.usageDetails.searchQueriesUsed = (this.currentSubscriptionPlan?.usage?.searchQueries?.used <= this.usageDetails.searchQueriesLimit) ? (this.currentSubscriptionPlan?.usage?.searchQueries?.used) : (this.usageDetails?.searchQueriesLimit)
-      //overages data
-      if (this.currentSubscriptionPlan?.overages?.length) {
-        const ingestDocs = this.currentSubscriptionPlan?.overages?.filter(item => item.feature === 'ingestDocs');
-        const searchQueries = this.currentSubscriptionPlan?.overages?.filter(item => item.feature === 'searchQueries');
-        this.usageDetails.ingestDocsOverageLimit = (ingestDocs.length * ingestDocs[0]?.totalFeatureLimit);
-        this.usageDetails.searchQueriesOverageLimit = (searchQueries.length * searchQueries[0]?.totalFeatureLimit);
-        this.usageDetails.ingestDocsOverageUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used <= this.usageDetails.ingestDocsLimit) ? 0 : (this.currentSubscriptionPlan?.usage?.ingestDocs?.used - this.usageDetails.ingestDocsLimit)
-        this.usageDetails.searchQueriesOverageUsed = (this.currentSubscriptionPlan?.usage?.searchQueries?.used <= this.usageDetails.searchQueriesLimit) ? 0 : (this.currentSubscriptionPlan?.usage?.searchQueries?.used - this.usageDetails.searchQueriesLimit)
-        this.usageDetails.ingestDocsUsedPercentage = (this.usageDetails.ingestDocsOverageUsed / this.usageDetails.ingestDocsOverageLimit) * 100
-        this.usageDetails.searchQueriesUsedPercentage = (this.usageDetails.searchQueriesOverageUsed / this.usageDetails.searchQueriesOverageLimit) * 100
-      }
+      this.usageDetails.searchQueriesUsed = (this.currentSubscriptionPlan?.usage?.searchQueries?.used<=this.usageDetails.searchQueriesLimit)?(this.currentSubscriptionPlan?.usage?.searchQueries?.used):(this.usageDetails?.searchQueriesLimit)
+     //overages data
+     if(this.currentSubscriptionPlan?.overages?.length){
+      const ingestDocs = this.currentSubscriptionPlan?.overages?.filter(item=>item.feature==='ingestDocs');
+      const searchQueries = this.currentSubscriptionPlan?.overages?.filter(item=>item.feature==='searchQueries');
+      this.usageDetails.ingestDocsOverageLimit = (ingestDocs?.length>0)?(ingestDocs.length*ingestDocs[0]?.totalFeatureLimit):0;
+      this.usageDetails.searchQueriesOverageLimit = (searchQueries?.length>0)?(searchQueries.length*searchQueries[0]?.totalFeatureLimit):0;
+      this.usageDetails.ingestDocsOverageUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used<=this.usageDetails.ingestDocsLimit)?0:(this.currentSubscriptionPlan?.usage?.ingestDocs?.used-this.usageDetails.ingestDocsLimit)
+      this.usageDetails.searchQueriesOverageUsed = (this.currentSubscriptionPlan?.usage?.searchQueries?.used<=this.usageDetails.searchQueriesLimit)?0:(this.currentSubscriptionPlan?.usage?.searchQueries?.used-this.usageDetails.searchQueriesLimit)
+      this.usageDetails.ingestDocsUsedPercentage = (this.usageDetails.ingestDocsOverageUsed/ this.usageDetails.ingestDocsOverageLimit)*100
+      this.usageDetails.searchQueriesUsedPercentage = (this.usageDetails.searchQueriesOverageUsed/ this.usageDetails.searchQueriesOverageLimit)*100
     }
-    // if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.usage && this.currentSubscriptionPlan.usage.ingestDocs) {
-    //   this.usageDetails.ingestDocs = this.currentSubscriptionPlan.usage.ingestDocs;
-
-    // }
-    // else {
-    //   this.usageDetails.ingestDocs = {};
-    // }
-
-    // if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.usage && this.currentSubscriptionPlan.usage.searchQueries) {
-    //   this.usageDetails.searchQueries = this.currentSubscriptionPlan.usage.searchQueries;
-    // }
-    // else {
-    //   this.usageDetails.searchQueries = {};
-    // }
+    }
     this.pageLoading = false;
   }
   ngOnDestroy() {
