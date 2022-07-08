@@ -1563,6 +1563,10 @@ export class AppHeaderComponent implements OnInit {
       updateAssociatedAccounts.currentAccount.associatedAccounts = this.associatedAccounts;
       window.localStorage.setItem('jStorage', JSON.stringify(updateAssociatedAccounts));
       this.isJoinedClicked = false;
+
+      for (let i = 0; i < this.associatedAccounts.length; i++) {
+        this.extractAssociatedisplayname(this.associatedAccounts[i].accountName, i)
+      }
     },
       errRes => {
         console.log("error", errRes);
