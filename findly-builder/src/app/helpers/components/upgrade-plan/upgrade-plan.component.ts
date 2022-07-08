@@ -207,6 +207,7 @@ showHideSpinner(){
         this.notificationService.notify(message, 'success');
         if (!this.isOverageShow) {
           this.selectedPaymentPage = 'payment_success';
+          this.appSelectionService?.updateUsageData?.next('updatedUsage');
           const obj = {msg:`Your previous payment of $ ${this.orderConfirmData?.planAmount} is processed successfully.`,type:'success'};
           this.updateBanner.emit(obj);
         }

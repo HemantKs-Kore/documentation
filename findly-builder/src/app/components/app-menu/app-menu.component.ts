@@ -64,10 +64,9 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   public showStatusDocker: boolean = false;
   public statusDockerLoading: boolean = false;
   public dockersList: Array<any> = [];
-  showUpgrade: boolean = true;
+  showUpgrade: boolean = false;
   currentSubsciptionData: Subscription;
   updateUsageData: Subscription;
-  currentPlan: any;
   upgradeBannerFlag: boolean;
   componentType: any = '';
   @Input() show;
@@ -429,11 +428,10 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     // Multiple INdex hardcoded
     await this.appSelectionService.getCurrentSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
-      this.showUpgrade =  false;
-      this.currentPlan = res.subscription.planId;
+      const currentSubscriptionPlan = res;
+      if(['Unlimited','Enterprise'].includes(currentSubscriptionPlan?.subscription?.planName)) this.showUpgrade =  true;
     })
     this.appSelectionService.appSelectedConfigs.subscribe(res => {
-      //this.showUpgrade = true;
       this.appSelectionService.getCurrentSubscriptionData();
       this.getCurrentUsage();
       this.indexConfigs = res;

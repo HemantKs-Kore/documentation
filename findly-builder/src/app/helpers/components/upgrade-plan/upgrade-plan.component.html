@@ -211,7 +211,7 @@
                   <div class="payment-status-overview">
                     <div class="payment-status-img"> <img src="assets/images/pricing-plan/plan-order/payment-confirm-success.svg" /></div>
                     <div class="payment-status-header">Yay! Payment Successful...</div>
-                    <div class="payment-status-desc">{{(orderConfirmData?.overage?.ingestDocs?.limit|valueFormat)}} Searches added and {{(orderConfirmData?.overage?.searchQueries?.limit|valueFormat)}} Queries added per {{orderConfirmData?.billing?.unit}}</div>
+                    <div class="payment-status-desc">{{(orderConfirmData?.featureAccess?.ingestDocs?.limit|valueFormat)}} Documents added and {{(orderConfirmData?.featureAccess?.searchQueries?.limit|valueFormat)}} Queries added per {{orderConfirmData?.billing?.unit}}</div>
                     <div class="payment-status-expire">Expires on {{(selectedPlan?.endDate|date:'dd MMM yyyy')}}</div>
                     <div class="payment-status-btn">
                       <button class="kr-sg-button-secondary btn_lg" (click)="downloadInvoice()">Download Invoice <span class="px-2"><i class="si si-download-file primaryColor"></i></span></button>
@@ -230,7 +230,7 @@
                   <div class="payment-status-overview">
                     <div class="payment-status-img"> <img src="assets/images/pricing-plan/plan-order/payment-confirm-fail.svg" /></div>
                     <div class="payment-status-header">Payment Failed!</div>
-                    <div class="payment-status-desc">10K Searches added and 10K Queries added per month</div>
+                    <div class="payment-status-desc">{{(orderConfirmData?.overage?.ingestDocs?.limit|valueFormat)}} Documents added and {{(orderConfirmData?.overage?.searchQueries?.limit|valueFormat)}} Queries added per {{orderConfirmData?.billing?.unit}}</div>
                     <div class="payment-status-expire">Something Went Wrong</div>
                     <div class="payment-status-btn">
                       <button class="kr-sg-button-secondary btn_lg">Retry Payment <span class="px-2"><i class="si si-re-fresh primaryColor"></i></span></button>
