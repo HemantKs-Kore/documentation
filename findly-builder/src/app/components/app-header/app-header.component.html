@@ -585,7 +585,7 @@
 </app-slider-component>
 
 <div class="onboarding-status-card"
-    [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**' || !displyStatusBar || !checklistCount}">
+    [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**' || !displyStatusBar || checklistCount==null }">
     <div class="card-details-status">
         <div class="titles-info-sec">
             <div class="title">{{checklistCount}} of 6 Steps Completed</div>
