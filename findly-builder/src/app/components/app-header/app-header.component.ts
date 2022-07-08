@@ -1415,7 +1415,7 @@ export class AppHeaderComponent implements OnInit {
       $("#enterAppName").css("border-color", this.newApp.name != '' ? "#BDC1C6" : "#DD3646");
     }
   }
-  /**opening slider component and closing slider component  */
+  /**opening slider component and closing slider  component  */
   openUserMetaTagsSlider() {
     this.currentRouteData = this.router.url;
     if (this.onboardingOpened == false) {

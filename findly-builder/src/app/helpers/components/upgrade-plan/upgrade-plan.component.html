@@ -23,7 +23,7 @@
                   <div class="plan-current-status" [ngClass]="{'d-none':(plan?.name|lowercase)!=='free'}">Free Forever</div>
                 </div>
                 <div class="plan-cost-details">
-                  <div class="plan-cost">{{['free','standard'].includes(plan?.name|lowercase)?'$':'Custom Plans'}}{{plan?.planAmount}} <span class="plan-duration-type">{{['free','enterprise'].includes(plan?.name|lowercase)?'':'/ '}}{{(plan?.name|lowercase)==='free'?'Forever':(plan?.name|lowercase)==='enterprise'?'':plan?.billingUnit}}</span></div>
+                  <div class="plan-cost">{{['free','standard'].includes(plan?.name|lowercase)?'$':'Custom Plans'}}{{plan?.planAmount}} <span class="plan-duration-type">{{['free','enterprise','unlimited'].includes(plan?.name|lowercase)?'':'/ '}}{{(plan?.name|lowercase)==='free'?'Forever':['unlimited','enterprise'].includes(plan?.name|lowercase)?'':plan?.billingUnit}}</span></div>
                 </div>
               </div>
               <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>
@@ -34,15 +34,15 @@
             <div class="plan-upgrade-block">
               <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName)?null:(selectedPlan?.planName==='Enterprise')?contactusModel('open'):downgradePlan(plan)">{{(plan?.name===selectedPlan?.planName)?'Current Plan':(selectedPlan?.planName==='Enterprise')?'Talk to us':'Choose Plan'}}</button>
                <button class="btn" [ngClass]="{'current-paln':(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===plan?.billingUnit)}" *ngIf="(plan?.name|lowercase)==='standard'" (click)="((plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan))?null:(selectedPlan?.billingUnit==='Monthly'&&selectedPlan?.planName!=='Enterprise')?downgradePlan(plan):(selectedPlan?.billingUnit==='Yearly'||selectedPlan?.planName==='Enterprise')?contactusModel('open'):[openSelectedPopup('payment_gateway'),orderConfirmData=plan]">{{(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan)?'Current Plan':(selectedPlan?.billingUnit==='Yearly'||selectedPlan?.planName==='Enterprise')?'Talk to us':'Choose Plan'}}<span class="d-none"><i class="si-right-arrow-large"></i></span></button>
-              <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='enterprise'" (click)="plan?.name===selectedPlan?.planName?null:contactusModel('open')">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
+              <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="['unlimited','enterprise'].includes(plan?.name|lowercase)" (click)="plan?.name===selectedPlan?.planName?null:contactusModel('open')">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
             </div>
             <div class="plan-features-block">
               <perfect-scrollbar class="paln-overflow-scroll">
-                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span>{{(plan?.name|lowercase)==='enterprise'?plan?.featureAccess?.ingestDocs?.displayText:plan?.featureAccess?.ingestDocs?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">records</span> </div>
-                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span> {{(plan?.name|lowercase)==='enterprise'?plan?.featureAccess?.searchQueries?.displayText:plan?.featureAccess?.searchQueries?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">queries/month</span> </div>
+                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span>{{['unlimited','enterprise'].includes(plan?.name|lowercase)?plan?.featureAccess?.ingestDocs?.displayText:plan?.featureAccess?.ingestDocs?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">records</span> </div>
+                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span> {{['unlimited','enterprise'].includes(plan?.name|lowercase)?plan?.featureAccess?.searchQueries?.displayText:plan?.featureAccess?.searchQueries?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">queries/month</span> </div>
                 <div class="plan-sub-features">
                   <div class="plan-sub-feature-hding" *ngIf="(plan?.name|lowercase)==='free'"><strong>Free</strong> Includes</div>
-                  <div class="plan-sub-feature-hding" *ngIf="['standard','enterprise'].includes(plan?.name|lowercase)">Everything in <strong>{{(plan?.name|lowercase)==='standard'?'Free':'Standard'}}</strong>, plus:</div>
+                  <div class="plan-sub-feature-hding" *ngIf="['standard','enterprise','unlimited'].includes(plan?.name|lowercase)">Everything in <strong>{{(plan?.name|lowercase)==='standard'?'Free':'Standard'}}</strong>, plus:</div>
                   <ng-container *ngFor="let feature of plan?.featureData|slice:0:((plan?.name|lowercase)==='free'?featureLimit:(plan?.featureData?.length))">
                     <div class="plan-feature-desc" *ngIf="feature?.displayOnBanner"><span class="icon-si"><i class="si-green-check"></i></span> {{(feature?.name)}} </div>
                   </ng-container>
@@ -50,7 +50,7 @@
                   <div class="plan-sub-feature-hding"><strong>{{(plan?.name|lowercase)==='free'?'Self-Service Support':'Support'}}</strong></div>
                   <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>Kore.ai Community</div>
                   <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>Kore.ai Academy</div>
-                  <div class="plan-feature-desc" *ngIf="['standard','enterprise'].includes(plan?.name|lowercase)"><span class="icon-si"><i class="si-green-check"></i></span>{{plan?.name}} support upgrade option</div>
+                  <div class="plan-feature-desc" *ngIf="['standard','enterprise','unlimited'].includes(plan?.name|lowercase)"><span class="icon-si"><i class="si-green-check"></i></span>{{plan?.name}} support upgrade option</div>
                 </div>
               </perfect-scrollbar>
             </div>
@@ -137,7 +137,7 @@
 <perfect-scrollbar class="scoll-iframe-load-payment">
     <div class="modal-body">
       <div class="plan-order-steps" [ngSwitch]="selectedPaymentPage">
-               <!-- order conformation start fr`om here -->
+               <!-- payment mode hold start from here -->
                <div class="row col-12 m-0 align-items-center payment-status-block" *ngSwitchCase="'!payment_confirm'">
               <div class="col-12">
                 <div class="payment-success-route">
@@ -159,6 +159,7 @@
                 </div>
               </div>
               </div>
+              <!-- order confirmation start from here -->
                <div class="row col-12 m-0 align-items-center payment-status-block" *ngSwitchCase="'payment_confirm'">
                 <div class="col-6">
                   <div class="order-img">
@@ -210,8 +211,8 @@
                   <div class="payment-status-overview">
                     <div class="payment-status-img"> <img src="assets/images/pricing-plan/plan-order/payment-confirm-success.svg" /></div>
                     <div class="payment-status-header">Yay! Payment Successful...</div>
-                    <div class="payment-status-desc">10K Searches added and 10K Queries added per month</div>
-                    <div class="payment-status-expire">Expires on 20 June 2022</div>
+                    <div class="payment-status-desc">{{(orderConfirmData?.overage?.ingestDocs?.limit|valueFormat)}} Searches added and {{(orderConfirmData?.overage?.searchQueries?.limit|valueFormat)}} Queries added per {{orderConfirmData?.billing?.unit}}</div>
+                    <div class="payment-status-expire">Expires on {{(selectedPlan?.endDate|date:'dd MMM yyyy')}}</div>
                     <div class="payment-status-btn">
                       <button class="kr-sg-button-secondary btn_lg" (click)="downloadInvoice()">Download Invoice <span class="px-2"><i class="si si-download-file primaryColor"></i></span></button>
                     </div>

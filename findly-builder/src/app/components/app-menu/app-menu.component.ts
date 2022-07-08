@@ -429,11 +429,11 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     // Multiple INdex hardcoded
     await this.appSelectionService.getCurrentSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
-      this.showUpgrade = res.subscription.planId == 'fp_free' ? false : true;
+      this.showUpgrade =  false;
       this.currentPlan = res.subscription.planId;
     })
     this.appSelectionService.appSelectedConfigs.subscribe(res => {
-      this.showUpgrade = true;
+      //this.showUpgrade = true;
       this.appSelectionService.getCurrentSubscriptionData();
       this.getCurrentUsage();
       this.indexConfigs = res;

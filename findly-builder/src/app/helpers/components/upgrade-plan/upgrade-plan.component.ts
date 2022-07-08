@@ -11,6 +11,7 @@ import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
+import * as moment from 'moment';
 declare const $: any;
 @Component({
   selector: 'app-upgrade-plan',
@@ -206,7 +207,7 @@ showHideSpinner(){
         this.notificationService.notify(message, 'success');
         if (!this.isOverageShow) {
           this.selectedPaymentPage = 'payment_success';
-          const obj = {msg:`Your previous payment of $ ${this.orderConfirmData?.planAmount} is processed successfully. You can Publish your bot now to upgrade to the ${this.orderConfirmData?.name} plan.`,type:'success'};
+          const obj = {msg:`Your previous payment of $ ${this.orderConfirmData?.planAmount} is processed successfully.`,type:'success'};
           this.updateBanner.emit(obj);
         }
         else {
@@ -252,8 +253,10 @@ showHideSpinner(){
       this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
     });
   }
+  
   //payment plan for upgrade/downgrade
   downgradePlan(planData) {
+        this.orderConfirmData = planData;
         this.selectedApp = this.workflowService.selectedApp();
         const payload = { "streamId": this.selectedApp._id, "targetPlanId": planData?._id };
         const upgradePlan = this.service.invoke('put.planChange', {}, payload);     
@@ -262,7 +265,8 @@ showHideSpinner(){
               this.closeSelectedPopup('choose_plan');
               this.notificationService.notify('Plan Changed successfully', 'success');
               this.appSelectionService.getCurrentSubscriptionData();
-              const obj = {msg:`Your plan will be changed from Pro to Standard by the end of the billing cycle i.e. 18th April 2021.`,type:'downgrade'};
+              const endDate = moment(this.selectedPlan.endDate).format("Do MMMM YYYY");
+              const obj = {msg:`Your plan will be changed from Standard to Free by the end of the billing cycle i.e. ${endDate}.`,type:'downgrade'};
               this.updateBanner.emit(obj);
           }
           else if(res.status === 'processing'&&res.type==='upgrade'){
