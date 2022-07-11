@@ -1436,6 +1436,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             this.mixpanel.postEvent('Content Crawl web domain added', {});
           }
           if (this.selectedSourceType.sourceType === 'faq') {
+            this.mixpanel.postEvent('FAQ-created', {});
             this.poling(res._id, 'scheduler');
           }
           if(this.selectedSourceType.resourceType === 'file'){
@@ -1539,6 +1540,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.closeAddManualFAQModal();
       this.appSelectionService.updateTourConfig('addData');
       this.mixpanel.postEvent('Manual FAQ added', {});
+      this.mixpanel.postEvent('FAQ-created', {});
       event.cb('success');
       if (this.resourceIDToOpen) {
         const eve: any = {}
@@ -1932,6 +1934,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
       if(this.selectedSourceType.resourceType === 'importfaq'&&this.selectedSourceType.sourceType === "faq"){
+        this.mixpanel.postEvent('FAQ-created', {});
          this.mixpanel.postEvent('FAQ File extraction success', {});      
       }
       // console.log("imp faq res", res);

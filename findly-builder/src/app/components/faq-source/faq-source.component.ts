@@ -1080,8 +1080,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
 
       }
       this.getDyanmicFilterData(searchValue, 'landingPage');
-       console.log('MIXPANNEL faq-created')
-      this.mixpanel.postEvent('FAQ-created', {})
     }, errRes => {
     });
   }
