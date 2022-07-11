@@ -1,7 +1,10 @@
+<!---loading spinner-->
 <div class="mainLoadingSpinner" *ngIf="pageLoading">
   <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
   <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
 </div>
+
+<!---show current plan and usage-->
 <div class="pricing-container-wrapper" *ngIf="(currentSubscriptionPlan?.subscription)">
   <div class="title-header d-flex align-items-center justify-content-between">
     <div>{{"plan.plan_head"| translate}}</div>
@@ -21,7 +24,7 @@
         <span class="info-text">{{bannerObj?.msg}}</span>
       </div>
       <div class="close-info col-2 text-right">
-        <span class="cancel-request" *ngIf="bannerObj.type==='downgrade'" (click)="revertCancel()">Cancel request</span>
+        <span class="cancel-request" *ngIf="bannerObj.type==='downgrade'" (click)="revertCancelModal('open')">Cancel request</span>
         <span class="info-proTip-close" (click)="clearBanner()"><i class="si-close"></i></span>
       </div>
     </div>
@@ -52,7 +55,7 @@
                   <!--cancel subscription buttons-->
                   <div class="plan-subscription" *ngIf="['none','cancel'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)"><span class="plan-current-status"></span>{{(currentSubscriptionPlan?.subscription?.changesScheduledFor==='none')?("plan.active" | translate):("plan.cancel_request_sent" | translate)}}</div>
                   <div class="plan-subscription-duration" *ngIf="currentSubscriptionPlan?.subscription?.changesScheduledFor==='none'">{{((currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'&&currentSubscriptionPlan?.subscription?.endDate)?'Till  ':''}}{{(currentSubscriptionPlan?.subscription?.planName|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MMM.YYYY'}}</div>
-                  <div class="plan-subscription-duration" *ngIf="['cancel'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)" (click)="revertCancel()">{{"plan.revert_cancellation_btn" | translate}}</div>
+                  <div class="plan-subscription-duration" *ngIf="['cancel'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)" (click)="revertCancelModal('open')">{{"plan.revert_cancellation_btn" | translate}}</div>
                   <!--downgrade buttons-->
 
                   <ng-container *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')">
@@ -60,7 +63,7 @@
                       <div class="plan-downgrade" *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')"><span class="plan-current-status"></span>Downgraded</div>
                       <div class="plan-downgrade-duration" *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')">Billing cycle {{currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MM.YY'}}</div>  
                     </div>
-                   <div class="plan-downgrade-cancel" *ngIf="['downgrade'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)" (click)="revertCancel()">{{"plan.cancel_request" | translate}}</div>
+                   <div class="plan-downgrade-cancel" *ngIf="['downgrade'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)" (click)="revertCancelModal('open')">{{"plan.cancel_request" | translate}}</div>
                   </ng-container>
                 </div>
               </div>
@@ -164,7 +167,6 @@
                       </ul>
                   </div>
                 </div>
-                <i class="si-info"></i>
               </div>
               <div echarts [options]="queryGraph" style="height: 320px;"></div>
               <div class="legent-data-ingestion-analysis">
@@ -276,10 +278,11 @@
     <div class="desc-text-info">Your cancellation request will be reverted and current plan will be retained</div>
   </div>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg">Revert Cancellation</button>
-    <button class="kr-sg-button-secondary btn_lg">Cancel</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="renewSubscription()" [disabled]="btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>Revert Cancellation</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="revertCancelModal('close')">Cancel</button>
   </div>
 </kr-modal>
+
   <!-- View plan Modal -->
   <div class="modal fade" id="viewPlanModal">
     <div class="modal-dialog single-plan">

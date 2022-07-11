@@ -275,17 +275,7 @@
         </div>
       </div>
 
-      <ng-container>
-        <div class="upgrade-experience" [ngClass]='{"d-none":currentSubscriptionPlan.planName!="Free"}'>
-          <div class="img-block">
-            <img src="assets/icons/pricing/upgrade-experience.png">
-          </div>
-          <div class="title">{{"experiments.empty_experiment"| translate}}</div>
-          <button class="kr-sg-button-primary btn_lg" (click)="upgrade()">{{"experiments.upgrade"| translate}}</button>
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="filterExperiments.length===0 && currentSubscriptionPlan.planName!='Free'">
+      <ng-container *ngIf="filterExperiments.length===0">
         <div class="empty-landing-screen">
           <div class="img-block"><img class="action_icon" src="assets/images/experiments-empty.png"
               (load)="imageLoaded()"></div>
@@ -356,11 +346,8 @@
             [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{
               disable_edit: exp_status !== 'configured' && form_type === 'edit'
             }" />
-          <span class="v-name" [style.background-color]="vari.color">{{
-            vari.code
-            }}</span>
-          <img id="infoWarning{{varIndex}}" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
-            width="12" />
+          <span class="v-name" [style.background-color]="vari.color">{{vari.code}}</span>
+          <img id="infoWarning{{varIndex}}" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
         </div>
         <div class="kr-sg-dropdowns col-4 pl-pr-5">
           <div class="label-text">{{"experiments.exp_index"| translate}}</div>
@@ -368,15 +355,11 @@
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" id="indexPipelineName{{varIndex}}"
               [disabled]="exp_status !== 'configured' && form_type === 'edit'"
               [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")?"#EFF0F1":"#ffffff","color":(vari.indexPipelineName==undefined)||(exp_status !== "configured" && form_type === "edit")?"#9aa0a6":"#202124","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}'>
-              {{
-              vari.indexPipelineName === undefined
-              ? varIndex===0? "Select Index":"Select Index"
-              : vari.indexPipelineName
-              }}
+              {{vari.indexPipelineName === undefined? varIndex===0? "Select Index":"Select Index": vari.indexPipelineName}}
             </button>
             <ul class="dropdown-menu content-menu">
               <li *ngFor="let index of indexConfig"
-                (click)="fetchVariant(varIndex, index, 'indexid');getQueryPipeline(index._id)"
+                (click)="fetchVariant(varIndex, index, 'indexid');getQueryPipeline(index._id,varIndex)"
                 [ngStyle]="{'font-weight':vari.indexPipelineId===index._id?'bold':''}">
                 {{ index.name=='Default'?"Default Index":index.name }}
               </li>
@@ -389,14 +372,10 @@
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" id="queryPipelineName{{varIndex}}"
               [disabled]="(exp_status !== 'configured' && form_type === 'edit')||vari.indexPipelineName==undefined"
               [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")||vari.indexPipelineName==undefined?"#EFF0F1":"#ffffff","color":(vari.indexPipelineName==undefined)||(exp_status !== "configured" && form_type === "edit")?"#9aa0a6":"#202124","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}'>
-              {{
-              vari.queryPipelineName === undefined
-              ? varIndex===0? "Select Search Configuration":"Select Search Configuration"
-              : vari.queryPipelineName
-              }}
+              {{vari.queryPipelineName === undefined? varIndex===0? "Select Search Configuration":"Select Search Configuration": vari.queryPipelineName}}
             </button>
             <ul class="dropdown-menu content-menu" *ngIf="vari.indexPipelineName!==undefined">
-              <li *ngFor="let query of queryPipeline" (click)="fetchVariant(varIndex, query, 'queryid')"
+              <li *ngFor="let query of queryPipeline[varIndex]" (click)="fetchVariant(varIndex, query, 'queryid')"
                 [ngStyle]="{'font-weight':vari.queryPipelineId===query._id?'bold':''}">
                 {{ query.name=='Default'?"Default Search":query.name }}
               </li>
@@ -423,9 +402,7 @@
         </div>
         <div class="percentage-sec">
           <div class="names" *ngFor="let code of variantsArray">
-            <span class="name" [style.background-color]="code.color">{{
-              code.code
-              }}</span><span class="perentage">{{ code.trafficPct }}%</span>
+            <span class="name" [style.background-color]="code.color">{{code.code}}</span><span class="perentage">{{ code.trafficPct }}%</span>
           </div>
           <!-- <div class="names">
             <span class="name">B</span><span class="perentage">50%</span>
@@ -473,6 +450,3 @@
     </button>
   </div>
 </kr-modal>
-
-<!-- upgrade plan component-->
-<app-upgrade-plan #plans [componentType]="componentType" (upgradedEvent)="upgradeComplete()"></app-upgrade-plan>

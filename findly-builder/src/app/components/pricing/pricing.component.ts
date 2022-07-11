@@ -442,41 +442,22 @@ export class PricingComponent implements OnInit, OnDestroy {
     //   this.documentGraph.grid.bottom = "3%"
     // }
   }
-  //revert subscription dialog
-  revertCancel() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '530px',
-      height: 'auto',
-      panelClass: 'delete-popup',
-      data: {
-        title: 'Are you sure you want to Revert?',
-        body: 'Your cancellation request will be reverted and current plan will be retained',
-        buttons: [{ key: 'yes', label: 'Revert Cancellation', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
-      }
-    });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          this.renewSubscription(dialogRef);
-        } else if (result === 'no') {
-          dialogRef.close();
-        }
-      })
-  }
   //renew subscription
-  renewSubscription(dialogRef) {
+  renewSubscription() {
+    this.btnLoader = true;
     const queryParam = {
       streamId: this.selectedApp?._id
     }
     this.service.invoke('get.renewSubscribtion', queryParam).subscribe(res => {
       setTimeout(() => {
-        dialogRef.close();
         this.appSelectionService.getCurrentSubscriptionData();
         if (this.bannerObj.show) this.clearBanner();
+        this.btnLoader = false;
+        this.revertCancelModal('close');
       }, 2000)
       // this.notificationService.notify('Cancel Subscription', 'success');
     }, errRes => {
+      this.btnLoader = false;
       this.errorToaster(errRes, 'failed to renew subscription');
     });
   }
