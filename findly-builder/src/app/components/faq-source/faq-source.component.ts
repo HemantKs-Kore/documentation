@@ -356,8 +356,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mixpanel.postEvent('Enter upload FAQ file', {}); 
     }
     else if(type==='manual'){
-      console.log("mix event:Enter FAQ Manual")
-      // this.mixpanel.postEvent('Enter FAQ Manual', {}); 
+       this.mixpanel.postEvent('Enter FAQ Manual', {}); 
     }
     // this.addAltFaq={
     //   _source :{
@@ -1081,7 +1080,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
 
       }
       this.getDyanmicFilterData(searchValue, 'landingPage');
-      // console.log('MIXPANNEL')
+       console.log('MIXPANNEL faq-created')
       this.mixpanel.postEvent('FAQ-created', {})
     }, errRes => {
     });

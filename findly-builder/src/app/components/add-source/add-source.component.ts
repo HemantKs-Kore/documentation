@@ -419,7 +419,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.statusObject = res;
         const queuedJobs = _.filter(res, (source) => {
           if (this.selectedSourceType.sourceType === 'content') {
-            return (source.extractionSourceId === jobId);
+            return (source?.metadata?.extractionSourceId === jobId);
           }
           else {
             return (source._id === jobId);
@@ -434,13 +434,15 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
 
           if ((queuedJobs[0].status !== 'running') && (queuedJobs[0].status !== 'queued')) {
-            if (this.selectedSourceType.sourceType === 'content'){
+            if (this.selectedSourceType.sourceType === 'content'&&queuedJobs[0].status === 'success'){
               this.mixpanel.postEvent('Content Crawl web domain success', {});
             }
-            else if(this.selectedSourceType.sourceType === 'faq'&&this.selectedSourceType.resourceType === ''){
+            else if(this.selectedSourceType.sourceType === 'faq'&&this.selectedSourceType.resourceType === ''&&queuedJobs[0].status === 'success'){
                this.mixpanel.postEvent('FAQ Web extract success', {});  
             } 
-
+            if(this.selectedSourceType.sourceType === 'content'&&queuedJobs[0].status === 'failed'){
+              this.mixpanel.postEvent('Content Crawl web domain failed', {});
+            }
             this.pollingSubscriber.unsubscribe();
             let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
             if (currentPlan?.subscription?.planId == 'fp_free') {
