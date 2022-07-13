@@ -155,7 +155,7 @@ export class AppHeaderComponent implements OnInit {
   notifyAccount: boolean = false;
   notifyAccountInfo: any;
   isJoinedClicked: boolean = false;
-
+  isRouteDisabled:boolean = false;
   constructor(
     private authService: AuthService,
     public headerService: SideBarService,
@@ -182,11 +182,10 @@ export class AppHeaderComponent implements OnInit {
       this.tourData = res.onBoardingChecklist;
       this.trackChecklist();
     })
-    // this.selectedApp = this.workflowService.selectedApp();
-    // this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
       if (res.name != undefined) {
         this.analyticsClick(res.path, false);
+        this.isRouteDisabled = res?.disable;
       }
       if (res?.isDemo == true) {
         this.viewCheckList();
@@ -564,6 +563,7 @@ export class AppHeaderComponent implements OnInit {
       else if (menu == '/settings' || menu == '/credentials-list' || menu == '/actions' || menu == '/team-management' || menu == '/smallTalk' || menu == '/pricing' || menu == '/usageLog' || menu == '/invoices' || menu == '/generalSettings') {
         this.menuFlag = true;
         this.sourcesFlag = false;
+        menu = this.isRouteDisabled?'/pricing':'/generalSettings';
       }
       else {
         this.menuFlag = false;

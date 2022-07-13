@@ -56,6 +56,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   selectedIndexConfig: any = {};
   subscription: Subscription;
   indexSub: Subscription;
+  routeChanged: Subscription;
   editName: boolean = false;
   editNameVal: String = "";
   editIndexName: boolean = false;
@@ -68,7 +69,9 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   currentSubsciptionData: Subscription;
   updateUsageData: Subscription;
   upgradeBannerFlag: boolean;
+  isRouteDisabled:boolean=false;
   componentType: any = '';
+  currentSubscriptionPlan:any={};
   @Input() show;
   @Input() settingMainMenu;
   @Input() sourceMenu;
@@ -424,12 +427,10 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
-    // this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    // Multiple INdex hardcoded
-    await this.appSelectionService.getCurrentSubscriptionData();
+    this.currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
-      const currentSubscriptionPlan = res;
-      if(['Unlimited','Enterprise'].includes(currentSubscriptionPlan?.subscription?.planName)) this.showUpgrade =  true;
+      this.currentSubscriptionPlan = res;     
+      this.getSubscriptionData(); 
     })
     this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.appSelectionService.getCurrentSubscriptionData();
@@ -463,6 +464,15 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         this.getCurrentUsage();
       }
     })
+    this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
+      if (res.name != undefined) {
+        this.isRouteDisabled = res?.disable;
+      }
+    })
+  }
+  //check subscription data
+  getSubscriptionData(){
+    if(['Unlimited','Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName)) this.showUpgrade =  true;
   }
   //read flag update in readUpgradeBanner
   readUpgradeBanner() {
@@ -631,5 +641,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.indexSub ? this.indexSub.unsubscribe() : false;
     this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;
     this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
+    this.routeChanged ? this.routeChanged.unsubscribe() : null;
   }
 }

@@ -90,7 +90,6 @@ export class AppExperimentsComponent implements OnInit {
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    //this.currentsubscriptionPlan(this.selectedApp)
     await this.appSelectionService.getCurrentSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.currentSubscriptionPlan = res.subscription;

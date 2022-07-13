@@ -159,6 +159,8 @@ export class AppSelectionService {
         path.selectedAccountId = selectedAccount.accountId || null;
         path.route = route
         window.localStorage.setItem('krPreviousState', JSON.stringify(path));
+        const appInfo = this.workflowService.selectedApp();
+        this.routeChanged.next({ name: 'pathchanged', path: (appInfo?.disabled&&route==='/generalSettings')?'/source':route, disable: appInfo?.disabled?true:false });
       }
     } else {
       window.localStorage.removeItem('krPreviousState');
@@ -186,7 +188,7 @@ export class AppSelectionService {
       this.queryList = null;
     });
   }
-  openApp(app, isDemo?) {
+  openApp(app, isDemo?,isUpgrade?) {
     this.workflowService.selectedQueryPipeline([]);
     this.workflowService.appQueryPipelines({});
     this.setAppWorkFlowData(app);
@@ -195,10 +197,12 @@ export class AppSelectionService {
       title: '',
     };
     this.headerService.toggle(toogleObj);
-    this.routeChanged.next({ name: 'pathchanged', path: '/summary' });
+    this.routeChanged.next({ name: 'pathchanged', path: app?.disabled?(isUpgrade?'/pricing':'/source'):'/summary', disable: app?.disabled?true:false });
     this.getInlineManualcall();
-    if (isDemo) this.openSDKApp.next();
-    if(isDemo) this.routeChanged.next({ name: 'pathchanged', path: '/summary' , isDemo:true});
+    if (isDemo){
+      this.openSDKApp.next();
+      this.routeChanged.next({ name: 'pathchanged', path: '/summary' , isDemo:true});
+    } 
   }
   //get current subscription data
   getCurrentSubscriptionData() {
@@ -247,6 +251,7 @@ export class AppSelectionService {
       };
       const appObserver = this.service.invoke('get.lastActiveSubscription', payload);
       appObserver.subscribe(res => {
+        this.currentsubscriptionPlanDetails = res;
         this.currentSubscription.next(res);
       }, errRes => {
         this.errorToaster(errRes, 'failed to get last active subscription data');

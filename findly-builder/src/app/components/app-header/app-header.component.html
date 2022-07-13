@@ -8,8 +8,7 @@
                     [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange
                     (click)="analyticsClick('apps',true);closeUserMetaTagsSlider()">
                 <div class="headerTabsContainer">
-                    <div class="headerMenuTab" [ngClass]="{'active' : mainMenu == '/summary'}" skipLocationChange
-                        routerLinkActive="active" (click)="analyticsClick('/summary');closeUserMetaTagsSlider()">
+                    <div class="headerMenuTab " [ngClass]="{'active' : mainMenu == '/summary','disable_btn':isRouteDisabled}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/summary');closeUserMetaTagsSlider()">
                         <span>{{ 'header.overview' | translate }}</span>
                         <span routerLink="/summary" class="d-none"></span>
                     </div>
@@ -23,7 +22,7 @@
                         <span routerLink="/structuredData" class="d-none"></span>
                         <span routerLink="/connectors" class="d-none"></span>
                     </div>
-                    <div class="headerMenuTab" id="sourceTab" [ngClass]="{'active' : mainMenu == '/index'}"
+                    <div class="headerMenuTab" id="sourceTab" [ngClass]="{'active' : mainMenu == '/index','disable_btn':isRouteDisabled}"
                         skipLocationChange routerLinkActive="active"
                         (click)="analyticsClick('/FieldManagementComponent');closeUserMetaTagsSlider()">
                         <span>{{ 'header.indices' | translate }}</span>
@@ -43,14 +42,9 @@
                         <span routerLink="/facets" class="d-none"></span>
                         <span routerLink="/FieldManagementComponent" class="d-none"></span>
                     </div>
-                    <!-- <div class="headerMenuTab" id='experimentsTab' [ngClass]="{'active' : mainMenu == '/experiments'}" (click)="analyticsClick('/experiments')">Experiments</div> -->
-                    <div class="kr-sg-dropdowns headerMenuTab"
-                        [ngClass]="{'active' : (mainMenu == '/dashboard'
-                     || mainMenu == '/userEngagement' || mainMenu == '/searchInsights' || mainMenu == '/resultInsights' || mainMenu == '/experiments')}">
+                    <div class="kr-sg-dropdowns headerMenuTab" [ngClass]="{'active' : (mainMenu == '/dashboard'|| mainMenu == '/userEngagement' || mainMenu == '/searchInsights' || mainMenu == '/resultInsights' || mainMenu == '/experiments'),'disable_btn':isRouteDisabled}">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown"
-                                (click)="closeUserMetaTagsSlider()"> {{
-                                'header.analytics' | translate }}</button>
+                            <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown" (click)="closeUserMetaTagsSlider()" [ngClass]="{'disable_btn':isRouteDisabled}"> {{'header.analytics' | translate }}</button>
                             <ul class="dropdown-menu content-menu content-width">
                                 <li class="experment-link" (click)="analyticsClick('/experiments')" id="experimentsTab"
                                     [ngClass]="{'active' : mainMenu == '/experiments'}"><a>Experiments</a></li>
@@ -112,8 +106,7 @@
                 <li class="nav-item app-dropdown">
                     <div class="kr-sg-dropdowns" ngbDropdown #myDrop="ngbDropdown" [placement]="'bottom-center'">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input text-truncate" title="{{appName}}" id="dropdownBasic1" ngbDropdownToggle
-                                (click)="getAllApps()">{{appName}}</button>
+                            <button class="dropdown-toggle dropdown-input text-truncate" title="{{appName}}" id="dropdownBasic1" ngbDropdownToggle (click)="getAllApps()" [ngClass]="{'disable_btn':isRouteDisabled}">{{appName}}</button>
                             <ul class="dropdown-menu content-menu" ngbDropdownMenu>
                                 <div class="search-assist-apps">
                                     <div class="main-title">{{ 'header.searchAssistApps' | translate }}</div>
@@ -143,17 +136,17 @@
                   <button placement="bottom" triggers="hover" #testButtonTooltip="ngbTooltip"
                       ngbTooltip="{{ 'header.previewAndCustomize' | translate }}" container='body'
                       tooltipClass="test-icon-tooltip" class="kr-sg-button-secondary btn_lg rr-tour-test-btn"
-                      id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()">{{ 'header.test' | translate
+                      id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()" [disabled]="isRouteDisabled">{{ 'header.test' | translate
                       }}</button>
                 </li>
-                <li (click)="train()" class="nav-item train-btn" ngbTooltip="{{ 'header.trainYourApp' | translate }}"
+                <li (click)="isRouteDisabled?null:train()" class="nav-item train-btn" ngbTooltip="{{ 'header.trainYourApp' | translate }}"
                     container='body' tooltipClass="train-icon-tooltip" [ngClass]='{"active-train":training}'>
                     <div class="loader-train"></div>
                     <img src="assets/icons/train.svg" class="defaultIcon">
                 </li>
                 <li class="nav-item search-block show-search1">
                     <div class="search_icon" [ngClass]="{'active-search-top' : showSearch}">
-                        <img src="assets/icons/sidemenu/search.svg" (click)="focusinSearch()"
+                        <img src="assets/icons/sidemenu/search.svg" (click)="isRouteDisabled?null:focusinSearch()"
                             (mouseover)="activeSearch=true" (mouseout)="activeSearch=false">
                     </div>
                     <div class="global-searc-container" *ngIf='showSearch'>
@@ -470,12 +463,7 @@
 
 </kr-modal>
 
-
 <!-- Browse all workspace -->
-
-
-
-
 <kr-modal modalType="full" #browseWorkspace modalClass="browse-workspace-full-popup">
 
     <div class="bg-1">
@@ -580,7 +568,6 @@
 </kr-modal>
 
 <!-- Browse all workspace close-->
-
 
 <app-slider-component id="supportOnboarding">
     <app-onboarding-component [currentRouteData]="currentRouteData" (openSDK)="openSDK()" [displyStatusBar]="displyStatusBar" (emitStatus)="emitStatus($event)"  (closeSlid)="closeUserMetaTagsSlider()"></app-onboarding-component>

@@ -66,10 +66,19 @@
 
               <ng-container>
                 <div *ngIf="!emptyApp && !loadingApps"  class="m-title col-12 m-10">Recently Visited</div>
-                <div class="cards-content" (click)="app.disabled?null:openApp(app)" *ngFor="let app of recentApps | filter: [ searchApp, 'name']" placement="top-center"
-                  [ngbTooltip]="app.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0"[ngClass]="{'d-none': !apps.length && !loadingApps}">
+                <div class="cards-content" (click)="app.disabled?null:openApp(app)" *ngFor="let app of recentApps | filter: [ searchApp, 'name']" [ngClass]="{'d-none': !apps.length && !loadingApps}">
                   <div class="box" [ngStyle]="app.disabled&&{'opacity':'0.4','cursor':'default'}">
                     <div class="content-sec">
+                      <div class="delete-clone-icons" *ngIf="app.disabled">
+                        <div class="disabled-icon">
+                          <img src="assets/icons/Info-red.svg">
+                          <span class="tooltip_disabled">
+                            <span>Your App has been deactivated, kindly upgrade you plan or delete records to stay on the free forever plan</span>
+                            <span class="upgrade_plan" (click)="openApp(app,true)">Upgrade Plan</span>
+                            <span class="delete_record" (click)="openApp(app,false)">Delete Records</span>
+                          </span>
+                        </div>
+                      </div>                     
                       <div class="name"><span>{{app.name}}</span></div>
                       <div class="info-text" *ngIf="app.description !==''" title="{{app.description}}">{{app.description}}
                       </div>
@@ -104,9 +113,7 @@
                   </div>
                 </div>
 
-                <div class="cards-content" *ngFor="let filter of filteredApps | filter: [ searchApp, 'name']"
-                  (click)="filter.disabled?null:openApp(filter)" placement="top-center"
-                  [ngbTooltip]="filter.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0">
+                <div class="cards-content" *ngFor="let filter of filteredApps | filter: [ searchApp, 'name']" (click)="filter.disabled?null:openApp(filter)">
                   <div class="box" [ngStyle]="filter.disabled&&{'opacity':'0.4','cursor':'default'}">
                     <div class="content-sec">
                       <div class="delete-clone-icons">

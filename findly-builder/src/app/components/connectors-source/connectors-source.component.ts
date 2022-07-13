@@ -372,7 +372,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.isAuthorizeStatus = false;
       this.isloadingBtn = false;
       if (dialogRef) dialogRef.close();
-      this.errorToaster(errRes, 'error');
+      // this.errorToaster(errRes, 'error');
       if (document.getElementsByClassName("modal").length === 0) this.openDeleteModel('open');
     });
   }
@@ -495,6 +495,7 @@ export class ConnectorsSourceComponent implements OnInit {
     };
     this.service.invoke('post.ingestConnector', quaryparms).subscribe(res => {
       this.isSyncLoading = false;
+      this.getConnectorData();
       if (isShow) this.notificationService.notify('Connector Synchronized Successfully', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
