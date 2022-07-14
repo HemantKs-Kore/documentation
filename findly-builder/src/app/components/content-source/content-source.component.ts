@@ -901,7 +901,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   pageination(pages, action) {
     // let count = 0;
-    // let divisor = Math.floor(pages/perPage) 
+    // let divisor = Math.floor(pages/perPage)
     // let remainder = pages%perPage;
     // if(remainder>0){
     //   this.btnCount = divisor +1;
@@ -1168,7 +1168,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       jobId: source.jobId
     }
     this.service.invoke('stop.crwaling', quaryparms).subscribe(res => {
-      this.notificationService.notify('Stoped Crawling', 'success');
+      this.notificationService.notify('Stopped Crawling', 'success');
       this.getSourceList();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to Stop Cwraling');
@@ -1186,7 +1186,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.isEditDoc = false;
       this.cancelDocDetails();
       this.getSourceList()
-      //} 
+      //}
       this.notificationService.notify('Source deleted successsfully', 'success');
       const deleteIndex = _.findIndex(this.resources, (pg) => {
         return pg._id === record._id;
@@ -1454,7 +1454,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     //  delete  request.contentSource;
     // }
     //  if (request.recentStatus == 'all') {
-    //   delete request.recentStatus; 
+    //   delete request.recentStatus;
     // }
     // if (this.searchSources === '') {
     //   delete request.search;
@@ -1724,7 +1724,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       crawler.advanceOpts.blockedOpt = false;
       crawler.advanceOpts.blockedURLs = [];
     }
-    // crawler.resourceType = resourceType; 
+    // crawler.resourceType = resourceType;
     payload = crawler;
     // console.log(payload);
 
@@ -1839,11 +1839,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       //   let date = this.selectedSource.advanceSettings.scheduleOpts.date;
       //   if(String(date).split(" ")) this.selectedSource.advanceSettings.scheduleOpts.date =  String(date).split(" ")[1] + " " + String(date).split(" ")[2]  + " " + String(date).split(" ")[3];
       // }
-      // if(this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType && 
+      // if(this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType &&
       //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType != "Custom"){
       //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue = {};
       // }
-      // if(this.selectedSource.advanceSettings.scheduleOpts.interval && 
+      // if(this.selectedSource.advanceSettings.scheduleOpts.interval &&
       //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue &&
       //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn &&
       //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate){
