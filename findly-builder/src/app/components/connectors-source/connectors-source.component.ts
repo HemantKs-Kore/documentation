@@ -70,8 +70,6 @@ export class ConnectorsSourceComponent implements OnInit {
   isloadingBtn: boolean = false;
   pageLoading: boolean = false;
   total_records: number;
-  currentSubsciptionData: Subscription;
-  currentSubscriptionPlan: any;
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
   connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' }];
   @ViewChild('plans') plans: UpgradePlanComponent;
@@ -81,16 +79,7 @@ export class ConnectorsSourceComponent implements OnInit {
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
-    await this.appSelectionService.getCurrentSubscriptionData();
-    this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
-      this.currentSubscriptionPlan = res.subscription;
-      if (['Enterprise','Unlimited'].includes(this.currentSubscriptionPlan?.planName)) {
-        this.getConnectors();
-      }
-      else{
-        this.pageLoading = true;
-      }
-    })
+    this.getConnectors();
     if (sessionStorage.getItem('connector') !== null) {
       const session_connector_data = sessionStorage.getItem('connector');
       this.sessionData = JSON.parse(session_connector_data);
@@ -502,6 +491,5 @@ export class ConnectorsSourceComponent implements OnInit {
     });
   }
   ngOnDestroy() {
-    this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : null;
   }
 }

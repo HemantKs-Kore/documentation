@@ -1402,9 +1402,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           this.getStats(null, true);
           this.pollingSubscriber.unsubscribe();
-          let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-          if (currentPlan?.subscription?.planId == 'fp_free') {
-            this.appSelectionService.updateUsageData.next('updatedUsage');
+          const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+          if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
+            this.appSelectionService.getCurrentUsage();;
           }
         }
 
@@ -1627,9 +1627,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editfaq = null
       if (state != 'in_review' && state != 'approved') {
         this.notificationService.notify(custSucessMsg, 'success');
-        let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-        if (currentPlan?.subscription?.planId == 'fp_free') {
-          this.appSelectionService.updateUsageData.next('updatedUsage');
+        const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+        if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
+          this.appSelectionService.getCurrentUsage();;
         }
       }
       if (state == 'in_review') {
@@ -1672,10 +1672,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         // this.getSourceList();
       }
       this.resetCheckboxSelect();
-
-      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-      if (currentPlan?.subscription?.planId == 'fp_free') {
-        this.appSelectionService.updateUsageData.next('updatedUsage');
+      const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+      if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
+        this.appSelectionService.getCurrentUsage();;
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete faq source');
@@ -1699,9 +1698,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.getStats();
       this.resetCheckboxSelect();
-      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-      if (currentPlan?.subscription?.planId == 'fp_free') {
-        this.appSelectionService.updateUsageData.next('updatedUsage');
+      const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+      if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
+        this.appSelectionService.getCurrentUsage();;
       }
       if (!(this.faqs && this.faqs.length)) {
         this.selectedFaq = null;

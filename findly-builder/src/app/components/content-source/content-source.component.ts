@@ -598,9 +598,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
         if (source.status == 'success') {
-          let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-          if (currentPlan?.subscription?.planId == 'fp_free') {
-            this.appSelectionService.updateUsageData.next('updatedUsage');
+          const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+          if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
+            this.appSelectionService.getCurrentUsage();;
           }
         }
         if (source.status == 'running' || source.status == 'queued') {
@@ -1195,9 +1195,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.resources.splice(deleteIndex, 1);
       }
       this.closeStatusModal();
-      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-      if (currentPlan?.subscription?.planId == 'fp_free') {
-        this.appSelectionService.updateUsageData.next('updatedUsage');
+      const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+      if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
+        this.appSelectionService.getCurrentUsage();;
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete source');

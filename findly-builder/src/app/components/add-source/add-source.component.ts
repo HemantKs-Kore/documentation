@@ -445,8 +445,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             this.pollingSubscriber.unsubscribe();
             let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-            if (currentPlan?.subscription?.planId == 'fp_free') {
-              this.appSelectionService.updateUsageData.next('updatedUsage');
+            if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
+              this.appSelectionService.getCurrentUsage();;
             }
             //this.crawlOkDisable = true;
             if (queuedJobs[0].validation?.limitValidation == false) {

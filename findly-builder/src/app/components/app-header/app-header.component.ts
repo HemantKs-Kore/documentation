@@ -137,7 +137,8 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Invoices', routeId: '/invoices', quaryParms: {} },
     { displayName: 'Connectors', routeId: '/connectors', quaryParms: {} },
     { displayName: 'Results Ranking', routeId: '/resultranking', quaryParms: {} }
-  ]
+  ];
+  menuItems:any={sources:['/source','/content','/faqs','/botActions','/structuredData','/connectors'],indices:['/FieldManagementComponent','/traits','/index','/weights','/synonyms','/stopWords','/resultranking','/facets','/rules','/search-experience','/resultTemplate'],anlytics:['/dashboard','/userEngagement','/searchInsights','/experiments','/resultInsights'],manage:['/settings','/credentials-list','/actions','/team-management','/smallTalk','/pricing','/usageLog','/invoices','/generalSettings']};
   public dockersList: Array<any> = [];
   public pollingSubscriber: any;
   public dockServiceSubscriber: any;
@@ -545,25 +546,18 @@ export class AppHeaderComponent implements OnInit {
   }
   analyticsClick(menu, skipRouterLink?) {
     this.mainMenu = menu;
-    if (menu == '/metrics' ||
-      menu == '/dashboard' ||
-      menu == '/userEngagement' ||
-      menu == '/searchInsights' ||
-      menu == '/experiments' ||
-      menu == '/resultInsights' ||
-      menu == '/summary' ||
-      menu == '/experiments') {
+    if (this.menuItems?.anlytics?.includes(menu) ||menu == '/summary') {
       this.showMainMenu = false;
     } else {
       this.showMainMenu = true;
-      if (menu == '/source' || menu == '/content' || menu == '/faqs' || menu == '/botActions' || menu == '/structuredData' || menu == '/connectors') {
+      if (this.menuItems?.sources?.includes(menu)) {
         this.sourcesFlag = true;
         this.menuFlag = false;
       }
-      else if (menu == '/settings' || menu == '/credentials-list' || menu == '/actions' || menu == '/team-management' || menu == '/smallTalk' || menu == '/pricing' || menu == '/usageLog' || menu == '/invoices' || menu == '/generalSettings') {
+      else if (this.menuItems?.manage?.includes(menu)) {
         this.menuFlag = true;
         this.sourcesFlag = false;
-        menu = this.isRouteDisabled?'/pricing':'/generalSettings';
+        if(this.isRouteDisabled) menu='/pricing';
       }
       else {
         this.menuFlag = false;
@@ -580,10 +574,6 @@ export class AppHeaderComponent implements OnInit {
     this.showMenu.emit(this.showMainMenu)
     this.settingMenu.emit(this.menuFlag)
     this.showSourceMenu.emit(this.sourcesFlag);
-    let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-    if ((menu == '/content' || menu == "/index") && currentPlan?.subscription?.planId == 'fp_free') {
-      this.appSelectionService.updateUsageData.next('updatedUsage');
-    }
   }
   logoutClick() {
     this.authService.logout();

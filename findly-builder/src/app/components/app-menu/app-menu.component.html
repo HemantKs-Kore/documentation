@@ -6,7 +6,7 @@
 			<div class="product-subscription-alert">
 				<p class="product-subscription-desc" *ngIf="(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80)">You have utilized more than 80% of your current plan, please upgrade plan to enjoy uninturrepted services.</p>
 				<img src="assets/images/pricing-plan/plan-subscrition/product-launch.svg" class="product-subscription-img"/>
-				<div class="upgrade-plan-btn" [ngClass]="{'danger':(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80),'warning':((usageDetails?.searchQueries>50&&usageDetails?.searchQueries<=80)||(usageDetails?.ingestDocs>50&&usageDetails?.ingestDocs<=80))}" (mouseover)="readUpgradeBanner()" (click)="upgrade()"><i class="si-publish si-icon m-r-2"></i>Upgrade Plan</div>
+				<div class="upgrade-plan-btn" [ngClass]="{'danger':(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80),'warning':((usageDetails?.searchQueries>50&&usageDetails?.searchQueries<=80)||(usageDetails?.ingestDocs>50&&usageDetails?.ingestDocs<=80))}" (click)="upgrade()"><i class="si-publish si-icon m-r-2"></i>Upgrade Plan</div>
 				<div class="hover-documnet-show-data">
 					<div class="card-data- card1">
 						<div class="img-block">
@@ -17,9 +17,9 @@
 							<div class="desc-text">Percentage of queries asked by the user</div>
 							<div class="count-data">
 								<div class="linit-k">
-									<span>{{usageDetails.searchCount | valueFormat}}</span> / {{usageDetails.searchLimit|valueFormat}}
+									<span>{{usageDetails?.searchCount | valueFormat}}</span> / {{usageDetails?.searchLimit|valueFormat}}
 								</div>
-								<div class="percentage">{{usageDetails.searchQueries}}% </div>
+								<div class="percentage">{{usageDetails?.searchQueries}}% </div>
 							</div>
 						</div>
 						<ng-container>
@@ -35,9 +35,9 @@
 							<div class="desc-text">Percentage of documents ingested</div>
 							<div class="count-data">
 								<div class="linit-k">
-									<span>{{usageDetails.ingestCount| valueFormat}}</span> / {{usageDetails.ingestLimit|valueFormat}}
+									<span>{{usageDetails?.ingestCount| valueFormat}}</span> / {{usageDetails?.ingestLimit|valueFormat}}
 								</div>
-								<div class="percentage">{{usageDetails.ingestDocs}}%</div>
+								<div class="percentage">{{usageDetails?.ingestDocs}}%</div>
 							</div>
 						</div>
 						<ng-container>

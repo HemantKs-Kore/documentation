@@ -28,6 +28,7 @@ export class AppSelectionService {
   public openSDKApp = new Subject<any>();
   public resumingApp = false;
   public currentsubscriptionPlanDetails: any;
+  public currentUsageData: any;
   public inlineManualInfo: any = [];
   res_length: number = 0;
   getTourArray: any = [];
@@ -214,6 +215,7 @@ export class AppSelectionService {
       const appObserver = this.service.invoke('get.currentPlans', payload);
       appObserver.subscribe(res => {
         this.currentsubscriptionPlanDetails = res;
+        this.getCurrentUsage();
         this.currentSubscription.next(res);
       }, errRes => {
         if (errRes && errRes.error && errRes.error.errors[0].code == 'NoActiveSubscription') {
@@ -224,6 +226,25 @@ export class AppSelectionService {
       });
     }
   }
+    //get current usage data of search and queries
+    getCurrentUsage() {
+      const selectedApp = this.workflowService.selectedApp();
+      const queryParms = {
+        streamId: selectedApp._id
+      }
+      const payload = { "features": ["ingestDocs", "searchQueries"] };
+      this.service.invoke('post.usageData', queryParms, payload).subscribe(
+        res => {
+          let docs = Number.isInteger(res.ingestDocs.percentageUsed) ? (res.ingestDocs.percentageUsed) : parseFloat(res.ingestDocs.percentageUsed).toFixed(2);
+          let queries = Number.isInteger(res.searchQueries.percentageUsed) ? (res.searchQueries.percentageUsed) : parseFloat(res.searchQueries.percentageUsed).toFixed(2);
+          this.currentUsageData = { ingestCount: res.ingestDocs.used, ingestLimit: res.ingestDocs.limit, ingestDocs: docs, searchQueries: queries, searchCount: res.searchQueries.used, searchLimit: res.searchQueries.limit };
+          this.updateUsageData.next('updatedUsage');
+        },
+        errRes => {
+          // this.errorToaster(errRes, 'Failed to get current data.');
+        }
+      );
+    }
   getInlineManualcall() {
     let selectedApp = this.workflowService.selectedApp();
     let searchIndexId = selectedApp ? selectedApp.searchIndexes[0]._id : "";

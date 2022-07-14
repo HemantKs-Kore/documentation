@@ -25,7 +25,7 @@ export class PricingComponent implements OnInit, OnDestroy {
   featureLimit:number=6;
   btnLoader:boolean=false;
   bannerObj={msg:'',show:false,type:''};
-  currentSubscriptionPlan: any;
+  currentSubscriptionPlan: any={};
   selectedApp;
   serachIndexId;
   totalPlansData: any;
@@ -107,12 +107,11 @@ export class PricingComponent implements OnInit, OnDestroy {
     ]
   };
   async ngOnInit() {
-    await this.appSelectionService.getCurrentSubscriptionData();
+    this.currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+    this.getSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
-      this.currentSubscriptionPlan = res;
-      if(['Standard','Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName)) this.featureLimit = 100;
-      this.updateUsageDetails();
-      this.pricingChart()
+      this.currentSubscriptionPlan = res;     
+      this.getSubscriptionData();
     });
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -125,6 +124,16 @@ export class PricingComponent implements OnInit, OnDestroy {
     } else {
       this.notificationService.notify('Somthing went worng', 'error');
     }
+  }
+  //getsubscription data
+  getSubscriptionData(){
+    if(['Standard','Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName)) this.featureLimit = 100;
+    this.updateUsageDetails();
+    this.pricingChart()
+  }
+  //after plans api called get data from upgrade component
+  getPlans(event){
+    this.updateUsageDetails();
   }
   //show or hide banner
   showBanner(obj){
@@ -140,7 +149,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.plans.openSelectedPopup('choose_plan');
     }
     else if (type === 'add_overage') {      
-     if(this.currentSubscriptionPlan?.subscription?.planName!=='Free') this.plans.openSelectedPopup('add_overage');
+      this.plans.openSelectedPopup('add_overage');
     }
   }
   //open | Cancel subscription modal
@@ -479,8 +488,10 @@ export class PricingComponent implements OnInit, OnDestroy {
       const currentPlan = this.plans?.totalPlansData?.filter(plan=>plan?.name===planName);
       this.usageDetails.ingestDocsLimit = currentPlan[0].featureAccess?.ingestDocs?.limit;
       this.usageDetails.ingestDocsUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used<=this.usageDetails.ingestDocsLimit)?(this.currentSubscriptionPlan?.usage?.ingestDocs?.used):(this.usageDetails?.ingestDocsLimit)
-      this.usageDetails.searchQueriesLimit = currentPlan[0].featureAccess?.searchQueries?.limit;
+      this.usageDetails.searchQueriesLimit = currentPlan[0]?.featureAccess?.searchQueries?.limit;
       this.usageDetails.searchQueriesUsed = (this.currentSubscriptionPlan?.usage?.searchQueries?.used<=this.usageDetails.searchQueriesLimit)?(this.currentSubscriptionPlan?.usage?.searchQueries?.used):(this.usageDetails?.searchQueriesLimit)
+      this.usageDetails.ingestDocsUsedPercentage = (this.usageDetails.ingestDocsUsed/ this.usageDetails.ingestDocsLimit)*100
+      this.usageDetails.searchQueriesUsedPercentage = (this.usageDetails.searchQueriesUsed/ this.usageDetails.searchQueriesLimit)*100
      //overages data
      if(this.currentSubscriptionPlan?.overages?.length){
       const ingestDocs = this.currentSubscriptionPlan?.overages?.filter(item=>item.feature==='ingestDocs');
@@ -489,8 +500,8 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.usageDetails.searchQueriesOverageLimit = (searchQueries?.length>0)?(searchQueries.length*searchQueries[0]?.totalFeatureLimit):0;
       this.usageDetails.ingestDocsOverageUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used<=this.usageDetails.ingestDocsLimit)?0:(this.currentSubscriptionPlan?.usage?.ingestDocs?.used-this.usageDetails.ingestDocsLimit)
       this.usageDetails.searchQueriesOverageUsed = (this.currentSubscriptionPlan?.usage?.searchQueries?.used<=this.usageDetails.searchQueriesLimit)?0:(this.currentSubscriptionPlan?.usage?.searchQueries?.used-this.usageDetails.searchQueriesLimit)
-      this.usageDetails.ingestDocsUsedPercentage = (this.usageDetails.ingestDocsOverageUsed/ this.usageDetails.ingestDocsOverageLimit)*100
-      this.usageDetails.searchQueriesUsedPercentage = (this.usageDetails.searchQueriesOverageUsed/ this.usageDetails.searchQueriesOverageLimit)*100
+      this.usageDetails.ingestDocsOverUsedPercentage = (this.usageDetails.ingestDocsOverageUsed/ this.usageDetails.ingestDocsOverageLimit)*100
+      this.usageDetails.searchQueriesOverUsedPercentage = (this.usageDetails.searchQueriesOverageUsed/ this.usageDetails.searchQueriesOverageLimit)*100
     }
     }
     this.pageLoading = false;

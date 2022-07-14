@@ -774,13 +774,7 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
 // }
 ];
 
-  constructor(
-    private appSelectionService: AppSelectionService,
-    private notificationService: NotificationService,
-    private service: ServiceInvokerService,
-    public router: Router,) {
-
-   }
+  constructor( private appSelectionService: AppSelectionService, private notificationService: NotificationService, private service: ServiceInvokerService,public router: Router,) {}
 
   ngOnInit(): void {
       this.getVersion();
