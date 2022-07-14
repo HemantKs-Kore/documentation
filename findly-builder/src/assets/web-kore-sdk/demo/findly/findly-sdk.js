@@ -15567,7 +15567,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if (obj[mapping.url]) {
             item.url = obj[mapping.url];
-          }
+          }          
           if (!item.heading || !item.heading.toString().length) {
             item.heading = '';
           }
@@ -15585,14 +15585,38 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.customization = null;
           item.sys_content_type = obj.sys_content_type;
           item.contentId = obj.contentId;
-          // Demo fields start
+          //connectors fields start//
+          if (obj[mapping.chips]) {
+            item.chips = obj[mapping.chips];
+          }
+          if (obj[mapping.textField1]) {
+            item.textField1 = obj[mapping.textField1];
+          }
+          if (obj[mapping.textField2]) {
+            item.textField2 = obj[mapping.textField2];
+          }
+          if(!obj.chips) {
+            obj.chips = item.chips||'';
+          }
+          if(!obj.createdOn){
+            obj.createdOn = item.textField2 || ''
+          }
+          if(!obj.createdByUser){
+            obj.createdByUser = item.textField1 || '';
+          }
+          // Demo fields start         
           if (obj.chips) {
             item.scm_author = obj.createdByUser || '';
             item.scm_createdAt = obj.createdOn == '' ? '-' : moment(obj.createdOn).format('Do MMM YYYY, ddd [at] h:mm A');
-            for (var chip of obj.chips) {
-              var background = chip == 'pdf' ? '#FFF6F8' : chip == 'Confluence' ? '#E7F1FF' : chip == 'Gdrive' ? '#FFF9DC' : '#F7FFFF';
-              var color = chip == 'pdf' ? '#DD3646' : chip == 'Confluence' ? '#0D6EFD' : chip == 'Gdrive' ? '#806D16' : '#009999';
-              chips.push({ background: background, color: color, name: chip })
+            if(Array.isArray(obj.chips)){
+              for (var chip of obj.chips) {
+                var background = chip == 'pdf' ? '#FFF6F8' : chip == 'Confluence' ? '#E7F1FF' : chip == 'Gdrive' ? '#FFF9DC' : '#F7FFFF';
+                var color = chip == 'pdf' ? '#DD3646' : chip == 'Confluence' ? '#0D6EFD' : chip == 'Gdrive' ? '#806D16' : '#009999';
+                chips.push({ background: background, color: color, name: chip })
+              }
+            }
+            if( typeof obj.chips === 'string' && obj.chips.length){
+              chips.push({ background: '#e7f1ff', color: '#0d6efd', name: obj.chips });
             }
             item.chips = chips;
           }
