@@ -2203,7 +2203,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 100)
   }
   searchBySimulator() {
-    const filtered = this.getKeyByValue(this.simulateJson, this.searchSimulator);
+    const filtered = this.getKeyByValue(this.simulateJson.simulate_docs, this.searchSimulator);
     this.filteredSimulatorRes = JSON.stringify(filtered, null, ' ');
   }
   getKeyByValue(object, searchSimulator) {
