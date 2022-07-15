@@ -542,7 +542,7 @@
                 <div class="your-w-box-content other-workspace-box mb-4">
                     <perfect-scrollbar>
                         <div class="scroll-data">
-                            <div class="empty-w" *ngIf="(WorkspaceList | filter : [workspace_search, 'accountName', 'userFullName']).length === 0">
+                            <div class="empty-w" *ngIf="(WorkspaceList | filter : [workspace_search, 'accountName', 'userFullName']).length === 0 && !emptyContent">
                                 <div class="e-title">We Couldn’t find any result.</div>
                             </div>
                             <div class="empty-w" *ngIf="emptyContent">
