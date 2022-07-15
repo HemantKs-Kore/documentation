@@ -28,6 +28,7 @@ export class AppSelectionService {
   public openSDKApp = new Subject<any>();
   public resumingApp = false;
   public currentsubscriptionPlanDetails: any;
+  public currentUsageData: any;
   public inlineManualInfo: any = [];
   res_length: number = 0;
   getTourArray: any = [];
@@ -159,6 +160,8 @@ export class AppSelectionService {
         path.selectedAccountId = selectedAccount.accountId || null;
         path.route = route
         window.localStorage.setItem('krPreviousState', JSON.stringify(path));
+        const appInfo = this.workflowService.selectedApp();
+        this.routeChanged.next({ name: 'pathchanged', path: (appInfo?.disabled&&route==='/generalSettings')?'/source':route, disable: appInfo?.disabled?true:false });
       }
     } else {
       window.localStorage.removeItem('krPreviousState');
@@ -186,7 +189,7 @@ export class AppSelectionService {
       this.queryList = null;
     });
   }
-  openApp(app, isDemo?) {
+  openApp(app, isDemo?,isUpgrade?) {
     this.workflowService.selectedQueryPipeline([]);
     this.workflowService.appQueryPipelines({});
     this.setAppWorkFlowData(app);
@@ -195,10 +198,12 @@ export class AppSelectionService {
       title: '',
     };
     this.headerService.toggle(toogleObj);
-    this.routeChanged.next({ name: 'pathchanged', path: '/summary' });
+    this.routeChanged.next({ name: 'pathchanged', path: app?.disabled?(isUpgrade?'/pricing':'/source'):'/summary', disable: app?.disabled?true:false });
     this.getInlineManualcall();
-    if (isDemo) this.openSDKApp.next();
-    if(isDemo) this.routeChanged.next({ name: 'pathchanged', path: '/summary' , isDemo:true});
+    if (isDemo){
+      this.openSDKApp.next();
+      this.routeChanged.next({ name: 'pathchanged', path: '/summary' , isDemo:true});
+    } 
   }
   //get current subscription data
   getCurrentSubscriptionData() {
@@ -210,6 +215,7 @@ export class AppSelectionService {
       const appObserver = this.service.invoke('get.currentPlans', payload);
       appObserver.subscribe(res => {
         this.currentsubscriptionPlanDetails = res;
+        this.getCurrentUsage();
         this.currentSubscription.next(res);
       }, errRes => {
         if (errRes && errRes.error && errRes.error.errors[0].code == 'NoActiveSubscription') {
@@ -220,6 +226,25 @@ export class AppSelectionService {
       });
     }
   }
+    //get current usage data of search and queries
+    getCurrentUsage() {
+      const selectedApp = this.workflowService.selectedApp();
+      const queryParms = {
+        streamId: selectedApp._id
+      }
+      const payload = { "features": ["ingestDocs", "searchQueries"] };
+      this.service.invoke('post.usageData', queryParms, payload).subscribe(
+        res => {
+          let docs = Number.isInteger(res.ingestDocs.percentageUsed) ? (res.ingestDocs.percentageUsed) : parseFloat(res.ingestDocs.percentageUsed).toFixed(2);
+          let queries = Number.isInteger(res.searchQueries.percentageUsed) ? (res.searchQueries.percentageUsed) : parseFloat(res.searchQueries.percentageUsed).toFixed(2);
+          this.currentUsageData = { ingestCount: res.ingestDocs.used, ingestLimit: res.ingestDocs.limit, ingestDocs: docs, searchQueries: queries, searchCount: res.searchQueries.used, searchLimit: res.searchQueries.limit };
+          this.updateUsageData.next('updatedUsage');
+        },
+        errRes => {
+          // this.errorToaster(errRes, 'Failed to get current data.');
+        }
+      );
+    }
   getInlineManualcall() {
     let selectedApp = this.workflowService.selectedApp();
     let searchIndexId = selectedApp ? selectedApp.searchIndexes[0]._id : "";
@@ -247,6 +272,7 @@ export class AppSelectionService {
       };
       const appObserver = this.service.invoke('get.lastActiveSubscription', payload);
       appObserver.subscribe(res => {
+        this.currentsubscriptionPlanDetails = res;
         this.currentSubscription.next(res);
       }, errRes => {
         this.errorToaster(errRes, 'failed to get last active subscription data');

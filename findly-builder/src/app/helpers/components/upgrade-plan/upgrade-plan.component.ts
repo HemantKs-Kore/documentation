@@ -78,6 +78,7 @@ export class UpgradePlanComponent implements OnInit,OnDestroy {
   @ViewChild('paymentGatewayModel') paymentGatewayModel: KRModalComponent;
   @ViewChild('contactUsModel') contactUsModel: KRModalComponent;
   @Output() updateBanner = new EventEmitter<{}>();
+  @Output() plansData = new EventEmitter<''>();
   @ViewChild(PerfectScrollbarComponent) public directiveScroll: PerfectScrollbarComponent;
   ngOnInit(): void {
     this.getAllPlans();
@@ -98,6 +99,7 @@ export class UpgradePlanComponent implements OnInit,OnDestroy {
         let dat = Object.values(data.featureAccess);
         data = Object.assign(data, { "featureData": dat });
       });
+      this.plansData.emit();
     }, errRes => {
       if (localStorage.jStorage) {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -207,7 +209,6 @@ showHideSpinner(){
         this.notificationService.notify(message, 'success');
         if (!this.isOverageShow) {
           this.selectedPaymentPage = 'payment_success';
-          this.appSelectionService?.updateUsageData?.next('updatedUsage');
           const obj = {msg:`Your previous payment of $ ${this.orderConfirmData?.planAmount} is processed successfully.`,type:'success'};
           this.updateBanner.emit(obj);
         }

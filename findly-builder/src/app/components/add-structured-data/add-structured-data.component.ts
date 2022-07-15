@@ -207,9 +207,9 @@ export class AddStructuredDataComponent implements OnInit {
       this.service.invoke('delete.structuredData', quaryparms).subscribe(res => {
         if (res) {
           this.notificationService.notify('Deleted Successfully', 'success');
-          let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-          if (currentPlan?.subscription?.planId == 'fp_free') {
-            this.appSelectionService.updateUsageData.next('updatedUsage');
+          const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+          if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
+            this.appSelectionService.getCurrentUsage();;
           }
           this.cancleSourceAddition();
         }
@@ -414,11 +414,7 @@ export class AddStructuredDataComponent implements OnInit {
 
   jsonInvoke(payload, endPoint, quaryparms) {
     this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Added Successfully', 'success');
-      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-      if (currentPlan?.subscription?.planId == 'fp_free') {
-        this.appSelectionService.updateUsageData.next('updatedUsage');
-      }
+      this.notificationService.notify('Added Successfully', 'success');     
       if (quaryparms.file === 'file') {
         this.cancleSourceAddition({ showStatusModal: true, payload: res });
       }

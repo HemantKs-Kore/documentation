@@ -243,8 +243,10 @@ export class TeamManagementComponent implements OnInit {
       id: this.authService.getUserId()
     };
     this.service.invoke('get.userinfo', quaryparms).subscribe(res => {
-      this.orgId = res[0].orgId;
-      this.accountId = res[0].accountId;
+      if(res){
+        this.orgId = res[0].orgId;
+        this.accountId = res[0].accountId;
+      }
     }, errRes => {
     });
   }
@@ -257,10 +259,12 @@ export class TeamManagementComponent implements OnInit {
       streamId: this.selectedApp._id
     };
     this.service.invoke('get.members', quaryparms).subscribe(res => {
-      this.membersList = res.users;
-      this.allMembersCount = this.membersList.length - 1;
-      this.getRoles();
-      this.getAutoSuggestedEmails();
+      if(res){
+        this.membersList = res.users;
+        this.allMembersCount = this.membersList.length - 1;
+        this.getRoles();
+        this.getAutoSuggestedEmails();
+      }
     }, errRes => {
     });
   }
@@ -277,8 +281,8 @@ export class TeamManagementComponent implements OnInit {
     };
     this.service.invoke('get.roles', quaryparms, Headers).subscribe(res => {
       this.rolesList = res;
-      this.member_roleId = this.rolesList.filter(data => data.role === "Member");
-      this.member_ownerId = this.rolesList.filter(data => data.role === "Owner");
+      this.member_roleId = this.rolesList?.filter(data => data.role === "Member");
+      this.member_ownerId = this.rolesList?.filter(data => data.role === "Owner");
       this.loadingContent = false;
     }, errRes => {
     });

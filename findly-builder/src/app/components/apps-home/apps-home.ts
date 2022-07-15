@@ -149,10 +149,10 @@ export class AppsListingComponent implements OnInit {
     });
     this.apps = apps;
   }
-  openApp(app) {
+  openApp(app,isUpgrade?) {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     const isDemo = this.appType == 'sampleData' ? true : false;
-    this.appSelectionService.openApp(app, isDemo);
+    this.appSelectionService.openApp(app, isDemo,isUpgrade);
     this.workflowService.selectedIndexPipelineId = '';
   }
   openBoradingJourney() {

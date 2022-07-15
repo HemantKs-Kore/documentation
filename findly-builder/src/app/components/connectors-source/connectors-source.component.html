@@ -4,7 +4,7 @@
     <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
   </div>
 <!--check for enterprise plan-->
-<ng-container *ngIf="!['unlimited','enterprise'].includes(currentSubscriptionPlan?.planName|lowercase)&&pageLoading">
+<!-- <ng-container>
     <div class="upgrade-experience">
       <div class="img-block">
         <img src="assets/icons/pricing/upgrade-experience.png">
@@ -12,10 +12,10 @@
       <div class="title">{{"connectors.empty_connectors"| translate}}</div>
       <button class="kr-sg-button-primary btn_lg" (click)="upgrade()">{{"connectors.upgrade"| translate}}</button>
     </div>
-  </ng-container>
+  </ng-container> -->
   <!--check for enterprise plan-->
   <!--If plan is enterprise show below container-->
-<div class="connectors-container" *ngIf="['unlimited','enterprise'].includes(currentSubscriptionPlan?.planName|lowercase)&&pageLoading">
+<div class="connectors-container" *ngIf="pageLoading">
     <div class="seach_add_feild">
         <div class="title">{{'connectors.connector'|translate}}</div>
         <div class="d-flex align-items-center">
@@ -527,5 +527,3 @@
         </div>
     </div>
 </kr-modal>
-
-<app-upgrade-plan #plans></app-upgrade-plan>
