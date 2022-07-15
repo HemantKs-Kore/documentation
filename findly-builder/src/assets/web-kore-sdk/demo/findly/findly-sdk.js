@@ -261,7 +261,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.isCustomDataInitialize = false;
       vars.userContextData = {};
       vars.indexPipelineId = '';
-      vars.queryPipelineId = '';
       vars.tabsList = [];
       vars.sortableFacetList = [];
       vars.displaySortable = ''
@@ -322,7 +321,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var SearchIndexID = _self.config.botOptions ? _self.config.botOptions.searchIndexID : 'sidx-a0d5b74c-ef8d-51df-8cf0-d32617d3e66e';
       var streamId = _self.config.botOptions ? _self.config.botOptions.botInfo.taskBotId : '';
       var indexpipelineId = '';
-      var querypipelineId = '';
       // var SearchIndexID = 'sidx-a0d5b74c-ef8d-51df-8cf0-d32617d3e66e' // PILOT SearchIndexID
       var pipelineId = '';
       if (window.selectedFindlyApp && window.selectedFindlyApp._id) {
@@ -333,14 +331,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (window.selectedFindlyApp && window.selectedFindlyApp.indexpipelineId) {
         indexpipelineId = window.selectedFindlyApp.indexpipelineId;
       }
-      if (window.selectedFindlyApp && window.selectedFindlyApp.querypipelineId) {
-        querypipelineId = window.selectedFindlyApp.querypipelineId;
-      }
       if (_self.vars.indexPipelineId) {
         indexpipelineId = _self.vars.indexPipelineId;
-      }
-      if (_self.vars.queryPipelineId) {
-        querypipelineId = _self.vars.queryPipelineId;
       }
       /*var baseUrl = "https://app.findly.ai/searchAssistant";
       var businessTooBaseURL = "https://app.findly.ai/searchassistapi/findly/"*/
@@ -389,7 +381,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         jstBarrer: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM",
         //jstBarrer: "bearer " + _self.bot.options.accessToken,
         searchResultsConfigURL: searchResultsConfigAPIURL + streamId + '/' + SearchIndexID + "/getresultviewsettings",
-        searchResultsViewConfigURL: searchResultsConfigAPIURL + streamId + '/' + SearchIndexID + '/indexPipeline/'+indexpipelineId+'/queryPipeline/'+querypipelineId+ "/resultTemplateSettings",
+        searchResultsViewConfigURL: searchResultsConfigAPIURL + streamId + '/' + SearchIndexID + "/resultTemplateSettings",
         tabFacetUrl: searchResultsConfigAPIURL + streamId + '/' + SearchIndexID + "/tabfacet",
         recentSearchUrl: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/recentSearches",
         deleteRecentSearch: baseAPIServer + deleteRecentType + "stream/" + streamId + '/' + SearchIndexID + "/deleteRecentSearches",
@@ -463,12 +455,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
     };
-    function onJWTGrantSuccess(options){
-      if(!options.indexPipelineId && !options.queryPipelineId){
-          _self.config.botOptions.indexPipelineId = options.indexPipelineId;
-          _self.config.botOptions.queryPipelineId = options.queryPipelineId;
-        }
-  }
     function xssAttack(txtStr) {
       //   if (compObj && compObj[0] && compObj[0].componentType === "text") {
 
@@ -3443,8 +3429,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.config.botOptions["apiKey"] = config["API_KEY_CONFIG"].KEY;
       }
       _self.config.botOptions.assertionFn = _self.getAssertionToken.bind(this);
-      _self.config.botOptions.jwtgrantSuccessCB = onJWTGrantSuccess;
-
       _self.initKoreSDK();
     };
     FindlySDK.prototype.getAssertionToken = function (options, callback) {
@@ -8216,7 +8200,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       } else {
         window["KoreSDK"].findlyConfig.botOptions.assertionFn = this.getJWT;
       }
-      window["KoreSDK"].findlyConfig.botOptions.jwtgrantSuccessCB = onJWTGrantSuccess;
       if (_findlyConfig.searchIndexID && _findlyConfig.queryPipelineId) {
         const searchData = {
           _id: _findlyConfig.searchIndexID,
@@ -8997,8 +8980,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('body').addClass('sdk-body');
       setTimeout(()=>{
         _self.configureSearchInterface(findlyConfig.botOptions).then(function (response) {
-          _self.vars.indexPipelineId = findlyConfig.botOptions.indexPipelineId;
-          _self.vars.queryPipelineId = findlyConfig.botOptions.queryPipelineId;
+          _self.vars.indexPipelineId = response.indexPipelineId;
           if (response.experienceConfig.searchBarPosition == 'top') {
             _self.initializeTopDown(null, null, response);
           }
@@ -9008,6 +8990,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             } else {
               $('body').addClass('setDefaultSearchTemplate');
             }
+  
             _self.initialize(findlyConfig);
             _self.showSearch(null, response, _self.isDev);
             var searchConfig = {
@@ -9018,9 +9001,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
             _self.configureSearchAvatar(searchConfig);
           }
+  
           _self.initKorePicker(findlyConfig);
         });
-      },1000)
+      },500);
       
     }
     var searchConfigurationCopy = {};
@@ -18558,8 +18542,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     // Configuraition of Interface //
     FindlySDK.prototype.configureSearchInterface = function (botOptions) {
       var baseAPIServer = botOptions.koreAPIUrl ? botOptions.koreAPIUrl : 'https://qa.searchassist.ai/searchassistapi/'
-      // var searchExperienceAPIUrl = baseAPIServer + 'searchsdk/stream/' + botOptions.botInfo.taskBotId + '/' + botOptions.searchIndexID + '/searchInterface';
-      var searchExperienceAPIUrl = baseAPIServer + 'searchsdk/stream/' + botOptions.botInfo.taskBotId + '/' + botOptions.searchIndexID + '/indexPipeline/'+botOptions.indexPipelineId+'/queryPipeline/'+botOptions.queryPipelineId+'/searchInterface';
+      var searchExperienceAPIUrl = baseAPIServer + 'searchsdk/stream/' + botOptions.botInfo.taskBotId + '/' + botOptions.searchIndexID + '/searchInterface';
       var type = 'GET';
 
       return $.ajax({
