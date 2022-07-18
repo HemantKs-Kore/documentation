@@ -300,7 +300,7 @@ app-mainmenu{
 			}
 			.activeIcon{
 				display: none;
-			}
+			}			
 			&.settings-menu{
 				position: absolute;
 				bottom: 0px;
@@ -367,7 +367,12 @@ app-mainmenu{
 				// 	display: inline-block;
 				// }		
 			}			
-		}				
+		}		
+		.disable_btn{
+			pointer-events: none;
+			color:#BDC1C6 !important;
+			cursor:default;
+		}		
 		.inside-config-tab-left-menus{
 			padding: 20px !important;
 			.inside-menu-title{

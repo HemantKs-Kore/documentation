@@ -56,6 +56,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   selectedIndexConfig: any = {};
   subscription: Subscription;
   indexSub: Subscription;
+  routeChanged: Subscription;
   editName: boolean = false;
   editNameVal: String = "";
   editIndexName: boolean = false;
@@ -68,7 +69,9 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   currentSubsciptionData: Subscription;
   updateUsageData: Subscription;
   upgradeBannerFlag: boolean;
+  isRouteDisabled:boolean=false;
   componentType: any = '';
+  currentSubscriptionPlan:any={};
   @Input() show;
   @Input() settingMainMenu;
   @Input() sourceMenu;
@@ -424,16 +427,14 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
-    // this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    // Multiple INdex hardcoded
-    await this.appSelectionService.getCurrentSubscriptionData();
+    this.currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+    this.usageDetails = this.appSelectionService?.currentUsageData;
+    this.getSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
-      const currentSubscriptionPlan = res;
-      if(['Unlimited','Enterprise'].includes(currentSubscriptionPlan?.subscription?.planName)) this.showUpgrade =  true;
+      this.currentSubscriptionPlan = res;
+      this.getSubscriptionData(); 
     })
     this.appSelectionService.appSelectedConfigs.subscribe(res => {
-      this.appSelectionService.getCurrentSubscriptionData();
-      this.getCurrentUsage();
       this.indexConfigs = res;
       this.indexConfigs.forEach(element => {
         this.indexConfigObj[element._id] = element;
@@ -460,47 +461,18 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     }
     this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(res => {
       if (res == 'updatedUsage') {
-        this.getCurrentUsage();
+        this.usageDetails = this.appSelectionService?.currentUsageData;
+      }
+    })
+    this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
+      if (res.name != undefined) {
+        this.isRouteDisabled = res?.disable;
       }
     })
   }
-  //read flag update in readUpgradeBanner
-  readUpgradeBanner() {
-    this.selectedApp = this.workflowService.selectedApp();
-    if (!this.selectedApp?.upgradeBannerRead && this.upgradeBannerFlag && (this.usageDetails.ingestDocs >= 80 || this.usageDetails.searchQueries >= 80)) {
-      const queryParms = {
-        streamId: this.selectedApp._id
-      }
-      const payload = { "upgradeBannerRead": true };
-      this.service.invoke('put.upgradeBannerRead', queryParms, payload).subscribe(
-        res => {
-          if (res.upgradeBannerRead) {
-            this.upgradeBannerFlag = false;
-          }
-        },
-        errRes => {
-          this.errorToaster(errRes, 'Failed to send upgrade banner flag');
-        }
-      );
-    }
-  }
-  //get current usage data of search and queries
-  getCurrentUsage() {
-    this.selectedApp = this.workflowService.selectedApp();
-    const queryParms = {
-      streamId: this.selectedApp._id
-    }
-    const payload = { "features": ["ingestDocs", "searchQueries"] };
-    this.service.invoke('post.usageData', queryParms, payload).subscribe(
-      res => {
-        let docs = Number.isInteger(res.ingestDocs.percentageUsed) ? (res.ingestDocs.percentageUsed) : parseFloat(res.ingestDocs.percentageUsed).toFixed(2);
-        let queries = Number.isInteger(res.searchQueries.percentageUsed) ? (res.searchQueries.percentageUsed) : parseFloat(res.searchQueries.percentageUsed).toFixed(2);
-        this.usageDetails = { ingestCount: res.ingestDocs.used, ingestLimit: res.ingestDocs.limit, ingestDocs: docs, searchQueries: queries, searchCount: res.searchQueries.used, searchLimit: res.searchQueries.limit };
-      },
-      errRes => {
-        // this.errorToaster(errRes, 'Failed to get current data.');
-      }
-    );
+  //check subscription data
+  getSubscriptionData(){
+    if(['Unlimited','Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName)) this.showUpgrade =  true;
   }
   // toggle sub-menu
   switchToTerminal() {
@@ -631,5 +603,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.indexSub ? this.indexSub.unsubscribe() : false;
     this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;
     this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
+    this.routeChanged ? this.routeChanged.unsubscribe() : null;
   }
 }

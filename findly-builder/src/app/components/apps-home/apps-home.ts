@@ -149,21 +149,26 @@ export class AppsListingComponent implements OnInit {
     });
     this.apps = apps;
   }
-  openApp(app) {
+  openApp(app,isUpgrade?) {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     const isDemo = this.appType == 'sampleData' ? true : false;
-    this.appSelectionService.openApp(app, isDemo);
+    this.appSelectionService.openApp(app, isDemo,isUpgrade);
     this.workflowService.selectedIndexPipelineId = '';
   }
   openBoradingJourney() {
-        this.headerService.openJourneyForfirstTime = true;
-      this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
-      this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
+    this.headerService.openJourneyForfirstTime = true;
+    this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
+    this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
+    this.mixpanel.postEvent('Welcome video Shown',{})
   }
   closeBoradingJourney() {
     if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
       this.onboardingpopupjourneyRef.close();
       this.mixpanel.postEvent('User Onboarding - Journey Cancelled', {});
+      this.mixpanel.postEvent('Welcome video Played',{})
+      this.mixpanel.postEvent('Explore App page',{})
+      // console.log('Welcome video Played')
+      // console.log('Explore App page')
     }
     // this.showBoarding = false;
   }
@@ -195,6 +200,8 @@ export class AppsListingComponent implements OnInit {
   exploreMyself() {
     this.displayApp = true;
     this.hideWelcomepage = false;
+    this.mixpanel.postEvent('Explore App Type selected',{})
+    // console.log('Explore App Type selected')
   }
   exploreSampleDate() {
     this.hideWelcomepage = false;
@@ -202,9 +209,13 @@ export class AppsListingComponent implements OnInit {
       this.steps = 'showSearchExperience';
       this.SearchExperianceType ='top';
       this.progressBarFun(4, 3)
+      this.mixpanel.postEvent('Explore App Data selected',{})
+      // console.log('Explore App Data selected')
     }
     else if (this.steps == 'showSearchExperience' && this.SearchExperianceType) {
       this.appCreationAtOnboarding();
+      this.mixpanel.postEvent('Explore App Searchexperience Type selected',{})
+      // console.log('Explore App Searchexperience Type selected')
     }
     else if (this.steps == 'showSearchExperience' && !this.SearchExperianceType) {
       this.steps == 'showSearchExperience'
@@ -219,7 +230,8 @@ export class AppsListingComponent implements OnInit {
         this.validateAppname = true;
       }
     }
-
+    // console.log('Explore App Type selected')
+    this.mixpanel.postEvent('Explore App Type selected',{})
   }
   openAppLoadingScreen() {
     this.loadingAppcreationRef = this.loadingAppcreation.open();
@@ -269,10 +281,14 @@ export class AppsListingComponent implements OnInit {
   checkExperience() {
     if (this.appType == 'selfExplore') {
       this.appCreationAtOnboarding();
+      this.mixpanel.postEvent('Explore App Named',{})
+      // console.log('Explore App Named')
     }
     else {
       if (this.appType == 'sampleData') {
         this.exploreSampleDate();
+        this.mixpanel.postEvent('Explore App Named',{})
+        // console.log('Explore App Named')
       }
     }
   }
@@ -289,6 +305,8 @@ export class AppsListingComponent implements OnInit {
   }
   openCreateApp() {
     this.createAppPopRef = this.createAppPop.open();
+    this.mixpanel.postEvent('Start create app',{})
+    // console.log('Start create app')
     if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
       this.onboardingpopupjourneyRef.close();
     }

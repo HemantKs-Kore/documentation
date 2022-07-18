@@ -70,6 +70,10 @@ export class StructuredDataStatusModalComponent implements OnInit {
             // if(queuedDoc.status === 'SUCCESS'){
               if(queuedDoc.status === 'SUCCESS' || queuedDoc.status ==='success'){
               this.notificationService.notify('Imported Successfully', 'success');
+              const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+              if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
+                this.appSelectionService.getCurrentUsage();
+              }
               this.appSelectionService.updateTourConfig('addData');
             }
             this.pollingSubscriber.unsubscribe();

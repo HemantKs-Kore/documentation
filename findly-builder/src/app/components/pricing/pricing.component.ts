@@ -16,7 +16,39 @@ declare var $: any;
   styleUrls: ['./pricing.component.scss']
 })
 export class PricingComponent implements OnInit, OnDestroy {
-  option = {
+  documentGraph: EChartOption;
+  queryGraph: EChartOption;
+  cancelSubscriptionModelPopRef: any;
+  revertCancelModelPopRef: any;
+  cancellationCheckboxText: any = [{selected:false,name:'It’s too costly'}, {selected:false,name:'I found another product that fulfils my needs'}, {selected:false,name:'I don’t use it enough'},{selected:false,name:'I don’t need it now'}];
+  termPlan = "Monthly";
+  pageLoading: boolean = true;
+  featureLimit:number=6;
+  btnLoader:boolean=false;
+  bannerObj={msg:'',show:false,type:''};
+  currentSubscriptionPlan: any={};
+  selectedApp;
+  serachIndexId;
+  totalPlansData: any;
+  filterPlansData: any;
+  currentSubsciptionData: Subscription;
+  usageDetails: any = {};
+  monthRange = "Jan - June";
+  isyAxisDocumentdata: boolean = true;
+  isyAxisQuerydata: boolean = true;
+  componentType: string = 'addData';
+  constructor(public workflowService: WorkflowService,
+    private service: ServiceInvokerService,
+    public dialog: MatDialog,
+    private notificationService: NotificationService,
+    private appSelectionService: AppSelectionService) { }
+  @ViewChild('cancelSubscriptionModel') cancelSubscriptionModel: KRModalComponent;
+  @ViewChild('revertCancelModel') revertCancelModel: KRModalComponent;
+  @ViewChild('plans') plans: UpgradePlanComponent;
+  optionNew = {
+    title: {
+      text: 'World Population'
+    },
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -79,42 +111,12 @@ export class PricingComponent implements OnInit, OnDestroy {
       }
     ]
   };
-  documentGraph: EChartOption;
-  queryGraph: EChartOption;
-  cancelSubscriptionModelPopRef: any;
-  revertCancelModelPopRef: any;
-  cancellationCheckboxText: any = [{ selected: false, name: 'It’s too costly' }, { selected: false, name: 'I found another product that fulfils my needs' }, { selected: false, name: 'I don’t use it enough' }, { selected: false, name: 'I don’t need it now' }];
-  termPlan = "Monthly";
-  pageLoading: boolean = true;
-  featureLimit: number = 6;
-  btnLoader: boolean = false;
-  bannerObj = { msg: '', show: false, type: '' };
-  currentSubscriptionPlan: any;
-  selectedApp;
-  serachIndexId;
-  totalPlansData: any;
-  filterPlansData: any;
-  currentSubsciptionData: Subscription;
-  usageDetails: any = {};
-  monthRange = "Jan - June";
-  isyAxisDocumentdata: boolean = true;
-  isyAxisQuerydata: boolean = true;
-  componentType: string = 'addData';
-  constructor(public workflowService: WorkflowService,
-    private service: ServiceInvokerService,
-    public dialog: MatDialog,
-    private notificationService: NotificationService,
-    private appSelectionService: AppSelectionService) { }
-  @ViewChild('cancelSubscriptionModel') cancelSubscriptionModel: KRModalComponent;
-  @ViewChild('revertCancelModel') revertCancelModel: KRModalComponent;
-  @ViewChild('plans') plans: UpgradePlanComponent;
   async ngOnInit() {
-    await this.appSelectionService.getCurrentSubscriptionData();
+    this.currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+    this.getSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
-      this.currentSubscriptionPlan = res;
-      if (['Standard', 'Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName)) this.featureLimit = 100;
-      this.updateUsageDetails();
-      this.pricingChart()
+      this.currentSubscriptionPlan = res;     
+      this.getSubscriptionData();
     });
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -127,6 +129,16 @@ export class PricingComponent implements OnInit, OnDestroy {
     } else {
       this.notificationService.notify('Somthing went worng', 'error');
     }
+  }
+  //getsubscription data
+  getSubscriptionData(){
+    if(['Standard','Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName)) this.featureLimit = 100;
+    this.updateUsageDetails();
+    this.pricingChart()
+  }
+  //after plans api called get data from upgrade component
+  getPlans(event){
+    this.updateUsageDetails();
   }
   //show or hide banner
   showBanner(obj) {
@@ -141,8 +153,8 @@ export class PricingComponent implements OnInit, OnDestroy {
     if (type == 'choose_plan') {
       this.plans.openSelectedPopup('choose_plan');
     }
-    else if (type === 'add_overage') {
-      if (this.currentSubscriptionPlan?.subscription?.planName !== 'Free') this.plans.openSelectedPopup('add_overage');
+    else if (type === 'add_overage') {      
+      this.plans.openSelectedPopup('add_overage');
     }
   }
   //open | Cancel subscription modal
@@ -466,9 +478,11 @@ export class PricingComponent implements OnInit, OnDestroy {
       const planName = this.currentSubscriptionPlan?.subscription?.planName;
       const currentPlan = this.plans?.totalPlansData?.filter(plan => plan?.name === planName);
       this.usageDetails.ingestDocsLimit = currentPlan[0].featureAccess?.ingestDocs?.limit;
-      this.usageDetails.ingestDocsUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used <= this.usageDetails.ingestDocsLimit) ? (this.currentSubscriptionPlan?.usage?.ingestDocs?.used) : (this.usageDetails?.ingestDocsLimit)
-      this.usageDetails.searchQueriesLimit = currentPlan[0].featureAccess?.searchQueries?.limit;
+      this.usageDetails.ingestDocsUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used<=this.usageDetails.ingestDocsLimit)?(this.currentSubscriptionPlan?.usage?.ingestDocs?.used):(this.usageDetails?.ingestDocsLimit)
+      this.usageDetails.searchQueriesLimit = currentPlan[0]?.featureAccess?.searchQueries?.limit;
       this.usageDetails.searchQueriesUsed = (this.currentSubscriptionPlan?.usage?.searchQueries?.used<=this.usageDetails.searchQueriesLimit)?(this.currentSubscriptionPlan?.usage?.searchQueries?.used):(this.usageDetails?.searchQueriesLimit)
+      this.usageDetails.ingestDocsUsedPercentage = (this.usageDetails.ingestDocsUsed/ this.usageDetails.ingestDocsLimit)*100
+      this.usageDetails.searchQueriesUsedPercentage = (this.usageDetails.searchQueriesUsed/ this.usageDetails.searchQueriesLimit)*100
      //overages data
      if(this.currentSubscriptionPlan?.overages?.length){
       const ingestDocs = this.currentSubscriptionPlan?.overages?.filter(item=>item.feature==='ingestDocs');
@@ -477,8 +491,8 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.usageDetails.searchQueriesOverageLimit = (searchQueries?.length>0)?(searchQueries.length*searchQueries[0]?.totalFeatureLimit):0;
       this.usageDetails.ingestDocsOverageUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used<=this.usageDetails.ingestDocsLimit)?0:(this.currentSubscriptionPlan?.usage?.ingestDocs?.used-this.usageDetails.ingestDocsLimit)
       this.usageDetails.searchQueriesOverageUsed = (this.currentSubscriptionPlan?.usage?.searchQueries?.used<=this.usageDetails.searchQueriesLimit)?0:(this.currentSubscriptionPlan?.usage?.searchQueries?.used-this.usageDetails.searchQueriesLimit)
-      this.usageDetails.ingestDocsUsedPercentage = (this.usageDetails.ingestDocsOverageUsed/ this.usageDetails.ingestDocsOverageLimit)*100
-      this.usageDetails.searchQueriesUsedPercentage = (this.usageDetails.searchQueriesOverageUsed/ this.usageDetails.searchQueriesOverageLimit)*100
+      this.usageDetails.ingestDocsOverUsedPercentage = (this.usageDetails.ingestDocsOverageUsed/ this.usageDetails.ingestDocsOverageLimit)*100
+      this.usageDetails.searchQueriesOverUsedPercentage = (this.usageDetails.searchQueriesOverageUsed/ this.usageDetails.searchQueriesOverageLimit)*100
     }
     }
     this.pageLoading = false;

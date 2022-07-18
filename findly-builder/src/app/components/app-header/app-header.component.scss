@@ -157,7 +157,7 @@
                             }
                         }
                     }
-                }
+                }               
             }
         }
         .homePageTitle {
@@ -1271,3 +1271,8 @@
       font-size: 12px;
     }
   }
+
+  .disable_btn{
+    pointer-events: none;
+    color: #BDC1C6 !important;
+}

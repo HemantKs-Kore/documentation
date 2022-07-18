@@ -78,7 +78,7 @@
                     <div class="plan-progress-bar-count" *ngIf="usageDetails?.ingestDocsLimit">{{usageDetails?.ingestDocsUsed}} <span class="total-count">/ {{usageDetails?.ingestDocsLimit}}</span></div>
                   </div>
                   <div class="plan-progress-bar">
-                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails?.ingestDocs?.percentageUsed>80?'danger':(usageDetails?.ingestDocs?.percentageUsed>50&&usageDetails?.ingestDocs?.percentageUsed<=80)?'warning':'primary'" [value]="usageDetails.ingestDocs?.used" [max]="usageDetails.ingestDocs?.limit"></ngb-progressbar>
+                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails?.ingestDocsUsedPercentage>80?'danger':(usageDetails?.ingestDocsUsedPercentage>50&&usageDetails?.ingestDocsUsedPercentage<=80)?'warning':'primary'" [value]="usageDetails?.ingestDocsUsed" [max]="usageDetails?.ingestDocsLimit"></ngb-progressbar>
                   </div>
                 </div>
 
@@ -88,12 +88,12 @@
                     <div class="plan-progress-bar-count" *ngIf="usageDetails?.searchQueriesLimit">{{usageDetails?.searchQueriesUsed}} <span class="total-count">/ {{usageDetails?.searchQueriesLimit}}</span></div>
                   </div>
                   <div class="plan-progress-bar">
-                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails?.searchQueries?.percentageUsed>80?'danger':(usageDetails?.searchQueries?.percentageUsed>50&&usageDetails?.searchQueries?.percentageUsed<=80)?'warning':'primary'" [value]="usageDetails.searchQueries?.used" [max]="usageDetails.searchQueries?.limit"></ngb-progressbar>
+                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails?.searchQueries?.percentageUsed>80?'danger':(usageDetails?.searchQueries?.percentageUsed>50&&usageDetails?.searchQueries?.percentageUsed<=80)?'warning':'primary'" [value]="usageDetails?.searchQueriesUsed" [max]="usageDetails?.searchQueriesLimit"></ngb-progressbar>
                   </div>
                 </div>
               </div>
 
-              <button class="btn btn-add-overage" [ngClass]="{'d-none':['unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}" *ngIf="currentSubscriptionPlan?.overages.length===0; else overageUsage" (click)="selectModal('add_overage')"><span class="pr-2"><i class="si-grow-up-arrow"></i></span>Add Overage</button>              
+              <button class="btn btn-add-overage" [ngClass]="{'d-none':['free','unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}" *ngIf="currentSubscriptionPlan?.overages.length===0; else overageUsage" (click)="selectModal('add_overage')"><span class="pr-2"><i class="si-grow-up-arrow"></i></span>Add Overage</button>              
               <ng-template #overageUsage>
               <div class="tile-plan-utilization plan-overview">
                 <div class="plan-current-and-overage">
@@ -108,7 +108,7 @@
                     <div class="plan-progress-bar-count">{{usageDetails?.ingestDocsOverageUsed}} <span class="total-count">/ {{usageDetails?.ingestDocsOverageLimit}}</span></div>
                   </div>
                   <div class="plan-progress-bar">
-                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails?.ingestDocsUsedPercentage>80?'danger':(usageDetails?.ingestDocsUsedPercentage>50&&usageDetails?.ingestDocsUsedPercentage<=80)?'warning':'primary'" [value]="usageDetails?.ingestDocsOverageUsed" [max]="usageDetails?.ingestDocsOverageLimit"></ngb-progressbar>
+                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails?.ingestDocsOverUsedPercentage>80?'danger':(usageDetails?.ingestDocsOverUsedPercentage>50&&usageDetails?.ingestDocsOverUsedPercentage<=80)?'warning':'primary'" [value]="usageDetails?.ingestDocsOverageUsed" [max]="usageDetails?.ingestDocsOverageLimit"></ngb-progressbar>
                   </div>
                 </div>
                 <div class="plan-progress-bar-block">
@@ -117,7 +117,7 @@
                     <div class="plan-progress-bar-count">{{usageDetails?.searchQueriesOverageUsed}} <span class="total-count">/ {{usageDetails?.searchQueriesOverageLimit}}</span></div>
                   </div>
                   <div class="plan-progress-bar">
-                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails?.searchQueriesUsedPercentage>80?'danger':(usageDetails?.searchQueriesUsedPercentage>50&&usageDetails?.searchQueriesUsedPercentage<=80)?'warning':'primary'" [value]="usageDetails?.searchQueriesOverageUsed" [max]="usageDetails?.searchQueriesOverageLimit"></ngb-progressbar>
+                    <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails?.searchQueriesOverUsedPercentage>80?'danger':(usageDetails?.searchQueriesOverUsedPercentage>50&&usageDetails?.searchQueriesOverUsedPercentage<=80)?'warning':'primary'" [value]="usageDetails?.searchQueriesOverageUsed" [max]="usageDetails?.searchQueriesOverageLimit"></ngb-progressbar>
                   </div>
                 </div>
               </div>
@@ -334,4 +334,4 @@
     </div>
   </div>
 
-  <app-upgrade-plan #plans (updateBanner)="showBanner($event)"></app-upgrade-plan>
+  <app-upgrade-plan #plans (updateBanner)="showBanner($event)" (plansData)="getPlans($event)"></app-upgrade-plan>

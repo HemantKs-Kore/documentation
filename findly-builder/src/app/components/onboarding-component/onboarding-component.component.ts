@@ -352,12 +352,7 @@ faqData = [
    key:"index",
    icon:"",
    childData:[
-  //   {
-  //    ques:"What is a workbench?",
-  //    ans:"these are the answer",
-  //    link:""
 
-  //  },
    {
     ques:"What are the different pipelines available in the workbench?",
     ans:"these are the answer",
@@ -509,11 +504,6 @@ faqData = [
    key:"dashboard",
    icon:"",
    childData:[
-  //   {
-  //      ques:"What are the Questions?",
-  //      ans:"these are the answer",
-  //      link:""
-  //  },
     {
       ques:"How do I check metrics for a particular date range?",
       ans:"these are the answer",
@@ -581,8 +571,8 @@ faqData = [
   ]
 },
 {
-   display:"Settings",
-   key:"settings",
+   display:"General Settings",
+   key:"generalSettings",
    icon:"",
    childData:[
     {
@@ -596,8 +586,18 @@ faqData = [
     ans:"these are the answer",
     link:"https://docs.kore.ai/searchassist/administration/managing-channels-2/#Small_Talk"
    },
-
   ]
+},
+{
+  display:"Channels",
+  key:"settings",
+  icon:"",
+  childData:[
+   {
+      ques:"How to add/configure channels?",
+      ans:"these are the answer",
+      link:"https://docs.kore.ai/searchassist/administration/managing-channels-3/"
+  }]
 },
 {
    display:"Credentials-List",
@@ -615,12 +615,18 @@ faqData = [
 //    display:"Actions",
 //    key:"actions",
 //    icon:"",
-//    childData:[{
-//        ques:"What are the Questions?",
+//    childData:[
+//     {
+//        ques:"What are bot actions?",
 //        ans:"these are the answer",
-//        link:""
-
-//    }]
+//        link:"https://docs.kore.ai/searchassist/concepts/managing-content/introduction-to-content-sources/"
+//     },
+//     {
+//       ques:"How to integrate a bot to SearchAssist as a content?",
+//       ans:"these are the answer",
+//       link:"https://docs.kore.ai/searchassist/concepts/managing-content/linking-your-virtual-assistant/"
+//    }
+//   ]
 // },
 // {
 //    display:"SmallTalk",
@@ -633,17 +639,7 @@ faqData = [
 
 //    }]
 // },
-// {
-//    display:"General Settings",
-//    key:"generalSettings",
-//    icon:"",
-//    childData:[{
-//        ques:"What are the Questions?",
-//        ans:"these are the answer",
-//        link:""
 
-//    }]
-// },
 {
    display:"Field Management",
    key:"FieldManagementComponent",
@@ -774,13 +770,7 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
 // }
 ];
 
-  constructor(
-    private appSelectionService: AppSelectionService,
-    private notificationService: NotificationService,
-    private service: ServiceInvokerService,
-    public router: Router,) {
-
-   }
+  constructor( private appSelectionService: AppSelectionService, private notificationService: NotificationService, private service: ServiceInvokerService,public router: Router,) {}
 
   ngOnInit(): void {
       this.getVersion();
