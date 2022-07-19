@@ -45,72 +45,6 @@ export class PricingComponent implements OnInit, OnDestroy {
   @ViewChild('cancelSubscriptionModel') cancelSubscriptionModel: KRModalComponent;
   @ViewChild('revertCancelModel') revertCancelModel: KRModalComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
-  optionNew = {
-    title: {
-      text: 'World Population'
-    },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'none'
-      },
-      formatter: `
-      <div class="metrics-tooltips-hover agent_drop_tolltip">
-      <div>
-        <div class="main-title">Query Usage on</div>
-      </div> 
-    </div>
-    `,
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true
-    },
-    xAxis: [{
-      type: 'category',
-      data: ['OCT', 'NOV', 'DEC', 'JAN', 'FEB', 'MAR', 'FEB'],
-      axisLine: {
-        show: false,
-      },
-      axisTick: {
-        show: false,
-      },
-    }, {
-      position: 'bottom',
-      offset: 15,
-      axisLine: {
-        show: false,
-      },
-      axisTick: {
-        show: false,
-      },
-      data: ['2021', '2021', '2021', '2021', '2021', '2021', '2021']
-    }],
-    yAxis: {
-      type: 'value',
-      boundaryGap: [0, 0.01],
-    },
-    series: [
-      {
-        type: 'bar',
-        data: [18203, 23489, 29034, 104970, 131744, 630230],
-        barWidth: 10,
-        barCategoryGap: '10%',
-        itemStyle: { normal: { color: '#FFBCA5' } },
-        emphasis: { itemStyle: { color: "#ff8000" } },
-      },
-      {
-        type: 'bar',
-        data: [19325, 23438, 31000, 121594, 134141, 681807],
-        barWidth: 10,
-        barCategoryGap: '10%',
-        itemStyle: { normal: { color: '#B893F2' } },
-        emphasis: { itemStyle: { color: "#7027E5" } },
-      }
-    ]
-  };
   async ngOnInit() {
     this.currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
     this.getSubscriptionData();
@@ -297,14 +231,6 @@ export class PricingComponent implements OnInit, OnDestroy {
           <span class="count-text">{c0}</span>
           <span class="title">{a0}</span>
         </div>
-        <div class="row-data-info">
-          <i class="si-checkround-up"></i>
-          <span class="success-text">59% </span>
-          <span class="title">Than Avg. 3021/Mo</span>
-        </div>
-        <div class="row-data-info">
-          <span class="title">1st March - 25th March</span>
-        </div>
       </div>`,
       },
       grid: {
@@ -341,7 +267,7 @@ export class PricingComponent implements OnInit, OnDestroy {
         {
           name: 'Documents',
           type: 'bar',
-          data: [10,50,100,150,200],//yAxisQueryData,
+          data: yAxisQueryData,
             barWidth: 10,
             barCategoryGap: '10%',
             itemStyle: {normal: {color: '#FFBCA5'}},
@@ -350,7 +276,7 @@ export class PricingComponent implements OnInit, OnDestroy {
         {
           name: 'Queries',
           type: 'bar',
-          data: [40,70,150,190,240],//yAxisDocumentData,
+          data: yAxisDocumentData,
           barWidth: 10,
             barCategoryGap: '10%',
             itemStyle: {normal: {color: '#B893F2'}},

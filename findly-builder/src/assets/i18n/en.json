@@ -666,8 +666,9 @@
         "download_invoice": "Download Invoice",
         "payment_failed": "Oops! Payment Failed!!",
         "retry_payment": "Retry Payment",
-        "choose_another_plan": "If you want to choose another plan, please",
-        "delete_excess": "delete the excess Document, Index, Rules, Workbench stages and Experiments",
+        "please":"Please",
+        "choose_another_plan": "to change the plan. Rules, Workbench stages added in your application will be automatically downgraded.",
+        "delete_excess": "delete excess document & Index",
         "features": "FEATURES",
         "excess": "Excess",
         "okay": "Okay",
@@ -675,7 +676,9 @@
         "close": "Close",
         "done": "Done",
         "cancel_request_sent": "Cancel Request Sent",
-        "active":"Active"
+        "active":"Active",
+        "current_usage":"CURRENT USAGE",
+        "limit":"LIMIT"
     },
     "credentials": {
         "no_configured_credentials": "You haven’t configured any credentials yet!",
@@ -794,7 +797,11 @@
         "no_content": "No content available",
         "sync_progress": "Sync in progress",
         "upgrade":"Upgrade",
-        "empty_connectors": "Oops!! Connectors is not available in your current Plan"
+        "empty_connectors": "Oops!! Connectors is not available in your current Plan",
+        "noResultTemplate":"Result templates are not defined for connectors. Go to",
+        "searchInterfacePath":"Indices >> Result Templates",
+        "toDefine":"to define.",
+        "learnMore":"Learn More"
     },
     "actions": {
         "actions": "Actions",

@@ -1,6 +1,6 @@
 <!-- Sidebar -->
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
-	<ng-container *ngIf="(!settingMainMenu && sourceMenu)">
+	<ng-container *ngIf="(settingMainMenu || sourceMenu)">
 		<div class="upgrade_your_plan_price" [ngClass]="{'d-none':showUpgrade}">
 			<span [ngClass]="{'status-type':upgradeBannerFlag}"></span>
 			<div class="product-subscription-alert">
@@ -46,7 +46,7 @@
 					</div>
 				</div>
 				<div class="bottm-btns">
-					<div><button class="btn" type="button"><span class="px-1"><i class="si-externallink"></i></span>Know More</button></div>
+					<div></div>
 					<div (click)="showUpgrade=!showUpgrade"><button class="btn" type="button"><span class="px-1"><i class="si-close-red"></i></span>Close</button></div>
 				</div>
 			</div>
