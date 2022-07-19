@@ -32,8 +32,8 @@
               <div>{{plan?.description}}</div>
             </div>
             <div class="plan-upgrade-block">
-              <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName)?null:(selectedPlan?.planName==='Enterprise')?contactusModel('open'):downgradePlan(plan)">{{(plan?.name===selectedPlan?.planName)?'Current Plan':(selectedPlan?.planName==='Enterprise')?'Talk to us':'Choose Plan'}}</button>
-               <button class="btn" [ngClass]="{'current-paln':(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===plan?.billingUnit)}" *ngIf="(plan?.name|lowercase)==='standard'" (click)="((plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan))?null:(selectedPlan?.billingUnit==='Monthly'&&selectedPlan?.planName!=='Enterprise')?downgradePlan(plan):(selectedPlan?.billingUnit==='Yearly'||selectedPlan?.planName==='Enterprise')?contactusModel('open'):[openSelectedPopup('payment_gateway'),orderConfirmData=plan]">{{(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan)?'Current Plan':(selectedPlan?.billingUnit==='Yearly'||selectedPlan?.planName==='Enterprise')?'Talk to us':'Choose Plan'}}<span class="d-none"><i class="si-right-arrow-large"></i></span></button>
+              <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName)?null:(selectedPlan?.planName==='Enterprise')?contactusModel('open'):closeConfirmUpgradeModal('open',plan)">{{(plan?.name===selectedPlan?.planName)?'Current Plan':(selectedPlan?.planName==='Enterprise')?'Talk to us':'Choose Plan'}}</button>
+               <button class="btn" [ngClass]="{'current-paln':(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===plan?.billingUnit)}" *ngIf="(plan?.name|lowercase)==='standard'" (click)="((plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan))?null:(selectedPlan?.billingUnit==='Monthly'&&selectedPlan?.planName!=='Enterprise')?closeConfirmUpgradeModal('open',plan):(selectedPlan?.billingUnit==='Yearly'||selectedPlan?.planName==='Enterprise')?contactusModel('open'):[openSelectedPopup('payment_gateway'),orderConfirmData=plan]">{{(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan)?'Current Plan':(selectedPlan?.billingUnit==='Yearly'||selectedPlan?.planName==='Enterprise')?'Talk to us':'Choose Plan'}}<span class="d-none"><i class="si-right-arrow-large"></i></span></button>
               <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="['unlimited','enterprise'].includes(plan?.name|lowercase)" (click)="plan?.name===selectedPlan?.planName?null:contactusModel('open')">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
             </div>
             <div class="plan-features-block">
@@ -360,26 +360,31 @@
 
 <!--change plan/excess data show popup-->
 <kr-modal modalType="above-modal-drop" modalClass="modal_popups_ order-confirmation excess-modal-data" #changePlanModel>
-  <div class="modal-header">
+  <!-- <div class="modal-header">
     <div class="title">{{"plan.change_plan"| translate}}</div>
     <div class="close_icon"><img src="assets/icons/modal-close.svg"></div>
-  </div>
+  </div> -->
   <perfect-scrollbar>
     <div class="modal-body">
       <div class="desc-text-info">
-        {{"plan.choose_another_plan"| translate}} <span>{{"plan.delete_excess"| translate}}</span>.
+        {{"plan.please"| translate}} <span>{{"plan.delete_excess"| translate}}</span> {{"plan.choose_another_plan"| translate}}.
       </div>
       <div class="excess-table-data">
-        <div class="excess-header">{{"plan.features"| translate}}</div>
+        <div class="excess-header col-12 row">
+          <div class="col-4">{{"plan.features"| translate}}</div>
+          <div class="col-4">{{"plan.current_usage"| translate}}</div>
+          <div class="col-4">{{"plan.limit"| translate}}</div>
+        </div>
         <div class="excess-table-body col-12 row" *ngFor="let feature of featuresExceededUsage">
-          <div class="excess-type col-6">{{feature}}</div>
-          <div class="excess-name col-6">{{"plan.excess"| translate}}</div>
+          <div class="excess-type col-4">{{feature?.name}}</div>
+          <div class="excess-name col-4">{{feature?.used}}</div>
+          <div class="excess-type col-4">{{feature?.limit}}</div>
         </div>
       </div>
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg">{{"plan.okay"| translate}}</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="openExcessDataPopup('close')">{{"plan.okay"| translate}}</button>
   </div>
 </kr-modal>
 
@@ -414,4 +419,21 @@
       </div>
   </perfect-scrollbar>
 </div> 
+</kr-modal>
+
+<!--Confirm upgrade/downgrade modal-->
+<kr-modal modalType="above-modal-drop" modalClass="modal_popups_ revert-cancellation-popup above-modal-drop-class" #confirmUpgradeModel>
+  <div class="modal-header">
+    <div class="title">Are you sure you want to continue?</div>
+    <div class="close_icon" (click)="closeConfirmUpgradeModal('close')">
+      <img src="assets/icons/modal-close.svg">
+    </div>
+  </div>
+  <!-- <div class="modal-body">
+    <div class="desc-text-info">Your cancellation request will be reverted and current plan will be retained</div>
+  </div> -->
+  <div class="modal-footer text-right">
+    <button class="kr-sg-button-primary btn_lg" (click)="downgradePlan()" [disabled]="btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>Submit</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="closeConfirmUpgradeModal('close')">Cancel</button>
+  </div>
 </kr-modal>

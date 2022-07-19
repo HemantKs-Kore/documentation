@@ -1,7 +1,10 @@
+<!---loading spinner-->
 <div class="mainLoadingSpinner" *ngIf="pageLoading">
   <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
   <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
 </div>
+
+<!---show current plan and usage-->
 <div class="pricing-container-wrapper" *ngIf="(currentSubscriptionPlan?.subscription)">
   <div class="title-header d-flex align-items-center justify-content-between">
     <div>{{"plan.plan_head"| translate}}</div>
@@ -21,7 +24,7 @@
         <span class="info-text">{{bannerObj?.msg}}</span>
       </div>
       <div class="close-info col-2 text-right">
-        <span class="cancel-request" *ngIf="bannerObj.type==='downgrade'" (click)="revertCancel()">Cancel request</span>
+        <span class="cancel-request" *ngIf="bannerObj.type==='downgrade'" (click)="revertCancelModal('open')">Cancel request</span>
         <span class="info-proTip-close" (click)="clearBanner()"><i class="si-close"></i></span>
       </div>
     </div>
@@ -52,7 +55,7 @@
                   <!--cancel subscription buttons-->
                   <div class="plan-subscription" *ngIf="['none','cancel'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)"><span class="plan-current-status"></span>{{(currentSubscriptionPlan?.subscription?.changesScheduledFor==='none')?("plan.active" | translate):("plan.cancel_request_sent" | translate)}}</div>
                   <div class="plan-subscription-duration" *ngIf="currentSubscriptionPlan?.subscription?.changesScheduledFor==='none'">{{((currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'&&currentSubscriptionPlan?.subscription?.endDate)?'Till  ':''}}{{(currentSubscriptionPlan?.subscription?.planName|lowercase)==='free'?'Forever':currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MMM.YYYY'}}</div>
-                  <div class="plan-subscription-duration" *ngIf="['cancel'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)" (click)="revertCancel()">{{"plan.revert_cancellation_btn" | translate}}</div>
+                  <div class="plan-subscription-duration" *ngIf="['cancel'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)" (click)="revertCancelModal('open')">{{"plan.revert_cancellation_btn" | translate}}</div>
                   <!--downgrade buttons-->
 
                   <ng-container *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')">
@@ -60,7 +63,7 @@
                       <div class="plan-downgrade" *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')"><span class="plan-current-status"></span>Downgraded</div>
                       <div class="plan-downgrade-duration" *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')">Billing cycle {{currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MM.YY'}}</div>  
                     </div>
-                   <div class="plan-downgrade-cancel" *ngIf="['downgrade'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)" (click)="revertCancel()">{{"plan.cancel_request" | translate}}</div>
+                   <div class="plan-downgrade-cancel" *ngIf="['downgrade'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)" (click)="revertCancelModal('open')">{{"plan.cancel_request" | translate}}</div>
                   </ng-container>
                 </div>
               </div>
@@ -125,12 +128,73 @@
             <div class="tile-header">
               <span class="pr-1"><i class="si-graph-lines"></i></span> Usage Metrics
             </div>
-            <div class="tile-chart"
-            [ngStyle]="{'opacity':isyAxisQuerydata?'none':'0.5','pointer-events':isyAxisQuerydata?'auto':'none'}">
-            <div class="title">{{"plan.query_usage_analytics"| translate}} <span>| {{monthRange}}
-                ({{"plan.last_6_months"| translate}})</span></div>
-            <div echarts [options]="queryGraph" class="demo-chart-graphMode" style="height: 320px;"></div>
-          </div>
+            <div class="tile-chart">
+              <div class="title">{{"plan.query_usage_analytics"| translate}}</div>
+              <!-- <div class="date-filter-data">
+                <div class="label-text-data">Date</div>
+                <div class="kr-sg-dropdowns preview-template" ngbDropdown [placement]="'bottom-right'">                
+                  <div class="dropdown dropdown-open">
+                      <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>Mar 01 2022 to Mar 29 2022</button>                                            
+                      <ul class="dropdown-menu content-menu" ngbDropdownMenu>                                               
+                          <div class="dates-data-info">
+                            <div class="left-sec-tabs">
+                              <div class="tab-name">Last 24 Hrs</div>
+                              <div class="tab-name">Today</div>
+                              <div class="tab-name">Yesterday</div>
+                              <div class="tab-name">Last 7 days</div>
+                              <div class="tab-name">Last 30 days</div>
+                              <div class="tab-name">Last 90 days</div>
+                              <div class="tab-name selected">Custom</div>
+                            </div>
+                            <div class="right-sec-callendar">
+                              <div class="tabs-fixed-since">
+                                  <div class="tab-name selected">Fixed</div>
+                                  <div class="tab-name">Since</div>
+                                  <div class="tab-name">Last</div>
+                              </div>
+                              <div class="tab-content-data">
+                                <div class="inputs-data-date">
+                                  <input type="text" value="Mar 01 2022">
+                                  <input type="text" value="Mar 01 2022">
+                                </div>
+                              </div>
+                              <div class="callendar-container"></div>
+                            </div>
+                          </div>
+                          <div class="footer-done">
+                            <button class="kr-sg-button-primary btn_lg">Done</button>
+                          </div>
+                      </ul>
+                  </div>
+                </div>
+              </div> -->
+              <div echarts [options]="queryGraph" style="height: 320px;opacity: 4;"></div>
+              <!-- <div class="legent-data-ingestion-analysis">
+                <div class="legent-title">LEGEND</div>
+                <div class="left-sec">
+                  <div class="info-legend">
+                    <div class="indication-document"></div>
+                    <div class="title">Documents Ingested</div>
+                  </div>
+                  <div class="info-legend p-0">
+                    <i class="si-avg"></i>
+                    <div class="avg-title">Avg.</div>
+                    <div class="count">1602/Mo</div>
+                  </div>
+                </div>
+                <div class="left-sec before-none">
+                  <div class="info-legend">
+                    <div class="search-quiries"></div>
+                    <div class="title">Search Queries Ingested</div>
+                  </div>
+                  <div class="info-legend p-0">
+                    <i class="si-avg"></i>
+                    <div class="avg-title">Avg.</div>
+                    <div class="count">3021/Mo</div>
+                  </div>
+                </div>
+              </div> -->
+            </div>
           </div>
         </div>
     </div>
@@ -199,6 +263,23 @@
   </perfect-scrollbar>
   <div class="modal-footer text-right">
     <button class="kr-sg-button-primary btn_lg" (click)="cancelSubscription()" [disabled]="btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>{{"plan.done"| translate}}</button>
+  </div>
+</kr-modal>
+
+<!--Revert cancellation modal-->
+<kr-modal modalType="center" modalClass="modal_popups_ revert-cancellation-popup" #revertCancelModel>
+  <div class="modal-header">
+    <div class="title">Are you sure you want to Revert?</div>
+    <div class="close_icon" (click)="revertCancelModal('close')">
+      <img src="assets/icons/modal-close.svg">
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="desc-text-info">Your cancellation request will be reverted and current plan will be retained</div>
+  </div>
+  <div class="modal-footer text-right">
+    <button class="kr-sg-button-primary btn_lg" (click)="renewSubscription()" [disabled]="btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>Revert Cancellation</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="revertCancelModal('close')">Cancel</button>
   </div>
 </kr-modal>
 

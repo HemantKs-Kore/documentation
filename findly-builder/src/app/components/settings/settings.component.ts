@@ -267,7 +267,6 @@ export class SettingsComponent implements OnInit {
       res => {
         this.webClientDetails = res;
         this.scriptTags =    res.cssTag +  res.scriptTag +  res.scriptTagInitilization ;
-        console.log(res)
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

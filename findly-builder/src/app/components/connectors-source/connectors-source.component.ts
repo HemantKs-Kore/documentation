@@ -69,6 +69,7 @@ export class ConnectorsSourceComponent implements OnInit {
   isShowSearch: boolean = false;
   isloadingBtn: boolean = false;
   pageLoading: boolean = false;
+  isResultTemplate: boolean = false;
   total_records: number;
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
   connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' }];
@@ -145,6 +146,7 @@ export class ConnectorsSourceComponent implements OnInit {
         })        
       }
       if (this.connectorsData.length) {
+        this.getAllSettings();
         for (let item of this.Connectors) {
           const isPush = this.connectorsData?.some(available => available.type === item.type);
           if (!isPush)
@@ -158,6 +160,32 @@ export class ConnectorsSourceComponent implements OnInit {
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get Connectors');
     });
+  }
+  //show or hide result template info in footer
+  getAllSettings() {
+    const quaryparms: any = {
+      searchIndexId: this.searchIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline(),
+      interface: 'fullSearch'
+    };
+    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
+      console.log("res",res);
+      if(res){
+        const settingsData = res.groupSetting.conditions.filter(ele=>ele?.fieldValue==='data');
+        this.isResultTemplate = settingsData?.length?false:true;
+      }
+    }, errRes => {
+      this.notificationService.notify('Failed to fetch all Setting Informations', 'error');
+    });
+  }
+  //goto result template page
+  navigateToResultTemplate() {
+    this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/resultTemplate' });
+  }
+  //remove spaces in url
+  removeSpaces(url){
+   const contentURL = url.trim();
+   window.open(contentURL);
   }
   //get connectors by Id
   getConnectorData() {
