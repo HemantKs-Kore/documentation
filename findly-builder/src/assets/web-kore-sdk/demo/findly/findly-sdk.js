@@ -18929,7 +18929,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                   <div  class="sa-sortable-dropbtn"><span id="sa-select-sort-option">{{if displaySortable && displaySortable.name}} {{= displaySortable.name}}  {{else}} Sort By {{/if}}</span></div>\
                                   <div id="myDropdown" class="sa-sortable-dropdown">\
                                   {{each(key, facet) sortablefacets }}\
-                                    <div class="option-text sa-sortable-facet-options" value="{{= JSON.stringify(facet)}}" name="{{= facet.name}}">{{= facet.name}}</div>\
+                                    <div class="option-text sa-sortable-facet-options text-truncate" value="{{= JSON.stringify(facet)}}" name="{{= facet.name}}">{{= facet.name}}</div>\
                                     {{/each}}\
                                   </div>\
                                 </div>\
@@ -18951,7 +18951,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       <div class="content-dropdown-sortable sa-sortable-dropdown">\
         <div class="title-text">SORT BY</div>\
         {{each(key, facet) sortablefacets }}\
-                                    <div class="option-text sa-sortable-facet-options" value="{{= JSON.stringify(facet)}}" name="{{= facet.name}}">{{= facet.name}}</div>\
+                                    <div class="option-text sa-sortable-facet-options text-truncate" value="{{= JSON.stringify(facet)}}" name="{{= facet.name}}">{{= facet.name}}</div>\
                                     {{/each}}\
       </div>\
     </div>\
