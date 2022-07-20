@@ -37,6 +37,7 @@ export class AppsListingComponent implements OnInit {
   confirmatiomAppPopRef: any;
   detailsPopUpRef: any;
   creatingInProgress = false;
+  appTypevalue:any;
   searchApp = '';
   apps: any = [];
   progressBar: any = [];
@@ -200,8 +201,20 @@ export class AppsListingComponent implements OnInit {
   exploreMyself() {
     this.displayApp = true;
     this.hideWelcomepage = false;
-    this.mixpanel.postEvent('Explore App Type selected',{})
+    this.mixpanel.postEvent('Explore App Type selected',{Boolean:'Own'})
     // console.log('Explore App Type selected')
+  }
+  mixpanelEventValues(){
+    if(this.demoType == 'e-commerce'){
+      this.appTypevalue = 'E-commerce';
+    }
+    else if (this.demoType == 'website-search'){
+      this.appTypevalue = 'Website';
+    }
+    else{
+      this.appTypevalue = 'Knowledge';
+    }
+    this.mixpanel.postEvent('Explore App Data selected',{string:this.appTypevalue})
   }
   exploreSampleDate() {
     this.hideWelcomepage = false;
@@ -209,7 +222,7 @@ export class AppsListingComponent implements OnInit {
       this.steps = 'showSearchExperience';
       this.SearchExperianceType ='top';
       this.progressBarFun(4, 3)
-      this.mixpanel.postEvent('Explore App Data selected',{})
+      this.mixpanelEventValues();  
       // console.log('Explore App Data selected')
     }
     else if (this.steps == 'showSearchExperience' && this.SearchExperianceType) {
@@ -231,7 +244,7 @@ export class AppsListingComponent implements OnInit {
       }
     }
     // console.log('Explore App Type selected')
-    this.mixpanel.postEvent('Explore App Type selected',{})
+    this.mixpanel.postEvent('Explore App Type selected',{Boolean:'Sample'})
   }
   openAppLoadingScreen() {
     this.loadingAppcreationRef = this.loadingAppcreation.open();
