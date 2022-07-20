@@ -349,6 +349,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   addFaqSource(type) {
     this.showSourceAddition = type;
+    if(type==='faqWeb'){
+    this.mixpanel.postEvent('Enter FAQ Web extract', {});      
+    }
+    else if(type==='faqDoc'){
+      this.mixpanel.postEvent('Enter upload FAQ file', {}); 
+    }
+    else if(type==='manual'){
+       this.mixpanel.postEvent('Enter FAQ Manual', {}); 
+    }
     // this.addAltFaq={
     //   _source :{
     //     faq_alt_question : []
@@ -626,10 +635,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       conditionalAnswers: event.conditionalAnswers || [],
       keywords: event.tags
     };
-    this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {
+    this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {      
       this.showAddFaqSection = false;
       this.selectTab('draft');
-      event.cb('success');
+      event.cb('success');      
     }, errRes => {
       event.cb('error');
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -1071,8 +1080,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
 
       }
       this.getDyanmicFilterData(searchValue, 'landingPage');
-      // console.log('MIXPANNEL')
-      this.mixpanel.postEvent('FAQ-created', {})
     }, errRes => {
     });
   }
@@ -1395,9 +1402,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           this.getStats(null, true);
           this.pollingSubscriber.unsubscribe();
-          let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-          if (currentPlan?.subscription?.planId == 'fp_free') {
-            this.appSelectionService.updateUsageData.next('updatedUsage');
+          const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+          if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
+            this.appSelectionService.getCurrentUsage();;
           }
         }
 
@@ -1620,9 +1627,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editfaq = null
       if (state != 'in_review' && state != 'approved') {
         this.notificationService.notify(custSucessMsg, 'success');
-        let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-        if (currentPlan?.subscription?.planId == 'fp_free') {
-          this.appSelectionService.updateUsageData.next('updatedUsage');
+        const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+        if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
+          this.appSelectionService.getCurrentUsage();;
         }
       }
       if (state == 'in_review') {
@@ -1665,10 +1672,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         // this.getSourceList();
       }
       this.resetCheckboxSelect();
-
-      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-      if (currentPlan?.subscription?.planId == 'fp_free') {
-        this.appSelectionService.updateUsageData.next('updatedUsage');
+      const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+      if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
+        this.appSelectionService.getCurrentUsage();;
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete faq source');
@@ -1692,9 +1698,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.getStats();
       this.resetCheckboxSelect();
-      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-      if (currentPlan?.subscription?.planId == 'fp_free') {
-        this.appSelectionService.updateUsageData.next('updatedUsage');
+      const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+      if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
+        this.appSelectionService.getCurrentUsage();;
       }
       if (!(this.faqs && this.faqs.length)) {
         this.selectedFaq = null;

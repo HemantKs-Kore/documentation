@@ -27,6 +27,8 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -234,7 +236,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
       ]
     },
-    
+
   ];
   anntationObj: any = {};
   addManualFaqModalPopRef: any;
@@ -264,7 +266,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
-
+    public mixpanel: MixpanelServiceService
   ) { }
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -281,11 +283,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     }
-
+    this.appSelectionService.getTourConfig();
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
-    // this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+    // this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ??  null;
     if (this.workflowService.selectedApp()?.configuredBots[0]) {
       this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
     }
@@ -417,7 +419,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.statusObject = res;
         const queuedJobs = _.filter(res, (source) => {
           if (this.selectedSourceType.sourceType === 'content') {
-            return (source.extractionSourceId === jobId);
+            return (source?.metadata?.extractionSourceId === jobId);
           }
           else {
             return (source._id === jobId);
@@ -432,10 +434,19 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
 
           if ((queuedJobs[0].status !== 'running') && (queuedJobs[0].status !== 'queued')) {
+            if (this.selectedSourceType.sourceType === 'content'&&queuedJobs[0].status === 'success'){
+              this.mixpanel.postEvent('Content Crawl web domain success', {});
+            }
+            else if(this.selectedSourceType.sourceType === 'faq'&&this.selectedSourceType.resourceType === ''&&queuedJobs[0].status === 'success'){
+               this.mixpanel.postEvent('FAQ Web extract success', {});
+            }
+            if(this.selectedSourceType.sourceType === 'content'&&queuedJobs[0].status === 'failed'){
+              this.mixpanel.postEvent('Content Crawl web domain failed', {});
+            }
             this.pollingSubscriber.unsubscribe();
             let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-            if (currentPlan?.subscription?.planId == 'fp_free') {
-              this.appSelectionService.updateUsageData.next('updatedUsage');
+            if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
+              this.appSelectionService.getCurrentUsage();;
             }
             //this.crawlOkDisable = true;
             if (queuedJobs[0].validation?.limitValidation == false) {
@@ -536,7 +547,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       jobId: this.crwal_jobId
     }
     this.service.invoke('stop.crwaling', quaryparms).subscribe(res => {
-      this.notificationService.notify('Stoped Crwaling', 'success');
+      this.notificationService.notify('Stopped Crwaling', 'success');
       this.closeStatusModal();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to Stop Cwraling');
@@ -694,7 +705,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (showProg) {
       this.onFileSelect(event.target, this.multipleFileArr);
-      this.fileObj.fileName = element.fileName; // for  single file 
+      this.fileObj.fileName = element.fileName; // for  single file
     }
   }
 
@@ -731,7 +742,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  //Triggers on select of a file 
+  //Triggers on select of a file
   fileChangeListener(event) {
     this.newSourceObj.url = '';
     let fileName = '';
@@ -795,7 +806,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     // if (showProg) {
     //   this.onFileSelect(event.target, this.extension);
     //   this.fileObj.fileUploadInProgress = true; // unknown binding
-    //   this.fileObj.fileName = fileName; // for  single file 
+    //   this.fileObj.fileName = fileName; // for  single file
     //   this.fileObj.file_ext = this.extension.replace(".", "");
     // }
   }
@@ -1261,6 +1272,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   proceedSource() {
+    if(this.selectedSourceType.resourceType === 'file'){
+      this.mixpanel.postEvent('Content File extraction started', {});
+    }
+    else if(this.selectedSourceType.sourceType === 'faq'&&this.selectedSourceType.resourceType === ''){
+       this.mixpanel.postEvent('FAQ Web extract added', {});
+    }
+    else if(this.selectedSourceType.resourceType === 'importfaq'&&this.selectedSourceType.sourceType === "faq"){
+      console.log("mix event:FAQ File extraction started")
+       //this.mixpanel.postEvent('FAQ File extraction started', {});
+    }
     let payload: any = {};
     let schdVal = true;
     const crawler = this.crwalObject;
@@ -1412,9 +1433,21 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.addSourceModalPopRef.close();
           if (this.selectedSourceType.sourceType === 'content') {
             this.statusObject = { ...this.statusObject, validation: res.validations };
+            this.mixpanel.postEvent('Content Crawl web domain added', {});
           }
           if (this.selectedSourceType.sourceType === 'faq') {
+            this.mixpanel.postEvent('FAQ-created', {});
             this.poling(res._id, 'scheduler');
+          }
+          if(this.selectedSourceType.resourceType === 'file'){
+            this.mixpanel.postEvent('Content File extraction success', {});
+          }
+          if(this.selectedSourceType.resourceType === ''&&this.selectedSourceType.sourceType === "faq"){
+            this.mixpanel.postEvent('FAQ Web extract started', {});
+          }
+          if(this.selectedSourceType.resourceType === 'importfaq'&&this.selectedSourceType.sourceType === "faq"){
+            console.log("mix event:FAQ File extraction started")
+             //this.mixpanel.postEvent('FAQ File extraction started', {});
           }
           //this.dockService.trigger(true)
         }, errRes => {
@@ -1426,6 +1459,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.btnDisabled = false;
               }, 500)
             } else {
+              if (this.selectedSourceType.sourceType === 'content') {
+                this.mixpanel.postEvent('Content Crawl web domain failed', {});
+              }
               this.btnDisabled = false;
               this.notificationService.notify(errRes.error.errors[0].msg, 'error');
             }
@@ -1443,7 +1479,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   //upgrade plan
   upgrade() {
-    this.plans.openChoosePlanPopup('choosePlans');
+
   }
   callWebCraller(crawler, searchIndex) {
     let payload = {}
@@ -1503,6 +1539,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.selectedSourceType = null;
       this.closeAddManualFAQModal();
       this.appSelectionService.updateTourConfig('addData');
+      this.mixpanel.postEvent('Manual FAQ added', {});
+      this.mixpanel.postEvent('FAQ-created', {});
       event.cb('success');
       if (this.resourceIDToOpen) {
         const eve: any = {}
@@ -1538,7 +1576,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     // if(scheduleData.interval.intervalType && scheduleData.interval.intervalType != "Custom"){
     //   scheduleData.interval.intervalValue = {};
     // }
-    // if(scheduleData.interval && 
+    // if(scheduleData.interval &&
     //   scheduleData.interval.intervalValue &&
     //   scheduleData.interval.intervalValue.endsOn &&
     //   scheduleData.interval.intervalValue.endsOn.endDate){
@@ -1895,6 +1933,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       // streamId: this.streamId,
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
+      if(this.selectedSourceType.resourceType === 'importfaq'&&this.selectedSourceType.sourceType === "faq"){
+        this.mixpanel.postEvent('FAQ-created', {});
+         this.mixpanel.postEvent('FAQ File extraction success', {});
+      }
       // console.log("imp faq res", res);
       this.importFaqInprogress = true;
       this.openStatusModal();
@@ -1999,6 +2041,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       sourceId: this.extract_sourceId
     };
     this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
+      this.mixpanel.postEvent('Content Crawl web domain started', {});
       this.crwal_jobId = res._id;
       //this.openStatusModal();
       //this.notificationService.notify('Bot linked, successfully', 'success');

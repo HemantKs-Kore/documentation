@@ -961,7 +961,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   upgrade() {
-    this.plans.openChoosePlanPopup('choosePlans');
+    this.plans?.openSelectedPopup('choose_plan');
   }
   openModalPopup() {
     this.loadingFields = true;
@@ -2203,7 +2203,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 100)
   }
   searchBySimulator() {
-    const filtered = this.getKeyByValue(this.simulateJson, this.searchSimulator);
+    const filtered = this.getKeyByValue(this.simulateJson.simulate_docs, this.searchSimulator);
     this.filteredSimulatorRes = JSON.stringify(filtered, null, ' ');
   }
   getKeyByValue(object, searchSimulator) {

@@ -10,6 +10,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service'
 import { AuthService } from '@kore.services/auth.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+import { AppHeaderComponent } from '../app-header/app-header.component';
 declare const $: any;
 declare var PureJSCarousel: any;
 @Component({
@@ -27,10 +28,12 @@ export class AppsListingComponent implements OnInit {
   SearchExperianceType: string = '';
   appsData: any;
   streamID: any;
+  private storageType = 'localStorage';
   searchIndexID: any;
   demoOptions: boolean = false;
   createAppPopRef: any;
   onboardingpopupjourneyRef: any;
+  loadingAppcreationRef: any;
   confirmatiomAppPopRef: any;
   detailsPopUpRef: any;
   creatingInProgress = false;
@@ -39,6 +42,7 @@ export class AppsListingComponent implements OnInit {
   progressBar: any = [];
   stepBar = 1;
   displayApp: boolean = false;
+  newUser:boolean = false;
   hideWelcomepage: boolean = true;
   showSearchExperices: boolean = false;
   validateAppname: boolean = false;
@@ -61,6 +65,7 @@ export class AppsListingComponent implements OnInit {
   carousel: any = [];
   carouselTemplateCount = 0;
   searchFocusIn = false;
+  loadingApps = true;
   newApp: any = {
     name: '',
     description: ''
@@ -71,10 +76,14 @@ export class AppsListingComponent implements OnInit {
   recentApps: any;
   currentPage: number = 1;
   testRepeat = false;
+  createdAppData: any = {};
+  pollingInterval;
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
+  @ViewChild('loadingAppcreation') loadingAppcreation: KRModalComponent;
   @ViewChild('confirmatiomAppPop') confirmatiomAppPop: KRModalComponent;
   @ViewChild('detailsPopUp') detailsPopUp: KRModalComponent;
+  @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(
     public localstore: LocalStoreService,
     private service: ServiceInvokerService,
@@ -93,15 +102,40 @@ export class AppsListingComponent implements OnInit {
   }
 
   ngOnInit() {
+    // this.checkForNewUser();
     $('.krFindlyAppComponent').removeClass('appSelected');
     //const apps = this.workflowService.findlyApps();
     //this.prepareApps(apps);
-    this.getAllApps();
+      this.getAllApps();
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
     // this.buildCarousel();    
   }
+   //Checks whether user is new or not
+   checkForNewUser(){
+    let accountId:any;
+    let selectAccountDetail = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
+    let currentAccountDetail = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')) : {};
+    let currentAccountID = currentAccountDetail?currentAccountDetail?.currentAccount?.accountId:null;
+    if(!selectAccountDetail){
+      accountId = currentAccountID;
+    }
+    else if(selectAccountDetail && selectAccountDetail.accountId){
+      accountId = selectAccountDetail.accountId;
+    }
+    if(accountId){
+      const quaryParms: any = {
+        accountId : accountId
+      };
+      this.service.invoke('get.checkNewUser',quaryParms).subscribe(res => {
+        this.newUser = !res.isInitialAppCreated;
+      }, errRes => {
+        this.notificationService.notify('Checking for New User has gone wrong ', 'error');
+      });  
+    }
+   }
+
   //call mixpanel api for tellmemore button
   callMixPanel() {
     this.mixpanel.postEvent('User Onboarding - Journey Started', {});
@@ -115,22 +149,28 @@ export class AppsListingComponent implements OnInit {
     });
     this.apps = apps;
   }
-  openApp(app) {
+  openApp(app,isUpgrade?) {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
-    this.appSelectionService.openApp(app);
+    const isDemo = this.appType == 'sampleData' ? true : false;
+    this.appSelectionService.openApp(app, isDemo,isUpgrade);
     this.workflowService.selectedIndexPipelineId = '';
   }
   openBoradingJourney() {
     this.headerService.openJourneyForfirstTime = true;
     this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
     this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
+    this.mixpanel.postEvent('Welcome video Shown',{})
   }
   closeBoradingJourney() {
     if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
       this.onboardingpopupjourneyRef.close();
       this.mixpanel.postEvent('User Onboarding - Journey Cancelled', {});
+      this.mixpanel.postEvent('Welcome video Played',{})
+      this.mixpanel.postEvent('Explore App page',{})
+      // console.log('Welcome video Played')
+      // console.log('Explore App page')
     }
-    this.showBoarding = false;
+    // this.showBoarding = false;
   }
 
   progressBarFun(val, step) {
@@ -160,71 +200,77 @@ export class AppsListingComponent implements OnInit {
   exploreMyself() {
     this.displayApp = true;
     this.hideWelcomepage = false;
+    this.mixpanel.postEvent('Explore App Type selected',{})
+    // console.log('Explore App Type selected')
   }
   exploreSampleDate() {
     this.hideWelcomepage = false;
-    if (this.steps == 'demoOptions') {
-      this.steps = 'showSearchExperience'
-      this.progressBarFun(3, 2)
+    if (this.steps == 'demoOptions' && this.demoType) {
+      this.steps = 'showSearchExperience';
+      this.SearchExperianceType ='top';
+      this.progressBarFun(4, 3)
+      this.mixpanel.postEvent('Explore App Data selected',{})
+      // console.log('Explore App Data selected')
     }
-    else if (this.steps == 'showSearchExperience') {
-      this.progressBarFun(3, 2)
+    else if (this.steps == 'showSearchExperience' && this.SearchExperianceType) {
+      this.appCreationAtOnboarding();
+      this.mixpanel.postEvent('Explore App Searchexperience Type selected',{})
+      // console.log('Explore App Searchexperience Type selected')
+    }
+    else if (this.steps == 'showSearchExperience' && !this.SearchExperianceType) {
+      this.steps == 'showSearchExperience'
     }
     else {
-      // this.displaydemoOptions = true;
-      this.steps = 'demoOptions';
-      // this.demoOptions = true;
-
+      if (this.displayApp = true && this.newApp.name) {
+        this.steps = 'demoOptions';
+        this.demoType = 'e-commerce';
+        this.progressBarFun(4, 2)
+      }
+      else {
+        this.validateAppname = true;
+      }
     }
-
+    // console.log('Explore App Type selected')
+    this.mixpanel.postEvent('Explore App Type selected',{})
+  }
+  openAppLoadingScreen() {
+    this.loadingAppcreationRef = this.loadingAppcreation.open();
+  }
+  CloseAppLoadingScreen() {
+    if (this.loadingAppcreationRef?.close) this.loadingAppcreationRef.close()
   }
 
   selectDemoType(data) {
     this.demoType = data;
   }
-  // continue(){
-  //   // if(this.displaydemoOptions == true ){
-  //   //   this.displaydemoOptions = false;
-  //   //   this.showSearchExperices =true;
-  //   // }
-  //   // else if(this.showSearchExperices ==true){
-  //   //   this.displaydemoOptions = false;
-  //   //   this.showSearchExperices = false;
-  //   //   this.steps='displayApp'
-  //   //   // this.displayApp= true;
-  //   // }
-
-  // }
   selectSearchExperianceType(data) {
     this.SearchExperianceType = data;
 
   }
   back() {
+    this.validateAppname = false;
     if (this.steps == 'showSearchExperience') {
       this.steps = 'demoOptions';
+      this.SearchExperianceType = '';
+      this.progressBarFun(4, 2)
     }
     else if (this.steps == 'demoOptions') {
       this.steps = 'displayApp';
+      this.demoType = '';
+      this.progressBarFun(4, 1)
     }
     else if (this.steps == 'displayApp') {
       this.steps = '';
       this.progressBar.length = 0
-    }
-  }
+      this.newApp = { name: '', description: '' };
 
-  backToWelcomePage() {
-    if (this.demoOptions === true) {
-      this.hideWelcomepage = true;
-      this.demoOptions = false;
-    }
-    else {
-      this.displayApp = false;
-      this.hideWelcomepage = true;
-      this.validateAppname = false;
     }
   }
   appCreationAtOnboarding() {
-    if (this.newApp.name) {
+    if (this.appType == 'selfExplore' && this.newApp.name) {
+      this.validateSource();
+    }
+    else if (this.appType == 'sampleData' && this.newApp.name && this.SearchExperianceType) {
       this.validateSource();
     }
     else {
@@ -235,30 +281,16 @@ export class AppsListingComponent implements OnInit {
   checkExperience() {
     if (this.appType == 'selfExplore') {
       this.appCreationAtOnboarding();
+      this.mixpanel.postEvent('Explore App Named',{})
+      // console.log('Explore App Named')
     }
     else {
-      this.exploreSampleDate();
-    }
-  }
-  createDemoApp(obj?) {
-    const payload = {
-      searchIndexId: obj?._id,
-      streamId: obj?.streamId,
-      appType: this.demoType,
-      searchBarPosition: this.SearchExperianceType,
-    }
-    this.service.invoke('post.createDemoApp', {}, payload).subscribe(
-      res => {
-        if (res) {
-          this.appSelectionService.getTourConfig();
-          this.notificationService.notify('Demo App created Successfully', 'success');
-        }
-
-      },
-      errRes => {
-        this.notificationService.notify('App creation has gone wrong', 'error');
+      if (this.appType == 'sampleData') {
+        this.exploreSampleDate();
+        this.mixpanel.postEvent('Explore App Named',{})
+        // console.log('Explore App Named')
       }
-    );
+    }
   }
   openDetails() {
     this.detailsPopUpRef = this.detailsPopUp.open();
@@ -268,11 +300,13 @@ export class AppsListingComponent implements OnInit {
   }
   closeCreateApp() {
     this.showBoarding = false;
-    this.createAppPopRef.close();
     this.newApp = { name: '', description: '' };
+    if (this.createAppPopRef?.close) this.createAppPopRef.close();
   }
   openCreateApp() {
     this.createAppPopRef = this.createAppPop.open();
+    this.mixpanel.postEvent('Start create app',{})
+    // console.log('Start create app')
     if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
       this.onboardingpopupjourneyRef.close();
     }
@@ -308,29 +342,17 @@ export class AppsListingComponent implements OnInit {
           this.closeConfirmApp();
           this.apps = this.apps.filter((val) => { return val._id != this.slectedAppId });
           this.prepareApps(this.apps);
-          // this.getAllApps();
           this.selectedAppType(this.app_type);
           this.confirmApp = '';
+          if(!this.apps.length){
+          this.emptyApp = true;
+          this.showBoarding = true;
+          }
         }
       }, errRes => {
         this.notificationService.notify('Deletion has gone wrong.', 'error');
       });
     }
-    // for (let i=0; i<this.apps.length; i++){
-    // if (this.apps[i].name === this.confirmApp){
-    // let quaryparms: any = {};
-    // quaryparms.streamId = this.apps[i]._id;
-    //  this.service.invoke('delete.app', quaryparms).subscribe(res => {
-    //  if (res) {
-    //           this.notificationService.notify('Deleted Successfully', 'success');
-    //           this. closeDeleteApp();
-    //           this.getAllApps();
-    //         }
-    //       }, errRes => {
-    //         this.notificationService.notify('Deletion has gone wrong.', 'error');
-    //       });
-    //  }
-    // }
   }
   openUnlinkApp(event, appInfo) {
     this.unlinkPop = true;
@@ -387,7 +409,7 @@ export class AppsListingComponent implements OnInit {
     }, 100);
   }
   //get all apps
-  emptyApp: boolean;
+  emptyApp: boolean = true;
   showBoarding: boolean = true;
   public getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
@@ -425,6 +447,7 @@ export class AppsListingComponent implements OnInit {
           }
         }
       }
+      this.loadingApps = false;
       this.clearAccount();
       //this.checkForSharedApp();
     }, errRes => {
@@ -470,34 +493,91 @@ export class AppsListingComponent implements OnInit {
     };
     this.service.invoke('create.app', {}, payload).subscribe(
       res => {
-        if (this.steps == 'showSearchExperience') {
+        this.createdAppData = res;
+        this.notificationService.notify(`${this.newApp.name} created successfully`, 'success');
+        if (this.appType == 'sampleData') {
           this.createDemoApp(res?.searchIndexes[0]);
         }
-        this.notificationService.notify('App created successfully', 'success');
-        this.mixpanel.postEvent('New App Created', {});
-        self.apps.push(res);
-        this.prepareApps(self.apps);
-        this.openApp(res)
-        this.displayApp = false;
-        self.workflowService.showAppCreationHeader(true);
-        // self.router.navigate(['/source'], { skipLocationChange: true });
-        this.closeCreateApp();
-        const toogleObj = {
-          title: '',
-        };
-        this.headerService.toggle(toogleObj);
-        self.creatingInProgress = false;
-        $('.toShowAppHeader').removeClass('d-none');
-        if (res.length > 0) {
-          this.emptyApp = true;
+        else {
+          this.openCreatedApp();
         }
-        this.callStream();
       },
       errRes => {
         this.errorToaster(errRes, 'Error in creating app');
         self.creatingInProgress = false;
       }
     );
+  }
+  //common method for create sample/scratch app
+  openCreatedApp() {
+    const res = this.createdAppData;
+    this.mixpanel.postEvent('New App Created', {});
+    this.apps.push(res);
+    this.prepareApps(this.apps);
+    this.openApp(res)
+    this.displayApp = false;
+    this.workflowService.showAppCreationHeader(true);
+    // this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/source' });
+    this.closeCreateApp();
+    const toogleObj = {
+      title: '',
+    };
+    this.headerService.toggle(toogleObj);
+    this.creatingInProgress = false;
+    $('.toShowAppHeader').removeClass('d-none');
+    if (res.length > 0) {
+      this.emptyApp = true;
+    }
+    this.appSelectionService.getTourConfig();
+  }
+  // create demo app API
+  createDemoApp(obj?) {
+    if (this.SearchExperianceType) {
+      const payload = {
+        searchIndexId: obj?._id,
+        streamId: obj?.streamId,
+        appType: this.demoType,
+        searchBarPosition: this.SearchExperianceType,
+      }
+      this.service.invoke('post.createDemoApp', {}, payload).subscribe(
+        res => {
+          if (res) {
+            this.openAppLoadingScreen();
+            this.polling();
+            $('body').addClass('demoScenarioCssForInlinemanual');
+          }
+        },
+        errRes => {
+          this.notificationService.notify('App creation has gone wrong', 'error');
+        }
+      );
+    }
+  }
+  //calling polling API To get traing status
+  polling() {
+    this.pollingInterval = setInterval(() => { this.dockStatus() }, 700);
+  }
+  //call dock status API
+  dockStatus() {
+    const queryParms = {
+      searchIndexId: this.createdAppData?.searchIndexes[0]?._id
+    }
+    this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
+      const doc_status = JSON.parse(JSON.stringify(res));
+      console.log("doc_status", doc_status);
+      if ((doc_status[0].status === 'SUCCESS' || doc_status[0].status === 'success') && doc_status[0].jobType === "TRAINING") {
+        clearInterval(this.pollingInterval);
+        this.CloseAppLoadingScreen();
+        this.openCreatedApp();
+      }
+      else if ((doc_status[0].status === 'FAILURE' || doc_status[0].status === "FAILED") && doc_status[0].jobType === "TRAINING") {
+        clearInterval(this.pollingInterval);
+        this.CloseAppLoadingScreen();
+        this.notificationService.notify(doc_status[0].message, 'error');
+      }
+    }), errRes => {
+      this.notificationService.notify('Failed to get Status of Docker.', 'error');
+    }
   }
   validateSource() {
     let validField = true
@@ -507,16 +587,15 @@ export class AppsListingComponent implements OnInit {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
       validField = false
     }
-    if (validField) {
+    if (validField && this.newApp.name) {
       let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|<>\/?→←↑↓]+/;
       if (!specialCharacters.test(this.newApp.description)) {
-        this.createFindlyApp()
+        this.createFindlyApp();
       }
       else {
         this.notificationService.notify('Special characters not allowed', 'error');
       }
     }
-
   }
   inputChanged(type, i?) {
     if (type == 'enterName') {

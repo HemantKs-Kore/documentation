@@ -26,7 +26,6 @@ export class EndPointsService {
       // this.API_SERVER_URL_PLATFORM = "https://50b6e8fd7c49.ngrok.io" + "/api/1.1"
       // this.API_SERVER_URL = "http://3cbe-2401-4900-1c0a-1381-4677-75fc-9139-453.ngrok.io" + "/searchassistapi"
       // this.API_SERVER_URL_PLATFORM = "http://3cbe-2401-4900-1c0a-1381-4677-75fc-9139-453.ngrok.io" + this.API_URL_PREFIX
-      // this.API_SERVER_URL = "https://bca0530495c7.ngrok.io" + this.API_URL_PREFIX
     }
     this.init();
   }
@@ -1262,6 +1261,10 @@ export class EndPointsService {
     this.serviceList['post.disableConnector'] = {
       endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon/disable',
       method: 'post'
+    }
+    this.serviceList['get.checkNewUser'] = {
+      endpoint: this.API_SERVER_URL + '/findly/account?accountId=:accountId',
+      method: 'get'
     }
   }
 }

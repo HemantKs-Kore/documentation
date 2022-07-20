@@ -114,6 +114,7 @@ import { UsageLogComponent } from './components/usage-log/usage-log.component';
 import { RangeSliderSearchExperienceComponent } from './helpers/components/range-slider-search-experience/range-slider-search-experience.component';
 import { UpgradePlanComponent } from './helpers/components/upgrade-plan/upgrade-plan.component';
 import { valueFormatPipe } from './helpers/filters/number-format.pipe';
+import { TextTransformPipe } from './helpers/filters/textTransfom.pipe';
 import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 import { ResultTemplatesComponent } from './components/result-templates/result-templates.component';
 import { OnboardingComponentComponent } from './components/onboarding-component/onboarding-component.component';
@@ -201,6 +202,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     RangeSliderSearchExperienceComponent,
     UpgradePlanComponent,
     valueFormatPipe,
+    TextTransformPipe,
     GeneralSettingsComponent,
     ResultTemplatesComponent,
     AnalyticsDropdownComponent,

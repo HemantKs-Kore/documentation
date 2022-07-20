@@ -74,7 +74,6 @@ const routes: Routes = [
       { path: 'smallTalk', component: SmallTalkComponent },
       { path: 'generalSettings', component: GeneralSettingsComponent },
       { path: 'FieldManagementComponent', component: FieldManagementComponent },
-      // { path: 'searchInterface', component: SearchInterfaceComponent }, /* currently in UI Result Templates */
       { path: 'resultTemplate', component: ResultTemplatesComponent },
       { path: 'structuredData', component: StructuredDataComponent },
       { path: 'team-management', component: TeamManagementComponent },

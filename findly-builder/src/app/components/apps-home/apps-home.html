@@ -1,8 +1,12 @@
 <div class="emptyStateContainer" aria-live="polite">
-  <ng-container *ngIf="!emptyApp">
+  <div class="mainLoadingSpinner" *ngIf="loadingApps">
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">{{'synonyms.please_wait' | translate }}</span>
+  </div>
+  <ng-container *ngIf="!emptyApp && !loadingApps">
     <perfect-scrollbar class="dashboard-perfect-scroll">
       <div class="scrollContainer">
-        <div class="findly-dashboard" *ngIf="!showBoarding">
+        <div class="findly-dashboard">
           <div class="main-heading d-none" role="doc-introduction">{{'WelcometoFindly' | translate}}</div>
           <div class="header-sec">
             <div class="row m-0 adjust-width">
@@ -44,11 +48,11 @@
                   <div class="e-title">Create your first app</div>
                 </div>
               </ng-container>
-              <div *ngIf="emptyApp" class="start-scrtch-user-data">
+              <div *ngIf="emptyApp && !loadingApps"  class="start-scrtch-user-data">
                 <div class="user-details">
-                  <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
+                  <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} <img src="assets/icons/hand-hellow.svg"></div>
                 </div>
-                <div class="title-start">Create your first Search Experience</div>  
+                <div class="title-start">Create your first Search Experience</div>
                 <div  class="add-scrtch-app" (click)="openCreateApp()">
                   <div class="icon-block-plus">
                     <i class="si-add-plus"></i>
@@ -57,15 +61,24 @@
                     <div class="title">Start from Scratch</div>
                     <div class="text-desc">Create a new Search App from scratch.</div>
                   </div>
-                </div>               
+                </div>
               </div>
 
-              <ng-container *ngIf="!emptyApp">
-                <div class="m-title col-12 m-10">Recently Visited</div>  
-                <div class="cards-content" (click)="app.disabled?null:openApp(app)" *ngFor="let app of recentApps | filter: [ searchApp, 'name']" placement="top-center"
-                  [ngbTooltip]="app.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0">
+              <ng-container>
+                <div *ngIf="!emptyApp && !loadingApps"  class="m-title col-12 m-10">Recently Visited</div>
+                <div class="cards-content" (click)="app.disabled?null:openApp(app)" *ngFor="let app of recentApps | filter: [ searchApp, 'name']" [ngClass]="{'d-none': !apps.length && !loadingApps}">
                   <div class="box" [ngStyle]="app.disabled&&{'opacity':'0.4','cursor':'default'}">
                     <div class="content-sec">
+                      <div class="delete-clone-icons" *ngIf="app.disabled">
+                        <div class="disabled-icon">
+                          <img src="assets/icons/Info-red.svg">
+                          <span class="tooltip_disabled">
+                            <span>Your App has been deactivated, kindly upgrade you plan or delete records to stay on the free forever plan</span>
+                            <span class="upgrade_plan" (click)="openApp(app,true)">Upgrade Plan</span>
+                            <span class="delete_record" (click)="openApp(app,false)">Delete Records</span>
+                          </span>
+                        </div>
+                      </div>                     
                       <div class="name"><span>{{app.name}}</span></div>
                       <div class="info-text" *ngIf="app.description !==''" title="{{app.description}}">{{app.description}}
                       </div>
@@ -73,8 +86,8 @@
                     <div class="user-name text-truncate" *ngIf="app.createdBy!==userId" ngbTooltip="{{app.userDetails.fullName}}">{{app.userDetails.fullName}}</div>
                   </div>
                 </div>
-  
-  
+
+
                 <div class="row m-0 col-12 filters-dropdown">
                   <div class="col-6 d-flex align-items-center p-0 left">
                     <div class="tabs-sec">
@@ -99,10 +112,8 @@
                         src="assets/icons/dashboard/maxFilter.svg"></div>
                   </div>
                 </div>
-  
-                <div class="cards-content" *ngFor="let filter of filteredApps | filter: [ searchApp, 'name']"
-                  (click)="filter.disabled?null:openApp(filter)" placement="top-center"
-                  [ngbTooltip]="filter.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0">
+
+                <div class="cards-content" *ngFor="let filter of filteredApps | filter: [ searchApp, 'name']" (click)="filter.disabled?null:openApp(filter)">
                   <div class="box" [ngStyle]="filter.disabled&&{'opacity':'0.4','cursor':'default'}">
                     <div class="content-sec">
                       <div class="delete-clone-icons">
@@ -186,7 +197,7 @@
                   <div class="coursel-cards-data col-4">
                     <div class="inner-c-data search-experience">
                       <div class="learn-more-">
-                        <span class="link"> 
+                        <span class="link">
                           <a href="https://docs.kore.ai/searchassist/search-experience/design-search-experience/" target="_blank">Learn More<img src="assets/icons/content/carrotright.svg"></a></span>
                       </div>
                       <div class="img-block">
@@ -238,31 +249,22 @@
     </perfect-scrollbar>
   </ng-container>
     <!-- New Onbaording Data -->
-    <ng-container *ngIf="emptyApp">
+    <ng-container *ngIf="showBoarding &&!loadingApps">
       <div class="onboarding-new-user-data">
         <!-- Boarding screen -->
         <ng-container *ngIf="!steps && emptyApp">
           <div class="ob-data-info">
             <div class="left-sec">
               <div class="user-details">
-                <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
+                <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} <img src="assets/icons/hand-hellow.svg"></div>
               </div>
               <div class="on-b-progress-bar">
                 <div *ngFor="let bar of progressBar;let i=index" class="not-active-bar" [ngClass]="{'active-bar': i==0}" ></div>
-                <!-- <div class="not-active-bar active-bar"></div>
-                <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div> -->  
               </div>
-              <!-- <div class="on-b-progress-bar">
-                <div class="not-active-bar active-bar"></div>
-                <div class="not-active-bar" ></div>
-                <div class="not-active-bar"></div>
-              </div> -->
-              <!-- <div class="back-btn d-none">
-                <i class="si-back-arrow"></i>
-              </div> -->
-              <div class="title-start">How would you like to start?</div>
+              <!-- <button style="width: 50px;height:15px" (click)="openAppLoadingScreen()"></button> -->
+              <div class="title-start">How would you like to create your first app?</div>
               <div class="explore-data-cards">
-                <div  class="explore-card sample-data"  (mouseenter)="progressBarFun(3,1)" (mouseleave)="progressBarFun(0,0)" (click)="welcomeStep('sampleData')">
+                <div  class="explore-card sample-data"  (mouseenter)="progressBarFun(4,1)" (mouseleave)="progressBarFun(0,0)" (click)="welcomeStep('sampleData')">
                   <div class="icon-block">
                     <img src="assets/icons/onboarding/sample-data.svg">
                   </div>
@@ -280,7 +282,7 @@
                   </div>
                   <div class="content-data">
                     <div class="main-title">Start from Scratch</div>
-                    <div class="desc-text">Start by creating a new app from scratch by adding your data and building custom search experiance</div>
+                    <div class="desc-text">Start by creating a new app from scratch by adding your data and building custom search experience</div>
                   </div>
                   <div class="arrow-block">
                     <i class="si-right-arrow-large"></i>
@@ -308,12 +310,12 @@
             <perfect-scrollbar>
               <div class="scroll-data">
                 <div class="user-details">
-                  <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} 👋</div>
+                  <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} <img src="assets/icons/hand-hellow.svg"></div>
                 </div>
                 <div class="on-b-progress-bar">
                   <div *ngFor="let bar of progressBar;let i=index" class="not-active-bar" [ngClass]="{'active-bar': i<=stepBar}"></div>
                   <!-- <div class="not-active-bar active-bar"></div>
-                  <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div> -->  
+                  <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div> -->
                 </div>
                 <!-- <div class="back-btn" (click)="backToWelcomePage();progressBar.length=0">
                   <i class="si-back-arrow"></i>
@@ -327,20 +329,20 @@
                     <div class="tabs-data-info-sample">
                       <ul class="nav nav-pills">
                         <li class="nav-item">
-                          <a class="nav-link" data-toggle="pill" (click)="selectDemoType('e-commerce')" href="#ecommerce">E-Commerce <i class="si-check"></i></a>
+                          <a class="nav-link active" id="#e-commerece"  data-toggle="pill" (click)="selectDemoType('e-commerce')" href="#ecommerce">E-Commerce <i *ngIf="demoType=='e-commerce'" class="si-check"></i></a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" data-toggle="pill" (click)="selectDemoType('knowledge-search')" href="#ks">Knowledge Search <i class="si-check"></i></a>
+                          <a class="nav-link" data-toggle="pill" (click)="selectDemoType('knowledge-search')" href="#ks">Knowledge Search <i *ngIf="demoType=='knowledge-search'" class="si-check"></i></a>
                         </li>
-                        <li class="nav-item">
-                          <a class="nav-link" data-toggle="pill" (change)="ApptypeSelection('website-search')" href="#ws">Website Search <i class="si-check"></i></a>
+                        <li class="nav-item d-none">
+                          <a class="nav-link" data-toggle="pill" (change)="selectDemoType('website-search')" href="#ws">Website Search <i class="si-check"></i></a>
                         </li>
                       </ul>
                       <!-- Tab panes -->
                       <div class="tab-content">
                         <div class="tab-pane active" id="ecommerce">
                           <div class="title">E-Commerce</div>
-                          <div class="desc-text-info">The e-Commerce sample dataset comes with a product catalog of cosmetics like lipsticks, perfumes for different sample brands. </div>
+                          <div class="desc-text-info">The E-Commerce sample dataset comes with a product catalog of cosmetics like lipsticks, perfumes for different sample brands. </div>
                           <div class="ul-heading">What’s included in this Sample App </div>
                           <ul>
                             <li>Structured dataset with fields like name, description, price, images, reviews and more</li>
@@ -399,22 +401,22 @@
                       </div>
                     </div>
                   </ng-container>
-  
+
                   <ng-container *ngIf="steps=='showSearchExperience'">
                     <div class="tabs-data-info-sample seach-virtual-assistance">
                       <ul class="nav nav-pills">
-                        <li class="nav-item" (click)="selectSearchExperianceType('top')" >
-                          <a class="nav-link" data-toggle="pill" href="#searchbar"> 
+                        <li id="#topExperience" class="nav-item" (click)="selectSearchExperianceType('top')" >
+                          <a class="nav-link active" data-toggle="pill" href="#searchbar">
                            <span class="title">Search Bar</span>
-                           <i class="si-check"></i>
-                            <div class="text-desc">A traditional search bar experiance where end users query your website using a search bar that is usually positioned at the top of your website.</div>
+                           <i *ngIf="SearchExperianceType=='top'" class="si-check"></i>
+                            <div class="text-desc">A traditional search bar experience where end users query your website using a search bar that is usually positioned at the top of your website.</div>
                           </a>
                         </li>
                         <li class="nav-item" (click)="selectSearchExperianceType('bottom')">
                           <a class="nav-link" data-toggle="pill" href="#virtualassistance">
                             <span class="title">Virtual Assistant</span>
-                            <i class="si-check"></i>
-                            <div class="text-desc">A unique search experiance tailored to integrate a search plus chat experiance to your end users and is ususally positioned like a virtual assistant.</div>
+                            <i *ngIf="SearchExperianceType=='bottom'" class="si-check"></i>
+                            <div class="text-desc">A unique search experience tailored to integrate a search plus chat experience to your end users and is ususally positioned like a virtual assistant.</div>
                           </a>
                         </li>
                       </ul>
@@ -437,19 +439,31 @@
 
                 <!-- Last step app name -->
                 <ng-container *ngIf="steps=='displayApp'">
-                 <div class="create-app-data">
-                  <div class="kr-sg-input-text">
-                    <div class="label-text">App Name</div>
-                    <input type="text"  [(ngModel)]="newApp.name" placeholder="Type The App Name" class="input-text" [ngClass]="{'error' : validateAppname }">
-                    <div class="error-msg" *ngIf="validateAppname">Enter The App Name</div>
+                  <div class="welcome-user-screen">
+                    <div class="welcome-user-img">
+                      <img src="assets/icons/onboarding/welcome-user-app-creation.png" title="welcome-user-app-creation" alt="welcome-user-app-creation" />
+                    </div>
+                    <div class="welcome-user-form">
+                      <div class="create-app-data">
+                        <div class="kr-sg-input-text form-group">
+                          <div class="label-text">App Name</div>
+                          <input type="text"  [(ngModel)]="newApp.name" placeholder="Type The App Name" class="input-text" [ngClass]="{'error' : validateAppname }">
+                          <div class="error-msg" *ngIf="validateAppname">Enter The App Name</div>
+                        </div>
+                        <div class="kr-sg-input-text-area form-group">
+                          <div class="label-text">Description</div>
+                          <textarea class="input-text" [(ngModel)]="newApp.description" placeholder="Enter App Description" autocomplete="off"  name="appDesc"></textarea>
+                        </div>
+                       </div>
+                    </div>
                   </div>
-                 </div>
                 </ng-container>
               </div>
             </perfect-scrollbar>
             <div class="footer-btns-data" *ngIf="steps">
               <button class="kr-sg-button-secondary btn_lg back_button" (click)="back()">Back</button>
-              <button class="kr-sg-button-primary btn_lg" (click)='checkExperience()'>Continue</button>
+              <button *ngIf="steps!='showSearchExperience'" class="kr-sg-button-primary btn_lg" (click)='checkExperience()'>Continue</button>
+              <button *ngIf="steps=='showSearchExperience'" class="kr-sg-button-primary btn_lg" (click)='checkExperience()'>Get Started</button>
             </div>
             <!-- <ng-container *ngIf="steps=='demoOptions'" class="d-none">
               <div class="footer-btns-data" *ngIf="displaydemoOptions">
@@ -511,7 +525,7 @@
 </kr-modal>
 
 <kr-modal modalType="center" #createBoardingJourney modalClass="modal_popups_ onboardingJourney-landing-popup">
-  
+
   <!-- <div class="close_icon" (click)="closeBoradingJourney()"><img src="assets/icons/modal-close.svg"></div> -->
   <div class="modal-header p-0">
     <div class="close_icon" (click)="closeBoradingJourney()">
@@ -700,8 +714,8 @@
           <div class="kr-sg-dropdowns mb-20">
             <div class="label-text">Department</div>
             <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select</button>                                            
-                <ul class="dropdown-menu content-menu">                                             
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select</button>
+                <ul class="dropdown-menu content-menu">
                   <li><a href="#">Option 1</a></li>
                   <li><a href="#">Option 2</a></li>
                   <li><a href="#">Option 3</a></li>
@@ -711,8 +725,8 @@
           <div class="kr-sg-dropdowns mb-2">
             <div class="label-text">Industry</div>
             <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Others</button>                                            
-                <ul class="dropdown-menu content-menu">                                             
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Others</button>
+                <ul class="dropdown-menu content-menu">
                   <li><a href="#">Option 1</a></li>
                   <li><a href="#">Option 2</a></li>
                   <li><a href="#">Option 3</a></li>
@@ -727,4 +741,22 @@
       </perfect-scrollbar>
     </div>
   </div>
+</kr-modal>
+
+
+
+<kr-modal modalType="nodrop" #loadingAppcreation modalClass="loading-new-sample-data">
+ <!-- <div class="modal-header" (click)="CloseAppLoadingScreen()">close</div> -->
+ <div class="modal-body">
+  <div class="img-block">
+    <img class="normal-img" src="assets/icons/onboarding/search-gif.svg">
+    <img class="gif-search-animation" src="assets/icons/onboarding/loading-input-gif.gif">
+    <!-- <img src="assets/icons/loadingScreen.svg"> -->
+  </div>
+  <div class="loading-text">Loading...</div>
+  <!-- <div class="text-desc">Uploading sample data to your app</div> -->
+  <div class="text-desc"><img src="assets/icons/onboarding/Loading-text-gif.gif"></div>
+  <!-- <div class="text-desc">Applying default search configurations to your app</div>
+  <div class="text-desc">Configuring search experiences to your app</div> -->
+ </div>
 </kr-modal>

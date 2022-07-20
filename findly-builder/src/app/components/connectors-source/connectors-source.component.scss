@@ -38,6 +38,12 @@
                 cursor: pointer;
             }
 
+            .seach-icon {
+                position: absolute;
+                top: 11px;
+                left: 9px;
+            }
+
             .input-search {
                 border: 1px solid #E4E5E7;
                 border-radius: 4px;
@@ -487,6 +493,7 @@
 
                                                 .sync-card-link {
                                                     color: #0D6EFD;
+                                                    cursor: pointer;
                                                 }
                                             }
                                         }
@@ -760,6 +767,16 @@
 
                                         .content-body {
                                             border-bottom: 1px solid transparent !important;
+                                            .url-link{
+                                                cursor: pointer;
+                                                color: #0D6EFD;
+                                            }
+                                        }
+
+                                        .no-content {
+                                            text-align: center;
+                                            padding-top: 20px;
+                                            font-weight: 600;
                                         }
                                     }
                                 }
@@ -847,14 +864,41 @@
             }
         }
 
-        .view-more-btn {
-            padding: 13px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .footer-info{
+            background: #F3F8FF;
+            border: 1px solid #85B7FE;
+            box-sizing: border-box;
+            border-radius: 4px;
+            padding: 10px;
+            display: inline-flex;
+            margin-left: 24px;
+            z-index: 9;
+            position: absolute;
+            bottom: 10px;
 
-            button {
-                margin: 0 5px;
+            .info-icon{
+                margin-right: 10px;
+            }
+            .info-text{
+                color: #07377F;
+                font-weight: normal;
+                font-size: 12px;
+                line-height: 18px;
+                a{
+                    color: #0D6EFD;
+                    font-size: 12px;
+                    line-height: 14px;
+                    padding-left: 10px;
+                    cursor: pointer;
+                    text-decoration: none;
+                }
+                .interface-link{
+                    cursor: pointer;
+                }
+            }
+            .close-info{
+                margin-left: 15px;
+                cursor: pointer;
             }
         }
     }
@@ -1219,3 +1263,25 @@
         }
     }
 }
+
+.text-overflow {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cursor-pointer {
+    cursor: default !important;
+}
+.upgrade-experience{
+    width: 586px;
+    margin: 0 auto;
+    text-align: center;
+    .title{
+      color: #202124;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 20px;
+      margin: 30px 0;
+    }
+  }

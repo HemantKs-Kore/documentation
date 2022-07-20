@@ -1,16 +1,33 @@
 <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-<div class="connectors-container">
+<div class="mainLoadingSpinner" *ngIf="!pageLoading">
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
+  </div>
+<!--check for enterprise plan-->
+<!-- <ng-container>
+    <div class="upgrade-experience">
+      <div class="img-block">
+        <img src="assets/icons/pricing/upgrade-experience.png">
+      </div>
+      <div class="title">{{"connectors.empty_connectors"| translate}}</div>
+      <button class="kr-sg-button-primary btn_lg" (click)="upgrade()">{{"connectors.upgrade"| translate}}</button>
+    </div>
+  </ng-container> -->
+  <!--check for enterprise plan-->
+  <!--If plan is enterprise show below container-->
+<div class="connectors-container" *ngIf="pageLoading">
     <div class="seach_add_feild">
         <div class="title">{{'connectors.connector'|translate}}</div>
         <div class="d-flex align-items-center">
-            <div class="kr-sg-input-search m-0 d-none">
-                <input type="text" placeholder="{{'search' | translate}}" maxlength="60" class="input-search">
+            <div class="kr-sg-input-search m-0" *ngIf="selectedContent==='list'&&isShowSearch">
+                <input type="text" placeholder="{{'search' | translate}}" maxlength="60" class="input-search" [(ngModel)]="searchField">
+                <img src="assets/icons/search_gray.svg" class="seach-icon">
                 <img class="close-icon" src="assets/icons/close_icon.svg" placement="top-center" container='body'
-                    ngbTooltip="{{'fields.cancel' | translate}}" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                    ngbTooltip="{{'fields.cancel' | translate}}" tooltipClass="ngb_tooltip_custom_class sampleJson" (click)="isShowSearch=!isShowSearch;searchField=''">
             </div>
-            <div class="seach-block" *ngIf="selectedContent==='list'">
+            <div class="seach-block" *ngIf="selectedContent==='list'&&!isShowSearch">
                 <span class="mr-3" id="btn_toggle_search_structured_data">
-                    <img src="assets/icons/search.svg">{{'search' | translate}}
+                    <img src="assets/icons/search.svg" (click)="isShowSearch=!isShowSearch">{{'search' | translate}}
                 </span>
             </div>
         </div>
@@ -28,7 +45,7 @@
                                     <div class="line-border"></div>
                                 </div>
                                 <div class="card-connectors-info row">
-                                    <div class="card-connector-column" *ngFor="let connector of connectorsData">
+                                    <div class="card-connector-column" *ngFor="let connector of connectorsData|filter: [ searchField, 'connector_name']">
                                         <div class="inner-card" [ngClass]="{'active-connector':connector.isActive,'disable-connector':connector.isActive===false}" style="cursor:default;">
                                             <label class="kr-sg-toggle">
                                                 <input type="checkbox" [(ngModel)]="connector.isActive" (change)="openConnectorDialog(connector,$event);">
@@ -40,7 +57,7 @@
                                             <div class="content-block text-truncate">
                                                 <div class="title add-new-link">
                                                     <div class="connector-name text-truncate">{{connector?.connector_name}}</div>
-                                                    <div class="details-span" (click)="connector.isActive?changeContent('edit',connector):null"><a href="javascript:void(0)" class="details-link">details</a></div>
+                                                    <div class="details-span" (click)="changeContent('edit',connector)"><a href="javascript:void(0)" class="details-link">details</a></div>
                                                 </div>
                                                     <!-- <div class="title" *ngIf="connector?.type==='confluenceServer'">(Server)</div> -->
                                                 <div class="desc-text text-truncate">({{connector?.name}})</div>
@@ -55,7 +72,7 @@
                                     <div class="line-border"></div>
                                 </div>
                                 <div class="card-connectors-info row">
-                                    <div class="card-connector-column" *ngFor="let avaiable of availableConnectorsData" (click)="changeContent('add',avaiable)">
+                                    <div class="card-connector-column" *ngFor="let avaiable of availableConnectorsData|filter: [ searchField, 'connector_name']" (click)="changeContent('add',avaiable)">
                                         <div class="inner-card">
                                             <!-- <div class="connect-link" *ngIf="avaiable?.type==='confluenceServer'">
                                                 Connect</div> -->
@@ -71,18 +88,13 @@
                                 </div>
                             </ng-container>
                         </ng-container>
-                    </div>
+                    </div>                   
                 </perfect-scrollbar>
-                <!-- <div class="view-more-btn">
-                    <div>
-                        <button class="kr-sg-button-secondary btn_lg">{{'connectors.cancel_button'|translate}}</button>
-                        <button class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button>
-                    </div>
-                    <div class="">
-                        <button class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button>
-                        <button class="kr-sg-button-danger btn_lg"><i class="si-delete"></i>{{'connectors.remove_content_source_button'|translate}}</button>
-                    </div>
-                </div> -->
+                <div class="footer-info" [ngClass]="{'d-none':!isResultTemplate}">
+                    <img class="info-icon" src="assets/icons/structured-data/Info.svg">
+                    <div class="info-text">{{'connectors.noResultTemplate' | translate}} <span class="interface-link" (click)="navigateToResultTemplate()"><b>{{'connectors.searchInterfacePath' | translate}}</b></span> {{'connectors.toDefine' | translate}}<a href="https://docs.kore.ai/searchassist/search-experience/result-templates/" target="_blank" >{{'connectors.learnMore' | translate}}</a></div>
+                    <img src="assets/icons/close.svg" class="close-info" (click)="isResultTemplate=!isResultTemplate">
+                </div>
             </div>
         </div>
         <!---Add functionality-->
@@ -137,14 +149,14 @@
                                             <div class="step-data-title">{{'connectors.step_3'|translate}}</div>
                                             <div class="steps-info-sec">
                                                 <div class="h-title">{{'connectors.follow_authentication_flow'|translate}}</div>
-                                                <div class="text-desc">{{'connectors.follow_the'|translate}} {{selectedConnector?.connector_name}} {{'connectors.authentication_flow'|translate}}<a [href]="selectedConnector.doc_url" target="_blank">{{'connectors.documentation_link'|translate}}</a>.</div>
+                                                <div class="text-desc">{{'connectors.follow_the'|translate}} {{selectedConnector?.connector_name}} {{'connectors.authentication_flow'|translate}} <a [href]="selectedConnector.doc_url" target="_blank">{{'connectors.documentation_link'|translate}}</a>.</div>
                                             </div>
                                         </div>
                                         <div class="steps-hint-data">
                                             <div class="step-data-title">{{'connectors.step_4'|translate}}</div>
                                             <div class="steps-info-sec">
                                                 <div class="h-title">{{'connectors.authentication'|translate}}</div>
-                                                <div class="text-desc">{{'connectors.upon_the_success'|translate}}<br /><br />{{selectedConnector?.connector_name}} {{selectedConnector?.content_now_captured}} {{selectedConnector?.connector_name}} {{'connectors.will_synchronize_automatically'|translate}}</div>
+                                                <div class="text-desc">{{'connectors.upon_the_success'|translate}}<br /><br />{{selectedConnector?.connector_name}} {{'connectors.content_now_captured'|translate}} {{selectedConnector?.connector_name}} {{'connectors.will_synchronize_automatically'|translate}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -159,7 +171,7 @@
                                         <div class="title">{{'connectors.configuration_authentication'|translate}}</div>
                                     </div>
                                 </div>
-                                <div class="desc-text">{{'connectors.set_up_secure_oauth'|translate}} {{selectedConnector?.connector_name}} {{'connectors.authentication_flowe'|translate}} <a [href]="selectedConnector.doc_url" target="_blank">{{'connectors.documentation_link'|translate}}.</a></div>
+                                <div class="desc-text">{{'connectors.set_up_secure_oauth'|translate}} {{selectedConnector?.connector_name}} {{'connectors.authentication_flow'|translate}} <a [href]="selectedConnector.doc_url" target="_blank">{{'connectors.documentation_link'|translate}}.</a></div>
                                 <!-- <div class="connector-brand">
                                     <div class="c-img">
                                         <img [src]="selectedConnector?.image">
@@ -270,7 +282,8 @@
                             </li>                                                      
                         </ul>
 
-                        <div class="tab-content" [ngSwitch]="selectedTab">                           
+                        <div class="tab-content" [ngSwitch]="selectedTab">    
+                            <!--Overview tab-->                       
                             <div class="tab-pane active" *ngSwitchCase="'overview'">
                                 <perfect-scrollbar class="tab-content-scroll-data">
                                     <div class="overview-tab-data">
@@ -292,14 +305,15 @@
                                             <div class="source-data">
                                                 <div class="source-card sync-source-card">
                                                     <div class="sync-card-title">{{'connectors.synchronization'|translate}}</div>
-                                                    <div class="sync-card-btn"><button class="kr-sg-button-primary btn_lg" (click)="selectedTab='configurations'">{{'connectors.synchronize_content_now'|translate}}</button></div>
-                                                    <div class="sync-card-desc">{{'connectors.you_can_also_configure_your'|translate}} <span class="sync-card-link">{{'connectors.sync_frequency'|translate}}.</span></div>
+                                                    <div class="sync-card-btn"><button class="kr-sg-button-primary btn_lg" [ngStyle]="{'background':isSyncLoading?'#85B7FE':'#0D6EFD'}" (click)="isSyncLoading?null:ingestConnector(true)"><span class="loader-spin-inside-btn" *ngIf="isSyncLoading"></span>{{isSyncLoading?('connectors.sync_progress'|translate):('connectors.synchronize_content_now'|translate)}}</button></div>
+                                                    <div class="sync-card-desc">{{'connectors.you_can_also_configure_your'|translate}} <span class="sync-card-link" (click)="selectedTab='configurations'">{{'connectors.sync_frequency'|translate}}.</span></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </perfect-scrollbar>
                             </div>
+                            <!--Connection Settings tab-->
                             <div class="tab-pane active" *ngSwitchCase="'connectionSettings'">
                                 <perfect-scrollbar class="tab-content-scroll-data">
                                 <div class="connection-settings-tab-data">
@@ -349,6 +363,7 @@
                                 </div>
                                 </perfect-scrollbar>
                             </div>
+                            <!--content list tab-->
                             <div class="tab-pane active" *ngSwitchCase="'content'">
                                 <perfect-scrollbar class="tab-content-scroll-data">
                                 <div class="content-settings-tab-data">
@@ -367,19 +382,21 @@
                                                     <div class="col-4">{{'connectors.URL'|translate}}</div>
                                                     <div class="col-4">{{'connectors.last_update'|translate}}</div>
                                                 </header>
-                                                <div class="content-body" *ngFor="let content of overViewData.content | filter: [ searchContent, 'title']">
+                                                <div class="content-body cursor-pointer" *ngFor="let content of overViewData.content | filter: [ searchContent, 'title']">
                                                     <div class="col-4 p-0">{{content?.title}}</div>
-                                                    <div class="col-4"><a [href]="content?.url" class="url-link" target="_blank">{{content?.url}}</a></div>
+                                                    <div class="col-4 text-overflow" [title]="content?.url" (click)="removeSpaces(content?.url)"><span class="url-link">{{content?.url}}</span></div>
                                                     <div class="col-4">{{content?.lastUpdatedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
                                                 </div>
+                                                <div *ngIf="overViewData.content?.length===0" class="no-content">{{'connectors.no_content'|translate}}</div>
                                             </section>
-                                            <app-record-pagination [totalRecord]='total_records' [limitpage]='10' (pageChanged)="paginate($event)">
+                                            <app-record-pagination [totalRecord]='total_records' [limitpage]='10' (pageChanged)="paginate($event)" *ngIf="overViewData.content?.length">
                                             </app-record-pagination>                               
                                         </div>
                                     </div>
                                 </div>
                                 </perfect-scrollbar>
                             </div>
+                            <!--configuration or sync frequency tab-->
                             <div class="tab-pane active" *ngSwitchCase="'configurations'">
                                 <perfect-scrollbar class="tab-content-scroll-data">
                                 <div class="configurations-tab-data">
@@ -448,7 +465,7 @@
             <div class="view-more-btn">
                 <div *ngIf="['connectionSettings','configurations'].includes(selectedTab)">
                     <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('cancel')">{{'connectors.cancel'|translate}}</button>
-                    <button class="kr-sg-button-primary btn_lg" (click)="selectedTab==='configurations'?updateSyncFrequency():updateConnector()">{{selectedTab==='configurations'?'Save Changes':'Connect'}}</button>
+                    <button class="kr-sg-button-primary btn_lg" (click)="selectedTab==='configurations'?updateSyncFrequency():fieldsValidation()?updateConnector():null" [disabled]="isloadingBtn"><span class="spin-loader-button mr-2"></span> {{selectedTab==='configurations'?'Save Changes':'Connect'}}</button>
                 </div>
                 <div *ngIf="selectedTab==='connectionSettings'">
                     <button class="kr-sg-button-danger btn_lg" (click)="openDeleteModel('open')"><i class="si-delete"></i>{{'connectors.remove_this_content_source'|translate}}</button>
@@ -457,6 +474,7 @@
         </div>
     </div>
 </div>
+
 <!--kr model for delete connectors-->
 <kr-modal modalType="center" modalClass="modal_popups_ delete-connectors-data" #deleteModel>
     <div class="delete-connectors-info">

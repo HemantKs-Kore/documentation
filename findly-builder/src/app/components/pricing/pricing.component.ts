@@ -18,114 +18,42 @@ declare var $: any;
 export class PricingComponent implements OnInit, OnDestroy {
   documentGraph: EChartOption;
   queryGraph: EChartOption;
-  addPricing3ModalPopRef: any;
-  addOverageModalPopRef: any;
   cancelSubscriptionModelPopRef: any;
+  revertCancelModelPopRef: any;
+  cancellationCheckboxText: any = [{selected:false,name:'It’s too costly'}, {selected:false,name:'I found another product that fulfils my needs'}, {selected:false,name:'I don’t use it enough'},{selected:false,name:'I don’t need it now'}];
   termPlan = "Monthly";
-  templateShow: boolean = false;
-  currentSubscriptionPlan: any;
+  pageLoading: boolean = true;
+  featureLimit:number=6;
+  btnLoader:boolean=false;
+  bannerObj={msg:'',show:false,type:''};
+  currentSubscriptionPlan: any={};
   selectedApp;
   serachIndexId;
   totalPlansData: any;
   filterPlansData: any;
-  addDocOver = false;
-  addQueOver = false;
-  numberDoc = 1;
-  numberQuery = 1;
-  overageDeatils = {
-    ingestDocs: {
-      amount: 0,
-      limit: 0
-    },
-    searchQueries: {
-      amount: 0,
-      limit: 0
-    }
-  }
-  plansIdList = {
-    free: 'fp_free',
-    standardMonth: '65066',
-    standardYear: '65451',
-    proMonth: '65123',
-    proYear: '65453',
-    enterpriceMonth: 'fp_enterprise_custom_monthly',
-    enterpriceYear: 'fp_enterprise_custom_yearly'
-  };
-  proInfo: boolean = false;
   currentSubsciptionData: Subscription;
-  showUpgradeBtn: boolean;
   usageDetails: any = {};
   monthRange = "Jan - June";
   isyAxisDocumentdata: boolean = true;
   isyAxisQuerydata: boolean = true;
   componentType: string = 'addData';
-  disableRevertBtn: boolean = false;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService) { }
-  @ViewChild('addPricingModel3') addPricingModel3: KRModalComponent;
-  @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
   @ViewChild('cancelSubscriptionModel') cancelSubscriptionModel: KRModalComponent;
+  @ViewChild('revertCancelModel') revertCancelModel: KRModalComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
-
   async ngOnInit() {
-    this.getPlan();
-    await this.appSelectionService.getCurrentSubscriptionData();
+    this.currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+    this.getSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
-      this.currentSubscriptionPlan = res;
-      this.updateUsageDetails();
-      this.pricingChart()
-      this.showUpgradeBtn = this.currentSubscriptionPlan.subscription.planName != 'Free' ? true : false;
+      this.currentSubscriptionPlan = res;     
+      this.getSubscriptionData();
     });
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-  }
-  getPlan() {
-    this.service.invoke('get.pricingPlans').subscribe(res => {
-      this.totalPlansData = res.sort((a, b) => { return a.displayOrder - b.displayOrder });
-      this.typeOfPlan("Monthly");
-      this.totalPlansData.forEach(data => {
-        let dat = Object.values(data.featureAccess);
-        data = Object.assign(data, { "featureData": dat });
-      })
-      let listData = [...this.totalPlansData]
-      let listDataMonthlyFeature = [];
-      listData.forEach(data => {
-        Object.keys(data.featureAccess);
-        Object.values(data.featureAccess);
-        Object.entries(data.featureAccess);
-        /** Pick only the Month Plans */
-        if (data._id == this.plansIdList.free || data._id == this.plansIdList.standardMonth || data._id == this.plansIdList.proMonth || data._id == this.plansIdList.enterpriceMonth) {
-          listDataMonthlyFeature.push(Object.entries(data.featureAccess))
-        }
-      })
-      for (let i = 1; i <= listDataMonthlyFeature.length; i++) {
-        if (listDataMonthlyFeature[i]) {
-          for (let j = 0; j < listDataMonthlyFeature[i].length; j++) {
-            if (listDataMonthlyFeature[i][j]) {
-              if (listDataMonthlyFeature[i][j][0] == listDataMonthlyFeature[0][j][0]) { //comapre 3 records with 1st record's Key
-                listDataMonthlyFeature[0][j].push(listDataMonthlyFeature[i][j][1])       // push the values array in 1st record
-              }
-            }
-          }
-        }
-      }
-    }, errRes => {
-      this.errorToaster(errRes, 'failed to get plans');
-    });
-  }
-  getOverage() {
-    this.totalPlansData.forEach(element => {
-      if (element._id == this.currentSubscriptionPlan.subscription.planId) {
-        this.overageDeatils = element.overage;
-      }
-      if (element._id == this.plansIdList.proMonth) {
-        this.overageDeatils = element.overage;
-      }
-    });
-
   }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -136,54 +64,56 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-  compare(type, data?) {
-    if (this.proInfo) {
-      this.proInfo = false;
+  //getsubscription data
+  getSubscriptionData(){
+    if(['Standard','Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName)) this.featureLimit = 100;
+    this.updateUsageDetails();
+    this.pricingChart()
+  }
+  //after plans api called get data from upgrade component
+  getPlans(event){
+    this.updateUsageDetails();
+  }
+  //show or hide banner
+  showBanner(obj) {
+    this.bannerObj = { ...this.bannerObj, msg: obj?.msg, type: obj?.type, show: true };
+  }
+  //clear banner
+  clearBanner() {
+    this.bannerObj = { msg: '', type: '', show: false };
+  }
+  //select upgrade component methods
+  selectModal(type) {
+    if (type == 'choose_plan') {
+      this.plans.openSelectedPopup('choose_plan');
     }
-    if (type == 'choosePlans') {
-      this.plans.openChoosePlanPopup(data);
-    }
-    else if (type == 'order') {
-      this.plans.openOrderConfPopup(data);
-    } else if (type == 'orderOverage') {
-      let planData = this.totalPlansData.filter(plan => plan._id == this.currentSubscriptionPlan.subscription.planId);
-      let obj = { overageShow: true, docCount: this.addDocOver ? this.numberDoc > 0 ? this.numberDoc : null : null, queryCount: this.addQueOver ? this.numberQuery > 0 ? this.numberQuery : null : null, overageDeatils: this.overageDeatils }
-      this.plans.openOrderConfPopup(planData[0], obj);
+    else if (type === 'add_overage') {      
+      this.plans.openSelectedPopup('add_overage');
     }
   }
-
-  //open popup1
-  openPopup3() {
-    this.addPricing3ModalPopRef = this.addPricingModel3.open();
-  }
-  //close popup1
-  closePopup3() {
-    if (this.addPricing3ModalPopRef && this.addPricing3ModalPopRef.close) {
-      this.addPricing3ModalPopRef.close();
+  //open | Cancel subscription modal
+  cancelSubscriptionModal(type) {
+    if (type === 'open') {
+      this.cancelSubscriptionModelPopRef = this.cancelSubscriptionModel.open();
+    }
+    else if (type === 'close') {
+      const commentInput: any = document.getElementById("cancel_comment_text");
+      const checkboxes: any = document.querySelectorAll('.checkbox-custom');
+      commentInput.value = '';
+      for (let check of checkboxes) {
+        check.checked = false;
+      }
+      this.cancelSubscriptionModelPopRef.close();
     }
   }
-
-  //open popup1
-  addOverage() {
-    this.getOverage();
-    this.addOverageModalPopRef = this.addOverageModel.open();
-  }
-  //close popup1
-  closeOveragePopup() {
-    if (this.addOverageModalPopRef && this.addOverageModalPopRef.close) {
-      this.addOverageModalPopRef.close();
+  //open | close revert cancel model
+  revertCancelModal(type) {
+    if (type === 'open') {
+      this.revertCancelModelPopRef = this.revertCancelModel.open();
     }
-    this.cancelOveragePopup();
-  }
-  cancelOveragePopup() {
-    this.addDocOver = false;
-    this.addQueOver = false;
-    this.numberQuery = 1;
-    this.numberDoc = 1;
-  }
-  //open popup1
-  openPopup5() {
-    this.cancelSubscriptionModelPopRef = this.cancelSubscriptionModel.open();
+    else if (type === 'close') {
+      if (this.revertCancelModelPopRef.close) this.revertCancelModelPopRef.close();
+    }
   }
   //cancel subscription dialog(pro to standard)
   cancelProSubscription() {
@@ -212,7 +142,6 @@ export class PricingComponent implements OnInit, OnDestroy {
       streamId: this.selectedApp._id
     }
     this.service.invoke('post.downgradeCancellation', queryParam, {}).subscribe(res => {
-      this.proInfo = true;
       this.appSelectionService.getCurrentSubscriptionData();
       this.notificationService.notify('Cancellation request submitted', 'success');
       if (dialogRef) dialogRef.close();
@@ -220,65 +149,36 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'failed to Cancel subscription');
     });
   }
-  //enterpriseContactus method
-  enterpriseContactus() {
-    this.plans.openContactusModel("Enterprise");
-  }
-  //close popup1
-  cancelSubscription(dialogRef?) {
-    const queryParam = {
-      streamId: this.selectedApp._id
+  //cancel subscription api
+  cancelSubscription() {
+    this.btnLoader = true;
+    let checkedData = [];
+    const comment_data: any = document.getElementById('cancel_comment_text');
+    for (let data of this.cancellationCheckboxText) {
+      if (data.selected) checkedData.push(data.name);
     }
+    const queryParam = { streamId: this.selectedApp._id };
     const payload = {
-      subscriptionId: this.currentSubscriptionPlan.subscription._id,
-      status: "success"
+      subscriptionId: this.currentSubscriptionPlan?.subscription?._id,
+      feedback: {
+        reasons: checkedData,
+        comment: comment_data?.value
+      }
     };
     this.service.invoke('put.cancelSubscribtion', queryParam, payload).subscribe(res => {
-      this.proInfo = false;
       this.appSelectionService.getCurrentSubscriptionData();
-      //this.currentsubscriptionPlan(this.selectedApp)
-      this.notificationService.notify('Cancellation request submitted', 'success');
-      if (dialogRef) dialogRef.close();
+      this.btnLoader = false;
+      this.notificationService.notify('Cancellation Request Submitted', 'success');
+      this.cancelSubscriptionModal('close');
     }, errRes => {
+      this.btnLoader = false;
       this.errorToaster(errRes, 'failed to Cancel subscription');
     });
-    this.closeCancelSubsPopup();
-  }
-  closeCancelSubsPopup() {
-    if (this.cancelSubscriptionModelPopRef && this.cancelSubscriptionModelPopRef.close) {
-      $("input:checkbox").prop('checked', false);
-      $("#text_area").val('');
-      this.cancelSubscriptionModelPopRef.close();
-    }
-  }
-  addDocument() {
-    this.addDocOver = true
-    this.numberDoc = 1;
-  }
-  addQuerry() {
-    this.addQueOver = true;
-    this.numberQuery = 1;
-  }
-  count(type, operation) {
-    if (type == 'doc') {
-      if (operation == 'plus') {
-        this.numberDoc = this.numberDoc + 1;
-      } else {
-
-        this.numberDoc > 1 ? this.numberDoc = this.numberDoc - 1 : (this.numberDoc = 0, this.addDocOver = false);
-      }
-    } else {
-      if (operation == 'plus') {
-        this.numberQuery = this.numberQuery + 1;
-      } else {
-        this.numberQuery > 1 ? this.numberQuery = this.numberQuery - 1 : (this.numberQuery = 0, this.addQueOver = false);
-      }
-    }
   }
   //Grap data
   pricingChart() {
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     let xAxisQueryData = [];
+    let years=[];
     let xAxisDocumentData = [];
     let yAxisQueryData = [];
     let yAxisDocumentData = [];
@@ -288,6 +188,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.currentSubscriptionPlan.analytics.search.forEach(element => {
         xAxisQueryData.push(element.month)
         yAxisQueryData.push(element.total)
+        years.push(2022);
       });
     }
     if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.analytics && this.currentSubscriptionPlan.analytics.content) {
@@ -300,7 +201,6 @@ export class PricingComponent implements OnInit, OnDestroy {
       xAxisDocumentData = ['Jan', 'Feb', 'Apr', 'May', 'Jun'];
     }
     if (Math.max(...yAxisDocumentData) == 0 || yAxisDocumentData.length == 0) {
-      yAxisDocumentData = [120, 200, 150, 80, 70, 110, 130];
       this.isyAxisDocumentdata = false;
       barDocColor = "#EFF0F1";
     } else {
@@ -311,7 +211,6 @@ export class PricingComponent implements OnInit, OnDestroy {
       xAxisQueryData = ['Jan', 'Feb', 'Apr', 'May', 'Jun'];
     }
     if (Math.max(...yAxisQueryData) == 0 || yAxisQueryData.length == 0) {
-      yAxisQueryData = [120, 200, 150, 80, 70, 110, 130];
       this.isyAxisQuerydata = false;
       barQueColor = "#EFF0F1";
     } else {
@@ -319,83 +218,72 @@ export class PricingComponent implements OnInit, OnDestroy {
       barQueColor = "#7027E5";
     }
     xAxisQueryData.length ? this.monthRange = xAxisQueryData[0] + ' - ' + xAxisQueryData[xAxisQueryData.length - 1] : this.monthRange = "Jan - June";
-    this.queryGraph = {
-
-      grid: {
-        left: '10%',
-        right: '4%',
-        bottom: '20%',
-        containLabel: true
-      },
+    this.queryGraph  = {
       tooltip: {
-        trigger: 'axis',
+        trigger: 'item',
         axisPointer: {
           type: 'none'
         },
-        formatter: `
-          <div class="metrics-tooltips-hover agent_drop_tolltip">
-          <div class="">
-            <div class="main-title">Query Usage on {b0} is {c0}</div>
-          </div> 
+        formatter: 
+        `<div class="pricing-hover-tooltip">
+        <div class="row-data-info">
+          <i class="si-interuptions"></i>
+          <span class="count-text">{c0}</span>
+          <span class="title">{a0}</span>
         </div>
-        
-        `,
-        position: 'top',
-        padding: 0
-
+      </div>`,
       },
-
-      xAxis: {
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: [{
         type: 'category',
-        name: 'No Data Available',
-        nameLocation: 'middle',
-        nameGap: 50,
-        data: xAxisQueryData, //['Jan', 'Feb', 'Apr', 'May', 'Jun'], //data//
-        axisLabel: {
-          //margin: 20,
-          color: "#9AA0A6",
-          fontWeight: "normal",
-          fontSize: 12,
-          fontFamily: "Inter"
-        },
-      },
+        data: xAxisDocumentData,
+            axisLine: {
+                show: false,
+            },
+            axisTick: {
+                show: false,
+            },
+      },{
+         position: 'bottom',
+            offset: 15,
+            axisLine: {
+                show: false,
+            },
+            axisTick: {
+                show: false,
+            },
+            data: years
+      }],
       yAxis: {
         type: 'value',
-        name: 'Query Ingested',
-        nameLocation: 'middle',
-        nameGap: 50,
-        min: 0,
-        max: 5,
-        nameTextStyle: {
-          color: "#9AA0A6",
-          fontWeight: "normal",
-          fontSize: 12,
-          fontFamily: "Inter"
-        },
-        axisLabel: {
-          //margin: 20,
-          color: "#9AA0A6",
-          fontWeight: "normal",
-          fontSize: 12,
-          fontFamily: "Inter"
-        },
+        boundaryGap: [0, 0.01],
       },
-      series: [{
-        data: yAxisQueryData, //[120, 200, 150, 80, 70, 110, 130],
-        type: 'bar',
-        barWidth: 10,
-        itemStyle: {
-          normal: {
-            color: barQueColor,
-            barBorderRadius: [50, 50, 50, 50]
-          },
+      series: [
+        {
+          name: 'Documents',
+          type: 'bar',
+          data: yAxisQueryData,
+            barWidth: 10,
+            barCategoryGap: '10%',
+            itemStyle: {normal: {color: '#FFBCA5'}},
+            emphasis : {itemStyle : {color: "#ff8000"} },
         },
-        lineStyle: {
-          color: '#0D6EFD',
-        },
-      }]
-    }
-
+        {
+          name: 'Queries',
+          type: 'bar',
+          data: yAxisDocumentData,
+          barWidth: 10,
+            barCategoryGap: '10%',
+            itemStyle: {normal: {color: '#B893F2'}},
+            emphasis : {itemStyle : {color: "#7027E5"}},
+        }
+      ]
+    };
     this.documentGraph = {
 
       grid: {
@@ -471,107 +359,69 @@ export class PricingComponent implements OnInit, OnDestroy {
         },
       }]
     };
-    if (Math.max(...yAxisQueryData) > 5) {
-      delete this.queryGraph.yAxis.min;
-      delete this.queryGraph.yAxis.max;
-    }
-    if (this.isyAxisQuerydata) {
-      delete this.queryGraph.xAxis.name
-      delete this.queryGraph.xAxis.nameLocation
-      delete this.queryGraph.xAxis.nameGap
-      this.queryGraph.grid.bottom = "3%"
-    }
-    if (Math.max(...yAxisDocumentData) > 5) {
-      delete this.documentGraph.yAxis.min;
-      delete this.documentGraph.yAxis.max;
-    }
-    if (this.isyAxisDocumentdata) {
-      delete this.documentGraph.xAxis.name
-      delete this.documentGraph.xAxis.nameLocation
-      delete this.documentGraph.xAxis.nameGap
-      this.documentGraph.grid.bottom = "3%"
-    }
-  }
-  //select type plan like monthly or yearly
-  typeOfPlan(type) {
-    this.filterPlansData = [];
-    this.termPlan = type;
-    for (let data of this.totalPlansData) {
-      if (data.billingUnit && data.billingUnit == type) {
-        this.filterPlansData.push(data);
-      }
-    }
-  }
-  //revert subscription dialog
-  revertCancel() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '530px',
-      height: 'auto',
-      panelClass: 'delete-popup',
-      data: {
-        title: 'Are you sure you want to Revert?',
-        body: 'Your cancellation request will be reverted and current plan will be retained',
-        buttons: [{ key: 'yes', label: 'Revert Cancellation', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
-      }
-    });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          if (this.disableRevertBtn === false) {
-            this.renewSubscription(dialogRef);
-          }
-        } else if (result === 'no') {
-          dialogRef.close();
-          this.disableRevertBtn = false;
-        }
-      })
+    // if (Math.max(...yAxisQueryData) > 5) {
+    //   delete this.queryGraph.yAxis.min;
+    //   delete this.queryGraph.yAxis.max;
+    // }
+    // if (this.isyAxisQuerydata) {
+    //   delete this.queryGraph.xAxis.name
+    //   delete this.queryGraph.xAxis.nameLocation
+    //   delete this.queryGraph.xAxis.nameGap
+    //   this.queryGraph.grid.bottom = "3%"
+    // }
+    // if (Math.max(...yAxisDocumentData) > 5) {
+    //   delete this.documentGraph.yAxis.min;
+    //   delete this.documentGraph.yAxis.max;
+    // }
+    // if (this.isyAxisDocumentdata) {
+    //   delete this.documentGraph.xAxis.name
+    //   delete this.documentGraph.xAxis.nameLocation
+    //   delete this.documentGraph.xAxis.nameGap
+    //   this.documentGraph.grid.bottom = "3%"
+    // }
   }
   //renew subscription
-  renewSubscription(dialogRef) {
-    this.disableRevertBtn = true;
+  renewSubscription() {
+    this.btnLoader = true;
     const queryParam = {
-      streamId: this.selectedApp._id
+      streamId: this.selectedApp?._id
     }
     this.service.invoke('get.renewSubscribtion', queryParam).subscribe(res => {
       setTimeout(() => {
-        dialogRef.close();
-        this.disableRevertBtn = false;
         this.appSelectionService.getCurrentSubscriptionData();
+        if (this.bannerObj.show) this.clearBanner();
+        this.btnLoader = false;
+        this.revertCancelModal('close');
       }, 2000)
       // this.notificationService.notify('Cancel Subscription', 'success');
     }, errRes => {
-      this.disableRevertBtn = false;
+      this.btnLoader = false;
       this.errorToaster(errRes, 'failed to renew subscription');
     });
   }
   updateUsageDetails() {
-    // console.log("currentSubscriptionPlan", this.currentSubscriptionPlan);
-    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.usage && this.currentSubscriptionPlan.usage.ingestDocs) {
-      this.usageDetails.ingestDocs = this.currentSubscriptionPlan.usage.ingestDocs;
-      if (this.usageDetails.ingestDocs.percentageUsed >= 80) {
-        this.usageDetails.ingestDocs.type = 'danger';
-      }
-      else {
-        this.usageDetails.ingestDocs.type = 'primary';
-      }
+    if (this.plans?.totalPlansData) {
+      const planName = this.currentSubscriptionPlan?.subscription?.planName;
+      const currentPlan = this.plans?.totalPlansData?.filter(plan => plan?.name === planName);
+      this.usageDetails.ingestDocsLimit = currentPlan[0].featureAccess?.ingestDocs?.limit;
+      this.usageDetails.ingestDocsUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used<=this.usageDetails.ingestDocsLimit)?(this.currentSubscriptionPlan?.usage?.ingestDocs?.used):(this.usageDetails?.ingestDocsLimit)
+      this.usageDetails.searchQueriesLimit = currentPlan[0]?.featureAccess?.searchQueries?.limit;
+      this.usageDetails.searchQueriesUsed = (this.currentSubscriptionPlan?.usage?.searchQueries?.used<=this.usageDetails.searchQueriesLimit)?(this.currentSubscriptionPlan?.usage?.searchQueries?.used):(this.usageDetails?.searchQueriesLimit)
+      this.usageDetails.ingestDocsUsedPercentage = (this.usageDetails.ingestDocsUsed/ this.usageDetails.ingestDocsLimit)*100
+      this.usageDetails.searchQueriesUsedPercentage = (this.usageDetails.searchQueriesUsed/ this.usageDetails.searchQueriesLimit)*100
+     //overages data
+     if(this.currentSubscriptionPlan?.overages?.length){
+      const ingestDocs = this.currentSubscriptionPlan?.overages?.filter(item=>item.feature==='ingestDocs');
+      const searchQueries = this.currentSubscriptionPlan?.overages?.filter(item=>item.feature==='searchQueries');
+      this.usageDetails.ingestDocsOverageLimit = (ingestDocs?.length>0)?(ingestDocs.length*ingestDocs[0]?.totalFeatureLimit):0;
+      this.usageDetails.searchQueriesOverageLimit = (searchQueries?.length>0)?(searchQueries.length*searchQueries[0]?.totalFeatureLimit):0;
+      this.usageDetails.ingestDocsOverageUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used<=this.usageDetails.ingestDocsLimit)?0:(this.currentSubscriptionPlan?.usage?.ingestDocs?.used-this.usageDetails.ingestDocsLimit)
+      this.usageDetails.searchQueriesOverageUsed = (this.currentSubscriptionPlan?.usage?.searchQueries?.used<=this.usageDetails.searchQueriesLimit)?0:(this.currentSubscriptionPlan?.usage?.searchQueries?.used-this.usageDetails.searchQueriesLimit)
+      this.usageDetails.ingestDocsOverUsedPercentage = (this.usageDetails.ingestDocsOverageUsed/ this.usageDetails.ingestDocsOverageLimit)*100
+      this.usageDetails.searchQueriesOverUsedPercentage = (this.usageDetails.searchQueriesOverageUsed/ this.usageDetails.searchQueriesOverageLimit)*100
     }
-    else {
-      this.usageDetails.ingestDocs = {};
     }
-
-    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.usage && this.currentSubscriptionPlan.usage.searchQueries) {
-      this.usageDetails.searchQueries = this.currentSubscriptionPlan.usage.searchQueries;
-      if (this.usageDetails.searchQueries.percentageUsed >= 80) {
-        this.usageDetails.searchQueries.type = 'danger';
-      }
-      else {
-        this.usageDetails.searchQueries.type = 'primary';
-      }
-    }
-    else {
-      this.usageDetails.searchQueries = {};
-    }
+    this.pageLoading = false;
   }
   ngOnDestroy() {
     this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;

@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
+import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 @Component({
   selector: 'app-connectors-source',
@@ -41,33 +44,40 @@ export class ConnectorsSourceComponent implements OnInit {
     }
   ];
   componentType = 'Connectors';
-  searchContent: string = '';
-  selectedApp: any;
   selectedContent: string = 'list';
   selectAddContent: string = 'instructions';
-  selectedConnector: any = {};
-  isEditable: boolean = false;
+  selectedTab: string = 'overview';
+  searchContent: string = '';
+  connectorId: string = '';
   searchIndexId: string;
+  selectedApp: any;
+  deleteModelRef: any;
+  selectedConnector: any = {};
+  sessionData: any = {};
   connectorsData: any = [];
   availableConnectorsData: any = [];
-  connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' }];
-  selectedTab: string = 'overview';
   configurationObj: any = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '' };
-  checkConfigButton: Boolean = true;
   overViewData: any = { overview: [], coneten: [] };
-  connectorId: string = '';
-  deleteModelRef: any;
-  showProtecedText: Object = { isClientShow: false, isSecretShow: false, isPassword: false };
-  sessionData: any = {};
   syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
+  showProtecedText: Object = { isClientShow: false, isSecretShow: false, isPassword: false };
+  isEditable: boolean = false;
+  checkConfigButton: Boolean = true;
   isPopupDelete: boolean = true;
   isAuthorizeStatus: boolean = false;
+  isSyncLoading: boolean = false;
+  searchField: string = '';
+  isShowSearch: boolean = false;
+  isloadingBtn: boolean = false;
+  pageLoading: boolean = false;
+  isResultTemplate: boolean = false;
   total_records: number;
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
+  connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' }];
+  @ViewChild('plans') plans: UpgradePlanComponent;
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
-  constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog) { }
+  constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private appSelectionService: AppSelectionService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
     this.getConnectors();
@@ -90,8 +100,14 @@ export class ConnectorsSourceComponent implements OnInit {
     }
     else if (type === 'close') {
       this.deleteModelRef.close();
+      this.isAuthorizeStatus = false;
+      this.isPopupDelete = true;
       this.getConnectors();
     }
+  }
+  //upgrade plan
+  upgrade(){
+    this.plans?.openSelectedPopup('choose_plan');
   }
   //common for toast messages
   errorToaster(errRes, message) {
@@ -127,9 +143,10 @@ export class ConnectorsSourceComponent implements OnInit {
 
             }
           })
-        })
+        })        
       }
       if (this.connectorsData.length) {
+        this.getAllSettings();
         for (let item of this.Connectors) {
           const isPush = this.connectorsData?.some(available => available.type === item.type);
           if (!isPush)
@@ -139,9 +156,36 @@ export class ConnectorsSourceComponent implements OnInit {
       else {
         this.availableConnectorsData = this.Connectors;
       }
+      this.pageLoading = true;
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get Connectors');
     });
+  }
+  //show or hide result template info in footer
+  getAllSettings() {
+    const quaryparms: any = {
+      searchIndexId: this.searchIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline(),
+      interface: 'fullSearch'
+    };
+    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
+      console.log("res",res);
+      if(res){
+        const settingsData = res.groupSetting.conditions.filter(ele=>ele?.fieldValue==='data');
+        this.isResultTemplate = settingsData?.length?false:true;
+      }
+    }, errRes => {
+      this.notificationService.notify('Failed to fetch all Setting Informations', 'error');
+    });
+  }
+  //goto result template page
+  navigateToResultTemplate() {
+    this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/resultTemplate' });
+  }
+  //remove spaces in url
+  removeSpaces(url){
+   const contentURL = url.trim();
+   window.open(contentURL);
   }
   //get connectors by Id
   getConnectorData() {
@@ -229,7 +273,10 @@ export class ConnectorsSourceComponent implements OnInit {
       this.selectAddContent = 'instructions';
       this.selectedConnector = {};
       this.isEditable = false;
+      this.isloadingBtn = false;
       this.connectorId = '';
+      this.isAuthorizeStatus = false;
+      this.isPopupDelete = true;
       this.syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
       this.configurationObj = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '' };
       this.addConnectorSteps = this.addConnectorSteps.map((item, index) => {
@@ -249,10 +296,12 @@ export class ConnectorsSourceComponent implements OnInit {
         this.navigatePage();
       }
       else if (this.selectAddContent === 'configurtion') {
-        if (this.isEditable || this.connectorId !== '') {
-          this.updateConnector();
-        } else {
-          this.createConnector();
+        if (this.fieldsValidation()) {
+          if (this.isEditable || this.connectorId !== '') {
+            this.updateConnector();
+          } else {
+            this.createConnector();
+          }
         }
       }
     }
@@ -260,6 +309,20 @@ export class ConnectorsSourceComponent implements OnInit {
   //navaigate to next page based on selectAddContent
   navigatePage() {
     this.selectAddContent = this.selectAddContent === 'instructions' ? 'configurtion' : 'instructions';
+  }
+  //create connector validation
+  fieldsValidation() {
+    if (this.selectedConnector.type === 'confluenceServer') {
+      if (this.configurationObj.hostDomainName.length > 0) {
+        return true;
+      }
+      else {
+        this.notificationService.notify('Domain name field is required', 'error');
+      }
+    }
+    else {
+      return true;
+    }
   }
   //save connectors create api
   createConnector() {
@@ -285,7 +348,6 @@ export class ConnectorsSourceComponent implements OnInit {
     this.service.invoke('post.connector', quaryparms, payload).subscribe(res => {
       if (res) {
         this.connectorId = res?._id;
-        this.notificationService.notify('Connector Created Successfully', 'success');
         this.authorizeConnector(this.selectedConnector);
       }
     }, errRes => {
@@ -304,11 +366,13 @@ export class ConnectorsSourceComponent implements OnInit {
     }
     this.service.invoke('post.authorizeConnector', quaryparms, payload).subscribe(res => {
       if (res) {
+        this.isloadingBtn = false;
+        this.ingestConnector();
         if (data?.type === 'confluenceCloud') {
           window.open(res.url, '_self');
         }
         else {
-          this.ingestConnector();
+          this.appSelectionService.updateTourConfig('addData');
           if (dialogRef) {
             dialogRef.close();
             this.getConnectors();
@@ -323,9 +387,10 @@ export class ConnectorsSourceComponent implements OnInit {
     }, errRes => {
       this.isPopupDelete = false;
       this.isAuthorizeStatus = false;
+      this.isloadingBtn = false;
       if (dialogRef) dialogRef.close();
-      this.openDeleteModel('open');
-      this.errorToaster(errRes.error.errors[0].msg, 'error');
+      // this.errorToaster(errRes, 'error');
+      if (document.getElementsByClassName("modal").length === 0) this.openDeleteModel('open');
     });
   }
   //call if authorize api was success
@@ -365,6 +430,7 @@ export class ConnectorsSourceComponent implements OnInit {
   }
   //update connector method
   updateConnector(data?, checked?, dialog?) {
+    this.isloadingBtn = true;
     const Obj = data ? data : this.configurationObj;
     const quaryparms: any = {
       sidx: this.searchIndexId,
@@ -431,21 +497,27 @@ export class ConnectorsSourceComponent implements OnInit {
         this.openDeleteModel('close');
         this.notificationService.notify('Connector Deleted Successfully', 'success');
         this.selectedContent = 'list';
-        this.getConnectors();
+        this.backToPage('cancel');
       }
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
   // queue-content API
-  ingestConnector() {
+  ingestConnector(isShow?) {
+    this.isSyncLoading = true;
     const quaryparms: any = {
       sidx: this.searchIndexId,
       fcon: this.connectorId
     };
     this.service.invoke('post.ingestConnector', quaryparms).subscribe(res => {
+      this.isSyncLoading = false;
+      this.getConnectorData();
+      if (isShow) this.notificationService.notify('Connector Synchronized Successfully', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
+  }
+  ngOnDestroy() {
   }
 }
