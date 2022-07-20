@@ -2192,6 +2192,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.unlinkBotWhithPublish(this.selectedLinkBotConfig._id);
       this.workflowService.linkBot(this.selectedLinkBotConfig._id);
     } else {
+      this.appSelectionService.updateTourConfig('addData');
       // this.loadingContent = true;
       let selectedApp: any;
       const queryParams = {
@@ -2262,7 +2263,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.workflowService.smallTalkEnable(res.stEnabled);
           this.closeLinkBotsModal()
           this.notificationService.notify("Bot Linked Successfully", 'success');
-          this.appSelectionService.updateTourConfig('addData');
           this.router.navigate(['/botActions'], { skipLocationChange: true });
           // this.syncLinkedBot();
           // this.loadingContent = false;
