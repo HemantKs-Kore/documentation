@@ -201,7 +201,7 @@ export class AppsListingComponent implements OnInit {
   exploreMyself() {
     this.displayApp = true;
     this.hideWelcomepage = false;
-    this.mixpanel.postEvent('Explore App Type selected',{Boolean:'Own'})
+    this.mixpanel.postEvent('Explore App Type selected',{'Explore App Type':'Own'})
     // console.log('Explore App Type selected')
   }
   mixpanelEventValues(){
@@ -214,7 +214,7 @@ export class AppsListingComponent implements OnInit {
     else{
       this.appTypevalue = 'Knowledge';
     }
-    this.mixpanel.postEvent('Explore App Data selected',{string:this.appTypevalue})
+    this.mixpanel.postEvent('Explore App Data selected',{'Explore App Data Type':this.appTypevalue})
   }
   exploreSampleDate() {
     this.hideWelcomepage = false;
@@ -244,7 +244,7 @@ export class AppsListingComponent implements OnInit {
       }
     }
     // console.log('Explore App Type selected')
-    this.mixpanel.postEvent('Explore App Type selected',{Boolean:'Sample'})
+    this.mixpanel.postEvent('Explore App Type selected',{'Explore App Type':'Sample'})
   }
   openAppLoadingScreen() {
     this.loadingAppcreationRef = this.loadingAppcreation.open();
