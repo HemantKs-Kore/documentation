@@ -515,7 +515,8 @@
                                     </div>
                                 </div>
                                 <div class="empty-w" *ngIf="(associatedAccounts | filter : [workspace_search, 'accountName', 'userFullName']).length === 0">
-                                  <div class="e-title">We Couldn’t find any result.</div>
+                                  <!-- <div class="e-title">We Couldn’t find any result.</div> -->
+                                  <div class="e-title">There are no other workspces <br/> that we could find for {{loginusername}}</div>
                               </div>
                             </ng-container>
                         </div>
@@ -528,7 +529,8 @@
                     <perfect-scrollbar>
                         <div class="scroll-data">
                             <div class="empty-w" *ngIf="(WorkspaceList | filter : [workspace_search, 'accountName', 'userFullName']).length === 0 && !emptyContent">
-                                <div class="e-title">We Couldn’t find any result.</div>
+                                <!-- <div class="e-title">We Couldn’t find any result.</div> -->
+                                <div class="e-title">There are no other workspces <br/> that we could find for {{loginusername}}</div>
                             </div>
                             <div class="empty-w" *ngIf="emptyContent">
                               <div class="e-title">There are no other workspces <br/> that we could find for {{loginusername}}</div>
@@ -539,7 +541,9 @@
                                 <div class="icon-tetx"  [ngStyle]="{'background-color':workspace.color}">
                                     <span class="alphabet">{{workspace.accountShortName}}</span>
                                 </div>
-                                <div class="content-data">
+                                <div class="content-data"
+                                [ngbTooltip]="workspace.displayName?workspace.displayName:workspace.accountName"
+                                placement="top-center" [container]="'body'">
                                     <div class="w-name">{{workspace.displayName?workspace.displayName:workspace.accountName}}
                                     </div>
                                     <div class="member-count" style="white-space: nowrap;">Created by: {{workspace.userFullName}}</div>

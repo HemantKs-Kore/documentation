@@ -224,11 +224,11 @@
                         </div>
                       </a>
                   </div>
-                  <!-- <div id="collapseFaq_{{i}}" class="collapse" data-parent="#accordion">
+                  <div *ngIf="!childfaq.link"  id="collapseFaq_{{i}}" class="collapse" data-parent="#accordion">
                     <div class="card-body">
-                      {{childfaq.ans}}<a>Click here</a> to watch reference video
+                      {{childfaq.ans}}
                     </div>
-                  </div> -->
+                  </div>
                 </div>
               </div>
             </div>
