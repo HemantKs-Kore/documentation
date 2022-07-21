@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ElementRef } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EChartOption } from 'echarts';
@@ -9,7 +9,8 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
-declare var $: any;
+import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
+
 @Component({
   selector: 'app-pricing',
   templateUrl: './pricing.component.html',
@@ -32,6 +33,7 @@ export class PricingComponent implements OnInit, OnDestroy {
   totalPlansData: any;
   filterPlansData: any;
   currentSubsciptionData: Subscription;
+  updateUsageData: Subscription;
   usageDetails: any = {};
   monthRange = "Jan - June";
   isyAxisDocumentdata: boolean = true;
@@ -45,13 +47,20 @@ export class PricingComponent implements OnInit, OnDestroy {
   @ViewChild('cancelSubscriptionModel') cancelSubscriptionModel: KRModalComponent;
   @ViewChild('revertCancelModel') revertCancelModel: KRModalComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
+  @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
+  @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
   async ngOnInit() {
+    await this.appSelectionService.getCurrentUsage();
     this.currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-    this.getSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.currentSubscriptionPlan = res;     
       this.getSubscriptionData();
     });
+    this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(res => {
+      if (res == 'updatedUsage') {
+        this.getSubscriptionData();
+      }
+    })
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
   }
@@ -66,13 +75,13 @@ export class PricingComponent implements OnInit, OnDestroy {
   }
   //getsubscription data
   getSubscriptionData(){
-    if(['Standard','Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName)) this.featureLimit = 100;
     this.updateUsageDetails();
     this.pricingChart()
+    if(['Standard','Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName)) this.featureLimit = 100;
   }
   //after plans api called get data from upgrade component
   getPlans(event){
-    this.updateUsageDetails();
+    this.getSubscriptionData();
   }
   //show or hide banner
   showBanner(obj) {
@@ -401,29 +410,35 @@ export class PricingComponent implements OnInit, OnDestroy {
   }
   updateUsageDetails() {
     if (this.plans?.totalPlansData) {
+      this.usageDetails={};
+      const currentUsageData = this.appSelectionService?.currentUsageData
       const planName = this.currentSubscriptionPlan?.subscription?.planName;
       const currentPlan = this.plans?.totalPlansData?.filter(plan => plan?.name === planName);
       this.usageDetails.ingestDocsLimit = currentPlan[0].featureAccess?.ingestDocs?.limit;
-      this.usageDetails.ingestDocsUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used<=this.usageDetails.ingestDocsLimit)?(this.currentSubscriptionPlan?.usage?.ingestDocs?.used):(this.usageDetails?.ingestDocsLimit)
+      this.usageDetails.ingestDocsUsed = (currentUsageData?.ingestCount<=this.usageDetails.ingestDocsLimit)?(currentUsageData?.ingestCount):(this.usageDetails?.ingestDocsLimit)
+      
       this.usageDetails.searchQueriesLimit = currentPlan[0]?.featureAccess?.searchQueries?.limit;
-      this.usageDetails.searchQueriesUsed = (this.currentSubscriptionPlan?.usage?.searchQueries?.used<=this.usageDetails.searchQueriesLimit)?(this.currentSubscriptionPlan?.usage?.searchQueries?.used):(this.usageDetails?.searchQueriesLimit)
+      this.usageDetails.searchQueriesUsed = (currentUsageData?.searchCount<=this.usageDetails.searchQueriesLimit)?(currentUsageData?.searchCount):(this.usageDetails?.searchQueriesLimit)
+      
       this.usageDetails.ingestDocsUsedPercentage = (this.usageDetails.ingestDocsUsed/ this.usageDetails.ingestDocsLimit)*100
       this.usageDetails.searchQueriesUsedPercentage = (this.usageDetails.searchQueriesUsed/ this.usageDetails.searchQueriesLimit)*100
      //overages data
-     if(this.currentSubscriptionPlan?.overages?.length){
       const ingestDocs = this.currentSubscriptionPlan?.overages?.filter(item=>item.feature==='ingestDocs');
       const searchQueries = this.currentSubscriptionPlan?.overages?.filter(item=>item.feature==='searchQueries');
+      
       this.usageDetails.ingestDocsOverageLimit = (ingestDocs?.length>0)?(ingestDocs.length*ingestDocs[0]?.totalFeatureLimit):0;
+      this.usageDetails.ingestDocsOverageUsed = (currentUsageData?.ingestCount<=this.usageDetails.ingestDocsLimit)?0:(currentUsageData?.ingestCount-this.usageDetails.ingestDocsLimit)
+      
       this.usageDetails.searchQueriesOverageLimit = (searchQueries?.length>0)?(searchQueries.length*searchQueries[0]?.totalFeatureLimit):0;
-      this.usageDetails.ingestDocsOverageUsed = (this.currentSubscriptionPlan?.usage?.ingestDocs?.used<=this.usageDetails.ingestDocsLimit)?0:(this.currentSubscriptionPlan?.usage?.ingestDocs?.used-this.usageDetails.ingestDocsLimit)
-      this.usageDetails.searchQueriesOverageUsed = (this.currentSubscriptionPlan?.usage?.searchQueries?.used<=this.usageDetails.searchQueriesLimit)?0:(this.currentSubscriptionPlan?.usage?.searchQueries?.used-this.usageDetails.searchQueriesLimit)
+      this.usageDetails.searchQueriesOverageUsed = (currentUsageData?.searchCount<=this.usageDetails.searchQueriesLimit)?0:(currentUsageData?.searchCount-this.usageDetails.searchQueriesLimit)
+      
       this.usageDetails.ingestDocsOverUsedPercentage = (this.usageDetails.ingestDocsOverageUsed/ this.usageDetails.ingestDocsOverageLimit)*100
       this.usageDetails.searchQueriesOverUsedPercentage = (this.usageDetails.searchQueriesOverageUsed/ this.usageDetails.searchQueriesOverageLimit)*100
-    }
     }
     this.pageLoading = false;
   }
   ngOnDestroy() {
     this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;
+    this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
   }
 }

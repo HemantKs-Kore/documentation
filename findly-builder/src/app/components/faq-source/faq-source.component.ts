@@ -1402,10 +1402,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           this.getStats(null, true);
           this.pollingSubscriber.unsubscribe();
-          const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-          if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
-            this.appSelectionService.getCurrentUsage();;
-          }
         }
 
       }, errRes => {
@@ -1627,10 +1623,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editfaq = null
       if (state != 'in_review' && state != 'approved') {
         this.notificationService.notify(custSucessMsg, 'success');
-        const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-        if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
-          this.appSelectionService.getCurrentUsage();;
-        }
       }
       if (state == 'in_review') {
         this.notificationService.notify('Sent for Review', 'success');
@@ -1672,10 +1664,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         // this.getSourceList();
       }
       this.resetCheckboxSelect();
-      const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-      if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
-        this.appSelectionService.getCurrentUsage();;
-      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete faq source');
     });
@@ -1698,10 +1686,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.getStats();
       this.resetCheckboxSelect();
-      const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-      if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
-        this.appSelectionService.getCurrentUsage();;
-      }
       if (!(this.faqs && this.faqs.length)) {
         this.selectedFaq = null;
       } else {

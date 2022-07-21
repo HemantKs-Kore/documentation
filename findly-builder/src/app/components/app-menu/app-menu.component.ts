@@ -68,7 +68,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   showUpgrade: boolean = false;
   currentSubsciptionData: Subscription;
   updateUsageData: Subscription;
-  upgradeBannerFlag: boolean;
   isRouteDisabled:boolean=false;
   componentType: any = '';
   currentSubscriptionPlan:any={};
@@ -126,6 +125,10 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       }
     } catch (e) {
     }
+  }
+  showNotificationBanner(type){
+    $('.hover-documnet-show-data').css({visibility:type==='over'?'visible':'hidden',opacity:type==='over'?1:0});
+    if(type==='over') this.appSelectionService.getCurrentUsage();
   }
   selectDefault() {
     this.newConfigObj._id = this.selectedConfig;
@@ -428,7 +431,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-    this.usageDetails = this.appSelectionService?.currentUsageData;
     this.getSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.currentSubscriptionPlan = res;
@@ -443,7 +445,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
     })
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
-      this.upgradeBannerFlag = (!this.selectedApp?.upgradeBannerRead) ? true : false;
       this.queryConfigs = res;
       res.forEach(element => {
         this.configObj[element._id] = element;
@@ -472,7 +473,9 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
   //check subscription data
   getSubscriptionData(){
-    if(['Unlimited','Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName)) this.showUpgrade =  true;
+    if(this.currentSubscriptionPlan?.subscription){
+      this.showUpgrade=(['Unlimited','Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName))? false:true;
+    }
   }
   // toggle sub-menu
   switchToTerminal() {

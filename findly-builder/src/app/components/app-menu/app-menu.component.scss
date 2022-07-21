@@ -502,15 +502,6 @@ app-mainmenu{
 		//background: #FFDA2D;
 		top: -5px;
 	}
-	&:hover{
-		.hover-documnet-show-data{
-			visibility: visible;
-			opacity: 1;
-		}
-		.status-type{
-			visibility: hidden;
-		}
-	}
 	.upgrade-plan-btn{
 		// background: linear-gradient(180deg, rgba(221, 54, 70, 0.3) 0%, rgba(255, 255, 255, 0) 100%), rgba(112, 39, 229, 0.8);
 		background: #93D3A2;
@@ -681,6 +672,10 @@ app-mainmenu{
 			font-size: 10px;
 			line-height: 12px;
 			margin: 0 0 5px 0;
+		}
+		.close-btn{
+			float: right;
+			cursor: pointer;
 		}
 		.product-subscription-img{
 			margin: 0 auto;
