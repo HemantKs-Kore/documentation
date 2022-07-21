@@ -14,15 +14,12 @@ import * as _ from 'underscore';
 import * as moment from 'moment';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { fromEvent, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {  Subject } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 
 declare var require: any
@@ -266,7 +263,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   };
   loadImageText: boolean = false;
   imageLoad() {
-    console.log('image load ')
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
@@ -415,7 +411,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('get.source.list', quaryparms, payload).subscribe(res => {
       this.resources = res.sources;
-      console.log(this.resources, res)
       this.totalRecord = res.totalCount || 0;
       //  this.resourcesDoc=this.resources[0].fileMeta;
       //element.advanceSettings.scheduleOpts.interval.intervalType
@@ -596,13 +591,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
       this.oldQuedJob = [];
       const queuedJobs = _.filter(res, (source) => {
-        //this.resourcesStatusObj[source.resourceId] = source;
-        if (source.status == 'success') {
-          const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-          if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
-            this.appSelectionService.getCurrentUsage();;
-          }
-        }
         if (source.status == 'running' || source.status == 'queued') {
           if (source.numPages == 0 || source.numPages == '') {
             this.oldQuedJob.push(source._id);
@@ -1195,10 +1183,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.resources.splice(deleteIndex, 1);
       }
       this.closeStatusModal();
-      const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-      if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
-        this.appSelectionService.getCurrentUsage();;
-      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete source');
     });
@@ -1460,7 +1444,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     //   delete request.search;
     //  }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
-      console.log(res, 'Filters')
       this.statusArr = [...res.recentStatus];
       this.docTypeArr = [...res.contentSource];
     }, errRes => {
@@ -1496,7 +1479,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       delete request.search;
     }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
-      console.log(res, 'Filters')
       this.statusArr = [...res.recentStatus];
       this.docTypeArr = [...res.contentSource];
     }, errRes => {
