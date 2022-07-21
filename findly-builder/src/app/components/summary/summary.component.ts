@@ -120,10 +120,11 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
 
-  ngOnInit() {
+  async ngOnInit() {
     //moved the below flag to ngOnInit to fix the NAN display issue for few sec in summary screen on 08/03
     this.loading_skelton = true;
     this.initialCall();
+    await this.appSelectionService.getCurrentUsage();
     this.usageDetails = this.appSelectionService?.currentUsageData;
     this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(res => {
       if (res == 'updatedUsage') {
@@ -164,7 +165,6 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       limit: 100
     };
     this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
-      console.log(res);
       res.forEach(element => {
         if (element.default == true) {
           this.default_Indexpipelineid = element._id;

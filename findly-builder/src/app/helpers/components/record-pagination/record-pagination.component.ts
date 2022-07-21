@@ -93,6 +93,9 @@ export class RecordPaginationComponent implements OnInit {
       }
       this.pageChangeEvent(this.inputPage)
     }
+    else{
+      this.inputPage = 1
+    }
   }
   arrowFirst() {
     this.inputPage = this.startpage;
