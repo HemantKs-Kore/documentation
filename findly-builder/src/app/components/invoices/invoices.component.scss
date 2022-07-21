@@ -1,47 +1,53 @@
-.invoice-container{
-    .mainLoadingSpinner{
+.invoice-container {
+    .mainLoadingSpinner {
         position: absolute;
         top: 45%;
-        left: 45%;  
-        background:  transparent;
+        left: 45%;
+        background: transparent;
         width: 180px;
         height: 40px;
         padding-top: 10px;
         border-radius: 4px;
         opacity: 0.95;
         padding-left: 5px;
+
         .please-wait-message {
             position: relative;
             color: #29293b;
             top: -16px;
             left: 25px;
             font-size: 12px;
-        }  
+        }
     }
-    .header-sec {       
+
+    .header-sec {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding:6px 30px;
+        padding: 6px 30px;
         margin: 0px 0px 25px 0px;
         background: #F5F8FA;
         border-radius: 4px;
         min-height: 53px;
+
         .title {
             font-weight: 500;
             font-size: 18px;
             line-height: 22px;
             color: #000000;
         }
+
         .kr-sg-input-search {
             display: inline-block;
             width: 0px;
-            width: 215px;            
-            position: relative;            
+            width: 215px;
+            position: relative;
+
             &.active {
                 display: block;
                 width: 300px;
             }
+
             .close-icon {
                 position: absolute;
                 right: 11px;
@@ -49,6 +55,7 @@
                 cursor: pointer;
             }
         }
+
         .seach-block {
             color: #202124;
             font-style: normal;
@@ -56,19 +63,22 @@
             font-size: 12px;
             display: flex;
             align-items: center;
+
             img {
                 margin-right: 7px;
                 cursor: pointer;
             }
         }
-       .download-icon{
+
+        .download-icon {
             position: relative;
             margin-left: 40px;
             cursor: pointer;
             padding: 6px;
-       }
+        }
     }
-    .plan-type{
+
+    .plan-type {
         display: inline-flex;
         margin: 0 30px 10px 30px;
         background: #FFFFFF;
@@ -79,14 +89,16 @@
         height: 56px;
         align-items: center;
         padding: 10px 15px;
-        .current-plan{
+
+        .current-plan {
             color: #202124;
             font-weight: normal;
             font-size: 16px;
             line-height: 20px;
             margin-right: 7px;
         }
-        .type{
+
+        .type {
             padding-left: 7px;
             border-left: 1px solid #85B7FE;
             color: #202124;
@@ -95,21 +107,26 @@
             line-height: 20px;
         }
     }
-    .scroll-invoice-content{
+
+    .scroll-invoice-content {
         height: calc(100vh - 210px);
-        &.if-pagination{
+
+        &.if-pagination {
             height: calc(100vh - 280px);
         }
     }
-    .invoice-table-data{
+
+    .invoice-table-data {
         padding: 0 30px;
-        .invoice-table-header{
+
+        .invoice-table-header {
             margin: 0;
             padding: 10px 0;
             height: 50px;
             align-items: center;
             border-bottom: 1px solid #E4E5E7;
-            .title{
+
+            .title {
                 color: #9AA0A6;
                 font-weight: 500;
                 font-size: 12px;
@@ -117,65 +134,78 @@
                 padding: 0 10px;
             }
 
-            .col_{               
-                cursor: pointer;         
-                .sortImg{                                                       
+            .col_ {
+                cursor: pointer;
+
+                .sortImg {
                     position: static;
+
                     &.upArrow {
                         transform: none !important;
                     }
+
                     &.downArrow {
                         transform: rotate(180deg) !important;
                         top: -1px !important;
                         position: relative;
                     }
-                    &.assending{
+
+                    &.assending {
                         transform: rotate(180deg);
                     }
-                    &.decending{
+
+                    &.decending {
                         transform: rotate(0deg);
                     }
-                }            
+                }
             }
         }
-        .invoice-table-body{
-            margin: 0;            
+
+        .invoice-table-body {
+            margin: 0;
             height: 50px;
             align-items: center;
             padding: 10px 0;
             border-bottom: 1px solid #E4E5E7;
             transition: 0.3s all ease-in;
-            &:hover{
+
+            &:hover {
                 background: #F8F9FA;
-                .actions-invoice{
+
+                .actions-invoice {
                     display: flex;
                 }
             }
-            .title{
+
+            .title {
                 color: #202124;
                 font-weight: normal;
                 font-size: 14px;
                 line-height: 14px;
                 padding: 0 10px;
             }
-            .actions-invoice{
+
+            .actions-invoice {
                 position: absolute;
                 right: 25px;
                 display: none;
                 align-items: center;
-                .view{
+
+                .view {
                     margin-right: 10px;
                     cursor: pointer;
                     padding: 0 10px;
                 }
-                .download-invoice{
+
+                .download-invoice {
                     cursor: pointer;
                     padding: 0 10px;
                 }
             }
         }
     }
-    .empty-invoice{
+
+    .empty-invoice {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -184,14 +214,34 @@
         width: 410px;
         margin: 0 auto;
         text-align: center;
-        .empty-text{
+
+        .empty-text {
             color: #3C4043;
             font-weight: 400;
             font-size: 12px;
             line-height: 15px;
             margin-top: 20px;
-            margin-left:18px;
+            margin-left: 18px;
             margin-bottom: 16px;
+        }
+
+        .empty-warning {
+            background: #EFF0F1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 25px;
+            gap: 10px;
+            opacity: 0.6;
+            border-radius: 4px;
+            width: 306px;
+            .empty-warning-text {
+                color: #3C4043;
+                line-height: 15px;
+                font-size: 12px;
+                font-weight: 400;
+                text-align: initial;
+            }
         }
     }
 }

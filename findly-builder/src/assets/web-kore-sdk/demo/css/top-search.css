@@ -3167,7 +3167,7 @@ display: none !important;
 }
 
 .arrivals-grids-template .slide-gride .inner-content-data .img-block {
-  border: 1px solid #E4E5E7;
+  border: 0px solid #E4E5E7;
   width: 152px;
   height: 152px;
   background: #FFFFFF;
@@ -3347,4 +3347,11 @@ display: none !important;
   text-decoration: line-through;
   color: #B6B6B6;
   font-weight: normal;
+}
+
+.lead-name{
+  text-align: center;
+  padding-top: 10px;
+  font-size: 16px;
+  font-weight: 400;
 }

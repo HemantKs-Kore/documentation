@@ -137,7 +137,8 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Invoices', routeId: '/invoices', quaryParms: {} },
     { displayName: 'Connectors', routeId: '/connectors', quaryParms: {} },
     { displayName: 'Results Ranking', routeId: '/resultranking', quaryParms: {} }
-  ]
+  ];
+  menuItems:any={sources:['/source','/content','/faqs','/botActions','/structuredData','/connectors'],indices:['/FieldManagementComponent','/traits','/index','/weights','/synonyms','/stopWords','/resultranking','/facets','/rules','/search-experience','/resultTemplate'],anlytics:['/dashboard','/userEngagement','/searchInsights','/experiments','/resultInsights'],manage:['/settings','/credentials-list','/actions','/team-management','/smallTalk','/pricing','/usageLog','/invoices','/generalSettings']};
   public dockersList: Array<any> = [];
   public pollingSubscriber: any;
   public dockServiceSubscriber: any;
@@ -155,7 +156,7 @@ export class AppHeaderComponent implements OnInit {
   notifyAccount: boolean = false;
   notifyAccountInfo: any;
   isJoinedClicked: boolean = false;
-
+  isRouteDisabled:boolean = false;
   constructor(
     private authService: AuthService,
     public headerService: SideBarService,
@@ -182,11 +183,10 @@ export class AppHeaderComponent implements OnInit {
       this.tourData = res.onBoardingChecklist;
       this.trackChecklist();
     })
-    // this.selectedApp = this.workflowService.selectedApp();
-    // this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
       if (res.name != undefined) {
         this.analyticsClick(res.path, false);
+        this.isRouteDisabled = res?.disable;
       }
       if (res?.isDemo == true) {
         this.viewCheckList();
@@ -436,6 +436,12 @@ export class AppHeaderComponent implements OnInit {
           if (!this.WorkspaceList[index].displayName) {
             this.WorkspaceList[index]['displayName'] = ''
           }
+          if (!this.WorkspaceList[index].accountName) {
+            this.WorkspaceList[index]['accountName'] = ''
+          }
+          if (!this.WorkspaceList[index].userFullName) {
+            this.WorkspaceList[index]['userFullName'] = ''
+          }
           const splitBy = '/';
           if (this.WorkspaceList[index]['accountName'].includes('/')) {
             this.WorkspaceList[index]['accountName'] = this.WorkspaceList[index]['accountName'].split(splitBy)[1]
@@ -546,24 +552,18 @@ export class AppHeaderComponent implements OnInit {
   }
   analyticsClick(menu, skipRouterLink?) {
     this.mainMenu = menu;
-    if (menu == '/metrics' ||
-      menu == '/dashboard' ||
-      menu == '/userEngagement' ||
-      menu == '/searchInsights' ||
-      menu == '/experiments' ||
-      menu == '/resultInsights' ||
-      menu == '/summary' ||
-      menu == '/experiments') {
+    if (this.menuItems?.anlytics?.includes(menu) ||menu == '/summary') {
       this.showMainMenu = false;
     } else {
       this.showMainMenu = true;
-      if (menu == '/source' || menu == '/content' || menu == '/faqs' || menu == '/botActions' || menu == '/structuredData' || menu == '/connectors') {
+      if (this.menuItems?.sources?.includes(menu)) {
         this.sourcesFlag = true;
         this.menuFlag = false;
       }
-      else if (menu == '/settings' || menu == '/credentials-list' || menu == '/actions' || menu == '/team-management' || menu == '/smallTalk' || menu == '/pricing' || menu == '/usageLog' || menu == '/invoices' || menu == '/generalSettings') {
+      else if (this.menuItems?.manage?.includes(menu)) {
         this.menuFlag = true;
         this.sourcesFlag = false;
+        if(this.isRouteDisabled) menu='/pricing';
       }
       else {
         this.menuFlag = false;
@@ -580,10 +580,6 @@ export class AppHeaderComponent implements OnInit {
     this.showMenu.emit(this.showMainMenu)
     this.settingMenu.emit(this.menuFlag)
     this.showSourceMenu.emit(this.sourcesFlag);
-    let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-    if ((menu == '/content' || menu == "/index") && currentPlan?.subscription?.planId == 'fp_free') {
-      this.appSelectionService.updateUsageData.next('updatedUsage');
-    }
   }
   logoutClick() {
     this.authService.logout();
@@ -1415,7 +1411,7 @@ export class AppHeaderComponent implements OnInit {
       $("#enterAppName").css("border-color", this.newApp.name != '' ? "#BDC1C6" : "#DD3646");
     }
   }
-  /**opening slider component and closing slider component  */
+  /**opening slider component and closing slider  component  */
   openUserMetaTagsSlider() {
     this.currentRouteData = this.router.url;
     if (this.onboardingOpened == false) {
@@ -1563,6 +1559,10 @@ export class AppHeaderComponent implements OnInit {
       updateAssociatedAccounts.currentAccount.associatedAccounts = this.associatedAccounts;
       window.localStorage.setItem('jStorage', JSON.stringify(updateAssociatedAccounts));
       this.isJoinedClicked = false;
+
+      for (let i = 0; i < this.associatedAccounts.length; i++) {
+        this.extractAssociatedisplayname(this.associatedAccounts[i].accountName, i)
+      }
     },
       errRes => {
         console.log("error", errRes);

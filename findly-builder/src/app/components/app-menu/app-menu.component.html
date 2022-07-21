@@ -1,12 +1,12 @@
 <!-- Sidebar -->
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
-	<ng-container *ngIf="(!settingMainMenu && sourceMenu)">
+	<ng-container *ngIf="(settingMainMenu || sourceMenu)">
 		<div class="upgrade_your_plan_price" [ngClass]="{'d-none':showUpgrade}">
 			<span [ngClass]="{'status-type':upgradeBannerFlag}"></span>
 			<div class="product-subscription-alert">
 				<p class="product-subscription-desc" *ngIf="(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80)">You have utilized more than 80% of your current plan, please upgrade plan to enjoy uninturrepted services.</p>
 				<img src="assets/images/pricing-plan/plan-subscrition/product-launch.svg" class="product-subscription-img"/>
-				<div class="upgrade-plan-btn" [ngClass]="{'danger':(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80),'warning':((usageDetails?.searchQueries>50&&usageDetails?.searchQueries<=80)||(usageDetails?.ingestDocs>50&&usageDetails?.ingestDocs<=80))}" (mouseover)="readUpgradeBanner()" (click)="upgrade()"><i class="si-publish si-icon m-r-2"></i>Upgrade Plan</div>
+				<div class="upgrade-plan-btn" [ngClass]="{'danger':(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80),'warning':((usageDetails?.searchQueries>50&&usageDetails?.searchQueries<=80)||(usageDetails?.ingestDocs>50&&usageDetails?.ingestDocs<=80))}" (click)="upgrade()"><i class="si-publish si-icon m-r-2"></i>Upgrade Plan</div>
 				<div class="hover-documnet-show-data">
 					<div class="card-data- card1">
 						<div class="img-block">
@@ -17,9 +17,9 @@
 							<div class="desc-text">Percentage of queries asked by the user</div>
 							<div class="count-data">
 								<div class="linit-k">
-									<span>{{usageDetails.searchCount | valueFormat}}</span> / {{usageDetails.searchLimit|valueFormat}}
+									<span>{{usageDetails?.searchCount | valueFormat}}</span> / {{usageDetails?.searchLimit|valueFormat}}
 								</div>
-								<div class="percentage">{{usageDetails.searchQueries}}% </div>
+								<div class="percentage">{{usageDetails?.searchQueries}}% </div>
 							</div>
 						</div>
 						<ng-container>
@@ -35,9 +35,9 @@
 							<div class="desc-text">Percentage of documents ingested</div>
 							<div class="count-data">
 								<div class="linit-k">
-									<span>{{usageDetails.ingestCount| valueFormat}}</span> / {{usageDetails.ingestLimit|valueFormat}}
+									<span>{{usageDetails?.ingestCount| valueFormat}}</span> / {{usageDetails?.ingestLimit|valueFormat}}
 								</div>
-								<div class="percentage">{{usageDetails.ingestDocs}}%</div>
+								<div class="percentage">{{usageDetails?.ingestDocs}}%</div>
 							</div>
 						</div>
 						<ng-container>
@@ -46,12 +46,13 @@
 					</div>
 				</div>
 				<div class="bottm-btns">
-					<div><button class="btn" type="button"><span class="px-1"><i class="si-externallink"></i></span>Know More</button></div>
+					<div></div>
 					<div (click)="showUpgrade=!showUpgrade"><button class="btn" type="button"><span class="px-1"><i class="si-close-red"></i></span>Close</button></div>
 				</div>
 			</div>
 		</div>
 	</ng-container>
+	
 	<perfect-scrollbar class="perfect-scroll">
 		<div class="list-group list-group-flush" *ngIf="!settingMainMenu && !sourceMenu">
 			<div class="default-index-title">
@@ -370,60 +371,53 @@
 		<div class="list-group list-group-flush inside-config-tab-left-menus" *ngIf="settingMainMenu && !sourceMenu">
 
 			<div class="inside-menu-title d-none">BOT RESULTS</div>
-			<div mat-button class="mat-button" [routerLink]="['/generalSettings']" skipLocationChange
-				routerLinkActive="active" (click)="preview('traits')" mat-button>
+			<div mat-button class="mat-button" [ngClass]="{'disable_btn':isRouteDisabled}" [routerLink]="['/generalSettings']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
 				<span class="inlineIconBox leftAdjust">
 					<img src="assets/icons/sidemenu/new-icons/Settings.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/Settings-active.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle">General Settings</span>
+				<span class="linkTitle" [ngClass]="{'disable_btn':isRouteDisabled}">General Settings</span>
 			</div>
 
 			<!-- <div class="inside-menu-title">SETTINGS</div> -->
-			<div mat-button class="mat-button" [routerLink]="['/settings']" skipLocationChange routerLinkActive="active"
-				(click)="preview('traits')" mat-button>
+			<div mat-button class="mat-button" [ngClass]="{'disable_btn':isRouteDisabled}" [routerLink]="['/settings']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
 				<span class="inlineIconBox leftAdjust">
 					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/channels-active.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle">Channels</span>
+				<span class="linkTitle" [ngClass]="{'disable_btn':isRouteDisabled}">Channels</span>
 			</div>
-			<div mat-button class="mat-button" [routerLink]="['/credentials-list']" skipLocationChange
-				routerLinkActive="active" (click)="preview('index')" mat-button>
+			<div mat-button class="mat-button" [ngClass]="{'disable_btn':isRouteDisabled}" [routerLink]="['/credentials-list']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/credentials-active.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle">Credentials</span>
+				<span class="linkTitle" [ngClass]="{'disable_btn':isRouteDisabled}">Credentials</span>
 			</div>
-			<div mat-button class="mat-button" [routerLink]="['/team-management']" skipLocationChange
-				routerLinkActive="active" (click)="preview('index')" mat-button>
+			<div mat-button class="mat-button" [ngClass]="{'disable_btn':isRouteDisabled}" [routerLink]="['/team-management']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/team_management.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/team_management-active.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle">Team</span>
+				<span class="linkTitle" [ngClass]="{'disable_btn':isRouteDisabled}">Team</span>
 			</div>
 
 			<div class="inside-menu-title mt-3">BILLING & USAGE</div>
-			<div mat-button class="mat-button" [routerLink]="['/pricing']" skipLocationChange routerLinkActive="active"
-				(click)="preview('index')" mat-button>
+			<div mat-button class="mat-button" [routerLink]="['/pricing']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox leftAdjust">
 					<img src="assets/icons/sidemenu/new-icons/plandetails.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/plandetails-active.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Plan Details</span>
 			</div>
-			<div mat-button class="mat-button" [routerLink]="['/usageLog']" skipLocationChange routerLinkActive="active"
-				(click)="preview('index')" mat-button>
+			<div mat-button class="mat-button" [routerLink]="['/usageLog']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/usagelog.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/usagelog-active.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Usage Log</span>
 			</div>
-			<div mat-button class="mat-button" [routerLink]="['/invoices']" skipLocationChange routerLinkActive="active"
-				(click)="preview('index')" mat-button>
+			<div mat-button class="mat-button" [routerLink]="['/invoices']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/invoice.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/invoice-active.svg" class="activeIcon">

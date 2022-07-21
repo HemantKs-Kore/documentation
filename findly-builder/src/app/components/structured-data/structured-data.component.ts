@@ -1240,9 +1240,9 @@ export class StructuredDataComponent implements OnInit {
           }
           else {
             this.getStructuredDataList();
-            let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-            if (currentPlan?.subscription?.planId == 'fp_free') {
-              this.appSelectionService.updateUsageData.next('updatedUsage');
+            const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+            if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
+              this.appSelectionService.getCurrentUsage();;
             }
           } this.notificationService.notify('Deleted Successfully', 'success');
         }
@@ -1305,6 +1305,10 @@ export class StructuredDataComponent implements OnInit {
           }
           else {
             this.getStructuredDataList();
+          }
+          const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+          if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
+            this.appSelectionService.getCurrentUsage();
           }
           this.notificationService.notify('Deleted Successfully', 'success');
           // To hide deleted and show all buttons after deletion //

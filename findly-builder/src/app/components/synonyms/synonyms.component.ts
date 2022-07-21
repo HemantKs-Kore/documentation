@@ -11,7 +11,7 @@ import { SynonymFilterPipe } from './synonym-filter'
 import * as _ from 'underscore';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service'
-import { Subscriber, Subscription } from 'rxjs';
+import { Observable, of, Subscriber, Subscription } from 'rxjs';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { TmplAstRecursiveVisitor } from '@angular/compiler';
 declare const $: any;
@@ -40,6 +40,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   synonymDataBack: any[] = [];
   synonymArr :any=[];
   synonymTypeArr=[];
+  synonymTypeArr$: Observable<any[]>;
   synonymGet: any = [];
   visible = true;
   selectable = true;
@@ -137,7 +138,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         }
       });
     }
-
+    this.getDyanmicFilterData()
   }
   getSynonyms() {
     const quaryparms: any = {
@@ -184,7 +185,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       offset: this.skip || 0 ,
-      limit:10 
+      limit:10
 
     };
     let payload:any = {}
@@ -192,16 +193,16 @@ export class SynonymsComponent implements OnInit, OnDestroy {
        payload ={
         "sort": {
           "type": -1
-        } 
+        }
       }
     }
     else{
       payload = request
     }
-    
+
     if(this.synonymSearch){
       payload.search = this.synonymSearch
-    }   
+    }
     this.service.invoke('get.synonyms', quaryparms,payload).subscribe(res => {
       this.synonymData = res.synonyms || [];
       if(initial){
@@ -218,7 +219,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         this.loadingContent1 = true;
       }
       this.getDyanmicFilterData();
-      
+
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get stop words');
@@ -248,11 +249,11 @@ export class SynonymsComponent implements OnInit, OnDestroy {
      }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
       console.log(res, 'Filters')
-      this.synonymTypeArr = [...res.type];
+      this.synonymTypeArr$ = of([...res.type]);
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get filters');
     });
-    
+
   }
 
   filterTable(source, headerOption) {
@@ -266,8 +267,8 @@ export class SynonymsComponent implements OnInit, OnDestroy {
 
     this.synonymFilter(null,null,source, headerOption);
   }
-  synonymFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){  
-    // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)  
+  synonymFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){
+    // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)
     // this.loadingContent = true;
     if(sortValue){
       this.sortedObject = {
@@ -289,8 +290,8 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       request = {
         "sort":{
           'type':1
-        }    
-    }   
+        }
+    }
     }
     else if(sortValue){
       const sort :any ={}
@@ -301,7 +302,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     else {
     request={}
     }
-      
+
     request.type = this.filterSystem.typefilter;
     request.search= this.synonymSearch;
     if (request.type == 'all') {
@@ -310,7 +311,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     if (this.synonymSearch === '') {
      delete request.search;
     }
-    if(sortValue){  
+    if(sortValue){
       this.getSortIconVisibility(sortHeaderOption,navigate);
        //Sort start
        if(sortHeaderOption === 'name' ){
@@ -410,7 +411,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     }
     this.synonymObj = new SynonymClass();
     // this.prepareSynonyms();
-    
+
   }
   addOrUpddate(synonymData, dialogRef?, showFlag?) {
     synonymData = synonymData || this.synonymData;

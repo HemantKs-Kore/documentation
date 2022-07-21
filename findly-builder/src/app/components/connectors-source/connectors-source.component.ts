@@ -69,9 +69,8 @@ export class ConnectorsSourceComponent implements OnInit {
   isShowSearch: boolean = false;
   isloadingBtn: boolean = false;
   pageLoading: boolean = false;
+  isResultTemplate: boolean = false;
   total_records: number;
-  currentSubsciptionData: Subscription;
-  currentSubscriptionPlan: any;
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
   connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' }];
   @ViewChild('plans') plans: UpgradePlanComponent;
@@ -81,16 +80,7 @@ export class ConnectorsSourceComponent implements OnInit {
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
-    await this.appSelectionService.getCurrentSubscriptionData();
-    this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
-      this.currentSubscriptionPlan = res.subscription;
-      if (['Enterprise'].includes(this.currentSubscriptionPlan?.planName)) {
-        this.getConnectors();
-      }
-      else{
-        this.pageLoading = true;
-      }
-    })
+    this.getConnectors();
     if (sessionStorage.getItem('connector') !== null) {
       const session_connector_data = sessionStorage.getItem('connector');
       this.sessionData = JSON.parse(session_connector_data);
@@ -156,6 +146,7 @@ export class ConnectorsSourceComponent implements OnInit {
         })        
       }
       if (this.connectorsData.length) {
+        this.getAllSettings();
         for (let item of this.Connectors) {
           const isPush = this.connectorsData?.some(available => available.type === item.type);
           if (!isPush)
@@ -169,6 +160,32 @@ export class ConnectorsSourceComponent implements OnInit {
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get Connectors');
     });
+  }
+  //show or hide result template info in footer
+  getAllSettings() {
+    const quaryparms: any = {
+      searchIndexId: this.searchIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline(),
+      interface: 'fullSearch'
+    };
+    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
+      console.log("res",res);
+      if(res){
+        const settingsData = res.groupSetting.conditions.filter(ele=>ele?.fieldValue==='data');
+        this.isResultTemplate = settingsData?.length?false:true;
+      }
+    }, errRes => {
+      this.notificationService.notify('Failed to fetch all Setting Informations', 'error');
+    });
+  }
+  //goto result template page
+  navigateToResultTemplate() {
+    this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/resultTemplate' });
+  }
+  //remove spaces in url
+  removeSpaces(url){
+   const contentURL = url.trim();
+   window.open(contentURL);
   }
   //get connectors by Id
   getConnectorData() {
@@ -372,7 +389,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.isAuthorizeStatus = false;
       this.isloadingBtn = false;
       if (dialogRef) dialogRef.close();
-      this.errorToaster(errRes, 'error');
+      // this.errorToaster(errRes, 'error');
       if (document.getElementsByClassName("modal").length === 0) this.openDeleteModel('open');
     });
   }
@@ -495,12 +512,12 @@ export class ConnectorsSourceComponent implements OnInit {
     };
     this.service.invoke('post.ingestConnector', quaryparms).subscribe(res => {
       this.isSyncLoading = false;
+      this.getConnectorData();
       if (isShow) this.notificationService.notify('Connector Synchronized Successfully', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
   ngOnDestroy() {
-    this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : null;
   }
 }

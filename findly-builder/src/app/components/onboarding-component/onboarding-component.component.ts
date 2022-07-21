@@ -352,12 +352,7 @@ faqData = [
    key:"index",
    icon:"",
    childData:[
-  //   {
-  //    ques:"What is a workbench?",
-  //    ans:"these are the answer",
-  //    link:""
 
-  //  },
    {
     ques:"What are the different pipelines available in the workbench?",
     ans:"these are the answer",
@@ -509,11 +504,6 @@ faqData = [
    key:"dashboard",
    icon:"",
    childData:[
-  //   {
-  //      ques:"What are the Questions?",
-  //      ans:"these are the answer",
-  //      link:""
-  //  },
     {
       ques:"How do I check metrics for a particular date range?",
       ans:"these are the answer",
@@ -581,8 +571,8 @@ faqData = [
   ]
 },
 {
-   display:"Settings",
-   key:"settings",
+   display:"General Settings",
+   key:"generalSettings",
    icon:"",
    childData:[
     {
@@ -596,8 +586,18 @@ faqData = [
     ans:"these are the answer",
     link:"https://docs.kore.ai/searchassist/administration/managing-channels-2/#Small_Talk"
    },
-
   ]
+},
+{
+  display:"Channels",
+  key:"settings",
+  icon:"",
+  childData:[
+   {
+      ques:"How to add/configure channels?",
+      ans:"these are the answer",
+      link:"https://docs.kore.ai/searchassist/administration/managing-channels-3/"
+  }]
 },
 {
    display:"Credentials-List",
@@ -615,12 +615,18 @@ faqData = [
 //    display:"Actions",
 //    key:"actions",
 //    icon:"",
-//    childData:[{
-//        ques:"What are the Questions?",
+//    childData:[
+//     {
+//        ques:"What are bot actions?",
 //        ans:"these are the answer",
-//        link:""
-
-//    }]
+//        link:"https://docs.kore.ai/searchassist/concepts/managing-content/introduction-to-content-sources/"
+//     },
+//     {
+//       ques:"How to integrate a bot to SearchAssist as a content?",
+//       ans:"these are the answer",
+//       link:"https://docs.kore.ai/searchassist/concepts/managing-content/linking-your-virtual-assistant/"
+//    }
+//   ]
 // },
 // {
 //    display:"SmallTalk",
@@ -633,17 +639,7 @@ faqData = [
 
 //    }]
 // },
-// {
-//    display:"General Settings",
-//    key:"generalSettings",
-//    icon:"",
-//    childData:[{
-//        ques:"What are the Questions?",
-//        ans:"these are the answer",
-//        link:""
 
-//    }]
-// },
 {
    display:"Field Management",
    key:"FieldManagementComponent",
@@ -727,7 +723,7 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
        link:"https://docs.kore.ai/searchassist/managing-searchassist-apps/collaboration/"
 
    }]
-}
+},
 // {
 //    display:"Search Experience",
 //    key:"search-experience",
@@ -739,48 +735,74 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
 
 // }]
 // },
-// {
-//    display:"Pricing",
-//    key:"pricing",
-//    icon:"",
-//    childData:[{
-//        ques:"What are the Questions?",
-//        ans:"these are the answer",
-//        link:""
+{
+  display:"Pricing",
+  key:"pricing",
+  icon:"",
+  childData:[{
+      ques:"How does SearchAssist’s Pricing Work ?",
+      ans:"SearchAssist offers a free and paid subscription plan. You can choose from any of the subscription plans based on your needs. Every subscription comes with a predefined number of documents and number of end-user queries/searches.",
+      link:""
 
-//    }]
-// },
-// {
-//    display:"Invoices",
-//    key:"invoices",
-//    icon:"",
-//    childData:[{
-//        ques:"What are the Questions?",
-//        ans:"these are the answer",
-//        link:""
+  },
+  {
+   ques:"What happens if I exceed the document limit or query limit on the free forever plan?",
+   ans:"We understand that every business is different and their needs will be different. All our subscription plans allow overages and you can pick an overage bundle that suits your needs. You can choose to increase the number of documents or queries or both, while continuing with your subscription.",
+   link:""
+  },
+  {
+   ques:"How are usage of queries calculated?",
+   ans:"A query in SearchAssist accounts for any search request made to our engine which includes searching for a query, applying for filters and selecting facets. Query Suggestions and Live Results do not count towards the usage of Queries",
+   link:""
+  }
+ ]
+},
+{
+  display:"Invoices",
+  key:"invoices",
+  icon:"",
+  childData:[{
+   ques:"How does SearchAssist’s Pricing Work ?",
+   ans:"SearchAssist offers a free and paid subscription plan. You can choose from any of the subscription plans based on your needs. Every subscription comes with a predefined number of documents and number of end-user queries/searches.",
+   link:""
 
-//    }]
-// },
-// {
-//    display:"UsageLog",
-//    key:"usageLog",
-//    icon:"",
-//    childData:[{
-//        ques:"What are the Questions?",
-//        ans:"these are the answer",
-//        link:""
+   },
+   {
+   ques:"What happens if I exceed the document limit or query limit on the free forever plan?",
+   ans:"We understand that every business is different and their needs will be different. All our subscription plans allow overages and you can pick an overage bundle that suits your needs. You can choose to increase the number of documents or queries or both, while continuing with your subscription.",
+   link:""
+   },
+   {
+   ques:"How are usage of queries calculated?",
+   ans:"A query in SearchAssist accounts for any search request made to our engine which includes searching for a query, applying for filters and selecting facets. Query Suggestions and Live Results do not count towards the usage of Queries",
+   link:""
+}]
+},
+{
+  display:"UsageLog",
+  key:"usageLog",
+  icon:"",
+  childData:[{
+   ques:"How does SearchAssist’s Pricing Work ?",
+   ans:"SearchAssist offers a free and paid subscription plan. You can choose from any of the subscription plans based on your needs. Every subscription comes with a predefined number of documents and number of end-user queries/searches.",
+   link:""
 
-//    }]
-// }
+ },
+ {
+ ques:"What happens if I exceed the document limit or query limit on the free forever plan?",
+ ans:"We understand that every business is different and their needs will be different. All our subscription plans allow overages and you can pick an overage bundle that suits your needs. You can choose to increase the number of documents or queries or both, while continuing with your subscription.",
+ link:""
+ },
+ {
+ ques:"How are usage of queries calculated?",
+ ans:"A query in SearchAssist accounts for any search request made to our engine which includes searching for a query, applying for filters and selecting facets. Query Suggestions and Live Results do not count towards the usage of Queries",
+ link:""
+ }
+ ]
+}
 ];
 
-  constructor(
-    private appSelectionService: AppSelectionService,
-    private notificationService: NotificationService,
-    private service: ServiceInvokerService,
-    public router: Router,) {
-
-   }
+  constructor( private appSelectionService: AppSelectionService, private notificationService: NotificationService, private service: ServiceInvokerService,public router: Router,) {}
 
   ngOnInit(): void {
       this.getVersion();
@@ -800,11 +822,18 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
   }
   triggerFaq() {
     this.currentRouteData=this.currentRouteData.replace("/", "");
-    this.faqData.forEach(element => {
-      if(this.currentRouteData==element.key){
-       this.triggerChildFaq(element);
-      }
-    });
+    let index = this.faqData.findIndex(el => el.key == this.currentRouteData)
+    if(index < 0) {
+      // this.triggerChild()
+      this.supportParentfaq=true;
+      this.closeFaqSearch()
+    } else {
+      this.faqData.forEach(element => {
+        if(this.currentRouteData==element.key){
+         this.triggerChildFaq(element);
+        }
+      });
+    }
   }
   triggerChild(data) {
     this.supportParentData = false
@@ -814,8 +843,8 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
   triggerChildFaq(faq) {
     this.supportParentfaq = false
     this.supportChildfaq = faq.childData;
-     this.breadcrumbNameFaq = faq.display;
-  }
+    this.breadcrumbNameFaq = faq.display;
+}
   // openAccordiandata(index) {
   //   $(document).ready(function(){
   //     $(".data"+index).mouseenter(function(){

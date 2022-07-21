@@ -9,7 +9,6 @@ import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
 import * as moment from 'moment';
 declare const $: any;
-import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { Subscription } from 'rxjs';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
@@ -42,15 +41,13 @@ export class AppExperimentsComponent implements OnInit {
   someRangeconfig: any = null;
   @ViewChild('addExperiments') addExperiments: KRModalComponent;
   @ViewChild('sliderref') sliderref;
-  @ViewChild('plans') plans: UpgradePlanComponent;
-  // variantList = [{ color: '#ff0000', code: 'A' }, { color: '#0000ff', code: 'B' }, { color: '#8cff1a', code: 'C' }, { color: '#ffff00', code: 'D' }];
   variantList = [{ color: '#7027E5', code: 'A' }, { color: '#28A745', code: 'B' }, { color: '#EF9AA3', code: 'C' }, { color: '#0D6EFD', code: 'D' }];
   // add Experiment
   form_type;
   exp_id;
   exp_status: string;
   trafficData: any = [];
-  queryPipeline: any = [];
+  queryPipeline: any = {};
   indexConfig: any = [];
   listOfExperiments: any = [];
   filterExperiments: any = [];
@@ -90,20 +87,11 @@ export class AppExperimentsComponent implements OnInit {
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    //this.currentsubscriptionPlan(this.selectedApp)
-    await this.appSelectionService.getCurrentSubscriptionData();
-    this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
-      this.currentSubscriptionPlan = res.subscription;
-      if (this.currentSubscriptionPlan.planId != 'fp_free') {
-        this.getDyanmicFilterData();
-        this.getExperiments();
-        this.setSliderDefaults();
-        this.getIndexPipeline();
-      }
-      else if (this.currentSubscriptionPlan.planId == 'fp_free') {
-        this.loadingContent1 = true;
-      }
-    })
+    this.getDyanmicFilterData();
+    this.getExperiments();
+    this.setSliderDefaults();
+    this.getIndexPipeline();
+    this.upgradeComplete();
   }
   //when ever upgrade done in experiment page event emitter will call
   upgradeComplete() {
@@ -370,7 +358,9 @@ export class AppExperimentsComponent implements OnInit {
     };
     this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
       this.indexConfig = res;
-      this.getQueryPipeline(res[0]._id);
+      for(let i=0;i<this.indexConfig.length;i++){
+        this.getQueryPipeline(this.indexConfig[i]._id,i);
+      }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -379,8 +369,7 @@ export class AppExperimentsComponent implements OnInit {
       }
     });
   }
-  getQueryPipeline(id) {
-    //this.appSelectionService.getIndexPipelineIds(id)
+  getQueryPipeline(id,index) {
     const header: any = {
       'x-timezone-offset': '-330'
     };
@@ -391,7 +380,7 @@ export class AppExperimentsComponent implements OnInit {
       limit: 100
     };
     this.service.invoke('get.queryPipelines', quaryparms, header).subscribe(res => {
-      this.queryPipeline = res;
+      this.queryPipeline[index] = res;
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -597,7 +586,7 @@ export class AppExperimentsComponent implements OnInit {
   async createExperiment() {
     if (this.variantsArray[0].indexPipelineId === undefined) {
       let index = this.indexConfig.filter(index => index.default == true);
-      let query = this.queryPipeline.filter(query => query.default == true);
+      let query = this.queryPipeline[0].filter(query => query.default == true);
       this.variantsArray[0] = { ...this.variantsArray[0], indexPipelineId: index[0]._id, queryPipelineId: query[0]._id };
     }
     if (this.someRange !== undefined) {
@@ -957,10 +946,6 @@ export class AppExperimentsComponent implements OnInit {
   }
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
-  //upgrade plan
-  upgrade() {
-    this.plans?.openSelectedPopup('choose_plan');
   }
   focusoutSearch() {
     if (this.activeClose) {
