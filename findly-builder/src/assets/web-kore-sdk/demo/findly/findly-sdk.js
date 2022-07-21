@@ -6785,6 +6785,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         }
       }
+      $('#ceo-name').empty();
       if (res.templateType === 'search') {
         _self.vars.requestId = res.requestId;
         if (res.queryPipelineId && res.relay) {
@@ -6829,7 +6830,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.no-templates-defined-full-results-container').hide();
         if (((res.results || {}).data || []).length || (res.resultType == "grouped" && Object.keys(res.results).length)) {
           var searchContainerName = $('body').hasClass('top-down') ? '.full-search-data-container' : '.search-data-container';
-
+          if(res?.graph_answer==={}){
+            $('#ceo-name').empty();
+          }
+          else{
+            $('#ceo-name').empty().html(res?.graph_answer?.payload?.center_panel?.answer);
+          }
           if (!$('body').hasClass('top-down')) {
             _self.countTotalResults(res, totalResultsCount);
             var dataObj = {
@@ -18659,6 +18665,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         <li id="viewTypeCustomize" class="custom-header-nav-link-item"><a class="custom-header-nav-link">Customize</a></li>\
                       </ul>\
                     </div>\
+                    <div id="ceo-name" class="lead-name"></div>\
                         <div id="top-down-tab-sec"></div>\
                         <div id="sa-sdk-sortable-dropdown"></div>\
                         <div id="filters-center-sec" > </div>\
