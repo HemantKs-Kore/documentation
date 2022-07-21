@@ -6402,7 +6402,7 @@ body.demo .finalResults .task-wrp.structure-data-wrp:nth-child(n+3) {
     left: 40px;
     top: 67px;
     height: calc(100% - 84px);
-    z-index: 999;
+    z-index: 9999;
 }
 
 
