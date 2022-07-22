@@ -411,7 +411,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.distroySearch();
     this.clearBodyClasses();
     this.searchInstance = new FindlySDK(findlyConfig);
-    this.searchInstance.showSearch(findlyConfig.botOptions, this.searchExperienceConfig, true);
+    const currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails
+    const isFreePlan = currentSubscriptionPlan?.subscription?.planName==='Free'?true:false;
+    const searchExperienceObj = {...this.searchExperienceConfig,freePlan:isFreePlan}
+    this.searchInstance.showSearch(findlyConfig.botOptions, searchExperienceObj, true);
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
     $('body').addClass('sdk-body');
   }
