@@ -262,7 +262,7 @@
                 <div *ngFor="let bar of progressBar;let i=index" class="not-active-bar" [ngClass]="{'active-bar': i==0}" ></div>
               </div>
               <!-- <button style="width: 50px;height:15px" (click)="openAppLoadingScreen()"></button> -->
-              <div class="title-start">How would you like to create your first app?</div>
+              <div class="title-start">How would you like to create your first App?</div>
               <div class="explore-data-cards">
                 <div  class="explore-card sample-data"  (mouseenter)="progressBarFun(4,1)" (mouseleave)="progressBarFun(0,0)" (click)="welcomeStep('sampleData')">
                   <div class="icon-block">
@@ -447,7 +447,7 @@
                       <div class="create-app-data">
                         <div class="kr-sg-input-text form-group">
                           <div class="label-text">App Name</div>
-                          <input type="text"  [(ngModel)]="newApp.name" placeholder="Type The App Name" class="input-text" [ngClass]="{'error' : validateAppname }">
+                          <input type="text"  [(ngModel)]="newApp.name" placeholder="Enter App Name" class="input-text" [ngClass]="{'error' : validateAppname }">
                           <div class="error-msg" *ngIf="validateAppname">Enter The App Name</div>
                         </div>
                         <div class="kr-sg-input-text-area form-group">
