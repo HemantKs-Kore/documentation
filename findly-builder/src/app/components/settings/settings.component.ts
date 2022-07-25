@@ -89,8 +89,6 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    // this.getCredential();
-    // this.getdialog();
     this.getLinkedBot();
     this.prepareChannelData();
     this.credentialsSelection();
@@ -564,6 +562,7 @@ export class SettingsComponent implements OnInit {
         this.prepareChannelData();
         this.updateEmbededSdk();
         //this.standardPublish();
+        this.configured = true;
         this.configFlag = true;
         this.delChannel = false;
         // console.log(res);

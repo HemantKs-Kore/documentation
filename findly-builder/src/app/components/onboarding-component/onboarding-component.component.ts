@@ -736,36 +736,69 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
 // }]
 // },
 {
-   display:"Pricing",
-   key:"pricing",
-   icon:"",
-   childData:[{
-       ques:"How does SearchAssist’s Pricing Work ?",
-       ans:"SearchAssist offers a free and paid subscription plan. You can choose from any of the subscription plans based on your needs. Every subscription comes with a predefined number of documents and number of end-user queries/searches.",
-       link:""
+  display:"Pricing",
+  key:"pricing",
+  icon:"",
+  childData:[{
+      ques:"How does SearchAssist’s Pricing Work ?",
+      ans:"SearchAssist offers a free and paid subscription plan. You can choose from any of the subscription plans based on your needs. Every subscription comes with a predefined number of documents and number of end-user queries/searches.",
+      link:""
 
-   }]
+  },
+  {
+   ques:"What happens if I exceed the document limit or query limit on the free forever plan?",
+   ans:"We understand that every business is different and their needs will be different. All our subscription plans allow overages and you can pick an overage bundle that suits your needs. You can choose to increase the number of documents or queries or both, while continuing with your subscription.",
+   link:""
+  },
+  {
+   ques:"How are usage of queries calculated?",
+   ans:"A query in SearchAssist accounts for any search request made to our engine which includes searching for a query, applying for filters and selecting facets. Query Suggestions and Live Results do not count towards the usage of Queries",
+   link:""
+  }
+ ]
 },
 {
-   display:"Invoices",
-   key:"invoices",
-   icon:"",
-   childData:[{
-       ques:"What happens if I exceed the document limit or query limit on the free forever plan?",
-       ans:"We understand that every business is different and their needs will be different. All our subscription plans allow overages and you can pick an overage bundle that suits your needs. You can choose to increase the number of documents or queries or both, while continuing with your subscription.",
-       link:""
+  display:"Invoices",
+  key:"invoices",
+  icon:"",
+  childData:[{
+   ques:"How does SearchAssist’s Pricing Work ?",
+   ans:"SearchAssist offers a free and paid subscription plan. You can choose from any of the subscription plans based on your needs. Every subscription comes with a predefined number of documents and number of end-user queries/searches.",
+   link:""
 
-   }]
+   },
+   {
+   ques:"What happens if I exceed the document limit or query limit on the free forever plan?",
+   ans:"We understand that every business is different and their needs will be different. All our subscription plans allow overages and you can pick an overage bundle that suits your needs. You can choose to increase the number of documents or queries or both, while continuing with your subscription.",
+   link:""
+   },
+   {
+   ques:"How are usage of queries calculated?",
+   ans:"A query in SearchAssist accounts for any search request made to our engine which includes searching for a query, applying for filters and selecting facets. Query Suggestions and Live Results do not count towards the usage of Queries",
+   link:""
+}]
 },
 {
-   display:"UsageLog",
-   key:"usageLog",
-   icon:"",
-   childData:[{
-       ques:"How are usage of queries calculated?",
-       ans:"A query in SearchAssist accounts for any search request made to our engine which includes searching for a query, applying for filters and selecting facets. Query Suggestions and Live Results do not count towards the usage of Queries",
-       link:""
-   }]
+  display:"UsageLog",
+  key:"usageLog",
+  icon:"",
+  childData:[{
+   ques:"How does SearchAssist’s Pricing Work ?",
+   ans:"SearchAssist offers a free and paid subscription plan. You can choose from any of the subscription plans based on your needs. Every subscription comes with a predefined number of documents and number of end-user queries/searches.",
+   link:""
+
+ },
+ {
+ ques:"What happens if I exceed the document limit or query limit on the free forever plan?",
+ ans:"We understand that every business is different and their needs will be different. All our subscription plans allow overages and you can pick an overage bundle that suits your needs. You can choose to increase the number of documents or queries or both, while continuing with your subscription.",
+ link:""
+ },
+ {
+ ques:"How are usage of queries calculated?",
+ ans:"A query in SearchAssist accounts for any search request made to our engine which includes searching for a query, applying for filters and selecting facets. Query Suggestions and Live Results do not count towards the usage of Queries",
+ link:""
+ }
+ ]
 }
 ];
 
@@ -789,11 +822,18 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
   }
   triggerFaq() {
     this.currentRouteData=this.currentRouteData.replace("/", "");
-    this.faqData.forEach(element => {
-      if(this.currentRouteData==element.key){
-       this.triggerChildFaq(element);
-      }
-    });
+    let index = this.faqData.findIndex(el => el.key == this.currentRouteData)
+    if(index < 0) {
+      // this.triggerChild()
+      this.supportParentfaq=true;
+      this.closeFaqSearch()
+    } else {
+      this.faqData.forEach(element => {
+        if(this.currentRouteData==element.key){
+         this.triggerChildFaq(element);
+        }
+      });
+    }
   }
   triggerChild(data) {
     this.supportParentData = false
@@ -803,8 +843,8 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
   triggerChildFaq(faq) {
     this.supportParentfaq = false
     this.supportChildfaq = faq.childData;
-     this.breadcrumbNameFaq = faq.display;
-  }
+    this.breadcrumbNameFaq = faq.display;
+}
   // openAccordiandata(index) {
   //   $(document).ready(function(){
   //     $(".data"+index).mouseenter(function(){

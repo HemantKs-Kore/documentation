@@ -262,7 +262,7 @@
                 <div *ngFor="let bar of progressBar;let i=index" class="not-active-bar" [ngClass]="{'active-bar': i==0}" ></div>
               </div>
               <!-- <button style="width: 50px;height:15px" (click)="openAppLoadingScreen()"></button> -->
-              <div class="title-start">How would you like to create your first app?</div>
+              <div class="title-start">How would you like to create your first App?</div>
               <div class="explore-data-cards">
                 <div  class="explore-card sample-data"  (mouseenter)="progressBarFun(4,1)" (mouseleave)="progressBarFun(0,0)" (click)="welcomeStep('sampleData')">
                   <div class="icon-block">
@@ -447,7 +447,7 @@
                       <div class="create-app-data">
                         <div class="kr-sg-input-text form-group">
                           <div class="label-text">App Name</div>
-                          <input type="text"  [(ngModel)]="newApp.name" placeholder="Type The App Name" class="input-text" [ngClass]="{'error' : validateAppname }">
+                          <input type="text"  [(ngModel)]="newApp.name" placeholder="Enter App Name" class="input-text" [ngClass]="{'error' : validateAppname }">
                           <div class="error-msg" *ngIf="validateAppname">Enter The App Name</div>
                         </div>
                         <div class="kr-sg-input-text-area form-group">
@@ -495,7 +495,7 @@
           <div class="heading-text">Start by creating an Application</div>
           <div class="kr-sg-input-text">
             <div class="label-text">Name Your Application</div>
-            <input maxlength="60" type="text" autocomplete="off" placeholder="Enter Your Application" [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
+            <input maxlength="60" type="text" autocomplete="off" placeholder="Name your application" [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
             <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
           </div>
           <div class="kr-sg-input-text">
@@ -512,7 +512,7 @@
             </div>
           </div>
           <div class="mt-5 text-right">
-            <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal" (click)='validateSource()'>Get started</button>
+            <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal" (click)='validateSource()'>Get Started</button>
           </div>
         </div>
       </perfect-scrollbar>

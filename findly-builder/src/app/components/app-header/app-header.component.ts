@@ -436,6 +436,12 @@ export class AppHeaderComponent implements OnInit {
           if (!this.WorkspaceList[index].displayName) {
             this.WorkspaceList[index]['displayName'] = ''
           }
+          if (!this.WorkspaceList[index].accountName) {
+            this.WorkspaceList[index]['accountName'] = ''
+          }
+          if (!this.WorkspaceList[index].userFullName) {
+            this.WorkspaceList[index]['userFullName'] = ''
+          }
           const splitBy = '/';
           if (this.WorkspaceList[index]['accountName'].includes('/')) {
             this.WorkspaceList[index]['accountName'] = this.WorkspaceList[index]['accountName'].split(splitBy)[1]
