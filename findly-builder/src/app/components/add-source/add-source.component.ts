@@ -205,7 +205,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       ]
     },
     {
-      title: 'Connect & add actions from virtual assistants',
+      title: 'Connect & add actions from Virtual Assistant',
       sources: [
         {
           name: 'Link Virtual Assistant',
