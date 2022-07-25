@@ -107,7 +107,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Crawl Web Domain', routeId: '/source', quaryParms: { sourceType: 'contentWeb' } },
     { displayName: 'Extract Document', routeId: '/source', quaryParms: { sourceType: 'contentDoc' } },
     { displayName: 'Add FAQs Manually', routeId: '/source', quaryParms: { sourceType: 'manual' } },
-    { displayName: 'Extract FAQs from Document', routeId: '/source', quaryParms: { sourceType: 'faqDoc' } },
+    { displayName: 'Extract FAQs from Document', routeId: '/faqs', quaryParms: { sourceType: 'faqDoc' } },
     { displayName: 'Extract FAQs from Webdomain', routeId: '/source', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'FAQs', routeId: '/faqs', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'Content', routeId: '/content', quaryParms: { sourceType: 'faqWeb' } },
