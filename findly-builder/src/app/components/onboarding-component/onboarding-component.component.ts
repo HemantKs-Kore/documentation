@@ -87,7 +87,7 @@ export class OnboardingComponentComponent implements OnInit {
     }]
 },
 {
-    title:"What's new",
+    title:"What's New",
     desc:"Check out what's new in the latest release of SearchAssist",
     icon:'assets/icons/onboarding/whatsnew.svg',
     class:'whats-new',
