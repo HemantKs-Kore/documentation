@@ -1551,6 +1551,23 @@ float: right;
   cursor: pointer;
 }
 
+.sdk-top-down-interface .search-input-box .search-box-container-data .kore-sponsored {
+  position: absolute;
+  display: block;
+  right: 72px;
+  top: -30px;
+  z-index: 1;
+  padding: 3px 5px;
+}
+.top-down-search-background-div .search-input-box .search-box-container-data .kore-sponsored {
+  position: absolute;
+  display: block;
+  right: 72px;
+  top: -30px;
+  z-index: 1;
+  padding: 3px 5px;
+}
+
 .d-none{
   display: none;
 }
