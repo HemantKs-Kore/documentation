@@ -196,7 +196,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         },
         {
           name: 'Add Structured Data',
-          description: 'Add structured data manually',
+          description: 'Add Structured Data manually',
           icon: 'assets/icons/content/database-add.svg',
           id: 'contentStucturedDataAdd',
           sourceType: 'data',
@@ -350,7 +350,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     setTimeout(() => {
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop();
-    }, 500)
+    }, 500);
+    if(this.router?.url==='/content'){
+      this.mixpanel.postEvent('Enter Crawl web domain',{'Crawl web CTA spurce':'Sources'})
+    }
+    else if(this.router?.url==='/source'){
+      this.mixpanel.postEvent('Enter Crawl web domain',{'Crawl web CTA spurce':'Setup guide'})
+    }
   }
   closeAddSourceModal() {
     if (this.addSourceModalPopRef && this.addSourceModalPopRef.close) {
