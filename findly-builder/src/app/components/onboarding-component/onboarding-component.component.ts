@@ -48,42 +48,42 @@ export class OnboardingComponentComponent implements OnInit {
         desc:'Add or Manage content to your Application from various sources available in SearchAssist.',
         icon:'assets/icons/onboarding/database.svg',
         color:'Blue',
-        link:''
+        link:'https://docs.kore.ai/searchassist/concepts/managing-content/introduction-to-content-sources/'
     },
     {
         title:'Manage Index Configuration',
         desc:'Configure Index and Organize data to enable quicker search responses to your end users quieries',
         icon:'assets/icons/onboarding/book.svg',
         color:'purple',
-        link:''
+        link:'https://docs.kore.ai/searchassist/concepts/managing-indices/introduction-to-indices/'
     },
     {
         title:'Configure Search Relevance',
         desc:'Fine tune your search results and add custom ranking to it inorder to better suit your business goals',
         icon:'assets/icons/onboarding/configure.svg',
         color:'Orange',
-        link:''
+        link:'https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/'
     },
     {
         title:'Design Search Experience',
         desc:'Design the look and feel of how your search results are to be displayed to your end user',
         icon:'assets/icons/onboarding/design-search.svg',
         color:'Skyblue',
-        link:''
+        link:'https://docs.kore.ai/searchassist/concepts/designing-search-experience/designing-search-experience/'
     },
     {
         title:'Running Experiments',
         desc:'Run experiments on multiple variants of index and search configurations to test which variant performs better',
         icon:'assets/icons/onboarding/acid.svg',
         color:'Green',
-        link:''
+        link:'https://docs.kore.ai/searchassist/concepts/experimenting-with-search-variants/introduction-to-experiments/'
     },
     {
         title:'Analyze Search Insights',
         desc:'Analyze actionable search insights on the performance of your Search Application',
         icon:'assets/icons/onboarding/search-insights.svg',
         color:'Skyskybule',
-        link:''
+        link:'https://docs.kore.ai/searchassist/concepts/analyzing-performance/analyzing-search-performance/'
     }]
 },
 {
@@ -93,11 +93,11 @@ export class OnboardingComponentComponent implements OnInit {
     class:'whats-new',
     arrow:'up',
     childData:[{
-        title:'Title',
-        desc:'Description',
+        title:'We have added below features',
+        desc:'Support to Confluence and ServiceNow Connecters',
         icon:'assets/icons/onboarding/database.svg',
         color:'Blue',
-        link:''
+        link:'https://docs.kore.ai/searchassist/searchassist/overview/'
     }]
 },
 {
@@ -107,11 +107,11 @@ export class OnboardingComponentComponent implements OnInit {
     class:'help-doc',
     arrow:'up',
     childData:[{
-        title:'Title',
-        desc:'Description',
+        title:'Help and Support',
+        desc:'You can also visit below documentation link for initial refference',
         icon:'assets/icons/onboarding/database.svg',
         color:'Blue',
-        link:''
+        link:'https://docs.kore.ai/searchassist/searchassist/overview/'
     }]
 },
 {
@@ -121,8 +121,8 @@ export class OnboardingComponentComponent implements OnInit {
     class:'contactus',
     arrow:'up',
     childData:[{
-        title:'Title',
-        desc:'Description',
+        title:'Contact Us',
+        desc:'Please contact support@kore.ai for any queries',
         icon:'assets/icons/onboarding/database.svg',
         color:'Blue',
         link:''
