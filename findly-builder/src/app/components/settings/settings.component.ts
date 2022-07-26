@@ -63,7 +63,7 @@ export class SettingsComponent implements OnInit {
       hide: false,
       class: 'websdk',
       catagory: 'others',
-      icon: "assets/icons/web-mobile-client.png"
+      icon: "assets/icons/web-mobile-client.svg"
     },
     // {
     //   id: 'ivrLocal',
