@@ -1554,7 +1554,7 @@ float: right;
 .sdk-top-down-interface .search-input-box .search-box-container-data .kore-sponsored {
   position: absolute;
   display: block;
-  right: 158px;
+  right: 72px;
   top: -30px;
   z-index: 1;
   padding: 3px 5px;
@@ -1562,7 +1562,7 @@ float: right;
 .top-down-search-background-div .search-input-box .search-box-container-data .kore-sponsored {
   position: absolute;
   display: block;
-  right: 158px;
+  right: 72px;
   top: -30px;
   z-index: 1;
   padding: 3px 5px;
