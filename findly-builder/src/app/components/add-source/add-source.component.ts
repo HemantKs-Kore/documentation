@@ -167,7 +167,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         },
         {
           name: 'Import FAQs',
-          description: 'Import FAQs from CSV, Json',
+          description: 'Import FAQs from CSV, JSON',
           icon: 'assets/icons/content/importfaq.svg',
           id: 'faqDoc',
           sourceType: 'faq',
@@ -184,7 +184,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       ]
     },
     {
-      title: 'Add Structured data by uploading a file or adding manually',
+      title: 'Add Structured Data by uploading a file or adding manually',
       sources: [
         {
           name: 'Add Structured Data',
@@ -219,11 +219,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       ]
     },
     {
-      title: 'Connecting sources and add searchable distinct entities',
+      title: 'Connecting sources and Add searchable distinct entities',
       sources: [
         {
           name: 'Link Searchable Sources',
-          description: 'shared content across organisation',
+          description: 'Shared content across organisation',
           icon: 'assets/icons/content/View.svg',
           id: 'connectorsId',
           sourceType: 'connectors',
