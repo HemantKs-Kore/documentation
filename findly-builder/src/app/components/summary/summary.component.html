@@ -257,7 +257,7 @@
                 <div class="title-query"><img src="assets/icons/overview/question.svg">{{'plan.queries' | translate}}
                 </div>
                 <div class="range-data">
-                  <div class="count-type">{{usageDetails?.searchCount | valueFormat}} / <span>{{usageDetails?.searchLimit| valueFormat}}</span></div>
+                  <div class="count-type" *ngIf="usageDetails?.searchCount">{{usageDetails?.searchCount | valueFormat}} / <span>{{usageDetails?.searchLimit| valueFormat}}</span></div>
                   <div style="margin-top: 6px;">
                     <ngb-progressbar height="6px" [type]="usageDetails?.searchQueries<80?'primary':'danger'" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
                   </div>
@@ -267,7 +267,7 @@
                 <div class="title-query"><img src="assets/icons/overview/document.svg">{{'plan.documents' | translate}}
                 </div>
                 <div class="range-data">
-                  <div class="count-type">{{usageDetails?.ingestCount| valueFormat}} / <span>{{usageDetails?.ingestLimit| valueFormat}}</span></div>
+                  <div class="count-type" *ngIf="usageDetails?.ingestCount">{{usageDetails?.ingestCount| valueFormat}} / <span>{{usageDetails?.ingestLimit| valueFormat}}</span></div>
                   <div style="margin-top: 6px;">
                     <ngb-progressbar height="6px" [type]="usageDetails?.ingestDocs<80?'success':'danger'" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
                   </div>
