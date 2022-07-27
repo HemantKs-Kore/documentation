@@ -11659,3 +11659,10 @@ a.tile-heading {
     overflow: auto;
     z-index: 1;
 }
+
+.searchAssist-kore-chat-window.search-container .sdkFooterIcon .kore-sponsored-bottom{
+    right: 30px;
+    position: absolute;
+    top: 2px;
+    display: block;
+}

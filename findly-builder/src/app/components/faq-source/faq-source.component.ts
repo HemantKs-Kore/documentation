@@ -350,13 +350,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   addFaqSource(type) {
     this.showSourceAddition = type;
     if(type==='faqWeb'){
-    this.mixpanel.postEvent('Enter FAQ Web extract', {});      
+    this.mixpanel.postEvent('Enter FAQ Web extract', {});
     }
     else if(type==='faqDoc'){
-      this.mixpanel.postEvent('Enter upload FAQ file', {}); 
+      this.mixpanel.postEvent('Enter upload FAQ file', {});
     }
     else if(type==='manual'){
-       this.mixpanel.postEvent('Enter FAQ Manual', {}); 
+       this.mixpanel.postEvent('Enter FAQ Manual', {});
     }
     // this.addAltFaq={
     //   _source :{
@@ -484,7 +484,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           //   additions = this.faqSelectionObj.selectAll
           // } else {
 
-          // }   
+          // }
           // console.log($(element)[0].checked )
           this.addRemoveFaqFromSelection(faqId, additions);
         }
@@ -635,10 +635,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       conditionalAnswers: event.conditionalAnswers || [],
       keywords: event.tags
     };
-    this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {      
+    this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {
       this.showAddFaqSection = false;
       this.selectTab('draft');
-      event.cb('success');      
+      event.cb('success');
     }, errRes => {
       event.cb('error');
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -726,7 +726,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.statsApiLoading = false;
       // console.log("manula issu", res)
       this.faqSelectionObj.stats = res.countByState;
-      // this.faqSelectionObj.stats = res.countBySource; 
+      // this.faqSelectionObj.stats = res.countBySource;
       this.faqSelectionObj.loadingStats = false;
       if (resourceId === undefined || resourceId === null) {
         if (res.countBySource && res.countBySource.manual) {
@@ -1248,8 +1248,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
       console.log(res, 'Filters')
-      this.statusArr = [...res.recentStatus];
-      this.docTypeArr = [...res.contentSource];
+      // this.statusArr = [...res.recentStatus];
+      // this.docTypeArr = [...res.contentSource];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get filters');
     });
