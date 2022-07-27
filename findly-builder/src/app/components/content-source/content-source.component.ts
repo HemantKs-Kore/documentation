@@ -87,16 +87,26 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     document: 'Doc'
   }
   statusObj: any = {
-    failed: { name: 'Failed', color: '#DD3646' },
-    successfull: { name: 'Successfull', color: '#28A745' },
-    success: { name: 'Success', color: '#28A745' },
-    queued: { name: 'In-Queue', color: '#0D6EFD' },
-    running: { name: 'In Progress', color: '#0D6EFD' },
-    inprogress: { name: 'In Progress', color: '#0D6EFD' },
+    failed: { name: 'Failed', color: 'red' },
+    FAILED: { name: 'Failed', color: 'red' },
+    successfull: { name: 'Successfull', color: 'green' },
+    SUCCESSFULL: { name: 'Successfull', color: 'green' },
+    success: { name: 'Success', color: 'green' },
+    SUCCESS: { name: 'Success', color: 'green' },
+    queued: { name: 'In-Queue', color: 'blue' },
+    QUEUED: { name: 'In-Queue', color: 'blue' },
     validation: { name: 'In-Queue', color: '#0D6EFD' },
+    VALIDATION: { name: 'In-Queue', color: '#0D6EFD' },
     scheduled: { name: 'Validated', color: '#0D6EFD' },
+    SCHEDULED: { name: 'Validated', color: '#0D6EFD' },
     halted: { name: 'Stopped', color: '#DD3646' },
-    configured: { name: 'Validated', color: '#202124' }
+    HALTED: { name: 'Stopped', color: '#DD3646' },
+    running: { name: 'In Progress', color: 'blue' },
+    RUNNING: { name: 'In Progress', color: 'blue' },
+    configured: { name: 'Annotation paused', color: '#FF784B' },
+    CONFIGURED: { name: 'Annotation paused', color: '#FF784B' },
+    inProgress: { name: 'In Progress', color: 'blue' },
+    INPROGRESS: { name: 'In Progress', color: 'blue' },
   };
   executionObj: any = {
     'Execution Successful': {
