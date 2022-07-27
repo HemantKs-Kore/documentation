@@ -412,7 +412,6 @@
                     box-sizing: border-box;
                     padding: 15px 20px;
                     min-height: 94px;
-                    cursor: pointer;
                     position: relative;
                     transition: 0.4s all ease;
                     .dummy-border-left{
@@ -596,6 +595,7 @@
                         right: 20px;
                         top: 24px;
                         display: flex;
+                        cursor: pointer;
                         align-items: center;
                         justify-content: center;
                         i{
@@ -615,7 +615,6 @@
                         box-sizing: border-box;
                         padding: 12px 20px 12px 30px;
                         min-height: 56px;
-                        cursor: pointer;
                         transition: 0.1s all ease;
                         position: relative;
                         background: #FFFFFF;
@@ -684,7 +683,7 @@
                             background: #E7F1FF;
                             color: #0D6EFD;
                             i{
-
+                                
                             }
                         }
                         .content-block{
@@ -700,7 +699,6 @@
                             top: auto;
                             color: #0D6EFD;
                             font-size: 12px;
-                            cursor: pointer;
                             line-height: normal;
                         }
                         .arrow-icon{
@@ -738,7 +736,6 @@
                     }
                     a{
                         color: #0D6EFD;
-                        cursor: pointer;
                     }
                 }
             }
@@ -775,7 +772,6 @@
                             flex-direction: column;
                             justify-content: center;
                             padding: 15px 0;
-                            cursor: pointer;
                             position: relative;
                             &:hover{
                                 .title-heading{
@@ -837,12 +833,12 @@
                                     line-height: 12px;
                                     color: #0D6EFD;
                                     display: inline-flex;
-                                    cursor: pointer;
                                     align-items: center;
                                     margin-right: 10px;
                                     text-decoration: none !important;
                                     i{
                                         margin-left: 8px;
+                                        cursor: pointer;
                                     }
                                 }
                             }
