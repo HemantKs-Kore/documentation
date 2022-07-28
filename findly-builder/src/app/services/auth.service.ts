@@ -7,6 +7,7 @@ import { Observer, from, Subject } from 'rxjs';
 import { Observable } from 'rxjs';
 import { ReplaySubject } from 'rxjs';
 import { MixpanelServiceService } from './mixpanel-service.service';
+import { environment } from '@kore.environment';
 declare let window: any;
 
 
@@ -20,7 +21,7 @@ export class AuthService {
   private appControlList = null;
   private selectedAccount = null;
   public findlyApps = new Subject<any>();
-
+  private storageType = 'localStorage';
 
   constructor(
     private localstore: LocalStoreService,
@@ -30,6 +31,9 @@ export class AuthService {
     public mixpanel : MixpanelServiceService
   ) {
     this.authInfo = localstore.getAuthInfo();
+    if (environment && environment.USE_SESSION_STORE) {
+      this.storageType = 'sessionStorage';
+    }
   }
   public logout() {
     this.service.invoke('sales.signout', {}, {}).subscribe(

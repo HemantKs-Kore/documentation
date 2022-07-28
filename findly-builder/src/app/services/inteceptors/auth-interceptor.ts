@@ -36,7 +36,7 @@ export class AuthInterceptor implements HttpInterceptor {
     //let selectedSSOAccount = this.localStoreService.getSelectedSSOAccount();
     if (!selectedAccount) {
       selectedAccount = this.localStoreService.getSelectedSSOAccount();
-      console.log('SSO Login', this.localStoreService.getSelectedSSOAccount())
+      // console.log('SSO Login', this.localStoreService.getSelectedSSOAccount())
     }
 
     if (!selectedAccount) {

@@ -3,35 +3,29 @@
         <div id="open-chat-window-no-clicks" class="open-chat-window-no-clicks"></div>
         <div class="container-fluid p-0">
             <div class="logoTabsContainer align-items-center">
-                <img src="assets/images/logos/searchassisst_logo.svg" class="logoKoreIcon landing-screen"
+                <img src="assets/images/logos/searchassist-new-logo.svg" class="logoKoreIcon landing-screen">
+                <img src="assets/images/logos/searchAssistIcon-small-logo.svg" class="logoKoreIcon no-landing-screen"
                     [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange
                     (click)="analyticsClick('apps',true);closeUserMetaTagsSlider()">
-                <img src="assets/images/logos/searchassisst_logo-small.svg" class="logoKoreIcon no-landing-screen"
-                    [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange
-                    (click)="analyticsClick('apps',true);closeUserMetaTagsSlider()">
-                <!-- <div class="myappname" *ngIf="appName">
-                    <div container="body" ngbTooltip="{{appName}}" class="name">{{appName}}</div>
-                </div> -->
                 <div class="headerTabsContainer">
-                    <div class="headerMenuTab" [ngClass]="{'active' : mainMenu == '/summary'}" skipLocationChange
-                        routerLinkActive="active" (click)="analyticsClick('/summary');closeUserMetaTagsSlider()">
+                    <div class="headerMenuTab " [ngClass]="{'active' : mainMenu == '/summary','disable_btn':isRouteDisabled}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/summary');closeUserMetaTagsSlider()">
                         <span>{{ 'header.overview' | translate }}</span>
                         <span routerLink="/summary" class="d-none"></span>
                     </div>
-                    <div class="headerMenuTab" [ngClass]="{'active' : mainMenu == '/content'}" skipLocationChange
-                        routerLinkActive="active" (click)="analyticsClick('/content');closeUserMetaTagsSlider()">
+                    <div class="headerMenuTab" [ngClass]="{'active' : menuItems?.sources?.includes(mainMenu)}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/content');closeUserMetaTagsSlider()">
                         <span>{{ 'header.sources' | translate }}</span>
                         <span routerLink="/source" class="d-none"></span>
                         <span routerLink="/content" class="d-none"></span>
                         <span routerLink="/faqs" class="d-none"></span>
                         <span routerLink="/botActions" class="d-none"></span>
                         <span routerLink="/structuredData" class="d-none"></span>
+                        <span routerLink="/connectors" class="d-none"></span>
                     </div>
-                    <div class="headerMenuTab" id="sourceTab" [ngClass]="{'active' : mainMenu == '/index'}"
+                    <div class="headerMenuTab" id="sourceTab" [ngClass]="{'active' : menuItems?.indices?.includes(mainMenu),'disable_btn':isRouteDisabled}"
                         skipLocationChange routerLinkActive="active"
                         (click)="analyticsClick('/FieldManagementComponent');closeUserMetaTagsSlider()">
                         <span>{{ 'header.indices' | translate }}</span>
-                        <span routerLink="/searchInterface" class="d-none"></span>
+                        <span routerLink="/resultTemplate" class="d-none"></span>
                         <span routerLink="/search-experience" class="d-none"></span>
                         <span routerLink="/indices" class="d-none"></span>
                         <span routerLink="/synonyms" class="d-none"></span>
@@ -47,14 +41,9 @@
                         <span routerLink="/facets" class="d-none"></span>
                         <span routerLink="/FieldManagementComponent" class="d-none"></span>
                     </div>
-                    <!-- <div class="headerMenuTab" id='experimentsTab' [ngClass]="{'active' : mainMenu == '/experiments'}" (click)="analyticsClick('/experiments')">Experiments</div> -->
-                    <div class="kr-sg-dropdowns headerMenuTab"
-                        [ngClass]="{'active' : (mainMenu == '/dashboard'
-                     || mainMenu == '/userEngagement' || mainMenu == '/searchInsights' || mainMenu == '/resultInsights' || mainMenu == '/experiments')}">
+                    <div class="kr-sg-dropdowns headerMenuTab" [ngClass]="{'active' : menuItems?.anlytics?.includes(mainMenu),'disable_btn':isRouteDisabled}">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown"
-                                (click)="closeUserMetaTagsSlider()"> {{
-                                'header.analytics' | translate }}</button>
+                            <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown" (click)="closeUserMetaTagsSlider()" [ngClass]="{'disable_btn':isRouteDisabled}"> {{'header.analytics' | translate }}</button>
                             <ul class="dropdown-menu content-menu content-width">
                                 <li class="experment-link" (click)="analyticsClick('/experiments')" id="experimentsTab"
                                     [ngClass]="{'active' : mainMenu == '/experiments'}"><a>Experiments</a></li>
@@ -73,9 +62,7 @@
                             </ul>
                         </div>
                     </div>
-                    <!-- <div class="headerMenuTab" [routerLink]="['/dashboard']" skipLocationChange routerLinkActive="active" (click)="analyticsClick('metrics')">Analytics</div> -->
-                    <!-- <div class="headerMenuTab" id='experimentsTab' [ngClass]="{'active' : mainMenu == '/experiments'}" (click)="analyticsClick('/experiments')">Experiments</div> -->
-                    <div class="headerMenuTab" id='channelsTab' [ngClass]="{'active' : mainMenu == '/generalSettings'}"
+                    <div class="headerMenuTab" id='channelsTab' [ngClass]="{'active' :menuItems?.manage?.includes(mainMenu)}"
                         skipLocationChange routerLinkActive="active"
                         (click)="analyticsClick('/generalSettings');closeUserMetaTagsSlider()">
                         <span>{{ 'header.manage' | translate }}</span>
@@ -107,8 +94,7 @@
                             (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'"
                             [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
                         <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchText">
-                        <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}"
-                            (click)="focusoutSearch()">
+                        <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}" (click)="focusoutSearch()">
                     </div>
                 </li>
                 <!-- <div class="text-right nav-item trainBlock d-none">
@@ -117,15 +103,14 @@
                 <li class="nav-item app-dropdown">
                     <div class="kr-sg-dropdowns" ngbDropdown #myDrop="ngbDropdown" [placement]="'bottom-center'">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle
-                                (click)="getAllApps()">{{appName}}</button>
+                            <button class="dropdown-toggle dropdown-input text-truncate" title="{{appName}}" id="dropdownBasic1" ngbDropdownToggle (click)="getAllApps()" [ngClass]="{'disable_btn':isRouteDisabled}">{{appName}}</button>
                             <ul class="dropdown-menu content-menu" ngbDropdownMenu>
                                 <div class="search-assist-apps">
                                     <div class="main-title">{{ 'header.searchAssistApps' | translate }}</div>
                                     <div class="apps-block">
                                         <div class="title-secondary">{{ 'header.recentApps' | translate }}</div>
                                         <div class="app-name-block" *ngFor='let app of recentApps'
-                                            (click)="app.disabled?null:[openApp(app),myDrop.close()]"
+                                            (click)="app.disabled?null:[myDrop.close(), openApp(app)]"
                                             [ngStyle]="app.disabled&&{'opacity':'0.4','cursor':'default'}"
                                             placement="top-center" [ngbTooltip]="app.disableReason" [container]='"body"'
                                             tooltipClass="metrics_tooltips m-0">
@@ -145,20 +130,20 @@
                     </div>
                 </li>
                 <li class="nav-item test-button">
-                    <button placement="bottom" triggers="hover" #testButtonTooltip="ngbTooltip"
-                        ngbTooltip="{{ 'header.previewAndCustomize' | translate }}" container='body'
-                        tooltipClass="test-icon-tooltip" class="kr-sg-button-secondary btn_lg rr-tour-test-btn"
-                        id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()">{{ 'header.test' | translate
-                        }}</button>
+                  <button placement="bottom" triggers="hover" #testButtonTooltip="ngbTooltip"
+                      ngbTooltip="{{ 'header.previewAndCustomize' | translate }}" container='body'
+                      tooltipClass="test-icon-tooltip" class="kr-sg-button-secondary btn_lg rr-tour-test-btn"
+                      id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()" [disabled]="isRouteDisabled">{{ 'header.test' | translate
+                      }}</button>
                 </li>
-                <li (click)="train()" class="nav-item train-btn" ngbTooltip="{{ 'header.trainYourApp' | translate }}"
+                <li (click)="isRouteDisabled?null:train()" class="nav-item train-btn" ngbTooltip="{{ 'header.trainYourApp' | translate }}"
                     container='body' tooltipClass="train-icon-tooltip" [ngClass]='{"active-train":training}'>
                     <div class="loader-train"></div>
                     <img src="assets/icons/train.svg" class="defaultIcon">
                 </li>
                 <li class="nav-item search-block show-search1">
                     <div class="search_icon" [ngClass]="{'active-search-top' : showSearch}">
-                        <img src="assets/icons/sidemenu/search.svg" (click)="focusinSearch()"
+                        <img src="assets/icons/sidemenu/search.svg" (click)="isRouteDisabled?null:focusinSearch()"
                             (mouseover)="activeSearch=true" (mouseout)="activeSearch=false">
                     </div>
                     <div class="global-searc-container" *ngIf='showSearch'>
@@ -318,127 +303,105 @@
                         </div>
                     </div>
                 </li>
+
                 <li class="nav-item help-icon" [container]="'body'" ngbTooltip="Help" tooltipClass="train-icon-tooltip"
-                    (click)="openUserMetaTagsSlider()">
+                    (click)="openUserMetaTagsSlider()" [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**'}">
                     <img src="assets/icons/sidemenu/help.svg">
                 </li>
-                <!-- <li class="nav-item search-block show-search2">
-                    <div class="search_icon" [ngClass]="{'active-search-top' : showSearch}">
-                        <img src="assets/icons/sidemenu/search.svg" (click)="showSearch=!showSearch;searchText=''">
+
+                <li class="nav-item workspace-data">
+                    <div class="kr-sg-dropdowns workspace-dropdwon" ngbDropdown>
+                        <button type="button" tooltipClass="tooltip-global-" container="'body'" ngbTooltip="{{selectAccountDetails.accountName | lowercase}}" placement='left' class="dropdown-input workspace-btn" id="workspace" ngbDropdownToggle (click)="dropdownToggle()" >
+                            <div class="workspace-active">
+                                <div class="alphabet-name"  [ngStyle]="{'background-color':selectAccountDetails.color}" id="profiledisplay">{{selected_profile_display}}</div>
+                                <div class="name-workspace text-truncate" title="{{selectAccountDetails.accountName | lowercase}}">{{selectAccountDetails.accountName | lowercase}}</div>
+                                <i class="arrow-icon si-dropdownsort"></i>
+                            </div>
+                        </button>
+                        <ul class="dropdown-menu-content" aria-labelledby="workspace" ngbDropdownMenu>
+                            <div class="current-workspace">
+                                <div class="title">CURRENT WORKSPACE</div>
+                                <div class="w-item">
+                                    <div class="icon-block" id="selected_profile">{{selected_profile_display}}</div>
+                                    <div class="content-sec text-truncate">
+                                        <div class="name-w text-truncate" [ngbTooltip]="selectAccountDetails?.accountName"
+                                        placement="top-center" [container]="'body'"
+                                        tooltipClass="tooltip-global-">{{selectAccountDetails.accountName}}</div>
+                                        <div class="d-flex justify-content-between">
+                                          <div class="member-count">{{selectAccountDetails.usersCount}} members</div>
+                                          <div class="members text-truncate">{{selectAccountDetails.userFullName}}</div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="markas-default">
+                                        <div class="title-mark">Mark as Default</div>
+                                        <div class="default d-none">Default</div>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div class="switch-workspace-data">
+                                <div class="title">SWITCH WORKSPACE</div>
+                                <div class="kr-sg-input-search">
+                                    <input type="text" placeholder="Search" class="input-search" name="field_search" [(ngModel)]="field_name">
+                                    <i class="si-search search-icon"></i>
+                                    <img src="assets/icons/close.svg"  *ngIf="field_name?.length> 0" class="close-search" (click)="clearRecords('field_name')">
+                                </div>
+                                <ng-container>
+                                    <perfect-scrollbar>
+                                        <div class="item-scroll">
+                                            <ng-container>
+                                                <div class="w-item" *ngFor="let app of associatedAccounts | filter : [field_name, 'accountName', 'userFullName']; let i=index"
+                                                (click)="switchAccountInternal(app)" [ngClass]="{'selected-swith-account' : app.userFullName === selectAccountDetails.userFullName}">
+                                                    <div class="icon-block"  [ngStyle]="{'background-color':app.color}" attr.id="associateprofiledisplay{{i}}">{{app.associate_profile_display}}</div>
+                                                    <div class="content-sec text-truncate">
+                                                        <div class="name-w text-truncate" [ngbTooltip]="app?.accountName"
+                                                        placement="top-center" [container]="'body'"
+                                                        tooltipClass="dashboard-custom-tooltips">{{app.accountName}}</div>
+                                                        <div class="d-flex justify-content-between">
+                                                          <div class="members text-truncate">{{app.userFullName}}</div>
+                                                          <div class="member-count">{{app.usersCount}} members</div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </ng-container>
+                                            <div *ngIf="(associatedAccounts | filter : [field_name, 'accountName', 'userFullName']).length === 0" class="empty-worspace-search">No workspace found</div>
+                                        </div>
+                                    </perfect-scrollbar>
+                                </ng-container>
+                                <button class="kr-sg-button-secondary btn_lg w-100 mt-2" (click)="openBrowseWorkspace(true)">Browse Workspaces</button>
+                            </div>
+                        </ul>
                     </div>
-                    <div class="global-searc-container" *ngIf='showSearch'>
-                        <div class="kr-sg-input-search">     
-                            <input type="text" placeholder="Search" class="input-search" (keyup.enter)="triggerRoute(searchText)" autocomplete="off" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">                                                      
-                            <img src="assets/icons/search_gray.svg" class="search-icon">
-                        </div>
-                    </div>
-                </li> -->
-                <!-- <li class="nav-item help-icon">
-                    <img src="assets/icons/sidemenu/help.svg">
-                </li> -->
-                <!-- <li class="nav-item user_icon">
-                    <button mat-button [matMenuTriggerFor]="menu" class="headerIcons p-0"><img
-                            src="assets/images/avatar.svg"></button>
-                    <mat-menu #menu="matMenu" class="headerDropDown">
-                        <div class="accountsSwitchDiv">
-                            <div class="titleaccounts">{{ 'header.accounts' | translate }}</div>
-                            <button mat-menu-item class="accountName"><img src="assets/images/tick-icon-green.svg"
-                                    class="tick-icon-green">{{ 'header.accountOne' | translate }}</button>
-                            <button mat-menu-item class="accountName"><img src="assets/images/tick-icon-green.svg"
-                                    class="tick-icon-green">{{ 'header.accountsTwo' | translate }}</button>
-                        </div>
-                        <button mat-menu-item (click)="switchAccount()" class="switchAccount"
-                            *ngIf="showSwichAccountOption">{{ 'header.switchAccount' | translate }}</button>
-                        <button mat-menu-item (click)="logoutClick()" class="logOut"><img
-                                src="assets/images/poweroffIcon.svg" class="poweroffIcon">{{ 'header.logout' | translate
-                            }}</button>
-                    </mat-menu>
-                </li> -->
+                </li>
+
                 <li class="nav-item user_icon mr-0">
-                    <div class="kr-sg-dropdowns top-dropdown-user" (click)="clearcontent()" ngbDropdown
-                        #myDrop="ngbDropdown" [placement]="'bottom-right'">
+                    <div class="kr-sg-dropdowns top-dropdown-user" (click)="clearcontent()" ngbDropdown #myDrop2="ngbDropdown" [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
-                                <!-- <img src="assets/images/avatar.svg"> -->
-                                <!-- <div class="alphabet d-none">BD</div> -->
                                 <div class="alphabet" id="profiledisplay1">{{profile_display}}</div>
                             </button>
                             <ul class="dropdown-menu content-menu" ngbDropdownMenu>
-                                <div class="user-detals">
-                                    <div class="img-block">
-                                        <!-- <img src="assets/icons/dummy-user.svg"> -->
-                                        <div class="alphabet-name" id="profiledisplay">{{profile_display}}</div>
+                                <li ngbDropdownItem class="profile-info-user">
+                                    <div class="icon-block">
+                                        <span class="alphbet"  id="profiledisplaydrop">{{profile_display}}</span>
+                                        <img class="d-none" src="https://bots.kore.ai/api/1.1/getMediaStream/profilePictures/u-51486224-6c09-5ba7-a2d1-d682de65a19a/r_64x64_profile.png?v=1.1648.191250174519573.93958993385552377.61343219061547528.7335828735257">
                                     </div>
-                                    <div class="user-content">
-                                        <!-- <div class="u-name">Dheepak</div> -->
-                                        <div class="u-name">{{loginusername}}</div>
-                                        <!-- <div class="u-email">dheepak.ganesh@kore.com</div> -->
+                                    <div class="info-user text-truncate">
+                                        <div class="u-name text-truncate">{{currentAppControlList?.accountName}}</div>
+                                        <div class="u-name text-truncate">{{currentAppControlList?.domain}}</div>
+
+                                        <!-- <div class="u-mail text-truncate">devendar.bala@kore.com</div> -->
                                     </div>
-                                </div>
-                                <div class="switch-account-blocks">
-                                    <div class="main-heading">Account</div>
-                                    <div class="switch-user-details">
-                                        <div class="swithch-u-name">{{selectAccountDetails.accountName}}</div>
-                                        <div class="swithch-u-mail">{{selectAccountDetails.userFullName}}</div>
-                                        <!-- <div class="swithch-u-name">KoreSearch</div>
-                                        <div class="swithch-u-mail">viswatej@kore.com</div> -->
-                                    </div>
-                                    <div class="swithc-account-details">
-                                        <div id="swithaccounts" class="collapse switch-accr-sec">
-                                            <div class="kr-sg-input-text">
-                                                <input type="text" id=searchBoxId [(ngModel)]="field_name"
-                                                    placeholder="Search" class="input-search">
-                                                <img src="assets/icons/search_gray.svg" class="search-icon">
-                                            </div>
-                                            <perfect-scrollbar>
-                                                <div class="data-switches-list">
-                                                    <li class="switch_user_details"
-                                                        *ngFor="let app of associatedAccounts | filter : [field_name,'userFullName']"
-                                                        (click)="switchAccountInternal(app)"
-                                                        [ngClass]="{'selected-swith-account' : app.userFullName === selectAccountDetails.userFullName}">
-                                                        <div class="swithch-u-name">{{app.accountName}}</div>
-                                                        <div class="swithch-u-mail">{{app.userFullName}}</div>
-                                                    </li>
-                                                    <!-- <div class="switch_user_details" | filter : [field_name,'app.userFullName']>
-                                                        <div class="swithch-u-name">SearchAssist</div>
-                                                        <div class="swithch-u-mail">santosh.madyam@kore.com</div>
-                                                    </div>
-                                                    <div class="switch_user_details">
-                                                        <div class="swithch-u-name">Kore</div>
-                                                        <div class="swithch-u-mail">manoj.ac@kore.com</div>
-                                                    </div>
-                                                    <div class="switch_user_details selected-swith-account">
-                                                        <div class="swithch-u-name">KoreSearch</div>
-                                                        <div class="swithch-u-mail">viswatej@kore.com</div>
-                                                    </div>
-                                                    <div class="switch_user_details">
-                                                        <div class="swithch-u-name">Kore.AI</div>
-                                                        <div class="swithch-u-mail">shayla@kore.com</div>
-                                                    </div>
-                                                    <div class="switch_user_details">
-                                                        <div class="swithch-u-name">Kore Accounts</div>
-                                                        <div class="swithch-u-mail">prasanna@kore.com</div>
-                                                    </div>
-                                                    <div class="switch_user_details">
-                                                        <div class="swithch-u-name">Lorem Ipsum</div>
-                                                        <div class="swithch-u-mail">prasanna@kore.com</div>
-                                                    </div> -->
-                                                </div>
-                                            </perfect-scrollbar>
-                                        </div>
-                                        <div class="switch-collapse" data-toggle="collapse"
-                                            data-target="#swithaccounts">
-                                            <div class="title">Switch Account</div>
-                                            <div class="arrow-icon">
-                                                <img src="assets/icons/dropdown-rond-arrow.svg">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="sign-out-data" (click)="logoutClick()">
-                                    <div class="title">{{ 'header.logout' | translate}}</div>
-                                    <img src="assets/icons/signout.svg">
-                                </div>
+                                </li>
+                                <!-- <li class="item-drpdown" ngbDropdownItem>
+                                    <i class="si-edit"></i>
+                                    <span>Edit profile</span>
+                                </li> -->
+                                <li class="item-drpdown logout-u" (click)="logoutClick()" ngbDropdownItem>
+                                    <i class="si-external-horizantal"></i>
+                                    <span>{{'header.logout' | translate}}</span>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -447,45 +410,6 @@
         </div>
     </nav>
 </header>
-
-<!--create new app popup-->
-<!-- <kr-modal modalType="default" #createAppPop>
-    <div class="modal-header">
-          <h4 class="modal-title">Create App</h4>
-        </div>
-        <div class="modal-body textAlignLeft">
-          <div class="kr-sg-input-text mb-3">
-            <div class="label-text">App Name</div>
-            <input maxlength="128" type="text" autocomplete="off" placeholder="Enter App Name" class="input-text" [(ngModel)]="newApp.name" name="appName"  id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
-            <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
-          </div>
-          <div class="kr-sg-input-text-area mb-2">
-            <div class="label-text">Description</div>
-            <textarea maxlength="512" placeholder="Enter App Description " autocomplete="off" class="input-text" [(ngModel)]="newApp.description" name="appDesc"></textarea>
-          </div>
-          <div class="kr-sg-dropdowns w-100 mt-1">
-            <div class="label-text">Language</div>
-            <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>English</button>                                            
-                <ul class="dropdown-menu content-menu">
-                <li class="search-box">
-                    <input maxlength="128" type="text" placeholder="Search" class="seach-input">
-                </li>                                                
-                  <li><a>English</a></li>
-                  <li><a>German</a></li>
-                  <li><a>French</a></li>
-                </ul>
-             </div>
-        </div>
-        </div>
-        <div class="modal-footer" [ngClass]="{'disabled': creatingInProgress}">
-           <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeCreateApp()">Close</button>
-           <button type="button" class="kr-sg-button-primary btn_lg"  data-dismiss="modal" (click)='validateSource()'>{{creatingInProgress?'Creating...':'Create'}}</button>
-       
-          </div>
-  
-  
-  </kr-modal> -->
 
 <kr-modal modalType="default" #createAppPop modalClass="creating-new-app-modal app-homes-component-page">
     <div class="modal-body">
@@ -512,7 +436,7 @@
                         <input class="input-text" maxlength="250" placeholder="Enter App Description" autocomplete="off"
                             [(ngModel)]="newApp.description" name="appDesc">
                     </div>
-                    <div class="kr-sg-dropdowns w-100">
+                    <!-- <div class="kr-sg-dropdowns w-100">
                         <div class="label-text">{{ 'header.language' | translate }}</div>
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>{{
@@ -521,13 +445,13 @@
                                 <li><a>{{ 'header.english' | translate }}</a></li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="mt-5 text-right">
                         <!-- <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal" (click)='validateSource()'>Get started</button> -->
                         <!-- <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closeCreateApp()">{{
                 'header.cancel' | translate }}</button> -->
                         <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal"
-                            (click)='validateSource()'>Get started</button>
+                            (click)='validateSource()'>Get Started</button>
                     </div>
                 </div>
             </perfect-scrollbar>
@@ -536,15 +460,122 @@
 
 </kr-modal>
 
+<!-- Browse all workspace -->
+<kr-modal modalType="full" #browseWorkspace modalClass="browse-workspace-full-popup">
+
+    <div class="bg-1">
+        <img src="assets/icons/onboarding/bg-worksapce.png">
+    </div>
+    <div class="bg-2">
+        <img src="assets/icons/onboarding/bg-workspace-1.png">
+    </div>
+    <div class="modal-header">
+        <div class="logo-data">
+            <img src="assets/images/logos/searchassist-new-logo.svg">
+        </div>
+        <div class="close-modal" (click)="closeBrowseWorkspace()">
+            <i class="si-close"></i>
+            <span>Cancel</span>
+        </div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-modal-body" *ngIf="!loadingProgress">
+        <div class="modal-body">
+            <div class="workspace-data">
+                <div class="main-heading">Workspaces</div>
+                <div class="kr-sg-input-search">
+                    <input type="text" placeholder="Search Workspaces" class="input-search" name="workspace_search" [(ngModel)]="workspace_search">
+                    <i class="search-icon si-search"></i>
+                    <img src="assets/icons/close.svg" *ngIf="workspace_search?.length > 0"  class="close-icon" (click)="clearRecords('workspace_search')">
+                </div>
+                <div *ngIf="notifyAccount" class="notifyAccount"><i class="si-check-round"></i>
+                    <span>{{notifyAccountInfo }}</span>
+                </div>
+                <div class="title-w">Your Workspaces</div>
+                <div class="desc-text-data">All the workspaces that you have access to</div>
+                <div class="your-w-box-content mb-4">
+                    <perfect-scrollbar>
+                        <div class="scroll-data">
+                            <ng-container>
+                                <div class="w-item-list"  *ngFor="let app of associatedAccounts | filter : [workspace_search,'accountName', 'userFullName']; let i=index"
+                                (click)="switchAccountInternal(app)">
+                                    <div class="arrow-icon">
+                                        <i class="si-carrotup"></i>
+                                    </div>
+                                    <div class="icon-tetx" [ngStyle]="{'background-color':app.color}">
+                                        <span class="alphabet" attr.id="associateprofiledisplay{{i}}">{{app.associate_profile_display}}</span>
+                                    </div>
+                                    <div class="content-data">
+                                      <div class="d-flex justify-content-between">
+                                        <div class="w-name" [ngbTooltip]="app?.accountName"
+                                        placement="top-center" [container]="'body'"
+                                        tooltipClass="dashboard-custom-tooltips">{{app.accountName}}</div>
+                                        <div class="member-count" style="white-space: nowrap;">Created by: {{app.userFullName}}</div>
+                                      </div>
+                                        <div class="member-count">{{app.usersCount}} members</div>
+                                    </div>
+                                </div>
+                                <div class="empty-w" *ngIf="(associatedAccounts | filter : [workspace_search, 'accountName', 'userFullName']).length === 0">
+                                  <!-- <div class="e-title">We Couldn’t find any result.</div> -->
+                                  <div class="e-title">There are no other workspces <br/> that we could find for {{loginusername}}</div>
+                              </div>
+                            </ng-container>
+                        </div>
+                    </perfect-scrollbar>
+                </div>
+
+                <div class="title-w">Other Workspaces</div>
+                <div class="desc-text-data">Workspaces from your organisation that you can join </div>
+                <div class="your-w-box-content other-workspace-box mb-4">
+                    <perfect-scrollbar>
+                        <div class="scroll-data">
+                            <div class="empty-w" *ngIf="(WorkspaceList | filter : [workspace_search, 'accountName', 'userFullName']).length === 0 && !emptyContent">
+                                <!-- <div class="e-title">We Couldn’t find any result.</div> -->
+                                <div class="e-title">There are no other workspces <br/> that we could find for {{loginusername}}</div>
+                            </div>
+                            <div class="empty-w" *ngIf="emptyContent">
+                              <div class="e-title">There are no other workspces <br/> that we could find for {{loginusername}}</div>
+                            </div>
+                            <ng-container>
+                                <div class="w-item-list" [ngClass]="{'joined':workspace.alreadyJoined}"
+                                *ngFor="let workspace of WorkspaceList| filter : [workspace_search, 'accountName', 'userFullName']; let i=index">
+                                <div class="icon-tetx"  [ngStyle]="{'background-color':workspace.color}">
+                                    <span class="alphabet">{{workspace.accountShortName}}</span>
+                                </div>
+                                <div class="content-data"
+                                [ngbTooltip]="workspace.displayName?workspace.displayName:workspace.accountName"
+                                placement="top-center" [container]="'body'">
+                                    <div class="w-name">{{workspace.displayName?workspace.displayName:workspace.accountName}}
+                                    </div>
+                                    <div class="member-count" style="white-space: nowrap;">Created by: {{workspace.userFullName}}</div>
+                                    <div class="member-count">{{workspace.usersCount}} Members</div>
+                                </div>
+                                <!-- <img src="assets/icons/join-celebrations.gif" class="joined-animation"> -->
+                                <button class="joined-btn" [ngClass]="{'disabled':workspace.alreadyJoined}" [disabled]="workspace.alreadyJoined"
+                                 (click)="JoinWorkspace(workspace, i)">{{(workspace.alreadyJoined) ? 'Joined' : 'Join'}}</button>
+                            </div>
+                            </ng-container>
+                        </div>
+                    </perfect-scrollbar>
+                </div>
+
+
+            </div>
+        </div>
+    </perfect-scrollbar>
+    <div class="mainLoadingSpinner1" *ngIf="loadingProgress">
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <!-- <span class="please-wait-message">{{'Please Wait!' | translate}}</span> -->
+    </div>
+</kr-modal>
+
+<!-- Browse all workspace close-->
+
 <app-slider-component id="supportOnboarding">
     <app-onboarding-component [currentRouteData]="currentRouteData" (openSDK)="openSDK()" [displyStatusBar]="displyStatusBar" (emitStatus)="emitStatus($event)"  (closeSlid)="closeUserMetaTagsSlider()"></app-onboarding-component>
-  </app-slider-component>
-
-
-
+</app-slider-component>
 
 <div class="onboarding-status-card"
-    [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**' || !displyStatusBar}">
+    [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**' || !displyStatusBar || checklistCount==null }">
     <div class="card-details-status">
         <div class="titles-info-sec">
             <div class="title">{{checklistCount}} of 6 Steps Completed</div>

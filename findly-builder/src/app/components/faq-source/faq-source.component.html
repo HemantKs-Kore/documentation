@@ -85,9 +85,10 @@
                                 <button class="dropdown-toggle dropdown-input pl-0 mr-2"  ngbDropdownToggle><img src="assets/icons/filter.svg">{{'faqSource.filter' | translate}}</button>                                            
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                     <li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">{{'faqSource.all' | translate}} </span><img *ngIf="!(selectedResource && selectedResource._id) && !manualFilterSelected" src="assets/icons/check-blue.svg"></li>
-                                    <li  (click)="selectResourceDrop.close();manualFaqsFilter()" *ngIf="noManulaRecords"><span class="list-name"> {{'faqSource.manual' | translate}}</span><img *ngIf="!(selectedResource && selectedResource._id) && manualFilterSelected" src="assets/icons/check-blue.svg"></li>
+                                    <li  (click)="selectResourceDrop.close();manualFaqsFilter()" *ngIf="noManulaRecords"><span class="list-name"> {{'faqSource.manual' | translate}}</span><img *ngIf="manualFilterSelected" src="assets/icons/check-blue.svg"></li>
                                     <ng-container *ngFor="let source of resources">           
-                                        <li *ngIf="source.recentStatus==='SUCCESS'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><span class="list-name">{{source.name}}</span><img *ngIf="selectedResource && (source._id ===  selectedResource._id)" src="assets/icons/check-blue.svg"></li>
+                   
+                                        <li *ngIf="source.recentStatus.toLowerCase() ==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><span class="list-name">{{source.name}}</span><img *ngIf="selectedResource && (source._id ===  selectedResource._id)" src="assets/icons/check-blue.svg"></li>
                                     </ng-container>
                                 </ul>
                             </div>

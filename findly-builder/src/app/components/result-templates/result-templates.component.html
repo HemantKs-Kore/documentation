@@ -184,7 +184,7 @@
                 <button class="dropdown-toggle dropdown-input"
                   data-toggle="dropdown">{{resultListObj?.defaultTemplateType|titlecase}}</button>
                 <ul class="dropdown-menu content-menu">
-                  <li *ngFor="let template of templateNames" (click)="getTemplateData(template,'default')">
+                  <li *ngFor="let template of templateNames" (click)="getTemplateData(template,'default');">
                     <a>{{template|titlecase}}</a>
                   </li>
                 </ul>
@@ -328,43 +328,50 @@
         <perfect-scrollbar>
           <div class="scroll-data">
             <div class="title">Template Type</div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l1'}"
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l1'}"
               (click)="templateTypeSelection('l1')">
               <img src="assets/icons/resultTemplate/type-1.svg">
             </div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l2'}"
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l2'}"
               (click)="templateTypeSelection('l2')">
               <img src="assets/icons/resultTemplate/type-2.svg">
             </div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l3'}"
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l3'}"
               (click)="templateTypeSelection('l3')">
               <img src="assets/icons/resultTemplate/type-3.svg">
             </div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l4'}"
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l4'}"
               (click)="templateTypeSelection('l4')">
               <img src="assets/icons/resultTemplate/type-4.svg">
             </div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l5'}"
-              (click)="templateTypeSelection('l5')" *ngIf="templateDataBind.type !='list'">
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l5'}"
+              (click)="templateTypeSelection('l5')" *ngIf="templateDataBind?.type !='list'">
               <img src="assets/icons/resultTemplate/type-5.svg">
             </div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l6'}"
-              (click)="templateTypeSelection('l6')">
-              <img *ngIf="templateDataBind.type =='list'" src="assets/icons/resultTemplate/type6List.svg">
-              <img *ngIf="templateDataBind.type == 'grid'" src="assets/icons/resultTemplate/type-6.svg">
-              <img *ngIf="templateDataBind.type == 'carousel'" src="assets/icons/resultTemplate/type-6.svg">
+            <div class="template-type-image"  [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l6'}" (click)="templateTypeSelection('l6')">
+              <img *ngIf="templateDataBind?.type =='list'" src="assets/icons/resultTemplate/type6List.svg">
+              <img *ngIf="templateDataBind?.type == 'grid'" src="assets/icons/resultTemplate/type-6.svg">
+              <img *ngIf="templateDataBind?.type == 'carousel'" src="assets/icons/resultTemplate/type-6.svg">
             </div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l7'}"
-              (click)="templateTypeSelection('l7')" *ngIf="templateDataBind.type !='list'">
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l7'}"
+              (click)="templateTypeSelection('l7')" *ngIf="templateDataBind?.type !='list'">
               <img src="assets/icons/resultTemplate/type-7.svg">
             </div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l8'}"
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l8'}"
               (click)="templateTypeSelection('l8')" *ngIf="templateDataBind.type !='list'">
               <img src="assets/icons/resultTemplate/type-8.svg">
             </div>
-            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l9'}"
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l9'}"
               (click)="templateTypeSelection('l9')" *ngIf="templateDataBind.type !='list'">
-              <img src="assets/icons/resultTemplate/type-9.svg">
+              <img src="assets/icons/resultTemplate/type-9.png">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l10'}" 
+              (click)="templateTypeSelection('l10')" *ngIf="templateDataBind?.type ==='list'">
+              <img src="assets/icons/resultTemplate/scmlist.svg">
+            </div>
+            <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l11'}"
+            (click)="templateTypeSelection('l11')" *ngIf="templateDataBind?.type ==='list'">
+              <img src="assets/icons/resultTemplate/banking-list.svg">
             </div>
           </div>
         </perfect-scrollbar>
@@ -372,7 +379,7 @@
       <div class="template-preview-customize">
         <perfect-scrollbar class="customize-scroll-left">
           <div class="scroll-data-list">
-            <div class="kr-sg-dropdowns col-6 p-0 mb-3" *ngIf="templateDataBind.type == 'list'">
+            <div class="kr-sg-dropdowns col-6 p-0 mb-3" *ngIf="templateDataBind.type == 'list'&&!['l10','l11'].includes(templateDataBind.layout.layoutType)">
               <div class="label-text">List Type</div>
               <div class="dropdown dropdown-open">
                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{templateDatalistext}}</button>
@@ -1160,6 +1167,338 @@
                       </div>
                     </div>
                   </ng-container>
+                  
+                  <!-- SCm List -->
+                  <ng-container *ngIf="templateDataBind.type == 'list'">
+                    <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l10'">
+                      <div class="scm-list-data-type"  *ngFor="let item of [0,1]">
+                        <div class="heading-data">
+                          <img src="assets/icons/resultTemplate/dummy-small.svg">
+                          <div class="text-title">Heading Goes Here</div>
+                        </div>
+                        <div class="text-desc-data">Simply dummy text of the printing and typesetting reports. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five...</div>
+                        <div class="field-lables">
+                          <div class="field-heading">Author:</div>
+                          <div class="field-text">Text Field 1</div>
+                        </div>
+                        <div class="field-lables">
+                          <div class="field-heading">Updated on:</div>
+                          <div class="field-text">Text Field 2</div>
+                        </div>
+                        <div class="labels-info">
+                          <div class="lable-name info-label">Chip 1</div>
+                          <div class="lable-name warning-label">Chip 2</div>
+                        </div>
+                      </div>
+
+                      <!-- Grid -->
+                      <div class="scm-grid-data-type d-none">
+                        <div class="scm-inner-data-grid">
+                          <div class="scm-list-data-type">
+                            <div class="heading-data">
+                              <img src="assets/icons/resultTemplate/dummy-small.svg">
+                              <div class="text-title">Heading Goes Here</div>
+                            </div>
+                            <div class="text-desc-data">Simply dummy text of the printing and typesetting reports. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five...</div>
+                            <div class="field-lables">
+                              <div class="field-heading">Field 1:</div>
+                              <div class="field-text">Text Field 1</div>
+                            </div>
+                            <div class="field-lables pr-0">
+                              <div class="field-heading">Field 2:</div>
+                              <div class="field-text">Text Field 2</div>
+                            </div>
+                            <div class="labels-info">
+                              <div class="lable-name info-label">Label 1</div>
+                              <div class="lable-name warning-label">Label 2</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="scm-inner-data-grid">
+                          <div class="scm-list-data-type">
+                            <div class="heading-data">
+                              <img src="assets/icons/resultTemplate/dummy-small.svg">
+                              <div class="text-title">Heading Goes Here</div>
+                            </div>
+                            <div class="text-desc-data">Simply dummy text of the printing and typesetting reports. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five...</div>
+                            <div class="field-lables">
+                              <div class="field-heading">Field 1:</div>
+                              <div class="field-text">Text Field 1</div>
+                            </div>
+                            <div class="field-lables pr-0">
+                              <div class="field-heading">Field 2:</div>
+                              <div class="field-text">Text Field 2</div>
+                            </div>
+                            <div class="labels-info">
+                              <div class="lable-name info-label">Label 1</div>
+                              <div class="lable-name warning-label">Label 2</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="scm-inner-data-grid">
+                          <div class="scm-list-data-type">
+                            <div class="heading-data">
+                              <img src="assets/icons/resultTemplate/dummy-small.svg">
+                              <div class="text-title">Heading Goes Here</div>
+                            </div>
+                            <div class="text-desc-data">Simply dummy text of the printing and typesetting reports. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five...</div>
+                            <div class="field-lables">
+                              <div class="field-heading">Field 1:</div>
+                              <div class="field-text">Text Field 1</div>
+                            </div>
+                            <div class="field-lables pr-0">
+                              <div class="field-heading">Field 2:</div>
+                              <div class="field-text">Text Field 2</div>
+                            </div>
+                            <div class="labels-info">
+                              <div class="lable-name info-label">Label 1</div>
+                              <div class="lable-name warning-label">Label 2</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <!-- SCM E commerce -->
+                  <ng-container *ngIf="templateDataBind.type == 'list'">
+                    <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l11'">
+                      <div class="scm-e-commerce-list"   *ngFor="let item of [0,1]">
+                        <div class="img-block">
+                          <img src="assets/icons/resultTemplate/skelton-dummy.svg">
+                        </div>
+                        <div class="content-block">
+                          <div class="labels-info">
+                            <div class="label-name warning">Label 1</div>
+                            <div class="label-name success">Label 2</div>
+                          </div>
+                          <div class="heading-title">Heading Comes Here</div>
+                          <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis at consectetur nunc ac non quis. Praesent phasellus in non non egestas malesuada. Hendrerit ac dictumst quam dolor et mauris purus. Rhoncus scelerisque ultricies pharetra eros pharetra egestas libero.</div>
+                          <div class="amout-info-ratings">
+                            <div class="amount-data">
+                              <div class="price">$ 12.00</div>
+                              <div class="strike-price">$ 15.00</div>
+                            </div>
+                            <div class="ratings">
+                              <img src="assets/icons/resultTemplate/ratings.svg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="scm-e-commerce-grid d-none">
+                        <div class="scm-inner-data-grid-ecommerce">
+                          <div class="scm-e-commerce-list">
+                            <div class="img-block">
+                              <img src="assets/icons/resultTemplate/skelton-dummy.svg">
+                            </div>
+                            <div class="content-block">
+                              <div class="labels-info">
+                                <div class="label-name warning">Label 1</div>
+                                <div class="label-name success">Label 2</div>
+                              </div>
+                              <div class="heading-title">Heading Comes Here</div>
+                              <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis at consectetur nunc ac non quis. Praesent phasellus in non non egestas malesuada. Hendrerit ac dictumst quam dolor et mauris purus. Rhoncus scelerisque ultricies pharetra eros pharetra egestas libero.</div>
+                              <div class="amout-info-ratings">
+                                <div class="amount-data">
+                                  <div class="price">$ 12.00</div>
+                                  <div class="strike-price">$ 15.00</div>
+                                </div>
+                                <div class="ratings">
+                                  <img src="assets/icons/resultTemplate/ratings.svg">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="scm-inner-data-grid-ecommerce">
+                          <div class="scm-e-commerce-list">
+                            <div class="img-block">
+                              <img src="assets/icons/resultTemplate/skelton-dummy.svg">
+                            </div>
+                            <div class="content-block">
+                              <div class="labels-info">
+                                <div class="label-name warning">Label 1</div>
+                                <div class="label-name success">Label 2</div>
+                              </div>
+                              <div class="heading-title">Heading Comes Here</div>
+                              <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis at consectetur nunc ac non quis. Praesent phasellus in non non egestas malesuada. Hendrerit ac dictumst quam dolor et mauris purus. Rhoncus scelerisque ultricies pharetra eros pharetra egestas libero.</div>
+                              <div class="amout-info-ratings">
+                                <div class="amount-data">
+                                  <div class="price">$ 12.00</div>
+                                  <div class="strike-price">$ 15.00</div>
+                                </div>
+                                <div class="ratings">
+                                  <img src="assets/icons/resultTemplate/ratings.svg">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <!-- Banking -->
+                  <ng-container *ngIf="false">
+                    <div class="template-preview-box">
+                      <div class="banking-list-temlate">
+                        <div class="top-data">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                          </div>
+                          <div class="content-data">
+                            <div class="heading-text">Heading goes here</div>
+                            <div class="rating-data">
+                              <span>3.96</span>
+                              <img src="assets/icons/resultTemplate/star.svg">
+                              <img src="assets/icons/resultTemplate/star.svg">
+                              <img src="assets/icons/resultTemplate/star.svg">
+                              <img src="assets/icons/resultTemplate/star.svg">
+                              <img src="assets/icons/resultTemplate/star-unfill.svg">
+                            </div>
+                            <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                          </div>
+                        </div>
+                        <div class="labels-info">
+                          <div class="label-data">
+                            <div class="label-name">Label 1</div>
+                            <div class="label-name">Label 2</div>
+                          </div>
+                          <div class="label-data">
+                            <div class="label-name">Label 3</div>
+                            <div class="label-name">Label 4</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="banking-list-temlate">
+                        <div class="top-data">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                          </div>
+                          <div class="content-data">
+                            <div class="heading-text">Heading goes here</div>
+                            <div class="rating-data">
+                              <span>3.96</span>
+                              <img src="assets/icons/resultTemplate/star.svg">
+                              <img src="assets/icons/resultTemplate/star.svg">
+                              <img src="assets/icons/resultTemplate/star.svg">
+                              <img src="assets/icons/resultTemplate/star.svg">
+                              <img src="assets/icons/resultTemplate/star-unfill.svg">
+                            </div>
+                            <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                          </div>
+                        </div>
+                        <div class="labels-info">
+                          <div class="label-data">
+                            <div class="label-name">Label 1</div>
+                            <div class="label-name">Label 2</div>
+                          </div>
+                          <div class="label-data">
+                            <div class="label-name">Label 3</div>
+                            <div class="label-name">Label 4</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="banking-list-temlate-grid">
+                        <div class="banking-grid-inner-data">
+                          <div class="banking-list-temlate">
+                            <div class="top-data">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                              </div>
+                              <div class="content-data">
+                                <div class="heading-text">Heading goes here</div>
+                                <div class="rating-data">
+                                  <span>3.96</span>
+                                  <img src="assets/icons/resultTemplate/star.svg">
+                                  <img src="assets/icons/resultTemplate/star.svg">
+                                  <img src="assets/icons/resultTemplate/star.svg">
+                                  <img src="assets/icons/resultTemplate/star.svg">
+                                  <img src="assets/icons/resultTemplate/star-unfill.svg">
+                                </div>
+                                <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                              </div>
+                            </div>
+                            <div class="labels-info">
+                              <div class="label-data">
+                                <div class="label-name">Label 1</div>
+                                <div class="label-name">Label 2</div>
+                              </div>
+                              <div class="label-data">
+                                <div class="label-name">Label 3</div>
+                                <div class="label-name">Label 4</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="banking-grid-inner-data">
+                          <div class="banking-list-temlate">
+                            <div class="top-data">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                              </div>
+                              <div class="content-data">
+                                <div class="heading-text">Heading goes here</div>
+                                <div class="rating-data">
+                                  <span>3.96</span>
+                                  <img src="assets/icons/resultTemplate/star.svg">
+                                  <img src="assets/icons/resultTemplate/star.svg">
+                                  <img src="assets/icons/resultTemplate/star.svg">
+                                  <img src="assets/icons/resultTemplate/star.svg">
+                                  <img src="assets/icons/resultTemplate/star-unfill.svg">
+                                </div>
+                                <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                              </div>
+                            </div>
+                            <div class="labels-info">
+                              <div class="label-data">
+                                <div class="label-name">Label 1</div>
+                                <div class="label-name">Label 2</div>
+                              </div>
+                              <div class="label-data">
+                                <div class="label-name">Label 3</div>
+                                <div class="label-name">Label 4</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="banking-grid-inner-data">
+                          <div class="banking-list-temlate">
+                            <div class="top-data">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                              </div>
+                              <div class="content-data">
+                                <div class="heading-text">Heading goes here</div>
+                                <div class="rating-data">
+                                  <span>3.96</span>
+                                  <img src="assets/icons/resultTemplate/star.svg">
+                                  <img src="assets/icons/resultTemplate/star.svg">
+                                  <img src="assets/icons/resultTemplate/star.svg">
+                                  <img src="assets/icons/resultTemplate/star.svg">
+                                  <img src="assets/icons/resultTemplate/star-unfill.svg">
+                                </div>
+                                <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                              </div>
+                            </div>
+                            <div class="labels-info">
+                              <div class="label-data">
+                                <div class="label-name">Label 1</div>
+                                <div class="label-name">Label 2</div>
+                              </div>
+                              <div class="label-data">
+                                <div class="label-name">Label 3</div>
+                                <div class="label-name">Label 4</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+
                 </ng-container>
                 <!-- Grid Template start-->
                 <ng-container *ngIf="templateDataBind.type == 'grid'">
@@ -1821,6 +2160,413 @@
                       </div>
                     </ng-container>
 
+                    <!-- SCM Carousel -->
+                    <ng-container>
+                      <div class="title-text-heading pl-2 mb-0"></div>
+                      <div id="demo-scm" class="carousel slide carousel-result-templates w-100 m-0 mb-2" data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active p-2">
+                            <div class="scm-list-data-type mb-0">
+                              <div class="heading-data">
+                                <img src="assets/icons/resultTemplate/dummy-small.svg">
+                                <div class="text-title">Heading Goes Here</div>
+                              </div>
+                              <div class="text-desc-data">Simply dummy text of the printing and typesetting reports. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five...</div>
+                              <div class="field-lables">
+                                <div class="field-heading">Field 1:</div>
+                                <div class="field-text">Text Field 1</div>
+                              </div>
+                              <div class="field-lables">
+                                <div class="field-heading">Field 2:</div>
+                                <div class="field-text">Text Field 2</div>
+                              </div>
+                              <div class="labels-info">
+                                <div class="lable-name info-label">Label 1</div>
+                                <div class="lable-name warning-label">Label 2</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item p-2">
+                            <div class="scm-list-data-type mb-0">
+                              <div class="heading-data">
+                                <img src="assets/icons/resultTemplate/dummy-small.svg">
+                                <div class="text-title">Heading Goes Here</div>
+                              </div>
+                              <div class="text-desc-data">Simply dummy text of the printing and typesetting reports. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five...</div>
+                              <div class="field-lables">
+                                <div class="field-heading">Field 1:</div>
+                                <div class="field-text">Text Field 1</div>
+                              </div>
+                              <div class="field-lables">
+                                <div class="field-heading">Field 2:</div>
+                                <div class="field-text">Text Field 2</div>
+                              </div>
+                              <div class="labels-info">
+                                <div class="lable-name info-label">Label 1</div>
+                                <div class="lable-name warning-label">Label 2</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-scm" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+
+                    <!-- SCM E-Commerce Carousel-->
+                    <ng-container>
+                      <div class="title-text-heading pl-2 mb-0"></div>
+                      <div id="demo-scm-ecom" class="carousel slide carousel-result-templates w-100 m-0 mb-2" data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active p-2">
+                            <div class="scm-e-commerce-grid">
+                              <div class="scm-inner-data-grid-ecommerce">
+                                <div class="scm-e-commerce-list">
+                                  <div class="img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-dummy.svg">
+                                  </div>
+                                  <div class="content-block">
+                                    <div class="labels-info">
+                                      <div class="label-name warning">Label 1</div>
+                                      <div class="label-name success">Label 2</div>
+                                    </div>
+                                    <div class="heading-title">Heading Comes Here</div>
+                                    <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis at consectetur nunc ac non quis. Praesent phasellus in non non egestas malesuada. Hendrerit ac dictumst quam dolor et mauris purus. Rhoncus scelerisque ultricies pharetra eros pharetra egestas libero.</div>
+                                    <div class="amout-info-ratings">
+                                      <div class="amount-data">
+                                        <div class="price">$ 12.00</div>
+                                        <div class="strike-price">$ 15.00</div>
+                                      </div>
+                                      <div class="ratings">
+                                        <img src="assets/icons/resultTemplate/ratings.svg">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="scm-inner-data-grid-ecommerce">
+                                <div class="scm-e-commerce-list">
+                                  <div class="img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-dummy.svg">
+                                  </div>
+                                  <div class="content-block">
+                                    <div class="labels-info">
+                                      <div class="label-name warning">Label 1</div>
+                                      <div class="label-name success">Label 2</div>
+                                    </div>
+                                    <div class="heading-title">Heading Comes Here</div>
+                                    <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis at consectetur nunc ac non quis. Praesent phasellus in non non egestas malesuada. Hendrerit ac dictumst quam dolor et mauris purus. Rhoncus scelerisque ultricies pharetra eros pharetra egestas libero.</div>
+                                    <div class="amout-info-ratings">
+                                      <div class="amount-data">
+                                        <div class="price">$ 12.00</div>
+                                        <div class="strike-price">$ 15.00</div>
+                                      </div>
+                                      <div class="ratings">
+                                        <img src="assets/icons/resultTemplate/ratings.svg">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item p-2">
+                            <div class="scm-e-commerce-grid">
+                              <div class="scm-inner-data-grid-ecommerce">
+                                <div class="scm-e-commerce-list">
+                                  <div class="img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-dummy.svg">
+                                  </div>
+                                  <div class="content-block">
+                                    <div class="labels-info">
+                                      <div class="label-name warning">Label 1</div>
+                                      <div class="label-name success">Label 2</div>
+                                    </div>
+                                    <div class="heading-title">Heading Comes Here</div>
+                                    <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis at consectetur nunc ac non quis. Praesent phasellus in non non egestas malesuada. Hendrerit ac dictumst quam dolor et mauris purus. Rhoncus scelerisque ultricies pharetra eros pharetra egestas libero.</div>
+                                    <div class="amout-info-ratings">
+                                      <div class="amount-data">
+                                        <div class="price">$ 12.00</div>
+                                        <div class="strike-price">$ 15.00</div>
+                                      </div>
+                                      <div class="ratings">
+                                        <img src="assets/icons/resultTemplate/ratings.svg">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="scm-inner-data-grid-ecommerce">
+                                <div class="scm-e-commerce-list">
+                                  <div class="img-block">
+                                    <img src="assets/icons/resultTemplate/skelton-dummy.svg">
+                                  </div>
+                                  <div class="content-block">
+                                    <div class="labels-info">
+                                      <div class="label-name warning">Label 1</div>
+                                      <div class="label-name success">Label 2</div>
+                                    </div>
+                                    <div class="heading-title">Heading Comes Here</div>
+                                    <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis at consectetur nunc ac non quis. Praesent phasellus in non non egestas malesuada. Hendrerit ac dictumst quam dolor et mauris purus. Rhoncus scelerisque ultricies pharetra eros pharetra egestas libero.</div>
+                                    <div class="amout-info-ratings">
+                                      <div class="amount-data">
+                                        <div class="price">$ 12.00</div>
+                                        <div class="strike-price">$ 15.00</div>
+                                      </div>
+                                      <div class="ratings">
+                                        <img src="assets/icons/resultTemplate/ratings.svg">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-scm-ecom" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+
+                    <!-- Banking Carousel-->
+                    <ng-container>
+                      <div class="title-text-heading pl-2 mb-0"></div>
+                      <div id="demo-banking" class="carousel slide carousel-result-templates w-100 m-0 mb-2" data-interval="false" data-ride="carousel">
+                        <!-- The slideshow -->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active p-2">
+                            <div class="banking-list-temlate-grid">
+                              <div class="banking-grid-inner-data">
+                                <div class="banking-list-temlate">
+                                  <div class="top-data">
+                                    <div class="img-block">
+                                      <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                    </div>
+                                    <div class="content-data">
+                                      <div class="heading-text">Heading goes here</div>
+                                      <div class="rating-data">
+                                        <span>3.96</span>
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star-unfill.svg">
+                                      </div>
+                                      <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                                    </div>
+                                  </div>
+                                  <div class="labels-info">
+                                    <div class="label-data">
+                                      <div class="label-name">Label 1</div>
+                                      <div class="label-name">Label 2</div>
+                                    </div>
+                                    <div class="label-data">
+                                      <div class="label-name">Label 3</div>
+                                      <div class="label-name">Label 4</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="banking-grid-inner-data">
+                                <div class="banking-list-temlate">
+                                  <div class="top-data">
+                                    <div class="img-block">
+                                      <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                    </div>
+                                    <div class="content-data">
+                                      <div class="heading-text">Heading goes here</div>
+                                      <div class="rating-data">
+                                        <span>3.96</span>
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star-unfill.svg">
+                                      </div>
+                                      <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                                    </div>
+                                  </div>
+                                  <div class="labels-info">
+                                    <div class="label-data">
+                                      <div class="label-name">Label 1</div>
+                                      <div class="label-name">Label 2</div>
+                                    </div>
+                                    <div class="label-data">
+                                      <div class="label-name">Label 3</div>
+                                      <div class="label-name">Label 4</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="banking-grid-inner-data">
+                                <div class="banking-list-temlate">
+                                  <div class="top-data">
+                                    <div class="img-block">
+                                      <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                    </div>
+                                    <div class="content-data">
+                                      <div class="heading-text">Heading goes here</div>
+                                      <div class="rating-data">
+                                        <span>3.96</span>
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star-unfill.svg">
+                                      </div>
+                                      <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                                    </div>
+                                  </div>
+                                  <div class="labels-info">
+                                    <div class="label-data">
+                                      <div class="label-name">Label 1</div>
+                                      <div class="label-name">Label 2</div>
+                                    </div>
+                                    <div class="label-data">
+                                      <div class="label-name">Label 3</div>
+                                      <div class="label-name">Label 4</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item p-2">
+                            <div class="banking-list-temlate-grid">
+                              <div class="banking-grid-inner-data">
+                                <div class="banking-list-temlate">
+                                  <div class="top-data">
+                                    <div class="img-block">
+                                      <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                    </div>
+                                    <div class="content-data">
+                                      <div class="heading-text">Heading goes here</div>
+                                      <div class="rating-data">
+                                        <span>3.96</span>
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star-unfill.svg">
+                                      </div>
+                                      <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                                    </div>
+                                  </div>
+                                  <div class="labels-info">
+                                    <div class="label-data">
+                                      <div class="label-name">Label 1</div>
+                                      <div class="label-name">Label 2</div>
+                                    </div>
+                                    <div class="label-data">
+                                      <div class="label-name">Label 3</div>
+                                      <div class="label-name">Label 4</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="banking-grid-inner-data">
+                                <div class="banking-list-temlate">
+                                  <div class="top-data">
+                                    <div class="img-block">
+                                      <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                    </div>
+                                    <div class="content-data">
+                                      <div class="heading-text">Heading goes here</div>
+                                      <div class="rating-data">
+                                        <span>3.96</span>
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star-unfill.svg">
+                                      </div>
+                                      <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                                    </div>
+                                  </div>
+                                  <div class="labels-info">
+                                    <div class="label-data">
+                                      <div class="label-name">Label 1</div>
+                                      <div class="label-name">Label 2</div>
+                                    </div>
+                                    <div class="label-data">
+                                      <div class="label-name">Label 3</div>
+                                      <div class="label-name">Label 4</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="banking-grid-inner-data">
+                                <div class="banking-list-temlate">
+                                  <div class="top-data">
+                                    <div class="img-block">
+                                      <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                                    </div>
+                                    <div class="content-data">
+                                      <div class="heading-text">Heading goes here</div>
+                                      <div class="rating-data">
+                                        <span>3.96</span>
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star.svg">
+                                        <img src="assets/icons/resultTemplate/star-unfill.svg">
+                                      </div>
+                                      <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                                    </div>
+                                  </div>
+                                  <div class="labels-info">
+                                    <div class="label-data">
+                                      <div class="label-name">Label 1</div>
+                                      <div class="label-name">Label 2</div>
+                                    </div>
+                                    <div class="label-data">
+                                      <div class="label-name">Label 3</div>
+                                      <div class="label-name">Label 4</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Left and right controls -->
+                        <!-- <a class="carousel-control-prev" href="#demo-c-t-2" data-slide="prev">
+                          <span class="carousel-control-prev-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a> -->
+                        <a class="carousel-control-next" href="#demo-banking" data-slide="next">
+                          <span class="carousel-control-next-icon">
+                            <img src="assets/icons/resultTemplate/carrotright.svg">
+                          </span>
+                        </a>
+                      </div>
+                    </ng-container>
+
+
                   </div>
                 </ng-container>
               </ng-template>
@@ -1840,34 +2586,41 @@
             <div class="search-result-mapping">
               <div class="label-text">Search Result Mapping</div>
               <div class="desc-text">Map the existing or custom added fields here</div>
-              <div class="search_block"
-                *ngIf="['l1','l3','l4','l6','l7','l9'].includes(templateDataBind.layout.layoutType)">
-                <!-- <div class="label-text mb-1">Heading</div>
-                <div class="row m-0 align-items-center">
-                  <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'" #headDrop="ngbDropdown">
-                    <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
-                      <img src="assets/icons/search_gray.svg" class="search-icon">
-                      <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
-                        data-toggle="dropdown"></button>
-                      <!- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
-                <!-- <input type="text" placeholder="Search Field" id="facets-search-input"
-                        class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
-                        [class.err-block]="((!(preview_title?.length) && submitted)||!(templateFieldValidateObj.heading))"
-                        (keyup)="searchlist('heading',$event.target.value,fieldData)" (keypress)="headDrop.open();"
-                        (focus)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="preview_title"
-                        ngbDropdownToggle>
-                      <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu"
+
+               <!-- icon Field -->
+               <div class="search_block" *ngIf="['l10'].includes(templateDataBind.layout.layoutType)">
+                <div class="label-text mb-1">{{'resultTemplate.icon'|translate}}</div>
+                <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                  <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown #headDrop="ngbDropdown">
+                    <div class="dropdown dropdown-open">
+                      <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
+                        data-toggle="dropdown" (click)="clearcontent();" ngbDropdownToggle>
+                        {{preview_icon ? preview_icon :"Choose field"}}
+                      </button>
+                      <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
                         ngbDropdownMenu>
-                        <perfect-scrollbar class="scroll-search-field">
-                          <li *ngFor="let field of heading_fieldData" [id]="field._id"
-                            (click)="filedSelect('heading',field);headDrop.close();" class="p-0">
-                            <a>{{field.fieldName}}</a>
-                          </li>
+                        <li class="search-box">
+                          <input id="searchBoxId" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                            placeholder="Search" class="seach-input pl-3"
+                            (keyup)="searchlist('icon',$event.target.value,fieldData)"
+                            (focus)="searchlist('icon',$event.target.value,fieldData);" autofocus />
+                        </li>
+                        <perfect-scrollbar class="scroll-search-field h-189">
+                          <ng-container *ngIf="icon_fieldData && icon_fieldData.length">
+                            <li ngbDropdownItem *ngFor="let field of icon_fieldData"
+                              (click)="filedSelect('icon',field)"
+                              [ngClass]="{'highlight':preview_icon===field.fieldName}">
+                              {{ field.fieldName }}</li>
+                          </ng-container>
                         </perfect-scrollbar>
                       </ul>
                     </div>
                   </div>
-                </div> -->
+                </div>
+              </div>
+
+              <!-- Heading Field -->
+              <div class="search_block" *ngIf="['l1','l3','l4','l6','l7','l9','l10','l11'].includes(templateDataBind.layout.layoutType)">
                 <div class="label-text mb-1">{{'resultTemplate.heading'|translate}}</div>
                 <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
                   <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown #headDrop="ngbDropdown">
@@ -1899,33 +2652,9 @@
                   </div>
                 </div>
               </div>
+
               <!-- Description Fields-->
-              <div class="search_block"
-                *ngIf="['l2','l3','l4','l6','l7','l8','l9'].includes(templateDataBind.layout.layoutType)">
-                <!-- <div class="label-text mb-1">Description</div>
-                <div class="row m-0 align-items-center">
-                  <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'" #descDrop="ngbDropdown">
-                     [ngClass]="{'disabled': addEditFacetObj._id}" -->
-                <!-- <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
-                      <img src="assets/icons/search_gray.svg" class="search-icon">
-                      <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
-                        data-toggle="dropdown"></button> -->
-                <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
-                <!-- <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
-                        class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
-                        [class.err-block]="((!(preview_desc?.length) && submitted)||!(templateFieldValidateObj.description))"
-                        (keyup)="searchlist('description',$event.target.value,fieldData)"
-                        (focus)="searchlist('description',$event.target.value,fieldData)" (keypress)="descDrop.open();"
-                        [(ngModel)]="preview_desc" ngbDropdownToggle>
-                      <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu"
-                        ngbDropdownMenu>
-                        <perfect-scrollbar class="scroll-search-field">
-                          <li *ngFor="let field of desc_fieldData" [id]="field._id"
-                            (click)="filedSelect('description',field);descDrop.close();" class="p-0">
-                            <a>{{field.fieldName}}</a>
-                          </li>
-                        </perfect-scrollbar>
-                      </ul> -->
+              <div class="search_block" *ngIf="['l2','l3','l4','l6','l7','l8','l9','l10','l11'].includes(templateDataBind.layout.layoutType)">
                 <div class="label-text mb-1">{{'resultTemplate.description'|translate}}</div>
                 <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
                   <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentdesc()"
@@ -1960,32 +2689,7 @@
               </div>
 
               <!-- Image  Fields -->
-              <div class="search_block"
-                *ngIf="['l4','l5','l6','l7','l8','l9'].includes(templateDataBind.layout.layoutType)">
-                <!-- <div class="label-text mb-1">Image</div>
-                <div class="row m-0 align-items-center">
-                  <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'" #imgDrop="ngbDropdown"> -->
-                <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
-                <!-- <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
-                      <img src="assets/icons/search_gray.svg" class="search-icon">
-                      <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
-                        data-toggle="dropdown"></button>
-                         <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
-                <!-- <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
-                        class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
-                        [class.err-block]="((!(preview_img?.length) && submitted)||!(templateFieldValidateObj.image))"
-                        (keyup)="searchlist('image',$event.target.value,fieldData)"
-                        (focus)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="preview_img"
-                        (keypress)="imgDrop.open();" ngbDropdownToggle>
-                      <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu"
-                        ngbDropdownMenu>
-                        <perfect-scrollbar class="scroll-search-field">
-                          <li *ngFor="let field of img_fieldData" [id]="field._id"
-                            (click)="filedSelect('image',field);imgDrop.close();">
-                            <a>{{field.fieldName}}</a>
-                          </li>
-                        </perfect-scrollbar> 
-                      </ul> -->
+              <div class="search_block" *ngIf="['l4','l5','l6','l7','l8','l9','l11'].includes(templateDataBind.layout.layoutType)">
                 <div class="label-text mb-1">{{'resultTemplate.image'|translate}}</div>
                 <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
                   <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentimage();"
@@ -1993,7 +2697,7 @@
                     <div class="dropdown dropdown-open">
                       <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
                         [class.err-block]="((!(preview_img?.length) && submitted)||!(templateFieldValidateObj.image))"
-                        data-toggle="dropdown" (click)="clearcontentimage();" ngbDropdownToggle>
+                        data-toggle="dropdown" (click)="clearcontentimage()" ngbDropdownToggle>
                         {{preview_img ? preview_img :"Choose field"}}
                       </button>
                       <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
@@ -2016,15 +2720,16 @@
                   </div>
                 </div>
               </div>
-              <div class="search_block"
-              *ngIf="['l6'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
+
+              <!-- Description1 field -->
+              <div class="search_block" *ngIf="['l6'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
                 <div class="label-text mb-1">Description 1</div>
                 <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
                   <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentdesc1()"
                     #descDrop="ngbDropdown">
                     <div class="dropdown dropdown-open">
                       <button class="dropdown-toggle dropdown-input" id="dropdownBasicDec1"
-                        data-toggle="dropdown" (click)="clearcontentdesc1();" ngbDropdownToggle>
+                        data-toggle="dropdown" (click)="clearcontentdesc1()" ngbDropdownToggle>
                         {{preview_desc1 ? preview_desc1 :"Choose field"}}
                       </button>
                       <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
@@ -2048,8 +2753,270 @@
                   </div>
                 </div>
               </div>
-            </div>
 
+              <!-- Label1 field -->
+              <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
+                <div class="label-text mb-1">Label 1</div>
+                <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                  <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentLabel1()"
+                    #descDrop="ngbDropdown">
+                    <div class="dropdown dropdown-open">
+                      <button class="dropdown-toggle dropdown-input" id="dropdownBasicLab1"
+                        data-toggle="dropdown" (click)="clearcontentLabel1()" ngbDropdownToggle>
+                        {{preview_label1 ? preview_label1 :"Choose field"}}
+                      </button>
+                      <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                        ngbDropdownMenu>
+                        <li class="search-box">
+                          <input id="searchBoxIdLabel1" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                            placeholder="Search" class="seach-input pl-3"
+                            (keyup)="searchlist('label1',$event.target.value,fieldData)"
+                            (focus)="searchlist('label1',$event.target.value,fieldData);" autofocus />
+                        </li>
+                        <perfect-scrollbar class="scroll-search-field h-189">
+                          <ng-container *ngIf="label1_fieldData && label1_fieldData.length">
+                            <li ngbDropdownItem *ngFor="let field of label1_fieldData"
+                              (click)="filedSelect('label1',field)"
+                              [ngClass]="{'highlight':preview_label1===field.fieldName}">
+                              {{ field.fieldName }}</li>
+                          </ng-container>
+                        </perfect-scrollbar>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Label2 field -->
+              <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
+                <div class="label-text mb-1">Label 2</div>
+                <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                  <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentLabel2()"
+                    #descDrop="ngbDropdown">
+                    <div class="dropdown dropdown-open">
+                      <button class="dropdown-toggle dropdown-input" id="dropdownBasicLab2"
+                        data-toggle="dropdown" (click)="clearcontentLabel2();" ngbDropdownToggle>
+                        {{preview_label2 ? preview_label2 :"Choose field"}}
+                      </button>
+                      <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                        ngbDropdownMenu>
+                        <li class="search-box">
+                          <input id="searchBoxIdLabel2" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                            placeholder="Search" class="seach-input pl-3"
+                            (keyup)="searchlist('label2',$event.target.value,fieldData)"
+                            (focus)="searchlist('label2',$event.target.value,fieldData);" autofocus />
+                        </li>
+                        <perfect-scrollbar class="scroll-search-field h-189">
+                          <ng-container *ngIf="label2_fieldData && label2_fieldData.length">
+                            <li ngbDropdownItem *ngFor="let field of label2_fieldData"
+                              (click)="filedSelect('label2',field)"
+                              [ngClass]="{'highlight':preview_label2===field.fieldName}">
+                              {{ field.fieldName }}</li>
+                          </ng-container>
+                        </perfect-scrollbar>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+                <!-- Rate field -->
+                <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
+                  <div class="label-text mb-1"> Rate</div>
+                  <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                    <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentRateField()"
+                      #descDrop="ngbDropdown">
+                      <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" id="dropdownBasicRate"
+                          data-toggle="dropdown" (click)="clearcontentRateField();" ngbDropdownToggle>
+                          {{preview_rateFiled ? preview_rateFiled :"Choose field"}}
+                        </button>
+                        <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                          ngbDropdownMenu>
+                          <li class="search-box">
+                            <input id="searchBoxIdRateField" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                              placeholder="Search" class="seach-input pl-3"
+                              (keyup)="searchlist('rateField',$event.target.value,fieldData)"
+                              (focus)="searchlist('rateField',$event.target.value,fieldData);" autofocus />
+                          </li>
+                          <perfect-scrollbar class="scroll-search-field h-189">
+                            <ng-container *ngIf="rate_fieldData && rate_fieldData.length">
+                              <li ngbDropdownItem *ngFor="let field of rate_fieldData"
+                                (click)="filedSelect('rateField',field)"
+                                [ngClass]="{'highlight':preview_rateFiled===field.fieldName}">
+                                {{ field.fieldName }}</li>
+                            </ng-container>
+                          </perfect-scrollbar>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>     
+
+                <!--Striked Off Rate field -->
+                <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
+                  <div class="label-text mb-1">Striked off Rate</div>
+                  <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                    <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentStrikedRateField()"
+                      #descDrop="ngbDropdown">
+                      <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" id="dropdownBasicStrikedRate"
+                          data-toggle="dropdown" (click)="clearcontentStrikedRateField();" ngbDropdownToggle>
+                          {{preview_StrikedrateFiled ? preview_StrikedrateFiled :"Choose field"}}
+                        </button>
+                        <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                          ngbDropdownMenu>
+                          <li class="search-box">
+                            <input id="searchBoxIdStrikedRateField" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                              placeholder="Search" class="seach-input pl-3"
+                              (keyup)="searchlist('strikedOffRate',$event.target.value,fieldData)"
+                              (focus)="searchlist('strikedOffRate',$event.target.value,fieldData);" autofocus />
+                          </li>
+                          <perfect-scrollbar class="scroll-search-field h-189">
+                            <ng-container *ngIf="Strikedrate_fieldData && Strikedrate_fieldData.length">
+                              <li ngbDropdownItem *ngFor="let field of Strikedrate_fieldData"
+                                (click)="filedSelect('strikedOffRate',field)"
+                                [ngClass]="{'highlight':preview_StrikedrateFiled===field.fieldName}">
+                                {{ field.fieldName }}</li>
+                            </ng-container>
+                          </perfect-scrollbar>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>            
+              
+                 <!--Rating field -->
+                 <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
+                  <div class="label-text mb-1">Rating</div>
+                  <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                    <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentStrikedRateField()"
+                      #descDrop="ngbDropdown">
+                      <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" id="dropdownBasicStrikedRate"
+                          data-toggle="dropdown" (click)="clearcontentStrikedRateField();" ngbDropdownToggle>
+                          {{preview_rating ? preview_rating :"Choose field"}}
+                        </button>
+                        <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                          ngbDropdownMenu>
+                          <li class="search-box">
+                            <input id="searchBoxIdRatingField" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                              placeholder="Search" class="seach-input pl-3"
+                              (keyup)="searchlist('rating',$event.target.value,fieldData)"
+                              (focus)="searchlist('rating',$event.target.value,fieldData);" autofocus />
+                          </li>
+                          <perfect-scrollbar class="scroll-search-field h-189">
+                            <ng-container *ngIf="rating_fieldData && rating_fieldData.length">
+                              <li ngbDropdownItem *ngFor="let field of rating_fieldData"
+                                (click)="filedSelect('rating',field)"
+                                [ngClass]="{'highlight':preview_rating===field.fieldName}">
+                                {{ field.fieldName }}</li>
+                            </ng-container>
+                          </perfect-scrollbar>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>   
+
+              <!-- text Field1 -->
+              <div class="search_block" *ngIf="['l10'].includes(templateDataBind.layout.layoutType)">
+                <div class="label-text mb-1">{{'resultTemplate.text_field1'|translate}}</div>
+                <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                  <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown #headDrop="ngbDropdown">
+                    <div class="dropdown dropdown-open">
+                      <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
+                        data-toggle="dropdown" (click)="clearcontent();" ngbDropdownToggle>
+                        {{preview_textField1 ? preview_textField1 :"Choose field"}}
+                      </button>
+                      <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                        ngbDropdownMenu>
+                        <li class="search-box">
+                          <input id="searchBoxId" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                            placeholder="Search" class="seach-input pl-3"
+                            (keyup)="searchlist('textField1',$event.target.value,fieldData)"
+                            (focus)="searchlist('textField1',$event.target.value,fieldData);" autofocus />
+                        </li>
+                        <perfect-scrollbar class="scroll-search-field h-189">
+                          <ng-container *ngIf="textField1_fieldData && textField1_fieldData.length">
+                            <li ngbDropdownItem *ngFor="let field of textField1_fieldData"
+                              (click)="filedSelect('textField1',field)"
+                              [ngClass]="{'highlight':preview_textField1===field.fieldName}">
+                              {{ field.fieldName }}</li>
+                          </ng-container>
+                        </perfect-scrollbar>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- test Field2 -->
+              <div class="search_block" *ngIf="['l10'].includes(templateDataBind.layout.layoutType)">
+                <div class="label-text mb-1">{{'resultTemplate.text_field2'|translate}}</div>
+                <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                  <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown #headDrop="ngbDropdown">
+                    <div class="dropdown dropdown-open">
+                      <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
+                        data-toggle="dropdown" (click)="clearcontent();" ngbDropdownToggle>
+                        {{preview_textField2  ? preview_textField2 :"Choose field"}}
+                      </button>
+                      <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                        ngbDropdownMenu>
+                        <li class="search-box">
+                          <input id="searchBoxId" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                            placeholder="Search" class="seach-input pl-3"
+                            (keyup)="searchlist('textField2',$event.target.value,fieldData)"
+                            (focus)="searchlist('textField2',$event.target.value,fieldData);" autofocus />
+                        </li>
+                        <perfect-scrollbar class="scroll-search-field h-189">
+                          <ng-container *ngIf="textField2_fieldData && textField2_fieldData.length">
+                            <li ngbDropdownItem *ngFor="let field of textField2_fieldData"
+                              (click)="filedSelect('textField2',field)"
+                              [ngClass]="{'highlight':preview_textField2===field.fieldName}">
+                              {{ field.fieldName }}</li>
+                          </ng-container>
+                        </perfect-scrollbar>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+               <!-- chips -->
+               <div class="search_block" *ngIf="['l10'].includes(templateDataBind.layout.layoutType)">
+                <div class="label-text mb-1">{{'resultTemplate.chips'|translate}}</div>
+                <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
+                  <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown #headDrop="ngbDropdown">
+                    <div class="dropdown dropdown-open">
+                      <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
+                        data-toggle="dropdown" (click)="clearcontent();" ngbDropdownToggle>
+                        {{preview_chips ? preview_chips :"Choose field"}}
+                      </button>
+                      <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                        ngbDropdownMenu>
+                        <li class="search-box">
+                          <input id="searchBoxId" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
+                            placeholder="Search" class="seach-input pl-3"
+                            (keyup)="searchlist('chips',$event.target.value,fieldData)"
+                            (focus)="searchlist('chips',$event.target.value,fieldData);" autofocus />
+                        </li>
+                        <perfect-scrollbar class="scroll-search-field h-189">
+                          <ng-container *ngIf="chips_fieldData && chips_fieldData.length">
+                            <li ngbDropdownItem *ngFor="let field of chips_fieldData"
+                              (click)="filedSelect('chips',field)"
+                              [ngClass]="{'highlight':preview_chips===field.fieldName}">
+                              {{ field.fieldName }}</li>
+                          </ng-container>
+                        </perfect-scrollbar>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+               
             <div class="search-results-click-settings">
               <div class="label-text">Search Result click Settings</div>
               <div class="desc-text mb-3">Define the click behaviour for the search results</div>
@@ -2077,27 +3044,6 @@
                   </div>
                   <div class="row m-0 align-items-center"
                     *ngIf="templateDataBind.layout.isClickable&&templateDataBind.layout.behaviour==='webpage'">
-                    <!-- <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'" #urlDrop="ngbDropdown">
-                      <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
-                        <img src="assets/icons/search_gray.svg" class="search-icon">
-                        <button id="btn_select_facet_field"
-                          class="position-absolute border-0 dropdown-toggle dropdown-input search-with-dropdown"
-                          data-toggle="dropdown"></button>
-                        <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
-                          class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
-                          [class.err-block]="((!(preview_url?.length) && submitted)||!(templateFieldValidateObj.url))"
-                          (keyup)="searchlist('url',$event.target.value,fieldData)"
-                          (focus)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="preview_url"
-                          (keypress)="urlDrop.open();" ngbDropdownToggle>
-                        <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu"
-                          ngbDropdownMenu>
-                          <perfect-scrollbar class="scroll-search-field">
-                            <li *ngFor="let field of url_fieldData" [id]="field._id"
-                              (click)="filedSelect('url',field);urlDrop.close();">
-                              <a>{{field.fieldName}}</a>
-                            </li>
-                          </perfect-scrollbar>
-                        </ul> -->
                     <div class="kr-sg-dropdowns col-12 pr-0 pl-0" ngbDropdown (click)="clearcontenturl();"
                       #urlDrop="ngbDropdown">
                       <div class="dropdown dropdown-open">
