@@ -346,6 +346,13 @@ export class AppComponent implements OnInit, OnDestroy {
   loadSearchExperience() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
+    /** fetching the ID from Previous state for refresh app */
+    if(!this.queryPipelineId){
+      let preStateData = this.localstore.getPreviousState();
+      if(preStateData){
+        this.queryPipelineId =  preStateData.selectedQueryPipeline._id;
+      }
+    }
     if (this.indexPipelineId && this.searchExperinceLoading === false) {
       this.getSearchExperience();
     }
