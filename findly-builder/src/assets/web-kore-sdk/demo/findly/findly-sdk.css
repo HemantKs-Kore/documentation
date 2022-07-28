@@ -889,7 +889,7 @@ body {
     height: auto;
     box-shadow: 0px 2px 5px rgba(32, 33, 36, 0.2);
     box-sizing: border-box;
-    z-index: 10;
+    z-index: 100000;
 }
 
 .searchAssist-kore-chat-window.search-container.active #searchBox {
@@ -7360,7 +7360,7 @@ body.demo .finalResults .task-wrp.structure-data-wrp:nth-child(n+3) {
     background: #FFFFFF;
     box-shadow: 0px 2px 5px rgba(32, 33, 36, 0.2);
     border-radius: 6px;
-    z-index: 3;
+    z-index: 100000;
 }
 
 .searchAssist-kore-chat-window .suggestion-search-data-parent .title-suggestion {

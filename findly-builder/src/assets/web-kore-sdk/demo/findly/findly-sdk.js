@@ -17866,7 +17866,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('#frequently-searched-box').hide();
               $('#live-search-result-box').hide();
               //top-down-searc-facets active -start//
-              _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
+              _self.pubSub.publish('facet-selected', { selectedFacet: 'all results',isResultsLoading:true });
               //top-down-search-facets active -end//
             }, 500);
           }
