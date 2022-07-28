@@ -25,8 +25,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-<<<<<<< HEAD
-=======
 .si-avg:before {
   content: "\e952";
 }
@@ -280,7 +278,6 @@
 .si-eyeshow:before {
   content: "\e917";
 }
->>>>>>> 011849520e61d14259dd7b2c7f6fe588504ed17d
 .si-external-horizantal:before {
   content: "\e916";
 }
