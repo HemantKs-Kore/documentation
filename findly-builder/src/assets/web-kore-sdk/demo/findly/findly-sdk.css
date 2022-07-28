@@ -10811,7 +10811,7 @@ a.tile-heading {
     bottom: 40px;
     background: rgba(32, 33, 36, 0.4);
     /* border-radius: 6px; */
-    z-index: 1;
+    z-index: 99999;
 }
 
 .kr-sg-radiobutton .radio-custom {
