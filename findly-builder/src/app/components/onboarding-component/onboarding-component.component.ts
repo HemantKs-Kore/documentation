@@ -160,7 +160,7 @@ faqData = [
 //    }]
 // },
 {
-   display:"Source",
+   display:"Sources",
    key:"source",
    icon:"",
    childData:[
@@ -420,7 +420,7 @@ faqData = [
 }]
 },
 {
-   display:"Stopwords",
+   display:"Stop Words",
    key:"stopWords",
    icon:"",
    childData:[{
@@ -460,7 +460,7 @@ faqData = [
 }]
 },
 {
-   display:"Result Ranking",
+   display:"Results Ranking",
    key:"resultranking",
    icon:"",
    childData:[{
@@ -500,7 +500,7 @@ faqData = [
 //    }]
 // },
 {
-   display:"Dash Boards",
+   display:"Dashboards",
    key:"dashboard",
    icon:"",
    childData:[
@@ -600,7 +600,7 @@ faqData = [
   }]
 },
 {
-   display:"Credentials-List",
+   display:"Credentials List",
    key:"credentials-list",
    icon:"",
    childData:[
@@ -658,7 +658,7 @@ faqData = [
 }]
 },
 {
-   display:"SearchInterface",
+   display:"Search Interface",
    key:"searchInterface",
    icon:"",
    childData:[{
@@ -680,7 +680,7 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
 }]
 },
 {
-   display:"Result-Template",
+   display:"Result Template",
    key:"resultTemplate",
    icon:"",
    childData:[{
@@ -714,7 +714,7 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
 }]
 },
 {
-   display:"Team-Management",
+   display:"Team Management",
    key:"team-management",
    icon:"",
    childData:[{
