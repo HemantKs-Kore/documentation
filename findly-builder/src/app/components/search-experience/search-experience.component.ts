@@ -158,6 +158,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     }
     else if (this.selectedTab === 'interactions') {
       this.show_tab_color2 = true;
+     //this.changeSlider('bottom');
     } else if (this.selectedTab === 'experience') {
       this.show_tab_color = true;
     }
