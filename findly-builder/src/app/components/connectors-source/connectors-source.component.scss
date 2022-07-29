@@ -863,6 +863,17 @@
                 }
             }
         }
+        
+        .view-more-btn {
+            padding: 13px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            button {
+                margin: 0 5px;
+            }
+        }
 
         .footer-info{
             background: #F3F8FF;

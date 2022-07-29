@@ -1,12 +1,13 @@
 <!-- Sidebar -->
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
 	<ng-container *ngIf="(settingMainMenu || sourceMenu)">
-		<div class="upgrade_your_plan_price" [ngClass]="{'d-none':showUpgrade}">
-			<span [ngClass]="{'status-type':upgradeBannerFlag}"></span>
+		<div class="upgrade_your_plan_price" *ngIf="showUpgrade">
+			<!-- <span [ngClass]="{'status-type':upgradeBannerFlag}"></span> -->
 			<div class="product-subscription-alert">
+				<span class="px-1 close-btn" (click)="showUpgrade=!showUpgrade"><i class="si-close-red"></i></span>
 				<p class="product-subscription-desc" *ngIf="(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80)">You have utilized more than 80% of your current plan, please upgrade plan to enjoy uninturrepted services.</p>
 				<img src="assets/images/pricing-plan/plan-subscrition/product-launch.svg" class="product-subscription-img"/>
-				<div class="upgrade-plan-btn" [ngClass]="{'danger':(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80),'warning':((usageDetails?.searchQueries>50&&usageDetails?.searchQueries<=80)||(usageDetails?.ingestDocs>50&&usageDetails?.ingestDocs<=80))}" (click)="upgrade()"><i class="si-publish si-icon m-r-2"></i>Upgrade Plan</div>
+				<div class="upgrade-plan-btn" [ngClass]="{'danger':(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80),'warning':((usageDetails?.searchQueries>50&&usageDetails?.searchQueries<=80)||(usageDetails?.ingestDocs>50&&usageDetails?.ingestDocs<=80))}" (click)="upgrade()" (mouseover)="showNotificationBanner('over')" (mouseout)="showNotificationBanner('out')"><i class="si-publish si-icon m-r-2"></i>Upgrade Plan</div>
 				<div class="hover-documnet-show-data">
 					<div class="card-data- card1">
 						<div class="img-block">
@@ -44,10 +45,6 @@
 							<ngb-progressbar height="10px" [type]="usageDetails?.ingestDocs>80?'danger':(usageDetails?.ingestDocs>50&&usageDetails?.ingestDocs<=80)?'warning':'primary'" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
 						</ng-container>
 					</div>
-				</div>
-				<div class="bottm-btns">
-					<div></div>
-					<div (click)="showUpgrade=!showUpgrade"><button class="btn" type="button"><span class="px-1"><i class="si-close-red"></i></span>Close</button></div>
 				</div>
 			</div>
 		</div>

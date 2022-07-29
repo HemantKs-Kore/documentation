@@ -10,6 +10,7 @@ import * as _ from 'underscore';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { nanoid } from 'nanoid'
 
 declare const $: any;
 @Component({
@@ -811,7 +812,8 @@ export class TraitsComponent implements OnInit {
             data: [],
             displayName: traitName,
             key: tempTraitKey,
-            newKey: true
+            newKey: true,
+            id: nanoid(6)
           };
           Object.assign(dummyTraitsObj, (this.traits.addEditTraits.traits || {}));
           this.traits.addEditTraits.newTrait = traitName;
@@ -1057,13 +1059,28 @@ export class TraitsComponent implements OnInit {
     }
   }
 
-  editTraits(trait, event, displayName) {
-    if (event && (event.keyCode === 13 || event.type == 'click') && trait !== '') {
-      if (!this.traits.addEditTraits.traits[trait]) {
-        this.showEditTraitInput = null;
-        this.traits.addEditTraits.traits[displayName].displayName = trait;
-        this.traits.addEditTraits.traits[trait] = this.traits.addEditTraits.traits[displayName];
-        delete this.traits.addEditTraits.traits[displayName];
+  editTraits(trait, event, displayName, item?) {
+    if (this.checkForSecialChar(trait, false, 'traits')) {
+      return false;
+    }
+  if (event && (event.keyCode === 13 || event.type == 'click') && trait !== '') {
+    const index  = this.traits.addEditTraits.traitsArray.findIndex(val => val.id == item.id)
+    const obj = this.traits.addEditTraits.traitsArray.filter(val => val.key == trait)
+      if(index > -1) {
+        if(obj[1]) {
+          this.notificationService.notify(trait + ' is already added', 'error');
+        } else if (obj[0].id == item.id) {
+          if(item.key == item.displayName) {
+            this.showEditTraitInput = null;
+          } else {
+            this.showEditTraitInput = null;
+            this.traits.addEditTraits.traitsArray[index].displayName  = trait
+            this.traits.addEditTraits.traits[trait] = this.traits.addEditTraits.traitsArray[index]
+            delete this.traits.addEditTraits.traits[displayName];
+          }
+        } else {
+          this.showEditTraitInput = null;
+        }
       } else if (this.traits.addEditTraits.traits[trait] && displayName == trait) {
         this.showEditTraitInput = null;
       } else {
@@ -1072,6 +1089,13 @@ export class TraitsComponent implements OnInit {
     }
   }
 
+  cancelTraits(item?) {
+    const index  = this.traits.addEditTraits.traitsArray.findIndex(val => val.id == item.id)
+    if(index > -1) {
+      this.showEditTraitInput = null;
+      this.traits.addEditTraits.traitsArray[index].key  = this.traits.addEditTraits.traitsArray[index].key
+    }
+  }
   showEditTrait(index, event) {
     if (event) {
       event.stopImmediatePropagation();

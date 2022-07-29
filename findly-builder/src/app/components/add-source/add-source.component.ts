@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { LocalStoreService } from '@kore.services/localstore.service';
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { AuthService } from '@kore.services/auth.service';
@@ -11,21 +10,18 @@ import { Router, ActivatedRoute } from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
 import { of, interval, Subject } from 'rxjs';
-import { startWith, take, finalize } from 'rxjs/operators';
+import { startWith, take } from 'rxjs/operators';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
 
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
-import { MatDialog, throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog';
-import { ThrowStmt } from '@angular/compiler';
+import { MatDialog } from '@angular/material/dialog';
 import { RangySelectionService } from '../annotool/services/rangy-selection.service';
 //import { DockStatusService } from '../../services/dock.status.service';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 
@@ -209,7 +205,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       ]
     },
     {
-      title: 'Connect & add actions from virtual assistants',
+      title: 'Connect & add actions from Virtual Assistant',
       sources: [
         {
           name: 'Link Virtual Assistant',
@@ -444,10 +440,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
               this.mixpanel.postEvent('Content Crawl web domain failed', {});
             }
             this.pollingSubscriber.unsubscribe();
-            let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-            if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
-              this.appSelectionService.getCurrentUsage();;
-            }
             //this.crawlOkDisable = true;
             if (queuedJobs[0].validation?.limitValidation == false) {
               this.upgrade();

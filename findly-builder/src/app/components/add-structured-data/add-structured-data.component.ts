@@ -207,10 +207,6 @@ export class AddStructuredDataComponent implements OnInit {
       this.service.invoke('delete.structuredData', quaryparms).subscribe(res => {
         if (res) {
           this.notificationService.notify('Deleted Successfully', 'success');
-          const currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-          if (['Free','Standard'].includes(currentPlan?.subscription?.planName)) {
-            this.appSelectionService.getCurrentUsage();;
-          }
           this.cancleSourceAddition();
         }
       }, errRes => {

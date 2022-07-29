@@ -250,33 +250,26 @@
               translate):("plan.reactivate_btn"| translate)}}</div>
             <div class="free-status-title">
               <div class="type-plan">{{currentPlan?.planName}}</div>
-              <div class="started-on">{{'plan.started_on' | translate}} : <span>{{(currentPlan?.createdAt|
-                  dateFormatPipe:'D MMMM YYYY')}}</span></div>
+              <div class="started-on">{{'plan.started_on' | translate}} : <span>{{(currentPlan?.createdAt|dateFormatPipe:'D MMMM YYYY')}}</span></div>
             </div>
             <div class="queries-documents">
               <div class="query-type border-">
                 <div class="title-query"><img src="assets/icons/overview/question.svg">{{'plan.queries' | translate}}
                 </div>
-                <div class="range-data" *ngIf="usageDetails?.searchCount">
-                  <div class="count-type">{{usageDetails?.searchCount | valueFormat}} /
-                    <span>{{usageDetails?.searchLimit| valueFormat}}</span>
-                  </div>
+                <div class="range-data">
+                  <div class="count-type">{{usageDetails?.searchCount | valueFormat}} / <span>{{usageDetails?.searchLimit| valueFormat}}</span></div>
                   <div style="margin-top: 6px;">
-                    <ngb-progressbar height="6px" [type]="usageDetails?.searchQueries<80?'primary':'danger'"
-                      [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
+                    <ngb-progressbar height="6px" [type]="usageDetails?.searchQueries<80?'primary':'danger'" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
                   </div>
                 </div>
               </div>
               <div class="query-type">
                 <div class="title-query"><img src="assets/icons/overview/document.svg">{{'plan.documents' | translate}}
                 </div>
-                <div class="range-data" *ngIf="usageDetails?.ingestCount">
-                  <div class="count-type">{{usageDetails?.ingestCount| valueFormat}} /
-                    <span>{{usageDetails?.ingestLimit| valueFormat}}</span>
-                  </div>
+                <div class="range-data">
+                  <div class="count-type">{{usageDetails?.ingestCount| valueFormat}} / <span>{{usageDetails?.ingestLimit| valueFormat}}</span></div>
                   <div style="margin-top: 6px;">
-                    <ngb-progressbar height="6px" [type]="usageDetails?.ingestDocs<80?'success':'danger'"
-                      [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
+                    <ngb-progressbar height="6px" [type]="usageDetails?.ingestDocs<80?'success':'danger'" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
                   </div>
                 </div>
               </div>

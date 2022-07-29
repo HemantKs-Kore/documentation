@@ -123,6 +123,7 @@ export class ConnectorsSourceComponent implements OnInit {
   changeEditTabs(type) {
     this.selectedTab = type;
     this.showProtecedText = { isClientShow: false, isSecretShow: false, isPassword: false };
+    this.searchContent='';
   }
   //get connector list
   getConnectors() {
@@ -169,7 +170,6 @@ export class ConnectorsSourceComponent implements OnInit {
       interface: 'fullSearch'
     };
     this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
-      console.log("res",res);
       if(res){
         const settingsData = res.groupSetting.conditions.filter(ele=>ele?.fieldValue==='data');
         this.isResultTemplate = settingsData?.length?false:true;
