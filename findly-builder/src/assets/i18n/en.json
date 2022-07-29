@@ -25,6 +25,7 @@
     "traits_extraction": "Traits Extraction",
     "custom_script": "Custom Script",
     "exclude_document": "Exclude Document",
+    "snippet_extraction": "Snippet Extraction",
     "set": "Set",
     "rename": "Rename",
     "copy": "Copy",
