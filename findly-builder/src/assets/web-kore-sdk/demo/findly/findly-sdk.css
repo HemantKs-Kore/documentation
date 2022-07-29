@@ -11659,12 +11659,21 @@ a.tile-heading {
     overflow: auto;
     z-index: 1;
 }
+.searchAssist-kore-chat-window.search-container .sdkFooterIcon .kore-sponsored-bottom{
+    right: 30px;
+    position: absolute;
+    top: 2px;
+    display: block;
+}
 
 /* Snipet css */
 
 .snippet-template {
     display: inline-block;
     width: 100%;
+    border: 1px solid #D7D8D9;
+    border-radius: 4px;
+    padding: 20px;
 }
 .snippet-template .desc-text {
     font-weight: 400;
