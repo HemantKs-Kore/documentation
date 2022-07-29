@@ -1320,8 +1320,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <img class="live-search-close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
       {{/if}}\-->\
       <div class="snippet-template">\
-        <div class="title-text">${snippetData.title}</div>\
-        <div class="desc-text">${snippetData.answer}</div>\
+        <div class="title-text">{{html snippetData.title}}</div>\
+        <div class="desc-text">{{html snippetData.answer}}</div>\
         <div class="quick-links">\
           <div class="quick-item">Know More</div>\
           <div class="quick-item">\
@@ -6850,7 +6850,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.sendMessageToSearch('bot', dataObj.smallTalk);
             } else {
               var _botMessage = 'Sure, please find the matched results below';
-              var snippetObj = {'title':res?.graph_answer?.payload?.center_panel?.data[0]?.title,'answer':res?.graph_answer?.payload?.center_panel?.data[0]?.answer};               
+              var snippetObj = {'title':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.title),'answer':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.answer)};               
+              // var parser = new DOMParser();
+              // var result = parser.parseFromString(snippetObj?.title, "text/xml")
+              // console.log("result parser",result)
               searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
                 faqs: [],
                 web: [],
