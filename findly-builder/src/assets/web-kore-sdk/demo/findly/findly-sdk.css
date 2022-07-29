@@ -11674,6 +11674,13 @@ a.tile-heading {
     border: 1px solid #D7D8D9;
     border-radius: 4px;
     padding: 20px;
+    margin-bottom: 10px;
+}
+.snippet-template .title-text {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 3px;
+    color: #121314;
 }
 .snippet-template .desc-text {
     font-weight: 400;
