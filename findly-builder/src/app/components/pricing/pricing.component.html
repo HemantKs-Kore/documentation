@@ -9,9 +9,9 @@
   <div class="title-header d-flex align-items-center justify-content-between">
     <div>{{"plan.plan_head"| translate}}</div>
     <div class="btns-block">
-    <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)==='standard'&&(currentSubscriptionPlan?.subscription?.changesScheduledFor==='none')" (click)="cancelSubscriptionModal('open')"><i class="si-minus-circle-o"></i>Cancel Subscription</button>
-    <button class="kr-sg-button-primary btn_lg" [ngClass]="{'d-none':['unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}" (click)="selectModal('choose_plan')"><i class="si-publish si-icon"></i>Upgrade Plan</button>
-    <button class="kr-sg-button-primary btn_lg" [ngClass]="{'d-none':!['enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}" (click)="selectModal('choose_plan')"><img src="assets/icons/pricing/move_down.png">  Downgrade Plan</button>
+    <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)==='standard'&&(currentSubscriptionPlan?.subscription?.changesScheduledFor==='none')" (click)="cancelSubscriptionModal('open')"><i class="si-minus-circle-o"></i>{{"plan.cancel_subscription"| translate}}</button>
+    <button class="kr-sg-button-primary btn_lg" [ngClass]="{'d-none':['unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}" (click)="selectModal('choose_plan')"><i class="si-publish si-icon"></i>{{"plan.upgrade_plan"| translate}}</button>
+    <button class="kr-sg-button-primary btn_lg" [ngClass]="{'d-none':!['enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}" (click)="selectModal('choose_plan')"><img src="assets/icons/pricing/move_down.png">  {{"plan.downgrade_plan"| translate}}</button>
     </div>
   </div>
     <div class="info-note proInfo row m-0" *ngIf="(bannerObj?.show)" [ngClass]="{'proInfoSuccess':bannerObj.type==='success','proInfoError':bannerObj.type==='failed','proInfoInfo':bannerObj.type==='downgrade','downGradeAlert':bannerObj.type==='downgrade'}">
@@ -24,7 +24,7 @@
         <span class="info-text">{{bannerObj?.msg}}</span>
       </div>
       <div class="close-info col-2 text-right">
-        <span class="cancel-request" *ngIf="bannerObj.type==='downgrade'" (click)="revertCancelModal('open')">Cancel request</span>
+        <span class="cancel-request" *ngIf="bannerObj.type==='downgrade'" (click)="revertCancelModal('open')">{{"plan.cancel_request"| translate}}</span>
         <span class="info-proTip-close" (click)="clearBanner()"><i class="si-close"></i></span>
       </div>
     </div>
@@ -33,7 +33,7 @@
        <div class="row col-12 m-0 tile-block">
           <div class="col-4 tile-left">
             <div class="tile-header">
-              <span class="pr-1"><i class="si-instructions"></i></span>  Current Plan details
+              <span class="pr-1"><i class="si-instructions"></i></span>  {{"plan.current_plan_details"| translate}}
             </div>
             <div class="tile-plan-overview">
               <div class="tile-current-plan">
@@ -44,10 +44,10 @@
                   </div>
                   <div class="plan-options" [ngClass]="{'d-none':(currentSubscriptionPlan?.subscription?.planName|lowercase)==='unlimited'}">
                     <div class="plan-view">
-                      <button class="kr-sg-button-ghost btn_md" data-toggle="modal" data-target="#viewPlanModal">View Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
+                      <button class="kr-sg-button-ghost btn_md" data-toggle="modal" data-target="#viewPlanModal">{{"plan.view_plan"| translate}} <span><i class="si-carrotup angle-right-icon"></i></span></button>
                     </div>
                     <div class="plan-change">
-                      <button class="kr-sg-button-ghost btn_md" (click)="selectModal('choose_plan')">Change Plan <span><i class="si-carrotup angle-right-icon"></i></span></button>
+                      <button class="kr-sg-button-ghost btn_md" (click)="selectModal('choose_plan')">{{"plan.change_plan"| translate}} <span><i class="si-carrotup angle-right-icon"></i></span></button>
                     </div>
                   </div>
                 </div>
@@ -60,8 +60,8 @@
 
                   <ng-container *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')">
                     <div class="d-flex justify-content-between align-items-center">
-                      <div class="plan-downgrade" *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')"><span class="plan-current-status"></span>Downgraded</div>
-                      <div class="plan-downgrade-duration" *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')">Billing cycle {{currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MM.YY'}}</div>  
+                      <div class="plan-downgrade" *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')"><span class="plan-current-status"></span>{{"plan.downgraded"| translate}}</div>
+                      <div class="plan-downgrade-duration" *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')">{{"plan.billing_cycle"| translate}} {{currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MM.YY'}}</div>  
                     </div>
                    <div class="plan-downgrade-cancel" *ngIf="['downgrade'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)" (click)="revertCancelModal('open')">{{"plan.cancel_request" | translate}}</div>
                   </ng-container>
@@ -70,11 +70,11 @@
 
               <div class="tile-plan-utilization plan-current-usage">
                 <div class="plan-current-and-overage">
-                  <div class="plan-current-usage">CURRENT USAGE</div>
+                  <div class="plan-current-usage">{{"plan.current_usage" | translate}}</div>
                 </div>
                 <div class="plan-progress-bar-block">
                   <div class="plan-progress-bar-header-block">
-                    <div class="plan-progress-bar-header">Documents</div>
+                    <div class="plan-progress-bar-header">{{"plan.documents" | translate}}</div>
                     <div class="plan-progress-bar-count" *ngIf="usageDetails?.ingestDocsLimit">{{usageDetails?.ingestDocsUsed}} <span class="total-count">/ {{usageDetails?.ingestDocsLimit}}</span></div>
                   </div>
                   <div class="plan-progress-bar">
@@ -84,7 +84,7 @@
 
                 <div class="plan-progress-bar-block">
                   <div class="plan-progress-bar-header-block">
-                    <div class="plan-progress-bar-header">Queries</div>
+                    <div class="plan-progress-bar-header">{{"plan.queries" | translate}}</div>
                     <div class="plan-progress-bar-count" *ngIf="usageDetails?.searchQueriesLimit">{{usageDetails?.searchQueriesUsed}} <span class="total-count">/ {{usageDetails?.searchQueriesLimit}}</span></div>
                   </div>
                   <div class="plan-progress-bar">
@@ -93,18 +93,18 @@
                 </div>
               </div>
 
-              <button class="btn btn-add-overage" [ngClass]="{'d-none':['free','unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}" *ngIf="currentSubscriptionPlan?.overages.length===0; else overageUsage" (click)="selectModal('add_overage')"><span class="pr-2"><i class="si-grow-up-arrow"></i></span>Add Overage</button>              
+              <button class="btn btn-add-overage" [ngClass]="{'d-none':['free','unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}" *ngIf="currentSubscriptionPlan?.overages.length===0; else overageUsage" (click)="selectModal('add_overage')"><span class="pr-2"><i class="si-grow-up-arrow"></i></span>{{"plan.add_overage" | translate}}</button>              
               <ng-template #overageUsage>
               <div class="tile-plan-utilization plan-overview">
                 <div class="plan-current-and-overage">
-                  <div class="plan-current-usage">OVERAGE</div>
+                  <div class="plan-current-usage">{{"plan.overage" | translate}}</div>
                   <div class="plan-add-btn">
-                    <button class="kr-sg-button-ghost btn_md" (click)="selectModal('add_overage')">+ADD</button>
+                    <button class="kr-sg-button-ghost btn_md" (click)="selectModal('add_overage')">+{{"plan.add" | translate}}</button>
                   </div>
                 </div>
                 <div class="plan-progress-bar-block">
                   <div class="plan-progress-bar-header-block">
-                    <div class="plan-progress-bar-header">Documents</div>
+                    <div class="plan-progress-bar-header">{{"plan.documents" | translate}}</div>
                     <div class="plan-progress-bar-count">{{usageDetails?.ingestDocsOverageUsed}} <span class="total-count">/ {{usageDetails?.ingestDocsOverageLimit}}</span></div>
                   </div>
                   <div class="plan-progress-bar">
@@ -113,7 +113,7 @@
                 </div>
                 <div class="plan-progress-bar-block">
                   <div class="plan-progress-bar-header-block">
-                    <div class="plan-progress-bar-header">Queries</div>
+                    <div class="plan-progress-bar-header">{{"plan.queries" | translate}}</div>
                     <div class="plan-progress-bar-count">{{usageDetails?.searchQueriesOverageUsed}} <span class="total-count">/ {{usageDetails?.searchQueriesOverageLimit}}</span></div>
                   </div>
                   <div class="plan-progress-bar">
@@ -126,7 +126,7 @@
           </div>
           <div class="col-8 tile-right">
             <div class="tile-header">
-              <span class="pr-1"><i class="si-graph-lines"></i></span> Usage Metrics
+              <span class="pr-1"><i class="si-graph-lines"></i></span> {{"plan.usage_metrics" | translate}}
             </div>
             <div class="tile-chart">
               <div class="title">{{"plan.query_usage_analytics"| translate}}</div>
