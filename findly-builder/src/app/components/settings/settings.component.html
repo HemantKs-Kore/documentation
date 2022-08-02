@@ -64,7 +64,7 @@
                     </ul>
                 </div> -->
                 <div class="main" (click)="proceedChannel(channel)">
-                    <div class="img-block cursor-pointer"><img src="{{channel.icon}}"></div>
+                    <div class="img-block cursor-pointer"><img src="{{channel.icon}}" height="140"></div>
                     <div class="main-title">{{channel.name}}</div>
                     <div class="configuration" *ngIf="channel.enable && !delChannel">{{"settings.configured" | translate}}</div>
                 </div>

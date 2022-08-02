@@ -2050,38 +2050,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var freqData = '<script type="text/x-jqury-tmpl" >\
       <div class="searchBox Search-BG-Copy">\
       <div class="recentContainer">\
-        <!--<div class="recent-conversations hide">\
-          <div class="mb-30">\
-              <span class="search-heads mb-0">RECENT CONVERSATIONS</span>\
-              <div class="conversations-list">\
-                <div class="conversation-logo">\<img src="./libs/images/newtheme/recentcovicon.svg">\
-                </div>\
-                <div class="conversation-content">\
-                  <div class="c-name">\Findly.ai</div>\
-                  <div class="c-data">\Hello! How can I help you today?</div>\
-                  <div class="c-date">\Today</div>\
-                </div>\
-              </div>\
-              <div class="conversations-list">\
-                <div class="conversation-logo">\<img src="./libs/images/newtheme/recentcovicon.svg">\
-                </div>\
-                <div class="conversation-content">\
-                  <div class="c-name">\ Ranak</div>\
-                  <div class="c-data">\ Ranak here. what brings you to future bank?</div>\
-                  <div class="c-date">\ 2w ago</div>\
-                </div>\
-              </div>\
-              <div class="conversations-list">\
-                <div class="conversation-logo">\<img src="./libs/images/newtheme/recentcovicon.svg">\
-                </div>\
-                <div class="conversation-content">\
-                  <div class="c-name">\Findly.ai</div>\
-                  <div class="c-data">\Hello! How can I help you today?</div>\
-                  <div class="c-date">\Today</div>\
-                </div>\
-              </div>\
-            </div>\
-        </div>-->\
       {{if popularSearches && popularSearches.length}}\
           <div class="search-heads">POPULAR SEARCHES</div>\
             <div class="search-recent-column" >\
@@ -6007,6 +5975,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if ($('.search-body').hasClass('recent-search-show')) {
               $('.search-body').removeClass('recent-search-show');
             }
+            $('.search-body').empty();
           }
           var keyCode = e.keyCode || e.which;
           keyCode = Number(keyCode);
@@ -6377,9 +6346,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     })
                   }
                   else {
+                    $('.searchBox.Search-BG-Copy').remove();
                     $('.search-container').addClass('active');
                     $('.search-body').removeClass('hide');
-                    $('.search-body').show();
+                    $('.search-body').empty();
+                    // $('.search-body').show();
                   }
                 }
               } else {
@@ -17866,7 +17837,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('#frequently-searched-box').hide();
               $('#live-search-result-box').hide();
               //top-down-searc-facets active -start//
-              _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
+              _self.pubSub.publish('facet-selected', { selectedFacet: 'all results',isResultsLoading:true });
               //top-down-search-facets active -end//
             }, 500);
           }
