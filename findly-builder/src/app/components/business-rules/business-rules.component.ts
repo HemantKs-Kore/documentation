@@ -31,7 +31,6 @@ declare const $: any;
 })
 export class BusinessRulesComponent implements OnInit, OnDestroy {
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
-  selectedTab: string = "Contextual";
   defaultValuesObj: any = {
     contextType: 'searchContext',
     dataType: 'string',
@@ -69,6 +68,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   selcectionObj: any = {
     selectAll: false,
     selectedItems: [],
+    ruleType:'Contextual'
   };
   totalRecord: number = 0;
   activeClose = false;
@@ -157,9 +157,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     public mixpanel: MixpanelServiceService,
     private appSelectionService: AppSelectionService
   ) { }
-  // ngAfterViewInit(){
-  //   this.loadingContent=false;
-  // }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
