@@ -730,6 +730,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     return stagesArray;
   }
+  
   checkForNewFields() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
