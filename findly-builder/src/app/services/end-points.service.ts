@@ -744,6 +744,18 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/logs?subject=rules',
       method: 'get'
     }
+    this.serviceList['get.entities'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/indexPipeline/:fip/queryPipeline/:queryPipelineId/entities',
+      method: 'get'
+    }
+    this.serviceList['post.entities'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/indexPipeline/:fip/queryPipeline/:queryPipelineId/entities',
+      method: 'post'
+    }
+    this.serviceList['delete.entities'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/indexPipeline/:fip/queryPipeline/:queryPipelineId/entities',
+      method: 'delete'
+    }
     /** APIs for Business rules */
 
     /** APIs for Channels */

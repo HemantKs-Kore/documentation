@@ -46,6 +46,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     dataTypes: ['string', 'date', 'number', 'trait', 'entity', 'keyword'],
     actions: ['boost', 'lower', 'hide', 'filter']
   }
+  rulesArray=[{},{}]
   addBusinessRulesRef: any;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
@@ -61,6 +62,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   iconImageOut: boolean = false;
   skip = 0;
   rules = [];
+  allRules =[];
   currentSugg: any = [];
   selectedSort = '';
   isAsc = true;
@@ -68,7 +70,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   selcectionObj: any = {
     selectAll: false,
     selectedItems: [],
-    ruleType:'Contextual'
+    ruleType:'contextual',
+    supportURL:'https://docs.kore.ai/searchassist/concepts/personalizing-results/personalizing-results-ranking/#Configuring_Business_Rules'
   };
   totalRecord: number = 0;
   activeClose = false;
@@ -99,6 +102,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   addEditRuleObj: any = {
     ruleName: '',
+    ruleType:'contextual',
     isRuleActive: true,
     rules: [],
     outcomes: [],
@@ -132,7 +136,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     'type': '',
     'header': ''
   }
-  showEntityPopup: boolean = false;
+  sys_entities:any=[];
+  nlpAnnotatorObj:any={showEntityPopup:false,isEditPage:false,entities:[{entityName:'',entityType:'index_field',fieldId:'',field_name:''}],searchEntity:''};
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
       this.contextSuggestedImput = content;
@@ -204,19 +209,20 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.addEditRuleObj = {
       ruleName: '',
       isRuleActive: true,
+      ruleType: this.selcectionObj.ruleType,
       rules: [],
       outcomes: []
     };
-    this.addNewRule();
     this.addNewOutcome();
     this.openModalPopup();
     this.getFieldAutoComplete(null, null);
+    if(this.selcectionObj.ruleType ==='contextual') this.addNewRule();
   }
   openModalPopup() {
     this.addBusinessRulesRef = this.addBusinessRules.open();
     setTimeout(() => {
-      this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop();
+      this.perfectScroll?.directiveRef?.update();
+      this.perfectScroll?.directiveRef?.scrollToTop();
     }, 500)
   }
   prepereSliderObj(index, scale?) {
@@ -248,6 +254,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.outcomeArrayforAddEdit = [];
     this.addBusinessRulesRef.close();
     this.removedCon = false;
+    this.createTag(false,false);
   }
   setDataForEdit(ruleObj) {
     if (ruleObj && ruleObj.rules && ruleObj.rules.length) {
@@ -464,55 +471,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.getRules(searchValue, searchSource, source, headerOption, sortHeaderOption, sortValue, navigate, request);
     this.getDyanmicFilterData()
   }
-  // filterRules(source, headerOption) {
-
-  //   const quaryparms: any = {
-  //     searchIndexID: this.serachIndexId,
-  //     indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-  //     queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
-  //   };
-
-  //   const request:any = {   
-  //     "sort":{
-  //       ruleName : 1,
-  //     }
-  //   }
-  //   if (headerOption === 'isRuleActive' && source !== 'all') {
-  //     request.isRuleActive = source
-  //   }
-
-  //   else if (headerOption === 'search') {
-  //     request.search = source
-  //   }
-  //   // if(this.searchRules){
-  //   //   payload.search = this.searchRules
-  //   // }   
-  //   let serviceId = 'post.businessRules'
-  //   this.service.invoke(serviceId,quaryparms,request).subscribe(res => {
-  //     this.rules = [];
-  //     this.rules = res.rules;     
-  //     if (headerOption === 'search') {
-  //       this.getDyanmicFilterData(source);
-  //     }
-  //   })
-  //   // if (!this.beforeFilterRules.length) {
-  //   //   this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
-  //   // }
-  //   // let tempRules = this.beforeFilterRules.filter((field: any) => {
-  //   //   if (source !== 'all') {
-  //   //     if (headerOption === 'isRuleActive') {
-  //   //       if (field.isRuleActive === source) {
-  //   //         return field;
-  //   //       }
-  //   //     }
-  //   //   }
-  //   //   else {
-  //   //     return field;
-  //   //   }
-  //   // });
-
-  //   // this.rules = JSON.parse(JSON.stringify(tempRules));
-  // }
   sortRules(type?, navigate?, value?) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
@@ -860,16 +818,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         queryPipelineId: this.queryPipelineId,
         indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
       };
-      const payload: any = {
-        ruleName: this.addEditRuleObj.ruleName,
-        isRuleActive: this.addEditRuleObj.isRuleActive,
-        rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit) || [],
-        outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
+      let payload:any={ ruleName : this.addEditRuleObj.ruleName,isRuleActive :this.addEditRuleObj.isRuleActive,ruleType:this.selcectionObj?.ruleType};
+      if(this.selcectionObj?.ruleType==='contextual'){
+        payload.rules = this.getRulesArrayPayload(this.rulesArrayforAddEdit) || [],
+        payload.outcomes = this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
       }
-      // if (!payload.rules.length) {
-      //   this.errorToaster(null, 'Atleast one condition is required');
-      //   return;
-      // }
+      else if(this.selcectionObj?.ruleType==='nlp'){
+
+      }
       if (!payload.outcomes.length) {
         this.errorToaster(null, 'Atleast one outcome is required');
         return;
@@ -878,7 +834,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
       this.service.invoke('create.businessRules', quaryparms, payload).subscribe(res => {
         if (this.filterSystem.isRuleActiveFilter == 'all') {
-          this.rules.push(res);
+          this.allRules.push(res);
+          this.selectRuleType(this.selcectionObj.ruleType);
         }
         if (this.searchRules) {
           this.getRules(null, this.searchRules);
@@ -905,12 +862,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       });
     }
     else {
-      //  if(this.validateCon() && this.validateOut()){
-      //   $("#ConditionInput").parent('div').css("border-color", "#DD3646");   
-      //   $("#infoWarningCon").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
-      //   $("#OutcomeInput").parent('div').css("border-color", "#DD3646");   
-      //   $("#infoWarningCon").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
-      //  }
       if (!this.validateCon()) {
         $("#ConditionInput").parent('div').css("border-color", "#DD3646");
         $("#infoWarningCon").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
@@ -973,28 +924,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
     }
     this.service.invoke(serviceId, quaryparms, payload).subscribe(res => {
-      this.rules = res.rules || [];
+      this.allRules = res.rules || [];
+      this.selectRuleType(this.selcectionObj.ruleType);
       this.totalRecord = res.totalCount || 0;
-      this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
       this.loadingContent = false;
-      // if (this.rules.length) {
-      //   this.rules.forEach(element => {
-      //     this.isRuleActiveArr.push(element.isRuleActive);
-      //   });
-      //   this.isRuleActiveArr = [...new Set(this.isRuleActiveArr)];
-      // }
-      this.addRemoveRuleFromSelection(null, null, true);
-      if (res && res.rules && res.rules.length > 0) {
-        this.loadingContent = false;
-        this.loadingContent1 = false;
-      }
-      else {
-        this.loadingContent1 = true;
-        //if(!this.inlineManual.checkVisibility('RULES')){
-        //  this.inlineManual.openHelp('RULES')
-        //  this.inlineManual.visited('RULES')
-        //}
-      }
+      this.addRemoveRuleFromSelection(null, null, true);     
     }, errRes => {
       this.loadingContent = false;
       this.loadingContent1 = false;
@@ -1030,10 +964,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit),
         outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit)
       }
-      // if (!payload.rules.length) {
-      //   this.errorToaster(null, 'Atleast one condition is required');
-      //   return;
-      // }
       if (!payload.outcomes.length) {
         this.errorToaster(null, 'Atleast one outcome is required');
         return;
@@ -1154,15 +1084,15 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       limit: 100
     };
     this.service.invoke('delete.businessRule', quaryparms).subscribe(res => {
-      const deleteIndex = _.findIndex(this.rules, (pg) => {
+      const deleteIndex = _.findIndex(this.allRules, (pg) => {
         return pg._id === rule._id;
       })
-      this.rules.splice(deleteIndex, 1);
+      this.allRules.splice(deleteIndex, 1);
       const deleteIndex1 = _.findIndex(this.beforeFilterRules, (pg) => {
         return pg._id === rule._id;
       })
       this.beforeFilterRules.splice(deleteIndex1, 1);
-      if (!this.rules.length) {
+      if (!this.allRules.length) {
         this.isRuleActiveArr = [];
         this.beforeFilterRules.forEach(element => {
           this.isRuleActiveArr.push(element.isRuleActive);
@@ -1173,6 +1103,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       if (dilogRef && dilogRef.close) {
         dilogRef.close();
       }
+      this.selectRuleType(this.selcectionObj.ruleType);
       this.notificationService.notify('Deleted Successfully', 'success');
       this.mixpanel.postEvent('Business Rule - Deleted', {})
       // console.log('MIXPANNEL BR DELETE')
@@ -1238,24 +1169,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
     this.filterRules(null, null, null, null, sort, checkSortValue, naviagtionArrow)
   }
-  // sortBy(sort) {
-  //   const data = this.rules.slice();
-  //   this.selectedSort = sort;
-  //   if (this.selectedSort !== sort) {
-  //     this.isAsc = true;
-  //   } else {
-  //     this.isAsc = !this.isAsc;
-  //   }
-  //   const sortedData = data.sort((a, b) => {
-  //     const isAsc = this.isAsc;
-  //     switch (sort) {
-  //       case 'ruleName': return this.compare(a.ruleName, b.ruleName, isAsc);
-  //       case 'isRuleActive': return this.compare(a.isRuleActive, b.isRuleActive, isAsc);
-  //       default: return 0;
-  //     }
-  //   });
-  //   this.rules = sortedData;
-  // }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -1322,21 +1235,97 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //NLP Annotator code
   checkSelection(event) {
     if (window.getSelection && window.getSelection().toString().length > 0) {
-      this.showEntityPopup = true;
+      this.nlpAnnotatorObj.showEntityPopup = true;
       const dialog = document.getElementById('tagDialog');
-      dialog.style.top = ((event.offsetY * 100) / window.innerHeight) + '%';
-      dialog.style.left = (((event.offsetX * 100) / window.innerWidth) + 14) + '%';
-      const text = window.getSelection().toString();
-
+      if(dialog){
+        dialog.style.top = ((event.offsetY * 100) / window.innerHeight) + '%';
+        dialog.style.left = (((event.offsetX * 100) / window.innerWidth) + 14) + '%';
+        const text = window.getSelection().toString();
+      }
     }
   }
   //create or cancel entity
-  createEntity(type) {
-    if (type === 'cancel') {
-      this.showEntityPopup = false;
+  createTag(isPopup,isEdit) {
+      this.nlpAnnotatorObj = {showEntityPopup:isPopup,isEditPage:isEdit,entities:[{entityName:'',entityType:'index_field',fieldId:'',field_name:''}]};
+  }
+  //based on entity type show modal height
+   setModalHeight(type){
+     $('.nlp-custom-tag-popup').css('height',(type==='custom'?'355px':'450px'));
+   }
+  //select rule type 
+  selectRuleType(type){
+    this.selcectionObj.ruleType = type;
+    this.rules = this.allRules?.filter(item=>item?.ruleType===type);
+    this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
+    if (this.rules.length > 0) {
+      this.loadingContent = false;
+      this.loadingContent1 = false;
     }
-    else if (type === 'add') {
-
+    else {
+      this.loadingContent1 = true;
     }
+    if(type==='nlp') this.getEntities();
+  }
+  //get entities list
+  getEntities(){
+      const quaryparms: any = {
+        sidx: this.serachIndexId,
+        queryPipelineId: this.queryPipelineId,
+        fip: this.workflowService.selectedIndexPipeline() || ''
+      };
+      this.service.invoke('get.entities', quaryparms).subscribe(res => {
+        this.sys_entities =res?.entities;
+      }, errRes => {
+        this.errorToaster(errRes, 'Failed to get entities');
+      });
+  }
+  //choose specific entity by clicking
+  chooseEntity(entity?){
+    this.createTag(true,true);
+    if(entity){
+      this.nlpAnnotatorObj.entities[0].entityName = entity?.entityName;
+      this.nlpAnnotatorObj.entities[0].entityType = entity?.entityType;
+      // this.nlpAnnotatorObj.entities[0].fieldId = 
+      // this.nlpAnnotatorObj.entities[0].field_name = 
+    }
+    this.setModalHeight(entity?(entity?.entityType):'index');
+  }
+  //add entity
+  addEntity(){
+    const quaryparms: any = {
+      sidx: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
+      fip: this.workflowService.selectedIndexPipeline() || ''
+    };
+      delete this.nlpAnnotatorObj.entities[0].field_name
+    if(this.nlpAnnotatorObj.entities[0].entityType==='custom'){
+      delete this.nlpAnnotatorObj.entities[0].fieldId
+    }
+    const payload = {entities:[this.nlpAnnotatorObj.entities[0]]};
+    this.service.invoke('post.entities', quaryparms,payload).subscribe(res => {
+      if(res){
+        this.createTag(true,false);
+        this.getEntities();
+        this.setModalHeight('index');
+      }
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get entities');
+    });
+  }
+   //delete entity
+   deleteEntity(index,id){
+    const quaryparms: any = {
+      sidx: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
+      fip: this.workflowService.selectedIndexPipeline() || ''
+    };
+    const payload = {entityIds:[id]};
+    this.service.invoke('delete.entities', quaryparms,payload).subscribe(res => {
+      if(res){
+        this.sys_entities.splice(index,1);
+      }
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get entities');
+    });
   }
 }

@@ -199,7 +199,19 @@
         "lessThan": "Less Than",
         "static": "Static",
         "dynamic": "Dynamic",
-        "delete": "Delete"
+        "delete": "Delete",
+        "no_contextual_rule":"No Contextual Rules Found",
+        "no_nlp_rule":"No NLP Rules Found",
+        "contextual":"Contextual",
+        "nlp":"NLP",
+        "contextual_rules_allow":"Contextual Rules allows you to define outcomes based on various conditions set by you on search context or Page context or the User context.",
+        "contextual_rules_are":"These rules are can help achieve personalization of search results for your end users",
+        "not_sure_what_are":"Not sure what are contextual",
+        "visit_our":"Visit our",
+        "support":"Support",
+        "rule":"Rule",
+        "try_adding_nlp":"Try adding NLP rules to find what you are looking for.",
+        "rules":"Rules"
     },
     "synonyms": {
         "please_wait": "Please Wait!",

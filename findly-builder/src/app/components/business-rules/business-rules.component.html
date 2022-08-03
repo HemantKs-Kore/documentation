@@ -23,9 +23,9 @@
     </div>
     <div class="header-tabs-rules col-12 row m-0">
         <div class="left-tabs col-4 p-0">
-            <div class="tab-name-text" [ngClass]="{'active-tab-rule':selcectionObj?.ruleType==='Contextual'}" (click)="selcectionObj.ruleType='Contextual'"><span>Contextual Rules</span></div>
-            <i class="si-help info-icon"></i>
-            <div class="tab-name-text" [ngClass]="{'active-tab-rule':selcectionObj?.ruleType==='NLP'}" (click)="selcectionObj.ruleType='NLP'"><span>NLP Rules</span></div>
+            <div class="tab-name-text" [ngClass]="{'active-tab-rule':selcectionObj?.ruleType==='contextual'}" (click)="selectRuleType('contextual')"><span>{{"businessRules.contextual"| translate}} {{"businessRules.rules"| translate}}</span></div>
+            <i class="si-help info-icon" placement="right" [ngbTooltip]="('businessRules.contextual_rules_allow'| translate)" [container]='"body"' tooltipClass="metrics_tooltips m-0"></i>
+            <div class="tab-name-text" [ngClass]="{'active-tab-rule':selcectionObj?.ruleType==='nlp'}" (click)="selectRuleType('nlp')"><span>{{"businessRules.nlp"| translate}} {{"businessRules.rules"| translate}}</span></div>
         </div>
         <div class="right-contnet col-8 p-0 justify-content-end">
             <div class="kr-sg-input-search">
@@ -36,13 +36,12 @@
                     (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                     (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                 <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchRules">
-                <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchRules}"
-                    (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()">
+                <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchRules,'d-none':searchRules.length===0}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()">
             </div>
             <ng-container>
                 <div class="add-rule-text" (click)="createNewRule()">
                     <i class="si-add-plus"></i>
-                    <span>Add {{selcectionObj?.ruleType}} Rule</span>
+                    <span>Add {{selcectionObj?.ruleType==='contextual'?("businessRules.contextual"| translate):("businessRules.nlp"| translate)}} {{"businessRules.rule"| translate}}</span>
                 </div>
             </ng-container>
             <div class="ml-3 pl-1" *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">
@@ -107,50 +106,19 @@
 
     <!-- Empty Page -->
     <ng-container *ngIf="loadingContent1 && !(rules && beforeFilterRules && beforeFilterRules.length) && !searchRules && !showSearch">
-        <!-- <perfect-scrollbar class="empty-scroll">
-            <div class="empty-landing-screen">
-                <div class="img-block" *ngIf="!emptyItems">
-                    <img class="action_icon" (load)="imageLoad()" src="assets/images/businessrules-empty.png">
-                </div>
-                <ng-container *ngIf="loadImageText">
-                    <div class="empty-title">You haven't added any rules yet!</div>
-                    <div class="desc-text">Rule is powerful tool to personalize and fine-tune search results. SearchAssist allows you to define rules based on Search , Page and User-contexts. Rules can also be used for merchandising and promotions.</div>
-                    <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">
-                        <button class="kr-sg-button-primary btn_lg px-3" (click)="createNewRule()">Add Rules</button>
-                    </div>
-                </ng-container>
-                <ng-container *ngIf="noItems && emptySearchResults">
-                    <div class="desc-text">Your Search Query doesn't match with any record.</div>
-                </ng-container>
-            </div>
-        </perfect-scrollbar> -->
         <perfect-scrollbar class="empty-scroll">
-            <div class="rules-empty-data" *ngIf="selcectionObj?.ruleType==='Contextual'">
+            <div class="rules-empty-data">
                 <div class="img-block">
                     <img src="assets/icons/businessrules/b-rules-empty.svg">
                 </div>
-                <div class="empty-title">No Contextual Rules Found</div>
+                <div class="empty-title">{{selcectionObj?.ruleType==='contextual'?("businessRules.no_contextual_rule"| translate):("businessRules.no_nlp_rule"| translate)}}</div>
                 <div>
-                    <button class="kr-sg-button-primary btn_lg" (click)="createNewRule()"><i class="si-add-plus mr-2"></i>Add Contextual Rule</button>
+                    <button class="kr-sg-button-primary btn_lg" (click)="createNewRule()"><i class="si-add-plus mr-2"></i>Add {{selcectionObj?.ruleType==='contextual'?("businessRules.contextual"| translate):("businessRules.nlp"| translate)}} {{"businessRules.rule"| translate}}</button>
                 </div>
                 <div class="info-data-box">
-                    <div class="text-info-empty">Contextual Rules allows you to define outcomes based on various
-                        conditions set by you on search context or Page context or the User context.<br/>These rules are can
-                        help achieve personalization of search results for your end users</div>
-                    <div class="text-info-empty">Not sure what are contextual rules? Visit our <a href="#">Support <i class="si-external-horizantal"></i></a></div>
-                </div>
-            </div>
-            <div class="rules-empty-data" *ngIf="selcectionObj?.ruleType==='NLP'">
-                <div class="img-block">
-                    <img src="assets/icons/businessrules/b-rules-empty.svg">
-                </div>
-                <div class="empty-title">No NLP Rules Found</div>
-                <div>
-                    <button class="kr-sg-button-primary btn_lg" (click)="createNewRule()"><i class="si-add-plus mr-2"></i>Add NLP Rule</button>
-                </div>
-                <div class="info-data-box">
-                    <div class="text-info-empty">Try adding NLP rules to find what you are looking for.</div>
-                    <div class="text-info-empty">Not sure what are NLP rules? Visit our <a href="#">Support <i class="si-external-horizantal"></i></a></div>
+                    <div class="text-info-empty" [ngClass]="{'d-none':(selcectionObj?.ruleType==='nlp')}">{{"businessRules.contextual_rules_allow"| translate}}<br/>{{"businessRules.contextual_rules_are"| translate}}</div>
+                    <div class="text-info-empty" [ngClass]="{'d-none':(selcectionObj?.ruleType==='contextual')}">{{"businessRules.try_adding_nlp"| translate}}</div>
+                    <div class="text-info-empty">{{"businessRules.not_sure_what_are"| translate}} {{selcectionObj?.ruleType==='contextual'?("businessRules.contextual"| translate):("businessRules.nlp"| translate)}}? {{"businessRules.visit_our"| translate}} <a [href]="selcectionObj.supportURL" target="blank">{{"businessRules.support"| translate}} <i class="si-external-horizantal"></i></a></div>
                 </div>
             </div>
         </perfect-scrollbar>
@@ -311,7 +279,7 @@
                         </div>
                         <div class="sub-text text-truncate">The context of this section as to when the trigger takes place.</div>
                     </div>
-                    <div class="conditions-sec-data" *ngIf="false">
+                    <div class="conditions-sec-data" *ngIf="selcectionObj?.ruleType==='contextual'">
                         <perfect-scrollbar class="scoll-data">
                             <div class="inner-data-content">
                                 <!-- Repeat the data here conditions -->
@@ -574,7 +542,7 @@
                             </div>
                         </perfect-scrollbar>
                     </div>
-                    <div class="nlp-annotator">
+                    <div class="nlp-annotator" *ngIf="selcectionObj?.ruleType==='nlp'">
                         <perfect-scrollbar class="scoll-data">
                         <!-- nlp annotator text area start -->
                         <div class="nlp-annotator_form">
@@ -951,102 +919,33 @@
                 </div>
             </div>
         </div>
-        <div class="nlp-custom-tag-popup" id="tagDialog" *ngIf="showEntityPopup">
-            <div class="nlp-choose-tag d-none">
+        <!---NLP Annotator modal-->
+        <div class="nlp-custom-tag-popup" id="tagDialog" *ngIf="nlpAnnotatorObj.showEntityPopup">
+            <div class="nlp-choose-tag" *ngIf="!nlpAnnotatorObj.isEditPage">
                 <div class="nlp-choose-tag-header">
                     <span class="bot-tasks"><img src="assets/images/bot-tasks.svg" /></span> CHOOSE TAG
+                    <i class="si-close close-icon" (click)="createTag(false,false)"></i>
                 </div>
                 <div class="nlp-add-tag">
-                    <button class="kr-sg-button-ghost pl-0" type="button">+ ADD TAG</button>
+                    <button class="kr-sg-button-ghost pl-0" type="button" (click)="chooseEntity()">+ ADD TAG</button>
                 </div>
                 <div class="nlp-search-tag">
                     <div  class="kr-sg-input-search">
-                        <input class="input-search" id="inputSearch" placeholder="Search" type="text">
+                        <input class="input-search" id="inputSearch" placeholder="Search" type="text" [(ngModel)]="nlpAnnotatorObj.searchEntity">
                         <img  class="search-icon ng-star-inserted" src="assets/icons/search_gray.svg">
                     </div>
                     <div class="nlp-search-list">
                         <perfect-scrollbar class="scroll-data">
-                            <div class="nlp-tag-list">
+                            <div class="nlp-tag-list" *ngFor="let entity of sys_entities| filter: [nlpAnnotatorObj.searchEntity, 'entityName'];let i=index">
                                 <div class="nlp-tag-and-name">
-                                    <div class="nlp-name-value">Label</div>
-                                    <div class="nlp-tag-value">SYSTEM ENTITY</div>
+                                    <div class="nlp-name-value">{{entity?.entityName|titlecase}}</div>
+                                    <div class="nlp-tag-value" [ngClass]="{'nlp-system-entity':entity?.entityType==='system_defined','nlp-index-entity':entity?.entityType==='index_field','nlp-custom-entity':entity?.entityType==='custom'}">{{entity?.entityType==='system_defined'?'SYSTEM ENTITY':(entity?.entityType==='custom')?'CUSTOM ENTITY':'INDEX FIELD'}}</div>
                                 </div>
-                                <div class="nlp-tag-field-actions">
+                                <div class="nlp-tag-field-actions"  [ngClass]="{'d-none':(entity?.entityType==='system_defined')}">
                                     <div class="nlp-field-value">Field Name</div>
                                     <div class="nlp-tag-actions">
-                                        <span class="nlp-tag-edit"><i class="si-pencil-edit"></i></span>
-                                        <span class="nlp-tag-delete"><i class="si-delete1"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-    
-                            <div class="nlp-tag-list">
-                                <div class="nlp-tag-and-name">
-                                    <div class="nlp-name-value">Label</div>
-                                    <div class="nlp-tag-value">SYSTEM ENTITY</div>
-                                </div>
-                                <div class="nlp-tag-field-actions">
-                                    <div class="nlp-field-value">time_ist_eastindiantime_kolkata_easternasia_indianocean</div>
-                                    <div class="nlp-tag-actions">
-                                        <span class="nlp-tag-edit"><i class="si-pencil-edit"></i></span>
-                                        <span class="nlp-tag-delete"><i class="si-delete1"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="nlp-tag-list">
-                                <div class="nlp-tag-and-name">
-                                    <div class="nlp-name-value">Label</div>
-                                    <div class="nlp-tag-value">SYSTEM ENTITY</div>
-                                </div>
-                                <div class="nlp-tag-field-actions">
-                                    <div class="nlp-field-value">time_ist_eastindiantime_kolkata_easternasia_indianocean</div>
-                                    <div class="nlp-tag-actions">
-                                        <span class="nlp-tag-edit"><i class="si-pencil-edit"></i></span>
-                                        <span class="nlp-tag-delete"><i class="si-delete1"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="nlp-tag-list">
-                                <div class="nlp-tag-and-name">
-                                    <div class="nlp-name-value">Label</div>
-                                    <div class="nlp-tag-value">SYSTEM ENTITY</div>
-                                </div>
-                                <div class="nlp-tag-field-actions">
-                                    <div class="nlp-field-value">time_ist_eastindiantime_kolkata_easternasia_indianocean</div>
-                                    <div class="nlp-tag-actions">
-                                        <span class="nlp-tag-edit"><i class="si-pencil-edit"></i></span>
-                                        <span class="nlp-tag-delete"><i class="si-delete1"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="nlp-tag-list">
-                                <div class="nlp-tag-and-name">
-                                    <div class="nlp-name-value">Label</div>
-                                    <div class="nlp-tag-value">SYSTEM ENTITY</div>
-                                </div>
-                                <div class="nlp-tag-field-actions">
-                                    <div class="nlp-field-value">time_ist_eastindiantime_kolkata_easternasia_indianocean</div>
-                                    <div class="nlp-tag-actions">
-                                        <span class="nlp-tag-edit"><i class="si-pencil-edit"></i></span>
-                                        <span class="nlp-tag-delete"><i class="si-delete1"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-    
-                            <div class="nlp-tag-list">
-                                <div class="nlp-tag-and-name">
-                                    <div class="nlp-name-value">Label</div>
-                                    <div class="nlp-tag-value">SYSTEM ENTITY</div>
-                                </div>
-                                <div class="nlp-tag-field-actions">
-                                    <div class="nlp-field-value">time_ist_eastindiantime_kolkata_easternasia_indianoceane</div>
-                                    <div class="nlp-tag-actions">
-                                        <span class="nlp-tag-edit"><i class="si-pencil-edit"></i></span>
-                                        <span class="nlp-tag-delete"><i class="si-delete1"></i></span>
+                                        <span class="nlp-tag-edit" (click)="chooseEntity(entity)"><i class="si-pencil-edit"></i></span>
+                                        <span class="nlp-tag-delete" (click)="deleteEntity(i,entity?._id)"><i class="si-delete1"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -1054,12 +953,12 @@
                     </div>
                 </div>                        
             </div>
-            <div class="nlp-custom-add-tag">
+            <div class="nlp-custom-add-tag" *ngIf="nlpAnnotatorObj.isEditPage">
                 <div class="nlp-choose-tag-header">
                     <span class="bot-tasks"><img src="assets/images/bot-tasks.svg" /></span> CHOOSE TAG
                 </div>
                 <div class="nlp-choose-tag-sub-header">
-                    <div class="back-to-list">
+                    <div class="back-to-list" (click)="chooseEntity()">
                         <span><img src="assets/images/back-arrow.svg" /></span> Back
                     </div>
                     <div class="create-nlp-tag">
@@ -1069,40 +968,39 @@
                 <div class="nlp-tag-form">
                     <div class="kr-sg-input-text form-group">
                         <div  class="label-text">Tag Name</div>
-                        <input  class="input-text" placeholder="Type here..." type="text">
+                        <input  class="input-text" placeholder="Type here..." type="text" [(ngModel)]="nlpAnnotatorObj.entities[0].entityName">
                     </div>
                     <div class="entity-radiobtn-group">
                         <div class="group-radiobutton">
                             <div class="heading-title">ENTITY TYPE</div>
-                            <div class="kr-sg-radiobutton">
+                            <!-- <div class="kr-sg-radiobutton">
                                 <input id="radio-24" name="radio" class="radio-custom" checked type="radio">
                                 <label for="radio-24" class="radio-custom-label">
                                     <span class="lable-truncate">SYSTEM ENTITY</span>
                                 </label>
-                            </div>
+                            </div> -->
                             <div class="kr-sg-radiobutton">
-                                <input id="radio-25" name="radio" class="radio-custom" type="radio">
+                                <input id="radio-25" name="radio" class="radio-custom" type="radio" value="index_field" [(ngModel)]="nlpAnnotatorObj.entities[0].entityType" (click)="setModalHeight('index')">
                                 <label for="radio-25" class="radio-custom-label">
-                                    <span class="lable-truncate">INDEX FIELD</span>
+                                    <span class="lable-truncate nlp-index-entity">INDEX FIELD</span>
                                 </label>
                             </div>
                             <div class="kr-sg-radiobutton">
-                                <input id="radio-26" name="radio" class="radio-custom" type="radio">
+                                <input id="radio-26" name="radio" class="radio-custom" type="radio" value="custom" [(ngModel)]="nlpAnnotatorObj.entities[0].entityType" (click)="setModalHeight('custom')">
                                 <label for="radio-26" class="radio-custom-label">
-                                    <span class="lable-truncate">CUSTOM ENTITY</span>
+                                    <span class="lable-truncate nlp-custom-entity">CUSTOM ENTITY</span>
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <div class="kr-sg-dropdowns w-auto form-group">
+                    <div class="kr-sg-dropdowns w-auto form-group" *ngIf="nlpAnnotatorObj.entities[0].entityType==='index_field'">
                         <div class="label-text">Map Field</div>
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select</button>
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{nlpAnnotatorObj.entities[0].fieldId===''?'Select':nlpAnnotatorObj.entities[0].field_name}}</button>
                             <ul class="dropdown-menu content-menu">
                                 <perfect-scrollbar class="scroll-max-200">
                                     <div class="scroll-max-200">
-                                     <li><a class="text-truncate">Map Field 1</a></li>
-                                     <li><a class="text-truncate">Map Field 2</a></li>
+                                     <li *ngFor="let field of fieldAutoSuggestion" (click)="nlpAnnotatorObj.entities[0].fieldId=field?._id;nlpAnnotatorObj.entities[0].field_name=field?.fieldName"><a class="text-truncate" [ngClass]="{'font-weight-bold':field?._id===nlpAnnotatorObj.entities[0].fieldId}">{{field?.fieldName}}</a></li>
                                     </div>
                                 </perfect-scrollbar>
                             </ul>
@@ -1110,8 +1008,8 @@
                     </div>
 
                     <div class="btn-grp">
-                        <div class="btn-cancel"><button type="button" class="kr-sg-button-ghost" (click)="createEntity('cancel')">Cancel</button></div>
-                        <div class="btn-save"><button type="button" class="kr-sg-button-ghost pr-0" (click)="createEntity('add')">Tag & Save</button></div>
+                        <div class="btn-cancel"><button type="button" class="kr-sg-button-ghost" (click)="createTag(false,false)">Cancel</button></div>
+                        <div class="btn-save"><button type="button" class="kr-sg-button-ghost pr-0" (click)="addEntity()">Tag & Save</button></div>
                     </div>
                 </div>
             </div>

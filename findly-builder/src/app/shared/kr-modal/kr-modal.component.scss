@@ -188,6 +188,11 @@
                                 .bot-tasks {
                                     padding: 0 10px 0 0;
                                 }
+                                .close-icon{
+                                    float: right;
+                                    cursor: pointer;
+                                    margin-top: 2px;
+                                }
                             }
 
                             .nlp-add-tag {
@@ -222,7 +227,7 @@
                                 padding: 15px 0;
 
                                 .scroll-data {
-                                    height: calc(100vh - 330px);
+                                    height: calc(100vh - 465px);
                                     padding: 0 5px 0 0;
                                 }
 
@@ -251,9 +256,7 @@
                                             font-weight: 400;
                                             font-size: 7px;
                                             line-height: 8px;
-                                            color: #135423;
                                             padding: 5px 5px;
-                                            background: #EAF6EC;
                                             max-width: 150px;
                                             text-overflow: ellipsis;
                                             overflow: hidden;
@@ -393,7 +396,6 @@
                                                 font-weight: 400;
                                                 font-size: 7px;
                                                 line-height: 8px;
-                                                background: #EAF6EC;
                                                 padding: 5px 5px;
                                                 margin-left: 25px;
 
@@ -403,6 +405,7 @@
                                                     overflow: hidden;
                                                     white-space: nowrap;
                                                     display: inherit;
+                                                    padding: 3px;
                                                 }
                                             }
 
@@ -458,6 +461,19 @@
                                     }
                                 }
                             }
+                        }
+
+                        .nlp-system-entity{
+                            color: #135423;
+                            background: #EAF6EC;
+                        }
+                        .nlp-index-entity{
+                            color: #381472;;
+                            background: #F1E9FB;
+                        }
+                        .nlp-custom-entity{
+                            color: #803C25;
+                            background: #FFF1ED;
                         }
                     }
                 }
