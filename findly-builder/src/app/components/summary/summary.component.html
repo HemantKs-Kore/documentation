@@ -131,7 +131,7 @@
           <ng-container *ngIf="!loading_skelton">
             <div class="title">{{'overview.clicks' | translate}} <span>({{'overview.last_24hrs' | translate}})</span>
               <img src="assets/icons/gray_info.svg" placement="top-right"
-                ngbTooltip="No. of searches where at least one result was clicked on by the search user"
+                ngbTooltip="Total number of searches where at least one result was clicked on by the search user"
                 [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
             </div>
             <div class="count-graph-data">
@@ -257,7 +257,7 @@
                 <div class="title-query"><img src="assets/icons/overview/question.svg">{{'plan.queries' | translate}}
                 </div>
                 <div class="range-data">
-                  <div class="count-type">{{usageDetails?.searchCount | valueFormat}} / <span>{{usageDetails?.searchLimit| valueFormat}}</span></div>
+                  <div class="count-type" *ngIf="usageDetails?.searchLimit">{{usageDetails?.searchCount | valueFormat}} / <span>{{usageDetails?.searchLimit| valueFormat}}</span></div>
                   <div style="margin-top: 6px;">
                     <ngb-progressbar height="6px" [type]="usageDetails?.searchQueries<80?'primary':'danger'" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
                   </div>
@@ -267,7 +267,7 @@
                 <div class="title-query"><img src="assets/icons/overview/document.svg">{{'plan.documents' | translate}}
                 </div>
                 <div class="range-data">
-                  <div class="count-type">{{usageDetails?.ingestCount| valueFormat}} / <span>{{usageDetails?.ingestLimit| valueFormat}}</span></div>
+                  <div class="count-type" *ngIf="usageDetails?.ingestLimit">{{usageDetails?.ingestCount| valueFormat}} / <span>{{usageDetails?.ingestLimit| valueFormat}}</span></div>
                   <div style="margin-top: 6px;">
                     <ngb-progressbar height="6px" [type]="usageDetails?.ingestDocs<80?'success':'danger'" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
                   </div>

@@ -3022,6 +3022,7 @@ display: none !important;
 }
 
 .siemens-list-template .icon-with-title .siemens-icon-blue {
+  content: url(../images/icon1-blue.svg);
   display: block;
 }
 
@@ -3029,10 +3030,12 @@ display: none !important;
   display: none;
 }
 
-/* .siemens-list-template:hover .icon-with-title img.siemens-link-icon {
-  content: url(../images/siemens/externallink.svg);
-} */
-
+.siemens-list-template:hover .icon-with-title .redirecting-link img.siemens-link-icon {
+  content: url(../images/externallink-gray.svg);
+}
+.siemens-list-template .icon-with-title .redirecting-link img.siemens-link-icon {
+  content: url(../images/externallink-gray.svg);
+}
 
 .siemens-list-template:hover .icon-with-title .siemens-icon {
   display: block;

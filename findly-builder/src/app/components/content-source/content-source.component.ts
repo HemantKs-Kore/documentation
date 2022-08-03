@@ -103,8 +103,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     HALTED: { name: 'Stopped', color: '#DD3646' },
     running: { name: 'In Progress', color: 'blue' },
     RUNNING: { name: 'In Progress', color: 'blue' },
-    configured: { name: 'Validated', color: '#202124' },
-    CONFIGURED: { name: 'Validated', color: '#202124' },
+    configured: { name: 'Validated', color: 'blue' },
+    CONFIGURED: { name: 'Validated', color: 'blue' },
     inProgress: { name: 'In Progress', color: 'blue' },
     INPROGRESS: { name: 'In Progress', color: 'blue' },
   };

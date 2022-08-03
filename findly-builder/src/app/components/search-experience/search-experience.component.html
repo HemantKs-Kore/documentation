@@ -652,9 +652,7 @@
                                     <div class="border-with-padding" *ngFor="let data of suggestions">
                                         <div class="label_text">{{data.name}}</div>
                                         <div class="range-slider">
-                                            <app-range-slider-search-experience [customClass]='"querySlider"'
-                                                [allData]='data.sliderObj' (valueEvent)="valueEvent(data.name,$event)">
-                                            </app-range-slider-search-experience>
+                                            <app-range-slider-search-experience [customClass]='"querySlider"' [allData]='data.sliderObj' (valueEvent)="valueEvent(data.name,$event)"></app-range-slider-search-experience>
                                         </div>
                                     </div>
                                 </div>

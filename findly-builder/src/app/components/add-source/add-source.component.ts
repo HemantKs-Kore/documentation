@@ -167,7 +167,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         },
         {
           name: 'Import FAQs',
-          description: 'Import FAQs from CSV, Json',
+          description: 'Import FAQs from CSV, JSON',
           icon: 'assets/icons/content/importfaq.svg',
           id: 'faqDoc',
           sourceType: 'faq',
@@ -184,7 +184,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       ]
     },
     {
-      title: 'Add Structured data by uploading a file or adding manually',
+      title: 'Add Structured Data by uploading a file or adding manually',
       sources: [
         {
           name: 'Add Structured Data',
@@ -196,7 +196,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         },
         {
           name: 'Add Structured Data',
-          description: 'Add structured data manually',
+          description: 'Add Structured Data manually',
           icon: 'assets/icons/content/database-add.svg',
           id: 'contentStucturedDataAdd',
           sourceType: 'data',
@@ -219,11 +219,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       ]
     },
     {
-      title: 'Connecting sources and add searchable distinct entities',
+      title: 'Connecting sources and Add searchable distinct entities',
       sources: [
         {
           name: 'Link Searchable Sources',
-          description: 'shared content across organisation',
+          description: 'Shared content across organisation',
           icon: 'assets/icons/content/View.svg',
           id: 'connectorsId',
           sourceType: 'connectors',
@@ -350,7 +350,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     setTimeout(() => {
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop();
-    }, 500)
+    }, 500);
+    if(this.router?.url==='/content'){
+      this.mixpanel.postEvent('Enter Crawl web domain',{'Crawl web CTA spurce':'Sources'})
+    }
+    else if(this.router?.url==='/source'){
+      this.mixpanel.postEvent('Enter Crawl web domain',{'Crawl web CTA spurce':'Setup guide'})
+    }
   }
   closeAddSourceModal() {
     if (this.addSourceModalPopRef && this.addSourceModalPopRef.close) {
