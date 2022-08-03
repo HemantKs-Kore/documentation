@@ -237,7 +237,7 @@
                                                                         <!-- <img src="assets/icons/docker/info.svg"
                                                                             *ngIf="task.status === 'FAILURE'"> -->
                                                                         <img src="assets/icons/docker/info.svg"
-                                                                            *ngIf="task.status === 'FAILURE' || task.status === 'FAILED'"
+                                                                        *ngIf="task.status === 'FAILURE' || task.status ==='failure'|| task.status === 'FAILED' || task.status === 'failed'"
                                                                             [ngbTooltip]="task?.message"
                                                                             placement="top-center" [container]="'body'"
                                                                             tooltipClass="dashboard-custom-tooltips">

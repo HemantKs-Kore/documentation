@@ -840,19 +840,20 @@ export class AppHeaderComponent implements OnInit {
       if (status === 'HALTED' || status === 'halted') {
         return 'Stopped';
       }
-      else if (status === 'QUEUED') {
+      else if (status === 'QUEUED' || status === 'queued') {
         return 'In-Queue';
       }
       /**updated condition in line no 617 on 24/02,added condition for running since in_progress is updated to running as per new api contract  */
       // else if (status === 'IN_PROGRESS' || status === 'validation') {
-      else if ((status === 'IN_PROGRESS' || status === 'INPROGRESS' || status === 'running') || status === 'validation') {
+      else if ((status === 'IN_PROGRESS' || status === 'INPROGRESS' || status === 'in_progress' || status === 'inprogress'
+                || status === 'running' || status === 'RUNNING') || status === 'validation' || status === 'VALIDATION') {
         return 'In-progress';
       }
       /**made code updates in line no 630 on 03/01 added new condition for FAILED,since FAILURE is updated to FAILED as per new api contract*/
       // else if (status === 'FAILURE') {
-      else if (status === 'FAILURE' || status === 'FAILED') {
-        return 'Failed'
-      }
+        else if (status === 'FAILURE' || status === 'FAILED' || status === 'failed' || status === 'failure') {
+          return 'Failed'
+        }
     }
     else {
       /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is upadted to success*/
