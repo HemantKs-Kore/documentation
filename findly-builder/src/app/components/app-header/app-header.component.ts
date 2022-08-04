@@ -1065,9 +1065,10 @@ export class AppHeaderComponent implements OnInit {
     this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
     this.domain = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
     if (this.selectAccountDetails == null) {
-      for (let i = 0; i < this.associatedAccounts.length; i++) {
-        if (this.associatedAccounts[i].status == "active") {
-          this.selectAccountDetails = this.associatedAccounts[i];
+      for (let i = 0; i < this.currentAppControlList.associatedAccounts.length; i++) {
+        if (this.currentAppControlList.associatedAccounts[i].status == "active") {
+          this.associatedAccounts = this.currentAppControlList.associatedAccounts;
+          this.selectAccountDetails = this.currentAppControlList.associatedAccounts[i];
         }
 
       }
