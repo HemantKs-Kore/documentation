@@ -137,7 +137,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     'header': ''
   }
   sys_entities:any=[];
-  nlpAnnotatorObj:any={showEntityPopup:false,isEditPage:false,entities:[{entityName:'',entityType:'index_field',fieldId:'',field_name:''}],searchEntity:''};
+  nlpAnnotatorObj:any={showEntityPopup:false,isEditPage:false,entities:{entityId:'',entityName:'',entityType:'index_field',fieldId:'',field_name:'',isEditable:false},searchEntity:''};
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
       this.contextSuggestedImput = content;
@@ -1246,7 +1246,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   //create or cancel entity
   createTag(isPopup,isEdit) {
-      this.nlpAnnotatorObj = {showEntityPopup:isPopup,isEditPage:isEdit,entities:[{entityName:'',entityType:'index_field',fieldId:'',field_name:''}]};
+      this.nlpAnnotatorObj = {showEntityPopup:isPopup,isEditPage:isEdit,entities:{entityId:'',entityName:'',entityType:'index_field',fieldId:'',field_name:'',isEditable:false}};
   }
   //based on entity type show modal height
    setModalHeight(type){
@@ -1274,35 +1274,54 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         fip: this.workflowService.selectedIndexPipeline() || ''
       };
       this.service.invoke('get.entities', quaryparms).subscribe(res => {
-        this.sys_entities =res?.entities;
+        const response = res?.entities?.map(item=>{
+          if(item?.entityType==='index_field'){
+            const field_name = this.fieldAutoSuggestion?.filter(field=>field?._id===item?.fieldId);
+            return {...item,field_name:field_name[0]?.fieldName}
+          }
+          else{
+            return item
+          }
+        });
+        this.sys_entities = response;        
       }, errRes => {
         this.errorToaster(errRes, 'Failed to get entities');
       });
   }
   //choose specific entity by clicking
-  chooseEntity(entity?){
-    this.createTag(true,true);
+  chooseEntity(type,entity?){
+    const isEditEntity = type==='add'?true:false;
+    this.createTag(true,isEditEntity);
     if(entity){
-      this.nlpAnnotatorObj.entities[0].entityName = entity?.entityName;
-      this.nlpAnnotatorObj.entities[0].entityType = entity?.entityType;
-      // this.nlpAnnotatorObj.entities[0].fieldId = 
-      // this.nlpAnnotatorObj.entities[0].field_name = 
+      this.nlpAnnotatorObj.entities.entityId = entity?._id;
+      this.nlpAnnotatorObj.entities.isEditable = true;
+      this.nlpAnnotatorObj.entities.entityName = entity?.entityName;
+      this.nlpAnnotatorObj.entities.entityType = entity?.entityType;
+      this.nlpAnnotatorObj.entities.fieldId = entity?.fieldId;
+      const field_name = this.fieldAutoSuggestion?.filter(item=>item._id===entity?.fieldId);
+      if(field_name.length) this.nlpAnnotatorObj.entities.field_name = field_name[0].fieldName;
     }
     this.setModalHeight(entity?(entity?.entityType):'index');
   }
   //add entity
   addEntity(){
-    const quaryparms: any = {
+    const url = (this.nlpAnnotatorObj.entities.isEditable)?'put.entities':'post.entities';
+    let quaryparms: any = {
       sidx: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
       fip: this.workflowService.selectedIndexPipeline() || ''
     };
-      delete this.nlpAnnotatorObj.entities[0].field_name
-    if(this.nlpAnnotatorObj.entities[0].entityType==='custom'){
-      delete this.nlpAnnotatorObj.entities[0].fieldId
+    if(this.nlpAnnotatorObj.entities.isEditable){
+       quaryparms.entityId = this.nlpAnnotatorObj.entities.entityId;
+      }
+      delete this.nlpAnnotatorObj.entities.field_name;
+      delete this.nlpAnnotatorObj.entities.isEditable;
+      delete this.nlpAnnotatorObj.entities.entityId
+    if(this.nlpAnnotatorObj.entities.entityType==='custom'){
+      delete this.nlpAnnotatorObj.entities.fieldId
     }
-    const payload = {entities:[this.nlpAnnotatorObj.entities[0]]};
-    this.service.invoke('post.entities', quaryparms,payload).subscribe(res => {
+    const payload = this.nlpAnnotatorObj.entities;
+    this.service.invoke(url, quaryparms,payload).subscribe(res => {
       if(res){
         this.createTag(true,false);
         this.getEntities();

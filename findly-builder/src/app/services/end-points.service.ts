@@ -749,8 +749,12 @@ export class EndPointsService {
       method: 'get'
     }
     this.serviceList['post.entities'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:sidx/indexPipeline/:fip/queryPipeline/:queryPipelineId/entities',
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/indexPipeline/:fip/queryPipeline/:queryPipelineId/entities/add',
       method: 'post'
+    }
+    this.serviceList['put.entities'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/indexPipeline/:fip/queryPipeline/:queryPipelineId/entities/:entityId',
+      method: 'put'
     }
     this.serviceList['delete.entities'] = {
       endpoint: this.API_SERVER_URL + '/findly/:sidx/indexPipeline/:fip/queryPipeline/:queryPipelineId/entities',

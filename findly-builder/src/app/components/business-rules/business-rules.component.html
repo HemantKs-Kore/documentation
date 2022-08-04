@@ -927,7 +927,7 @@
                     <i class="si-close close-icon" (click)="createTag(false,false)"></i>
                 </div>
                 <div class="nlp-add-tag">
-                    <button class="kr-sg-button-ghost pl-0" type="button" (click)="chooseEntity()">+ ADD TAG</button>
+                    <button class="kr-sg-button-ghost pl-0" type="button" (click)="chooseEntity('add')">+ ADD TAG</button>
                 </div>
                 <div class="nlp-search-tag">
                     <div  class="kr-sg-input-search">
@@ -941,10 +941,10 @@
                                     <div class="nlp-name-value">{{entity?.entityName|titlecase}}</div>
                                     <div class="nlp-tag-value" [ngClass]="{'nlp-system-entity':entity?.entityType==='system_defined','nlp-index-entity':entity?.entityType==='index_field','nlp-custom-entity':entity?.entityType==='custom'}">{{entity?.entityType==='system_defined'?'SYSTEM ENTITY':(entity?.entityType==='custom')?'CUSTOM ENTITY':'INDEX FIELD'}}</div>
                                 </div>
-                                <div class="nlp-tag-field-actions"  [ngClass]="{'d-none':(entity?.entityType==='system_defined')}">
-                                    <div class="nlp-field-value">Field Name</div>
+                                <div class="nlp-tag-field-actions" [ngClass]="{'d-none':(entity?.entityType==='system_defined')}">
+                                    <div class="nlp-field-value">{{(entity?.entityType==='custom')?'':entity?.field_name}}</div>
                                     <div class="nlp-tag-actions">
-                                        <span class="nlp-tag-edit" (click)="chooseEntity(entity)"><i class="si-pencil-edit"></i></span>
+                                        <span class="nlp-tag-edit" (click)="chooseEntity('add',entity)"><i class="si-pencil-edit"></i></span>
                                         <span class="nlp-tag-delete" (click)="deleteEntity(i,entity?._id)"><i class="si-delete1"></i></span>
                                     </div>
                                 </div>
@@ -958,7 +958,7 @@
                     <span class="bot-tasks"><img src="assets/images/bot-tasks.svg" /></span> CHOOSE TAG
                 </div>
                 <div class="nlp-choose-tag-sub-header">
-                    <div class="back-to-list" (click)="chooseEntity()">
+                    <div class="back-to-list" (click)="chooseEntity('remove')">
                         <span><img src="assets/images/back-arrow.svg" /></span> Back
                     </div>
                     <div class="create-nlp-tag">
@@ -968,7 +968,7 @@
                 <div class="nlp-tag-form">
                     <div class="kr-sg-input-text form-group">
                         <div  class="label-text">Tag Name</div>
-                        <input  class="input-text" placeholder="Type here..." type="text" [(ngModel)]="nlpAnnotatorObj.entities[0].entityName">
+                        <input  class="input-text" placeholder="Type here..." type="text" [(ngModel)]="nlpAnnotatorObj.entities.entityName">
                     </div>
                     <div class="entity-radiobtn-group">
                         <div class="group-radiobutton">
@@ -980,27 +980,27 @@
                                 </label>
                             </div> -->
                             <div class="kr-sg-radiobutton">
-                                <input id="radio-25" name="radio" class="radio-custom" type="radio" value="index_field" [(ngModel)]="nlpAnnotatorObj.entities[0].entityType" (click)="setModalHeight('index')">
+                                <input id="radio-25" name="radio" class="radio-custom" type="radio" value="index_field" [(ngModel)]="nlpAnnotatorObj.entities.entityType" (click)="setModalHeight('index')">
                                 <label for="radio-25" class="radio-custom-label">
                                     <span class="lable-truncate nlp-index-entity">INDEX FIELD</span>
                                 </label>
                             </div>
                             <div class="kr-sg-radiobutton">
-                                <input id="radio-26" name="radio" class="radio-custom" type="radio" value="custom" [(ngModel)]="nlpAnnotatorObj.entities[0].entityType" (click)="setModalHeight('custom')">
+                                <input id="radio-26" name="radio" class="radio-custom" type="radio" value="custom" [(ngModel)]="nlpAnnotatorObj.entities.entityType" (click)="setModalHeight('custom')">
                                 <label for="radio-26" class="radio-custom-label">
                                     <span class="lable-truncate nlp-custom-entity">CUSTOM ENTITY</span>
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <div class="kr-sg-dropdowns w-auto form-group" *ngIf="nlpAnnotatorObj.entities[0].entityType==='index_field'">
+                    <div class="kr-sg-dropdowns w-auto form-group" *ngIf="nlpAnnotatorObj.entities.entityType==='index_field'">
                         <div class="label-text">Map Field</div>
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{nlpAnnotatorObj.entities[0].fieldId===''?'Select':nlpAnnotatorObj.entities[0].field_name}}</button>
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{nlpAnnotatorObj.entities.fieldId===''?'Select':nlpAnnotatorObj.entities.field_name}}</button>
                             <ul class="dropdown-menu content-menu">
                                 <perfect-scrollbar class="scroll-max-200">
                                     <div class="scroll-max-200">
-                                     <li *ngFor="let field of fieldAutoSuggestion" (click)="nlpAnnotatorObj.entities[0].fieldId=field?._id;nlpAnnotatorObj.entities[0].field_name=field?.fieldName"><a class="text-truncate" [ngClass]="{'font-weight-bold':field?._id===nlpAnnotatorObj.entities[0].fieldId}">{{field?.fieldName}}</a></li>
+                                     <li *ngFor="let field of fieldAutoSuggestion" (click)="nlpAnnotatorObj.entities.fieldId=field?._id;nlpAnnotatorObj.entities.field_name=field?.fieldName"><a class="text-truncate" [ngClass]="{'font-weight-bold':field?._id===nlpAnnotatorObj.entities.fieldId}">{{field?.fieldName}}</a></li>
                                     </div>
                                 </perfect-scrollbar>
                             </ul>
