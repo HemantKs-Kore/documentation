@@ -1323,7 +1323,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <div class="title-text">{{html snippetData.title}}</div>\
         <div class="desc-text">{{html snippetData.answer}}</div>\
         <div class="quick-links">\
-          <div class="quick-item">Know More</div>\
+          <div class="quick-item know-more-snippet" snippetURL="${snippetData.page_url}">Know More</div>\
           <div class="quick-item">\
             <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik02LjI5ODM4IDAuNzk2ODc1QzMuMjYyMTQgMC43OTY4NzUgMC44MDA3ODEgMy4yNjQ4MSAwLjgwMDc4MSA2LjMwOTE2QzAuODAwNzgxIDkuMzUzNTEgMy4yNjIxNCAxMS44MjE0IDYuMjk4MzggMTEuODIxNEM3LjYyNjE1IDExLjgyMTQgOC44NDM5OSAxMS4zNDk1IDkuNzk0MTIgMTAuNTYzN0wxMi4zNDMgMTMuMDg4TDEyLjM4MSAxMy4xMjIyQzEyLjU5MDIgMTMuMjkzMyAxMi44OTg4IDEzLjI3OTkgMTMuMDkyMyAxMy4wODM0QzEzLjI5OCAxMi44NzQ2IDEzLjI5NTkgMTIuNTM4MiAxMy4wODc3IDEyLjMzMkwxMC41NDMzIDkuODEyMTZDMTEuMzI2IDguODU5OCAxMS43OTYgNy42Mzk1MSAxMS43OTYgNi4zMDkxNkMxMS43OTYgMy4yNjQ4MSA5LjMzNDYyIDAuNzk2ODc1IDYuMjk4MzggMC43OTY4NzVaTTYuMjk4MzggMS44NTk0OEM4Ljc0OTMyIDEuODU5NDggMTAuNzM2MiAzLjg1MTY3IDEwLjczNjIgNi4zMDkxNkMxMC43MzYyIDguNzY2NjQgOC43NDkzMiAxMC43NTg4IDYuMjk4MzggMTAuNzU4OEMzLjg0NzQ0IDEwLjc1ODggMS44NjA1NiA4Ljc2NjY0IDEuODYwNTYgNi4zMDkxNkMxLjg2MDU2IDMuODUxNjcgMy44NDc0NCAxLjg1OTQ4IDYuMjk4MzggMS44NTk0OFoiIGZpbGw9IiMwMDc3RDIiLz4KPC9zdmc+Cg==">More Results</div>\
           </div>\
@@ -4230,6 +4230,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // $('#loaderDIV').show()
       });
 
+      $('.know-more-snippet').off('click').on('click',function (e){
+        var _self = this;
+        var url = $(this).attr("snippetURL");
+        window.open(url, '_blank');
+      })
+
       $('.suggestions-close-icon').off('click').on('click', function (e) {
         $('#autoSuggestionContainer').empty();
         $('.suggestion-search-data-parent').css('display', 'none');
@@ -6850,10 +6856,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.sendMessageToSearch('bot', dataObj.smallTalk);
             } else {
               var _botMessage = 'Sure, please find the matched results below';
-              var snippetObj = {'title':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.title),'answer':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.answer)};               
-              // var parser = new DOMParser();
-              // var result = parser.parseFromString(snippetObj?.title, "text/xml")
-              // console.log("result parser",result)
+              var snippetObj = {'title':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.title),'answer':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.answer),page_url:res?.graph_answer?.payload?.center_panel?.data[0]?.page_url};               
               searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
                 faqs: [],
                 web: [],
