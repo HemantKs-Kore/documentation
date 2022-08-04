@@ -341,7 +341,7 @@
                             <div class="switch-workspace-data">
                                 <div class="title">SWITCH WORKSPACE</div>
                                 <div class="kr-sg-input-search">
-                                    <input type="text" placeholder="Search" class="input-search" name="field_search" [(ngModel)]="field_name">
+                                    <input type="text" placeholder="Search" autocomplete="off" class="input-search" name="field_search" [(ngModel)]="field_name">
                                     <i class="si-search search-icon"></i>
                                     <img src="assets/icons/close.svg"  *ngIf="field_name?.length> 0" class="close-search" (click)="clearRecords('field_name')">
                                 </div>
@@ -483,7 +483,7 @@
             <div class="workspace-data">
                 <div class="main-heading">Workspaces</div>
                 <div class="kr-sg-input-search">
-                    <input type="text" placeholder="Search Workspaces" class="input-search" name="workspace_search" [(ngModel)]="workspace_search">
+                    <input type="text" placeholder="Search Workspaces" autocomplete="off" class="input-search" name="workspace_search" [(ngModel)]="workspace_search">
                     <i class="search-icon si-search"></i>
                     <img src="assets/icons/close.svg" *ngIf="workspace_search?.length > 0"  class="close-icon" (click)="clearRecords('workspace_search')">
                 </div>
