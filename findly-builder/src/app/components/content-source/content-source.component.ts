@@ -2140,7 +2140,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 //   resourceType: String = '';
 //   advanceOpts: AdvanceOpts = new AdvanceOpts()
 
-
 // }
 // class AdvanceOpts{
 // scheduleOpts:boolean = true;
