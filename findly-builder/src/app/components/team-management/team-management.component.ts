@@ -49,7 +49,7 @@ export class TeamManagementComponent implements OnInit {
   members: any[] = [];
   allMembers: string[] = [];
   allMembersCount: number;
-  addOnBlur = true;
+  addOnBlur = false;
   componentType: string = 'addData';
   autoSuggestEmails: any = [];
   autocomplete: any;

@@ -6,7 +6,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { ENTER, COMMA } from '@angular/cdk/keycodes';
+import { ENTER, COMMA, J } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import * as _ from 'underscore';
 import { relativeTimeRounding } from 'moment';
@@ -23,6 +23,7 @@ import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/up
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { FixedSizeVirtualScrollStrategy } from '@angular/cdk/scrolling';
+import { DomSanitizer } from '@angular/platform-browser';
 declare const $: any;
 @Component({
   selector: 'app-business-rules',
@@ -46,7 +47,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     dataTypes: ['string', 'date', 'number', 'trait', 'entity', 'keyword'],
     actions: ['boost', 'lower', 'hide', 'filter']
   }
-  rulesArray=[{},{}]
+  rulesArray = [{}, {}]
   addBusinessRulesRef: any;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
@@ -62,7 +63,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   iconImageOut: boolean = false;
   skip = 0;
   rules = [];
-  allRules =[];
+  allRules = [];
   currentSugg: any = [];
   selectedSort = '';
   isAsc = true;
@@ -70,8 +71,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   selcectionObj: any = {
     selectAll: false,
     selectedItems: [],
-    ruleType:'contextual',
-    supportURL:'https://docs.kore.ai/searchassist/concepts/personalizing-results/personalizing-results-ranking/#Configuring_Business_Rules'
+    ruleType: 'contextual',
+    supportURL: 'https://docs.kore.ai/searchassist/concepts/personalizing-results/personalizing-results-ranking/#Configuring_Business_Rules'
   };
   totalRecord: number = 0;
   activeClose = false;
@@ -102,7 +103,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   addEditRuleObj: any = {
     ruleName: '',
-    ruleType:'contextual',
+    ruleType: 'contextual',
     isRuleActive: true,
     rules: [],
     outcomes: [],
@@ -136,8 +137,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     'type': '',
     'header': ''
   }
-  sys_entities:any=[];
-  nlpAnnotatorObj:any={showEntityPopup:false,isEditPage:false,entities:{entityId:'',entityName:'',entityType:'index_field',fieldId:'',field_name:'',isEditable:false},searchEntity:''};
+  sys_entities: any = [];
+  entityFields={ startIndex: 0, endIndex: 0, entityId: '' };
+  entityObj: any = { entities: [], sentence: '', taggedSentence: '' };
+  inputSentence:any;
+  nlpAnnotatorObj: any = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [] };
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
       this.contextSuggestedImput = content;
@@ -160,7 +164,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     private sortPipe: SortPipe,
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    private sanitizer: DomSanitizer
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -216,7 +221,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.addNewOutcome();
     this.openModalPopup();
     this.getFieldAutoComplete(null, null);
-    if(this.selcectionObj.ruleType ==='contextual') this.addNewRule();
+    if (this.selcectionObj.ruleType === 'contextual') this.addNewRule();
   }
   openModalPopup() {
     this.addBusinessRulesRef = this.addBusinessRules.open();
@@ -254,7 +259,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.outcomeArrayforAddEdit = [];
     this.addBusinessRulesRef.close();
     this.removedCon = false;
-    this.createTag(false,false);
+    this.createTag(false, false);
   }
   setDataForEdit(ruleObj) {
     if (ruleObj && ruleObj.rules && ruleObj.rules.length) {
@@ -818,12 +823,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         queryPipelineId: this.queryPipelineId,
         indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
       };
-      let payload:any={ ruleName : this.addEditRuleObj.ruleName,isRuleActive :this.addEditRuleObj.isRuleActive,ruleType:this.selcectionObj?.ruleType};
-      if(this.selcectionObj?.ruleType==='contextual'){
+      let payload: any = { ruleName: this.addEditRuleObj.ruleName, isRuleActive: this.addEditRuleObj.isRuleActive, ruleType: this.selcectionObj?.ruleType };
+      if (this.selcectionObj?.ruleType === 'contextual') {
         payload.rules = this.getRulesArrayPayload(this.rulesArrayforAddEdit) || [],
-        payload.outcomes = this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
+          payload.outcomes = this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
       }
-      else if(this.selcectionObj?.ruleType==='nlp'){
+      else if (this.selcectionObj?.ruleType === 'nlp') {
 
       }
       if (!payload.outcomes.length) {
@@ -928,7 +933,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.selectRuleType(this.selcectionObj.ruleType);
       this.totalRecord = res.totalCount || 0;
       this.loadingContent = false;
-      this.addRemoveRuleFromSelection(null, null, true);     
+      this.addRemoveRuleFromSelection(null, null, true);
     }, errRes => {
       this.loadingContent = false;
       this.loadingContent1 = false;
@@ -1234,28 +1239,59 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   //NLP Annotator code
   checkSelection(event) {
-    if (window.getSelection && window.getSelection().toString().length > 0) {
+    const textLength = document.getSelection().toString().replace(/\s/g, '');
+    if (textLength.length > 0) {
       this.nlpAnnotatorObj.showEntityPopup = true;
+      // const text = selectedText?.toString();
+      const selectedText = document.getSelection();
+      console.log("selectedText",selectedText)
+      if(selectedText.anchorOffset!==selectedText.focusOffset){
+        this.entityFields.startIndex = selectedText?.anchorOffset;
+        this.entityFields.endIndex = selectedText?.focusOffset;
+      }
       const dialog = document.getElementById('tagDialog');
-      if(dialog){
+      if (dialog) {
         dialog.style.top = ((event.offsetY * 100) / window.innerHeight) + '%';
-        dialog.style.left = (((event.offsetX * 100) / window.innerWidth) + 14) + '%';
-        const text = window.getSelection().toString();
+        dialog.style.left = (((event.offsetX * 100) / window.innerWidth) + 14) + '%';        
       }
     }
   }
+  //after sentence changes click on add
+  AddSelectedEnity(){
+    this.nlpAnnotatorObj.annotator.push(this.entityObj);
+  } 
+  //click on Entity to select
+  selectEntity(entity) {
+    let sentence='';
+    this.entityFields.entityId = entity?._id;
+    this.entityObj.sentence = document.getElementById('contentText').innerText;
+    this.entityObj.entities.push(this.entityFields);
+    this.inputSentence='';
+    for (let i = 0; i < this.entityObj.sentence.length; i++) {
+      for(let j=0;j<this.entityObj.entities.length;j++){
+        if (i>=this.entityObj.entities[j].startIndex && i<this.entityObj.entities[j].endIndex) {
+          sentence = sentence + this.entityObj.sentence[i].fontcolor('red');
+        }
+        else {
+          sentence = sentence + this.entityObj.sentence[i];
+        }
+      }      
+    }
+    this.inputSentence  = this.sanitizer.bypassSecurityTrustHtml(sentence);
+    this.nlpAnnotatorObj.showEntityPopup = false;
+  }
   //create or cancel entity
-  createTag(isPopup,isEdit) {
-      this.nlpAnnotatorObj = {showEntityPopup:isPopup,isEditPage:isEdit,entities:{entityId:'',entityName:'',entityType:'index_field',fieldId:'',field_name:'',isEditable:false}};
+  createTag(isPopup, isEdit) {
+    this.nlpAnnotatorObj = { showEntityPopup: isPopup, isEditPage: isEdit, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false } };
   }
   //based on entity type show modal height
-   setModalHeight(type){
-     $('.nlp-custom-tag-popup').css('height',(type==='custom'?'355px':'450px'));
-   }
+  setModalHeight(type) {
+    $('.nlp-custom-tag-popup').css('height', (type === 'custom' ? '355px' : '450px'));
+  }
   //select rule type 
-  selectRuleType(type){
+  selectRuleType(type) {
     this.selcectionObj.ruleType = type;
-    this.rules = this.allRules?.filter(item=>item?.ruleType===type);
+    this.rules = this.allRules?.filter(item => item?.ruleType === type);
     this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
     if (this.rules.length > 0) {
       this.loadingContent = false;
@@ -1264,66 +1300,66 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     else {
       this.loadingContent1 = true;
     }
-    if(type==='nlp') this.getEntities();
+    if (type === 'nlp') this.getEntities();
   }
   //get entities list
-  getEntities(){
-      const quaryparms: any = {
-        sidx: this.serachIndexId,
-        queryPipelineId: this.queryPipelineId,
-        fip: this.workflowService.selectedIndexPipeline() || ''
-      };
-      this.service.invoke('get.entities', quaryparms).subscribe(res => {
-        const response = res?.entities?.map(item=>{
-          if(item?.entityType==='index_field'){
-            const field_name = this.fieldAutoSuggestion?.filter(field=>field?._id===item?.fieldId);
-            return {...item,field_name:field_name[0]?.fieldName}
-          }
-          else{
-            return item
-          }
-        });
-        this.sys_entities = response;        
-      }, errRes => {
-        this.errorToaster(errRes, 'Failed to get entities');
+  getEntities() {
+    const quaryparms: any = {
+      sidx: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
+      fip: this.workflowService.selectedIndexPipeline() || ''
+    };
+    this.service.invoke('get.entities', quaryparms).subscribe(res => {
+      const response = res?.entities?.map(item => {
+        if (item?.entityType === 'index_field') {
+          const field_name = this.fieldAutoSuggestion?.filter(field => field?._id === item?.fieldId);
+          return { ...item, field_name: field_name[0]?.fieldName }
+        }
+        else {
+          return item
+        }
       });
+      this.sys_entities = response;
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get entities');
+    });
   }
   //choose specific entity by clicking
-  chooseEntity(type,entity?){
-    const isEditEntity = type==='add'?true:false;
-    this.createTag(true,isEditEntity);
-    if(entity){
+  chooseEntity(type, entity?) {
+    const isEditEntity = type === 'add' ? true : false;
+    this.createTag(true, isEditEntity);
+    if (entity) {
       this.nlpAnnotatorObj.entities.entityId = entity?._id;
       this.nlpAnnotatorObj.entities.isEditable = true;
       this.nlpAnnotatorObj.entities.entityName = entity?.entityName;
       this.nlpAnnotatorObj.entities.entityType = entity?.entityType;
       this.nlpAnnotatorObj.entities.fieldId = entity?.fieldId;
-      const field_name = this.fieldAutoSuggestion?.filter(item=>item._id===entity?.fieldId);
-      if(field_name.length) this.nlpAnnotatorObj.entities.field_name = field_name[0].fieldName;
+      const field_name = this.fieldAutoSuggestion?.filter(item => item._id === entity?.fieldId);
+      if (field_name.length) this.nlpAnnotatorObj.entities.field_name = field_name[0].fieldName;
     }
-    this.setModalHeight(entity?(entity?.entityType):'index');
+    this.setModalHeight(entity ? (entity?.entityType) : 'index');
   }
   //add entity
-  addEntity(){
-    const url = (this.nlpAnnotatorObj.entities.isEditable)?'put.entities':'post.entities';
+  addEntity() {
+    const url = (this.nlpAnnotatorObj.entities.isEditable) ? 'put.entities' : 'post.entities';
     let quaryparms: any = {
       sidx: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
       fip: this.workflowService.selectedIndexPipeline() || ''
     };
-    if(this.nlpAnnotatorObj.entities.isEditable){
-       quaryparms.entityId = this.nlpAnnotatorObj.entities.entityId;
-      }
-      delete this.nlpAnnotatorObj.entities.field_name;
-      delete this.nlpAnnotatorObj.entities.isEditable;
-      delete this.nlpAnnotatorObj.entities.entityId
-    if(this.nlpAnnotatorObj.entities.entityType==='custom'){
+    if (this.nlpAnnotatorObj.entities.isEditable) {
+      quaryparms.entityId = this.nlpAnnotatorObj.entities.entityId;
+    }
+    delete this.nlpAnnotatorObj.entities.field_name;
+    delete this.nlpAnnotatorObj.entities.isEditable;
+    delete this.nlpAnnotatorObj.entities.entityId
+    if (this.nlpAnnotatorObj.entities.entityType === 'custom') {
       delete this.nlpAnnotatorObj.entities.fieldId
     }
     const payload = this.nlpAnnotatorObj.entities;
-    this.service.invoke(url, quaryparms,payload).subscribe(res => {
-      if(res){
-        this.createTag(true,false);
+    this.service.invoke(url, quaryparms, payload).subscribe(res => {
+      if (res) {
+        this.createTag(true, false);
         this.getEntities();
         this.setModalHeight('index');
       }
@@ -1331,17 +1367,17 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'Failed to get entities');
     });
   }
-   //delete entity
-   deleteEntity(index,id){
+  //delete entity
+  deleteEntity(index, id) {
     const quaryparms: any = {
       sidx: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
       fip: this.workflowService.selectedIndexPipeline() || ''
     };
-    const payload = {entityIds:[id]};
-    this.service.invoke('delete.entities', quaryparms,payload).subscribe(res => {
-      if(res){
-        this.sys_entities.splice(index,1);
+    const payload = { entityIds: [id] };
+    this.service.invoke('delete.entities', quaryparms, payload).subscribe(res => {
+      if (res) {
+        this.sys_entities.splice(index, 1);
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get entities');

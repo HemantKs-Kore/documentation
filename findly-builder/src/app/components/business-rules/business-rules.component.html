@@ -559,11 +559,11 @@
                                         </div>
                                     </span>
                                 </div>
-                                <div contenteditable="true" class="input-text" style="border:2px solid #BDC1C6" (mouseup)="checkSelection($event)">Enter the search query and annotate key words</div>
+                                <div contenteditable="true" class="input-text" id="contentText" style="border:2px solid #BDC1C6" (mouseup)="checkSelection($event)" [innerHTML]="inputSentence"></div>
                                 <!-- <textarea placeholder="Placeholder text" class="input-text"></textarea>  -->
                             </div>
                             <div class="kr-sg-btn">
-                                <button class="kr-sg-buttonicon-secondary">
+                                <button class="kr-sg-buttonicon-secondary" (click)="AddSelectedEnity()">
                                     <i class="si-add-plus add-icon"></i> Add
                                 </button>
                             </div>
@@ -572,29 +572,20 @@
                          <!-- nlp custom tag builder area start -->
                         <div class="nlp-custom-tag-block">
                             <div class="nlp-tag-legend">Legend</div>
-                            <div class="nlp-custom-tag-dynamic">
+                            <div class="nlp-custom-tag-dynamic d-none">
                                 <div class="nlp-custom-tag"><span class="nlp-tag">Date</span> <span class="close-tag"><i class="si-close"></i></span></div>
-                                <div class="nlp-custom-tag"><span class="nlp-tag">Topic</span> <span class="close-tag"><i class="si-close"></i></span></div>
-                                <div class="nlp-custom-tag"><span class="nlp-tag">Date</span> <span class="close-tag"><i class="si-close"></i></span></div>
-                                <div class="nlp-custom-tag"><span class="nlp-tag">Topic</span> <span class="close-tag"><i class="si-close"></i></span></div>
-                                <div class="nlp-custom-tag"><span class="nlp-tag">Date</span> <span class="close-tag"><i class="si-close"></i></span></div>
-                                <div class="nlp-custom-tag"><span class="nlp-tag">Topic</span> <span class="close-tag"><i class="si-close"></i></span></div>
-                                <div class="nlp-custom-tag"><span class="nlp-tag">Date</span> <span class="close-tag"><i class="si-close"></i></span></div>
-                                <div class="nlp-custom-tag"><span class="nlp-tag">Topic</span> <span class="close-tag"><i class="si-close"></i></span></div>
-                                <div class="nlp-custom-tag"><span class="nlp-tag">Date</span> <span class="close-tag"><i class="si-close"></i></span></div>
-                                <div class="nlp-custom-tag"><span class="nlp-tag">Topic</span> <span class="close-tag"><i class="si-close"></i></span></div>
                             </div>
                         </div>
                          <!-- nlp custom tag builder area end -->
 
                          <!-- nlp annotator first time custom tag add start -->
-                         <div class="nlp-first-custom-tag d-none">
+                         <div class="nlp-first-custom-tag">
                              <div class="nlp-first-custom-block">
                                  <div class="nlp-first-custom-header">NLP Annotator</div>
                                  <div class="nlp-first-custom-tag-name">I'm looking for LED TV</div>
                              </div>
                          </div>
-                         <div class="nlp-custom-tag-generator-list">
+                         <div class="nlp-custom-tag-generator-list d-none">
                             <div class="nlp-custom-tag-data-block">
                                 <div class="nlp-custom-tag-data-line">
                                    <div class="nlp-custom-tag-data">
@@ -645,31 +636,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="nlp-custom-tag-data-block">
-                                <div class="nlp-custom-tag-data-line">
-                                   <div class="nlp-custom-tag-data">
-                                       Looking for the <span class="nlp-custom-tag-highlight">latest</span> documents about <span class="nlp-custom-tag-highlight">process management</span> by <span class="nlp-custom-tag-highlight">Peter</span> or <span class="nlp-custom-tag-highlight">Robert</span>
-                                   </div>
-                                   <div class="nlp-custom-tag-overflow-menu">
-                                    <div class="dropdown nlp-overflow-menu">
-                                        <button class="btn dropdown-toggle dropdown-btn" type="button" id="nlpOverflowMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <img class="action_icon" src="assets/images/overflow-elipse.svg">
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="nlpOverflowMenu">
-                                          <a class="dropdown-item" href="#"><span><img class="dropdown-list-icon" src="assets/images/edit-pencil.svg"></span> Edit</a>
-                                          <a class="dropdown-item delete-item" href="#"><span><img class="dropdown-list-icon" src="assets/icons/delete-table.svg"></span> Delete</a>
-                                        </div>
-                                      </div>
-                                   </div>
-                                </div>
-                                <div class="nlp-preview-block">
-                                    <div class="nlp-preview-header">Please tag</div>
-                                    <div class="nlp-preview-action-list">
-                                        <div class="nlp-preview-action-done">Done</div>
-                                        <div class="nlp-preview-action-cancel">Cancel</div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="nlp-custom-tag-data-block nlp-tag-edit">
                                 <div class="nlp-custom-tag-data-line">
                                    <div class="nlp-custom-tag-data">
@@ -692,81 +658,6 @@
                                     <div class="nlp-preview-action-list">
                                         <div class="nlp-preview-action-done"><span class="nlp-preview-action-span"><img src="assets/images/check-primary.svg" class="warning-icon "/></span> Done</div>
                                         <div class="nlp-preview-action-cancel"><span class="nlp-preview-action-span"><img src="assets/images/close.svg" class="warning-icon "/></span> Cancel</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="nlp-custom-tag-data-block">
-                                <div class="nlp-custom-tag-data-line">
-                                   <div class="nlp-custom-tag-data">
-                                       Looking for the <span class="nlp-custom-tag-highlight">latest</span> documents about <span class="nlp-custom-tag-highlight">process management</span> by <span class="nlp-custom-tag-highlight">Peter</span> or <span class="nlp-custom-tag-highlight">Robert</span>
-                                   </div>
-                                   <div class="nlp-custom-tag-overflow-menu">
-                                    <div class="dropdown nlp-overflow-menu">
-                                        <button class="btn dropdown-toggle dropdown-btn" type="button" id="nlpOverflowMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <img class="action_icon" src="assets/images/overflow-elipse.svg">
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="nlpOverflowMenu">
-                                          <a class="dropdown-item" href="#"><span><img class="dropdown-list-icon" src="assets/images/edit-pencil.svg"></span> Edit</a>
-                                          <a class="dropdown-item delete-item" href="#"><span><img class="dropdown-list-icon" src="assets/icons/delete-table.svg"></span> Delete</a>
-                                        </div>
-                                      </div>
-                                   </div>
-                                </div>
-                                <div class="nlp-preview-block">
-                                    <div class="nlp-preview-header">Please tag</div>
-                                    <div class="nlp-preview-action-list">
-                                        <div class="nlp-preview-action-done">Done</div>
-                                        <div class="nlp-preview-action-cancel">Cancel</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="nlp-custom-tag-data-block">
-                                <div class="nlp-custom-tag-data-line">
-                                   <div class="nlp-custom-tag-data">
-                                       Looking for the <span class="nlp-custom-tag-highlight">latest</span> documents about <span class="nlp-custom-tag-highlight">process management</span> by <span class="nlp-custom-tag-highlight">Peter</span> or <span class="nlp-custom-tag-highlight">Robert</span>
-                                   </div>
-                                   <div class="nlp-custom-tag-overflow-menu">
-                                    <div class="dropdown nlp-overflow-menu">
-                                        <button class="btn dropdown-toggle dropdown-btn" type="button" id="nlpOverflowMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <img class="action_icon" src="assets/images/overflow-elipse.svg">
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="nlpOverflowMenu">
-                                          <a class="dropdown-item" href="#"><span><img class="dropdown-list-icon" src="assets/images/edit-pencil.svg"></span> Edit</a>
-                                          <a class="dropdown-item delete-item" href="#"><span><img class="dropdown-list-icon" src="assets/icons/delete-table.svg"></span> Delete</a>
-                                        </div>
-                                      </div>
-                                   </div>
-                                </div>
-                                <div class="nlp-preview-block">
-                                    <div class="nlp-preview-header">Please tag</div>
-                                    <div class="nlp-preview-action-list">
-                                        <div class="nlp-preview-action-done">Done</div>
-                                        <div class="nlp-preview-action-cancel">Cancel</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="nlp-custom-tag-data-block">
-                                <div class="nlp-custom-tag-data-line">
-                                   <div class="nlp-custom-tag-data">
-                                       Looking for the <span class="nlp-custom-tag-highlight">latest</span> documents about <span class="nlp-custom-tag-highlight">process management</span> by <span class="nlp-custom-tag-highlight">Peter</span> or <span class="nlp-custom-tag-highlight">Robert</span>
-                                   </div>
-                                   <div class="nlp-custom-tag-overflow-menu">
-                                    <div class="dropdown nlp-overflow-menu">
-                                        <button class="btn dropdown-toggle dropdown-btn" type="button" id="nlpOverflowMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <img class="action_icon" src="assets/images/overflow-elipse.svg">
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="nlpOverflowMenu">
-                                          <a class="dropdown-item" href="#"><span><img class="dropdown-list-icon" src="assets/images/edit-pencil.svg"></span> Edit</a>
-                                          <a class="dropdown-item delete-item" href="#"><span><img class="dropdown-list-icon" src="assets/icons/delete-table.svg"></span> Delete</a>
-                                        </div>
-                                      </div>
-                                   </div>
-                                </div>
-                                <div class="nlp-preview-block">
-                                    <div class="nlp-preview-header">Please tag</div>
-                                    <div class="nlp-preview-action-list">
-                                        <div class="nlp-preview-action-done">Done</div>
-                                        <div class="nlp-preview-action-cancel">Cancel</div>
                                     </div>
                                 </div>
                             </div>
@@ -936,7 +827,7 @@
                     </div>
                     <div class="nlp-search-list">
                         <perfect-scrollbar class="scroll-data">
-                            <div class="nlp-tag-list" *ngFor="let entity of sys_entities| filter: [nlpAnnotatorObj.searchEntity, 'entityName'];let i=index">
+                            <div class="nlp-tag-list" *ngFor="let entity of sys_entities| filter: [nlpAnnotatorObj.searchEntity, 'entityName'];let i=index" (click)="selectEntity(entity)">
                                 <div class="nlp-tag-and-name">
                                     <div class="nlp-name-value">{{entity?.entityName|titlecase}}</div>
                                     <div class="nlp-tag-value" [ngClass]="{'nlp-system-entity':entity?.entityType==='system_defined','nlp-index-entity':entity?.entityType==='index_field','nlp-custom-entity':entity?.entityType==='custom'}">{{entity?.entityType==='system_defined'?'SYSTEM ENTITY':(entity?.entityType==='custom')?'CUSTOM ENTITY':'INDEX FIELD'}}</div>
@@ -955,14 +846,14 @@
             </div>
             <div class="nlp-custom-add-tag" *ngIf="nlpAnnotatorObj.isEditPage">
                 <div class="nlp-choose-tag-header">
-                    <span class="bot-tasks"><img src="assets/images/bot-tasks.svg" /></span> CHOOSE TAG
+                    <span class="bot-tasks"><img src="assets/images/bot-tasks.svg" /></span> {{nlpAnnotatorObj.entities.isEditable?'Edit':'Create'}} TAG
                 </div>
                 <div class="nlp-choose-tag-sub-header">
                     <div class="back-to-list" (click)="chooseEntity('remove')">
                         <span><img src="assets/images/back-arrow.svg" /></span> Back
                     </div>
                     <div class="create-nlp-tag">
-                        <span class="choose-tag">Choose Tag </span> / Create tag
+                        <span class="choose-tag">Choose Tag </span> / {{nlpAnnotatorObj.entities.isEditable?'Edit':'Create'}} tag
                     </div>
                 </div>
                 <div class="nlp-tag-form">
