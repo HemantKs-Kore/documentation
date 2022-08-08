@@ -241,6 +241,9 @@
                     border-bottom: 1px solid #E4E5E7;
                     .col_{
                         padding: 0px 10px 0px 25px;
+                        overflow: auto;
+                        white-space: unset;
+                        text-overflow: unset;
                         .failed-img{
                             width: 15px;
                             height: 15px;
@@ -272,6 +275,16 @@
                         .action_icon{
                             visibility: visible;
                         }
+                        .actions-links{
+                            &.re-crawl{
+                                background: #E7F1FF;
+                                border-radius: 100%;
+                            }
+                            &.re-validate{
+                                background:  #EAF6EC;
+                                border-radius: 100%;
+                            }
+                        }
                     }
                     .ml-2{
                         margin-left: 2%;
@@ -280,6 +293,97 @@
                         color: #9AA0A6;
                         font-weight: normal;
                         font-size: 12px;
+                    }
+
+                    .media-block{
+                        display: flex;
+                        align-items: flex-start;
+                        &.media-success{
+                            .media-right{
+                                padding-left: 5px;
+                                .media-name{
+                                    color: #28A745;
+                                }
+                            }
+                        }
+                        &.media-inprogress{
+                            .media-right{
+                                padding-left: 5px;
+                                .media-name{
+                                    color: #0D6EFD;
+                                }
+                            }
+                        }
+                        &.media-failed{
+                            .media-right{
+                                padding-left: 5px;
+                                .media-name{
+                                    color: #DD3646;
+                                }
+                                .media-list{
+                                    .media-list-header{
+                                        font-weight: 500;
+                                        font-size: 10px;
+                                        line-height: 12px;
+                                        color: #5F6368;
+                                        padding: 4px 0;
+                                    }
+                                    .media-list-ul{
+                                        padding-left: 20px;
+                                        margin-bottom: 0;
+                                        li{
+                                            font-weight: 400;
+                                            font-size: 10px;
+                                            line-height: 12px;
+                                            color: #5F6368;
+                                            padding: 4px 0;
+                                        }
+                                    }
+                                    .media-show-more{
+                                        font-weight: 500;
+                                        font-size: 10px;
+                                        line-height: 12px;
+                                        color: #0D6EFD;
+                                        cursor: pointer;
+                                        padding-left: 10px;
+                                    }
+                                }
+                            }
+                        }
+                        &.media-inQueue{
+                            .media-right{
+                                padding-left: 5px;
+                                .media-name{
+                                    color: #0D6EFD;
+                                }
+                            }
+                        }
+                        .media-logo{
+                            padding: 4px 0;
+                        }
+                        .media-right{
+                            padding-left: 20px;
+                            .media-name{
+                                color: #202124;
+                                font-weight: 600;
+                                font-size: 14px;
+                                padding: 4px 0;
+                            }
+                            .media-time-stamp{
+                                font-weight: 500;
+                                font-size: 10px;
+                                line-height: 12px;
+                                color: #0D6EFD;
+                                padding: 4px 0;
+                            }
+                            .media-up-time-stamp{
+                                font-weight: 500;
+                                font-size: 10px;
+                                line-height: 12px;
+                                color: #5F6368;
+                                padding: 4px 0;
+                            }
+                        }
                     }
                 }
             }                     

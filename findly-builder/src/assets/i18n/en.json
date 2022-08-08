@@ -931,7 +931,8 @@
         "no_of_pages": "No. Of. Pages",
         "last_updated": "Last Updated",
         "results_preview": "Results Preview",
-        "structuredData": "Structured Data"
+        "structuredData": "Structured Data",
+        "no_of_pages_caps": " NO. OF PAGES"
     },
     "resultTemplate": {
         "resultTemplates": "Result Templates",

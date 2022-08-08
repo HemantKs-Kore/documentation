@@ -113,7 +113,8 @@
       <ng-container  *ngIf="resources && resources.length">
         <section class="table-content" *ngIf="currentView === 'list'">
           <header class="table-header">
-            <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('name')">
+            
+            <div class="col_ col-3 d-flex align-items-center" (click)="sortByApi('name')">
               <!-- <img src="assets/icons/caretDown.svg"
                 [ngClass]="{'assending': (selectedSort==='name') && isAsc,'decending':(selectedSort==='name') && !isAsc}"
                 class="ml-1 sortImg"> -->
@@ -125,7 +126,61 @@
               </span>
               {{"contentSource.source_title_caps" | translate}}
             </div>
-            <div class="col_ col-2 d-flex align-items-center pr-0" (click)="sortByApi('contentSource')"><span
+            <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('triggeredBy')">
+              <!-- <img src="assets/icons/caretDown.svg"
+                [ngClass]="{'assending': (selectedSort==='createdOn') && isAsc,'decending':((selectedSort==='createdOn') && !isAsc)}"
+                class="ml-1 sortImg"> -->
+                <span class="d-flex align-items-center flex-column mr-1">
+                  <img [ngClass]="getSortIconVisibility('triggeredBy', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                  <img [ngClass]="getSortIconVisibility('triggeredBy', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                </span>
+                {{"contentSource.triggered_by_caps" | translate}}
+            </div>
+            <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('numOfDocs')">
+              <span class="d-flex align-items-center flex-column mr-1">
+                <img [ngClass]="getSortIconVisibility('numOfDocs', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                <img [ngClass]="getSortIconVisibility('numOfDocs', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+              </span>
+              {{"contentSource.no_of_pages_caps" | translate}}
+            </div>
+            <div class="col_ col-4 d-flex align-items-center" (click)="sortByApi('recentStatus')"><span
+              class="selected-length-doc-web hide">({{this.filterSystem.statusFilter}})</span>
+            <span class="d-flex align-items-center flex-column mr-1">
+              <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg"
+                class="ml-1 sortImg downArrow">
+              <img [ngClass]="getSortIconVisibility('recentStatus', 'up')" src="assets/icons/caretDown.svg"
+                class="ml-1 sortImg upArrow">
+            </span>
+            {{"contentSource.status_caps" | translate}}
+            <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'"
+              [autoClose]="true" [placement]="'bottom-right'">
+              <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
+                  <!-- <img src="assets/icons/caretDown.svg"
+                    [ngClass]="{'assending': (selectedSort==='recentStatus') && isAsc,'decending':(selectedSort==='recentStatus') && !isAsc}"
+                    class="ml-1 sortImg"> -->
+                  <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                </button>
+                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                  <li (click)="statusFilter.close();filterTable('all','recentStatus')"><span
+                      class="list-name">All</span><img [ngClass]="{'hide': filterSystem.statusFilter !== 'all'}"
+                      src="assets/icons/check-blue.svg"></li>
+                  <li *ngFor="let status of statusArr"
+                    (click)="statusFilter.close();filterTable(status,'recentStatus')">
+                    <span class="list-name">{{status.toLowerCase()
+                      == 'success' ? 'Success' :
+                      (status.toLowerCase() == 'failed' ? 'Failed' :
+                      (status.toLowerCase() == 'queued' ? 'In-Queue' :
+                      (status.toLowerCase() == 'configured' ? 'Validated' :
+                      (status.toLowerCase() == 'halted' ? 'Stopped' :
+                      (status.toLowerCase() == 'scheduled' ? 'Configured' : 'In-progress')))))}}</span>
+                    <img [ngClass]="{'hide': filterSystem.statusFilter !== status}" src="assets/icons/check-blue.svg">
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+            <!-- <div class="col_ col-2 d-flex align-items-center pr-0" (click)="sortByApi('contentSource')"><span
                 class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
               <span class="d-flex align-items-center flex-column mr-1">
                 <img [ngClass]="getSortIconVisibility('contentSource', 'down')" src="assets/icons/caretDown.svg"
@@ -139,9 +194,9 @@
                 <div class="dropdown dropdown-open">
                   <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
                     (click)="$event.stopImmediatePropagation()">
-                    <!-- <img src="assets/icons/caretDown.svg"
+                    <img src="assets/icons/caretDown.svg"
                       [ngClass]="{'assending': (selectedSort==='type') && isAsc,'decending':(selectedSort==='type') && !isAsc}"
-                      class="ml-1 sortImg"> -->
+                      class="ml-1 sortImg">
                     <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
                   </button>
                   <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
@@ -154,76 +209,56 @@
                   </ul>
                 </div>
               </div>
-            </div>
+            </div> -->
             <!-- <div class="col" (click)="sortBy('collection')">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div> -->
-            <div class="col_ col-3 d-flex align-items-center" (click)="sortByApi('recentStatus')"><span
-                class="selected-length-doc-web hide">({{this.filterSystem.statusFilter}})</span>
-              <span class="d-flex align-items-center flex-column mr-1">
-                <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg"
-                  class="ml-1 sortImg downArrow">
-                <img [ngClass]="getSortIconVisibility('recentStatus', 'up')" src="assets/icons/caretDown.svg"
-                  class="ml-1 sortImg upArrow">
-              </span>
-              {{"contentSource.status_caps" | translate}}
-              <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'"
-                [autoClose]="true" [placement]="'bottom-right'">
-                <div class="dropdown dropdown-open">
-                  <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
-                    <!-- <img src="assets/icons/caretDown.svg"
-                      [ngClass]="{'assending': (selectedSort==='recentStatus') && isAsc,'decending':(selectedSort==='recentStatus') && !isAsc}"
-                      class="ml-1 sortImg"> -->
-                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
-                  </button>
-                  <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                    <li (click)="statusFilter.close();filterTable('all','recentStatus')"><span
-                        class="list-name">All</span><img [ngClass]="{'hide': filterSystem.statusFilter !== 'all'}"
-                        src="assets/icons/check-blue.svg"></li>
-                    <li *ngFor="let status of statusArr"
-                      (click)="statusFilter.close();filterTable(status,'recentStatus')">
-                      <span class="list-name">{{status.toLowerCase()
-                        == 'success' ? 'Success' :
-                        (status.toLowerCase() == 'failed' ? 'Failed' :
-                        (status.toLowerCase() == 'queued' ? 'In-Queue' :
-                        (status.toLowerCase() == 'configured' ? 'Validated' :
-                        (status.toLowerCase() == 'halted' ? 'Stopped' :
-                        (status.toLowerCase() == 'scheduled' ? 'Configured' : 'In-progress')))))}}</span>
-                      <img [ngClass]="{'hide': filterSystem.statusFilter !== status}" src="assets/icons/check-blue.svg">
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('numOfDocs')">
-              <span class="d-flex align-items-center flex-column mr-1">
-                <img [ngClass]="getSortIconVisibility('numOfDocs', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                <img [ngClass]="getSortIconVisibility('numOfDocs', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-              </span>
-              {{"contentSource.no_of_docs_caps" | translate}}
-            </div>
-            <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('triggeredBy')">
-              <!-- <img src="assets/icons/caretDown.svg"
-                [ngClass]="{'assending': (selectedSort==='createdOn') && isAsc,'decending':((selectedSort==='createdOn') && !isAsc)}"
-                class="ml-1 sortImg"> -->
-                <span class="d-flex align-items-center flex-column mr-1">
-                  <img [ngClass]="getSortIconVisibility('triggeredBy', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                  <img [ngClass]="getSortIconVisibility('triggeredBy', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                </span>
-                {{"contentSource.triggered_by_caps" | translate}}
-            </div>
+           
+        
+            
           </header>
           <perfect-scrollbar class="table-scroll-perfect">
             <ng-container *ngIf="sectionShow">
               <div class="content-body" *ngFor="let source of resources| filter: [ searchSources, 'name','title']"
                 (click)="openStatusSlider(source)"
                 [ngClass]="{'cursor-pointer':statusObj[source.recentStatus]?.name == 'Success' }">
-                <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name}} <span
-                    class="ml-2" *ngIf="source.advanceSettings"> <img [title]="source.schedule_title"
-                      *ngIf="source.advanceSettings.scheduleOpt" class="search-icon"
-                      src="assets/icons/schedule_timer.svg"></span></div>
-                <div class="col_ col-2 pr-0">
-                  {{(source.extractionType == 'web' ? 'Web' :(source.extractionType == 'file'? 'File': '')) | titlecase }}
+
+                <div class="col_ col-3" title="{{source.title || source.name}}">
+                  {{source.title || source.name}} 
+                  <span class="ml-2" *ngIf="source.advanceSettings">
+                     <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon"
+                      src="assets/icons/schedule_timer.svg">
+                    </span>
+                
+                    <div class="media-block">
+                      <div class="media-logo"><img src="assets/icons/content/latest-content-icons/blue-internet.svg"></div>
+                      <div class="media-right">
+                        <div class="media-name">Citi Bank</div>
+                        <div class="media-time-stamp"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>Runs Daily @ 10:30 AM IST</div>
+                        <div class="media-up-time-stamp"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div>
+                      </div>
+                    </div>
+
+                    <div class="media-block">
+                      <div class="media-logo"><img src="assets/icons/content/latest-content-icons/green-check-document.svg"></div>
+                      <div class="media-right">
+                        <div class="media-name">Kore</div>
+                      </div>
+                    </div>
+
                 </div>
-                <div class="col_ col-3">
+                <div class="col_ col-2" *ngIf="source?.advanceSettings">
+                  <span *ngIf="!source.advanceSettings.scheduleOpt">{{source.jobInfo.userDetails.fullName ||
+                    source.userDetails.fullName}}</span>
+                  <span *ngIf="source.advanceSettings.scheduleOpt">{{source.jobInfo.userDetails.fullName}}</span>
+                </div>
+
+                <div class="col_ col-2" *ngIf="!source.advanceSettings">
+                        <span>{{ source.userDetails.fullName}}</span>
+                </div>
+              
+                <div class="col_ col-2">
+                  <span>{{source.recentStatus==='configured'?'--':source.numPages}}</span>
+                </div>
+                <div class="col_ col-4">
                   <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
                     [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
                     {{statusObj[source.recentStatus]?.name}}
@@ -253,20 +288,63 @@
                     <img class="ml-2" *ngIf="source.recentStatus == 'failed'" class="search-icon"
                       src="assets/icons/failed_duration.svg">
                     {{source.schedule_duration}}</span>
+
+                    <div class="media-block media-success">
+                      <div class="media-logo"><img src="assets/icons/content/latest-content-icons/green-check-circle.svg"></div>
+                      <div class="media-right">
+                        <div class="media-name">Successful</div>
+                        <div class="media-up-time-stamp">6 days ago; <span class="pl-1"><img src="assets/icons/content/latest-content-icons/gray-time-change-logs.svg"> 1 min</span></div>
+                      </div>
+                    </div>
+
+                    <div class="media-block media-inprogress">
+                      <div class="media-logo"><img src="assets/icons/content/latest-content-icons/blue-loading.svg"></div>
+                      <div class="media-right">
+                        <div class="media-name">In-Progress</div>
+                        <div class="media-up-time-stamp">6 days ago; <span>1 min</span></div>
+                      </div>
+                    </div>
+
+                    <div class="media-block media-failed">
+                      <div class="media-logo"><img src="assets/icons/content/latest-content-icons/red-warning-circle.svg"></div>
+                      <div class="media-right">
+                        <div class="media-name">Failed</div>
+                        <div class="media-list">
+                          <div class="media-list-header">Following may be the reason to fail</div>
+                          <ul class="media-list-ul">
+                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat nisl vitae posuere.</li>
+                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat nisl vitae posuere.</li>
+                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat nisl vitae posuere.</li>
+                          </ul>
+                          <div class="media-show-more">Show more</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="media-block media-inQueue">
+                      <div class="media-logo"><img src="assets/icons/content/latest-content-icons/blue-progress-indicator.svg"></div>
+                      <div class="media-right">
+                        <div class="media-name">In-Queue</div>
+                        <div class="media-up-time-stamp">1 out of 3</div>
+                      </div>
+                    </div>
                 </div>
-                <div class="col_ col-2">
-                  <span>{{source.recentStatus==='configured'?'--':source.numPages}}</span>
-                </div>
-                <div class="col_ col-2" *ngIf="source?.advanceSettings">
-                  <span *ngIf="!source.advanceSettings.scheduleOpt">{{source.jobInfo.userDetails.fullName ||
-                    source.userDetails.fullName}}</span>
-                  <span *ngIf="source.advanceSettings.scheduleOpt">{{source.jobInfo.userDetails.fullName}}</span>
-                </div>
-                <div class="col_ col-2" *ngIf="!source.advanceSettings">
-                  <span>{{ source.userDetails.fullName}}</span>
-                </div>
+                
+                <!-- <div class="col_ col-2 pr-0">
+                  {{(source.extractionType == 'web' ? 'Web' :(source.extractionType == 'file'? 'File': '')) | titlecase }}
+                </div> -->
+               
                 <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
                 <div class="col_ col-1 text-right p-0">
+                  <span class="actions-links re-crawl" (click)="recrwal('source',source,$event)">
+                    <img class="action_icon" src="assets/icons/content/latest-content-icons/blue-return.svg" ngbTooltip='Crawl' container="body">
+                  </span>
+
+                  <span class="actions-links re-validate" (click)="recrwal('source',source,$event)">
+                    <img class="action_icon" src="assets/icons/content/latest-content-icons/green-validate.svg" ngbTooltip='Validate' container="body">
+                  </span>
+
+
                   <span class="actions-links"
                     *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated) || source.recentStatus === 'halted'"
                     (click)="recrwal('source',source,$event)"><img class="action_icon"
