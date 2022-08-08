@@ -61,7 +61,7 @@
               <div class="img-block"*ngIf="!emptyItems"><img class="action_icon"  (load)="imageLoad()" src="assets/images/stopwords-empty.png"></div>
               <ng-container *ngIf="loadImageText">
               <div class="empty-title">You haven’t added any Stop words yet!</div>
-              <div class="desc-text"> Stop words are a set of common words (such as the, a, to, all ,etc.) that dilutes the importance of keywords in a search query. SearchAssist allows you to use either the default set of stop words or add a custom set as per your need.</div>
+              <div class="desc-text"> Stop words are a set of common words (such as the, a, to, all,etc.) that dilutes the importance of keywords in a search query. SearchAssist allows you to use either the default set of stop words or add a custom set as per your need.</div>
               <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                          
                 <div class="dropdown dropdown-open">
                   <button class="kr-sg-button-primary btn_lg px-2"  (click)="showAddStopWordsContainer=true">Add Stop Words</button>                                            
