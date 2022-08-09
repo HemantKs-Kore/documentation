@@ -321,7 +321,8 @@
                   <i class="si-back-arrow"></i>
                 </div> -->
                 <div *ngIf="steps=='displayApp'" class="title-start">Give a name to your App</div>
-                <div *ngIf="displaydemoOptions" class="title-start">Choose the sample data you would like to start with</div>
+                <div *ngIf="steps=='demoOptions'" class="title-start">Choose the sample data you would like to start with</div>
+                <div *ngIf="steps=='showSearchExperience'" class="title-start">Choose the experiance</div>
 
 
                 <ng-container>
@@ -329,7 +330,7 @@
                     <div class="tabs-data-info-sample">
                       <ul class="nav nav-pills">
                         <li class="nav-item">
-                          <a class="nav-link active" id="#e-commerece"  data-toggle="pill" (click)="selectDemoType('e-commerce')" href="#ecommerce">E-Commerce <i *ngIf="demoType=='e-commerce'" class="si-check"></i></a>
+                          <a class="nav-link active" id="#e-commerece"  data-toggle="pill" (click)="selectDemoType('e-commerce')" href="#ecommerce">E-Commerce Search <i *ngIf="demoType=='e-commerce'" class="si-check"></i></a>
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" data-toggle="pill" (click)="selectDemoType('knowledge-search')" href="#ks">Knowledge Search <i *ngIf="demoType=='knowledge-search'" class="si-check"></i></a>
@@ -347,7 +348,7 @@
                           <ul>
                             <li>Structured dataset with fields like name, description, price, images, reviews and more</li>
                             <li>Result cards are tailored for E-Commerce experience </li>
-                            <li>Business rules to persoanlize the results based on the brand name, price and ratings. </li>
+                            <li>Business rules to persoanlize the results based on the brand name, price and ratings </li>
                           </ul>
                           <div class="box-data-ul">
                             <div class="ul-heading">Example Search Queries</div>
@@ -355,18 +356,18 @@
                               <li>Show lipsticks under $10</li>
                               <li>Top rated perfumes from Essi</li>
                               <li>Looking for pink hue lipsticks </li>
-                              <li>I am looking for best selling lipsticks.</li>
-                              <li>perfumes with rating more than 4.</li>
-                              <li>display Essi lipsticks below 8$.</li>
+                              <li>I am looking for best selling lipsticks</li>
+                              <li>perfumes with rating more than 4</li>
+                              <li>display Essi lipsticks below 8$</li>
                             </ul>
                           </div>
                         </div>
                         <div class="tab-pane fade" id="ks">
                           <div class="title">Knowledge Search</div>
-                          <div class="desc-text-info">The Knowledge use case contains a sample dataset that includes crawled  web pages and documents from various repositories of a supply chain company that wishes to implement search at an enterprise level</div>
+                          <div class="desc-text-info">The Knowledge use case contains a sample dataset that includes crawled  web pages and documents from various repositories of a supply chain company that wishes to implement search at an enterprise level.</div>
                           <div class="ul-heading">What’s included in this Sample App </div>
                           <ul>
-                            <li>Unstructured dataset like web pages and documents from various data repositories like GDrive, Confluence etc.</li>
+                            <li>Unstructured dataset like web pages and documents from various data repositories like GDrive, Confluence etc</li>
                             <li>Result templates tailored to enhance the Knowledge Search Experience</li>
                             <li>Business rules to personalize the results based on the search context</li>
                           </ul>
@@ -446,12 +447,12 @@
                     <div class="welcome-user-form">
                       <div class="create-app-data">
                         <div class="kr-sg-input-text form-group">
-                          <div class="label-text">App Name</div>
+                          <div class="label-text">App Name *</div>
                           <input type="text"  [(ngModel)]="newApp.name" placeholder="Enter App Name" class="input-text" [ngClass]="{'error' : validateAppname }">
                           <div class="error-msg" *ngIf="validateAppname">Enter The App Name</div>
                         </div>
                         <div class="kr-sg-input-text-area form-group">
-                          <div class="label-text">Description</div>
+                          <div class="label-text">Description (optional)</div>
                           <textarea class="input-text" style="padding-top:8px" [(ngModel)]="newApp.description" placeholder="Enter App Description" autocomplete="off"  name="appDesc"></textarea>
                         </div>
                        </div>
@@ -494,12 +495,12 @@
           <div class="borderindication"></div>
           <div class="heading-text">Start by creating an Application</div>
           <div class="kr-sg-input-text">
-            <div class="label-text">Name Your Application</div>
+            <div class="label-text">Name Your Application *</div>
             <input maxlength="60" type="text" autocomplete="off" placeholder="Name your application" [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
             <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
           </div>
           <div class="kr-sg-input-text">
-            <div class="label-text">Description</div>
+            <div class="label-text">Description (optional)</div>
             <input class="input-text" maxlength="250" placeholder="Enter App Description" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
           </div>
           <!-- <div class="kr-sg-dropdowns w-100">
