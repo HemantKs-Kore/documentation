@@ -24,6 +24,7 @@ import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { FixedSizeVirtualScrollStrategy } from '@angular/cdk/scrolling';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ConstantPool } from '@angular/compiler';
 declare const $: any;
 @Component({
   selector: 'app-business-rules',
@@ -139,7 +140,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   sys_entities: any = [];
   entityFields={ startIndex: 0, endIndex: 0, entityId: '' };
-  entityObj: any = { entities: [], sentence: '', taggedSentence: '' };
+  entityObj: any = { entities: [], sentence: '', taggedSentence: '',colorSentence:'' };
   inputSentence:any;
   nlpAnnotatorObj: any = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [] };
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
@@ -167,6 +168,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     private sanitizer: DomSanitizer
   ) { }
+  
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -1258,26 +1260,30 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   //after sentence changes click on add
   AddSelectedEnity(){
-    this.nlpAnnotatorObj.annotator.push(this.entityObj);
+    if(this.entityObj.entities.length>0){
+      this.inputSentence='';
+      this.nlpAnnotatorObj.annotator.push(this.entityObj);
+    }
   } 
   //click on Entity to select
   selectEntity(entity) {
-    let sentence='';
     this.entityFields.entityId = entity?._id;
     this.entityObj.sentence = document.getElementById('contentText').innerText;
+    let sentence='';
     this.entityObj.entities.push(this.entityFields);
     this.inputSentence='';
-    for (let i = 0; i < this.entityObj.sentence.length; i++) {
+    for(let i=0;i<this.entityObj.sentence;i++){
       for(let j=0;j<this.entityObj.entities.length;j++){
-        if (i>=this.entityObj.entities[j].startIndex && i<this.entityObj.entities[j].endIndex) {
+        if(i>=this.entityObj.entities[j].startIndex && i<this.entityObj.entities[j].endIndex){
           sentence = sentence + this.entityObj.sentence[i].fontcolor('red');
         }
-        else {
+        else{
           sentence = sentence + this.entityObj.sentence[i];
         }
-      }      
+      }
     }
     this.inputSentence  = this.sanitizer.bypassSecurityTrustHtml(sentence);
+    this.entityObj.colorSentence = this.inputSentence;
     this.nlpAnnotatorObj.showEntityPopup = false;
   }
   //create or cancel entity

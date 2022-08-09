@@ -579,67 +579,17 @@
                          <!-- nlp custom tag builder area end -->
 
                          <!-- nlp annotator first time custom tag add start -->
-                         <div class="nlp-first-custom-tag">
+                         <div class="nlp-first-custom-tag" *ngIf="nlpAnnotatorObj.annotator?.length===0">
                              <div class="nlp-first-custom-block">
                                  <div class="nlp-first-custom-header">NLP Annotator</div>
                                  <div class="nlp-first-custom-tag-name">I'm looking for LED TV</div>
                              </div>
                          </div>
-                         <div class="nlp-custom-tag-generator-list d-none">
-                            <div class="nlp-custom-tag-data-block">
+                         <div class="nlp-custom-tag-generator-list" *ngIf="nlpAnnotatorObj.annotator?.length>0">
+                            <div class="nlp-custom-tag-data-block" *ngFor="let annotator of nlpAnnotatorObj.annotator"><!--nlp-tag-edit-->
                                 <div class="nlp-custom-tag-data-line">
                                    <div class="nlp-custom-tag-data">
-                                       Looking for the <span class="nlp-custom-tag-highlight">latest</span> documents about <span class="nlp-custom-tag-highlight">process management</span> by <span class="nlp-custom-tag-highlight">Peter</span> or <span class="nlp-custom-tag-highlight">Robert</span>
-                                   </div>
-                                   <div class="nlp-custom-tag-overflow-menu">
-                                    <div class="dropdown nlp-overflow-menu">
-                                        <button class="btn dropdown-toggle dropdown-btn" type="button" id="nlpOverflowMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <img class="action_icon" src="assets/images/overflow-elipse.svg">
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="nlpOverflowMenu">
-                                          <a class="dropdown-item" href="#"><span><img class="dropdown-list-icon" src="assets/images/edit-pencil.svg"></span> Edit</a>
-                                          <a class="dropdown-item delete-item" href="#"><span><img class="dropdown-list-icon" src="assets/icons/delete-table.svg"></span> Delete</a>
-                                        </div>
-                                      </div>
-                                   </div>
-                                </div>
-                                <div class="nlp-preview-block">
-                                    <div class="nlp-preview-header">Please tag</div>
-                                    <div class="nlp-preview-action-list">
-                                        <div class="nlp-preview-action-done">Done</div>
-                                        <div class="nlp-preview-action-cancel">Cancel</div>
-                                    </div>
-                                </div>
-                            </div>
-                             <div class="nlp-custom-tag-data-block">
-                                <div class="nlp-custom-tag-data-line">
-                                   <div class="nlp-custom-tag-data">
-                                       Looking for the <span class="nlp-custom-tag-highlight">latest</span> documents about <span class="nlp-custom-tag-highlight">process management</span> by <span class="nlp-custom-tag-highlight">Peter</span> or <span class="nlp-custom-tag-highlight">Robert</span>
-                                   </div>
-                                   <div class="nlp-custom-tag-overflow-menu">
-                                    <div class="dropdown nlp-overflow-menu">
-                                        <button class="btn dropdown-toggle dropdown-btn" type="button" id="nlpOverflowMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <img class="action_icon" src="assets/images/overflow-elipse.svg">
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="nlpOverflowMenu">
-                                          <a class="dropdown-item" href="#"><span><img class="dropdown-list-icon" src="assets/images/edit-pencil.svg"></span> Edit</a>
-                                          <a class="dropdown-item delete-item" href="#"><span><img class="dropdown-list-icon" src="assets/icons/delete-table.svg"></span> Delete</a>
-                                        </div>
-                                      </div>
-                                   </div>
-                                </div>
-                                <div class="nlp-preview-block">
-                                    <div class="nlp-preview-header">Please tag</div>
-                                    <div class="nlp-preview-action-list">
-                                        <div class="nlp-preview-action-done">Done</div>
-                                        <div class="nlp-preview-action-cancel">Cancel</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="nlp-custom-tag-data-block nlp-tag-edit">
-                                <div class="nlp-custom-tag-data-line">
-                                   <div class="nlp-custom-tag-data">
-                                       Looking for the <span class="nlp-custom-tag-highlight">latest</span> documents about <span class="nlp-custom-tag-highlight">process management</span> by <span class="nlp-custom-tag-highlight">Peter</span> or <span class="nlp-custom-tag-highlight">Robert</span>
+                                    <div contenteditable="false" class="input-text" id="contentText" [innerHTML]="annotator.colorSentence"></div>
                                    </div>
                                    <div class="nlp-custom-tag-overflow-menu">
                                     <div class="dropdown nlp-overflow-menu">
