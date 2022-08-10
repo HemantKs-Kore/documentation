@@ -544,10 +544,10 @@
 
           <div class="search-header">
             <div class="tabs-sec">
-              <span class="tabname " [ngClass]="{'active' : page}" (click)="swapSlider('page')">{{"contentSource.pages"
-                | translate}}</span>
               <span class="tabname" [ngClass]="{'active' : isConfig}"
                 (click)="swapSlider('config')">{{"contentSource.configuration" | translate}}</span>
+                <span class="tabname" [ngClass]="{'active' : page}" (click)="swapSlider('page')">{{"contentSource.pages"
+                  | translate}}</span>
               <span class="tabname"
                 *ngIf="executionHistoryData && selectedSource.recentStatus != 'scheduled' && selectedSource.recentStatus != 'configured'"
                 [ngClass]="{'active' : execution}" (click)="swapSlider('execution')">{{"contentSource.executions" |
@@ -574,6 +574,7 @@
                       [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                 </div>
               </div>
+              
               <div class="" *ngIf="!page && !execution">
                 <button class="kr-sg-button-primary btn_lg" *ngIf="selectedSource.recentStatus == 'configured'"
                   (click)="jobOndemand(selectedSource,$event)">Crawl</button>
@@ -1086,100 +1087,443 @@
             <!-- Conf Configuration-->
 
           </div>
-          <div class="accordion-content-info text-left" *ngIf="page && totalRecord > 0">
-            <div class="header-sec row m-0">
-              <div class="col-8 label_text m-0 p-0">Pages</div>
 
-              <!-- <img src="assets/icons/caretDown.svg" class="ml-1"> -->
-              <div class="col-4 label_text m-0 last-update"  (click)="sortByApi('lastUpdated')">
-                <span class="sort-up-down-icons">
-                  <img [ngClass]="getSortIconVisibility('lastUpdated', 'up')" src="assets/icons/caretDown.svg" class="sortImg upArrow">
-                  <img [ngClass]="getSortIconVisibility('lastUpdated', 'down')" src="assets/icons/caretDown.svg" class="sortImg">
-                </span>
-                <div class="title">Last Updated</div>
+          <ng-container *ngIf="false">
+            <div class="accordion-content-info text-left" *ngIf="page && totalRecord > 0">
+              <div class="header-sec row m-0">
+                <div class="col-8 label_text m-0 p-0">Pages</div>
+  
+                <!-- <img src="assets/icons/caretDown.svg" class="ml-1"> -->
+                <div class="col-4 label_text m-0 last-update"  (click)="sortByApi('lastUpdated')">
+                  <span class="sort-up-down-icons">
+                    <img [ngClass]="getSortIconVisibility('lastUpdated', 'up')" src="assets/icons/caretDown.svg" class="sortImg upArrow">
+                    <img [ngClass]="getSortIconVisibility('lastUpdated', 'down')" src="assets/icons/caretDown.svg" class="sortImg">
+                  </span>
+                  <div class="title">Last Updated</div>
+                </div>
               </div>
-            </div>
-            <div id="accordion" class="accordion-section">
-              <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table" #perfectScroll
-                [scrollIndicators]="true">
-                <div class="card_content"
-                  *ngFor="let page of pagingData | filter: [ pagesSearch, 'url_display'];let i = index">
-                  <div class="card_header">
-                    <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
-                      <div class="row m-0 content" (click)="viewPageDetails(page);selectedPage=page">
-                        <div class="col-8 link-name p-0" title="{{page._source.page_url|| selectedSource.url}}">
-                          {{page._source.page_url|| selectedSource.url}}</div>
-                        <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
-                        <div class="col-2 actions p-0">
-                          <img src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl'
-                            (click)="reCrwalingWeb('pages',page ,$event)" placement="left">
-                          <!-- <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh' placement="left"> -->
-                          <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)"
-                            ngbTooltip='Delete' placement="left">
-                        </div>
-                      </div>
-                      <!-- </div> -->
-                    </a>
-                  </div>
-                  <!-- <div id="collapseOne{{page._id}}" class="collapse pad_adjust" data-parent="#accordion">
-                    <div class="card_body" style="padding-left: 30px;">
-                      <div class="info-content page_titleContainer">
-                        <div class="row m-0 row_content">
-                          <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
-                          <div class="col-10 right-info-title">{{page.title}}</div>
-                        </div>
-                        <div class="row m-0 row_content">
-                          <div class="col-2 left-info-title pl-0">URL <span>:</span></div>
-                          <div class="col-10 right-info-title">{{page.url || selectedSource.url }}</div>
-                        </div>
-                        <div class="row m-0 row_content">
-                          <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
-                          <div class="col-10 right-info-title">{{page.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}
-                            <span class="viewPageDetails" (click)="viewPageDetails();selectedPage=page"><a>View
-                                Details</a></span>
+              <div id="accordion" class="accordion-section">
+                <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table" #perfectScroll
+                  [scrollIndicators]="true">
+                  <div class="card_content"
+                    *ngFor="let page of pagingData | filter: [ pagesSearch, 'url_display'];let i = index">
+                    <div class="card_header">
+                      <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
+                        <div class="row m-0 content" (click)="viewPageDetails(page);selectedPage=page">
+                          <div class="col-8 link-name p-0" title="{{page._source.page_url|| selectedSource.url}}">
+                            {{page._source.page_url|| selectedSource.url}}</div>
+                          <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
+                          <div class="col-2 actions p-0">
+                            <img src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl'
+                              (click)="reCrwalingWeb('pages',page ,$event)" placement="left">
+                            <!-- <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh' placement="left"> -->
+                            <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)"
+                              ngbTooltip='Delete' placement="left">
                           </div>
                         </div>
-
-                      </div>
-                      <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Check for Updates</button>
-                      <div class="label_text">Results Preview</div>
-                      <div class="info-content previewSection">
-                        <div class="label_text" *ngIf="page.sections && page.sections.length">{{page.sections[0]}}</div>
-                        <div class="previewContent" *ngIf="!page.searchResultPreview" [innerHtml]="page.body"></div>
-                        <div class="previewContent" *ngIf="page.searchResultPreview"
-                          [innerHtml]="page.searchResultPreview"></div>
-                      </div>
-                      <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Test & Preview</button>
+                        <!-- </div> -->
+                      </a>
                     </div>
-                  </div> -->
-                </div>
-              </perfect-scrollbar>
-              <!-- pageination -->
-              <!-- <div class="paginations-custon">
-                    <div class="previous">Previous</div>
-
-                    <div *ngFor="let item of numArr(btnCount); let i = index;" (click)="onClickPageNo(10,i)"
-                      id="number_{{i}}" [ngClass]="{'active': i === 0}" class="numbers">{{i+1}}
-                    </div>
-                    <div class="next" *ngIf="btnAllCount > 5"> ... </div>
-                    <div class="next">Next</div>
-                  </div> -->
-              <!-- <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
-                [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
-                <app-record-pagination *ngIf = "totalCrawledCount >10" [totalRecord]='totalCrawledCount' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
-              <!-- <div class="paginations-custon">
-                <div class="previous pre-arrow dis-arow"
-                  (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)"> </div>
-                <div id="number" class="numbers numbers-page"> {{ recordStr }}-{{ recordEnd }} of {{ totalRecord }}
-                </div>
-
-                <div [ngClass]="{'dis-arow': recordEnd >= totalRecord}" class="next nxt-arrow"
-                  (click)="onClickArrow(recordStr+limitpage,recordEnd+limitpage,2,1000)"></div>
-              </div> -->
-              <!-- pageination -->
+                    <!-- <div id="collapseOne{{page._id}}" class="collapse pad_adjust" data-parent="#accordion">
+                      <div class="card_body" style="padding-left: 30px;">
+                        <div class="info-content page_titleContainer">
+                          <div class="row m-0 row_content">
+                            <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
+                            <div class="col-10 right-info-title">{{page.title}}</div>
+                          </div>
+                          <div class="row m-0 row_content">
+                            <div class="col-2 left-info-title pl-0">URL <span>:</span></div>
+                            <div class="col-10 right-info-title">{{page.url || selectedSource.url }}</div>
+                          </div>
+                          <div class="row m-0 row_content">
+                            <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
+                            <div class="col-10 right-info-title">{{page.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}
+                              <span class="viewPageDetails" (click)="viewPageDetails();selectedPage=page"><a>View
+                                  Details</a></span>
+                            </div>
+                          </div>
+  
+                        </div>
+                        <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Check for Updates</button>
+                        <div class="label_text">Results Preview</div>
+                        <div class="info-content previewSection">
+                          <div class="label_text" *ngIf="page.sections && page.sections.length">{{page.sections[0]}}</div>
+                          <div class="previewContent" *ngIf="!page.searchResultPreview" [innerHtml]="page.body"></div>
+                          <div class="previewContent" *ngIf="page.searchResultPreview"
+                            [innerHtml]="page.searchResultPreview"></div>
+                        </div>
+                        <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Test & Preview</button>
+                      </div>
+                    </div> -->
+                  </div>
+                </perfect-scrollbar>
+                <!-- pageination -->
+                <!-- <div class="paginations-custon">
+                      <div class="previous">Previous</div>
+  
+                      <div *ngFor="let item of numArr(btnCount); let i = index;" (click)="onClickPageNo(10,i)"
+                        id="number_{{i}}" [ngClass]="{'active': i === 0}" class="numbers">{{i+1}}
+                      </div>
+                      <div class="next" *ngIf="btnAllCount > 5"> ... </div>
+                      <div class="next">Next</div>
+                    </div> -->
+                <!-- <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
+                  [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
+                  <app-record-pagination *ngIf = "totalCrawledCount >10" [totalRecord]='totalCrawledCount' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
+                <!-- <div class="paginations-custon">
+                  <div class="previous pre-arrow dis-arow"
+                    (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)"> </div>
+                  <div id="number" class="numbers numbers-page"> {{ recordStr }}-{{ recordEnd }} of {{ totalRecord }}
+                  </div>
+  
+                  <div [ngClass]="{'dis-arow': recordEnd >= totalRecord}" class="next nxt-arrow"
+                    (click)="onClickArrow(recordStr+limitpage,recordEnd+limitpage,2,1000)"></div>
+                </div> -->
+                <!-- pageination -->
+              </div>
+  
             </div>
+          </ng-container>
 
-          </div>
+          <ng-container *ngIf="page && totalRecord > 0">
+            <div class="pages-container-content">
+              <div class="search_header">
+                <div class="label-text">SEARCH PAGE</div>
+                <div class="kr-sg-input-search">                               
+                  <input type="text" placeholder="Search" class="input-search pl-35">
+                  <i class="si-search search-icon"></i>
+                </div>
+              </div>
+              <div class="inner-pages-content">
+                <div class="left_sec">
+                  <perfect-scrollbar>
+                    <div class="inner-scroll-data">
+                      <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                          <a class="nav-link active" data-toggle="tab" href="#menu1">
+                            <div class="page-name">Windows 11 Installation Assistant</div>
+                            <div class="page_link text-truncate">https://finshots.in/archive/stop-thasdsdedw...</div>
+                            <div class="page-c-data">26-Jan-2020</div>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab" href="#menu2">
+                            <div class="page-name">Microsoft Planning to bring tabs to File Explorer in Windows 11</div>
+                            <div class="page_link text-truncate">https://finshots.in/archive/stop-thsadasdsd...</div>
+                            <div class="page-c-data">26-Jan-2020</div>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab" href="#menu3">
+                            <div class="page-name">Windows 11 Installation Assistant</div>
+                            <div class="page_link text-truncate">https://finshots.in/archive/stop-thasdsdedw...</div>
+                            <div class="page-c-data">26-Jan-2020</div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </perfect-scrollbar>
+                </div>
+                <div class="right_content">
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="menu1">
+                      <div class="pages-info-tabs">
+                        <div class="heading-title">Windows 11 Installation Asssistant</div>
+                        <div class="actions-clicks">
+                          <div class="recall-btn">
+                            <i class="si-recall"></i>
+                            <span>Recrawl</span>
+                          </div>
+                          <div class="delete-btn">
+                            <i class="si-delete1"></i>
+                            <span>Delete</span>
+                          </div>
+                        </div>
+                        <div class="page_link">
+                          <i class="si-externallink"></i>
+                          <span class="text-truncate">https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai-bot-builder/</span>
+                          <i class="si-copy"></i>
+                        </div>
+                        <perfect-scrollbar>
+                          <div class="scroll-inner-data">
+                            <ng-container>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">Title</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="info-text">Windows 11 Installation Assistant</div>
+                                </div>
+                              </div>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">Sections</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="info-text">Windows 11 Installation Assistant</div>
+                                  <div class="info-text">Create Windows 11 Installation Media</div>
+                                  <div class="info-text">Download Windows 11 Disk Image</div>
+                                  <div class="info-text">Privacy</div>
+                                  <div class="info-text">More OPtions to Download</div>
+                                </div>
+                              </div>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">URLs</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="url">
+                                    <i class="si-externallink"></i>
+                                    <span class="text-truncate">https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">Image</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="img-link-cards">
+                                    <div class="img-card">
+                                      <div class="img-block">
+                                        <img src="assets/icons/content/web-1.png">
+                                      </div>
+                                      <div class="url-link">
+                                        <i class="si-externallink"></i>
+                                        <span>https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</span>
+                                      </div>
+                                    </div>
+                                    <div class="img-card">
+                                      <div class="img-block">
+                                        <img src="assets/icons/content/web-2.png">
+                                      </div>
+                                      <div class="url-link">
+                                        <i class="si-externallink"></i>
+                                        <span>https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</span>
+                                      </div>
+                                    </div>
+                                    <div class="img-card">
+                                      <div class="img-block">
+                                        <img src="assets/icons/content/web-3.png">
+                                      </div>
+                                      <div class="url-link">
+                                        <i class="si-externallink"></i>
+                                        <span>https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">Updated on</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="info-text">2022-01-20 11:18, UTC</div>
+                                </div>
+                              </div>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">Body</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget sed vestibulum mauris, lectus ornare. Pretium turpis faucibus orci porttitor congue maecenas malesuada metus. Aliquet auctor pulvinar risus, erat et enim, adipiscing. Egestas aliquam vel in varius.</div>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </div>
+                        </perfect-scrollbar>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="menu2">
+                      <div class="pages-info-tabs">
+                        <div class="heading-title">Windows 11 Installation Asssistant</div>
+                        <div class="actions-clicks">
+                          <div class="recall-btn">
+                            <i class="si-recall"></i>
+                            <span>Recrawl</span>
+                          </div>
+                          <div class="delete-btn">
+                            <i class="si-delete1"></i>
+                            <span>Delete</span>
+                          </div>
+                        </div>
+                        <div class="page_link">
+                          <i class="si-externallink"></i>
+                          <span class="text-truncate">https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai-bot-builder/</span>
+                          <i class="si-copy"></i>
+                        </div>
+                        <perfect-scrollbar>
+                          <div class="scroll-inner-data">
+                            <ng-container>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">Title</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="info-text">Windows 11 Installation Assistant</div>
+                                </div>
+                              </div>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">Sections</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="info-text">Windows 11 Installation Assistant</div>
+                                  <div class="info-text">Create Windows 11 Installation Media</div>
+                                  <div class="info-text">Download Windows 11 Disk Image</div>
+                                  <div class="info-text">Privacy</div>
+                                  <div class="info-text">More OPtions to Download</div>
+                                </div>
+                              </div>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">URLs</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="url">
+                                    <i class="si-externallink"></i>
+                                    <span class="text-truncate">https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">Image</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="img-link-cards">
+                                    <div class="img-card">
+                                      <div class="img-block">
+                                        <img src="assets/icons/content/web-1.png">
+                                      </div>
+                                      <div class="url-link">
+                                        <i class="si-externallink"></i>
+                                        <span>https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</span>
+                                      </div>
+                                    </div>
+                                    <div class="img-card">
+                                      <div class="img-block">
+                                        <img src="assets/icons/content/web-2.png">
+                                      </div>
+                                      <div class="url-link">
+                                        <i class="si-externallink"></i>
+                                        <span>https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</span>
+                                      </div>
+                                    </div>
+                                    <div class="img-card">
+                                      <div class="img-block">
+                                        <img src="assets/icons/content/web-3.png">
+                                      </div>
+                                      <div class="url-link">
+                                        <i class="si-externallink"></i>
+                                        <span>https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">Updated on</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="info-text">2022-01-20 11:18, UTC</div>
+                                </div>
+                              </div>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">Body</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget sed vestibulum mauris, lectus ornare. Pretium turpis faucibus orci porttitor congue maecenas malesuada metus. Aliquet auctor pulvinar risus, erat et enim, adipiscing. Egestas aliquam vel in varius.</div>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </div>
+                        </perfect-scrollbar>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="menu3">
+                      <div class="pages-info-tabs">
+                        <div class="heading-title">Windows 11 Installation Asssistant</div>
+                        <div class="actions-clicks">
+                          <div class="recall-btn">
+                            <i class="si-recall"></i>
+                            <span>Recrawl</span>
+                          </div>
+                          <div class="delete-btn">
+                            <i class="si-delete1"></i>
+                            <span>Delete</span>
+                          </div>
+                        </div>
+                        <div class="page_link">
+                          <i class="si-externallink"></i>
+                          <span class="text-truncate">https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai-bot-builder/</span>
+                          <i class="si-copy"></i>
+                        </div>
+                        <perfect-scrollbar>
+                          <div class="scroll-inner-data">
+                            <ng-container>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">Title</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="info-text">Windows 11 Installation Assistant</div>
+                                </div>
+                              </div>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">Sections</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="info-text">Windows 11 Installation Assistant</div>
+                                  <div class="info-text">Create Windows 11 Installation Media</div>
+                                  <div class="info-text">Download Windows 11 Disk Image</div>
+                                  <div class="info-text">Privacy</div>
+                                  <div class="info-text">More OPtions to Download</div>
+                                </div>
+                              </div>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">URLs</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="url">
+                                    <i class="si-externallink"></i>
+                                    <span class="text-truncate">https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">Image</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="img-link-cards">
+                                    <div class="img-card">
+                                      <div class="img-block">
+                                        <img src="assets/icons/content/web-1.png">
+                                      </div>
+                                      <div class="url-link">
+                                        <i class="si-externallink"></i>
+                                        <span>https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</span>
+                                      </div>
+                                    </div>
+                                    <div class="img-card">
+                                      <div class="img-block">
+                                        <img src="assets/icons/content/web-2.png">
+                                      </div>
+                                      <div class="url-link">
+                                        <i class="si-externallink"></i>
+                                        <span>https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</span>
+                                      </div>
+                                    </div>
+                                    <div class="img-card">
+                                      <div class="img-block">
+                                        <img src="assets/icons/content/web-3.png">
+                                      </div>
+                                      <div class="url-link">
+                                        <i class="si-externallink"></i>
+                                        <span>https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">Updated on</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="info-text">2022-01-20 11:18, UTC</div>
+                                </div>
+                              </div>
+                              <div class="row-content-data row">
+                                <div class="col-4 title-heading">Body</div>
+                                <div class="col-8 page-content-details">
+                                  <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget sed vestibulum mauris, lectus ornare. Pretium turpis faucibus orci porttitor congue maecenas malesuada metus. Aliquet auctor pulvinar risus, erat et enim, adipiscing. Egestas aliquam vel in varius.</div>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </div>
+                        </perfect-scrollbar>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+
           <div class="empty-page-data-container" *ngIf="page &&  totalRecord == 0">
             <img src="assets\images\emptyList.png">
             <div class="title">Sorry! No Pages available yet!! Please <span> crawl</span> the web domain again</div>
