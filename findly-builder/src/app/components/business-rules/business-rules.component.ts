@@ -1272,16 +1272,16 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     let sentence='';
     this.entityObj.entities.push(this.entityFields);
     this.inputSentence='';
-    for(let i=0;i<this.entityObj.sentence;i++){
-      for(let j=0;j<this.entityObj.entities.length;j++){
-        if(i>=this.entityObj.entities[j].startIndex && i<this.entityObj.entities[j].endIndex){
-          sentence = sentence + this.entityObj.sentence[i].fontcolor('red');
-        }
-        else{
-          sentence = sentence + this.entityObj.sentence[i];
+    for(let j=0;j<this.entityObj.sentence.length;j++){
+      for(let k=0;k<this.entityObj.entities.length;k++){
+          if(j>=this.entityObj.entities[k].startIndex && j<this.entityObj.entities[k].endIndex){
+            sentence = sentence + this.entityObj.sentence[j].fontcolor('red');
+          }
+          else{
+            sentence = sentence + this.entityObj.sentence[j];
+          }
         }
       }
-    }
     this.inputSentence  = this.sanitizer.bypassSecurityTrustHtml(sentence);
     this.entityObj.colorSentence = this.inputSentence;
     this.nlpAnnotatorObj.showEntityPopup = false;
