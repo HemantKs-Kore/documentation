@@ -127,23 +127,23 @@
       <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg"
           (click)="closeStatusModal()"></div>
       <div class="modal-body">
-        <div class="success-check  pb-4" *ngIf="statusObject.status==='success'">
-          <img src="assets/icons/successCheck.svg">
+        <div class="success-check" *ngIf="statusObject.status==='success'">
+          <img src="assets/icons/content/latest-content-icons/success-check-o.svg">
         </div>
         <div class="error-check" *ngIf="(statusObject.status==='failed')">
-          <img src="assets/images/exclamationCircle-Red.svg">
+          <img src="assets/icons/content/latest-content-icons/failed-check-o.svg">
         </div>
-        <div *ngIf="selectedSourceType.sourceType === 'content'&&statusObject.status!=='failed'">
-          <div class="success-check pb-4"
+        <div class="status-body-check" *ngIf="selectedSourceType.sourceType === 'content'&&statusObject.status!=='failed'">
+          <div class="success-check status-type-img"
             *ngIf="(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType === 'file')">
-            <img src="assets/icons/successCheck.svg">
+            <img src="assets/icons/content/latest-content-icons/success-check-o.svg">
           </div>
-          <div class="error-check pb-4"
+          <div class="error-check status-type-img"
             *ngIf="!(statusObject?.validation?.url?.validated)&&!(selectedSourceType.resourceType === 'file')">
-            <img src="assets/icons/failed-status.svg">
+            <img src="assets/icons/content/latest-content-icons/failed-check-o.svg">
           </div>
           <div class="configInProgress">
-            <h1><strong>{{(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType ===
+            <h1 class="status-type-header"><strong>{{(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType ===
                 'file')?"Validation Successful":"Validation Failed"}}</strong></h1>
           </div>
 
@@ -156,19 +156,27 @@
         </div>
         <ng-container *ngIf="selectedSourceType.sourceType !== 'faq'&&statusObject.status!=='success'">
           <div class="status-identification-content">
-            <div class="content-title">
-              <img src="assets/images/source-icos/check-green.svg"
-                *ngIf="(statusObject?.validation?.url?.validated||selectedSourceType.resourceType=='file')"
-                class="successfullyConnected">
-              <img src="assets/images/source-icos/Info-red.svg"
-                *ngIf="!(statusObject?.validation?.url?.validated)&&selectedSourceType.resourceType!=='file'"
-                class="successfullyConnected">
-              <span *ngIf="selectedSourceType.resourceType!='file'">Initial URL validation</span>
-              <span *ngIf="selectedSourceType.resourceType=='file'">File Validation</span>
-            </div>
-            <div class="content-description"
+            <perfect-scrollbar class="content-scroll">
+              <div class="content-title">
+                <img src="assets/images/source-icos/check-green.svg"
+                  *ngIf="(statusObject?.validation?.url?.validated||selectedSourceType.resourceType=='file')"
+                  class="successfullyConnected">
+                <img src="assets/images/source-icos/Info-red.svg"
+                  *ngIf="!(statusObject?.validation?.url?.validated)&&selectedSourceType.resourceType!=='file'"
+                  class="successfullyConnected">
+                <span *ngIf="selectedSourceType.resourceType!='file'">Initial URL validation</span>
+                <span *ngIf="selectedSourceType.resourceType=='file'">File Validation</span>
+              </div>
+              <div class="content-title"><img class="successfullyConnected" src="assets/images/source-icos/check-green.svg"><span>Initial URL validation</span></div>
+              <div class="content-title"><img class="successfullyConnected" src="assets/images/source-icos/check-green.svg"><span>Initial URL validation</span></div>
+              <div class="content-title"><img class="successfullyConnected" src="assets/images/source-icos/check-green.svg"><span>Initial URL validation</span></div>
+              <div class="content-title"><img class="successfullyConnected" src="assets/images/source-icos/check-green.svg"><span>Initial URL validation</span></div>
+              <div class="content-title"><img class="successfullyConnected" src="assets/images/source-icos/check-green.svg"><span>Initial URL validation</span></div>
+            </perfect-scrollbar>
+     
+            <!-- <div class="content-description"
               *ngIf="selectedSourceType.resourceType!='file'&&(statusObject?.validation?.url?.validated)"> Now you can
-              choose to crawl immediately or later</div>
+              choose to crawl immediately or later</div> -->
           </div>
         </ng-container>
         <div class="progressNote"
@@ -193,9 +201,9 @@
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
           [disabled]="crawlOkDisable" (click)="closeStatusModal()"
           *ngIf="selectedSourceType.sourceType==='faq'">Ok</button>
-        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+        <button type="button" class="kr-sg-button-secondary btn_lg kr-btn-primary float-none ml-2 mr-0" data-dismiss="modal"
           (click)="closeStatusModal()"
-          *ngIf="selectedSourceType.sourceType==='content'&&(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType === 'file')">Close</button>
+          *ngIf="selectedSourceType.sourceType==='content'&&(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType === 'file')"> <span class="pr-2 icon-calendar"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg" /></span>Crawl Later</button>
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
           (click)="jobOndemand()"
           *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&(statusObject?.validation?.url?.validated)"
@@ -1152,13 +1160,50 @@
           (click)="closeStatusModal()"></div>
       <div class="modal-body">
         <ng-container *ngIf="!(statusObject.status==='success' || statusObject.status==='failed')">
-          <div class="progressNote">
+          <!-- <div class="progressNote">
             <div>Crawling In-progress</div>
           </div>
           <div class="text-center">
             <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
             <div class="relaxNote">You will be notified when the Crawling process is done.</div>
+          </div> -->
+
+          <div>
+            <!-- <div>{{importFaqInprogress?'Import':'Faq Extraction'}} In Progress</div>
+            <div class="text-center">
+              <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
+              <div class="relaxNote">You will be notified when the {{importFaqInprogress?'import':'extraction'}} progress
+                is done</div>
+            </div> -->
+  
+            <div class="status-body-check">
+              <div class="success-check status-type-img">
+                <img src="assets/icons/content/latest-content-icons/green-loading-in-progress.svg">
+              </div>
+              <div class="configInProgress">
+                <h1 class="status-type-header"><strong>{{importFaqInprogress?'Import':'Faq Extraction'}} In Progress</strong></h1>
+              </div>
+            </div>
+            <div class="progressNote">
+              <div class="crwal-in-progress-status">
+                <div class="crwal-in-progress-mat">
+                  <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
+                </div>
+                <div class="crwal-in-progress-mat-close">
+                  <span class="mat-close-icon"><i class="si-close"></i></span>
+                </div>
+              </div>
+              <div class="progress-protip">
+                <div class="pro-tip-icon">
+                <i class="si-info"></i> 
+                </div>
+                <div class="pro-tip-text">
+                  This might take a while based on the content size. You will be notified when the extraction process is done.
+                </div>
+              </div>
+            </div>
           </div>
+
         </ng-container>
         <div class="success-check  pb-4" *ngIf="(statusObject.status==='success')">
           <img src="assets/icons/successCheck.svg">
