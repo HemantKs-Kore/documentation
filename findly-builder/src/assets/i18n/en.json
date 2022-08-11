@@ -360,7 +360,7 @@
             "Feedback": "Feedback",
             "Useful_Result": "Positive Feedback",
             "Not_Useful_Result": "Negative Feedback",
-            "feedback_tooltip": "Enabling Result feedback allows your end users rate the relevancy of results provided for a search query.Once enabled insights will be available in 'Search Insights' under the Analytics Section"
+            "feedback_tooltip": "Enabling Result Feedback allows your end users rate the relevancy of results provided for a search query.Once enabled insights will be available in 'Search Insights' under the Analytics Section."
         },
         "user_engagement": {
             "User_Engagement": "User Engagement",
