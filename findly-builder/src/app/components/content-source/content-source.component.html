@@ -1195,14 +1195,14 @@
                   <perfect-scrollbar>
                     <div class="inner-scroll-data">
                       <ul class="nav nav-tabs">
-                        <li class="nav-item">
-                          <a class="nav-link active" data-toggle="tab" href="#menu1">
-                            <div class="page-name">Windows 11 Installation Assistant</div>
-                            <div class="page_link text-truncate">https://finshots.in/archive/stop-thasdsdedw...</div>
-                            <div class="page-c-data">26-Jan-2020</div>
+                        <li class="nav-item"  *ngFor="let page of pagingData | filter: [ pagesSearch, 'url_display'];let i = index">
+                          <a class="nav-link active" (click)="selectedPage=page" data-toggle="tab" href="#menu1">
+                            <div class="page-name">{{page._source.page_title}}</div>
+                            <div class="page_link text-truncate">{{page._source.page_url|| selectedSource.url}}</div>
+                            <div class="page-c-data">{{page.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
                           </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item ">
                           <a class="nav-link" data-toggle="tab" href="#menu2">
                             <div class="page-name">Microsoft Planning to bring tabs to File Explorer in Windows 11</div>
                             <div class="page_link text-truncate">https://finshots.in/archive/stop-thsadasdsd...</div>
@@ -1215,7 +1215,7 @@
                             <div class="page_link text-truncate">https://finshots.in/archive/stop-thasdsdedw...</div>
                             <div class="page-c-data">26-Jan-2020</div>
                           </a>
-                        </li>
+                        </li> -->
                       </ul>
                     </div>
                   </perfect-scrollbar>
@@ -1224,7 +1224,7 @@
                   <div class="tab-content">
                     <div class="tab-pane active" id="menu1">
                       <div class="pages-info-tabs">
-                        <div class="heading-title">Windows 11 Installation Asssistant</div>
+                        <div class="heading-title">{{selectedPage._source.page_title}}</div>
                         <div class="actions-clicks">
                           <div class="recall-btn">
                             <i class="si-recall"></i>
@@ -1237,7 +1237,7 @@
                         </div>
                         <div class="page_link">
                           <i class="si-externallink"></i>
-                          <span class="text-truncate">https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai-bot-builder/</span>
+                          <span class="text-truncate">{{selectedPage._source.page_url}}</span>
                           <i class="si-copy"></i>
                         </div>
                         <perfect-scrollbar>
@@ -1246,7 +1246,7 @@
                               <div class="row-content-data row">
                                 <div class="col-4 title-heading">Title</div>
                                 <div class="col-8 page-content-details">
-                                  <div class="info-text">Windows 11 Installation Assistant</div>
+                                  <div class="info-text">{{selectedPage._source.page_title}}</div>
                                 </div>
                               </div>
                               <div class="row-content-data row">
@@ -1264,7 +1264,7 @@
                                 <div class="col-8 page-content-details">
                                   <div class="url">
                                     <i class="si-externallink"></i>
-                                    <span class="text-truncate">https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</span>
+                                    <span class="text-truncate">{{selectedPage._source.page_url}}</span>
                                   </div>
                                 </div>
                               </div>
@@ -1274,14 +1274,14 @@
                                   <div class="img-link-cards">
                                     <div class="img-card">
                                       <div class="img-block">
-                                        <img src="assets/icons/content/web-1.png">
+                                        <img src="{{selectedPage.page_image_url}}">
                                       </div>
                                       <div class="url-link">
                                         <i class="si-externallink"></i>
-                                        <span>https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</span>
+                                        <span>{{selectedPage._source.page_image_url}}</span>
                                       </div>
                                     </div>
-                                    <div class="img-card">
+                                    <!-- <div class="img-card">
                                       <div class="img-block">
                                         <img src="assets/icons/content/web-2.png">
                                       </div>
@@ -1298,20 +1298,20 @@
                                         <i class="si-externallink"></i>
                                         <span>https://developer.kore.ai/docs/bots/chatbot-overview/working-with-kore-ai...</span>
                                       </div>
-                                    </div>
+                                    </div> -->
                                   </div>
                                 </div>
                               </div>
                               <div class="row-content-data row">
                                 <div class="col-4 title-heading">Updated on</div>
                                 <div class="col-8 page-content-details">
-                                  <div class="info-text">2022-01-20 11:18, UTC</div>
+                                  <div class="info-text">{{selectedPage.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
                                 </div>
                               </div>
                               <div class="row-content-data row">
                                 <div class="col-4 title-heading">Body</div>
                                 <div class="col-8 page-content-details">
-                                  <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget sed vestibulum mauris, lectus ornare. Pretium turpis faucibus orci porttitor congue maecenas malesuada metus. Aliquet auctor pulvinar risus, erat et enim, adipiscing. Egestas aliquam vel in varius.</div>
+                                  <div class="info-text">{{selectedPage._source.page_body}}</div>
                                 </div>
                               </div>
                             </ng-container>
@@ -1319,7 +1319,7 @@
                         </perfect-scrollbar>
                       </div>
                     </div>
-                    <div class="tab-pane fade" id="menu2">
+                    <!-- <div class="tab-pane fade" id="menu2">
                       <div class="pages-info-tabs">
                         <div class="heading-title">Windows 11 Installation Asssistant</div>
                         <div class="actions-clicks">
@@ -1512,7 +1512,7 @@
                           </div>
                         </perfect-scrollbar>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
