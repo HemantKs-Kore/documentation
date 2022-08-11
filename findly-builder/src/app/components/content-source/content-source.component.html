@@ -234,7 +234,7 @@
                       </div>
                       <div class="media-right">
                         <div class="media-name"  title="{{source.title || source.name}}">{{source.title || source.name}}</div>
-                        <div class="media-time-stamp d-none"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>Runs Daily @ 10:30 AM IST</div>
+                        <div class="media-time-stamp" (click)="openScheduler($event)" ><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>Runs Daily @ 10:30 AM IST</div>
                         <div class="media-up-time-stamp d-none"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div>
                       </div>
                     </div>
@@ -1835,4 +1835,11 @@
   id="addStructuredDataModalPop">
   <app-add-structured-data *ngIf="isStructuredDataAdd" [selectedSourceType]="selectedSourceType"
     (closeStructuredDataModal)="closeAddStructuredDataModal($event)"></app-add-structured-data>
+</kr-modal>
+<kr-modal modalType="center" modalClass="modal_popups_ schedualarDataModelPop" #schedularDataPop
+  id="schedualarDataModelPop">
+  <div class="modal-header">
+    <div class="title">Scheduler</div>
+    <div class="close_icon"><img (click)="closeScheduler()" src="assets/icons/modal-close.svg"></div>
+  </div>
 </kr-modal>

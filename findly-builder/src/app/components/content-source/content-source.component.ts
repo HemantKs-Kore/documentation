@@ -222,6 +222,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   crwalOptionLabel = '';
   structuredDataModalRef: any;
   addStructuredDataModalPopRef: any;
+  schedularDataPopRef:any;
   selectedSourceType: any;
   isStructuredDataAdd: boolean = false;
   sortedObject = {
@@ -240,6 +241,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   @ViewChild('structuredDataModal') structuredDataModal: KRModalComponent;
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
+  @ViewChild('schedularDataPop') schedularDataPop: KRModalComponent;
   templateState = new Subject();
   loadingData: boolean = true;
   constructor(
@@ -842,6 +844,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     });
 
+  }
+  openScheduler(event){
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    this.schedularDataPopRef = this.schedularDataPop.open();
+  }
+  closeScheduler(event){
+    if(this.schedularDataPopRef && this.schedularDataPopRef.close){
+      this.schedularDataPopRef.close();
+    }
   }
   openStatusSlider(source, page?) {
     // console.log("sourec opned", source)
