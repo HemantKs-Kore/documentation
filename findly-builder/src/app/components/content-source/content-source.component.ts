@@ -702,6 +702,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
       if (data.length || this.pagesSearch) {
         this.swapSlider('page');
+        this.selectedPage = this.pagingData[0];
       }
       else {
         this.swapSlider('config')
@@ -857,6 +858,25 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.schedularDataPopRef.close();
     }
   }
+  copyUrl(val) {
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+    this.notificationService.notify('Copied URL to clipboard', 'success')
+  }
+  goToLink(url: string) {
+    if(url.length > 0 ) {
+      window.open(url, "_blank");
+    }
+}
   openStatusSlider(source, page?) {
     // console.log("sourec opned", source)
     this.executionHistoryData = [];
