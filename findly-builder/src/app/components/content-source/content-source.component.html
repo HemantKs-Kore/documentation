@@ -222,11 +222,10 @@
                 [ngClass]="{'cursor-pointer':statusObj[source.recentStatus]?.name == 'Success' }">
 
                 <div class="col_ col-3">
-                  <span class="ml-2" *ngIf="source.advanceSettings">
+                  <span class="ml-2 d-none" *ngIf="source.advanceSettings">
                      <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon"
                       src="assets/icons/schedule_timer.svg">
                     </span>
-                
                     <div class="media-block">
                       <div class="media-logo">
                         <img *ngIf="source.extractionType == 'web'" src="assets/icons/content/latest-content-icons/blue-internet.svg">
@@ -234,7 +233,7 @@
                       </div>
                       <div class="media-right">
                         <div class="media-name"  title="{{source.title || source.name}}">{{source.title || source.name}}</div>
-                        <div class="media-time-stamp" (click)="openScheduler($event)" ><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>Runs Daily @ 10:30 AM IST</div>
+                        <div class="media-time-stamp" (click)="openScheduler($event)" *ngIf="source.advanceSettings?.scheduleOpt" ><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
                         <div class="media-up-time-stamp d-none"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div>
                       </div>
                     </div>
