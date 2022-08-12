@@ -11666,3 +11666,84 @@ a.tile-heading {
     top: 2px;
     display: block;
 }
+
+/* Snipet css */
+.snippet-margin{
+    width: 94% !important;
+    margin-left: 30px;
+}
+.snippet-template {
+    display: inline-block;
+    width: 100%;
+    border: 1px solid #D7D8D9;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+.snippet-template .title-text {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 3px;
+    color: #121314;
+}
+.snippet-template .desc-text {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    margin-bottom: 12px;
+    color: #121314;
+}
+.snippet-template .desc-text a {
+    color: #0D6EFD !important;
+    word-break: break-word;
+    display: inline-block;
+}
+.snippet-template .source-link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+.snippet-template .source-link .title {
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+}
+.snippet-template .source-link .source-ext-link {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+.snippet-template .source-link .source-ext-link img {
+    margin-right: 10px;
+}
+.snippet-template .source-link .source-ext-link a {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    text-decoration-line: underline !important;
+    color: #0D6EFD !important;
+}
+.snippet-template .quick-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.snippet-template .quick-links .quick-item {
+    background: #fff;
+    border: 1px solid #0D6EFD;
+    border-radius: 15px;
+    padding: 4px 10px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    color: #0D6EFD;
+    margin: 4px 10px 4px 0px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.snippet-template .quick-links .quick-item img {
+    margin-right: 8px;
+}
