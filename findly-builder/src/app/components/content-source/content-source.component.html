@@ -232,19 +232,11 @@
                         <img *ngIf="source.extractionType == 'file'" src="assets/icons/content/latest-content-icons/green-check-document.svg">
                       </div>
                       <div class="media-right">
-                        <div class="media-name"  title="{{source.title || source.name}}">{{source.title || source.name}}</div>
+                        <div class="media-name text-truncate"  title="{{source.title || source.name}}">{{source.title || source.name}}</div>
                         <div class="media-time-stamp" (click)="openScheduler($event)" *ngIf="source.advanceSettings?.scheduleOpt" ><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
                         <div class="media-up-time-stamp d-none"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div>
                       </div>
                     </div>
-
-                    <div class="media-block d-none">
-                      <div class="media-logo"><img src="assets/icons/content/latest-content-icons/green-check-document.svg"></div>
-                      <div class="media-right">
-                        <div class="media-name">Kore</div>
-                      </div>
-                    </div>
-
                 </div>
                 <div class="col_ col-2" *ngIf="source?.advanceSettings">
                   <span *ngIf="!source.advanceSettings.scheduleOpt">{{source.jobInfo.userDetails.fullName ||
@@ -1247,7 +1239,7 @@
                                 <div class="col-8 page-content-details">
                                   <div class="url">
                                     <i class="si-externallink"></i>
-                                    <span class="text-truncate">{{selectedPage._source.page_url}}</span>
+                                    <span class="text-truncate">{{selectedPage?._source?.page_url}}</span>
                                   </div>
                                 </div>
                               </div>
@@ -1290,7 +1282,7 @@
             </div>
           </ng-container>
 <!-- New Pages End -->
-          <div class="empty-page-data-container" *ngIf="page &&  totalRecord == 0">
+          <div class="empty-page-data-container" *ngIf="page &&  totalRecord == 0 && source.recentStatus == 'success'">
             <img src="assets\images\emptyList.png">
             <div class="title">Sorry! No Pages available yet!! Please <span> crawl</span> the web domain again</div>
           </div>
