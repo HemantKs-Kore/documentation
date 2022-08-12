@@ -11667,7 +11667,14 @@ a.tile-heading {
 }
 
 /* Snipet css */
+<<<<<<< HEAD
 
+=======
+.snippet-margin{
+    width: 94% !important;
+    margin-left: 30px;
+}
+>>>>>>> 5183c05b051d20eaf6b04cf03fa1935e40547f50
 .snippet-template {
     display: inline-block;
     width: 100%;

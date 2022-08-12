@@ -1320,17 +1320,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <img class="live-search-close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
       {{/if}}\-->\
       {{if snippetData?.title}}\
+<<<<<<< HEAD
       <div class="snippet-template">\
+=======
+      <div class="snippet-template snippet-margin">\
+>>>>>>> 5183c05b051d20eaf6b04cf03fa1935e40547f50
         <div class="title-text">{{html snippetData?.title}}</div>\
         <div class="desc-text">{{html snippetData?.answer}}</div>\
         <div class="quick-links">\
           <div class="quick-item know-more-snippet" snippetURL="${snippetData?.page_url}">Know More</div>\
+<<<<<<< HEAD
           <div class="quick-item">\
+=======
+          <div class="quick-item more-results-btn">\
+>>>>>>> 5183c05b051d20eaf6b04cf03fa1935e40547f50
             <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik02LjI5ODM4IDAuNzk2ODc1QzMuMjYyMTQgMC43OTY4NzUgMC44MDA3ODEgMy4yNjQ4MSAwLjgwMDc4MSA2LjMwOTE2QzAuODAwNzgxIDkuMzUzNTEgMy4yNjIxNCAxMS44MjE0IDYuMjk4MzggMTEuODIxNEM3LjYyNjE1IDExLjgyMTQgOC44NDM5OSAxMS4zNDk1IDkuNzk0MTIgMTAuNTYzN0wxMi4zNDMgMTMuMDg4TDEyLjM4MSAxMy4xMjIyQzEyLjU5MDIgMTMuMjkzMyAxMi44OTg4IDEzLjI3OTkgMTMuMDkyMyAxMy4wODM0QzEzLjI5OCAxMi44NzQ2IDEzLjI5NTkgMTIuNTM4MiAxMy4wODc3IDEyLjMzMkwxMC41NDMzIDkuODEyMTZDMTEuMzI2IDguODU5OCAxMS43OTYgNy42Mzk1MSAxMS43OTYgNi4zMDkxNkMxMS43OTYgMy4yNjQ4MSA5LjMzNDYyIDAuNzk2ODc1IDYuMjk4MzggMC43OTY4NzVaTTYuMjk4MzggMS44NTk0OEM4Ljc0OTMyIDEuODU5NDggMTAuNzM2MiAzLjg1MTY3IDEwLjczNjIgNi4zMDkxNkMxMC43MzYyIDguNzY2NjQgOC43NDkzMiAxMC43NTg4IDYuMjk4MzggMTAuNzU4OEMzLjg0NzQ0IDEwLjc1ODggMS44NjA1NiA4Ljc2NjY0IDEuODYwNTYgNi4zMDkxNkMxLjg2MDU2IDMuODUxNjcgMy44NDc0NCAxLjg1OTQ4IDYuMjk4MzggMS44NTk0OFoiIGZpbGw9IiMwMDc3RDIiLz4KPC9zdmc+Cg==">More Results</div>\
           </div>\
       </div>\
       {{/if}}\
+<<<<<<< HEAD
       <div class="finalResults">\
+=======
+      <div class="finalResults {{if snippetData?.title}}display-none snippet-margin{{/if}}">\
+>>>>>>> 5183c05b051d20eaf6b04cf03fa1935e40547f50
       {{if taskPrefix === "SUGGESTED"}}\
         <span class="live-search-close-icon">See All Results</span>\
       {{/if}}\
@@ -4237,7 +4249,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var url = $(this).attr("snippetURL");
         window.open(url, '_blank');
       })
+<<<<<<< HEAD
 
+=======
+      $('.more-results-btn').off('click').on('click',function (e){
+        var _self = this;
+        $(this).parent().parent().next().removeClass('display-none');
+        setTimeout(()=>{
+          $('#searchChatContainer').animate({ scrollTop:( $(this).parent().parent().next().position().top +$(this).parent().parent().next().height())  });
+        },300)
+      })
+>>>>>>> 5183c05b051d20eaf6b04cf03fa1935e40547f50
       $('.suggestions-close-icon').off('click').on('click', function (e) {
         $('#autoSuggestionContainer').empty();
         $('.suggestion-search-data-parent').css('display', 'none');
