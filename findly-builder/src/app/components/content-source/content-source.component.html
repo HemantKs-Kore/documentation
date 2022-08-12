@@ -38,10 +38,10 @@
           <div class="desc-text">{{"contentSource.no_search_query" | translate}}</div>
         </ng-container>
       </div>
-    </perfect-scrollbar>  
-    
+    </perfect-scrollbar>
+
   </ng-container>
- 
+
   <!-- <div class="empty-case-showing-cotent" *ngIf="!(resources && resources.length) && !loadingContent">
     <div class="crawlContent row m-0 mb-4">
       <div class="col-12 main-title label_text">Add Content</div>
@@ -60,7 +60,7 @@
         </div>
       </div>
       <div class="webDomain d-none">
-        <div class="box-block"> 
+        <div class="box-block">
           <div class="title label_text m-0">Others</div>
           <div class="imageDiv"><img src="assets/images/source-icos/others.svg"></div>
           <div class="info-text">Extract content from other</div>
@@ -179,13 +179,14 @@
                         class="list-name">All</span><img [ngClass]="{'hide': filterSystem.statusFilter !== 'all'}"
                         src="assets/icons/check-blue.svg"></li>
                     <li *ngFor="let status of statusArr"
-                      (click)="statusFilter.close();filterTable(status,'recentStatus')"><span class="list-name">{{status
+                      (click)="statusFilter.close();filterTable(status,'recentStatus')">
+                      <span class="list-name">{{status.toLowerCase()
                         == 'success' ? 'Success' :
-                        (status == 'failed' ? 'Failed' :
-                        (status == 'queued' ? 'In-Queue' :
-                        (status == 'configured' ? 'Validated' :
-                        (status == 'halted' ? 'Stopped' :
-                        (status == 'scheduled' ? 'Configured' : 'In-progress')))))}}</span>
+                        (status.toLowerCase() == 'failed' ? 'Failed' :
+                        (status.toLowerCase() == 'queued' ? 'In-Queue' :
+                        (status.toLowerCase() == 'configured' ? 'Validated' :
+                        (status.toLowerCase() == 'halted' ? 'Stopped' :
+                        (status.toLowerCase() == 'scheduled' ? 'Configured' : 'In-progress')))))}}</span>
                       <img [ngClass]="{'hide': filterSystem.statusFilter !== status}" src="assets/icons/check-blue.svg">
                     </li>
                   </ul>
@@ -202,7 +203,7 @@
             <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('triggeredBy')">
               <!-- <img src="assets/icons/caretDown.svg"
                 [ngClass]="{'assending': (selectedSort==='createdOn') && isAsc,'decending':((selectedSort==='createdOn') && !isAsc)}"
-                class="ml-1 sortImg"> -->            
+                class="ml-1 sortImg"> -->
                 <span class="d-flex align-items-center flex-column mr-1">
                   <img [ngClass]="getSortIconVisibility('triggeredBy', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                   <img [ngClass]="getSortIconVisibility('triggeredBy', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
@@ -228,10 +229,10 @@
                     {{statusObj[source.recentStatus]?.name}}
                     <!-- <span *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'"> {{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].status) ? statusObj[resourcesStatusObj[source.jobId].status]?.name : 'In Progress'}}</span>
                     <span *ngIf="statusObj[source.recentStatus]?.name != 'In Progress'">{{statusObj[source.recentStatus]?.name}}</span> -->
-                    <!-- 21/02 changes made in line 233 and 237 as per api contract updating resourcesStatusObj[source.jobId].statusMessage to 
+                    <!-- 21/02 changes made in line 233 and 237 as per api contract updating resourcesStatusObj[source.jobId].statusMessage to
                     resourcesStatusObj[source.jobId].message -->
                     <img src="assets/icons/failed-status.svg" class="failed-img" placement="top"
-                       ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].message)?resourcesStatusObj[source.jobId].message:source.vailadtionTootlip}}" 
+                       ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].message)?resourcesStatusObj[source.jobId].message:source.vailadtionTootlip}}"
                       container="body" *ngIf="statusObj[source.recentStatus]?.name == 'Failed'"><img
                       src="assets/icons/ringLoading.svg" class="ml-2 inProgress"
                       *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" placement="top" container='body'
@@ -291,7 +292,7 @@
             <div class="empty">{{"contentSource.no_results_found" | translate}}</div>
           </perfect-scrollbar>
         </section>
-        
+
         <ng-container *ngIf="currentView === 'grid'">
           <perfect-scrollbar class="table-scroll-perfect list">
             <!-- <div class="list-view-data">
@@ -353,7 +354,7 @@
                         dateFormatPipe: 'D MMMM YYYY'}}</div>
                     </ng-template>
                     <div class="status text-right" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'">
-                      <!-- 21/02 changes made in line 359 as per api contract updating resourcesStatusObj[source.jobId].statusMessage to 
+                      <!-- 21/02 changes made in line 359 as per api contract updating resourcesStatusObj[source.jobId].statusMessage to
                     resourcesStatusObj[source.jobId].message -->
                       <span class="img-block"><img src="assets/icons/ringLoading.svg" class="ml-2 inProgress"
                           *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" placement="top" container='body'
@@ -396,17 +397,17 @@
                   </div>
                 </div>
               </div>
-  
-  
+
+
             </div>
             <!-- New Design -->
           </perfect-scrollbar>
-         
+
         </ng-container>
       </ng-container>
     </div>
   </div>
- 
+
 </div>
 
 <kr-modal modalType="center" modalClass="sliderComponent modal_popups_" #statusModalPop id="sourceSlider">
@@ -905,7 +906,7 @@
                       <div class="slider"></div>
                     </label>
                   </div>
-                </div> 
+                </div>
                  <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
                   <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg"
                       class="ml-1">
@@ -951,7 +952,7 @@
                           src="assets/images/close-cross.svg"></div>
                     </div>
                   </div>
-                </div> 
+                </div>
 
                 <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
                    <div class="allow-list-data-label label_text mt-16">Block List <img src="assets/icons/Info-small.svg"
@@ -962,7 +963,7 @@
                         (click)="restrictUrl(selectedSource.advanceSettings.blockedOpt)">
                       <div class="slider"></div>
                     </label>
-                  </div> 
+                  </div>
                   <div class="allow-urls-sec row allow-urlBox"
                     *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
                     <div class="col-2 p-0 title">Block URLS</div>
@@ -987,7 +988,7 @@
                       </div>
                       <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>
-                  </div> 
+                  </div>
                    <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
                     <div *ngFor="let allow of selectedSource.advanceSettings.blockedURLs;let i = index"
                       class="path-data row m1010 alw-list-bor"
@@ -996,8 +997,8 @@
                       <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete','block')"><img
                           src="assets/images/close-cross.svg"></div>
                     </div>
-                  </div> 
-                  
+                  </div>
+
                 </div> -->
 
                 <!-- Cookies -->
@@ -1010,14 +1011,14 @@
           <div class="accordion-content-info text-left" *ngIf="page && totalRecord > 0">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
-              
+
               <!-- <img src="assets/icons/caretDown.svg" class="ml-1"> -->
               <div class="col-4 label_text m-0 last-update"  (click)="sortByApi('lastUpdated')">
                 <span class="sort-up-down-icons">
                   <img [ngClass]="getSortIconVisibility('lastUpdated', 'up')" src="assets/icons/caretDown.svg" class="sortImg upArrow">
                   <img [ngClass]="getSortIconVisibility('lastUpdated', 'down')" src="assets/icons/caretDown.svg" class="sortImg">
                 </span>
-                <div class="title">Last Updated</div> 
+                <div class="title">Last Updated</div>
               </div>
             </div>
             <div id="accordion" class="accordion-section">
@@ -1078,7 +1079,7 @@
               <!-- pageination -->
               <!-- <div class="paginations-custon">
                     <div class="previous">Previous</div>
-                    
+
                     <div *ngFor="let item of numArr(btnCount); let i = index;" (click)="onClickPageNo(10,i)"
                       id="number_{{i}}" [ngClass]="{'active': i === 0}" class="numbers">{{i+1}}
                     </div>
@@ -1202,7 +1203,7 @@
                             </div>
                             <!-- <div class="eye-img" (mouseenter)="executionHistoryPop(history,i)"><img src="assets/icons/content/eye.svg" >
                             </div>
-                            <div *ngIf = "i == executionPop"> 
+                            <div *ngIf = "i == executionPop">
                               HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
                               {{executionObj[history.executionStats.executionStatusMessage]}}
                             </div> -->
@@ -1360,7 +1361,7 @@
           <div class="title-desc-text" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
           [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
           {{statusObj[selectedSource.recentStatus]?.name}}</div>
-          
+
           <div class="title-text">SIZE</div>
           <div class="title-desc-text" *ngIf="selectedSource.fileMeta">{{selectedSource.fileMeta.size ? (selectedSource.fileMeta.size / (1024 * 1024)).toFixed(2) + 'MB': '--'|| '--'}}</div> -->
         <!-- </header> -->
@@ -1401,7 +1402,7 @@
   <div class="footer-btns">
     <button class="kr-sg-button-secondary-two btn_lg"
       (click)="deleteDocument('source',selectedSource ,$event)">Delete</button>
-    <!-- <button type="button" class="kr-sg-button-primary btn_lg" (click)="saveDocDetails()">Save</button>        
+    <!-- <button type="button" class="kr-sg-button-primary btn_lg" (click)="saveDocDetails()">Save</button>
   <button type="button" class="kr-sg-button-secondary btn_lg" (click) = "cancelDocDetails()">Cancel</button> -->
   </div>
 </kr-modal>
