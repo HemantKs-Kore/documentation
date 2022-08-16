@@ -1851,3 +1851,43 @@ line-height: 15px;
   -webkit-appearance: none;
   margin: 0;
 }
+
+::ng-deep .schedualarDataModelPop{
+    .modal-dialog{
+        // max-width: 40% !important; 
+        .modal-content{
+            height: 600px !important;
+            width: 500px !important;
+            margin: 0 auto;
+            border-radius: 4px !important;
+            .modal-header{
+                border-bottom: 1px solid transparent !important;
+                box-shadow: none !important;
+                padding: 22px 20px 0px 20px;
+            }
+            app-scheduler{
+                .schedular_row_data{
+                    padding: 15px 20px;
+                    .row_column{
+                        margin-bottom: 15px;
+                        border-bottom: 1px solid #E4E5E7;
+                        padding: 0 0 15px 0 !important;
+                        &:first-child{
+                            border-bottom: 1px solid transparent;
+                        }
+                    }
+                    .shedular-footer{
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-end;
+                        gap: 10px;
+                        width: 100%;
+                        .kr-sg-button-secondary{
+                            border: 1px solid transparent;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

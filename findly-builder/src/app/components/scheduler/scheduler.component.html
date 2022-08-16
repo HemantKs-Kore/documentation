@@ -94,7 +94,7 @@
   </div>
   <!-- End -->
   <div  *ngIf="schedulerType == 'verticalSchedular'"  class="row m-0 schedular_row_data">
-    <div class="col-4 row_column pl-2 pr-2">
+    <div class="col-12 row_column m-0">
       <div class="scheduletitle">Date</div>
       <div class="kr-sg-input-text">       
         <input type="text" matInput [matDatepicker]="mdp" [min]="minDate" placeholder="Select Date" class="input-text" [(ngModel)] = "startDate" (dateInput)="addEvent('input', $event , 'regular')" (dateChange)="addEvent('change', $event ,'reguar')" autocomplete="off">
@@ -102,7 +102,7 @@
         <mat-datepicker #mdp></mat-datepicker>
       </div>
     </div>
-    <div class="col-4 row_column middle_content pl-2 pr-2">      
+    <div class="col-12 row_column middle_content">      
       <div class="scheduletitle">Time</div>
       <div class="middle_content">
         <div class="kr-sg-input-text">          
@@ -125,8 +125,12 @@
         </div>
       </div>
     </div>
-    <div class="col-4 row_column pl-2 pr-2">  
-      <div class="scheduletitle">Frequency</div>   
+    <div class="col-12 row_column">  
+      <!-- <div class="scheduletitle">Frequency</div>    -->
+      <div class="kr-sg-checkbox">
+        <input id="recurringFrequency" class="checkbox-custom" type="checkbox" checked="checked">
+        <label for="recurringFrequency" class="checkbox-custom-label">Recurring Frequency</label>
+    </div>
       <div class="kr-sg-dropdowns schedule-Interval">
         <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"> <span>{{rstz}}</span></button>                                            
@@ -141,6 +145,13 @@
             </ul>
           </div>
       </div>
+    </div>
+    <!-- custom shedular html start from here -->
+
+    <!-- custom shedular html ends here -->
+    <div class="shedular-footer">
+      <button class="kr-sg-button-secondary btn_lg">Cancel</button>
+      <button class="kr-sg-button-primary btn_lg">Ok</button>
     </div>
   </div>
 
