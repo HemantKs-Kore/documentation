@@ -328,10 +328,6 @@ export class AppSelectionService {
   public updateTourConfig(component) {
     let callApi: boolean;
     const appInfo: any = this.workflowService.selectedApp();
-    // if (component == 'overview' && !this.getTourArray.findlyOverviewVisited) {
-    //   this.getTourArray.findlyOverviewVisited = true;
-    //   callApi = true;
-    // }
     if (component == 'addData' && !this.getTourArray.onBoardingChecklist[0].addData) {
       this.getTourArray.onBoardingChecklist[0].addData = true;
       callApi = true;
