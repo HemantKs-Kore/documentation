@@ -43,6 +43,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   contentId
   content_id;
   skip = 0;
+  schedularData:any;
   edit: any = {};
   Id;
   editConfObj: any = {};
@@ -846,12 +847,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     });
 
   }
-  openScheduler(event){
+  openScheduler(event,source){
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
     this.schedularDataPopRef = this.schedularDataPop.open();
+    this.schedularData = source?.advanceSettings
   }
   closeScheduler(event){
     if(this.schedularDataPopRef && this.schedularDataPopRef.close){

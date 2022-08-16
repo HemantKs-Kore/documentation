@@ -233,7 +233,7 @@
                       </div>
                       <div class="media-right">
                         <div class="media-name text-truncate"  title="{{source.title || source.name}}">{{source.title || source.name}}</div>
-                        <div class="media-time-stamp" (click)="openScheduler($event)" *ngIf="source.advanceSettings?.scheduleOpt" ><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
+                        <div class="media-time-stamp" (click)="openScheduler($event,source)" *ngIf="source.advanceSettings?.scheduleOpt" ><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
                         <div class="media-up-time-stamp d-none"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div>
                       </div>
                     </div>
@@ -713,7 +713,7 @@
                   <!-- *ngIf="selectedSource.advanceSettings.scheduleOpt"  -->
                   <div class="schedule-box">
                     <app-scheduler [scheduleFlag]="selectedSource?.advanceSettings?.scheduleOpt"
-                      [crwalObject]="selectedSource" [schedule]="'get'" (scheduleData)="scheduleData($event)"
+                      [crwalObject]="selectedSource" [schedule]="'get'" [schedulerType]="'horizantalSchedular'" (scheduleData)="scheduleData($event)"
                       (cronExpress)="cronExpress($event)"></app-scheduler>
                   </div>
 
@@ -1603,4 +1603,7 @@
     <div class="title">Scheduler</div>
     <div class="close_icon"><img (click)="closeScheduler()" src="assets/icons/modal-close.svg"></div>
   </div>
+       <app-scheduler 
+          [crwalObject]="selectedSource" [schedule]="'get'"   [schedulerType]="'verticalSchedular'" (scheduleData)="scheduleData($event)"
+        (cronExpress)="cronExpress($event)"></app-scheduler>
 </kr-modal>
