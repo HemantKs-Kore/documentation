@@ -149,9 +149,10 @@
     <!-- custom shedular html start from here -->
     <div *ngIf="displayCustomForVerticalSchedular" class="status-modal-popup custom-ref" >
       <div class="modal_content">
-        <div class="modal-header">Custom Reccurrence <img src="assets/images/close.svg" (click)="cancelCustomRecModal()"></div>
+        <!-- <div class="modal-header">Custom Reccurrence <img src="assets/images/close.svg" (click)="cancelCustomRecModal()"></div> -->
         <div class="modal-body" >
           <div class="cust-ref">
+            <div class=""></div>
             <span>Repeat Every</span>
             <input id="repeatveryId" type="number" min="1" max="30" class="input-text cust-repeat" placeholder="0" [(ngModel)] = "repeatEvery" (ngModelChange)="modelChangeFn($event,'repeatEvery')"> 
             <div class="kr-sg-dropdowns schedule-Interval">

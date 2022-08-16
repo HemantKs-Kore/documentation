@@ -1868,6 +1868,8 @@ line-height: 15px;
             app-scheduler{
                 .schedular_row_data{
                     padding: 15px 20px;
+                    margin: 0px !important;
+                    padding-bottom: 0px !important;
                     .row_column{
                         margin-bottom: 15px;
                         border-bottom: 1px solid #E4E5E7;
@@ -1875,17 +1877,46 @@ line-height: 15px;
                         &:first-child{
                             border-bottom: 1px solid transparent;
                         }
-                    }
-                    .shedular-footer{
-                        display: flex;
-                        align-items: center;
-                        justify-content: flex-end;
-                        gap: 10px;
-                        width: 100%;
-                        .kr-sg-button-secondary{
-                            border: 1px solid transparent;
+                        .kr-sg-input-text{
+                            mat-card{
+                                width: 70%;
+                            }
                         }
                     }
+
+                    .status-modal-popup{
+                        &.custom-ref{
+                            width: 100%;
+                            .modal_content{
+                                .modal-body{
+                                    background-color: #fff;
+                                    .cust-ref{
+                                        .cust-repeat{
+                                            position: absolute;
+                                            left: 127px;
+                                            top: 18px !important;
+                                        }
+                                    }
+                                    .repeat-on{
+                                        .circle {
+                                                text-align: center;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .shedular-footer{
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                gap: 10px;
+                width: 100%;
+                padding: 15px 20px;
+                .kr-sg-button-secondary{
+                    border: 1px solid transparent;
                 }
             }
         }
