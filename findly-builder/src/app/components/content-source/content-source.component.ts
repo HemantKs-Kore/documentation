@@ -66,6 +66,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   currentView = 'list'
   searchSources = '';
   pagesSearch = '';
+  lastPageSearch = '';
+  lastData : any;
   selectedApp: any = {};
   resources: any = [];
   polingObj: any = {};
@@ -698,11 +700,19 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       } else {
         this.crwalOptionLabel = 'Crawl Everything'
       }
-      if (data.length || this.pagesSearch) {
+      let searchEl = document.getElementsByName('pagesSearch')[0]
+      let isFocused = (document.activeElement === searchEl);
+      this.lastPageSearch = this.pagesSearch;
+      this.lastData = data
+      console.log(data.length, this.pagesSearch, isFocused)
+      if (data.length || this.pagesSearch || isFocused ) {
         this.swapSlider('page');
       }
       else {
-        this.swapSlider('config')
+        // console.log(data.length, this.pagesSearch, 'configOut..')
+        if(data.length == 0 && this.pagesSearch.length == 0)  { this.swapSlider('config')
+        // console.log(data.length, this.pagesSearch, 'config..')
+      }
       }
       this.clicksViews('file')
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
@@ -2081,6 +2091,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.showSearch = !this.showSearch
   }
+  closeSearch() {
+    this.pagesSearch='';
+    this.showSearch = !this.showSearch;
+    this.getCrawledPages(10,0);
+  }
   focusoutSearch(isSearchSource?) {
     if (this.activeClose) {
       if (isSearchSource) {
@@ -2091,6 +2106,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.activeClose = false;
     }
     this.showSearch = !this.showSearch;
+    this.getSourceList(null,this.searchSources,'search')
   }
   focusinSearch(inputSearch) {
     setTimeout(() => {

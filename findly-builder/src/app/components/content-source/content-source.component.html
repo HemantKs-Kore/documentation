@@ -213,7 +213,7 @@
           </header>
           <perfect-scrollbar class="table-scroll-perfect">
             <ng-container *ngIf="sectionShow">
-              <div class="content-body" *ngFor="let source of resources| filter: [ searchSources, 'name','title']"
+              <div class="content-body" *ngFor="let source of resources| filter: [ searchSources, 'name']"
                 (click)="openStatusSlider(source)"
                 [ngClass]="{'cursor-pointer':statusObj[source.recentStatus]?.name == 'Success' }">
                 <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name}} <span
@@ -487,7 +487,7 @@
                   <img [src]="searchImgSrc" class="search-icon" *ngIf="!pagesSearch">
                   <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':pagesSearch}"
                     (mouseover)="activeClose=true" (mouseout)="activeClose=false"
-                    (click)="pagesSearch='';showSearch = !showSearch">
+                    (click)="closeSearch()">
                 </div>
 
                 <div class="search-block" *ngIf="!(sourceStatus == 'failed' && page)">
