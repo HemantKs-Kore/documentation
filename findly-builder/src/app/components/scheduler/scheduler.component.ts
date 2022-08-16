@@ -39,6 +39,7 @@ export class SchedulerComponent implements OnInit {
   endsOnSelected = '';
   minDate;
   schedulerFlag: boolean = false;
+  displayCustomForVerticalSchedular: boolean = false;
   //scheduleData : scheduleOpts = new scheduleOpts();
   @Input() scheduleFlag: any;
   @Input() crwalObject: any;
@@ -191,6 +192,7 @@ export class SchedulerComponent implements OnInit {
   repeatTimeZone(rstz) {
     this.rstz = rstz;
     this.calculateCronExpression()
+    this.displayCustomForVerticalSchedular = false;
   }
   changeMeridiem(meridiem) {
     if (this.scheduleFlag) {
@@ -468,7 +470,12 @@ export class SchedulerComponent implements OnInit {
   }
   openCustomRecModal(rstz) {
     this.rstz = rstz;
-    this.customRecurrenceRef = this.customRecurrence.open();
+    if(this.schedulerType == 'horizantalSchedular'){
+      this.customRecurrenceRef = this.customRecurrence.open();
+    }
+    else{
+      this.displayCustomForVerticalSchedular = true
+    }
   }
 
   closeCustomRecModal() {

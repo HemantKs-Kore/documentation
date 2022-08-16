@@ -1603,7 +1603,9 @@
     <div class="title">Scheduler</div>
     <div class="close_icon"><img (click)="closeScheduler()" src="assets/icons/modal-close.svg"></div>
   </div>
+  <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
        <app-scheduler 
           [crwalObject]="selectedSource" [schedule]="'get'"   [schedulerType]="'verticalSchedular'" (scheduleData)="scheduleData($event)"
         (cronExpress)="cronExpress($event)"></app-scheduler>
+  </perfect-scrollbar>
 </kr-modal>
