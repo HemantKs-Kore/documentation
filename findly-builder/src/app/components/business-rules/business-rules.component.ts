@@ -139,8 +139,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     'header': ''
   }
   sys_entities: any = [];
-  entityFields={ startIndex: 0, endIndex: 0, entityId: '' };
-  entityObj: any = { entities: [], sentence: '', taggedSentence: '',colorSentence:'' };
+  entityDefaultColors:any=[{type:'system_defined',color:'#135423'},{type:'custom',color:'#803C25'},{type:'index_field',color:'#381472'}];
+  entityFields={ startIndex: 0, endIndex: 0, entityId: '',entityType:'' };
+  entityObj: any = { entities: [], sentence: '', taggedSentence: '',colorSentence:'',isEditable:false };
   inputSentence:any;
   nlpAnnotatorObj: any = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [] };
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
@@ -223,7 +224,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.addNewOutcome();
     this.openModalPopup();
     this.getFieldAutoComplete(null, null);
-    if (this.selcectionObj.ruleType === 'contextual') this.addNewRule();
+    if (this.selcectionObj.ruleType === 'contextual'){
+      this.addNewRule();
+    }else if(this.selcectionObj.ruleType === 'nlp'){
+      const divInput = document.getElementById('contentText');
+      divInput.focus();
+    } 
   }
   openModalPopup() {
     this.addBusinessRulesRef = this.addBusinessRules.open();
@@ -262,12 +268,21 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.addBusinessRulesRef.close();
     this.removedCon = false;
     this.createTag(false, false);
+    this.nlpAnnotatorObj = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [] };
+    this.entityFields={ startIndex: 0, endIndex: 0, entityId: '',entityType:'' };
+    this.entityObj = { entities: [], sentence: '', taggedSentence: '',colorSentence:'',isEditable:false };
+    this.inputSentence='';
   }
   setDataForEdit(ruleObj) {
     if (ruleObj && ruleObj.rules && ruleObj.rules.length) {
-      this.rulesArrayforAddEdit = JSON.parse(JSON.stringify(ruleObj.rules));
-    } else {
-      //this.addNewRule();
+      if(this.selcectionObj?.ruleType === 'contextual'){
+        this.rulesArrayforAddEdit = JSON.parse(JSON.stringify(ruleObj.rules));
+      }
+      else if(this.selcectionObj?.ruleType === 'nlp'){
+        for(let item of ruleObj.rules){
+          this.createColorSentence(item);
+        }
+      }
     }
     if (ruleObj && ruleObj.outcomes && ruleObj.outcomes.length) {
       const _outcoms = []
@@ -801,37 +816,32 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
     }
   }
-
-  // inputChanges(event) {
-
-  //   if(!this.iconImageCon && !this.iconImageOut ){
-  //     this.validateCon();
-  //     this.validateOut();
-  //   }
-  //   else if(!this.iconImageCon){
-  //     this.validateCon();
-  //   }
-  //   else if(!this.iconImageOut){
-  //     this.validateOut();
-  //   }
-  // }
-
-
+  //create business rule
   createRule() {
     this.submitted = true;
-    if (this.validateRules() && this.validateCon() && this.validateOut()) {
+    let isValidate:boolean;
+    if(this.selcectionObj?.ruleType === 'nlp'){
+      isValidate = this.validateRules() && this.validateOut()
+    }
+    else if(this.selcectionObj?.ruleType === 'contextual'){
+      isValidate = this.validateRules() && this.validateCon() && this.validateOut()
+    }
+    if (isValidate) {
       const quaryparms: any = {
         searchIndexID: this.serachIndexId,
         queryPipelineId: this.queryPipelineId,
         indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
       };
-      let payload: any = { ruleName: this.addEditRuleObj.ruleName, isRuleActive: this.addEditRuleObj.isRuleActive, ruleType: this.selcectionObj?.ruleType };
+      let payload: any = { ruleName: this.addEditRuleObj.ruleName, isRuleActive: this.addEditRuleObj.isRuleActive, ruleType: this.selcectionObj?.ruleType,outcomes:this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || [] };
       if (this.selcectionObj?.ruleType === 'contextual') {
-        payload.rules = this.getRulesArrayPayload(this.rulesArrayforAddEdit) || [],
-          payload.outcomes = this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
+          payload.rules = this.getRulesArrayPayload(this.rulesArrayforAddEdit) || []
       }
       else if (this.selcectionObj?.ruleType === 'nlp') {
-
+          for(let item of this.nlpAnnotatorObj.annotator){
+            delete item?.colorSentence;
+            delete item?.isEditable;
+          }
+          payload.rules = this.nlpAnnotatorObj.annotator;
       }
       if (!payload.outcomes.length) {
         this.errorToaster(null, 'Atleast one outcome is required');
@@ -942,20 +952,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'Failed to get rules');
     });
   }
-  getRukeById(rule) {
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      ruleId: rule._id,
-      queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      limit: 100
-    };
-    this.service.invoke('get.businessRuleById', quaryparms).subscribe(res => {
-      // console.log(res);
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to get rule');
-    });
-  }
   updateRule(rule) {
     this.submitted = true;
     if (this.validateRules()) {
@@ -965,12 +961,18 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
         ruleId: rule._id,
       };
-      const payload: any = {
-        ruleName: this.addEditRuleObj.ruleName,
-        isRuleActive: this.addEditRuleObj.isRuleActive,
-        rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit),
-        outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit)
-      }
+      let payload: any = { ruleName: this.addEditRuleObj.ruleName, isRuleActive: this.addEditRuleObj.isRuleActive, ruleType: this.selcectionObj?.ruleType,outcomes:this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || [] };
+      if (this.selcectionObj?.ruleType === 'contextual') {
+        payload.rules = this.getRulesArrayPayload(this.rulesArrayforAddEdit) || [],
+        payload.outcomes = this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
+       }
+       else if (this.selcectionObj?.ruleType === 'nlp') {
+        for(let item of this.nlpAnnotatorObj.annotator){
+          delete item?.colorSentence;
+          delete item?.isEditable;
+        }
+        payload.rules = this.nlpAnnotatorObj.annotator;
+       }
       if (!payload.outcomes.length) {
         this.errorToaster(null, 'Atleast one outcome is required');
         return;
@@ -993,7 +995,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         this.notificationService.notify('Updated Successfully', 'success');
         this.closeModalPopup();
         this.mixpanel.postEvent('Business Rule- Updated', {})
-        // console.log('MIXPANNEL BR UPDATE')
       }, errRes => {
         this.errorToaster(errRes, 'Failed to update rule');
       });
@@ -1241,12 +1242,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   //NLP Annotator code
   checkSelection(event) {
+    this.entityFields={ startIndex: 0, endIndex: 0, entityId: '',entityType:'' };
     const textLength = document.getSelection().toString().replace(/\s/g, '');
     if (textLength.length > 0) {
       this.nlpAnnotatorObj.showEntityPopup = true;
       // const text = selectedText?.toString();
       const selectedText = document.getSelection();
-      console.log("selectedText",selectedText)
       if(selectedText.anchorOffset!==selectedText.focusOffset){
         this.entityFields.startIndex = selectedText?.anchorOffset;
         this.entityFields.endIndex = selectedText?.focusOffset;
@@ -1261,27 +1262,40 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //after sentence changes click on add
   AddSelectedEnity(){
     if(this.entityObj.entities.length>0){
-      this.inputSentence='';
       this.nlpAnnotatorObj.annotator.push(this.entityObj);
+      this.inputSentence='';
+      this.entityObj = { entities: [], sentence: '', taggedSentence: '',colorSentence:'' }; 
+      this.entityFields={ startIndex: 0, endIndex: 0, entityId: '',entityType:'' };
     }
   } 
   //click on Entity to select
   selectEntity(entity) {
     this.entityFields.entityId = entity?._id;
+    this.entityFields.entityType = entity?.entityType;
+    // this.nlpAnnotatorObj.Legends.push({name:entity?.entityName,type:entity?.entityType});
     this.entityObj.sentence = document.getElementById('contentText').innerText;
     let sentence='';
     this.entityObj.entities.push(this.entityFields);
     this.inputSentence='';
-    for(let j=0;j<this.entityObj.sentence.length;j++){
-      for(let k=0;k<this.entityObj.entities.length;k++){
-          if(j>=this.entityObj.entities[k].startIndex && j<this.entityObj.entities[k].endIndex){
-            sentence = sentence + this.entityObj.sentence[j].fontcolor('red');
-          }
-          else{
-            sentence = sentence + this.entityObj.sentence[j];
-          }
-        }
+    let entityArr=[];
+    for(let i=0;i<this.entityObj.entities.length;i++){
+      const startIndex = this.entityObj.entities[i].startIndex;
+      const endIndex = this.entityObj.entities[i].endIndex;
+      const applyColor = this.entityDefaultColors.filter(item=>item.type===this.entityObj.entities[i].entityType);
+      for(let j=startIndex;j<=endIndex;j++){
+        entityArr.push({index:j,color:applyColor[0].color});
       }
+    }
+    for(let j=0;j<this.entityObj.sentence.length;j++){
+      const findEntity = entityArr.filter(item=>item.index===j);
+      if(findEntity.length){
+        sentence = sentence + '<b>'+this.entityObj.sentence[j].fontcolor(findEntity[0].color)+'</b>'
+      }
+      else{
+        sentence = sentence + this.entityObj.sentence[j]
+      }
+    }
+
     this.inputSentence  = this.sanitizer.bypassSecurityTrustHtml(sentence);
     this.entityObj.colorSentence = this.inputSentence;
     this.nlpAnnotatorObj.showEntityPopup = false;
@@ -1306,7 +1320,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     else {
       this.loadingContent1 = true;
     }
-    if (type === 'nlp') this.getEntities();
+    if (type === 'nlp') {
+      this.getEntities();
+    }
+  }
+  //delete annotator using index
+  deleteAnnotator(index){
+   this.nlpAnnotatorObj.annotator.splice(index,1);
   }
   //get entities list
   getEntities() {
@@ -1325,6 +1345,21 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           return item
         }
       });
+      let rules=[];
+      for(let item of this.rules){
+        let chips=[];
+          for(let rule of item?.rules){
+             for(let entity of rule?.entities){
+                const entityName = res?.entities?.filter(ent=>ent._id===entity.entityId);
+                if(!chips.includes(entityName[0].entityName)){
+                  chips.push(entityName[0].entityName);                  
+                }
+             }
+          }
+          const obj={...item,chips:chips};
+          rules.push(obj);
+      }
+      this.rules = rules;
       this.sys_entities = response;
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get entities');
@@ -1388,5 +1423,30 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get entities');
     });
+  }
+  //create color sentence while click on edit
+  createColorSentence(entityObj){
+    for(let item of entityObj?.entities){
+      let sentence='';
+      let entityArr=[];
+      const startIndex = item.startIndex;
+      const endIndex = item.endIndex;
+      const entity = this.sys_entities?.filter(ent=>ent._id===item.entityId);
+      const applyColor = this.entityDefaultColors.filter(item=>item.type===entity[0].entityType);
+      for(let j=startIndex;j<=endIndex;j++){
+        entityArr.push({index:j,color:applyColor[0].color});
+      }
+      for(let j=0;j<entityObj.sentence.length;j++){
+        const findEntity = entityArr.filter(item=>item.index===j);
+        if(findEntity.length){
+          sentence = sentence + '<b>'+entityObj.sentence[j].fontcolor(findEntity[0].color)+'</b>'
+        }
+        else{
+          sentence = sentence + entityObj.sentence[j]
+        }
+      }
+      entityObj = {...entityObj,colorSentence:this.sanitizer.bypassSecurityTrustHtml(sentence),isEditable:false};
+    }
+    this.nlpAnnotatorObj.annotator.push(entityObj);
   }
 }

@@ -73,7 +73,8 @@
                     {{ "name_caps" | translate }}
                 </div>
             </div>
-            <div class="col-3 content">{{ "businessRules.condition_caps" | translate }}</div>
+            <div class="col-3 content" *ngIf="selcectionObj?.ruleType === 'contextual'">{{ "businessRules.condition_caps" | translate }}</div>
+            <div class="col-3 content" *ngIf="selcectionObj?.ruleType === 'nlp'">{{ "businessRules.tags" | translate }}</div>
             <div class="col-3 content">{{ "businessRules.outcome_caps" | translate }}</div>
             <div class="col-3 content cursor-pointer d-flex align-items-center" (click)="sortByApi('isRuleActive')">
                 <span class="d-flex align-items-center flex-column mr-1">
@@ -138,7 +139,7 @@
                     </div>
                     <div class="title text-truncate" [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip="{{ ruleObj.ruleName }}">{{ ruleObj.ruleName }}</div>
                 </div>
-                <div class="col-3 content">
+                <div class="col-3 content" *ngIf="selcectionObj?.ruleType === 'contextual'">
                     <ng-container *ngFor="let rule of ruleObj.rules; let ruleIndex = index">
                         <!-- <br *ngIf="ruleIndex > 0"> -->
                         <div class="d-flex align-items-center flex-wrap">
@@ -166,6 +167,17 @@
                         </div>
                     </ng-container>
                 </div>
+
+                <div class="col-3 content" *ngIf="selcectionObj?.ruleType === 'nlp'">
+                    <ng-container *ngFor="let chip of ruleObj.chips">
+                        <div class="d-flex align-items-center flex-wrap">
+                            <span class="tags-input mr-1 mb-1 contextCategory">
+                                <span container="body">{{chip}}</span>
+                            </span>
+                        </div>
+                    </ng-container>
+                </div>
+
                 <div class="col-3 content">
                     <ng-container *ngFor="let outcome of ruleObj.outcomes">
                         <div>
@@ -559,7 +571,7 @@
                                         </div>
                                     </span>
                                 </div>
-                                <div contenteditable="true" class="input-text" id="contentText" style="border:2px solid #BDC1C6" (mouseup)="checkSelection($event)" [innerHTML]="inputSentence"></div>
+                                <div contenteditable="true" class="input-text" id="contentText" style="border:2px solid #BDC1C6" (mouseup)="checkSelection($event)" [innerHTML]="inputSentence" placeholder="Enter the search query and annotate key words"></div>
                                 <!-- <textarea placeholder="Placeholder text" class="input-text"></textarea>  -->
                             </div>
                             <div class="kr-sg-btn">
@@ -572,8 +584,8 @@
                          <!-- nlp custom tag builder area start -->
                         <div class="nlp-custom-tag-block">
                             <div class="nlp-tag-legend">Legend</div>
-                            <div class="nlp-custom-tag-dynamic d-none">
-                                <div class="nlp-custom-tag"><span class="nlp-tag">Date</span> <span class="close-tag"><i class="si-close"></i></span></div>
+                            <div class="nlp-custom-tag-dynamic">
+                                <div class="nlp-custom-tag" *ngFor="let legend of nlpAnnotatorObj.Legends" [ngClass]="{'nlp-system-entity':legend.type==='system_defined','nlp-index-entity':legend.type==='index_field','nlp-custom-entity':legend.type==='custom'}"><span class="nlp-tag">{{legend.name}}</span> <span class="close-tag"><i class="si-close"></i></span></div>
                             </div>
                         </div>
                          <!-- nlp custom tag builder area end -->
@@ -586,28 +598,29 @@
                              </div>
                          </div>
                          <div class="nlp-custom-tag-generator-list" *ngIf="nlpAnnotatorObj.annotator?.length>0">
-                            <div class="nlp-custom-tag-data-block" *ngFor="let annotator of nlpAnnotatorObj.annotator"><!--nlp-tag-edit-->
+                            <div class="nlp-custom-tag-data-block" *ngFor="let annotator of nlpAnnotatorObj.annotator;let i=index;" [ngClass]="{'nlp-tag-edit':annotator.isEditable}">
                                 <div class="nlp-custom-tag-data-line">
                                    <div class="nlp-custom-tag-data">
-                                    <div contenteditable="false" class="input-text" id="contentText" [innerHTML]="annotator.colorSentence"></div>
+                                    <div contenteditable="false"  [innerHTML]="annotator.colorSentence" *ngIf="!annotator.isEditable"></div>
+                                    <div contenteditable="true" class="input-text" id="contentText" [innerHTML]="annotator.colorSentence" *ngIf="annotator.isEditable"></div>
                                    </div>
-                                   <div class="nlp-custom-tag-overflow-menu">
+                                   <div class="nlp-custom-tag-overflow-menu" *ngIf="annotator.isEditable===false">
                                     <div class="dropdown nlp-overflow-menu">
                                         <button class="btn dropdown-toggle dropdown-btn" type="button" id="nlpOverflowMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <img class="action_icon" src="assets/images/overflow-elipse.svg">
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="nlpOverflowMenu">
-                                          <a class="dropdown-item" href="#"><span><img class="dropdown-list-icon" src="assets/images/edit-pencil.svg"></span> Edit</a>
-                                          <a class="dropdown-item delete-item" href="#"><span><img class="dropdown-list-icon" src="assets/icons/delete-table.svg"></span> Delete</a>
+                                          <div class="dropdown-item" (click)="annotator.isEditable=true"><span><img class="dropdown-list-icon" src="assets/images/edit-pencil.svg"></span> Edit</div>
+                                          <div class="dropdown-item delete-item" (click)="deleteAnnotator(i)"><span><img class="dropdown-list-icon" src="assets/icons/delete-table.svg"></span> Delete</div>
                                         </div>
                                       </div>
                                    </div>
                                 </div>
-                                <div class="nlp-preview-block">
+                                <div class="nlp-preview-block" *ngIf="annotator.isEditable">
                                     <div class="nlp-preview-header"><span class="warning-span"><img src="assets/images/warning.svg" class="warning-icon "/></span>Please tag  <span class="nlp-custom-tag"><span class="nlp-tag">Topic</span></span></div>
                                     <div class="nlp-preview-action-list">
                                         <div class="nlp-preview-action-done"><span class="nlp-preview-action-span"><img src="assets/images/check-primary.svg" class="warning-icon "/></span> Done</div>
-                                        <div class="nlp-preview-action-cancel"><span class="nlp-preview-action-span"><img src="assets/images/close.svg" class="warning-icon "/></span> Cancel</div>
+                                        <div class="nlp-preview-action-cancel" (click)="annotator.isEditable=false"><span class="nlp-preview-action-span"><img src="assets/images/close.svg" class="warning-icon "/></span> Cancel</div>
                                     </div>
                                 </div>
                             </div>

@@ -140,6 +140,7 @@
         "outcome_caps": "OUTCOME",
         "outcome_caps_small": "Outcome",
         "condition_caps": "CONDITION",
+        "tags":"TAGS",
         "add_rule": "Add Rule",
         "edit_rule": "Edit Rule",
         "rule_active": "Rule Active",
