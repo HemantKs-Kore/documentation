@@ -848,6 +848,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
   }
   openScheduler(event,source){
+    this.selectedSource = source;
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();

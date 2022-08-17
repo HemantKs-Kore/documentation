@@ -217,7 +217,7 @@
           </header>
           <perfect-scrollbar class="table-scroll-perfect">
             <ng-container *ngIf="sectionShow">
-              <div class="content-body" *ngFor="let source of resources| filter: [ searchSources, 'name','title']"
+              <div class="content-body" *ngFor="let source of resources| filter: [ searchSources, 'name','title'];let i = index"
                 (click)="openStatusSlider(source)"
                 [ngClass]="{'cursor-pointer':statusObj[source.recentStatus]?.name == 'Success' }">
 
@@ -233,7 +233,7 @@
                       </div>
                       <div class="media-right">
                         <div class="media-name text-truncate"  title="{{source.title || source.name}}">{{source.title || source.name}}</div>
-                        <div class="media-time-stamp" (click)="openScheduler($event,source)" *ngIf="source.advanceSettings?.scheduleOpt" ><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
+                        <div class="media-time-stamp" (click)="openScheduler($event,source,i)" *ngIf="source.advanceSettings?.scheduleOpt" ><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
                         <div class="media-up-time-stamp d-none"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div>
                       </div>
                     </div>
@@ -1601,15 +1601,14 @@
   id="schedualarDataModelPop">
   <div class="modal-header">
     <div class="title">Scheduler</div>
-    <div class="close_icon"><img (click)="closeScheduler()" src="assets/icons/modal-close.svg"></div>
   </div>
   <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
-       <app-scheduler 
+       <app-scheduler [scheduleFlag]="selectedSource?.advanceSettings?.scheduleOpt"
           [crwalObject]="selectedSource" [schedule]="'get'"   [schedulerType]="'verticalSchedular'" (scheduleData)="scheduleData($event)"
         (cronExpress)="cronExpress($event)"></app-scheduler>
   </perfect-scrollbar>
   <div class="shedular-footer">
-    <button class="kr-sg-button-secondary btn_lg">Cancel</button>
-    <button class="kr-sg-button-primary btn_lg">Ok</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="closeScheduler()">Cancel</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="proceedWithConfigUpdate()">Ok</button>
   </div>
 </kr-modal>
