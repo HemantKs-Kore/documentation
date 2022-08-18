@@ -313,7 +313,7 @@
                   <div class="user-name">Welcome {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}} <img src="assets/icons/hand-hellow.svg"></div>
                 </div>
                 <div class="on-b-progress-bar">
-                  <div *ngFor="let bar of progressBar;let i=index" class="not-active-bar" [ngClass]="{'active-bar': i<=stepBar}"></div>
+                  <div *ngFor="let bar of progressBar;let i=index" class="not-active-bar" [ngClass]="{'active-bar': i<stepBar}"></div>
                   <!-- <div class="not-active-bar active-bar"></div>
                   <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div> -->
                 </div>
