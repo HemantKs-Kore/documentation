@@ -683,12 +683,7 @@
               </div>
             </div>
           </div>
-          <div class="form_inputs_data" *ngIf="
-              selectedStage.type === 'entity_extraction' ||
-              selectedStage.type === 'traits_extraction' ||
-              selectedStage.type === 'keyword_extraction' ||
-              selectedStage.type === 'semantic_meaning'
-            ">
+          <div class="form_inputs_data" *ngIf="['entity_extraction','traits_extraction','keyword_extraction','semantic_meaning','snippet_extraction'].includes(selectedStage.type)">
             <ng-container *ngIf="
                 selectedStage &&
                 selectedStage.config &&
@@ -849,7 +844,7 @@
                       </mat-form-field>
                     </ng-container>
                   </div>
-                  <div class="kr-sg-input-text col-6 input-box mb-2">
+                  <div class="kr-sg-input-text col-6 input-box mb-2" *ngIf="selectedStage.type !== 'snippet_extraction'">
                     <div class="label-text">{{'workbench.target_field' | translate}}</div>
                     <div class="position-relative ">
                       <input type="text" placeholder="{{'workbench.value' | translate}}"
@@ -1071,7 +1066,7 @@
                   </mat-form-field>
                 </ng-container>
               </div>
-              <div class="kr-sg-input-text col-6 input-box mb-2">
+              <div class="kr-sg-input-text col-6 input-box mb-2" *ngIf="selectedStage.type !== 'snippet_extraction'">
                 <div class="label-text">{{'workbench.target_field' | translate}}</div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench.value' | translate}}" id="entitytarget"

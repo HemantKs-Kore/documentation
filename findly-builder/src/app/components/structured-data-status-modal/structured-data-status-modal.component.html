@@ -46,7 +46,8 @@
         <ng-container *ngIf="((docStatusObject.status==='FAILURE' || docStatusObject.status==='FAILED') && (docStatusObject.validation && !docStatusObject.validation.fileValidation))">
           <div class="content-title text-center">
             <img src="assets/icons/docker/info.svg" class="successfullyConnected" [ngbTooltip]="docStatusObject?.store?.statusMessage">
-            <span>{{'structuredData.file_validation_failed' | translate}} </span> <!--  <span >done</span> -->
+            <!-- <span>{{'structuredData.file_validation_failed' | translate}} </span>  <span >done</span> -->
+            <span>{{docStatusObject.message}}</span>
           </div>
         </ng-container>
         <!-- <div class="progressNote" *ngIf="(docStatusObject.status==='IN_PROGRESS')"> -->
@@ -59,7 +60,7 @@
           <div class="relaxNote">{{'structuredData.notified_when_done' | translate}}</div>
         </div>
         <!-- <div class="text-center" *ngIf="((docStatusObject.status==='FAILURE') && (docStatusObject.validation && docStatusObject.validation.fileValidation))"> -->
-        <div class="text-center" *ngIf="((docStatusObject.status==='FAILURE' || docStatusObject.status==='FAILED') && (docStatusObject.validation && docStatusObject.validation.fileValidation))">  
+        <div class="text-center" *ngIf="((docStatusObject.status==='FAILURE' || docStatusObject.status==='FAILED') && (docStatusObject.validation && docStatusObject.validation.fileValidation))">
           <div class="relaxNote">{{docStatusObject.store.statusMessage}}</div>
         </div>
       </div>

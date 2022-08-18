@@ -877,6 +877,7 @@
           "id": 25,
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="siemens-template">\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
             <div class="siemens-list-template">\
               <div class="icon-with-title">\
