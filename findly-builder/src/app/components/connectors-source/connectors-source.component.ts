@@ -386,6 +386,7 @@ export class ConnectorsSourceComponent implements OnInit {
   //call if authorize api was success
   goBacktoListPage() {
     this.openDeleteModel('close');
+    this.backToPage('cancel');
     if (this.selectedContent !== 'edit') this.selectedContent = 'list';
   }
   //update connector 
