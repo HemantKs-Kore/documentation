@@ -35,6 +35,9 @@ export class SchedulerComponent implements OnInit {
   repeatEvery = '1';
   day = '';
   date = '';
+  selectedDate:any = {
+    value:'',
+  };
   month = '';
   year = '';
   endsOnSelected = '';
@@ -173,7 +176,10 @@ export class SchedulerComponent implements OnInit {
     // if(time == 'MM'){
     //   this.calculateCronExpression()
     // }
+  }
 
+   verticalDatepicker(event){
+    this.selectedDate.value = event; 
   }
   timeZone(stz) {
     this.stz = stz;

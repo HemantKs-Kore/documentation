@@ -95,9 +95,9 @@
   <!-- End -->
   <div  *ngIf="schedulerType == 'verticalSchedular'"  class="row m-0 schedular_row_data">
     <div class="col-12 row_column m-0">
-      <div class="calender">       
+      <div class="calender">  
         <mat-card class="demo-inline-calendar-card">
-          <mat-calendar></mat-calendar>
+          <mat-calendar [(selected)]="selectedDate"  (selectedChange)="verticalDatepicker($event)"></mat-calendar>
         </mat-card>
       </div>
     </div>
@@ -146,7 +146,7 @@
       </div>
     </div>
     <!-- custom shedular html start from here -->
-    <div *ngIf="displayCustomForVerticalSchedular" class="status-modal-popup custom-ref" >
+    <div *ngIf="displayCustomForVerticalSchedular" class="custom-ref">
       <div class="modal_content">
         <!-- <div class="modal-header">Custom Reccurrence <img src="assets/images/close.svg" (click)="cancelCustomRecModal()"></div> -->
         <div class="modal-body" >
@@ -215,6 +215,7 @@
     <!-- custom shedular html ends here -->
     <div class="shedular-footer">
     </div>
+  </div>
   </div>
 
   

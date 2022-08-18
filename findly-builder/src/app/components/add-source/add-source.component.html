@@ -584,7 +584,7 @@
                   </div>
                   <div class="scheduler-box col-12 p-0">
                     <app-scheduler [crwalObject]="crwalObject" [scheduleFlag]="crwalObject.advanceOpts.scheduleOpt"
-                      [schedule]="'set'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
+                      [schedule]="'set'" (scheduleData)="scheduleData($event)"  [schedulerType]="'horizantalSchedular'" (cronExpress)="cronExpress($event)">
                     </app-scheduler>
                   </div>
                 </div>
