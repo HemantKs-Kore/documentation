@@ -57,14 +57,14 @@ export class ConnectorsSourceComponent implements OnInit {
   connectorsData: any = [];
   availableConnectorsData: any = [];
   configurationObj: any = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '' };
-  overViewData: any = { overview: [], coneten: [] };
+  overViewData: any = { overview: [], coneten: [],jobs:[] };
   syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
   showProtecedText: Object = { isClientShow: false, isSecretShow: false, isPassword: false };
   isEditable: boolean = false;
   checkConfigButton: Boolean = true;
   isPopupDelete: boolean = true;
   isAuthorizeStatus: boolean = false;
-  isSyncLoading: boolean = false;
+  isSyncLoading: boolean = true;
   searchField: string = '';
   isShowSearch: boolean = false;
   isloadingBtn: boolean = false;
@@ -72,7 +72,7 @@ export class ConnectorsSourceComponent implements OnInit {
   isResultTemplate: boolean = false;
   total_records: number;
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
-  connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' }];
+  connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' },{name:'Jobs',type:'jobs'}];
   @ViewChild('plans') plans: UpgradePlanComponent;
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
   constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private appSelectionService: AppSelectionService) { }
@@ -203,7 +203,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.configurationObj.isActive = res?.isActive;
       this.configurationObj.username = res?.authDetails?.username;
       this.configurationObj.password = res?.authDetails?.password;
-      this.getConentData();
+      this.getConentData();      
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
@@ -249,6 +249,15 @@ export class ConnectorsSourceComponent implements OnInit {
       this.connectorId = data?._id;
       this.getConnectorData();
       this.getSyncCount();
+      this.appSelectionService.connectorSyncJobStatus(this.searchIndexId,this.connectorId).then((res:any)=>{
+        if(res&&['SUCCESS','FAILED'].includes(res?.status)){
+          this.isSyncLoading = false;
+        }
+        else if(res?.status==='INPROGRESS'){
+          this.checkJobStatus();
+          this.isSyncLoading = true;
+        }
+      })
     }
   }
   //content pagination 
@@ -452,7 +461,6 @@ export class ConnectorsSourceComponent implements OnInit {
     this.service.invoke('put.connector', quaryparms, payload).subscribe(res => {
       if (res) {
         this.authorizeConnector(this.selectedConnector);
-        this.notificationService.notify('Connector Updated Successfully', 'success');
         if (dialog) dialog?.close();
       }
     }, errRes => {
@@ -502,21 +510,30 @@ export class ConnectorsSourceComponent implements OnInit {
     });
   }
   // queue-content API
-  ingestConnector(isShow?) {
+ ingestConnector(isShow?) {
     this.isSyncLoading = true;
     const quaryparms: any = {
       sidx: this.searchIndexId,
       fcon: this.connectorId
     };
     this.service.invoke('post.ingestConnector', quaryparms).subscribe(res => {
-      this.isSyncLoading = false;
-      this.getConnectorData();
+      this.checkJobStatus();
       if (isShow) this.notificationService.notify('Connector Synchronized Successfully', 'success');
     }, errRes => {
       this.isSyncLoading = false;
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
-  ngOnDestroy() {
+  //call jobs api wrt status
+  checkJobStatus(){
+    let jobInterval = setInterval(()=>{
+      this.appSelectionService.connectorSyncJobStatus(this.searchIndexId,this.connectorId).then((res:any)=>{
+        if(res&&['SUCCESS','FAILED'].includes(res?.status)){
+          clearInterval(jobInterval);
+          this.isSyncLoading = false;
+          this.getConnectorData();
+        }
+      })
+    },3000)
   }
 }

@@ -458,6 +458,30 @@
                                 </div>
                                 </perfect-scrollbar>
                             </div>
+                            <!--Jobs tab-->
+                            <div class="tab-pane active" *ngSwitchCase="'jobs'">
+                                <perfect-scrollbar class="tab-content-scroll-data">
+                                <div class="content-settings-tab-data">
+                                    <div class="content-data-table">
+                                        <div class="kr-sg-data-table">
+                                            <section class="table-content">
+                                                <header class="table-header">
+                                                    <div class="col-4 p-0">{{'connectors.title'|translate}}</div>
+                                                    <div class="col-4">{{'connectors.URL'|translate}}</div>
+                                                    <div class="col-4">{{'connectors.last_update'|translate}}</div>
+                                                </header>
+                                                <div class="content-body cursor-pointer" *ngFor="let content of overViewData.content | filter: [ searchContent, 'title']">
+                                                    <div class="col-4 p-0">{{content?.title}}</div>
+                                                    <div class="col-4 text-overflow" [title]="content?.url" (click)="removeSpaces(content?.url)"><span class="url-link">{{content?.url}}</span></div>
+                                                    <div class="col-4">{{content?.lastUpdatedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
+                                                </div>
+                                                <div *ngIf="overViewData.content?.length===0" class="no-content">{{'connectors.no_content'|translate}}</div>
+                                            </section>                           
+                                        </div>
+                                    </div>
+                                </div>
+                                </perfect-scrollbar>
+                            </div>
                         </div>
                     </div>
                 </div>
