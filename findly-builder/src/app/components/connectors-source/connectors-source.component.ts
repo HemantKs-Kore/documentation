@@ -69,7 +69,6 @@ export class ConnectorsSourceComponent implements OnInit {
   isShowSearch: boolean = false;
   isloadingBtn: boolean = false;
   pageLoading: boolean = false;
-  isResultTemplate: boolean = false;
   total_records: number;
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
   connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' },{name:'Jobs',type:'jobs'}];
@@ -146,7 +145,6 @@ export class ConnectorsSourceComponent implements OnInit {
         })        
       }
       if (this.connectorsData.length) {
-        this.getAllSettings();
         for (let item of this.Connectors) {
           const isPush = this.connectorsData?.some(available => available.type === item.type);
           if (!isPush)
@@ -159,22 +157,6 @@ export class ConnectorsSourceComponent implements OnInit {
       this.pageLoading = true;
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get Connectors');
-    });
-  }
-  //show or hide result template info in footer
-  getAllSettings() {
-    const quaryparms: any = {
-      searchIndexId: this.searchIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      interface: 'fullSearch'
-    };
-    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
-      if(res){
-        const settingsData = res.groupSetting.conditions.filter(ele=>ele?.fieldValue==='data');
-        this.isResultTemplate = settingsData?.length?false:true;
-      }
-    }, errRes => {
-      this.notificationService.notify('Failed to fetch all Setting Informations', 'error');
     });
   }
   //goto result template page
@@ -250,10 +232,11 @@ export class ConnectorsSourceComponent implements OnInit {
       this.getConnectorData();
       this.getSyncCount();
       this.appSelectionService.connectorSyncJobStatus(this.searchIndexId,this.connectorId).then((res:any)=>{
-        if(res&&['SUCCESS','FAILED'].includes(res?.status)){
+        this.overViewData.jobs = res;
+        if(res&&res[0]?.status!=='INPROGRESS'){
           this.isSyncLoading = false;
         }
-        else if(res?.status==='INPROGRESS'){
+        else if(res&&res[0]?.status==='INPROGRESS'){
           this.checkJobStatus();
           this.isSyncLoading = true;
         }
@@ -528,7 +511,8 @@ export class ConnectorsSourceComponent implements OnInit {
   checkJobStatus(){
     let jobInterval = setInterval(()=>{
       this.appSelectionService.connectorSyncJobStatus(this.searchIndexId,this.connectorId).then((res:any)=>{
-        if(res&&['SUCCESS','FAILED'].includes(res?.status)){
+        this.overViewData.jobs = res;
+        if(res&&res[0]?.status!=='INPROGRESS'){
           clearInterval(jobInterval);
           this.isSyncLoading = false;
           this.getConnectorData();

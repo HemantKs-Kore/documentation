@@ -382,7 +382,7 @@ export class AppSelectionService {
   //call jobs api for connectors sync progress status
   connectorSyncJobStatus(sid,fid){
     const queryParams = {
-      limit: 1,
+      limit: 5,
       sidx:sid,
       fcon:fid
     };
@@ -390,8 +390,7 @@ export class AppSelectionService {
     return new Promise((resolve,reject)=>{
       appObserver.subscribe(res => {
         if(res){
-          const response = res[0];
-          resolve(response);
+          resolve(res);
         }
       }, errRes => {
         reject(errRes);

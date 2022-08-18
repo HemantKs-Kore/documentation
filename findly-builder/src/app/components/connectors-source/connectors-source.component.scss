@@ -874,44 +874,6 @@
                 margin: 0 5px;
             }
         }
-
-        .footer-info{
-            background: #F3F8FF;
-            border: 1px solid #85B7FE;
-            box-sizing: border-box;
-            border-radius: 4px;
-            padding: 10px;
-            display: inline-flex;
-            margin-left: 24px;
-            z-index: 9;
-            position: absolute;
-            bottom: 10px;
-
-            .info-icon{
-                margin-right: 10px;
-            }
-            .info-text{
-                color: #07377F;
-                font-weight: normal;
-                font-size: 12px;
-                line-height: 18px;
-                a{
-                    color: #0D6EFD;
-                    font-size: 12px;
-                    line-height: 14px;
-                    padding-left: 10px;
-                    cursor: pointer;
-                    text-decoration: none;
-                }
-                .interface-link{
-                    cursor: pointer;
-                }
-            }
-            .close-info{
-                margin-left: 15px;
-                cursor: pointer;
-            }
-        }
     }
 
     .configuration-connectors-sec {

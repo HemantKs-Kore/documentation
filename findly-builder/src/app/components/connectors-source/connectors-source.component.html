@@ -89,12 +89,7 @@
                             </ng-container>
                         </ng-container>
                     </div>                   
-                </perfect-scrollbar>
-                <div class="footer-info" [ngClass]="{'d-none':!isResultTemplate}">
-                    <img class="info-icon" src="assets/icons/structured-data/Info.svg">
-                    <div class="info-text">{{'connectors.noResultTemplate' | translate}} <span class="interface-link" (click)="navigateToResultTemplate()"><b>{{'connectors.searchInterfacePath' | translate}}</b></span> {{'connectors.toDefine' | translate}}<a href="https://docs.kore.ai/searchassist/search-experience/result-templates/" target="_blank" >{{'connectors.learnMore' | translate}}</a></div>
-                    <img src="assets/icons/close.svg" class="close-info" (click)="isResultTemplate=!isResultTemplate">
-                </div>
+                </perfect-scrollbar>                
             </div>
         </div>
         <!---Add functionality-->
@@ -467,15 +462,15 @@
                                             <section class="table-content">
                                                 <header class="table-header">
                                                     <div class="col-4 p-0">{{'connectors.title'|translate}}</div>
-                                                    <div class="col-4">{{'connectors.URL'|translate}}</div>
-                                                    <div class="col-4">{{'connectors.last_update'|translate}}</div>
+                                                    <div class="col-4">{{'connectors.status'|translate}}</div>
+                                                    <div class="col-4">{{'connectors.started_at'|translate}}</div>
                                                 </header>
-                                                <div class="content-body cursor-pointer" *ngFor="let content of overViewData.content | filter: [ searchContent, 'title']">
-                                                    <div class="col-4 p-0">{{content?.title}}</div>
-                                                    <div class="col-4 text-overflow" [title]="content?.url" (click)="removeSpaces(content?.url)"><span class="url-link">{{content?.url}}</span></div>
-                                                    <div class="col-4">{{content?.lastUpdatedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
+                                                <div class="content-body cursor-pointer" *ngFor="let job of overViewData.jobs">
+                                                    <div class="col-4 p-0">{{job?.title|titlecase}}</div>
+                                                    <div class="col-4">{{job?.status|titlecase}}</div>
+                                                    <div class="col-4">{{job?.startedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
                                                 </div>
-                                                <div *ngIf="overViewData.content?.length===0" class="no-content">{{'connectors.no_content'|translate}}</div>
+                                                <div *ngIf="overViewData.jobs?.length===0" class="no-content">{{'connectors.no_job'|translate}}</div>
                                             </section>                           
                                         </div>
                                     </div>
