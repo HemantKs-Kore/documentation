@@ -21,7 +21,7 @@
     }
     .close-slider{
         position: absolute;
-        background: #EEE3FF;
+        background: #E4E5E7;
         border-radius: 12px;
         width: 24px;
         height: 24px;
@@ -63,17 +63,17 @@
                     }
                     i{
                         font-size: 20px;
-                        color: #7027E5;
+                        color: #0D6EFD;
                     }
                     span{
                         font-weight: normal;
                         font-size: 12px;
                         line-height: 15px;
-                        color: #7027E5;
+                        color: #0D6EFD;
                         padding-left: 12px;
                     }
                     &.active{
-                        background: #7027E5;
+                        background: #0D6EFD;
                         color: #FFFFFF;
                         i{
                             color: #FFFFFF;
@@ -809,6 +809,20 @@
                                 }
                                 img{
                                     max-width: 25px;
+                                }
+                                &.completed +.title-heading{
+                                    color: #202124;
+                                    .steps-number{
+                                        color: #202124;
+                                    }
+                                }
+                                &.completed +.desc-text{
+                                    color: #202124;
+                                }
+                                &.completed +.arrow-icon{
+                                    background: #0D6EFD;
+                                    color: #FFFFFF;
+                                    transform: rotate(90deg);
                                 }
                             }                          
                             .title-heading{
