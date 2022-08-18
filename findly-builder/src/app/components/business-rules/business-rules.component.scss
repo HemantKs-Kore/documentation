@@ -559,3 +559,8 @@
 ::ng-deep .text-left-warning .tooltip-inner {
     text-align: left !important;
 }
+
+
+[contentEditable=true]:empty:not(:focus)::before{
+    content:attr(data-ph)
+}

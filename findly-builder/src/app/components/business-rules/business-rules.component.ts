@@ -226,10 +226,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.getFieldAutoComplete(null, null);
     if (this.selcectionObj.ruleType === 'contextual'){
       this.addNewRule();
-    }else if(this.selcectionObj.ruleType === 'nlp'){
-      const divInput = document.getElementById('contentText');
-      divInput.focus();
-    } 
+    }
   }
   openModalPopup() {
     this.addBusinessRulesRef = this.addBusinessRules.open();
@@ -1302,7 +1299,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   //create or cancel entity
   createTag(isPopup, isEdit) {
-    this.nlpAnnotatorObj = { showEntityPopup: isPopup, isEditPage: isEdit, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false } };
+    const annotatorArray = this.nlpAnnotatorObj.annotator;
+    this.nlpAnnotatorObj = { showEntityPopup: isPopup, isEditPage: isEdit, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false },annotator:annotatorArray };
   }
   //based on entity type show modal height
   setModalHeight(type) {

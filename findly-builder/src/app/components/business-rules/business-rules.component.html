@@ -571,8 +571,7 @@
                                         </div>
                                     </span>
                                 </div>
-                                <div contenteditable="true" class="input-text" id="contentText" style="border:2px solid #BDC1C6" (mouseup)="checkSelection($event)" [innerHTML]="inputSentence" placeholder="Enter the search query and annotate key words"></div>
-                                <!-- <textarea placeholder="Placeholder text" class="input-text"></textarea>  -->
+                                <div contenteditable="true" class="input-text" id="contentText" data-ph="Start typing here..." (mouseup)="checkSelection($event)" [innerHTML]="inputSentence"></div>
                             </div>
                             <div class="kr-sg-btn">
                                 <button class="kr-sg-buttonicon-secondary" (click)="AddSelectedEnity()">

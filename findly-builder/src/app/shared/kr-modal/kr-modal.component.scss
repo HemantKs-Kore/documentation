@@ -1266,10 +1266,13 @@
                                             flex: 1;
 
                                             .input-text {
-                                                min-height: auto;
-                                                height: 34px;
+                                                min-height: 34px;
                                                 line-height: 22px;
                                                 padding: 5px 10px;
+                                                border: 1px solid #BDC1C6;
+                                                overflow: scroll;
+                                                /* height: 55px; */
+                                                width: 490px;
                                             }
                                         }
 
