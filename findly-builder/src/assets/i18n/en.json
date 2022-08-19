@@ -804,13 +804,16 @@
         "yes": "Yes",
         "no": "No",
         "no_content": "No content available",
+        "no_job": "No jobs available",
         "sync_progress": "Sync in progress",
         "upgrade":"Upgrade",
         "empty_connectors": "Oops!! Connectors is not available in your current Plan",
         "noResultTemplate":"Result templates are not defined for connectors. Go to",
         "searchInterfacePath":"Indices >> Result Templates",
         "toDefine":"to define.",
-        "learnMore":"Learn More"
+        "learnMore":"Learn More",
+        "status":"Status",
+        "started_at":"Started At"
     },
     "actions": {
         "actions": "Actions",
