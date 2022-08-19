@@ -244,7 +244,7 @@
               <div class="status-bar-title">Status Bar</div>
               <label class="kr-sg-toggle">
                 <input type="checkbox" [(ngModel)]="statusSlider" (change)="toggleSlider()" >
-                <div class="slider"><span class="enabled">Show</span><span class="disabled">Hide</span></div>
+                <div class="slider"><span class="enabled">Show</span><span class="disabled">Show</span></div>
               </label>
             </div>
           </div>
@@ -252,7 +252,7 @@
             <div class="data-inner-content">
               <div id="accordion" class="applist-acc-data" >
                 <div class="accordion-applist completed-state" *ngFor="let list of checkList;let i = index">
-                   <div class="card_header"> <!--(mouseenter)="openAccordiandata(i)" (mouseleave)="playPause(i)" -->
+                   <div class="card_header parent-data{{i}}"> <!--(mouseenter)="openAccordiandata(i)" (mouseleave)="playPause(i)" -->
                   <a class="card_link collapsed  data{{i}}" data-toggle="collapse"> <!-- href="#collapse_{{i}} -->
                     <div class="indication-block" *ngIf="tourData && !list.tourdata">
                       <div class="dummy-border-left"></div>
@@ -267,8 +267,8 @@
                     </div>
                     <div class="desc-text">{{list.desc}} </div>
                     <div class="actions-link">
-                      <a class="link-name">Guide Me <i (click)="gotoRoutes(list.route)" class="si-externallink"></i></a>
-                      <a class="link-name">Documentation <i (click)="goToLink(list.docUrl)" class="si-externallink"></i></a>
+                      <a class="link-name" (click)="gotoRoutes(list.route)">Guide Me <i  class="si-externallink"></i></a>
+                      <a class="link-name" (click)="goToLink(list.docUrl)">Documentation <i  class="si-externallink"></i></a>
                     </div>
                     <!-- <div class="arrow-icon">
                       <i class="si-carrotup"></i>
