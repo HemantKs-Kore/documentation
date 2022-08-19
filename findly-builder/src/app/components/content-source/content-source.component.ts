@@ -856,7 +856,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.schedularDataPopRef = this.schedularDataPop.open();
     this.schedularData = source?.advanceSettings
   }
-  closeScheduler(event){
+  closeScheduler(){
     if(this.schedularDataPopRef && this.schedularDataPopRef.close){
       this.schedularDataPopRef.close();
     }
