@@ -103,6 +103,7 @@ export class AppHeaderComponent implements OnInit {
   @ViewChild('browseWorkspace') browseWorkspace: KRModalComponent;
   availableRouts = [
     { displayName: 'Summary', routeId: '/summary', quaryParms: {} },
+    { displayName: 'Overview', routeId: '/summary', quaryParms: {} },
     { displayName: 'Add Sources', routeId: '/source', quaryParms: {} },
     { displayName: 'Crawl Web Domain', routeId: '/source', quaryParms: { sourceType: 'contentWeb' } },
     { displayName: 'Extract Document', routeId: '/source', quaryParms: { sourceType: 'contentDoc' } },
@@ -115,6 +116,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Experiments', routeId: '/experiments', quaryParms: {} },
     { displayName: 'Actions', routeId: '/botActions', quaryParms: {} },
     { displayName: 'Workbench', routeId: '/index', quaryParms: {} },
+    { displayName: 'Indices', routeId: '/FieldManagementComponent', quaryParms: {} },
     { displayName: 'Fields', routeId: '/FieldManagementComponent', quaryParms: {} },
     { displayName: 'Traits', routeId: '/traits', quaryParms: {} },
     { displayName: 'Weights', routeId: '/weights', quaryParms: {} },
@@ -128,6 +130,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'User Engagement Metrics', routeId: '/userEngagement', quaryParms: {} },
     { displayName: 'Search Insights', routeId: '/searchInsights', quaryParms: {} },
     { displayName: 'Result Insights', routeId: '/resultInsights', quaryParms: {} },
+    { displayName: 'Manage', routeId: '/generalSettings', quaryParms: {} },
     { displayName: 'General Settings', routeId: '/generalSettings', quaryParms: {} },
     { displayName: 'Channels', routeId: '/settings', quaryParms: {} },
     { displayName: 'Credentials', routeId: '/credentials-list', quaryParms: {} },
