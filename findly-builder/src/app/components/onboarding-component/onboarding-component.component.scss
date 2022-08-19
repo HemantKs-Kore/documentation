@@ -831,16 +831,18 @@
                             &.data3{
                                 .indication-block{
                                     border: 1px solid #85B7FE;
+
                                 }
                             }
                             &.data4{
                                 .indication-block{
-                                    border: 1px solid #93D3A2;
+                                    border: 1px solid   #93D3A2;
                                 }
                             }
                             &.data5{
                                 .indication-block{
                                     border: 1px solid #FFDA2D;
+
                                 }
                             }
                             .indication-block{
@@ -945,32 +947,52 @@
                         }
                         &.parent-data0{
                             &:hover{
-                                border-left: 3px solid #2C7AD4;
+                                border-left: 3px solid #0D6EFD;
+                                .indication-block{
+                                    background: #E7F1FF;
+                                }
                             }
                         }
                         &.parent-data1{
                             &:hover{
-                                border-left: 3px solid #B893F2;
+                                border-left: 3px solid #7027E5;
+                                .indication-block{
+                                    background: #F1E9FB;
+                                }
                             }
                         }
                         &.parent-data2{
                             &:hover{
-                                border-left: 3px solid #FFBCA5;
+                                border-left: 3px solid #FF784B;
+                                .indication-block{
+                                    background: #FFF1ED;
+                                }
                             }
                         }
                         &.parent-data3{
                             &:hover{
-                                border-left: 3px solid #85B7FE;
+                                border-left: 3px solid #0D6EFD;
+                                .indication-block{
+                                    background: #E2F8FF;
+
+                                }
                             }
                         }
                         &.parent-data4{
                             &:hover{
-                                border-left: 3px solid #93D3A2;
+                                border-left: 3px solid #28A745;
+                                .indication-block{
+                                    background: #EAF6EC;
+                                }
                             }
                         }
                         &.parent-data5{
                             &:hover{
                                 border-left: 3px solid #FFDA2D;
+                                .indication-block{
+                                    background: #FFFBEA;
+
+                                }
                             }
                         }
                     }
