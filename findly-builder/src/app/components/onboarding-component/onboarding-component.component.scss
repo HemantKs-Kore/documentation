@@ -765,6 +765,11 @@
                             border-left: 1px dashed #BDC1C6;
                         }
                     }
+                    &.completed-tour-state{
+                        &::before{
+                            border-left: 0.5px solid #93D3A2;
+                        }  
+                    }
                     &:last-child{
                         &::before{
                             display: none;
