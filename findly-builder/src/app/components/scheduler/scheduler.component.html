@@ -96,7 +96,7 @@
   <div  *ngIf="schedulerType == 'verticalSchedular'"  class="row m-0 schedular_row_data">
     <div class="col-12 row_column m-0">
       <div class="calender">  
-        <mat-card class="demo-inline-calendar-card">
+        <mat-card class="demo-inline-calendar-card"> 
           <mat-calendar [(selected)]="selectedDate"  (selectedChange)="verticalDatepicker($event)"></mat-calendar>
         </mat-card>
       </div>
