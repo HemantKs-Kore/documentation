@@ -120,6 +120,8 @@ import { ResultTemplatesComponent } from './components/result-templates/result-t
 import { OnboardingComponentComponent } from './components/onboarding-component/onboarding-component.component';
 import { AnalyticsDropdownComponent } from './helpers/components/analytics-dropdown/analytics-dropdown.component';
 import { ConnectorsSourceComponent } from './components/connectors-source/connectors-source.component';
+import { SafeHtmlPipe } from './helpers/filters/safe-html.pipe';
+import { SelectTextDirective } from './helpers/directives/select-text.directive';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -207,7 +209,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ResultTemplatesComponent,
     AnalyticsDropdownComponent,
     ConnectorsSourceComponent,
-    OnboardingComponentComponent
+    OnboardingComponentComponent,
+    SafeHtmlPipe,
+    SelectTextDirective
   ],
   imports: [
     BrowserModule,

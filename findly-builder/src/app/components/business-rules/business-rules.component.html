@@ -571,7 +571,7 @@
                                         </div>
                                     </span>
                                 </div>
-                                <div contenteditable="true" class="input-text" id="contentText" data-ph="Start typing here..." (mouseup)="checkSelection($event)" [innerHTML]="inputSentence"></div>
+                                <div contenteditable="true" class="input-text" id="contentText" data-ph="Start typing here..." (mouseup)="getDialogDiemensions($event)" (selectedIndex)="getSelectedIndex($event)" [innerHTML]="inputSentence" appSelectText></div>
                             </div>
                             <div class="kr-sg-btn">
                                 <button class="kr-sg-buttonicon-secondary" (click)="AddSelectedEnity()">
@@ -601,7 +601,7 @@
                                 <div class="nlp-custom-tag-data-line">
                                    <div class="nlp-custom-tag-data">
                                     <div contenteditable="false"  [innerHTML]="annotator.colorSentence" *ngIf="!annotator.isEditable"></div>
-                                    <div contenteditable="true" class="input-text" id="contentText" [innerHTML]="annotator.colorSentence" *ngIf="annotator.isEditable"></div>
+                                    <div contenteditable="true" id="contentText" [innerHTML]="annotator.colorSentence" *ngIf="annotator.isEditable" (mouseup)="getDialogDiemensions($event)" (selectedIndex)="getSelectedIndex($event)" appSelectText></div>
                                    </div>
                                    <div class="nlp-custom-tag-overflow-menu" *ngIf="annotator.isEditable===false">
                                     <div class="dropdown nlp-overflow-menu">
@@ -609,7 +609,7 @@
                                             <img class="action_icon" src="assets/images/overflow-elipse.svg">
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="nlpOverflowMenu">
-                                          <div class="dropdown-item" (click)="annotator.isEditable=true"><span><img class="dropdown-list-icon" src="assets/images/edit-pencil.svg"></span> Edit</div>
+                                          <div class="dropdown-item"><span><img class="dropdown-list-icon" src="assets/images/edit-pencil.svg"></span> Edit</div>
                                           <div class="dropdown-item delete-item" (click)="deleteAnnotator(i)"><span><img class="dropdown-list-icon" src="assets/icons/delete-table.svg"></span> Delete</div>
                                         </div>
                                       </div>

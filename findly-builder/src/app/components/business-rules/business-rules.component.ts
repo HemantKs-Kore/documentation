@@ -1,4 +1,4 @@
-import { ElementRef, OnDestroy, ViewChild, QueryList, ViewChildren } from '@angular/core';
+import { ElementRef, OnDestroy, ViewChild, ViewChildren } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
@@ -6,26 +6,26 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { ENTER, COMMA, J } from '@angular/cdk/keycodes';
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import * as _ from 'underscore';
-import { relativeTimeRounding } from 'moment';
 import { RangeSlider } from 'src/app/helpers/models/range-slider.model';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { map } from 'rxjs/operators';
 import { SortPipe } from 'src/app/helpers/sortPipe/sort-pipe';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs';
-import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import * as moment from 'moment';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-import { FixedSizeVirtualScrollStrategy } from '@angular/cdk/scrolling';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ConstantPool } from '@angular/compiler';
 declare const $: any;
+declare global {
+  interface String {
+    replaceBetween: (start: any, end: any, what: any) => any;
+  }
+}
 @Component({
   selector: 'app-business-rules',
   templateUrl: './business-rules.component.html',
@@ -139,10 +139,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     'header': ''
   }
   sys_entities: any = [];
-  entityDefaultColors:any=[{type:'system_defined',color:'#135423'},{type:'custom',color:'#803C25'},{type:'index_field',color:'#381472'}];
-  entityFields={ startIndex: 0, endIndex: 0, entityId: '',entityType:'' };
-  entityObj: any = { entities: [], sentence: '', taggedSentence: '',colorSentence:'',isEditable:false };
-  inputSentence:any;
+  entityDefaultColors: any = [{ type: 'system_defined', color: '#135423' }, { type: 'custom', color: '#803C25' }, { type: 'index_field', color: '#381472' }];
+  entityFields = { startIndex: 0, endIndex: 0, entityId: '' };
+  entityObj: any = { entities: [], sentence: '', taggedSentence: '', colorSentence: '', isEditable: false };
+  inputSentence: any;
   nlpAnnotatorObj: any = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [] };
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
@@ -169,7 +169,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     private sanitizer: DomSanitizer
   ) { }
-  
+
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -224,7 +224,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.addNewOutcome();
     this.openModalPopup();
     this.getFieldAutoComplete(null, null);
-    if (this.selcectionObj.ruleType === 'contextual'){
+    if (this.selcectionObj.ruleType === 'contextual') {
       this.addNewRule();
     }
   }
@@ -266,19 +266,19 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.removedCon = false;
     this.createTag(false, false);
     this.nlpAnnotatorObj = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [] };
-    this.entityFields={ startIndex: 0, endIndex: 0, entityId: '',entityType:'' };
-    this.entityObj = { entities: [], sentence: '', taggedSentence: '',colorSentence:'',isEditable:false };
-    this.inputSentence='';
+    this.entityFields = { startIndex: 0, endIndex: 0, entityId: '' };
+    this.entityObj = { entities: [], sentence: '', taggedSentence: '', colorSentence: '', isEditable: false };
+    this.inputSentence = '';
   }
   setDataForEdit(ruleObj) {
     if (ruleObj && ruleObj.rules && ruleObj.rules.length) {
-      if(this.selcectionObj?.ruleType === 'contextual'){
+      if (this.selcectionObj?.ruleType === 'contextual') {
         this.rulesArrayforAddEdit = JSON.parse(JSON.stringify(ruleObj.rules));
       }
-      else if(this.selcectionObj?.ruleType === 'nlp'){
-        for(let item of ruleObj.rules){
-          this.createColorSentence(item);
-        }
+      else if (this.selcectionObj?.ruleType === 'nlp') {
+        // for (let item of ruleObj.rules) {
+        //   this.createColorSentence(item);
+        // }
       }
     }
     if (ruleObj && ruleObj.outcomes && ruleObj.outcomes.length) {
@@ -816,11 +816,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //create business rule
   createRule() {
     this.submitted = true;
-    let isValidate:boolean;
-    if(this.selcectionObj?.ruleType === 'nlp'){
+    let isValidate: boolean;
+    if (this.selcectionObj?.ruleType === 'nlp') {
       isValidate = this.validateRules() && this.validateOut()
     }
-    else if(this.selcectionObj?.ruleType === 'contextual'){
+    else if (this.selcectionObj?.ruleType === 'contextual') {
       isValidate = this.validateRules() && this.validateCon() && this.validateOut()
     }
     if (isValidate) {
@@ -829,16 +829,16 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         queryPipelineId: this.queryPipelineId,
         indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
       };
-      let payload: any = { ruleName: this.addEditRuleObj.ruleName, isRuleActive: this.addEditRuleObj.isRuleActive, ruleType: this.selcectionObj?.ruleType,outcomes:this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || [] };
+      let payload: any = { ruleName: this.addEditRuleObj.ruleName, isRuleActive: this.addEditRuleObj.isRuleActive, ruleType: this.selcectionObj?.ruleType, outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || [] };
       if (this.selcectionObj?.ruleType === 'contextual') {
-          payload.rules = this.getRulesArrayPayload(this.rulesArrayforAddEdit) || []
+        payload.rules = this.getRulesArrayPayload(this.rulesArrayforAddEdit) || []
       }
       else if (this.selcectionObj?.ruleType === 'nlp') {
-          for(let item of this.nlpAnnotatorObj.annotator){
-            delete item?.colorSentence;
-            delete item?.isEditable;
-          }
-          payload.rules = this.nlpAnnotatorObj.annotator;
+        for (let item of this.nlpAnnotatorObj.annotator) {
+          delete item?.colorSentence;
+          delete item?.isEditable;
+        }
+        payload.rules = this.nlpAnnotatorObj.annotator;
       }
       if (!payload.outcomes.length) {
         this.errorToaster(null, 'Atleast one outcome is required');
@@ -958,18 +958,18 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
         ruleId: rule._id,
       };
-      let payload: any = { ruleName: this.addEditRuleObj.ruleName, isRuleActive: this.addEditRuleObj.isRuleActive, ruleType: this.selcectionObj?.ruleType,outcomes:this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || [] };
+      let payload: any = { ruleName: this.addEditRuleObj.ruleName, isRuleActive: this.addEditRuleObj.isRuleActive, ruleType: this.selcectionObj?.ruleType, outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || [] };
       if (this.selcectionObj?.ruleType === 'contextual') {
         payload.rules = this.getRulesArrayPayload(this.rulesArrayforAddEdit) || [],
-        payload.outcomes = this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
-       }
-       else if (this.selcectionObj?.ruleType === 'nlp') {
-        for(let item of this.nlpAnnotatorObj.annotator){
+          payload.outcomes = this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
+      }
+      else if (this.selcectionObj?.ruleType === 'nlp') {
+        for (let item of this.nlpAnnotatorObj.annotator) {
           delete item?.colorSentence;
           delete item?.isEditable;
         }
         payload.rules = this.nlpAnnotatorObj.annotator;
-       }
+      }
       if (!payload.outcomes.length) {
         this.errorToaster(null, 'Atleast one outcome is required');
         return;
@@ -1238,69 +1238,97 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     });
   }
   //NLP Annotator code
-  checkSelection(event) {
-    this.entityFields={ startIndex: 0, endIndex: 0, entityId: '',entityType:'' };
-    const textLength = document.getSelection().toString().replace(/\s/g, '');
-    if (textLength.length > 0) {
-      this.nlpAnnotatorObj.showEntityPopup = true;
-      // const text = selectedText?.toString();
-      const selectedText = document.getSelection();
-      if(selectedText.anchorOffset!==selectedText.focusOffset){
-        this.entityFields.startIndex = selectedText?.anchorOffset;
-        this.entityFields.endIndex = selectedText?.focusOffset;
-      }
-      const dialog = document.getElementById('tagDialog');
-      if (dialog) {
-        dialog.style.top = ((event.offsetY * 100) / window.innerHeight) + '%';
-        dialog.style.left = (((event.offsetX * 100) / window.innerWidth) + 14) + '%';        
-      }
+
+  //get dialog dimensions based on event
+  getDialogDiemensions(event){
+    const dialog = document.getElementById('tagDialog');
+    if (dialog) {
+      dialog.style.top = ((event.offsetY * 100) / window.innerHeight) + '%';
+      dialog.style.left = (((event.offsetX * 100) / window.innerWidth) + 14) + '%';
     }
   }
-  //after sentence changes click on add
-  AddSelectedEnity(){
-    if(this.entityObj.entities.length>0){
-      this.nlpAnnotatorObj.annotator.push(this.entityObj);
-      this.inputSentence='';
-      this.entityObj = { entities: [], sentence: '', taggedSentence: '',colorSentence:'' }; 
-      this.entityFields={ startIndex: 0, endIndex: 0, entityId: '',entityType:'' };
-    }
-  } 
+
+  //fetch index info from appSelectText directive
+  getSelectedIndex(index){
+    this.entityFields = { startIndex: 0, endIndex: 0, entityId: '' };    
+    this.nlpAnnotatorObj.showEntityPopup = true;
+    this.entityFields.startIndex = index?.start;
+    this.entityFields.endIndex = index?.end;
+  }
   //click on Entity to select
   selectEntity(entity) {
     this.entityFields.entityId = entity?._id;
-    this.entityFields.entityType = entity?.entityType;
     // this.nlpAnnotatorObj.Legends.push({name:entity?.entityName,type:entity?.entityType});
     this.entityObj.sentence = document.getElementById('contentText').innerText;
-    let sentence='';
     this.entityObj.entities.push(this.entityFields);
-    this.inputSentence='';
-    let entityArr=[];
-    for(let i=0;i<this.entityObj.entities.length;i++){
-      const startIndex = this.entityObj.entities[i].startIndex;
-      const endIndex = this.entityObj.entities[i].endIndex;
-      const applyColor = this.entityDefaultColors.filter(item=>item.type===this.entityObj.entities[i].entityType);
-      for(let j=startIndex;j<=endIndex;j++){
-        entityArr.push({index:j,color:applyColor[0].color});
-      }
-    }
-    for(let j=0;j<this.entityObj.sentence.length;j++){
-      const findEntity = entityArr.filter(item=>item.index===j);
-      if(findEntity.length){
-        sentence = sentence + '<b>'+this.entityObj.sentence[j].fontcolor(findEntity[0].color)+'</b>'
-      }
-      else{
-        sentence = sentence + this.entityObj.sentence[j]
-      }
-    }
-
+    this.inputSentence = '';
+    const sentence = this.updateColorSentence();
     this.inputSentence  = this.sanitizer.bypassSecurityTrustHtml(sentence);
     this.entityObj.colorSentence = this.inputSentence;
     this.nlpAnnotatorObj.showEntityPopup = false;
   }
+
+  //add color sentence to original sentence
+  updateColorSentence() {
+    let entityArray = [];
+    const total_entities:any = this.getUniqueListBy(this.entityObj.entities,'startIndex');
+    this.entityObj.entities = total_entities;
+    for (let i = 0; i < total_entities.length; i++) {
+      let sentence = '';
+      const startIndex = total_entities[i].startIndex;
+      const endIndex = total_entities[i].endIndex;
+      const entity  = this.sys_entities.filter(item=>item._id===total_entities[i].entityId);
+      const applyColor = this.entityDefaultColors.filter(item=>item.type===entity[0].entityType);
+      sentence = `<span contenteditable="false" style="font-weight:bold;color:${applyColor[0].color}">` + this.entityObj.sentence.substring(startIndex, endIndex) + '</span>'
+      entityArray.push([startIndex, endIndex, sentence]);
+    }
+    const sentence = this.getSentenceByEntity(entityArray, this.entityObj.sentence);
+    return sentence;
+  }
+
+  getUniqueListBy(arr, key) {
+    return [...new Map(arr.map(item => [item[key], item])).values()]
+   }
+
+  //update string charaters
+  getSentenceByEntity(entityArray, str) {
+    String.prototype.replaceBetween = function (start, end, what) {
+      var value = this.substring(0, start + 1) + what + this.substring(end);
+      return value;
+    };
+    entityArray.sort(function (a, b) {
+      return b[0] - a[0];
+    });
+    for (var ii = 0, triplet; !!(triplet = entityArray[ii]); ii++) {
+        str = str.replaceBetween(triplet[0] - 1, triplet[1], triplet[2]);
+    }
+    return str;
+  }
+
+
+  //after sentence changes click on add
+  AddSelectedEnity() {
+    if (this.entityObj.entities.length > 0) {
+      let taggedSentence = this.entityObj.sentence;
+      for(let entity of this.entityObj.entities){
+        this.entityObj.taggedSentence= this.updateTaggedSentence(taggedSentence,entity.startIndex,entity.endIndex,entity);
+      }     
+      this.nlpAnnotatorObj.annotator.push(this.entityObj);
+      this.inputSentence = '';
+      this.entityObj = { entities: [], sentence: '', taggedSentence: '', colorSentence: '' };
+      this.entityFields = { startIndex: 0, endIndex: 0, entityId: '' };
+    }
+  }
+
+  // update text with entity name
+  updateTaggedSentence(origin,start,end,entity){
+    const insertion = this.sys_entities.filter(item=>item._id===entity.entityId);
+    return origin.substring(0, start) + `<<${insertion[0].entityName}>>`+ origin.substring(end);
+  }
   //create or cancel entity
   createTag(isPopup, isEdit) {
     const annotatorArray = this.nlpAnnotatorObj.annotator;
-    this.nlpAnnotatorObj = { showEntityPopup: isPopup, isEditPage: isEdit, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false },annotator:annotatorArray };
+    this.nlpAnnotatorObj = { showEntityPopup: isPopup, isEditPage: isEdit, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, annotator: annotatorArray };
   }
   //based on entity type show modal height
   setModalHeight(type) {
@@ -1323,8 +1351,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
   }
   //delete annotator using index
-  deleteAnnotator(index){
-   this.nlpAnnotatorObj.annotator.splice(index,1);
+  deleteAnnotator(index) {
+    this.nlpAnnotatorObj.annotator.splice(index, 1);
   }
   //get entities list
   getEntities() {
@@ -1343,19 +1371,19 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           return item
         }
       });
-      let rules=[];
-      for(let item of this.rules){
-        let chips=[];
-          for(let rule of item?.rules){
-             for(let entity of rule?.entities){
-                const entityName = res?.entities?.filter(ent=>ent._id===entity.entityId);
-                if(!chips.includes(entityName[0].entityName)){
-                  chips.push(entityName[0].entityName);                  
-                }
-             }
+      let rules = [];
+      for (let item of this.rules) {
+        let chips = [];
+        for (let rule of item?.rules) {
+          for (let entity of rule?.entities) {
+            const entityName = res?.entities?.filter(ent => ent._id === entity.entityId);
+            if (!chips.includes(entityName[0].entityName)) {
+              chips.push(entityName[0].entityName);
+            }
           }
-          const obj={...item,chips:chips};
-          rules.push(obj);
+        }
+        const obj = { ...item, chips: chips };
+        rules.push(obj);
       }
       this.rules = rules;
       this.sys_entities = response;
@@ -1421,30 +1449,5 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get entities');
     });
-  }
-  //create color sentence while click on edit
-  createColorSentence(entityObj){
-    for(let item of entityObj?.entities){
-      let sentence='';
-      let entityArr=[];
-      const startIndex = item.startIndex;
-      const endIndex = item.endIndex;
-      const entity = this.sys_entities?.filter(ent=>ent._id===item.entityId);
-      const applyColor = this.entityDefaultColors.filter(item=>item.type===entity[0].entityType);
-      for(let j=startIndex;j<=endIndex;j++){
-        entityArr.push({index:j,color:applyColor[0].color});
-      }
-      for(let j=0;j<entityObj.sentence.length;j++){
-        const findEntity = entityArr.filter(item=>item.index===j);
-        if(findEntity.length){
-          sentence = sentence + '<b>'+entityObj.sentence[j].fontcolor(findEntity[0].color)+'</b>'
-        }
-        else{
-          sentence = sentence + entityObj.sentence[j]
-        }
-      }
-      entityObj = {...entityObj,colorSentence:this.sanitizer.bypassSecurityTrustHtml(sentence),isEditable:false};
-    }
-    this.nlpAnnotatorObj.annotator.push(entityObj);
   }
 }
