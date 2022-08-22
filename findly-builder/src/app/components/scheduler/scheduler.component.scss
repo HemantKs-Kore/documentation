@@ -275,32 +275,91 @@
     
 }
 .custom-ref{
+    &.new-custom-ref{
+        width: 311px;
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+    }
     .modal-body{
         height: 400px;
-        padding: 0px 0px 0px 0px;
+        padding: 0px 0px 0px 0px !important;
         .cust-ref{
-            span{
-                position: absolute;
-                left: 30px;
-                font-weight: 500;
-                font-size: 14px;
+            &.inner-modal{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 20px;
+                .label-text{
+                    font-weight: 500;
+                    font-size: 12px;
+                    line-height: 15px;
+                    color: #121314;
+                }
+                .repeat-input{
+                    .cust-repeat{
+                        text-align: center;
+                        position: relative;
+                        left: auto;
+                        top: auto;
+                        padding-left: 2px;
+                    }
+                }
+                .schedule-Interval{
+                    width: 30%;
+                    .cust-repeat-type{
+                        position: relative;
+                        width: 100%;
+                        left: auto;
+                        top: auto;
+                    }
+                }
             }
-            .cust-repeat{
-                position: absolute;
-                left: 127px;
-                top: 38px;
-            }
-            .cust-repeat-type{
-                position: absolute;
-                width: 100px;
-                left: 187px;
-                top: -7px;
-            }
-            .content-width{
-                width: 25%;
-            }
+            // span{
+            //     position: absolute;
+            //     left: 30px;
+            //     font-weight: 500;
+            //     font-size: 14px;
+            // }
+            // .cust-repeat{
+            //     position: absolute;
+            //     left: 127px;
+            //     top: 38px;
+            // }
+            // .cust-repeat-type{
+            //     position: absolute;
+            //     width: 100px;
+            //     left: 187px;
+            //     top: -7px;
+            // }
+            // .content-width{
+            //     width: 25%;
+            // }
         }
         .repeat-on{
+            .label-text{
+                margin-bottom: 11px;
+            }
+            .days-name{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                text-align: center;
+                margin-bottom: 20px;
+                .circle {
+                    position: relative;
+                    top: auto;
+                    background: #fff;
+                    border-radius: 4px;
+                    border: 1px solid #BDC1C6;
+                    &.active{
+                        background: #F3F8FF;
+                        color: #000000;
+                        font-weight: 600;
+                        font-size: 14px;
+                        border: 1px solid #0D6EFD;
+                    }
+                }
+            }
             span{
                 position: absolute;
                 top: 100px;
@@ -332,27 +391,63 @@
             .cs{
                 //top: 114px;
                }
-           .cm{
-               left: 77px;
-           }
-           .ct{
-            left: 116px;
-           }
-           .cw{
-            left: 154px;
-           }
-           .cth{
-            left: 193px;
-           }
-           .cf{
-            left: 232px;
-           }
-           .csa{
-            left: 271px;
-           }
+        //    .cm{
+        //        left: 77px;
+        //    }
+        //    .ct{
+        //     left: 116px;
+        //    }
+        //    .cw{
+        //     left: 154px;
+        //    }
+        //    .cth{
+        //     left: 193px;
+        //    }
+        //    .cf{
+        //     left: 232px;
+        //    }
+        //    .csa{
+        //     left: 271px;
+        //    }
         }
         
        .ends{
+        &.shedular-ends-form{
+            .ends-never{
+                position: relative;
+                left: auto;
+                top: auto;
+                margin: 0 0 14px 0;
+                height: 40px;
+                .ends-radio{
+                    cursor: pointer;
+                }
+                .sp{
+                    position: absolute;
+                    top: 8px;
+                }
+                &.sp-at{
+                    .occur-span{
+                        font-weight: 400;
+                        font-size: 14px;
+                        line-height: 17px;
+                        display: flex;
+                        align-items: center;
+                        color: #121314;
+                    }
+                }
+                .date-pick{
+                    text-align: center;
+                    font-weight: 600;
+                    padding-left: 2px;
+                }
+                .mat-datepicker-input{
+                    text-align: left;
+                    padding-left: 8px;
+                    font-weight: 500;
+                }
+            }
+        }
 
            span{
             position: absolute;
