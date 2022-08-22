@@ -389,15 +389,15 @@
 }
 .si-faq:before {
   content: "\e901";
-  color: #7027e5;
+  color: #0D6EFD;
 }
 .si-home:before {
   content: "\e902";
-  color: #fff;
+  color: #0D6EFD;
 }
 .si-list:before {
   content: "\e903";
-  color: #7027e5;
+  color: #0D6EFD;
 }
 .si-search:before {
   content: "\e904";
