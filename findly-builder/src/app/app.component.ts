@@ -124,7 +124,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.isDemoApp = true;
       this.getSearchExperience();
     })
-    this.inlineManual.loadInlineManualScripts();
+      this.inlineManual.loadInlineManualScripts();
   }
   showMenu(event) {
     this.showMainMenu = event
