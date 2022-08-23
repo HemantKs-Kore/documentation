@@ -663,7 +663,6 @@ export class FieldManagementComponent implements OnInit {
   //   }
   // }
   filterTable(source, headerOption) {
-    console.log(this.filelds, source, headerOption);
     // this.filterSystem.typefilter = 'all';
     // this.filterSystem.isMultiValuedFilter = 'all';
     // this.filterSystem.isRequiredFilter = 'all';
@@ -906,7 +905,6 @@ export class FieldManagementComponent implements OnInit {
       delete request.search;
      }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
-      console.log(res, 'Filters')
       this.fieldDataTypeArr = [...res.fieldDataType];
       this.isMultiValuedArr = [...res.isMultiValued];
       this.isRequiredArr = [...res.isRequired];

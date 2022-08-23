@@ -541,7 +541,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       request.search = search
     }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
-      console.log(res, 'Filters')
       this.isRuleActiveArr = [...res.isRuleActive];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get filters');
