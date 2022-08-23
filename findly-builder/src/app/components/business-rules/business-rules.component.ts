@@ -143,7 +143,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   entityFields = { startIndex: 0, endIndex: 0, entityId: '' };
   entityObj: any = { entities: [], sentence: '', taggedSentence: '', colorSentence: '', isEditable: false };
   inputSentence: any;
-  nlpAnnotatorObj: any = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [] };
+  selectedTextEvent:any;
+  nlpAnnotatorObj: any = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [], };
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
       this.contextSuggestedImput = content;
@@ -276,9 +277,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         this.rulesArrayforAddEdit = JSON.parse(JSON.stringify(ruleObj.rules));
       }
       else if (this.selcectionObj?.ruleType === 'nlp') {
-        // for (let item of ruleObj.rules) {
-        //   this.createColorSentence(item);
-        // }
+        for (let item of ruleObj.rules) {
+          this.createColorSentence(item);
+        }
+        console.log("this.nlpAnnotatorObj",this.nlpAnnotatorObj);
       }
     }
     if (ruleObj && ruleObj.outcomes && ruleObj.outcomes.length) {
@@ -1241,6 +1243,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //get dialog dimensions based on event
   getDialogDiemensions(event){
+    this.selectedTextEvent = event;
     const dialog = document.getElementById('tagDialog');
     if (dialog) {
       dialog.style.top = ((event.offsetY * 100) / window.innerHeight) + '%';
@@ -1258,7 +1261,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //click on Entity to select
   selectEntity(entity) {
     this.entityFields.entityId = entity?._id;
-    // this.nlpAnnotatorObj.Legends.push({name:entity?.entityName,type:entity?.entityType});
     this.entityObj.sentence = document.getElementById('contentText').innerText;
     this.entityObj.entities.push(this.entityFields);
     this.inputSentence = '';
@@ -1271,8 +1273,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //add color sentence to original sentence
   updateColorSentence() {
     let entityArray = [];
+    let legends = [];
     const total_entities:any = this.getUniqueListBy(this.entityObj.entities,'startIndex');
     this.entityObj.entities = total_entities;
+    this.nlpAnnotatorObj.Legends
     for (let i = 0; i < total_entities.length; i++) {
       let sentence = '';
       const startIndex = total_entities[i].startIndex;
@@ -1281,11 +1285,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       const applyColor = this.entityDefaultColors.filter(item=>item.type===entity[0].entityType);
       sentence = `<span contenteditable="false" style="font-weight:bold;color:${applyColor[0].color}">` + this.entityObj.sentence.substring(startIndex, endIndex) + '</span>'
       entityArray.push([startIndex, endIndex, sentence]);
+      legends.push({name:entity[0]?.entityName,type:entity[0]?.entityType});
     }
+    this.nlpAnnotatorObj.Legends = this.getUniqueListBy(legends,'name');
     const sentence = this.getSentenceByEntity(entityArray, this.entityObj.sentence);
     return sentence;
   }
 
+ //remove duplicate items in array
   getUniqueListBy(arr, key) {
     return [...new Map(arr.map(item => [item[key], item])).values()]
    }
@@ -1449,5 +1456,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get entities');
     });
+  }
+
+  //create color sentence while click on edit
+  createColorSentence(rule) {
+    this.entityObj = { entities: [], sentence: '', taggedSentence: '', colorSentence: '', isEditable: false };
+    this.entityObj = { entities: rule?.entities, sentence: rule?.sentence, taggedSentence: rule?.taggedSentence, colorSentence: '', isEditable: false };
+    const sentence = this.updateColorSentence();
+    this.entityObj.colorSentence  = this.sanitizer.bypassSecurityTrustHtml(sentence);
+    this.nlpAnnotatorObj.annotator.push(this.entityObj);
   }
 }
