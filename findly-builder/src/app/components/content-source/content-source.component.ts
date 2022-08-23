@@ -1053,6 +1053,22 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.editDocObj.title = this.selectedSource.name;
     this.editDocObj.desc = this.selectedSource.desc
   }
+  changeTittle() {
+    this.isEditDoc = true;
+    this.editDocObj.title = this.selectedSource.name;
+  }
+  updateTittle() {
+    this.isEditDoc = false;
+    this.selectedSource.name = this.editDocObj.title;
+    this.docContent.sys_source_name = this.editDocObj.title;
+    // this.editDocObj.title = this.selectedSource.name;
+  }
+  cancelTittle(){
+    this.isEditDoc = false;
+    this.editDocObj.title = this.selectedSource.name;
+    this.editDocObj.title =  this.docContent.sys_source_name
+  }
+
   deleteDocument(from, record, event) {
     if (event) {
       event.stopImmediatePropagation();
@@ -1499,8 +1515,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       delete request.search;
     }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
-      this.statusArr = [...res.recentStatus];
-      this.docTypeArr = [...res.contentSource];
+      // this.statusArr = [...res.recentStatus];
+      // this.docTypeArr = [...res.contentSource];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get filters');
     });
