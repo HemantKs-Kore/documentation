@@ -564,3 +564,11 @@
 [contentEditable=true]:empty:not(:focus)::before{
     content:attr(data-ph)
 }
+
+.input-editable{
+    border: 1px solid #BDC1C6;
+    padding: 5px 10px;
+    border-radius: 4px;
+    min-height: 34px;
+    height: auto;
+}

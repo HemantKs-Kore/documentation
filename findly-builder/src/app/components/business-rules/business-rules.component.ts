@@ -1243,19 +1243,29 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //get dialog dimensions based on event
   getDialogDiemensions(event){
     this.selectedTextEvent = event;
-    const dialog = document.getElementById('tagDialog');
-    if (dialog) {
-      dialog.style.top = ((event.offsetY * 100) / window.innerHeight) + '%';
-      dialog.style.left = (((event.offsetX * 100) / window.innerWidth) + 14) + '%';
+    // const dialog = document.getElementById('tagDialog');
+    // if (dialog) {
+    //   dialog.style.top = ((event.offsetY * 100) / window.innerHeight) + '%';
+    //   dialog.style.left = (((event.offsetX * 100) / window.innerWidth) + 14) + '%';
+    // }
+  }
+  
+  setDialogDiemensions(){
+    const dialog:any = document.getElementsByClassName('nlp-custom-tag-popup');
+    if(dialog){
+      dialog[0].style.top = ((this.selectedTextEvent.offsetY * 100) / window.innerHeight) + '%';
+      dialog[0].style.left = (((this.selectedTextEvent.offsetX * 100) / window.innerWidth) + 14) + '%';
     }
   }
-
   //fetch index info from appSelectText directive
   getSelectedIndex(index){
     this.entityFields = { startIndex: 0, endIndex: 0, entityId: '' };    
     this.nlpAnnotatorObj.showEntityPopup = true;
     this.entityFields.startIndex = index?.start;
     this.entityFields.endIndex = index?.end;
+    setTimeout(()=>{
+      this.setDialogDiemensions();
+    },200)
   }
   //click on Entity to select
   selectEntity(entity) {

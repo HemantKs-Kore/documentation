@@ -571,7 +571,7 @@
                                         </div>
                                     </span>
                                 </div>
-                                <div contenteditable="true" class="input-text" id="contentText" data-ph="Start typing here..." (mouseup)="getDialogDiemensions($event)" (selectedIndex)="getSelectedIndex($event)" [innerHTML]="inputSentence" appSelectText></div>
+                                <div contenteditable="true" class="input-editable" id="contentText" data-ph="Start typing here..." (mouseup)="getDialogDiemensions($event)" (selectedIndex)="getSelectedIndex($event)" [innerHTML]="inputSentence" appSelectText></div>
                             </div>
                             <div class="kr-sg-btn">
                                 <button class="kr-sg-buttonicon-secondary" (click)="AddSelectedEnity()">
@@ -601,8 +601,9 @@
                                 <div class="nlp-custom-tag-data-line">
                                    <div class="nlp-custom-tag-data">
                                     <div contenteditable="false"  [innerHTML]="annotator.colorSentence" *ngIf="!annotator.isEditable"></div>
-                                    <div contenteditable="true" id="contentText" [innerHTML]="annotator.colorSentence" *ngIf="annotator.isEditable" (mouseup)="getDialogDiemensions($event)" (selectedIndex)="getSelectedIndex($event)" appSelectText></div>
+                                    <div contenteditable="true" class="div-editable" id="contentText" [innerHTML]="annotator.colorSentence" *ngIf="annotator.isEditable" (mouseup)="getDialogDiemensions($event)" (selectedIndex)="getSelectedIndex($event)" appSelectText></div>
                                    </div>
+                                   
                                    <div class="nlp-custom-tag-overflow-menu" *ngIf="annotator.isEditable===false">
                                     <div class="dropdown nlp-overflow-menu">
                                         <button class="btn dropdown-toggle dropdown-btn" type="button" id="nlpOverflowMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
