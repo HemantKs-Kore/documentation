@@ -1247,7 +1247,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       delete request.search;
     }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
-      console.log(res, 'Filters')
       // this.statusArr = [...res.recentStatus];
       // this.docTypeArr = [...res.contentSource];
     }, errRes => {
