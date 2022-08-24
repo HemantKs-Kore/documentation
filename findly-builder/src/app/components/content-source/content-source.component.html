@@ -1236,7 +1236,7 @@
                                       <div class="info-text" *ngFor="let section of selectedPage?._source?.page_sections ">{{section}}</div>
                                     </div>
                                   </div>
-                                  <div class="row-content-data row">
+                                  <div class="row-content-data row d-none">
                                     <div class="col-4 title-heading">URLs</div>
                                     <div class="col-8 page-content-details">
                                       <div class="url">
@@ -1252,8 +1252,8 @@
                                     </div>
                                   </div>
                                 </div>
-                                <div class="split-row-img col-4">
-                                  <div class="row-content-data border-0" *ngIf="selectedPage?._source?.page_image_url">
+                                <div class="split-row-img col-4"  *ngIf="selectedPage?._source?.page_image_url">
+                                  <div class="row-content-data border-0">
                                     <div class="col-12 page-content-details">
                                       <div class="img-preview-header">IMAGE PREVIEW</div>
                                       <div class="img-link-cards">
