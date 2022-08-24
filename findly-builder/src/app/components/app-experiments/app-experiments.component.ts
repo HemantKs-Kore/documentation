@@ -466,6 +466,7 @@ export class AppExperimentsComponent implements OnInit {
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
       // console.log(res, 'Filters')
       this.dynamicStatus = [...res.state];
+      this.dynamicStatus = [...res.state].filter(x => ( x !== 'all' && x !== 'All'))
     },
       // errRes => {
       //   this.errorToaster(errRes, 'Failed to get filters');
