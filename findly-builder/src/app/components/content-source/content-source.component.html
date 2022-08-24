@@ -1222,49 +1222,56 @@
                         <perfect-scrollbar>
                           <div class="scroll-inner-data">
                             <ng-container>
-                              <div class="row-content-data row">
-                                <div class="col-4 title-heading">Title</div>
-                                <div class="col-8 page-content-details">
-                                  <div class="info-text">{{selectedPage?._source?.page_title}}</div>
-                                </div>
-                              </div>
-                              <div class="row-content-data row">
-                                <div class="col-4 title-heading">Sections</div>
-                                <div class="col-8 page-content-details">
-                                  <div class="info-text" *ngFor="let section of selectedPage?._source?.page_sections ">{{section}}</div>
-                                </div>
-                              </div>
-                              <div class="row-content-data row">
-                                <div class="col-4 title-heading">URLs</div>
-                                <div class="col-8 page-content-details">
-                                  <div class="url">
-                                    <i class="si-externallink"></i>
-                                    <span class="text-truncate">{{selectedPage?._source?.page_url}}</span>
+                              <div class="split-row row">
+                                <div class="split-row-data col-8">
+                                  <div class="row-content-data row">
+                                    <div class="col-4 title-heading">Title</div>
+                                    <div class="col-8 page-content-details">
+                                      <div class="info-text">{{selectedPage?._source?.page_title}}</div>
+                                    </div>
+                                  </div>
+                                  <div class="row-content-data row">
+                                    <div class="col-4 title-heading">Sections</div>
+                                    <div class="col-8 page-content-details">
+                                      <div class="info-text" *ngFor="let section of selectedPage?._source?.page_sections ">{{section}}</div>
+                                    </div>
+                                  </div>
+                                  <div class="row-content-data row">
+                                    <div class="col-4 title-heading">URLs</div>
+                                    <div class="col-8 page-content-details">
+                                      <div class="url">
+                                        <i class="si-externallink"></i>
+                                        <span class="text-truncate">{{selectedPage?._source?.page_url}}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="row-content-data row">
+                                    <div class="col-4 title-heading">Updated on</div>
+                                    <div class="col-8 page-content-details">
+                                      <div class="info-text">{{selectedPage.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                              <div class="row-content-data row" *ngIf="selectedPage?._source?.page_image_url">
-                                <div class="col-4 title-heading">Image</div>
-                                <div class="col-8 page-content-details">
-                                  <div class="img-link-cards">
-                                    <div class="img-card">
-                                      <div class="img-block">
-                                        <img src="{{selectedPage?._source.page_image_url}}">
-                                      </div>
-                                      <div class="url-link">
-                                        <i class="si-externallink" (click)=goToLink(selectedPage?._source?.page_image_url)></i>
-                                        <span>{{selectedPage?._source?.page_image_url}}</span>
+                                <div class="split-row-img col-4">
+                                  <div class="row-content-data border-0" *ngIf="selectedPage?._source?.page_image_url">
+                                    <div class="col-12 page-content-details">
+                                      <div class="img-preview-header">IMAGE PREVIEW</div>
+                                      <div class="img-link-cards">
+                                        <div class="img-card">
+                                          <div class="img-block">
+                                            <img src="{{selectedPage?._source.page_image_url}}">
+                                          </div>
+                                          <div class="url-link">
+                                            <span class="preview-url-link" title="{{selectedPage?._source?.page_image_url}}">{{selectedPage?._source?.page_image_url}}</span>
+                                            <i class="si-maximize" (click)=goToLink(selectedPage?._source?.page_image_url)></i>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              <div class="row-content-data row">
-                                <div class="col-4 title-heading">Updated on</div>
-                                <div class="col-8 page-content-details">
-                                  <div class="info-text">{{selectedPage.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
-                                </div>
-                              </div>
+                           
                               <div class="row-content-data row">
                                 <div class="col-4 title-heading">Body</div>
                                 <div class="col-8 page-content-details">
