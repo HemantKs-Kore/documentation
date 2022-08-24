@@ -218,8 +218,6 @@
                                         padding: 0 10px 0 30px;
                                         height: 36px;
                                     }
-
-                                    .search-icon {}
                                 }
                             }
 
@@ -227,7 +225,8 @@
                                 padding: 15px 0;
 
                                 .scroll-data {
-                                    height: calc(100vh - 465px);
+                                    // height: calc(100vh - 415px);
+                                    height: 300px;
                                     padding: 0 5px 0 0;
                                 }
 
@@ -1401,12 +1400,12 @@
                                                     opacity: 1;
                                                 }
 
-                                                .nlp-custom-tag-data-line {
-                                                    background: #FFFFFF;
-                                                    border: 1px solid #85B7FE;
-                                                    border-radius: 2px;
-                                                    padding: 2px;
-                                                }
+                                                // .nlp-custom-tag-data-line {
+                                                //     background: #FFFFFF;
+                                                //     border: 1px solid #85B7FE;
+                                                //     border-radius: 2px;
+                                                //     padding: 2px;
+                                                // }
 
                                                 &:hover {
                                                     .nlp-custom-tag-data-line {
@@ -1428,14 +1427,7 @@
                                                     font-weight: 400;
                                                     font-size: 12px;
                                                     line-height: 15px;
-                                                     
-                                                    .div-editable{
-                                                        border: 1px solid #85B7FE;
-                                                        padding: 5px 10px;
-                                                        border-radius: 4px;
-                                                        min-height: 32px;
-                                                        background: white;
-                                                    }
+                                                                                                       
 
                                                     .nlp-custom-tag-highlight {
                                                         cursor: pointer;

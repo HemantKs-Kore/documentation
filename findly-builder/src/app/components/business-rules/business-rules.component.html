@@ -571,7 +571,7 @@
                                         </div>
                                     </span>
                                 </div>
-                                <div contenteditable="true" class="input-editable" id="contentText" data-ph="Start typing here..." (mouseup)="getDialogDiemensions($event)" (selectedIndex)="getSelectedIndex($event)" [innerHTML]="inputSentence" appSelectText></div>
+                                <div contenteditable="true" class="input-editable" id="contentText" data-ph="Start typing here..." (mouseup)="getDialogDiemensions($event)" (selectedIndex)="getSelectedIndex($event)" [innerHTML]="inputSentence" oncontextmenu="return false;" appSelectText></div>
                             </div>
                             <div class="kr-sg-btn">
                                 <button class="kr-sg-buttonicon-secondary" (click)="AddSelectedEnity()">
@@ -584,7 +584,8 @@
                         <div class="nlp-custom-tag-block">
                             <div class="nlp-tag-legend">Legend</div>
                             <div class="nlp-custom-tag-dynamic">
-                                <div class="nlp-custom-tag" *ngFor="let legend of nlpAnnotatorObj.Legends" [ngClass]="{'nlp-system-entity':legend.type==='system_defined','nlp-index-entity':legend.type==='index_field','nlp-custom-entity':legend.type==='custom'}"><span class="nlp-tag">{{legend.name}}</span> <span class="close-tag"><i class="si-close"></i></span></div>
+                                <div class="nlp-custom-tag" *ngFor="let legend of nlpAnnotatorObj.Legends" [ngClass]="{'nlp-system-entity':legend.type==='system_defined','nlp-index-entity':legend.type==='index_field','nlp-custom-entity':legend.type==='custom'}"><span class="nlp-tag">{{legend.name}}</span></div> 
+                                <!-- <span class="close-tag"><i class="si-close"></i></span> -->
                             </div>
                         </div>
                          <!-- nlp custom tag builder area end -->
@@ -599,11 +600,8 @@
                          <div class="nlp-custom-tag-generator-list" *ngIf="nlpAnnotatorObj.annotator?.length>0">
                             <div class="nlp-custom-tag-data-block" *ngFor="let annotator of nlpAnnotatorObj.annotator;let i=index;" [ngClass]="{'nlp-tag-edit':annotator.isEditable}">
                                 <div class="nlp-custom-tag-data-line">
-                                   <div class="nlp-custom-tag-data">
                                     <div contenteditable="false"  [innerHTML]="annotator.colorSentence" *ngIf="!annotator.isEditable"></div>
-                                    <div contenteditable="true" class="div-editable" id="contentText" [innerHTML]="annotator.colorSentence" *ngIf="annotator.isEditable" (mouseup)="getDialogDiemensions($event)" (selectedIndex)="getSelectedIndex($event)" appSelectText></div>
-                                   </div>
-                                   
+                                    <div contenteditable="true" class="div-editable" id="contentText" [innerHTML]="annotator.colorSentence" *ngIf="annotator.isEditable" (mouseup)="getDialogDiemensions($event)" (selectedIndex)="getSelectedIndex($event)" appSelectText></div>                                   
                                    <div class="nlp-custom-tag-overflow-menu" *ngIf="annotator.isEditable===false">
                                     <div class="dropdown nlp-overflow-menu">
                                         <button class="btn dropdown-toggle dropdown-btn" type="button" id="nlpOverflowMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -774,7 +772,7 @@
             </div>
         </div>
         <!---NLP Annotator modal-->
-        <div class="nlp-custom-tag-popup" id="tagDialog" *ngIf="nlpAnnotatorObj.showEntityPopup">
+        <div class="nlp-custom-tag-popup" id="tagDialog" [ngStyle]="{'visibility':nlpAnnotatorObj.showEntityPopup?'visible':'hidden'}">
             <div class="nlp-choose-tag" *ngIf="!nlpAnnotatorObj.isEditPage">
                 <div class="nlp-choose-tag-header">
                     <span class="bot-tasks"><img src="assets/images/bot-tasks.svg" /></span> CHOOSE TAG
@@ -863,7 +861,7 @@
 
                     <div class="btn-grp">
                         <div class="btn-cancel"><button type="button" class="kr-sg-button-ghost" (click)="createTag(false,false)">Cancel</button></div>
-                        <div class="btn-save"><button type="button" class="kr-sg-button-ghost pr-0" (click)="addEntity()">Tag & Save</button></div>
+                        <div class="btn-save"><button type="button" class="kr-sg-button-primary" (click)="addEntity()">Tag & Save</button></div>
                     </div>
                 </div>
             </div>

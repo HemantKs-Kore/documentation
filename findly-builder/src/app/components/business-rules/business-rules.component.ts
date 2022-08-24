@@ -420,6 +420,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     } else {
       this.currentSugg = mainContext;
     }
+    let entitiesArray=[];
+    for(let annotator of this.nlpAnnotatorObj.annotator){
+        for(let entity of annotator.entities){
+          const entityObj = this.sys_entities.filter(item=>item._id===entity.entityId);
+          if(!entitiesArray.includes(entityObj[0].entityName)) entitiesArray.push(entityObj[0].entityName);
+        }
+    }
+    this.currentSugg = [...this.currentSugg,...entitiesArray];
   }
   filterTable(source, headerOption) {
     // this.filterSystem.isRuleActiveFilter = 'all';
@@ -623,7 +631,20 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         this.notificationService.notify('Duplicate tags are not allowed', 'warning');
         return;
       } else {
-        ruleObj.outcomeValue.push(value);
+        const isEntity = this.sys_entities.filter(item=>item.entityName===value.slice(0,-1));
+        if(isEntity.length>0){
+          let val='';
+         if(['system_defined','custom'].includes(isEntity[0].entityType)){
+          val= `searchContext.entity.${isEntity[0].entityName}`;
+         }
+         else{
+          val = `searchContext.indexedFieldEntities.${isEntity[0].entityName}`;
+         }
+         ruleObj.outcomeValue.push(val);
+        }
+        else{
+          ruleObj.outcomeValue.push(value);
+        }
       }
     }
     if (input) {
@@ -1242,30 +1263,19 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //get dialog dimensions based on event
   getDialogDiemensions(event){
-    this.selectedTextEvent = event;
-    // const dialog = document.getElementById('tagDialog');
-    // if (dialog) {
-    //   dialog.style.top = ((event.offsetY * 100) / window.innerHeight) + '%';
-    //   dialog.style.left = (((event.offsetX * 100) / window.innerWidth) + 14) + '%';
-    // }
-  }
-  
-  setDialogDiemensions(){
     const dialog:any = document.getElementsByClassName('nlp-custom-tag-popup');
     if(dialog){
-      dialog[0].style.top = ((this.selectedTextEvent.offsetY * 100) / window.innerHeight) + '%';
-      dialog[0].style.left = (((this.selectedTextEvent.offsetX * 100) / window.innerWidth) + 14) + '%';
+      dialog[0].style.top = ((event.offsetY * 100) / window.innerHeight) + '%';
+      dialog[0].style.left = (((event.offsetX * 100) / window.innerWidth) + 14) + '%';      
     }
   }
+
   //fetch index info from appSelectText directive
   getSelectedIndex(index){
-    this.entityFields = { startIndex: 0, endIndex: 0, entityId: '' };    
-    this.nlpAnnotatorObj.showEntityPopup = true;
+    this.entityFields = { startIndex: 0, endIndex: 0, entityId: '' };        
     this.entityFields.startIndex = index?.start;
     this.entityFields.endIndex = index?.end;
-    setTimeout(()=>{
-      this.setDialogDiemensions();
-    },200)
+    this.nlpAnnotatorObj.showEntityPopup = true;
   }
   //click on Entity to select
   selectEntity(entity) {
@@ -1321,17 +1331,17 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     return str;
   }
 
-
   //after sentence changes click on add
   AddSelectedEnity() {
     if (this.entityObj.entities.length > 0) {
       let taggedSentence = this.entityObj.sentence;
+      this.entityObj.taggedSentence = taggedSentence;
       for(let entity of this.entityObj.entities){
-        this.entityObj.taggedSentence= this.updateTaggedSentence(taggedSentence,entity.startIndex,entity.endIndex,entity);
+        this.entityObj.taggedSentence= this.updateTaggedSentence(this.entityObj.taggedSentence,entity.startIndex,entity.endIndex,entity);
       }     
       this.nlpAnnotatorObj.annotator.push(this.entityObj);
       this.inputSentence = '';
-      this.entityObj = { entities: [], sentence: '', taggedSentence: '', colorSentence: '' };
+      this.entityObj = { entities: [], sentence: '', taggedSentence: '', colorSentence: '',isEditable:false };
       this.entityFields = { startIndex: 0, endIndex: 0, entityId: '' };
     }
   }
