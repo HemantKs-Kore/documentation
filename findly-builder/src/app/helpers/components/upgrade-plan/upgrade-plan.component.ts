@@ -12,6 +12,7 @@ import { LocalStoreService } from '@kore.services/localstore.service';
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
+import { environment } from '../../../../environments/environment'
 declare const $: any;
 @Component({
   selector: 'app-upgrade-plan',
@@ -48,6 +49,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   upgradePlanData:any={};
   selectedPaymentPage: string = 'payment_confirm';
   showLoader: boolean;
+  enable_pricing : any;
   payementResponse: any = {
     hostedPage: {
       transactionId: "",
@@ -65,7 +67,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   currentSubsciptionData: Subscription;
   isOverageShow: boolean = false;
   btnLoader: boolean = false;
-  enterpriseForm: any = { name: '', email: '', message: '', phone: '' };
+  enterpriseForm: any = { name: '', email: '', message: '', phone: '' }; 
   @Input() componentType: string;
   @Output() upgradedEvent = new EventEmitter();
   constructor(public dialog: MatDialog,
@@ -95,6 +97,11 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   }
   //get plans api
   getAllPlans() {
+    const PRICING_CHECK: any = environment;
+    if(PRICING_CHECK && PRICING_CHECK["PRICING"]){
+      this.enable_pricing=PRICING_CHECK["PRICING"]
+    }
+
     this.service.invoke('get.pricingPlans').subscribe(res => {
       this.featureTypes = res?.featureTypes;
       this.frequentFAQs = res?.FAQS;
