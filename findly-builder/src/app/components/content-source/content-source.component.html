@@ -1215,8 +1215,10 @@
                           </div>
                         </div>
                         <div class="page_link">
-                          <i class="si-externallink"></i>
-                          <span class="text-truncate">{{selectedPage?._source?.page_url}}</span>
+                          <div (click)="goToLink(selectedPage?._source.page_url)">
+                            <i class="si-externallink"></i>
+                            <span class="text-truncate">{{selectedPage?._source?.page_url}}</span>
+                          </div>
                           <i class="si-copy" (click)="copyUrl(selectedPage._source.page_url)"></i>
                         </div>
                         <perfect-scrollbar>
@@ -1262,8 +1264,8 @@
                                             <img src="{{selectedPage?._source.page_image_url}}">
                                           </div>
                                           <div class="url-link">
-                                            <span class="preview-url-link" title="{{selectedPage?._source?.page_image_url}}">{{selectedPage?._source?.page_image_url}}</span>
-                                            <i class="si-maximize" (click)=goToLink(selectedPage?._source?.page_image_url)></i>
+                                            <span class="preview-url-link" (click)="goToLink(selectedPage?._source?.page_image_url)" title="{{selectedPage?._source?.page_image_url}}">{{selectedPage?._source?.page_image_url}}</span>
+                                            <i class="si-copy" (click)="copyUrl(selectedPage?._source?.page_image_url)"></i>
                                           </div>
                                         </div>
                                       </div>
@@ -1291,7 +1293,7 @@
 <!-- New Pages End -->
           <div class="empty-page-data-container" *ngIf="page &&  totalRecord == 0 && source.recentStatus == 'success'">
             <img src="assets\images\emptyList.png">
-            <div class="title">Sorry! No Pages available yet!! Please <span> crawl</span> the web domain again</div>
+            <div class="title">Sorry! No Pages available yet!! Please <span> crawl</span>the web domain again</div>
           </div>
           <!-- Execution -->
           <div *ngIf="execution" class="execution-table-data">
