@@ -250,7 +250,7 @@
               color: #202124;
               font-weight: 600;
               font-size: 12px;
-              line-height: 20px;
+              line-height: 20px;              
             }
             .drag_drop_icon {
               display: block;
@@ -1174,4 +1174,18 @@
 
 .pl-10{
   padding-left: 10px !important;
+}
+
+.beta-icon {
+  height: 40px;
+  float: right;
+  position: absolute;
+  margin-left: 10px;
+  bottom: 4px;
+}
+
+.beta-icon-stage {
+  height: 24px;
+  width: 24px;
+  position: relative;
 }
