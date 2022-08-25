@@ -328,10 +328,6 @@ export class AppSelectionService {
   public updateTourConfig(component) {
     let callApi: boolean;
     const appInfo: any = this.workflowService.selectedApp();
-    // if (component == 'overview' && !this.getTourArray.findlyOverviewVisited) {
-    //   this.getTourArray.findlyOverviewVisited = true;
-    //   callApi = true;
-    // }
     if (component == 'addData' && !this.getTourArray.onBoardingChecklist[0].addData) {
       this.getTourArray.onBoardingChecklist[0].addData = true;
       callApi = true;
@@ -381,5 +377,25 @@ export class AppSelectionService {
         // console.log(errRes);
       });
     }
+  }
+
+  //call jobs api for connectors sync progress status
+  connectorSyncJobStatus(sid,fid){
+    const queryParams = {
+      limit: 5,
+      sidx:sid,
+      fcon:fid
+    };
+    const appObserver = this.service.invoke('get.connectorJob', queryParams);
+    return new Promise((resolve,reject)=>{
+      appObserver.subscribe(res => {
+        if(res){
+          resolve(res);
+        }
+      }, errRes => {
+        reject(errRes);
+        this.queryList = null;
+      });
+    })    
   }
 }

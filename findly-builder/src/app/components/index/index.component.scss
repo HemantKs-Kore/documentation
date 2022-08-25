@@ -147,7 +147,7 @@
     top: -16px;
     left: 25px;
     font-size: 12px;
-  }    
+  }
 }
 .disabled {
   pointer-events: none !important;
@@ -250,7 +250,7 @@
               color: #202124;
               font-weight: 600;
               font-size: 12px;
-              line-height: 20px;
+              line-height: 20px;              
             }
             .drag_drop_icon {
               display: block;
@@ -387,7 +387,11 @@
           }
         }
         .condition-block {
-          margin: 20px 0 8px 10px;
+          margin: 20px 0 10px 0px;
+          padding: 10px;
+          // border: 1px solid #e4e5eb;
+          border: solid 1px #BDC1C6;
+          border-radius: 4px;
           button {
             img {
               height: 11px;
@@ -521,6 +525,10 @@
         }
         .stage-defination-block {
           margin: 10px 0;
+          padding: 10px;
+          // border: 1px solid #e4e5eb;
+          border: solid 1px #BDC1C6;
+          border-radius: 4px;
           .main-heading {
             font-weight: 500;
             font-size: 12px;
@@ -607,9 +615,9 @@
           }
         }
         .form_list {
-          padding: 5px 75px 18px 9px;
+          padding: 5px 75px 8px 9px;
           position: relative;
-          box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.05);
+          // box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.05);
           .drag_drop {
             position: absolute;
             left: 5px;
@@ -648,6 +656,12 @@
             padding: 0 13px;
           }
         }
+      }
+      .stage_field_mapping {
+        padding: 10px;
+        // border: 1px solid #e4e5eb;
+        border: solid 1px #BDC1C6;
+        border-radius: 4px;
       }
       .footer-simulate-form {
         padding: 30px 0;
@@ -1160,4 +1174,18 @@
 
 .pl-10{
   padding-left: 10px !important;
+}
+
+.beta-icon {
+  height: 30px;
+  float: right;
+  position: absolute;
+  margin-left: 10px;
+  bottom: 9px;
+}
+
+.beta-icon-stage {
+  height: 24px;
+  width: 24px;
+  position: relative;
 }

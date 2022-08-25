@@ -83,7 +83,7 @@
               <div class="stateIcon" *ngIf="!pipe?.enable">
                 <img src="assets/images/inActiveStage.svg" />
               </div>
-              <div class="title text-truncate">{{ pipe?.name }}</div>
+              <div class="title text-truncate">{{ pipe?.name }} <img src="assets/images/beta_yellow.svg" class="beta-icon" *ngIf="pipe.type==='snippet_extraction'"/></div>
               <div class="close_icon" (click)="removeStage(i,pipe?.name)">
                 <img src="assets/icons/close_field.svg" />
               </div>
@@ -125,7 +125,7 @@
                     " (click)="switchStage(systemStage, index,'true')">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
                       systemStage?.type | translate
-                      }}</a>
+                      }} <img src="assets/images/beta_yellow.svg" class="beta-icon-stage" *ngIf="systemStage.type==='snippet_extraction'"/></a>
                   </li>
                 </ul>
               </div>
@@ -199,7 +199,7 @@
                 </span>
               </span>
             </div>
-            <input type="text" placeholder="{{'workbench.define_condition' | translate}}" 
+            <input type="text" placeholder="{{'workbench.define_condition' | translate}}"
               (keyup)="changesDetected = true"  autocomplete="off" class="input-text"
               [(ngModel)]="selectedStage.condition" />
              <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div>
@@ -361,7 +361,7 @@
         </div>
 
         <ng-container>
-          <div class="form_inputs_data" *ngIf="selectedStage.type === 'field_mapping'">
+          <div class="form_inputs_data stage_field_mapping" *ngIf="selectedStage.type === 'field_mapping'">
             <div class="main-heading">Stage Definition</div>
             <!-- <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod </div> -->
             <ng-container *ngIf="
@@ -499,7 +499,7 @@
                   <!-- <div class="colse_form">
                     <img (click)="setResetNewMappingsObj('remove_mapping');newMappingObj={}" src="assets/images/close-cross.svg" />
                   </div> -->
-                  <div class="add_icon" *ngIf="((selectedStage.config.mappings.length) - 1 == i) && 
+                  <div class="add_icon" *ngIf="((selectedStage.config.mappings.length) - 1 == i) &&
                   (!(newMappingObj.hasOwnProperty('field_mapping')))" (click)="
                     addAfterRemoval()
                     ">
@@ -683,12 +683,7 @@
               </div>
             </div>
           </div>
-          <div class="form_inputs_data" *ngIf="
-              selectedStage.type === 'entity_extraction' ||
-              selectedStage.type === 'traits_extraction' ||
-              selectedStage.type === 'keyword_extraction' ||
-              selectedStage.type === 'semantic_meaning'
-            ">
+          <div class="form_inputs_data" *ngIf="['entity_extraction','traits_extraction','keyword_extraction','semantic_meaning','snippet_extraction'].includes(selectedStage.type)">
             <ng-container *ngIf="
                 selectedStage &&
                 selectedStage.config &&
@@ -705,7 +700,7 @@
                     <img src="assets/icons/drag_drop_move_icon.svg" />
                   </div>
                   <div class="col-6 mb-2">
-                    <div class="label-text">{{'workbench.source_field' | translate}}</div>                    
+                    <div class="label-text">{{'workbench.source_field' | translate}}</div>
                     <div class="kr-sg-dropdowns" ngbDropdown>
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
@@ -849,7 +844,7 @@
                       </mat-form-field>
                     </ng-container>
                   </div>
-                  <div class="kr-sg-input-text col-6 input-box mb-2">
+                  <div class="kr-sg-input-text col-6 input-box mb-2" *ngIf="selectedStage.type !== 'snippet_extraction'">
                     <div class="label-text">{{'workbench.target_field' | translate}}</div>
                     <div class="position-relative ">
                       <input type="text" placeholder="{{'workbench.value' | translate}}"
@@ -879,7 +874,7 @@
                   <div class="delete_icon" (click)="removeConfig(i, selectedStage.config.mappings)">
                     <img src="assets/icons/delete-table.svg" />
                   </div>
-                  <div class="add_icon" *ngIf="((selectedStage.config.mappings.length) - 1 == i) && 
+                  <div class="add_icon" *ngIf="((selectedStage.config.mappings.length) - 1 == i) &&
                   (!(newMappingObj.hasOwnProperty('field_mapping')))" (click)="
                     addAfterRemoval()
                     ">
@@ -1007,7 +1002,7 @@
                           addEntityList(
                             $event,
                             newMappingObj[selectedStage.type].defaultValue
-                          ) 
+                          )
                         " [(ngModel)]="entityName" #suggestedInput />
 
                       <img id="infoWarning3" src="assets/icons/warning_escalation.svg" style="display: none;"
@@ -1071,7 +1066,7 @@
                   </mat-form-field>
                 </ng-container>
               </div>
-              <div class="kr-sg-input-text col-6 input-box mb-2">
+              <div class="kr-sg-input-text col-6 input-box mb-2" *ngIf="selectedStage.type !== 'snippet_extraction'">
                 <div class="label-text">{{'workbench.target_field' | translate}}</div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench.value' | translate}}" id="entitytarget"
@@ -1180,8 +1175,8 @@
                 ) | translate
               }}
             </button>
-            <ul class="dropdown-menu content-menu">              
-              <li *ngFor="let source of sourceList" (click)="changeSimulate(source, 'source')"><a>{{'workbench.'+source | translate}}</a></li>            
+            <ul class="dropdown-menu content-menu">
+              <li *ngFor="let source of sourceList" (click)="changeSimulate(source, 'source')"><a>{{'workbench.'+source | translate}}</a></li>
             </ul>
           </div>
         </div>
@@ -1228,7 +1223,7 @@
     <div class="mainLoadingSpinner1" *ngIf="loadingSimulate">
       <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
       <span class="please-wait-message1">{{'please_wait'| translate}}</span>
-    </div> 
+    </div>
     <perfect-scrollbar class="content_body"  *ngIf="!loadingSimulate">
       <div *ngIf="simulateJson">
         <ngx-codemirror [(ngModel)]="filteredSimulatorRes" [options]="codeMirrorOptions">

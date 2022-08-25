@@ -124,7 +124,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.isDemoApp = true;
       this.getSearchExperience();
     })
-    this.inlineManual.loadInlineManualScripts();
+      this.inlineManual.loadInlineManualScripts();
   }
   showMenu(event) {
     this.showMainMenu = event
@@ -458,7 +458,7 @@ export class AppComponent implements OnInit, OnDestroy {
     let call = false;
     if (parms.type == 'onboardingjourney') {
       this.searchRequestId = parms.requestId;
-      this.appSelectionService.updateTourConfig(parms.data);
+      //this.appSelectionService.updateTourConfig(parms.data);
     }
     // if (parms.type == 'fullResult') {
     //   this.appSelectionService.updateTourConfig('test');

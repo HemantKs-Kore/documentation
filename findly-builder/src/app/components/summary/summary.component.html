@@ -198,7 +198,7 @@
                   <img src="assets/icons/overview/connections.svg">
                   <span class="title">{{'overview.connectors' | translate}}</span>
                 </div>
-                <div class="col-7 data-count"> {{indices?.connectors}} {{'overview.documents' | translate}}</div>
+                <div class="col-7 data-count"> {{indices?.connectors?.sources || 0}} {{'overview.connectors' | translate}} | {{indices?.connectors?.numOfDocs || 0}} {{'overview.documents' | translate}}</div>
               </div>
               <div class="table-data col-12 row">
                 <div class="col-5 image-with-title">

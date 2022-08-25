@@ -25,6 +25,7 @@
     "traits_extraction": "Traits Extraction",
     "custom_script": "Custom Script",
     "exclude_document": "Exclude Document",
+    "snippet_extraction": "Snippet Extraction",
     "set": "Set",
     "rename": "Rename",
     "copy": "Copy",
@@ -360,7 +361,7 @@
             "Feedback": "Feedback",
             "Useful_Result": "Positive Feedback",
             "Not_Useful_Result": "Negative Feedback",
-            "feedback_tooltip": "Enabling Result feedback allows your end users rate the relevancy of results provided for a search query.Once enabled insights will be available in 'Search Insights' under the Analytics Section"
+            "feedback_tooltip": "Enabling Result Feedback allows your end users rate the relevancy of results provided for a search query.Once enabled insights will be available in 'Search Insights' under the Analytics Section."
         },
         "user_engagement": {
             "User_Engagement": "User Engagement",
@@ -803,13 +804,16 @@
         "yes": "Yes",
         "no": "No",
         "no_content": "No content available",
+        "no_job": "No jobs available",
         "sync_progress": "Sync in progress",
         "upgrade":"Upgrade",
         "empty_connectors": "Oops!! Connectors is not available in your current Plan",
         "noResultTemplate":"Result templates are not defined for connectors. Go to",
         "searchInterfacePath":"Indices >> Result Templates",
         "toDefine":"to define.",
-        "learnMore":"Learn More"
+        "learnMore":"Learn More",
+        "status":"Status",
+        "started_at":"Started At"
     },
     "actions": {
         "actions": "Actions",

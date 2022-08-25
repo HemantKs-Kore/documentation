@@ -66,6 +66,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   currentView = 'list'
   searchSources = '';
   pagesSearch = '';
+  lastPageSearch = '';
+  lastData : any;
   selectedApp: any = {};
   resources: any = [];
   polingObj: any = {};
@@ -698,11 +700,19 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       } else {
         this.crwalOptionLabel = 'Crawl Everything'
       }
-      if (data.length || this.pagesSearch) {
+      let searchEl = document.getElementsByName('pagesSearch')[0]
+      let isFocused = (document.activeElement === searchEl);
+      this.lastPageSearch = this.pagesSearch;
+      this.lastData = data
+      console.log(data.length, this.pagesSearch, isFocused)
+      if (data.length || this.pagesSearch || isFocused ) {
         this.swapSlider('page');
       }
       else {
-        this.swapSlider('config')
+        // console.log(data.length, this.pagesSearch, 'configOut..')
+        if(data.length == 0 && this.pagesSearch.length == 0)  { this.swapSlider('config')
+        // console.log(data.length, this.pagesSearch, 'config..')
+      }
       }
       this.clicksViews('file')
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
@@ -1043,6 +1053,22 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.editDocObj.title = this.selectedSource.name;
     this.editDocObj.desc = this.selectedSource.desc
   }
+  changeTittle() {
+    this.isEditDoc = true;
+    this.editDocObj.title = this.selectedSource.name;
+  }
+  updateTittle() {
+    this.isEditDoc = false;
+    this.selectedSource.name = this.editDocObj.title;
+    this.docContent.sys_source_name = this.editDocObj.title;
+    // this.editDocObj.title = this.selectedSource.name;
+  }
+  cancelTittle(){
+    this.isEditDoc = false;
+    this.editDocObj.title = this.selectedSource.name;
+    this.editDocObj.title =  this.docContent.sys_source_name
+  }
+
   deleteDocument(from, record, event) {
     if (event) {
       event.stopImmediatePropagation();
@@ -1489,8 +1515,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       delete request.search;
     }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
-      this.statusArr = [...res.recentStatus];
-      this.docTypeArr = [...res.contentSource];
+      // this.statusArr = [...res.recentStatus];
+      // this.docTypeArr = [...res.contentSource];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get filters');
     });
@@ -2081,6 +2107,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.showSearch = !this.showSearch
   }
+  closeSearch() {
+    this.pagesSearch='';
+    this.showSearch = !this.showSearch;
+    this.getCrawledPages(10,0);
+  }
   focusoutSearch(isSearchSource?) {
     if (this.activeClose) {
       if (isSearchSource) {
@@ -2091,6 +2122,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.activeClose = false;
     }
     this.showSearch = !this.showSearch;
+    this.getSourceList(null,this.searchSources,'search')
   }
   focusinSearch(inputSearch) {
     setTimeout(() => {

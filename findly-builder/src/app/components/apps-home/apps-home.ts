@@ -168,8 +168,6 @@ export class AppsListingComponent implements OnInit {
       this.mixpanel.postEvent('User Onboarding - Journey Cancelled', {});
       this.mixpanel.postEvent('Welcome video Played',{})
       this.mixpanel.postEvent('Explore App page',{})
-      // console.log('Welcome video Played')
-      // console.log('Explore App page')
     }
     // this.showBoarding = false;
   }
@@ -193,17 +191,20 @@ export class AppsListingComponent implements OnInit {
   }
   welcomeStep(type) {
     this.appType = type;
-    this.steps = 'displayApp';
-    // this.displayApp = true;
     this.hideWelcomepage = false;
+    if( type =='selfExplore'){
+    this.steps = 'displayApp';
+    this.progressBarFun(4, 2)
+    this.mixpanel.postEvent('Explore App Type selected',{'Explore App Type':'Own'})
+    }
+    else if (type == 'sampleData') {
+      this.steps = 'demoOptions';
+      this.demoType = 'e-commerce';
+      this.progressBarFun(4, 2)
+      this.mixpanel.postEvent('Explore App Type selected',{'Explore App Type':'Sample'})
+    }
   }
 
-  exploreMyself() {
-    this.displayApp = true;
-    this.hideWelcomepage = false;
-    this.mixpanel.postEvent('Explore App Type selected',{'Explore App Type':'Own'})
-    // console.log('Explore App Type selected')
-  }
   mixpanelEventValues(){
     if(this.demoType == 'e-commerce'){
       this.appTypevalue = 'E-commerce';
@@ -216,36 +217,28 @@ export class AppsListingComponent implements OnInit {
     }
     this.mixpanel.postEvent('Explore App Data selected',{'Explore App Data Type':this.appTypevalue})
   }
-  exploreSampleDate() {
+  exploreSampleDate(){
     this.hideWelcomepage = false;
-    if (this.steps == 'demoOptions' && this.demoType) {
-      this.steps = 'showSearchExperience';
+    if(this.steps == 'demoOptions'){
+      this.steps = 'showSearchExperience'
       this.SearchExperianceType ='top';
       this.progressBarFun(4, 3)
       this.mixpanelEventValues();  
-      // console.log('Explore App Data selected')
     }
-    else if (this.steps == 'showSearchExperience' && this.SearchExperianceType) {
-      this.appCreationAtOnboarding();
+    else if (this.steps == 'showSearchExperience'){
+      this.steps = 'displayApp'
+      this.progressBarFun(4, 4)
       this.mixpanel.postEvent('Explore App Searchexperience Type selected',{})
-      // console.log('Explore App Searchexperience Type selected')
     }
-    else if (this.steps == 'showSearchExperience' && !this.SearchExperianceType) {
-      this.steps == 'showSearchExperience'
+    else if (this.steps == 'displayApp' && this.newApp.name){
+      this.appCreationAtOnboarding();
+      this.mixpanel.postEvent('Explore App named',{})
     }
     else {
-      if (this.displayApp = true && this.newApp.name) {
-        this.steps = 'demoOptions';
-        this.demoType = 'e-commerce';
-        this.progressBarFun(4, 2)
-      }
-      else {
-        this.validateAppname = true;
-      }
+      this.validateAppname = true
     }
-    // console.log('Explore App Type selected')
-    this.mixpanel.postEvent('Explore App Type selected',{'Explore App Type':'Sample'})
   }
+
   openAppLoadingScreen() {
     this.loadingAppcreationRef = this.loadingAppcreation.open();
   }
@@ -268,19 +261,26 @@ export class AppsListingComponent implements OnInit {
       this.progressBarFun(4, 2)
     }
     else if (this.steps == 'demoOptions') {
-      this.steps = 'displayApp';
+      this.steps = '';
       this.demoType = '';
-      this.progressBarFun(4, 1)
+      this.newApp = { name: '', description: '' };
+      this.progressBar = [];
     }
     else if (this.steps == 'displayApp') {
-      this.steps = '';
-      this.progressBar.length = 0
-      this.newApp = { name: '', description: '' };
-
+      if(this.appType == 'sampleData'){
+        this.steps = 'showSearchExperience';
+        this.progressBarFun(4, 3)
+      }
+      else{
+        this.steps = '';
+        this.newApp = { name: '', description: '' };
+        this.progressBar = [];
+      }
     }
   }
   appCreationAtOnboarding() {
     if (this.appType == 'selfExplore' && this.newApp.name) {
+      this.mixpanel.postEvent('Explore App Named',{})
       this.validateSource();
     }
     else if (this.appType == 'sampleData' && this.newApp.name && this.SearchExperianceType) {
@@ -294,17 +294,11 @@ export class AppsListingComponent implements OnInit {
   checkExperience() {
     if (this.appType == 'selfExplore') {
       this.appCreationAtOnboarding();
-      this.mixpanel.postEvent('Explore App Named',{})
-      // console.log('Explore App Named')
     }
-    else {
       if (this.appType == 'sampleData') {
         this.exploreSampleDate();
-        this.mixpanel.postEvent('Explore App Named',{})
-        // console.log('Explore App Named')
       }
-    }
-  }
+}
   openDetails() {
     this.detailsPopUpRef = this.detailsPopUp.open();
   }
@@ -319,7 +313,6 @@ export class AppsListingComponent implements OnInit {
   openCreateApp() {
     this.createAppPopRef = this.createAppPop.open();
     this.mixpanel.postEvent('Start create app',{})
-    // console.log('Start create app')
     if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
       this.onboardingpopupjourneyRef.close();
     }
@@ -464,7 +457,6 @@ export class AppsListingComponent implements OnInit {
       this.clearAccount();
       //this.checkForSharedApp();
     }, errRes => {
-      // console.log(errRes);
     });
   }
   clearAccount() {
@@ -481,7 +473,6 @@ export class AppsListingComponent implements OnInit {
     this.router.navigate(['/home'], { skipLocationChange: true });
   }
   imageLoad() {
-    // console.log("image loaded now")
     this.emptyApp = true;
   }
   //create app
@@ -577,7 +568,6 @@ export class AppsListingComponent implements OnInit {
     }
     this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
       const doc_status = JSON.parse(JSON.stringify(res));
-      console.log("doc_status", doc_status);
       if ((doc_status[0].status === 'SUCCESS' || doc_status[0].status === 'success') && doc_status[0].jobType === "TRAINING") {
         clearInterval(this.pollingInterval);
         this.CloseAppLoadingScreen();
