@@ -1359,8 +1359,11 @@
                         .scroll-inner-data{
                             padding: 10px 10px 20px 10px;
                             .split-row-img{
-                                background: #F8F9FA;
-                                border-radius: 4px;
+                                .bg-add-img{
+                                    background: #F8F9FA;
+                                    border-radius: 4px;
+                                    padding: 10px 10px;
+                                }
                             }
                             .row-content-data{
                                 margin: 0;
