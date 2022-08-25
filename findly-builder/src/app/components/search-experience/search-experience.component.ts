@@ -159,6 +159,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     }
     else if (this.selectedTab === 'interactions') {
       this.show_tab_color2 = true;
+     //this.changeSlider('bottom');
     } else if (this.selectedTab === 'experience') {
       this.show_tab_color = true;
     }
@@ -351,12 +352,12 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   //based on show searches show slider
   changeSlider(type, data?) {
     this.suggestions = [];
-    let queryValue = data === undefined ? type == 'bottom-up' ? 3 : 5 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
-    let recentValue = data === undefined ? type == 'bottom-up' ? 5 : 10 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
+    let queryValue = data === undefined ? type == 'bottom' ? 3 : 5 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
+    let recentValue = data === undefined ? type == 'bottom' ? 0 : 10 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
     if (type == 'bottom') {
       this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 3, 1, queryValue, 'suggestion', 'bottom-up-suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 5, 1, recentValue, 'live', 'bottom-up-live') });
       this.searchObject.searchInteractionsConfig.querySuggestionsLimit = data === undefined ? 3 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
-      this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = data === undefined ? 5 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
+      this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = data === undefined ? 0 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
       if (this.searchObject.searchInteractionsConfig.defaultStatus === undefined) {
         this.searchObject.searchInteractionsConfig.defaultStatus = "searchBar";
       }

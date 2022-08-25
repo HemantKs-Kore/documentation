@@ -424,7 +424,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.distroySearch();
     this.clearBodyClasses();
     this.searchInstance = new FindlySDK(findlyConfig);
-    this.searchInstance.showSearch(findlyConfig.botOptions, this.searchExperienceConfig, true);
+    const currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails
+    const isFreePlan = currentSubscriptionPlan?.subscription?.planName==='Free'?true:false;
+    const searchConfig = {...this.searchExperienceConfig,freePlan:isFreePlan};
+    this.searchInstance.showSearch(findlyConfig.botOptions, searchConfig, true);
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
     $('body').addClass('sdk-body');
   }
@@ -468,7 +471,7 @@ export class AppComponent implements OnInit, OnDestroy {
     let call = false;
     if (parms.type == 'onboardingjourney') {
       this.searchRequestId = parms.requestId;
-      this.appSelectionService.updateTourConfig(parms.data);
+      //this.appSelectionService.updateTourConfig(parms.data);
     }
     // if (parms.type == 'fullResult') {
     //   this.appSelectionService.updateTourConfig('test');
@@ -629,7 +632,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.distroyTopDownSearch();
     this.topDownSearchInstance = new FindlySDK(findlyConfig);
     this.resetFindlyTopDownSearchSDK(this.workflowService.selectedApp());
-    this.topDownSearchInstance.initializeTopDown(findlyConfig, 'top-down-search-background-div', this.searchExperienceConfig);
+    const currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails
+    const isFreePlan = currentSubscriptionPlan?.subscription?.planName==='Free'?true:false;
+    const searchConfig = {...this.searchExperienceConfig,freePlan:isFreePlan};
+    this.topDownSearchInstance.initializeTopDown(findlyConfig, 'top-down-search-background-div', searchConfig);
     $('body').addClass('sdk-body');
   }
 

@@ -1242,10 +1242,6 @@ export class StructuredDataComponent implements OnInit {
           }
           else {
             this.getStructuredDataList();
-            let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-            if (currentPlan?.subscription?.planId == 'fp_free') {
-              this.appSelectionService.updateUsageData.next('updatedUsage');
-            }
           } this.notificationService.notify('Deleted Successfully', 'success');
         }
       }, errRes => {

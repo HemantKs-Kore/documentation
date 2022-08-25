@@ -4,7 +4,7 @@
     <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
   </div>
 <!--check for enterprise plan-->
-<ng-container *ngIf="(currentSubscriptionPlan?.planName|lowercase)!=='enterprise'&&pageLoading">
+<!-- <ng-container>
     <div class="upgrade-experience">
       <div class="img-block">
         <img src="assets/icons/pricing/upgrade-experience.png">
@@ -12,10 +12,10 @@
       <div class="title">{{"connectors.empty_connectors"| translate}}</div>
       <button class="kr-sg-button-primary btn_lg" (click)="upgrade()">{{"connectors.upgrade"| translate}}</button>
     </div>
-  </ng-container>
+  </ng-container> -->
   <!--check for enterprise plan-->
   <!--If plan is enterprise show below container-->
-<div class="connectors-container" *ngIf="(currentSubscriptionPlan?.planName|lowercase)==='enterprise'&&pageLoading">
+<div class="connectors-container" *ngIf="pageLoading">
     <div class="seach_add_feild">
         <div class="title">{{'connectors.connector'|translate}}</div>
         <div class="d-flex align-items-center">
@@ -88,18 +88,8 @@
                                 </div>
                             </ng-container>
                         </ng-container>
-                    </div>
-                </perfect-scrollbar>
-                <!-- <div class="view-more-btn">
-                    <div>
-                        <button class="kr-sg-button-secondary btn_lg">{{'connectors.cancel_button'|translate}}</button>
-                        <button class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button>
-                    </div>
-                    <div class="">
-                        <button class="kr-sg-button-primary btn_lg">{{'connectors.save_changes_button'|translate}}</button>
-                        <button class="kr-sg-button-danger btn_lg"><i class="si-delete"></i>{{'connectors.remove_content_source_button'|translate}}</button>
-                    </div>
-                </div> -->
+                    </div>                   
+                </perfect-scrollbar>                
             </div>
         </div>
         <!---Add functionality-->
@@ -389,7 +379,7 @@
                                                 </header>
                                                 <div class="content-body cursor-pointer" *ngFor="let content of overViewData.content | filter: [ searchContent, 'title']">
                                                     <div class="col-4 p-0">{{content?.title}}</div>
-                                                    <div class="col-4 text-overflow" [title]="content?.url"><a [href]="content?.url" class="url-link" target="_blank">{{content?.url}}</a></div>
+                                                    <div class="col-4 text-overflow" [title]="content?.url" (click)="removeSpaces(content?.url)"><span class="url-link">{{content?.url}}</span></div>
                                                     <div class="col-4">{{content?.lastUpdatedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
                                                 </div>
                                                 <div *ngIf="overViewData.content?.length===0" class="no-content">{{'connectors.no_content'|translate}}</div>
@@ -414,7 +404,7 @@
                                             <input type="text" placeholder="Enter name here" class="input-text" [(ngModel)]="configurationObj.name">
                                         </div>
                                     </div>
-                                    <div class="sync-frequency-block">
+                                    <div class="sync-frequency-block d-none">
                                         <div class="sync-frequency-title">{{'connectors.sync_frequency'|translate}}</div>
                                         <div class="sync-frequency-form-block">
                                             <div class="sync-frequency-left">
@@ -458,6 +448,100 @@
                                                     <span>Estimated time</span> : <span>Few seconds</span>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="new-sync-frequency-block">
+                                        <div class="sync-frequency-header-block">
+                                            <div class="sync-frequency-title">{{'connectors.sync_frequency'|translate}}</div>
+                                            <!-- <div class="sync-frequency-time"><span class="align-middle"><i class="si-time-estimate pr-2"></i></span> Synced 26 Mins ago <span class="sync-estimate-time">Estimated time : </span><span class="sync-estimate-time">3 Mins</span></div> -->
+                                        </div>
+                                        <div class="sync-note">
+                                            <div><span><i class="si-info pr-1"></i></span></div>
+                                            <div class="sync-note-desc">Time required for syncing is usually longer,therefore a minimum time interval between consecutive syncs should atleast be an hour</div>
+                                        </div>
+
+                                        <div class="sync-every-block">
+                                            <div class="sync-every-title">Sync every</div>
+                                            <div class="sync-radio-block">
+                                                    <div class="sync-radio-block-flex">
+                                                        <div class="sync-radio-btn-width">
+                                                            <div class="kr-sg-radiobutton">
+                                                                <input id="radio-12" name="radio" class="radio-custom" type="radio" checked>
+                                                                <label for="radio-12" class="radio-custom-label"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="kr-sg-width-20">
+                                                            <div class="kr-sg-dropdowns">
+                                                                <div class="dropdown dropdown-open">
+                                                                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.days===0?'Days':syncCount.days}}</button>
+                                                                    <ul class="dropdown-menu content-menu">
+                                                                        <perfect-scrollbar class="scroll-search-field h-200">
+                                                                          <li class="p-0" *ngFor="let count of syncCount.count | slice:0:31" (click)="syncCount.days=count"><a>{{count}}</a></li>
+                                                                        </perfect-scrollbar>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                
+                                                    <div class="sync-radio-block-flex">
+                                                        <div class="sync-radio-btn-width">
+                                                            <div class="kr-sg-radiobutton">
+                                                                <input id="radio-13" name="radio" class="radio-custom" type="radio">
+                                                                <label for="radio-13" class="radio-custom-label"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="kr-sg-width-20">
+                                                            <div class="kr-sg-dropdowns">
+                                                                <div class="dropdown dropdown-open">
+                                                                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.hours===0?'Hours':syncCount.hours}}</button>
+                                                                    <ul class="dropdown-menu content-menu">
+                                                                        <perfect-scrollbar class="scroll-search-field h-200">
+                                                                            <li class="p-0" *ngFor="let count of syncCount.count | slice:0:24" (click)="syncCount.hours=count"><a>{{count}}</a></li>
+                                                                          </perfect-scrollbar>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="kr-sg-width-20">
+                                                            <div class="kr-sg-dropdowns">
+                                                                <div class="dropdown dropdown-open">
+                                                                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.minutes===0?'Mins':syncCount.minutes}}</button>
+                                                                    <ul class="dropdown-menu content-menu">
+                                                                        <perfect-scrollbar class="scroll-search-field h-200">
+                                                                            <li class="p-0" *ngFor="let count of syncCount.count | slice:0:60" (click)="syncCount.minutes=count"><a>{{count}}</a></li>
+                                                                          </perfect-scrollbar>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </perfect-scrollbar>
+                            </div>
+                            <!--Jobs tab-->
+                            <div class="tab-pane active" *ngSwitchCase="'jobs'">
+                                <perfect-scrollbar class="tab-content-scroll-data">
+                                <div class="content-settings-tab-data">
+                                    <div class="content-data-table">
+                                        <div class="kr-sg-data-table">
+                                            <section class="table-content">
+                                                <header class="table-header">
+                                                    <div class="col-4 p-0">{{'connectors.title'|translate}}</div>
+                                                    <div class="col-4">{{'connectors.status'|translate}}</div>
+                                                    <div class="col-4">{{'connectors.started_at'|translate}}</div>
+                                                </header>
+                                                <div class="content-body cursor-pointer" *ngFor="let job of overViewData.jobs">
+                                                    <div class="col-4 p-0">{{job?.title|titlecase}}</div>
+                                                    <div class="col-4">{{job?.status|titlecase}}</div>
+                                                    <div class="col-4">{{job?.startedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
+                                                </div>
+                                                <div *ngIf="overViewData.jobs?.length===0" class="no-content">{{'connectors.no_job'|translate}}</div>
+                                            </section>                           
                                         </div>
                                     </div>
                                 </div>
@@ -527,5 +611,3 @@
         </div>
     </div>
 </kr-modal>
-
-<app-upgrade-plan #plans></app-upgrade-plan>

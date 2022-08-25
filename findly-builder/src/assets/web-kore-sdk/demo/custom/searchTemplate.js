@@ -877,6 +877,7 @@
           "id": 25,
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="siemens-template">\
+          <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
             <div class="siemens-list-template">\
               <div class="icon-with-title">\
@@ -904,6 +905,9 @@
               </div>\
               </div>\
               {{/each}}\
+              <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
+               <div>Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+            </div>\
               </div>\
           </script>',
           "layoutType": "l10",

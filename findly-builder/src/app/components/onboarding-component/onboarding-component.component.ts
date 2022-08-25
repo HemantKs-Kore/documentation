@@ -48,58 +48,58 @@ export class OnboardingComponentComponent implements OnInit {
         desc:'Add or Manage content to your Application from various sources available in SearchAssist.',
         icon:'assets/icons/onboarding/database.svg',
         color:'Blue',
-        link:''
+        link:'https://docs.kore.ai/searchassist/concepts/managing-content/introduction-to-content-sources/'
     },
     {
         title:'Manage Index Configuration',
         desc:'Configure Index and Organize data to enable quicker search responses to your end users quieries',
         icon:'assets/icons/onboarding/book.svg',
         color:'purple',
-        link:''
+        link:'https://docs.kore.ai/searchassist/concepts/managing-indices/introduction-to-indices/'
     },
     {
         title:'Configure Search Relevance',
         desc:'Fine tune your search results and add custom ranking to it inorder to better suit your business goals',
         icon:'assets/icons/onboarding/configure.svg',
         color:'Orange',
-        link:''
+        link:'https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/'
     },
     {
         title:'Design Search Experience',
         desc:'Design the look and feel of how your search results are to be displayed to your end user',
         icon:'assets/icons/onboarding/design-search.svg',
         color:'Skyblue',
-        link:''
+        link:'https://docs.kore.ai/searchassist/concepts/designing-search-experience/designing-search-experience/'
     },
     {
         title:'Running Experiments',
         desc:'Run experiments on multiple variants of index and search configurations to test which variant performs better',
         icon:'assets/icons/onboarding/acid.svg',
         color:'Green',
-        link:''
+        link:'https://docs.kore.ai/searchassist/concepts/experimenting-with-search-variants/introduction-to-experiments/'
     },
     {
         title:'Analyze Search Insights',
         desc:'Analyze actionable search insights on the performance of your Search Application',
         icon:'assets/icons/onboarding/search-insights.svg',
         color:'Skyskybule',
-        link:''
+        link:'https://docs.kore.ai/searchassist/concepts/analyzing-performance/analyzing-search-performance/'
     }]
 },
-{
-    title:"What's new",
-    desc:"Check out what's new in the latest release of SearchAssist",
-    icon:'assets/icons/onboarding/whatsnew.svg',
-    class:'whats-new',
-    arrow:'up',
-    childData:[{
-        title:'Title',
-        desc:'Description',
-        icon:'assets/icons/onboarding/database.svg',
-        color:'Blue',
-        link:''
-    }]
-},
+// {
+//     title:"What's New",
+//     desc:"Check out what's new in the latest release of SearchAssist",
+//     icon:'assets/icons/onboarding/whatsnew.svg',
+//     class:'whats-new',
+//     arrow:'up',
+//     childData:[{
+//         title:'We have added below features',
+//         desc:'Support to Confluence and ServiceNow Connecters',
+//         icon:'assets/icons/onboarding/database.svg',
+//         color:'Blue',
+//         link:'https://docs.kore.ai/searchassist/searchassist/overview/'
+//     }]
+// },
 {
     title:"Help and Documentation",
     desc:"Explore our usage guides, in-depth How-to's and API references",
@@ -107,11 +107,11 @@ export class OnboardingComponentComponent implements OnInit {
     class:'help-doc',
     arrow:'up',
     childData:[{
-        title:'Title',
-        desc:'Description',
+        title:'Help and Support',
+        desc:'Click here for the documentation link',
         icon:'assets/icons/onboarding/database.svg',
         color:'Blue',
-        link:''
+        link:'https://docs.kore.ai/searchassist/searchassist/overview/'
     }]
 },
 {
@@ -121,8 +121,8 @@ export class OnboardingComponentComponent implements OnInit {
     class:'contactus',
     arrow:'up',
     childData:[{
-        title:'Title',
-        desc:'Description',
+        title:'Contact Us',
+        desc:'Please contact support@kore.ai for any queries',
         icon:'assets/icons/onboarding/database.svg',
         color:'Blue',
         link:''
@@ -160,7 +160,7 @@ faqData = [
 //    }]
 // },
 {
-   display:"Source",
+   display:"Sources",
    key:"source",
    icon:"",
    childData:[
@@ -352,12 +352,7 @@ faqData = [
    key:"index",
    icon:"",
    childData:[
-  //   {
-  //    ques:"What is a workbench?",
-  //    ans:"these are the answer",
-  //    link:""
 
-  //  },
    {
     ques:"What are the different pipelines available in the workbench?",
     ans:"these are the answer",
@@ -425,7 +420,7 @@ faqData = [
 }]
 },
 {
-   display:"Stopwords",
+   display:"Stop Words",
    key:"stopWords",
    icon:"",
    childData:[{
@@ -465,7 +460,7 @@ faqData = [
 }]
 },
 {
-   display:"Result Ranking",
+   display:"Results Ranking",
    key:"resultranking",
    icon:"",
    childData:[{
@@ -505,15 +500,10 @@ faqData = [
 //    }]
 // },
 {
-   display:"Dash Boards",
+   display:"Dashboards",
    key:"dashboard",
    icon:"",
    childData:[
-  //   {
-  //      ques:"What are the Questions?",
-  //      ans:"these are the answer",
-  //      link:""
-  //  },
     {
       ques:"How do I check metrics for a particular date range?",
       ans:"these are the answer",
@@ -581,8 +571,8 @@ faqData = [
   ]
 },
 {
-   display:"Settings",
-   key:"settings",
+   display:"General Settings",
+   key:"generalSettings",
    icon:"",
    childData:[
     {
@@ -596,11 +586,21 @@ faqData = [
     ans:"these are the answer",
     link:"https://docs.kore.ai/searchassist/administration/managing-channels-2/#Small_Talk"
    },
-
   ]
 },
 {
-   display:"Credentials-List",
+  display:"Channels",
+  key:"settings",
+  icon:"",
+  childData:[
+   {
+      ques:"How to add/configure channels?",
+      ans:"these are the answer",
+      link:"https://docs.kore.ai/searchassist/administration/managing-channels-3/"
+  }]
+},
+{
+   display:"Credentials List",
    key:"credentials-list",
    icon:"",
    childData:[
@@ -615,12 +615,18 @@ faqData = [
 //    display:"Actions",
 //    key:"actions",
 //    icon:"",
-//    childData:[{
-//        ques:"What are the Questions?",
+//    childData:[
+//     {
+//        ques:"What are bot actions?",
 //        ans:"these are the answer",
-//        link:""
-
-//    }]
+//        link:"https://docs.kore.ai/searchassist/concepts/managing-content/introduction-to-content-sources/"
+//     },
+//     {
+//       ques:"How to integrate a bot to SearchAssist as a content?",
+//       ans:"these are the answer",
+//       link:"https://docs.kore.ai/searchassist/concepts/managing-content/linking-your-virtual-assistant/"
+//    }
+//   ]
 // },
 // {
 //    display:"SmallTalk",
@@ -633,17 +639,7 @@ faqData = [
 
 //    }]
 // },
-// {
-//    display:"General Settings",
-//    key:"generalSettings",
-//    icon:"",
-//    childData:[{
-//        ques:"What are the Questions?",
-//        ans:"these are the answer",
-//        link:""
 
-//    }]
-// },
 {
    display:"Field Management",
    key:"FieldManagementComponent",
@@ -662,7 +658,7 @@ faqData = [
 }]
 },
 {
-   display:"SearchInterface",
+   display:"Search Interface",
    key:"searchInterface",
    icon:"",
    childData:[{
@@ -684,7 +680,7 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
 }]
 },
 {
-   display:"Result-Template",
+   display:"Result Template",
    key:"resultTemplate",
    icon:"",
    childData:[{
@@ -718,7 +714,7 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
 }]
 },
 {
-   display:"Team-Management",
+   display:"Team Management",
    key:"team-management",
    icon:"",
    childData:[{
@@ -727,7 +723,7 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
        link:"https://docs.kore.ai/searchassist/managing-searchassist-apps/collaboration/"
 
    }]
-}
+},
 // {
 //    display:"Search Experience",
 //    key:"search-experience",
@@ -739,72 +735,105 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
 
 // }]
 // },
-// {
-//    display:"Pricing",
-//    key:"pricing",
-//    icon:"",
-//    childData:[{
-//        ques:"What are the Questions?",
-//        ans:"these are the answer",
-//        link:""
+{
+  display:"Pricing",
+  key:"pricing",
+  icon:"",
+  childData:[{
+      ques:"How does SearchAssist’s Pricing Work ?",
+      ans:"SearchAssist offers a free and paid subscription plan. You can choose from any of the subscription plans based on your needs. Every subscription comes with a predefined number of documents and number of end-user queries/searches.",
+      link:""
 
-//    }]
-// },
-// {
-//    display:"Invoices",
-//    key:"invoices",
-//    icon:"",
-//    childData:[{
-//        ques:"What are the Questions?",
-//        ans:"these are the answer",
-//        link:""
+  },
+  {
+   ques:"What happens if I exceed the document limit or query limit on the free forever plan?",
+   ans:"We understand that every business is different and their needs will be different. All our subscription plans allow overages and you can pick an overage bundle that suits your needs. You can choose to increase the number of documents or queries or both, while continuing with your subscription.",
+   link:""
+  },
+  {
+   ques:"How are usage of queries calculated?",
+   ans:"A query in SearchAssist accounts for any search request made to our engine which includes searching for a query, applying for filters and selecting facets. Query Suggestions and Live Results do not count towards the usage of Queries",
+   link:""
+  }
+ ]
+},
+{
+  display:"Invoices",
+  key:"invoices",
+  icon:"",
+  childData:[{
+   ques:"How does SearchAssist’s Pricing Work ?",
+   ans:"SearchAssist offers a free and paid subscription plan. You can choose from any of the subscription plans based on your needs. Every subscription comes with a predefined number of documents and number of end-user queries/searches.",
+   link:""
 
-//    }]
-// },
-// {
-//    display:"UsageLog",
-//    key:"usageLog",
-//    icon:"",
-//    childData:[{
-//        ques:"What are the Questions?",
-//        ans:"these are the answer",
-//        link:""
+   },
+   {
+   ques:"What happens if I exceed the document limit or query limit on the free forever plan?",
+   ans:"We understand that every business is different and their needs will be different. All our subscription plans allow overages and you can pick an overage bundle that suits your needs. You can choose to increase the number of documents or queries or both, while continuing with your subscription.",
+   link:""
+   },
+   {
+   ques:"How are usage of queries calculated?",
+   ans:"A query in SearchAssist accounts for any search request made to our engine which includes searching for a query, applying for filters and selecting facets. Query Suggestions and Live Results do not count towards the usage of Queries",
+   link:""
+}]
+},
+{
+  display:"UsageLog",
+  key:"usageLog",
+  icon:"",
+  childData:[{
+   ques:"How does SearchAssist’s Pricing Work ?",
+   ans:"SearchAssist offers a free and paid subscription plan. You can choose from any of the subscription plans based on your needs. Every subscription comes with a predefined number of documents and number of end-user queries/searches.",
+   link:""
 
-//    }]
-// }
+ },
+ {
+ ques:"What happens if I exceed the document limit or query limit on the free forever plan?",
+ ans:"We understand that every business is different and their needs will be different. All our subscription plans allow overages and you can pick an overage bundle that suits your needs. You can choose to increase the number of documents or queries or both, while continuing with your subscription.",
+ link:""
+ },
+ {
+ ques:"How are usage of queries calculated?",
+ ans:"A query in SearchAssist accounts for any search request made to our engine which includes searching for a query, applying for filters and selecting facets. Query Suggestions and Live Results do not count towards the usage of Queries",
+ link:""
+ }
+ ]
+}
 ];
 
-  constructor(
-    private appSelectionService: AppSelectionService,
-    private notificationService: NotificationService,
-    private service: ServiceInvokerService,
-    public router: Router,) {
-
-   }
+  constructor( private appSelectionService: AppSelectionService, private notificationService: NotificationService, private service: ServiceInvokerService,public router: Router,) {}
 
   ngOnInit(): void {
       this.getVersion();
       this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourConfigData = res;
       this.tourData = res.onBoardingChecklist;
-      this.checkList=[{ step: 'Step 1',title:'Add Data',desc:'Data is fetched from various sources and ingested into the application for accurate search results', imgURL:'assets/icons/onboarding/database.svg',route:'/source',tourdata:this.tourData[0].addData, videoUrl:'https://www.w3schools.com/tags/movie.mp4'},
-      { step: 'Step 2',title:'Review Index configurations',desc:'Index configurations allows you to configure the fields, traits,keywords or create workbench pipelines to suit your business needs.', imgURL: 'assets/icons/onboarding/review-index.svg',route:'/FieldManagementComponent',tourdata:this.tourData[1].indexData, videoUrl:'https://www.w3schools.com/tags/movie.mp4'},
-      {step: 'Step 3',title:'Review Search Configurations',desc:'Search Configuration allows you to improve search relevance by configuring  syonyms, weights, stop words, re-ranking results, adding rules or facets.', imgURL: 'assets/icons/onboarding/review-search.svg',route:'/weights',tourdata:this.tourData[2].optimiseSearchResults,  videoUrl:'https://www.w3schools.com/tags/movie.mp4'},
-      {step: 'Step 4',title:'Design Search Experience',desc:'SearchAssist allows you to customise the search experiance and design the search interface based on the business context.', imgURL: 'assets/icons/onboarding/search-design.svg',route:'/search-experience',tourdata:this.tourData[3].designSearchExperience,  videoUrl:'https://www.w3schools.com/tags/movie.mp4'},
-      {step: 'Step 5',title:'Simulate Application',desc:'SearchAssist allows you to validate the configuration and search experience before deploying the app by just clicking on the Preview button.',
-      imgURL: 'assets/icons/onboarding/acid-surface.svg',route:'test' ,tourdata:this.tourData[4].testApp, videoUrl:'https://www.w3schools.com/tags/movie.mp4'},
+      this.checkList=[{ step: 'Step 1',title:'Add Data',desc:'Data is fetched from various sources and ingested into the application for accurate search results', imgURL:'assets/icons/onboarding/database.svg',route:'/source',tourdata:this.tourData[0].addData, videoUrl:'https://www.w3schools.com/tags/movie.mp4', docUrl:'https://docs.kore.ai/searchassist/concepts/managing-content/introduction-to-content-sources/'},
+      { step: 'Step 2',title:'Review Index Configurations',desc:'Index configurations allows you to configure the fields, traits,keywords or create workbench pipelines to suit your business needs.', imgURL: 'assets/icons/onboarding/review-index.svg',route:'/FieldManagementComponent',tourdata:this.tourData[1].indexData, videoUrl:'https://www.w3schools.com/tags/movie.mp4', docUrl:'https://docs.kore.ai/searchassist/concepts/managing-indices/introduction-to-indices/'},
+      {step: 'Step 3',title:'Review Search Configurations',desc:'Search Configuration allows you to improve search relevance by configuring  synonyms, weights, stop words, re-ranking results, adding rules or facets.', imgURL: 'assets/icons/onboarding/review-search.svg',route:'/weights',tourdata:this.tourData[2].optimiseSearchResults,  videoUrl:'https://www.w3schools.com/tags/movie.mp4', docUrl:'https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/'},
+      {step: 'Step 4',title:'Design Search Experience',desc:'SearchAssist allows you to customise the Search Experiance and design the Search Interface based on the business context.', imgURL: 'assets/icons/onboarding/search-design.svg',route:'/search-experience',tourdata:this.tourData[3].designSearchExperience,  videoUrl:'https://www.w3schools.com/tags/movie.mp4', docUrl:'https://docs.kore.ai/searchassist/concepts/designing-search-experience/designing-search-experience/'},
+      {step: 'Step 5',title:'Simulate Application',desc:'SearchAssist allows you to validate the Configuration and Search Experience before deploying the app by just clicking on the Preview button.',
+      imgURL: 'assets/icons/onboarding/acid-surface.svg',route:'test' ,tourdata:this.tourData[4].testApp, videoUrl:'https://www.w3schools.com/tags/movie.mp4', docUrl:'https://docs.kore.ai/searchassist/concepts/testing-as-you-build/testing-as-you-build/'},
       {step: 'Step 6',title:'Deploy your application',desc:'Configure your application to connect to any of the channels available',
-      imgURL:'assets/icons/onboarding/hand.svg',route:'/settings',tourdata:this.tourData[5].fineTuneRelevance, videoUrl:'https://www.w3schools.com/tags/movie.mp4'}];
+      imgURL:'assets/icons/onboarding/hand.svg',route:'/settings',tourdata:this.tourData[5].fineTuneRelevance, videoUrl:'https://www.w3schools.com/tags/movie.mp4', docUrl:'https://docs.kore.ai/searchassist/deploying-searchassist-app/developers-corner/'}];
       this.trackChecklist();
     })
   }
   triggerFaq() {
     this.currentRouteData=this.currentRouteData.replace("/", "");
-    this.faqData.forEach(element => {
-      if(this.currentRouteData==element.key){
-       this.triggerChildFaq(element);
-      }
-    });
+    let index = this.faqData.findIndex(el => el.key == this.currentRouteData)
+    if(index < 0) {
+      // this.triggerChild()
+      this.supportParentfaq=true;
+      this.closeFaqSearch()
+    } else {
+      this.faqData.forEach(element => {
+        if(this.currentRouteData==element.key){
+         this.triggerChildFaq(element);
+        }
+      });
+    }
   }
   triggerChild(data) {
     this.supportParentData = false
@@ -814,8 +843,8 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
   triggerChildFaq(faq) {
     this.supportParentfaq = false
     this.supportChildfaq = faq.childData;
-     this.breadcrumbNameFaq = faq.display;
-  }
+    this.breadcrumbNameFaq = faq.display;
+}
   // openAccordiandata(index) {
   //   $(document).ready(function(){
   //     $(".data"+index).mouseenter(function(){

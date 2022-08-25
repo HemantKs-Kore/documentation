@@ -24,7 +24,7 @@
             <span>App Checklist</span>
           </a>
         </li>
-        <div class="version">v{{appVersion}}</div>
+        <div class="version">V{{appVersion}}</div>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
@@ -224,11 +224,11 @@
                         </div>
                       </a>
                   </div>
-                  <!-- <div id="collapseFaq_{{i}}" class="collapse" data-parent="#accordion">
+                  <div *ngIf="!childfaq.link"  id="collapseFaq_{{i}}" class="collapse" data-parent="#accordion">
                     <div class="card-body">
-                      {{childfaq.ans}}<a>Click here</a> to watch reference video
+                      {{childfaq.ans}}
                     </div>
-                  </div> -->
+                  </div>
                 </div>
               </div>
             </div>
@@ -244,15 +244,15 @@
               <div class="status-bar-title">Status Bar</div>
               <label class="kr-sg-toggle">
                 <input type="checkbox" [(ngModel)]="statusSlider" (change)="toggleSlider()" >
-                <div class="slider"><span class="enabled">Show</span><span class="disabled">Hide</span></div>
+                <div class="slider"><span class="enabled">Show</span><span class="disabled">Show</span></div>
               </label>
             </div>
           </div>
           <perfect-scrollbar class="scroll-content-data">
             <div class="data-inner-content">
               <div id="accordion" class="applist-acc-data" >
-                <div class="accordion-applist completed-state" *ngFor="let list of checkList;let i = index">
-                   <div class="card_header"> <!--(mouseenter)="openAccordiandata(i)" (mouseleave)="playPause(i)" -->
+                <div class="accordion-applist completed-state" [ngClass]="{'completed-tour-state': tourData && list.tourdata}" *ngFor="let list of checkList;let i = index">
+                   <div class="card_header parent-data{{i}}"> <!--(mouseenter)="openAccordiandata(i)" (mouseleave)="playPause(i)" -->
                   <a class="card_link collapsed  data{{i}}" data-toggle="collapse"> <!-- href="#collapse_{{i}} -->
                     <div class="indication-block" *ngIf="tourData && !list.tourdata">
                       <div class="dummy-border-left"></div>
@@ -267,8 +267,8 @@
                     </div>
                     <div class="desc-text">{{list.desc}} </div>
                     <div class="actions-link">
-                      <a class="link-name" (click)="gotoRoutes(list.route)">Guide Me <i class="si-externallink"></i></a>
-                      <a class="link-name">Documentation <i class="si-externallink"></i></a>
+                      <a class="link-name" (click)="gotoRoutes(list.route)">Guide Me <i  class="si-externallink"></i></a>
+                      <a class="link-name" (click)="goToLink(list.docUrl)">Documentation <i  class="si-externallink"></i></a>
                     </div>
                     <!-- <div class="arrow-icon">
                       <i class="si-carrotup"></i>

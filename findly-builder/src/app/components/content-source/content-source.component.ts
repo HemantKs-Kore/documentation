@@ -14,15 +14,12 @@ import * as _ from 'underscore';
 import * as moment from 'moment';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { fromEvent, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {  Subject } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 
 declare var require: any
@@ -69,6 +66,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   currentView = 'list'
   searchSources = '';
   pagesSearch = '';
+  lastPageSearch = '';
+  lastData : any;
   selectedApp: any = {};
   resources: any = [];
   polingObj: any = {};
@@ -90,16 +89,26 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     document: 'Doc'
   }
   statusObj: any = {
-    failed: { name: 'Failed', color: '#DD3646' },
-    successfull: { name: 'Successfull', color: '#28A745' },
-    success: { name: 'Success', color: '#28A745' },
-    queued: { name: 'In-Queue', color: '#0D6EFD' },
-    running: { name: 'In Progress', color: '#0D6EFD' },
-    inprogress: { name: 'In Progress', color: '#0D6EFD' },
+    failed: { name: 'Failed', color: 'red' },
+    FAILED: { name: 'Failed', color: 'red' },
+    successfull: { name: 'Successfull', color: 'green' },
+    SUCCESSFULL: { name: 'Successfull', color: 'green' },
+    success: { name: 'Success', color: 'green' },
+    SUCCESS: { name: 'Success', color: 'green' },
+    queued: { name: 'In-Queue', color: 'blue' },
+    QUEUED: { name: 'In-Queue', color: 'blue' },
     validation: { name: 'In-Queue', color: '#0D6EFD' },
+    VALIDATION: { name: 'In-Queue', color: '#0D6EFD' },
     scheduled: { name: 'Validated', color: '#0D6EFD' },
+    SCHEDULED: { name: 'Validated', color: '#0D6EFD' },
     halted: { name: 'Stopped', color: '#DD3646' },
-    configured: { name: 'Validated', color: '#202124' }
+    HALTED: { name: 'Stopped', color: '#DD3646' },
+    running: { name: 'In Progress', color: 'blue' },
+    RUNNING: { name: 'In Progress', color: 'blue' },
+    configured: { name: 'Validated', color: 'blue' },
+    CONFIGURED: { name: 'Validated', color: 'blue' },
+    inProgress: { name: 'In Progress', color: 'blue' },
+    INPROGRESS: { name: 'In Progress', color: 'blue' },
   };
   executionObj: any = {
     'Execution Successful': {
@@ -266,7 +275,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   };
   loadImageText: boolean = false;
   imageLoad() {
-    console.log('image load ')
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
@@ -415,7 +423,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('get.source.list', quaryparms, payload).subscribe(res => {
       this.resources = res.sources;
-      console.log(this.resources, res)
       this.totalRecord = res.totalCount || 0;
       //  this.resourcesDoc=this.resources[0].fileMeta;
       //element.advanceSettings.scheduleOpts.interval.intervalType
@@ -596,13 +603,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
       this.oldQuedJob = [];
       const queuedJobs = _.filter(res, (source) => {
-        //this.resourcesStatusObj[source.resourceId] = source;
-        if (source.status == 'success') {
-          let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-          if (currentPlan?.subscription?.planId == 'fp_free') {
-            this.appSelectionService.updateUsageData.next('updatedUsage');
-          }
-        }
         if (source.status == 'running' || source.status == 'queued') {
           if (source.numPages == 0 || source.numPages == '') {
             this.oldQuedJob.push(source._id);
@@ -700,11 +700,19 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       } else {
         this.crwalOptionLabel = 'Crawl Everything'
       }
-      if (data.length || this.pagesSearch) {
+      let searchEl = document.getElementsByName('pagesSearch')[0]
+      let isFocused = (document.activeElement === searchEl);
+      this.lastPageSearch = this.pagesSearch;
+      this.lastData = data
+      console.log(data.length, this.pagesSearch, isFocused)
+      if (data.length || this.pagesSearch || isFocused ) {
         this.swapSlider('page');
       }
       else {
-        this.swapSlider('config')
+        // console.log(data.length, this.pagesSearch, 'configOut..')
+        if(data.length == 0 && this.pagesSearch.length == 0)  { this.swapSlider('config')
+        // console.log(data.length, this.pagesSearch, 'config..')
+      }
       }
       this.clicksViews('file')
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
@@ -901,7 +909,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   pageination(pages, action) {
     // let count = 0;
-    // let divisor = Math.floor(pages/perPage) 
+    // let divisor = Math.floor(pages/perPage)
     // let remainder = pages%perPage;
     // if(remainder>0){
     //   this.btnCount = divisor +1;
@@ -1045,6 +1053,22 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.editDocObj.title = this.selectedSource.name;
     this.editDocObj.desc = this.selectedSource.desc
   }
+  changeTittle() {
+    this.isEditDoc = true;
+    this.editDocObj.title = this.selectedSource.name;
+  }
+  updateTittle() {
+    this.isEditDoc = false;
+    this.selectedSource.name = this.editDocObj.title;
+    this.docContent.sys_source_name = this.editDocObj.title;
+    // this.editDocObj.title = this.selectedSource.name;
+  }
+  cancelTittle(){
+    this.isEditDoc = false;
+    this.editDocObj.title = this.selectedSource.name;
+    this.editDocObj.title =  this.docContent.sys_source_name
+  }
+
   deleteDocument(from, record, event) {
     if (event) {
       event.stopImmediatePropagation();
@@ -1168,7 +1192,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       jobId: source.jobId
     }
     this.service.invoke('stop.crwaling', quaryparms).subscribe(res => {
-      this.notificationService.notify('Stoped Crawling', 'success');
+      this.notificationService.notify('Stopped Crawling', 'success');
       this.getSourceList();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to Stop Cwraling');
@@ -1186,7 +1210,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.isEditDoc = false;
       this.cancelDocDetails();
       this.getSourceList()
-      //} 
+      //}
       this.notificationService.notify('Source deleted successsfully', 'success');
       const deleteIndex = _.findIndex(this.resources, (pg) => {
         return pg._id === record._id;
@@ -1195,10 +1219,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.resources.splice(deleteIndex, 1);
       }
       this.closeStatusModal();
-      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-      if (currentPlan?.subscription?.planId == 'fp_free') {
-        this.appSelectionService.updateUsageData.next('updatedUsage');
-      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete source');
     });
@@ -1454,13 +1474,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     //  delete  request.contentSource;
     // }
     //  if (request.recentStatus == 'all') {
-    //   delete request.recentStatus; 
+    //   delete request.recentStatus;
     // }
     // if (this.searchSources === '') {
     //   delete request.search;
     //  }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
-      console.log(res, 'Filters')
       this.statusArr = [...res.recentStatus];
       this.docTypeArr = [...res.contentSource];
     }, errRes => {
@@ -1496,9 +1515,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       delete request.search;
     }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
-      console.log(res, 'Filters')
-      this.statusArr = [...res.recentStatus];
-      this.docTypeArr = [...res.contentSource];
+      // this.statusArr = [...res.recentStatus];
+      // this.docTypeArr = [...res.contentSource];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get filters');
     });
@@ -1724,7 +1742,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       crawler.advanceOpts.blockedOpt = false;
       crawler.advanceOpts.blockedURLs = [];
     }
-    // crawler.resourceType = resourceType; 
+    // crawler.resourceType = resourceType;
     payload = crawler;
     // console.log(payload);
 
@@ -1839,11 +1857,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       //   let date = this.selectedSource.advanceSettings.scheduleOpts.date;
       //   if(String(date).split(" ")) this.selectedSource.advanceSettings.scheduleOpts.date =  String(date).split(" ")[1] + " " + String(date).split(" ")[2]  + " " + String(date).split(" ")[3];
       // }
-      // if(this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType && 
+      // if(this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType &&
       //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType != "Custom"){
       //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue = {};
       // }
-      // if(this.selectedSource.advanceSettings.scheduleOpts.interval && 
+      // if(this.selectedSource.advanceSettings.scheduleOpts.interval &&
       //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue &&
       //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn &&
       //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate){
@@ -2089,6 +2107,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.showSearch = !this.showSearch
   }
+  closeSearch() {
+    this.pagesSearch='';
+    this.showSearch = !this.showSearch;
+    this.getCrawledPages(10,0);
+  }
   focusoutSearch(isSearchSource?) {
     if (this.activeClose) {
       if (isSearchSource) {
@@ -2099,6 +2122,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.activeClose = false;
     }
     this.showSearch = !this.showSearch;
+    this.getSourceList(null,this.searchSources,'search')
   }
   focusinSearch(inputSearch) {
     setTimeout(() => {

@@ -107,7 +107,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Crawl Web Domain', routeId: '/source', quaryParms: { sourceType: 'contentWeb' } },
     { displayName: 'Extract Document', routeId: '/source', quaryParms: { sourceType: 'contentDoc' } },
     { displayName: 'Add FAQs Manually', routeId: '/source', quaryParms: { sourceType: 'manual' } },
-    { displayName: 'Extract FAQs from Document', routeId: '/source', quaryParms: { sourceType: 'faqDoc' } },
+    { displayName: 'Extract FAQs from Document', routeId: '/faqs', quaryParms: { sourceType: 'faqDoc' } },
     { displayName: 'Extract FAQs from Webdomain', routeId: '/source', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'FAQs', routeId: '/faqs', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'Content', routeId: '/content', quaryParms: { sourceType: 'faqWeb' } },
@@ -137,7 +137,8 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Invoices', routeId: '/invoices', quaryParms: {} },
     { displayName: 'Connectors', routeId: '/connectors', quaryParms: {} },
     { displayName: 'Results Ranking', routeId: '/resultranking', quaryParms: {} }
-  ]
+  ];
+  menuItems:any={sources:['/source','/content','/faqs','/botActions','/structuredData','/connectors'],indices:['/FieldManagementComponent','/traits','/index','/weights','/synonyms','/stopWords','/resultranking','/facets','/rules','/search-experience','/resultTemplate'],anlytics:['/dashboard','/userEngagement','/searchInsights','/experiments','/resultInsights'],manage:['/settings','/credentials-list','/actions','/team-management','/smallTalk','/pricing','/usageLog','/invoices','/generalSettings']};
   public dockersList: Array<any> = [];
   public pollingSubscriber: any;
   public dockServiceSubscriber: any;
@@ -155,7 +156,7 @@ export class AppHeaderComponent implements OnInit {
   notifyAccount: boolean = false;
   notifyAccountInfo: any;
   isJoinedClicked: boolean = false;
-
+  isRouteDisabled:boolean = false;
   constructor(
     private authService: AuthService,
     public headerService: SideBarService,
@@ -182,11 +183,10 @@ export class AppHeaderComponent implements OnInit {
       this.tourData = res.onBoardingChecklist;
       this.trackChecklist();
     })
-    // this.selectedApp = this.workflowService.selectedApp();
-    // this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
       if (res.name != undefined) {
         this.analyticsClick(res.path, false);
+        this.isRouteDisabled = res?.disable;
       }
       if (res?.isDemo == true) {
         this.viewCheckList();
@@ -436,6 +436,12 @@ export class AppHeaderComponent implements OnInit {
           if (!this.WorkspaceList[index].displayName) {
             this.WorkspaceList[index]['displayName'] = ''
           }
+          if (!this.WorkspaceList[index].accountName) {
+            this.WorkspaceList[index]['accountName'] = ''
+          }
+          if (!this.WorkspaceList[index].userFullName) {
+            this.WorkspaceList[index]['userFullName'] = ''
+          }
           const splitBy = '/';
           if (this.WorkspaceList[index]['accountName'].includes('/')) {
             this.WorkspaceList[index]['accountName'] = this.WorkspaceList[index]['accountName'].split(splitBy)[1]
@@ -546,24 +552,18 @@ export class AppHeaderComponent implements OnInit {
   }
   analyticsClick(menu, skipRouterLink?) {
     this.mainMenu = menu;
-    if (menu == '/metrics' ||
-      menu == '/dashboard' ||
-      menu == '/userEngagement' ||
-      menu == '/searchInsights' ||
-      menu == '/experiments' ||
-      menu == '/resultInsights' ||
-      menu == '/summary' ||
-      menu == '/experiments') {
+    if (this.menuItems?.anlytics?.includes(menu) ||menu == '/summary') {
       this.showMainMenu = false;
     } else {
       this.showMainMenu = true;
-      if (menu == '/source' || menu == '/content' || menu == '/faqs' || menu == '/botActions' || menu == '/structuredData' || menu == '/connectors') {
+      if (this.menuItems?.sources?.includes(menu)) {
         this.sourcesFlag = true;
         this.menuFlag = false;
       }
-      else if (menu == '/settings' || menu == '/credentials-list' || menu == '/actions' || menu == '/team-management' || menu == '/smallTalk' || menu == '/pricing' || menu == '/usageLog' || menu == '/invoices' || menu == '/generalSettings') {
+      else if (this.menuItems?.manage?.includes(menu)) {
         this.menuFlag = true;
         this.sourcesFlag = false;
+        if(this.isRouteDisabled) menu='/pricing';
       }
       else {
         this.menuFlag = false;
@@ -580,10 +580,6 @@ export class AppHeaderComponent implements OnInit {
     this.showMenu.emit(this.showMainMenu)
     this.settingMenu.emit(this.menuFlag)
     this.showSourceMenu.emit(this.sourcesFlag);
-    let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-    if ((menu == '/content' || menu == "/index") && currentPlan?.subscription?.planId == 'fp_free') {
-      this.appSelectionService.updateUsageData.next('updatedUsage');
-    }
   }
   logoutClick() {
     this.authService.logout();
@@ -844,19 +840,20 @@ export class AppHeaderComponent implements OnInit {
       if (status === 'HALTED' || status === 'halted') {
         return 'Stopped';
       }
-      else if (status === 'QUEUED') {
+      else if (status === 'QUEUED' || status === 'queued') {
         return 'In-Queue';
       }
       /**updated condition in line no 617 on 24/02,added condition for running since in_progress is updated to running as per new api contract  */
       // else if (status === 'IN_PROGRESS' || status === 'validation') {
-      else if ((status === 'IN_PROGRESS' || status === 'INPROGRESS' || status === 'running') || status === 'validation') {
+      else if ((status === 'IN_PROGRESS' || status === 'INPROGRESS' || status === 'in_progress' || status === 'inprogress'
+                || status === 'running' || status === 'RUNNING') || status === 'validation' || status === 'VALIDATION') {
         return 'In-progress';
       }
       /**made code updates in line no 630 on 03/01 added new condition for FAILED,since FAILURE is updated to FAILED as per new api contract*/
       // else if (status === 'FAILURE') {
-      else if (status === 'FAILURE' || status === 'FAILED') {
-        return 'Failed'
-      }
+        else if (status === 'FAILURE' || status === 'FAILED' || status === 'failed' || status === 'failure') {
+          return 'Failed'
+        }
     }
     else {
       /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is upadted to success*/
@@ -1068,9 +1065,10 @@ export class AppHeaderComponent implements OnInit {
     this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
     this.domain = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
     if (this.selectAccountDetails == null) {
-      for (let i = 0; i < this.associatedAccounts.length; i++) {
-        if (this.associatedAccounts[i].status == "active") {
-          this.selectAccountDetails = this.associatedAccounts[i];
+      for (let i = 0; i < this.currentAppControlList.associatedAccounts.length; i++) {
+        if (this.currentAppControlList.associatedAccounts[i].status == "active") {
+          this.associatedAccounts = this.currentAppControlList.associatedAccounts;
+          this.selectAccountDetails = this.currentAppControlList.associatedAccounts[i];
         }
 
       }
@@ -1415,7 +1413,7 @@ export class AppHeaderComponent implements OnInit {
       $("#enterAppName").css("border-color", this.newApp.name != '' ? "#BDC1C6" : "#DD3646");
     }
   }
-  /**opening slider component and closing slider component  */
+  /**opening slider component and closing slider  component  */
   openUserMetaTagsSlider() {
     this.currentRouteData = this.router.url;
     if (this.onboardingOpened == false) {
@@ -1563,6 +1561,10 @@ export class AppHeaderComponent implements OnInit {
       updateAssociatedAccounts.currentAccount.associatedAccounts = this.associatedAccounts;
       window.localStorage.setItem('jStorage', JSON.stringify(updateAssociatedAccounts));
       this.isJoinedClicked = false;
+
+      for (let i = 0; i < this.associatedAccounts.length; i++) {
+        this.extractAssociatedisplayname(this.associatedAccounts[i].accountName, i)
+      }
     },
       errRes => {
         console.log("error", errRes);

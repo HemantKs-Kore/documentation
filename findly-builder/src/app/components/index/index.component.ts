@@ -103,6 +103,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     exclude_document: {
       name: 'Exclude Document'
     },
+    snippet_extraction: { 
+      name: 'Snippet Extraction'
+    }
   }
   entityNlp = [
     // Reverting for FLY - 4688
@@ -443,6 +446,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           value: '',
         }
       },
+      snippet_extraction:{
+        defaultValue: {
+          target_field: ''
+        }
+      }
     }
     if (saveConfig && this.selectedStage && this.selectedStage.type === 'custom_script' && this.selectedStage.config && this.selectedStage.config.mappings && this.selectedStage.config.mappings.length) {
       if (!this.newMappingObj.custom_script) {
@@ -514,6 +522,13 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.newMappingObj.exclude_document && this.newMappingObj.exclude_document.defaultValue) {
         if (this.newMappingObj.exclude_document.defaultValue.script) {
           this.addFiledmappings(this.newMappingObj.exclude_document.defaultValue);
+        }
+      }
+    }
+    if (this.selectedStage && this.selectedStage.type === 'snippet_extraction') {
+      if (this.newMappingObj.snippet_extraction && this.newMappingObj.snippet_extraction.defaultValue) {
+        if (this.newMappingObj.snippet_extraction.defaultValue.script) {
+          this.addFiledmappings(this.newMappingObj.snippet_extraction.defaultValue);
         }
       }
     }
@@ -706,10 +721,16 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           tempStageObj.config.mappings = tempConfig;
         }
       }
+      if(tempStageObj && tempStageObj.type === 'snippet_extraction'){
+        tempStageObj?.config?.mappings?.forEach(config => {
+         delete config?.target_field
+        });
+      }
       stagesArray.push(tempStageObj);
     });
     return stagesArray;
   }
+  
   checkForNewFields() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
@@ -1158,7 +1179,14 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         else {
           this.simulate();
         }
-
+      }
+      else if (this.selectedStage.type === 'snippet_extraction') {
+        if (save === true) {
+          this.saveConfig();
+        }
+        else {
+          this.simulate();
+        }
       }
       else if (this.selectedStage.type === 'field_mapping') {
         if (this.newMappingObj && this.newMappingObj.field_mapping && this.newMappingObj.field_mapping.defaultValue.operation === "set") {
@@ -1830,9 +1858,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.service.invoke('get.platformStages', quaryparms).subscribe(res => {
       // removing Duplicate value - temporary
       if (!this.defaultStageTypes.length) {
-
         for (let index = 0; index < res.stages.length; index++) {
-          if (index < 11 && res.stages[index].name !== 'FAQ Keyword Extraction')
+          if (index < 12 && res.stages[index].name !== 'FAQ Keyword Extraction')
             this.defaultStageTypes.push(res.stages[index])
         }
       }
@@ -2065,6 +2092,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       if (!map.target_field || !map.value) {
         return false;
       }
+    } else if (this.selectedStage.type == 'snippet_extraction') {
+      if (!map.source_field) {
+        return false;
+      }
     }
     return true;
   }
@@ -2203,7 +2234,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 100)
   }
   searchBySimulator() {
-    const filtered = this.getKeyByValue(this.simulateJson, this.searchSimulator);
+    const filtered = this.getKeyByValue(this.simulateJson.simulate_docs, this.searchSimulator);
     this.filteredSimulatorRes = JSON.stringify(filtered, null, ' ');
   }
   getKeyByValue(object, searchSimulator) {

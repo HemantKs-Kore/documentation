@@ -218,7 +218,7 @@
                     font-weight: normal;
                     font-size: 18px;
                     line-height: 22px;
-                    margin-top: 10px;
+                    margin-top: 3px;
                     margin-bottom: 20px;
                 }
                 .configuration{
@@ -835,6 +835,7 @@
                             }
                             .disableClass{
                                 background: #80808059;
+                                cursor: default !important;
                             }
                         }
                     }

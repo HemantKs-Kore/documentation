@@ -37,6 +37,7 @@ export class AppsListingComponent implements OnInit {
   confirmatiomAppPopRef: any;
   detailsPopUpRef: any;
   creatingInProgress = false;
+  appTypevalue:any;
   searchApp = '';
   apps: any = [];
   progressBar: any = [];
@@ -149,21 +150,24 @@ export class AppsListingComponent implements OnInit {
     });
     this.apps = apps;
   }
-  openApp(app) {
+  openApp(app,isUpgrade?) {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     const isDemo = this.appType == 'sampleData' ? true : false;
-    this.appSelectionService.openApp(app, isDemo);
+    this.appSelectionService.openApp(app, isDemo,isUpgrade);
     this.workflowService.selectedIndexPipelineId = '';
   }
   openBoradingJourney() {
-        this.headerService.openJourneyForfirstTime = true;
-      this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
-      this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
+    this.headerService.openJourneyForfirstTime = true;
+    this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
+    this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
+    this.mixpanel.postEvent('Welcome video Shown',{})
   }
   closeBoradingJourney() {
     if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
       this.onboardingpopupjourneyRef.close();
       this.mixpanel.postEvent('User Onboarding - Journey Cancelled', {});
+      this.mixpanel.postEvent('Welcome video Played',{})
+      this.mixpanel.postEvent('Explore App page',{})
     }
     // this.showBoarding = false;
   }
@@ -187,40 +191,54 @@ export class AppsListingComponent implements OnInit {
   }
   welcomeStep(type) {
     this.appType = type;
-    this.steps = 'displayApp';
-    // this.displayApp = true;
     this.hideWelcomepage = false;
+    if( type =='selfExplore'){
+    this.steps = 'displayApp';
+    this.progressBarFun(4, 2)
+    this.mixpanel.postEvent('Explore App Type selected',{'Explore App Type':'Own'})
+    }
+    else if (type == 'sampleData') {
+      this.steps = 'demoOptions';
+      this.demoType = 'e-commerce';
+      this.progressBarFun(4, 2)
+      this.mixpanel.postEvent('Explore App Type selected',{'Explore App Type':'Sample'})
+    }
   }
 
-  exploreMyself() {
-    this.displayApp = true;
-    this.hideWelcomepage = false;
+  mixpanelEventValues(){
+    if(this.demoType == 'e-commerce'){
+      this.appTypevalue = 'E-commerce';
+    }
+    else if (this.demoType == 'website-search'){
+      this.appTypevalue = 'Website';
+    }
+    else{
+      this.appTypevalue = 'Knowledge';
+    }
+    this.mixpanel.postEvent('Explore App Data selected',{'Explore App Data Type':this.appTypevalue})
   }
-  exploreSampleDate() {
+  exploreSampleDate(){
     this.hideWelcomepage = false;
-    if (this.steps == 'demoOptions' && this.demoType) {
-      this.steps = 'showSearchExperience';
+    if(this.steps == 'demoOptions'){
+      this.steps = 'showSearchExperience'
       this.SearchExperianceType ='top';
       this.progressBarFun(4, 3)
+      this.mixpanelEventValues();  
     }
-    else if (this.steps == 'showSearchExperience' && this.SearchExperianceType) {
+    else if (this.steps == 'showSearchExperience'){
+      this.steps = 'displayApp'
+      this.progressBarFun(4, 4)
+      this.mixpanel.postEvent('Explore App Searchexperience Type selected',{})
+    }
+    else if (this.steps == 'displayApp' && this.newApp.name){
       this.appCreationAtOnboarding();
-    }
-    else if (this.steps == 'showSearchExperience' && !this.SearchExperianceType) {
-      this.steps == 'showSearchExperience'
+      this.mixpanel.postEvent('Explore App named',{})
     }
     else {
-      if (this.displayApp = true && this.newApp.name) {
-        this.steps = 'demoOptions';
-        this.demoType = 'e-commerce';
-        this.progressBarFun(4, 2)
-      }
-      else {
-        this.validateAppname = true;
-      }
+      this.validateAppname = true
     }
-
   }
+
   openAppLoadingScreen() {
     this.loadingAppcreationRef = this.loadingAppcreation.open();
   }
@@ -243,19 +261,26 @@ export class AppsListingComponent implements OnInit {
       this.progressBarFun(4, 2)
     }
     else if (this.steps == 'demoOptions') {
-      this.steps = 'displayApp';
+      this.steps = '';
       this.demoType = '';
-      this.progressBarFun(4, 1)
+      this.newApp = { name: '', description: '' };
+      this.progressBar = [];
     }
     else if (this.steps == 'displayApp') {
-      this.steps = '';
-      this.progressBar.length = 0
-      this.newApp = { name: '', description: '' };
-
+      if(this.appType == 'sampleData'){
+        this.steps = 'showSearchExperience';
+        this.progressBarFun(4, 3)
+      }
+      else{
+        this.steps = '';
+        this.newApp = { name: '', description: '' };
+        this.progressBar = [];
+      }
     }
   }
   appCreationAtOnboarding() {
     if (this.appType == 'selfExplore' && this.newApp.name) {
+      this.mixpanel.postEvent('Explore App Named',{})
       this.validateSource();
     }
     else if (this.appType == 'sampleData' && this.newApp.name && this.SearchExperianceType) {
@@ -270,12 +295,10 @@ export class AppsListingComponent implements OnInit {
     if (this.appType == 'selfExplore') {
       this.appCreationAtOnboarding();
     }
-    else {
       if (this.appType == 'sampleData') {
         this.exploreSampleDate();
       }
-    }
-  }
+}
   openDetails() {
     this.detailsPopUpRef = this.detailsPopUp.open();
   }
@@ -289,6 +312,7 @@ export class AppsListingComponent implements OnInit {
   }
   openCreateApp() {
     this.createAppPopRef = this.createAppPop.open();
+    this.mixpanel.postEvent('Start create app',{})
     if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
       this.onboardingpopupjourneyRef.close();
     }
@@ -433,7 +457,6 @@ export class AppsListingComponent implements OnInit {
       this.clearAccount();
       //this.checkForSharedApp();
     }, errRes => {
-      // console.log(errRes);
     });
   }
   clearAccount() {
@@ -450,7 +473,6 @@ export class AppsListingComponent implements OnInit {
     this.router.navigate(['/home'], { skipLocationChange: true });
   }
   imageLoad() {
-    // console.log("image loaded now")
     this.emptyApp = true;
   }
   //create app
@@ -546,7 +568,6 @@ export class AppsListingComponent implements OnInit {
     }
     this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
       const doc_status = JSON.parse(JSON.stringify(res));
-      console.log("doc_status", doc_status);
       if ((doc_status[0].status === 'SUCCESS' || doc_status[0].status === 'success') && doc_status[0].jobType === "TRAINING") {
         clearInterval(this.pollingInterval);
         this.CloseAppLoadingScreen();

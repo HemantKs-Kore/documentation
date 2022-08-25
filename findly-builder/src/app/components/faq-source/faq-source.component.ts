@@ -350,14 +350,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   addFaqSource(type) {
     this.showSourceAddition = type;
     if(type==='faqWeb'){
-    this.mixpanel.postEvent('Enter FAQ Web extract', {});      
+    this.mixpanel.postEvent('Enter FAQ Web extract', {});
     }
     else if(type==='faqDoc'){
-      this.mixpanel.postEvent('Enter upload FAQ file', {}); 
+      this.mixpanel.postEvent('Enter upload FAQ file', {});
     }
     else if(type==='manual'){
-      console.log("mix event:Enter FAQ Manual")
-      // this.mixpanel.postEvent('Enter FAQ Manual', {}); 
+       this.mixpanel.postEvent('Enter FAQ Manual', {});
     }
     // this.addAltFaq={
     //   _source :{
@@ -485,7 +484,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           //   additions = this.faqSelectionObj.selectAll
           // } else {
 
-          // }   
+          // }
           // console.log($(element)[0].checked )
           this.addRemoveFaqFromSelection(faqId, additions);
         }
@@ -636,10 +635,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       conditionalAnswers: event.conditionalAnswers || [],
       keywords: event.tags
     };
-    this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {      
+    this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {
       this.showAddFaqSection = false;
       this.selectTab('draft');
-      event.cb('success');      
+      event.cb('success');
     }, errRes => {
       event.cb('error');
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -727,7 +726,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.statsApiLoading = false;
       // console.log("manula issu", res)
       this.faqSelectionObj.stats = res.countByState;
-      // this.faqSelectionObj.stats = res.countBySource; 
+      // this.faqSelectionObj.stats = res.countBySource;
       this.faqSelectionObj.loadingStats = false;
       if (resourceId === undefined || resourceId === null) {
         if (res.countBySource && res.countBySource.manual) {
@@ -1081,8 +1080,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
 
       }
       this.getDyanmicFilterData(searchValue, 'landingPage');
-      // console.log('MIXPANNEL')
-      this.mixpanel.postEvent('FAQ-created', {})
     }, errRes => {
     });
   }
@@ -1250,9 +1247,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       delete request.search;
     }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
-      console.log(res, 'Filters')
-      this.statusArr = [...res.recentStatus];
-      this.docTypeArr = [...res.contentSource];
+      // this.statusArr = [...res.recentStatus];
+      // this.docTypeArr = [...res.contentSource];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get filters');
     });
@@ -1405,10 +1401,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           this.getStats(null, true);
           this.pollingSubscriber.unsubscribe();
-          let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-          if (currentPlan?.subscription?.planId == 'fp_free') {
-            this.appSelectionService.updateUsageData.next('updatedUsage');
-          }
         }
 
       }, errRes => {
@@ -1630,10 +1622,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editfaq = null
       if (state != 'in_review' && state != 'approved') {
         this.notificationService.notify(custSucessMsg, 'success');
-        let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-        if (currentPlan?.subscription?.planId == 'fp_free') {
-          this.appSelectionService.updateUsageData.next('updatedUsage');
-        }
       }
       if (state == 'in_review') {
         this.notificationService.notify('Sent for Review', 'success');
@@ -1675,11 +1663,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         // this.getSourceList();
       }
       this.resetCheckboxSelect();
-
-      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-      if (currentPlan?.subscription?.planId == 'fp_free') {
-        this.appSelectionService.updateUsageData.next('updatedUsage');
-      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete faq source');
     });
@@ -1702,10 +1685,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.getStats();
       this.resetCheckboxSelect();
-      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-      if (currentPlan?.subscription?.planId == 'fp_free') {
-        this.appSelectionService.updateUsageData.next('updatedUsage');
-      }
       if (!(this.faqs && this.faqs.length)) {
         this.selectedFaq = null;
       } else {

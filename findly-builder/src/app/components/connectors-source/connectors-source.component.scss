@@ -767,6 +767,10 @@
 
                                         .content-body {
                                             border-bottom: 1px solid transparent !important;
+                                            .url-link{
+                                                cursor: pointer;
+                                                color: #0D6EFD;
+                                            }
                                         }
 
                                         .no-content {
@@ -850,6 +854,77 @@
                                     }
                                 }
                             }
+
+                            // new sync frequency ui css start here
+
+                            .new-sync-frequency-block{
+                                padding: 20px 20px;
+                                background: #F8F9FA;
+                                border-radius: 4px;
+                                .sync-frequency-header-block{
+                                    display: flex;
+                                    gap: 30px;
+                                    padding: 0 0 15px 0;
+                                    .sync-frequency-title{
+                                        font-weight: 500;
+                                        font-size: 16px;
+                                        color: #202124;
+                                    }
+                                    .sync-frequency-time{
+                                        font-weight: 500;
+                                        font-size: 12px;
+                                        color: #202124;
+                                        .sync-estimate-time{
+                                            font-weight: 500;
+                                            font-size: 12px;
+                                            color: #5F6368;
+                                        }
+                                    }
+                                }
+
+                                .sync-note{
+                                    background: #EFF0F1;
+                                    border-radius: 4px;
+                                    padding: 5px 5px;
+                                    display: flex;
+                                    align-items: center;
+                                    .sync-note-desc{
+                                        font-weight: 400;
+                                        font-size: 12px;
+                                        line-height: 15px;
+                                        color: #5F6368;
+                                    }
+                                }
+                                .sync-every-block{
+                                    .sync-every-title{
+                                        font-weight: 600;
+                                        font-size: 14px;
+                                        line-height: 17px;
+                                        color: #202124;
+                                        padding: 25px 0 15px 0;
+                                    }
+
+                                    .sync-radio-block{
+                                        .sync-radio-block-flex{
+                                            display: flex;
+                                            align-items: center;
+                                            gap:20px;
+                                            padding: 12px 0;
+                                            .kr-sg-radiobutton{
+                                                top: -15px;
+                                            }
+                                            .kr-sg-width-20{
+                                                width: 20%;
+                                            }
+                                            .sync-radio-btn-width{
+                                                width: 20px;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            // new sync frequency css ends here
                         }
                     }
 
@@ -859,7 +934,7 @@
                 }
             }
         }
-
+        
         .view-more-btn {
             padding: 13px 20px;
             display: flex;
@@ -1094,7 +1169,7 @@
                                     .kr-sg-input-text {
                                         input {
                                             font-weight: 400;
-                                            font-size: 10px;
+                                            font-size: 14px;
                                             line-height: 18px;
                                             color: #5F6368;
                                             padding-right: 35px;

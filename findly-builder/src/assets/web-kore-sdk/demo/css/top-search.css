@@ -1551,6 +1551,23 @@ float: right;
   cursor: pointer;
 }
 
+.sdk-top-down-interface .search-input-box .search-box-container-data .kore-sponsored {
+  position: absolute;
+  display: block;
+  right: 72px;
+  top: -30px;
+  z-index: 1;
+  padding: 3px 5px;
+}
+.top-down-search-background-div .search-input-box .search-box-container-data .kore-sponsored {
+  position: absolute;
+  display: block;
+  right: 72px;
+  top: -30px;
+  z-index: 1;
+  padding: 3px 5px;
+}
+
 .d-none{
   display: none;
 }
@@ -3005,6 +3022,7 @@ display: none !important;
 }
 
 .siemens-list-template .icon-with-title .siemens-icon-blue {
+  content: url(../images/icon1-blue.svg);
   display: block;
 }
 
@@ -3012,10 +3030,12 @@ display: none !important;
   display: none;
 }
 
-/* .siemens-list-template:hover .icon-with-title img.siemens-link-icon {
-  content: url(../images/siemens/externallink.svg);
-} */
-
+.siemens-list-template:hover .icon-with-title .redirecting-link img.siemens-link-icon {
+  content: url(../images/externallink-gray.svg);
+}
+.siemens-list-template .icon-with-title .redirecting-link img.siemens-link-icon {
+  content: url(../images/externallink-gray.svg);
+}
 
 .siemens-list-template:hover .icon-with-title .siemens-icon {
   display: block;
@@ -3167,7 +3187,7 @@ display: none !important;
 }
 
 .arrivals-grids-template .slide-gride .inner-content-data .img-block {
-  border: 1px solid #E4E5E7;
+  border: 0px solid #E4E5E7;
   width: 152px;
   height: 152px;
   background: #FFFFFF;
@@ -3347,4 +3367,11 @@ display: none !important;
   text-decoration: line-through;
   color: #B6B6B6;
   font-weight: normal;
+}
+
+.lead-name{
+  text-align: center;
+  padding-top: 10px;
+  font-size: 16px;
+  font-weight: 400;
 }

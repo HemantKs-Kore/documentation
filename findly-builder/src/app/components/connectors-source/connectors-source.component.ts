@@ -57,23 +57,21 @@ export class ConnectorsSourceComponent implements OnInit {
   connectorsData: any = [];
   availableConnectorsData: any = [];
   configurationObj: any = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '' };
-  overViewData: any = { overview: [], coneten: [] };
+  overViewData: any = { overview: [], coneten: [],jobs:[] };
   syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
   showProtecedText: Object = { isClientShow: false, isSecretShow: false, isPassword: false };
   isEditable: boolean = false;
   checkConfigButton: Boolean = true;
   isPopupDelete: boolean = true;
   isAuthorizeStatus: boolean = false;
-  isSyncLoading: boolean = false;
+  isSyncLoading: boolean = true;
   searchField: string = '';
   isShowSearch: boolean = false;
   isloadingBtn: boolean = false;
   pageLoading: boolean = false;
   total_records: number;
-  currentSubsciptionData: Subscription;
-  currentSubscriptionPlan: any;
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
-  connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' }];
+  connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' },{name:'Jobs',type:'jobs'}];
   @ViewChild('plans') plans: UpgradePlanComponent;
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
   constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private appSelectionService: AppSelectionService) { }
@@ -81,23 +79,13 @@ export class ConnectorsSourceComponent implements OnInit {
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
-    await this.appSelectionService.getCurrentSubscriptionData();
-    this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
-      this.currentSubscriptionPlan = res.subscription;
-      if (['Enterprise'].includes(this.currentSubscriptionPlan?.planName)) {
-        this.getConnectors();
-      }
-      else{
-        this.pageLoading = true;
-      }
-    })
+    this.getConnectors();
     if (sessionStorage.getItem('connector') !== null) {
       const session_connector_data = sessionStorage.getItem('connector');
       this.sessionData = JSON.parse(session_connector_data);
       if (this.sessionData?.isRedirect) {
         this.isPopupDelete = false;
         this.isAuthorizeStatus = true;
-        this.ingestConnector();
         this.openDeleteModel('open');
         sessionStorage.clear();
       }
@@ -133,6 +121,7 @@ export class ConnectorsSourceComponent implements OnInit {
   changeEditTabs(type) {
     this.selectedTab = type;
     this.showProtecedText = { isClientShow: false, isSecretShow: false, isPassword: false };
+    this.searchContent='';
   }
   //get connector list
   getConnectors() {
@@ -170,6 +159,15 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Failed to get Connectors');
     });
   }
+  //goto result template page
+  navigateToResultTemplate() {
+    this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/resultTemplate' });
+  }
+  //remove spaces in url
+  removeSpaces(url){
+   const contentURL = url.trim();
+   window.open(contentURL);
+  }
   //get connectors by Id
   getConnectorData() {
     const quaryparms: any = {
@@ -187,7 +185,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.configurationObj.isActive = res?.isActive;
       this.configurationObj.username = res?.authDetails?.username;
       this.configurationObj.password = res?.authDetails?.password;
-      this.getConentData();
+      this.getConentData();      
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
@@ -233,6 +231,16 @@ export class ConnectorsSourceComponent implements OnInit {
       this.connectorId = data?._id;
       this.getConnectorData();
       this.getSyncCount();
+      this.appSelectionService.connectorSyncJobStatus(this.searchIndexId,this.connectorId).then((res:any)=>{
+        this.overViewData.jobs = res;
+        if(res&&res[0]?.status!=='INPROGRESS'){
+          this.isSyncLoading = false;
+        }
+        else if(res&&res[0]?.status==='INPROGRESS'){
+          this.checkJobStatus();
+          this.isSyncLoading = true;
+        }
+      })
     }
   }
   //content pagination 
@@ -350,7 +358,6 @@ export class ConnectorsSourceComponent implements OnInit {
     this.service.invoke('post.authorizeConnector', quaryparms, payload).subscribe(res => {
       if (res) {
         this.isloadingBtn = false;
-        this.ingestConnector();
         if (data?.type === 'confluenceCloud') {
           window.open(res.url, '_self');
         }
@@ -372,13 +379,14 @@ export class ConnectorsSourceComponent implements OnInit {
       this.isAuthorizeStatus = false;
       this.isloadingBtn = false;
       if (dialogRef) dialogRef.close();
-      this.errorToaster(errRes, 'error');
+      // this.errorToaster(errRes, 'error');
       if (document.getElementsByClassName("modal").length === 0) this.openDeleteModel('open');
     });
   }
   //call if authorize api was success
   goBacktoListPage() {
     this.openDeleteModel('close');
+    this.backToPage('cancel');
     if (this.selectedContent !== 'edit') this.selectedContent = 'list';
   }
   //update connector 
@@ -437,7 +445,6 @@ export class ConnectorsSourceComponent implements OnInit {
     this.service.invoke('put.connector', quaryparms, payload).subscribe(res => {
       if (res) {
         this.authorizeConnector(this.selectedConnector);
-        this.notificationService.notify('Connector Updated Successfully', 'success');
         if (dialog) dialog?.close();
       }
     }, errRes => {
@@ -487,20 +494,31 @@ export class ConnectorsSourceComponent implements OnInit {
     });
   }
   // queue-content API
-  ingestConnector(isShow?) {
+ ingestConnector(isShow?) {
     this.isSyncLoading = true;
     const quaryparms: any = {
       sidx: this.searchIndexId,
       fcon: this.connectorId
     };
     this.service.invoke('post.ingestConnector', quaryparms).subscribe(res => {
-      this.isSyncLoading = false;
+      this.checkJobStatus();
       if (isShow) this.notificationService.notify('Connector Synchronized Successfully', 'success');
     }, errRes => {
+      this.isSyncLoading = false;
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
-  ngOnDestroy() {
-    this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : null;
+  //call jobs api wrt status
+  checkJobStatus(){
+    let jobInterval = setInterval(()=>{
+      this.appSelectionService.connectorSyncJobStatus(this.searchIndexId,this.connectorId).then((res:any)=>{
+        this.overViewData.jobs = res;
+        if(res&&res[0]?.status!=='INPROGRESS'){
+          clearInterval(jobInterval);
+          this.isSyncLoading = false;
+          this.getConnectorData();
+        }
+      })
+    },3000)
   }
 }

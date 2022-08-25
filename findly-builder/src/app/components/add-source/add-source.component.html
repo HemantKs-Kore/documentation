@@ -319,10 +319,10 @@
                           </div>
                           <div class="info_text"
                             *ngIf="(selectedSourceType.resourceType !='importfaq'&&selectedSourceType.resourceType !='')">
-                            Drag and drop file anywhere on this screen</div>
+                            Drag and drop file anywhere on this section</div>
                           <div class="info_text"
                             *ngIf="(selectedSourceType.sourceType=='faq'&&selectedSourceType.resourceType =='')">Drag
-                            and drop a <strong>pdf file</strong> anywhere on this screen</div>
+                            and drop a <strong>pdf file</strong> anywhere on this section</div>
                           <div class="info_text" *ngIf="(selectedSourceType.resourceType ==='importfaq')">Drag and drop
                             file anywhere in this section</div>
                           <div class="or-divider">- or -</div>
@@ -431,7 +431,7 @@
                         </ng-container>
                         <div class="drag-drop-text-info"
                           *ngIf="fileObj.fileName && selectedSourceType.sourceType=='content'">
-                          <div class="main-text">Drag and drop file anywhere on this screen</div>
+                          <div class="main-text">Drag and drop file anywhere on this section</div>
                           <div class="secondary-text">Note: Maximum upload limit is 10 files not exceeding 15 MB per
                             file.</div>
                         </div>
@@ -729,7 +729,7 @@
                         <input id="checkbox_grph" class="checkbox-custom" type="checkbox" name="isJavaScriptRendered"
                           [(ngModel)]="isJavaScriptRendered" [ngModelOptions]="{standalone: true}">
                         <label for="checkbox_grph" class="checkbox-custom-label"
-                          style="font-weight: 500;font-size: 12px;">Java Script Rendered</label>
+                          style="font-weight: 500;font-size: 12px;">Javascript Rendered</label>
                       </div>
                       <div class="pl-0 kr-sg-checkbox">
                         <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name="crawlBeyondSitemaps"

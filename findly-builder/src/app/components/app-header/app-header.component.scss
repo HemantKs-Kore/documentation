@@ -37,8 +37,22 @@
             margin-left: -11px;
         }
         &.no-landing-screen{
-            height: 22px;
-            width: 22px;
+            height: 24px;
+            width: 24px;
+            position: relative;
+            &::before{
+                content: "";
+                position: absolute;
+                width: 100%;
+                border-bottom: 2px solid #0D6EFD;
+                bottom: -18px;
+                left: 0;
+                display: none;
+            }
+            img{
+                height: 24px;
+                width: 24px;
+            }
         }
     }
     &.onboarding-header {
@@ -157,7 +171,7 @@
                             }
                         }
                     }
-                }
+                }               
             }
         }
         .homePageTitle {
@@ -1271,3 +1285,8 @@
       font-size: 12px;
     }
   }
+
+  .disable_btn{
+    pointer-events: none;
+    color: #BDC1C6 !important;
+}
