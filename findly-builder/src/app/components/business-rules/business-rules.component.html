@@ -608,17 +608,17 @@
                                             <img class="action_icon" src="assets/images/overflow-elipse.svg">
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="nlpOverflowMenu">
-                                          <div class="dropdown-item"><span><img class="dropdown-list-icon" src="assets/images/edit-pencil.svg"></span> Edit</div>
+                                          <div class="dropdown-item" (click)="editAnnotatorSentence(i,annotator)"><span><img class="dropdown-list-icon" src="assets/images/edit-pencil.svg"></span> Edit</div>
                                           <div class="dropdown-item delete-item" (click)="deleteAnnotator(i)"><span><img class="dropdown-list-icon" src="assets/icons/delete-table.svg"></span> Delete</div>
                                         </div>
                                       </div>
                                    </div>
                                 </div>
                                 <div class="nlp-preview-block" *ngIf="annotator.isEditable">
-                                    <div class="nlp-preview-header"><span class="warning-span"><img src="assets/images/warning.svg" class="warning-icon "/></span>Please tag  <span class="nlp-custom-tag"><span class="nlp-tag">Topic</span></span></div>
+                                    <div class="nlp-preview-header"></div> <!--<span class="warning-span"><img src="assets/images/warning.svg" class="warning-icon "/></span>Please tag  <span class="nlp-custom-tag"><span class="nlp-tag">Topic</span></span>-->
                                     <div class="nlp-preview-action-list">
-                                        <div class="nlp-preview-action-done"><span class="nlp-preview-action-span"><img src="assets/images/check-primary.svg" class="warning-icon "/></span> Done</div>
-                                        <div class="nlp-preview-action-cancel" (click)="annotator.isEditable=false"><span class="nlp-preview-action-span"><img src="assets/images/close.svg" class="warning-icon "/></span> Cancel</div>
+                                        <div class="nlp-preview-action-done" (click)="AddSelectedEnity()"><span class="nlp-preview-action-span"><img src="assets/images/check-primary.svg" class="warning-icon "/></span> Done</div>
+                                        <div class="nlp-preview-action-cancel" (click)="annotator.isEditable=false;editNlpAnnotatorObj={}"><span class="nlp-preview-action-span"><img src="assets/images/close.svg" class="warning-icon "/></span> Cancel</div>
                                     </div>
                                 </div>
                             </div>

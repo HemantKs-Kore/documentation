@@ -143,7 +143,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   entityFields = { startIndex: 0, endIndex: 0, entityId: '' };
   entityObj: any = { entities: [], sentence: '', taggedSentence: '', colorSentence: '', isEditable: false };
   inputSentence: any;
-  selectedTextEvent:any;
+  selectEditIndex:number=0;
   nlpAnnotatorObj: any = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [], };
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
@@ -1279,13 +1279,18 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   //click on Entity to select
   selectEntity(entity) {
+    if(!this.entityObj.isEditable){
+      this.entityObj.sentence = document.getElementById('contentText').innerText;
+    }
     this.entityFields.entityId = entity?._id;
-    this.entityObj.sentence = document.getElementById('contentText').innerText;
     this.entityObj.entities.push(this.entityFields);
     this.inputSentence = '';
     const sentence = this.updateColorSentence();
-    this.inputSentence  = this.sanitizer.bypassSecurityTrustHtml(sentence);
-    this.entityObj.colorSentence = this.inputSentence;
+    const coloredSentence = this.sanitizer.bypassSecurityTrustHtml(sentence);
+    if(!this.entityObj.isEditable){
+      this.inputSentence = coloredSentence;
+    }
+    this.entityObj.colorSentence = coloredSentence;
     this.nlpAnnotatorObj.showEntityPopup = false;
   }
 
@@ -1334,12 +1339,17 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //after sentence changes click on add
   AddSelectedEnity() {
     if (this.entityObj.entities.length > 0) {
-      let taggedSentence = this.entityObj.sentence;
-      this.entityObj.taggedSentence = taggedSentence;
+      this.entityObj.taggedSentence = this.entityObj.sentence
       for(let entity of this.entityObj.entities){
-        this.entityObj.taggedSentence= this.updateTaggedSentence(this.entityObj.taggedSentence,entity.startIndex,entity.endIndex,entity);
+        this.entityObj.taggedSentence= this.updateTaggedSentence(this.entityObj.sentence,entity.startIndex,entity.endIndex,entity);
       }     
-      this.nlpAnnotatorObj.annotator.push(this.entityObj);
+      if(this.entityObj.isEditable){
+        this.entityObj.isEditable=false;
+        this.nlpAnnotatorObj.annotator[this.selectEditIndex] = this.entityObj;
+      }
+      else if(!this.entityObj.isEditable){
+        this.nlpAnnotatorObj.annotator.push(this.entityObj);
+      }
       this.inputSentence = '';
       this.entityObj = { entities: [], sentence: '', taggedSentence: '', colorSentence: '',isEditable:false };
       this.entityFields = { startIndex: 0, endIndex: 0, entityId: '' };
@@ -1349,7 +1359,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   // update text with entity name
   updateTaggedSentence(origin,start,end,entity){
     const insertion = this.sys_entities.filter(item=>item._id===entity.entityId);
-    return origin.substring(0, start) + `<<${insertion[0].entityName}>>`+ origin.substring(end);
+    return origin.substring(0, start) + `<<${insertion[0].entityName}>>`+ origin.substring(end);     
   }
   //create or cancel entity
   createTag(isPopup, isEdit) {
@@ -1484,5 +1494,19 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const sentence = this.updateColorSentence();
     this.entityObj.colorSentence  = this.sanitizer.bypassSecurityTrustHtml(sentence);
     this.nlpAnnotatorObj.annotator.push(this.entityObj);
+  }
+
+  //edit annotator object
+  editAnnotatorSentence(index,annotator){
+    annotator.isEditable = true;
+    this.selectEditIndex = index;
+    this.entityObj = annotator;
+  }
+
+  //cancel annotator sentence
+  cancelAnnotatorSentence(annotator){
+    annotator.isEditable = false;
+    this.entityObj = { entities: [], sentence: '', taggedSentence: '', colorSentence: '', isEditable: false };
+    this.selectEditIndex = 0;
   }
 }
