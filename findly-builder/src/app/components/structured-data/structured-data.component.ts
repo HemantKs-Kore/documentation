@@ -1331,21 +1331,21 @@ export class StructuredDataComponent implements OnInit {
       this.getStructuredDataList();
     }
   }
-  exportFaq(ext) {
+  exportStructureData(ext) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
     };
     const payload = {
       exportType: ext,
     }
-    this.service.invoke('export.faq', quaryparms, payload).subscribe(res => {
+    this.service.invoke('export.structuredData', quaryparms, payload).subscribe(res => {
       if (ext === 'json') {
         this.notificationService.notify('Export to JSON is in progress. You can check the status in the Status Docker', 'success');
       }
       else {
         this.notificationService.notify('Export to CSV is in progress. You can check the status in the Status Docker', 'success');
       }
-      this.checkExportFaq();
+      this.checkStructureData();
     },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -1356,7 +1356,7 @@ export class StructuredDataComponent implements OnInit {
       });
   }
 
-  checkExportFaq() {
+  checkStructureData() {
     const queryParms = {
       searchIndexId: this.workflowService.selectedSearchIndexId
     }
