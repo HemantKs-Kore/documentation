@@ -1169,7 +1169,7 @@
                   </ng-container>
                   
                   <!-- SCm List -->
-                  <ng-container *ngIf="templateDataBind.layout.layoutType == 'l10'">
+                  <ng-container *ngIf="(templateDataBind.layout.layoutType == 'l10') && (templateDataBind?.type ==='list')">
                     <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l10'">
                       <div class="scm-list-data-type"  *ngFor="let item of [0,1]">
                         <div class="heading-data">
@@ -1261,7 +1261,7 @@
                   </ng-container>
 
                   <!-- SCM E commerce -->
-                  <ng-container *ngIf="templateDataBind.layout.layoutType == 'l11'">
+                  <ng-container *ngIf="(templateDataBind.layout.layoutType == 'l11') && (templateDataBind?.type ==='list')">
                     <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l11'">
                       <div class="scm-e-commerce-list"   *ngFor="let item of [0,1]">
                         <div class="img-block">
