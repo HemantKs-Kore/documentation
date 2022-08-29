@@ -378,11 +378,12 @@
                 background: #E4E5E7;
             }
             .custom-repeat-on{
-                margin-top: 85px;
                 /* border: 1px solid white; */
+                margin-top: 0px;
                 background: white;
-                padding: 8px;
+                padding: 8px 0;
                 border-radius: 5px;
+                margin-bottom: 10px;
             }
             .active{
                 background: #0D6EFD;
@@ -413,6 +414,7 @@
         
        .ends{
         &.shedular-ends-form{
+            border-bottom: 1px solid #E4E5E7;
             .ends-never{
                 position: relative;
                 left: auto;
