@@ -11787,11 +11787,24 @@ a.tile-heading {
     padding: 20px;
     margin-bottom: 10px;
 }
-.snippet-template .title-text {
+.snippet-template .title .title-text {
     font-weight: 500;
     font-size: 14px;
     margin-bottom: 3px;
     color: #121314;
+    padding-right: 50px;
+}
+.snippet-template .title .title-beta{
+    position: absolute;
+    top: -9px;
+    right: 0;
+    line-height: normal;
+    width: 40px;
+    height: 39px;
+}
+.snippet-template .title .title-beta img{
+    width: 100%;
+    height: 100%;
 }
 .snippet-template .desc-text {
     font-weight: 400;
