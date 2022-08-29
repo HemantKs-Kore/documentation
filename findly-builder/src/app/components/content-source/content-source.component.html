@@ -1465,16 +1465,8 @@
     <button type="button" class="kr-sg-button-secondary-two btn_lg" data-dismiss="modal"
       (click)="deletePages('source',selectedSource,null)">Delete</button>
   </div>
-  <div class="footer-btns" *ngIf="sliderStep === 1 && selectedPage">
-    <button class="kr-sg-button-secondary-two btn_lg" (click)="deletePages('pages',selectedPage ,null)">Delete</button>
-    <button class="kr-sg-button-primary btn_lg" [disabled]="loadingcheckForUpdate"
-      (click)="checkForUpdate(selectedPage)">Check for Update</button>
-    <button class="kr-sg-button-secondary btn_lg" (click)="reCrwalingWeb('pages',selectedPage ,null)">Recrawl</button>
-    <div class="parentloader">
-      <div class="mainLoadingSpinner" *ngIf="loadingcheckForUpdate" [@fadeInOutAnimation]>
-        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-      </div>
-    </div>
+  <div class="footer-btns" *ngIf="page">
+    <app-record-pagination *ngIf = "totalCrawledCount" [totalRecord]='totalCrawledCount' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
   </div>
 </kr-modal>
 <ng-container *ngIf="showSourceAddition">
