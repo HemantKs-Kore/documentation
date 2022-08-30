@@ -143,16 +143,16 @@
                       }}</button>
                 </li>
 
-                <li class="nav-item new-train-btn">
-                    <button class="kr-sg-button-secondary btn_lg"><span class="pr-1 align-middle"><i class="si-train-multi-intent"></i></span> Train</button>
+                <li class="nav-item new-train-btn" (click)="isRouteDisabled?null:train()" ngbTooltip="{{ 'header.trainYourApp' | translate }}"  [ngClass]='{"active-train":training}'>
+                    <button  class="kr-sg-button-secondary btn_lg"><span class="pr-1 align-middle"><i class="si-train-multi-intent"></i></span> Train</button>
                   </li>
                 
 
-                <li (click)="isRouteDisabled?null:train()" class="nav-item train-btn" ngbTooltip="{{ 'header.trainYourApp' | translate }}"
+                <!-- <li (click)="isRouteDisabled?null:train()" class="nav-item train-btn" ngbTooltip="{{ 'header.trainYourApp' | translate }}"
                     container='body' tooltipClass="train-icon-tooltip" [ngClass]='{"active-train":training}'>
                     <div class="loader-train"></div>
                     <img src="assets/icons/train.svg" class="defaultIcon">
-                </li>
+                </li> -->
                 <li class="nav-item search-block show-search1">
                     <div class="search_icon" [ngClass]="{'active-search-top' : showSearch}">
                         <img src="assets/icons/sidemenu/search.svg" (click)="isRouteDisabled?null:focusinSearch()"
