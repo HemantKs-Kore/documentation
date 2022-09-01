@@ -447,7 +447,7 @@
                     <div class="welcome-user-form">
                       <div class="create-app-data">
                         <div class="kr-sg-input-text form-group">
-                          <div class="label-text">App Name *</div>
+                          <div class="label-text">App Name<sup class="field-mandatory">*</sup></div>
                           <input type="text"  [(ngModel)]="newApp.name" placeholder="Enter App Name" class="input-text" [ngClass]="{'error' : validateAppname }">
                           <div class="error-msg" *ngIf="validateAppname">Enter The App Name</div>
                         </div>
@@ -635,11 +635,7 @@
 
   <div class="video-section-block">
       <div class="video-player">
-        <!-- <iframe width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="" src="https://player.vimeo.com/video/49583118"></iframe> -->
-        <video controls autoplay>
-          <source src="https://videostream.cdn.contentraven.com/crcloud/uploads/kore.ai_11267/encryptedfile/518472/v1.0/aa8bcb1a_23_8_2022_7_34_21.mp4?Expires=1661764322&Signature=JLqTkBmbhantGU352WL5G-AMPhd2Ia7U9c5IlGIZ~ubq2E2uc2xggQ~PkCxdae53g5Cg7iHpNXq~rb7esprOdQLtem9jbyOxqzTY3JDrIVJMVxyamkVduNXCRfr3RnHnNIe7pQ429UpAUofVaKMaMfSSVp29sPG6Xrbo2jQ2hJs_&Key-Pair-Id=APKAILVQOTZN4SHI6YSA" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
+        <iframe width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="" src="https://videostream.cdn.contentraven.com/crcloud/uploads/kore.ai_11267/encryptedfile/518472/v1.0/aa8bcb1a_23_8_2022_7_34_21.mp4?Expires=1662025001&Signature=hWPfIhw9gimuOKhr6qurtC3uIwt3W74Kqul3FU4WvwPFyW9QxVVZMIb0uTOlryLQ5bBdrLdc-EYFKRMj3jpzNCwUhLkp8Gru5s41wyuSAxa0HkxRnh1dHFO29En4pVwZ3NCogc70NbhXLNh0w8ruCu1xL81YVWhgbCPoSyQK~mo_&Key-Pair-Id=APKAILVQOTZN4SHI6YSA"></iframe>
       </div>
       <div class="video-header">Welcome to SearchAssist</div>
       <div class="video-desc">Watch a quick introductory video on the SearchAssist’s features.</div>
