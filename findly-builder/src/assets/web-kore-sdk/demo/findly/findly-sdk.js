@@ -6871,8 +6871,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             } else {
               var _botMessage = 'Sure, please find the matched results below';
               var snippetObj={};
-              if(res?.graph_answer?.payload){
-                snippetObj = {'title':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.title),'answer':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.answer),page_url:res?.graph_answer?.payload?.center_panel?.data[0]?.page_url}; 
+              if(res?.graph_answer?.payload?.center_panel){
+                if(Object.keys(res.graph_answer.payload.center_panel).length>0){
+                  snippetObj = {'title':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.title),'answer':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.answer),page_url:res?.graph_answer?.payload?.center_panel?.data[0]?.page_url}; 
+                }
+                else{
+                  snippetObj={};
+                }
               }
               else{
                 snippetObj={};
