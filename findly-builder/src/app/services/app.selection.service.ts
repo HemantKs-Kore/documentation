@@ -378,4 +378,24 @@ export class AppSelectionService {
       });
     }
   }
+
+  //call jobs api for connectors sync progress status
+  connectorSyncJobStatus(sid,fid){
+    const queryParams = {
+      limit: 5,
+      sidx:sid,
+      fcon:fid
+    };
+    const appObserver = this.service.invoke('get.connectorJob', queryParams);
+    return new Promise((resolve,reject)=>{
+      appObserver.subscribe(res => {
+        if(res){
+          resolve(res);
+        }
+      }, errRes => {
+        reject(errRes);
+        this.queryList = null;
+      });
+    })    
+  }
 }

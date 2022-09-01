@@ -568,7 +568,6 @@ export class AppsListingComponent implements OnInit {
     }
     this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
       const doc_status = JSON.parse(JSON.stringify(res));
-      console.log("doc_status", doc_status);
       if ((doc_status[0].status === 'SUCCESS' || doc_status[0].status === 'success') && doc_status[0].jobType === "TRAINING") {
         clearInterval(this.pollingInterval);
         this.CloseAppLoadingScreen();

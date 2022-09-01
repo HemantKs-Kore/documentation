@@ -10,12 +10,14 @@ export class FilterPipe implements PipeTransform {
 
     return items.filter( it => {
       if(searchArray && searchArray.length && searchArray[1]){
-        if(searchArray[2]) {
-          return it[searchArray[2]].toLowerCase().includes(searchArray[0]) ||  it[searchArray[1]].toLowerCase().includes(searchArray[0]);
-        } else {
+        if(searchArray[2] && it[searchArray[2]]) {
+          return it[searchArray[2]].toLowerCase().includes(searchArray[0])
+        } else if(searchArray[1] && it[searchArray[1]]) {
+          return it[searchArray[1]].toLowerCase().includes(searchArray[0])
+        }
+         else {
          return it[searchArray[1]].toLowerCase().includes(searchArray[0])
         }
-
       } else {
         return it.toLowerCase().includes(searchArray[0]);
       }

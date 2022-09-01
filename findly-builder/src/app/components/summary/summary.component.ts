@@ -150,8 +150,8 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     setTimeout(() => {
       if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
-        this.inlineManual.openHelp('APP_WALKTHROUGH');
-        this.inlineManual.visited('APP_WALKTHROUGH');
+        this.inlineManual?.openHelp('APP_WALKTHROUGH');
+        this.inlineManual?.visited('APP_WALKTHROUGH');
       }
     }, 1000)
   }
