@@ -308,16 +308,16 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
         this.getPayementStatus();
       }
       else if (res.status === 'failed' && res.code === 'ERR_FAILED_ACCESS_EXCEEDED') {
-        this.featuresExceededUsage = [];
+        this.featuresExceededUsage = res?.featuresExceededUsage;
         this.btnLoader = false;
-        const currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
-        const usageData = currentSubscriptionPlan?.usage;
-        const featureArray: any = Object.values(usageData);
-        res?.featuresExceededUsage?.forEach(item => {
-          const featureData = featureArray?.filter(feature => feature?.name === item);
-          const obj = { name: item, used: featureData[0]?.used, limit: featureData[0]?.limit };
-          this.featuresExceededUsage.push(obj);
-        })
+        // const currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+        // const usageData = currentSubscriptionPlan?.usage;
+        // const featureArray: any = Object.values(usageData);
+        // res?.featuresExceededUsage?.forEach(item => {
+        //   const featureData = featureArray?.filter(feature => feature?.name === item);
+        //   const obj = { name: item, used: featureData[0]?.used, limit: featureData[0]?.limit };
+        //   this.featuresExceededUsage.push(obj);
+        // })
         this.openExcessDataPopup('open');
       }
     }), errRes => {
