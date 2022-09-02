@@ -1327,7 +1327,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       {{/if}}\-->\
       {{if snippetData?.title}}\
       <div class="snippet-template snippet-margin">\
-        <div class="title-text">{{html snippetData?.title}}</div>\
+        <div class="title position-relative"><div class="title-text">{{html snippetData?.title}}</div><div class="title-beta"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMzIDI3LjVWMjguNUMzMyAyOC43NzYgMzMuMjI0IDI5IDMzLjUgMjlIMzVWMzYuNUMzNSAzNi43NzYgMzUuMjI0IDM3IDM1LjUgMzdIMzYuNUMzNi43NzYgMzcgMzcgMzYuNzc2IDM3IDM2LjVWMjlIMzguNUMzOC43NzYgMjkgMzkgMjguNzc2IDM5IDI4LjVWMjcuNUMzOSAyNy4yMjQgMzguNzc2IDI3IDM4LjUgMjdIMzMuNUMzMy4yMjQgMjcgMzMgMjcuMjI0IDMzIDI3LjVaIiBmaWxsPSIjOTE2RTAzIi8+CjxwYXRoIGQ9Ik0zMiAyOC41VjI3LjVDMzIgMjcuMjI0IDMxLjc3NiAyNyAzMS41IDI3SDI4QzI2Ljg5NSAyNyAyNiAyNy44OTUgMjYgMjlWMzVDMjYgMzYuMTA1IDI2Ljg5NSAzNyAyOCAzN0gzMS41QzMxLjc3NiAzNyAzMiAzNi43NzYgMzIgMzYuNVYzNS41QzMyIDM1LjIyNCAzMS43NzYgMzUgMzEuNSAzNUgyOFYzM0gzMS41QzMxLjc3NiAzMyAzMiAzMi43NzYgMzIgMzIuNVYzMS41QzMyIDMxLjIyNCAzMS43NzYgMzEgMzEuNSAzMUgyOFYyOUgzMS41QzMxLjc3NiAyOSAzMiAyOC43NzYgMzIgMjguNVoiIGZpbGw9IiM5MTZFMDMiLz4KPHBhdGggZD0iTTQwIDI5VjM2LjVDNDAgMzYuNzc2IDQwLjIyNCAzNyA0MC41IDM3SDQxLjVDNDEuNzc2IDM3IDQyIDM2Ljc3NiA0MiAzNi41VjM0SDQ0VjM2LjVDNDQgMzYuNzc2IDQ0LjIyNCAzNyA0NC41IDM3SDQ1LjVDNDUuNzc2IDM3IDQ2IDM2Ljc3NiA0NiAzNi41VjI5QzQ2IDI3Ljg5NSA0NS4xMDUgMjcgNDQgMjdINDJDNDAuODk1IDI3IDQwIDI3Ljg5NSA0MCAyOVpNNDIgMzEuNVYyOS41QzQyIDI5LjIyNCA0Mi4yMjQgMjkgNDIuNSAyOUg0My41QzQzLjc3NiAyOSA0NCAyOS4yMjQgNDQgMjkuNVYzMS41QzQ0IDMxLjc3NiA0My43NzYgMzIgNDMuNSAzMkg0Mi41QzQyLjIyNCAzMiA0MiAzMS43NzYgNDIgMzEuNVoiIGZpbGw9IiM5MTZFMDMiLz4KPHBhdGggZD0iTTIzLjk3MyAzMS4yNjNDMjMuOTg1IDMxLjE3NiAyNCAzMS4wOSAyNCAzMVYyOUMyNCAyNy44OTUgMjMuMTA1IDI3IDIyIDI3SDIwQzE4Ljg5NSAyNyAxOCAyNy44OTUgMTggMjlWMzFWMzNWMzVDMTggMzYuMTA1IDE4Ljg5NSAzNyAyMCAzN0gyM0MyNC4xMDUgMzcgMjUgMzYuMTA1IDI1IDM1VjMzQzI1IDMyLjI1MSAyNC41ODMgMzEuNjA2IDIzLjk3MyAzMS4yNjNaTTIwIDMwLjVWMjkuNUMyMCAyOS4yMjQgMjAuMjI0IDI5IDIwLjUgMjlIMjEuNUMyMS43NzYgMjkgMjIgMjkuMjI0IDIyIDI5LjVWMzAuNUMyMiAzMC43NzYgMjEuNzc2IDMxIDIxLjUgMzFIMjAuNUMyMC4yMjQgMzEgMjAgMzAuNzc2IDIwIDMwLjVaTTIzIDM0LjVDMjMgMzQuNzc2IDIyLjc3NiAzNSAyMi41IDM1SDIwLjVDMjAuMjI0IDM1IDIwIDM0Ljc3NiAyMCAzNC41VjMzLjVDMjAgMzMuMjI0IDIwLjIyNCAzMyAyMC41IDMzSDIySDIyLjVDMjIuNzc2IDMzIDIzIDMzLjIyNCAyMyAzMy41VjM0LjVaIiBmaWxsPSIjOTE2RTAzIi8+CjxwYXRoIGQ9Ik01OSAxN0g1QzIuMjQgMTcgMCAxOS4yNCAwIDIyVjQyQzAgNDQuNzYgMi4yNCA0NyA1IDQ3SDU5QzYxLjc2IDQ3IDY0IDQ0Ljc2IDY0IDQyVjIyQzY0IDE5LjI0IDYxLjc2IDE3IDU5IDE3Wk02MSA0MkM2MSA0My4xIDYwLjEgNDQgNTkgNDRINUMzLjkgNDQgMyA0My4xIDMgNDJWMjJDMyAyMC45IDMuOSAyMCA1IDIwSDU5QzYwLjEgMjAgNjEgMjAuOSA2MSAyMlY0MloiIGZpbGw9InVybCgjcGFpbnQwX2xpbmVhcl80MTFfNDQ3MCkiLz4KPHBhdGggZD0iTTU5IDE5SDVDMy4zNSAxOSAyIDIwLjM1IDIgMjJWNDJDMiA0My42NSAzLjM1IDQ1IDUgNDVINTlDNjAuNjUgNDUgNjIgNDMuNjUgNjIgNDJWMjJDNjIgMjAuMzUgNjAuNjUgMTkgNTkgMTlaTTYwIDQyQzYwIDQyLjU1IDU5LjU1IDQzIDU5IDQzSDVDNC40NSA0MyA0IDQyLjU1IDQgNDJWMjJDNCAyMS40NSA0LjQ1IDIxIDUgMjFINTlDNTkuNTUgMjEgNjAgMjEuNDUgNjAgMjJWNDJaTTU5IDE5SDVDMy4zNSAxOSAyIDIwLjM1IDIgMjJWNDJDMiA0My42NSAzLjM1IDQ1IDUgNDVINTlDNjAuNjUgNDUgNjIgNDMuNjUgNjIgNDJWMjJDNjIgMjAuMzUgNjAuNjUgMTkgNTkgMTlaTTYwIDQyQzYwIDQyLjU1IDU5LjU1IDQzIDU5IDQzSDVDNC40NSA0MyA0IDQyLjU1IDQgNDJWMjJDNCAyMS40NSA0LjQ1IDIxIDUgMjFINTlDNTkuNTUgMjEgNjAgMjEuNDUgNjAgMjJWNDJaTTU5IDE5SDVDMy4zNSAxOSAyIDIwLjM1IDIgMjJWNDJDMiA0My42NSAzLjM1IDQ1IDUgNDVINTlDNjAuNjUgNDUgNjIgNDMuNjUgNjIgNDJWMjJDNjIgMjAuMzUgNjAuNjUgMTkgNTkgMTlaTTYwIDQyQzYwIDQyLjU1IDU5LjU1IDQzIDU5IDQzSDVDNC40NSA0MyA0IDQyLjU1IDQgNDJWMjJDNCAyMS40NSA0LjQ1IDIxIDUgMjFINTlDNTkuNTUgMjEgNjAgMjEuNDUgNjAgMjJWNDJaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNNCAyN1YyMi4zMzNDNCAyMS41OTcgNC41OTcgMjEgNS4zMzMgMjFIMTBMNCAyN1oiIGZpbGw9InVybCgjcGFpbnQxX2xpbmVhcl80MTFfNDQ3MCkiLz4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQwX2xpbmVhcl80MTFfNDQ3MCIgeDE9IjMyIiB5MT0iOS45MDMiIHgyPSIzMiIgeTI9IjY0Ljc3NSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjRkFCOTAwIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0UzRDI3RiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MV9saW5lYXJfNDExXzQ0NzAiIHgxPSI3IiB5MT0iMjAuNjM4IiB4Mj0iNyIgeTI9IjI1LjAyMSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjRTNEMjdGIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZBQjkwMCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo="/></div></div>\
         <div class="desc-text">{{html snippetData?.answer}}</div>\
         <div class="quick-links">\
           <div class="quick-item know-more-snippet" snippetURL="${snippetData?.page_url}">Know More</div>\
@@ -3837,6 +3837,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.customizeView = true;
             if ($('body').hasClass('top-down') && _self.isDev) {
               $('.show_insights_top_down').show();
+              $('.show_insights_top_down').css('right','190px');
               $('.custom-add-result-container').removeClass('display-none');
               $('.content-data-sec').addClass('if-customize-mode');
             }
@@ -6871,8 +6872,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             } else {
               var _botMessage = 'Sure, please find the matched results below';
               var snippetObj={};
-              if(res?.graph_answer?.payload){
-                snippetObj = {'title':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.title),'answer':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.answer),page_url:res?.graph_answer?.payload?.center_panel?.data[0]?.page_url}; 
+              if(res?.graph_answer?.payload?.center_panel){
+                if(Object.keys(res.graph_answer.payload.center_panel).length>0){
+                  snippetObj = {'title':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.title),'answer':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.answer),page_url:res?.graph_answer?.payload?.center_panel?.data[0]?.page_url}; 
+                }
+                else{
+                  snippetObj={};
+                }
               }
               else{
                 snippetObj={};
@@ -17957,6 +17963,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.content-data-sec').removeClass('if-customize-mode');
             _self.vars.customizeView = true;
             $('.show_insights_top_down').show();
+            $('.show_insights_top_down').css('right','294px');
             if (_self.isDev) {
               if ($('.top-down-search-background-div')) {
                 $('.top-down-search-background-div').addClass('if-full-results');
