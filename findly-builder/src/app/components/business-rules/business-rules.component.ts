@@ -83,7 +83,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   conditions = {
     string: ['contains', 'doesNotContain', 'equals', 'notEquals'],
     date: ['equals', 'between', 'greaterThan', 'lessThan'],
-    number: ['equals', 'between', 'greaterThan', 'lessThan'],
+    number: ['equals', 'between', 'greaterThan', 'lessThan','lessThanOrEqualTo','greaterThanOrEqualTo'],
     trait: ['contains', 'doesNotContain', 'equals', 'notEquals'],
     entity: ['contains', 'doesNotContain', 'equals', 'notEquals'],
     keyword: ['contains', 'doesNotContain', 'equals', 'notEquals']
@@ -1494,6 +1494,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const sentence = this.updateColorSentence();
     this.entityObj.colorSentence  = this.sanitizer.bypassSecurityTrustHtml(sentence);
     this.nlpAnnotatorObj.annotator.push(this.entityObj);
+    this.entityObj = { entities: [], sentence: '', taggedSentence: '', colorSentence: '', isEditable: false };
   }
 
   //edit annotator object

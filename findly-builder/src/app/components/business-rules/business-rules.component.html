@@ -369,9 +369,9 @@
                                                             data-toggle="dropdown" ngbDropdownToggle>{{((ruleObj.operator)?("businessRules." +ruleObj.operator):'choose_an_option') | translate}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add"
                                                             ngbDropdownMenu>
-                                                            <perfect-scrollbar class="scroll-max-200">
+                                                            <perfect-scrollbar class="scroll-max-250">
                                                              <ng-container *ngIf="ruleObj.dataType && conditions[ruleObj.dataType]">
-                                                                <div class="scroll-max-200" *ngFor="let operator of conditions[ruleObj.dataType]">
+                                                                <div class="scroll-max-250" *ngFor="let operator of conditions[ruleObj.dataType]">
                                                                     <li class="p-0" ngbDropdownItem (click)="ruleSelection(ruleObj,operator,'operator')">
                                                                         <a class="text-truncate" [ngClass]="{'font-weight-bold':ruleObj.operator===operator}">{{"businessRules." + operator | translate}}</a>
                                                                     </li>
@@ -598,7 +598,7 @@
                             <div class="nlp-custom-tag-data-block" *ngFor="let annotator of nlpAnnotatorObj.annotator;let i=index;" [ngClass]="{'nlp-tag-edit':annotator.isEditable}">
                                 <div class="nlp-custom-tag-data-line">
                                     <div contenteditable="false"  [innerHTML]="annotator.colorSentence" *ngIf="!annotator.isEditable"></div>
-                                    <div contenteditable="true" class="div-editable" id="contentText" [innerHTML]="annotator.colorSentence" *ngIf="annotator.isEditable" (mouseup)="getDialogDiemensions($event)" (selectedIndex)="getSelectedIndex($event)" appSelectText></div>                                   
+                                    <div contenteditable="true" class="div-editable" [innerHTML]="annotator.colorSentence" *ngIf="annotator.isEditable" (mouseup)="getDialogDiemensions($event)" (selectedIndex)="getSelectedIndex($event)" appSelectText></div>                                   
                                    <div class="nlp-custom-tag-overflow-menu" *ngIf="annotator.isEditable===false">
                                     <div class="dropdown nlp-overflow-menu">
                                         <button class="btn dropdown-toggle dropdown-btn" type="button" id="nlpOverflowMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

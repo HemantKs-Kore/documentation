@@ -199,6 +199,8 @@
         "between": "Between",
         "greaterThan": "Greater Than",
         "lessThan": "Less Than",
+        "greaterThanOrEqualTo":"Greater Than Or EqualTo",
+        "lessThanOrEqualTo":"Less Than Or EqualTo",
         "static": "Static",
         "dynamic": "Dynamic",
         "delete": "Delete",
