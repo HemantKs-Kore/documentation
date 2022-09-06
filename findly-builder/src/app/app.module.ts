@@ -122,6 +122,7 @@ import { AnalyticsDropdownComponent } from './helpers/components/analytics-dropd
 import { ConnectorsSourceComponent } from './components/connectors-source/connectors-source.component';
 import { SafeHtmlPipe } from './helpers/filters/safe-html.pipe';
 import { SelectTextDirective } from './helpers/directives/select-text.directive';
+import { EllipsisActiveDirective } from './helpers/directives/ellipsis-active.directive';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -211,7 +212,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ConnectorsSourceComponent,
     OnboardingComponentComponent,
     SafeHtmlPipe,
-    SelectTextDirective
+    SelectTextDirective,
+    EllipsisActiveDirective
   ],
   imports: [
     BrowserModule,

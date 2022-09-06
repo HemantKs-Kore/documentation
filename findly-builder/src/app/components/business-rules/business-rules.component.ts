@@ -141,7 +141,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   sys_entities: any = [];
   entityDefaultColors: any = [{ type: 'system_defined', color: '#135423' }, { type: 'custom', color: '#803C25' }, { type: 'index_field', color: '#381472' }];
   entityFields = { startIndex: 0, endIndex: 0, entityId: '' };
-  entityObj: any = { entities: [], sentence: '', taggedSentence: '', colorSentence: '', isEditable: false };
+  entityObj: any = { entities: [], sentence: '', colorSentence: '', isEditable: false };
   inputSentence: any;
   selectEditIndex:number=0;
   nlpAnnotatorObj: any = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [], };
@@ -268,7 +268,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.createTag(false, false);
     this.nlpAnnotatorObj = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [] };
     this.entityFields = { startIndex: 0, endIndex: 0, entityId: '' };
-    this.entityObj = { entities: [], sentence: '', taggedSentence: '', colorSentence: '', isEditable: false };
+    this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false };
     this.inputSentence = '';
   }
   setDataForEdit(ruleObj) {
@@ -1338,11 +1338,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //after sentence changes click on add
   AddSelectedEnity() {
-    if (this.entityObj.entities.length > 0) {
-      this.entityObj.taggedSentence = this.entityObj.sentence
-      for(let entity of this.entityObj.entities){
-        this.entityObj.taggedSentence= this.updateTaggedSentence(this.entityObj.sentence,entity.startIndex,entity.endIndex,entity);
-      }     
+    if (this.entityObj.entities.length > 0) {    
       if(this.entityObj.isEditable){
         this.entityObj.isEditable=false;
         this.nlpAnnotatorObj.annotator[this.selectEditIndex] = this.entityObj;
@@ -1351,15 +1347,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         this.nlpAnnotatorObj.annotator.push(this.entityObj);
       }
       this.inputSentence = '';
-      this.entityObj = { entities: [], sentence: '', taggedSentence: '', colorSentence: '',isEditable:false };
+      this.entityObj = { entities: [], sentence: '', colorSentence: '',isEditable:false };
       this.entityFields = { startIndex: 0, endIndex: 0, entityId: '' };
     }
-  }
-
-  // update text with entity name
-  updateTaggedSentence(origin,start,end,entity){
-    const insertion = this.sys_entities.filter(item=>item._id===entity.entityId);
-    return origin.substring(0, start) + `<<${insertion[0].entityName}>>`+ origin.substring(end);     
   }
   //create or cancel entity
   createTag(isPopup, isEdit) {
@@ -1489,12 +1479,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //create color sentence while click on edit
   createColorSentence(rule) {
-    this.entityObj = { entities: [], sentence: '', taggedSentence: '', colorSentence: '', isEditable: false };
-    this.entityObj = { entities: rule?.entities, sentence: rule?.sentence, taggedSentence: rule?.taggedSentence, colorSentence: '', isEditable: false };
+    this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false };
+    this.entityObj = { entities: rule?.entities, sentence: rule?.sentence, colorSentence: '', isEditable: false };
     const sentence = this.updateColorSentence();
     this.entityObj.colorSentence  = this.sanitizer.bypassSecurityTrustHtml(sentence);
     this.nlpAnnotatorObj.annotator.push(this.entityObj);
-    this.entityObj = { entities: [], sentence: '', taggedSentence: '', colorSentence: '', isEditable: false };
+    this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false };
   }
 
   //edit annotator object
@@ -1507,7 +1497,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //cancel annotator sentence
   cancelAnnotatorSentence(annotator){
     annotator.isEditable = false;
-    this.entityObj = { entities: [], sentence: '', taggedSentence: '', colorSentence: '', isEditable: false };
+    this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false };
     this.selectEditIndex = 0;
   }
 }

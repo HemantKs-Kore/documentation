@@ -311,7 +311,7 @@
                                                             <perfect-scrollbar class="scroll-max-200">
                                                                 <div class="scroll-max-200" *ngFor="let contextType of ruleOptions?.contextTypes">
                                                                     <li class="p-0" ngbDropdownItem (click)="ruleSelection(ruleObj, contextType, 'contextType')">
-                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':ruleObj.contextType===contextType}">{{"businessRules." + contextType | translate}}</a>
+                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':ruleObj.contextType===contextType}" appEllipsisActive>{{"businessRules." + contextType | translate}}</a>
                                                                     </li>
                                                                 </div>
                                                             </perfect-scrollbar>
@@ -330,7 +330,7 @@
                                                             <perfect-scrollbar class="scroll-max-200">
                                                                 <div class="scroll-max-200" *ngFor=" let contextCategory of ruleOptions[ruleObj.contextType]">
                                                                     <li class="p-0" ngbDropdownItem (click)="ruleSelection(ruleObj,contextCategory,'contextCategory')">
-                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':ruleObj.contextCategory===contextCategory}">{{"businessRules." + contextCategory | translate}}</a>
+                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':ruleObj.contextCategory===contextCategory}" appEllipsisActive>{{"businessRules." + contextCategory | translate}}</a>
                                                                     </li>
                                                                 </div>
                                                             </perfect-scrollbar>
@@ -365,15 +365,14 @@
                                                 <div class="kr-sg-dropdowns w-auto" ngbDropdown
                                                     [placement]="'bottom-right'">
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown" ngbDropdownToggle>{{((ruleObj.operator)?("businessRules." +ruleObj.operator):'choose_an_option') | translate}}</button>
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" ngbDropdownToggle>{{((ruleObj.operator)?("businessRules." +ruleObj.operator):'choose_an_option') | translate}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add"
                                                             ngbDropdownMenu>
                                                             <perfect-scrollbar class="scroll-max-250">
                                                              <ng-container *ngIf="ruleObj.dataType && conditions[ruleObj.dataType]">
                                                                 <div class="scroll-max-250" *ngFor="let operator of conditions[ruleObj.dataType]">
                                                                     <li class="p-0" ngbDropdownItem (click)="ruleSelection(ruleObj,operator,'operator')">
-                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':ruleObj.operator===operator}">{{"businessRules." + operator | translate}}</a>
+                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':ruleObj.operator===operator}" appEllipsisActive>{{"businessRules." + operator | translate}}</a>
                                                                     </li>
                                                                 </div>
                                                              </ng-container>
@@ -674,7 +673,7 @@
                                                             <perfect-scrollbar class="scroll-max-200">
                                                                 <div class="scroll-max-200">
                                                                     <li class="p-0" ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion" (click)="selectField(suggestion, outcomeObj)">
-                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':outcomeObj.fieldName===suggestion.fieldName}">{{ suggestion.fieldName }}</a>
+                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':outcomeObj.fieldName===suggestion.fieldName}" appEllipsisActive>{{ suggestion.fieldName }}</a>
                                                                     </li>
                                                                 </div>
                                                             </perfect-scrollbar>
@@ -699,7 +698,7 @@
                                                             <perfect-scrollbar class="scroll-max-200">
                                                                 <div class="scroll-max-200" *ngFor="let operator of conditions.string">
                                                                     <li class="p-0" ngbDropdownItem (click)="outcomeSclection(outcomeObj,operator,'outcomeOperator')">
-                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':outcomeObj.outcomeOperator===operator}">{{"businessRules." + operator | translate}}</a>
+                                                                        <a class="text-truncate" [ngClass]="{'font-weight-bold':outcomeObj.outcomeOperator===operator}" appEllipsisActive>{{"businessRules." + operator | translate}}</a>
                                                                     </li>
                                                                 </div>
                                                             </perfect-scrollbar>
