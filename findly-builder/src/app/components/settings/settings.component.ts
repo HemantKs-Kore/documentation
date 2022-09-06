@@ -729,5 +729,8 @@ export class SettingsComponent implements OnInit {
       document.getElementById(inputSearch).focus();
     }, 100)
   }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
 }
 

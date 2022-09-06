@@ -1093,4 +1093,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   //   }]
   // };
   // }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
 }

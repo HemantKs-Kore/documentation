@@ -1,6 +1,8 @@
 <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
 <div class="search-experience-wrapper">
-    <div class="header-title">{{'searchexperience.component_title' | translate}}</div>
+    <div class="header-title">{{'searchexperience.component_title' | translate}}
+        <span class="module-topic"><img (click)="openUserMetaTagsSlider()" src="assets/icons/onboarding/Module Topic Guide.svg"></span>
+    </div>
     <div class="tabs-sec" (click)="checkColorPallets()">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item" (click)="selectTab('experience')">

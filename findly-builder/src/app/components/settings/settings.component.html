@@ -4,7 +4,9 @@
 <div class="channels-main-container">
     <div class="header-sec-breadcums col-12 row m-0 " *ngIf="slider==0">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-        <div class="col-4 lef-sec p-0"><span class="title">{{"settings.channels" | translate}}</span></div>
+        <div class="col-4 lef-sec p-0"><span class="title">{{"settings.channels" | translate}}</span>
+           <span class="module-topic"><img (click)="openUserMetaTagsSlider()" src="assets/icons/onboarding/Module Topic Guide.svg"></span>
+        </div>
         <div class="col-8 right-sec p-0">
             <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">                               
                 <input type="text" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchchannel,'pl-2':searchchannel}" autocomplete="off" [(ngModel)]="searchchannel"  maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"

@@ -92,6 +92,7 @@ export class AppHeaderComponent implements OnInit {
   subscription: Subscription;
   routeChanged: Subscription;
   updateHeaderMainMenuSubscription: Subscription;
+  topicGuideShowSubscription:Subscription;
   accountIdRef = "";
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
@@ -178,6 +179,9 @@ export class AppHeaderComponent implements OnInit {
   }
   ngOnInit() {
     this.getUserInfo();
+    this.topicGuideShowSubscription = this.appSelectionService.topicGuideShow.subscribe(res=>{
+      this.openUserMetaTagsSlider();
+    })
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourConfigData = res;
       this.tourData = res.onBoardingChecklist;
@@ -992,6 +996,7 @@ export class AppHeaderComponent implements OnInit {
     this.updateHeaderMainMenuSubscription ? (this.updateHeaderMainMenuSubscription.unsubscribe()) : false;
     this.indexSubscription ? this.indexSubscription.unsubscribe() : null;
     this.subscription ? this.subscription.unsubscribe() : null;
+    this.topicGuideShowSubscription? this.topicGuideShowSubscription.unsubscribe():null;
   }
   //get all apps
   getAllApps() {
@@ -1430,6 +1435,7 @@ export class AppHeaderComponent implements OnInit {
       this.onboardingOpened = false;
       this.onBoardingComponent.closeSupport();
     }
+    this.sliderComponent.closeSlider("#supportOnboarding");
   }
   emitStatus(event) {
     this.displyStatusBar = event;

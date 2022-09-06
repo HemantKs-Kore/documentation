@@ -63,7 +63,7 @@
                     }
                     i{
                         font-size: 20px;
-                        color: #0D6EFD;
+                        color: #0D6EFD !important;
                     }
                     span{
                         font-weight: normal;
@@ -84,6 +84,9 @@
                                 color: #FFFFFF;
                             }
                             &.si-home::before{
+                                color: #FFFFFF;
+                            }
+                            &.si-topicguide::before{
                                 color: #FFFFFF;
                             }
                         }
@@ -1001,6 +1004,181 @@
                     }
                     .card-body{
                         padding: 0 0 20px 0;
+                    }
+                }
+            }
+        }
+    }
+}
+iframe{
+    width: 100%;
+    height: 100vh;
+    &.previewMode{
+        z-index: 99999 !important;
+    }
+    &.expanded{
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 3;
+        height: 100vh !important;
+        max-height: 100vh !important;
+    }
+}
+.topicGuideIframeContainer{
+    #topicGuideIframe{
+     width: 100%;
+   } 
+ }
+ .topic_icon:active{
+    color: #FFFFFF !important;
+}
+
+.loader{
+    text-align: center;
+    display: flex;
+    height: 100vh;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    .loaderLogoImage{
+        width: 50px;
+        height: 50px;
+        display: block;
+        position: absolute;
+        top: calc(50% - 90px);
+        left: calc(50% - 25px);
+        margin: auto;
+        outline: 1px solid transparent;
+        -webkit-animation: spin 0.5s linear infinite;
+        animation: spin 0.5s linear infinite;
+    }
+}
+
+.bt-topicGuide_media-modal{
+    background: rgba(31, 32, 36, 0.4) !important;
+    .modal-dialog{
+        width: 800px;
+        max-width: 800px;
+        .modal-content{
+            background: transparent !important; 
+            box-shadow: none !important;
+            border: 0 !important; 
+            .krBackDropModal{
+                .videoMain{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0;
+                    .videoContainer{
+                        width: 100%;
+                        position: relative;
+                        background-color: #fff;
+                        padding: 20px;
+                        border-radius: 6px;
+                        .details-section {
+                            display: flex;
+                            height: 100%;
+                            .video {
+                                width: 100%;
+                                height: 100%;
+                                // max-height: 420px !important;
+                                // iframe{
+                                //     border-radius: 6px;
+                                //     background: rgba(31, 32, 36, 0.2) !important;
+                                // }
+                            }
+                            .details {
+                                width: 380px;
+                                padding: 100px 40px;
+                                flex-shrink: 0;
+                                height: 100%;
+                                //background-image: url(assets/icons/onboarding/video-form-bg.png);
+                                background-size: 100%;
+                                background-repeat: no-repeat;
+                                position: relative;
+                                .d-title {
+                                    font-weight: 300;
+                                    font-size: 24px;
+                                    line-height: 29px;
+                                    color: #202124;
+                                    margin-bottom: 5px;
+                                }
+                                .d-description {
+                                    font-weight: normal;
+                                    font-size: 14px;
+                                    line-height: 17px;
+                                    color: #9AA0A6;
+                                    margin-bottom: 20px;
+                                }
+                                .kr-sg-input-text{
+                                    margin-bottom: 20px;
+                                    &.maginTop8{
+                                        margin-top: 8px;
+                                    }
+                                }
+                                .kr-sg-dropdowns{
+                                    margin-bottom: 20px;
+                                    &.maginTop8{
+                                        margin-top: 8px;
+                                    }
+                                }
+                                .kr-sg-button-primary {
+                                    margin-top: 55px;
+                                }
+                            }
+                        }
+                        .vidoeDesc{
+                            text-align: left;
+                            h4{
+                                font-weight: 700;
+                                font-size: 20px;
+                                line-height: 24px;
+                                margin: 18px 0 5px 0;
+                            }
+                            p{
+                                font-weight: 500;
+                                font-size: 16px;
+                                line-height: 19px;
+                                color: #5F6368;
+                                margin: 0;
+                            }
+                            .kr-sg-button-primary{
+                                .btx-btn-video-icon{
+                                    color: #dfcaca;
+                                    font-size: 14px; 
+                                    margin-right: 10px;
+                                    position: relative;
+                                    top: 1px;
+                                }
+                                .playIcon{
+                                    top: 2px;
+                                    display: inline-block;
+                                    width: 13px;
+                                    height: 13px;
+                                    border: 1px solid #ffffff;
+                                    border-radius: 2px;
+                                    position: relative;
+                                    margin-right: 10px;
+                                    .btx-play{
+                                        color: #f1b5b5;
+                                        font-size: 8px;
+                                        position: absolute;
+                                        top: 1px;
+                                        left: 2px;
+                                    }
+                                }
+                            }
+                            .skipLink{
+                                font-weight: 400;
+                                font-size: 14px;
+                                cursor: pointer;
+                                color: #9AA0A6;
+                                float: right;
+                                position: relative;
+                                top: 12px;
+                            }
+                        }
                     }
                 }
             }

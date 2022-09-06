@@ -3,7 +3,9 @@
         <div class="col-4 lef-sec p-0"
             *ngIf="!(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)">
             <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-            <span class="title">Business Rules</span>
+            <span class="title">Business Rules
+                <span class="module-topic"><img (click)="openUserMetaTagsSlider()" src="assets/icons/onboarding/Module Topic Guide.svg"></span>
+            </span>
         </div>
         <div class="col-4 lef-sec p-0"
             *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">

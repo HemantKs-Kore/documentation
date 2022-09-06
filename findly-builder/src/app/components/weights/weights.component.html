@@ -6,7 +6,9 @@
     <ng-container *ngIf="!loadingContent">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <div class="header-sec-stopwords">
-            <div class="title">{{'weights.Weights'| translate}}</div>
+            <div class="title">{{'weights.Weights'| translate}}
+                <span class="module-topic"><img (click)="openUserMetaTagsSlider()" src="assets/icons/onboarding/Module Topic Guide.svg"></span>
+            </div>
             <div class="restore_text" *ngIf="weights.length">
                 <span class="lable_text mr-4" id="btn_openWeight" (click)="openAddNewWeight()"><img
                         src="assets/icons/editor/plus-add.svg" class="mr-2">{{'weights.add_searchable_field'|

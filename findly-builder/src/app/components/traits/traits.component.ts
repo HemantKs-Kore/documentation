@@ -1162,6 +1162,10 @@ export class TraitsComponent implements OnInit {
     this.getTraitsGroupsApi()
   }
 
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
+
   ngOnDestroy() {
     const self = this;
     if (this.subscription) {

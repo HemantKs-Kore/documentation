@@ -5,7 +5,9 @@
     </div>
     <div class="header-sec">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-        <div class="title">{{"invoices.invoices" | translate}}</div>
+        <div class="title">{{"invoices.invoices" | translate}}
+            <span class="module-topic"><img (click)="openUserMetaTagsSlider()" src="assets/icons/onboarding/Module Topic Guide.svg"></span>
+        </div>
         <div class="d-flex align-items-center" *ngIf="invoices.length">
             <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
                 <input type="text" placeholder="{{'search' | translate}}" maxlength="60" class="input-search"

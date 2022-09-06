@@ -8,7 +8,9 @@
     <div class="header-sec row" *ngIf='listOfExperiments.length>0||filterExperiments.length>0'>
       <div class="col-6 left-sec p-0">
         <div class="tab-sec d-flex">
-          <b>{{"experiments.name"| translate}}</b>
+          <b>{{"experiments.name"| translate}}
+            <span class="module-topic"><img (click)="openUserMetaTagsSlider()" src="assets/icons/onboarding/Module Topic Guide.svg"></span>
+          </b>
         </div>
       </div>
       <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">

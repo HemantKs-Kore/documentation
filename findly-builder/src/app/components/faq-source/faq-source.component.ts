@@ -30,6 +30,7 @@ import { SideBarService } from './../../services/header.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { CompileShallowModuleMetadata, ThrowStmt } from '@angular/compiler';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
 
 @Component({
   selector: 'app-faq-source',
@@ -156,6 +157,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   followAddSub: Subscription;
   followCancelSub: Subscription;
   componentType: string = 'addData';
+  onboardingOpened: boolean = false;
+  currentRouteData: any = "";
   openExtractsSubs: Subscription;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
@@ -172,6 +175,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  @ViewChild(OnboardingComponentComponent, { static: true }) onBoardingComponent: OnboardingComponentComponent;
   allPageSelected: boolean = false;
   checkedAll: any[] = [];
   checkedAllState: any[] = [];
@@ -2125,6 +2129,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         event.currentIndex);
       this.updateFaq(this.selectedFaq, 'updateQA', faqDragData);
     }
+  }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
   }
 
 }

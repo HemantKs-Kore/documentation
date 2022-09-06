@@ -5,6 +5,8 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { Subscription } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { DomSanitizer } from '@angular/platform-browser';
 declare const $: any;
 
 @Component({
@@ -37,6 +39,8 @@ export class OnboardingComponentComponent implements OnInit {
   searchOpenFaq:boolean=false;
   support_Search:any;
   faq_Search:any;
+  topicGuideUrl: any;
+  showLoader: boolean;
   supportData = [{
     title:'Getting started',
     desc:'Explore our Guide on popular topics to start building your own Search Application',
@@ -801,8 +805,13 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
  ]
 }
 ];
+topicGuideObj = {
+  enableIframe:false,
+  selectedContent:''
+};
+mediaObj = {};
 
-  constructor( private appSelectionService: AppSelectionService, private notificationService: NotificationService, private service: ServiceInvokerService,public router: Router,) {}
+  constructor( private appSelectionService: AppSelectionService, private notificationService: NotificationService, private service: ServiceInvokerService,public router: Router,public sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
       this.getVersion();
@@ -819,9 +828,28 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
       imgURL:'assets/icons/onboarding/hand.svg',route:'/settings',tourdata:this.tourData[5].fineTuneRelevance, videoUrl:'https://www.w3schools.com/tags/movie.mp4', docUrl:'https://docs.kore.ai/searchassist/deploying-searchassist-app/developers-corner/'}];
       this.trackChecklist();
     })
+    window.addEventListener("message", (event) => {
+      this.readEvent(event.data,event.data.action)      
+   }, false)
   }
+  readEvent(data,action){
+    if(action=="videoModal"){
+      this.openMediaModal(data.payload);
+    }
+  }
+ openMediaModal = function(mediaObj) {
+    var med =  mediaObj || {};
+   mediaObj = med;
+mediaObj.loadingMedia = true;
+   $('#topicGuideVideoModal').modal('show');
+};
+$sc
   triggerFaq() {
     this.currentRouteData=this.currentRouteData.replace("/", "");
+    if(this.currentRouteData==''){
+      this.currentRouteData=this.router.url;
+      this.currentRouteData=this.currentRouteData.replace("/", "");
+    }
     let index = this.faqData.findIndex(el => el.key == this.currentRouteData)
     if(index < 0) {
       // this.triggerChild()
@@ -835,16 +863,48 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
       });
     }
   }
-  triggerChild(data) {
+  showHideSpinner() {
+    setTimeout(() => {
+      this.showLoader = false;
+    }, 1500)
+}
+  triggerChild(data) {  
     this.supportParentData = false
     this.supportChildData = data.childData;
-     this.breadcrumbName = data.title;
+    this.breadcrumbName = data.title;
   }
   triggerChildFaq(faq) {
+    const topicGuide: any = environment;
+    if (topicGuide.hasOwnProperty('topicGuideBaseUrl') && topicGuide['topicGuideBaseUrl']) {
+      var topicGuideBaseUrl = topicGuide['topicGuideBaseUrl']
+      var version = 'latest';
+      var language = 'en';
+      var topicId = faq.display;
+      // var topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl(topicGuideBaseUrl+language+'/'+version+'/'+topicId +'?rnd=' + Math.random().toString(36).substr(7));
+      $(".si-topicguide" ).trigger( "click" );
+      this.topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://sunilsi-kore.github.io/koredotai-docs/platform/topic-guide/en/latest/Small%20Talk');
+      // this.topicGuideUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://koredotcom.github.io/koredotai-docs/platform/topic-guide/en/latest/No Bots Form?rnd=cd1at9')
+      //this.topicGuideUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://koredotcom.github.io/koredotai-docs/platform/topic-guide/en/latest/Dialog Tasks?rnd=cd1at9')
+      console.log(this.topicGuideUrl);
+      this.topicGuideObj.enableIframe =  true;
+      this.topicGuideObj.selectedContent =  topicId;
+    } else {
+      this.topicGuideObj.enableIframe =  false;
+   }
     this.supportParentfaq = false
     this.supportChildfaq = faq.childData;
     this.breadcrumbNameFaq = faq.display;
 }
+closeMediaModal(){
+  this.mediaObj = {};
+  $('#topicGuideVideoModal').modal('hide');
+};
+onMediaLoadedLoaded(){
+  setTimeout(function(){
+   this.mediaObj.loadingMedia = false;
+ });
+};
+
   // openAccordiandata(index) {
   //   $(document).ready(function(){
   //     $(".data"+index).mouseenter(function(){
@@ -896,7 +956,7 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
 
   openCheckList(){
     $(".nav-link" ).trigger( "click" );
-  }
+  }  
 
 
   openAccordiandata2() {

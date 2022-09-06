@@ -2328,6 +2328,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
+
   ngOnDestroy() {
     const self = this;
     if (this.pollingSubscriber) {

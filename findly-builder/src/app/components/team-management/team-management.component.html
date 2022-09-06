@@ -7,7 +7,9 @@
         <div class="seach_add_feild">
             <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
             <div class="title col-4 p-0" *ngIf="!(selcectionObj && selcectionObj.selectedCount)">{{'teams.team'|
-                translate}}</div>
+                translate}}
+                <span class="module-topic"><img (click)="openUserMetaTagsSlider()" src="assets/icons/onboarding/Module Topic Guide.svg"></span>
+            </div>
             <div class="title col-4 p-0" *ngIf="selcectionObj && selcectionObj.selectedCount">
                 <div class="kr-sg-checkbox p-0 m-0" *ngIf="selcectionObj.selectedCount == allMembersCount">
                     <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()"
