@@ -1300,7 +1300,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     let legends = [];
     const total_entities:any = this.getUniqueListBy(this.entityObj.entities,'startIndex');
     this.entityObj.entities = total_entities;
-    this.nlpAnnotatorObj.Legends
     for (let i = 0; i < total_entities.length; i++) {
       let sentence = '';
       const startIndex = total_entities[i].startIndex;
