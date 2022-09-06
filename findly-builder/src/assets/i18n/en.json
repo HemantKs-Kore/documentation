@@ -814,7 +814,8 @@
         "toDefine":"to define.",
         "learnMore":"Learn More",
         "status":"Status",
-        "started_at":"Started At"
+        "started_at":"Started At",
+        "type":"Sync Type"
     },
     "actions": {
         "actions": "Actions",

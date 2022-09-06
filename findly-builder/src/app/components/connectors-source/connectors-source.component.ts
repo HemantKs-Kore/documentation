@@ -142,11 +142,8 @@ export class ConnectorsSourceComponent implements OnInit {
       if (result?.length) {
         this.Connectors.forEach(item => {
           result.forEach(item1 => {
-            if (item.type === item1.type) {
+            if (item.type === item1.type&&item1?.isDeleted===false) {
               this.connectorsData.push({ ...item, ...item1 });
-            }
-            else {
-
             }
           })
         })        

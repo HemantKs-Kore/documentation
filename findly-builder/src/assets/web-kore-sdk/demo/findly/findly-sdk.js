@@ -3837,6 +3837,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.customizeView = true;
             if ($('body').hasClass('top-down') && _self.isDev) {
               $('.show_insights_top_down').show();
+              $('.show_insights_top_down').css('right','190px');
               $('.custom-add-result-container').removeClass('display-none');
               $('.content-data-sec').addClass('if-customize-mode');
             }
@@ -17962,6 +17963,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.content-data-sec').removeClass('if-customize-mode');
             _self.vars.customizeView = true;
             $('.show_insights_top_down').show();
+            $('.show_insights_top_down').css('right','294px');
             if (_self.isDev) {
               if ($('.top-down-search-background-div')) {
                 $('.top-down-search-background-div').addClass('if-full-results');

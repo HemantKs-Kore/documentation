@@ -85,7 +85,7 @@
               <div class="stateIcon" *ngIf="!pipe?.enable">
                 <img src="assets/images/inActiveStage.svg" />
               </div>
-              <div class="title text-truncate">{{ pipe?.name }} <img src="assets/images/beta_yellow.svg" class="beta-icon" *ngIf="pipe.type==='snippet_extraction'"/></div>
+              <div class="title text-truncate">{{ pipe?.name }} <img src="assets/images/BETA_VER.svg" class="beta-icon" *ngIf="pipe.type==='snippet_extraction'"/></div>
               <div class="close_icon" (click)="removeStage(i,pipe?.name)">
                 <img src="assets/icons/close_field.svg" />
               </div>
@@ -127,7 +127,7 @@
                     " (click)="switchStage(systemStage, index,'true')">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
                       systemStage?.type | translate
-                      }} <img src="assets/images/beta_yellow.svg" class="beta-icon-stage" *ngIf="systemStage.type==='snippet_extraction'"/></a>
+                      }} <img src="assets/images/BETA_VER.svg" class="beta-icon-stage" *ngIf="systemStage.type==='snippet_extraction'"/></a>
                   </li>
                 </ul>
               </div>

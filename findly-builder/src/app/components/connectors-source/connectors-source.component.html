@@ -534,13 +534,15 @@
                                             <section class="table-content">
                                                 <header class="table-header">
                                                     <div class="col-4 p-0">{{'connectors.title'|translate}}</div>
-                                                    <div class="col-4">{{'connectors.status'|translate}}</div>
-                                                    <div class="col-4">{{'connectors.started_at'|translate}}</div>
+                                                    <div class="col-3">{{'connectors.started_at'|translate}}</div>
+                                                    <div class="col-2">{{'connectors.status'|translate}}</div>
+                                                    <div class="col-3">{{'connectors.type'|translate}}</div>
                                                 </header>
                                                 <div class="content-body cursor-pointer" *ngFor="let job of overViewData.jobs">
                                                     <div class="col-4 p-0">{{job?.title|titlecase}}</div>
-                                                    <div class="col-4">{{job?.status|titlecase}}</div>
-                                                    <div class="col-4">{{job?.startedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
+                                                    <div class="col-3">{{(job?.opType==='Manual')?'On-Demand':'Scheduler'}}</div>
+                                                    <div class="col-2" [ngStyle]="{'color':(job?.status==='SUCCESS')?'green':(job?.status==='INPROGRESS')?'black':'red'}">{{job?.status|titlecase}}</div>
+                                                    <div class="col-3">{{job?.startedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
                                                 </div>
                                                 <div *ngIf="overViewData.jobs?.length===0" class="no-content">{{'connectors.no_job'|translate}}</div>
                                             </section>                           
