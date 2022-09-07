@@ -31,6 +31,15 @@
                     </ul>
                 </div>
             </div>
+            <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle p-0 border-0 three-dots" ngbDropdownToggle> <img _ngcontent-aif-c18="" class="ng-tns-c18-5" src="assets/icons/elipse.svg"></button>                                            
+                    <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                      <li class="structuredataExport" (click)='exportStructureData("json")' *ngIf="true">{{'faqSource.export_to_json' | translate}}</li>
+                      <!-- <li (click)='exportFaq("csv")' *ngIf="true">{{'faqSource.export_to_csv' | translate}}</li> -->
+                    </ul>
+                </div>
+            </div>            
         </div>
     </div> 
     <perfect-scrollbar class="structured-data-scroll" [ngClass]="{'adjust-height': noItems}">
