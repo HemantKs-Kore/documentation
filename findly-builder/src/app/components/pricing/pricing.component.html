@@ -8,7 +8,9 @@
 <div class="pricing-container-wrapper" *ngIf="(currentSubscriptionPlan?.subscription)">
   <div class="title-header d-flex align-items-center justify-content-between">
     <div>{{"plan.plan_head"| translate}}
-      <span class="module-topic"><img (click)="openUserMetaTagsSlider()" src="assets/icons/onboarding/Module Topic Guide.svg"></span>
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' (click)="openUserMetaTagsSlider()">
+        <i class="si-topic-guide"></i>
+      </span>
     </div>
     <div class="btns-block">
     <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)==='standard'&&(currentSubscriptionPlan?.subscription?.changesScheduledFor==='none')" (click)="cancelSubscriptionModal('open')"><i class="si-minus-circle-o"></i>{{"plan.cancel_subscription"| translate}}</button>

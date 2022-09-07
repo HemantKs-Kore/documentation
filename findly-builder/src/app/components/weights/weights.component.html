@@ -7,7 +7,9 @@
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <div class="header-sec-stopwords">
             <div class="title">{{'weights.Weights'| translate}}
-                <span class="module-topic"><img (click)="openUserMetaTagsSlider()" src="assets/icons/onboarding/Module Topic Guide.svg"></span>
+                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' (click)="openUserMetaTagsSlider()">
+                    <i class="si-topic-guide"></i>
+                </span>
             </div>
             <div class="restore_text" *ngIf="weights.length">
                 <span class="lable_text mr-4" id="btn_openWeight" (click)="openAddNewWeight()"><img

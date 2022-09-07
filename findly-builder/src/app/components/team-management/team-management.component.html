@@ -8,7 +8,9 @@
             <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
             <div class="title col-4 p-0" *ngIf="!(selcectionObj && selcectionObj.selectedCount)">{{'teams.team'|
                 translate}}
-                <span class="module-topic"><img (click)="openUserMetaTagsSlider()" src="assets/icons/onboarding/Module Topic Guide.svg"></span>
+                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' (click)="openUserMetaTagsSlider()">
+                    <i class="si-topic-guide"></i>
+                </span>
             </div>
             <div class="title col-4 p-0" *ngIf="selcectionObj && selcectionObj.selectedCount">
                 <div class="kr-sg-checkbox p-0 m-0" *ngIf="selcectionObj.selectedCount == allMembersCount">

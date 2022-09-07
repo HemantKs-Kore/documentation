@@ -5,7 +5,7 @@
     position: relative;
     .version{
         color: #202124;
-        font-size: 12px;
+        font-size: 9px;
         text-decoration: none;
         border-radius: 10px;
         background: #fcfcfc;
@@ -15,7 +15,7 @@
         justify-content: center;
         top: 17px;
         position: absolute;
-        right: 62px;
+        right: 44px;
         top: 15px;
         
     }
@@ -57,6 +57,22 @@
                     border-radius: 5px;
                     margin-right: 10px;
                     position: relative;
+                    &.topic-guide-tab{
+                        &::before{
+                            content: "";
+                            position: absolute;
+                            border-left: 1px solid #B9BCBF;
+                            left: -6px;
+                            height: 18px;
+                        }
+                        &::after{
+                            content: "";
+                            position: absolute;
+                            border-left: 1px solid #B9BCBF;
+                            right: -6px;
+                            height: 18px;
+                        }
+                    }
                     &::before{
                         content: "";
                         position: absolute;
@@ -74,9 +90,9 @@
                     }
                     &.active{
                         background: #0D6EFD;
-                        color: #FFFFFF;
+                        color: #FFFFFF !important;
                         i{
-                            color: #FFFFFF;
+                            color: #FFFFFF !important;
                             &.si-list::before{
                                 color: #FFFFFF;
                             }
@@ -86,8 +102,8 @@
                             &.si-home::before{
                                 color: #FFFFFF;
                             }
-                            &.si-topicguide::before{
-                                color: #FFFFFF;
+                            &.si-topic-guide{
+                                
                             }
                         }
                         span{
@@ -1012,7 +1028,6 @@
 }
 iframe{
     width: 100%;
-    height: 100vh;
     &.previewMode{
         z-index: 99999 !important;
     }
@@ -1026,6 +1041,7 @@ iframe{
     }
 }
 .topicGuideIframeContainer{
+    height: calc(100vh - 166px);
     #topicGuideIframe{
      width: 100%;
    } 
@@ -1056,10 +1072,15 @@ iframe{
 }
 
 .bt-topicGuide_media-modal{
-    background: rgba(31, 32, 36, 0.4) !important;
+    background: rgba(153, 159, 166, 0.5) !important;
     .modal-dialog{
-        width: 800px;
-        max-width: 800px;
+        width: 1200px;
+        max-width: 1200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        height: 100%;
         .modal-content{
             background: transparent !important; 
             box-shadow: none !important;
@@ -1074,8 +1095,23 @@ iframe{
                         width: 100%;
                         position: relative;
                         background-color: #fff;
-                        padding: 20px;
+                        padding: 0px;
                         border-radius: 6px;
+                        height: 500px;
+                        .closeVideoModal{
+                            position: absolute;
+                            width: 36px;
+                            height: 36px;
+                            right: -36px;
+                            background: #fff;
+                            border-radius: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 12px;
+                            top: -26px;
+                            cursor: pointer;
+                        }
                         .details-section {
                             display: flex;
                             height: 100%;
@@ -1083,10 +1119,11 @@ iframe{
                                 width: 100%;
                                 height: 100%;
                                 // max-height: 420px !important;
-                                // iframe{
-                                //     border-radius: 6px;
-                                //     background: rgba(31, 32, 36, 0.2) !important;
-                                // }
+                                iframe{
+                                    border-radius: 6px;
+                                    background: rgba(31, 32, 36, 0.2) !important;
+                                    border: 0;
+                                }
                             }
                             .details {
                                 width: 380px;

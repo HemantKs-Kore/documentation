@@ -8,7 +8,9 @@
     <div class="faqsListContainer">       
         <div class="faq-header-sec row m-0">
             <div class="col-6 left-sec p-0 faq-title" >{{'faqSource.faqs' | translate}}
-                <span class="module-topic" (click)="openUserMetaTagsSlider()"><img src="assets/icons/onboarding/Module Topic Guide.svg"></span>
+                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' (click)="openUserMetaTagsSlider()">
+                    <i class="si-topic-guide"></i>
+                </span>
             </div>
             <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
                 <div class="kr-sg-dropdowns add w-auto"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length) || (extractedResources && extractedResources.length) || (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) || viewDetails || extractedFaqs">                                        

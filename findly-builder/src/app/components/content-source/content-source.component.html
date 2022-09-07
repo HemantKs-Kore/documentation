@@ -13,7 +13,9 @@
   <ng-container *ngIf="!(resources && resources.length) && loadingContent1">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="title-content">{{"contentSource.content" | translate}}
-      <span class="module-topic" (click)="openUserMetaTagsSlider()"><img src="assets/icons/onboarding/Module Topic Guide.svg"></span>
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' (click)="openUserMetaTagsSlider()">
+        <i class="si-topic-guide"></i>
+      </span>
     </div>    
     <perfect-scrollbar class="scoll-empty-screen">
       <div class="empty-landing-screen">

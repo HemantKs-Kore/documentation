@@ -6,7 +6,9 @@
             <img
                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
             <div class="bread-name active-name">{{'metrics.dash_board_view.dashboard'| translate}}
-                <span class="module-topic"><img (click)="openUserMetaTagsSlider()" src="assets/icons/onboarding/Module Topic Guide.svg"></span>
+                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' (click)="openUserMetaTagsSlider()">
+                    <i class="si-topic-guide"></i>
+                </span>
             </div>
         </div>
         <div class="d-flex justify-content-end align-items-center col-9 p-0">

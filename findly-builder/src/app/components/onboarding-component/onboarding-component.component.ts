@@ -881,7 +881,7 @@ $sc
       var language = 'en';
       var topicId = faq.display;
       // var topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl(topicGuideBaseUrl+language+'/'+version+'/'+topicId +'?rnd=' + Math.random().toString(36).substr(7));
-      $(".si-topicguide" ).trigger( "click" );
+      $(".topic-guide-tab" ).trigger( "click" );
       this.topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/en/latest/content');
       // this.topicGuideUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://koredotcom.github.io/koredotai-docs/platform/topic-guide/en/latest/No Bots Form?rnd=cd1at9')
       //this.topicGuideUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://koredotcom.github.io/koredotai-docs/platform/topic-guide/en/latest/Dialog Tasks?rnd=cd1at9')

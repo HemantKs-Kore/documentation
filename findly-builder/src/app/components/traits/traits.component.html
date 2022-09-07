@@ -11,7 +11,9 @@
                 <div class="seach_add_feild">
                     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
                     <div class="title">{{'traits.traits' | translate}}
-                        <span class="module-topic"><img (click)="openUserMetaTagsSlider()" src="assets/icons/onboarding/Module Topic Guide.svg"></span>
+                        <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' (click)="openUserMetaTagsSlider()">
+                    <i class="si-topic-guide"></i>
+                </span>
                     </div>
                     <div class="d-flex align-items-center" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
                         <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">

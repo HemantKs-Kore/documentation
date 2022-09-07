@@ -10,7 +10,9 @@
   <div class="header-sec col-12 row m-0" *ngIf="!loadingContent">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="col-4 p-0 title-header">{{'botAction.bot_actions' | translate}}
-      <span class="module-topic"><img (click)="openUserMetaTagsSlider()" src="assets/icons/onboarding/Module Topic Guide.svg"></span>
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' (click)="openUserMetaTagsSlider()">
+        <i class="si-topic-guide"></i>
+      </span>
     </div>
     <div class="col-8 right-sec p-0">
       <div *ngIf="linkedBotID" class="view-all-bots m-0" (click)="openBotsModalElement()">{{'botAction.view_all_bots' | translate}}</div>
