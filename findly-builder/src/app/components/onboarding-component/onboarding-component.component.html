@@ -244,7 +244,7 @@
                 <div class="krBackDropModal">
                     <div class="videoMain">
                         <div class="videoContainer">
-                            <span class="closeVideoModal" ng-click="closeMediaModal()">
+                            <span class="closeVideoModal" (click)="closeMediaModal()">
                                 <i class="si-close"></i>
                             </span>
                             <div class="details-section">
@@ -259,10 +259,10 @@
                                     <iframe id="topicGuideMediaModal" class="noBorder" allowfullscreen controls (load)="showHideSpinner()" src=" https://drive.google.com/file/d/1ohhg7dfgPL0pWVzr8i2kjKveUwO9qy_o/preview " width="100% " height="100% " allow="autoplay " iframe-onload="onMediaLoadedLoaded(this) "></iframe>
                                   </div>
                             </div>
-                            <!-- <div class="vidoeDesc">
-                                <h4>{{this.mediaObj.title}}</h4>
-                                <p>{{this.mediaObj.description}}</p>
-                            </div> -->
+                            <div class="vidoeDesc">
+                                <h4>{{mediaObj.title}}</h4>
+                                <p>{{mediaObj.description}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
