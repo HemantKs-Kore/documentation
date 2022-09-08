@@ -74,10 +74,10 @@ export class InlineManualService {
     function inlinemanual_init() {
       createInlineManualPlayer(inlineManualPlayerData);
       setTimeout(function () {
-        console.log("inline_manual_player",inline_manual_player)
-        if (inline_manual_player) {
-          inline_manual_player.deactivate();
-        }
+        // console.log("inline_manual_player",inline_manual_player)
+        // if (inline_manual_player) {
+        //   inline_manual_player.deactivate();
+        // }
       }, 200);
     }
     function loadInlineManualScripts(PLAYER_ID) {
