@@ -40,7 +40,9 @@ export class OnboardingComponentComponent implements OnInit {
   support_Search:any;
   faq_Search:any;
   topicGuideUrl: any;
+  topicGuideVideoUrl:any;
   showLoader: boolean;
+  showLoader1: boolean;
   supportData = [{
     title:'Getting started',
     desc:'Explore our Guide on popular topics to start building your own Search Application',
@@ -838,12 +840,15 @@ mediaObj = {};
     }
   }
  openMediaModal = function(mediaObj) {
-    var med =  mediaObj || {};
+  var med =  mediaObj || {};
    mediaObj = med;
-mediaObj.loadingMedia = true;
-   $('#topicGuideVideoModal').modal('show');
+   $('#topicGuideVideoModal').modal('show');   
+   mediaObj.loadingMedia = true;
+   this.showLoader1 = true;
+   this.topicGuideVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(mediaObj.url);
+   mediaObj.title=this.mediaObj.title   
 };
-$sc
+
   triggerFaq() {
     this.currentRouteData=this.currentRouteData.replace("/", "");
     if(this.currentRouteData==''){
@@ -866,6 +871,7 @@ $sc
   showHideSpinner() {
     setTimeout(() => {
       this.showLoader = false;
+      this.showLoader1 = false;
     }, 1500)
 }
   triggerChild(data) {  
@@ -882,7 +888,8 @@ $sc
       var topicId = faq.display;
       // var topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl(topicGuideBaseUrl+language+'/'+version+'/'+topicId +'?rnd=' + Math.random().toString(36).substr(7));
       $(".topic-guide-tab" ).trigger( "click" );
-      this.topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/en/latest/content');
+      this.showLoader = true;
+      this.topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/en/latest/Small Talk');
       // this.topicGuideUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://koredotcom.github.io/koredotai-docs/platform/topic-guide/en/latest/No Bots Form?rnd=cd1at9')
       //this.topicGuideUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://koredotcom.github.io/koredotai-docs/platform/topic-guide/en/latest/Dialog Tasks?rnd=cd1at9')
       console.log(this.topicGuideUrl);
