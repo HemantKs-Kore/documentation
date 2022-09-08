@@ -7,6 +7,7 @@ import { NotificationService } from './notification.service';
 import { AppSelectionService } from './app.selection.service';
 
 declare const $: any;
+declare const window: any;
 declare let inline_manual_player: any;
 declare let inlineManualTracking: any
 declare let inlineManualPlayerData: any;
@@ -190,4 +191,70 @@ export class InlineManualService {
   }
     
   }
+// AppsCue
+  loadAppscue(){
+    let self = this;
+    const env: any = environment;
+    if(env.APPCUES && env.APPCUES.ENABLE){
+      self.loadAppcuesScripts(env.APPCUES.APPCUES_KEY);
+    }
+  }
+
+  loadAppcuesScripts = function (appcuesKey) {
+    let self = this;
+     function appcues_init() {
+      if (self.authService.isAuthenticated()) {
+        var koreUID = self.authService.getUserId();
+        var koreAuthInfo = self.authService.getAuthInfo();
+        var koreEmail = koreAuthInfo.currentAccount ? koreAuthInfo.currentAccount.userInfo.emailId : (koreAuthInfo.entAdmin ? koreAuthInfo.entAdmin.userInfo.emailId : '');
+        koreUID = btoa(koreUID.substring(koreUID.indexOf('u-') + 2, koreUID.length));//converting to base64 by removing u-
+        window.Appcues.identify(
+            koreUID, // unique, required
+            {
+          
+              // recommended (optional) properties
+          
+            //   createdAt: 1566932390, // Unix timestamp of user signup date
+            //   purchasedAd: 1566932395, // Unix timestamp of account purchase date (leave null if empty)
+            //   planTier: "Standard", // Current user’s plan tier
+            //   role: "Admin", // Current user’s role or permissions
+            //   accountId: "1234", // Current user's account ID
+            //   firstName: "John", // current user's first name
+          
+              // additional suggestions
+          
+              //companyName: "Acme Corp", // Current user’s company name
+              email: koreEmail, // Current user's email
+            //   location: "90210", // a zipcode, state, or country enables location-based targeting
+            //   version: "2.0", // users on different versions may need to see different content
+            //   language: "spanish", // for multi-language applications
+            //   renewalDate: 1577880288 // to remind users to renew
+            }
+          );
+      }    
+    }
+    function loadAppcuesScript(APPCUES_KEY) {
+      var _self = this;
+        var scripts = [
+            '//fast.appcues.com/' + APPCUES_KEY + '.js'
+        ];
+        var script = scripts.shift();
+        var el:any = document.createElement('script');
+        el.language = 'javascript';
+        el.async = 'true';
+        el.charset = "UTF-8";
+        el.type = 'text/javascript';
+        $('body').append(el);
+        el.onload = function () {
+          appcues_init();
+        };
+        el.src = script;
+    }
+    if (appcuesKey) {
+        loadAppcuesScript(appcuesKey);
+    }
+  }
+  
 }
+
+
