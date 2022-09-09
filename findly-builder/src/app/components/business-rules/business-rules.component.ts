@@ -1205,6 +1205,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+  
+  //unsubscribe subjects
   ngOnDestroy() {
     // this.subscription ? this.subscription.unsubscribe() : false;
     if (this.subscription) {
