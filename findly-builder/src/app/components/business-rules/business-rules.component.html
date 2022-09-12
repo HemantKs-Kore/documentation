@@ -155,8 +155,7 @@
       }">
                 <div class="col-3 content withcheckbox align-items-start">
                     <div class="kr-sg-checkbox p-0 m-0">
-                        <input id="{{ ruleObj._id }}" class="checkbox-custom selectRuleCheckBoxDiv" type="checkbox"
-                            (change)="checkUncheckfacets(ruleObj)" />
+                        <input id="{{ ruleObj._id }}" class="checkbox-custom selectRuleCheckBoxDiv" type="checkbox" (change)="checkUncheckfacets(ruleObj)" />
                         <label for="{{ ruleObj._id }}" class="checkbox-custom-label"></label>
                     </div>
                     <div class="title text-truncate" [tooltipClass]="'whiteTooltip'" container="body"
@@ -267,7 +266,7 @@
       <input type="checkbox" [(ngModel)]="addEditRuleObj.isRuleActive" />
       <div class="slider">
         <span class="enabled">{{"businessRules.rule_active" | translate}}</span><span class="disabled">{{"businessRules.rule_in_active" | translate}}</span>
-      </div> 
+      </div>
     </label>-->
             <div class="close_icon" (click)="closeModalPopup()">
                 <img src="assets/icons/modal-close.svg" />
@@ -620,35 +619,34 @@
                                         <div class="col-2 p-0 title">Response</div>
                                         <div class="col-10 row m-0 align-items-center right-side-sec pr-0"
                                             [ngClass]="{activeDrop: currentEditInex === index}">
-                                            <div class="kr-sg-dropdowns col-4 pl-0" ngbDropdown
-                                                (click)="currentEditInex = index;getFieldAutoComplete(null, null,'clearText')">
-                                                <div class="dropdown dropdown-open">
-                                                    <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
-                                                        ngbDropdownToggle>
-                                                        {{outcomeObj.fieldName? outcomeObj.fieldName : "Choose field"}}
-                                                    </button>
-                                                    <ul class="dropdown-menu content-menu faq-filter-add"
-                                                        ngbDropdownMenu style="overflow-y: hidden;">
-
-                                                        <li class="search-box">
-                                                            <input id="searchBoxId" autocomplete="off" type="text"
-                                                                (keydown)="$event.stopPropagation()"
-                                                                (keyup)="getFieldAutoComplete($event,outcomeObj)"
-                                                                placeholder="Search" class="seach-input" />
-                                                        </li>
-                                                        <perfect-scrollbar class="empty-scroll"
-                                                            style="max-height: 189px !important;">
-                                                            <ng-container
-                                                                *ngIf="fieldAutoSuggestion && fieldAutoSuggestion.length">
-                                                                <li ngbDropdownItem
-                                                                    *ngFor="let suggestion of fieldAutoSuggestion"
-                                                                    (click)="selectField(suggestion, outcomeObj)"
-                                                                    [ngClass]="{'active':outcomeObj.fieldName===suggestion.fieldName}">
-                                                                    {{ suggestion.fieldName }}</li>
-                                                            </ng-container>
-                                                        </perfect-scrollbar>
-                                                    </ul>
-                                                </div>
+                                            <div class="col-4 pl-0">
+                                              <div class="kr-sg-dropdowns"
+                                                  (click)="currentEditInex = index;getFieldAutoComplete(null, null,'clearText')">
+                                                  <div class="dropdown dropdown-open">
+                                                      <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown">
+                                                          {{outcomeObj.fieldName? outcomeObj.fieldName : "Choose field"}}
+                                                      </button>
+                                                      <ul class="dropdown-menu content-menu faq-filter-add" style="overflow-y: hidden;">
+                                                          <li class="search-box">
+                                                              <input id="searchBoxId" autocomplete="off" type="text"
+                                                                  (keydown)="$event.stopPropagation()"
+                                                                  (keyup)="getFieldAutoComplete($event,outcomeObj)"
+                                                                  placeholder="Search" class="seach-input" />
+                                                          </li>
+                                                          <perfect-scrollbar class="empty-scroll"
+                                                              style="max-height: 189px !important;">
+                                                              <ng-container
+                                                                  *ngIf="fieldAutoSuggestion && fieldAutoSuggestion.length">
+                                                                  <li
+                                                                      *ngFor="let suggestion of fieldAutoSuggestion"
+                                                                      (click)="selectField(suggestion, outcomeObj)"
+                                                                      [ngClass]="{'active':outcomeObj.fieldName===suggestion.fieldName}">
+                                                                      {{ suggestion.fieldName }}</li>
+                                                              </ng-container>
+                                                          </perfect-scrollbar>
+                                                      </ul>
+                                                  </div>
+                                              </div>
                                             </div>
                                             <div class="kr-sg-dropdowns col-4 pl-0 disabled" ngbDropdown
                                                 (click)="currentEditInex = index">
@@ -664,47 +662,49 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <div class="kr-sg-dropdowns pl-0 col-4" ngbDropdown
-                                                (click)="currentEditInex = index">
-                                                <div class="dropdown dropdown-open">
-                                                    <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
-                                                        ngbDropdownToggle>{{"businessRules." +
-                                                        outcomeObj.outcomeOperator | translate}}
-                                                    </button>
-                                                    <ul class="dropdown-menu content-menu faq-filter-add"
-                                                        ngbDropdownMenu>
-                                                        <li ngbDropdownItem *ngFor="let operator of conditions.string"
-                                                            (click)="outcomeSclection(outcomeObj,operator,'outcomeOperator')"
-                                                            [ngClass]="{'active':outcomeObj.outcomeOperator===operator}">
-                                                            {{"businessRules." + operator | translate}}
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                            <div class="col-4 pl-0">
+                                              <div class="kr-sg-dropdowns"
+                                                  (click)="currentEditInex = index">
+                                                  <div class="dropdown dropdown-open">
+                                                      <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
+                                                          data-toggle="dropdown">{{"businessRules." +
+                                                          outcomeObj.outcomeOperator | translate}}
+                                                      </button>
+                                                      <ul class="dropdown-menu content-menu faq-filter-add">
+                                                          <li *ngFor="let operator of conditions.string"
+                                                              (click)="outcomeSclection(outcomeObj,operator,'outcomeOperator')"
+                                                              [ngClass]="{'active':outcomeObj.outcomeOperator===operator}">
+                                                              {{"businessRules." + operator | translate}}
+                                                          </li>
+                                                      </ul>
+                                                  </div>
+                                              </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row m-0 response-content-sec">
                                         <div class="col-2 p-0 title"></div>
                                         <div class="col-10 row m-0 align-items-center right-side-sec pr-0">
-                                            <div class="kr-sg-dropdowns pl-0 col-4" ngbDropdown
-                                                (click)="currentEditInex = index">
-                                                <div class="dropdown dropdown-open">
-                                                    <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
-                                                        ngbDropdownToggle>{{"businessRules." +
-                                                        outcomeObj.outcomeValueType | translate}}
-                                                    </button>
-                                                    <ul class="dropdown-menu content-menu faq-filter-add"
-                                                        ngbDropdownMenu>
-                                                        <li ngbDropdownItem
-                                                            (click)="outcomeSclection(outcomeObj,'static','outcomeValueType');"
-                                                            [ngClass]="{'active':outcomeObj.outcomeValueType==='static'}">
-                                                            {{"businessRules.static" | translate}}</li>
-                                                        <li ngbDropdownItem
-                                                            (click)="outcomeSclection(outcomeObj,'dynamic','outcomeValueType');"
-                                                            [ngClass]="{'active':outcomeObj.outcomeValueType==='dynamic'}">
-                                                            {{"businessRules.dynamic" | translate}}</li>
-                                                    </ul>
-                                                </div>
+                                            <div class="col-4 pl-0">
+                                              <div class="kr-sg-dropdowns"
+                                                  (click)="currentEditInex = index">
+                                                  <div class="dropdown dropdown-open">
+                                                      <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
+                                                      >{{"businessRules." +
+                                                          outcomeObj.outcomeValueType | translate}}
+                                                      </button>
+                                                      <ul class="dropdown-menu content-menu faq-filter-add">
+                                                          <li
+                                                              (click)="outcomeSclection(outcomeObj,'static','outcomeValueType');"
+                                                              [ngClass]="{'active':outcomeObj.outcomeValueType==='static'}">
+                                                              {{"businessRules.static" | translate}}</li>
+                                                          <li
+                                                              (click)="outcomeSclection(outcomeObj,'dynamic','outcomeValueType');"
+                                                              [ngClass]="{'active':outcomeObj.outcomeValueType==='dynamic'}">
+                                                              {{"businessRules.dynamic" | translate}}</li>
+                                                      </ul>
+                                                  </div>
+                                              </div>
                                             </div>
                                             <div class="chip-sys-data col-8 pl-0">
                                                 <mat-form-field class="example-chip-list" [floatLabel]="'never'">

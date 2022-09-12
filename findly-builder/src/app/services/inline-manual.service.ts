@@ -74,9 +74,10 @@ export class InlineManualService {
     function inlinemanual_init() {
       createInlineManualPlayer(inlineManualPlayerData);
       setTimeout(function () {
-        if (inline_manual_player) {
-          inline_manual_player.deactivate();
-        }
+        // console.log("inline_manual_player",inline_manual_player)
+        // if (inline_manual_player) {
+        //   inline_manual_player.deactivate();
+        // }
       }, 200);
     }
     function loadInlineManualScripts(PLAYER_ID) {
@@ -104,14 +105,14 @@ export class InlineManualService {
     }
     const inline: any = environment;
     if (inline.hasOwnProperty('INLINE_MANUAL_SITE_KEY') && inline['INLINE_MANUAL_SITE_KEY']) {
-      loadInlineManualScripts(inline['INLINE_MANUAL_SITE_KEY']);
+      //loadInlineManualScripts(inline['INLINE_MANUAL_SITE_KEY']);
     }
   };
 
   openHelp = function (helpId) {
-    if (this.topicHelpMap[helpId] && inline_manual_player) {
-      inline_manual_player.activateTopic(this.topicHelpMap[helpId]);
-    }
+    // if (this.topicHelpMap[helpId] && inline_manual_player) {
+    //   inline_manual_player?.activateTopic(this.topicHelpMap[helpId]);
+    // }
   };
   getInlineSuggestionData() {
     this.selectedApp = this.workflowService.selectedApp();
@@ -133,41 +134,35 @@ export class InlineManualService {
   }
   checkVisibility(module,moduleName?) {
     let visited = false;
-    let data = [];
-    if(this.appSelectionService && this.appSelectionService.inlineManualInfo){
-       data = [...this.appSelectionService.inlineManualInfo];
-    }
-    // if(this.inlineManualInfo){
-    //    data = [...this.inlineManualInfo]
-    // }else{
-    //   data = [...this.appSelectionService.inlineManualInfo];
-    //   this.inlineManualInfo = [...this.appSelectionService.inlineManualInfo];
+    // let data = [];
+    // if(this.appSelectionService && this.appSelectionService.inlineManualInfo){
+    //    data = [...this.appSelectionService.inlineManualInfo];
     // }
-    if(!data.length && moduleName == "SUMMARY"){
-      this.openHelp('APP_WALKTHROUGH');
-    }
-    data.forEach(element => {
-      if (element[module]) {
-        visited = element[module].visited;
-      }
-    });
+    // if(!data.length && moduleName == "SUMMARY"){
+    //   this.openHelp('APP_WALKTHROUGH');
+    // }
+    // data.forEach(element => {
+    //   if (element[module]) {
+    //     visited = element[module].visited;
+    //   }
+    // });
     return visited;
   }
   visited(module) {
-    let payload = {};
-    let data = [];
-    if(this.appSelectionService && this.appSelectionService.inlineManualInfo){
-       data = [...this.appSelectionService.inlineManualInfo];
-    }
-    data.forEach(element => {
-      if (element[module]) {
-        payload[module] = {
-          id: element[module].id,
-          visited: true
-        }
-      }
-    });
-    this.saveInlineSuggestionData(payload);
+    // let payload = {};
+    // let data = [];
+    // if(this.appSelectionService && this.appSelectionService.inlineManualInfo){
+    //    data = [...this.appSelectionService.inlineManualInfo];
+    // }
+    // data.forEach(element => {
+    //   if (element[module]) {
+    //     payload[module] = {
+    //       id: element[module].id,
+    //       visited: true
+    //     }
+    //   }
+    // });
+    // this.saveInlineSuggestionData(payload);
 
   }
   saveInlineSuggestionData(payload) {

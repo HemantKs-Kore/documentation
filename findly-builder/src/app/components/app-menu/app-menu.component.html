@@ -1,56 +1,56 @@
 <!-- Sidebar -->
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
-	<ng-container *ngIf="!settingMainMenu && !sourceMenu || sourceMenu">
-		<div class="upgrade_your_plan_price" [ngClass]="{'d-none':showUpgrade}">
-			<span
-				[ngClass]="{'status-type':upgradeBannerFlag,'red':usageDetails?.ingestDocs>=80||usageDetails.searchQueries>=80}"></span>
-			<div class="upgrade-plan-btn" (mouseover)="readUpgradeBanner()" (click)="upgrade()">Upgrade Your Plan<img
-					src="assets/icons/pricing/carrotright.svg"></div>
-			<div class="hover-documnet-show-data">
-				<div class="card-data- card1">
-					<div class="img-block">
-						<img src="assets/icons/pricing/query-limits.svg">
-					</div>
-					<div class="content-sec">
-						<div class="title">Query limit</div>
-						<div class="desc-text">Percentage of queries asked by the user</div>
-						<div class="count-data">
-							<div class="linit-k">
-								<span>{{usageDetails.searchCount | valueFormat}}</span> / {{usageDetails.searchLimit|
-								valueFormat}}
-							</div>
-							<div class="percentage">{{usageDetails.searchQueries}}% </div>
+	<ng-container *ngIf="(settingMainMenu || sourceMenu)">
+		<div class="upgrade_your_plan_price" *ngIf="showUpgrade">
+			<!-- <span [ngClass]="{'status-type':upgradeBannerFlag}"></span> -->
+			<div class="product-subscription-alert">
+				<span class="px-1 close-btn" (click)="showUpgrade=!showUpgrade"><i class="si-close-red"></i></span>
+				<p class="product-subscription-desc" *ngIf="(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80)">You have utilized more than 80% of your current plan, please upgrade plan to enjoy uninturrepted services.</p>
+				<img src="assets/images/pricing-plan/plan-subscrition/product-launch.svg" class="product-subscription-img"/>
+				<div class="upgrade-plan-btn" [ngClass]="{'danger':(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80),'warning':((usageDetails?.searchQueries>50&&usageDetails?.searchQueries<=80)||(usageDetails?.ingestDocs>50&&usageDetails?.ingestDocs<=80))}" (click)="upgrade()" (mouseover)="showNotificationBanner('over')" (mouseout)="showNotificationBanner('out')"><i class="si-publish si-icon m-r-2"></i>Upgrade Plan</div>
+				<div class="hover-documnet-show-data">
+					<div class="card-data- card1">
+						<div class="img-block">
+							<img src="assets/icons/pricing/query-limits.svg">
 						</div>
-					</div>
-					<ng-container>
-						<ngb-progressbar height="10px" [type]="usageDetails?.searchQueries>=80?'danger':'primary'"
-							[value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
-					</ng-container>
-				</div>
-				<div class="card-data- card2">
-					<div class="img-block">
-						<img src="assets/icons/pricing/document-limit.svg">
-					</div>
-					<div class="content-sec">
-						<div class="title">Document limit</div>
-						<div class="desc-text">Percentage of documents ingested</div>
-						<div class="count-data">
-							<div class="linit-k">
-								<span>{{usageDetails.ingestCount| valueFormat}}</span> / {{usageDetails.ingestLimit|
-								valueFormat}}
+						<div class="content-sec">
+							<div class="title">Query limit</div>
+							<div class="desc-text">Percentage of queries asked by the user</div>
+							<div class="count-data">
+								<div class="linit-k">
+									<span>{{usageDetails?.searchCount | valueFormat}}</span> / {{usageDetails?.searchLimit|valueFormat}}
+								</div>
+								<div class="percentage">{{usageDetails?.searchQueries}}% </div>
 							</div>
-							<div class="percentage">{{usageDetails.ingestDocs}}%</div>
 						</div>
+						<ng-container>
+							<ngb-progressbar height="10px" [type]="usageDetails?.searchQueries>80?'danger':(usageDetails?.searchQueries>50&&usageDetails?.searchQueries<=80)?'warning':'primary'" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
+						</ng-container>
 					</div>
-					<ng-container>
-						<ngb-progressbar height="10px" [type]="usageDetails?.ingestDocs>=80?'danger':'success'"
-							[value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
-					</ng-container>
+					<div class="card-data- card2">
+						<div class="img-block">
+							<img src="assets/icons/pricing/document-limit.svg">
+						</div>
+						<div class="content-sec">
+							<div class="title">Document limit</div>
+							<div class="desc-text">Percentage of documents ingested</div>
+							<div class="count-data">
+								<div class="linit-k">
+									<span>{{usageDetails?.ingestCount| valueFormat}}</span> / {{usageDetails?.ingestLimit|valueFormat}}
+								</div>
+								<div class="percentage">{{usageDetails?.ingestDocs}}%</div>
+							</div>
+						</div>
+						<ng-container>
+							<ngb-progressbar height="10px" [type]="usageDetails?.ingestDocs>80?'danger':(usageDetails?.ingestDocs>50&&usageDetails?.ingestDocs<=80)?'warning':'primary'" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
+						</ng-container>
+					</div>
 				</div>
 			</div>
 		</div>
-	</ng-container> 
-	<perfect-scrollbar class="perfect-scroll" [ngClass]='{"if-upgrade-plan":!showUpgrade}'>
+	</ng-container>
+	
+	<perfect-scrollbar class="perfect-scroll">
 		<div class="list-group list-group-flush" *ngIf="!settingMainMenu && !sourceMenu">
 			<div class="default-index-title">
 				<div class="kr-sg-dropdowns" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom'">
@@ -115,7 +115,7 @@
 			</div>
 
 			<div class="index-config-nav-block">
-				<div class="index-title text-truncate">Index Configuration</div>				
+				<div class="index-title text-truncate">Index Configuration</div>
 
 
 				<div mat-button class="mat-button" [routerLink]="['/FieldManagementComponent']" skipLocationChange
@@ -151,21 +151,33 @@
 				<div class="search-config-title text-truncate">Search Configuration</div>
 
 				<div class="search-config-elipse-block pr-0">
-					<div class="title text-truncate" title="{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default Search':configObj[selectedConfig].name:'Loading..'}}">{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default Search':configObj[selectedConfig].name:'Loading..'}} </div>
-					<div class="kr-sg-dropdowns kr_sg_dropdowns" #selectSearchConfigDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-left'">
+					<div class="title text-truncate"
+						title="{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default Search':configObj[selectedConfig].name:'Loading..'}}">
+						{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default
+						Search':configObj[selectedConfig].name:'Loading..'}} </div>
+					<div class="kr-sg-dropdowns kr_sg_dropdowns" #selectSearchConfigDrop='ngbDropdown' ngbDropdown
+						[container]="'body'" [placement]="'bottom-left'">
 						<div class="dropdown dropdown-open">
 							<button class="dropdown-toggle dropdown-input before-none" ngbDropdownToggle>
 								<img src="assets/icons/sidemenu/dropdownup.svg">
 							</button>
 							<ul class="dropdown-menu content-menu queryPipelineConfig" ngbDropdownMenu>
 								<div class="title-main">Search Profile</div>
-								<div class="create-new" (click)="openModalPopup('default');selectSearchConfigDrop.close();">
-									<img class="mr-2"src="assets\images\plus-add.svg">New Profile
+								<div class="create-new"
+									(click)="openModalPopup('default');selectSearchConfigDrop.close();">
+									<img class="mr-2" src="assets\images\plus-add.svg">New Profile
 								</div>
 								<perfect-scrollbar>
-									<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default|| (config.default)}" (click)="selectQueryPipelineId(config,selectSearchConfigDrop)" *ngFor="let config of queryConfigs">
-										<img src="assets/icons/sidemenu/pin.svg" *ngIf="config.default" class="star" [container]="'body'" ngbTooltip='Default' placement="top-center">
-										<img src="assets/icons/sidemenu/unpin.svg" [container]="'body'" (click)="$event.stopPropagation();markAsDefault(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-center" [container]="'body'">
+									<li class="list-name text-truncate"
+										[ngClass]="{'nostars': !config.default|| (config.default)}"
+										(click)="selectQueryPipelineId(config,selectSearchConfigDrop)"
+										*ngFor="let config of queryConfigs">
+										<img src="assets/icons/sidemenu/pin.svg" *ngIf="config.default" class="star"
+											[container]="'body'" ngbTooltip='Default' placement="top-center">
+										<img src="assets/icons/sidemenu/unpin.svg" [container]="'body'"
+											(click)="$event.stopPropagation();markAsDefault(config)"
+											*ngIf="!config.default && !editName" class="star-black"
+											ngbTooltip='Make as Default' placement="top-center" [container]="'body'">
 										<span *ngIf="selectedConfig == config._id && editName; else name">
 											<input type="text" class="edit-name" name="editName"
 												[(ngModel)]="editNameVal" id="editNameID"
@@ -179,15 +191,21 @@
 												Search':config.name}}</span>
 										</ng-template>
 										<div class="action-icons-data">
-											<div class="clone" *ngIf="!editName" (click)="$event.stopPropagation();openModalPopup('clone',config);selectSearchConfigDrop.close();" ngbTooltip='Clone' placement="top-center" [container]="'body'">
+											<div class="clone" *ngIf="!editName"
+												(click)="$event.stopPropagation();openModalPopup('clone',config);selectSearchConfigDrop.close();"
+												ngbTooltip='Clone' placement="top-center" [container]="'body'">
 												<img src="assets/icons/sidemenu/copy.svg">
 											</div>
-											<div class="edit-black" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();editConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
+											<div class="edit-black" *ngIf="!editName&&!(config.default)"
+												(click)="$event.stopPropagation();editConfig(config,'edit')"
+												ngbTooltip='Edit' placement="top-center" [container]="'body'">
 												<img src="assets/icons/sidemenu/edit.svg">
-											</div>																
-											<div class="delete" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();checkExistInExperiment(config,'search')" ngbTooltip='Delete' placement="top-center" [container]="'body'">
+											</div>
+											<div class="delete" *ngIf="!editName&&!(config.default)"
+												(click)="$event.stopPropagation();checkExistInExperiment(config,'search')"
+												ngbTooltip='Delete' placement="top-center" [container]="'body'">
 												<img src="assets/icons/sidemenu/delete.svg">
-											</div>											
+											</div>
 										</div>
 									</li>
 								</perfect-scrollbar>
@@ -291,7 +309,8 @@
 			<div class="sources-block-nav-items">
 				<div class="link-side-menu add-sources-btn pr-2">
 					<div class="source_title">Sources</div>
-					<div class="add-sources" [routerLink]="['/source']" skipLocationChange routerLinkActive="active" (click)="preview('Source')">
+					<div class="add-sources" [routerLink]="['/source']" skipLocationChange routerLinkActive="active"
+						(click)="preview('Source')">
 						<img src="assets/icons/sidemenu/new-icons/add-source.svg">
 					</div>
 				</div>
@@ -333,81 +352,51 @@
 					<span class="linkTitle">{{'structuredData.structured_data' | translate}}</span>
 				</div>
 
+				<div mat-button class="mat-button" [routerLink]="['/connectors']" skipLocationChange
+					routerLinkActive="active" (click)="preview('Connector')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/connectors.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/connectors-active.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Connectors</span>
+				</div>
+
 			</div>
 		</div>
-
 
 		<!-- Inside config tab menus -->
 		<div class="list-group list-group-flush inside-config-tab-left-menus" *ngIf="settingMainMenu && !sourceMenu">
 
 			<div class="inside-menu-title d-none">BOT RESULTS</div>
-
-			<!-- <div mat-button class="mat-button" [routerLink]="['/search-experience']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Search Interface</span>
-			</div>
-
-			<div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Result Templates </span>
-			</div> -->
-
-			<!-- <div mat-button class="mat-button" [routerLink]="['/actions']" skipLocationChange routerLinkActive="active"
-				(click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/actions-config.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/actions-config.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Actions</span>
-			</div>
-
-			<div mat-button class="mat-button" [routerLink]="['/smallTalk']" skipLocationChange routerLinkActive="active"
-				(click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/smalltalk.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/smalltalk.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Small Talk</span>
-			</div> -->
-			<div mat-button class="mat-button" [routerLink]="['/generalSettings']" skipLocationChange
-				routerLinkActive="active" (click)="preview('traits')" mat-button>
+			<div mat-button class="mat-button" [ngClass]="{'disable_btn':isRouteDisabled}" [routerLink]="['/generalSettings']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
 				<span class="inlineIconBox leftAdjust">
 					<img src="assets/icons/sidemenu/new-icons/Settings.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/Settings-active.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle">General Settings</span>
+				<span class="linkTitle" [ngClass]="{'disable_btn':isRouteDisabled}">General Settings</span>
 			</div>
 
 			<!-- <div class="inside-menu-title">SETTINGS</div> -->
-			<div mat-button class="mat-button" [routerLink]="['/settings']" skipLocationChange routerLinkActive="active"
-				(click)="preview('traits')" mat-button>
+			<div mat-button class="mat-button" [ngClass]="{'disable_btn':isRouteDisabled}" [routerLink]="['/settings']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
 				<span class="inlineIconBox leftAdjust">
 					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/channels-active.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle">Channels</span>
+				<span class="linkTitle" [ngClass]="{'disable_btn':isRouteDisabled}">Channels</span>
 			</div>
-			<div mat-button class="mat-button" [routerLink]="['/credentials-list']" skipLocationChange
-				routerLinkActive="active" (click)="preview('index')" mat-button>
+			<div mat-button class="mat-button" [ngClass]="{'disable_btn':isRouteDisabled}" [routerLink]="['/credentials-list']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/credentials-active.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle">Credentials</span>
+				<span class="linkTitle" [ngClass]="{'disable_btn':isRouteDisabled}">Credentials</span>
 			</div>
-			<div mat-button class="mat-button" [routerLink]="['/team-management']" skipLocationChange
-				routerLinkActive="active" (click)="preview('index')" mat-button>
+			<div mat-button class="mat-button" [ngClass]="{'disable_btn':isRouteDisabled}" [routerLink]="['/team-management']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/team_management.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/team_management-active.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle">Team</span>
+				<span class="linkTitle" [ngClass]="{'disable_btn':isRouteDisabled}">Team</span>
 			</div>
 
 			<div class="inside-menu-title mt-3">BILLING & USAGE</div>
@@ -418,23 +407,20 @@
 				</span>
 				<span class="linkTitle">Plan Details</span>
 			</div>
-			<div mat-button class="mat-button" [routerLink]="['/usageLog']" skipLocationChange routerLinkActive="active"
-				(click)="preview('index')" mat-button>
+			<div mat-button class="mat-button" [routerLink]="['/usageLog']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/usagelog.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/usagelog-active.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Usage Log</span>
 			</div>
-			<div mat-button class="mat-button" [routerLink]="['/invoices']" skipLocationChange routerLinkActive="active"
-				(click)="preview('index')" mat-button>
+			<div mat-button class="mat-button" [routerLink]="['/invoices']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/invoice.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/invoice-active.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle">Invoices</span>
+				<span class="linkTitle">Orders & Invoices</span>
 			</div>
-
 		</div>
 	</perfect-scrollbar>
 </div>
@@ -473,7 +459,8 @@
 							style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
 						<ul class="dropdown-menu content-menu">
 							<li *ngFor="let config of queryConfigs" (click)="selectConfig(config)">
-								<a>{{config.name}}</a></li>
+								<a>{{config.name}}</a>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -531,7 +518,8 @@
 							style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
 						<ul class="dropdown-menu content-menu">
 							<li *ngFor="let config of indexConfigs" (click)="selectIndexConfig(config)">
-								<a>{{config.name}}</a></li>
+								<a>{{config.name}}</a>
+							</li>
 						</ul>
 					</div>
 				</div>

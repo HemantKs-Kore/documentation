@@ -476,17 +476,17 @@
                             </div>
                         </div>
                         <div class="empty-feedback"
-                            *ngIf="!(searchExperienceConfig?.interactionsConfig?.feedbackExperience?.queryLevel)">
+                            *ngIf="!feedbackStats?.feedBackReceivedCount">
                             <div class="position-relative">
                                 <img src="assets/icons/dashboard/feedback_empty.png">
                             </div>
                             <div class="title-empty">
-                                <span>No user feedback available as of now,</span>
-                                <p>Try enabling feedback for start receiving feedback.</p>
+                                <span>No user Feedback available as of now.</span>
+                                <p *ngIf="!(searchExperienceConfig?.interactionsConfig?.feedbackExperience?.queryLevel)">Try enabling Feedback to start receiving Feedback.</p>
                             </div>
                         </div>
                         <div class="row col-12 m-0 p-0"
-                            *ngIf="(searchExperienceConfig?.interactionsConfig?.feedbackExperience?.queryLevel)">
+                            *ngIf="(searchExperienceConfig?.interactionsConfig?.feedbackExperience?.queryLevel && feedbackStats?.feedBackReceivedCount )">
                             <div class="col-6 m-0 p-0 legends_sec_piechart">
                                 <div echarts [options]="feedbackPieSearches" class="pie-chart-graph"></div>
                                 <div class="legend-data col-12 p-0">

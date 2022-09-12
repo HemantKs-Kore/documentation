@@ -22,10 +22,10 @@ export class EndPointsService {
     } else {
       this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX;
       this.API_SERVER_URL_PLATFORM = environment.API_SERVER_URL + this.API_URL_PREFIX //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
+      // Comment for  static URLS
       // this.API_SERVER_URL_PLATFORM = "https://50b6e8fd7c49.ngrok.io" + "/api/1.1"
       // this.API_SERVER_URL = "http://3cbe-2401-4900-1c0a-1381-4677-75fc-9139-453.ngrok.io" + "/searchassistapi"
       // this.API_SERVER_URL_PLATFORM = "http://3cbe-2401-4900-1c0a-1381-4677-75fc-9139-453.ngrok.io" + this.API_URL_PREFIX
-      // this.API_SERVER_URL = "https://bca0530495c7.ngrok.io" + this.API_URL_PREFIX
     }
     this.init();
   }
@@ -42,6 +42,15 @@ export class EndPointsService {
     this.serviceList['app.controls'] = {
       endpoint: this.API_SERVER_URL_PLATFORM + '/users/:userId/AppControlList',
       method: 'get'
+    };
+
+    this.serviceList['app.allowedDomains'] = {
+      endpoint: this.API_SERVER_URL_PLATFORM + '/builder/allowedDomains',
+      method: 'get'
+    };
+    this.serviceList['post.requestToDomains'] = {
+      endpoint: this.API_SERVER_URL_PLATFORM + '/builder/requestToDomains?type=:type',
+      method: 'post'
     };
     /** Get Account Configuration API */
     this.serviceList['app.account-configuratuion'] = {
@@ -1207,7 +1216,64 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/apps/:streamId/unlinkApp',
       method: 'delete'
     }
-    
-
+    /** create Demo app API */
+    this.serviceList['post.createDemoApp'] = {
+      endpoint: this.API_SERVER_URL + '/findly/createDemoApp',
+      method: 'post'
+    }
+    // Connectors API'S
+    this.serviceList['get.connectors'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors',
+      method: 'get'
+    }
+    this.serviceList['get.connectorById'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon',
+      method: 'get'
+    }
+    this.serviceList['post.connector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors',
+      method: 'post'
+    }
+    this.serviceList['post.authorizeConnector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon/authorize',
+      method: 'post'
+    }
+    this.serviceList['put.connector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon',
+      method: 'put'
+    }
+    this.serviceList['get.callbackConnector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/connectors/callback?searchIndexId=:searchIndexId&connectorId=:connectorId&code=:code&state=:state',
+      method: 'get'
+    }
+    this.serviceList['delete.connector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon',
+      method: 'delete'
+    }
+    this.serviceList['post.ingestConnector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon/queue-content',
+      method: 'post'
+    }
+    this.serviceList['get.contentData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/connectors/:connectorId/content?offset=:offset&limit=:limit',
+      method: 'get'
+    }
+    this.serviceList['post.disableConnector'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon/disable',
+      method: 'post'
+    }
+    this.serviceList['get.connectorJob'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/connectors/:fcon/jobs?limit=:limit',
+      method: 'get'
+    }
+    this.serviceList['get.checkNewUser'] = {
+      endpoint: this.API_SERVER_URL + '/findly/account?accountId=:accountId',
+      method: 'get'
+    }
+    //export structure data faq
+    this.serviceList['export.structuredData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/structuredData/export',
+      method: 'post'
+    }
   }
 }

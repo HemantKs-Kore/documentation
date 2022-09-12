@@ -10,10 +10,6 @@
     <div class="search-interface-left-sec">
       <div class="left-tabs">
         <div class="tab-name" *ngFor="let setting of settingList" (click)="getAllSettings(setting)" [ngClass]="{'active-tab' : selectedSetting == setting.id}" [class.disabled]="(setting.id == 'search' && searchTemplatesDisabled)" ngbTooltip="{{'resultTemplate.settingToolTip' | translate}}" [disableTooltip]="(setting.id !== 'search' && searchTemplatesDisabled) || (!searchTemplatesDisabled)" placement="right" tooltipClass="ngb_tooltip_custom_class searchTemplate">{{'resultTemplate.' + setting.text | translate}} </div>
-        <!-- <div class="tab-name">Search Experience</div>
-        <div class="tab-name">Live Search</div>
-        <div class="tab-name active-tab">Search</div>
-        <div class="tab-name">Full Page Result</div> -->
       </div>
     </div>
     <perfect-scrollbar class="scroll-interface w-100">

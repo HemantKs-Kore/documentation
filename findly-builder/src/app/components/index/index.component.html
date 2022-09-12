@@ -52,7 +52,7 @@
               <div class="title text-truncate">{{'workbench.choose_stage_type' | translate}}</div>
               <div class="close_icon" (click)="closeNewStage()">
                 <img src="assets/icons/close_field.svg" />
-              </div>
+              </div>              
             </div>
           </div>
         </ng-container>
@@ -69,7 +69,8 @@
                   simulteObj &&
                   simulteObj.simulationInprogress &&
                   simulteObj.currentSimulateAnimi === i - 1,
-                allRunningActive: simulteObj && i < simulteObj.totalStages
+                allRunningActive: simulteObj && i < simulteObj.totalStages,
+                'if-beta':(pipe.type==='snippet_extraction')
               }">
               <div class="field_data" *cdkDragPreview>
                 <div class="title text-truncate"></div>
@@ -83,7 +84,7 @@
               <div class="stateIcon" *ngIf="!pipe?.enable">
                 <img src="assets/images/inActiveStage.svg" />
               </div>
-              <div class="title text-truncate">{{ pipe?.name }}</div>
+              <div class="title text-truncate">{{ pipe?.name }} <div class="beta-tag" *ngIf="pipe.type==='snippet_extraction'">BETA</div></div>
               <div class="close_icon" (click)="removeStage(i,pipe?.name)">
                 <img src="assets/icons/close_field.svg" />
               </div>
@@ -125,7 +126,7 @@
                     " (click)="switchStage(systemStage, index,'true')">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
                       systemStage?.type | translate
-                      }}</a>
+                      }} <span class="beta-tag" *ngIf="systemStage.type==='snippet_extraction'">BETA</span></a>
                   </li>
                 </ul>
               </div>
@@ -199,7 +200,7 @@
                 </span>
               </span>
             </div>
-            <input type="text" placeholder="{{'workbench.define_condition' | translate}}" 
+            <input type="text" placeholder="{{'workbench.define_condition' | translate}}"
               (keyup)="changesDetected = true"  autocomplete="off" class="input-text"
               [(ngModel)]="selectedStage.condition" />
              <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div>
@@ -229,7 +230,7 @@
             </div>
             <div class="info-data-">
               <img src="assets/icons/Info_gray.svg">
-              <span class="text_info">On choosing the Script Option, conditions defined here will only be
+              <span class="text_info">On choosing the Script option, conditions defined here will only be
                 applied.</span>
             </div>
             <div class="conditions-input-sec" *ngFor="let basic of selectedStage.condition.mappings;let i=index;"
@@ -361,7 +362,7 @@
         </div>
 
         <ng-container>
-          <div class="form_inputs_data" *ngIf="selectedStage.type === 'field_mapping'">
+          <div class="form_inputs_data stage_field_mapping" *ngIf="selectedStage.type === 'field_mapping'">
             <div class="main-heading">Stage Definition</div>
             <!-- <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod </div> -->
             <ng-container *ngIf="
@@ -499,7 +500,7 @@
                   <!-- <div class="colse_form">
                     <img (click)="setResetNewMappingsObj('remove_mapping');newMappingObj={}" src="assets/images/close-cross.svg" />
                   </div> -->
-                  <div class="add_icon" *ngIf="((selectedStage.config.mappings.length) - 1 == i) && 
+                  <div class="add_icon" *ngIf="((selectedStage.config.mappings.length) - 1 == i) &&
                   (!(newMappingObj.hasOwnProperty('field_mapping')))" (click)="
                     addAfterRemoval()
                     ">
@@ -683,12 +684,7 @@
               </div>
             </div>
           </div>
-          <div class="form_inputs_data" *ngIf="
-              selectedStage.type === 'entity_extraction' ||
-              selectedStage.type === 'traits_extraction' ||
-              selectedStage.type === 'keyword_extraction' ||
-              selectedStage.type === 'semantic_meaning'
-            ">
+          <div class="form_inputs_data" *ngIf="['entity_extraction','traits_extraction','keyword_extraction','semantic_meaning','snippet_extraction'].includes(selectedStage.type)">
             <ng-container *ngIf="
                 selectedStage &&
                 selectedStage.config &&
@@ -705,7 +701,7 @@
                     <img src="assets/icons/drag_drop_move_icon.svg" />
                   </div>
                   <div class="col-6 mb-2">
-                    <div class="label-text">{{'workbench.source_field' | translate}}</div>                    
+                    <div class="label-text">{{'workbench.source_field' | translate}}</div>
                     <div class="kr-sg-dropdowns" ngbDropdown>
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
@@ -849,7 +845,7 @@
                       </mat-form-field>
                     </ng-container>
                   </div>
-                  <div class="kr-sg-input-text col-6 input-box mb-2">
+                  <div class="kr-sg-input-text col-6 input-box mb-2" *ngIf="selectedStage.type !== 'snippet_extraction'">
                     <div class="label-text">{{'workbench.target_field' | translate}}</div>
                     <div class="position-relative ">
                       <input type="text" placeholder="{{'workbench.value' | translate}}"
@@ -879,7 +875,7 @@
                   <div class="delete_icon" (click)="removeConfig(i, selectedStage.config.mappings)">
                     <img src="assets/icons/delete-table.svg" />
                   </div>
-                  <div class="add_icon" *ngIf="((selectedStage.config.mappings.length) - 1 == i) && 
+                  <div class="add_icon" *ngIf="((selectedStage.config.mappings.length) - 1 == i) &&
                   (!(newMappingObj.hasOwnProperty('field_mapping')))" (click)="
                     addAfterRemoval()
                     ">
@@ -1007,7 +1003,7 @@
                           addEntityList(
                             $event,
                             newMappingObj[selectedStage.type].defaultValue
-                          ) 
+                          )
                         " [(ngModel)]="entityName" #suggestedInput />
 
                       <img id="infoWarning3" src="assets/icons/warning_escalation.svg" style="display: none;"
@@ -1071,7 +1067,7 @@
                   </mat-form-field>
                 </ng-container>
               </div>
-              <div class="kr-sg-input-text col-6 input-box mb-2">
+              <div class="kr-sg-input-text col-6 input-box mb-2" *ngIf="selectedStage.type !== 'snippet_extraction'">
                 <div class="label-text">{{'workbench.target_field' | translate}}</div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench.value' | translate}}" id="entitytarget"
@@ -1172,20 +1168,16 @@
           <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
               {{
-              (simulteObj.sourceType
-              ? (simulteObj.sourceType == 'faq'? 'FAQ': (simulteObj.sourceType =='data'?'Data':(simulteObj.sourceType
-              =='all'?'All':(simulteObj.sourceType =='file'?'File':(simulteObj.sourceType
-              =='web'?'Web':simulteObj.sourceType)))))
-              : "choose_an_option"
-              ) | translate
+                (simulteObj.sourceType
+                ? (simulteObj.sourceType == 'faq'? 'FAQ': (simulteObj.sourceType =='data'?'Data':(simulteObj.sourceType
+                =='all'?'All':(simulteObj.sourceType =='file'?'File':(simulteObj.sourceType
+                =='web'?'Web':simulteObj.sourceType =='serviceNow'?'Service Now':simulteObj.sourceType =='confluenceCloud'?'Confluence Cloud':simulteObj.sourceType =='confluenceServer'?'Confluence Server':simulteObj.sourceType)))))
+                : "choose_an_option"
+                ) | translate
               }}
             </button>
             <ul class="dropdown-menu content-menu">
-              <li (click)="changeSimulate('all', 'source')"><a>{{'workbench.all' | translate}}</a></li>
-              <li (click)="changeSimulate('faq', 'source')"><a>{{'workbench.faq' | translate}}</a></li>
-              <li (click)="changeSimulate('web', 'source')"><a>{{'workbench.web' | translate}}</a></li>
-              <li (click)="changeSimulate('file', 'source')"><a>{{'workbench.file' | translate}}</a></li>
-              <li (click)="changeSimulate('data', 'source')"><a>{{'workbench.data' | translate}}</a></li>
+              <li *ngFor="let source of sourceList" (click)="changeSimulate(source, 'source')"><a>{{'workbench.'+source | translate}}</a></li>
             </ul>
           </div>
         </div>
@@ -1232,7 +1224,7 @@
     <div class="mainLoadingSpinner1" *ngIf="loadingSimulate">
       <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
       <span class="please-wait-message1">{{'please_wait'| translate}}</span>
-    </div> 
+    </div>
     <perfect-scrollbar class="content_body"  *ngIf="!loadingSimulate">
       <div *ngIf="simulateJson">
         <ngx-codemirror [(ngModel)]="filteredSimulatorRes" [options]="codeMirrorOptions">

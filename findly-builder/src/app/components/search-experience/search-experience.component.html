@@ -65,23 +65,17 @@
                             <div class="kr-sg-input-search"
                                 [ngClass]="{'added-tour':tourGuide==='step1'||tourGuide==='step2'||tourGuide==='step3'}">
                                 <div class="hover-search-icon">
-                                    <div class="hover-action-edit-icon-search"
-                                        (click)="selectSearchBox('inputBox');$event.stopPropagation();closeAllBoxs('all');">
+                                    <div class="hover-action-edit-icon-search" (click)="selectSearchBox('inputBox');$event.stopPropagation();closeAllBoxs('all');">
                                         <img src="assets/icons/border-pencil.svg">
                                     </div>
-                                    <input type="text" [ngClass]="{'activeBox':selectSearch=='inputBox'}"
-                                        class="input-search"
-                                        [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}"
-                                        readonly>
+                                    <input type="text" [ngClass]="{'activeBox':selectSearch=='inputBox'}" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" readonly>
                                 </div>
 
                                 <div class="search-icon-hover-widget">
-                                    <div class="hover-action-edit-icon-search"
-                                        (click)="selectSearchBox('inputIcon');$event.stopPropagation();">
+                                    <div class="hover-action-edit-icon-search" (click)="selectSearchBox('inputIcon');$event.stopPropagation();">
                                         <img src="assets/icons/border-pencil.svg">
                                     </div>
-                                    <img [src]="searchIcon" class="search-icon"
-                                        [ngClass]="{'activeBox':selectSearch=='inputIcon'}" height="15" width="15">
+                                    <img [src]="searchIcon" class="search-icon" [ngClass]="{'activeBox':selectSearch=='inputIcon'}" height="15" width="15">
                                 </div>
                                 <div class="place-holder-widget">
                                     <div class="hover-action-edit-icon-search"
@@ -516,14 +510,9 @@
 
                             <div class="default-status"
                                 [ngStyle]="{'padding':searchObject.searchExperienceConfig.searchBarPosition == 'bottom'?'20':0,'border-top':searchObject.searchExperienceConfig.searchBarPosition == 'bottom'?'1':'0'}">
-                                <div class="default-status-title"
-                                    *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">Default
-                                    Status</div>
-                                <div class="kr-sg-radiobutton w-100"
-                                    *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
-                                    <input id="radio-01" name="searchBar" class="radio-custom" type="radio"
-                                        [(ngModel)]="searchObject.searchInteractionsConfig.defaultStatus"
-                                        value="searchBar">
+                                <div class="default-status-title" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">Default Text</div>
+                                <div class="kr-sg-radiobutton w-100" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
+                                    <input id="radio-01" name="searchBar" class="radio-custom" type="radio" [(ngModel)]="searchObject.searchInteractionsConfig.defaultStatus" value="searchBar">
                                     <label for="radio-01" class="radio-custom-label">Search Bar</label>
                                 </div>
 
@@ -663,9 +652,7 @@
                                     <div class="border-with-padding" *ngFor="let data of suggestions">
                                         <div class="label_text">{{data.name}}</div>
                                         <div class="range-slider">
-                                            <app-range-slider-search-experience [customClass]='"querySlider"'
-                                                [allData]='data.sliderObj' (valueEvent)="valueEvent(data.name,$event)">
-                                            </app-range-slider-search-experience>
+                                            <app-range-slider-search-experience [customClass]='"querySlider"' [allData]='data.sliderObj' (valueEvent)="valueEvent(data.name,$event)"></app-range-slider-search-experience>
                                         </div>
                                     </div>
                                 </div>
@@ -696,10 +683,7 @@
 
                                 </div>
                                 <div>
-                                    <img src="assets/icons/search-experience/bottom-up-help.png"
-                                        *ngIf="searchObject.searchInteractionsConfig.feedbackExperience.queryLevel&&searchObject.searchExperienceConfig.searchBarPosition==='bottom'" />
-                                    <img src="assets/icons/search-experience/top-down-help.png"
-                                        *ngIf="searchObject.searchInteractionsConfig.feedbackExperience.queryLevel&&searchObject.searchExperienceConfig.searchBarPosition==='top'" />
+                                    <img src="assets/icons/search-experience/top-down-help.png"/>
                                 </div>
                             </div>
                             <div class="col-9">
