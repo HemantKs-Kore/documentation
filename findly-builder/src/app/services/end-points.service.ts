@@ -1270,5 +1270,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/account?accountId=:accountId',
       method: 'get'
     }
+    //export structure data faq
+    this.serviceList['export.structuredData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/structuredData/export',
+      method: 'post'
+    }
   }
 }
