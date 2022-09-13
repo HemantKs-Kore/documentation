@@ -41,7 +41,7 @@ export class SelectTextDirective {
 
   getSelectionCharOffsetsWithin(element) {
     var start = 0, end = 0;
-    var sel, range, priorRange;
+    var sel, range, priorRange,text;
     if (typeof window.getSelection != "undefined") {
       range = window.getSelection().getRangeAt(0);
       priorRange = range.cloneRange();
@@ -49,6 +49,7 @@ export class SelectTextDirective {
       priorRange.setEnd(range.startContainer, range.startOffset);
       start = priorRange.toString().length;
       end = start + range.toString().length;
+      text = window.getSelection().toString().trim();
     } else if (typeof document.getSelection() != "undefined" &&
       (sel = document.getSelection()).type != "Control") {
       range = sel.createRange();
@@ -58,6 +59,6 @@ export class SelectTextDirective {
       start = priorRange.text.length;
       end = start + range.text.length;
     }
-    this.selectedIndex.emit({start:start,end:end});
+    this.selectedIndex.emit({start:start,end:end,text:text});
   }
 }

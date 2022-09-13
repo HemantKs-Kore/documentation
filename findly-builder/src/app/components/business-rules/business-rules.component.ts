@@ -140,7 +140,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   sys_entities: any = [];
   entityDefaultColors: any = [{ type: 'system_defined', color: '#135423' }, { type: 'custom', color: '#803C25' }, { type: 'index_field', color: '#381472' }];
-  entityFields = { startIndex: 0, endIndex: 0, entityId: '' };
+  entityFields = { startIndex: 0, endIndex: 0, entityId: '',word:'' };
   entityObj: any = { entities: [], sentence: '', colorSentence: '', isEditable: false };
   inputSentence: any;
   selectEditIndex:number=0;
@@ -267,7 +267,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.removedCon = false;
     this.createTag(false, false);
     this.nlpAnnotatorObj = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [] };
-    this.entityFields = { startIndex: 0, endIndex: 0, entityId: '' };
+    this.entityFields = { startIndex: 0, endIndex: 0, entityId: '',word:'' };
     this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false };
     this.inputSentence = '';
   }
@@ -1272,19 +1272,41 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
   }
 
+  //detect text is deleting
+  eventDeleted(event){
+    if(event?.keyCode===8||event?.keyCode===46){
+      setTimeout(()=>{
+        this.entityObj.sentence = document.getElementById('contentText').innerText;
+        const sentence= this.updateColorSentence();
+        const coloredSentence = this.sanitizer.bypassSecurityTrustHtml(sentence);
+        this.inputSentence = coloredSentence;
+        this.entityObj.colorSentence = coloredSentence;
+      },300)
+    }
+  }
+
   //fetch index info from appSelectText directive
   getSelectedIndex(index){
-    this.entityFields = { startIndex: 0, endIndex: 0, entityId: '' };        
+    this.entityFields = { startIndex: 0, endIndex: 0, entityId: '',word:'' };        
     this.entityFields.startIndex = index?.start;
     this.entityFields.endIndex = index?.end;
+    this.entityFields.word = index?.text;
     this.nlpAnnotatorObj.showEntityPopup = true;
   }
+
   //click on Entity to select
   selectEntity(entity) {
     if(!this.entityObj.isEditable){
       this.entityObj.sentence = document.getElementById('contentText').innerText;
     }
     this.entityFields.entityId = entity?._id;
+    // if(this.entityObj.entities.length>0){
+    //   for(let i=0;i<=this.entityObj.entities.length;i++){
+    //     if(this.entityFields?.startIndex===this.entityObj.entities[i].startIndex){
+    //       delete this.entityObj.entities[i]
+    //     }
+    //   }
+    // }
     this.entityObj.entities.push(this.entityFields);
     this.inputSentence = '';
     const sentence = this.updateColorSentence();
@@ -1300,21 +1322,44 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   updateColorSentence() {
     let entityArray = [];
     let legends = [];
-    const total_entities:any = this.getUniqueListBy(this.entityObj.entities,'startIndex');
+    let total_entities:any = this.getUniqueListBy(this.entityObj.entities,'startIndex');
+    total_entities=this.removeEntities(this.entityObj);
     this.entityObj.entities = total_entities;
-    for (let i = 0; i < total_entities.length; i++) {
-      let sentence = '';
-      const startIndex = total_entities[i].startIndex;
-      const endIndex = total_entities[i].endIndex;
-      const entity  = this.sys_entities.filter(item=>item._id===total_entities[i].entityId);
-      const applyColor = this.entityDefaultColors.filter(item=>item.type===entity[0].entityType);
-      sentence = `<span contenteditable="false" style="font-weight:bold;color:${applyColor[0].color}">` + this.entityObj.sentence.substring(startIndex, endIndex) + '</span>'
-      entityArray.push([startIndex, endIndex, sentence]);
-      legends.push({name:entity[0]?.entityName,type:entity[0]?.entityType});
+    if(total_entities.length>0){
+      for (let i = 0; i < total_entities.length; i++) {
+        let sentence = '';
+        const startIndex = total_entities[i].startIndex;
+        const endIndex = total_entities[i].endIndex;
+        const entity  = this.sys_entities.filter(item=>item._id===total_entities[i].entityId);
+        const applyColor = this.entityDefaultColors.filter(item=>item.type===entity[0].entityType);
+        sentence = `<span contenteditable="false" style="font-weight:bold;color:${applyColor[0].color}">` + this.entityObj.sentence.substring(startIndex, endIndex) + '</span>'
+        entityArray.push([startIndex, endIndex, sentence]);
+        legends.push({name:entity[0]?.entityName,type:entity[0]?.entityType});
+      }
+      this.nlpAnnotatorObj.Legends = this.getUniqueListBy(legends,'name');
+      const sentence = this.getSentenceByEntity(entityArray, this.entityObj.sentence);
+      return sentence;
     }
-    this.nlpAnnotatorObj.Legends = this.getUniqueListBy(legends,'name');
-    const sentence = this.getSentenceByEntity(entityArray, this.entityObj.sentence);
-    return sentence;
+    else{
+      legends=[];
+      entityArray=[];
+      return this.entityObj.sentence;
+    }
+    
+  }
+
+  //remove entities if word not matched with sentence
+  removeEntities(data:any){
+    let array=[];
+    for(let item of data?.entities){
+      const sentence = data?.sentence;
+      const word = item?.word;
+     const indexes =  [sentence.indexOf(word), sentence.indexOf(word) + word.length];
+     if(indexes[0]===item?.startIndex&&indexes[1]===item?.endIndex){
+      array.push(item);
+     }
+    }
+    return array;
   }
 
  //remove duplicate items in array
@@ -1349,7 +1394,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
       this.inputSentence = '';
       this.entityObj = { entities: [], sentence: '', colorSentence: '',isEditable:false };
-      this.entityFields = { startIndex: 0, endIndex: 0, entityId: '' };
+      this.entityFields = { startIndex: 0, endIndex: 0, entityId: '',word:'' };
     }
   }
   //create or cancel entity

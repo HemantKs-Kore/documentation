@@ -567,7 +567,7 @@
                                         </div>
                                     </span>
                                 </div>
-                                <div contenteditable="true" class="input-editable" id="contentText" data-ph="Start typing here..." (mouseup)="getDialogDiemensions($event)" (selectedIndex)="getSelectedIndex($event)" [innerHTML]="inputSentence" oncontextmenu="return false;" appSelectText></div>
+                                <div contenteditable="true" class="input-editable" id="contentText" data-ph="Start typing here..." (mouseup)="getDialogDiemensions($event)" (keydown)="eventDeleted($event)" (selectedIndex)="getSelectedIndex($event)" [innerHTML]="inputSentence" oncontextmenu="return false;" appSelectText></div>
                             </div>
                             <div class="kr-sg-btn">
                                 <button class="kr-sg-buttonicon-secondary" (click)="AddSelectedEnity()">
