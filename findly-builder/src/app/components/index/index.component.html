@@ -52,7 +52,7 @@
               <div class="title text-truncate">{{'workbench.choose_stage_type' | translate}}</div>
               <div class="close_icon" (click)="closeNewStage()">
                 <img src="assets/icons/close_field.svg" />
-              </div>
+              </div>              
             </div>
           </div>
         </ng-container>
@@ -69,7 +69,8 @@
                   simulteObj &&
                   simulteObj.simulationInprogress &&
                   simulteObj.currentSimulateAnimi === i - 1,
-                allRunningActive: simulteObj && i < simulteObj.totalStages
+                allRunningActive: simulteObj && i < simulteObj.totalStages,
+                'if-beta':(pipe.type==='snippet_extraction')
               }">
               <div class="field_data" *cdkDragPreview>
                 <div class="title text-truncate"></div>
@@ -83,7 +84,7 @@
               <div class="stateIcon" *ngIf="!pipe?.enable">
                 <img src="assets/images/inActiveStage.svg" />
               </div>
-              <div class="title text-truncate">{{ pipe?.name }} <img src="assets/images/BETA_VER.svg" class="beta-icon" *ngIf="pipe.type==='snippet_extraction'"/></div>
+              <div class="title text-truncate">{{ pipe?.name }} <div class="beta-tag" *ngIf="pipe.type==='snippet_extraction'">BETA</div></div>
               <div class="close_icon" (click)="removeStage(i,pipe?.name)">
                 <img src="assets/icons/close_field.svg" />
               </div>
@@ -125,7 +126,7 @@
                     " (click)="switchStage(systemStage, index,'true')">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
                       systemStage?.type | translate
-                      }} <img src="assets/images/BETA_VER.svg" class="beta-icon-stage" *ngIf="systemStage.type==='snippet_extraction'"/></a>
+                      }} <span class="beta-tag" *ngIf="systemStage.type==='snippet_extraction'">BETA</span></a>
                   </li>
                 </ul>
               </div>

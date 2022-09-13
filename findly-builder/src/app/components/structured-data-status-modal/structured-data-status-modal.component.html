@@ -61,7 +61,8 @@
         </div>
         <!-- <div class="text-center" *ngIf="((docStatusObject.status==='FAILURE') && (docStatusObject.validation && docStatusObject.validation.file.validated))"> -->
         <div class="text-center" *ngIf="((docStatusObject.status==='FAILURE' || docStatusObject.status==='FAILED') && (docStatusObject.validation && docStatusObject.validation.file.validated))">
-          <div class="relaxNote">{{docStatusObject.store.statusMessage}}</div>
+          <!-- <div class="relaxNote">{{docStatusObject.store.statusMessage}}</div> -->
+          <div class="relaxNote">{{docStatusObject.message}}</div>
         </div>
       </div>
     </perfect-scrollbar>
