@@ -1233,7 +1233,7 @@
                 width: 252px;
                 flex-shrink: 0;
                 perfect-scrollbar{
-                    height: calc(100vh - 213px);
+                    height: calc(100vh - 276px);
                 }
                 .inner-scroll-data{
                     padding-bottom: 20px;
@@ -1357,7 +1357,7 @@
                             }
                         }
                         perfect-scrollbar{
-                            height: calc(100vh - 279px);
+                            height: calc(100vh - 342px);
                         }
                         .scroll-inner-data{
                             padding: 10px 10px 20px 10px;
@@ -1981,5 +1981,11 @@ line-height: 15px;
                 }
             }
         }
+    }
+}
+
+.source-modal-popup{
+    &.if-search-added{
+        height: calc(100vh - 138px) !important;
     }
 }
