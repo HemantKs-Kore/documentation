@@ -13,7 +13,6 @@ export const environment = {
     APPCUES_KEY : '112004'
   }
   // API_SERVER_URL: 'http://192.168.10.101:5000' 
-  //testing purpose
 };
 
 /*
