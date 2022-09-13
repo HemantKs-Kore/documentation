@@ -235,6 +235,25 @@
           border-radius: 4px;
           margin: 12px 30px;
           transition: 0.3s all ease;
+          &.if-beta{
+            padding: 15px 66px 15px 34px;
+          }
+          .beta-tag{
+            position: absolute;
+            right: 30px;
+            top: 17px;
+            background: #777A80;
+            padding: 3px 3px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-size: 10px;
+            line-height: normal;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+          }
           cursor: pointer;
           .title {
             color: #5f6368;
@@ -246,6 +265,9 @@
           &:hover {
             border: 1px solid #0d6efd;
             background: #e7f1ff;
+            .beta-tag{
+              background: #85B7FE;
+            }
             .title {
               color: #202124;
               font-weight: 600;
@@ -669,6 +691,22 @@
         button {
           margin-right: 15px;
         }
+      }
+      .beta-tag{
+        position: absolute;
+        background: #777A80;
+        padding: 3px 3px;
+        border-radius: 4px;
+        text-transform: uppercase;
+        font-size: 10px;
+        line-height: normal;
+        height: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        bottom: 12px;
+        left: 136px;
       }
     }
   }
@@ -1177,15 +1215,15 @@
 }
 
 .beta-icon {
-  height: 30px;
-  float: right;
-  position: absolute;
-  margin-left: 10px;
-  bottom: 9px;
+    height: 37px;
+    float: right;
+    position: absolute;
+    margin-left: 6px;
+    bottom: 21px;
 }
 
 .beta-icon-stage {
-  height: 24px;
-  width: 24px;
+  height: 30px;
+  width: 30px;
   position: relative;
 }
