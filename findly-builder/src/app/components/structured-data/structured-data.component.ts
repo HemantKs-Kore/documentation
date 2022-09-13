@@ -1379,7 +1379,7 @@ export class StructuredDataComponent implements OnInit {
           /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is updated to success as per new api contract */
           /** made code updates in line no 1903 on 03/09 added new condition for record.fileInfo and record.fileInfo.fileId,since fileId is now has to be fetched from fileInfo  as per new api contract  */
           // if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
-          if ((record.status === 'SUCCESS' || record.status === 'success') && (record.fileInfo) && (record.fileInfo.fileId) && !record.store.toastSeen) {
+          if ((record.status === 'SUCCESS' || record.status === 'success') && (record.fileInfo) && (record.fileInfo.fileId) && !record?.store?.toastSeen) {
             /**added condition for jobType in 1906,since we are no longer recieving action in jobs api response,using the jobType for condition check as per new api contract 10/03 */
             // if (record.action === 'EXPORT') {
             if (record.jobType === "DATA_EXPORT") {
