@@ -855,18 +855,19 @@ mediaObj = {};
       this.currentRouteData=this.router.url;
       this.currentRouteData=this.currentRouteData.replace("/", "");
     }
-    let index = this.faqData.findIndex(el => el.key == this.currentRouteData)
-    if(index < 0) {
-      // this.triggerChild()
-      this.supportParentfaq=true;
-      this.closeFaqSearch()
-    } else {
-      this.faqData.forEach(element => {
-        if(this.currentRouteData==element.key){
-         this.triggerChildFaq(element);
-        }
-      });
-    }
+    this.triggerChildFaq(this.currentRouteData);
+    //let index = this.faqData.findIndex(el => el.key == this.currentRouteData)
+    // if(index < 0) {
+    //   // this.triggerChild()
+    //   this.supportParentfaq=true;
+    //   this.closeFaqSearch()    //  
+    // } else {
+    //   this.faqData.forEach(element => {
+    //     if(this.currentRouteData==element.key){
+    //      this.triggerChildFaq(element);
+    //     }
+    //   });
+    // }
   }
   showHideSpinner() {
     setTimeout(() => {
@@ -885,11 +886,12 @@ mediaObj = {};
       var topicGuideBaseUrl = topicGuide['topicGuideBaseUrl']
       var version = 'latest';
       var language = 'en';
-      var topicId = faq.display;
-      // var topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl(topicGuideBaseUrl+language+'/'+version+'/'+topicId +'?rnd=' + Math.random().toString(36).substr(7));
+      var topicId = faq;
+      var topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl(topicGuideBaseUrl+language+'/'+version+'/'+topicId);
+      this.topicGuideUrl=topicGuideUrl;
       $(".topic-guide-tab" ).trigger( "click" );
       this.showLoader = true;
-      this.topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/en/latest/Small Talk');
+      //this.topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/en/latest/summary');
       // this.topicGuideUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://koredotcom.github.io/koredotai-docs/platform/topic-guide/en/latest/No Bots Form?rnd=cd1at9')
       //this.topicGuideUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://koredotcom.github.io/koredotai-docs/platform/topic-guide/en/latest/Dialog Tasks?rnd=cd1at9')
       console.log(this.topicGuideUrl);

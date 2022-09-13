@@ -9,8 +9,8 @@ export const environment = {
   USE_SESSION_STORE:false,
   MIXPANEL_KEY : "5c3bf404d138a0e9ca816fb8421d6665",
   INLINE_MANUAL_SITE_KEY :"1ec224ee46620656a9b18a17c80587a3",
-  //topicGuideBaseUrl:'https://koredotcom.github.io/koredotai-docs/platform/topic-guide/'
-  topicGuideBaseUrl:'https://sunilsi-kore.github.io/koredotai-docs/platform/topic-guide/'
+  //topicGuideBaseUrl:'https://koredotcom.github.io/koredotai-docs/searchassist/topic-guide/'
+  topicGuideBaseUrl:'https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/'
 };
 
 /*
