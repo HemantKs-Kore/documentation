@@ -14,15 +14,14 @@ import * as _ from 'underscore';
 import * as moment from 'moment';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { fromEvent } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {  Subject } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+
 declare var require: any
 const FileSaver = require('file-saver');
 @Component({
@@ -43,7 +42,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isEdittitle;
   contentId
   content_id;
-  skip=0;
+  skip = 0;
+  schedularData:any;
   edit: any = {};
   Id;
   editConfObj: any = {};
@@ -67,6 +67,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   currentView = 'list'
   searchSources = '';
   pagesSearch = '';
+  lastPageSearch = '';
+  lastData : any;
   selectedApp: any = {};
   resources: any = [];
   polingObj: any = {};
@@ -78,8 +80,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   btnCount;
   btnAllCount;
   pagingData: any[] = [];
-  statusArr=[];
-  docTypeArr =[];
+  statusArr = [];
+  docTypeArr = [];
   selectedFilter: any = ''
   executionLogStatus = false;
   componentType: string = 'addData';
@@ -88,16 +90,26 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     document: 'Doc'
   }
   statusObj: any = {
-    failed: { name: 'Failed', color: '#DD3646' },
-    successfull: { name: 'Successfull', color: '#28A745' },
-    success: { name: 'Success', color: '#28A745' },
-    queued: { name: 'In-Queue', color: '#0D6EFD' },
-    running: { name: 'In Progress', color: '#0D6EFD' },
-    inprogress: { name: 'In Progress', color: '#0D6EFD' },
+    failed: { name: 'Failed', color: 'red' },
+    FAILED: { name: 'Failed', color: 'red' },
+    successfull: { name: 'Successfull', color: 'green' },
+    SUCCESSFULL: { name: 'Successfull', color: 'green' },
+    success: { name: 'Success', color: 'green' },
+    SUCCESS: { name: 'Success', color: 'green' },
+    queued: { name: 'In-Queue', color: 'blue' },
+    QUEUED: { name: 'In-Queue', color: 'blue' },
     validation: { name: 'In-Queue', color: '#0D6EFD' },
+    VALIDATION: { name: 'In-Queue', color: '#0D6EFD' },
     scheduled: { name: 'Validated', color: '#0D6EFD' },
+    SCHEDULED: { name: 'Validated', color: '#0D6EFD' },
     halted: { name: 'Stopped', color: '#DD3646' },
-    configured: { name: 'Validated', color: '#202124' }
+    HALTED: { name: 'Stopped', color: '#DD3646' },
+    running: { name: 'In Progress', color: 'blue' },
+    RUNNING: { name: 'In Progress', color: 'blue' },
+    configured: { name: 'Validated', color: 'blue' },
+    CONFIGURED: { name: 'Validated', color: 'blue' },
+    inProgress: { name: 'In Progress', color: 'blue' },
+    INPROGRESS: { name: 'In Progress', color: 'blue' },
   };
   executionObj: any = {
     'Execution Successful': {
@@ -160,7 +172,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       resourceType: 'structuredData'
     },
     {
-      name: 'Import Structured Data',
+      name: 'Add Structured Data',
       description: 'Add structured data manually',
       icon: 'assets/icons/content/database-add.svg',
       id: 'contentStucturedDataAdd',
@@ -211,18 +223,19 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   crawlDepth: number;
   maxUrlLimit: number;
   crwalOptionLabel = '';
-  structuredDataModalRef : any;
+  structuredDataModalRef: any;
   addStructuredDataModalPopRef: any;
-  selectedSourceType : any;
-  isStructuredDataAdd : boolean = false;
+  schedularDataPopRef:any;
+  selectedSourceType: any;
+  isStructuredDataAdd: boolean = false;
   sortedObject = {
     'type': 'fieldName',
-    'position':'up',
+    'position': 'up',
     "value": 1,
   }
-  filterObject={
+  filterObject = {
     'type': '',
-    'header':''
+    'header': ''
   }
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
@@ -231,6 +244,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   @ViewChild('structuredDataModal') structuredDataModal: KRModalComponent;
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
+  @ViewChild('schedularDataPop') schedularDataPop: KRModalComponent;
+  templateState = new Subject();
+  loadingData: boolean = true;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -240,7 +256,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public inlineManual: InlineManualService,
     public dockService: DockStatusService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    public mixpanel: MixpanelServiceService
   ) { }
 
   ngOnInit(): void {
@@ -251,6 +268,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.getJobStatusForMessages();
     this.userInfo = this.authService.getUserInfo() || {};
     window.addEventListener('scroll', this.scroll, true);
+
+    this.templateState.subscribe(val => {
+      // console.log(val)
+    })
   }
   scroll = (event): void => {
     //console.log(event)
@@ -260,6 +281,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
+    // this.templateState.next('loadingContent1')
     // setTimeout(()=>{
     //   if (!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')) {
     //     this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
@@ -271,24 +293,30 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.executionLogStatus = true;
   }
   addNewContentSource(type) {
+    if(type==='contentWeb'){
+      this.mixpanel.postEvent('Enter Crawl web domain', {});
+    }
+    else if(type==='contentDoc'){
+      this.mixpanel.postEvent('Enter Upload Content File', {});
+    }
     this.showSourceAddition = type;
     // this.openAddSourceModal();
     // this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
   }
 
-  addStructuredDataSource(){
+  addStructuredDataSource() {
     // this.structuredDataModalRef = this.structuredDataModal.open();
     this.isStructuredDataAdd = true;
     this.selectedSourceType = JSON.parse(JSON.stringify(this.availableStructuredDataSources[0]));
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
   }
 
-  openStructuredData(){
+  openStructuredData() {
     this.structuredDataModalRef = this.structuredDataModal.open();
   }
 
-  closeAddStructuredDataModal(){
-    if(this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close){
+  closeAddStructuredDataModal() {
+    if (this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close) {
       this.isStructuredDataAdd = false;
       this.addStructuredDataModalPopRef.close();
     }
@@ -368,7 +396,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         return '';
     }
   }
-  getSourceList(nxt?,searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?,request?) {
+  getSourceList(nxt?, searchValue?, searchSource?, source?, headerOption?, sortHeaderOption?, sortValue?, navigate?, request?) {
     // this.statusArr = [];
     // this.docTypeArr = [];
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
@@ -378,25 +406,25 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       offset: this.skip || 0,
       limit: 10
     };
-    let payload:any = {}
-    if(!sortHeaderOption && !headerOption){
-       payload ={
+    let payload: any = {}
+    if (!sortHeaderOption && !headerOption) {
+      payload = {
         "extractionType": "content",
-        "sort":{
-          "name" : -1
-        } 
+        "sort": {
+          "name": -1
+        }
       }
     }
-    else{
+    else {
       payload = request
     }
-    if(this.searchSources){
+    if (this.searchSources) {
       payload.search = this.searchSources;
     }
-    if(this.pagesSearch){
+    if (this.pagesSearch) {
       payload.search = this.pagesSearch;
     }
-    this.service.invoke('get.source.list', quaryparms,payload).subscribe(res => {
+    this.service.invoke('get.source.list', quaryparms, payload).subscribe(res => {
       this.resources = res.sources;
       this.totalRecord = res.totalCount || 0;
       //  this.resourcesDoc=this.resources[0].fileMeta;
@@ -490,32 +518,35 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         //   source.name = source.fileMeta.fileName; // source title for upload file (considerig fileName)
         // }
         // else{
-         
+
         // }
-        
+
       });
       this.resources = this.resources.reverse();
       if (this.resources && this.resources.length && !nxt) {
         this.poling('content')
       }
       this.loadingContent = false;
+      this.loadingData = false;
       setTimeout(() => {
         $('#searchContentSources').focus();
       }, 100);
       // this.filterTable(this.filterTableSource, this.filterTableheaderOption)
-      if (res.length > 0) {
+      if (res.sources.length > 0) {
         this.loadingContent = false;
-        this.loadingContent1 = true;
+        this.loadingData = false;
         if (!this.inlineManual.checkVisibility('CONTENT_OVERVIEW')) {
           this.inlineManual.openHelp('CONTENT_OVERVIEW')
           this.inlineManual.visited('CONTENT_OVERVIEW')
         }
-       
-      }
-      
-      else {
-        this.loadingContent1 = true;
-        setTimeout(()=>{
+
+      } else {
+        if ((searchValue === undefined && res.sources.length == 0)
+          || (searchValue.length <= 0 && res.sources.length == 0)) {
+          this.loadingContent1 = true;
+          this.loadingData = true
+        }
+        setTimeout(() => {
           if (!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')) {
             this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
             this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')
@@ -527,7 +558,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         // }
       }
       this.getDyanmicFilterData(searchValue);
-      
+
     }, errRes => {
       // console.log(errRes);
       this.loadingContent = false;
@@ -548,7 +579,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
       if (res && res.length) {
         res.forEach(element => {
-          this.resourcesStatusObj[element._id] = element;  
+          this.resourcesStatusObj[element._id] = element;
         });
       }
 
@@ -575,13 +606,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
       this.oldQuedJob = [];
       const queuedJobs = _.filter(res, (source) => {
-        //this.resourcesStatusObj[source.resourceId] = source;
-        if (source.status == 'success') {
-          let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-          if (currentPlan?.subscription?.planId == 'fp_free') {
-            this.appSelectionService.updateUsageData.next('updatedUsage');
-          }
-        }
         if (source.status == 'running' || source.status == 'queued') {
           if (source.numPages == 0 || source.numPages == '') {
             this.oldQuedJob.push(source._id);
@@ -605,7 +629,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         }
       } else {
         clearInterval(this.polingObj[type]);
-        // this.getSourceList('clearPoling');
+        this.getSourceList('clearPoling');
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
@@ -640,19 +664,19 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       quaryparms.contentType = 'docContent'
     }
     //  const payload = request;
-    const payload : any={
-      sort :{
+    const payload: any = {
+      sort: {
         lMod: -1,
       }
     };
     // if(this.searchSources){
     //   payload.search = this.searchSources;
     // }
-    if(this.pagesSearch){
+    if (this.pagesSearch) {
       payload.search = this.pagesSearch;
     }
     // payload.sort.lMod = -1;
-    this.service.invoke('get.extracted.pags', quaryparms,payload).subscribe(res => {
+    this.service.invoke('get.extracted.pags', quaryparms, payload).subscribe(res => {
       this.loadingSliderContent = false;
       this.selectedSource.pages = res.content;
       this.totalCrawledCount = res.count;
@@ -679,11 +703,20 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       } else {
         this.crwalOptionLabel = 'Crawl Everything'
       }
-      if (data.length) {
+      let searchEl = document.getElementsByName('pagesSearch')[0]
+      let isFocused = (document.activeElement === searchEl);
+      this.lastPageSearch = this.pagesSearch;
+      this.lastData = data
+      console.log(data.length, this.pagesSearch, isFocused)
+      if (data.length || this.pagesSearch || isFocused ) {
         this.swapSlider('page');
+        this.selectedPage = this.pagingData[0];
       }
       else {
-        this.swapSlider('config')
+        // console.log(data.length, this.pagesSearch, 'configOut..')
+        if(data.length == 0 && this.pagesSearch.length == 0)  { this.swapSlider('config')
+        // console.log(data.length, this.pagesSearch, 'config..')
+      }
       }
       this.clicksViews('file')
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
@@ -824,6 +857,39 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     });
 
   }
+  openScheduler(event,source){
+    this.selectedSource = source;
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    this.schedularDataPopRef = this.schedularDataPop.open();
+    this.schedularData = source?.advanceSettings
+  }
+  closeScheduler(){
+    if(this.schedularDataPopRef && this.schedularDataPopRef.close){
+      this.schedularDataPopRef.close();
+    }
+  }
+  copyUrl(val) {
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+    this.notificationService.notify('Copied URL to clipboard', 'success')
+  }
+  goToLink(url: string) {
+    if(url.length > 0 ) {
+      window.open(url, "_blank");
+    }
+}
   openStatusSlider(source, page?) {
     // console.log("sourec opned", source)
     this.executionHistoryData = [];
@@ -849,7 +915,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.crawlDepth = source.advanceSettings.crawlDepth;
         this.maxUrlLimit = source.advanceSettings.maxUrlLimit
       }
-      
+
       this.openStatusModal();
       this.loadingSliderContent = true;
       this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
@@ -880,7 +946,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   pageination(pages, action) {
     // let count = 0;
-    // let divisor = Math.floor(pages/perPage) 
+    // let divisor = Math.floor(pages/perPage)
     // let remainder = pages%perPage;
     // if(remainder>0){
     //   this.btnCount = divisor +1;
@@ -1024,6 +1090,22 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.editDocObj.title = this.selectedSource.name;
     this.editDocObj.desc = this.selectedSource.desc
   }
+  changeTittle() {
+    this.isEditDoc = true;
+    this.editDocObj.title = this.selectedSource.name;
+  }
+  updateTittle() {
+    this.isEditDoc = false;
+    this.selectedSource.name = this.editDocObj.title;
+    this.docContent.sys_source_name = this.editDocObj.title;
+    // this.editDocObj.title = this.selectedSource.name;
+  }
+  cancelTittle(){
+    this.isEditDoc = false;
+    this.editDocObj.title = this.selectedSource.name;
+    this.editDocObj.title =  this.docContent.sys_source_name
+  }
+
   deleteDocument(from, record, event) {
     if (event) {
       event.stopImmediatePropagation();
@@ -1147,7 +1229,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       jobId: source.jobId
     }
     this.service.invoke('stop.crwaling', quaryparms).subscribe(res => {
-      this.notificationService.notify('Stoped Crawling', 'success');
+      this.notificationService.notify('Stopped Crawling', 'success');
       this.getSourceList();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to Stop Cwraling');
@@ -1165,7 +1247,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.isEditDoc = false;
       this.cancelDocDetails();
       this.getSourceList()
-      //} 
+      //}
       this.notificationService.notify('Source deleted successsfully', 'success');
       const deleteIndex = _.findIndex(this.resources, (pg) => {
         return pg._id === record._id;
@@ -1174,10 +1256,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.resources.splice(deleteIndex, 1);
       }
       this.closeStatusModal();
-      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-      if (currentPlan?.subscription?.planId == 'fp_free') {
-        this.appSelectionService.updateUsageData.next('updatedUsage');
-      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete source');
     });
@@ -1217,14 +1295,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   filterTable(source, headerOption) {
     switch (headerOption) {
-      case 'contentSource': {this.filterSystem.typefilter = source; break; };
-      case 'recentStatus': {this.filterSystem.statusFilter = source; break; };
+      case 'contentSource': { this.filterSystem.typefilter = source; break; };
+      case 'recentStatus': { this.filterSystem.statusFilter = source; break; };
     };
     this.filterObject = {
       type: source,
       header: headerOption
     }
-    if(headerOption) {
+    if (headerOption) {
       this.filterContent(null, null, source, headerOption);
     }
   }
@@ -1334,15 +1412,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
   //   this.filterContent(null,null,source, headerOption);
   //   }
-   
+
   //   //this.getSourceList();
   // }
- 
-  filterContent(searchValue?,searchSource?,source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){
-    if(sortValue){
+
+  filterContent(searchValue?, searchSource?, source?, headerOption?, sortHeaderOption?, sortValue?, navigate?) {
+    if (sortValue) {
       this.sortedObject = {
-        type : sortHeaderOption,
-        value : sortValue,
+        type: sortHeaderOption,
+        value: sortValue,
         position: navigate
       }
     }
@@ -1353,67 +1431,67 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       offset: 0,
       limit: 10
     };
-    let request:any={}
-    if(!sortValue){
+    let request: any = {}
+    if (!sortValue) {
       request = {
         "extractionType": "content",
-        "sort":{
-          "name":1
-        }    
-    }   
+        "sort": {
+          "name": 1
+        }
+      }
     }
-    else if(sortValue){
-      const sort :any ={}
-      request= {
+    else if (sortValue) {
+      const sort: any = {}
+      request = {
         sort
       }
     }
     else {
-    request={}
+      request = {}
     }
     request.extractionType = "content",
-    request.contentSource = this.filterSystem.typefilter;
+      request.contentSource = this.filterSystem.typefilter;
     request.recentStatus = this.filterSystem.statusFilter;
-    request.search= this.searchSources;
+    request.search = this.searchSources;
     if (request.contentSource == 'all') {
-     delete request.contentSource;
+      delete request.contentSource;
     }
-     if (request.recentStatus == 'all') {
-      delete request.recentStatus; 
+    if (request.recentStatus == 'all') {
+      delete request.recentStatus;
     }
     if (this.searchSources === '') {
       delete request.search;
-     }
-    if(sortValue){  
-      this.getSortIconVisibility(sortHeaderOption,navigate);
-       //Sort start
-    if(sortHeaderOption === 'contentSource' ){
-      request.sort.contentSource = sortValue
     }
-    if(sortHeaderOption === 'recentStatus' ){
-      request.sort.recentStatus = sortValue
+    if (sortValue) {
+      this.getSortIconVisibility(sortHeaderOption, navigate);
+      //Sort start
+      if (sortHeaderOption === 'contentSource') {
+        request.sort.contentSource = sortValue
+      }
+      if (sortHeaderOption === 'recentStatus') {
+        request.sort.recentStatus = sortValue
+      }
+      if (sortHeaderOption === 'name') {
+        request.sort.name = sortValue
+      }
+      if (sortHeaderOption === 'numOfDocs') {
+        request.sort.numOfDocs = sortValue
+      }
+      if (sortHeaderOption === 'triggeredBy') {
+        request.sort.triggeredBy = sortValue
+      }
+      if (sortHeaderOption === 'lastUpdated') {
+        this.getCrawledPages();
+      }
+
+      // end
     }
-    if(sortHeaderOption === 'name' ){
-      request.sort.name = sortValue
-    }
-    if(sortHeaderOption === 'numOfDocs' ){
-      request.sort.numOfDocs = sortValue
-    }
-    if(sortHeaderOption === 'triggeredBy' ){
-      request.sort.triggeredBy = sortValue
-    }
-    if(sortHeaderOption === 'lastUpdated' ){
-      this.getCrawledPages();
-    }
-    
-    // end
-    }
-    
-    this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
+
+    this.getSourceList(null, searchValue, searchSource, source, headerOption, sortHeaderOption, sortValue, navigate, request);
     // if(sortHeaderOption === 'lastUpdated'){
     //   this.getCrawledPages()
     // }
-    
+
   }
 
 
@@ -1426,26 +1504,25 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId
     };
-    const request :any = {
+    const request: any = {
       moduleName: "content"
     };
     // if (request.contentSource == 'all') {
     //  delete  request.contentSource;
     // }
     //  if (request.recentStatus == 'all') {
-    //   delete request.recentStatus; 
+    //   delete request.recentStatus;
     // }
     // if (this.searchSources === '') {
     //   delete request.search;
     //  }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
-      console.log(res, 'Filters')
       this.statusArr = [...res.recentStatus];
       this.docTypeArr = [...res.contentSource];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get filters');
     });
-    
+
   }
   getDyanmicFilterData(search?) {
     // this.fieldDataTypeArr = [];
@@ -1456,7 +1533,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId
     };
-    const request :any = {
+    const request: any = {
       moduleName: "content"
     };
     request.contentSource = this.filterSystem.typefilter;
@@ -1464,50 +1541,49 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     // request.isStored = this.filterSystem.isStoredFilter;
     // request.isIndexed = this.filterSystem.isIndexedFilter;
     // request.isRequired = this.filterSystem.isRequiredFilter;
-    request.search= this.searchSources;
+    request.search = this.searchSources;
     if (request.contentSource == 'all') {
-     delete  request.contentSource;
+      delete request.contentSource;
     }
-     if (request.recentStatus == 'all') {
-      delete request.recentStatus; 
+    if (request.recentStatus == 'all') {
+      delete request.recentStatus;
     }
     if (this.searchSources === '') {
       delete request.search;
-     }
+    }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
-      console.log(res, 'Filters')
-      this.statusArr = [...res.recentStatus];
-      this.docTypeArr = [...res.contentSource];
+      // this.statusArr = [...res.recentStatus];
+      // this.docTypeArr = [...res.contentSource];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get filters');
     });
-    
+
   }
-  sortByApi(sort){
+  sortByApi(sort) {
     this.selectedSort = sort;
     if (this.selectedSort !== sort) {
       this.isAsc = true;
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow ='';
-    var checkSortValue= 1;
-    if(this.isAsc){
-      naviagtionArrow= 'up';
+    var naviagtionArrow = '';
+    var checkSortValue = 1;
+    if (this.isAsc) {
+      naviagtionArrow = 'up';
       checkSortValue = 1;
     }
-    else{
-      naviagtionArrow ='down';
+    else {
+      naviagtionArrow = 'down';
       checkSortValue = -1;
+    }
+    this.filterContent(null, null, null, null, sort, checkSortValue, naviagtionArrow)
   }
-  this.filterContent(null,null,null,null,sort,checkSortValue,naviagtionArrow)
-}
-paginateContent(event) {
-  this.skip= event.skip
-   this.filterContent(this.searchSources,'search',this.filterObject.type,this.filterObject.header,this.sortedObject.type,this.sortedObject.value,this.sortedObject.position)
-  // this.getFileds(event.skip, this.searchFields)
+  paginateContent(event) {
+    this.skip = event.skip
+    this.filterContent(this.searchSources, 'search', this.filterObject.type, this.filterObject.header, this.sortedObject.type, this.sortedObject.value, this.sortedObject.position)
+    // this.getFileds(event.skip, this.searchFields)
 
-}
+  }
   transform(date: string): any {
     const _date = new Date(date);
     if (_date.toString() === 'Invalid Date') {
@@ -1703,7 +1779,7 @@ paginateContent(event) {
       crawler.advanceOpts.blockedOpt = false;
       crawler.advanceOpts.blockedURLs = [];
     }
-    // crawler.resourceType = resourceType; 
+    // crawler.resourceType = resourceType;
     payload = crawler;
     // console.log(payload);
 
@@ -1818,11 +1894,11 @@ paginateContent(event) {
       //   let date = this.selectedSource.advanceSettings.scheduleOpts.date;
       //   if(String(date).split(" ")) this.selectedSource.advanceSettings.scheduleOpts.date =  String(date).split(" ")[1] + " " + String(date).split(" ")[2]  + " " + String(date).split(" ")[3];
       // }
-      // if(this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType && 
+      // if(this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType &&
       //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType != "Custom"){
       //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue = {};
       // }
-      // if(this.selectedSource.advanceSettings.scheduleOpts.interval && 
+      // if(this.selectedSource.advanceSettings.scheduleOpts.interval &&
       //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue &&
       //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn &&
       //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate){
@@ -1840,12 +1916,12 @@ paginateContent(event) {
     crawler.advanceOpts.crawlBeyondSitemaps = this.crawlBeyondSitemaps;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
     crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
-    if (Number(this.crawlDepth)) {
+    if (Number(this.crawlDepth) || Number(this.crawlDepth) == 0) {
       crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
     } else {
       delete crawler.advanceOpts.crawlDepth;
     }
-    if (Number(this.maxUrlLimit)) {
+    if (Number(this.maxUrlLimit) || Number(this.maxUrlLimit) == 0) {
       crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
     } else {
       delete crawler.advanceOpts.maxUrlLimit;
@@ -2068,6 +2144,11 @@ paginateContent(event) {
     }
     this.showSearch = !this.showSearch
   }
+  closeSearch() {
+    this.pagesSearch='';
+    this.showSearch = !this.showSearch;
+    this.getCrawledPages(10,0);
+  }
   focusoutSearch(isSearchSource?) {
     if (this.activeClose) {
       if (isSearchSource) {
@@ -2078,6 +2159,7 @@ paginateContent(event) {
       this.activeClose = false;
     }
     this.showSearch = !this.showSearch;
+    this.getSourceList(null,this.searchSources,'search')
   }
   focusinSearch(inputSearch) {
     setTimeout(() => {
@@ -2091,6 +2173,9 @@ paginateContent(event) {
     if (value <= -1) {
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
+    }
+    else if (value == null || value.includes("-")) {
+      this.notificationService.notify('Range cannot be entered', 'error');
     }
     // if(value < 500 && valueFrom == 'maxUrlLimit'){
     //   this.maxUrlLimit = 500;
@@ -2116,7 +2201,7 @@ paginateContent(event) {
   }
 }
 
-// class CrwalObj{  
+// class CrwalObj{
 
 //   url: String = '';
 //   desc: String = '';
@@ -2124,13 +2209,12 @@ paginateContent(event) {
 //   resourceType: String = '';
 //   advanceOpts: AdvanceOpts = new AdvanceOpts()
 
-
 // }
 // class AdvanceOpts{
 // scheduleOpts:boolean = true;
 //     schedulePeriod: String ="";
 //     repeatInterval: String ="";
-//     crawlEverything: boolean = true; 
+//     crawlEverything: boolean = true;
 //        allowedURLs:AllowUrl[] = [];
 //        blockedURLs: BlockUrl[] = [];
 // }

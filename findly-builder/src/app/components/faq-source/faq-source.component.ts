@@ -18,7 +18,7 @@ import { FaqsService } from '../../services/faqsService/faqs.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-import { CdkDragDrop, moveItemInArray ,transferArrayItem} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 // import {  DockStatusService } from '../../services/dock.status.service';
 // import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 
@@ -28,7 +28,7 @@ import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { D, F } from '@angular/cdk/keycodes';
 import { SideBarService } from './../../services/header.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
-import { ThrowStmt } from '@angular/compiler';
+import { CompileShallowModuleMetadata, ThrowStmt } from '@angular/compiler';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
@@ -58,8 +58,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   extractedResources: any = [];
   resources: any = [];
   filters: any = [];
-  duriationDays:any;
-  duriationTime:any;
+  duriationDays: any;
+  duriationTime: any;
   polingObj: any = {};
   faqUpdate: Subject<void> = new Subject<void>();
   filterObject = {};
@@ -70,7 +70,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   faqSelectionObj: any = {
     selectAll: false,
     selectedItems: {},
-    deSelectedItems :{},
+    deSelectedItems: {},
     selectedCount: 0,
     stats: {},
     loadingStats: true
@@ -80,6 +80,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     comment: ''
   }
   activeClose = false;
+  show = false;
   faqComments: any = [];
   pollingSubscriber;
   showSearch;
@@ -101,8 +102,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     FAILED: { name: 'Failed', color: 'red' },
     successfull: { name: 'Successfull', color: 'green' },
     SUCCESSFULL: { name: 'Successfull', color: 'green' },
-    success : { name: 'Success', color: 'green' },
-    SUCCESS : { name: 'Success', color: 'green' },
+    success: { name: 'Success', color: 'green' },
+    SUCCESS: { name: 'Success', color: 'green' },
     queued: { name: 'In-Queue', color: 'blue' },
     QUEUED: { name: 'In-Queue', color: 'blue' },
     running: { name: 'In Progress', color: 'blue' },
@@ -127,6 +128,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   statusArr = [];
   docTypeArr = [];
   filterResourcesBack;
+  statusMsgArr = [];
   filterTableheaderOption = "";
   filterTableSource = "all";
   faqsObj = {
@@ -159,7 +161,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   searchFocusIn = false;
   sortedObject = {
     'type': 'fieldName',
-    'position':'up',
+    'position': 'up',
     "value": 1,
   }
 
@@ -170,6 +172,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  allPageSelected: boolean = false;
+  checkedAll: any[] = [];
+  checkedAllState: any[] = [];
 
   constructor(
     public cdRef: ChangeDetectorRef,
@@ -198,8 +203,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getStats(null, true);
     // this.getfaqsBy();
     this.getSourceList(true);
-    this.getDyanmicFilterData(null,'landingPage');
-    if((this.resources && this.resources.length === 0)){
+    this.getDyanmicFilterData(null, 'landingPage');
+    if ((this.resources && this.resources.length === 0)) {
       this.getJobStatusForMessages();
       this.getSourceList(true);
     }
@@ -274,6 +279,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   openStatusModal() {
     this.statusModalPopRef = this.statusModalPop.open();
+    this.poling();
     this.getJobStatusForMessages();
   }
   closeStatusModal(extractedFaqs?) {
@@ -343,6 +349,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   addFaqSource(type) {
     this.showSourceAddition = type;
+    if(type==='faqWeb'){
+    this.mixpanel.postEvent('Enter FAQ Web extract', {});
+    }
+    else if(type==='faqDoc'){
+      this.mixpanel.postEvent('Enter upload FAQ file', {});
+    }
+    else if(type==='manual'){
+       this.mixpanel.postEvent('Enter FAQ Manual', {});
+    }
     // this.addAltFaq={
     //   _source :{
     //     faq_alt_question : []
@@ -368,15 +383,31 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       if (faqId) {
         if (addtion) {
-        //  delete this.faqSelectionObj.deSelectedItems
           this.faqSelectionObj.selectedItems[faqId] = {};
+          delete this.faqSelectionObj.deSelectedItems[faqId]
         } else {
           this.faqSelectionObj.deSelectedItems[faqId] = {}
           delete this.faqSelectionObj.selectedItems[faqId]
-          
+
         }
       }
       this.faqSelectionObj.selectedCount = Object.keys(this.faqSelectionObj.selectedItems).length;
+      setTimeout(() => {
+        if (Object.keys(this.faqSelectionObj.deSelectedItems).length > 0) {
+
+          let totalCount = (
+            this.selectedtab === 'draft' ?
+              this.faqSelectionObj.stats.draft : (this.selectedtab === 'in_review' ?
+                this.faqSelectionObj.stats.in_review : (this.selectedtab === 'approved' ?
+                  this.faqSelectionObj.stats.approved : '')))
+
+          if (this.allPageSelected == false) {
+            this.faqSelectionObj.selectedCount = Object.keys(this.faqSelectionObj.selectedItems).length;
+          } else {
+            this.faqSelectionObj.selectedCount = totalCount - Object.keys(this.faqSelectionObj.deSelectedItems).length
+          }
+        }
+      }, 0);
     }
   }
   resetCheckboxSelect() {
@@ -391,6 +422,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   selectAllPartially() {
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
     if (selectedElements.length !== this.faqs.length) {
+      this.allPageSelected = false
       this.faqSelectionObj.selectAll = true;
       this.selectAll();
       setTimeout(() => {
@@ -426,23 +458,59 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   selectAll(unselectAll?) {
     const allFaqs = $('.selectEachfaqInput');
+
     if (allFaqs && allFaqs.length) {
       $.each(allFaqs, (index, element) => {
         if ($(element) && $(element).length) {
-          $(element)[0].checked = unselectAll ? false : this.faqSelectionObj.selectAll;
+          let additions;
           const faqId = $(element)[0].id.split('_')[1]
-          this.addRemoveFaqFromSelection(faqId, this.faqSelectionObj.selectAll);
+          if (this.allPageSelected) {
+            if (this.faqSelectionObj.deSelectedItems.hasOwnProperty(faqId)) {
+              $(element)[0].checked = false;
+              additions = false
+            } else {
+              $(element)[0].checked = this.allPageSelected
+              additions = this.allPageSelected
+            }
+            // this.addRemoveFaqFromSelection(faqId, additions);
+          } else {
+            $(element)[0].checked = unselectAll ? false : this.faqSelectionObj.selectAll;
+            additions = this.faqSelectionObj.selectAll
+          }
+          // if(this.faqSelectionObj.selectAll) {
+          //   $(element)[0].checked = unselectAll ? false : this.faqSelectionObj.selectAll;
+          //   this.faqSelectionObj.selectedItems[faqId] = {};
+          //   delete this.faqSelectionObj.deSelectedItems[faqId]
+          //   additions = this.faqSelectionObj.selectAll
+          // } else {
+
+          // }
+          // console.log($(element)[0].checked )
+          this.addRemoveFaqFromSelection(faqId, additions);
         }
       });
     };
     if (unselectAll) {
       $('#selectAllFaqs')[0].checked = false;
       this.faqSelectionObj.selectAll = false;
+      this.allPageSelected = false;
     }
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
   }
   selectAllRecords() {
+    // if(this.faqSelectionObj.selectAll == false) {
+    //   this.checkedAll = [true, false]
+
+    // } else {
+    //   this.checkedAll = [true, true]
+    // }
     this.faqSelectionObj.selectAll = true;
+    this.faqSelectionObj.deSelectedItems = {}
+    if (this.allPageSelected == false) {
+      console.log('not all  page selcted ')
+    }
+    // this.allPageSelected = true ? this.faqSelectionObj.selectAll = true : null;
+    this.allPageSelected = true
     this.selectAll();
   }
   checkUncheckfaqs(faq) {
@@ -467,8 +535,17 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   markSelectedFaqs(faqs) {
-    if (this.faqSelectionObj.selectAll) {
-      this.selectAllRecords()
+    if (this.allPageSelected == true || this.faqSelectionObj.selectAll) {
+      this.checkedAllState.push({ paginate: true, allPageSelected: this.allPageSelected == true, selectAll: this.faqSelectionObj.selectAll })
+      if (Object.keys(this.faqSelectionObj.deSelectedItems).length > 0) {
+        console.log(this.faqSelectionObj.deSelectedItems)
+        this.faqSelectionObj.selectAll = false
+      }
+      if (this.faqSelectionObj.selectAll) {
+        this.selectAll()
+      }
+      this.allPageSelected = true
+      this.selectAll()
       // faqs.forEach((e) => {
       //   $('#selectFaqCheckBox_' + e._id)[0].checked = true;
       //   this.checkUncheckfaqs(e);
@@ -521,7 +598,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       defaultAnswers: event._source.defaultAnswers || [],
       conditionalAnswers: event._source.conditionalAnswers || [],
       keywords: event._source.tags,
-      alternateQuestions : event._source.alternateQuestions || []
+      alternateQuestions: event._source.alternateQuestions || []
     };
     const existingfollowups = [];
     if (this.selectedFaq._meta.followupQuestions && this.selectedFaq._meta.followupQuestions.length) {
@@ -631,7 +708,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   getStats(resourceId?, isInitialFaqCall?) {
     // console.log("resourceId", resourceId)
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.serachIndexId
     };
     let endPoint = 'get.faqStatics';
     if (resourceId) {
@@ -649,7 +726,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.statsApiLoading = false;
       // console.log("manula issu", res)
       this.faqSelectionObj.stats = res.countByState;
-      // this.faqSelectionObj.stats = res.countBySource; 
+      // this.faqSelectionObj.stats = res.countBySource;
       this.faqSelectionObj.loadingStats = false;
       if (resourceId === undefined || resourceId === null) {
         if (res.countBySource && res.countBySource.manual) {
@@ -700,30 +777,30 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     // console.log(this.searchFaq, 'search');
 
   }
-  getJobStatusForMessages(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?,request?) {
+  getJobStatusForMessages(searchValue?, searchSource?, source?, headerOption?, sortHeaderOption?, sortValue?, navigate?, request?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       type: 'faq'
     };
-    let payload:any = {}
-    if(!sortHeaderOption && !headerOption){
-       payload ={
+    let payload: any = {}
+    if (!sortHeaderOption && !headerOption) {
+      payload = {
         "extractionType": "faq",
-        "sort":{
-          "name" : -1
-        } 
+        "sort": {
+          "name": -1
+        }
       }
     }
-    else{
+    else {
       payload = request
     }
-    if(this.searchFaq){
+    if (this.searchFaq) {
       payload.search = this.searchFaq;
     }
-    if(this.searchSources){
+    if (this.searchSources) {
       payload.search = this.searchSources;
     }
-    this.service.invoke('get.source.list', quaryparms,payload).subscribe(res => { //get.job.status
+    this.service.invoke('get.source.list', quaryparms, payload).subscribe(res => { //get.job.status
       this.resources = [...res.sources];
       this.extractedResources = [...res.sources];
       if (this.extractedResources.length) {
@@ -737,8 +814,23 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.docTypeArr = [...new Set(this.docTypeArr)]
 
       }
+      let array = [];
+      this.extractedResources.map(extractedElement => {
+        this.statusMsgArr.map(statusElement => {
+          let obj = {};
+          if (extractedElement._id === statusElement.metadata.extractionSourceId) {
+            obj = { ...extractedElement, message: statusElement.message }
+            array.push(obj);
+          }
+          // else{
+          //   obj= extractedElement
+          // }
+        })
+      });
+      console.log('EA', array);
+      this.extractedResources = array;
       this.filterResourcesBack = [...this.extractedResources];
-      this.getDyanmicFilterData(searchValue,'manageExract');
+      this.getDyanmicFilterData(searchValue, 'manageExract');
       // this.filterTable(this.filterTableSource, this.filterTableheaderOption)
 
 
@@ -892,34 +984,34 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.addRemoveFaqFromSelection(null, null, true);
     this.getfaqsBy(null, this.selectedtab);
   }
-  getSourceList(initializePoling?,searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?,request?) {
+  getSourceList(initializePoling?, searchValue?, searchSource?, source?, headerOption?, sortHeaderOption?, sortValue?, navigate?, request?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       type: 'faq',
       limit: 50,
       skip: 0
     };
-    let payload:any = {}
-    if(!sortHeaderOption && !headerOption){
-       payload ={
+    let payload: any = {}
+    if (!sortHeaderOption && !headerOption) {
+      payload = {
         "extractionType": "faq",
-        "sort":{
-          "name" : -1
-        } 
-        
+        "sort": {
+          "name": -1
+        }
+
       }
     }
-    else{
+    else {
       payload = request
     }
-   
-    if(this.searchFaq){
+
+    if (this.searchFaq) {
       payload.search = this.searchFaq;
     }
-    if(this.searchSources){
+    if (this.searchSources) {
       payload.search = this.searchSources;
     }
-    this.service.invoke('get.source.list', quaryparms,payload).subscribe(res => {
+    this.service.invoke('get.source.list', quaryparms, payload).subscribe(res => {
       this.resources = [...res.sources];
       res.sources.forEach(element => {
         if (element.recentStatus == 'queued' || element.recentStatus == 'failed' || element.recentStatus == 'running' || element.recentStatus == 'configured') {
@@ -947,7 +1039,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         if (element.jobInfo.createdOn) {
           element['schedule_createdOn'] = moment(element.jobInfo.createdOn).fromNow();
-         this.duriationDays = element['schedule_createdOn']
+          this.duriationDays = element['schedule_createdOn']
         }
         if (element.jobInfo.executionStats) {
           element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00:00";
@@ -979,17 +1071,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       else {
         this.loadingFaqs1 = true;
-        setTimeout(()=>{
+        setTimeout(() => {
           if (!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')) {
             this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
             this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
           }
         }, 500)
-        
+
       }
-      this.getDyanmicFilterData(searchValue,'landingPage');
-      // console.log('MIXPANNEL')
-      this.mixpanel.postEvent('FAQ-created', {})
+      this.getDyanmicFilterData(searchValue, 'landingPage');
     }, errRes => {
     });
   }
@@ -1043,22 +1133,22 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   filterTable(source, headerOption) {
     switch (headerOption) {
-      case 'contentSource': {this.filterSystem.typefilter = source; break; };
-      case 'recentStatus': {this.filterSystem.statusFilter = source; break; };
+      case 'contentSource': { this.filterSystem.typefilter = source; break; };
+      case 'recentStatus': { this.filterSystem.statusFilter = source; break; };
     };
     this.filterObject = {
       type: source,
       header: headerOption
     }
-    if(headerOption) {
+    if (headerOption) {
       this.filterFaq(null, null, source, headerOption);
     }
   }
-  filterFaq(searchValue?,searchSource?,source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){
-    if(sortValue){
+  filterFaq(searchValue?, searchSource?, source?, headerOption?, sortHeaderOption?, sortValue?, navigate?) {
+    if (sortValue) {
       this.sortedObject = {
-        type : sortHeaderOption,
-        value : sortValue,
+        type: sortHeaderOption,
+        value: sortValue,
         position: navigate
       }
     }
@@ -1069,62 +1159,62 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       offset: 0,
       limit: 3
     };
-    let request:any={}
-    if(!sortValue){
+    let request: any = {}
+    if (!sortValue) {
       request = {
         "extractionType": "faq",
-        "sort":{
-          "name":1
+        "sort": {
+          "name": 1
         }
-    }   
+      }
     }
-    else if(sortValue){
-      const sort :any ={}
-      request= {
+    else if (sortValue) {
+      const sort: any = {}
+      request = {
         sort
       }
     }
     else {
-    request={}
+      request = {}
     }
     request.extractionType = "faq",
-    request.contentSource = this.filterSystem.typefilter;
+      request.contentSource = this.filterSystem.typefilter;
     request.recentStatus = this.filterSystem.statusFilter;
-    request.search= this.searchSources;
+    request.search = this.searchSources;
     if (request.contentSource == 'all') {
-     delete request.contentSource;
+      delete request.contentSource;
     }
-     if (request.recentStatus == 'all') {
-      delete request.recentStatus; 
+    if (request.recentStatus == 'all') {
+      delete request.recentStatus;
     }
     if (this.searchSources === '') {
       delete request.search;
-     }
-    if(sortValue){  
-      this.getSortIconVisibility(sortHeaderOption,navigate);
-       //Sort start
-    if(sortHeaderOption === 'contentSource' ){
-      request.sort.contentSource = sortValue
     }
-    if(sortHeaderOption === 'recentStatus' ){
-      request.sort.recentStatus = sortValue
+    if (sortValue) {
+      this.getSortIconVisibility(sortHeaderOption, navigate);
+      //Sort start
+      if (sortHeaderOption === 'contentSource') {
+        request.sort.contentSource = sortValue
+      }
+      if (sortHeaderOption === 'recentStatus') {
+        request.sort.recentStatus = sortValue
+      }
+      if (sortHeaderOption === 'name') {
+        request.sort.name = sortValue
+      }
+      // if(sortHeaderOption === 'numOfDocs' ){
+      //   request.sort.numOfDocs = sortValue
+      // }
+      // if(sortHeaderOption === 'triggeredBy' ){
+      //   request.sort.triggeredBy = sortValue
+      // }
+      // end
     }
-    if(sortHeaderOption === 'name' ){
-      request.sort.name = sortValue
-    }
-    // if(sortHeaderOption === 'numOfDocs' ){
-    //   request.sort.numOfDocs = sortValue
-    // }
-    // if(sortHeaderOption === 'triggeredBy' ){
-    //   request.sort.triggeredBy = sortValue
-    // }
-    // end
-    }
-     this.getJobStatusForMessages(searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
+    this.getJobStatusForMessages(searchValue, searchSource, source, headerOption, sortHeaderOption, sortValue, navigate, request);
 
     // this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
   }
-  getDyanmicFilterData(search?,from?) {
+  getDyanmicFilterData(search?, from?) {
     // this.fieldDataTypeArr = [];
     // this.isMultiValuedArr = [];
     // this.isRequiredArr = [];
@@ -1133,57 +1223,56 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId
     };
-    const request :any = {
+    const request: any = {
       moduleName: "faq"
     };
-    if(from == 'landingPage'){
+    if (from == 'landingPage') {
       request.state = this.selectedtab || 'draft';
     }
-    if(from == 'manageExract'){
+    if (from == 'manageExract') {
       request.display = true;
     }
-    
-    
+
+
     request.contentSource = this.filterSystem.typefilter;
     request.recentStatus = this.filterSystem.statusFilter;
-    request.search= this.searchSources;
+    request.search = this.searchSources;
     if (request.contentSource == 'all') {
-     delete  request.contentSource;
+      delete request.contentSource;
     }
-     if (request.recentStatus == 'all') {
-      delete request.recentStatus; 
+    if (request.recentStatus == 'all') {
+      delete request.recentStatus;
     }
     if (this.searchSources === '') {
       delete request.search;
-     }
+    }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
-      console.log(res, 'Filters')
-      this.statusArr = [...res.recentStatus];
-      this.docTypeArr = [...res.contentSource];
+      // this.statusArr = [...res.recentStatus];
+      // this.docTypeArr = [...res.contentSource];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get filters');
     });
-    
+
   }
-  sortByApi(sort){
+  sortByApi(sort) {
     this.selectedSort = sort;
     if (this.selectedSort !== sort) {
       this.isAsc = true;
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow ='';
-    var checkSortValue= 1;
-    if(this.isAsc){
-      naviagtionArrow= 'up';
+    var naviagtionArrow = '';
+    var checkSortValue = 1;
+    if (this.isAsc) {
+      naviagtionArrow = 'up';
       checkSortValue = 1;
     }
-    else{
-      naviagtionArrow ='down';
+    else {
+      naviagtionArrow = 'down';
       checkSortValue = -1;
+    }
+    this.filterFaq(null, null, null, null, sort, checkSortValue, naviagtionArrow)
   }
-  this.filterFaq(null,null,null,null,sort,checkSortValue,naviagtionArrow)
-}
   // filterTable(source, headerOption) {
   //   console.log(this.resources, source)
   //   this.filterTableSource = source;
@@ -1302,6 +1391,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.pollingSubscriber = interval(5000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.job.status', quaryparms).subscribe(res => {
         this.updateSourceStatus(res);
+        this.statusMsgArr = res;
         // this.getJobStatusForMessages();
         const queuedJobs = _.filter(res, (source) => {
           return ((source.status === 'running') || (source.status === 'queued'));
@@ -1311,10 +1401,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           this.getStats(null, true);
           this.pollingSubscriber.unsubscribe();
-          let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-          if (currentPlan?.subscription?.planId == 'fp_free') {
-            this.appSelectionService.updateUsageData.next('updatedUsage');
-          }
         }
 
       }, errRes => {
@@ -1494,9 +1580,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       payload.excludeFaqs = deselectedFaqsCollection;
       payload.currentState = this.selectedtab;
- 
+
     }
-    else  {
+    else {
       const selectedElements = $('.selectEachfaqInput:checkbox:checked');
       const sekectedFaqsCollection: any = [];
       Object.keys(this.faqSelectionObj.selectedItems).forEach((key) => {
@@ -1536,10 +1622,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editfaq = null
       if (state != 'in_review' && state != 'approved') {
         this.notificationService.notify(custSucessMsg, 'success');
-        let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-        if (currentPlan?.subscription?.planId == 'fp_free') {
-          this.appSelectionService.updateUsageData.next('updatedUsage');
-        }
       }
       if (state == 'in_review') {
         this.notificationService.notify('Sent for Review', 'success');
@@ -1581,11 +1663,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         // this.getSourceList();
       }
       this.resetCheckboxSelect();
-
-      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-      if (currentPlan?.subscription?.planId == 'fp_free') {
-        this.appSelectionService.updateUsageData.next('updatedUsage');
-      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete faq source');
     });
@@ -1608,10 +1685,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.getStats();
       this.resetCheckboxSelect();
-      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-      if (currentPlan?.subscription?.planId == 'fp_free') {
-        this.appSelectionService.updateUsageData.next('updatedUsage');
-      }
       if (!(this.faqs && this.faqs.length)) {
         this.selectedFaq = null;
       } else {
@@ -1860,7 +1933,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       else {
         this.notificationService.notify('Export to CSV is in progress. You can check the status in the Status Docker', 'success');
       }
-
       this.checkExportFaq();
     },
       errRes => {
@@ -1901,19 +1973,19 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       /**made changes on 24/02 as per new api contract in response we no longer use the key
          dockStatuses added updated code in 1894*/
       // if (res && res.dockStatuses) {
-        if (res) {
-          /**made changes on 24/02 as per new api contract in response we no longer use the key
-         dockStatuses added updated code in 1898 line*/
+      if (res) {
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+       dockStatuses added updated code in 1898 line*/
         // res.dockStatuses.forEach((record: any) => {
-          res.forEach((record: any) => {
+        res.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
           /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is updated to success as per new api contract */
           /** made code updates in line no 1903 on 03/09 added new condition for record.fileInfo and record.fileInfo.fileId,since fileId is now has to be fetched from fileInfo  as per new api contract  */
           // if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
-            if ((record.status === 'SUCCESS' || record.status ==='success') && (record.fileInfo) && (record.fileInfo.fileId) && !record.store.toastSeen) {
-          /**added condition for jobType in 1906,since we are no longer recieving action in jobs api response,using the jobType for condition check as per new api contract 10/03 */
-          // if (record.action === 'EXPORT') {
-               if (record.jobType === "DATA_EXPORT") {
+          if ((record.status === 'SUCCESS' || record.status === 'success') && (record.fileInfo) && (record.fileInfo.fileId) && !record.store.toastSeen) {
+            /**added condition for jobType in 1906,since we are no longer recieving action in jobs api response,using the jobType for condition check as per new api contract 10/03 */
+            // if (record.action === 'EXPORT') {
+            if (record.jobType === "DATA_EXPORT") {
               this.downloadDockFile(record.fileInfo.fileId, record.store.urlParams, record.streamId, record._id);
             }
           }
@@ -1935,7 +2007,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       streamId: streamId,
       dockId: dockId,
       jobId: dockId,
-      sidx:this.serachIndexId
+      sidx: this.serachIndexId
     }
     let payload = {
       "store": {
@@ -2001,6 +2073,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       document.getElementById(inputSearch).focus();
     }, 100)
   }
+  showMoreConditions(index) {
+    if (index) {
+      this.show = !this.show
+    }
+  }
   clicksViews() {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -2014,40 +2091,40 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   drop(event: CdkDragDrop<string[]>) {
     let faqDragData: any = {}
-      faqDragData = {
-        question: this.selectedFaq._source.faq_question, 
-        // defaultAnswers: event.container.data ,
-        // conditionalAnswers: event.previousContainer.data ,
-        alternateQuestions: this.selectedFaq._source.faq_alt_questions || [],
-        // followupQuestions: event.followupQuestions || [],
-        keywords: this.selectedFaq._source.keywords,
-        state: this.selectedFaq._meta.state
-      };
+    faqDragData = {
+      question: this.selectedFaq._source.faq_question,
+      // defaultAnswers: event.container.data ,
+      // conditionalAnswers: event.previousContainer.data ,
+      alternateQuestions: this.selectedFaq._source.faq_alt_questions || [],
+      // followupQuestions: event.followupQuestions || [],
+      keywords: this.selectedFaq._source.keywords,
+      state: this.selectedFaq._meta.state
+    };
 
-      if(event.previousContainer === event.container){
-        // if(event.container.data === this.selectedFaq._source.faq_answer){
-        //   faqDragData.defaultAnswers = event.container.data
-        //   faqDragData.conditionalAnswers = this.selectedFaq._source.faq_cond_answers
-        // }
-         if (event.container.data === this.selectedFaq._source.faq_cond_answers){
-          // faqDragData.defaultAnswers = this.selectedFaq._source.faq_answer
-          faqDragData.conditionalAnswers =  event.container.data
-        }
+    if (event.previousContainer === event.container) {
+      // if(event.container.data === this.selectedFaq._source.faq_answer){
+      //   faqDragData.defaultAnswers = event.container.data
+      //   faqDragData.conditionalAnswers = this.selectedFaq._source.faq_cond_answers
+      // }
+      if (event.container.data === this.selectedFaq._source.faq_cond_answers) {
+        // faqDragData.defaultAnswers = this.selectedFaq._source.faq_answer
+        faqDragData.conditionalAnswers = event.container.data
       }
-      else {
-        // faqDragData.defaultAnswers = event.container.data || this.selectedFaq._source.faq_answer
-        faqDragData.conditionalAnswers =  event.container.data || this.selectedFaq._source.faq_cond_answers
-      }
+    }
+    else {
+      // faqDragData.defaultAnswers = event.container.data || this.selectedFaq._source.faq_answer
+      faqDragData.conditionalAnswers = event.container.data || this.selectedFaq._source.faq_cond_answers
+    }
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      this.updateFaq(this.selectedFaq, 'updateQA',faqDragData);
+      this.updateFaq(this.selectedFaq, 'updateQA', faqDragData);
     } else {
       transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
-                        this.updateFaq(this.selectedFaq, 'updateQA',faqDragData);
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+      this.updateFaq(this.selectedFaq, 'updateQA', faqDragData);
     }
   }
- 
+
 }

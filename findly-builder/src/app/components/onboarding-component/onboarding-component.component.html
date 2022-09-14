@@ -10,18 +10,21 @@
               <span>Support</span>
           </a>
         </li>
+        <img src="assets/icons/onboarding/Vector-41.svg">
         <li class="nav-item">
           <a class="nav-link" data-toggle="pill" (click)="triggerFaq();closeSearch();closeFaqSearch()" href="#faq">
             <i class="si-faq"></i>
             <span>FAQs</span>
           </a>
         </li>
+        <img src="assets/icons/onboarding/Vector-41.svg" [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**'}">
         <li class="nav-item" [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**'}">
-          <a class="nav-link" data-toggle="pill" (click)="closeFaqSearch();closeSearch()" href="#appchecklist">
+          <a class="nav-link" data-toggle="pill" (click)="closeFaqSearch();closeSearch();checkForStatus()" href="#appchecklist">
             <i class="si-list"></i>
             <span>App Checklist</span>
           </a>
         </li>
+        <div class="version">V{{appVersion}}</div>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
@@ -54,7 +57,7 @@
                       <div class="desc-text">{{data.desc}}</div>
                     </div>
                     <div class="arrow-icon">
-                      <i class="si-carrotup"></i>
+                      <i class="si-carrotup" (click)="goToLink(data.link)"></i>
                     </div>
                   </div>
                 </div>
@@ -71,10 +74,10 @@
                       <i class="si-carrotup"></i>
                     </div>
                   </div>-->
-                  
+
                   <!-- Support tab child Data -->
                 <div class="dynamic-state-data" *ngIf="!supportParentData">
-                  <div class="action-block-data" *ngFor="let child of supportChildData | filter : [support_Search,'title']" >
+                  <div class="action-block-data" *ngFor="let child of supportChildData | filter : [support_Search,'title']" [ngClass]="child.color" >
                     <div class="dummy-border-left"></div>
                     <div class="img-block">
                       <img src={{child.icon}}>
@@ -96,7 +99,7 @@
                       <div class="desc-text">{{child.desc}}</div>
                     </div>
                     <div class="ext-icon-link">
-                      <i class="si-externallink"></i>
+                      <i class="si-externallink" (click)="goToLink(child.link)"></i>
                     </div>
                   </div>
                 </div>
@@ -214,16 +217,16 @@
                         </div>
                         <div class="content-block">{{childfaq.ques}}</div>
                         <div class="ext-icon">
-                          <i class="si-externallink"></i>
+                          <i class="si-externallink" (click)="goToLink(childfaq.link)"></i>
                         </div>
                         <div class="arrow-icon">
-                          <i class="si-carrotup"></i>
+                          <i class="si-carrotup" (click)="goToLink(childfaq.link)"></i>
                         </div>
                       </a>
                   </div>
-                  <div id="collapseFaq_{{i}}" class="collapse" data-parent="#accordion">
+                  <div *ngIf="!childfaq.link"  id="collapseFaq_{{i}}" class="collapse" data-parent="#accordion">
                     <div class="card-body">
-                      {{childfaq.ans}}<a>Click here</a> to watch reference video
+                      {{childfaq.ans}}
                     </div>
                   </div>
                 </div>
@@ -239,18 +242,18 @@
             </div>
             <div class="toggle-check">
               <div class="status-bar-title">Status Bar</div>
-              <label class="kr-sg-toggle">                                       
+              <label class="kr-sg-toggle">
                 <input type="checkbox" [(ngModel)]="statusSlider" (change)="toggleSlider()" >
-                <div class="slider"><span class="enabled">Show</span><span class="disabled">Hide</span></div>
+                <div class="slider"><span class="enabled">Show</span><span class="disabled">Show</span></div>
               </label>
             </div>
           </div>
           <perfect-scrollbar class="scroll-content-data">
             <div class="data-inner-content">
               <div id="accordion" class="applist-acc-data" >
-                <div class="accordion-applist completed-state" *ngFor="let list of checkList;let i = index">
-                  <div class="card_header" (mouseenter)="openAccordiandata(i)" (mouseleave)="playPause(i)">
-                  <a class="card_link collapsed  data{{i}}" data-toggle="collapse" href="#collapse_{{i}}"> <!--doubt-->
+                <div class="accordion-applist completed-state" [ngClass]="{'completed-tour-state': tourData && list.tourdata}" *ngFor="let list of checkList;let i = index">
+                   <div class="card_header parent-data{{i}}"> <!--(mouseenter)="openAccordiandata(i)" (mouseleave)="playPause(i)" -->
+                  <a class="card_link collapsed  data{{i}}" data-toggle="collapse"> <!-- href="#collapse_{{i}} -->
                     <div class="indication-block" *ngIf="tourData && !list.tourdata">
                       <div class="dummy-border-left"></div>
                         <img src={{list.imgURL}}>
@@ -264,15 +267,15 @@
                     </div>
                     <div class="desc-text">{{list.desc}} </div>
                     <div class="actions-link">
-                      <a class="link-name" (click)="gotoRoutes(list.route)">Guide Me <i class="si-externallink"></i></a>
-                      <a class="link-name">Documentation <i class="si-externallink"></i></a>
+                      <a class="link-name" (click)="gotoRoutes(list.route)">Guide Me <i  class="si-externallink"></i></a>
+                      <a class="link-name" (click)="goToLink(list.docUrl)">Documentation <i  class="si-externallink"></i></a>
                     </div>
-                    <div class="arrow-icon">
-                      <i class="si-carrotup"></i> 
-                    </div>
+                    <!-- <div class="arrow-icon">
+                      <i class="si-carrotup"></i>
+                    </div> -->
                   </a>
                 </div>
-                <div id="collapse_{{i}}" class="collapse" data-parent="#accordion">
+                <!-- <div id="collapse_{{i}}" class="collapse" data-parent="#accordion">
                   <div class="card-body">
                     <div class="video-block">
                       <video class="video{{i}}" width="300" height="156" controls>
@@ -281,13 +284,13 @@
                       </video>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 </div>
                 <!-- <div class="accordion-applist completed-state">
                   <div class="card_header">
                     <div class="card_link collapsed data1" data-toggle="collapse" href="#collapse1">
                       <div class="indication-block completed" *ngIf="tourData && tourData[0].addData" >
-                       
+
                           <i class="si-check"></i>
                       </div>
                       <div class="title-heading">
@@ -315,8 +318,8 @@
                     </div>
                   </div>
                 </div>-->
-                
-              </div> 
+
+              </div>
             </div>
           </perfect-scrollbar>
         </div>

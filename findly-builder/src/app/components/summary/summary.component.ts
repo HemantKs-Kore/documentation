@@ -24,7 +24,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   serachIndexId;
   indices: any = [];
   experiments: any = [];
-  default_Indexpipelineid:any;
+  default_Indexpipelineid: any;
   variants: any = [];
   activities: any = [];
   channels: any = [];
@@ -43,8 +43,8 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   indexPipeLineCount: number;
   loading_skelton: boolean;
   show_indices: boolean;
-  currentPlan: any;
-  usageDetails: any;
+  currentPlan: any={};
+  usageDetails: any={};
   summaryObj: any = {
     contentDocuments: [],
     contentWebDomains: [],
@@ -104,6 +104,8 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   subscription: Subscription;
   showActivity: boolean;
   currentUsageSubscription: Subscription;
+  currentPlanSubscription: Subscription;
+  updateUsageData: Subscription;
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
   @ViewChild('onboard') onboard: UseronboardingJourneyComponent;
   constructor(
@@ -118,17 +120,28 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
 
-  ngOnInit() {
+  async ngOnInit() {
     //moved the below flag to ngOnInit to fix the NAN display issue for few sec in summary screen on 08/03
     this.loading_skelton = true;
     this.initialCall();
+    await this.appSelectionService.getCurrentUsage();
+    this.usageDetails = this.appSelectionService?.currentUsageData;
+    this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(res => {
+      if (res == 'updatedUsage') {
+        this.usageDetails = this.appSelectionService?.currentUsageData;
+      }
+    })
     this.currentUsageSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
       let subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
-      this.currentPlan = subscription_data.subscription;
+      this.currentPlan = subscription_data?.subscription;
       this.initialCall('changed');
       this.onboard?.initialCall();
       this.appSelectionService.getTourConfig();
       this.getAllOverview();
+    })
+    this.currentPlanSubscription = this.appSelectionService.currentSubscription.subscribe(res => {
+      const subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
+      this.currentPlan = subscription_data.subscription;
     })
   }
   ngAfterViewInit() {
@@ -137,8 +150,8 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     setTimeout(() => {
       if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
-        this.inlineManual.openHelp('APP_WALKTHROUGH');
-        this.inlineManual.visited('APP_WALKTHROUGH');
+        this.inlineManual?.openHelp('APP_WALKTHROUGH');
+        this.inlineManual?.visited('APP_WALKTHROUGH');
       }
     }, 1000)
   }
@@ -152,17 +165,15 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       limit: 100
     };
     this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
-    console.log(res);
-    res.forEach(element=>{
-      if(element.default==true){
-          this.default_Indexpipelineid=element._id;
-      }
-    })
-    this.getQueries("TotalUsersStats");
-    this.getQueries("TotalSearchesStats");
-    this.getAllOverview(status);
-    this.getCurrentUsage();
-    this.componentType = 'summary';
+      res.forEach(element => {
+        if (element.default == true) {
+          this.default_Indexpipelineid = element._id;
+        }
+      })
+      this.getQueries("TotalUsersStats");
+      this.getQueries("TotalSearchesStats");
+      this.getAllOverview(status);
+      this.componentType = 'summary';
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -170,7 +181,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
         this.notificationService.notify('Failed ', 'error');
       }
     });
-    
+
   }
   //initial ngoninit method call
   initialCall(status?) {
@@ -182,40 +193,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);
-    console.log(this.workflowService.selectedIndexPipeline());
-
     this.getIndexPipeline(status);
-    // if(!this.workflowService.selectedIndexPipeline()){
-    //   this.getIndexPipeline();
-    // }
-    // else{
-    //   this.getQueries("TotalUsersStats");
-    //   this.getQueries("TotalSearchesStats");
-
-    // }
-    
-    
-    // this.getAllOverview(status);
-    // this.getCurrentUsage();
-    // this.componentType = 'summary';
-  }
-
-  getSummary() {
-    this.loading = false;
-    // this.loading = true;
-    // const params = {
-    //   appId: this.selectedApp._id || this.selectedApp[0]._id
-    // };
-    // this.service.invoke('get.summary', params)
-    //   .pipe(
-    //     finalize(() => this.loading = false)
-    //   )
-    //   .subscribe((res: SummaryModel) => {
-    //     this.summary = res;
-    //   }, err => {
-    //     this.showError = true;
-    //     this.notificationService.notify('Unable to get summary details', 'error');
-    //   });
   }
   getQueries(type) {
     //moved the below flag to ngOnInit to fix the NAN display issue for few sec in summary screen on 08/03
@@ -227,7 +205,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      indexPipelineId:this.default_Indexpipelineid,
+      indexPipelineId: this.default_Indexpipelineid,
       offset: 0,
       limit: 100
     };
@@ -326,24 +304,6 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  //get current usage data of search and queries
-  getCurrentUsage() {
-    this.selectedApp = this.workflowService.selectedApp();
-    const queryParms = {
-      streamId: this.selectedApp._id
-    }
-    const payload = { "features": ["ingestDocs", "searchQueries"] };
-    this.service.invoke('post.usageData', queryParms, payload).subscribe(
-      res => {
-        let docs = Number.isInteger(res.ingestDocs.percentageUsed) ? (res.ingestDocs.percentageUsed) : parseFloat(res.ingestDocs.percentageUsed).toFixed(2);
-        let queries = Number.isInteger(res.searchQueries.percentageUsed) ? (res.searchQueries.percentageUsed) : parseFloat(res.searchQueries.percentageUsed).toFixed(2);
-        this.usageDetails = { ingestCount: res.ingestDocs.used, ingestLimit: res.ingestDocs.limit, ingestDocs: docs, searchQueries: queries, searchCount: res.searchQueries.used, searchLimit: res.searchQueries.limit };
-      },
-      errRes => {
-        // this.errorToaster(errRes, 'Failed to get current data.');
-      }
-    );
-  }
   userViewAll() {
     $('#dashboardTab').trigger('click');
     setTimeout(() => {
@@ -395,5 +355,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   ngOnDestroy() {
     this.currentUsageSubscription ? this.currentUsageSubscription.unsubscribe() : null;
+    this.currentPlanSubscription ? this.currentPlanSubscription.unsubscribe() : null;
+    this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
   }
 }

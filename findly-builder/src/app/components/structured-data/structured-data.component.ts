@@ -16,7 +16,7 @@ import { InlineManualService } from '../../services/inline-manual.service';
 import { AppSelectionService } from './../../services/app.selection.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-structured-data',
   templateUrl: './structured-data.component.html',
@@ -36,7 +36,7 @@ export class StructuredDataComponent implements OnInit {
       resourceType: 'structuredData'
     },
     {
-      name: 'Import Structured Data',
+      name: 'Add Structured Data',
       description: 'Add structured data manually',
       icon: 'assets/icons/content/database-add.svg',
       id: 'contentStucturedDataAdd',
@@ -44,6 +44,7 @@ export class StructuredDataComponent implements OnInit {
       resourceType: 'structuredDataManual'
     }
   ];
+  
   structuredDataItemsList: any = [];
   selectedApp: any;
   codeMirrorOptions: any = {
@@ -161,8 +162,8 @@ export class StructuredDataComponent implements OnInit {
     this.isLoading1 = true;
     this.loadImageText = true;
     if (!this.inlineManual.checkVisibility('ADD_STRUCTURED_DATA_LANDING')) {
-      this.inlineManual.openHelp('ADD_STRUCTURED_DATA_LANDING')
-      this.inlineManual.visited('ADD_STRUCTURED_DATA_LANDING')
+      // this.inlineManual.openHelp('ADD_STRUCTURED_DATA_LANDING')
+      // this.inlineManual.visited('ADD_STRUCTURED_DATA_LANDING')
     }
   }
   getStructuredDataList(skip?) {
@@ -292,8 +293,8 @@ export class StructuredDataComponent implements OnInit {
       else {
         this.enableSearchBlock = true;
         if (!this.inlineManual.checkVisibility('STRUCTURED_DATA_WALKTHROUGH')) {
-          this.inlineManual.openHelp('STRUCTURED_DATA_WALKTHROUGH')
-          this.inlineManual.visited('STRUCTURED_DATA_WALKTHROUGH')
+          // this.inlineManual.openHelp('STRUCTURED_DATA_WALKTHROUGH')
+          // this.inlineManual.visited('STRUCTURED_DATA_WALKTHROUGH')
         }
       }
     }, errRes => {
@@ -434,8 +435,8 @@ export class StructuredDataComponent implements OnInit {
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
     if (this.selectedSourceType.id == "contentStucturedDataImport") {
       if (!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')) {
-        this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
-        this.inlineManual.visited('IMPORT_STRUCTURED_DATA')
+        // this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
+        // this.inlineManual.visited('IMPORT_STRUCTURED_DATA')
       }
     }
   }
@@ -1240,10 +1241,6 @@ export class StructuredDataComponent implements OnInit {
           }
           else {
             this.getStructuredDataList();
-            let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-            if (currentPlan?.subscription?.planId == 'fp_free') {
-              this.appSelectionService.updateUsageData.next('updatedUsage');
-            }
           } this.notificationService.notify('Deleted Successfully', 'success');
         }
       }, errRes => {
@@ -1333,6 +1330,86 @@ export class StructuredDataComponent implements OnInit {
       this.structuredDataStatusModalRef.close();
       this.getStructuredDataList();
     }
+  }
+  exportStructureData(ext) {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+    };
+    const payload = {
+      exportType: ext,
+    }
+    this.service.invoke('export.structuredData', quaryparms, payload).subscribe(res => {
+      if (ext === 'json') {
+        this.notificationService.notify('Export to JSON is in progress. You can check the status in the Status Docker', 'success');
+      }
+      else {
+        this.notificationService.notify('Export to CSV is in progress. You can check the status in the Status Docker', 'success');
+      }
+      this.checkStructureData();
+    },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      });
+  }
+
+  checkStructureData() {
+    const queryParms = {
+      searchIndexId: this.workflowService.selectedSearchIndexId
+    }
+    this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
+      /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 1894*/
+      // if (res && res.dockStatuses) {
+      if (res) {
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+       dockStatuses added updated code in 1898 line*/
+        // res.dockStatuses.forEach((record: any) => {
+        res.forEach((record: any) => {
+          record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
+          /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is updated to success as per new api contract */
+          /** made code updates in line no 1903 on 03/09 added new condition for record.fileInfo and record.fileInfo.fileId,since fileId is now has to be fetched from fileInfo  as per new api contract  */
+          // if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
+          if ((record.status === 'SUCCESS' || record.status === 'success') && (record.fileInfo) && (record.fileInfo.fileId) && !record?.store?.toastSeen) {
+            /**added condition for jobType in 1906,since we are no longer recieving action in jobs api response,using the jobType for condition check as per new api contract 10/03 */
+            // if (record.action === 'EXPORT') {
+            if (record.jobType === "DATA_EXPORT") {
+              this.downloadDockFile(record.fileInfo.fileId, record.store.urlParams, record.streamId, record._id);
+            }
+          }
+        })
+      }
+    }, errRes => {
+      //this.pollingSubscriber.unsubscribe();
+      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed to get Status of Docker.', 'error');
+      }
+    });
+  }
+  downloadDockFile(fileId, fileName, streamId, dockId) {
+    const params = {
+      fileId,
+      streamId: streamId,
+      dockId: dockId,
+      jobId: dockId,
+      sidx: this.serachIndexId
+    }
+    let payload = {
+      "store": {
+        "toastSeen": true,
+        "urlParams": fileName,
+      }
+    }
+    this.service.invoke('attachment.file', params).subscribe(res => {
+      let hrefURL = res.fileUrl + fileName;
+      window.open(hrefURL, '_self');
+      this.service.invoke('put.dockStatus', params, payload).subscribe(res => { });
+    }, err => { console.log(err) });
   }
 
   getAllSettings() {

@@ -131,7 +131,7 @@
           <ng-container *ngIf="!loading_skelton">
             <div class="title">{{'overview.clicks' | translate}} <span>({{'overview.last_24hrs' | translate}})</span>
               <img src="assets/icons/gray_info.svg" placement="top-right"
-                ngbTooltip="No. of searches where at least one result was clicked on by the search user"
+                ngbTooltip="Total number of searches where at least one result was clicked on by the search user"
                 [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
             </div>
             <div class="count-graph-data">
@@ -198,7 +198,7 @@
                   <img src="assets/icons/overview/connections.svg">
                   <span class="title">{{'overview.connectors' | translate}}</span>
                 </div>
-                <div class="col-7 data-count"> {{indices?.connectors}} {{'overview.documents' | translate}}</div>
+                <div class="col-7 data-count"> {{indices?.connectors?.sources || 0}} {{'overview.connectors' | translate}} | {{indices?.connectors?.numOfDocs || 0}} {{'overview.documents' | translate}}</div>
               </div>
               <div class="table-data col-12 row">
                 <div class="col-5 image-with-title">
@@ -250,33 +250,26 @@
               translate):("plan.reactivate_btn"| translate)}}</div>
             <div class="free-status-title">
               <div class="type-plan">{{currentPlan?.planName}}</div>
-              <div class="started-on">{{'plan.started_on' | translate}} : <span>{{(currentPlan?.createdAt|
-                  dateFormatPipe:'D MMMM YYYY')}}</span></div>
+              <div class="started-on">{{'plan.started_on' | translate}} : <span>{{(currentPlan?.createdAt|dateFormatPipe:'D MMMM YYYY')}}</span></div>
             </div>
             <div class="queries-documents">
               <div class="query-type border-">
                 <div class="title-query"><img src="assets/icons/overview/question.svg">{{'plan.queries' | translate}}
                 </div>
-                <div class="range-data" *ngIf="usageDetails?.searchCount">
-                  <div class="count-type">{{usageDetails?.searchCount | valueFormat}} /
-                    <span>{{usageDetails?.searchLimit| valueFormat}}</span>
-                  </div>
+                <div class="range-data">
+                  <div class="count-type" *ngIf="usageDetails?.searchLimit">{{usageDetails?.searchCount | valueFormat}} / <span>{{usageDetails?.searchLimit| valueFormat}}</span></div>
                   <div style="margin-top: 6px;">
-                    <ngb-progressbar height="6px" [type]="usageDetails?.searchQueries<80?'primary':'danger'"
-                      [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
+                    <ngb-progressbar height="6px" [type]="usageDetails?.searchQueries<80?'primary':'danger'" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
                   </div>
                 </div>
               </div>
               <div class="query-type">
                 <div class="title-query"><img src="assets/icons/overview/document.svg">{{'plan.documents' | translate}}
                 </div>
-                <div class="range-data" *ngIf="usageDetails?.ingestCount">
-                  <div class="count-type">{{usageDetails?.ingestCount| valueFormat}} /
-                    <span>{{usageDetails?.ingestLimit| valueFormat}}</span>
-                  </div>
+                <div class="range-data">
+                  <div class="count-type" *ngIf="usageDetails?.ingestLimit">{{usageDetails?.ingestCount| valueFormat}} / <span>{{usageDetails?.ingestLimit| valueFormat}}</span></div>
                   <div style="margin-top: 6px;">
-                    <ngb-progressbar height="6px" [type]="usageDetails?.ingestDocs<80?'success':'danger'"
-                      [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
+                    <ngb-progressbar height="6px" [type]="usageDetails?.ingestDocs<80?'success':'danger'" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
                   </div>
                 </div>
               </div>

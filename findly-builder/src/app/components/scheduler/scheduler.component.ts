@@ -10,6 +10,7 @@ declare const $: any;
   selector: 'app-scheduler',
   templateUrl: './scheduler.component.html',
   styleUrls: ['./scheduler.component.scss']
+  
 })
 export class SchedulerComponent implements OnInit {
   //allowUrl : AllowUrl = new AllowUrl();
@@ -34,15 +35,20 @@ export class SchedulerComponent implements OnInit {
   repeatEvery = '1';
   day = '';
   date = '';
+  selectedDate:any = {
+    value:'',
+  };
   month = '';
   year = '';
   endsOnSelected = '';
   minDate;
   schedulerFlag: boolean = false;
+  displayCustomForVerticalSchedular: boolean = false;
   //scheduleData : scheduleOpts = new scheduleOpts();
   @Input() scheduleFlag: any;
   @Input() crwalObject: any;
   @Input() schedule: any;
+  @Input() schedulerType: any;
   @Output() scheduleData = new EventEmitter();
   @Output() cronExpress = new EventEmitter();
   @ViewChild('customRecurrence') customRecurrence: KRModalComponent;
@@ -170,7 +176,10 @@ export class SchedulerComponent implements OnInit {
     // if(time == 'MM'){
     //   this.calculateCronExpression()
     // }
+  }
 
+   verticalDatepicker(event){
+    this.selectedDate.value = event; 
   }
   timeZone(stz) {
     this.stz = stz;
@@ -190,6 +199,7 @@ export class SchedulerComponent implements OnInit {
   repeatTimeZone(rstz) {
     this.rstz = rstz;
     this.calculateCronExpression()
+    this.displayCustomForVerticalSchedular = false;
   }
   changeMeridiem(meridiem) {
     if (this.scheduleFlag) {
@@ -467,7 +477,12 @@ export class SchedulerComponent implements OnInit {
   }
   openCustomRecModal(rstz) {
     this.rstz = rstz;
-    this.customRecurrenceRef = this.customRecurrence.open();
+    if(this.schedulerType == 'horizantalSchedular'){
+      this.customRecurrenceRef = this.customRecurrence.open();
+    }
+    else{
+      this.displayCustomForVerticalSchedular = true
+    }
   }
 
   closeCustomRecModal() {

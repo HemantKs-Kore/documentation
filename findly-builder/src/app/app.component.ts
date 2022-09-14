@@ -53,6 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
   showHideSourceMenuSubscription: Subscription;
   closeSDKSubscription: Subscription;
   searchExperienceSubscription: Subscription;
+  showSDKApp: Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
@@ -63,6 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
   searchExperienceConfig: any;
   searchExperinceLoading: boolean = false;
   indexPipelineId: any;
+  isDemoApp: boolean = false;
   @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(private router: Router,
     private authService: AuthService,
@@ -88,7 +90,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     self = this;
     this.onResize();
-
     this.previousState = this.appSelectionService.getPreviousState();
     this.showHideSearch(false);
     this.showHideTopDownSearch(false);
@@ -102,38 +103,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.getSearchExperience();
     });
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
-      if (this.searchExperienceConfig) {
-        if (this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')) {
-          if (!this.headerService.isSDKCached || !$('.search-background-div').length) {
-            if (!$('.search-background-div:visible').length) {
-              this.showHideSearch(true);
-              this.resultRankDataSubscription = this.headerService.resultRankData.subscribe((res: any) => {
-                this.searchInstance.customTourResultRank(res);
-              });
-            } else {
-              // this.showHideSearch(false);
-              this.cacheBottomUpSDK(false);
-            }
-          }
-          else {
-            if ($('.search-background-div').css('display') == 'block') {
-              this.cacheBottomUpSDK(false);
-            }
-            else {
-              this.cacheBottomUpSDK(true);
-            }
-          }
-        }
-        else {
-          if (!$('.top-down-search-background-div:visible').length) {
-            $('.top-down-search-background-div').addClass('active');
-            this.showHideTopDownSearch(true);
-          } else {
-            this.showHideTopDownSearch(false);
-            this.distroySearch();
-          }
-        }
-      }
+      this.searchSDKHeader();
     });
     this.showHideMainMenuSubscription = this.headerService.showHideMainMenu.subscribe((res) => {
       this.showMainMenu = res;
@@ -150,7 +120,11 @@ export class AppComponent implements OnInit, OnDestroy {
       this.showHideSearch(false);
       this.showHideTopDownSearch(false);
     });
-    this.inlineManual.loadInlineManualScripts();
+    this.showSDKApp = this.appSelectionService.openSDKApp.subscribe(res => {
+      this.isDemoApp = true;
+      this.getSearchExperience();
+    })
+      //this.inlineManual.loadInlineManualScripts();
   }
   showMenu(event) {
     this.showMainMenu = event
@@ -330,7 +304,42 @@ export class AppComponent implements OnInit, OnDestroy {
       this.loading = false;
     }
   }
-
+  //open search SDK from header 
+  searchSDKHeader() {
+    if (this.searchExperienceConfig) {
+      this.isDemoApp = false;
+      if (this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')) {
+        if (!this.headerService.isSDKCached || !$('.search-background-div').length) {
+          if (!$('.search-background-div:visible').length) {
+            this.showHideSearch(true);
+            this.resultRankDataSubscription = this.headerService.resultRankData.subscribe((res: any) => {
+              this.searchInstance.customTourResultRank(res);
+            });
+          } else {
+            // this.showHideSearch(false);
+            this.cacheBottomUpSDK(false);
+          }
+        }
+        else {
+          if ($('.search-background-div').css('display') == 'block') {
+            this.cacheBottomUpSDK(false);
+          }
+          else {
+            this.cacheBottomUpSDK(true);
+          }
+        }
+      }
+      else {
+        if (!$('.top-down-search-background-div:visible').length) {
+          $('.top-down-search-background-div').addClass('active');
+          this.showHideTopDownSearch(true);
+        } else {
+          this.showHideTopDownSearch(false);
+          this.distroySearch();
+        }
+      }
+    }
+  }
   loadSearchExperience() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId && this.searchExperinceLoading === false) {
@@ -353,6 +362,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.showHideSettingsMenuSubscription ? this.showHideSettingsMenuSubscription.unsubscribe() : false;
     this.showHideSourceMenuSubscription ? this.showHideSourceMenuSubscription.unsubscribe() : false;
     this.searchExperienceSubscription ? this.searchExperienceSubscription.unsubscribe() : false;
+    this.showSDKApp ? this.showSDKApp.unsubscribe() : false;
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
@@ -364,6 +374,12 @@ export class AppComponent implements OnInit, OnDestroy {
     botOptionsFindly.logLevel = 'debug';
     botOptionsFindly.userIdentity = this.userInfo.emailId;// Provide users email id here
     botOptionsFindly.client = 'botbuilder';
+    if (this.workflowService.selectedApp() && (this.workflowService.selectedApp().channels || []).length && this.workflowService.selectedApp().channels[0].app) {
+      botOptionsFindly.clientId = this.workflowService.selectedApp().channels[0].app.clientId
+    }
+    if (this.workflowService.selectedApp() && (this.workflowService.selectedApp().searchIndexes || []).length && this.workflowService.selectedApp().searchIndexes[0]._id) {
+      botOptionsFindly.searchIndexID = this.workflowService.selectedApp().searchIndexes[0]._id
+    }
     botOptionsFindly.botInfo = { chatBot: this.workflowService.selectedApp().name, taskBotId: this.workflowService.selectedApp()._id };  // bot name is case sensitive
     botOptionsFindly.assertionFn = this.assertion;
     botOptionsFindly.koreAPIUrl = this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint;
@@ -395,7 +411,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.distroySearch();
     this.clearBodyClasses();
     this.searchInstance = new FindlySDK(findlyConfig);
-    this.searchInstance.showSearch(findlyConfig.botOptions, this.searchExperienceConfig, true);
+    const currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails
+    const isFreePlan = currentSubscriptionPlan?.subscription?.planName==='Free'?true:false;
+    const searchConfig = {...this.searchExperienceConfig,freePlan:isFreePlan};
+    this.searchInstance.showSearch(findlyConfig.botOptions, searchConfig, true);
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
     $('body').addClass('sdk-body');
   }
@@ -439,7 +458,7 @@ export class AppComponent implements OnInit, OnDestroy {
     let call = false;
     if (parms.type == 'onboardingjourney') {
       this.searchRequestId = parms.requestId;
-      this.appSelectionService.updateTourConfig(parms.data);
+      //this.appSelectionService.updateTourConfig(parms.data);
     }
     // if (parms.type == 'fullResult') {
     //   this.appSelectionService.updateTourConfig('test');
@@ -499,6 +518,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.topDownSearchInstance.applicationToSDK(event);
     }
   }
+  //
   initSearchSDK() {
     const _self = this;
     $('body').append('<div class="start-search-icon-div"></div>');
@@ -561,6 +581,12 @@ export class AppComponent implements OnInit, OnDestroy {
     botOptionsFindly.userIdentity = this.userInfo.emailId;// Provide users email id here
     botOptionsFindly.client = 'botbuilder';
     botOptionsFindly.botInfo = { chatBot: this.workflowService.selectedApp().name, taskBotId: this.workflowService.selectedApp()._id };  // bot name is case sensitive
+    if (this.workflowService.selectedApp() && (this.workflowService.selectedApp().channels || []).length && this.workflowService.selectedApp().channels[0].app) {
+      botOptionsFindly.clientId = this.workflowService.selectedApp().channels[0].app.clientId
+    }
+    if (this.workflowService.selectedApp() && (this.workflowService.selectedApp().searchIndexes || []).length && this.workflowService.selectedApp().searchIndexes[0]._id) {
+      botOptionsFindly.searchIndexID = this.workflowService.selectedApp().searchIndexes[0]._id
+    }
     botOptionsFindly.assertionFn = this.assertion;
     botOptionsFindly.koreAPIUrl = this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint;
     // To modify the web socket url use the following option
@@ -591,7 +617,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.distroyTopDownSearch();
     this.topDownSearchInstance = new FindlySDK(findlyConfig);
     this.resetFindlyTopDownSearchSDK(this.workflowService.selectedApp());
-    this.topDownSearchInstance.initializeTopDown(findlyConfig, 'top-down-search-background-div', this.searchExperienceConfig);
+    const currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails
+    const isFreePlan = currentSubscriptionPlan?.subscription?.planName==='Free'?true:false;
+    const searchConfig = {...this.searchExperienceConfig,freePlan:isFreePlan};
+    this.topDownSearchInstance.initializeTopDown(findlyConfig, 'top-down-search-background-div', searchConfig);
     $('body').addClass('sdk-body');
   }
 
@@ -615,10 +644,10 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     }
   }
-    // added setTimeout function and verifying for indexpipeline before we make api call, for  resolving the search interface failure issue
-    getSearchExperience() {
+  // added setTimeout function and verifying for indexpipeline before we make api call, for  resolving the search interface failure issue
+  getSearchExperience() {
     let selectedApp: any;
-    var _self=this;
+    var _self = this;
     selectedApp = this.workflowService.selectedApp();
     const searchIndex = selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -632,12 +661,13 @@ export class AppComponent implements OnInit, OnDestroy {
           _self.searchExperinceLoading = true;
           _self.headerService.updateSearchConfigurationValue(res);
           _self.headerService.searchConfiguration = res;
-      }, errRes => {
-        // console.log("getSearchExperience failed happen");
-        // console.log(errRes);
-      });
+          if (_self.isDemoApp) _self.searchSDKHeader();
+        }, errRes => {
+          // console.log("getSearchExperience failed happen");
+          // console.log(errRes);
+        });
       }
-      else{        
+      else {
         _self.getSearchExperience();
       }
     }, 100);

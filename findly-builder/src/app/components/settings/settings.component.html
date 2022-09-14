@@ -63,7 +63,7 @@
                     </ul>
                 </div> -->
                 <div class="main" (click)="proceedChannel(channel)">
-                    <div class="img-block cursor-pointer"><img src="{{channel.icon}}"></div>
+                    <div class="img-block cursor-pointer"><img src="{{channel.icon}}" height="140"></div>
                     <div class="main-title">{{channel.name}}</div>
                     <div class="configuration" *ngIf="channel.enable && !delChannel">{{"settings.configured" | translate}}</div>
                 </div>
@@ -182,7 +182,7 @@
                                         <div class="card_header">
                                             <div data-toggle="collapse" data-parent="#accordion" href="#appdetails" class="card_link collapsed" aria-expanded="true">
                                                 <div class="title">App Details</div>
-                                                <div class="desc-text">Associate an app with your Virtual Assistant to securely enable the Web / Mobile Client.</div>
+                                                <div class="desc-text">Associate an app with your Search Assistant to securely enable the Web / Mobile Client.</div>
                                                 <div class="arrow-indicator">
                                                     <img src="assets/images/carrot-right.svg">
                                                 </div>
@@ -270,7 +270,7 @@
                                                             <img src="assets/images/icons/carrot_up.svg">
                                                         </div>
                                                     </div>
-                                                    <div class="group-radiobutton">
+                                                    <!-- <div class="group-radiobutton">
                                                         <div class="heading-title">{{"settings.task_setup" | translate}} </div>
                                                         <div class="kr-sg-radiobutton d-block">
                                                             <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
@@ -280,8 +280,8 @@
                                                             <input id="radio-33" name="radio" class="radio-custom" type="radio">
                                                             <label for="radio-33" class="radio-custom-label"> {{"settings.no_task_setup_info" | translate}}  </label>
                                                         </div>
-                                                    </div>
-                                                    <div class="toggle-check pb-2">        
+                                                    </div> -->
+                                                    <div class="toggle-check pb-2 pt-4">        
                                                         <label class="kr-sg-toggle">
                                                             <input type="checkbox" [checked]="enableConfiguration" (click)="disableCredential(pageDisable)">
                                                             <div class="slider">
@@ -298,7 +298,7 @@
                                         <div class="card_header">
                                         <div class="card_link collapsed" data-toggle="collapse" data-parent="#accordion" href="#webclient" aria-expanded="true">
                                             <div class="title">Web Client Details</div>
-                                            <div class="desc-text">Use the Web / Mobile Client hosted by Kore.ai to start interating with the virtual assistant.</div>
+                                            <div class="desc-text">Use the Web / Mobile Client hosted by Kore.ai to start interating with the Search Assistant.</div>
                                             <div class="arrow-indicator">
                                                 <img src="assets/images/carrot-right.svg">
                                             </div>
@@ -311,17 +311,20 @@
                                                     <ng-container>
                                                         <div class="section-wise-data">
                                                             <div class="heading-text">URL</div>
-                                                            <div class="heading-info-text">Share this URL with the users to interact with your virtual assistant.</div>
+                                                            <div class="heading-info-text">Share this URL with the users to interact with your Search Assistant.</div>
                                                             <div class="input-url-box">
                                                                 <div class="kr-sg-input-text">
                                                                     <input type="text" placeholder="http://sampleurl.com/" class="input-text" [value]="webClientDetails?.chatURL">
                                                                 </div>
-                                                                <div class="actions-copy-ext">
-                                                                    <div class="btn-ext-copy">
-                                                                        <img src="assets/icons/clone.svg" (click)="copy(webClientDetails.chatURL)">
+                                                                <div class="actions-copy-ext" >
+                                                                    <div class="btn-ext-copy" [ngClass]="{'disableClass' : !configured }">
+                                                                        <img src="assets/icons/clone.svg"  *ngIf="!configured" ngbTooltip="Copy" >  <!-- If channel is not configured -->
+                                                                        <img src="assets/icons/clone.svg" *ngIf="configured" ngbTooltip="Copy" (click)="copy(webClientDetails.chatURL)">
                                                                     </div>
-                                                                    <div class="btn-ext-copy">
-                                                                      <a href="{{webClientDetails.chatURL}}" target="_blank">
+                                                                    <div class="btn-ext-copy" [ngClass]="{'disableClass' : !configured }" >
+                                                                        <a *ngIf="!configured">
+                                                                            <img src="assets/icons/external-link.svg"> </a>  <!-- If channel is not configured -->
+                                                                      <a  *ngIf="configured" href="{{webClientDetails.chatURL}}"  target="_blank">
                                                                         <img src="assets/icons/external-link.svg"> </a>
                                                                     </div>
                                                                 </div>
@@ -332,13 +335,13 @@
                                                                         <div class="img-info">
                                                                             <img src="assets/icons/info.svg">
                                                                         </div>
-                                                                        <div class="text-hint font-500">To start interacting with the virtual assistant via URL sharing:</div>
+                                                                        <div class="text-hint font-500">To start interacting with the  Search Assistant via URL sharing:</div>
                                                                     </div>
                                                                     <div class="hint-text-img">
                                                                     <div class="img-info disabled-check">
                                                                         <img src="assets/icons/check-white.svg" class="check-img">
                                                                     </div>
-                                                                        <div class="text-hint">Save and Publish the virtual assistant. <a>Publish Now</a></div>
+                                                                        <div class="text-hint">Save the Search Assistant. </div>
                                                                     </div>
                                                                     <div class="hint-text-img">
                                                                         <div class="img-info success-check">
@@ -355,12 +358,12 @@
                                                     <ng-container>
                                                         <div class="section-wise-data">
                                                             <div class="heading-text">Embed Code</div>
-                                                            <div class="heading-info-text">Copy and paste the following HTML code before the end of the BODY tag on every page of the application where you want to display the chat widget. <a href="#">Know more</a></div>
+                                                            <div class="heading-info-text">Copy and paste the following HTML code before the end of the BODY tag on every page of the application where you want to display the chat widget. <a href="#"></a></div>
                                                             <div class="embedcode">
                                                                 <div class="header d-flex align-items-center justify-content-between">
                                                                     <div class="code">HTML Code</div>
                                                                     <div class="copy">
-                                                                        <img src="assets/icons/clone.svg" (click)="copy(scriptTags)">
+                                                                        <img src="assets/icons/clone.svg" ngbTooltip="Copy" (click)="copy(scriptTags)">
                                                                     </div>
                                                                 </div>
                                                                 <div class="scriptTag">
@@ -376,13 +379,13 @@
                                                                         <div class="img-info">
                                                                             <img src="assets/icons/info.svg">
                                                                         </div>
-                                                                        <div class="text-hint font-500">To start interacting with the virtual assistant via the embedded code:</div>
+                                                                        <div class="text-hint font-500">To start interacting with the  Search Assistant via the embedded code:</div>
                                                                     </div>
                                                                     <div class="hint-text-img">
                                                                     <div class="img-info disabled-check">
                                                                         <img src="assets/icons/check-white.svg" class="check-img">
                                                                     </div>
-                                                                        <div class="text-hint">Save and Publish the virtual assistant. <a>Publish Now</a></div>
+                                                                        <div class="text-hint">Save the Search Assistant. </div>
                                                                     </div>
                                                                     <div class="hint-text-img">
                                                                         <div class="img-info success-check">
@@ -408,7 +411,7 @@
                                                                         <input type="text" placeholder="http://sampleurl.com/" class="input-text" [value]="domainUrl"  (focusout)="onFocusOutEvent($event)" [disabled]="i != (webClientDetails.domains.length-1)">
                                                                     </div>
                                                                     <div class="actions-copy-ext">
-                                                                        <div class="btn-ext-copy" (click)="deleteDomain(i)">
+                                                                        <div class="btn-ext-copy" ngbTooltip="Delete" (click)="deleteDomain(i)">
                                                                             <img src="assets/icons/delete.svg">
                                                                         </div>
                                                                         <div class="btn-ext-copy invisible"></div>
@@ -438,7 +441,7 @@
                                                     </ng-container>
                     
                                                     <!-- Allow Alert Task Setup -->
-                                                    <div class="group-radiobutton">
+                                                    <!-- <div class="group-radiobutton">
                                                         <div class="heading-title">Allow Alert Task Setup</div>
                                                         <div class="kr-sg-radiobutton d-block">
                                                             <input id="radio-322" name="radio" class="radio-custom" type="radio" checked>
@@ -448,7 +451,7 @@
                                                             <input id="radio-333" name="radio" class="radio-custom" type="radio">
                                                             <label for="radio-333" class="radio-custom-label"> No, do not list the Alert Tasks or allow users to setup the Alert Tasks using the Web Client.  </label>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                     
                                                 </div>
                                             </div>
@@ -537,7 +540,7 @@
                     <div class="accordion-sec d-none">{{"settings.view_JSON_web_encryption_public_key " | translate}} <img
                             src="assets/images/icons/carrot_up.svg"></div>
                 </div>
-                <div class="group-radiobutton d-none">
+                <!-- <div class="group-radiobutton d-none">
                     <div class="heading-title">{{"settings.task_setup" | translate}} </div>
                     <div class="kr-sg-radiobutton d-block">
                         <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
@@ -547,7 +550,7 @@
                         <input id="radio-33" name="radio" class="radio-custom" type="radio">
                         <label for="radio-33" class="radio-custom-label"> {{"settings.no_task_setup_info" | translate}}  </label>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </perfect-scrollbar>

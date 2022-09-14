@@ -23,10 +23,12 @@ export class AppSelectionService {
   public currentSubscription = new Subject<any>();
   // public refreshSummaryPage = new Subject<any>();
   public updateUsageData = new Subject<any>();
-  public routeChanged = new BehaviorSubject<any>({ name: undefined, path: '' });
+  public routeChanged = new BehaviorSubject<any>({ name: undefined, path: '', isDemo:false});
   public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });
+  public openSDKApp = new Subject<any>();
   public resumingApp = false;
   public currentsubscriptionPlanDetails: any;
+  public currentUsageData: any;
   public inlineManualInfo: any = [];
   res_length: number = 0;
   getTourArray: any = [];
@@ -158,6 +160,8 @@ export class AppSelectionService {
         path.selectedAccountId = selectedAccount.accountId || null;
         path.route = route
         window.localStorage.setItem('krPreviousState', JSON.stringify(path));
+        const appInfo = this.workflowService.selectedApp();
+        this.routeChanged.next({ name: 'pathchanged', path: (appInfo?.disabled&&route==='/generalSettings')?'/source':route, disable: appInfo?.disabled?true:false });
       }
     } else {
       window.localStorage.removeItem('krPreviousState');
@@ -185,8 +189,7 @@ export class AppSelectionService {
       this.queryList = null;
     });
   }
-  openApp(app) {
-    //this.currentsubscriptionPlan(app._id)
+  openApp(app, isDemo?,isUpgrade?) {
     this.workflowService.selectedQueryPipeline([]);
     this.workflowService.appQueryPipelines({});
     this.setAppWorkFlowData(app);
@@ -195,24 +198,13 @@ export class AppSelectionService {
       title: '',
     };
     this.headerService.toggle(toogleObj);
-    //this.headerService.closeSdk();
-    // this.headerService.updateSearchConfiguration();
-    this.router.navigate(['/summary'], { skipLocationChange: true });
+    this.routeChanged.next({ name: 'pathchanged', path: app?.disabled?(isUpgrade?'/pricing':'/source'):'/summary', disable: app?.disabled?true:false });
     this.getInlineManualcall();
-    //this.routeChanged.next({ name: undefined, path: '' });
+    if (isDemo){
+      this.openSDKApp.next();
+      this.routeChanged.next({ name: 'pathchanged', path: '/summary' , isDemo:true});
+    } 
   }
-  // currentsubscriptionPlan(id) {
-  //   const payload = {
-  //     streamId: id
-  //   };
-  //   const appObserver = this.service.invoke('get.currentPlans', payload);
-  //   appObserver.subscribe(res => {
-  //     this.currentsubscriptionPlanDetails = res;
-  //     this.currentSubscription.next(res);
-  //   }, errRes => {
-  //     this.errorToaster(errRes, 'failed to get plans');
-  //   });
-  // }
   //get current subscription data
   getCurrentSubscriptionData() {
     const data = this.workflowService.selectedApp();
@@ -223,6 +215,7 @@ export class AppSelectionService {
       const appObserver = this.service.invoke('get.currentPlans', payload);
       appObserver.subscribe(res => {
         this.currentsubscriptionPlanDetails = res;
+        this.getCurrentUsage();
         this.currentSubscription.next(res);
       }, errRes => {
         if (errRes && errRes.error && errRes.error.errors[0].code == 'NoActiveSubscription') {
@@ -233,6 +226,25 @@ export class AppSelectionService {
       });
     }
   }
+    //get current usage data of search and queries
+    getCurrentUsage() {
+      const selectedApp = this.workflowService.selectedApp();
+      const queryParms = {
+        streamId: selectedApp._id
+      }
+      const payload = { "features": ["ingestDocs", "searchQueries"] };
+      this.service.invoke('post.usageData', queryParms, payload).subscribe(
+        res => {
+          let docs = Number.isInteger(res.ingestDocs.percentageUsed) ? (res.ingestDocs.percentageUsed) : parseFloat(res.ingestDocs.percentageUsed).toFixed(2);
+          let queries = Number.isInteger(res.searchQueries.percentageUsed) ? (res.searchQueries.percentageUsed) : parseFloat(res.searchQueries.percentageUsed).toFixed(2);
+          this.currentUsageData = { ingestCount: res.ingestDocs.used, ingestLimit: res.ingestDocs.limit, ingestDocs: docs, searchQueries: queries, searchCount: res.searchQueries.used, searchLimit: res.searchQueries.limit };
+          this.updateUsageData.next('updatedUsage');
+        },
+        errRes => {
+          // this.errorToaster(errRes, 'Failed to get current data.');
+        }
+      );
+    }
   getInlineManualcall() {
     let selectedApp = this.workflowService.selectedApp();
     let searchIndexId = selectedApp ? selectedApp.searchIndexes[0]._id : "";
@@ -260,6 +272,7 @@ export class AppSelectionService {
       };
       const appObserver = this.service.invoke('get.lastActiveSubscription', payload);
       appObserver.subscribe(res => {
+        this.currentsubscriptionPlanDetails = res;
         this.currentSubscription.next(res);
       }, errRes => {
         this.errorToaster(errRes, 'failed to get last active subscription data');
@@ -301,7 +314,7 @@ export class AppSelectionService {
     const appInfo: any = this.workflowService.selectedApp();
     // console.log("appInfo", appInfo)
     const quaryparms: any = {
-      streamId: appInfo._id
+      streamId: appInfo?._id
     };
     const appObserver = this.service.invoke('get.tourConfig', quaryparms);
     appObserver.subscribe(res => {
@@ -315,10 +328,6 @@ export class AppSelectionService {
   public updateTourConfig(component) {
     let callApi: boolean;
     const appInfo: any = this.workflowService.selectedApp();
-    // if (component == 'overview' && !this.getTourArray.findlyOverviewVisited) {
-    //   this.getTourArray.findlyOverviewVisited = true;
-    //   callApi = true;
-    // }
     if (component == 'addData' && !this.getTourArray.onBoardingChecklist[0].addData) {
       this.getTourArray.onBoardingChecklist[0].addData = true;
       callApi = true;
@@ -368,5 +377,25 @@ export class AppSelectionService {
         // console.log(errRes);
       });
     }
+  }
+
+  //call jobs api for connectors sync progress status
+  connectorSyncJobStatus(sid,fid){
+    const queryParams = {
+      limit: 5,
+      sidx:sid,
+      fcon:fid
+    };
+    const appObserver = this.service.invoke('get.connectorJob', queryParams);
+    return new Promise((resolve,reject)=>{
+      appObserver.subscribe(res => {
+        if(res){
+          resolve(res);
+        }
+      }, errRes => {
+        reject(errRes);
+        this.queryList = null;
+      });
+    })    
   }
 }

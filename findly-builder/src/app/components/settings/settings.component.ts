@@ -37,6 +37,7 @@ export class SettingsComponent implements OnInit {
   searchFocusIn = false;
   activeClose = false;
   searchchannel: any = '';
+  configured;
   scriptTags;
   isAlertsEnabled: boolean;
   showError: boolean = false;
@@ -88,8 +89,6 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    // this.getCredential();
-    // this.getdialog();
     this.getLinkedBot();
     this.prepareChannelData();
     this.credentialsSelection();
@@ -99,6 +98,10 @@ export class SettingsComponent implements OnInit {
     if(this.selectedApp && this.selectedApp.channels.length){
       this.selectedApp.channels.forEach(element => {
           this.enableConfiguration = element.enable;
+          if(element.appUsage != ''){
+            this.configured = true;
+          }
+        
       });
     }
   }
@@ -262,7 +265,6 @@ export class SettingsComponent implements OnInit {
       res => {
         this.webClientDetails = res;
         this.scriptTags =    res.cssTag +  res.scriptTag +  res.scriptTagInitilization ;
-        console.log(res)
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -331,6 +333,7 @@ export class SettingsComponent implements OnInit {
                 this.listData = element;
               }
             });
+            this.selctedChannel(this.channnelConguired.apps[this.channnelConguired.apps.length - 1])
           }
           //this.listData = this.channnelConguired.apps[this.channnelConguired.apps.length - 1];
           this.slider = 3
@@ -559,6 +562,7 @@ export class SettingsComponent implements OnInit {
         this.prepareChannelData();
         this.updateEmbededSdk();
         //this.standardPublish();
+        this.configured = true;
         this.configFlag = true;
         this.delChannel = false;
         // console.log(res);

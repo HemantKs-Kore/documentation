@@ -7,7 +7,7 @@ export const environment = {
   tag:"qa",
   API_SERVER_URL:'https://qa.findly.ai',
   USE_SESSION_STORE:false,
-  // MIXPANEL_KEY : "b8cca4172b544f41f2dde97189667d81",
+  MIXPANEL_KEY : "5c3bf404d138a0e9ca816fb8421d6665",
   INLINE_MANUAL_SITE_KEY :"1ec224ee46620656a9b18a17c80587a3"
 };
 

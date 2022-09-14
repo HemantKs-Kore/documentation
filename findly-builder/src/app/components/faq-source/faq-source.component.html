@@ -85,10 +85,10 @@
                                 <button class="dropdown-toggle dropdown-input pl-0 mr-2"  ngbDropdownToggle><img src="assets/icons/filter.svg">{{'faqSource.filter' | translate}}</button>                                            
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                     <li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">{{'faqSource.all' | translate}} </span><img *ngIf="!(selectedResource && selectedResource._id) && !manualFilterSelected" src="assets/icons/check-blue.svg"></li>
-                                    <li  (click)="selectResourceDrop.close();manualFaqsFilter()" *ngIf="noManulaRecords"><span class="list-name"> {{'faqSource.manual' | translate}}</span><img *ngIf="!(selectedResource && selectedResource._id) && manualFilterSelected" src="assets/icons/check-blue.svg"></li>
+                                    <li  (click)="selectResourceDrop.close();manualFaqsFilter()" *ngIf="noManulaRecords"><span class="list-name"> {{'faqSource.manual' | translate}}</span><img *ngIf="manualFilterSelected" src="assets/icons/check-blue.svg"></li>
                                     <ng-container *ngFor="let source of resources">           
                    
-                                        <li *ngIf="source.recentStatus==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><span class="list-name">{{source.name}}</span><img *ngIf="selectedResource && (source._id ===  selectedResource._id)" src="assets/icons/check-blue.svg"></li>
+                                        <li *ngIf="source.recentStatus.toLowerCase() ==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><span class="list-name">{{source.name}}</span><img *ngIf="selectedResource && (source._id ===  selectedResource._id)" src="assets/icons/check-blue.svg"></li>
                                     </ng-container>
                                 </ul>
                             </div>
@@ -604,7 +604,7 @@
                                                         <div class="conditions-list">
                                                             <div class="titles-sec">
                                                                 <div class="title">Condition</div>
-                                                                <div class="show-more" data-toggle="collapse" data-target="#demo">Show More <img src="assets/icons/faq/carrotup.svg"></div>
+                                                                <div class="show-more" data-toggle="collapse" (click)="showMoreConditions(index)" data-target="#demo">{{ show ? 'Show More': 'Show less' }}<img src="assets/icons/faq/carrotup.svg"></div>
                                                             </div>
                                                             <div id="demo" class="collapse show">
                                                                 <div class="d-flex col-12 conditions-response-block">
@@ -942,7 +942,7 @@
                             <span [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">
                                 
                                 <img  class="failed mr-1" src="assets/icons/failed-status.svg" 
-                                *ngIf="statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"><span class="sch-createdOn" *ngIf="duriationDays" >({{duriationDays}})</span>
+                                *ngIf="statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{source.message}}"><span class="sch-createdOn" *ngIf="duriationDays" >({{duriationDays}})</span>
                                 <img  *ngIf="statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'Success'" class="search-icon ml-2 mr-1" placement="top" container='body'  ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"
                                 src="assets/icons/succes_duration.svg">
                                 <img class="inProgress ml-2 mr-1" src="assets/icons/ringLoading.svg"
@@ -983,7 +983,7 @@
                           <div class="status-data">
                             <div class="count-pages" *ngIf="statusObj[source.recentStatus].name == 'Success'"><span class="pagelength">{{source.extractedFaqsCount}}</span> FAQs</div>
                             <div class="status-info" *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') " [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
-                            <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:''}}">
+                                <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:''}}">
                               <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
                                 *ngIf="statusObj[source.recentStatus].name == 'In Progress'"  placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
                               <div class="status-name" *ngIf="statusObj[source.recentStatus].name !== 'Success'">{{statusObj[source.recentStatus].name}}</div>

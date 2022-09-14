@@ -20,11 +20,11 @@
           <div class="seach-block" *ngIf="!emptyItems && (synonymData && synonymData.length) && !loadingContent"  (click)="showSearch=!showSearch;focusinSearch('inputSearch')">
               <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
           </div>
-          <div class="add_feild" *ngIf="!emptyItems && (synonymData && synonymData.length) && !loadingContent" (click)='enableAddNewSynonymBtn()'><img src="assets/icons/add_plus.svg">Add Synonym
+          <div class="add_feild" *ngIf="!emptyItems && !loadingContent" (click)='enableAddNewSynonymBtn()'><img src="assets/icons/add_plus.svg">Add Synonym
           </div>
           <div class="clock d-none"> <img src="assets/icons/clock.svg"></div>
 
-     
+
         </div>
         <!-- <div class="kr-sg-input-search m-0">-->
         <!-- <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search" id="searchSynonymsId" [(ngModel)]="synonymSearch" autocomplete="off">            -->
@@ -50,9 +50,9 @@
             <div class="empty-title">You have not added any synonyms yet!</div>
             <div class="desc-text"> Synonyms are a set of equivalent words that are considered to expand search queries to improve findability. SearchAssist allows you to define synonym & one-way synonym.
             </div>
-            <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
-               
-              <button class="kr-sg-button-primary btn_lg px-2" (click)='enableAddNewSynonymBtn()'> Add Synonyms</button>                                            
+            <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">
+
+              <button class="kr-sg-button-primary btn_lg px-2" (click)='enableAddNewSynonymBtn()'> Add Synonyms</button>
             </div>
         </ng-container>
         <ng-container *ngIf="noItems && emptySearchResults">
@@ -110,14 +110,14 @@
                   <ul class="dropdown-menu content-menu synonyms_sort_dropdown" ngbDropdownMenu>
                     <li [ngClass]="{'selected-list': filterSystem.typefilter == 'all'}" (click)="filterTable('all','type');t.close();">{{'synonyms.All' | translate}}<img
                       [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" class="check-icon"  src="assets/icons/check-blue.svg"></li>
-                    <li [ngClass]="{'selected-list': filterSystem.typefilter == type}" *ngFor="let type of synonymTypeArr" (click)="filterTable(type,'type');t.close();">
+                    <li [ngClass]="{'selected-list': filterSystem.typefilter == type}" *ngFor="let type of synonymTypeArr$| async; index as i" (click)="filterTable(type,'type');t.close();">
                       <span class="list-name">{{type}}</span>
                       <img [ngClass]="{'hide': filterSystem.typefilter !== type}" class="check-icon" src="assets/icons/check-blue.svg"></li>
                       <!-- {{'synonyms.one_way_synonym' | translate}} -->
                       <!-- <img class="pl-2"
                         *ngIf="(selectedFilter === 'oneWaySynonym')" src="assets/icons/check-blue.svg"></li> -->
 
-                        
+
                     <!-- <li *ngIf="filterSynonym" (click)="selectFilter('synonym');t.close();">{{'synonyms.synonym'| translate}}<img class="pl-2"
                         *ngIf="(selectedFilter === 'synonym')" src="assets/icons/check-blue.svg"></li> -->
                   </ul>
@@ -134,7 +134,7 @@
                     <input id="buttonIdSynonyms" value="synonym" name="synonymType" class="radio-custom"
                       [(ngModel)]="newSynonymObj.type" type="radio" (click)="synonymChanged()">
                     <label for="buttonIdSynonyms" class="radio-custom-label" >{{'synonyms.synonym'| translate}}</label>
-                  </div> 
+                  </div>
                   <div class="kr-sg-radiobutton">
                     <input id="buttonIdOneWaySynonyms" value="oneWaySynonym" name="synonymType" [(ngModel)]="newSynonymObj.type"
                       class="radio-custom" type="radio" (click)="synonymChanged()">
@@ -150,7 +150,7 @@
                     <img *ngIf="(!newSynonymObj.keyword || !newSynonymObj.keyword.length) && submitted" id="searchTermWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
                 </div>
               </div>
-        
+
               <div class="tags row m-0"  *ngIf="newSynonymObj.type==='synonym'">
                 <div class="chip-sys-data">
                   <mat-form-field class="example-chip-list" [class.err-block]="((!synonymObj.values || !synonymObj.values.length) && submitted)" [floatLabel]="'never'">
@@ -168,8 +168,8 @@
                   </mat-form-field>
                 </div>
               </div>
-        
-        
+
+
               <div class="tags row m-0"  *ngIf="newSynonymObj.type==='oneWaySynonym'">
                 <div class="chip-sys-data">
                   <mat-form-field class="example-chip-list" [class.err-block]="((!synonymObj.values || !synonymObj.values.length) && submitted)" [floatLabel]="'never'">
@@ -293,6 +293,6 @@
       <div style="margin: 10px 10px 0px 0px;">
         <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
       </div>
-    </perfect-scrollbar> 
-  </ng-container> 
+    </perfect-scrollbar>
+  </ng-container>
 </div>

@@ -56,6 +56,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   selectedIndexConfig: any = {};
   subscription: Subscription;
   indexSub: Subscription;
+  routeChanged: Subscription;
   editName: boolean = false;
   editNameVal: String = "";
   editIndexName: boolean = false;
@@ -64,12 +65,12 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   public showStatusDocker: boolean = false;
   public statusDockerLoading: boolean = false;
   public dockersList: Array<any> = [];
-  showUpgrade: boolean = true;
+  showUpgrade: boolean = false;
   currentSubsciptionData: Subscription;
   updateUsageData: Subscription;
-  currentPlan: any;
-  upgradeBannerFlag: boolean;
-  componentType:any='';
+  isRouteDisabled:boolean=false;
+  componentType: any = '';
+  currentSubscriptionPlan:any={};
   @Input() show;
   @Input() settingMainMenu;
   @Input() sourceMenu;
@@ -97,21 +98,16 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       title: selection,
     };
     this.headerService.toggle(toogleObj);
-    if (selection =='weights'|| selection == 'synonyms'||selection=='stopWords'||selection=='resultranking'){
+    if (selection == 'weights' || selection == 'synonyms' || selection == 'stopWords' || selection == 'resultranking') {
       this.appSelectionService.updateTourConfig('configure');
     }
-    if (selection =='fields'|| selection == 'traits'||selection=='workbench'){
+    if (selection == 'fields' || selection == 'traits' || selection == 'workbench') {
       this.appSelectionService.updateTourConfig('indexing');
     }
   }
   //upgrade plan
-  upgrade(data?) {
-    if (data) {
-      this.plans.openChoosePlanPopup('choosePlans', { show: true, msg: data });
-    }
-    else {
-      this.plans.openChoosePlanPopup('choosePlans');
-    }
+  upgrade() {
+  this.plans?.openSelectedPopup('choose_plan');
   }
   reloadCurrentRoute() {
     let route = '/summary';
@@ -129,6 +125,10 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       }
     } catch (e) {
     }
+  }
+  showNotificationBanner(type){
+    $('.hover-documnet-show-data').css({visibility:type==='over'?'visible':'hidden',opacity:type==='over'?1:0});
+    if(type==='over') this.appSelectionService.getCurrentUsage();
   }
   selectDefault() {
     this.newConfigObj._id = this.selectedConfig;
@@ -272,7 +272,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
             this.closeIndexModalPopup();
             this.errorToaster(errRes, errRes.error.errors[0].msg);
-            this.upgrade(errRes.error.errors[0].msg);
+            this.upgrade();
           }
           else {
             this.errorToaster(errRes, 'Failed to Create indexPipeline');
@@ -338,7 +338,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
             this.closeModalPopup();
             this.errorToaster(errRes, errRes.error.errors[0].msg);
-            this.upgrade(errRes.error.errors[0].msg);
+            this.upgrade();
           } else {
             this.errorToaster(errRes, 'Failed to Create searchconfig');
           }
@@ -430,17 +430,13 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
-    // this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    // Multiple INdex hardcoded
-    await this.appSelectionService.getCurrentSubscriptionData();
+    this.currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+    this.getSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
-      this.showUpgrade = res.subscription.planId == 'fp_free' ? false : true;
-      this.currentPlan = res.subscription.planId;
+      this.currentSubscriptionPlan = res;
+      this.getSubscriptionData(); 
     })
     this.appSelectionService.appSelectedConfigs.subscribe(res => {
-      this.showUpgrade = true;
-      this.appSelectionService.getCurrentSubscriptionData();
-      this.getCurrentUsage();
       this.indexConfigs = res;
       this.indexConfigs.forEach(element => {
         this.indexConfigObj[element._id] = element;
@@ -449,7 +445,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
     })
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
-      this.upgradeBannerFlag = (!this.selectedApp?.upgradeBannerRead) ? true : false;
       this.queryConfigs = res;
       res.forEach(element => {
         this.configObj[element._id] = element;
@@ -467,47 +462,20 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     }
     this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(res => {
       if (res == 'updatedUsage') {
-        this.getCurrentUsage();
+        this.usageDetails = this.appSelectionService?.currentUsageData;
+      }
+    })
+    this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
+      if (res.name != undefined) {
+        this.isRouteDisabled = res?.disable;
       }
     })
   }
-  //read flag update in readUpgradeBanner
-  readUpgradeBanner() {
-    this.selectedApp = this.workflowService.selectedApp();
-    if (!this.selectedApp?.upgradeBannerRead && this.upgradeBannerFlag && (this.usageDetails.ingestDocs >= 80 || this.usageDetails.searchQueries >= 80)) {
-      const queryParms = {
-        streamId: this.selectedApp._id
-      }
-      const payload = { "upgradeBannerRead": true };
-      this.service.invoke('put.upgradeBannerRead', queryParms, payload).subscribe(
-        res => {
-          if (res.upgradeBannerRead) {
-            this.upgradeBannerFlag = false;
-          }
-        },
-        errRes => {
-          this.errorToaster(errRes, 'Failed to send upgrade banner flag');
-        }
-      );
+  //check subscription data
+  getSubscriptionData(){
+    if(this.currentSubscriptionPlan?.subscription){
+      this.showUpgrade=(['Unlimited','Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName))? false:true;
     }
-  }
-  //get current usage data of search and queries
-  getCurrentUsage() {
-    this.selectedApp = this.workflowService.selectedApp();
-    const queryParms = {
-      streamId: this.selectedApp._id
-    }
-    const payload = { "features": ["ingestDocs", "searchQueries"] };
-    this.service.invoke('post.usageData', queryParms, payload).subscribe(
-      res => {
-        let docs = Number.isInteger(res.ingestDocs.percentageUsed) ? (res.ingestDocs.percentageUsed) : parseFloat(res.ingestDocs.percentageUsed).toFixed(2);
-        let queries = Number.isInteger(res.searchQueries.percentageUsed) ? (res.searchQueries.percentageUsed) : parseFloat(res.searchQueries.percentageUsed).toFixed(2);
-        this.usageDetails = { ingestCount: res.ingestDocs.used, ingestLimit: res.ingestDocs.limit, ingestDocs: docs, searchQueries: queries, searchCount: res.searchQueries.used, searchLimit: res.searchQueries.limit };
-      },
-      errRes => {
-        // this.errorToaster(errRes, 'Failed to get current data.');
-      }
-    );
   }
   // toggle sub-menu
   switchToTerminal() {
@@ -580,7 +548,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         /**made changes on 24/02 as per new api contract in response we no longer use the key
          dockStatuses added updated code in 576 line*/
         // this.dockersList = res.dockStatuses;
-           this.dockersList = res;
+        this.dockersList = res;
       },
       errRes => {
         this.statusDockerLoading = false;
@@ -638,5 +606,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.indexSub ? this.indexSub.unsubscribe() : false;
     this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;
     this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
+    this.routeChanged ? this.routeChanged.unsubscribe() : null;
   }
 }

@@ -23,9 +23,9 @@
             </div>
             <div class="col-8 p-0 d-flex align-items-center justify-content-end p-0"
                 *ngIf="!selcectionObj.selectedCount">
-                <!-- <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">                               
-                    <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="searchteam">           
-                </div> 
+                <!-- <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">
+                    <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="searchteam">
+                </div>
                 <div class="seach-block" (click)="toggleSearch();focusinSearch('fieldSearchId')"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
              -->
                 <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
@@ -110,15 +110,15 @@
                 <div class="row m-0 mb-20">
                     <div class="kr-sg-input-text col-12 p-0">
                         <div class="label-text">{{'teams.app_members'| translate}}</div>
-                        <mat-form-field class="example-chip-list">
+                        <mat-form-field class="example-chip-list" [floatLabel]="'never'">
                             <mat-chip-list #chipList aria-label="Fruit selection">
                                 <mat-chip *ngFor="let member of members" [selectable]="selectable"
                                     [removable]="removable" (removed)="remove(member)"
                                     [color]="(member.invalid)?'warn':''">
-                                    {{member.value}}
+                                    <span class="">{{member.value}}</span>
                                     <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                                 </mat-chip>
-                                <input type="email" placeholder="Type Email and Enter" #fruitInput
+                                <input type="text" placeholder="Type Email and Enter" #fruitInput
                                     [formControl]="teamCtrl" [matChipInputFor]="chipList"
                                     [matChipInputAddOnBlur]="addOnBlur"
                                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"

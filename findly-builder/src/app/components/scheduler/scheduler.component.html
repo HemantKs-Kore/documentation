@@ -42,7 +42,7 @@
 
 
   <!-- Restrcure data     -->
-  <div class="row m-0 schedular_row_data " [ngClass]="{'bg-rows' : !schedulerFlag}">
+  <div *ngIf="schedulerType == 'horizantalSchedular'" class="row m-0 schedular_row_data " [ngClass]="{'bg-rows' : !schedulerFlag}">
     <div class="col-4 row_column pl-2 pr-2">
       <div class="scheduletitle">Date</div>
       <div class="kr-sg-input-text">       
@@ -93,13 +93,135 @@
     </div>
   </div>
   <!-- End -->
+  <div  *ngIf="schedulerType == 'verticalSchedular'"  class="row m-0 schedular_row_data">
+    <div class="col-12 row_column m-0">
+      <div class="calender">  
+        <mat-card class="demo-inline-calendar-card"> 
+          <mat-calendar [(selected)]="selectedDate"  (selectedChange)="verticalDatepicker($event)"></mat-calendar>
+        </mat-card>
+      </div>
+    </div>
+    <div class="col-12 row_column middle_content">      
+      <div class="scheduletitle">Time</div>
+      <div class="middle_content">
+        <div class="kr-sg-input-text">          
+          <input id="scheduleHr" type="number" min="0" max="12" placeholder="HH" name = "timeHH" [(ngModel)] = "timeHH" (ngModelChange)="modelChangeFn($event,'HH')" class="input-text">
+        </div>
+        <div class="kr-sg-input-text">          
+          <input id="scheduleMn" type="number" min="0" max="59" class="input-text timeMM" placeholder="MM" name = "timeMM" [(ngModel)] = "timeMM"  (ngModelChange)="modelChangeFn($event,'MM')"> 
+        </div>
+        <div id="schedule-AM" class="schedule-AM" [ngClass] = "{'active' : meridiem == 'AM' && schedulerFlag}" (click)="changeMeridiem('AM')" >AM</div>
+        <div id="schedule-PM"  class="schedule-PM" [ngClass] = "{'active' : meridiem == 'PM' && schedulerFlag}" (click)="changeMeridiem('PM')" >PM</div>
+        <div class="kr-sg-dropdowns schedule-timZon">
+          <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" [disabled] ="!schedulerFlag"><span [ngClass] = "{'schedule-drop-text' : stz == 'Time Zone'}" >{{stz}}</span></button>                                            
+            <ul class="dropdown-menu content-menu">                                               
+              <li (click) = "timeZone('IST')"><a>IST</a></li>
+              <li (click) = "timeZone('EST')"><a>EST</a></li>
+              <li (click) = "timeZone('UTC')"><a>UTC</a></li>
+            </ul>
+          </div>
+      </div>
+      </div>
+    </div>
+    <div class="col-12 row_column">  
+      <!-- <div class="scheduletitle">Frequency</div>    -->
+      <div class="kr-sg-checkbox">
+        <input id="recurringFrequency" class="checkbox-custom" type="checkbox" checked="checked">
+        <label for="recurringFrequency" class="checkbox-custom-label">Recurring Frequency</label>
+    </div>
+      <div class="kr-sg-dropdowns schedule-Interval">
+        <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" [disabled] ="!schedulerFlag"> <span>{{rstz}}</span></button>                                            
+            <ul class="dropdown-menu content-menu">                                               
+              <li (click) = "repeatTimeZone('Does not repeat')"><a>Does not repeat</a></li>
+              <li (click) = "repeatTimeZone('Daily')"><a>Daily</a></li>
+              <li (click) = "repeatTimeZone('Weekly')"><a>Weekly</a></li>
+              <li (click) = "repeatTimeZone('Monthly')"><a>Monthly</a></li>
+              <li (click) = "repeatTimeZone('Annually')"><a>Annually</a></li>
+              <li (click) = "repeatTimeZone('Every weekday')"><a>Every weekday(Monday to Friday)</a></li>
+              <li (click) = "openCustomRecModal('Custom')"><a>Custom...</a></li>
+            </ul>
+          </div>
+      </div>
+    </div>
+    <!-- custom shedular html start from here -->
+    <div *ngIf="displayCustomForVerticalSchedular" class="custom-ref new-custom-ref">
+      <div class="modal_content">
+        <!-- <div class="modal-header">Custom Reccurrence <img src="assets/images/close.svg" (click)="cancelCustomRecModal()"></div> -->
+        <div class="modal-body" >
+          <div class="cust-ref inner-modal">
+            <div class="label-text">Repeat Every</div>
 
+            <div class="repeat-input">
+              <input id="repeatveryId" type="number" min="1" max="30" class="input-text cust-repeat" placeholder="0" [(ngModel)] = "repeatEvery" (ngModelChange)="modelChangeFn($event,'repeatEvery')"> 
+            </div>
+            
+            <div class="kr-sg-dropdowns schedule-Interval">
+              <div class="dropdown dropdown-open">
+                  <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown"> {{custFreq}}</button>                                            
+                  <ul class="dropdown-menu content-menu content-width">                                               
+                    <li (click)="custFrequency('Days')"><a *ngIf="repeatEvery == '1'">Day</a><a *ngIf="repeatEvery != '1'">Days</a></li>
+                    <li (click)="custFrequency('Weeks')"><a *ngIf="repeatEvery == '1'">Week</a><a *ngIf="repeatEvery != '1'">Weeks</a></li>
+                    <li (click)="custFrequency('Months')"><a *ngIf="repeatEvery == '1'">Month</a><a *ngIf="repeatEvery != '1'">Months</a></li>
+                    <li (click)="custFrequency('Years')"><a *ngIf="repeatEvery == '1'">Year</a><a *ngIf="repeatEvery != '1'">Years</a></li>
+                    
+                    <!-- <li (click)="custFrequency('Days')"><a>Day</a></li>
+                    <li (click)="custFrequency('Weeks')"><a>Week</a></li>
+                    <li (click)="custFrequency('Months')"><a>Month</a></li>
+                    <li (click)="custFrequency('Years')"><a>Year</a></li> -->
+                  </ul>
+                </div>
+            </div>
+          </div>
+          <div class="repeat-on">
+            <div class="label-text">Repeat On</div>
+            <div class="days-name" *ngIf = "custFreq == 'Weeks' || custFreq == 'Week' ||  custFreq == 'weeks'"> 
+              <div class="circle" [ngClass] = "{'active' : weeKDay == 'SUN'}" (click)="custweeKday('SUN')">S</div>
+              <div class="circle" [ngClass] = "{'active' : weeKDay == 'MON'}" (click)="custweeKday('MON')">M</div>
+              <div class="circle" [ngClass] = "{'active' : weeKDay == 'TUE'}" (click)="custweeKday('TUE')">T</div>
+              <div class="circle" [ngClass] = "{'active' : weeKDay == 'WED'}" (click)="custweeKday('WED')">W</div>
+              <div class="circle" [ngClass] = "{'active' : weeKDay == 'THU'}" (click)="custweeKday('THU')">T</div>
+              <div class="circle" [ngClass] = "{'active' : weeKDay == 'FRI'}" (click)="custweeKday('FRI')">F</div>
+              <div class="circle" [ngClass] = "{'active' : weeKDay == 'SAT'}" (click)="custweeKday('SAT')">S</div>
+            </div>
+            <div class="custom-repeat-on" *ngIf = "custFreq != 'Weeks' && custFreq != 'Week' &&  custFreq != 'weeks'"> 
+               <ng-container *ngIf = "custFreq == 'Days' || custFreq == 'Day' ||  custFreq == 'days'">Repeat Every {{repeatEvery}} {{custFreq}} from {{month}} {{date}} {{year}} </ng-container> 
+               <ng-container *ngIf = "custFreq == 'Months' || custFreq == 'Month' ||  custFreq == 'months'">Repeat Every {{repeatEvery}} {{custFreq}} On {{dateOrdinal}}</ng-container>
+               <ng-container *ngIf = "custFreq == 'Years' || custFreq == 'Year' ||  custFreq == 'years'">Repeat Every {{repeatEvery}} {{custFreq}} from {{month}} {{dateOrdinal}}  </ng-container>
+            </div>
+          </div>
+          <div class="ends shedular-ends-form">
+              <div class="label-text">Ends</div>
+            <div class="ends-never row">
+              <input type="radio" name="radio" value ="endsNever" class="ends-radio" [checked] = "endsOnSelected == 'never'" (click)="endsFreq('never')"> <span class="sp sp-n">Never</span>
+            </div>
+            <div class="ends-never sp-on row">
+              <input type="radio" name="radio" value ="endsOn" class="ends-radio" [checked] = "endsOnSelected == 'on'" (click)="endsFreq('on')"> <span class="sp">On</span>
+              <div class="">       
+                <input matInput [matDatepicker]="dpCust" [min]="minDate"  class="input-text date-pick" placeholder="Select Date" [(ngModel)] = "endDate" (dateInput)="addEventCustom('input', $event,'custom')" (dateChange)="addEventCustom('change', $event , 'custom')" autocomplete="off" [disabled] = "!endsOn" >
+                <mat-datepicker-toggle matSuffix [for]="dpCust"></mat-datepicker-toggle>
+                <mat-datepicker #dpCust [disabled]="!endsOn"></mat-datepicker>
+              </div>
+            </div>
+            <div class="ends-never sp-at row ">
+              <input type="radio" name="radio"  value ="endsAt" class="ends-radio" [checked] = "endsOnSelected == 'after'" (click)="endsFreq('after')"> <span class="sp">At</span>
+              <input id="occurenceId" type="number" min="0" max="30" class="input-text date-pick" placeholder="0" [(ngModel)] = "occurence" [disabled] = "!endsAt"> <span class="occur-span">Occurrences</span>
+            </div>
+          </div>
+        </div> 
+    </div> 
+    <!-- custom shedular html ends here -->
+    <div class="shedular-footer">
+    </div>
+  </div>
+  </div>
 
   
 <kr-modal modalType="default" #customRecurrence>
     <div class="status-modal-popup custom-ref">
       <div class="modal_content">
-        <div class="modal-header">Custom Reccurence <img src="assets/images/close.svg" (click)="cancelCustomRecModal()"></div>
+        <div class="modal-header">Custom Reccurrence <img src="assets/images/close.svg" (click)="cancelCustomRecModal()"></div>
         <div class="modal-body" >
           <div class="cust-ref">
             <span>Repeat Every</span>
@@ -157,7 +279,7 @@
             </div>
             <div class="ends-never sp-at row ">
               <input type="radio" name="radio"  value ="endsAt" class="ends-radio" [checked] = "endsOnSelected == 'after'" (click)="endsFreq('after')"> <span class="sp">At</span>
-              <input id="occurenceId" type="number" min="0" max="30" class="input-text date-pick" placeholder="0" [(ngModel)] = "occurence" [disabled] = "!endsAt"> <span class="occur-span">Occurences</span>
+              <input id="occurenceId" type="number" min="0" max="30" class="input-text date-pick" placeholder="0" [(ngModel)] = "occurence" [disabled] = "!endsAt"> <span class="occur-span">Occurrences</span>
             </div>
           </div>
         </div>
