@@ -758,7 +758,7 @@
             .footer-btns{
                 background: #FFFFFF;
                 box-shadow: inset 0px 1px 0px #BDC1C6;
-                padding: 13px 30px;
+                padding: 8px 30px;
                 button{
                     margin-right: 20px;
                     font-size: 14px;
@@ -825,12 +825,12 @@
                             // position: absolute;
                             // right: 10px;
                             // top: 0;
-                            padding-left: 10px;
+                            padding-left: 62px;
                         }
                         .actions-images{
                             display: none;
                             white-space: normal;
-                            img{
+                            a{
                                 margin: 0 7px;
                             }
                         }
@@ -1233,10 +1233,9 @@
                 width: 252px;
                 flex-shrink: 0;
                 perfect-scrollbar{
-                    height: calc(100vh - 276px);
+                    height: calc(100vh - 266px);
                 }
                 .inner-scroll-data{
-                    padding-bottom: 20px;
                     .nav-tabs{
                         border: 0;
                         margin: 0;
@@ -1292,7 +1291,7 @@
                 width: calc(100% - 252px);
                 word-break: break-word;
                 .tab-content{
-                    padding: 12px 12px 12px 20px;
+                    padding: 12px 12px 3px 20px;
                     .pages-info-tabs{
                         position: relative;
                         display: inline-block;
@@ -1357,10 +1356,10 @@
                             }
                         }
                         perfect-scrollbar{
-                            height: calc(100vh - 342px);
+                            height: calc(100vh - 332px);
                         }
                         .scroll-inner-data{
-                            padding: 10px 10px 20px 10px;
+                            padding: 10px 10px 0px 10px;
                             .split-row-img{
                                 .bg-add-img{
                                     background: #F8F9FA;
@@ -1986,6 +1985,22 @@ line-height: 15px;
 
 .source-modal-popup{
     &.if-search-added{
-        height: calc(100vh - 138px) !important;
+        height: calc(100vh - 128px) !important;
     }
+}
+ .section{
+    height: 75px;
+    overflow:hidden;
+}
+.Page-Body{
+    height: 75px;
+    overflow:hidden;
+}
+.show {
+    height: auto;
+    overflow: visible;
+}
+.showBod {
+    height: auto;
+    overflow: visible;
 }

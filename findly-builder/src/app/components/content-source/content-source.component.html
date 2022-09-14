@@ -1174,7 +1174,7 @@
           </ng-container>
 
 <!-- New Pages Starts -->
-          <ng-container *ngIf="page && totalRecord > 0 && !loadingSliderContent">
+          <ng-container *ngIf="page && !loadingSliderContent">
             <div class="pages-container-content">
               <div class="search_header">
                 <div class="label-text">SEARCH PAGE</div>
@@ -1192,7 +1192,7 @@
                     <div class="inner-scroll-data">
                       <ul class="nav nav-tabs">
                         <li class="nav-item"  *ngFor="let page of pagingData;let i = index">
-                          <a id="page{{i}}" class="nav-link active{{i}}"  (click)="selectedPage=page" data-toggle="tab" href="#menu{{i}}">
+                          <a id="page{{i}}" class="nav-link" [ngClass]= "{ 'active': selectedPage==page }" (click)="selectedPage=page;selectDefalutPage(i)" data-toggle="tab" href="#menu{{i}}">
                             <div class="page-name">{{page._source.page_title}}</div>
                             <div class="page_link text-truncate">{{page._source.page_url|| selectedSource.url}}</div>
                             <div class="page-c-data">{{page.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
@@ -1202,7 +1202,7 @@
                     </div>
                   </perfect-scrollbar>
                 </div>
-                <div class="right_content">
+                <div *ngIf="pagingData.length>0" class="right_content">
                   <div class="tab-content">
                     <div class="tab-pane active" id="#menu{{i}">
                       <div class="pages-info-tabs">
@@ -1253,7 +1253,7 @@
                                   <div class="row-content-data row">
                                     <div class="col-4 title-heading">Updated on</div>
                                     <div class="col-8 page-content-details">
-                                      <div class="info-text">{{selectedPage.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
+                                      <div class="info-text">{{selectedPage?.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
                                     </div>
                                   </div>
                                 </div>
@@ -1280,7 +1280,7 @@
                               <div class="row-content-data row">
                                 <div class="col-4 title-heading">Body</div>
                                 <div class="col-8 page-content-details">
-                                  <div class="info-text">{{selectedPage._source.page_body}}</div>
+                                  <div class="info-text">{{selectedPage?._source.page_body}}</div>
                                 </div>
                               </div>
                             </ng-container>
@@ -1294,7 +1294,7 @@
             </div>
           </ng-container>
 <!-- New Pages End -->
-          <div class="empty-page-data-container" *ngIf="page &&  totalRecord == 0 && source.recentStatus == 'success' && loadingSliderContent">
+          <div class="empty-page-data-container" *ngIf="page &&  totalRecord == 0 && source?.recentStatus == 'success'">
             <img src="assets\images\emptyList.png">
             <div class="title">Sorry! No Pages available yet!! Please <span> crawl</span>the web domain again</div>
           </div>
@@ -1434,7 +1434,7 @@
           </div>
           <div class="view-details-data">
             <div class="title">Title</div>
-            <div class="desc-info">{{selectedPage._source.page_title}}</div>
+            <div class="desc-info">{{selectedPage?._source.page_title}}</div>
           </div>
 
           <div class="view-details-data">
@@ -1445,13 +1445,13 @@
           </div>
           <div class="view-details-data">
             <div class="title">URL</div>
-            <div class="desc-info">{{selectedPage._source.page_url|| selectedPage._source.page_image_url }}<img
+            <div class="desc-info">{{selectedPage?._source.page_url|| selectedPage._source.page_image_url }}<img
                 class="external_link" (click)="openImageLink(selectedPage.url_display)"
                 src="assets/icons/sidemenu/external-link.svg"></div>
           </div>
           <div class="view-details-data">
             <div class="title">Published</div>
-            <div class="desc-info">{{selectedPage.publishedOn}}</div>
+            <div class="desc-info">{{selectedPage?.publishedOn}}</div>
             <div class="desc-info" *ngIf="!selectedPage.publishedOn">No publish information available</div>
           </div>
         </div>
