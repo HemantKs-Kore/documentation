@@ -733,7 +733,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   viewPages() {
     this.sliderStep = 0;
   }
-  viewPageDetails
+  viewPageDetails(page) {
+    this.content_id = page._id
+    this.sliderStep = 1;
+    this.clicksViews('web');
+  }
   sliderBack() {
     if (this.sliderStep) {
       this.sliderStep = this.sliderStep - 1;
