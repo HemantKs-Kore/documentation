@@ -139,7 +139,9 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Usage Log', routeId: '/usageLog', quaryParms: {} },
     { displayName: 'Invoices', routeId: '/invoices', quaryParms: {} },
     { displayName: 'Connectors', routeId: '/connectors', quaryParms: {} },
-    { displayName: 'Results Ranking', routeId: '/resultranking', quaryParms: {} }
+    { displayName: 'Results Ranking', routeId: '/resultranking', quaryParms: {} },
+    { displayName: 'Analytics (Dashboard)', routeId: '/dashboard', quaryParms: {} },
+    { displayName: 'Analytics (User Engagement Metrics)', routeId: '/userEngagement', quaryParms: {} },
   ];
   menuItems:any={sources:['/source','/content','/faqs','/botActions','/structuredData','/connectors'],indices:['/FieldManagementComponent','/traits','/index','/weights','/synonyms','/stopWords','/resultranking','/facets','/rules','/search-experience','/resultTemplate'],anlytics:['/dashboard','/userEngagement','/searchInsights','/experiments','/resultInsights'],manage:['/settings','/credentials-list','/actions','/team-management','/smallTalk','/pricing','/usageLog','/invoices','/generalSettings']};
   public dockersList: Array<any> = [];
