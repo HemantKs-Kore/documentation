@@ -231,12 +231,12 @@
               <div class="group-radiobutton mb-3">
                 <div class="kr-sg-radiobutton" *ngFor="let facet of filterFacets">
                   <input [id]="facet.type" name="radio" class="radio-custom" type="radio"
-                    (click)="resultListObj.facetsSetting.aligned=facet.type;scrollPreview(target)"
-                    [checked]="resultListObj.facetsSetting.aligned===facet.type" (change)="updateSettings();scrollPreview(target)">
+                    (click)="resultListObj.facetsSetting.aligned=facet.type;scrollPreview()"
+                    [checked]="resultListObj.facetsSetting.aligned===facet.type" (change)="updateSettings();scrollPreview()">
                   <label [for]="facet.type" class="radio-custom-label">{{facet.name}}</label>
                 </div>
               </div>
-              <div #target class="img-info" *ngIf="!searchTemplatesDisabled">
+              <div id="imgScroll" class="img-info" *ngIf="!searchTemplatesDisabled">
                 <img src="assets/icons/resultTemplate/top-aligned.png"
                   *ngIf="resultListObj.facetsSetting.aligned==='top'">
                 <img src="assets/icons/resultTemplate/lef-aligned.png"
@@ -244,7 +244,7 @@
                 <img src="assets/icons/resultTemplate/right-aligned.png"
                   *ngIf="resultListObj.facetsSetting.aligned==='right'">
               </div>
-              <div #target class="img-info" *ngIf="searchTemplatesDisabled">
+              <div id="imgScroll"  class="img-info" *ngIf="searchTemplatesDisabled">
                 <img src="assets/icons/resultTemplate/top-down-left-aligned.png"
                   *ngIf="resultListObj.facetsSetting.aligned==='left'">
                 <img src="assets/icons/resultTemplate/top-down-top-aligned.png"

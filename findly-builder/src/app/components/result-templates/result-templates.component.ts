@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { SideBarService } from '@kore.services/header.service';
@@ -134,7 +134,6 @@ export class ResultTemplatesComponent implements OnInit {
   filterFacets: any = [{ name: 'Left Aligned', type: 'left' }, { name: 'Right Aligned', type: 'right' }, { name: 'Top Aligned', type: 'top' }]
   @ViewChild('customModal') customModal: KRModalComponent;
   @ViewChild('templateModal') templateModal: KRModalComponent;
-  @ViewChild('target') private myScrollContainer: ElementRef;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -649,13 +648,14 @@ export class ResultTemplatesComponent implements OnInit {
       })
   }
   //scroll to preview
-  scrollPreview(el) {
-    this.myScrollContainer.nativeElement.scroll({
-      top: this.myScrollContainer.nativeElement.scrollHeight,
-      left: 0,
-      behavior: 'smooth'
-    });
-  } 
+  scrollPreview() {
+    var element = document.getElementById("imgScroll");
+    setTimeout(() => {
+      if (element) {
+        element.scrollIntoView();
+      }
+    }, 500);
+  }
   //update settings
   updateSettings(dialogRef?, type?) {
     const quaryparms: any = {
