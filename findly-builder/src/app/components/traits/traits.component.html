@@ -170,7 +170,7 @@
     <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
         <div class="modal-body">
             <div class="kr-sg-input-text trait-group-name">
-                <div class="label-text">{{'traits.trait_group_name' | translate}}</div>
+                <div class="label-text">{{'traits.trait_group_name' | translate}}<sup class="field-mandatory">*</sup></div>
                 <input type="text" autocomplete="off" maxlength="60"
                     placeholder="{{'traits.enter_trait_group' | translate}}" class="input-text"
                     [(ngModel)]="traits.addEditTraits.groupName"
