@@ -43,7 +43,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   contentId
   content_id;
   skip = 0;
-  crawlType:any;
   edit: any = {};
   Id;
   editConfObj: any = {};
@@ -715,6 +714,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         // console.log(data.length, this.pagesSearch, 'config..')
       }
       }
+      this.clicksViews('file')
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
       //   $('.tabname')[1].classList.remove('active');
       //   $('.tabname')[0].classList.add('active');
@@ -733,16 +733,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   viewPages() {
     this.sliderStep = 0;
   }
-  viewPageDetails(page) {
-    this.content_id = page._id
-    this.sliderStep = 1;
-    if(this.crawlType == 'web'){
-      this.clicksViews('web');
-    }
-    else {
-      this.clicksViews('file')
-    }
-  }
+  viewPageDetails
   sliderBack() {
     if (this.sliderStep) {
       this.sliderStep = this.sliderStep - 1;
@@ -2151,7 +2142,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
 
   clicksViews(type) {
-    this.crawlType = type;
     if (type == 'file') {
       this.Id = this.contentId;
     }
