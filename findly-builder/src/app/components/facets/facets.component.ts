@@ -33,7 +33,6 @@ export class FacetsComponent implements OnInit, OnDestroy {
   loadingData : boolean = true
   addEditFacetObj: any = null;
   showSearch = false;
-  activeClose = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   // serachTraits: any = '';
@@ -807,10 +806,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }
   }
   focusoutSearch() {
-    if (this.activeClose) {
-      this.searchfacet = '';
-      this.activeClose = false;
-    }
+    this.searchfacet = '';
     this.showSearch = !this.showSearch;
     this.showSearch ? this.SearchResults = true :  this.SearchResults = false
   }
