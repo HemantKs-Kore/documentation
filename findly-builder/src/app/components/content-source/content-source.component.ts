@@ -11,7 +11,7 @@ import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
-import * as moment from 'moment';
+import moment from 'moment';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import {  Subject } from 'rxjs';
@@ -293,15 +293,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.executionLogStatus = true;
   }
   addNewContentSource(type) {
+    this.showSourceAddition = type;
     if(type==='contentWeb'){
       this.mixpanel.postEvent('Enter Crawl web domain', {});
     }
     else if(type==='contentDoc'){
       this.mixpanel.postEvent('Enter Upload Content File', {});
     }
-    this.showSourceAddition = type;
-    // this.openAddSourceModal();
-    // this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
   }
 
   addStructuredDataSource() {
@@ -1852,7 +1850,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   scheduleData(scheduleData) {
     // console.log(scheduleData);
-    this.selectedSource['advanceSettings'].scheduleOpts = scheduleData;
+    if(this.selectedSource?.advanceSettings?.scheduleOpts) this.selectedSource['advanceSettings'].scheduleOpts = scheduleData;
   }
   cronExpress(cronExpress) {
     // console.log(cronExpress);

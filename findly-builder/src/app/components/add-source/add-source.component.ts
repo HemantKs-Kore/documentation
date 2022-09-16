@@ -12,7 +12,7 @@ import * as _ from 'underscore';
 import { of, interval, Subject } from 'rxjs';
 import { startWith, take } from 'rxjs/operators';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
+import { CrwalObj, AdvanceOpts, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
 
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -36,7 +36,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   crwalEvery = false;
   crawlOkDisable = false;
   crwalObject: CrwalObj = new CrwalObj();
-  allowUrl: AllowUrl = new AllowUrl();
   allBotArray: any = [];
   showMore = false;
   @ViewChild('botsConfigurationModalElement') botsConfigurationModalElement: KRModalComponent;
@@ -45,13 +44,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('perfectScroll3') perfectScroll3: PerfectScrollbarComponent;
   @ViewChild('perfectScroll4') perfectScroll4: PerfectScrollbarComponent;
   @ViewChild('perfectScroll9') perfectScroll9: PerfectScrollbarComponent;
-  blockUrl: BlockUrl = new BlockUrl();
   sampleJsonPath: any = '/home/assets/sample-data/sample.json';
   sampleCsvPath: any = '/home/assets/sample-data/sample.csv';
   filePath;
   extension;
   receivedQuaryparms: any;
-  addSourceModalPopDummyRef:any;
+  addSourceModalPopDummyRef: any;
   searchIndexId;
   selectedSourceType: any = null;
   newSourceObj: any = {};
@@ -135,14 +133,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           description: 'Extract and index web pages',
           icon: 'assets/icons/content/webdomain.svg',
           id: 'contentWeb',
-          sourceType: 'content',
-          resourceType: 'web'
-        },
-        {
-          name: 'Crawl Web Domain',
-          description: 'Extract and index web pages',
-          icon: 'assets/icons/content/webdomain.svg',
-          id: 'contentWebDummy',
           sourceType: 'content',
           resourceType: 'web'
         },
@@ -260,8 +250,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   structuredDataStatusModalRef: any;
   structuredDataDocPayload: any;
   selectExtractType: string = 'file';
+
+  allowURLValues:Array<Object>=[{key:'Equals to',value:'is'},{key:'Not equals to',value:'isNot'},{key:'Begins with',value:'beginsWith'},{key:'Ends with',value:'endsWith'},{key:'Contains',value:'contains'},{key:"Doesn't contain",value:'doesNotContains'}];
+  allowURLArray:Array<Object>=[{condition:'contains',url:'',name:'Contains'}];
+  blockURLArray:Array<Object>=[{condition:'contains',url:'',name:'Contains'}];
+  authorizationFieldObj:any={type:'',key:'',value:'',isEnabled:true,isShow:false,isEditable:false};
+  formFieldObj:any={type:'',key:'',value:'',isEnabled:true,isShow:true,isEditable:false};
+  autorizationFieldTypes:Array<String>=['header','payload','querystring','pathparam'];
+  testTypes:Array<String>=['text_presence','redirection_to','cookie_presence','status_code'];
+
   constructor(public workflowService: WorkflowService,
-    private service: ServiceInvokerService,
+    private service: ServiceInvokerService,                             
     private notificationService: NotificationService,
     private authService: AuthService,
     private router: Router,
@@ -338,7 +337,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   openAddManualFAQModal() {
     this.addManualFaqModalPopRef = this.addManualFaqModalPop.open();
-   
+
   }
   closeAddManualFAQModal() {
     if (this.addManualFaqModalPopRef && this.addManualFaqModalPopRef.close) {
@@ -359,11 +358,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop();
     }, 500);
-    if(this.router?.url==='/content'){
-      this.mixpanel.postEvent('Enter Crawl web domain',{'Crawl web CTA spurce':'Sources'})
+    if (this.router?.url === '/content') {
+      this.mixpanel.postEvent('Enter Crawl web domain', { 'Crawl web CTA spurce': 'Sources' })
     }
-    else if(this.router?.url==='/source'){
-      this.mixpanel.postEvent('Enter Crawl web domain',{'Crawl web CTA spurce':'Setup guide'})
+    else if (this.router?.url === '/source') {
+      this.mixpanel.postEvent('Enter Crawl web domain', { 'Crawl web CTA spurce': 'Setup guide' })
     }
   }
   closeAddSourceModal() {
@@ -372,17 +371,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.addSourceModalPopRef.close();
     }
   }
-  openAddSourceModalDummy() {
+  openAddContentModal() {
     this.addSourceModalPopDummyRef = this.addSourceModalPopDummy.open();
-    setTimeout(() => {
-      this.perfectScrollD.directiveRef.update();
-      this.perfectScrollD.directiveRef.scrollToTop();
-    }, 500)
   }
-  closeAddSourceModalDummy() {
-    if (this.addSourceModalPopDummyRef && this.addSourceModalPopDummyRef.close) {
-      this.url_failed = false;
+  closeAddContentModal() {
+    if (this.addSourceModalPopDummyRef?.close) {
       this.addSourceModalPopDummyRef.close();
+      this.url_failed = false;
+      this.cancleEvent.emit();
     }
   }
 
@@ -457,13 +453,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
 
           if ((queuedJobs[0].status !== 'running') && (queuedJobs[0].status !== 'queued')) {
-            if (this.selectedSourceType.sourceType === 'content'&&queuedJobs[0].status === 'success'){
+            if (this.selectedSourceType.sourceType === 'content' && queuedJobs[0].status === 'success') {
               this.mixpanel.postEvent('Content Crawl web domain success', {});
             }
-            else if(this.selectedSourceType.sourceType === 'faq'&&this.selectedSourceType.resourceType === ''&&queuedJobs[0].status === 'success'){
-               this.mixpanel.postEvent('FAQ Web extract success', {});
+            else if (this.selectedSourceType.sourceType === 'faq' && this.selectedSourceType.resourceType === '' && queuedJobs[0].status === 'success') {
+              this.mixpanel.postEvent('FAQ Web extract success', {});
             }
-            if(this.selectedSourceType.sourceType === 'content'&&queuedJobs[0].status === 'failed'){
+            if (this.selectedSourceType.sourceType === 'content' && queuedJobs[0].status === 'failed') {
               this.mixpanel.postEvent('Content Crawl web domain failed', {});
             }
             this.pollingSubscriber.unsubscribe();
@@ -518,6 +514,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   openStatusModal() {
     this.closeAddManualFAQModal();
     this.closeAddSourceModal();
+    this.closeAddContentModal();
     if (this.resourceIDToOpen) {
       $('.addSourceModalComponent').addClass('hide');
     }
@@ -596,6 +593,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.closeAddSourceModal();
     this.closeLinkBotsModal();
     this.closeStructuredDataModal(event);
+    this.closeAddContentModal();
   }
   selectSource(selectedCrawlMethod) {
     if (selectedCrawlMethod && selectedCrawlMethod.id === 'manual') {
@@ -614,18 +612,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.inlineManual.visited('IMPORT_STRUCTURED_DATA')
       }
     }
-    else if(selectedCrawlMethod && selectedCrawlMethod.resourceType === 'connectors'){
+    else if (selectedCrawlMethod && selectedCrawlMethod.resourceType === 'connectors') {
       this.router.navigate(['/connectors'], { skipLocationChange: true });
     }
-    else {
-      if (this.resourceIDToOpen=='contentWeb'){
-        this.selectedSourceType = selectedCrawlMethod;
-        this.openAddSourceModal();
-      }
-      else if(this.resourceIDToOpen=='contentWebDummy') {
-        this.openAddSourceModalDummy();
-      }
-     
+    else if (['contentWeb'].includes(this.resourceIDToOpen) || selectedCrawlMethod.resourceType == 'web') {
+      this.selectedSourceType = selectedCrawlMethod;
+      this.openAddContentModal();
+    }
+    else if (['contentDoc', 'faqWeb', 'faqDoc'].includes(this.resourceIDToOpen) || ['file', 'importfaq', ''].includes(selectedCrawlMethod.resourceType)) {
+      this.selectedSourceType = selectedCrawlMethod;
+      this.openAddSourceModal();
     }
 
     if (selectedCrawlMethod && selectedCrawlMethod.id === 'contentWeb') {
@@ -1120,152 +1116,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   //Form validation
   validateSource() {
-    this.btnDisabled = true;
-    if (this.selectedSourceType.resourceType == "web" || this.selectedSourceType.resourceType == "faq") {
-      if (this.newSourceObj.name) {
-        if (this.newSourceObj.url) {
-          this.proceedSource()
-        }
-        else {
-          this.btnDisabled = false;
-          $("#extractUrl").css("border-color", "#DD3646");
-          $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-          this.notificationService.notify('Enter the required fields to proceed', 'error');
-        }
-      }
-      else {
-        this.btnDisabled = false;
-        $("#addSourceTitleInput").css("border-color", "#DD3646");
-        $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-        this.notificationService.notify('Enter the required fields to proceed', 'error');
-      }
-    }
-    // NEW CODE containing multiple file upload in Content and single file upload in FAQ
-    else {
-      if (this.selectedSourceType.resourceType == "file") {
-        if (this.selectExtractType == 'file') {
-          if (this.multipleFileArr.length === 1) {
-            if (this.fileObj.fileId) {
-              this.proceedSource()
-            }
-          }
-          //For deleting unacceptable files while uploading
-          else if (this.multipleFileArr.length > 1) {
-            if (this.multipleData.files.length != this.filesListData.length) {
-              let parentArr = [...this.removedArr];
-              let childArr = [...this.multipleData.files];
-              parentArr.forEach(parentArrElement => {
-                childArr.forEach((childElement, index) => {
-                  if (parentArrElement.name.replace(parentArrElement.name.substring(parentArrElement.name.lastIndexOf('.')), '') === childElement.name) {
-                    childArr.splice(index, 1)
-                  }
-
-                })
-
-
-              })
-              this.multipleData.files = [...childArr]
-              // console.log(this.multipleData.files)
-            }
-            else {
-              this.btnDisabled = false;
-            }
-            if (this.filesListData.length > 1) {
-              this.multiplefileupload(this.multipleData)
-            }
-            else {
-              this.proceedSource()
-            }
-
-          }
-        }
-        else if (this.selectExtractType == "url") {
-          if (this.newSourceObj.url && this.newSourceObj.name) {
-            this.proceedSource()
-          }
-          else {
-            this.btnDisabled = false;
-            $("#extractUrl").css("border-color", "#DD3646");
-            $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-            this.notificationService.notify('Enter the required fields to proceed', 'error');
-          }
-
-        }
-      }
-      else if (this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == "") {
-        if (this.newSourceObj.name) {
-          if (this.selectExtractType == 'file') {
-            if (this.fileObj.fileId) {
-              this.proceedSource()
-            }
-            else {
-              this.btnDisabled = false;
-              $(".drag-drop-sec").css("border-color", "#DD3646");
-              this.notificationService.notify('Please upload the file to continue', 'error');
-            }
-          }
-          else if (this.selectExtractType == 'url') {
-            if (this.newSourceObj.url && this.newSourceObj.name) {
-              this.proceedSource()
-            }
-            else {
-              this.btnDisabled = false;
-              $("#extractUrl").css("border-color", "#DD3646");
-              $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-              this.notificationService.notify('Enter the required fields to proceed', 'error');
-            }
-          }
-        }
-        else {
-          this.btnDisabled = false;
-          $("#addSourceTitleInput").css("border-color", "#DD3646");
-          $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-          this.notificationService.notify('Enter the required fields to proceed', 'error');
-        }
-
-
-      }
-
-    }
-
-    //OLD CODE //
-    // else if (this.selectedSourceType.resourceType == "file" || this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == "") {
-    //   // if (this.newSourceObj.name) {
-    //   if (this.selectExtractType == 'file') {
-    //     if (this.multipleFileArr.length === 1) {
-    //       if (this.fileObj.fileId) {               //|| this.multipleFileArr.length
-    //         this.proceedSource()
-    //       }
-    //     }
-    //      //For deleting unacceptable files while uploading
-    //     else if (this.multipleFileArr.length > 1) {
-    //       if (this.multipleData.files.length != this.filesListData.length) {
-    //         let parentArr = [...this.removedArr];
-    //         let childArr = [...this.multipleData.files];
-    //         parentArr.forEach(parentArrElement => {
-    //           childArr.forEach((childElement, index) => {
-    //             if (parentArrElement.name.replace(parentArrElement.name.substring(parentArrElement.name.lastIndexOf('.')), '') === childElement.name) {
-    //               childArr.splice(index, 1)
-    //             }
-
-    //           })
-
-
-    //         })
-    //         this.multipleData.files = [...childArr]
-    //         console.log(this.multipleData.files)
-    //       }
-
-    //       this.multiplefileupload(this.multipleData)
-    //     }
-    //     else {
-    //       this.btnDisabled = false;
-    //       $(".drag-drop-sec").css("border-color", "#DD3646");
-    //       this.notificationService.notify('Please upload the file to continue', 'error');
-    //     }
-    //   }
-    //   else if (this.selectExtractType == 'url') {
-    //     if (this.newSourceObj.url && this.newSourceObj.name) {
+    console.log("newSourceObj.desc",this.crwalObject);
+    // if (this.selectedSourceType.resourceType == "web" || this.selectedSourceType.resourceType == "faq") {
+    //   if (this.newSourceObj.name) {
+    //     if (this.newSourceObj.url) {
     //       this.proceedSource()
     //     }
     //     else {
@@ -1275,13 +1129,98 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     //       this.notificationService.notify('Enter the required fields to proceed', 'error');
     //     }
     //   }
-    //   // }
     //   else {
     //     this.btnDisabled = false;
     //     $("#addSourceTitleInput").css("border-color", "#DD3646");
     //     $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
     //     this.notificationService.notify('Enter the required fields to proceed', 'error');
     //   }
+    // }
+    // else {
+    //   if (this.selectedSourceType.resourceType == "file") {
+    //     if (this.selectExtractType == 'file') {
+    //       if (this.multipleFileArr.length === 1) {
+    //         if (this.fileObj.fileId) {
+    //           this.proceedSource()
+    //         }
+    //       }
+    //       //For deleting unacceptable files while uploading
+    //       else if (this.multipleFileArr.length > 1) {
+    //         if (this.multipleData.files.length != this.filesListData.length) {
+    //           let parentArr = [...this.removedArr];
+    //           let childArr = [...this.multipleData.files];
+    //           parentArr.forEach(parentArrElement => {
+    //             childArr.forEach((childElement, index) => {
+    //               if (parentArrElement.name.replace(parentArrElement.name.substring(parentArrElement.name.lastIndexOf('.')), '') === childElement.name) {
+    //                 childArr.splice(index, 1)
+    //               }
+
+    //             })
+
+
+    //           })
+    //           this.multipleData.files = [...childArr]
+    //           // console.log(this.multipleData.files)
+    //         }
+    //         else {
+    //           this.btnDisabled = false;
+    //         }
+    //         if (this.filesListData.length > 1) {
+    //           this.multiplefileupload(this.multipleData)
+    //         }
+    //         else {
+    //           this.proceedSource()
+    //         }
+
+    //       }
+    //     }
+    //     else if (this.selectExtractType == "url") {
+    //       if (this.newSourceObj.url && this.newSourceObj.name) {
+    //         this.proceedSource()
+    //       }
+    //       else {
+    //         this.btnDisabled = false;
+    //         $("#extractUrl").css("border-color", "#DD3646");
+    //         $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+    //         this.notificationService.notify('Enter the required fields to proceed', 'error');
+    //       }
+
+    //     }
+    //   }
+    //   else if (this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == "") {
+    //     if (this.newSourceObj.name) {
+    //       if (this.selectExtractType == 'file') {
+    //         if (this.fileObj.fileId) {
+    //           this.proceedSource()
+    //         }
+    //         else {
+    //           this.btnDisabled = false;
+    //           $(".drag-drop-sec").css("border-color", "#DD3646");
+    //           this.notificationService.notify('Please upload the file to continue', 'error');
+    //         }
+    //       }
+    //       else if (this.selectExtractType == 'url') {
+    //         if (this.newSourceObj.url && this.newSourceObj.name) {
+    //           this.proceedSource()
+    //         }
+    //         else {
+    //           this.btnDisabled = false;
+    //           $("#extractUrl").css("border-color", "#DD3646");
+    //           $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+    //           this.notificationService.notify('Enter the required fields to proceed', 'error');
+    //         }
+    //       }
+    //     }
+    //     else {
+    //       this.btnDisabled = false;
+    //       $("#addSourceTitleInput").css("border-color", "#DD3646");
+    //       $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+    //       this.notificationService.notify('Enter the required fields to proceed', 'error');
+    //     }
+
+
+    //   }
+
     // }
   }
   //track changing of input
@@ -1297,15 +1236,15 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   proceedSource() {
-    if(this.selectedSourceType.resourceType === 'file'){
+    if (this.selectedSourceType.resourceType === 'file') {
       this.mixpanel.postEvent('Content File extraction started', {});
     }
-    else if(this.selectedSourceType.sourceType === 'faq'&&this.selectedSourceType.resourceType === ''){
-       this.mixpanel.postEvent('FAQ Web extract added', {});
+    else if (this.selectedSourceType.sourceType === 'faq' && this.selectedSourceType.resourceType === '') {
+      this.mixpanel.postEvent('FAQ Web extract added', {});
     }
-    else if(this.selectedSourceType.resourceType === 'importfaq'&&this.selectedSourceType.sourceType === "faq"){
+    else if (this.selectedSourceType.resourceType === 'importfaq' && this.selectedSourceType.sourceType === "faq") {
       console.log("mix event:FAQ File extraction started")
-       //this.mixpanel.postEvent('FAQ File extraction started', {});
+      //this.mixpanel.postEvent('FAQ File extraction started', {});
     }
     let payload: any = {};
     let schdVal = true;
@@ -1369,6 +1308,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         crawler.advanceOpts.crawlBeyondSitemaps = this.crawlBeyondSitemaps;
         crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
         crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
+        crawler.advanceOpts.allowedURLs = this.allowURLArray;
+        crawler.advanceOpts.blockedURLs = this.blockURLArray;
         if (Number(this.crawlDepth) || Number(this.crawlDepth) == 0) {
           crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
         } else {
@@ -1379,15 +1320,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           delete crawler.advanceOpts.maxUrlLimit;
         }
-        if (this.allowUrl.url) {
-          this.allowUrls(this.allowUrl);
-        }
-        if (this.blockUrl.url) {
-          this.blockUrls(this.blockUrl);
-        }
-        // crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
-        // crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
-        // crawler.resourceType = this.selectedSourceType.resourceType;
+
         crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
         crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
         payload = { ...crawler };
@@ -1464,15 +1397,15 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             this.mixpanel.postEvent('FAQ-created', {});
             this.poling(res._id, 'scheduler');
           }
-          if(this.selectedSourceType.resourceType === 'file'){
+          if (this.selectedSourceType.resourceType === 'file') {
             this.mixpanel.postEvent('Content File extraction success', {});
           }
-          if(this.selectedSourceType.resourceType === ''&&this.selectedSourceType.sourceType === "faq"){
+          if (this.selectedSourceType.resourceType === '' && this.selectedSourceType.sourceType === "faq") {
             this.mixpanel.postEvent('FAQ Web extract started', {});
           }
-          if(this.selectedSourceType.resourceType === 'importfaq'&&this.selectedSourceType.sourceType === "faq"){
+          if (this.selectedSourceType.resourceType === 'importfaq' && this.selectedSourceType.sourceType === "faq") {
             console.log("mix event:FAQ File extraction started")
-             //this.mixpanel.postEvent('FAQ File extraction started', {});
+            //this.mixpanel.postEvent('FAQ File extraction started', {});
           }
           //this.dockService.trigger(true)
         }, errRes => {
@@ -1619,18 +1552,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     // console.log(cronExpress);
     this.crwalObject.advanceOpts.repeatInterval = cronExpress;
   }
-  /*Crwaler */
-  allowUrls(data) {
-    this.crwalObject.advanceOpts.allowedURLs.push(data);
-    this.allowUrl = new AllowUrl();
 
-  }
-  blockUrls(data) {
-    this.crwalObject.advanceOpts.blockedURLs.push(data);
-    this.blockUrl = new BlockUrl
-  }
   /*Crwaler */
-
   exceptUrl(bool) {
     this.crwalObject.advanceOpts.allowedOpt = !bool;
     this.crwalObject.advanceOpts.blockedOpt = !this.crwalObject.advanceOpts.allowedOpt;
@@ -1642,27 +1565,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   updateUrlRecord(index, type) {
     type === 'allow' ? this.crwalObject.advanceOpts.allowedURLs.splice(index, 1) : this.crwalObject.advanceOpts.blockedURLs.splice(index, 1)
   }
-  urlCondition(condition, type) {
-    type === 'allow' ? this.allowUrl.condition = condition : this.blockUrl.condition = condition;
-    if (condition === 'is') {
-      type === 'allow' ? this.allowUrl.name = "Equals to" : this.blockUrl.name = "Equals to";
-    }
-    else if (condition === 'isNot') {
-      type === 'allow' ? this.allowUrl.name = "Not equals to" : this.blockUrl.name = "Not equals to";
-    }
-    else if (condition === 'beginsWith') {
-      type === 'allow' ? this.allowUrl.name = "Begins with" : this.blockUrl.name = "Begins with";
-    }
-    else if (condition === 'endsWith') {
-      type === 'allow' ? this.allowUrl.name = "Ends with" : this.blockUrl.name = "Ends with";
-    }
-    else if (condition === 'contains') {
-      type === 'allow' ? this.allowUrl.name = "Contains" : this.blockUrl.name = "Contains";
-    }
-    else if (condition === 'doesNotContains') {
-      type === 'allow' ? this.allowUrl.name = "Doesn't contain" : this.blockUrl.name = "Doesn't contain";
-    }
-  }
+
   /* Annotation Modal */
   annotationModal(sourceId) {
     if (this.newSourceObj && this.newSourceObj.name && this.fileObj.fileId) {
@@ -1958,9 +1861,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       // streamId: this.streamId,
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
-      if(this.selectedSourceType.resourceType === 'importfaq'&&this.selectedSourceType.sourceType === "faq"){
+      if (this.selectedSourceType.resourceType === 'importfaq' && this.selectedSourceType.sourceType === "faq") {
         this.mixpanel.postEvent('FAQ-created', {});
-         this.mixpanel.postEvent('FAQ File extraction success', {});
+        this.mixpanel.postEvent('FAQ File extraction success', {});
       }
       // console.log("imp faq res", res);
       this.importFaqInprogress = true;
@@ -2077,19 +1980,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     )
   }
-  checkValue(value, valueFrom) {
-    // console.log()
-    // var valueCheck = value.includes("-");
+  checkValue(value) {
     if (value <= -1) {
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
     }
-    else if (value == null || value == 'undefined') {
-      // this.notificationService.notify('Range cannot be entered', 'error');
-    }
-    // if(value < 500 && valueFrom == 'maxUrlLimit'){
-    //   this.maxUrlLimit = 500;
-    // }
   }
   copy(val) {
     const selBox = document.createElement('textarea');
@@ -2303,34 +2198,46 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       );
 
     }
+  }
 
+  //add allow/block obj into array
+  addAllowBlockObj(type){
+   const obj={condition:'contains',url:'',name:'Contains'};
+   if(type==='allow'){
+     this.allowURLArray.push(obj)
+   }
+   else if(type==='block'){
+    this.blockURLArray.push(obj)
+   }
+  }
+
+//add authorization field
+addAuthorizationField(type){
+  if(type==='add'){
+    this.authorizationFieldObj.isShow=true;
+  }
+  else if(type==='save'){
+    delete this.authorizationFieldObj.isShow;
+    this.crwalObject.authorizationProfle.authorizationFields.push(this.authorizationFieldObj);
+  }
+  if(['save','cancel'].includes(type)){
+    this.authorizationFieldObj={type:'',key:'',value:'',isEnabled:true,isShow:false};
   }
 }
 
+//add form field
+addFormField(type){
+  if(type==='add'){
+    this.formFieldObj.isShow=true;
+  }
+  else if(type==='save'){
+    delete this.formFieldObj.isShow;
+    this.crwalObject.authorizationProfle.formFields.push(this.formFieldObj);
+  }
+  if(['save','cancel'].includes(type)){
+    this.formFieldObj={type:'',key:'',value:'',isEnabled:true,isShow:false,isEditable:false};
+  }
+}
+}
 
-// class CrwalObj{
 
-//     url: String = '';
-//     desc: String = '';
-//     name: String = '';
-//     resourceType: String = '';
-//     advanceOpts: AdvanceOpts = new AdvanceOpts()
-
-
-// }
-// class AdvanceOpts{
-//   scheduleOpts:boolean = false;
-//       schedulePeriod: String ="";
-//       repeatInterval: String ="";
-//       crawlEverything: boolean = true;
-//          allowedURLs:AllowUrl[] = [];
-//          blockedURLs: BlockUrl[] = [];
-// }
-// class AllowUrl {
-//   condition:String = 'contains';
-//    url: String = '';
-// }
-// class BlockUrl {
-//   condition:String = 'contains';
-//    url: String = '';
-// }

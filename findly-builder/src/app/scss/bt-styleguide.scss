@@ -1412,7 +1412,7 @@ and open the template in the editor.
                 align-items: center;
                 padding: 16px 0;
                 border-bottom: 1px solid #e5e8ec;
-                cursor: pointer;
+                // cursor: pointer;
 
                 &.disabled {
                     pointer-events: none;

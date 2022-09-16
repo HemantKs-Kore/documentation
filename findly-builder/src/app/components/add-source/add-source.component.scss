@@ -2776,6 +2776,7 @@
                     color: #0D6EFD;
                     font-weight: 400;
                     font-size: 14px;
+                    cursor: pointer;
                     &.disable-add{
                         .add-icon-blue{
                             display: none;
@@ -2819,11 +2820,11 @@
                             }
                             .actions-links{
                                 padding: 0 10px;
-                            }
+                                cursor: pointer;
+                            }                            
                         }
                     }
                 }
-
                 .is-auth-form-edit{
                     border: 1px solid #E4E5E7;
                     box-sizing: border-box;
@@ -2838,17 +2839,23 @@
                         display: flex;
                         justify-content: flex-end;
                         padding: 0 20px;
-                        .kr-sg-button-ghost{
-                            background: transparent;
-                            height: 34px;
-                        }
                         .kr-sg-button-secondary{
-                            height: 34px;
+                            &.btn-no-bg{
+                                border: 0 !important;
+                                background: transparent;
+                                margin-right: 10px;
+                            }
                         }
                     }
                 }
+               
             }
         }
+    }
+    .border-top-row{
+        padding: 10px 0;
+        margin: 0 0 10px 0;
+        border-top: 1px solid #E4E5E7;
     }
 }
 
