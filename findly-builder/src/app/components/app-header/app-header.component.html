@@ -336,8 +336,8 @@
                                 <div class="w-item">
                                     <div class="icon-block" id="selected_profile">{{selected_profile_display}}</div>
                                     <div class="content-sec text-truncate">
-                                        <div class="name-w text-truncate" [ngbTooltip]="selectAccountDetails?.accountName"
-                                        placement="top-center" [container]="'body'"
+                                        <div class="name-w text-truncate" 
+                                        placement="top-center" 
                                         tooltipClass="tooltip-global-">{{selectAccountDetails.accountName}}</div>
                                         <div class="d-flex justify-content-between">
                                           <div class="member-count">{{selectAccountDetails.usersCount}} members</div>
@@ -365,8 +365,8 @@
                                                 (click)="switchAccountInternal(app)" [ngClass]="{'selected-swith-account' : app.userFullName === selectAccountDetails.userFullName}">
                                                     <div class="icon-block"  [ngStyle]="{'background-color':app.color}" attr.id="associateprofiledisplay{{i}}">{{app.associate_profile_display}}</div>
                                                     <div class="content-sec text-truncate">
-                                                        <div class="name-w text-truncate" [ngbTooltip]="app?.accountName"
-                                                        placement="top-center" [container]="'body'"
+                                                        <div class="name-w text-truncate" 
+                                                        placement="top-center" 
                                                         tooltipClass="dashboard-custom-tooltips">{{app.accountName}}</div>
                                                         <div class="d-flex justify-content-between">
                                                           <div class="members text-truncate">{{app.userFullName}}</div>
@@ -435,7 +435,7 @@
                     <div class="borderindication"></div>
                     <div class="heading-text">Start by creating an Application</div>
                     <div class="kr-sg-input-text">
-                        <div class="label-text">Name Your Application</div>
+                        <div class="label-text">Name Your Application<sup class="field-mandatory">*</sup></div>
                         <input maxlength="60" type="text" autocomplete="off"
                             placeholder="{{ 'header.enterAppName' | translate }}" [(ngModel)]="newApp.name"
                             name="appName" id="enterAppName" (blur)="inputChanged('enterName')"
@@ -444,7 +444,7 @@
                             height="12" width="12" />
                     </div>
                     <div class="kr-sg-input-text">
-                        <div class="label-text">{{ 'header.description' | translate }}</div>
+                        <div class="label-text">{{ 'header.description' | translate }}(optional)</div>
                         <input class="input-text" maxlength="250" placeholder="Enter App Description" autocomplete="off"
                             [(ngModel)]="newApp.description" name="appDesc">
                     </div>
