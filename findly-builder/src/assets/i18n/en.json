@@ -937,7 +937,21 @@
         "last_updated": "Last Updated",
         "results_preview": "Results Preview",
         "structuredData": "Structured Data",
-        "no_of_pages_caps": " NO. OF PAGES"
+        "no_of_pages_caps": " NO. OF PAGES",
+        "basic":"Basic HTTP Authentication",
+        "form":"Form-based Authentication",
+        "any":"Crawl Everything",
+        "block":"Crawl Everything Except Specific URLs",
+        "allow":"Crawl Only Specific URLs",
+        "header":"Header",
+        "payload":"Payload",
+        "querystring":"Querystring",
+        "pathparam":"Pathparam",
+        "text_presence":"Text Presence",
+        "redirection_to":"Redirection to",
+        "status_code":"Status Code",
+        "textbox":"Textbox",
+        "password":"Password"
     },
     "resultTemplate": {
         "resultTemplates": "Result Templates",

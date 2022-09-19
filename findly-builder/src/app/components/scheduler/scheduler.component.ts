@@ -48,7 +48,7 @@ export class SchedulerComponent implements OnInit {
   @Input() scheduleFlag: any;
   @Input() crwalObject: any;
   @Input() schedule: any;
-  @Input() schedulerType: any;
+  @Input() schedulerType: String='horizantalSchedular';
   @Output() scheduleData = new EventEmitter();
   @Output() cronExpress = new EventEmitter();
   @ViewChild('customRecurrence') customRecurrence: KRModalComponent;

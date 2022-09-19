@@ -593,7 +593,7 @@
 <!-- Content crawl authentication Modal -->
 <kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addSourceModalPopDummy>
     <div class="modal-header">
-      <div class="title">New PopUp</div>
+      <div class="title">Crawl Web Domain</div>
       <div class="close_icon"><img (click)="closeAddContentModal()" src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll6>
@@ -606,13 +606,13 @@
               <div class="details-form">
                 <div class="details-left">
                   <div class="kr-sg-input-text mar-bot-15">
-                    <div class="label-text">Source Title</div>
+                    <div class="label-text">Source Title<sup class="field-mandatory">*</sup></div>
                     <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Title" class="input-text" [(ngModel)]="newSourceObj.name" required>
                     <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
                       width="12" />
                   </div>
                   <div class="kr-sg-input-text mar-bot-15">
-                    <div class="label-text">Source URL</div>
+                    <div class="label-text">Source URL<sup class="field-mandatory">*</sup></div>
                     <input type="text" autocomplete="off" name="url" placeholder="http(s)://" class="input-text" [(ngModel)]="newSourceObj.url">
                   </div>
                 </div>
@@ -640,11 +640,9 @@
                 <div class="kr-sg-dropdowns mar-bot-12">
                   <div class="label-text">Crawl Options</div>
                   <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{crwalOptionLabel}}</button>
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{'contentSource.'+crwalOptionLabel | translate}}</button>
                     <ul class="dropdown-menu content-menu">
-                      <li (click)="crawlOption('any','Crawl Everything')"><a>Crawl Everything</a></li>
-                      <li (click)="crawlOption('block','Crawl Everything Except Specific URLs')"><a>Crawl Everything Except Specific URLs</a></li>
-                      <li (click)="crawlOption('allow','Crawl Only Specific URLs')"><a>Crawl Only Specific URLs</a></li>
+                      <li *ngFor="let option of crawlOptions" (click)="crawlOption(option)" [ngClass]="{'font-weight-bold':(option===crwalOptionLabel)}"><a>{{'contentSource.'+option | translate}}</a></li>
                     </ul>
                   </div>
                 </div>
@@ -742,7 +740,7 @@
                           </span>
                         </div>
                       </div>
-                    <input class="input-text" autocomplete="off" id="crawlDepth" maxlength="60" name="crawlDepth" placeholder="0" type="url" [(ngModel)]="crawlDepth" (keyup)="checkValue(crawlDepth ,'crawlDepth')">
+                    <input class="input-text maxUrlLimit-class" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="5" type="number" [(ngModel)]="crawlDepth">
                   </div>
                   </div>
                   <div class="crwal-max-form-inp">
@@ -756,7 +754,7 @@
                           </span>
                         </div>
                       </div>
-                    <input class="input-text maxUrlLimit-class" autocomplete="off" id="maxURL" maxlength="60" name="maxURL" placeholder="500" type="number" (keyup)="checkValue(maxUrlLimit ,'maxUrlLimit')" [(ngModel)]="maxUrlLimit">
+                    <input class="input-text maxUrlLimit-class" autocomplete="off" id="maxURL" name="maxURL" placeholder="10" type="number" [(ngModel)]="maxUrlLimit">
                   </div>
                   </div>
                 </div>
@@ -767,7 +765,7 @@
           </div>
 
           <div class="new-crawl-shedule">
-            <div class="new-crawl-shedule-tab">
+            <div class="new-crawl-shedule-tab" [ngStyle]="{'background':crwalObject.advanceOpts.scheduleOpt?'':'#F8F9FA','border':crwalObject.advanceOpts.scheduleOpt?'':0}">
               <div class="shedual-header">
                 <div class="shedual-hding">SCHEDULE</div>
                 <div class="sr-toggle-btn">
@@ -784,7 +782,7 @@
           </div>
 
           <div class="new-crawl-shedule authenticated-website">
-            <div class="new-crawl-shedule-tab">
+            <div class="new-crawl-shedule-tab" [ngStyle]="{'border':crwalObject.authorizationEnabled?'':0}">
               <div class="shedual-header">
                 <div class="d-block">
                   <div class="shedual-hding">Is this an Authenticated website?  <div class="tooltip-custom">
@@ -807,10 +805,9 @@
               <div class="crawl-opt-ddl mt-1">
                 <div class="kr-sg-dropdowns mar-bot-12">
                   <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false" [disabled]="!crwalObject.authorizationEnabled" [ngStyle]="{'background':crwalObject.authorizationEnabled?'':'#EFF0F1'}">{{crwalObject.authorizationProfle.sso_type===''?'Select Authentication Type':crwalObject.authorizationProfle.sso_type}}</button>
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false" [disabled]="!crwalObject.authorizationEnabled" [ngStyle]="{'background':crwalObject.authorizationEnabled?'':'#EFF0F1','border':crwalObject.authorizationEnabled?'':0,'color':crwalObject.authorizationEnabled?'':'#BDC1C6'}">{{crwalObject.authorizationProfle.sso_type===''?'Select Authentication Type':('contentSource.'+crwalObject.authorizationProfle.sso_type | translate)}}</button>
                     <ul class="dropdown-menu content-menu">
-                      <li (click)="crwalObject.authorizationProfle.sso_type='basic'"><a>Basic HTTP Authentication</a></li>
-                      <li (click)="crwalObject.authorizationProfle.sso_type='form'"><a>Form-based Authentication</a></li>
+                      <li *ngFor="let type of authenticationTypes" [ngClass]="{'font-weight-bold':type===crwalObject.authorizationProfle.sso_type}" (click)="selectAuthenticationType(type)"><a>{{'contentSource.'+type | translate}}</a></li>
                     </ul>
                   </div>
                 </div>
@@ -843,12 +840,12 @@
                           <div class="col-4">FIELD KEY</div> 
                           <div class="col-4">FIELD VALUE</div>
                           <!-- <div class="col-2"></div> -->
-                          <div class="col-4 text-right">ACTIONS</div>
+                          <div class="col-4">ACTIONS</div>
                       </header>
-                      <div class="content-body" *ngFor="let form of crwalObject.authorizationProfle.basicFields">
+                      <div class="content-body" *ngFor="let form of crwalObject.authorizationProfle.basicFields;let i=index;">
                         <ng-container *ngIf="!form?.isEditable">
                           <div class="col-4">{{form?.key}}</div>
-                          <div class="col-4">{{form?.type}}</div>
+                          <div class="col-4">{{form?.value}}</div>
                           <!-- <div class="col-4">
                             <div class="d-flex">
                               <label class="kr-sg-toggle with-label">                                       
@@ -857,7 +854,7 @@
                             </label>
                             </div>
                           </div> -->
-                          <div class="col-4 text-right">
+                          <div class="col-4">
                               <span class="actions-links" (click)="form.isEditable=true"><img class="action_icon arrow-icon" src="assets/images/edit-pencil.svg"></span>
                               <!-- <span class="actions-links"><img class="action_icon" src="assets/icons/delete-table.svg"></span> -->
                           </div>
@@ -869,23 +866,23 @@
                               <div class="col-3">
                                 <div class="crawl-opt-inp">
                                   <div class="kr-sg-input-text mar-bot-15">
-                                    <div class="label-text no-label">Field Key</div>
-                                    <input type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [value]="form.key" [disabled]="form.value!=='Username'">
+                                    <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                                    <input type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [value]="form.key" disabled>
                                   </div>
                                 </div>
                               </div>
                               <div class="col-3">
                                 <div class="crawl-opt-inp">
                                   <div class="kr-sg-input-text mar-bot-15">
-                                    <div class="label-text no-label">Field Value</div>
-                                    <input [type]="form.type" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [(ngModel)]="form.type">
+                                    <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
+                                    <input [type]="form.type" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [(ngModel)]="form.duplicateObj.value">
                                   </div>
                                 </div>
                               </div>
                               <div class="col-3 d-flex align-items-center">
                                 <div class="is-auth-btn-group">
-                                <button class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="form.isEditable=false">Cancel</button>
-                                <button class="kr-sg-button-secondary btn_lg">Save</button>
+                                <button class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="saveBasicField(form,'cancel')">Cancel</button>
+                                <button class="kr-sg-button-secondary btn_lg" (click)="saveBasicField(form,'save')">Save</button>
                               </div>
                               </div>
                             </div>                
@@ -915,7 +912,7 @@
               </div>
               <div class="is-auth-form-table">
                 <div class="kr-sg-data-table">
-                  <section class="table-content">
+                  <section class="table-content" *ngIf="crwalObject.authorizationProfle.formFields.length>0">
                       <header class="table-header">
                           <div class="col-3">FIELD KEY</div> 
                           <div class="col-2">FIELD TYPE</div>
@@ -926,7 +923,7 @@
                       <div class="content-body" *ngFor="let form of crwalObject.authorizationProfle.formFields;let i=index;">
                           <ng-container *ngIf="!form?.isEditable">
                           <div class="col-3">{{form.key}}</div>
-                          <div class="col-2">{{form.type}}</div>
+                          <div class="col-2">{{'contentSource.'+form.type|translate}}</div>
                           <div class="col-3">{{form.value}}</div>
                           <div class="col-2">
                             <div class="d-flex">
@@ -937,8 +934,8 @@
                             </div>
                           </div>
                           <div class="col-2 text-right">
-                              <span class="actions-links" (click)="form.isEditable=true"><img class="action_icon arrow-icon" src="assets/images/edit-pencil.svg"></span>
-                              <span class="actions-links" (click)="crwalObject.authorizationProfle.formFields.splice(i,1)" *ngIf="crwalObject.authorizationProfle.formFields.length>1"><img class="action_icon" src="assets/icons/delete-table.svg"></span>
+                              <span class="actions-links" (click)="form.isEditable=true;editFormField('edit',form)"><img class="action_icon arrow-icon" src="assets/images/edit-pencil.svg"></span>
+                              <span class="actions-links" (click)="deleteFormFields(i)"><img class="action_icon" src="assets/icons/delete-table.svg"></span>
                           </div>
                           </ng-container>
 
@@ -948,20 +945,19 @@
                               <div class="col-3">
                                 <div class="crawl-opt-inp">
                                   <div class="kr-sg-input-text mar-bot-15">
-                                    <div class="label-text no-label">Field Key</div>
-                                    <input id="sa-addAuthFieldListItemKey" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [value]="form.key" [(ngModel)]="form.key">
+                                    <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                                    <input id="sa-addAuthFieldListItemKey" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [value]="form.key" [(ngModel)]="form.duplicateObj.key">
                                   </div>
                                 </div>
                               </div>
                               <div class="col-3">
                                 <div class="crawl-option-ddl">
                                   <div class="kr-sg-dropdowns mar-bot-12">
-                                    <div class="label-text">Field Type</div>
+                                    <div class="label-text">Field Type<sup class="field-mandatory">*</sup></div>
                                     <div class="dropdown dropdown-open">
-                                      <button id="sa-addAuthFieldListItemType" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{form.type===''?'Select Field Type':form.type}}</button>
+                                      <button id="sa-addAuthFieldListItemType" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{form.duplicateObj.type===''?'Select Field Type':('contentSource.'+form.duplicateObj.type|translate)}}</button>
                                       <ul class="dropdown-menu content-menu">
-                                        <li (click)="form.type='textbox'"><a>Textbox</a></li>
-                                        <li (click)="form.type='password'"><a>Password</a></li>
+                                        <li *ngFor="let box of inputTypes" (click)="form.duplicateObj.type=box" [ngClass]="{'font-weight-bold':(form.duplicateObj.type===box)}"><a>{{'contentSource.'+box|translate}}</a></li>
                                       </ul>
                                     </div>
                                   </div>
@@ -970,15 +966,15 @@
                               <div class="col-3">
                                 <div class="crawl-opt-inp">
                                   <div class="kr-sg-input-text mar-bot-15">
-                                    <div class="label-text no-label">Field Value</div>
-                                    <input id="sa-addAuthFieldListItemValue" type="text" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [value]="form.type" [(ngModel)]="form.type">
+                                    <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
+                                    <input id="sa-addAuthFieldListItemValue" type="text" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [value]="form.value" [(ngModel)]="form.duplicateObj.value">
                                   </div>
                                 </div>
                               </div>
                               <div class="col-3 d-flex align-items-center">
                                 <div class="is-auth-btn-group">
-                                  <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="form.isEditable=false">Cancel</button>
-                                  <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="form.isEditable=false">Add</button>
+                                  <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="editFormField('cancel',form)">Cancel</button>
+                                  <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="editFormField('save',form)">Add</button>
                                 </div>
                               </div>
                             </div>
@@ -992,7 +988,7 @@
                       <div class="col-3">
                         <div class="crawl-opt-inp">
                           <div class="kr-sg-input-text mar-bot-15">
-                            <div class="label-text no-label">Field Key</div>
+                            <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
                             <input id="sa-addAuthFieldListItemKey" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [(ngModel)]="formFieldObj.key">
                           </div>
                         </div>
@@ -1000,12 +996,11 @@
                       <div class="col-3">
                         <div class="crawl-option-ddl">
                           <div class="kr-sg-dropdowns mar-bot-12">
-                            <div class="label-text">Field Type</div>
+                            <div class="label-text">Field Type<sup class="field-mandatory">*</sup></div>
                             <div class="dropdown dropdown-open">
-                              <button id="sa-addAuthFieldListItemType" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">Select Field Type</button>
+                              <button id="sa-addAuthFieldListItemType" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{(formFieldObj.type==='')?'Select Field Type':('contentSource.'+formFieldObj.type|translate)}}</button>
                               <ul class="dropdown-menu content-menu">
-                                <li (click)="formFieldObj.type='textbox'"><a>Textbox</a></li>
-                                <li (click)="formFieldObj.type='password'"><a>Password</a></li>
+                                <li *ngFor="let box of inputTypes" (click)="formFieldObj.type=box" [ngClass]="{'font-weight-bold':(formFieldObj.type===box)}"><a>{{'contentSource.'+box|translate}}</a></li>
                               </ul>
                             </div>
                           </div>
@@ -1014,14 +1009,14 @@
                       <div class="col-3">
                         <div class="crawl-opt-inp">
                           <div class="kr-sg-input-text mar-bot-15">
-                            <div class="label-text no-label">Field Value</div>
-                            <input id="sa-addAuthFieldListItemValue" type="text" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [(ngModel)]="formFieldObj.type">
+                            <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
+                            <input id="sa-addAuthFieldListItemValue" type="text" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [(ngModel)]="formFieldObj.value">
                           </div>
                         </div>
                       </div>
                       <div class="col-3 d-flex align-items-center">
                         <div class="is-auth-btn-group">
-                          <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="addFormField('cancel')">Cancel</button>
+                          <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="addFormField('cancel')" [disabled]="crwalObject.authorizationProfle.formFields.length===0">Cancel</button>
                           <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="addFormField('save')">Add</button>
                         </div>
                       </div>
@@ -1031,11 +1026,11 @@
               </div>
             </div>
 
-            <!-- Authentication URL common for both fields types -->
-            <div class="is-auth-form">
+            <!-- Authorization optional for both fields types -->
+            <div class="is-auth-form" *ngIf="['basic','form'].includes(crwalObject.authorizationProfle.sso_type)">
               <div class="is-auth-form-header-block">
                 <div class="is-auth-form-header">
-                  AUTHORISATION FIELD <span class="optional-hding">(Optional)</span>
+                  AUTHORIZATION FIELD <span class="optional-hding">(Optional)</span>
                   <div class="tooltip-custom">
                     <img src="assets/icons/sidemenu/help.svg">
                     <span class="tooltiptext">
@@ -1063,7 +1058,7 @@
                       <div class="content-body" *ngFor="let auth of crwalObject.authorizationProfle.authorizationFields;let i=index;">
                          <ng-container *ngIf="!auth?.isEditable">
                          <div class="col-3">{{auth?.key}}</div>
-                          <div class="col-2">{{auth?.type}}</div>
+                          <div class="col-2">{{'contentSource.'+auth?.type|translate}}</div>
                           <div class="col-3">{{auth?.value}}</div>
                           <div class="col-2">
                             <div class="d-flex">
@@ -1074,7 +1069,7 @@
                             </div>
                           </div>
                           <div class="col-2 text-right">
-                              <span id="sa-editAuthFieldListItem" class="actions-links" (click)="auth.isEditable=true"><img class="action_icon arrow-icon" src="assets/images/edit-pencil.svg"></span>
+                              <span id="sa-editAuthFieldListItem" class="actions-links" (click)="auth.isEditable=true;editAuthorizationField('edit',auth)"><img class="action_icon arrow-icon" src="assets/images/edit-pencil.svg"></span>
                               <span id="sa-deleteAuthFieldListItem" class="actions-links" (click)="crwalObject.authorizationProfle.authorizationFields.splice(i,1)"><img class="action_icon" src="assets/icons/delete-table.svg"></span>
                           </div>
                         </ng-container> 
@@ -1085,19 +1080,19 @@
                           <div class="col-3">
                             <div class="crawl-opt-inp">
                               <div class="kr-sg-input-text mar-bot-15">
-                                <div class="label-text no-label">Field Key</div>
-                                <input id="sa-addAuthFieldListItemKey" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [value]="auth.key" [(ngModel)]="auth.key">
+                                <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                                <input id="sa-addAuthFieldListItemKey" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [value]="auth.key" [(ngModel)]="auth.duplicateObj.key">
                               </div>
                             </div>
                           </div>
                           <div class="col-3">
                             <div class="crawl-option-ddl">
                               <div class="kr-sg-dropdowns mar-bot-12">
-                                <div class="label-text">Field Type</div>
+                                <div class="label-text">Field Type<sup class="field-mandatory">*</sup></div>
                                 <div class="dropdown dropdown-open">
-                                  <button id="sa-addAuthFieldListItemType" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{auth.type===''?'Select Field Type':auth?.type}}</button>
+                                  <button id="sa-addAuthFieldListItemType" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{auth.duplicateObj.type===''?('contentSource.'+auth.type |translate):('contentSource.'+auth?.duplicateObj.type|translate)}}</button>
                                   <ul class="dropdown-menu content-menu">
-                                    <li *ngFor="let item of autorizationFieldTypes" (click)="auth.type=item"><a>{{item}}</a></li>
+                                    <li *ngFor="let item of autorizationFieldTypes" (click)="auth.duplicateObj.type=item" [ngClass]="{'font-weight-bold':auth.duplicateObj.type===item}"><a>{{'contentSource.'+item | translate}}</a></li>
                                   </ul>
                                 </div>
                               </div>
@@ -1106,15 +1101,15 @@
                           <div class="col-3">
                             <div class="crawl-opt-inp">
                               <div class="kr-sg-input-text mar-bot-15">
-                                <div class="label-text no-label">Field Value</div>
-                                <input id="sa-addAuthFieldListItemValue" type="text" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [value]="auth.value" [(ngModel)]="auth.value">
+                                <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
+                                <input id="sa-addAuthFieldListItemValue" type="text" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [value]="auth.value" [(ngModel)]="auth.duplicateObj.value">
                               </div>
                             </div>
                           </div>
                           <div class="col-3 d-flex align-items-center">
                             <div class="is-auth-btn-group">
-                              <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="auth.isEditable=false">Cancel</button>
-                              <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="auth.isEditable=false">Add</button>
+                              <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="editAuthorizationField('cancel',auth)">Cancel</button>
+                              <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="editAuthorizationField('save',auth)">Save</button>
                             </div>
                           </div>
                         </div>
@@ -1131,7 +1126,7 @@
                       <div class="col-3">
                         <div class="crawl-opt-inp">
                           <div class="kr-sg-input-text mar-bot-15">
-                            <div class="label-text no-label">Field Key</div>
+                            <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
                             <input id="sa-addAuthFieldListItemKey" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [(ngModel)]="authorizationFieldObj.key">
                           </div>
                         </div>
@@ -1139,11 +1134,11 @@
                       <div class="col-3">
                         <div class="crawl-option-ddl">
                           <div class="kr-sg-dropdowns mar-bot-12">
-                            <div class="label-text">Field Type</div>
+                            <div class="label-text">Field Type<sup class="field-mandatory">*</sup></div>
                             <div class="dropdown dropdown-open">
-                              <button id="sa-addAuthFieldListItemType" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{(authorizationFieldObj.type==='')?'Select Field Type':(authorizationFieldObj.type)}}</button>
+                              <button id="sa-addAuthFieldListItemType" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{(authorizationFieldObj.type==='')?'Select Field Type':('contentSource.'+authorizationFieldObj.type|translate)}}</button>
                               <ul class="dropdown-menu content-menu">
-                                <li *ngFor="let item of autorizationFieldTypes" (click)="authorizationFieldObj.type=item"><a>{{item}}</a></li>
+                                <li *ngFor="let item of autorizationFieldTypes" (click)="authorizationFieldObj.type=item" [ngClass]="{'font-weight-bold':authorizationFieldObj.type===item}"><a>{{'contentSource.'+item | translate}}</a></li>
                               </ul>
                             </div>
                           </div>
@@ -1152,7 +1147,7 @@
                       <div class="col-3">
                         <div class="crawl-opt-inp">
                           <div class="kr-sg-input-text mar-bot-15">
-                            <div class="label-text no-label">Field Value</div>
+                            <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
                             <input id="sa-addAuthFieldListItemValue" type="text" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [(ngModel)]="authorizationFieldObj.value">
                           </div>
                         </div>
@@ -1175,7 +1170,7 @@
             <div class="row col-12 border-top-row">
               <div class="col-4 pl-0">
                 <div class="kr-sg-input-text">
-                  <div class="label-text">Authentication URL</div>
+                  <div class="label-text">Authentication URL<sup class="field-mandatory">*</sup></div>
                   <input id="sa-addAuthURL" type="text" placeholder="Authentication Url" class="input-text" [(ngModel)]="crwalObject.authorizationProfle.authCheckUrl">
                 </div>
               </div>
@@ -1183,23 +1178,23 @@
             <div class="row col-12 border-top-row">
               <div class="col-4 pl-0">
                 <div class="kr-sg-dropdowns">
-                  <div class="label-text">Test Type</div>
+                  <div class="label-text">Test Type<sup class="field-mandatory">*</sup></div>
                   <div class="dropdown dropdown-open">
-                      <button id="sa-addAuthenticationTestType" class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(crwalObject.authorizationProfle.testType==='')?'Choose an option':(crwalObject.authorizationProfle.testType)}}</button>                                            
+                      <button id="sa-addAuthenticationTestType" class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(crwalObject.authorizationProfle.testType==='')?'Choose an option':('contentSource.'+crwalObject.authorizationProfle.testType|translate)}}</button>                                            
                       <ul class="dropdown-menu content-menu">                                              
-                        <li *ngFor="let item of testTypes" (click)="crwalObject.authorizationProfle.testType=item"><a>{{item}}</a></li>
+                        <li *ngFor="let item of testTypes" (click)="crwalObject.authorizationProfle.testType=item" [ngClass]="{'font-weight-bold':(crwalObject.authorizationProfle.testType===item)}"><a>{{'contentSource.'+item|translate}}</a></li>
                       </ul>
                   </div>
                 </div>
               </div>
               <div class="col-4">
                 <div class="kr-sg-input-text">
-                  <div class="label-text">Test Value</div>
-                  <input id="sa-addAuthenticationTestValue" type="text" placeholder="Test Value" class="input-text" [(ngModel)]="crwalObject.authorizationProfle.testValue">
+                  <div class="label-text">Test Value<sup class="field-mandatory">*</sup></div>
+                  <input id="sa-addAuthenticationTestValue" [type]="(crwalObject.authorizationProfle.testType==='status_code')?'number':'text'" placeholder="Test Value" class="input-text" [ngClass]="{'maxUrlLimit-class':crwalObject.authorizationProfle.testType==='status_code'}" [(ngModel)]="crwalObject.authorizationProfle.testValue">
                 </div>
               </div>
             </div>
-          </ng-container>
+            </ng-container>
           </div>
         </div>
       </div>

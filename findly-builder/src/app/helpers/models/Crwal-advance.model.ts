@@ -35,7 +35,8 @@ export class AuthorizationProfle {
             type: "textbox",
             isEnabled: true,
             value: "Username",
-            isEditable: false
+            isEditable: false,
+            duplicateObj:{value: "Username"}
         },
         {
             isRequired: true,
@@ -43,7 +44,8 @@ export class AuthorizationProfle {
             type: "password",
             isEnabled: true,
             value: "password",
-            isEditable: false
+            isEditable: false,
+            duplicateObj:{value: "password"}
         }];
     authorizationFields: Array<AuthorizationFields> = [];
     authCheckUrl: String = "";

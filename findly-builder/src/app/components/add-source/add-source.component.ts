@@ -72,7 +72,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   crawlBeyondSitemaps = false;
   isJavaScriptRendered = false;
   blockHttpsMsgs = false;
-  crwalOptionLabel = "Crawl Everything";
   crawlDepth: number;
   maxUrlLimit: number;
   botsConfigurationModalRef: any;
@@ -251,16 +250,20 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   structuredDataDocPayload: any;
   selectExtractType: string = 'file';
 
-  allowURLValues:Array<Object>=[{key:'Equals to',value:'is'},{key:'Not equals to',value:'isNot'},{key:'Begins with',value:'beginsWith'},{key:'Ends with',value:'endsWith'},{key:'Contains',value:'contains'},{key:"Doesn't contain",value:'doesNotContains'}];
-  allowURLArray:Array<Object>=[{condition:'contains',url:'',name:'Contains'}];
-  blockURLArray:Array<Object>=[{condition:'contains',url:'',name:'Contains'}];
-  authorizationFieldObj:any={type:'',key:'',value:'',isEnabled:true,isShow:false,isEditable:false};
-  formFieldObj:any={type:'',key:'',value:'',isEnabled:true,isShow:true,isEditable:false};
-  autorizationFieldTypes:Array<String>=['header','payload','querystring','pathparam'];
-  testTypes:Array<String>=['text_presence','redirection_to','cookie_presence','status_code'];
+  allowURLValues: Array<Object> = [{ key: 'Equals to', value: 'is' }, { key: 'Not equals to', value: 'isNot' }, { key: 'Begins with', value: 'beginsWith' }, { key: 'Ends with', value: 'endsWith' }, { key: 'Contains', value: 'contains' }, { key: "Doesn't contain", value: 'doesNotContains' }];
+  allowURLArray: Array<Object> = [{ condition: 'contains', url: '', name: 'Contains' }];
+  blockURLArray: Array<Object> = [{ condition: 'contains', url: '', name: 'Contains' }];
+  authorizationFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+  formFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: true, isEditable: false, duplicateObj: {type:'',key:'',value:''}  };
+  autorizationFieldTypes: Array<String> = ['header', 'payload', 'querystring', 'pathparam'];
+  testTypes: Array<String> = ['text_presence', 'redirection_to', 'status_code'];
+  authenticationTypes: Array<String> = ['basic', 'form'];
+  crawlOptions:Array<String> = ['any','block','allow'];
+  crwalOptionLabel:String = 'any';
+  inputTypes:Array<String> = ['textbox','password'];
 
   constructor(public workflowService: WorkflowService,
-    private service: ServiceInvokerService,                             
+    private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private authService: AuthService,
     private router: Router,
@@ -1116,7 +1119,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   //Form validation
   validateSource() {
-    console.log("newSourceObj.desc",this.crwalObject);
+    console.log("newSourceObj.desc", this.crwalObject, this.allowURLArray, this.blockURLArray);
     // if (this.selectedSourceType.resourceType == "web" || this.selectedSourceType.resourceType == "faq") {
     //   if (this.newSourceObj.name) {
     //     if (this.newSourceObj.url) {
@@ -1779,8 +1782,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   }
-  crawlOption(opt, label) {
-    this.crwalOptionLabel = label;
+  crawlOption(opt) {
+    this.crwalOptionLabel = opt;
     if (opt != 'any') {
       this.crwalObject.advanceOpts.crawlEverything = false;
       if (opt == 'allow') {
@@ -1980,12 +1983,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     )
   }
-  checkValue(value) {
-    if (value <= -1) {
-      this.crawlDepth = 0;
-      this.maxUrlLimit = 0;
-    }
-  }
+
   copy(val) {
     const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
@@ -2201,43 +2199,102 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   //add allow/block obj into array
-  addAllowBlockObj(type){
-   const obj={condition:'contains',url:'',name:'Contains'};
-   if(type==='allow'){
-     this.allowURLArray.push(obj)
-   }
-   else if(type==='block'){
-    this.blockURLArray.push(obj)
-   }
+  addAllowBlockObj(type) {
+    const obj = { condition: 'contains', url: '', name: 'Contains' };
+    if (type === 'allow') {
+      this.allowURLArray.push(obj)
+    }
+    else if (type === 'block') {
+      this.blockURLArray.push(obj)
+    }
   }
 
-//add authorization field
-addAuthorizationField(type){
-  if(type==='add'){
-    this.authorizationFieldObj.isShow=true;
+  //add authorization field
+  addAuthorizationField(type) {
+    if (type === 'add') {
+      this.authorizationFieldObj.isShow = true;
+    }
+    else if (type === 'save') {
+      delete this.authorizationFieldObj.isShow;
+      this.crwalObject.authorizationProfle.authorizationFields.push(this.authorizationFieldObj);
+    }
+    if (['save', 'cancel'].includes(type)) {
+      this.authorizationFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+    }
   }
-  else if(type==='save'){
-    delete this.authorizationFieldObj.isShow;
-    this.crwalObject.authorizationProfle.authorizationFields.push(this.authorizationFieldObj);
-  }
-  if(['save','cancel'].includes(type)){
-    this.authorizationFieldObj={type:'',key:'',value:'',isEnabled:true,isShow:false};
-  }
-}
 
-//add form field
-addFormField(type){
-  if(type==='add'){
-    this.formFieldObj.isShow=true;
+  //edit authorization field
+  editAuthorizationField(type, form) {
+    if (type === 'save') {
+      form.type = form.duplicateObj.type;
+      form.key = form.duplicateObj.key;
+      form.value = form.duplicateObj.value;
+    }
+    else if (['cancel','edit'].includes(type)) {
+      form.duplicateObj.type = form.type;
+      form.duplicateObj.key = form.key;
+      form.duplicateObj.value = form.value;
+    }
+     if(['cancel','save'].includes(type)) form.isEditable = false;
   }
-  else if(type==='save'){
-    delete this.formFieldObj.isShow;
-    this.crwalObject.authorizationProfle.formFields.push(this.formFieldObj);
+
+  //add form field
+  addFormField(type) {
+    if (type === 'add') {
+      this.formFieldObj.isShow = true;
+    }
+    else if (type === 'save') {
+      delete this.formFieldObj.isShow;
+      this.crwalObject.authorizationProfle.formFields.push(this.formFieldObj);
+    }
+    if (['save', 'cancel'].includes(type)) {
+      this.formFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: {type:'',key:'',value:''} };
+    }
   }
-  if(['save','cancel'].includes(type)){
-    this.formFieldObj={type:'',key:'',value:'',isEnabled:true,isShow:false,isEditable:false};
+
+    //edit authorization field
+    editFormField(type, form) {
+      if (type === 'save') {
+        form.type = form.duplicateObj.type;
+        form.key = form.duplicateObj.key;
+        form.value = form.duplicateObj.value;
+      }
+      else if (['cancel','edit'].includes(type)) {
+        form.duplicateObj.type = form.type;
+        form.duplicateObj.key = form.key;
+        form.duplicateObj.value = form.value;
+      }
+       if(['cancel','save'].includes(type)) form.isEditable = false;
+    }
+
+  //save basic field
+  saveBasicField(form, type) {
+    if (type === 'save') {
+      form.value = form.duplicateObj.value;
+    }
+    else if (type === 'cancel') {
+      form.duplicateObj.value = form.value;
+    }
+    form.isEditable = false;
   }
-}
+
+  //select authentication type
+  selectAuthenticationType(type) {
+    this.crwalObject.authorizationProfle.sso_type = type;
+    this.crwalObject.authorizationProfle.authorizationFields = [];
+    this.crwalObject.authorizationProfle.authCheckUrl = '';
+    this.crwalObject.authorizationProfle.testType = '';
+    this.crwalObject.authorizationProfle.testValue = '';
+    this.authorizationFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+  }
+ 
+  //delete form fields
+  deleteFormFields(index){
+  if(this.crwalObject.authorizationProfle.formFields.length===1){
+    this.formFieldObj.isShow = true;
+  }
+  this.crwalObject.authorizationProfle.formFields.splice(index,1);
+  }
 }
 
 
