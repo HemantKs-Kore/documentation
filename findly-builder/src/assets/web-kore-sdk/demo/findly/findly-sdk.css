@@ -695,6 +695,8 @@ body {
 
 .searchAssist-kore-chat-window.search-container.conversation #searchChatContainer .messageBubble .userMessage .search-agin-tag img {
     margin-right: 8px;
+    width: 10.11px;
+    height: 10.11px;
 }
 
 .searchAssist-kore-chat-window.search-container.conversation #searchChatContainer .messageBubble .userMessage .search-agin-tag .text-search {
@@ -758,7 +760,7 @@ body {
 .searchAssist-kore-chat-window.search-container.conversation #searchChatContainer .messageBubble .userMessage .query-analytics-control-container {
     position: absolute;
     display: block;
-    bottom: -22px;
+    bottom: -34px;
     right: 0;
     color: var(--sdk-dusty-gray-analystics-color);
     font-weight: normal;
@@ -1958,7 +1960,7 @@ body {
     cursor: pointer;
     width: 100%;
     position: relative;
-    padding: 0 20px;
+    padding: 0 4px;
     margin: 5px 0px;
 }
 
@@ -1976,7 +1978,7 @@ body {
 }
 
 .searchAssist-kore-chat-window .search-recent-column .recentSearch.tile_with_header .recentText {
-    padding: 6px 35px 6px 30px;
+    padding: 7px 25px 7px 38px;
     cursor: pointer;
     box-sizing: border-box;
     display: block;
@@ -11774,6 +11776,7 @@ a.tile-heading {
 .feedback-top-down-full{
     display: none;
 }
+
 /* Snipet css */
 .snippet-margin{
     width: 94% !important;
@@ -11786,6 +11789,9 @@ a.tile-heading {
     border-radius: 4px;
     padding: 20px;
     margin-bottom: 10px;
+}
+.snippet-template .position-relative{
+    position: relative;
 }
 .snippet-template .title .title-text {
     font-weight: 500;
