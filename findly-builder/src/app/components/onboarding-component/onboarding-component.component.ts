@@ -966,6 +966,9 @@ onMediaLoadedLoaded(){
   openCheckList(){
     $(".nav-link" ).trigger( "click" );
   }  
+  openTopicguide(){
+    $("#topicguide").trigger("click");
+  } 
 
 
   openAccordiandata2() {
