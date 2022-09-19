@@ -447,7 +447,7 @@
                     <div class="welcome-user-form">
                       <div class="create-app-data">
                         <div class="kr-sg-input-text form-group">
-                          <div class="label-text">App Name *</div>
+                          <div class="label-text">App Name<sup class="field-mandatory">*</sup></div>
                           <input type="text"  [(ngModel)]="newApp.name" placeholder="Enter App Name" class="input-text" [ngClass]="{'error' : validateAppname }">
                           <div class="error-msg" *ngIf="validateAppname">Enter The App Name</div>
                         </div>
@@ -495,8 +495,8 @@
           <div class="borderindication"></div>
           <div class="heading-text">Start by creating an Application</div>
           <div class="kr-sg-input-text">
-            <div class="label-text">Name Your Application *</div>
-            <input maxlength="60" type="text" autocomplete="off" placeholder="Name your application" [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
+            <div class="label-text">Name Your Application<sup class="field-mandatory">*</sup></div>
+            <input maxlength="60" type="text" autocomplete="off" placeholder="Name Your Application" [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
             <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
           </div>
           <div class="kr-sg-input-text">
@@ -635,8 +635,7 @@
 
   <div class="video-section-block">
       <div class="video-player">
-        <iframe width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="" src="https://player.vimeo.com/video/49583118"></iframe>
-      </div>
+        <iframe src="https://www.loom.com/embed/df0125991739425cbccf3fbca99e50f2?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 533px; height: 100%;"></iframe></div>
       <div class="video-header">Welcome to SearchAssist</div>
       <div class="video-desc">Watch a quick introductory video on the SearchAssist’s features.</div>
   </div>

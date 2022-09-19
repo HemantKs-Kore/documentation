@@ -104,6 +104,7 @@ export class AppHeaderComponent implements OnInit {
   @ViewChild('browseWorkspace') browseWorkspace: KRModalComponent;
   availableRouts = [
     { displayName: 'Summary', routeId: '/summary', quaryParms: {} },
+    { displayName: 'Overview', routeId: '/summary', quaryParms: {} },
     { displayName: 'Add Sources', routeId: '/source', quaryParms: {} },
     { displayName: 'Crawl Web Domain', routeId: '/source', quaryParms: { sourceType: 'contentWeb' } },
     { displayName: 'Extract Document', routeId: '/source', quaryParms: { sourceType: 'contentDoc' } },
@@ -116,6 +117,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Experiments', routeId: '/experiments', quaryParms: {} },
     { displayName: 'Actions', routeId: '/botActions', quaryParms: {} },
     { displayName: 'Workbench', routeId: '/index', quaryParms: {} },
+    { displayName: 'Indices', routeId: '/FieldManagementComponent', quaryParms: {} },
     { displayName: 'Fields', routeId: '/FieldManagementComponent', quaryParms: {} },
     { displayName: 'Traits', routeId: '/traits', quaryParms: {} },
     { displayName: 'Weights', routeId: '/weights', quaryParms: {} },
@@ -129,6 +131,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'User Engagement Metrics', routeId: '/userEngagement', quaryParms: {} },
     { displayName: 'Search Insights', routeId: '/searchInsights', quaryParms: {} },
     { displayName: 'Result Insights', routeId: '/resultInsights', quaryParms: {} },
+    { displayName: 'Manage', routeId: '/generalSettings', quaryParms: {} },
     { displayName: 'General Settings', routeId: '/generalSettings', quaryParms: {} },
     { displayName: 'Channels', routeId: '/settings', quaryParms: {} },
     { displayName: 'Credentials', routeId: '/credentials-list', quaryParms: {} },
@@ -137,7 +140,12 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Usage Log', routeId: '/usageLog', quaryParms: {} },
     { displayName: 'Invoices', routeId: '/invoices', quaryParms: {} },
     { displayName: 'Connectors', routeId: '/connectors', quaryParms: {} },
-    { displayName: 'Results Ranking', routeId: '/resultranking', quaryParms: {} }
+    { displayName: 'Results Ranking', routeId: '/resultranking', quaryParms: {} },
+    { displayName: 'Analytics(Experiments)', routeId: '/experiments', quaryParms: {} },
+    { displayName: 'Analytics(Dashboard)', routeId: '/dashboard', quaryParms: {} },
+    { displayName: 'Analytics(User Engagement Metrics)', routeId: '/userEngagement', quaryParms: {} },
+    { displayName: 'Analytics(Search Insights)', routeId: '/searchInsights', quaryParms: {} },
+    { displayName: 'Analytics(Result Insights)', routeId: '/resultInsights', quaryParms: {} },
   ];
   menuItems:any={sources:['/source','/content','/faqs','/botActions','/structuredData','/connectors'],indices:['/FieldManagementComponent','/traits','/index','/weights','/synonyms','/stopWords','/resultranking','/facets','/rules','/search-experience','/resultTemplate'],anlytics:['/dashboard','/userEngagement','/searchInsights','/experiments','/resultInsights'],manage:['/settings','/credentials-list','/actions','/team-management','/smallTalk','/pricing','/usageLog','/invoices','/generalSettings']};
   public dockersList: Array<any> = [];
