@@ -12,7 +12,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link topic-guide-tab" data-toggle="pill" (click)="triggerFaq();closeSearch();closeFaqSearch()" href="#faq">
-            <i class="si-topic-guide"></i>
+            <i class="si-topic-guide-1"></i>
             <span>{{'useronboarding.Topic_Guide' | translate}}</span>
           </a>
         </li>
@@ -121,7 +121,7 @@
         <div id="faq" class="tab-pane fade">
           <div class="bread-cum-search faq-bread-cum">
             <div class="bread-cum-list">
-                <div class="first-title"  (click)="supportParentfaq=true;closeFaqSearch()">Contextual FAQs</div>
+                <div class="first-title"  (click)="supportParentfaq=true;closeFaqSearch()">Topic Guide</div>
                 <i class="si-carrotup" *ngIf="!supportParentfaq"></i>
                 <div class="secondary-title" *ngIf="!supportParentfaq">{{breadcrumbNameFaq}}</div>
             </div>

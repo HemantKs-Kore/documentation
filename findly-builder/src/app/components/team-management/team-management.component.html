@@ -8,8 +8,9 @@
             <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
             <div class="title col-4 p-0" *ngIf="!(selcectionObj && selcectionObj.selectedCount)">{{'teams.team'|
                 translate}}
-                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' (click)="openUserMetaTagsSlider()">
-                    <i class="si-topic-guide"></i>
+                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+                    <i class="si-topic-guide-1"></i>
                 </span>
             </div>
             <div class="title col-4 p-0" *ngIf="selcectionObj && selcectionObj.selectedCount">

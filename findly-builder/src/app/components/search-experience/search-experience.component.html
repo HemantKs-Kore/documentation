@@ -1,8 +1,9 @@
 <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
 <div class="search-experience-wrapper">
     <div class="header-title">{{'searchexperience.component_title' | translate}}
-        <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' (click)="openUserMetaTagsSlider()">
-            <i class="si-topic-guide"></i>
+        <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+            <i class="si-topic-guide-1"></i>
         </span>
     </div>
     <div class="tabs-sec" (click)="checkColorPallets()">
