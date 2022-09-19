@@ -1049,7 +1049,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{if hideSearchIcon}}\
               style="position: absolute; bottom: 0px; color:#8a959f;">\
             {{else}}\
-              style="position: absolute; bottom: 0px; color:#8a959f; padding-left:37px!important; background : ${searchConfig.searchBarFillColor} !important;"> \
+              style="position: absolute; bottom: 0px; color:#8a959f; padding-left:43px!important; background : ${searchConfig.searchBarFillColor} !important;"> \
             {{/if}}\
             {{/if}}\
             <input autocomplete="off" id="search" name="search"\
@@ -1061,7 +1061,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{if hideSearchIcon}}\
               style="position: absolute; bottom: 0px;  \
             {{else}}\
-              style="position: absolute; bottom: 0px; padding-left:36px!important; border : solid 1px ${searchConfig.searchBarBorderColor} !important; background : ${searchConfig.searchBarFillColor} !important; color :  ${searchConfig.searchBarPlaceholderTextColor} !important; \
+              style="position: absolute; bottom: 0px; padding-left:42px!important; border : solid 1px ${searchConfig.searchBarBorderColor} !important; background : ${searchConfig.searchBarFillColor} !important; color :  ${searchConfig.searchBarPlaceholderTextColor} !important; \
               {{if searchConfig.autocompleteOpt == true}}\
               background : transparent !important; \
               {{else}}\
@@ -5639,7 +5639,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.parentEvent(responseObject);
           setTimeout(function () {
             $('.query_analytics_content').css('top', event.pageY - 50);
-            $('.query_analytics_content').css('left', event.pageX - 178 - event.offsetX);
+            $('.query_analytics_content').css('left', event.pageX - 268 - event.offsetX);
             $(document).on('click', function (event) {
               if (!($(event.target).closest('.query_analytics_content').length)) {
                 $('.query_analytics_content').hide();
@@ -15631,6 +15631,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.sys_content_type = obj.sys_content_type;
           item.contentId = obj.contentId;
           //connectors fields start//
+          if (obj[mapping.icon]) {
+            item.icon = obj[mapping.icon];
+          }
           if (obj[mapping.chips]) {
             item.chips = obj[mapping.chips];
           }
@@ -15639,6 +15642,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if (obj[mapping.textField2]) {
             item.textField2 = obj[mapping.textField2];
+          }
+          if(!obj.icon) {
+            obj.icon = item.icon||'';
           }
           if(!obj.chips) {
             obj.chips = item.chips||'';
@@ -18956,7 +18962,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.parentEvent(responseObject);
             setTimeout(function () {
               $('.query_analytics_content').css('top', event.pageY - 50);
-              $('.query_analytics_content').css('left', event.pageX - 200 - event.offsetX);
+              $('.query_analytics_content').css('left', event.pageX - 290 - event.offsetX);
               $(document).on('click', function (event) {
                 if (!($(event.target).closest('.query_analytics_content').length)) {
                   $('.query_analytics_content').hide();

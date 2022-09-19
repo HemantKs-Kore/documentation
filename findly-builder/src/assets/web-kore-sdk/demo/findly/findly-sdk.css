@@ -758,7 +758,7 @@ body {
 .searchAssist-kore-chat-window.search-container.conversation #searchChatContainer .messageBubble .userMessage .query-analytics-control-container {
     position: absolute;
     display: block;
-    bottom: -22px;
+    bottom: -34px;
     right: 0;
     color: var(--sdk-dusty-gray-analystics-color);
     font-weight: normal;
@@ -1958,7 +1958,7 @@ body {
     cursor: pointer;
     width: 100%;
     position: relative;
-    padding: 0 20px;
+    padding: 0 4px;
     margin: 5px 0px;
 }
 
@@ -1976,7 +1976,7 @@ body {
 }
 
 .searchAssist-kore-chat-window .search-recent-column .recentSearch.tile_with_header .recentText {
-    padding: 6px 35px 6px 30px;
+    padding: 7px 25px 7px 38px;
     cursor: pointer;
     box-sizing: border-box;
     display: block;

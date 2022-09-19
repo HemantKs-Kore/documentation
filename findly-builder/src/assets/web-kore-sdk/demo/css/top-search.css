@@ -976,7 +976,7 @@ body.showFullResults.top-down .top-down-wrapper{
   width: 800px;
   margin: 0 auto;
   padding-left: 36px;
-  padding-right: 30px;
+  padding-right: 14px;
   height: 34px;
   padding-bottom: 3px;
 }
@@ -1348,7 +1348,7 @@ sdk-top-down-interface .templates-data .tile_with_header.recentText{
 }
 
 .topdown-search-main-container .search-input-box .frequently_searched_box .freq-data-p{
-  padding: 15px 26px;
+  padding: 15px 9px;
   background: #fff;
 }
 
@@ -2374,7 +2374,7 @@ body.top-down .top-down-search-background-div .top-down-wrapper{
   }
 .top-down-search-background-div .search-bar .widget-icon{
   bottom: 8px;
-  left: 12px;
+  left: 22px;
 }
 
 
@@ -3022,7 +3022,7 @@ display: none !important;
 }
 
 .siemens-list-template .icon-with-title .siemens-icon-blue {
-  content: url(../images/icon1-blue.svg);
+  height: 16px;
   display: block;
 }
 

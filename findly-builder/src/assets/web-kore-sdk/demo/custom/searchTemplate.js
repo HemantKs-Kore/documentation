@@ -881,11 +881,13 @@
           {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
             <div class="siemens-list-template">\
               <div class="icon-with-title">\
-                <img src="assets/web-kore-sdk/demo/images/icon1-blue.svg" class="siemens-icon-blue">\
+                <img src="${data.icon}" class="siemens-icon-blue">\
                 <span class="name-title">{{html helpers.convertMDtoHTML(data.heading)}}</span>\
+                {{if isClickable == true}}\
                 <span class="redirecting-link click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
                   <img class="siemens-link-icon" src="assets/web-kore-sdk/demo/images/externallink-gray.svg">\
                 </span>\
+                {{/if}}\
               </div>\
               <div class="info-test-content four-line-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
               <div class="author-updates-sec">\
