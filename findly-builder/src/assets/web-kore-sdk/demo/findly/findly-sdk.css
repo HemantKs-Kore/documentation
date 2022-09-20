@@ -695,6 +695,8 @@ body {
 
 .searchAssist-kore-chat-window.search-container.conversation #searchChatContainer .messageBubble .userMessage .search-agin-tag img {
     margin-right: 8px;
+    width: 10.11px;
+    height: 10.11px;
 }
 
 .searchAssist-kore-chat-window.search-container.conversation #searchChatContainer .messageBubble .userMessage .search-agin-tag .text-search {
@@ -11774,6 +11776,7 @@ a.tile-heading {
 .feedback-top-down-full{
     display: none;
 }
+
 /* Snipet css */
 .snippet-margin{
     width: 94% !important;
@@ -11786,6 +11789,9 @@ a.tile-heading {
     border-radius: 4px;
     padding: 20px;
     margin-bottom: 10px;
+}
+.snippet-template .position-relative{
+    position: relative;
 }
 .snippet-template .title .title-text {
     font-weight: 500;

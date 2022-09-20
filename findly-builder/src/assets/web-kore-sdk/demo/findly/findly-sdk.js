@@ -1325,7 +1325,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
      <!-- {{if taskPrefix === "SUGGESTED"}}\
         <img class="live-search-close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
       {{/if}}\-->\
-      {{if snippetData?.title}}\
+      {{if snippetData && snippetData?.title}}\
       <div class="snippet-template snippet-margin">\
         <div class="title position-relative"><div class="title-text">{{html snippetData?.title}}</div><div class="title-beta"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzciIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAzNyAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeT0iMiIgd2lkdGg9IjM1IiBoZWlnaHQ9IjE2IiBmaWxsPSIjRDdEOEQ5Ii8+CjxyZWN0IHg9IjIiIHdpZHRoPSIzNSIgaGVpZ2h0PSIxNiIgZmlsbD0iIzc3N0E4MCIvPgo8cGF0aCBkPSJNNy43OTkwMSAxMlY0LjcyNzI3SDEwLjQ2MjRDMTAuOTc4NSA0LjcyNzI3IDExLjQwNTggNC44MTI1IDExLjc0NDMgNC45ODI5NUMxMi4wODI5IDUuMTUxMDQgMTIuMzM2MiA1LjM3OTUgMTIuNTA0MyA1LjY2ODMyQzEyLjY3MjMgNS45NTQ3OCAxMi43NTY0IDYuMjc3OTQgMTIuNzU2NCA2LjYzNzc4QzEyLjc1NjQgNi45NDA4MSAxMi43MDA4IDcuMTk2NSAxMi41ODk1IDcuNDA0ODNDMTIuNDc4MiA3LjYxMDggMTIuMzI5MSA3Ljc3NjUxIDEyLjE0MiA3LjkwMTk5QzExLjk1NzQgOC4wMjUwOSAxMS43NTM4IDguMTE1MDYgMTEuNTMxMiA4LjE3MTg4VjguMjQyOUMxMS43NzI3IDguMjU0NzMgMTIuMDA4MyA4LjMzMjg2IDEyLjIzNzkgOC40NzcyN0MxMi40Njk5IDguNjE5MzIgMTIuNjYxNyA4LjgyMTczIDEyLjgxMzIgOS4wODQ1MkMxMi45NjQ3IDkuMzQ3MyAxMy4wNDA1IDkuNjY2OSAxMy4wNDA1IDEwLjA0MzNDMTMuMDQwNSAxMC40MTUgMTIuOTUyOSAxMC43NDg4IDEyLjc3NzcgMTEuMDQ0N0MxMi42MDQ5IDExLjMzODMgMTIuMzM3NCAxMS41NzE1IDExLjk3NTEgMTEuNzQ0M0MxMS42MTI5IDExLjkxNDggMTEuMTUwMSAxMiAxMC41ODY2IDEySDcuNzk5MDFaTTguODk2MzEgMTEuMDU4OUgxMC40ODAxQzExLjAwNTcgMTEuMDU4OSAxMS4zODIxIDEwLjk1NzEgMTEuNjA5NCAxMC43NTM2QzExLjgzNjYgMTAuNTUgMTEuOTUwMyAxMC4yOTU1IDExLjk1MDMgOS45OTAwNkMxMS45NTAzIDkuNzYwNDIgMTEuODkyMyA5LjU0OTcyIDExLjc3NjMgOS4zNTc5NUMxMS42NjAzIDkuMTY2MTkgMTEuNDk0NiA5LjAxMzQ5IDExLjI3OTEgOC44OTk4NkMxMS4wNjYxIDguNzg2MjIgMTAuODEyNyA4LjcyOTQgMTAuNTE5MiA4LjcyOTRIOC44OTYzMVYxMS4wNTg5Wk04Ljg5NjMxIDcuODczNThIMTAuMzY2NUMxMC42MTI3IDcuODczNTggMTAuODM0IDcuODI2MjMgMTEuMDMwNSA3LjczMTUzQzExLjIyOTQgNy42MzY4NCAxMS4zODY4IDcuNTA0MjYgMTEuNTAyOCA3LjMzMzgxQzExLjYyMTIgNy4xNjA5OCAxMS42ODA0IDYuOTU3MzkgMTEuNjgwNCA2LjcyMzAxQzExLjY4MDQgNi40MjIzNSAxMS41NzUgNi4xNzAyMiAxMS4zNjQzIDUuOTY2NjJDMTEuMTUzNiA1Ljc2MzAyIDEwLjgzMDUgNS42NjEyMiAxMC4zOTQ5IDUuNjYxMjJIOC44OTYzMVY3Ljg3MzU4Wk0xNC4zNDIgMTJWNC43MjcyN0gxOC45MDE2VjUuNjcxODhIMTUuNDM5M1Y3Ljg4Nzc4SDE4LjY2MzdWOC44Mjg4NEgxNS40MzkzVjExLjA1NTRIMTguOTQ0MlYxMkgxNC4zNDJaTTIwLjAwODcgNS42NzE4OFY0LjcyNzI3SDI1LjYzNzNWNS42NzE4OEgyMy4zNjgxVjEySDIyLjI3NDNWNS42NzE4OEgyMC4wMDg3Wk0yNi42MzYgMTJIMjUuNDcxMkwyOC4wODg0IDQuNzI3MjdIMjkuMzU2MkwzMS45NzM0IDEySDMwLjgwODZMMjguNzUyNSA2LjA0ODNIMjguNjk1N0wyNi42MzYgMTJaTTI2LjgzMTMgOS4xNTE5OUgzMC42MDk3VjEwLjA3NTNIMjYuODMxM1Y5LjE1MTk5WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTMxIDIyTDM3IDE2SDMxVjIyWiIgZmlsbD0iIzQ0NDc0QyIvPgo8L3N2Zz4K"/></div></div>\
         <div class="desc-text">{{html snippetData?.answer}}</div>\
@@ -1336,7 +1336,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           </div>\
       </div>\
       {{/if}}\
-      <div class="finalResults {{if snippetData?.title}}snippet-margin{{/if}}">\
+      <div class="finalResults {{if snippetData && snippetData?.title}}snippet-margin{{/if}}">\
       {{if taskPrefix === "SUGGESTED"}}\
         <span class="live-search-close-icon">See All Results</span>\
       {{/if}}\
@@ -5414,7 +5414,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (!resultName) {
         resultName = $(event.currentTarget).find('[title]').attr('title');
       }
-      if (resultType == "web" || resultType == "faq" || resultType == "data" || resultType == "file") {
+      if (resultType !="task") {
+        // if (resultType == "web" || resultType == "faq" || resultType == "data" || resultType == "file") {
         var experimentObjectProps = Object.getOwnPropertyNames(_self.vars.experimentsObject);
         payload.answerInfo = {};
 
@@ -9043,7 +9044,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   
           _self.initKorePicker(findlyConfig);
         });
-      },500);
+      },1000);
       
     }
     var searchConfigurationCopy = {};
@@ -20492,7 +20493,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.extractTime = function (timeStamp) {
       if (timeStamp) {
         var d = new Date(timeStamp);
-        // var hours_min = d.getHours() + ":" + d.getMinutes() + ", " + d.toDateString();
         var hours_min = d.getHours() + ":" + d.getMinutes();
         hours_min = moment(timeStamp).format('LT');
         console.log(hours_min)
