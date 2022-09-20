@@ -885,7 +885,7 @@ body.showFullResults.top-down .top-down-wrapper{
   color: var(--sdk-shark-black-color);
 }
 .sdk-top-down-interface .kr-sg-radiobutton .radio-custom:hover:not([disabled]):checked + .radio-custom-label::before {
-  border: solid 1px var(--sdk-border--dusty-gray-color);
+  border: 1px solid var(--sdk-primary-blue-color);
 }
 .sdk-top-down-interface .kr-sg-radiobutton .radio-custom:hover:not([disabled]) + .radio-custom-label {
   color: var(--sdk-primary-blue-color);
@@ -976,7 +976,7 @@ body.showFullResults.top-down .top-down-wrapper{
   width: 800px;
   margin: 0 auto;
   padding-left: 36px;
-  padding-right: 30px;
+  padding-right: 14px;
   height: 34px;
   padding-bottom: 3px;
 }
@@ -1018,8 +1018,12 @@ body.showFullResults.top-down .top-down-wrapper{
   z-index: 9;
   /* margin: 0 auto; */
   display: none;
-  overflow: scroll;
+  overflow: hidden;
   max-height: calc(100vh - 305px);
+}
+.topdown-search-main-container .search-input-box .live_search_result_box .scroll-data-info{
+  max-height: calc(100vh - 305px);
+  position: relative;
 }
 .topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box {
   border-bottom: 1px solid var(--sdk-border-porcelain-color);
@@ -1096,20 +1100,33 @@ body.showFullResults.top-down .top-down-wrapper{
 .topdown-search-main-container .all-result-container .full-results-data-container .filters-sec {
   float: left;
   width: 230px;
-  padding: 0px 10px;
-  border-right: 1px solid var(--sdk-border-iron-color);
+  padding: 0px 0px;
+  /* border-right: 1px solid var(--sdk-border-iron-color); */
   flex-shrink: 0;
   margin-top: 70px;
   /* margin-top: 80px; */
-  max-height: calc(100vh - 248px);
+  /* max-height: calc(100vh - 248px); */
   overflow: auto;
   position: relative;
+}
+.topdown-search-main-container .all-result-container .full-results-data-container .filters-sec .filters-inner-content{
+  position: relative;
+  border-right: 1px solid var(--sdk-border-iron-color);
+  max-height: calc(100vh - 248px);
+  padding: 0px 10px;
+}
+.topdown-search-main-container .all-result-container .full-results-data-container .filters-sec .filters-inner-content .heading-sec .disable{
+  pointer-events: none;
+}
+.topdown-search-main-container .all-result-container .full-results-data-container .filters-sec.float-right .filters-inner-content{
+  border-left: 1px solid var(--sdk-border-iron-color); 
+  padding: 0px 10px;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .filters-sec.float-right {
   float: right;
   width: 230px;
-  padding: 0px 10px;
-  border-left: 1px solid var(--sdk-border-iron-color);
+  padding: 0px 0px;
+  /* border-left: 1px solid var(--sdk-border-iron-color); */
   border-right: none !important;
   flex-shrink: 0;
   margin-top: 80px;
@@ -1238,7 +1255,6 @@ sdk-top-down-interface .templates-data .tile_with_header.recentText{
   width: auto;
   height: auto;
 }
-
 .sdk-top-down-interface .templates-data .main-title{
   font-style: normal;
   font-weight: 500;
@@ -1348,7 +1364,7 @@ sdk-top-down-interface .templates-data .tile_with_header.recentText{
 }
 
 .topdown-search-main-container .search-input-box .frequently_searched_box .freq-data-p{
-  padding: 15px 26px;
+  padding: 15px 9px;
   background: #fff;
 }
 
@@ -1359,6 +1375,8 @@ sdk-top-down-interface .templates-data .tile_with_header.recentText{
   .topdown-search-main-container .search-input-box .live_search_result_box .data-container {
     padding: 10px 26px 0px 37px;
     background: #fff;
+    display: inline-block;
+    width: 100%;
   }
 
 
@@ -2000,10 +2018,12 @@ float: right;
   /* facets top alignment style end*/
 
 .topdown-search-main-container .content-data-sec .structured-data-header{
-    color: var(--sdk-gray-color);
+    /* color: var(--sdk-gray-color); */
+    color: #202124 !important;
     font-weight: 600;
-    font-size: 12px;
-    margin-bottom: 12px;
+    font-size: 14px;
+    margin-bottom: 8px;
+    line-height: 17px;
     display: block;
 }
 
@@ -2374,7 +2394,7 @@ body.top-down .top-down-search-background-div .top-down-wrapper{
   }
 .top-down-search-background-div .search-bar .widget-icon{
   bottom: 8px;
-  left: 12px;
+  left: 22px;
 }
 
 
@@ -3022,7 +3042,7 @@ display: none !important;
 }
 
 .siemens-list-template .icon-with-title .siemens-icon-blue {
-  content: url(../images/icon1-blue.svg);
+  height: 16px;
   display: block;
 }
 
@@ -3063,7 +3083,6 @@ display: none !important;
   margin-bottom: 10px;
   position: relative;
 }
-
 .siemens-list-template .icon-with-title .name-title {
   font-weight: 500;
   font-size: 14px;
@@ -3072,14 +3091,12 @@ display: none !important;
   padding-left: 8px;
   padding-right: 20px;
 }
-
 .siemens-list-template .icon-with-title .redirecting-link {
   position: absolute;
   right: 0;
   cursor: pointer;
   top: 3px;
 }
-
 .siemens-list-template .info-test-content {
   font-weight: normal;
   font-size: 12px;
@@ -3088,26 +3105,22 @@ display: none !important;
   margin-bottom: 8px;
   word-break: break-word;
 }
-
 .siemens-list-template .author-updates-sec {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
-
 .siemens-list-template .author-updates-sec .author-names {
   display: flex;
   align-items: center;
   padding-right: 28px;
 }
-
 .siemens-list-template .author-updates-sec .author-names .author-title {
   font-weight: 600;
   font-size: 10px;
   line-height: 12px;
   color: #9AA0A6;
 }
-
 .siemens-list-template .author-updates-sec .author-names .author_name {
   font-weight: normal;
   font-size: 10px;
@@ -3115,19 +3128,16 @@ display: none !important;
   color: #5F6368;
   padding-left: 8px;
 }
-
 .siemens-list-template .author-updates-sec .updates-on {
   display: flex;
   align-items: center;
 }
-
 .siemens-list-template .author-updates-sec .updates-on .title {
   font-weight: 600;
   font-size: 10px;
   line-height: 12px;
   color: #9AA0A6;
 }
-
 .siemens-list-template .author-updates-sec .updates-on .time-updates {
   font-weight: normal;
   font-size: 10px;
@@ -3135,7 +3145,6 @@ display: none !important;
   color: #5F6368;
   padding-left: 8px;
 }
-
 .siemens-list-template .button-chips {
   display: flex;
   align-items: center;
