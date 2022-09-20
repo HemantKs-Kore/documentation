@@ -18,14 +18,13 @@ export class AdvanceOpts {
     maxUrlLimit: number;
     repeatInterval: String = "";
     crawlEverything: boolean = true;
-    allowedOpt: boolean = true;
+    allowedOpt: boolean = false;
     allowedURLs: Array<Object> = [];
     blockedOpt: boolean = false;
     blockedURLs: Array<Object> = [];
 }
 
 export class AuthorizationProfle {
-    authorizationEnabled: Boolean = true;
     sso_type: String = "";
     formFields: any = [];
     basicFields: any = [

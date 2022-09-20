@@ -951,7 +951,12 @@
         "redirection_to":"Redirection to",
         "status_code":"Status Code",
         "textbox":"Textbox",
-        "password":"Password"
+        "password":"Password",
+        "is":"Equals to",
+        "isNot":"Not equals to",
+        "beginsWith":"Begins with",
+        "endsWith":"Ends with",
+        "doesNotContains":"Doesn't contain"
     },
     "resultTemplate": {
         "resultTemplates": "Result Templates",
