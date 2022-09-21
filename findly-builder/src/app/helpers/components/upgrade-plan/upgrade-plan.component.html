@@ -403,17 +403,48 @@
   <perfect-scrollbar>
       <div class="scroll-content">       
         <div class="kr-sg-input-text mb-3">
-          <div class="label-text">Name</div>
+          <div class="label-text">Name<sup class="field-mandatory">*</sup></div>
           <input type="text" placeholder="Name" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.name">
         </div>
         <div class="kr-sg-input-text mb-3">
-          <div class="label-text">Email</div>
+          <div class="label-text">Email<sup class="field-mandatory">*</sup></div>
           <input type="text" placeholder="Email" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.email">
         </div>
         <div class="kr-sg-input-text mb-3">
           <div class="label-text">Contact Number</div>
-          <input type="text" placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.phone">
+          <input type='text' placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.phone">
         </div>
+        <div class="kr-sg-input-text mb-3">
+          <div class="label-text">Company Name</div>
+          <input type="text" placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.company">
+        </div>
+        <!-- Country-->
+        <div class="kr-sg-dropdowns col-13 pl-0 mb-3" ngbDropdown>
+          <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input" id="counryBasic" data-toggle="dropdown"
+              ngbDropdownToggle (click)="clearcontent()">
+              {{enterpriseForm.country?enterpriseForm.country:"Choose Country"}}
+            </button>
+            <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+              ngbDropdownMenu>
+              <li class="search-box">
+                <input id="searchBoxId" autocomplete="off" type="text" [(ngModel)]="search_country"
+                  placeholder="Search" class="seach-input" autofocus />
+              </li>
+              <perfect-scrollbar class="scroll-search-field h-178">
+                <ng-container>
+                  <li ngbDropdownItem
+                    *ngFor="let country of countriesList | filter : [search_country, 'name']"
+                    (click)="enterpriseForm.country = country.name"
+                    [ngClass]="{'highlight':enterpriseForm.country == country.name}">
+                    {{ country.name }}
+                  </li>
+                </ng-container>
+              </perfect-scrollbar>
+            </ul>
+          </div>
+        </div>
+        <!-- Country-->
         <div class="kr-sg-input-text-area mb-3">
           <div class="label-text">Message</div>
           <textarea placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.message"></textarea>

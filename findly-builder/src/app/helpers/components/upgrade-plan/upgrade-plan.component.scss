@@ -1911,7 +1911,7 @@
     &.contact-us-modal_{
         .modal-dialog{
             width: 500px !important;
-            height: 500px !important;
+            height: 590px !important;
             .modal-content{
                 .right-sec-form{
                     width: 100% !important;
@@ -1934,3 +1934,15 @@
         }
     }
 }
+.highlight {
+    font-weight: bold;
+  }
+
+  
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none; 
+}
+
