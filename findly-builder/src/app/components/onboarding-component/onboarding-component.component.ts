@@ -848,6 +848,8 @@ mediaObj = {};
   // this.topicGuideVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(mediaObj.url);
   // mediaObj.title=this.mediaObj.title   
    this.mediaObj = payload;
+   this.mediaObj.title=payload.title;
+   this.mediaObj.description=payload.description;
    $('#topicGuideVideoModal').modal('show');   
    this.mediaObj.loadingMedia = true;
    this.showLoader1 = true;
