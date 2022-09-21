@@ -839,14 +839,19 @@ mediaObj = {};
       this.openMediaModal(data.payload);
     }
   }
- openMediaModal = function(mediaObj) {
-  var med =  mediaObj || {};
-   mediaObj = med;
+ openMediaModal = function(payload) {  
+  // var med =  mediaObj || {};
+  // mediaObj = med;
+  // $('#topicGuideVideoModal').modal('show');   
+  // mediaObj.loadingMedia = true;
+  // this.showLoader1 = true;
+  // this.topicGuideVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(mediaObj.url);
+  // mediaObj.title=this.mediaObj.title   
+   this.mediaObj = payload;
    $('#topicGuideVideoModal').modal('show');   
-   mediaObj.loadingMedia = true;
+   this.mediaObj.loadingMedia = true;
    this.showLoader1 = true;
-   this.topicGuideVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(mediaObj.url);
-   mediaObj.title=this.mediaObj.title   
+   this.topicGuideVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(payload.url);
 };
 
   triggerFaq() {
@@ -873,7 +878,7 @@ mediaObj = {};
     setTimeout(() => {
       this.showLoader = false;
       this.showLoader1 = false;
-    }, 1500)
+    }, 2500)
 }
   triggerChild(data) {  
     this.supportParentData = false
@@ -906,8 +911,19 @@ mediaObj = {};
 }
 closeMediaModal(){
   this.mediaObj = {};
-  $('#topicGuideVideoModal').modal('hide');
+  // $('.pause-icon').click(); 
+  // $('.rounded-box').click();
+   
+  // $('.play').click();  
+  // $('.rounded-box').ariaLabel = 'Pause'
+  // let $frame=$('#topicGuideVideoModal');
+  // let vidsrc = $frame.attr('src');
+  // $frame.attr('src',''); 
+  
+    $('iframe').attr('src', $('iframe').attr('src'));
+  $('#topicGuideVideoModal').modal('hide');  
 };
+
 onMediaLoadedLoaded(){
   setTimeout(function(){
    this.mediaObj.loadingMedia = false;

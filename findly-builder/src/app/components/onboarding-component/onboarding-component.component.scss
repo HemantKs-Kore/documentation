@@ -1095,12 +1095,13 @@ iframe{
                     justify-content: center;
                     padding: 0;
                     .videoContainer{
-                        width: 100%;
+                        // width: 100%;
+                        width: 70%;
                         position: relative;
                         background-color: #fff;
-                        padding: 0px;
+                        padding: 15px 15px;
                         border-radius: 6px;
-                        height: 500px;
+                        height: 550px;
                         .closeVideoModal{
                             position: absolute;
                             width: 36px;
@@ -1117,7 +1118,7 @@ iframe{
                         }
                         .details-section {
                             display: flex;
-                            height: 100%;
+                            height: 88%;
                             .video {
                                 width: 100%;
                                 height: 100%;
@@ -1126,6 +1127,13 @@ iframe{
                                     border-radius: 6px;
                                     background: rgba(31, 32, 36, 0.2) !important;
                                     border: 0;
+                                    #player{
+                                        .vp-player-ui-overlays{
+                                            .vp-title{
+                                                display: none !important;
+                                            }
+                                        }
+                                    }
                                 }
                             }
                             .details {
@@ -1173,13 +1181,15 @@ iframe{
                             h4{
                                 font-weight: 700;
                                 font-size: 20px;
-                                line-height: 24px;
-                                margin: 18px 0 5px 0;
+                                line-height: 18px;
+                                padding: 16px 0 0px 0;
+                                font-family: "Inter" !important;
+                                margin-bottom: 5px;
                             }
                             p{
                                 font-weight: 500;
                                 font-size: 16px;
-                                line-height: 19px;
+                                line-height: inherit;
                                 color: #5F6368;
                                 margin: 0;
                             }
@@ -1231,3 +1241,17 @@ iframe{
     left: 15px;
     font-size: 12px;
 } 
+
+
+// ::ng-deep iframe{
+//     border-radius: 6px;
+//     background: rgba(31, 32, 36, 0.2) !important;
+//     border: 0;
+//     #player{
+//         .vp-player-ui-overlays{
+//             .vp-title{
+//                 display: none !important;
+//             }
+//         }
+//     }
+// }
