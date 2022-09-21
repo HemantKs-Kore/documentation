@@ -26,6 +26,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   contactusSuccessModelPopRef: any;
   changePlanModelPopRef: any;
   confirmUpgradeModelPopRef: any;
+  validations:boolean = false;
   search_country = '';
    countriesList = [
   {
@@ -2031,6 +2032,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   //submitEnterpriseRequest method
   submitEnterpriseRequest() {
     this.btnLoader = true;
+    this.validations = true;
     this.selectedApp = this.workflowService.selectedApp();
     const queryParams = { "streamId": this.selectedApp?._id };
     const enterpriseRequest = this.service.invoke('post.enterpriseRequest', queryParams, this.enterpriseForm);
