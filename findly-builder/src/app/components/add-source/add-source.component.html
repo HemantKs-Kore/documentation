@@ -244,7 +244,7 @@
             <div class="crawl-form-title" *ngIf="!resourceIDToOpen"></div>
             <div class="kr-sg-input-text mb-4"
               *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='web')|| (showSourceTitle)">
-              <div class="label-text">Source Title</div>
+              <div class="label-text">Source Title<sup class="field-mandatory">*</sup></div>
               <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput" name="sourceTitle"
                 placeholder="Enter Title" [(ngModel)]="newSourceObj.name" (change)="inputChanged('title')"
                 class="input-text" required>
@@ -254,7 +254,7 @@
             <div class="kr-sg-input-text-area mb-3 " *ngIf="(selectedSourceType.resourceType === 'web') || showDesc">
               <div class="label-text">Description</div>
               <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc" maxlength="250"
-                placeholder="Enter Description" class="input-text"></textarea>
+                placeholder="Enter Description" class="input-text pt-2"></textarea>
             </div>
             <div *ngIf="(selectedSourceType.resourceType === 'web')">
               <div class="kr-sg-input-text mb-4">
@@ -465,7 +465,7 @@
                 <div id="fromurl" class="tab-pane fade browserbyurl">
                   <div class="input-url-block">
                     <div class="kr-sg-input-text">
-                      <div class="label-text">Enter URL</div>
+                      <div class="label-text">Enter URL<sup class="field-mandatory">*</sup></div>
                       <input type="text" id="extractUrl" placeholder="http(s)://" class="input-text" autocomplete="off"
                         name="url" (keyup)="urlChange()" (change)="urlChange();inputChanged('extractURL')"
                         [disabled]="fileObj.fileId || fileObj.fileName" placeholder="http(s)://"
