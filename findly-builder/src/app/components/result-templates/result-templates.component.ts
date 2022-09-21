@@ -135,6 +135,7 @@ export class ResultTemplatesComponent implements OnInit {
   filterFacets: any = [{ name: 'Left Aligned', type: 'left' }, { name: 'Right Aligned', type: 'right' }, { name: 'Top Aligned', type: 'top' }]
   @ViewChild('customModal') customModal: KRModalComponent;
   @ViewChild('templateModal') templateModal: KRModalComponent;
+
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
