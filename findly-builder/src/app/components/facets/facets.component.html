@@ -33,7 +33,12 @@
             </div>
         </div>
         <div class="header-sec m-0" [ngClass]="{ 'd-none' : selcectionObj.selectedCount}">
-            <div class="title">{{'facets.facets'| translate}}</div>
+            <div class="title">{{'facets.facets'| translate}}
+                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+                    <i class="si-topic-guide-1"></i>
+                </span>
+            </div>
             <div class="d-flex align-items-center">
                 <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
                     <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search"

@@ -7,6 +7,7 @@ import { Moment } from 'moment';
 import * as moment from 'moment-timezone';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { SideBarService } from '@kore.services/header.service';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 declare const $: any;
 
 @Component({
@@ -64,7 +65,7 @@ export class SearchInsightsComponent implements OnInit {
   @ViewChild('viewQueries') viewQueries: KRModalComponent;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
-    private notificationService: NotificationService, public headerService: SideBarService) { }
+    private notificationService: NotificationService, public headerService: SideBarService,private appSelectionService: AppSelectionService) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -452,5 +453,8 @@ export class SearchInsightsComponent implements OnInit {
   closeModalPopup() {
     this.viewQueriesRef.close();
     this.getSearchQueriesResults = [];
+  }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
   }
 }

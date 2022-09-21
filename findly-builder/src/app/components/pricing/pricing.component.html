@@ -7,7 +7,12 @@
 <!---show current plan and usage-->
 <div class="pricing-container-wrapper" *ngIf="(currentSubscriptionPlan?.subscription)">
   <div class="title-header d-flex align-items-center justify-content-between">
-    <div>{{"plan.plan_head"| translate}}</div>
+    <div>{{"plan.plan_head"| translate}}
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+        <i class="si-topic-guide-1"></i>
+      </span>
+    </div>
     <div class="btns-block">
     <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)==='standard'&&(currentSubscriptionPlan?.subscription?.changesScheduledFor==='none')" (click)="cancelSubscriptionModal('open')"><i class="si-minus-circle-o"></i>{{"plan.cancel_subscription"| translate}}</button>
     <button class="kr-sg-button-primary btn_lg" [ngClass]="{'d-none':['unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}" (click)="selectModal('choose_plan')"><i class="si-publish si-icon"></i>{{"plan.upgrade_plan"| translate}}</button>

@@ -1213,5 +1213,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.field_name='';
     }
     }
+    openUserMetaTagsSlider() {
+      this.appSelectionService.topicGuideShow.next();
+    }
 }
 
