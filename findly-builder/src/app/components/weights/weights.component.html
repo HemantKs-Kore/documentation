@@ -33,7 +33,7 @@
                     </div>
                     <div class="content-body" *ngFor="let weightModal of weights; let i = index">
                         <div class="col-2 name text-truncate" ngbTooltip="{{weightModal.name}}">
-                            <div>
+                            <div class="text-truncate">
                                 <img class="pr-1"
                                     *ngIf="weightModal.showFieldWarning && (weightModal.showFieldWarning !== 'false')"
                                     src="assets/icons/info-blue.svg" placement="left"
