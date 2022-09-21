@@ -811,7 +811,7 @@ topicGuideObj = {
   enableIframe:false,
   selectedContent:''
 };
-mediaObj = {};
+mediaObj:any = {};
 
   constructor( private appSelectionService: AppSelectionService, private notificationService: NotificationService, private service: ServiceInvokerService,public router: Router,public sanitizer: DomSanitizer) {}
 
