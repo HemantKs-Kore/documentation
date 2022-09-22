@@ -582,12 +582,24 @@ export class AppHeaderComponent implements OnInit {
         }
       }
     }
+    this.resetPreviousState(menu)
     if (!skipRouterLink) {
       this.router.navigate([menu], { skipLocationChange: true });
     }
+    
     this.showMenu.emit(this.showMainMenu)
     this.settingMenu.emit(this.menuFlag)
     this.showSourceMenu.emit(this.sourcesFlag);
+  }
+  resetPreviousState(menu){
+    let prDetails
+    if (localStorage.getItem('krPreviousState')) {
+      prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
+    }
+    if (prDetails) {
+      prDetails.route = menu;
+      localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
+    }
   }
   logoutClick() {
     this.authService.logout();
