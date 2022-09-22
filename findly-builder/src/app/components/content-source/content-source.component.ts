@@ -21,7 +21,7 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-
+import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
 declare var require: any
 const FileSaver = require('file-saver');
 @Component({
@@ -85,6 +85,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   selectedFilter: any = ''
   executionLogStatus = false;
   componentType: string = 'addData';
+  onboardingOpened: boolean = false;
+  currentRouteData: any = "";
   contentTypes = {
     webdomain: 'Web',
     document: 'Doc'
@@ -245,6 +247,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('schedularDataPop') schedularDataPop: KRModalComponent;
+  @ViewChild(OnboardingComponentComponent, { static: true }) onBoardingComponent: OnboardingComponentComponent;
   templateState = new Subject();
   loadingData: boolean = true;
 
@@ -2157,6 +2160,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       if (text > 0) count++;
     }
     return count;
+  }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
   }
 }
 

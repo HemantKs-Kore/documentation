@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { AppSelectionService } from '@kore.services/app.selection.service';
 @Component({
   selector: 'app-general-settings',
   templateUrl: './general-settings.component.html',
@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GeneralSettingsComponent implements OnInit {
   componentType: string = 'addData';
-  constructor() { }
+  constructor(private appSelectionService: AppSelectionService) { }
 
   ngOnInit(): void {
+  }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
   }
 
 }

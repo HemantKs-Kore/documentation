@@ -56,8 +56,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedSourceType: any = null;
   newSourceObj: any = {};
   selectedApp: any = {};
-  statusModalPopRef: any = [];
-  customRecurrenceRef: any = [];
+  statusModalPopRef: any;
+  customRecurrenceRef: any;
+  contentStatusModalRef:any;
   pollingSubscriber: any = null;
   initialValidations: any = {};
   doesntContains = 'Doesn\'t Contains';
@@ -279,7 +280,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     public mixpanel: MixpanelServiceService
   ) { }
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
-  @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
+  @ViewChild('contentStatusModal') contentStatusModal: KRModalComponent;
   @ViewChild('customRecurrence') customRecurrence: KRModalComponent;
   @ViewChild('addManualFaqModalPop') addManualFaqModalPop: KRModalComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -296,9 +297,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       return false;
     }
     this.appSelectionService.getTourConfig();
-    this.selectedApp = this.workflowService.selectedApp();
-    this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.userInfo = this.authService.getUserInfo() || {};
+    this.selectedApp = this.workflowService?.selectedApp();
+    this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
+    this.userInfo = this.authService?.getUserInfo() || {};
     // this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ??  null;
     if (this.workflowService.selectedApp()?.configuredBots[0]) {
       this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
@@ -529,21 +530,21 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
-    this.statusModalPopRef = this.statusModalPop.open();
+    this.statusModalPopRef = this.contentStatusModal.open();
   }
   closeStatusModal() {
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
-    this.importFaqInprogress = false;
-    this.saveEvent.emit();
-    const self = this;
-    if (this.pollingSubscriber) {
-      this.pollingSubscriber.unsubscribe();
-    }
-    this.redirectTo();
-    this.cancleSourceAddition();
-    this.closeCrawlModalPop();
+    // this.importFaqInprogress = false;
+    // this.saveEvent.emit();
+    // const self = this;
+    // if (this.pollingSubscriber) {
+    //   this.pollingSubscriber.unsubscribe();
+    // }
+    // this.redirectTo();
+    // this.cancleSourceAddition();
+    // this.closeCrawlModalPop();
   }
   closeCrawlModal() {
     this.saveEvent.emit();

@@ -10,15 +10,13 @@
               <span>Support</span>
           </a>
         </li>
-        <img src="assets/icons/onboarding/Vector-41.svg">
         <li class="nav-item">
-          <a class="nav-link" data-toggle="pill" (click)="triggerFaq();closeSearch();closeFaqSearch()" href="#faq">
-            <i class="si-faq"></i>
-            <span>FAQs</span>
+          <a class="nav-link topic-guide-tab" id="topicguide"data-toggle="pill" (click)="triggerFaq();closeSearch();closeFaqSearch()" href="#faq">
+            <i class="si-topic-guide-1"></i>
+            <span>{{'useronboarding.Topic_Guide' | translate}}</span>
           </a>
         </li>
-        <img src="assets/icons/onboarding/Vector-41.svg" [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**'}">
-        <li class="nav-item" [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**'}">
+        <li class="nav-item " [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**'}">
           <a class="nav-link" data-toggle="pill" (click)="closeFaqSearch();closeSearch();checkForStatus()" href="#appchecklist">
             <i class="si-list"></i>
             <span>App Checklist</span>
@@ -123,7 +121,7 @@
         <div id="faq" class="tab-pane fade">
           <div class="bread-cum-search faq-bread-cum">
             <div class="bread-cum-list">
-                <div class="first-title"  (click)="supportParentfaq=true;closeFaqSearch()">Contextual FAQs</div>
+                <div class="first-title"  (click)="supportParentfaq=true;closeFaqSearch()">Topic Guide</div>
                 <i class="si-carrotup" *ngIf="!supportParentfaq"></i>
                 <div class="secondary-title" *ngIf="!supportParentfaq">{{breadcrumbNameFaq}}</div>
             </div>
@@ -131,13 +129,13 @@
               <input type="text" placeholder="look for a question" class="input-text" [(ngModel)]="faq_Search">
               <i class="si-close" (click)="closeFaqSearch()"></i>
             </div>
-            <div class="search-icon" *ngIf="!searchOpenFaq" (click)="openFaqSearch()">
+            <!-- <div class="search-icon" *ngIf="!searchOpenFaq" (click)="openFaqSearch()">
               <i class="si-search"></i>
-            </div>
+            </div> -->
           </div>
-          <perfect-scrollbar class="scroll-content-data">
+          <!-- <perfect-scrollbar class="scroll-content-data">
             <div class="data-inner-content">
-              <div class="default-state-faq" *ngIf="supportParentfaq">
+              <div class="default-state-faq" *ngIf="supportParentfaq"> -->
                 <!-- <div class="action-block-data">
                   <div class="dummy-border-left"></div>
                   <div class="img-block">
@@ -152,7 +150,7 @@
                 </div>-->
 
                 <!-- FAQ Parent Template-->
-                <div (click)="triggerChildFaq(faq);closeFaqSearch()" class="action-block-data" *ngFor="let faq of faqData | filter : [faq_Search,'display']">
+                <!-- <div (click)="triggerChildFaq(faq);closeFaqSearch()" class="action-block-data" *ngFor="let faq of faqData | filter : [faq_Search,'display']">
                   <div class="dummy-border-left"></div>
                   <div class="img-block">
                     <img src="assets/icons/onboarding/help.svg">
@@ -165,7 +163,7 @@
                   </div>
                 </div>
               </div>
-              <div id="accordion" *ngIf="!supportParentfaq">
+              <div id="accordion" *ngIf="!supportParentfaq"> -->
                 <!-- <div class="accor-card">
                   <div class="card_header">
                     <div class="card_link collapsed" data-toggle="collapse" href="#collapseOne">
@@ -208,7 +206,7 @@
                     </div>
                   </div>
                 </div> -->
-                <div class="accor-card"  *ngFor="let childfaq of supportChildfaq| filter : [faq_Search,'ques'];let i=index ">
+                <!-- <div class="accor-card"  *ngFor="let childfaq of supportChildfaq| filter : [faq_Search,'ques'];let i=index ">
                   <div class="card_header">
                     <a class="card_link collapsed dataFaq{{i}}" data-toggle="collapse"  href="#collapseFaq_{{i}}">
                       <div class="dummy-border-left"></div>
@@ -219,11 +217,11 @@
                         <div class="ext-icon">
                           <i class="si-externallink" (click)="goToLink(childfaq.link)"></i>
                         </div>
-                        <!-- <div class="arrow-icon">
+                        <div class="arrow-icon">
                           <i class="si-carrotup" (click)="goToLink(childfaq.link)"></i>
-                        </div> -->
+                        </div> 
                       </a>
-                  </div>
+                    </div>
                   <div *ngIf="!childfaq.link"  id="collapseFaq_{{i}}" class="collapse" data-parent="#accordion">
                     <div class="card-body">
                       {{childfaq.ans}}
@@ -232,7 +230,52 @@
                 </div>
               </div>
             </div>
-          </perfect-scrollbar>
+          </perfect-scrollbar> -->
+          <div class="loader w-100" *ngIf="showLoader">
+            <!-- <img src="assets/images/logoIcon.png" class="loaderLogoImage"> -->
+            <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+            <span class="please-wait-message">Please Wait!</span>
+          </div> 
+          <div *ngIf="topicGuideObj.enableIframe" class="topicGuideIframeContainer">
+            <iframe width="100%" height="100%" scrolling="yes" frameborder="0"  id="topicGuideIframe" class="iframeContainer" [src]="topicGuideUrl"  [class.d-none]="showLoader" (load)="showHideSpinner()" allowfullscreen></iframe>
+          </div>          
+        </div>
+        <div class="modal fade bt-topicGuide_media-modal" id="topicGuideVideoModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="krBackDropModal">
+                    <div class="videoMain">
+                        <div class="videoContainer">
+                            <span class="closeVideoModal" (click)="closeMediaModal()">
+                                <i class="si-close"></i>
+                            </span>
+                            <div class="details-section">
+                                <div class="loader w-100" *ngIf="showLoader">
+                                  <img src="assets/images/logoIcon.png" class="loaderLogoImage">
+                                </div> 
+                                <div class="video">
+                                  <div class="loader w-100" *ngIf="showLoader1">
+                                    <!-- <img src="assets/images/logoIcon.png" class="loaderLogoImage"> -->
+                                    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+                                    <span class="please-wait-message">Please Wait!</span>
+                                  </div> 
+                                    <!-- <div class="mediaLoaderTopicGuide" *ngIf="mediaObj.loadingMedia">
+                                       <span style="text-align:center;"><i class="fa fa-circle-o-notch fa-spin marginRight5"></i></span>   
+                                    </div> -->
+                                    <!-- <iframe id="topicGuideMediaModal" allowfullscreen controls src="https://drive.google.com/file/d/1ohhg7dfgPL0pWVzr8i2kjKveUwO9qy_o/preview" width="100%" height="100%" [class.d-none]="showLoader" (load)="showHideSpinner() class="noBorder"   allow="autoplay"></iframe> -->
+                                    <!-- <iframe id="topicGuideMediaModal" class="noBorder" allowfullscreen controls (load)="showHideSpinner()" src=" https://drive.google.com/file/d/1ohhg7dfgPL0pWVzr8i2kjKveUwO9qy_o/preview " width="100% " height="100% " allow="autoplay" iframe-onload="onMediaLoadedLoaded(this) "></iframe> -->
+                                    <iframe id="topicGuideMediaModal" class="noBorder" allowfullscreen controls [src]="topicGuideVideoUrl" width="100% " height="100% " allow="autoplay" (load)="onMediaLoadedLoaded($event);showHideSpinner()"></iframe>
+                                  </div>
+                            </div>
+                            <div class="vidoeDesc">
+                                <h4>{{mediaObj?.title}}</h4>
+                                <p>{{mediaObj?.description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
         </div>
         <div id="appchecklist" class="tab-pane fade">
           <div class="applist-header">

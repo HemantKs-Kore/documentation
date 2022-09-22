@@ -12,7 +12,12 @@
   </div> -->
   <ng-container *ngIf="!(resources && resources.length) && loadingContent1">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-    <div class="title-content">{{"contentSource.content" | translate}}</div>
+    <div class="title-content">{{"contentSource.content" | translate}}
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+        <i class="si-topic-guide-1"></i>
+      </span>
+    </div>    
     <perfect-scrollbar class="scoll-empty-screen">
       <div class="empty-landing-screen">
         <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()"
@@ -73,6 +78,10 @@
       <div class="table-action-header">
         <div class="title-main">
           {{"contentSource.content_management" | translate}}
+          <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+            <i class="si-topic-guide-1"></i>
+          </span>
         </div>
         <div>
           <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">

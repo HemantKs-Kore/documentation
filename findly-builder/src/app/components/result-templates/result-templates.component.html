@@ -5,7 +5,12 @@
 
 <div class="search-interface-container">
   <div class="header_sec">
-    <div class="title">Result Templates</div>
+    <div class="title">Result Templates
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+        <i class="si-topic-guide-1"></i>
+      </span>
+    </div>
     <div class="right-side-copy-configs">
       <div class="kr-sg-dropdowns copy-config-dropdown" ngbDropdown [placement]="'bottom-right'" autoClose="outside"
         #myDrop="ngbDropdown">

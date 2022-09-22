@@ -971,4 +971,7 @@ export class AppExperimentsComponent implements OnInit {
   ngOnDestroy() {
     this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : null;
   }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
 }
