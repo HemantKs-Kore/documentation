@@ -288,6 +288,48 @@ perfect-scrollbar .ps--active-y{
             padding-bottom: 20px !important;
             margin-bottom: 20px !important;
         }
+
+        .option-selection-block{
+            .option-selection-header{
+                color: #202124;
+                font-weight: 600;
+                font-size: 12px;
+                padding-bottom: 10px;
+            }
+            .option-selection-type{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 20px;
+                padding: 10px 0;
+            }
+            .option-selection-hding{
+                font-weight: 600;
+                font-size: 12px;
+                color: #121314;
+                flex: 1 1 100px;
+            }
+            .option-selection-desc{
+                font-weight: 400;
+                font-size: 12px;
+                color: #777A80;
+                line-height: 15px;
+                &.checked{
+                    color: #2D2F33;
+                }
+            }
+            .option-selection-checkbox{
+                .kr-sg-checkbox{
+                    padding-right: 0;
+                    .checkbox-custom-label{
+                      &::before{
+                        margin-right: 0px;
+                      }  
+                    }
+                }
+            }
+        }
+
         .dropdown_overflow{
             background: #FFFFFF;
             box-shadow: 0px 10px 35px rgba(32, 33, 36, 0.2);    

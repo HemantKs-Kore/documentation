@@ -387,7 +387,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="bottom_sec">
+                <div class="option-selection-block">
+                    <div class="option-selection-header">{{'fields.select_ones_that_apply' | translate}}</div>
+                    <div class="option-selection-type">
+                        <div class="option-selection-hding">Searchable</div>
+                        <div class="option-selection-desc">The value of the field can be used to make the content of the field ready to be searched</div>
+                        <div class="option-selection-checkbox">
+                            <div class="kr-sg-checkbox">
+                                <input id="searchable_option" class="checkbox-custom" type="checkbox">
+                                <label for="searchable_option" class="checkbox-custom-label"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option-selection-type">
+                        <div class="option-selection-hding">Auto Suggest</div>
+                        <div class="option-selection-desc">The value of the field can be used to provide
+                            auto-suggestions to complete the query </div>
+                        <div class="option-selection-checkbox">
+                            <div class="kr-sg-checkbox">
+                                <input id="auto_suggest_option" class="checkbox-custom" type="checkbox">
+                                <label for="auto_suggest_option" class="checkbox-custom-label"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom_sec d-none">
                     <div class="group-checkbox mb-3 add-fields-checkbox">
                         <div class="label-text mb-2">{{'fields.select_ones_that_apply' | translate}}</div>
                         <div class="kr-sg-checkbox">
