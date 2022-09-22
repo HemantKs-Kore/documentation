@@ -14,6 +14,7 @@ import { TraitsComponent } from './components/traits/traits.component';
 import { IndexComponent } from './components/index/index.component';
 import { StopWordsComponent } from './components/stop-words/stop-words.component';
 import { WeightsComponent } from './components/weights/weights.component';
+import { SearchFieldPropertiesComponent } from './components/search-field-properties/search-field-properties.component';
 import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
 import { FacetsComponent } from './components/facets/facets.component';
 import { MetricsComponent } from './components/metrics/metrics.component';
@@ -81,6 +82,7 @@ const routes: Routes = [
       { path: 'pricing', component: PricingComponent },
       { path: 'invoices', component: InvoicesComponent },
       { path: 'usageLog', component: UsageLogComponent },
+      { path: 'search-field-properties', component: SearchFieldPropertiesComponent },
       { path: '**', component: AppsListingComponent }
     ]
   }
