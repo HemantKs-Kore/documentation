@@ -1124,6 +1124,7 @@
     },
     "fields": {
         "fields": "Fields",
+        "index_fields":"Index Fields",
         "add_field": "Add Field",
         "add": "Add",
         "save": "Save",
@@ -1162,7 +1163,9 @@
         "value_of_the_field_can_be_fetched_by_the_search_queries": "Value of the field can be fetched by the search queries",
         "value_of_the_field_can_be_used_in_search_queries": "Value of the field can be used in search queries to fetch matched documents",
         "edit": "Edit",
-        "delete": "Delete"
+        "delete": "Delete",
+        "searchable": "Searchable",
+        "auto_suggest": "Auto suggest"
     },
     "overview": {
         "overview": "Overview",

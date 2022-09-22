@@ -105,7 +105,7 @@
                 padding: 18px 15px;
                 border-bottom: 1px solid #E4E5E7;
                 .title{
-                    padding: 0 5px;
+                    padding: 0 3px;
                     font-style: normal;
                     font-weight: 500;
                     font-size: 12px;
@@ -117,7 +117,8 @@
                     font-weight: 500;                       
                     color: #9AA0A6;
                     font-size: 12px;   
-                    cursor: pointer;         
+                    cursor: pointer; 
+                    justify-content: center;        
                     .sortImg{                                                       
                         position: static;
                         &.upArrow {
@@ -134,7 +135,17 @@
                         &.decending{
                             transform: rotate(0deg);
                         }
-                    }            
+                    } 
+                    .info-text-icon{
+                        padding-left: 5px;
+                        .icon-info{
+                            font-size: 14px;
+                            color: #26344A;
+                            &::before{
+                                color: #26344A;
+                            }
+                        }
+                    }           
                 }
             }
             .table_body_content{
@@ -149,7 +160,7 @@
                         background: #F8F9FA;
                         .action_links{
                             visibility: visible;
-                            img{
+                            .action_link-icon{
                                 cursor: pointer;
                             }
                         }
@@ -165,8 +176,26 @@
                         white-space: nowrap;
                         overflow: hidden;
                         text-overflow: ellipsis;
+                        text-align: center;
                         img{
                             cursor: pointer;
+                        }
+                        .field-value{
+                            border-radius: 4px;
+                            padding: 2px 10px;
+                            display: inline-block;
+                            &.yes{
+                                background: #F7FFF8;
+                                color: #135423;
+                                font-weight: 400;
+                                font-size: 14px;
+                            }
+                            &.no{
+                                background: #FFF8F9;
+                                color: #59141C;
+                                font-weight: 400;
+                                font-size: 14px;
+                            }
                         } 
                     }
                     .action_links{
@@ -223,7 +252,8 @@
 perfect-scrollbar .ps--active-y{
     padding-bottom: 85px;
 }
-.type_sort_dropdown{   
+.type_sort_dropdown{
+    margin-left: 5px !important;   
     .dropdown-open{                                
         .dropdown-input{
             img{
