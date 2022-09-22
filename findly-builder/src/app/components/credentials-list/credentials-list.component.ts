@@ -27,7 +27,8 @@ export class CredentialsListComponent implements OnInit {
   listData: any;
   configuredBot_streamId = '';
   searchcredential = '';
- 
+  selectedTab: string = 'configuration';
+  credentialsTabs: any = [{ name: 'Configuration', type: 'configuration' }, { name: 'API Scopes', type: 'apiScopes' }];
   showSearch = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
@@ -59,24 +60,6 @@ export class CredentialsListComponent implements OnInit {
       value : false,
     },
     {
-      title : 'Update Structured Document',
-      desc : 'Assign this scope to update documents using Document ID.',
-      data : 'Update Structured Document',
-      value : false,
-    },
-    {
-      title : 'Get Structured Data',
-      desc : 'Assign this scope to get the list of documents or individual documents using Document ID',
-      data : 'Get Structured Data',
-      value : false,
-    },
-    {
-      title : 'Delete Structured Data',
-      desc : 'Assign this scope to delete the data stored in SearchAssist using Document ID.',
-      data : 'Delete Structured Data',
-      value : false,
-    },
-    {
       title : 'Live search Results',
       desc : 'Assign this scope to get the live search results as the user is typing the query.',
       data : 'Live search Results',
@@ -95,9 +78,9 @@ export class CredentialsListComponent implements OnInit {
       value : false,
     },
     {
-      title : 'View FAQ',
-      desc : 'Assign this scope to get the list of FAQs stored in SearchAssist.',
-      data : 'View FAQ',
+      title : 'Auto Suggestions',
+      desc : 'Assign this scope to get the suggestions as the user has submitted the search query.',
+      data : 'Auto Suggestions',
       value : false,
     },
   ]
@@ -609,6 +592,7 @@ export class CredentialsListComponent implements OnInit {
     this.addCredentialRef = this.addCredential.open();
   }
   closeModalPopup() {
+    this.selectedTab = 'configuration';
     this.credntial.name = [];
     this.credntial.awt = 'HS256';
     this.addCredentialRef.close();
@@ -772,7 +756,9 @@ export class CredentialsListComponent implements OnInit {
       $("#addSourceTitleInput").css("border-color", this.credntial.name != '' ? "#BDC1C6" : "#DD3646");
     }
   }
-
+  changeTabs(type){
+    this.selectedTab = type;
+  }
   createCredential() {
     const queryParams = {
       userId: this.authService.getUserId(),
