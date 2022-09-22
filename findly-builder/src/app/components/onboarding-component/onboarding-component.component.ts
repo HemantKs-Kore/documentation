@@ -40,7 +40,7 @@ export class OnboardingComponentComponent implements OnInit {
   support_Search:any;
   faq_Search:any;
   topicGuideUrl: any;
-  topicGuideVideoUrl:any;
+  topicGuideVideoUrl:string='';
   showLoader: boolean;
   showLoader1: boolean;
   supportData = [{
@@ -853,7 +853,7 @@ mediaObj:any = {};
    $('#topicGuideVideoModal').modal('show');   
    this.mediaObj.loadingMedia = true;
    this.showLoader1 = true;
-   this.topicGuideVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(payload.url);
+   this.topicGuideVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(payload.url); 
 };
 
   triggerFaq() {

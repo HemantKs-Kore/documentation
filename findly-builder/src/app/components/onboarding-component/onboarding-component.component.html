@@ -236,7 +236,7 @@
             <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
             <span class="please-wait-message">Please Wait!</span>
           </div> 
-          <div ng-if="topicGuideObj.enableIframe" class="topicGuideIframeContainer">
+          <div *ngIf="topicGuideObj.enableIframe" class="topicGuideIframeContainer">
             <!-- <iframe width="100%" height="100%" scrolling="yes" frameborder="0"  id="topicGuideIframe" class="iframeContainer" src="https://sunilsi-kore.github.io/koredotai-docs/platform/topic-guide/en/latest/Small%20Talk" [class.d-none]="showLoader" (load)="showHideSpinner()" allowfullscreen></iframe> -->
             <iframe width="100%" height="100%" scrolling="yes" frameborder="0"  id="topicGuideIframe" class="iframeContainer" [src]="topicGuideUrl"  [class.d-none]="showLoader" (load)="showHideSpinner()" allowfullscreen></iframe>
           </div>          
