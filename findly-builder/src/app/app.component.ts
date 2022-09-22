@@ -671,6 +671,9 @@ export class AppComponent implements OnInit, OnDestroy {
       queryPipelineId : this.queryPipelineId,
     };
     setTimeout(function () {
+      if(!quaryparms.indexPipelineId){
+        quaryparms.indexPipelineId = _self.workflowService.selectedIndexPipelineId
+      }
       if (quaryparms.indexPipelineId) {
         _self.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
           _self.searchExperienceConfig = res;
