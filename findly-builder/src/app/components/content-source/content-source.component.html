@@ -238,17 +238,17 @@
                     </div>
                 </div>
                 <div class="col_ col-2" *ngIf="source?.advanceSettings">
-                  <span *ngIf="!source.advanceSettings.scheduleOpt">{{source.jobInfo.userDetails.fullName ||
-                    source.userDetails.fullName}}</span>
-                  <span *ngIf="source.advanceSettings.scheduleOpt">{{source.jobInfo.userDetails.fullName}}</span>
+                  <span *ngIf="!source.advanceSettings.scheduleOpt">{{source?.jobInfo?.userDetails?.fullName ||
+                    source?.userDetails?.fullName}}</span>
+                  <span *ngIf="source.advanceSettings.scheduleOpt">{{source?.jobInfo?.userDetails?.fullName}}</span>
                 </div>
 
                 <div class="col_ col-2" *ngIf="!source.advanceSettings">
-                        <span>{{ source.userDetails.fullName}}</span>
+                        <span>{{source?.userDetails?.fullName}}</span>
                 </div>
               
                 <div class="col_ col-2">
-                  <span>{{source.recentStatus==='configured'?'--':source.numPages}}</span>
+                  <span>{{source?.recentStatus==='configured'?'--':source?.numPages}}</span>
                 </div>
                 <div class="col_ col-4">
                   <!-- <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
@@ -296,7 +296,7 @@
                       <div class="media-logo"><img src="assets/icons/content/latest-content-icons/red-warning-circle.svg"></div>
                       <div class="media-right">
                         <div class="media-name">Failed</div>
-                        <div class="media-list">
+                        <!-- <div class="media-list">
                           <div class="media-list-header">Following may be the reason to fail</div>
                           <ul class="media-list-ul">
                             <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat nisl vitae posuere.</li>
@@ -304,7 +304,7 @@
                             <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat nisl vitae posuere.</li>
                           </ul>
                           <div class="media-show-more">Show more</div>
-                        </div>
+                        </div> -->
                       </div>
                     </div>
 
@@ -469,12 +469,14 @@
           </perfect-scrollbar>
 
         </ng-container>
+
       </ng-container>
     </div>
   </div>
 
 </div>
 
+<!-- Edit crawl configuration page -->
 <kr-modal modalType="center" modalClass="sliderComponent modal_popups_" #statusModalPop id="sourceSlider">
   <div class="modal-header">
     <div class="title" title="{{selectedSource.name}}">{{selectedSource.name}}</div>
@@ -488,39 +490,6 @@
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message" style="margin-left:5%">{{'Please Wait!' | translate}}</span>
       </div>
-
-      <!-- <div class="info-content bg-color text-left" *ngIf="sliderStep! && !loadingSliderContent && selectedSource">
-          <div class="row m-0 row_content">
-            <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
-            <div class="col-10 right-info-title">{{selectedSource.name}}</div>
-          </div>
-          <div class="row m-0 row_content">
-            <div class="col-2 left-info-title pl-0">URL <span>:</span></div>
-            <div class="col-10 right-info-title">{{selectedSource.url}}</div>
-          </div>
-          <div class="row m-0 row_content">
-            <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
-            <div class="col-10 right-info-title">
-              <span>{{selectedSource.createdOn | dateFormatPipe}}</span>{{' by ' + userInfo.fName +' ' + userInfo.lName}}
-            </div>
-          </div>
-          <div class="row m-0 row_content">
-            <div class="col-2 left-info-title pl-0">Status <span>:</span></div>
-            <div class="col-10 right-info-title"
-              *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
-              [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
-              {{statusObj[selectedSource.recentStatus]?.name}}</div>
-            <div class="col-10 right-info-title"
-              *ngIf="!(selectedSource.recentStatus && statusObj[selectedSource.recentStatus])">---</div>
-          </div>
-          <div class="row m-0 row_content">
-            <div class="col-2 left-info-title pl-0">Pages <span>:</span></div>
-            <div class="col-10 right-info-title">
-              {{(selectedSource && selectedSource.pages)?selectedSource.pages.length:0}}<a class="ViewPages"
-                *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length" (click)="viewPages()">View
-                Pages</a></div>
-          </div>
-        </div> -->
 
       <div class="content-accordion-sec" *ngIf="sliderStep === 0">
         <ng-container *ngIf="!(selectedSource && selectedSource.pages && selectedSource.pages.length)">
@@ -572,66 +541,27 @@
                   *ngIf="(selectedSource.recentStatus === 'failed'&&!(selectedSource?.validations?.url?.validated))"
                   (click)="retryValidation(selectedSource,$event)">Revalidate</button>
               </div>
-              <!-- <div class="add-page"><img src="assets/icons/sidemenu/plus-table.svg">Add Page</div> -->
             </div>
           </div>
           <div *ngIf="isConfig && !loadingSliderContent">
-            <!-- <div class="info-content bg-color text-left" *ngIf="sliderStep === 0 && !loadingSliderContent && selectedSource">
-                  <div class="row m-0 row_content">
-                    <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
-                    <div class="col-10 right-info-title">{{selectedSource.name}}</div>
-                  </div>
-                  <div class="row m-0 row_content">
-                    <div class="col-2 left-info-title pl-0">URL <span>:</span></div>
-                    <div class="col-10 right-info-title">{{selectedSource.url}}</div>
-                  </div>
-                  <div class="row m-0 row_content">
-                    <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
-                    <div class="col-10 right-info-title">
-                      <span>{{selectedSource.createdOn | dateFormatPipe}}</span>{{' by ' + userInfo.fName +' ' + userInfo.lName}}
-                    </div>
-                  </div>
-                  <div class="row m-0 row_content">
-                    <div class="col-2 left-info-title pl-0">Status <span>:</span></div>
-                    <div class="col-10 right-info-title"
-                      *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
-                      [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
-                      {{statusObj[selectedSource.recentStatus]?.name}}</div>
-                    <div class="col-10 right-info-title"
-                      *ngIf="!(selectedSource.recentStatus && statusObj[selectedSource.recentStatus])">---</div>
-                  </div>
-                  <div class="row m-0 row_content">
-                    <div class="col-2 left-info-title pl-0">Pages <span>:</span></div>
-                    <div class="col-10 right-info-title">
-                      {{(selectedSource && selectedSource.pages)?selectedSource.pages.length:0}}<a class="ViewPages"
-                        *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length" (click)="swapSlider()">View
-                        Pages</a></div>
-                  </div>
-                </div> -->
             <!-- Conf Configuration-->
             <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table-allowRow">
               <!-- new Configuration html start -->
               <div class="config-first-row">
                 <div class="width-40">
                   <div class="kr-sg-input-text mar-bot-15">
-                    <div class="label-text">TITLE</div>
-                    <input type="url" autocomplete="off" maxlength="60" id="titleInput" name="title"
-                      placeholder="Enter Title" class="input-text" required>
-                    <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
-                      width="12" />
+                    <div class="label-text">TITLE<sup class="field-mandatory">*</sup></div>
+                    <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput" name="title" placeholder="Enter Title" class="input-text" [(ngModel)]="editSource.name" required>
                   </div>
                 </div>
                 <div class="width-30">
                   <div class="kr-sg-input-text mar-bot-15">
                     <div class="label-text">CREATED BY</div>
-                    <input type="url" autocomplete="off" maxlength="60" id="createdBy" name="createdBy"
-                      placeholder="Enter Title" class="input-text" required>
-                    <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
-                      width="12" />
+                    <input type="url" autocomplete="off" maxlength="60" id="createdBy" name="createdBy" placeholder="Enter Title" class="input-text" [value]="selectedSource?.userDetails?.firstName" disabled>
                   </div>
                 </div>
                 <div class="update-timestamp width-20 mar-bot-15">
-                  <button class="btn btn-secondary" type="button"><span class="last-update"><img src="assets/icons/refresh-secondary.svg" alt="refresh-icon" /> Last Updated</span> 29.01.2022</button>
+                  <button class="btn btn-secondary" type="button"><span class="last-update"><img src="assets/icons/refresh-secondary.svg" alt="refresh-icon" /> Last Updated</span>{{selectedSource?.lMod | dateFormatPipe:'D.MM.YYYY'}}</button>
                 </div>
                 <div class="reload-recrwal width-10 mar-bot-15">
                   <button class="btn btn-out-primary" type="button"><span class="reload-crwal"><img src="assets/icons/refresh-primary.svg" alt="refresh-icon" /></span> Recrawl</button>
@@ -639,15 +569,14 @@
               </div>
 
               <div class="config-crwal-url-block">
-                <div class="config-crwal-url"><a class="crwal-url" href="#">https://finshots.in/archive</a></div>
-                <div class="config-crwal-url-edit"><img class="crwal-url-edit" src="assets/icons/edit-blue.svg" /></div>
+                <div class="config-crwal-url"><a class="crwal-url" [href]="selectedSource?.url" target="_blank">{{selectedSource?.url}}</a></div>
+                <!-- <div class="config-crwal-url-edit"><img class="crwal-url-edit" src="assets/icons/edit-blue.svg" /></div> -->
               </div>
 
               <div class="config-crwal-desc-block">
                 <div class="kr-sg-input-text-area mar-bot-15">
                   <div class="label-text">Description</div>
-                  <textarea autocomplete="off" name="sourceDesc" maxlength="250" placeholder="Enter Description"
-                    class="input-text"></textarea>
+                  <textarea autocomplete="off" name="sourceDesc" maxlength="250" placeholder="Enter Description" class="input-text" [(ngModel)]="editSource.desc"></textarea>
                 </div>
               </div>
 
@@ -655,21 +584,13 @@
                 <div class="sitemap-header">
                   <div class="sitemap-hding">Sitemap URLs</div>
                 </div>
-                <div class="sitemap-url-list">
+                <div class="font-weight-bold text-center" *ngIf="selectedSource?.sitemaps?.length===0">No sitemaps found</div>
+                <div class="sitemap-url-list" *ngFor="let sitemap of selectedSource?.sitemaps">
                   <div class="sitemap-url">
-                    <div class="config-sitemap-url"><a class="crwal-url" href="#">https://finshots.in/archive</a></div>
+                    <div class="config-sitemap-url"><a class="crwal-url" [href]="sitemap" target="_blank">{{sitemap}}</a></div>
                     <div class="edit-delete-block">
-                      <div class="config-sitemap-url-edit"><img class="crwal-url-edit" src="assets/icons/sidemenu/edit.svg" /></div>
-                      <div class="config-sitemap-url-delete"><img class="crwal-url-edit" src="assets/icons/sidemenu/delete.svg" /></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="sitemap-url-list">
-                  <div class="sitemap-url">
-                    <div class="config-sitemap-url"><a class="crwal-url" href="#">https://finshots.in/archive</a></div>
-                    <div class="edit-delete-block">
-                      <div class="config-sitemap-url-edit"><img class="crwal-url-edit" src="assets/icons/sidemenu/edit.svg" /></div>
-                      <div class="config-sitemap-url-delete"><img class="crwal-url-edit" src="assets/icons/sidemenu/delete.svg" /></div>
+                      <!-- <div class="config-sitemap-url-edit"><img class="crwal-url-edit" src="assets/icons/sidemenu/edit.svg" /></div>
+                      <div class="config-sitemap-url-delete"><img class="crwal-url-edit" src="assets/icons/sidemenu/delete.svg" /></div> -->
                     </div>
                   </div>
                 </div>
@@ -677,56 +598,28 @@
 
               <div class="new-crawl-web-form mr-tb20-rl10">
                 <div class="new-crawl-shedule">
-                  <div class="new-crawl-shedule-tab">
+                  <div class="new-crawl-shedule-tab" [ngStyle]="{'background':editSource.advanceOpts.scheduleOpt?'':'#F8F9FA','border':editSource.advanceOpts.scheduleOpt?'':0}">
                     <div class="shedual-header">
                       <div class="shedual-hding">SCHEDULE</div>
                       <div class="sr-toggle-btn">
                         <label class="kr-sg-toggle">
-                          <input type="checkbox" name="scheduleOpts">
+                          <input type="checkbox" name="scheduleOpts" [(ngModel)]="editSource.advanceOpts.scheduleOpt">
                           <div class="slider"></div>
                         </label>
                       </div>
                     </div>
+                    <app-scheduler *ngIf="editSource.advanceOpts.scheduleOpt" [crwalObject]="crwalObject" [scheduleFlag]="crwalObject.advanceOpts.scheduleOpt"
+                    [schedule]="'set'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
+                  </app-scheduler>
                   </div>
                 </div>
               </div>
 
-
-
               <div class="new-crawl-web-form">
-                <div class="new-crawl-web-form-details">
-                  <div class="new-crawl-details">
-                    <div class="new-crawl-details-header">DETAILS</div>
-                    <div class="details-form">
-                      <div class="details-left">
-                        <div class="kr-sg-input-text mar-bot-15">
-                          <div class="label-text">Source Title</div>
-                          <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput" name="sourceTitle"
-                            placeholder="Enter Title" class="input-text" required>
-                          <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
-                            width="12" />
-                        </div>
-                        <div class="kr-sg-input-text mar-bot-15">
-                          <div class="label-text">Source URL</div>
-                          <input type="text" autocomplete="off" name="url" placeholder="http(s)://" class="input-text">
-                        </div>
-                      </div>
-                      <div class="details-right">
-                        <div class="kr-sg-input-text-area mar-bot-15">
-                          <div class="label-text">Description</div>
-                          <textarea autocomplete="off" name="sourceDesc" maxlength="250" placeholder="Enter Description"
-                            class="input-text"></textarea>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-      
                 <div class="new-crawling">
                   <div class="new-crawling-tab">
                     <div class="new-crawling-tab-block">
                       <div class="new-ccrawling-hding">CRAWLING</div>
-                      <div class="new-ccrawling-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium amet ipsum imperdiet tortor nulla.</div>
                     </div>
                     <div class="new-crawling-tab-btn">
                       <button type="button" class="btn" aria-expanded="false" data-toggle="collapse" data-target="#newCrawlingTab"><i class="si-carrotup"></i></button>
@@ -735,128 +628,127 @@
                   <div id="newCrawlingTab" class="new-crawling-collapse collapse">
                     <div class="crawl-option-ddl">
                       <div class="kr-sg-dropdowns mar-bot-12">
-                        <div class="label-text">Label</div>
+                        <div class="label-text">Crawl Options</div>
                         <div class="dropdown dropdown-open">
-                          <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">Crawl
-                            Everything</button>
+                          <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{'contentSource.'+crwalOptionLabel | translate}}</button>
                           <ul class="dropdown-menu content-menu">
-                            <li><a>Crawl Everything</a></li>
-                            <li><a>Crawl Everything Except Specific URLs</a></li>
-                            <li><a>Crawl Only Specific URLs</a></li>
+                            <li *ngFor="let option of crawlOptions" (click)="crawlOption(option)" [ngClass]="{'font-weight-bold':(option===crwalOptionLabel)}"><a>{{'contentSource.'+option | translate}}</a></li>
                           </ul>
                         </div>
                       </div>
                     </div>
       
-                    <div class="crawl-opt-table">
-                      <div class="crawl-opt-row">
-                        <div class="crawl-opt-ddl">
-                          <div class="kr-sg-dropdowns mar-bot-12">
-                            <div class="label-text">Allow if URL</div>
-                            <div class="dropdown dropdown-open">
-                              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">Crawl
-                                Everything</button>
-                              <ul class="dropdown-menu content-menu">
-                                <li><a>Crawl Everything</a></li>
-                                <li><a>Crawl Everything Except Specific URLs</a></li>
-                                <li><a>Crawl Only Specific URLs</a></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="crawl-opt-inp">
-                          <div class="kr-sg-input-text mar-bot-15">
-                            <div class="label-text no-label">Source URL</div>
-                            <input type="text" autocomplete="off" name="url" placeholder="http(s)://" class="input-text">
-                          </div>
-                        </div>
-                        <div class="crawl-opt-cls">
-                          <button class="btn"><i class="si-close"></i></button>
-                        </div>
-                      </div>
-                      <div class="crawl-opt-row">
-                        <div class="crawl-opt-ddl">
-                          <div class="kr-sg-dropdowns mar-bot-12">
-                            <div class="label-text">Allow if URL</div>
-                            <div class="dropdown dropdown-open">
-                              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">Crawl
-                                Everything</button>
-                              <ul class="dropdown-menu content-menu">
-                                <li><a>Crawl Everything</a></li>
-                                <li><a>Crawl Everything Except Specific URLs</a></li>
-                                <li><a>Crawl Only Specific URLs</a></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="crawl-opt-inp">
-                          <div class="kr-sg-input-text mar-bot-15">
-                            <div class="label-text no-label">Source URL</div>
-                            <input type="text" autocomplete="off" name="url" placeholder="http(s)://" class="input-text">
-                          </div>
-                        </div>
-                        <div class="crawl-opt-cls">
-                          <button class="btn"><i class="si-close"></i></button>
-                        </div>
-                      </div>
-                      <div class="crawl-add-row">
-                        <button class="btn add-btn-primary"><span class="add-btn-img"><img _ngcontent-gxv-c13="" src="assets/icons/add_blue.svg"></span> Add</button>
+                    <!-- Allow URL -->
+              <div class="crawl-opt-table" *ngIf="(!editSource?.advanceOpts?.crawlEverything&&editSource.advanceOpts.allowedOpt)">
+                <div class="crawl-opt-row" *ngFor="let allow of allowURLArray;let i=index;">
+                  <div class="crawl-opt-ddl">
+                    <div class="kr-sg-dropdowns mar-bot-12">
+                      <div class="label-text">Allow if URL</div>
+                      <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{'contentSource.'+allow?.condition|translate}}</button>
+                        <ul class="dropdown-menu content-menu">
+                              <li *ngFor="let url of allowURLValues" (click)="allow.condition=url" [ngClass]="{'font-weight-bold':allow.condition===url}"><a>{{'contentSource.'+url|translate}}</a></li>
+                        </ul>
                       </div>
                     </div>
-      
-                    <div class="crwal-checkbox-list">
-                    <div class="group-checkbox">
-                      <div class="kr-sg-checkbox">
-                        <input class="checkbox-custom" id="checkbox_cook" name="useCookies" type="checkbox">
-                        <label class="checkbox-custom-label" for="checkbox_cook">Use Cookies</label>
-                      </div>
-                      <div class="kr-sg-checkbox">
-                        <input class="checkbox-custom" id="checkbox_grph" name="isJavaScriptRendered" type="checkbox">
-                        <label class="checkbox-custom-label" for="checkbox_grph">Java Script Rendered</label>
-                      </div>
-                      <div class="kr-sg-checkbox">
-                        <input class="checkbox-custom" id="checkbox_grpi" name="crawlBeyondSitemaps" type="checkbox">
-                        <label class="checkbox-custom-label" for="checkbox_grpi">Crawl Beyond Sitemap</label>
-                      </div>
-                      <div class="kr-sg-checkbox">
-                        <input class="checkbox-custom" id="checkbox_robot" name="respectRobotTxtDirectives" type="checkbox">
-                        <label class="checkbox-custom-label" for="checkbox_robot">Respect robots.txt directives</label>
+                  </div>
+                  <div class="crawl-opt-inp">
+                    <div class="kr-sg-input-text mar-bot-15">
+                      <div class="label-text no-label">Source URL</div>
+                      <input type="text" autocomplete="off" name="url" id="{{'contentAllowId'+i}}" placeholder="http(s)://" class="input-text" [(ngModel)]="allow.url">
+                    </div>
+                  </div>
+                  <div class="crawl-opt-cls" *ngIf="allowURLArray.length>1">
+                    <button class="btn" (click)="allowURLArray.splice(i,1)"><i class="si-close"></i></button>
+                  </div>
+                </div>
+                <div class="crawl-add-row">
+                  <button class="btn add-btn-primary" (click)="addAllowBlockObj('allow')"><span class="add-btn-img"><img _ngcontent-gxv-c13="" src="assets/icons/add_blue.svg"></span> Add</button>
+                </div>
+              </div>
+
+              <!-- Block URL  -->
+              <div class="crawl-opt-table" *ngIf="(!editSource?.advanceOpts?.crawlEverything&&editSource.advanceOpts.blockedOpt)">
+                <div class="crawl-opt-row" *ngFor="let block of blockURLArray;let i=index;">
+                  <div class="crawl-opt-ddl">
+                    <div class="kr-sg-dropdowns mar-bot-12">
+                      <div class="label-text">Block If URL</div>
+                      <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{'contentSource.'+block.condition|translate}}</button>
+                        <ul class="dropdown-menu content-menu">
+                              <li *ngFor="let url of allowURLValues" (click)="block.condition=url" [ngClass]="{'font-weight-bold':block.condition===url}"><a>{{'contentSource.'+url|translate}}</a></li>
+                        </ul>
                       </div>
                     </div>
+                  </div>
+                  <div class="crawl-opt-inp">
+                    <div class="kr-sg-input-text mar-bot-15">
+                      <div class="label-text no-label">Source URL</div>
+                      <input type="text" id="{{'contentBlockId'+i}}" autocomplete="off" name="url" placeholder="http(s)://" class="input-text" [(ngModel)]="block.url">
                     </div>
-      
-                    <div class="crwal-depth-form">
-                      <div class="crwal-depth-form-row">
-                        <div class="crwal-depth-form-inp">
-                          <div class="kr-sg-input-text">
-                            <div class="label-text">Crawl Depth
-                              <div class="tooltip-custom">
-                                <img src="assets/icons/info.svg">
-                                <span class="tooltiptext">
-                                  <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
-                                  <div class="v-text">Value = 0 (No limit)</div>
-                                </span>
-                              </div>
-                            </div>
-                          <input class="input-text" autocomplete="off" id="crawlDepth" maxlength="60" name="crawlDepth" placeholder="0" type="url">
-                        </div>
-                        </div>
-                        <div class="crwal-max-form-inp">
-                          <div class="kr-sg-input-text">
-                            <div class="label-text">Max URL
-                              <div class="tooltip-custom">
-                                <img src="assets/icons/info.svg">
-                                <span class="tooltiptext">
-                                  <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
-                                  <div class="v-text">Value = 0 (No limit)</div>
-                                </span>
-                              </div>
-                            </div>
-                          <input class="input-text maxUrlLimit-class" autocomplete="off" id="maxURL" maxlength="60" name="maxURL" placeholder="500" type="number">
-                        </div>
+                  </div>
+                  <div class="crawl-opt-cls" *ngIf="blockURLArray.length>1">
+                    <button class="btn" (click)="blockURLArray.splice(i,1)"><i class="si-close"></i></button>
+                  </div>
+                </div>
+                <div class="crawl-add-row">
+                  <button class="btn add-btn-primary" (click)="addAllowBlockObj('block')"><span class="add-btn-img"><img _ngcontent-gxv-c13="" src="assets/icons/add_blue.svg"></span> Add</button>
+                </div>
+              </div>
+
+              <div class="crwal-checkbox-list">
+              <div class="group-checkbox">
+                <div class="kr-sg-checkbox">
+                  <input class="checkbox-custom" id="checkbox_cook" name="useCookies" type="checkbox" [(ngModel)]="useCookies" [ngModelOptions]="{standalone: true}">
+                  <label class="checkbox-custom-label" for="checkbox_cook">Use Cookies</label>
+                </div>
+                <div class="kr-sg-checkbox">
+                  <input class="checkbox-custom" id="checkbox_grph" name="isJavaScriptRendered" type="checkbox" [(ngModel)]="isJavaScriptRendered" [ngModelOptions]="{standalone: true}">
+                  <label class="checkbox-custom-label" for="checkbox_grph">Java Script Rendered</label>
+                </div>
+                <div class="kr-sg-checkbox">
+                  <input class="checkbox-custom" id="checkbox_grpi" name="crawlBeyondSitemaps" type="checkbox" [(ngModel)]="crawlBeyondSitemaps" [ngModelOptions]="{standalone: true}">
+                  <label class="checkbox-custom-label" for="checkbox_grpi">Crawl Beyond Sitemap</label>
+                </div>
+                <div class="kr-sg-checkbox">
+                  <input class="checkbox-custom" id="checkbox_robot" name="respectRobotTxtDirectives" type="checkbox" [(ngModel)]="respectRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
+                  <label class="checkbox-custom-label" for="checkbox_robot">Respect robots.txt directives</label>
+                </div>
+              </div>
+              </div>
+
+              <div class="crwal-depth-form">
+                <div class="crwal-depth-form-row">
+                  <div class="crwal-depth-form-inp">
+                    <div class="kr-sg-input-text">
+                      <div class="label-text">Crawl Depth
+                        <div class="tooltip-custom">
+                          <img src="assets/icons/sidemenu/help.svg">
+                          <span class="tooltiptext">
+                            <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                            <div class="v-text">Value = 0 (No limit)</div>
+                          </span>
                         </div>
                       </div>
-                    </div>
+                    <input class="input-text maxUrlLimit-class" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="5" type="number" [(ngModel)]="crawlDepth">
+                  </div>
+                  </div>
+                  <div class="crwal-max-form-inp">
+                    <div class="kr-sg-input-text">
+                      <div class="label-text">Max URL
+                        <div class="tooltip-custom">
+                          <img src="assets/icons/sidemenu/help.svg">
+                          <span class="tooltiptext">
+                            <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                            <div class="v-text">Value = 0 (No limit)</div>
+                          </span>
+                        </div>
+                      </div>
+                    <input class="input-text maxUrlLimit-class" autocomplete="off" id="maxURL" name="maxURL" placeholder="10" type="number" [(ngModel)]="maxUrlLimit">
+                  </div>
+                  </div>
+                </div>
+              </div>
                  
                   </div>
       
@@ -865,35 +757,26 @@
 
       
                 <div class="new-crawl-shedule authenticated-website">
-                  <div class="new-crawl-shedule-tab">
+                  <div class="new-crawl-shedule-tab" [ngStyle]="{'border':editSource.authorizationEnabled?'':0}">
                     <div class="shedual-header">
                       <div class="d-block">
-                        <div class="shedual-hding">Is this an Authenticated website?  <div class="tooltip-custom">
-                          <img src="assets/icons/info.svg">
-                          <span class="tooltiptext">
-                            <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
-                            <div class="v-text">Value = 0 (No limit)</div>
-                          </span>
-                        </div></div>
-                        <div class="shedual-hding-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium amet ipsum imperdiet tortor nulla.</div>
+                        <div class="shedual-hding">Is this an Authenticated website?</div>
                       </div>
                       
                       <div class="sr-toggle-btn">
                         <label class="kr-sg-toggle">
-                          <input type="checkbox" name="authenticatedOpts">
+                          <input type="checkbox" name="authenticatedOpts" [(ngModel)]="editSource.authorizationEnabled">
                           <div class="slider"></div>
                         </label>
                       </div>
                     </div>
       
-                    <div class="crawl-opt-ddl">
+                    <div class="crawl-opt-ddl mt-1">
                       <div class="kr-sg-dropdowns mar-bot-12">
                         <div class="dropdown dropdown-open">
-                          <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">Select Authentication Type</button>
+                          <button id="contentIsAuthId" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false" [disabled]="!editSource.authorizationEnabled" [ngStyle]="{'background':editSource.authorizationEnabled?'':'#EFF0F1','border':editSource.authorizationEnabled?'':0,'color':editSource.authorizationEnabled?'':'#BDC1C6'}">{{editSource.authorizationProfle.sso_type===''?'Select Authentication Type':('contentSource.'+editSource.authorizationProfle.sso_type | translate)}}</button>
                           <ul class="dropdown-menu content-menu">
-                            <li><a>Crawl Everything</a></li>
-                            <li><a>Crawl Everything Except Specific URLs</a></li>
-                            <li><a>Crawl Only Specific URLs</a></li>
+                            <li *ngFor="let type of authenticationTypes" [ngClass]="{'font-weight-bold':type===editSource.authorizationProfle.sso_type}" (click)="selectAuthenticationType(type)"><a>{{'contentSource.'+type | translate}}</a></li>
                           </ul>
                         </div>
                       </div>
@@ -901,571 +784,373 @@
       
                   </div>
                 </div>
-      
+      <div class="is-auth-form-block" *ngIf="editSource.authorizationEnabled&&['basic','form'].includes(editSource.authorizationProfle.sso_type)">
+            <!-- Basic Fields -->
+            <div class="is-auth-form" *ngIf="editSource.authorizationProfle.sso_type==='basic'">
+              <div class="is-auth-form-header-block">
+                <div class="is-auth-form-header">
+                  BASIC FIELD
+                </div>
+                <!-- <div class="is-auth-form-add-field">
+                  <span><img src="assets/icons/facets/add-blue.svg" class="add-icon-blue" /> <img src="assets/images/add.svg" class="add-icon-black" /></span>Add Field
+                </div> -->
+              </div>
+              <div class="is-auth-form-table">
+                <div class="kr-sg-data-table">
+                  <section class="table-content">
+                      <header class="table-header">
+                          <div class="col-4">FIELD KEY</div> 
+                          <div class="col-4">FIELD VALUE</div>
+                          <!-- <div class="col-2"></div> -->
+                          <div class="col-4">ACTIONS</div>
+                      </header>
+                      <div class="content-body" *ngFor="let form of editSource.authorizationProfle.basicFields;let i=index;">
+                        <ng-container *ngIf="!form?.isEditable">
+                          <div class="col-4">{{form?.key}}</div>
+                          <div class="col-4">{{(form?.type==='password')?'********':form?.value}}</div>
+                          <!-- <div class="col-4">
+                            <div class="d-flex">
+                              <label class="kr-sg-toggle with-label">                                       
+                                <input type="checkbox" [checked]="form.isEnabled">
+                                <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span></div>
+                            </label>
+                            </div>
+                          </div> -->
+                          <div class="col-4">
+                              <span class="actions-links" (click)="form.isEditable=true"><img class="action_icon arrow-icon" src="assets/images/edit-pencil.svg"></span>
+                              <!-- <span class="actions-links"><img class="action_icon" src="assets/icons/delete-table.svg"></span> -->
+                          </div>
+                        </ng-container>
+
+                        <!-- Editable html -->
+                          <div class="is-auth-form-edit" *ngIf="form?.isEditable">
+                            <div class="is-auth-col">
+                              <div class="col-3">
+                                <div class="crawl-opt-inp">
+                                  <div class="kr-sg-input-text mar-bot-15">
+                                    <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                                    <input type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [value]="form.key" disabled>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-3">
+                                <div class="crawl-opt-inp">
+                                  <div class="kr-sg-input-text mar-bot-15">
+                                    <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
+                                    <input [type]="form.type" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [(ngModel)]="form.duplicateObj.value">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-3 d-flex align-items-center">
+                                <div class="is-auth-btn-group">
+                                <button class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="saveBasicField(form,'cancel')">Cancel</button>
+                                <button class="kr-sg-button-secondary btn_lg" (click)="saveBasicField(form,'save')">Save</button>
+                              </div>
+                              </div>
+                            </div>                
+                          </div>
+                      </div>
+                  </section>                               
+              </div>               
+              </div>
+            </div>
+
+            <!-- Form based -->
+            <div class="is-auth-form" *ngIf="editSource.authorizationProfle.sso_type==='form'">
+              <div class="is-auth-form-header-block">
+                <div class="is-auth-form-header">
+                  FORM FIELD                  
+                </div>
+                <div class="is-auth-form-add-field" (click)="addFormField('add')" *ngIf="!formFieldObj.isShow">
+                  <span><img src="assets/icons/facets/add-blue.svg" class="add-icon-blue" /> <img src="assets/images/add.svg" class="add-icon-black" /></span>Add Field
+                </div>
+              </div>
+              <div class="is-auth-form-table">
+                <div class="kr-sg-data-table">
+                  <section class="table-content" *ngIf="editSource.authorizationProfle.formFields.length>0">
+                      <header class="table-header">
+                          <div class="col-3">FIELD KEY</div> 
+                          <div class="col-2">FIELD TYPE</div>
+                          <div class="col-3">FIELD VALUE</div>
+                          <div class="col-2"></div>
+                          <div class="col-2 text-right">ACTIONS</div>
+                      </header>
+                      <div class="content-body" *ngFor="let form of editSource.authorizationProfle.formFields;let i=index;">
+                          <ng-container *ngIf="!form?.isEditable">
+                          <div class="col-3">{{form.key}}</div>
+                          <div class="col-2">{{'contentSource.'+form.type|translate}}</div>
+                          <div class="col-3">{{(form.type==='password')?'********':form.value}}</div>
+                          <div class="col-2">
+                            <div class="d-flex">
+                              <label class="kr-sg-toggle with-label">                                       
+                                <input type="checkbox" [(ngModel)]="form.isEnabled">
+                                <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span></div>
+                            </label>
+                            </div>
+                          </div>
+                          <div class="col-2 text-right">
+                              <span class="actions-links" (click)="form.isEditable=true;editFormField('edit',form)"><img class="action_icon arrow-icon" src="assets/images/edit-pencil.svg"></span>
+                              <span class="actions-links" (click)="deleteFormFields(i)"><img class="action_icon" src="assets/icons/delete-table.svg"></span>
+                          </div>
+                          </ng-container>
+
+                          <!-- Edit Fields: -->
+                          <div class="is-auth-form-edit" *ngIf="form.isEditable">
+                            <div class="is-auth-col">
+                              <div class="col-3">
+                                <div class="crawl-opt-inp">
+                                  <div class="kr-sg-input-text mar-bot-15">
+                                    <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                                    <input id="{{'contentFormFieldKeyId'+i}}" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [value]="form.key" [(ngModel)]="form.duplicateObj.key">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-3">
+                                <div class="crawl-option-ddl">
+                                  <div class="kr-sg-dropdowns mar-bot-12">
+                                    <div class="label-text">Field Type<sup class="field-mandatory">*</sup></div>
+                                    <div class="dropdown dropdown-open">
+                                      <button id="{{'contentFormFieldTypeId'+i}}" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{form.duplicateObj.type===''?'Select Field Type':('contentSource.'+form.duplicateObj.type|translate)}}</button>
+                                      <ul class="dropdown-menu content-menu">
+                                        <li *ngFor="let box of inputTypes" (click)="form.duplicateObj.type=box" [ngClass]="{'font-weight-bold':(form.duplicateObj.type===box)}"><a>{{'contentSource.'+box|translate}}</a></li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-3">
+                                <div class="crawl-opt-inp">
+                                  <div class="kr-sg-input-text mar-bot-15">
+                                    <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
+                                    <input id="{{'contentFormFieldValueId'+i}}" [type]="form.type" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [value]="form.value" [(ngModel)]="form.duplicateObj.value">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-3 d-flex align-items-center">
+                                <div class="is-auth-btn-group">
+                                  <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="editFormField('cancel',form)">Cancel</button>
+                                  <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="editFormField('save',form,i)">Save</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div> 
+                      </div>
+                  </section>
+                  
+                  <!-- Add Form Fields -->
+                  <div class="is-auth-form-edit" *ngIf="formFieldObj.isShow">
+                    <div class="is-auth-col">
+                      <div class="col-3">
+                        <div class="crawl-opt-inp">
+                          <div class="kr-sg-input-text mar-bot-15">
+                            <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                            <input id="contentFormFieldKeyId" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [(ngModel)]="formFieldObj.key">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="crawl-option-ddl">
+                          <div class="kr-sg-dropdowns mar-bot-12">
+                            <div class="label-text">Field Type<sup class="field-mandatory">*</sup></div>
+                            <div class="dropdown dropdown-open">
+                              <button id="contentFormFieldTypeId" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{(formFieldObj.type==='')?'Select Field Type':('contentSource.'+formFieldObj.type|translate)}}</button>
+                              <ul class="dropdown-menu content-menu">
+                                <li *ngFor="let box of inputTypes" (click)="formFieldObj.type=box" [ngClass]="{'font-weight-bold':(formFieldObj.type===box)}"><a>{{'contentSource.'+box|translate}}</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="crawl-opt-inp">
+                          <div class="kr-sg-input-text mar-bot-15">
+                            <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
+                            <input id="contentFormFieldValueId" [type]="formFieldObj.type" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [(ngModel)]="formFieldObj.value">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3 d-flex align-items-center">
+                        <div class="is-auth-btn-group">
+                          <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="addFormField('cancel')" [disabled]="editSource.authorizationProfle.formFields.length===0">Cancel</button>
+                          <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="addFormField('save')">Add</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>  
+              </div> 
+              </div>
+            </div>
+
+            <!-- Authorization optional for both fields types -->
+            <div class="is-auth-form" *ngIf="['basic','form'].includes(editSource.authorizationProfle.sso_type)">
+              <div class="is-auth-form-header-block">
+                <div class="is-auth-form-header">
+                  AUTHORIZATION FIELD <span class="optional-hding">(Optional)</span>                  
+                </div>
+                <div class="is-auth-form-add-field" (click)="addAuthorizationField('add')" *ngIf="!authorizationFieldObj.isShow">
+                  <span><img src="assets/icons/facets/add-blue.svg" class="add-icon-blue" /> <img src="assets/images/add.svg" class="add-icon-black" /></span>
+                  Add
+                </div>
+              </div> 
+              
+              <div class="is-auth-form-table">
+                <div class="kr-sg-data-table" [ngClass]="{'text-center':editSource.authorizationProfle.authorizationFields.length===0}">
+                  <section class="table-content" *ngIf="editSource.authorizationProfle.authorizationFields.length>0">
+                      <header class="table-header">
+                          <div class="col-3">FIELD KEY</div> 
+                          <div class="col-2">FILED TYPE</div>
+                          <div class="col-3">FIELD VALUE</div>
+                          <div class="col-2"></div>
+                          <div class="col-2 text-right">ACTIONS</div>
+                      </header>
+                      <div class="content-body" *ngFor="let auth of editSource.authorizationProfle.authorizationFields;let i=index;">
+                         <ng-container *ngIf="!auth?.isEditable">
+                         <div class="col-3">{{auth?.key}}</div>
+                          <div class="col-2">{{'contentSource.'+auth?.type|translate}}</div>
+                          <div class="col-3">{{auth?.value}}</div>
+                          <div class="col-2">
+                            <div class="d-flex">
+                              <label class="kr-sg-toggle with-label">                                       
+                                <input id="sa-formFieldListItemEnableDisable" type="checkbox" checked>
+                                <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span></div>
+                            </label>
+                            </div>
+                          </div>
+                          <div class="col-2 text-right">
+                              <span id="sa-editAuthFieldListItem" class="actions-links" (click)="auth.isEditable=true;editAuthorizationField('edit',auth)"><img class="action_icon arrow-icon" src="assets/images/edit-pencil.svg"></span>
+                              <span id="sa-deleteAuthFieldListItem" class="actions-links" (click)="editSource.authorizationProfle.authorizationFields.splice(i,1)"><img class="action_icon" src="assets/icons/delete-table.svg"></span>
+                          </div>
+                        </ng-container> 
+
+                        <!-- Edit Division Starts -->
+                      <div class="is-auth-form-edit" *ngIf="auth?.isEditable">
+                        <div class="is-auth-col">
+                          <div class="col-3">
+                            <div class="crawl-opt-inp">
+                              <div class="kr-sg-input-text mar-bot-15">
+                                <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                                <input id="{{'contentFieldKeyId'+i}}" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [value]="auth.key" [(ngModel)]="auth.duplicateObj.key">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-3">
+                            <div class="crawl-option-ddl">
+                              <div class="kr-sg-dropdowns mar-bot-12">
+                                <div class="label-text">Field Type<sup class="field-mandatory">*</sup></div>
+                                <div class="dropdown dropdown-open">
+                                  <button id="{{'contentFieldTypeId'+i}}" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{auth.duplicateObj.type===''?('contentSource.'+auth.type |translate):('contentSource.'+auth?.duplicateObj.type|translate)}}</button>
+                                  <ul class="dropdown-menu content-menu">
+                                    <li *ngFor="let item of autorizationFieldTypes" (click)="auth.duplicateObj.type=item" [ngClass]="{'font-weight-bold':auth.duplicateObj.type===item}"><a>{{'contentSource.'+item | translate}}</a></li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-3">
+                            <div class="crawl-opt-inp">
+                              <div class="kr-sg-input-text mar-bot-15">
+                                <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
+                                <input id="{{'contentFieldValueId'+i}}" type="text" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [value]="auth.value" [(ngModel)]="auth.duplicateObj.value">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-3 d-flex align-items-center">
+                            <div class="is-auth-btn-group">
+                              <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="editAuthorizationField('cancel',auth)">Cancel</button>
+                              <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="editAuthorizationField('save',auth,i)">Save</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>  
+                      <!-- Edit Division Ends -->
+                      </div>
+                  </section>  
+
+                  <span class="font-weight-bold" *ngIf="(editSource.authorizationProfle.authorizationFields.length===0&&!authorizationFieldObj.isShow)">No authorization fields found</span>
+
+                  <!-- ADD DIVISION SATRTS -->
+                  <div class="is-auth-form-edit" *ngIf="authorizationFieldObj.isShow">
+                    <div class="is-auth-col">
+                      <div class="col-3">
+                        <div class="crawl-opt-inp">
+                          <div class="kr-sg-input-text mar-bot-15">
+                            <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                            <input id="contentFieldKeyId" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [(ngModel)]="authorizationFieldObj.key">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="crawl-option-ddl">
+                          <div class="kr-sg-dropdowns mar-bot-12">
+                            <div class="label-text">Field Type<sup class="field-mandatory">*</sup></div>
+                            <div class="dropdown dropdown-open">
+                              <button id="contentFieldTypeId" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{(authorizationFieldObj.type==='')?'Select Field Type':('contentSource.'+authorizationFieldObj.type|translate)}}</button>
+                              <ul class="dropdown-menu content-menu">
+                                <li *ngFor="let item of autorizationFieldTypes" (click)="authorizationFieldObj.type=item" [ngClass]="{'font-weight-bold':authorizationFieldObj.type===item}"><a>{{'contentSource.'+item | translate}}</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="crawl-opt-inp">
+                          <div class="kr-sg-input-text mar-bot-15">
+                            <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
+                            <input id="contentFieldValueId" type="text" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [(ngModel)]="authorizationFieldObj.value">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3 d-flex align-items-center">
+                        <div class="is-auth-btn-group">
+                          <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="addAuthorizationField('cancel')">Cancel</button>
+                          <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="addAuthorizationField('save')">Add</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>  
+                  <!-- ADD DIVISION ENDS -->
+              </div> 
+              </div>
+            </div>
+            
+            <!-- Authentication fields -->
+            <ng-container *ngIf="['basic','form'].includes(editSource.authorizationProfle.sso_type)">
+            <div class="row col-12 border-top-row">
+              <div class="col-4 pl-0">
+                <div class="kr-sg-input-text">
+                  <div class="label-text">Authentication URL<sup class="field-mandatory">*</sup></div>
+                  <input id="contentAuthURLId" type="text" placeholder="Authentication Url" class="input-text" [(ngModel)]="editSource.authorizationProfle.authCheckUrl">
+                </div>
+              </div>
+            </div>
+            <div class="row col-12 border-top-row">
+              <div class="col-4 pl-0">
+                <div class="kr-sg-dropdowns">
+                  <div class="label-text">Test Type<sup class="field-mandatory">*</sup></div>
+                  <div class="dropdown dropdown-open">
+                      <button id="contentTestTypeId" class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(editSource.authorizationProfle.testType==='')?'Choose an option':('contentSource.'+editSource.authorizationProfle.testType|translate)}}</button>                                            
+                      <ul class="dropdown-menu content-menu">                                              
+                        <li *ngFor="let item of testTypes" (click)="editSource.authorizationProfle.testType=item" [ngClass]="{'font-weight-bold':(editSource.authorizationProfle.testType===item)}"><a>{{'contentSource.'+item|translate}}</a></li>
+                      </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="kr-sg-input-text">
+                  <div class="label-text">Test Value<sup class="field-mandatory">*</sup></div>
+                  <input id="contentTestValueId" [type]="(editSource.authorizationProfle.testType==='status_code')?'number':'text'" placeholder="Test Value" class="input-text" [ngClass]="{'maxUrlLimit-class':editSource.authorizationProfle.testType==='status_code'}" [(ngModel)]="editSource.authorizationProfle.testValue">
+                </div>
+              </div>
+            </div>
+            </ng-container>
+          </div>
       
               </div>
               <!-- new Configuration html end -->
-              <div class="accordion-content-info text-left mr-0 d-none" *ngIf="isConfig">
-                <div class="table-list-content">
-                <div class="kr-sg-data-table with-checkbox">
-                    <section class="table-content m-0">
-                      <header class="table-header">
-                        <div class="col_ col-2">{{"contentSource.title_caps" | translate}}</div>
-                        <div class="col_ col-3">{{"contentSource.url_caps" | translate}}</div>
-                        <div class="col_ col-2">{{"contentSource.description_caps" | translate}}</div>
-                        <div class="col_ col-2">{{"contentSource.created_by_caps" | translate}}</div>
-                        <div class="col_ col-2">{{"contentSource.last_updated_caps" | translate}}</div>
-                      </header>
-                      <ng-container>
-                        <div class="content-body align-items-start">
-                          <div class="col_ col-2 text-truncate" *ngIf="!editTitleFlag" title="{{selectedSource.name}}">
-                            {{selectedSource.name}}</div>
-                          <div class="col_ col-2 text-truncate" *ngIf="editTitleFlag"><input type="text" class="wid"
-                              maxlength="60" [(ngModel)]="editConfObj.title"
-                              (focusout)="editTitleFlag = false;selectedSource.name=editConfObj.title;"></div>
-                          <div class="col_ col-3 text-truncate"
-                            *ngIf="!editTitleFlag||(selectedSource.validations.url.validated&&selectedSource.recentStatus!='configured')"
-                            ngbTooltip="{{selectedSource.url}}" container="body">{{selectedSource.url}}</div>
-                          <div class="col_ col-3"
-                            *ngIf="editTitleFlag&&(!(selectedSource.validations.url.validated)||selectedSource.recentStatus=='configured')">
-                            <input type="text" class="wid" [(ngModel)]="editConfObj.url"
-                              (focusout)="editTitleFlag = false;selectedSource.url=editConfObj.url;">
-                          </div>
-                          <div class="col_ col-2 text-truncate" *ngIf="!editTitleFlag"
-                            ngbTooltip="{{selectedSource.desc}}" container="body">{{selectedSource.desc}}</div>
-                          <div class="col_ col-2" *ngIf="editTitleFlag">
-                            <div class="kr-sg-input-text-area min-ht">
-                              <textarea class="wid min-ht" maxlength="250" class="desc-text-area"
-                                [(ngModel)]="editConfObj.desc" rows="2"
-                                (focusout)="editTitleFlag = false;selectedSource.desc=editConfObj.desc;"></textarea>
-                            </div>
-                          </div>
-                          <div class="col_ col-2 text-truncate">{{selectedSource?.userDetails?.firstName}}
-                          </div>
-                          <div class="col_ col-2 text-truncate">{{selectedSource.lMod | dateFormatPipe:'D MMMM YYYY'}}
-                          </div>
-                          <!--<div class="col_ col-2" >{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}
-                          </div>
-                          <div class="col_ col-1"
-                            *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
-                            [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
-                            {{statusObj[selectedSource.recentStatus]?.name}}</div>
-                           <div class="col_ col-1">
-                            <a class="ViewPages"
-                              *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length"
-                              (click)="swapSlider()">{{selectedSource.numPages}}</a>
-                          </div> -->
-                          <div class="col_ col-1 p-0 text-right actions-images" *ngIf="!editTitleFlag">
-                            <img src="assets/icons/return.svg" class="ml-0"
-                              *ngIf="selectedSource.extractionType == 'web'"
-                              (click)="recrwal('config',selectedSource,$event)" ngbTooltip='Recrawl' container="body">
-                            <img src="assets/icons/content/edit_black.svg" (click)="editTitle($event)" ngbTooltip='Edit'
-                              container="body">
-                            <img src="assets/icons/content/delete.svg"
-                              (click)="deleteDocument('source',selectedSource ,$event)" ngbTooltip='Delete'
-                              container="body">
-                          </div>
-                        </div>
-                      </ng-container>
-                    </section>
-                </div>
-                </div>
-                <div *ngIf="selectedSource.sitemaps">
-                  <div *ngIf="selectedSource.sitemaps.length > 0; else noSiteMap" class="site-map-url-sec">
-                    <div class="label_text">{{"contentSource.sitemap_URLS" | translate}}</div>
-                    <div class="urls_">
-                      <div class="site-url" *ngFor="let site of selectedSource.sitemaps">{{site}}</div>
-                      <!-- <div class="site-url">https://finshots.in /path/sample</div> -->
-                    </div>
-                  </div>
-                  <ng-template #noSiteMap>
-                    <div class="site-map-url-sec">
-                      <div class="label_text">{{"contentSource.sitemap_URLS" | translate}}</div>
-                      <div class="urls_">
-                        <div class="site-url">{{"contentSource.no_sitemaps" | translate}}</div>
-                      </div>
-                    </div>
-                  </ng-template>
-                </div>
-                <div class="toggle-swich-row">
-                  <div class="row m-0 row_data">
-                    <div class="col-10 title pl-pr-10">{{"contentSource.schedule" | translate}}</div>
-                    <div class="toggle-label col-2 pl-pr-10 text-right">
-                      <label *ngIf="selectedSource?.advanceSettings" class="kr-sg-toggle">
-                        <input type="checkbox" name="scheduleOpts"
-                          [(ngModel)]="selectedSource.advanceSettings.scheduleOpt">
-                        <div class="slider"></div>
-                      </label>
-                      <label *ngIf="!selectedSource?.advanceSettings" class="kr-sg-toggle">
-                        <input type="checkbox">
-                        <div class="slider"></div>
-                      </label>
-                    </div>
-
-                  </div>
-                  <!-- <div class="schedule-comp" *ngIf="selectedSource.advanceSettings.scheduleOpt"> -->
-                  <!-- *ngIf="selectedSource.advanceSettings.scheduleOpt"  -->
-                  <div class="schedule-box">
-                    <app-scheduler [scheduleFlag]="selectedSource?.advanceSettings?.scheduleOpt"
-                      [crwalObject]="selectedSource" [schedule]="'get'" [schedulerType]="'horizantalSchedular'" (scheduleData)="scheduleData($event)"
-                      (cronExpress)="cronExpress($event)"></app-scheduler>
-                  </div>
-
-                  <!-- </div> -->
-                  <!-- <div class="row m-0 row_data">
-                    <div class="col-10 title pl-pr-10">Crawl Everything</div>
-                    <div class="toggle-label col-2 pl-pr-10 text-right">
-                      <label *ngIf="selectedSource.advanceSettings" class="kr-sg-toggle">
-                        <input type="checkbox" name="crawlEverything"
-                          [(ngModel)]="selectedSource.advanceSettings.crawlEverything"
-                          (click)="changeSettings(selectedSource.advanceSettings.crawlEverything)">
-                        <div class="slider"></div>
-                      </label>
-                      <label *ngIf="!selectedSource.advanceSettings" class="kr-sg-toggle">
-                        <input type="checkbox">
-                        <div class="slider"></div>
-                      </label>
-                    </div>
-                  </div> -->
-                </div>
-
-                <!-- New Crwal everey thing-->
-                <div class="inner-content row m-0 crawl-option">
-                  <div class="col-12 p-0 input-paddings">
-                    <div class="kr-sg-dropdowns">
-                      <div class="label-text">{{"contentSource.crawl_options" | translate}}</div>
-                      <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input"
-                          data-toggle="dropdown">{{crwalOptionLabel}}</button>
-                        <ul class="dropdown-menu content-menu">
-                          <li (click)="crawlOption('any','Crawl Everything')"><a>{{"contentSource.crawl_everything" |
-                              translate}}</a></li>
-                          <li (click)="crawlOption('block','Crawl Everything Except Specific URLs')">
-                            <a>{{"contentSource.crawl_except_urls" | translate}}</a>
-                          </li>
-                          <li (click)="crawlOption('allow','Crawl Only Specific URLs')">
-                            <a>{{"contentSource.crawl_specific_urls" | translate}}</a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
-
-                  <div class="allow-urls-sec row allow-urlBox pl-0 pr-0"
-                    *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.allowedOpt">
-                    <div class="col-1 p-0 title"> {{"contentSource.allow_urls" | translate}}</div>
-                    <div class="col-11 p-0 d-flex align-items-center">
-                      <div class="kr-sg-dropdowns">
-                        <div class="dropdown dropdown-open">
-                          <button class="dropdown-toggle dropdown-input"
-                            data-toggle="dropdown">{{allowUrl.name}}</button>
-                          <ul class="dropdown-menu content-menu">
-                            <li (click)="urlCondition('is' , 'allow')"><a>{{"contentSource.equals_to" | translate}}</a>
-                            </li>
-                            <li (click)="urlCondition('isNot', 'allow')"><a>{{"contentSource.not_equals_to" |
-                                translate}}</a></li>
-                            <li (click)="urlCondition('beginsWith', 'allow')"><a>{{"contentSource.begins_with" |
-                                translate}}</a></li>
-                            <li (click)="urlCondition('endsWith', 'allow')"><a>{{"contentSource.ends_with" |
-                                translate}}</a></li>
-                            <li (click)="urlCondition('contains', 'allow')"><a>{{"contentSource.contains" |
-                                translate}}</a></li>
-                            <li (click)="urlCondition('doesNotContains', 'allow')"><a>{{"contentSource.doesnt_contain" |
-                                translate}}</a></li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="kr-sg-input-text">
-                        <input type="text" id="enterPathInput" #inputVal placeholder="https://"
-                          [(ngModel)]="allowUrl.url" class="input-text" autocomplete="off">
-                      </div>
-                      <div class="add-urls" (click)="allowUrls(urlConditionAllow,inputVal,allowUrl)"><img
-                          src="assets/icons/add-urls.svg"></div>
-                    </div>
-                  </div>
-                  <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.allowedOpt">
-                    <div *ngFor="let allow of selectedSource.advanceSettings.allowedURLs;let i = index"
-                      class="allow-urls-sec row allow-urlBox m1010 pl-0 pr-0">
-                      <div class="col-1 p-0 title"></div>
-                      <div class="col-11 p-0 d-flex align-items-center">
-                        <div class="kr-sg-dropdowns">
-                          <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
-                              disabled>{{allow.condition|titlecase}}</button>
-
-                          </div>
-                        </div>
-                        <div class="kr-sg-input-text">
-                          <input type="text" autocomplete="off" value="{{allow.url}}" name="allowVal"
-                            placeholder="https://" class="input-text" disabled>
-                        </div>
-                        <div class="add-urls" (click)="updateRecord(i,allow,'delete','allow')"><img
-                            src="assets/images/close-cross.svg"></div>
-                      </div>
-                      <!-- <div class="col-11 p-0 title ">{{(i+1)}} : {{allow.condition}} - {{allow.url}}</div>
-                    <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete','allow')"><img
-                        src="assets/images/close-cross.svg"></div> -->
-                    </div>
-                  </div>
-                </div>
-
-                <div *ngIf="selectedSource?.advanceSettings && !selectedSource?.advanceSettings?.crawlEverything">
-                  <div class="allow-urls-sec row allow-urlBox pl-0 pr-0"
-                    *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
-                    <div class="col-1 p-0 title">{{"contentSource.block_urls" | translate}}</div>
-                    <div class="col-11 p-0 d-flex align-items-center">
-                      <div class="kr-sg-dropdowns">
-                        <div class="dropdown dropdown-open">
-                          <button class="dropdown-toggle dropdown-input"
-                            data-toggle="dropdown">{{blockUrl.name}}</button>
-                          <ul class="dropdown-menu content-menu">
-                            <li (click)="urlCondition('is' , 'block')"><a>{{"contentSource.equals_to" | translate}}</a>
-                            </li>
-                            <li (click)="urlCondition('isNot', 'block')"><a>{{"contentSource.not_equals_to" |
-                                translate}}</a></li>
-                            <li (click)="urlCondition('beginsWith', 'block')"><a>{{"contentSource.begins_with" |
-                                translate}}</a></li>
-                            <li (click)="urlCondition('endsWith', 'block')"><a>{{"contentSource.ends_with" |
-                                translate}}</a></li>
-                            <li (click)="urlCondition('contains', 'block')"><a>{{"contentSource.contains" |
-                                translate}}</a></li>
-                            <li (click)="urlCondition('doesNotContains', 'block')"><a>{{"contentSource.doesnt_contain" |
-                                translate}}</a></li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="kr-sg-input-text">
-                        <input type="text" autocomplete="off" [(ngModel)]="blockUrl.url" name="blockVal"
-                          placeholder="https://" class="input-text">
-                      </div>
-                      <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
-                    </div>
-                  </div>
-                  <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
-                    <div *ngFor="let allow of selectedSource.advanceSettings.blockedURLs;let i = index"
-                      class="allow-urls-sec row allow-urlBox m1010 pl-0 pr-0">
-                      <div class="col-1 p-0 title"></div>
-                      <div class="col-11 p-0 d-flex align-items-center">
-                        <div class="kr-sg-dropdowns">
-                          <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
-                              disabled>{{allow.condition|titlecase}}</button>
-
-                          </div>
-                        </div>
-                        <div class="kr-sg-input-text">
-                          <input type="text" autocomplete="off" value="{{allow.url}}" name="allowVal"
-                            placeholder="https://" class="input-text" disabled>
-                        </div>
-                        <div class="add-urls" (click)="updateRecord(i,allow,'delete','block')"><img
-                            src="assets/images/close-cross.svg"></div>
-                      </div>
-                      <!-- <div class="col-11 p-0 title ">{{(i+1)}} : {{allow.condition}} - {{allow.url}}</div>
-                    <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete','block')"><img
-                        src="assets/images/close-cross.svg"></div> -->
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Cookies -->
-                <div class="row m-0">
-                  <!-- <div class="col-1"></div> -->
-                  <div class="col-11 p-0 group-checkbox">
-                    <div class="pl-0 kr-sg-checkbox">
-                      <input id="checkbox_grph" class="checkbox-custom" type="checkbox" name="isJavaScriptRendered"
-                        [checked]="isJavaScriptRendered" [(ngModel)]="isJavaScriptRendered"
-                        [ngModelOptions]="{standalone: true}">
-                      <label for="checkbox_grph" class="checkbox-custom-label"
-                        style="font-weight: 500;font-size: 12px;">Java Script Rendered</label>
-                    </div>
-                    <div class="pl-0 kr-sg-checkbox">
-                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name="crawlBeyondSitemaps"
-                        [checked]="crawlBeyondSitemaps" [(ngModel)]="crawlBeyondSitemaps"
-                        [ngModelOptions]="{standalone: true}">
-                      <label for="checkbox_grpi" class="checkbox-custom-label"
-                        style="font-weight: 500;font-size: 12px;">Crawl Beyond Sitemap</label>
-                    </div>
-                    <div class="pl-0 kr-sg-checkbox">
-                      <input id="checkbox_robot" class="checkbox-custom" type="checkbox"
-                        name="respectRobotTxtDirectives" [checked]="respectRobotTxtDirectives"
-                        [(ngModel)]="respectRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
-                      <label for="checkbox_robot" class="checkbox-custom-label"
-                        style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
-                    </div>
-                    <div class="pl-0 kr-sg-checkbox">
-                      <input id="checkbox_cook" class="checkbox-custom" type="checkbox" name="useCookies"
-                        [checked]="useCookies" [(ngModel)]="useCookies" [ngModelOptions]="{standalone: true}">
-                      <label for="checkbox_cook" class="checkbox-custom-label"
-                        style="font-weight: 500;font-size: 12px;">Use Cookies</label>
-                    </div>
-                  </div>
-                  <!-- <div class="col-1"></div> -->
-                  <div class="inner-content row m-0 col-11 p-0">
-                    <div class="col-3 p-0">
-                      <div class="kr-sg-input-text mb-4">
-                        <div class="label-text"> Crawl Depth
-                          <div class="tooltip-custom">
-                            <img src="assets/icons/info.svg">
-                            <span class="tooltiptext">
-                              <div class="t-text"> The maximum depth that will be allowed to crawl any site.</div>
-                              <div class="v-text"> Value = 0 (No limit)</div>
-                            </span>
-                          </div>
-                        </div>
-                        <input type="text" maxlength="60" autocomplete="off" id="crawlDepth" name="crawlDepth"
-                          placeholder="5" min="0" (keyup)="checkValue(crawlDepth,'crawlDepth')" [(ngModel)]="crawlDepth"
-                          class="input-text">
-                      </div>
-                    </div>
-                    <div class="col-1 p-0"></div>
-                    <div class="col-3 p-0">
-                      <div class="kr-sg-input-text mb-4">
-                        <div class="label-text">Max URL Limit
-                          <div class="tooltip-custom">
-                            <img src="assets/icons/info.svg">
-                            <span class="tooltiptext">
-                              <div class="t-text">The maximum no. of URLs to be crawled.</div>
-                              <div class="v-text">Value = 0 (No limit)</div>
-                            </span>
-                          </div>
-                        </div>
-                        <input type="number" autocomplete="off" id="maxUrlLimit" maxlength="60" name="maxUrlLimit"
-                          placeholder="10" (keyup)="checkValue(maxUrlLimit,'maxUrlLimit')" [(ngModel)]="maxUrlLimit"
-                          class="input-text maxUrlLimit-class">
-                      </div>
-                    </div>
-                  </div>
-                  <!-- <div class="col-1"></div> -->
-                  <div class="info-no-limit col-7">
-                    <img src="assets/icons/info-limit.svg">
-                    <span class="title">Not limiting the Crawl Depth and Max URL Limit may impact the system
-                      performance</span>
-                  </div>
-                </div>
-
-
-                <!-- Cookies -->
-                <!-- New Crawl everey thing-->
-                <!-- Old  Crawl Design-->
-
-                <!-- <div class="col-12 p-0"
-                  *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.crawlEverything">
-                  <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg"
-                      class="ml-1">
-                    <label class="kr-sg-toggle full-input list">
-                      <input type="checkbox" id="allowUrlId" name="allowUrl" disabled>
-                      <div class="slider"></div>
-                    </label>
-                  </div>
-                  <div class="allow-list-data-label label_text">Block List <img src="assets/icons/Info-small.svg"
-                      class="ml-1">
-                    <label class="kr-sg-toggle full-input list">
-                      <input type="checkbox" id="blockListId" name="blockList" disabled>
-                      <div class="slider"></div>
-                    </label>
-                  </div>
-                </div>
-                 <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
-                  <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg"
-                      class="ml-1">
-                    <label class="kr-sg-toggle full-input list">
-                      <input type="checkbox" id="allowUrlId" name="allowUrl"
-                        [(ngModel)]="selectedSource.advanceSettings.allowedOpt"
-                        (click)="exceptUrl(selectedSource.advanceSettings.allowedOpt)">
-                      <div class="slider"></div>
-                    </label>
-                  </div>
-                  <div class="allow-urls-sec row allow-urlBox"
-                    *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.allowedOpt">
-                    <div class="col-2 p-0 title">Allow URLS</div>
-                    <div class="col-10 p-0 d-flex align-items-center">
-                      <div class="kr-sg-dropdowns">
-                        <div class="dropdown dropdown-open">
-                          <button class="dropdown-toggle dropdown-input"
-                            data-toggle="dropdown">{{allowUrl.condition}}</button>
-                          <ul class="dropdown-menu content-menu">
-                            <li (click)="urlCondition('Is' , 'allow')"><a>Is</a></li>
-                            <li (click)="urlCondition('Is not', 'allow')"><a>Is not</a></li>
-                            <li (click)="urlCondition('Begins with', 'allow')"><a>Begins with</a></li>
-                            <li (click)="urlCondition('Ends with', 'allow')"><a>Ends with</a></li>
-                            <li (click)="urlCondition('Contains', 'allow')"><a>Contains</a></li>
-                            <li (click)="urlCondition(doesntContains, 'allow')"><a>Doesn't contain</a></li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="kr-sg-input-text">
-                        <input type="text" id="enterPathInput" #inputVal placeholder="Enter/Path"
-                          [(ngModel)]="allowUrl.url" class="input-text" autocomplete="off">
-                      </div>
-                      <div class="add-urls" (click)="allowUrls(urlConditionAllow,inputVal,allowUrl)"><img
-                          src="assets/icons/add-urls.svg"></div>
-                    </div>
-                  </div>
-                  <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.allowedOpt">
-                    <div *ngFor="let allow of selectedSource.advanceSettings.allowedURLs;let i = index"
-                      class="path-data row m1010 alw-list-bor"
-                      [ngClass]="{'last-record' : (i + 1) == selectedSource.advanceSettings.allowedURLs.length }">
-                      <div class="col-11 p-0 title ">{{(i+1)}} : {{allow.condition}} - {{allow.url}}</div>
-                      <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete','allow')"><img
-                          src="assets/images/close-cross.svg"></div>
-                    </div>
-                  </div>
-                </div>
-
-                <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
-                   <div class="allow-list-data-label label_text mt-16">Block List <img src="assets/icons/Info-small.svg"
-                      class="ml-1">
-                    <label class="kr-sg-toggle full-input list">
-                      <input type="checkbox" id="blockListId" name="blockList"
-                        [(ngModel)]="selectedSource.advanceSettings.blockedOpt"
-                        (click)="restrictUrl(selectedSource.advanceSettings.blockedOpt)">
-                      <div class="slider"></div>
-                    </label>
-                  </div>
-                  <div class="allow-urls-sec row allow-urlBox"
-                    *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
-                    <div class="col-2 p-0 title">Block URLS</div>
-                    <div class="col-10 p-0 d-flex align-items-center">
-                      <div class="kr-sg-dropdowns">
-                        <div class="dropdown dropdown-open">
-                          <button class="dropdown-toggle dropdown-input"
-                            data-toggle="dropdown">{{blockUrl.condition}}</button>
-                          <ul class="dropdown-menu content-menu">
-                            <li (click)="urlCondition('Is' , 'block')"><a>Is</a></li>
-                            <li (click)="urlCondition('Is not', 'block')"><a>Is not</a></li>
-                            <li (click)="urlCondition('Begins with', 'block')"><a>Begins with</a></li>
-                            <li (click)="urlCondition('Ends with', 'block')"><a>Ends with</a></li>
-                            <li (click)="urlCondition('Contains', 'block')"><a>Contains</a></li>
-                            <li (click)="urlCondition(doesntContains, 'block')"><a>Doesn't contain</a></li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="kr-sg-input-text">
-                        <input type="text" autocomplete="off" [(ngModel)]="blockUrl.url" name="blockVal"
-                          placeholder="Enter/Path" class="input-text">
-                      </div>
-                      <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
-                    </div>
-                  </div>
-                   <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
-                    <div *ngFor="let allow of selectedSource.advanceSettings.blockedURLs;let i = index"
-                      class="path-data row m1010 alw-list-bor"
-                      [ngClass]="{'last-record' : (i + 1) == selectedSource.advanceSettings.blockedURLs.length }">
-                      <div class="col-11 p-0 title ">{{(i+1)}} : {{allow.condition}} - {{allow.url}}</div>
-                      <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete','block')"><img
-                          src="assets/images/close-cross.svg"></div>
-                    </div>
-                  </div>
-
-                </div> -->
-
-                <!-- Cookies -->
-                <!-- Old  Crawl Design-->
-              </div>
             </perfect-scrollbar>
             <!-- Conf Configuration-->
 
           </div>
-
-          <ng-container *ngIf="false">
-            <div class="accordion-content-info text-left" *ngIf="page && totalRecord > 0">
-              <div class="header-sec row m-0">
-                <div class="col-8 label_text m-0 p-0">Pages</div>
-  
-                <!-- <img src="assets/icons/caretDown.svg" class="ml-1"> -->
-                <div class="col-4 label_text m-0 last-update"  (click)="sortByApi('lastUpdated')">
-                  <span class="sort-up-down-icons">
-                    <img [ngClass]="getSortIconVisibility('lastUpdated', 'up')" src="assets/icons/caretDown.svg" class="sortImg upArrow">
-                    <img [ngClass]="getSortIconVisibility('lastUpdated', 'down')" src="assets/icons/caretDown.svg" class="sortImg">
-                  </span>
-                  <div class="title">Last Updated</div>
-                </div>
-              </div>
-              <div id="accordion" class="accordion-section">
-                <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table" #perfectScroll
-                  [scrollIndicators]="true">
-                  <div class="card_content"
-                    *ngFor="let page of pagingData | filter: [ pagesSearch, 'url_display'];let i = index">
-                    <div class="card_header">
-                      <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
-                        <div class="row m-0 content" (click)="viewPageDetails(page);selectedPage=page">
-                          <div class="col-8 link-name p-0" title="{{page._source.page_url|| selectedSource.url}}">
-                            {{page._source.page_url|| selectedSource.url}}</div>
-                          <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
-                          <div class="col-2 actions p-0">
-                            <img src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl'
-                              (click)="reCrwalingWeb('pages',page ,$event)" placement="left">
-                            <!-- <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh' placement="left"> -->
-                            <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)"
-                              ngbTooltip='Delete' placement="left">
-                          </div>
-                        </div>
-                        <!-- </div> -->
-                      </a>
-                    </div>
-                    <!-- <div id="collapseOne{{page._id}}" class="collapse pad_adjust" data-parent="#accordion">
-                      <div class="card_body" style="padding-left: 30px;">
-                        <div class="info-content page_titleContainer">
-                          <div class="row m-0 row_content">
-                            <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
-                            <div class="col-10 right-info-title">{{page.title}}</div>
-                          </div>
-                          <div class="row m-0 row_content">
-                            <div class="col-2 left-info-title pl-0">URL <span>:</span></div>
-                            <div class="col-10 right-info-title">{{page.url || selectedSource.url }}</div>
-                          </div>
-                          <div class="row m-0 row_content">
-                            <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
-                            <div class="col-10 right-info-title">{{page.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}
-                              <span class="viewPageDetails" (click)="viewPageDetails();selectedPage=page"><a>View
-                                  Details</a></span>
-                            </div>
-                          </div>
-  
-                        </div>
-                        <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Check for Updates</button>
-                        <div class="label_text">Results Preview</div>
-                        <div class="info-content previewSection">
-                          <div class="label_text" *ngIf="page.sections && page.sections.length">{{page.sections[0]}}</div>
-                          <div class="previewContent" *ngIf="!page.searchResultPreview" [innerHtml]="page.body"></div>
-                          <div class="previewContent" *ngIf="page.searchResultPreview"
-                            [innerHtml]="page.searchResultPreview"></div>
-                        </div>
-                        <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Test & Preview</button>
-                      </div>
-                    </div> -->
-                  </div>
-                </perfect-scrollbar>
-                <!-- pageination -->
-                <!-- <div class="paginations-custon">
-                      <div class="previous">Previous</div>
-  
-                      <div *ngFor="let item of numArr(btnCount); let i = index;" (click)="onClickPageNo(10,i)"
-                        id="number_{{i}}" [ngClass]="{'active': i === 0}" class="numbers">{{i+1}}
-                      </div>
-                      <div class="next" *ngIf="btnAllCount > 5"> ... </div>
-                      <div class="next">Next</div>
-                    </div> -->
-                <!-- <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
-                  [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
-                  <app-record-pagination *ngIf = "totalCrawledCount >10" [totalRecord]='totalCrawledCount' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
-                <!-- <div class="paginations-custon">
-                  <div class="previous pre-arrow dis-arow"
-                    (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)"> </div>
-                  <div id="number" class="numbers numbers-page"> {{ recordStr }}-{{ recordEnd }} of {{ totalRecord }}
-                  </div>
-  
-                  <div [ngClass]="{'dis-arow': recordEnd >= totalRecord}" class="next nxt-arrow"
-                    (click)="onClickArrow(recordStr+limitpage,recordEnd+limitpage,2,1000)"></div>
-                </div> -->
-                <!-- pageination -->
-              </div>
-  
-            </div>
-          </ng-container>
 
 <!-- New Pages Starts -->
           <ng-container *ngIf="page && !loadingSliderContent">
@@ -1756,7 +1441,7 @@
   <div class="modal-footer moadal-footer-config footer-btns" *ngIf="isConfig">
 
     <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal"
-      (click)="proceedWithConfigUpdate()">Save</button>
+      (click)="updateSourceConfiguration()">Save</button>
     <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal"
       (click)="closeStatusModal()">Cancel</button>
     <button type="button" class="kr-sg-button-secondary-two btn_lg" data-dismiss="modal"

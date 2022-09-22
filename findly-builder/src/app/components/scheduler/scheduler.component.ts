@@ -16,6 +16,7 @@ export class SchedulerComponent implements OnInit {
   //allowUrl : AllowUrl = new AllowUrl();
   // blockUrl : BlockUrl = new BlockUrl();
   customRecurrenceRef: any = [];
+  schedualarDataModelPopRef:any;
   istStratDate: any;
   startDate: any;
   endDate: any;
@@ -52,6 +53,7 @@ export class SchedulerComponent implements OnInit {
   @Output() scheduleData = new EventEmitter();
   @Output() cronExpress = new EventEmitter();
   @ViewChild('customRecurrence') customRecurrence: KRModalComponent;
+  @ViewChild('schedualarDataModelPop') schedualarDataModelPop: KRModalComponent;
   constructor(private notificationService: NotificationService) {
     var date = new Date;
     this.day = date.toString().split(" ")[0].toLocaleUpperCase();
@@ -490,29 +492,14 @@ export class SchedulerComponent implements OnInit {
       this.customRecurrenceRef.close();
     }
   }
+
+  //open or close schedular popup
+  openCloseSchedular(type){
+    if(type==='open'){
+      this.schedualarDataModelPopRef = this.schedualarDataModelPop.open();
+    } else if(type==='close'){
+      if(this.schedualarDataModelPopRef?.close) this.schedualarDataModelPopRef.close();
+    }
+  }
 }
 
-
-// export class InterVal {
-//   intervalType:String ="";
-//   intervalValue: IntervalValue = new IntervalValue();
-// }
-// export class Time{
-//       hour:String ="";
-//       minute:String ="";
-//       timeOpt:String ="";
-//       timezone:String ="";
-// }
-
-// export class IntervalValue {
-//   every: number = null ;
-//   schedulePeriod: String ="";
-//   repeatOn: String ="";
-//   endsOn: EndsOn = new EndsOn();
-// }
-// export class EndsOn {
-//   endType:String ="";
-//   endDate:String ="";
-//   occurrences:number = null;
-
-// }

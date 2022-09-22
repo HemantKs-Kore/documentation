@@ -24,7 +24,7 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-
+import {SchedulerComponent} from '../scheduler/scheduler.component';
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -44,6 +44,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('perfectScroll3') perfectScroll3: PerfectScrollbarComponent;
   @ViewChild('perfectScroll4') perfectScroll4: PerfectScrollbarComponent;
   @ViewChild('perfectScroll9') perfectScroll9: PerfectScrollbarComponent;
+  @ViewChild('appScheduler') appScheduler: SchedulerComponent;
   sampleJsonPath: any = '/home/assets/sample-data/sample.json';
   sampleCsvPath: any = '/home/assets/sample-data/sample.csv';
   filePath;
@@ -531,16 +532,15 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.statusModalPopRef = this.statusModalPop.open();
   }
   closeStatusModal() {
+    if (this.statusModalPopRef && this.statusModalPopRef.close) {
+      this.statusModalPopRef.close();
+    }
     this.importFaqInprogress = false;
     this.saveEvent.emit();
     const self = this;
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
-    if (this.statusModalPopRef && this.statusModalPopRef.close) {
-      this.statusModalPopRef.close();
-    }
-
     this.redirectTo();
     this.cancleSourceAddition();
     this.closeCrawlModalPop();
@@ -1122,8 +1122,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   //Form validation
   validateSource() {
     if (["web","faq"].includes(this.selectedSourceType.resourceType)) {
+      this.btnDisabled = true;
       if(this.validationInputs(this.selectedSourceType.resourceType)){
         this.proceedSource();
+      }
+      else{
+        this.btnDisabled = false;
       }
     }
     else {
@@ -1298,8 +1302,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         crawler.advanceOpts.crawlBeyondSitemaps = this.crawlBeyondSitemaps;
         crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
         crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
-        crawler.advanceOpts.allowedURLs = this.allowURLArray;
-        crawler.advanceOpts.blockedURLs = this.blockURLArray;
+        crawler.advanceOpts.allowedURLs = (crawler.advanceOpts.allowedOpt)?this.allowURLArray:[];
+        crawler.advanceOpts.blockedURLs = (crawler.advanceOpts.blockedOpt)?this.blockURLArray:[];
         if (Number(this.crawlDepth) || Number(this.crawlDepth) == 0) {
           crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
         } else {
@@ -1318,6 +1322,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         if(payload.authorizationProfle.sso_type==='basic'){
            payload.authorizationProfle.formFields=payload.authorizationProfle.basicFields;
+        }
+        else if(payload.authorizationProfle.sso_type==='form'){
+          for(let item of payload.authorizationProfle.formFields){
+            delete item.duplicateObj;
+            delete item.isEditable;
+            delete item.isShow;
+          }
         }
         delete payload.authorizationProfle.basicFields;
         delete payload.resourceType;
@@ -1383,7 +1394,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.openStatusModal();
           this.extract_sourceId = res._id;
           this.appSelectionService.updateTourConfig('addData');
-          this.addSourceModalPopRef.close();
+          //this.addSourceModalPopRef.close();
           if (this.selectedSourceType.sourceType === 'content') {
             this.statusObject = { ...this.statusObject, validation: res.validations };
             this.mixpanel.postEvent('Content Crawl web domain added', {});
@@ -2364,6 +2375,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     return count;
   }
+
+  //open schedular in scheduler component 
+   openScheduler(){
+    setTimeout(()=>{
+      this.appScheduler?.openCloseSchedular('open');
+    },300)
+   }
 }
 
 

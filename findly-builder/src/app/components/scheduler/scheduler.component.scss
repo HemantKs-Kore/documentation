@@ -629,3 +629,102 @@
     bottom: -1px;
 }
 
+::ng-deep .schedualarDataModelPop{
+    .modal-dialog{
+        // max-width: 40% !important; 
+        .modal-content{
+            height: 587px !important;
+            width: 350px !important;
+            margin: 15px auto;
+            border-radius: 4px !important;
+            .modal-header{
+                border-bottom: 1px solid transparent !important;
+                box-shadow: none !important;
+                padding: 22px 20px 0px 20px;
+                .title{
+                    font-weight: 600;
+                    color: #000000;
+                }
+            }
+            app-scheduler{
+                .schedular_row_data{
+                    padding: 15px 20px;
+                    margin: 0px !important;
+                    padding-bottom: 0px !important;
+                    .row_column{
+                        margin-bottom: 15px;
+                        border-bottom: 1px solid #E4E5E7;
+                        padding: 0 0 15px 0 !important;
+                        &:first-child{
+                            border-bottom: 1px solid transparent;
+                        }
+                        .kr-sg-input-text{
+                            mat-card{
+                                width: 70%;
+                            }
+                        }
+                        .calender{
+                            mat-card{
+                                &.demo-inline-calendar-card{
+                                    box-shadow: 0px 4px 4px rgb(32 33 36 / 20%), 0px 1px 2px rgb(32 33 36 / 10%);
+                                    .mat-calendar{
+                                        .mat-calendar-content{
+                                            mat-month-view{
+                                                .mat-calendar-table{
+                                                    .mat-calendar-body{
+                                                        .mat-calendar-body-cell{
+                                                            .mat-calendar-body-cell-content{
+                                                                &.mat-calendar-body-selected{
+                                                                    box-shadow: inset 0 0 0 1px #0d6efd;
+                                                                    background-color: #0D6EFD;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .status-modal-popup{
+                        &.custom-ref{
+                            width: 100%;
+                            .modal_content{
+                                .modal-body{
+                                    background-color: #fff;
+                                    .cust-ref{
+                                        .cust-repeat{
+                                            position: absolute;
+                                            left: 127px;
+                                            top: 18px !important;
+                                        }
+                                    }
+                                    .repeat-on{
+                                        .circle {
+                                                text-align: center;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .shedular-footer{
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                gap: 10px;
+                width: 100%;
+                padding: 15px 20px;
+                .kr-sg-button-secondary{
+                    border: 1px solid transparent;
+                }
+            }
+        }
+    }
+}
