@@ -92,7 +92,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getAllPlans();
     this.countriesList = this.constantsService.countriesList;
-    this.selectedApp = this.workflowService.selectedApp();
+    this.selectedApp = this.workflowService?.selectedApp();
     this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.selectedPlan = res?.subscription;

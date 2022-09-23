@@ -50,14 +50,24 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   filePath;
   extension;
   receivedQuaryparms: any;
+  
   addSourceModalPopDummyRef: any;
   schedularDataPopRef: any;
+  statusModalPopRef: any;
+  botsConfigurationModalRef: any;
+  customRecurrenceRef: any;
+  addManualFaqModalPopRef: any;
+  addSourceModalPopRef: any;
+  linkBotsModalPopRef: any;
+  addStructuredDataModalPopRef: any;
+  structuredDataStatusModalRef: any;
+  crawlModalPopRef: any;
+  contentStatusModalPopRef:any;
+
   searchIndexId;
   selectedSourceType: any = null;
   newSourceObj: any = {};
   selectedApp: any = {};
-  statusModalPopRef: any = [];
-  customRecurrenceRef: any = [];
   pollingSubscriber: any = null;
   initialValidations: any = {};
   doesntContains = 'Doesn\'t Contains';
@@ -76,7 +86,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   blockHttpsMsgs = false;
   crawlDepth: number;
   maxUrlLimit: number;
-  botsConfigurationModalRef: any;
   removedArr = [];
   submitted = false;
   showPassword = false;
@@ -236,19 +245,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ];
   anntationObj: any = {};
-  addManualFaqModalPopRef: any;
-  addSourceModalPopRef: any;
-  crawlModalPopRef: any;
   showSourceTitle = false
-  linkBotsModalPopRef: any;
   noAssociatedBots: boolean = true;
   associatedBots: any = [];
   streamID: any;
   showProgressBar: boolean;
   searchAssociatedBots: any;
-  addStructuredDataModalPopRef: any;
   structuredData: any = {};
-  structuredDataStatusModalRef: any;
   structuredDataDocPayload: any;
   selectExtractType: string = 'file';
 
@@ -290,6 +293,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('crawlModalPop') crawlModalPop: KRModalComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
   @ViewChild('schedularDataPop') schedularDataPop: KRModalComponent;
+  @ViewChild('contentStatusModalPop') contentStatusModalPop: KRModalComponent;
   ngOnInit() {
     const _self = this
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
@@ -2381,6 +2385,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     setTimeout(()=>{
       this.appScheduler?.openCloseSchedular('open');
     },300)
+   }
+
+   //open or close validation status of content
+   openCloseContentStatusModal(type){
+    if(type==='open'){
+      this.contentStatusModalPopRef = this.contentStatusModalPop.open();
+    }
+    else if(type==='close'){
+      if(this.contentStatusModalPopRef.close) this.contentStatusModalPopRef.close();
+    }
    }
 }
 
