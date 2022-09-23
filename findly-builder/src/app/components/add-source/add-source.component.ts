@@ -12,7 +12,7 @@ import * as _ from 'underscore';
 import { of, interval, Subject } from 'rxjs';
 import { startWith, take } from 'rxjs/operators';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { CrwalObj, AdvanceOpts, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
+import { CrwalObj, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
 
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -50,15 +50,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   filePath;
   extension;
   receivedQuaryparms: any;
-  addSourceModalPopDummyRef: any;
-  schedularDataPopRef: any;
   searchIndexId;
   selectedSourceType: any = null;
   newSourceObj: any = {};
   selectedApp: any = {};
-  statusModalPopRef: any;
-  customRecurrenceRef: any;
-  contentStatusModalRef:any;
   pollingSubscriber: any = null;
   initialValidations: any = {};
   doesntContains = 'Doesn\'t Contains';
@@ -77,7 +72,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   blockHttpsMsgs = false;
   crawlDepth: number;
   maxUrlLimit: number;
-  botsConfigurationModalRef: any;
   removedArr = [];
   submitted = false;
   showPassword = false;
@@ -126,6 +120,43 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   csvContent: any = '';
   extract_sourceId: any;
   imageUrl = 'https://banner2.cleanpng.com/20180331/vww/kisspng-computer-icons-document-memo-5ac0480f061158.0556390715225507990249.jpg';
+
+  anntationObj: any = {};
+  showSourceTitle = false
+  noAssociatedBots: boolean = true;
+  associatedBots: any = [];
+  streamID: any;
+  showProgressBar: boolean;
+  searchAssociatedBots: any;
+
+  addStructuredDataModalPopRef: any;
+  structuredDataStatusModalRef: any;
+  addManualFaqModalPopRef: any;
+  addSourceModalPopRef: any;
+  crawlModalPopRef: any;
+  linkBotsModalPopRef: any;
+  botsConfigurationModalRef: any;
+  addSourceModalPopDummyRef: any;
+  contentValidationPopRef:any;
+  statusModalPopRef: any;
+  customRecurrenceRef: any;
+
+  structuredData: any = {};
+  structuredDataDocPayload: any;
+  selectExtractType: string = 'file';
+
+  allowURLValues: Array<String> = ['is','isNot','beginsWith','endsWith','contains', 'doesNotContains'];
+  allowURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
+  blockURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
+  authorizationFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+  formFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: true, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+  autorizationFieldTypes: Array<String> = ['header', 'payload', 'querystring', 'pathparam'];
+  testTypes: Array<String> = ['text_presence', 'redirection_to', 'status_code'];
+  authenticationTypes: Array<String> = ['basic', 'form'];
+  crawlOptions: Array<String> = ['any', 'block', 'allow'];
+  crwalOptionLabel: String = 'any';
+  inputTypes: Array<String> = ['textbox', 'password'];
+
   availableSources: any = [
     {
       title: 'Add Content from Webpages, Files, and Other Sources',
@@ -236,34 +267,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     },
 
   ];
-  anntationObj: any = {};
-  addManualFaqModalPopRef: any;
-  addSourceModalPopRef: any;
-  crawlModalPopRef: any;
-  showSourceTitle = false
-  linkBotsModalPopRef: any;
-  noAssociatedBots: boolean = true;
-  associatedBots: any = [];
-  streamID: any;
-  showProgressBar: boolean;
-  searchAssociatedBots: any;
-  addStructuredDataModalPopRef: any;
-  structuredData: any = {};
-  structuredDataStatusModalRef: any;
-  structuredDataDocPayload: any;
-  selectExtractType: string = 'file';
-
-  allowURLValues: Array<String> = ['is','isNot','beginsWith','endsWith','contains', 'doesNotContains'];
-  allowURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
-  blockURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
-  authorizationFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
-  formFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: true, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
-  autorizationFieldTypes: Array<String> = ['header', 'payload', 'querystring', 'pathparam'];
-  testTypes: Array<String> = ['text_presence', 'redirection_to', 'status_code'];
-  authenticationTypes: Array<String> = ['basic', 'form'];
-  crawlOptions: Array<String> = ['any', 'block', 'allow'];
-  crwalOptionLabel: String = 'any';
-  inputTypes: Array<String> = ['textbox', 'password'];
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -280,7 +283,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     public mixpanel: MixpanelServiceService
   ) { }
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
-  @ViewChild('contentStatusModal') contentStatusModal: KRModalComponent;
+  @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('customRecurrence') customRecurrence: KRModalComponent;
   @ViewChild('addManualFaqModalPop') addManualFaqModalPop: KRModalComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -290,16 +293,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('structuredDataStatusModalPop') structuredDataStatusModalPop: KRModalComponent;
   @ViewChild('crawlModalPop') crawlModalPop: KRModalComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
-  @ViewChild('schedularDataPop') schedularDataPop: KRModalComponent;
+  @ViewChild('contentValidationPop') contentValidationPop: KRModalComponent;
   ngOnInit() {
     const _self = this
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     }
     this.appSelectionService.getTourConfig();
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
-    this.userInfo = this.authService?.getUserInfo() || {};
+    this.selectedApp = this.workflowService.selectedApp();
+    this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.userInfo = this.authService.getUserInfo() || {};
     // this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ??  null;
     if (this.workflowService.selectedApp()?.configuredBots[0]) {
       this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
@@ -526,25 +529,25 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       $('.addSourceModalComponent').addClass('hide');
     }
     this.statusObject = { ...this.defaultStatusObj };
+    if (this.pollingSubscriber) {
+      this.pollingSubscriber.unsubscribe();
+    }
+    this.statusModalPopRef = this.statusModalPop.open();
+  }
+  closeStatusModal() {
+    this.importFaqInprogress = false;
+    this.saveEvent.emit();
     const self = this;
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
-    this.statusModalPopRef = this.contentStatusModal.open();
-  }
-  closeStatusModal() {
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
-    // this.importFaqInprogress = false;
-    // this.saveEvent.emit();
-    // const self = this;
-    // if (this.pollingSubscriber) {
-    //   this.pollingSubscriber.unsubscribe();
-    // }
-    // this.redirectTo();
-    // this.cancleSourceAddition();
-    // this.closeCrawlModalPop();
+
+    this.redirectTo();
+    this.cancleSourceAddition();
+    this.closeCrawlModalPop();
   }
   closeCrawlModal() {
     this.saveEvent.emit();
@@ -1392,10 +1395,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (schdVal) {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
           this.btnDisabled = false;
-          this.openStatusModal();
           this.extract_sourceId = res._id;
           this.appSelectionService.updateTourConfig('addData');
           //this.addSourceModalPopRef.close();
+          if(this.addSourceModalPopDummyRef?.close) {
+            this.addSourceModalPopDummyRef.close();
+          }
+          this.openStatusModal();
           if (this.selectedSourceType.sourceType === 'content') {
             this.statusObject = { ...this.statusObject, validation: res.validations };
             this.mixpanel.postEvent('Content Crawl web domain added', {});
@@ -2382,6 +2388,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     setTimeout(()=>{
       this.appScheduler?.openCloseSchedular('open');
     },300)
+   }
+
+   //open or close validation modal
+   openCloseContentValidationModal(type){
+    if(type==='open'){
+     this.contentValidationPopRef = this.contentValidationPop.open();
+    }
+    else if(type==='close'){
+     if(this.contentValidationPopRef?.close) this.contentValidationPopRef.close()
+    }
    }
 }
 
