@@ -3685,3 +3685,27 @@ app-slider-component{
 .field-mandatory{
     color: #DD3646;
 }
+
+.module-topic{
+    cursor: pointer;
+    margin: 0 8px;
+    font-size: 14px;
+    padding: 5px 8px;
+    border-radius: 2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #121314;
+    height: 34px;
+    width: 34px;
+    border: 1px solid transparent;
+    &:hover{
+        background: #EFF0F1;
+        color: #0D6EFD;
+    }
+    &.selected-hover{
+        background: #E7F1FF;
+        border: 1px solid #0D6EFD;
+        color: #0D6EFD;
+    }
+}

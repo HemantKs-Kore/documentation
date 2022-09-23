@@ -7,6 +7,7 @@ import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { Moment } from 'moment';
 import * as moment from 'moment-timezone';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 declare const $: any;
 @Component({
   selector: 'app-result-insights',
@@ -98,7 +99,7 @@ export class ResultInsightsComponent implements OnInit {
   @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
-    private notificationService: NotificationService) { }
+    private notificationService: NotificationService,private appSelectionService: AppSelectionService) { }
   @ViewChild('viewQueries') viewQueries: KRModalComponent;
 
   openModalPopup(result) {
@@ -469,5 +470,8 @@ export class ResultInsightsComponent implements OnInit {
 
   //   }
   // }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
 
 }

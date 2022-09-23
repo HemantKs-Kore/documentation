@@ -12,6 +12,8 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
+import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 declare const $: any;
 @Component({
   selector: 'app-bot-action',
@@ -50,7 +52,9 @@ export class BotActionComponent implements OnInit {
   userInfo: any;
   botsModalRef: any;
   botsConfigurationModalRef: any;
+  onboardingOpened: boolean = false;
   searchAssociatedBots = '';
+  currentRouteData: any = "";
   accessToken: any;
   showPassword = false;
   showMore = false;
@@ -67,6 +71,8 @@ export class BotActionComponent implements OnInit {
   @ViewChild('botsConfigurationModalElement') botsConfigurationModalElement: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('perfectScroll2') perfectScroll2: PerfectScrollbarComponent;
+  @ViewChild(OnboardingComponentComponent, { static: true }) onBoardingComponent: OnboardingComponentComponent;
+  @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   searchBots: string;
   searchSources: string;
   associatedBots: any = [];
@@ -1540,5 +1546,10 @@ export class BotActionComponent implements OnInit {
   clearBot(){
     this.searchAssociatedBots='';
   }
+    
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
+  
 
 }

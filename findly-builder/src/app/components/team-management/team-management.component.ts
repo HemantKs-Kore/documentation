@@ -400,4 +400,7 @@ export class TeamManagementComponent implements OnInit {
     }, errRes => {
     });
   }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
 }
