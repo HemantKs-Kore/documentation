@@ -2719,9 +2719,6 @@
             .new-crawl-shedule-tab{
                 padding: 20px 20px;
                 .shedual-header{
-                    .shedual-hding{
-
-                    }
                     .shedual-hding-desc{
                         font-weight: 400;
                         font-size: 10px;
@@ -2743,7 +2740,7 @@
                 .shedual-hding {
                     color: #3C4043;
                     font-weight: 600;
-                    font-size: 12px;
+                    font-size: 14px;
                     line-height: normal;
                 }
                 .sr-toggle-btn{
@@ -2806,6 +2803,12 @@
                         .content-body{
                             font-size: 14px;
                             border-bottom: 1px solid #e4e5e7;
+                            &.is-edit-mode{
+                                &:hover{
+                                    background-color: transparent;
+                                }
+                                
+                            }
                             .kr-sg-toggle{
                                 &.with-label{
                                     .slider{
@@ -2832,6 +2835,7 @@
                     padding: 20px 0px;
                     background: #F8F9FA;
                     margin: 15px 0;
+                    width: 100%;
                     .is-auth-col{
                         display: flex;
                     }

@@ -189,8 +189,8 @@ export class AppHeaderComponent implements OnInit {
     this.getUserInfo();
     this.topicGuideShowSubscription = this.appSelectionService.topicGuideShow.subscribe(res=>{
       this.openUserMetaTagsSlider();
-      this.onBoardingComponent.openTopicguide();
-      this.onBoardingComponent.triggerChildFaq(this.router.url)
+      //this.onBoardingComponent.openTopicguide();
+      //this.onBoardingComponent.triggerChildFaq(this.router.url)
     })
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourConfigData = res;
