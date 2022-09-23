@@ -733,5 +733,8 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.searchObject.searchInteractionsConfig.showSearches = 'frequent'
     }
   }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
 
 }

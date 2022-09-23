@@ -9,6 +9,7 @@ import * as moment from 'moment-timezone';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { NGB_DATEPICKER_18N_FACTORY } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n';
 import { style } from '@angular/animations';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 declare const $: any;
 @Component({
   selector: 'app-user-engagement',
@@ -133,7 +134,8 @@ export class UserEngagementComponent implements OnInit {
   @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
-    private notificationService: NotificationService) { }
+    private notificationService: NotificationService,
+    private appSelectionService: AppSelectionService) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -1592,6 +1594,9 @@ export class UserEngagementComponent implements OnInit {
       </div> 
         `
     return dataDIV;
+  }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
   }
 
 

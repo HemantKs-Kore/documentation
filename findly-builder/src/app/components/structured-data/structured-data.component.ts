@@ -16,6 +16,8 @@ import { InlineManualService } from '../../services/inline-manual.service';
 import { AppSelectionService } from './../../services/app.selection.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
+import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import * as moment from 'moment';
 @Component({
   selector: 'app-structured-data',
@@ -120,10 +122,14 @@ export class StructuredDataComponent implements OnInit {
   paginateEvent:any;
   showSelectedCount = 0 ;
   componentType: string = 'addData';
+  onboardingOpened: boolean = false;
+  currentRouteData: any = "";
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
   @ViewChild('structuredDataStatusModalPop') structuredDataStatusModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  @ViewChild(OnboardingComponentComponent, { static: true }) onBoardingComponent: OnboardingComponentComponent;
+  @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -1461,6 +1467,10 @@ export class StructuredDataComponent implements OnInit {
       document.getElementById(inputSearch).focus();
     }, 100)
   }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  } 
+  
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();

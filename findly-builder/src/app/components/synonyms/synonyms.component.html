@@ -8,7 +8,12 @@
     <div class="kr-sg-data-table" *ngIf="loadingContent1">
       <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
       <div class="header-sec col-12 row m-0">
-        <div class="col-4 p-0">Synonyms</div>
+        <div class="col-4 p-0">Synonyms
+          <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+            <i class="si-topic-guide-1"></i>
+          </span>
+        </div>
 
         <div class="col-8 right-sec p-0">
           <div class="kr-sg-input-text m-0"  [ngClass]="{'d-none': !showSearch}">

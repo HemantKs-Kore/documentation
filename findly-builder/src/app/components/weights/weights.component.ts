@@ -456,6 +456,9 @@ export class WeightsComponent implements OnInit, OnDestroy
       this.search_FieldName = '';
     }
   }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
   ngOnDestroy()
   {
     this.subscription ? this.subscription.unsubscribe() : false;

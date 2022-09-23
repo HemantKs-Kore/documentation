@@ -6207,7 +6207,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             noResults: false,
                             taskPrefix: 'SUGGESTED',
                             viewType: viewType,
-                            customSearchResult: _self.customSearchResult
+                            customSearchResult: _self.customSearchResult,
+                            snippetData:{}
                           };
                           _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
                           searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
