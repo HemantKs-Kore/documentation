@@ -785,6 +785,7 @@ body {
 .searchAssist-kore-chat-window.search-container.conversation #searchChatContainer .messageBubble .userMessage span {
     letter-spacing: normal;
     color: var(--sdk-cinder-black-color);
+    word-wrap: break-word;
 }
 
 .searchAssist-kore-chat-window.search-container.conversation #searchChatContainer .messageBubble .botMessage span {

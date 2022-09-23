@@ -1006,5 +1006,8 @@ export class FieldManagementComponent implements OnInit {
     }
 
   }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
 
 }

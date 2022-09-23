@@ -8,6 +8,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 
 declare const $: any;
 @Component({
@@ -544,7 +545,7 @@ export class CredentialsListComponent implements OnInit {
     private service: ServiceInvokerService,
     public dialog: MatDialog,
     private notificationService: NotificationService,
-    public authService: AuthService) { }
+    public authService: AuthService,private appSelectionService: AppSelectionService) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -1434,6 +1435,9 @@ export class CredentialsListComponent implements OnInit {
     document.body.removeChild(selBox);
     this.notificationService.notify('Copied to clipboard', 'success')
 
+  }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
   }
 }
 // getLinkedBot() {
