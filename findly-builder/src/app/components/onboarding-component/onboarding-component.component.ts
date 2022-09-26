@@ -876,7 +876,7 @@ mediaObj:any = {};
     //   });
     // }
   }
-  showHideSpinner() {
+  showHideSpinner() {  
     setTimeout(() => {
       this.showLoader = false;
       this.showLoader1 = false;
@@ -909,7 +909,99 @@ mediaObj:any = {};
    }
     this.supportParentfaq = false
     this.supportChildfaq = faq.childData;
-    this.breadcrumbNameFaq = faq.display;
+    this.breadcrumbNameFaq=faq.replace("/", "");
+     /**Sources*/
+    if(this.breadcrumbNameFaq=='content'){
+      this.breadcrumbNameFaq='Content'
+    }
+    else if(this.breadcrumbNameFaq=='faqs'){
+      this.breadcrumbNameFaq='FAQs'
+    }
+    else if(this.breadcrumbNameFaq=='botActions'){
+      this.breadcrumbNameFaq='Actions'
+    }
+    else if(this.breadcrumbNameFaq=='structuredData'){
+      this.breadcrumbNameFaq='Structured Data'
+    }
+    else if(this.breadcrumbNameFaq=='connectors'){
+      this.breadcrumbNameFaq='Connectors'
+    }
+    /**Overview*/
+    else if(this.breadcrumbNameFaq=='summary'){
+      this.breadcrumbNameFaq='Overview'
+    }
+    /**Indices */
+    else if(this.breadcrumbNameFaq=='FieldManagementComponent'){
+      this.breadcrumbNameFaq='Field Management'
+    }
+    else if(this.breadcrumbNameFaq=='traits'){
+      this.breadcrumbNameFaq='Traits'
+    }
+    else if(this.breadcrumbNameFaq=='index'){
+      this.breadcrumbNameFaq='Workbench'
+    }
+    else if(this.breadcrumbNameFaq=='weights'){
+      this.breadcrumbNameFaq='Weights'
+    }
+    else if(this.breadcrumbNameFaq=='synonyms'){
+      this.breadcrumbNameFaq='Synonyms'
+    }
+    else if(this.breadcrumbNameFaq=='stopWords'){
+      this.breadcrumbNameFaq='Stop Words'
+    }
+    else if(this.breadcrumbNameFaq=='resultranking'){
+      this.breadcrumbNameFaq='Results Ranking'
+    }
+    else if(this.breadcrumbNameFaq=='facets'){
+      this.breadcrumbNameFaq='Facets'
+    }
+    else if(this.breadcrumbNameFaq=='rules'){
+      this.breadcrumbNameFaq='Business Rules'
+    }
+    else if(this.breadcrumbNameFaq=='search-experience'){
+      this.breadcrumbNameFaq='Search Interface'
+    }
+    else if(this.breadcrumbNameFaq=='resultTemplate'){
+      this.breadcrumbNameFaq='Result Template'
+    }
+    /**Analytics*/
+    else if(this.breadcrumbNameFaq=='experiments'){
+      this.breadcrumbNameFaq='Experiments'
+    }
+    else if(this.breadcrumbNameFaq=='dashboard'){
+      this.breadcrumbNameFaq='Dashboard'
+    }
+    else if(this.breadcrumbNameFaq=='userEngagement'){
+      this.breadcrumbNameFaq='User Engagement'
+    }
+    else if(this.breadcrumbNameFaq=='searchInsights'){
+      this.breadcrumbNameFaq='Search Insights'
+    }
+    else if(this.breadcrumbNameFaq=='resultInsights'){
+      this.breadcrumbNameFaq='Results Insights'
+    }
+    /**Manage */
+    else if(this.breadcrumbNameFaq=='generalSettings'){
+      this.breadcrumbNameFaq='General Settings'
+    }
+    else if(this.breadcrumbNameFaq=='settings'){
+      this.breadcrumbNameFaq='Channels'
+    }
+    else if(this.breadcrumbNameFaq=='credentials-list'){
+      this.breadcrumbNameFaq='Credentials List'
+    }
+    else if(this.breadcrumbNameFaq=='team-management'){
+      this.breadcrumbNameFaq='Team Management'
+    }
+    else if(this.breadcrumbNameFaq=='pricing'){
+      this.breadcrumbNameFaq='Pricing'
+    }
+    else if(this.breadcrumbNameFaq=='usageLog'){
+      this.breadcrumbNameFaq='Usage Log'
+    }
+    else if(this.breadcrumbNameFaq=='invoices'){
+      this.breadcrumbNameFaq='Invoices'
+    }
 }
 closeMediaModal(){
   this.mediaObj = {};

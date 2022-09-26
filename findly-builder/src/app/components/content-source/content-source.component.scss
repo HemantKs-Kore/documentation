@@ -1518,3 +1518,10 @@ line-height: 15px;
   -webkit-appearance: none;
   margin: 0;
 }
+
+.si-topic-guide-1{
+        &:hover{
+            background: #EFF0F1;
+            color: #0D6EFD !important;
+    }
+}
