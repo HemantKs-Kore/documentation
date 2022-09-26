@@ -11,7 +11,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service'
 import { AppHeaderComponent } from './components/app-header/app-header.component';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 
-// import {TranslateService} from '@ngx-translate/core';
+import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
 // declare const KoreWidgetSDK: any;
 declare const FindlySDK: any;
@@ -77,14 +77,14 @@ export class AppComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
     public inlineManual: InlineManualService,
-    public mixpanel: MixpanelServiceService
-    // private translate: TranslateService
+    public mixpanel: MixpanelServiceService,
+    private translate: TranslateService
   ) {
     this.mixpanel.init();
     router.events.subscribe((event: RouterEvent) => {
       this.navigationInterceptor(event);
     });
-    // translate.setDefaultLang('en');
+    translate.setDefaultLang('en');
   }
 
   ngOnInit() {
