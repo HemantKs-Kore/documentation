@@ -1120,7 +1120,7 @@
               <div class="col-4 pl-0">
                 <div class="kr-sg-input-text">
                   <div class="label-text">Authentication URL<sup class="field-mandatory">*</sup></div>
-                  <input id="contentAuthURLId" type="text" placeholder="Authentication Url" class="input-text" [(ngModel)]="editSource.authorizationProfle.authCheckUrl">
+                  <input id="contentAuthURLId" type="text" placeholder="Authentication Url" class="input-text" [(ngModel)]="editSource.authorizationProfle.authCheckUrl" autocomplete="off">
                 </div>
               </div>
             </div>
@@ -1139,7 +1139,7 @@
               <div class="col-4">
                 <div class="kr-sg-input-text">
                   <div class="label-text">Test Value<sup class="field-mandatory">*</sup></div>
-                  <input id="contentTestValueId" [type]="(editSource.authorizationProfle.testType==='status_code')?'number':'text'" placeholder="Test Value" class="input-text" [ngClass]="{'maxUrlLimit-class':editSource.authorizationProfle.testType==='status_code'}" [(ngModel)]="editSource.authorizationProfle.testValue">
+                  <input id="contentTestValueId" [type]="(editSource.authorizationProfle.testType==='status_code')?'number':'text'" placeholder="Test Value" class="input-text" [ngClass]="{'maxUrlLimit-class':editSource.authorizationProfle.testType==='status_code'}" [(ngModel)]="editSource.authorizationProfle.testValue" autocomplete="off">
                 </div>
               </div>
             </div>

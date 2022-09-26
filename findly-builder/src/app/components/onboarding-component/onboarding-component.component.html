@@ -265,7 +265,8 @@
                                     </div> -->
                                     <!-- <iframe id="topicGuideMediaModal" allowfullscreen controls src="https://drive.google.com/file/d/1ohhg7dfgPL0pWVzr8i2kjKveUwO9qy_o/preview" width="100%" height="100%" [class.d-none]="showLoader" (load)="showHideSpinner() class="noBorder"   allow="autoplay"></iframe> -->
                                     <!-- <iframe id="topicGuideMediaModal" class="noBorder" allowfullscreen controls (load)="showHideSpinner()" src=" https://drive.google.com/file/d/1ohhg7dfgPL0pWVzr8i2kjKveUwO9qy_o/preview " width="100% " height="100% " allow="autoplay" iframe-onload="onMediaLoadedLoaded(this) "></iframe> -->
-                                    <iframe id="topicGuideMediaModal" class="noBorder" allowfullscreen controls [src]="topicGuideVideoUrl" width="100% " height="100% " allow="autoplay" (load)="onMediaLoadedLoaded();showHideSpinner()"></iframe>
+                                    <iframe id="topicGuideMediaModal" class="noBorder" allowfullscreen controls (load)="showHideSpinner()" [src]="topicGuideVideoUrl" width="100% " height="100% " allow="autoplay" iframe-onload="onMediaLoadedLoaded(this) "></iframe>
+                                    <!-- <iframe id="topicGuideMediaModal" class="noBorder" allowfullscreen controls (load)="showHideSpinner();onMediaLoadedLoaded(this)" [src]="topicGuideVideoUrl" width="100% " height="100% " allow="autoplay" ></iframe> -->
                                   </div>
                             </div>
                             <div class="vidoeDesc">
