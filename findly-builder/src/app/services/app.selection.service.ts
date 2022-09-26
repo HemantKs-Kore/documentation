@@ -26,6 +26,7 @@ export class AppSelectionService {
   public routeChanged = new BehaviorSubject<any>({ name: undefined, path: '', isDemo:false});
   public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });
   public openSDKApp = new Subject<any>();
+  public topicGuideShow = new Subject<any>();
   public resumingApp = false;
   public currentsubscriptionPlanDetails: any;
   public currentUsageData: any;

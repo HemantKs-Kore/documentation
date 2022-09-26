@@ -689,6 +689,7 @@
         "add":"ADD"
     },
     "credentials": {
+        "credentials":"Credentials",
         "no_configured_credentials": "You haven’t configured any credentials yet!",
         "cred_info_text": "SearchAssist allows you to configure Credentials to enable channels and API Scopes for your SearchAssist application.",
         "configure": "Configure",
@@ -1366,6 +1367,7 @@
         "five_respectively": "five respectively"
     },
     "useronboarding": {
+        "Topic_Guide":"Topic Guide",
         "You_havent_configured": "You haven’t configured your app yet!",
         "start_now": "Start Now",
         "app_ready": "App is ready for Deployment",

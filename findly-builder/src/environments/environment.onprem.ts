@@ -11,7 +11,9 @@ export const environment = {
     APPCUES:{
       ENABLE : true,
       APPCUES_KEY : '112004'
-    }
+    },
+    topicGuideBaseUrl:'https://koredotcom.github.io/koredotai-docs/searchassist/topic-guide/'
+    // topicGuideBaseUrl:'https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/'
   };
   
   /*

@@ -1,6 +1,11 @@
 <div class="g-settings-container">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-    <div class="header-title">General Settings</div>
+    <div class="header-title">General Settings
+        <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+            <i class="si-topic-guide-1"></i>
+        </span>
+    </div>
     <perfect-scrollbar class="action-body-scroll">
         <div class="settings-general-data">
             <app-actions></app-actions>

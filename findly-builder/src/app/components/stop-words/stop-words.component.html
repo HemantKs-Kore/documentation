@@ -4,7 +4,12 @@
       <span class="please-wait-message">{{'please_wait'| translate}}</span>
     </div>
     <div class="header-sec-stopwords">
-      <div class="title">{{'stopWords.stop_words'| translate}}</div>
+      <div class="title">{{'stopWords.stop_words'| translate}}
+        <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+          <i class="si-topic-guide-1"></i>
+        </span>
+      </div>
       <div class="toggle_switch">
         <label class="kr-sg-toggle" *ngIf="(stopwords && stopwords.length)">                                       
           <input type="checkbox" checked  (change)="enableStopWords($event)" [(ngModel)]="enabled">

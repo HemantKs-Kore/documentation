@@ -11,8 +11,12 @@ export const environment = {
   APPCUES:{
     ENABLE : true,
     APPCUES_KEY : '112004'
-  }
+  },
   // API_SERVER_URL: 'http://192.168.10.101:5000' 
+  topicGuideBaseUrl:'https://koredotcom.github.io/koredotai-docs/searchassist/topic-guide/'
+  // API_SERVER_URL: 'http://192.168.10.101:5000' 
+  //testing purpose
+  // topicGuideBaseUrl:'https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/'
 };
 
 /*
