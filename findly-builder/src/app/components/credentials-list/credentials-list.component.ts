@@ -22,6 +22,9 @@ export class CredentialsListComponent implements OnInit {
   selectedApp: any;
   serachIndexId: any;
   firstlistData: any;
+  params:any ={};
+  url:string = '';
+  displayScopes:any =[];
   addCredentialRef: any;
   editCredentialRef: any;
   editCredential: any = {};
@@ -53,490 +56,7 @@ export class CredentialsListComponent implements OnInit {
   };
   scopeDesc;
   selectedScopes=[];
-  scopeList =[
-    {
-      title : 'Ingest Structured Data',
-      desc : 'Assign this scope to store the structured data in SearchAssist.',
-      data : 'Ingest Structured Data',
-      value : false,
-    },
-    {
-      title : 'Live search Results',
-      desc : 'Assign this scope to get the live search results as the user is typing the query.',
-      data : 'Live search Results',
-      value : false,
-    },
-    {
-      title : 'Search Results',
-      desc : 'Assign this scope to get the search results as the user has submitted the search query.',
-      data : 'Search Results',
-      value : false,
-    },
-    {
-      title : 'Train',
-      desc : 'Assign this scope to index the data stored in SearchAssist.',
-      data : 'Train',
-      value : false,
-    },
-    {
-      title : 'Auto Suggestions',
-      desc : 'Assign this scope to get the suggestions as the user has submitted the search query.',
-      data : 'Auto Suggestions',
-      value : false,
-    },
-  ]
-  // seed_data :  {
-  //   "_id" : "seed_data_id",
-  //   "__v" : 0.0,
-  //   "appScopes" : [
-  //   {
-  //   "scope" : "ingest_data",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow data ingestion into findly application using secured APIs",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Ingest Data",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "train",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow training data for a findly application using secured APIs",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Train",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "live_search",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow live search on data for a findly application using secured APIs",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Live Search",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "full_search",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow full search on data for a findly application using secured APIs",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Live Search",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "update_permission",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow updating permissions for findly application integration with workspace.ai",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Update Permission",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "view_faqs",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow viewing extracted FAQs for a findly application using secured APIs",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "View FAQs",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "structured_data:get",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow viewing extracted structured data for a findly application using secured APIs",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "View Structured Data",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "structured_data:update",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow updating structured data using secured APIs",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Update Structured Data",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "structured_data:delete",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow deleting structured data using secured APIs",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Delete Structured Data",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "create_fields",
-  //   "description" : {
-  //   "en" : "create fields API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Create Fields",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "get_fields",
-  //   "description" : {
-  //   "en" : "Get fields API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Get Fields",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   }
-  //   ],
-  //   "adminAppScopes" : [
-  //   {
-  //   "scope" : "ingest_data",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow data ingestion into findly application using secured APIs",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Ingest Data",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "train",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow training data for a findly application using secured APIs",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Train",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "live_search",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow live search on data for a findly application using secured APIs",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Live Search",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "full_search",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow full search on data for a findly application using secured APIs",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Live Search",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "update_permission",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow updating permissions for findly application integration with workspace.ai",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Update Permission",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "view_faqs",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow viewing extracted FAQs for a findly application using secured APIs",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "View FAQs",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "structured_data:get",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow viewing extracted structured data for a findly application using secured APIs",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "View Structured Data",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "structured_data:update",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow updating structured data using secured APIs",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Update Structured Data",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "structured_data:delete",
-  //   "description" : {
-  //   "en" : "Assign this scope to allow deleting structured data using secured APIs",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Delete Structured Data",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "create_fields",
-  //   "description" : {
-  //   "en" : "create fields API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Create Fields",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "update_rules",
-  //   "description" : {
-  //   "en" : "Update rules API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Update rules",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "get_fields",
-  //   "description" : {
-  //   "en" : "Get fields API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Get Fields",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "create_rules",
-  //   "description" : {
-  //   "en" : "Create rules API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Create Rules",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "create_weights",
-  //   "description" : {
-  //   "en" : "Create weights API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Create weights",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "create_findly_app",
-  //   "description" : {
-  //   "en" : "Create findly app API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Create findly app",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "update_indexpipeline",
-  //   "description" : {
-  //   "en" : "update index pipeline API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Update indexpipeline",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "advanced_search",
-  //   "description" : {
-  //   "en" : "Advanced Search API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Advanced Search",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "get_status",
-  //   "description" : {
-  //   "en" : "Status API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Status",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "view_datasourcegroups",
-  //   "description" : {
-  //   "en" : "view dataSourceGroups API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Get dataSourceGroups",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "edit_datasourcegroups",
-  //   "description" : {
-  //   "en" : "Edit dataSourceGroups API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Edit dataSourceGroups",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "view_sources",
-  //   "description" : {
-  //   "en" : "view sources API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "View Sources",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "edit_sources",
-  //   "description" : {
-  //   "en" : "Edit sources API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Edit Sources",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "view_contents",
-  //   "description" : {
-  //   "en" : "View Contents API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "View Contents",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "create_datasourcegroup",
-  //   "description" : {
-  //   "en" : "Create data source group API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Create data source group",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "edit_contents",
-  //   "description" : {
-  //   "en" : "Edit contents API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Edit contents",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   },
-  //   {
-  //   "scope" : "get_indexpipelines",
-  //   "description" : {
-  //   "en" : "Get Index Pipelines API",
-  //   "de" : "",
-  //   "es" : "",
-  //   "fr" : ""
-  //   },
-  //   "displayName" : "Get Index Pipelines",
-  //   "parentName" : "",
-  //   "isMandatory" : false
-  //   }
-  //   ]
-  //   }
+  scopesList = []
   componentType: string = 'addData';
   @ViewChild('addCredential') addCredential: KRModalComponent;
   @ViewChild('editCredentialPop') editCredentialPop: KRModalComponent;
@@ -551,7 +71,7 @@ export class CredentialsListComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     // this.manageCredential();
-    // this.getApiScopes();
+    this.getApiScopes();
     this.getCredential();
     // this.getLinkedBot();
   }
@@ -588,28 +108,23 @@ export class CredentialsListComponent implements OnInit {
       }
     );
   }
+  //open the add popUp
   newCredential() {
     // this.editCredentialRef = this.editCredentialPop.open();
     this.addCredentialRef = this.addCredential.open();
   }
+  //close the popup
   closeModalPopup() {
     this.selectedTab = 'configuration';
     this.credntial.name = [];
     this.credntial.awt = 'HS256';
     this.addCredentialRef.close();
     this.editTitleFlag = false;
-    this.scopeList.forEach(element => {
-      element.value = false
+    this.scopesList.forEach(element => {
+      element.isMandatory = false
     });
   }
-  closeEditModalPopup() {
-    this.scopeList.forEach(data => {
-      data.value = false  
-    });
-    this.selectedScopes = [];
-    this.editCredentialRef.close();
-  }
-
+  //open the edit popUop
   viewDetails(data){
     this.addCredentialRef = this.addCredential.open();
     this.editTitleFlag = true;
@@ -617,31 +132,41 @@ export class CredentialsListComponent implements OnInit {
     this.editCreden.clientSecret = data.clientSecret;
     this.editCreden.clientId = data.clientId;
     if(data && data.scope && data.scope[2]){
-      // console.log(this.scopeList) 
       let selectedScope = data?.scope[2].scopes
-      this.scopeList?.forEach(element => {
+      this.scopesList?.forEach(element => {
         selectedScope.forEach(data => {
-          if(element.data == data){
-            element.value = true
+          if(element.scope == data){
+            element.isMandatory = true
           }
         });
       });
     }
   }
-
-  saveEditCredential() {
+  //create and edit Credentials 
+  saveCredential(){
     let scopeArr =[];
-    for(let item of this.scopeList){
-      if(item.value) scopeArr.push(item.data)
+    for(let item of this.scopesList){
+      if(item.isMandatory) scopeArr.push(item.scope)
     }
-    const queryParams = {
-      userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
-      sdkAppId: this.editCreden.clientId
+    if(!this.editTitleFlag){
+      this.params = {
+        userId: this.authService.getUserId(),
+        streamId: this.selectedApp._id
+      }
+      this.url = 'create.createCredential'
     }
+    else{
+      this.params = {
+        userId: this.authService.getUserId(),
+        streamId: this.selectedApp._id,
+        sdkAppId: this.editCreden.clientId
+      }
+      this.url = 'edit.credential'
+    }
+    const queryParams = this.params
     const payload = {
       appName: this.credntial.name,
-      algorithm: 'HS256',
+      algorithm: this.credntial.awt,
       pushNotifications: {
         enable: this.credntial.enabled,
         webhookUrl: ''
@@ -656,7 +181,7 @@ export class CredentialsListComponent implements OnInit {
         }
     ]
     }
-    this.service.invoke('edit.credential', queryParams,payload).subscribe(
+    this.service.invoke(this.url, queryParams,payload).subscribe(
       res => {
         this.getCredential();
         this.closeModalPopup()
@@ -670,12 +195,11 @@ export class CredentialsListComponent implements OnInit {
         }
       }
     );
-    
-    
   }
+  //validations
   validateSource() {
     if (this.credntial.awt != 'Select Signing Algorithm' && this.credntial.name != "") {
-      this.createCredential()
+      this.saveCredential()
 
     }
     else {
@@ -713,70 +237,9 @@ export class CredentialsListComponent implements OnInit {
   }
   //Adding Scopes
   getScope(index){
-    this.scopeList[index].value = !this.scopeList[index].value
+    this.scopesList[index].isMandatory = !this.scopesList[index].isMandatory
    }
-   //
-  createCredential() {
-    const queryParams = {
-      userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id
-    }
-    let scope = [];
-    let scopeArr =[];
-    for(let item of this.scopeList){
-      if(item.value) scopeArr.push(item.data)
-    }
-    if (this.credntial.anonymus && this.credntial.register) {
-      scope = ['anonymouschat', 'registration'];
-    } else if (this.credntial.anonymus && !this.credntial.register) {
-      scope = ['anonymouschat'];
-    } else if (!this.credntial.anonymus && this.credntial.register) {
-      scope = ['registration'];
-    } else {
-      scope = [];
-    }
-    const payload = {
-      appName: this.credntial.name,
-      algorithm: this.credntial.awt,
-      scope:[
-        "anonymouschat",
-        "registration",
-        {
-        bot: this.selectedApp._id,
-        scopes: scopeArr
-        }
-        ],
-      bots: [this.selectedApp._id],
-      pushNotifications: {
-        enable: this.credntial.enabled,
-        webhookUrl: ''
-      }
-    }
-
-    this.service.invoke('create.createCredential', queryParams, payload).subscribe(
-      res => {
-        console.log(res);
-        this.listData = res;
-        this.botID = res.bots[0];
-        // this.slider = this.slider + 1;
-        // if (this.slider == 3 && this.existingCredential) {
-        //   this.slider = 3
-        // }
-
-        this.notificationService.notify('Created Successfully', 'success');
-        this.closeModalPopup();
-        this.getCredential();
-
-      },
-      errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
-        }
-      }
-    );
-  }
+  //credentials List method
   getCredential() {
     const queryParams = {
       userId: this.authService.getUserId(),
@@ -784,41 +247,66 @@ export class CredentialsListComponent implements OnInit {
     }
     this.service.invoke('get.credential', queryParams).subscribe(
       res => {
+        //this.getApiScopes();
         this.channnelConguired = res.apps;
-        this.firstlistData = res.apps[0]; 
+        this.firstlistData = res.apps[0]
+                 // Scopes code for API Scopes initial //
+        // Single Obj Api Scope
+        // let resScopeList = [];
+        // this.channnelConguired.forEach(appsData => {
+        //   appsData['scopeDetails'] = [];
+        //   if(appsData && appsData.scope.length){
+        //     appsData['scopeDetails'] = appsData.scope[2].scopes
+        //   }
+        // });
+        // console.log(this.scopesList)
+        // this.scopesList.forEach(scopeData => {
+        //   this.channnelConguired.forEach(chanenelData => {
+        //     chanenelData['scopeListDetails'] = [];
+        //     let tempList = []
+        //     chanenelData.scopeDetails.forEach(channelScopeData => {
+        //       if(channelScopeData == scopeData.scope){
+        //         tempList.push(scopeData);
+        //       }
+        //     });
+        //     chanenelData['scopeListDetails'].push(tempList)
+        //   });
+        // });
+        // console.log(this.channnelConguired)
+        //End
+        let scopeObj = []
+        this.channnelConguired['customScopeObj'] =[];  
+        this.channnelConguired['customScopeObjTitle'] =[];  
+        this.channnelConguired.forEach(element => {
+        this.channnelConguired['customScopeObj'].push(element.scope[2].scopes)
+        scopeObj.push(element.scope[2].scopes)
+       });
+       scopeObj.forEach(element => {
+        element['arr']=[]
+         element.forEach(childElement => {
+           this.scopesList.forEach(scopeElement => {
+            let tooltipObj : any = {}
+            let titleObj :any = {};
+            if(childElement == scopeElement.scope){
+              tooltipObj['scopeTitle'] = scopeElement.displayName,
+              titleObj['scopeTitle'] = scopeElement.displayName,
+               tooltipObj['scopeDesc'] = scopeElement.description.en
+               element['arr'].push(tooltipObj) 
+               this.channnelConguired['customScopeObjTitle'].push(titleObj.scopeTitle)
+            }
+          });
+         });
+       });
+        this.channnelConguired.forEach((elementChannel, index) => {
+          elementChannel['customScopeObj'] = [];
+          scopeObj.forEach((elementScope , childIndex) => {
+            if(index == childIndex){
+              elementChannel['customScopeObj'].push(elementScope)  
+            }
 
-         // Scopes code for API Scopes initial //
-      //   let scopeObj = []
-      //   this.channnelConguired['customScopeObj'] =[];  
-      //   this.channnelConguired.forEach(element => {
-      //   this.channnelConguired['customScopeObj'].push(element.scope[2].scopes)
-      //   scopeObj.push(element.scope[2].scopes)
-      //  });
-      //  let parentArr = []
-      //  scopeObj.forEach(element => {
-      //   //  let arr = [];
-      //   element['arr']=[]
-      //    element.forEach(childElement => {
-      //      this.scopeList.forEach(scopeElement => {
-      //       let tooltipObj : any = {}
-      //       if(childElement == scopeElement.title){
-      //         tooltipObj['scopeTitle'] = scopeElement.title,
-      //          tooltipObj['scopeDesc'] = scopeElement.desc
-      //          element['arr'].push(tooltipObj) 
-      //       }
-      //     });
-      //    });
-      //   //  parentArr.push() 
-      //  });
-      //   this.channnelConguired.forEach((elementChannel, index) => {
-      //     elementChannel['customScopeObj'] = [];
-      //     scopeObj.forEach((elementScope , childIndex) => {
-      //       if(index == childIndex){
-      //         elementChannel['customScopeObj'].push(elementScope)  
-      //       }
-
-      //     });
-      //   });
+          });
+        });
+        console.log(this.channnelConguired);
     // Scopes code for API Scopes end //
 
         // this.firstlistData.lastModifiedOn = moment(this.firstlistData.lastModifiedOn).format('MM/DD/YYYY - hh:mmA');
@@ -826,8 +314,6 @@ export class CredentialsListComponent implements OnInit {
         // if (this.channnelConguired.apps.length > 0) {
         //   this.existingCredential = true;
         // }
-
-        // console.log('$$$$$$$$$',this.channnelConguired)
         if (res.length > 0) {
           this.loadingContent = false;
           this.loadingContent1 = true;
@@ -885,6 +371,7 @@ export class CredentialsListComponent implements OnInit {
       event.stopPropagation();
     }
   }
+  //deleting the credential 
   deleteCredential(data) {
     const channelName= this.firstlistData.appName
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -950,477 +437,22 @@ export class CredentialsListComponent implements OnInit {
       document.getElementById(inputSearch).focus();
     }, 100)
   }
- 
-  // getApiScopes(){
-  //   const queryParams = {
-  //   seed_data :  {
-  //       "_id" : "seed_data_id",
-  //       "__v" : 0.0,
-  //       "appScopes" : [
-  //       {
-  //       "scope" : "ingest_data",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow data ingestion into findly application using secured APIs",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Ingest Data",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "train",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow training data for a findly application using secured APIs",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Train",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "live_search",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow live search on data for a findly application using secured APIs",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Live Search",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "full_search",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow full search on data for a findly application using secured APIs",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Live Search",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "update_permission",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow updating permissions for findly application integration with workspace.ai",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Update Permission",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "view_faqs",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow viewing extracted FAQs for a findly application using secured APIs",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "View FAQs",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "structured_data:get",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow viewing extracted structured data for a findly application using secured APIs",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "View Structured Data",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "structured_data:update",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow updating structured data using secured APIs",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Update Structured Data",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "structured_data:delete",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow deleting structured data using secured APIs",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Delete Structured Data",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "create_fields",
-  //       "description" : {
-  //       "en" : "create fields API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Create Fields",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "get_fields",
-  //       "description" : {
-  //       "en" : "Get fields API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Get Fields",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       }
-  //       ],
-  //       "adminAppScopes" : [
-  //       {
-  //       "scope" : "ingest_data",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow data ingestion into findly application using secured APIs",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Ingest Data",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "train",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow training data for a findly application using secured APIs",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Train",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "live_search",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow live search on data for a findly application using secured APIs",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Live Search",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "full_search",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow full search on data for a findly application using secured APIs",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Live Search",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "update_permission",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow updating permissions for findly application integration with workspace.ai",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Update Permission",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "view_faqs",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow viewing extracted FAQs for a findly application using secured APIs",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "View FAQs",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "structured_data:get",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow viewing extracted structured data for a findly application using secured APIs",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "View Structured Data",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "structured_data:update",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow updating structured data using secured APIs",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Update Structured Data",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "structured_data:delete",
-  //       "description" : {
-  //       "en" : "Assign this scope to allow deleting structured data using secured APIs",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Delete Structured Data",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "create_fields",
-  //       "description" : {
-  //       "en" : "create fields API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Create Fields",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "update_rules",
-  //       "description" : {
-  //       "en" : "Update rules API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Update rules",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "get_fields",
-  //       "description" : {
-  //       "en" : "Get fields API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Get Fields",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "create_rules",
-  //       "description" : {
-  //       "en" : "Create rules API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Create Rules",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "create_weights",
-  //       "description" : {
-  //       "en" : "Create weights API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Create weights",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "create_findly_app",
-  //       "description" : {
-  //       "en" : "Create findly app API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Create findly app",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "update_indexpipeline",
-  //       "description" : {
-  //       "en" : "update index pipeline API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Update indexpipeline",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "advanced_search",
-  //       "description" : {
-  //       "en" : "Advanced Search API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Advanced Search",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "get_status",
-  //       "description" : {
-  //       "en" : "Status API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Status",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "view_datasourcegroups",
-  //       "description" : {
-  //       "en" : "view dataSourceGroups API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Get dataSourceGroups",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "edit_datasourcegroups",
-  //       "description" : {
-  //       "en" : "Edit dataSourceGroups API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Edit dataSourceGroups",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "view_sources",
-  //       "description" : {
-  //       "en" : "view sources API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "View Sources",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "edit_sources",
-  //       "description" : {
-  //       "en" : "Edit sources API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Edit Sources",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "view_contents",
-  //       "description" : {
-  //       "en" : "View Contents API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "View Contents",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "create_datasourcegroup",
-  //       "description" : {
-  //       "en" : "Create data source group API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Create data source group",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "edit_contents",
-  //       "description" : {
-  //       "en" : "Edit contents API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Edit contents",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       },
-  //       {
-  //       "scope" : "get_indexpipelines",
-  //       "description" : {
-  //       "en" : "Get Index Pipelines API",
-  //       "de" : "",
-  //       "es" : "",
-  //       "fr" : ""
-  //       },
-  //       "displayName" : "Get Index Pipelines",
-  //       "parentName" : "",
-  //       "isMandatory" : false
-  //       }
-  //       ]
-  //       }
-  //   }
-  //   this.service.invoke('get.apiScopes', queryParams).subscribe(
-  //     res => {
-  //       this.credentials = res;
-  //       // console.log(res)
-  //     },
-  //     errRes => {
-  //       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-  //         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-  //       } else {
-  //         this.notificationService.notify('Failed ', 'error');
-  //       }
-  //     }
-  //   );
-
-  // }
+ //getting all the seed data for the scopes.
+  getApiScopes(){
+    this.service.invoke('get.apiScopes').subscribe(
+      res => {
+        this.scopesList = res;
+        this.getCredential()
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      }
+    );
+  }
   copy(val, elementID?) {
     const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
