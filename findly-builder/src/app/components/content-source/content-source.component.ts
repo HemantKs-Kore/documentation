@@ -11,10 +11,10 @@ import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
-import * as moment from 'moment';
+import moment from 'moment';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import {  Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
 import { InlineManualService } from '@kore.services/inline-manual.service';
@@ -43,6 +43,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   contentId
   content_id;
   skip = 0;
+  schedularData: any;
   edit: any = {};
   Id;
   editConfObj: any = {};
@@ -67,7 +68,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   searchSources = '';
   pagesSearch = '';
   lastPageSearch = '';
-  lastData : any;
+  lastData: any;
   selectedApp: any = {};
   resources: any = [];
   polingObj: any = {};
@@ -226,6 +227,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   crwalOptionLabel = '';
   structuredDataModalRef: any;
   addStructuredDataModalPopRef: any;
+  schedularDataPopRef: any;
   selectedSourceType: any;
   isStructuredDataAdd: boolean = false;
   sortedObject = {
@@ -244,9 +246,24 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   @ViewChild('structuredDataModal') structuredDataModal: KRModalComponent;
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
+  @ViewChild('schedularDataPop') schedularDataPop: KRModalComponent;
   @ViewChild(OnboardingComponentComponent, { static: true }) onBoardingComponent: OnboardingComponentComponent;
   templateState = new Subject();
   loadingData: boolean = true;
+
+  //latest object wrt crawl changes
+  editSource: any;
+  allowURLValues: Array<String> = ['is', 'isNot', 'beginsWith', 'endsWith', 'contains', 'doesNotContains'];
+  allowURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
+  blockURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
+  authorizationFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+  formFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+  autorizationFieldTypes: Array<String> = ['header', 'payload', 'querystring', 'pathparam'];
+  testTypes: Array<String> = ['text_presence', 'redirection_to', 'status_code'];
+  authenticationTypes: Array<String> = ['basic', 'form'];
+  crawlOptions: Array<String> = ['any', 'block', 'allow'];
+  inputTypes: Array<String> = ['textbox', 'password'];
+
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -293,15 +310,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.executionLogStatus = true;
   }
   addNewContentSource(type) {
-    if(type==='contentWeb'){
+    this.showSourceAddition = type;
+    if (type === 'contentWeb') {
       this.mixpanel.postEvent('Enter Crawl web domain', {});
     }
-    else if(type==='contentDoc'){
+    else if (type === 'contentDoc') {
       this.mixpanel.postEvent('Enter Upload Content File', {});
     }
-    this.showSourceAddition = type;
-    // this.openAddSourceModal();
-    // this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
   }
 
   addStructuredDataSource() {
@@ -696,26 +711,21 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       //this.selectedSource.advanceSettings.scheduleOpts = new scheduleOpts();
       this.allowUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.allowedURLs : [];
       this.blockUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.blockedURLs : [];
-      if (this.selectedSource.advanceSettings.allowedURLs.length > 0) {
-        this.crwalOptionLabel = 'Crawl Only Specific URLs'
-      } else if (this.selectedSource.advanceSettings.blockedURLs.length > 0) {
-        this.crwalOptionLabel = 'Crawl Everything Except Specific URls'
-      } else {
-        this.crwalOptionLabel = 'Crawl Everything'
-      }
       let searchEl = document.getElementsByName('pagesSearch')[0]
       let isFocused = (document.activeElement === searchEl);
       this.lastPageSearch = this.pagesSearch;
       this.lastData = data
       console.log(data.length, this.pagesSearch, isFocused)
-      if (data.length || this.pagesSearch || isFocused ) {
+      if (data.length || this.pagesSearch || isFocused) {
         this.swapSlider('page');
+        this.selectedPage = this.pagingData[0];
       }
       else {
         // console.log(data.length, this.pagesSearch, 'configOut..')
-        if(data.length == 0 && this.pagesSearch.length == 0)  { this.swapSlider('config')
-        // console.log(data.length, this.pagesSearch, 'config..')
-      }
+        if (data.length == 0 && this.pagesSearch.length == 0) {
+          this.swapSlider('config')
+          // console.log(data.length, this.pagesSearch, 'config..')
+        }
       }
       this.clicksViews('file')
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
@@ -856,51 +866,91 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     });
 
   }
+  openScheduler(event, source) {
+    this.selectedSource = source;
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    this.schedularDataPopRef = this.schedularDataPop.open();
+    this.schedularData = source?.advanceSettings
+  }
+  closeScheduler() {
+    if (this.schedularDataPopRef && this.schedularDataPopRef.close) {
+      this.schedularDataPopRef.close();
+    }
+  }
+  copyUrl(val) {
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+    this.notificationService.notify('Copied URL to clipboard', 'success')
+  }
+  goToLink(url: string) {
+    if (url.length > 0) {
+      window.open(url, "_blank");
+    }
+  }
   openStatusSlider(source, page?) {
-    // console.log("sourec opned", source)
     this.executionHistoryData = [];
     this.pagesSearch = '';
-
-    // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
-    //   this.notificationService.notify('Source extraction is still in progress', 'error');
-    //   return;
-    // }
-
-    // if (source.recentStatus === 'success') {
     this.contentModaltype = source.extractionType;
     this.selectedSource = source;
+    this.editSource = new CrwalObj();
     this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
-    //this.pageination(source.numPages, 10)
     if (source.extractionType === 'web') {
-      if (source.advanceSettings) {
-        this.useCookies = source.advanceSettings.useCookies;
-        this.respectRobotTxtDirectives = source.advanceSettings.respectRobotTxtDirectives;
-        this.crawlBeyondSitemaps = source.advanceSettings.crawlBeyondSitemaps;
-        this.isJavaScriptRendered = source.advanceSettings.isJavaScriptRendered;
-        this.blockHttpsMsgs = source.advanceSettings.blockHttpsMsgs;
-        this.crawlDepth = source.advanceSettings.crawlDepth;
-        this.maxUrlLimit = source.advanceSettings.maxUrlLimit
+      this.editSource.name = source?.name;
+      this.editSource.desc = source?.desc;
+      this.crwalOptionLabel = (source?.advanceSettings?.crawlEverything ? 'any' : (source?.advanceSettings?.allowedOpt) ? 'allow' : 'block')
+      this.useCookies = source?.advanceSettings?.useCookies;
+      this.respectRobotTxtDirectives = source?.advanceSettings?.respectRobotTxtDirectives;
+      this.crawlBeyondSitemaps = source?.advanceSettings?.crawlBeyondSitemaps;
+      this.isJavaScriptRendered = source?.advanceSettings?.isJavaScriptRendered;
+      this.crawlDepth = source?.advanceSettings?.crawlDepth;
+      this.maxUrlLimit = source?.advanceSettings?.maxUrlLimit;
+      this.allowURLArray = source?.advanceSettings?.allowedURLs;
+      this.blockURLArray = source?.advanceSettings?.blockedURLs;
+      this.editSource.advanceOpts.scheduleOpt = source?.advanceSettings?.scheduleOpt;
+      this.editSource.advanceOpts.scheduleOpts = source?.advanceSettings?.scheduleOpts;
+      this.editSource.authorizationEnabled = source?.authorizationEnabled;
+      if (source?.authorizationProfle) {
+        this.editSource.authorizationProfle.sso_type = source?.authorizationProfle?.sso_type;
+        this.editSource.authorizationProfle.testType = source?.authorizationProfle?.testType;
+        this.editSource.authorizationProfle.testValue = source?.authorizationProfle?.testValue;
+        this.editSource.authorizationProfle.authCheckUrl = source?.authorizationProfle?.authCheckUrl;
+        if (source?.authorizationProfle?.authorizationFields?.length > 0) {
+          for (let item of source?.authorizationProfle?.authorizationFields) {
+            const obj = { ...item, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+            this.editSource.authorizationProfle.authorizationFields.push(obj)
+          }
+        }
+        if (source?.authorizationProfle?.formFields?.length > 0 && this.editSource.authorizationProfle.sso_type === 'form') {
+          for (let item of source?.authorizationProfle?.formFields) {
+            const obj = { ...item, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+            this.editSource.authorizationProfle.formFields.push(obj)
+          }      
+        }
+        else{
+          this.formFieldObj.isShow = true;
+        }
+
       }
 
       this.openStatusModal();
       this.loadingSliderContent = true;
-      this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
-      //this.pageination(source.numPages, 10);
-      // this.totalRecord = source.numPages;
       this.totalCrawledCount = source.numPages;
       this.getCrawledPages(this.limitpage, 0);
       this.executionHistory();
       this.sourceStatus = source.recentStatus;
-
-      // if(this.sourceStatus === 'success'){
-      //    this.execution = false;
-      //    this.isConfig = false;
-      //    this.page = true;
-      // }else{
-      //   this.execution = false;
-      //   this.isConfig = true;
-      //   this.page = false;
-      // }
+      console.log("sourec opned", this.editSource)
     }
     else if (source.extractionType === 'file') {
       this.openDocumentModal();
@@ -1066,10 +1116,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.docContent.sys_source_name = this.editDocObj.title;
     // this.editDocObj.title = this.selectedSource.name;
   }
-  cancelTittle(){
+  cancelTittle() {
     this.isEditDoc = false;
     this.editDocObj.title = this.selectedSource.name;
-    this.editDocObj.title =  this.docContent.sys_source_name
+    this.editDocObj.title = this.docContent.sys_source_name
   }
 
   deleteDocument(from, record, event) {
@@ -1273,114 +1323,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
 
-  // filterTable(source, headerOption) {
-  //   console.log(this.resources, source)
-  //   this.filterTableSource = source;
-  //   this.filterTableheaderOption = headerOption;
-  //   let firstFilterDataBack = [];
-  //   //this.resources = [...this.filterResourcesBack]; // For new Filter..
-  //   if (headerOption == "extractionType") {
-  //     this.filterSystem.typeHeader = headerOption;
-  //     this.filterSystem.typefilter = source;
-  //   } else {
-  //     this.filterSystem.statusHeader = headerOption;
-  //     this.filterSystem.statusFilter = source;
-  //   }
-
-  //   //this.filterText  = source;
-  //   /** TYpe */
-  //   // if(this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all"){
-  //   //   this.resources = [...this.filterResourcesBack];
-  //   //   this.firstFilter = {'header': '' , 'source' : ''};
-  //   // } else {
-  //   //  if(this.filterSystem.typefilter == "all" || this.filterSystem.statusFilter == "all"){
-  //   //   if(!this.firstFilter['header'])this.firstFilter = {'header': headerOption , 'source' : source};
-  //   //   if(source == "all") {
-  //   //     firstFilterDataBack = [...this.filterResourcesBack];
-  //   //     const resourceData =  firstFilterDataBack.filter((data)=>{
-  //   //       return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
-  //   //       })
-  //   //     if(resourceData.length)this.resources = [...resourceData];
-  //   //   }else{
-  //   //     firstFilterDataBack = [...this.filterResourcesBack];
-  //   //     const resourceData =  firstFilterDataBack.filter((data)=>{
-
-  //   //       return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
-  //   //       })
-  //   //     if(resourceData.length)this.resources = [...resourceData];
-  //   //   }
-
-  //   //  }else {
-  //   //   this.resources = [...this.filterResourcesBack];
-  //   //   //firstFilter
-  //   //   const firstResourceData =  this.resources.filter((data)=>{
-  //   //     console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
-  //   //     return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
-  //   //     })
-  //   //     const secondResourceData =  firstResourceData.filter((data)=>{
-  //   //       console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
-  //   //       return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
-  //   //       })
-  //   //   if(secondResourceData.length)this.resources = [...secondResourceData];
-  //   //  }
-
-  //   // }
-
-  //   //a/
-  //   if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all") {
-  //     this.resources = [...this.filterResourcesBack];
-  //     this.firstFilter = { 'header': '', 'source': '' };
-  //   }
-  //   else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter == "all") {
-  //     if (!this.firstFilter['header']) {
-  //       this.firstFilter = { 'header': headerOption, 'source': source };
-  //     }
-  //     firstFilterDataBack = [...this.filterResourcesBack];
-  //     const resourceData = firstFilterDataBack.filter((data) => {
-  //       return data[this.filterSystem.typeHeader].toLocaleLowerCase() === this.filterSystem.typefilter.toLocaleLowerCase();
-  //     })
-  //     if (resourceData.length) this.resources = [...resourceData];
-  //   }
-  //   else if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter != "all") {
-  //     if (!this.firstFilter['header']) {
-  //       this.firstFilter = { 'header': headerOption, 'source': source };
-  //     }
-  //     firstFilterDataBack = [...this.filterResourcesBack];
-  //     const resourceData = firstFilterDataBack.filter((data) => {
-  //       return data[this.filterSystem.statusHeader].toLocaleLowerCase() === this.filterSystem.statusFilter.toLocaleLowerCase();
-  //     })
-  //     if (resourceData.length) this.resources = [...resourceData];
-
-  //   }
-  //   else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter != "all") {
-  //     this.resources = [...this.filterResourcesBack];
-  //     //firstFilter
-  //     // if (this.firstFilter['header'] == headerOption) {
-  //     if (headerOption == "extractionType") {
-  //       this.firstFilter = { 'header': this.filterSystem.statusHeader, 'source': this.filterSystem.statusFilter };
-  //     } else {
-  //       this.firstFilter = { 'header': this.filterSystem.typeHeader, 'source': this.filterSystem.typefilter };
-  //     }
-  //     const firstResourceData = this.resources.filter((data) => {
-  //       console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
-  //       return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
-  //     })
-  //     const secondResourceData = firstResourceData.filter((data) => {
-  //       console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
-  //       return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
-  //     })
-  //     if (secondResourceData.length) this.resources = [...secondResourceData];
-  //     //}
-  //      this.filterObject = {
-  //     type: source,
-  //     header: headerOption
-  //   }
-
-  //   this.filterContent(null,null,source, headerOption);
-  //   }
-
-  //   //this.getSourceList();
-  // }
 
   filterContent(searchValue?, searchSource?, source?, headerOption?, sortHeaderOption?, sortValue?, navigate?) {
     if (sortValue) {
@@ -1687,89 +1629,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.editConfObj.desc = this.selectedSource.desc;
 
   }
-  blockUrls(data) {
-    //data['condition'] = this.urlConditionBlock;
-    //this.blockUrl.condition = this.urlConditionBlock;
-    //this.selectedSource['advanceSettings'].blockedURLs.push(data);
-    this.blockUrlArr = [...this.selectedSource['advanceSettings'].blockedURLs]
-    //this.blockUrl = new BlockUrl;
-    if (data['url'])
-      this.updateRecord(this.selectedSource['advanceSettings'].blockedURLs.length - 1, data, 'add', 'block');
-  }
-  allowUrls(contains, allowUrl, dataAllow) {
-    // console.log(contains, allowUrl.value)
-    let data = {};
-    //data['condition'] = contains;
-    //data['url'] = allowUrl.value;
-    data = dataAllow;
-    this.allowUrlArr = [...this.selectedSource['advanceSettings'].allowedURLs]
-    if (data['url'])
-      this.updateRecord(this.selectedSource['advanceSettings'].allowedURLs.length - 1, data, 'add', 'allow');
-    $('#enterPathInput')[0].value = '';
-
-  }
-  updateRecord(i, allowUrls, option, type) {
-    //selectedSource.advanceSettings.allowedURLs
-    let payload = {}
-    // let resourceType = this.selectedSource.extractionType;
-    let crawler = new CrwalObj()
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      sourceId: this.selectedSource._id,
-      sourceType: this.selectedSource.extractionType,
-    };
-    crawler.name = this.selectedSource.name;
-    crawler.url = this.selectedSource.url;
-    crawler.desc = this.selectedSource.desc || '';
-    crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
-    crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
-    crawler.advanceOpts.useCookies = this.useCookies;
-    crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
-    crawler.advanceOpts.crawlBeyondSitemaps = this.crawlBeyondSitemaps;
-    crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
-    crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
-    crawler.advanceOpts.crawlDepth = this.crawlDepth;
-    crawler.advanceOpts.maxUrlLimit = this.maxUrlLimit;
-    crawler.advanceOpts.crawlEverything = false;
-    if (option == 'add') {
-      type == 'block' ? crawler.advanceOpts.blockedURLs.push(allowUrls) : crawler.advanceOpts.allowedURLs.push(allowUrls);
-    } else {
-      type == 'block' ? crawler.advanceOpts.blockedURLs.splice(i, 1) : crawler.advanceOpts.allowedURLs.splice(i, 1);
-    }
-    if (type == 'block') {
-      crawler.advanceOpts.allowedOpt = false;
-      crawler.advanceOpts.blockedOpt = true;
-      crawler.advanceOpts.allowedURLs = [];
-    } else {
-      crawler.advanceOpts.allowedOpt = true;
-      crawler.advanceOpts.blockedOpt = false;
-      crawler.advanceOpts.blockedURLs = [];
-    }
-    // crawler.resourceType = resourceType;
-    payload = crawler;
-    // console.log(payload);
-
-    this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
-      if (option == 'add') {
-        type == 'block' ? this.selectedSource['advanceSettings'].blockedURLs.push(allowUrls) : this.selectedSource['advanceSettings'].allowedURLs.push(allowUrls);
-      } else {
-        type == 'block' ? this.selectedSource['advanceSettings'].blockedURLs.splice(i, 1) : this.selectedSource['advanceSettings'].allowedURLs.splice(i, 1);
-      }
-      type == 'block' ? this.blockUrl = new BlockUrl : this.allowUrl = new AllowUrl;
-      this.allowUrlArr = [...this.selectedSource['advanceSettings'].allowedURLs];
-      this.blockUrlArr = [...this.selectedSource['advanceSettings'].blockedURLs];
-      this.getSourceList()
-      // allowUrls.forEach(element => {
-
-      // });
-    }, errRes => {
-      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed ', 'error');
-      }
-    });
-  }
   recrwal(from, record, event) {
     if (event) {
       event.stopImmediatePropagation();
@@ -1818,7 +1677,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   scheduleData(scheduleData) {
     // console.log(scheduleData);
-    this.selectedSource['advanceSettings'].scheduleOpts = scheduleData;
+    if (this.selectedSource?.advanceSettings?.scheduleOpts) this.selectedSource['advanceSettings'].scheduleOpts = scheduleData;
   }
   cronExpress(cronExpress) {
     // console.log(cronExpress);
@@ -1836,11 +1695,19 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.selectedSource.advanceSettings.crawlEverything = !bool;
     this.selectedSource.advanceSettings.allowedOpt = bool;
   }
+
+  //update source data
+   updateSourceConfiguration(){
+    if(this.validationInputs()){
+      this.proceedWithConfigUpdate();
+    }
+   }
+
+   //update source API call
   proceedWithConfigUpdate() {
-    let payload = {};
+    let payload: any = {};
     let schdVal = true;
-    let resourceType = this.selectedSource.extractionType;
-    let crawler = new CrwalObj()
+    let crawler = this.editSource;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       sourceId: this.selectedSource._id,
@@ -1848,40 +1715,28 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     if (this.editTitleFlag) {
       crawler.name = this.editConfObj.title;
-      crawler.url = this.selectedSource.url; // this.editConfObj.url
+      crawler.url = this.selectedSource.url;
       crawler.desc = this.editConfObj.desc || '';
     } else {
-      crawler.name = this.selectedSource.name;
+      crawler.name = this.editSource.name;
       crawler.url = this.selectedSource.url;
-      crawler.desc = this.selectedSource.desc || '';
+      crawler.desc = this.editSource.desc || '';
     }
-    if (this.selectedSource.advanceSettings.scheduleOpt) {
-      // if(this.selectedSource.advanceSettings.scheduleOpts.date){
-      //   let date = this.selectedSource.advanceSettings.scheduleOpts.date;
-      //   if(String(date).split(" ")) this.selectedSource.advanceSettings.scheduleOpts.date =  String(date).split(" ")[1] + " " + String(date).split(" ")[2]  + " " + String(date).split(" ")[3];
-      // }
-      // if(this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType &&
-      //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType != "Custom"){
-      //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue = {};
-      // }
-      // if(this.selectedSource.advanceSettings.scheduleOpts.interval &&
-      //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue &&
-      //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn &&
-      //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate){
-      //   let endate = this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate;
-      //   if(String(endate).split(" "))this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate =  String(endate).split(" ")[1]  + " " +  String(endate).split(" ")[2] + " " +  String(endate).split(" ")[3];
-      // }
-      if (this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType &&
-        this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType != "Custom") {
-        this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue = {};
+    if (this.editSource.advanceOpts.scheduleOpt) {
+      if (this.editSource.advanceOpts.scheduleOpts.interval.intervalType &&
+        this.editSource.advanceOpts.scheduleOpts.interval.intervalType != "Custom") {
+        this.editSource.advanceOpts.scheduleOpts.interval.intervalValue = {};
       }
-      crawler.advanceOpts = this.selectedSource.advanceSettings;
+      crawler.advanceOpts = this.editSource.advanceOpts;
     }
+
     crawler.advanceOpts.useCookies = this.useCookies;
     crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
     crawler.advanceOpts.crawlBeyondSitemaps = this.crawlBeyondSitemaps;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
     crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
+    crawler.advanceOpts.allowedURLs = (crawler.advanceOpts.allowedOpt)?this.allowURLArray:[];
+    crawler.advanceOpts.blockedURLs = (crawler.advanceOpts.blockedOpt)?this.blockURLArray:[];
     if (Number(this.crawlDepth) || Number(this.crawlDepth) == 0) {
       crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
     } else {
@@ -1892,57 +1747,23 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     } else {
       delete crawler.advanceOpts.maxUrlLimit;
     }
-    // if(this.allowUrl.url){
-    //   this.allowUrls(this.urlConditionAllow,  this.allowUrl, this.allowUrl.url);
-    // }
-    // if(this.blockUrl.url){
-    //   this.blockUrls(this.blockUrl);
-    // }
-    crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
-    crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
-    crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
-    crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
-    crawler.advanceOpts.allowedURLs.length > 0 || crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.crawlEverything = false : crawler.advanceOpts.crawlEverything = true;
-    // if (resourceType != 'web') {
-    //   crawler.resourceType = resourceType;
-    // }
-    // else {
-    //   delete crawler.resourceType;
-    // }
-    if (this.selectedSource.advanceSettings.crawlEverything) {
-      crawler.advanceOpts.crawlEverything = true;
-      crawler.advanceOpts.allowedOpt = false;
-      crawler.advanceOpts.blockedOpt = false;
-      crawler.advanceOpts.allowedURLs = [];
-      crawler.advanceOpts.blockedURLs = [];
-    } else {
-      crawler.advanceOpts.crawlEverything = false;
-      if (this.selectedSource.advanceSettings.allowedOpt) {
-        crawler.advanceOpts.allowedOpt = true;
-        crawler.advanceOpts.blockedOpt = false;
-        crawler.advanceOpts.blockedURLs = [];
-      } else if (this.selectedSource.advanceSettings.blockedOpt) {
-        crawler.advanceOpts.allowedOpt = false;
-        crawler.advanceOpts.blockedOpt = true;
-        crawler.advanceOpts.allowedURLs = [];
-      }
-    }
     payload = crawler;
-    //console.log(payload);
-    if (crawler.advanceOpts.scheduleOpt) {
-      if (crawler.advanceOpts.scheduleOpts) {
-        if (!crawler.advanceOpts.scheduleOpts.date) {
-          schdVal = false;
-        }
-        if (!crawler.advanceOpts.scheduleOpts.time) {
-          schdVal = false;
-        } else {
-          if (crawler.advanceOpts.scheduleOpts.time.hour == "" || crawler.advanceOpts.scheduleOpts.time.hour == "null") schdVal = false;
-          if (crawler.advanceOpts.scheduleOpts.time.timeOpt == "") schdVal = false;
-          if (crawler.advanceOpts.scheduleOpts.time.timezone == "Time Zone") schdVal = false;
-        }
+    for (let item of payload.authorizationProfle.authorizationFields) {
+      delete item.duplicateObj;
+      delete item.isEditable;
+      delete item.isShow;
+    }
+    if (payload.authorizationProfle.sso_type === 'basic') {
+      payload.authorizationProfle.formFields = payload.authorizationProfle.basicFields;
+    }
+    else if(payload.authorizationProfle.sso_type==='form'){
+      for(let item of payload.authorizationProfle.formFields){
+        delete item.duplicateObj;
+        delete item.isEditable;
+        delete item.isShow;
       }
     }
+    delete payload.authorizationProfle.basicFields;
     if (schdVal) {
       this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
         this.notificationService.notify('Configuration Saved', 'success');
@@ -2033,21 +1854,21 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     }
   }
-  crawlOption(opt, label) {
-    this.crwalOptionLabel = label;
-    if (opt != 'any') {
-      this.selectedSource.advanceSettings.crawlEverything = false;
-      if (opt == 'allow') {
-        this.selectedSource.advanceSettings.allowedOpt = true;
-        this.selectedSource.advanceSettings.blockedOpt = false;
-      } else if (opt == 'block') {
-        this.selectedSource.advanceSettings.blockedOpt = true;
-        this.selectedSource.advanceSettings.allowedOpt = false;
-      }
-    } else if (opt == 'any') {
-      this.selectedSource.advanceSettings.crawlEverything = true;
+
+  crawlOption(opt) {
+    this.editSource.advanceOpts.crawlEverything = false;
+    this.editSource.advanceOpts.allowedOpt = false;
+    this.editSource.advanceOpts.blockedOpt = false;
+    this.crwalOptionLabel = opt;
+    if (opt === 'any') {
+      this.editSource.advanceOpts.crawlEverything = true;
+    } else if (opt === 'allow') {
+      this.editSource.advanceOpts.allowedOpt = true;
+    } else if (opt === 'block') {
+      this.editSource.advanceOpts.blockedOpt = true;
     }
   }
+
   //retry failed url validation
   retryValidation(source, event) {
     if (event) {
@@ -2111,9 +1932,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.showSearch = !this.showSearch
   }
   closeSearch() {
-    this.pagesSearch='';
+    this.pagesSearch = '';
     this.showSearch = !this.showSearch;
-    this.getCrawledPages(10,0);
+    this.getCrawledPages(10, 0);
   }
   focusoutSearch(isSearchSource?) {
     if (this.activeClose) {
@@ -2125,7 +1946,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.activeClose = false;
     }
     this.showSearch = !this.showSearch;
-    this.getSourceList(null,this.searchSources,'search')
+    this.getSourceList(null, this.searchSources, 'search')
   }
   focusinSearch(inputSearch) {
     setTimeout(() => {
@@ -2165,34 +1986,185 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }, errRes => {
     });
   }
+
+  //add allow/block obj into array
+  addAllowBlockObj(type) {
+    const obj = { condition: 'contains', url: '' };
+    if (type === 'allow') {
+      this.allowURLArray.push(obj)
+    }
+    else if (type === 'block') {
+      this.blockURLArray.push(obj)
+    }
+  }
+
+  //add authorization field
+  addAuthorizationField(type) {
+    if (type === 'add') {
+      this.authorizationFieldObj.isShow = true;
+    }
+    else if (type === 'save') {
+      const array = ['contentFieldKeyId', 'contentFieldTypeId', 'contentFieldValueId'];
+      const count = this.countValidationInputs(array);
+      if (count === array.length) {
+        this.editSource.authorizationProfle.authorizationFields.push(this.authorizationFieldObj);
+        this.authorizationFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+      }
+      else {
+        this.notificationService.notify('Enter the required fields to proceed', 'error');
+      }
+    }
+    else if (type === 'cancel') {
+      this.authorizationFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+    }
+  }
+
+  //edit authorization field
+  editAuthorizationField(type, form, index?) {
+    if (type === 'save') {
+      const array = [`contentFieldKeyId${index}`, `contentFieldTypeId${index}`, `contentFieldValueId${index}`]
+      const count = this.countValidationInputs(array);
+      if (array.length === count) {
+        form.type = form.duplicateObj.type;
+        form.key = form.duplicateObj.key;
+        form.value = form.duplicateObj.value;
+        form.isEditable = false;
+      }
+      else {
+        this.notificationService.notify('Enter the required fields to proceed', 'error');
+      }
+    }
+    else if (['cancel', 'edit'].includes(type)) {
+      form.duplicateObj.type = form.type;
+      form.duplicateObj.key = form.key;
+      form.duplicateObj.value = form.value;
+      if (type === 'cancel') form.isEditable = false;
+    }
+  }
+
+  //add form field
+  addFormField(type) {
+    if (type === 'add') {
+      this.formFieldObj.isShow = true;
+    }
+    else if (type === 'save') {
+      const array = ['contentFormFieldKeyId', 'contentFormFieldTypeId', 'contentFormFieldValueId'];
+      const count = this.countValidationInputs(array);
+      if (count === array.length) {
+        this.editSource.authorizationProfle.formFields.push(this.formFieldObj);
+        this.formFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+      }
+      else {
+        this.notificationService.notify('Enter the required fields to proceed', 'error');
+      }
+    }
+    else if (type === 'cancel') {
+      this.formFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+    }
+  }
+
+  //edit authorization field
+  editFormField(type, form, index) {
+    if (type === 'save') {
+      const array = [`contentFormFieldKeyId${index}`, `contentFormFieldTypeId${index}`, `contentFormFieldValueId${index}`]
+      const count = this.countValidationInputs(array);
+      if (count === array.length) {
+        form.type = form.duplicateObj.type;
+        form.key = form.duplicateObj.key;
+        form.value = form.duplicateObj.value;
+        form.isEditable = false;
+      }
+      else {
+        this.notificationService.notify('Enter the required fields to proceed', 'error');
+      }
+    }
+    else if (['cancel', 'edit'].includes(type)) {
+      form.duplicateObj.type = form.type;
+      form.duplicateObj.key = form.key;
+      form.duplicateObj.value = form.value;
+      if (type === 'cancel') form.isEditable = false;
+    }
+  }
+
+  //save basic field
+  saveBasicField(form, type) {
+    if (type === 'save') {
+      form.value = form.duplicateObj.value;
+    }
+    else if (type === 'cancel') {
+      form.duplicateObj.value = form.value;
+    }
+    form.isEditable = false;
+  }
+
+  //select authentication type
+  selectAuthenticationType(type) {
+    this.editSource.authorizationProfle.sso_type = type;
+    this.editSource.authorizationProfle.authorizationFields = [];
+    this.editSource.authorizationProfle.authCheckUrl = '';
+    this.editSource.authorizationProfle.testType = '';
+    this.editSource.authorizationProfle.testValue = '';
+    this.authorizationFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+  }
+
+  //delete form fields
+  deleteFormFields(index) {
+    if (this.editSource.authorizationProfle.formFields.length === 1) {
+      this.formFieldObj.isShow = true;
+    }
+    this.editSource.authorizationProfle.formFields.splice(index, 1);
+  }
+
+  //validation method
+  validationInputs() {
+    let inputs = ['addSourceTitleInput'];
+      if (this.editSource.advanceOpts.blockedOpt || this.editSource.advanceOpts.allowedOpt) {
+        const array: any = (this.editSource.advanceOpts.allowedOpt) ? this.allowURLArray : this.blockURLArray;
+        const name = (this.editSource.advanceOpts.allowedOpt) ? 'contentAllowId' : 'contentBlockId';
+        for (let i = 0; i < array.length; i++) {
+          inputs.push(name + i);
+        }
+      }
+      if (this.editSource.authorizationEnabled) {
+        inputs.push('contentIsAuthId');
+        if (this.editSource.authorizationProfle.sso_type === 'basic' || this.editSource.authorizationProfle.sso_type === 'form') {
+          inputs.push('contentAuthURLId', 'contentTestTypeId', 'contentTestValueId');
+          if (this.authorizationFieldObj.isShow) {
+            inputs.push('contentFieldKeyId', 'contentFieldTypeId', 'contentFieldValueId');
+          }
+          if (this.editSource.authorizationProfle.sso_type === 'form' && this.formFieldObj.isShow) {
+            inputs.push('contentFormFieldKeyId', 'contentFormFieldTypeId', 'contentFormFieldValueId');
+          }
+        }
+
+      }
+    const count = this.countValidationInputs(inputs);
+    if (count !== inputs.length) {
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
+    return (count === inputs.length) ? true : false;
+  }
+
+  //count validation input's
+  countValidationInputs(data) {
+    let count = 0;
+    for (let item of data) {
+      let text = 0;
+      let id: any = document.getElementById(item);
+      if (id?.type === 'submit') {
+        text = ['Select Authentication Type', 'Choose an option', 'Select Field Type'].includes(id.innerHTML) ? 0 : 1;
+      }
+      else {
+        text = id?.value?.length;
+      }
+      $(id).css("border-color", (text > 0) ? "" : "#DD3646");
+      if (text > 0) count++;
+    }
+    return count;
+  }
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next();
   }
 }
 
-// class CrwalObj{
 
-//   url: String = '';
-//   desc: String = '';
-//   name: String = '';
-//   resourceType: String = '';
-//   advanceOpts: AdvanceOpts = new AdvanceOpts()
-
-
-// }
-// class AdvanceOpts{
-// scheduleOpts:boolean = true;
-//     schedulePeriod: String ="";
-//     repeatInterval: String ="";
-//     crawlEverything: boolean = true;
-//        allowedURLs:AllowUrl[] = [];
-//        blockedURLs: BlockUrl[] = [];
-// }
-// class AllowUrl {
-// condition:String = '';
-//  url: String = '';
-// }
-// class BlockUrl {
-// condition:String = '';
-//  url: String = '';
-// }
