@@ -857,6 +857,10 @@ mediaObj:any = {};
 };
 
   triggerFaq() {
+    //added below if condition to prevent the loader multiple times on click of topic guide
+    if(this.topicGuideObj.enableIframe){
+      return
+    }
     this.currentRouteData=this.currentRouteData.replace("/", "");
     if(this.currentRouteData==''){
       this.currentRouteData=this.router.url;
