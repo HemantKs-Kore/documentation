@@ -259,7 +259,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   allowURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
   blockURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
   authorizationFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
-  formFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: true, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+  formFieldObj: any = { type: '', key: '', value: '',isRequired: true, isEnabled: true, isShow: true, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
   autorizationFieldTypes: Array<String> = ['header', 'payload', 'querystring', 'pathparam'];
   testTypes: Array<String> = ['text_presence', 'redirection_to', 'status_code'];
   authenticationTypes: Array<String> = ['basic', 'form'];
@@ -384,11 +384,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   openAddContentModal() {
     this.addSourceModalPopDummyRef = this.addSourceModalPopDummy.open();
   }
-  closeAddContentModal() {
+  closeAddContentModal(isEmit?) {
     if (this.addSourceModalPopDummyRef?.close) {
       this.addSourceModalPopDummyRef.close();
       this.url_failed = false;
-      this.cancleEvent.emit();
+      //this.selectedSourceType=null;
+      if(isEmit) this.cancleEvent.emit();
     }
   }
 
@@ -405,12 +406,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   editConfiguration() {
-    //this.closeStatusModal();
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
     this.url_failed = true;
-    this.openAddSourceModal();
+    this.openAddContentModal();
   }
   //retry failed url validation
   retryValidation() {
@@ -1244,9 +1244,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log("mix event:FAQ File extraction started")
       //this.mixpanel.postEvent('FAQ File extraction started', {});
     }
-    let payload: any = {};
     let schdVal = true;
-    const crawler = this.crwalObject;
+    // const crawler = this.crwalObject;
+    let payload: any = {};
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
@@ -1298,27 +1298,27 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         quaryparms.faqType = resourceType;
       }
       if (resourceType === 'web') {
-        crawler.name = this.newSourceObj.name;
-        crawler.url = this.newSourceObj.url;
-        crawler.desc = this.newSourceObj.desc || '';
-        crawler.advanceOpts.useCookies = this.useCookies;
-        crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
-        crawler.advanceOpts.crawlBeyondSitemaps = this.crawlBeyondSitemaps;
-        crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
-        crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
-        crawler.advanceOpts.allowedURLs = (crawler.advanceOpts.allowedOpt)?this.allowURLArray:[];
-        crawler.advanceOpts.blockedURLs = (crawler.advanceOpts.blockedOpt)?this.blockURLArray:[];
+        payload =this.crwalObject;
+        payload.name = this.newSourceObj.name;
+        payload.url = this.newSourceObj.url;
+        payload.desc = this.newSourceObj.desc || '';
+        payload.advanceOpts.useCookies = this.useCookies;
+        payload.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
+        payload.advanceOpts.crawlBeyondSitemaps = this.crawlBeyondSitemaps;
+        payload.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
+        payload.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
+        payload.advanceOpts.allowedURLs = (payload.advanceOpts.allowedOpt)?this.allowURLArray:[];
+        payload.advanceOpts.blockedURLs = (payload.advanceOpts.blockedOpt)?this.blockURLArray:[];
         if (Number(this.crawlDepth) || Number(this.crawlDepth) == 0) {
-          crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
+          payload.advanceOpts.crawlDepth = Number(this.crawlDepth);
         } else {
-          delete crawler.advanceOpts.crawlDepth;
+          delete payload.advanceOpts.crawlDepth;
         }
         if (Number(this.maxUrlLimit) || Number(this.maxUrlLimit) == 0) {
-          crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
+          payload.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
         } else {
-          delete crawler.advanceOpts.maxUrlLimit;
-        }
-        payload = { ...crawler };
+          delete payload.advanceOpts.maxUrlLimit;
+        }       
         for(let item of payload.authorizationProfle.authorizationFields){
            delete item.duplicateObj;
            delete item.isEditable;
@@ -1344,8 +1344,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             }
           }
         }
-        quaryparms.resourceType = resourceType;
-        console.log("newSourceObj.desc", this.crwalObject);
+        quaryparms.resourceType = resourceType;        
       }
 
       if (resourceType === 'file') {
@@ -1375,17 +1374,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           payload.resourceType = payload.fileId ? 'file' : 'url';
         }
       }
-      if (crawler.advanceOpts.scheduleOpt) {
-        if (crawler.advanceOpts.scheduleOpts) {
-          if (!crawler.advanceOpts.scheduleOpts.date) {
+      if (payload.advanceOpts.scheduleOpt) {
+        if (payload.advanceOpts.scheduleOpts) {
+          if (!payload.advanceOpts.scheduleOpts.date) {
             schdVal = false;
           }
-          if (!crawler.advanceOpts.scheduleOpts.time) {
+          if (!payload.advanceOpts.scheduleOpts.time) {
             schdVal = false;
           } else {
-            if (crawler.advanceOpts.scheduleOpts.time.hour == "" || crawler.advanceOpts.scheduleOpts.time.hour == "null") schdVal = false;
-            if (crawler.advanceOpts.scheduleOpts.time.timeOpt == "") schdVal = false;
-            if (crawler.advanceOpts.scheduleOpts.time.timezone == "Time Zone") schdVal = false;
+            if (payload.advanceOpts.scheduleOpts.time.hour == "" || payload.advanceOpts.scheduleOpts.time.hour == "null") schdVal = false;
+            if (payload.advanceOpts.scheduleOpts.time.timeOpt == "") schdVal = false;
+            if (payload.advanceOpts.scheduleOpts.time.timezone == "Time Zone") schdVal = false;
           }
         }
       }
@@ -1396,6 +1395,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
           this.btnDisabled = false;
           this.openStatusModal();
+          console.log("newSourceObj.desc", this.crwalObject);
           this.extract_sourceId = res._id;
           this.appSelectionService.updateTourConfig('addData');
           //this.addSourceModalPopRef.close();
@@ -2267,14 +2267,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       const count = this.countValidationInputs(array);
       if (count === array.length) {
         this.crwalObject.authorizationProfle.formFields.push(this.formFieldObj);
-        this.formFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+        this.formFieldObj = { type: '', key: '', value: '', isEnabled: true,isRequired: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
       }
       else {
         this.notificationService.notify('Enter the required fields to proceed', 'error');
       }
     }
     else if (type === 'cancel') {
-      this.formFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+      this.formFieldObj = { type: '', key: '', value: '', isEnabled: true,isRequired: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
     }
   }
 
@@ -2385,16 +2385,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     setTimeout(()=>{
       this.appScheduler?.openCloseSchedular('open');
     },300)
-   }
-
-   //open or close validation status of content
-   openCloseContentStatusModal(type){
-    if(type==='open'){
-      this.contentStatusModalPopRef = this.contentStatusModalPop.open();
-    }
-    else if(type==='close'){
-      if(this.contentStatusModalPopRef.close) this.contentStatusModalPopRef.close();
-    }
    }
 }
 

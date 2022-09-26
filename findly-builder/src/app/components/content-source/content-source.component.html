@@ -230,19 +230,20 @@
                 [ngClass]="{'cursor-pointer':statusObj[source.recentStatus]?.name == 'Success' }">
 
                 <div class="col_ col-3">
-                  <span class="ml-2 d-none" *ngIf="source.advanceSettings">
-                     <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon"
-                      src="assets/icons/schedule_timer.svg">
-                    </span>
                     <div class="media-block">
                       <div class="media-logo">
                         <img *ngIf="source.extractionType == 'web'" src="assets/icons/content/latest-content-icons/blue-internet.svg">
                         <img *ngIf="source.extractionType == 'file'" src="assets/icons/content/latest-content-icons/green-check-document.svg">
                       </div>
                       <div class="media-right">
-                        <div class="media-name text-truncate"  title="{{source.title || source.name}}">{{source.title || source.name}}</div>
-                        <div class="media-time-stamp" (click)="openScheduler($event,source,i)" *ngIf="source.advanceSettings?.scheduleOpt" ><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
-                        <div class="media-up-time-stamp d-none"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div>
+                        <div class="media-name text-truncate"  title="{{source.title || source.name}}">{{source.title || source.name}}
+                          <span class="ml-2" *ngIf="source.advanceSettings">
+                            <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon"
+                             src="assets/icons/schedule_timer.svg">
+                         </span>
+                        </div>
+                        <!-- <div class="media-time-stamp" (click)="openScheduler($event,source,i)" *ngIf="source.advanceSettings?.scheduleOpt" ><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
+                        <div class="media-up-time-stamp d-none"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div> -->
                       </div>
                     </div>
                 </div>
@@ -538,18 +539,7 @@
                     (click)="showSearch = !showSearch;focusinSearch('searchInput')"><img src="assets/icons/search.svg"
                       [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                 </div>
-              </div>
-              
-              <div class="" *ngIf="!page && !execution">
-                <button class="kr-sg-button-primary btn_lg" *ngIf="selectedSource.recentStatus == 'configured'"
-                  (click)="jobOndemand(selectedSource,$event)">Crawl</button>
-                <button class="kr-sg-button-primary btn_lg"
-                  *ngIf="(['success'].includes(selectedSource.recentStatus)) || (selectedSource.recentStatus === 'failed'&&selectedSource?.validations?.url?.validated)"
-                  (click)="recrwal('source',selectedSource ,null)">Recrawl</button>
-                <button class="kr-sg-button-primary btn_lg"
-                  *ngIf="(selectedSource.recentStatus === 'failed'&&!(selectedSource?.validations?.url?.validated))"
-                  (click)="retryValidation(selectedSource,$event)">Revalidate</button>
-              </div>
+              </div>          
             </div>
           </div>
           <div *ngIf="isConfig && !loadingSliderContent">
@@ -572,8 +562,10 @@
                 <div class="update-timestamp width-20 mar-bot-15">
                   <button class="btn btn-secondary" type="button"><span class="last-update"><img src="assets/icons/refresh-secondary.svg" alt="refresh-icon" /> Last Updated</span>{{selectedSource?.lMod | dateFormatPipe:'D.MM.YYYY'}}</button>
                 </div>
-                <div class="reload-recrwal width-10 mar-bot-15">
-                  <button class="btn btn-out-primary" type="button"><span class="reload-crwal"><img src="assets/icons/refresh-primary.svg" alt="refresh-icon" /></span> Recrawl</button>
+                <div class="reload-recrwal width-10 mar-bot-15" *ngIf="!page && !execution">
+                  <button class="btn btn-out-primary" type="button" *ngIf="selectedSource.recentStatus == 'configured'" (click)="jobOndemand(selectedSource,$event)">Crawl</button>
+                  <button class="btn btn-out-primary" type="button" *ngIf="(['success'].includes(selectedSource.recentStatus)) || (selectedSource.recentStatus === 'failed'&&selectedSource?.validations?.url?.validated)" (click)="recrwal('source',selectedSource ,null)"><span class="reload-crwal"><img src="assets/icons/refresh-primary.svg" alt="refresh-icon" /></span> Recrawl</button>
+                  <button class="btn btn-out-primary" type="button" *ngIf="(selectedSource.recentStatus === 'failed'&&!(selectedSource?.validations?.url?.validated))" (click)="retryValidation(selectedSource,$event)">Recrawl</button>
                 </div>
               </div>
 
@@ -617,8 +609,8 @@
                         </label>
                       </div>
                     </div>
-                    <app-scheduler *ngIf="editSource.advanceOpts.scheduleOpt" [crwalObject]="crwalObject" [scheduleFlag]="crwalObject.advanceOpts.scheduleOpt"
-                    [schedule]="'set'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
+                    <app-scheduler *ngIf="editSource?.advanceOpts?.scheduleOpt" [crwalObject]="editSource" [scheduleFlag]="editSource?.advanceOpts?.scheduleOpt"
+                    [schedule]="'get'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
                   </app-scheduler>
                   </div>
                 </div>
@@ -631,10 +623,10 @@
                       <div class="new-ccrawling-hding">CRAWLING</div>
                     </div>
                     <div class="new-crawling-tab-btn">
-                      <button type="button" class="btn" aria-expanded="false" data-toggle="collapse" data-target="#newCrawlingTab"><i class="si-carrotup"></i></button>
+                      <button type="button" class="btn" aria-expanded="true" data-toggle="collapse" data-target="#newCrawlingTab"><i class="si-carrotup"></i></button>
                     </div>
                   </div>
-                  <div id="newCrawlingTab" class="new-crawling-collapse collapse">
+                  <div id="newCrawlingTab" class="new-crawling-collapse">
                     <div class="crawl-option-ddl">
                       <div class="kr-sg-dropdowns mar-bot-12">
                         <div class="label-text">Crawl Options</div>
@@ -813,7 +805,7 @@
                           <!-- <div class="col-2"></div> -->
                           <div class="col-4">ACTIONS</div>
                       </header>
-                      <div class="content-body" *ngFor="let form of editSource.authorizationProfle.basicFields;let i=index;">
+                      <div class="content-body" *ngFor="let form of editSource.authorizationProfle.basicFields;let i=index;" [ngClass]="{'is-edit-mode':(form?.isEditable)}">
                         <ng-container *ngIf="!form?.isEditable">
                           <div class="col-4">{{form?.key}}</div>
                           <div class="col-4">{{(form?.type==='password')?'********':form?.value}}</div>
@@ -884,7 +876,7 @@
                           <div class="col-2"></div>
                           <div class="col-2 text-right">ACTIONS</div>
                       </header>
-                      <div class="content-body" *ngFor="let form of editSource.authorizationProfle.formFields;let i=index;">
+                      <div class="content-body" *ngFor="let form of editSource.authorizationProfle.formFields;let i=index;" [ngClass]="{'is-edit-mode':(form?.isEditable)}">
                           <ng-container *ngIf="!form?.isEditable">
                           <div class="col-3">{{form.key}}</div>
                           <div class="col-2">{{'contentSource.'+form.type|translate}}</div>
@@ -1012,7 +1004,7 @@
                           <div class="col-2"></div>
                           <div class="col-2 text-right">ACTIONS</div>
                       </header>
-                      <div class="content-body" *ngFor="let auth of editSource.authorizationProfle.authorizationFields;let i=index;">
+                      <div class="content-body" *ngFor="let auth of editSource.authorizationProfle.authorizationFields;let i=index;" [ngClass]="{'is-edit-mode':(form?.isEditable)}">
                          <ng-container *ngIf="!auth?.isEditable">
                          <div class="col-3">{{auth?.key}}</div>
                           <div class="col-2">{{'contentSource.'+auth?.type|translate}}</div>

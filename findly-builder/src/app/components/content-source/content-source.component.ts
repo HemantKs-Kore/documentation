@@ -919,6 +919,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.allowURLArray = source?.advanceSettings?.allowedURLs;
       this.blockURLArray = source?.advanceSettings?.blockedURLs;
       this.editSource.advanceOpts.scheduleOpt = source?.advanceSettings?.scheduleOpt;
+      this.editSource.advanceOpts.scheduleOpts = source?.advanceSettings?.scheduleOpts;
       this.editSource.authorizationEnabled = source?.authorizationEnabled;
       if (source?.authorizationProfle) {
         this.editSource.authorizationProfle.sso_type = source?.authorizationProfle?.sso_type;

@@ -2431,6 +2431,11 @@ line-height: 15px;
                         .content-body{
                             font-size: 14px;
                             border-bottom: 1px solid #e4e5e7;
+                            &.is-edit-mode{
+                                &:hover{
+                                    background-color: transparent;
+                                }                                
+                            }
                             .kr-sg-toggle{
                                 &.with-label{
                                     .slider{
@@ -2457,6 +2462,7 @@ line-height: 15px;
                     padding: 20px 0px;
                     background: #F8F9FA;
                     margin: 15px 0;
+                    width: 100%;
                     .is-auth-col{
                         display: flex;
                     }

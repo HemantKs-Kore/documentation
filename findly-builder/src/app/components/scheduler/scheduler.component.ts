@@ -69,65 +69,65 @@ export class SchedulerComponent implements OnInit {
 
   ngOnInit(): void {
     // if(this.schedule == 'get'){
-    //   if(this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings){
-    //     this.startDate  = this.crwalObject.advanceSettings.date;
-    //     this.timeHH = this.crwalObject.advanceSettings.hour;
-    //     this.timeMM = this.crwalObject.advanceSettings.minute;
-    //     this.meridiem = this.crwalObject.advanceSettings.timeOpt;
-    //     this.stz = this.crwalObject.advanceSettings.timezone || 'Time Zone';
-    //     this.rstz = this.crwalObject.advanceSettings.intervalType || 'Does not repeat';
-    //       this.repeatEvery = this.crwalObject.advanceSettings.every;
-    //       this.custFreq = this.crwalObject.advanceSettings.schedulePeriod;
-    //       this.weeKDay = this.crwalObject.advanceSettings.repeatOn;
-    //       this.endDate  = this.crwalObject.advanceSettings.endDate;
-    //       this.occurence = this.crwalObject.advanceSettings.occurrences;
-    //       this.endsFreq(this.crwalObject.advanceSettings.endType);
+    //   if(this.crwalObject && this.crwalObject.advanceOpts && this.crwalObject.advanceOpts){
+    //     this.startDate  = this.crwalObject.advanceOpts.date;
+    //     this.timeHH = this.crwalObject.advanceOpts.hour;
+    //     this.timeMM = this.crwalObject.advanceOpts.minute;
+    //     this.meridiem = this.crwalObject.advanceOpts.timeOpt;
+    //     this.stz = this.crwalObject.advanceOpts.timezone || 'Time Zone';
+    //     this.rstz = this.crwalObject.advanceOpts.intervalType || 'Does not repeat';
+    //       this.repeatEvery = this.crwalObject.advanceOpts.every;
+    //       this.custFreq = this.crwalObject.advanceOpts.schedulePeriod;
+    //       this.weeKDay = this.crwalObject.advanceOpts.repeatOn;
+    //       this.endDate  = this.crwalObject.advanceOpts.endDate;
+    //       this.occurence = this.crwalObject.advanceOpts.occurrences;
+    //       this.endsFreq(this.crwalObject.advanceOpts.endType);
     //   } 
     // }else{
-    //  if(this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings.scheduleOpts){
-    //   this.startDate  = this.crwalObject.advanceSettings.scheduleOpts.date;
-    //   this.timeHH = this.crwalObject.advanceSettings.scheduleOpts.time.hour;
-    //   this.timeMM = this.crwalObject.advanceSettings.scheduleOpts.time.minute;
-    //   this.meridiem = this.crwalObject.advanceSettings.scheduleOpts.time.timeOpt;
-    //   this.stz = this.crwalObject.advanceSettings.scheduleOpts.time.timezone || 'Time Zone';
-    //   this.rstz = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalType || 'Does not repeat';
-    //   if(this.crwalObject.advanceSettings.scheduleOpts.intervalValue){
-    //     this.repeatEvery = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.every;
-    //     this.custFreq = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.schedulePeriod;
-    //     this.weeKDay = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.repeatOn;
-    //     this.endDate  = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.endsOn.endDate;
-    //     this.occurence = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.endsOn.occurrences;
-    //     this.endsFreq(this.crwalObject.advanceSettings.scheduleOpts.intervalValue.endsOn.endType);
+    //  if(this.crwalObject && this.crwalObject.advanceOpts && this.crwalObject.advanceOpts.scheduleOpts){
+    //   this.startDate  = this.crwalObject.advanceOpts.scheduleOpts.date;
+    //   this.timeHH = this.crwalObject.advanceOpts.scheduleOpts.time.hour;
+    //   this.timeMM = this.crwalObject.advanceOpts.scheduleOpts.time.minute;
+    //   this.meridiem = this.crwalObject.advanceOpts.scheduleOpts.time.timeOpt;
+    //   this.stz = this.crwalObject.advanceOpts.scheduleOpts.time.timezone || 'Time Zone';
+    //   this.rstz = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalType || 'Does not repeat';
+    //   if(this.crwalObject.advanceOpts.scheduleOpts.intervalValue){
+    //     this.repeatEvery = this.crwalObject.advanceOpts.scheduleOpts.intervalValue.every;
+    //     this.custFreq = this.crwalObject.advanceOpts.scheduleOpts.intervalValue.schedulePeriod;
+    //     this.weeKDay = this.crwalObject.advanceOpts.scheduleOpts.intervalValue.repeatOn;
+    //     this.endDate  = this.crwalObject.advanceOpts.scheduleOpts.intervalValue.endsOn.endDate;
+    //     this.occurence = this.crwalObject.advanceOpts.scheduleOpts.intervalValue.endsOn.occurrences;
+    //     this.endsFreq(this.crwalObject.advanceOpts.scheduleOpts.intervalValue.endsOn.endType);
     //   }
     // } 
     // }
     this.endsFreq('never');
-    if (this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings.scheduleOpts) {
-      this.istStratDate = this.crwalObject.advanceSettings.scheduleOpts.date;
-      this.startDate = this.crwalObject.advanceSettings.scheduleOpts.date;
-      if (this.crwalObject.advanceSettings.scheduleOpts.time) {
-        this.timeHH = this.crwalObject.advanceSettings.scheduleOpts.time.hour;
-        this.timeMM = this.crwalObject.advanceSettings.scheduleOpts.time.minute;
-        this.meridiem = this.crwalObject.advanceSettings.scheduleOpts.time.timeOpt;
-        this.stz = this.crwalObject.advanceSettings.scheduleOpts.time.timezone || 'Time Zone';
+    if (this.crwalObject && this.crwalObject.advanceOpts && this.crwalObject.advanceOpts.scheduleOpts) {
+      this.istStratDate = this.crwalObject.advanceOpts.scheduleOpts.date;
+      this.startDate = this.crwalObject.advanceOpts.scheduleOpts.date;
+      if (this.crwalObject.advanceOpts.scheduleOpts.time) {
+        this.timeHH = this.crwalObject.advanceOpts.scheduleOpts.time.hour;
+        this.timeMM = this.crwalObject.advanceOpts.scheduleOpts.time.minute;
+        this.meridiem = this.crwalObject.advanceOpts.scheduleOpts.time.timeOpt;
+        this.stz = this.crwalObject.advanceOpts.scheduleOpts.time.timezone || 'Time Zone';
       }
-      this.rstz = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalType || 'Does not repeat';
-      //  if(this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue){
-      //     this.repeatEvery = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.every;
-      //     this.custFreq = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod;
-      //     this.weeKDay = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn;
-      //     this.endDate  = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate;
-      //     this.occurence = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.occurrences;
-      //     this.endsFreq(this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endType);
+      this.rstz = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalType || 'Does not repeat';
+      //  if(this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue){
+      //     this.repeatEvery = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.every;
+      //     this.custFreq = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.schedulePeriod;
+      //     this.weeKDay = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.repeatOn;
+      //     this.endDate  = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.endDate;
+      //     this.occurence = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.occurrences;
+      //     this.endsFreq(this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.endType);
       //   } 
-      if (this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue) {
-        this.endsFreq(this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endType, 'set');
-        this.repeatEvery = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.every ? this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.every : this.repeatEvery;
-        this.custFreq = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod ? this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod : this.custFreq;
-        this.weeKDay = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn ? this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn : this.weeKDay;
+      if (this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue) {
+        this.endsFreq(this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.endType, 'set');
+        this.repeatEvery = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.every ? this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.every : this.repeatEvery;
+        this.custFreq = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.schedulePeriod ? this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.schedulePeriod : this.custFreq;
+        this.weeKDay = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.repeatOn ? this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.repeatOn : this.weeKDay;
         //this.weeKDay = this.weeKDay.charAt(0).toUpperCase() + this.weeKDay.slice(1);
-        this.endDate = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate ? this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate : this.endDate;
-        this.occurence = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.occurrences ? this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.occurrences : this.occurence;
+        this.endDate = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.endDate ? this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.endDate : this.endDate;
+        this.occurence = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.occurrences ? this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.occurrences : this.occurence;
 
       }
     }
@@ -141,7 +141,7 @@ export class SchedulerComponent implements OnInit {
   ngOnChanges(changes) {
     // console.log("ngOnChanges", this.scheduleFlag);
     this.schedulerFlag = this.scheduleFlag;
-    if (!this.scheduleFlag && !this.crwalObject?.advanceSettings?.scheduleOpts?.date) {
+    if (!this.scheduleFlag && !this.crwalObject?.advanceOpts?.scheduleOpts?.date) {
       var emptyData = new scheduleOpts();
       this.scheduleData.emit(emptyData);
       this.istStratDate = '';
