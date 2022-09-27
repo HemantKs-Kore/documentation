@@ -742,4 +742,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
   }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
 }

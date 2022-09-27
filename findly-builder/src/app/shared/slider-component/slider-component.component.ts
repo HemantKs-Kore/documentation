@@ -24,12 +24,15 @@ export class SliderComponentComponent implements OnInit {
     let sliderEle = $(modalEle);
     if (parentSelector) {
       sliderEle = $(parentSelector).find(modalEle);
-    }
+    } 
     sliderEle.addClass('open');
     setTimeout(() => {
       sliderEle.find('.sliderDialogComponent').animate({ right: '0' });
       $('body').addClass('bt-modal-open');
       sliderEle.show();
+      if (width && !sliderEle.find('.sliderDialogComponent').hasClass(width)) {
+        sliderEle.find('.sliderDialogComponent').addClass(width);
+      }
     }, 200);
   }
 
@@ -38,6 +41,9 @@ export class SliderComponentComponent implements OnInit {
     let sliderEle = $(modalEle);
     if (parentSelector) {
       sliderEle = $(parentSelector).find(modalEle);
+    }
+    if (sliderEle.find('.sliderDialogComponent').hasClass('width500')) {
+      sliderEle.find('.sliderDialogComponent').removeClass('width500');
     }
     sliderEle.removeClass('open');
     sliderEle.find('.sliderDialogComponent').animate({ right: '-' + sliderEle.find('.sliderDialogComponent').width() + 'px' });

@@ -7,7 +7,12 @@
   </div>
   <div class="header_sec">
     <!-- <div class="title">Index Configuration</div> -->
-    <div class="title">{{'workbench.workbench' | translate}}</div> <!-- (click)="openModalPopup()" -->
+    <div class="title">{{'workbench.workbench' | translate}}
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+        <i class="si-topic-guide-1"></i>
+      </span>
+    </div> <!-- (click)="openModalPopup()" -->
     <div class="btn_sec">
       <button class="kr-sg-button-secondary btn_lg" [disabled]="savingConfig" (click)="validation(true)">
         {{ savingConfig ? ('workbench.saving' | translate) : ('workbench.save_configuration' | translate) }}
