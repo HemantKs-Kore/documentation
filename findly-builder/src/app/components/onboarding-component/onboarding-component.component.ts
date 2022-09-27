@@ -857,9 +857,9 @@ mediaObj:any = {};
 
   triggerFaq() {
     //added below if condition to prevent the loader multiple times on click of topic guide
-    if(this.topicGuideObj.enableIframe){
-      return
-    }
+    // if(this.topicGuideObj.enableIframe){
+    //   return
+    // }
     this.currentRouteData=this.currentRouteData.replace("/", "");
     if(this.currentRouteData==''){
       this.currentRouteData=this.router.url;
@@ -900,7 +900,12 @@ mediaObj:any = {};
       var topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl(topicGuideBaseUrl+language+'/'+version+'/'+topicId);
       this.topicGuideUrl=topicGuideUrl;
       $(".topic-guide-tab" ).trigger( "click" );
-      this.showLoader = true;
+      if(this.topicGuideObj.enableIframe){
+        this.showLoader = false;
+      }
+      else{
+        this.showLoader = true;
+      } 
       //this.topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/en/latest/summary');
       // this.topicGuideUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://koredotcom.github.io/koredotai-docs/platform/topic-guide/en/latest/No Bots Form?rnd=cd1at9')
       //this.topicGuideUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://koredotcom.github.io/koredotai-docs/platform/topic-guide/en/latest/Dialog Tasks?rnd=cd1at9')
@@ -1005,8 +1010,10 @@ mediaObj:any = {};
       this.breadcrumbNameFaq='Invoices'
     }
 }
-closeMediaModal(){
+closeMediaModal(event){
   this.mediaObj = {};
+  console.log(event);
+  $(event.target).closest('.videoContainer').find('iframe').attr("src",$(event.target).closest('.videoContainer').find('iframe').attr("src"));
   // $('.pause-icon').click(); 
   // $('.rounded-box').click();
    
@@ -1014,9 +1021,13 @@ closeMediaModal(){
   // $('.rounded-box').ariaLabel = 'Pause'
   // let $frame=$('#topicGuideVideoModal');
   // let vidsrc = $frame.attr('src');
-  // $frame.attr('src',''); 
-  
-    $('iframe').attr('src', $('iframe').attr('src'));
+  // $frame.attr('src','');   
+   
+    
+//   $("#topicGuideVideoModal").on('hide.bs.modal', function (e) {
+//     $("#topicGuideVideoModal iframe").attr("src", $("#topicGuideVideoModal iframe").attr("src"));
+// });
+  // $('iframe').attr('src', $('iframe').attr('src'));
   $('#topicGuideVideoModal').modal('hide');  
 };
 
