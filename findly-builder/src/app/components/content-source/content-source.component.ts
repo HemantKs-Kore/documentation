@@ -11,7 +11,7 @@ import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
-import moment from 'moment';
+import * as moment from 'moment';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
