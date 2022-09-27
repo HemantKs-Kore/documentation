@@ -715,24 +715,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       let isFocused = (document.activeElement === searchEl);
       this.lastPageSearch = this.pagesSearch;
       this.lastData = data
-      console.log(data.length, this.pagesSearch, isFocused)
       if (data.length || this.pagesSearch || isFocused) {
         this.swapSlider('page');
-        this.selectedPage = this.pagingData[0];
+        this.selectedPage = {...this.pagingData[0],isSection:false,isBody:false};
       }
       else {
-        // console.log(data.length, this.pagesSearch, 'configOut..')
         if (data.length == 0 && this.pagesSearch.length == 0) {
           this.swapSlider('config')
-          // console.log(data.length, this.pagesSearch, 'config..')
         }
       }
-      this.clicksViews('file')
-      // if(this.isConfig && $('.tabname') && $('.tabname').length){
-      //   $('.tabname')[1].classList.remove('active');
-      //   $('.tabname')[0].classList.add('active');
-      // }
-      // this.isConfig = false;
+      if(res?.content[0]?.extractionType==='file'){
+        this.clicksViews('file')
+      }
     }, errRes => {
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
         this.loadingSliderContent = false;
@@ -749,7 +743,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   viewPageDetails(page) {
     this.content_id = page._id
     this.sliderStep = 1;
-    this.clicksViews('web');
+    //this.clicksViews('web');
   }
   sliderBack() {
     if (this.sliderStep) {
@@ -948,16 +942,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.loadingSliderContent = true;
       this.totalCrawledCount = source.numPages;
       this.getCrawledPages(this.limitpage, 0);
-      this.executionHistory();
+      if(source?.recentStatus!=='failed'){
+        this.executionHistory();
+      }
       this.sourceStatus = source.recentStatus;
-      console.log("sourec opned", this.editSource)
     }
     else if (source.extractionType === 'file') {
       this.openDocumentModal();
       this.getCrawledPages(this.limitpage, 0);
     }
-    // this.sliderComponent.openSlider('#sourceSlider', 'right500');
-    //}
     this.isEditDoc = false;
   }
   pageination(pages, action) {
@@ -1903,7 +1896,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.closeStatusModal()
     const queryParams: any = {
       searchIndexID: this.serachIndexId,
-      sourceId: source._id
+      sourceId: source?._id
     };
     this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
       this.getSourceList();
@@ -1971,20 +1964,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
   clicksViews(type) {
     if (type == 'file') {
-      this.Id = this.contentId;
+      const quaryparms: any = {
+        searchIndexId: this.serachIndexId,
+        contentId: this.contentId
+      };
+      this.service.invoke('get.clicksViewsContent', quaryparms).subscribe(res => {
+        this.numberOf = res;
+      }, errRes => {
+      });
     }
-    else if (type == 'web') {
-      this.Id = this.content_id
-    }
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      contentId: this.Id,
-    };
-    this.service.invoke('get.clicksViewsContent', quaryparms).subscribe(res => {
-      // console.log(res);
-      this.numberOf = res;
-    }, errRes => {
-    });
   }
 
   //add allow/block obj into array

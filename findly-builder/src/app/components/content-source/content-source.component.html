@@ -13,8 +13,7 @@
   <ng-container *ngIf="!(resources && resources.length) && loadingContent1">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="title-content">{{"contentSource.content" | translate}}
-      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
- placement="right-center"(click)="openUserMetaTagsSlider()">
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' placement="right-center"(click)="openUserMetaTagsSlider()">
         <i class="si-topic-guide-1"></i>
       </span>
     </div>    
@@ -43,43 +42,15 @@
         </ng-container>
       </div>
     </perfect-scrollbar>
-
   </ng-container>
 
-  <!-- <div class="empty-case-showing-cotent" *ngIf="!(resources && resources.length) && !loadingContent">
-    <div class="crawlContent row m-0 mb-4">
-      <div class="col-12 main-title label_text">Add Content</div>
-      <div class="webDomain" (click)="addNewContentSource('contentWeb')">
-        <div class="box-block">
-          <div class="title label_text m-0">Crawl Web Domain</div>
-          <div class="imageDiv"><img src="assets/images/source-icos/crawlwebdomain.svg"></div>
-          <div class="info-text">Extract and index web pages and documents</div>
-        </div>
-      </div>
-      <div class="webDomain" (click)="addNewContentSource('contentDoc')">
-        <div class="box-block">
-          <div class="title label_text m-0">Upload File</div>
-          <div class="imageDiv"><img src="assets/images/source-icos/file_upload.svg"></div>
-          <div class="info-text">Index file content</div>
-        </div>
-      </div>
-      <div class="webDomain d-none">
-        <div class="box-block">
-          <div class="title label_text m-0">Others</div>
-          <div class="imageDiv"><img src="assets/images/source-icos/others.svg"></div>
-          <div class="info-text">Extract content from other</div>
-        </div>
-      </div>
-    </div>
-  </div> -->
   <div class="table-list-content" *ngIf="!loadingData">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="kr-sg-data-table with-checkbox">
       <div class="table-action-header">
         <div class="title-main">
           {{"contentSource.content_management" | translate}}
-          <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
- placement="right-center"(click)="openUserMetaTagsSlider()">
+          <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' placement="right-center"(click)="openUserMetaTagsSlider()">
             <i class="si-topic-guide-1"></i>
           </span>
         </div>
@@ -91,8 +62,6 @@
               (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
               <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
               <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch(true);">
-              <!-- <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
-            <img *ngIf="!searchSources" class="search-icon" src="assets/images/search_gray.svg"> -->
           </div>
 
           <div class="search-block">
@@ -108,7 +77,6 @@
               <ul class="dropdown-menu content-menu">
                 <li (click)="addNewContentSource('contentWeb')">{{"contentSource.craw_web_domain" | translate}}</li>
                 <li (click)="addNewContentSource('contentDoc')">{{"contentSource.upload_file" | translate}}</li>
-                <!-- <li (click)="addStructuredDataSource()">{{"contentSource.structuredData" | translate}}</li> -->
               </ul>
             </div>
           </div>
@@ -519,31 +487,12 @@
                 [ngClass]="{'active' : execution}" (click)="swapSlider('execution')">{{"contentSource.executions" |
                 translate}}</span>
             </div>
-            <div class="right-side">
-              <div *ngIf="page">
-                <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
-                  <input type="text" maxlength="60" placeholder="Search" class="input-search" name='pagesSearch'
-                    placeholder="Search" [ngClass]="{'pl-2':pagesSearch}" id="searchInput" [(ngModel)]="pagesSearch" (keyup)="getCrawledPages(10,0,pagesSearch,'search')"
-                    autocomplete="off"
-                    (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
-                    (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
-                    (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
-                  <img [src]="searchImgSrc" class="search-icon" *ngIf="!pagesSearch">
-                  <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':pagesSearch}"
-                    (mouseover)="activeClose=true" (mouseout)="activeClose=false"
-                    (click)="pagesSearch='';showSearch = !showSearch">
-                </div>
-
-                <div class="search-block" *ngIf="!(sourceStatus == 'failed' && page)">
-                  <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data"
-                    (click)="showSearch = !showSearch;focusinSearch('searchInput')"><img src="assets/icons/search.svg"
-                      [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
-                </div>
-              </div>          
+            <div class="right-side">       
             </div>
           </div>
+
+          <!-- Configuration-->
           <div *ngIf="isConfig && !loadingSliderContent">
-            <!-- Conf Configuration-->
             <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table-allowRow">
               <!-- new Configuration html start -->
               <div class="config-first-row">
@@ -749,14 +698,10 @@
                   </div>
                   </div>
                 </div>
-              </div>
-                 
+              </div>                 
                   </div>
-      
                 </div>
-      
-
-      
+            
                 <div class="new-crawl-shedule authenticated-website">
                   <div class="new-crawl-shedule-tab" [ngStyle]="{'border':editSource.authorizationEnabled?'':0}">
                     <div class="shedual-header form-group">
@@ -1149,13 +1094,11 @@
               </div>
               <!-- new Configuration html end -->
             </perfect-scrollbar>
-            <!-- Conf Configuration-->
-
           </div>
 
-<!-- New Pages Starts -->
+        <!-- Pages -->
           <ng-container *ngIf="page && !loadingSliderContent">
-            <div class="pages-container-content">
+            <div class="pages-container-content" *ngIf="pagingData.length>0">
               <div class="search_header">
                 <div class="label-text">SEARCH PAGE</div>
                 <div class="kr-sg-input-search">                               
@@ -1172,9 +1115,9 @@
                     <div class="inner-scroll-data">
                       <ul class="nav nav-tabs">
                         <li class="nav-item"  *ngFor="let page of pagingData;let i = index">
-                          <a id="page{{i}}" class="nav-link" [ngClass]= "{ 'active': selectedPage==page }" (click)="selectedPage=page;selectDefalutPage(i)" data-toggle="tab" href="#menu{{i}}">
-                            <div class="page-name">{{page._source.page_title}}</div>
-                            <div class="page_link text-truncate">{{page._source.page_url|| selectedSource.url}}</div>
+                          <a id="page{{i}}" class="nav-link" [ngClass]= "{ 'active': selectedPage?._id===page?._id }" (click)="selectedPage=page" data-toggle="tab" href="#menu{{i}}">
+                            <div class="page-name page-truncate" [title]="page?._source?.page_title">{{page._source.page_title}}</div>
+                            <div class="page_link text-truncate" appEllipsisActive>{{page._source.page_url|| selectedSource.url}}</div>
                             <div class="page-c-data">{{page.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
                           </a>
                         </li>
@@ -1217,9 +1160,11 @@
                                   </div>
                                   <div class="row-content-data row">
                                     <div class="col-4 title-heading">Sections</div>
-                                    <div class="col-8 page-content-details">
-                                      <div class="info-text" *ngFor="let section of selectedPage?._source?.page_sections ">{{section}}</div>
+                                    <div class="col-8 page-content-details" [ngClass]="{'no-text-truncate':selectedPage?.isSection,'text-truncate':!selectedPage?.isSection}">
+                                      <div class="info-text" *ngFor="let section of selectedPage?._source?.page_sections">{{section}}</div>
                                     </div>
+                                    <div class="col-4"></div>
+                                    <div class="col-8 show-more" (click)="selectedPage.isSection=!selectedPage?.isSection">{{(selectedPage?.isSection)?'Show Less':'Show More'}}</div>
                                   </div>
                                   <div class="row-content-data row d-none">
                                     <div class="col-4 title-heading">URLs</div>
@@ -1260,7 +1205,8 @@
                               <div class="row-content-data row">
                                 <div class="col-4 title-heading">Body</div>
                                 <div class="col-8 page-content-details">
-                                  <div class="info-text">{{selectedPage?._source.page_body}}</div>
+                                  <div class="info-text" [ngClass]="{'no-body-truncate':selectedPage?.isBody,'body-truncate':!selectedPage?.isBody}">{{selectedPage?._source?.page_body}}</div>
+                                  <div class="show-more" (click)="selectedPage.isBody=!selectedPage?.isBody">{{(selectedPage?.isBody)?'Show Less':'Show More'}}</div>
                                 </div>
                               </div>
                             </ng-container>
@@ -1272,12 +1218,14 @@
                 </div>
               </div>
             </div>
+            <div class="empty-page-data-container" *ngIf="pagingData.length===0">
+              <img src="assets/icons/content/latest-content-icons/empty-pages.svg">
+              <div class="title">Sorry no pages available yet!</div>
+              <div class="sub-title">Please crawl the webdomain again</div>
+              <div><button class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" (click)="jobOndemand(selectedSource,$event)"><span class="si-Internet"></span>   Crawl Web Domain</button></div>
+            </div>
           </ng-container>
-<!-- New Pages End -->
-          <div class="empty-page-data-container" *ngIf="page &&  totalRecord == 0 && source?.recentStatus == 'success'">
-            <img src="assets\images\emptyList.png">
-            <div class="title">Sorry! No Pages available yet!! Please <span> crawl</span>the web domain again</div>
-          </div>
+
           <!-- Execution -->
           <div *ngIf="execution && !loadingSliderContent" class="execution-table-data">
             <div class="accordion-content-info text-left">
@@ -1384,9 +1332,7 @@
                           <div class="col_ col-3">{{history?.executionStats.triggeredBy}}</div>
                           <div class="col_ col-3">{{history?.createdOn}}</div>
                         </div>
-                        <!-- test   (mouseleave) = "mouseleave()" -->
-
-                        <!-- test -->
+                        <div class="no-execution">No executions found</div>
                       </ng-container>
                     </perfect-scrollbar>
                   </section>
@@ -1556,6 +1502,7 @@
   <app-add-structured-data *ngIf="isStructuredDataAdd" [selectedSourceType]="selectedSourceType"
     (closeStructuredDataModal)="closeAddStructuredDataModal($event)"></app-add-structured-data>
 </kr-modal>
+
 <kr-modal modalType="center" modalClass="modal_popups_ schedualarDataModelPop" #schedularDataPop
   id="schedualarDataModelPop">
   <div class="modal-header">
