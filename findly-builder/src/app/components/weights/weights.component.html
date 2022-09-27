@@ -6,7 +6,12 @@
     <ng-container *ngIf="!loadingContent">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <div class="header-sec-stopwords">
-            <div class="title">{{'weights.Weights'| translate}}</div>
+            <div class="title">{{'weights.Weights'| translate}}
+                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+                    <i class="si-topic-guide-1"></i>
+                </span>
+            </div>
             <div class="restore_text" *ngIf="weights.length">
                 <span class="lable_text mr-4" id="btn_openWeight" (click)="openAddNewWeight()"><img
                         src="assets/icons/editor/plus-add.svg" class="mr-2">{{'weights.add_searchable_field'|
@@ -28,7 +33,7 @@
                     </div>
                     <div class="content-body" *ngFor="let weightModal of weights; let i = index">
                         <div class="col-2 name text-truncate" ngbTooltip="{{weightModal.name}}">
-                            <div>
+                            <div class="text-truncate">
                                 <img class="pr-1"
                                     *ngIf="weightModal.showFieldWarning && (weightModal.showFieldWarning !== 'false')"
                                     src="assets/icons/info-blue.svg" placement="left"

@@ -7,7 +7,12 @@
         <div class="seach_add_feild">
             <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
             <div class="title col-4 p-0" *ngIf="!(selcectionObj && selcectionObj.selectedCount)">{{'teams.team'|
-                translate}}</div>
+                translate}}
+                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+                    <i class="si-topic-guide-1"></i>
+                </span>
+            </div>
             <div class="title col-4 p-0" *ngIf="selcectionObj && selcectionObj.selectedCount">
                 <div class="kr-sg-checkbox p-0 m-0" *ngIf="selcectionObj.selectedCount == allMembersCount">
                     <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()"

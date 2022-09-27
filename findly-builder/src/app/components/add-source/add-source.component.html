@@ -1,30 +1,12 @@
 <div class="contentContainer" *ngIf="loadFullComponent"
   [ngClass]="{'fullHeight':!selectedSourceType || (selectedSourceType && (selectedSourceType.resourceType === 'manual')),'modalBody':resourceIDToOpen}">
   <div class="modal-type-header" *ngIf="resourceIDToOpen">
-    <div class="title">{{selectedSourceType.name}}</div>
+    <div class="title">{{selectedSourceType?.name}}</div>
     <div class="close_icon" (click)='cancleSourceAddition()'><img src="assets/icons/modal-close.svg"></div>
   </div>
-  <!-- <h4 *ngIf="resourceIDToOpen" class="header-title"><img src="assets/images/closeCross.png" class="closeCross" (click)='cancleSourceAddition()'></h4> -->
   <perfect-scrollbar
     [ngClass]="{'fullHeightPS':!selectedSourceType || (selectedSourceType && (selectedSourceType.resourceType === 'manual'))}">
     <div class="h-100 position-relative addNewSource">
-      <!-- <div class="sources-content-box-list h-100 d-none" *ngIf="!selectedSourceType">
-        <div class="crawlContent row m-0 mb-4" *ngFor="let sourceCatagory of availableSources">
-          <div class="col-12 main-title label_text">{{sourceCatagory.title}}</div>
-          <div class="col-4 webDomain" (click)="selectSource(source)" *ngFor="let source of sourceCatagory.sources">
-            <div class="box-block-flat">
-              <div class="row">
-                <div class="col-3" class="imageDiv"> <img src="{{source.icon}}"></div>
-                <div class="col-9 text-div">
-                  <img src="assets/icons/gray_info.svg" class="icon-gray">
-                  <div class="title label_text m-0">{{source.name}}</div>
-                  <div >{{source.description}}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>     -->
       <div class="source_content_boxes" *ngIf="!selectedSourceType">
         <div class="crawlContent row" *ngFor="let sourceCatagory of availableSources">
           <div class="main-title col-12 p-0">{{sourceCatagory.title}}</div>
@@ -40,179 +22,8 @@
     </div>
   </perfect-scrollbar>
 </div>
-<!--old model code-->
-<!-- <kr-modal modalType="default" #statusModalPop>
-  <div class="status-modal-popup">
-    <div class="modal_content" *ngIf="selectedSourceType">
-      <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg"
-          (click)="closeStatusModal()"></div>
-      <div class="modal-body">
-        <div class="success-check  pb-4"
-          *ngIf="(selectedSourceType.resourceType === 'document') || (statusObject.status ==='success') || ((statusObject && statusObject.validation && statusObject.validation.validated) && !(statusObject.status==='failed')) || (statusObject.status==='success')">
-          <img src="assets/icons/successCheck.svg">
-        </div>
-        <div class="configInProgress"
-          *ngIf="!(statusObject && statusObject.validation && statusObject.validation.validated) && !((statusObject.status==='success') || (statusObject.status==='failed')) && !(selectedSourceType.resourceType === 'document')">
-          <img class="loadingConfigs" src="assets/icons/gear-spinner.svg">
-        </div>
-        <div class="error-check" *ngIf="(statusObject.status==='failed')">
-          <img src="assets/images/exclamationCircle-Red.svg">
-        </div>
-        <div class="message-success text-center"
-          *ngIf="(statusObject && statusObject.validation && statusObject.validation.validated) && !((statusObject.status==='success') || (statusObject.status==='failed'))">
-          {{(statusObject.validation.urlValidation && statusObject.validation.validated)?'Successfully Configured':'Validation In Progress'}}
-        </div>
-        <div class="message-success text-center" *ngIf="(statusObject.status==='success')">
-          Source added Successfully
-        </div>
-        <div class="message-success text-center" *ngIf="(statusObject.status==='failed')">
-          Failed to add Source
-        </div>
-        <ng-container *ngIf="statusObject && statusObject.validation && !(statusObject.status==='failed')">
-          <div class="status-identification-content"
-            *ngIf="!((statusObject.status==='success') || (statusObject.status==='failed'))">
-            <div class="content-title" *ngIf="selectedSourceType && (selectedSourceType.resourceType === 'webdomain')">
-              <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!statusObject.validation.urlValidation">
-              <img *ngIf="statusObject.validation.urlValidation" src="assets/images/source-icos/check-green.svg"
-                class="successfullyConnected">
-              <span>Initial URL validation</span>
-            </div>
-            <div class="content-title" *ngIf="selectedSourceType && (selectedSourceType.resourceType === 'document')">
-              <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
-              <span>Initial file validation </span> <!--  <span >done</span>
-            </div>
-            <div class="content-title" *ngIf="statusObject.validation && statusObject.validation.sitemaps">
-              <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!statusObject.validation.validated">
-              <img *ngIf="statusObject.validation.sitemaps" src="assets/images/source-icos/check-green.svg"
-                class="successfullyConnected">
-              <span *ngIf="!statusObject.validation.sitemaps">Sitemaps</span>
-              <span *ngIf="!statusObject.validation.sitemaps">No Sitemaps</span>
-              <span *ngIf="statusObject.validation.sitemaps">{{statusObject.validation.sitemaps.length}} Sitemaps</span>
-            </div>
-          </div>
-        </ng-container>
-        <div class="progressNote"
-          *ngIf="(selectedSourceType.sourceType === 'content') && !((statusObject.status==='success') || (statusObject.status==='failed'))">
-          <div *ngIf="(selectedSourceType.resourceType === 'webdomain')">Crawling In-progress</div>
-          <div *ngIf="(selectedSourceType.resourceType === 'document')">Crawling In-progress</div>
-        </div>
-        <div class="progressNote"
-          *ngIf="(selectedSourceType.sourceType === 'faq') && !((statusObject.status==='success') || (statusObject.status==='failed'))">
-          <div>Faq Extraction In Progress</div>
-        </div>
-        <div class="text-center" *ngIf="!((statusObject.status==='success') || (statusObject.status==='failed'))">
-          <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
-          <div class="relaxNote">You will be notified when the extraction progress is done</div>
-        </div>
-        <div class="text-center" *ngIf="(statusObject.status==='failed')">
-          <div class="relaxNote">{{statusObject.statusMessage}}</div>
-        </div>
-      </div>
-      <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
-        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
-        (click)="stopCrwaling()">Cancel Extraction</button>
-        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
-          (click)="closeStatusModal()">Ok</button>
-          <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
-          (click)="stopCrwaling()">Abort</button>
-         </div>
-    </div>
-  </div>
-</kr-modal> -->
 
-<!--Status popup-->
-<kr-modal modalType="default" #statusModalPop>
-  <div class="status-modal-popup">
-    <div class="modal_content" *ngIf="selectedSourceType">
-      <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg"
-          (click)="closeStatusModal()"></div>
-      <div class="modal-body">
-        <div class="success-check  pb-4" *ngIf="statusObject.status==='success'">
-          <img src="assets/icons/successCheck.svg">
-        </div>
-        <div class="error-check" *ngIf="(statusObject.status==='failed')">
-          <img src="assets/images/exclamationCircle-Red.svg">
-        </div>
-        <div *ngIf="selectedSourceType.sourceType === 'content'&&statusObject.status!=='failed'">
-          <div class="success-check pb-4"
-            *ngIf="(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType === 'file')">
-            <img src="assets/icons/successCheck.svg">
-          </div>
-          <div class="error-check pb-4"
-            *ngIf="!(statusObject?.validation?.url?.validated)&&!(selectedSourceType.resourceType === 'file')">
-            <img src="assets/icons/failed-status.svg">
-          </div>
-          <div class="configInProgress">
-            <h1><strong>{{(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType ===
-                'file')?"Validation Successful":"Validation Failed"}}</strong></h1>
-          </div>
-
-        </div>
-        <div class="message-success text-center" *ngIf="(statusObject.status==='success')">
-          Source added Successfully
-        </div>
-        <div class="message-success text-center" *ngIf="(statusObject.status==='failed')">
-          Failed to add Source
-        </div>
-        <ng-container *ngIf="selectedSourceType.sourceType !== 'faq'&&statusObject.status!=='success'">
-          <div class="status-identification-content">
-            <div class="content-title">
-              <img src="assets/images/source-icos/check-green.svg"
-                *ngIf="(statusObject?.validation?.url?.validated||selectedSourceType.resourceType=='file')"
-                class="successfullyConnected">
-              <img src="assets/images/source-icos/Info-red.svg"
-                *ngIf="!(statusObject?.validation?.url?.validated)&&selectedSourceType.resourceType!=='file'"
-                class="successfullyConnected">
-              <span *ngIf="selectedSourceType.resourceType!='file'">Initial URL validation</span>
-              <span *ngIf="selectedSourceType.resourceType=='file'">File Validation</span>
-            </div>
-            <div class="content-description"
-              *ngIf="selectedSourceType.resourceType!='file'&&(statusObject?.validation?.url?.validated)"> Now you can
-              choose to crawl immediately or later</div>
-          </div>
-        </ng-container>
-        <div class="progressNote"
-          *ngIf="selectedSourceType.sourceType === 'faq'&&!((statusObject.status==='success') || (statusObject.status==='failed'))">
-          <div>{{importFaqInprogress?'Import':'Faq Extraction'}} In Progress</div>
-          <div class="text-center">
-            <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
-            <div class="relaxNote">You will be notified when the {{importFaqInprogress?'import':'extraction'}} progress
-              is done</div>
-          </div>
-        </div>
-        <div class="configInProgress"
-          *ngIf="statusObject?.validation?.url?.validated&&selectedSourceType.sourceType === 'web'">
-          <h4>Now you can choose to Crawl immediately or later</h4>
-        </div>
-      </div>
-      <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
-        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0 d-none" data-dismiss="modal"
-          (click)="cancelExtraction()"
-          *ngIf="selectedSourceType.sourceType==='faq'&&statusObject.status!=='success'||statusObject.status=='failed'">Cancel
-          Extraction</button>
-        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-          [disabled]="crawlOkDisable" (click)="closeStatusModal()"
-          *ngIf="selectedSourceType.sourceType==='faq'">Ok</button>
-        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-          (click)="closeStatusModal()"
-          *ngIf="selectedSourceType.sourceType==='content'&&(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType === 'file')">Close</button>
-        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-          (click)="jobOndemand()"
-          *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&(statusObject?.validation?.url?.validated)"
-          [disabled]="crawlOkDisable">Crawl</button>
-        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-          *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&!(statusObject?.validation?.url?.validated)"
-          (click)="retryValidation()">Retry</button>
-        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-          (click)="editConfiguration()"
-          *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&!(statusObject?.validation?.url?.validated)">Edit
-          Configuration</button>
-      </div>
-    </div>
-  </div>
-</kr-modal>
-
-
+<!-- Manual FAQ Modal -->
 <kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addManualFaqModalPop>
   <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'manual'">
     <div class="modal-header">
@@ -231,6 +42,8 @@
     </div>
   </ng-container>
 </kr-modal>
+
+<!-- FAQ and content upload file modal -->
 <kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addSourceModalPop>
   <ng-container *ngIf="selectedSourceType">
     <form #sourceCreation="ngForm">
@@ -254,7 +67,7 @@
             <div class="kr-sg-input-text-area mb-3 " *ngIf="(selectedSourceType.resourceType === 'web') || showDesc">
               <div class="label-text">Description</div>
               <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc" maxlength="250"
-                placeholder="Enter Description" class="input-text"></textarea>
+                placeholder="Enter Description" class="input-text pt-2"></textarea>
             </div>
             <div *ngIf="(selectedSourceType.resourceType === 'web')">
               <div class="kr-sg-input-text mb-4">
@@ -551,382 +364,6 @@
             </div>
             <!-- File uploader with Drag & Drop ENDS HERE -->
             <div *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'web')">
-              <!-- <div class="kr-sg-input-text mb-4">
-                <div class="label-text">Source URL</div>
-                <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()" [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Url" [(ngModel)]="newSourceObj.url"
-                  class="input-text">
-              </div> -->
-              <!-- collapse -->
-              <!-- <div class="advanced-settings-title"
-              *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')"
-              data-toggle="collapse" data-target="#settings">Advance Settings</div> -->
-
-              <div *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'web')"
-                id="settings" class=" advance-setttings">
-
-                <div class="inner-content row m-0 schedule-data">
-                  <div class="col-12 p-0 input-paddings">
-                    <div class="kr-sg-input-text">
-                      <input type="text" class="input-text pointer-none border-no" value="Schedule" maxlength="60">
-                    </div>
-                    <label class="kr-sg-toggle">
-                      <input type="checkbox" name="scheduleOpts" [(ngModel)]="crwalObject.advanceOpts.scheduleOpt">
-                      <div class="slider"></div>
-                    </label>
-                  </div>
-                  <div class="scheduler-box col-12 p-0">
-                    <app-scheduler [crwalObject]="crwalObject" [scheduleFlag]="crwalObject.advanceOpts.scheduleOpt"
-                      [schedule]="'set'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
-                    </app-scheduler>
-                  </div>
-                </div>
-
-                <!-- New Crwal everey thing-->
-                <div class="inner-content row m-0 crawl-option">
-                  <div class="col-12 p-0 input-paddings">
-                    <div class="kr-sg-dropdowns">
-                      <div class="label-text">Crawl Options</div>
-                      <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input"
-                          data-toggle="dropdown">{{crwalOptionLabel}}</button>
-                        <ul class="dropdown-menu content-menu">
-                          <li (click)="crawlOption('any','Crawl Everything')"><a>Crawl Everything</a></li>
-                          <li (click)="crawlOption('block','Crawl Everything Except Specific URLs')"><a>Crawl Everything
-                              Except Specific URLs</a></li>
-                          <li (click)="crawlOption('allow','Crawl Only Specific URLs')"><a>Crawl Only Specific URLs</a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="inner-content row m-0">
-                  <div *ngIf="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
-                    <div class="allow-urls-sec row allow-urlBox padd  pl-0 pr-0"
-                      *ngIf="crwalObject.advanceOpts.allowedOpt">
-                      <div class="col-1 p-0 title">Allow If URL</div>
-                      <div class="col-11 p-0 d-flex align-items-center">
-                        <div class="kr-sg-dropdowns">
-                          <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input"
-                              data-toggle="dropdown">{{allowUrl.name}}</button>
-                            <ul class="dropdown-menu content-menu">
-                              <li (click)="urlCondition('is' , 'allow')"><a>Equals to</a></li>
-                              <li (click)="urlCondition('isNot', 'allow')"><a>Not equals to</a></li>
-                              <li (click)="urlCondition('beginsWith', 'allow')"><a>Begins with</a></li>
-                              <li (click)="urlCondition('endsWith', 'allow')"><a>Ends with</a></li>
-                              <li (click)="urlCondition('contains', 'allow')"><a>Contains</a></li>
-                              <li (click)="urlCondition('doesNotContains', 'allow')"><a>Doesn't contain</a></li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="kr-sg-input-text">
-                          <input type="text" autocomplete="off" [(ngModel)]="allowUrl.url" name="allowVal"
-                            placeholder="http(s)://" class="input-text">
-                        </div>
-                        <div class="add-urls" (click)="allowUrls(allowUrl)"><img src="assets/icons/add-urls.svg"></div>
-                      </div>
-
-                    </div>
-
-                    <div
-                      *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.allowedURLs.length && crwalObject.advanceOpts.allowedOpt"
-                      class="w-100">
-                      <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0"
-                        *ngFor="let rec of crwalObject.advanceOpts.allowedURLs;let i = index">
-                        <div class="col-1 p-0 title"></div>
-                        <div class="col-11 p-0 d-flex align-items-center">
-                          <div class="kr-sg-dropdowns">
-                            <div class="dropdown dropdown-open">
-                              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
-                                disabled>{{rec.condition | titlecase}}</button>
-
-                            </div>
-                          </div>
-                          <div class="kr-sg-input-text">
-                            <input type="text" autocomplete="off" value="{{rec.url}}" name="allowVal"
-                              placeholder="Enter/Path" class="input-text" disabled>
-                          </div>
-                          <div class="add-urls" (click)="updateUrlRecord(i,'allow')"><img
-                              src="assets/images/close-cross.svg"></div>
-                        </div>
-
-
-                      </div>
-                    </div>
-
-                    <!--Block-->
-                    <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0"
-                      *ngIf="crwalObject?.advanceOpts?.blockedOpt">
-                      <div class="col-1 p-0 title">Block If URL</div>
-                      <div class="col-11 p-0 d-flex align-items-center">
-                        <div class="kr-sg-dropdowns">
-                          <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input"
-                              data-toggle="dropdown">{{blockUrl.name}}</button>
-                            <ul class="dropdown-menu content-menu">
-                              <li (click)="urlCondition('is' , 'block')"><a>Equals to</a></li>
-                              <li (click)="urlCondition('isNot', 'block')"><a>Not equals to</a></li>
-                              <li (click)="urlCondition('beginsWith', 'block')"><a>Begins with</a></li>
-                              <li (click)="urlCondition('endsWith', 'block')"><a>Ends with</a></li>
-                              <li (click)="urlCondition('contains', 'block')"><a>Contains</a></li>
-                              <li (click)="urlCondition('doesNotContains', 'block')"><a>Doesn't contain</a></li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="kr-sg-input-text">
-                          <input type="text" autocomplete="off" [(ngModel)]="blockUrl.url" name="blockVal"
-                            placeholder="http(s)://" class="input-text">
-                        </div>
-                        <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
-                      </div>
-
-                    </div>
-                    <div
-                      *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.blockedURLs.length && crwalObject.advanceOpts.blockedOpt"
-                      class="w-100">
-                      <!-- <span class="" *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index"> -->
-                      <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
-                      <!-- <div class="alw-list alw-list-bor"
-                        [ngClass]="{'last-record' : (i + 1) == crwalObject.advanceOpts.blockedURLs.length }">
-                        {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}
-                        <span class="close-path p-0 cross-right" (click)="updateUrlRecord(i,'block')"><img
-                            src="assets/images/close-cross.svg"></span>
-                      </div> -->
-                      <!-- </span> -->
-                      <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0"
-                        *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index">
-                        <div class="col-1 p-0 title"></div>
-                        <div class="col-11 p-0 d-flex align-items-center">
-                          <div class="kr-sg-dropdowns">
-                            <div class="dropdown dropdown-open">
-                              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
-                                disabled>{{rec.condition | titlecase}}</button>
-
-                            </div>
-                          </div>
-                          <div class="kr-sg-input-text">
-                            <input type="text" autocomplete="off" value="{{rec.url}}" name="blockVal"
-                              placeholder="Enter/Path" class="input-text" disabled>
-                          </div>
-                          <div class="add-urls" (click)="updateUrlRecord(i,'block')"><img
-                              src="assets/images/close-cross.svg"></div>
-                        </div>
-
-
-                      </div>
-                    </div>
-                    <!-- Block-->
-                  </div>
-                  <!-- Cookies -->
-                  <div class="row col-12 p-0 m-0">
-                    <div class="group-checkbox">
-                      <!-- <div class="pl-0 kr-sg-checkbox">
-                      <input id="checkbox_grpg" class="checkbox-custom" type="checkbox" name = "blockHttpsMsgs" [(ngModel)] = "blockHttpsMsgs" [ngModelOptions]="{standalone: true}">
-                      <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Block HTTPS Pages</label>
-                  </div> -->
-                      <div class="pl-0 kr-sg-checkbox">
-                        <input id="checkbox_grph" class="checkbox-custom" type="checkbox" name="isJavaScriptRendered"
-                          [(ngModel)]="isJavaScriptRendered" [ngModelOptions]="{standalone: true}">
-                        <label for="checkbox_grph" class="checkbox-custom-label"
-                          style="font-weight: 500;font-size: 12px;">Javascript Rendered</label>
-                      </div>
-                      <div class="pl-0 kr-sg-checkbox">
-                        <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name="crawlBeyondSitemaps"
-                          [(ngModel)]="crawlBeyondSitemaps" [ngModelOptions]="{standalone: true}">
-                        <label for="checkbox_grpi" class="checkbox-custom-label"
-                          style="font-weight: 500;font-size: 12px;">Crawl Beyond Sitemap</label>
-                      </div>
-                      <div class="pl-0 kr-sg-checkbox">
-                        <input id="checkbox_robot" class="checkbox-custom" type="checkbox"
-                          name="respectRobotTxtDirectives" [(ngModel)]="respectRobotTxtDirectives"
-                          [ngModelOptions]="{standalone: true}">
-                        <label for="checkbox_robot" class="checkbox-custom-label"
-                          style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
-                      </div>
-                      <div class="pl-0 kr-sg-checkbox">
-                        <input id="checkbox_cook" class="checkbox-custom" type="checkbox" name="useCookies"
-                          [(ngModel)]="useCookies" [ngModelOptions]="{standalone: true}">
-                        <label for="checkbox_cook" class="checkbox-custom-label"
-                          style="font-weight: 500;font-size: 12px;">Use Cookies</label>
-                      </div>
-                    </div>
-
-                    <!-- Cookies -->
-                  </div>
-
-                  <div class="inner-content row col-12 p-0 m-0">
-                    <div class="col-3 p-0">
-                      <div class="kr-sg-input-text mb-4">
-                        <div class="label-text">Crawl Depth
-                          <div class="tooltip-custom">
-                            <img src="assets/icons/info.svg">
-                            <span class="tooltiptext">
-                              <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
-                              <div class="v-text">Value = 0 (No limit)</div>
-                            </span>
-                          </div>
-                        </div>
-                        <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="5"
-                          (keyup)="checkValue(crawlDepth , 'crawlDepth')" maxlength="60" [(ngModel)]="crawlDepth"
-                          class="input-text">
-                      </div>
-                    </div>
-                    <div class="col-1 p-0"></div>
-                    <div class="col-3 p-0">
-                      <div class="kr-sg-input-text mb-4">
-                        <div class="label-text">Max URL Limit
-                          <div class="tooltip-custom">
-                            <img src="assets/icons/info.svg">
-                            <span class="tooltiptext">
-                              <div class="t-text">The maximum no. of URLs to be crawled.</div>
-                              <div class="v-text">Value = 0 (No limit)</div>
-                            </span>
-                          </div>
-                        </div>
-                        <input type="number" autocomplete="off" id="maxUrlLimit" maxlength="60" name="maxUrlLimit"
-                          placeholder="10" (keyup)="checkValue(maxUrlLimit , 'maxUrlLimit')" [(ngModel)]="maxUrlLimit"
-                          class="input-text maxUrlLimit-class">
-                      </div>
-                    </div>
-
-                  </div>
-                  <div class="info-no-limit col-7">
-                    <img src="assets/icons/info-limit.svg">
-                    <span class="title">Not limiting the Crawl Depth and Max URL Limit may impact the system
-                      performance</span>
-                  </div>
-                </div>
-                <!-- New Crawl everey thing-->
-
-                <!-- <div class="inner-content row m-0">
-                <div class="col-12 p-0 input-paddings">
-                  <div class="kr-sg-input-text">
-                    <input type="text" value="Crawl Everything" class="input-text pointer-none border-no">
-                  </div>
-                  <label class="kr-sg-toggle full-input">
-                    <input type="checkbox" id="crwalEveryId" name="crwalEvery"
-                      [(ngModel)]="crwalObject.advanceOpts.crawlEverything">
-                    <div class="slider"></div>
-                  </label>
-                </div>
-              </div> -->
-                <!-- <div *ngIf="crwalObject.advanceOpts && crwalObject.advanceOpts.crawlEverything">
-                <div class="allow-list-data-label label_text_dis m10">Allow List <img src="assets/icons/Info-small.svg"
-                    class="ml-1">
-                  <label class="kr-sg-toggle full-input list">
-                    <input type="checkbox" id="allowUrlId" name="allowUrl" disabled>
-                    <div class="slider"></div>
-                  </label>
-                </div>
-                <div class="allow-list-data-label label_text_dis mt-16">Block List <img
-                    src="assets/icons/Info-small.svg" class="ml-1">
-                  <label class="kr-sg-toggle full-input list">
-                    <input type="checkbox" id="blockListId" name="blockList" disabled>
-                    <div class="slider"></div>
-                  </label>
-                </div>
-              </div> -->
-                <!--<div class="inner-content row m-0">
-                <div *ngIf="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
-                   <div class="allow-list-data-label label_text_dis">Allow List <img src="assets/icons/Info-small.svg"
-                      class="ml-1">
-                    <label class="kr-sg-toggle full-input list">
-                      <input type="checkbox" id="allowUrlId" name="allowUrl"
-                        [(ngModel)]="crwalObject.advanceOpts.allowedOpt"
-                        (click)="exceptUrl(crwalObject.advanceOpts.allowedOpt)">
-                      <div class="slider"></div>
-                    </label>
-                  </div>
-                  <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.allowedOpt">
-                    <div class="col-2 p-0 title">Allow URLS</div>
-                    <div class="col-10 p-0 d-flex align-items-center">
-                      <div class="kr-sg-dropdowns">
-                        <div class="dropdown dropdown-open">
-                          <button class="dropdown-toggle dropdown-input"
-                            data-toggle="dropdown">{{allowUrl.condition}}</button>
-                          <ul class="dropdown-menu content-menu">
-                            <li (click)="urlCondition('Is' , 'allow')"><a>Is</a></li>
-                            <li (click)="urlCondition('Is not', 'allow')"><a>Is not</a></li>
-                            <li (click)="urlCondition('Begins with', 'allow')"><a>Begins with</a></li>
-                            <li (click)="urlCondition('Ends with', 'allow')"><a>Ends with</a></li>
-                            <li (click)="urlCondition('Contains', 'allow')"><a>Contains</a></li>
-                            <li (click)="urlCondition(doesntContains, 'allow')"><a>Doesn't contain</a></li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="kr-sg-input-text">
-                        <input type="text" autocomplete="off" [(ngModel)]="allowUrl.url" name="allowVal"
-                          placeholder="Enter/Path" class="input-text">
-                      </div>
-                      <div class="add-urls" (click)="allowUrls(allowUrl)"><img src="assets/icons/add-urls.svg"></div>
-                    </div>
-
-                  </div>
-                   <div
-                    *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.allowedURLs.length && crwalObject.advanceOpts.allowedOpt"
-                    class="w-100">
-                    <div class="alw-data w-100" *ngFor="let rec of crwalObject.advanceOpts.allowedURLs;let i = index">
-                      <div class="alw-list w-100 alw-list-bor"
-                        [ngClass]="{'last-record' : (i + 1) == crwalObject.advanceOpts.allowedURLs.length }">
-                        {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}
-                        <span class="close-path p-0 cross-right" (click)="updateUrlRecord(i,'allow')"><img
-                            src="assets/images/close-cross.svg"></span>
-                      </div>
-                    </div>
-                  </div>
-
-                   <div class="allow-list-data-label label_text_dis">Block List <img src="assets/icons/Info-small.svg"
-                      class="ml-1">
-
-                    <label class="kr-sg-toggle full-input list">
-                      <input type="checkbox" id="blockListId" name="blockList"
-                        [(ngModel)]="crwalObject.advanceOpts.blockedOpt"
-                        (click)="restrictUrl(crwalObject.advanceOpts.blockedOpt)">
-                      <div class="slider"></div>
-                    </label>
-                  </div>
-                   <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.blockedOpt">
-                    <div class="col-2 p-0 title">Block URLS</div>
-                    <div class="col-10 p-0 d-flex align-items-center">
-                      <div class="kr-sg-dropdowns">
-                        <div class="dropdown dropdown-open">
-                          <button class="dropdown-toggle dropdown-input"
-                            data-toggle="dropdown">{{blockUrl.condition}}</button>
-                          <ul class="dropdown-menu content-menu">
-                            <li (click)="urlCondition('Is' , 'block')"><a>Is</a></li>
-                            <li (click)="urlCondition('Is not', 'block')"><a>Is not</a></li>
-                            <li (click)="urlCondition('Begins with', 'block')"><a>Begins with</a></li>
-                            <li (click)="urlCondition('Ends with', 'block')"><a>Ends with</a></li>
-                            <li (click)="urlCondition('Contains', 'block')"><a>Contains</a></li>
-                            <li (click)="urlCondition(doesntContains, 'block')"><a>Doesn't contain</a></li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="kr-sg-input-text">
-                        <input type="text" autocomplete="off" [(ngModel)]="blockUrl.url" name="blockVal"
-                          placeholder="Enter/Path" class="input-text">
-                      </div>
-                      <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
-                    </div>
-
-                  </div>
-                   <div
-                    *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.blockedURLs.length && crwalObject.advanceOpts.blockedOpt"
-                    class="w-100">
-                    <span class="" *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index">
-                      <div class="alw-list alw-list-bor"
-                        [ngClass]="{'last-record' : (i + 1) == crwalObject.advanceOpts.blockedURLs.length }">
-                        {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}
-                        <span class="close-path p-0 cross-right" (click)="updateUrlRecord(i,'block')"><img
-                            src="assets/images/close-cross.svg"></span>
-                      </div>
-                    </span>
-                  </div>
-                </div>
-              </div>-->
-
-              </div>
 
               <div class="kr-sg-input-text-area mb-4 radio-pad"
                 *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.resourceAdded) && false">
@@ -955,6 +392,595 @@
   </ng-container>
 </kr-modal>
 
+<!-- Content crawl authentication Modal -->
+<kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addSourceModalPopDummy>
+    <div class="modal-header">
+      <div class="title">Crawl Web Domain</div>
+      <div class="close_icon"><img (click)="closeAddContentModal(true)" src="assets/icons/modal-close.svg"></div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll6>
+      <div class="modal-body">
+        <div class="new-crawl-web-form">
+
+          <div class="new-crawl-web-form-details">
+            <div class="new-crawl-details">
+              <div class="new-crawl-details-header">DETAILS</div>
+              <div class="details-form">
+                <div class="details-left">
+                  <div class="kr-sg-input-text mar-bot-15">
+                    <div class="label-text">Source Title<sup class="field-mandatory">*</sup></div>
+                    <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Title" class="input-text" [(ngModel)]="newSourceObj.name" required>
+                    <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
+                      width="12" />
+                  </div>
+                  <div class="kr-sg-input-text mar-bot-15">
+                    <div class="label-text">Source URL<sup class="field-mandatory">*</sup></div>
+                    <input type="text" id="contentURL" autocomplete="off" name="url" placeholder="http(s)://" class="input-text" [(ngModel)]="newSourceObj.url">
+                  </div>
+                </div>
+                <div class="details-right">
+                  <div class="kr-sg-input-text-area mar-bot-15">
+                    <div class="label-text">Description</div>
+                    <textarea autocomplete="off" name="sourceDesc" maxlength="250" placeholder="Enter Description" class="input-text" [(ngModel)]="newSourceObj.desc"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="new-crawling">
+            <div class="new-crawling-tab">
+              <div class="new-crawling-tab-block">
+                <div class="new-ccrawling-hding">CRAWLING</div>
+              </div>
+              <div class="new-crawling-tab-btn">
+                <button type="button" class="btn" aria-expanded="false" data-toggle="collapse" data-target="#newCrawlingTab"><i class="si-carrotup"></i></button>
+              </div>
+            </div>
+            <div id="newCrawlingTab" class="new-crawling-collapse collapse">
+              <div class="crawl-option-ddl">
+                <div class="kr-sg-dropdowns mar-bot-12">
+                  <div class="label-text">Crawl Options</div>
+                  <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{'contentSource.'+crwalOptionLabel | translate}}</button>
+                    <ul class="dropdown-menu content-menu">
+                      <li *ngFor="let option of crawlOptions" (click)="crawlOption(option)" [ngClass]="{'font-weight-bold':(option===crwalOptionLabel)}"><a>{{'contentSource.'+option | translate}}</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+                   
+              <!-- Allow URL -->
+              <div class="crawl-opt-table" *ngIf="(!crwalObject?.advanceOpts?.crawlEverything&&crwalObject.advanceOpts.allowedOpt)">
+                <div class="crawl-opt-row" *ngFor="let allow of allowURLArray;let i=index;">
+                  <div class="crawl-opt-ddl">
+                    <div class="kr-sg-dropdowns mar-bot-12">
+                      <div class="label-text">Allow if URL</div>
+                      <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{'contentSource.'+allow?.condition|translate}}</button>
+                        <ul class="dropdown-menu content-menu">
+                              <li *ngFor="let url of allowURLValues" (click)="allow.condition=url" [ngClass]="{'font-weight-bold':allow.condition===url}"><a>{{'contentSource.'+url|translate}}</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="crawl-opt-inp">
+                    <div class="kr-sg-input-text mar-bot-15">
+                      <div class="label-text no-label">Source URL</div>
+                      <input type="text" autocomplete="off" name="url" id="{{'contentAllowId'+i}}" placeholder="http(s)://" class="input-text" [(ngModel)]="allow.url">
+                    </div>
+                  </div>
+                  <div class="crawl-opt-cls" *ngIf="allowURLArray.length>1">
+                    <button class="btn" (click)="allowURLArray.splice(i,1)"><i class="si-close"></i></button>
+                  </div>
+                </div>
+                <div class="crawl-add-row">
+                  <button class="btn add-btn-primary" (click)="addAllowBlockObj('allow')"><span class="add-btn-img"><img _ngcontent-gxv-c13="" src="assets/icons/add_blue.svg"></span> Add</button>
+                </div>
+              </div>
+
+              <!-- Block URL  -->
+              <div class="crawl-opt-table" *ngIf="(!crwalObject?.advanceOpts?.crawlEverything&&crwalObject.advanceOpts.blockedOpt)">
+                <div class="crawl-opt-row" *ngFor="let block of blockURLArray;let i=index;">
+                  <div class="crawl-opt-ddl">
+                    <div class="kr-sg-dropdowns mar-bot-12">
+                      <div class="label-text">Block If URL</div>
+                      <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{'contentSource.'+block.condition|translate}}</button>
+                        <ul class="dropdown-menu content-menu">
+                              <li *ngFor="let url of allowURLValues" (click)="block.condition=url" [ngClass]="{'font-weight-bold':block.condition===url}"><a>{{'contentSource.'+url|translate}}</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="crawl-opt-inp">
+                    <div class="kr-sg-input-text mar-bot-15">
+                      <div class="label-text no-label">Source URL</div>
+                      <input type="text" id="{{'contentBlockId'+i}}" autocomplete="off" name="url" placeholder="http(s)://" class="input-text" [(ngModel)]="block.url">
+                    </div>
+                  </div>
+                  <div class="crawl-opt-cls" *ngIf="blockURLArray.length>1">
+                    <button class="btn" (click)="blockURLArray.splice(i,1)"><i class="si-close"></i></button>
+                  </div>
+                </div>
+                <div class="crawl-add-row">
+                  <button class="btn add-btn-primary" (click)="addAllowBlockObj('block')"><span class="add-btn-img"><img _ngcontent-gxv-c13="" src="assets/icons/add_blue.svg"></span> Add</button>
+                </div>
+              </div>
+
+              <div class="crwal-checkbox-list">
+              <div class="group-checkbox">
+                <div class="kr-sg-checkbox">
+                  <input class="checkbox-custom" id="checkbox_cook" name="useCookies" type="checkbox" [(ngModel)]="useCookies" [ngModelOptions]="{standalone: true}">
+                  <label class="checkbox-custom-label" for="checkbox_cook">Use Cookies</label>
+                </div>
+                <div class="kr-sg-checkbox">
+                  <input class="checkbox-custom" id="checkbox_grph" name="isJavaScriptRendered" type="checkbox" [(ngModel)]="isJavaScriptRendered" [ngModelOptions]="{standalone: true}">
+                  <label class="checkbox-custom-label" for="checkbox_grph">Java Script Rendered</label>
+                </div>
+                <div class="kr-sg-checkbox">
+                  <input class="checkbox-custom" id="checkbox_grpi" name="crawlBeyondSitemaps" type="checkbox" [(ngModel)]="crawlBeyondSitemaps" [ngModelOptions]="{standalone: true}">
+                  <label class="checkbox-custom-label" for="checkbox_grpi">Crawl Beyond Sitemap</label>
+                </div>
+                <div class="kr-sg-checkbox">
+                  <input class="checkbox-custom" id="checkbox_robot" name="respectRobotTxtDirectives" type="checkbox" [(ngModel)]="respectRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
+                  <label class="checkbox-custom-label" for="checkbox_robot">Respect robots.txt directives</label>
+                </div>
+              </div>
+              </div>
+
+              <div class="crwal-depth-form">
+                <div class="crwal-depth-form-row">
+                  <div class="crwal-depth-form-inp">
+                    <div class="kr-sg-input-text">
+                      <div class="label-text">Crawl Depth
+                        <div class="tooltip-custom">
+                          <img src="assets/icons/sidemenu/help.svg">
+                          <span class="tooltiptext">
+                            <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                            <div class="v-text">Value = 0 (No limit)</div>
+                          </span>
+                        </div>
+                      </div>
+                    <input class="input-text maxUrlLimit-class" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="5" type="number" [(ngModel)]="crawlDepth">
+                  </div>
+                  </div>
+                  <div class="crwal-max-form-inp">
+                    <div class="kr-sg-input-text">
+                      <div class="label-text">Max URL
+                        <div class="tooltip-custom">
+                          <img src="assets/icons/sidemenu/help.svg">
+                          <span class="tooltiptext">
+                            <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                            <div class="v-text">Value = 0 (No limit)</div>
+                          </span>
+                        </div>
+                      </div>
+                    <input class="input-text maxUrlLimit-class" autocomplete="off" id="maxURL" name="maxURL" placeholder="10" type="number" [(ngModel)]="maxUrlLimit">
+                  </div>
+                  </div>
+                </div>
+              </div>
+           
+            </div>
+
+          </div>
+
+          <div class="new-crawl-shedule">
+            <div class="new-crawl-shedule-tab" [ngStyle]="{'background':crwalObject.advanceOpts.scheduleOpt?'':'#F8F9FA','border':crwalObject.advanceOpts.scheduleOpt?'':0}">
+              <div class="shedual-header">
+                <div class="shedual-hding">SCHEDULE</div>
+                <div class="sr-toggle-btn">
+                  <label class="kr-sg-toggle">
+                    <input id="sa-shedularEnableDisable" type="checkbox" name="scheduleOpts" [(ngModel)]="crwalObject.advanceOpts.scheduleOpt" (change)="openScheduler()">
+                    <div class="slider"></div>
+                  </label>
+                </div>
+              </div>
+              <app-scheduler *ngIf="crwalObject.advanceOpts.scheduleOpt" [crwalObject]="crwalObject" [scheduleFlag]="crwalObject.advanceOpts.scheduleOpt"
+              [schedule]="'set'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
+            </app-scheduler>
+            </div>
+          </div>
+
+          <div class="new-crawl-shedule authenticated-website">
+            <div class="new-crawl-shedule-tab" [ngStyle]="{'border':crwalObject.authorizationEnabled?'':0}">
+              <div class="shedual-header form-group">
+                <div class="d-block">
+                  <div class="shedual-hding">Is this an Authenticated website?</div>
+                </div>
+                
+                <div class="sr-toggle-btn">
+                  <label class="kr-sg-toggle">
+                    <input type="checkbox" name="authenticatedOpts" [(ngModel)]="crwalObject.authorizationEnabled">
+                    <div class="slider"></div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="crawl-opt-ddl mt-1">
+                <div class="kr-sg-dropdowns mar-bot-12">
+                  <div class="dropdown dropdown-open">
+                    <button id="contentIsAuthId" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false" [disabled]="!crwalObject.authorizationEnabled" [ngStyle]="{'background':crwalObject.authorizationEnabled?'':'#EFF0F1','border':crwalObject.authorizationEnabled?'':0,'color':crwalObject.authorizationEnabled?'':'#BDC1C6'}">{{crwalObject.authorizationProfle.sso_type===''?'Select Authentication Type':('contentSource.'+crwalObject.authorizationProfle.sso_type | translate)}}</button>
+                    <ul class="dropdown-menu content-menu">
+                      <li *ngFor="let type of authenticationTypes" [ngClass]="{'font-weight-bold':type===crwalObject.authorizationProfle.sso_type}" (click)="selectAuthenticationType(type)"><a>{{'contentSource.'+type | translate}}</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="is-auth-form-block" *ngIf="crwalObject.authorizationEnabled&&['basic','form'].includes(crwalObject.authorizationProfle.sso_type)">
+            <!-- Basic Fields -->
+            <div class="is-auth-form" *ngIf="crwalObject.authorizationProfle.sso_type==='basic'">
+              <div class="is-auth-form-header-block">
+                <div class="is-auth-form-header">
+                  BASIC FIELD
+                </div>
+                <!-- <div class="is-auth-form-add-field">
+                  <span><img src="assets/icons/facets/add-blue.svg" class="add-icon-blue" /> <img src="assets/images/add.svg" class="add-icon-black" /></span>Add Field
+                </div> -->
+              </div>
+              <div class="is-auth-form-table">
+                <div class="kr-sg-data-table">
+                  <section class="table-content">
+                      <header class="table-header">
+                          <div class="col-4">FIELD KEY</div> 
+                          <div class="col-4">FIELD VALUE</div>
+                          <!-- <div class="col-2"></div> -->
+                          <div class="col-4">ACTIONS</div>
+                      </header>
+                      <div class="content-body" *ngFor="let form of crwalObject.authorizationProfle.basicFields;let i=index;" [ngClass]="{'is-edit-mode':(form?.isEditable)}">
+                        <ng-container *ngIf="!form?.isEditable">
+                          <div class="col-4">{{form?.key}}</div>
+                          <div class="col-4">{{(form?.type==='password')?'********':form?.value}}</div>
+                          <!-- <div class="col-4">
+                            <div class="d-flex">
+                              <label class="kr-sg-toggle with-label">                                       
+                                <input type="checkbox" [checked]="form.isEnabled">
+                                <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span></div>
+                            </label>
+                            </div>
+                          </div> -->
+                          <div class="col-4">
+                              <span class="actions-links" (click)="form.isEditable=true"><img class="action_icon arrow-icon" src="assets/images/edit-pencil.svg"></span>
+                              <!-- <span class="actions-links"><img class="action_icon" src="assets/icons/delete-table.svg"></span> -->
+                          </div>
+                        </ng-container>
+
+                        <!-- Editable html -->
+                          <div class="is-auth-form-edit" *ngIf="form?.isEditable">
+                            <div class="is-auth-col">
+                              <div class="col-3">
+                                <div class="crawl-opt-inp">
+                                  <div class="kr-sg-input-text mar-bot-15">
+                                    <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                                    <input type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [value]="form.key" disabled>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-3">
+                                <div class="crawl-opt-inp">
+                                  <div class="kr-sg-input-text mar-bot-15">
+                                    <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
+                                    <input [type]="form.type" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [(ngModel)]="form.duplicateObj.value">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-3 d-flex align-items-center">
+                                <div class="is-auth-btn-group">
+                                <button class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="saveBasicField(form,'cancel')">Cancel</button>
+                                <button class="kr-sg-button-secondary btn_lg" (click)="saveBasicField(form,'save')">Save</button>
+                              </div>
+                              </div>
+                            </div>                
+                          </div>
+                      </div>
+                  </section>                               
+              </div>               
+              </div>
+            </div>
+
+            <!-- Form based -->
+            <div class="is-auth-form" *ngIf="crwalObject.authorizationProfle.sso_type==='form'">
+              <div class="is-auth-form-header-block">
+                <div class="is-auth-form-header">
+                  FORM FIELD                  
+                </div>
+                <div class="is-auth-form-add-field" (click)="addFormField('add')" *ngIf="!formFieldObj.isShow">
+                  <span><img src="assets/icons/facets/add-blue.svg" class="add-icon-blue" /> <img src="assets/images/add.svg" class="add-icon-black" /></span>Add Field
+                </div>
+              </div>
+              <div class="is-auth-form-table">
+                <div class="kr-sg-data-table">
+                  <section class="table-content" *ngIf="crwalObject.authorizationProfle.formFields.length>0">
+                      <header class="table-header">
+                          <div class="col-3">FIELD KEY</div> 
+                          <div class="col-2">FIELD TYPE</div>
+                          <div class="col-3">FIELD VALUE</div>
+                          <div class="col-2"></div>
+                          <div class="col-2 text-right">ACTIONS</div>
+                      </header>
+                      <div class="content-body" *ngFor="let form of crwalObject.authorizationProfle.formFields;let i=index;" [ngClass]="{'is-edit-mode':(form?.isEditable)}">
+                          <ng-container *ngIf="!form?.isEditable">
+                          <div class="col-3">{{form.key}}</div>
+                          <div class="col-2">{{'contentSource.'+form.type|translate}}</div>
+                          <div class="col-3">{{(form.type==='password')?'********':form.value}}</div>
+                          <div class="col-2">
+                            <div class="d-flex">
+                              <label class="kr-sg-toggle with-label">                                       
+                                <input type="checkbox" [(ngModel)]="form.isEnabled">
+                                <div class="slider"> <span class="no" [ngStyle]="{'color':(!form.isEnabled?'#202124':'#9B9B9B')}">Disable</span><span class="yes" [ngStyle]="{'color':(form.isEnabled?'#202124':'#9B9B9B')}">Enable</span></div>
+                            </label>
+                            </div>
+                          </div>
+                          <div class="col-2 text-right">
+                              <span class="actions-links" (click)="form.isEditable=true;editFormField('edit',form)"><img class="action_icon arrow-icon" src="assets/images/edit-pencil.svg"></span>
+                              <span class="actions-links" (click)="deleteFormFields(i)"><img class="action_icon" src="assets/icons/delete-table.svg"></span>
+                          </div>
+                          </ng-container>
+
+                          <!-- Edit Fields: -->
+                          <div class="is-auth-form-edit" *ngIf="form.isEditable">
+                            <div class="is-auth-col">
+                              <div class="col-3">
+                                <div class="crawl-opt-inp">
+                                  <div class="kr-sg-input-text mar-bot-15">
+                                    <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                                    <input id="{{'contentFormFieldKeyId'+i}}" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [value]="form.key" [(ngModel)]="form.duplicateObj.key">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-3">
+                                <div class="crawl-option-ddl">
+                                  <div class="kr-sg-dropdowns mar-bot-12">
+                                    <div class="label-text">Field Type<sup class="field-mandatory">*</sup></div>
+                                    <div class="dropdown dropdown-open">
+                                      <button id="{{'contentFormFieldTypeId'+i}}" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{form.duplicateObj.type===''?'Select Field Type':('contentSource.'+form.duplicateObj.type|translate)}}</button>
+                                      <ul class="dropdown-menu content-menu">
+                                        <li *ngFor="let box of inputTypes" (click)="form.duplicateObj.type=box" [ngClass]="{'font-weight-bold':(form.duplicateObj.type===box)}"><a>{{'contentSource.'+box|translate}}</a></li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-3">
+                                <div class="crawl-opt-inp">
+                                  <div class="kr-sg-input-text mar-bot-15">
+                                    <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
+                                    <input id="{{'contentFormFieldValueId'+i}}" [type]="form.type" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [value]="form.value" [(ngModel)]="form.duplicateObj.value">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-3 d-flex align-items-center">
+                                <div class="is-auth-btn-group">
+                                  <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="editFormField('cancel',form)">Cancel</button>
+                                  <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="editFormField('save',form,i)">Save</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div> 
+                      </div>
+                  </section>
+                  
+                  <!-- Add Form Fields -->
+                  <div class="is-auth-form-edit" *ngIf="formFieldObj.isShow">
+                    <div class="is-auth-col">
+                      <div class="col-3">
+                        <div class="crawl-opt-inp">
+                          <div class="kr-sg-input-text mar-bot-15">
+                            <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                            <input id="contentFormFieldKeyId" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [(ngModel)]="formFieldObj.key">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="crawl-option-ddl">
+                          <div class="kr-sg-dropdowns mar-bot-12">
+                            <div class="label-text">Field Type<sup class="field-mandatory">*</sup></div>
+                            <div class="dropdown dropdown-open">
+                              <button id="contentFormFieldTypeId" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{(formFieldObj.type==='')?'Select Field Type':('contentSource.'+formFieldObj.type|translate)}}</button>
+                              <ul class="dropdown-menu content-menu">
+                                <li *ngFor="let box of inputTypes" (click)="formFieldObj.type=box" [ngClass]="{'font-weight-bold':(formFieldObj.type===box)}"><a>{{'contentSource.'+box|translate}}</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="crawl-opt-inp">
+                          <div class="kr-sg-input-text mar-bot-15">
+                            <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
+                            <input id="contentFormFieldValueId" [type]="formFieldObj.type" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [(ngModel)]="formFieldObj.value">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3 d-flex align-items-center">
+                        <div class="is-auth-btn-group">
+                          <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="addFormField('cancel')" [disabled]="crwalObject.authorizationProfle.formFields.length===0">Cancel</button>
+                          <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="addFormField('save')">Add</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>  
+              </div> 
+              </div>
+            </div>
+
+            <!-- Authorization optional for both fields types -->
+            <div class="is-auth-form" *ngIf="['basic','form'].includes(crwalObject.authorizationProfle.sso_type)">
+              <div class="is-auth-form-header-block">
+                <div class="is-auth-form-header">
+                  AUTHORIZATION FIELD <span class="optional-hding">(Optional)</span>                  
+                </div>
+                <div class="is-auth-form-add-field" (click)="addAuthorizationField('add')" *ngIf="!authorizationFieldObj.isShow">
+                  <span><img src="assets/icons/facets/add-blue.svg" class="add-icon-blue" /> <img src="assets/images/add.svg" class="add-icon-black" /></span>
+                  Add
+                </div>
+              </div> 
+              
+              <div class="is-auth-form-table">
+                <div class="kr-sg-data-table" [ngClass]="{'text-center':crwalObject.authorizationProfle.authorizationFields.length===0}">
+                  <section class="table-content" *ngIf="crwalObject.authorizationProfle.authorizationFields.length>0">
+                      <header class="table-header">
+                          <div class="col-3">FIELD KEY</div> 
+                          <div class="col-2">FILED TYPE</div>
+                          <div class="col-3">FIELD VALUE</div>
+                          <div class="col-2"></div>
+                          <div class="col-2 text-right">ACTIONS</div>
+                      </header>
+                      <div class="content-body" *ngFor="let auth of crwalObject.authorizationProfle.authorizationFields;let i=index;" [ngClass]="{'is-edit-mode':(form?.isEditable)}">
+                         <ng-container *ngIf="!auth?.isEditable">
+                         <div class="col-3">{{auth?.key}}</div>
+                          <div class="col-2">{{'contentSource.'+auth?.type|translate}}</div>
+                          <div class="col-3">{{auth?.value}}</div>
+                          <div class="col-2">
+                            <div class="d-flex">
+                              <label class="kr-sg-toggle with-label">                                       
+                                <input id="sa-formFieldListItemEnableDisable" type="checkbox" [(ngModel)]="auth.isEnabled">
+                                <div class="slider"> <span class="no" [ngStyle]="{'color':(!auth.isEnabled?'#202124':'#9B9B9B')}">Disable</span><span class="yes" [ngStyle]="{'color':(auth.isEnabled?'#202124':'#9B9B9B')}">Enable</span></div>
+                            </label>
+                            </div>
+                          </div>
+                          <div class="col-2 text-right">
+                              <span id="sa-editAuthFieldListItem" class="actions-links" (click)="auth.isEditable=true;editAuthorizationField('edit',auth)"><img class="action_icon arrow-icon" src="assets/images/edit-pencil.svg"></span>
+                              <span id="sa-deleteAuthFieldListItem" class="actions-links" (click)="crwalObject.authorizationProfle.authorizationFields.splice(i,1)"><img class="action_icon" src="assets/icons/delete-table.svg"></span>
+                          </div>
+                        </ng-container> 
+
+                        <!-- Edit Division Starts -->
+                      <div class="is-auth-form-edit" *ngIf="auth?.isEditable">
+                        <div class="is-auth-col">
+                          <div class="col-3">
+                            <div class="crawl-opt-inp">
+                              <div class="kr-sg-input-text mar-bot-15">
+                                <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                                <input id="{{'contentFieldKeyId'+i}}" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [value]="auth.key" [(ngModel)]="auth.duplicateObj.key">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-3">
+                            <div class="crawl-option-ddl">
+                              <div class="kr-sg-dropdowns mar-bot-12">
+                                <div class="label-text">Field Type<sup class="field-mandatory">*</sup></div>
+                                <div class="dropdown dropdown-open">
+                                  <button id="{{'contentFieldTypeId'+i}}" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{auth.duplicateObj.type===''?('contentSource.'+auth.type |translate):('contentSource.'+auth?.duplicateObj.type|translate)}}</button>
+                                  <ul class="dropdown-menu content-menu">
+                                    <li *ngFor="let item of autorizationFieldTypes" (click)="auth.duplicateObj.type=item" [ngClass]="{'font-weight-bold':auth.duplicateObj.type===item}"><a>{{'contentSource.'+item | translate}}</a></li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-3">
+                            <div class="crawl-opt-inp">
+                              <div class="kr-sg-input-text mar-bot-15">
+                                <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
+                                <input id="{{'contentFieldValueId'+i}}" type="text" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [value]="auth.value" [(ngModel)]="auth.duplicateObj.value">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-3 d-flex align-items-center">
+                            <div class="is-auth-btn-group">
+                              <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="editAuthorizationField('cancel',auth)">Cancel</button>
+                              <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="editAuthorizationField('save',auth,i)">Save</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>  
+                      <!-- Edit Division Ends -->
+                      </div>
+                  </section>  
+
+                  <span class="font-weight-bold" *ngIf="(crwalObject.authorizationProfle.authorizationFields.length===0&&!authorizationFieldObj.isShow)">No authorization fields found</span>
+
+                  <!-- ADD DIVISION SATRTS -->
+                  <div class="is-auth-form-edit" *ngIf="authorizationFieldObj.isShow">
+                    <div class="is-auth-col">
+                      <div class="col-3">
+                        <div class="crawl-opt-inp">
+                          <div class="kr-sg-input-text mar-bot-15">
+                            <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                            <input id="contentFieldKeyId" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [(ngModel)]="authorizationFieldObj.key">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="crawl-option-ddl">
+                          <div class="kr-sg-dropdowns mar-bot-12">
+                            <div class="label-text">Field Type<sup class="field-mandatory">*</sup></div>
+                            <div class="dropdown dropdown-open">
+                              <button id="contentFieldTypeId" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{(authorizationFieldObj.type==='')?'Select Field Type':('contentSource.'+authorizationFieldObj.type|translate)}}</button>
+                              <ul class="dropdown-menu content-menu">
+                                <li *ngFor="let item of autorizationFieldTypes" (click)="authorizationFieldObj.type=item" [ngClass]="{'font-weight-bold':authorizationFieldObj.type===item}"><a>{{'contentSource.'+item | translate}}</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="crawl-opt-inp">
+                          <div class="kr-sg-input-text mar-bot-15">
+                            <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
+                            <input id="contentFieldValueId" type="text" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [(ngModel)]="authorizationFieldObj.value">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3 d-flex align-items-center">
+                        <div class="is-auth-btn-group">
+                          <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="addAuthorizationField('cancel')">Cancel</button>
+                          <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="addAuthorizationField('save')">Add</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>  
+                  <!-- ADD DIVISION ENDS -->
+              </div> 
+              </div>
+            </div>
+            
+            <!-- Authentication fields -->
+            <ng-container *ngIf="['basic','form'].includes(crwalObject.authorizationProfle.sso_type)">
+            <div class="row col-12 border-top-row">
+              <div class="col-4 pl-0">
+                <div class="kr-sg-input-text">
+                  <div class="label-text">Authentication URL<sup class="field-mandatory">*</sup></div>
+                  <input id="contentAuthURLId" type="text" placeholder="Authentication Url" class="input-text" [(ngModel)]="crwalObject.authorizationProfle.authCheckUrl" autocomplete="off">
+                </div>
+              </div>
+            </div>
+            <div class="row col-12 border-top-row">
+              <div class="col-4 pl-0">
+                <div class="kr-sg-dropdowns">
+                  <div class="label-text">Test Type<sup class="field-mandatory">*</sup></div>
+                  <div class="dropdown dropdown-open">
+                      <button id="contentTestTypeId" class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(crwalObject.authorizationProfle.testType==='')?'Choose an option':('contentSource.'+crwalObject.authorizationProfle.testType|translate)}}</button>                                            
+                      <ul class="dropdown-menu content-menu">                                              
+                        <li *ngFor="let item of testTypes" (click)="crwalObject.authorizationProfle.testType=item" [ngClass]="{'font-weight-bold':(crwalObject.authorizationProfle.testType===item)}"><a>{{'contentSource.'+item|translate}}</a></li>
+                      </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="kr-sg-input-text">
+                  <div class="label-text">Test Value<sup class="field-mandatory">*</sup></div>
+                  <input id="contentTestValueId" [type]="(crwalObject.authorizationProfle.testType==='status_code')?'number':'text'" placeholder="Test Value" class="input-text" [ngClass]="{'maxUrlLimit-class':crwalObject.authorizationProfle.testType==='status_code'}" [(ngModel)]="crwalObject.authorizationProfle.testValue" autocomplete="off">
+                </div>
+              </div>
+            </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </perfect-scrollbar>
+    <div class="modal-footer">
+      <button id="sa-validateCrawl" class="kr-sg-button-primary btn_lg mr-3" (click)="validateSource()" [disabled]="btnDisabled" [ngStyle]="{'background':btnDisabled?'#85B7FE':'#0D6EFD'}"><span class="loader-spin-inside-btn" *ngIf="btnDisabled"></span>Save & Test </button>
+      <button  id="sa-cancelCrawl" class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closeAddContentModal(true)">Cancel</button>
+    </div>
+</kr-modal>
+
+<!-- Link Bot modal -->
 <kr-modal modalType="center" modalClass="botsModal modal_popups_ linkExistingBotsModal" #linkBotsModalPop>
   <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'linkBot'">
     <div class="modal-header">
@@ -1044,6 +1070,8 @@
     </perfect-scrollbar>
   </ng-container>
 </kr-modal>
+
+<!-- Bot Link Existing Modal -->
 <kr-modal modalType="center" #botsConfigurationModalElement modalClass="modal_popups_ linkExistingBotsModal">
   <div class="modal-header">
     <div class="title"> <span class="gray-text-link"> Link Bot </span><img src="assets/icons/carrotright.svg">
@@ -1134,11 +1162,14 @@
     <button class="kr-sg-button-secondary btn_lg" (click)="closeBotsConfigurationModalElement()">Back</button>
   </div>
 </kr-modal>
+
+<!-- Add Structure Data Modal -->
 <kr-modal modalType="center" modalClass="modal_popups_  addfaq" #addStructuredDataModalPop>
   <app-add-structured-data [selectedSourceType]="selectedSourceType"
     (closeStructuredDataModal)="cancleSourceAddition($event)"></app-add-structured-data>
 </kr-modal>
 
+<!-- Structure Data Status Modal -->
 <kr-modal modalType="default" #structuredDataStatusModalPop>
   <app-structured-data-status-modal (closeStructuredDataStatusModal)="closeStructuredDataStatusModal()"
     [structuredDataDocPayload]="structuredDataDocPayload"></app-structured-data-status-modal>
@@ -1152,13 +1183,38 @@
           (click)="closeStatusModal()"></div>
       <div class="modal-body">
         <ng-container *ngIf="!(statusObject.status==='success' || statusObject.status==='failed')">
-          <div class="progressNote">
-            <div>Crawling In-progress</div>
+          <div>  
+            <div class="status-body-check">
+              <!-- <div class="success-check status-type-img">
+                <img src="assets/icons/content/latest-content-icons/green-loading-in-progress.svg">
+              </div> -->
+              <div class="configInProgress" *ngIf="selectedSourceType?.sourceType==='content'">
+                <h1 class="status-type-header-content"><strong>Crawling in-progress</strong></h1>
+              </div>
+              <div class="configInProgress" *ngIf="selectedSourceType?.sourceType==='faq'">
+                <h1 class="status-type-header"><strong>{{importFaqInprogress?'Import':'Faq Extraction'}} In Progress</strong></h1>
+              </div>
+            </div>
+            <div class="progressNote">
+              <div class="crwal-in-progress-status">
+                <div class="crwal-in-progress-mat">
+                  <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
+                </div>
+                <div class="crwal-in-progress-mat-close" (click)="stopCrwaling($event)">
+                  <span class="mat-close-icon"><i class="si-close"></i></span>
+                </div>
+              </div>
+              <div class="progress-protip">
+                <div class="pro-tip-icon">
+                <i class="si-info"></i> 
+                </div>
+                <div class="pro-tip-text">
+                  This might take a while based on the content size. You will be notified when the extraction process is done.
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="text-center">
-            <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
-            <div class="relaxNote">You will be notified when the Crawling process is done.</div>
-          </div>
+
         </ng-container>
         <div class="success-check  pb-4" *ngIf="(statusObject.status==='success')">
           <img src="assets/icons/successCheck.svg">
@@ -1174,13 +1230,101 @@
         </div>
       </div>
       <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
-        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-          (click)="stopCrwaling($event)" [ngClass]="{'d-none': statusObject.status==='success'}">Abort</button>
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable" *ngIf="statusObject.status==='success'" (click)="closeStatusModal()">OK</button>
+        <button type="button" class="kr-sg-button-secondary backbtn btn_md mr-2" data-dismiss="modal" (click)="closeStatusModal()" *ngIf="selectedSourceType?.sourceType==='content'&&statusObject.status!=='success'">Run in Background</button>
+      </div>
+    </div>
+  </div>
+</kr-modal>
+
+<!--Content Validation Status popup-->
+<kr-modal modalType="default" #statusModalPop>
+  <div class="status-modal-popup">
+    <div class="modal_content" *ngIf="selectedSourceType">
+      <div class="modal-header">{{selectedSourceType?.name}} <img src="assets/images/close.svg" (click)="closeStatusModal()"></div>
+      <div class="modal-body">
+        <div class="success-check" *ngIf="statusObject?.status==='success'" [ngClass]="{'pb-4':(selectedSourceType?.sourceType==='faq')}">
+          <img [src]="(selectedSourceType?.sourceType==='faq')?'assets/icons/successCheck.svg':'assets/icons/content/latest-content-icons/success-check-o.svg'">
+        </div>
+        <div class="error-check" *ngIf="(statusObject?.status==='failed')" [ngClass]="{'pb-4':(selectedSourceType?.sourceType==='faq')}">
+          <img [src]="(selectedSourceType?.sourceType==='faq')?'assets/images/exclamationCircle-Red.svg':'assets/icons/content/latest-content-icons/failed-check-o.svg'">
+        </div>
+        <div class="status-body-check" *ngIf="selectedSourceType?.sourceType === 'content'&&statusObject?.status!=='failed'">
+          <div class="success-check status-type-img"
+            *ngIf="(statusObject?.validation?.url?.validated)||(selectedSourceType?.resourceType === 'file')">
+            <img src="assets/icons/content/latest-content-icons/success-check-o.svg">
+          </div>
+          <div class="error-check status-type-img"
+            *ngIf="!(statusObject?.validation?.url?.validated)&&!(selectedSourceType?.resourceType === 'file')">
+            <img src="assets/icons/content/latest-content-icons/failed-check-o.svg">
+          </div>
+          <div class="configInProgress">
+            <h1 class="status-type-header" [ngStyle]="{'color':(statusObject?.validation?.url?.validated||selectedSourceType?.resourceType === 'file')?'#28A745':'#DD3646'}"><strong>{{(statusObject?.validation?.url?.validated)||(selectedSourceType?.resourceType ===
+                'file')?"Validation Successful":"Validation Failed"}}</strong></h1>
+          </div>
+
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject?.status==='success')">
+          Source added Successfully
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject?.status==='failed')">
+          Failed to add Source
+        </div>
+        <ng-container *ngIf="selectedSourceType?.sourceType !== 'faq'">
+          <div class="status-identification-content">
+            <perfect-scrollbar class="content-scroll">
+              <div class="content-title" *ngIf="selectedSourceType?.resourceType=='file'&&['success','running'].includes(statusObject?.status)">
+                <img src="assets/images/source-icos/check-green.svg"
+                  *ngIf="(statusObject?.validation?.url?.validated||selectedSourceType?.resourceType=='file')"
+                  class="successfullyConnected">
+                <span>File Validation</span>
+              </div>
+              <ng-container *ngIf="selectedSourceType?.resourceType==='web'">
+                  <div class="content-title"><img class="successfullyConnected" [src]="(statusObject?.validation?.url?.validated)?'assets/images/source-icos/check-green.svg':'assets/images/source-icos/Info-red.svg'"><span>{{statusObject?.validation?.url?.msg}}</span></div>
+                  <div class="content-title" *ngIf="statusObject?.validation?.networkConnectivity?.validated"><img class="successfullyConnected" src="assets/images/source-icos/check-green.svg"><span>{{statusObject?.validation?.networkConnectivity?.msg}}</span></div>
+              </ng-container>
+            </perfect-scrollbar>
+          </div>
+        </ng-container>
+        <div class="progressNote" *ngIf="selectedSourceType?.sourceType === 'faq'&&!(['success','failed'].includes(statusObject?.status))">
+          <div>{{importFaqInprogress?'Import':'Faq Extraction'}} In Progress</div>
+          <div class="text-center">
+            <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
+            <div class="relaxNote">You will be notified when the {{importFaqInprogress?'import':'extraction'}} progress
+              is done</div>
+          </div>
+        </div>
+        <div class="configInProgress"
+          *ngIf="statusObject?.validation?.url?.validated&&selectedSourceType?.sourceType === 'web'">
+          <h4>Now you can choose to Crawl immediately or later</h4>
+        </div>
+      </div>
+      <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0 d-none" data-dismiss="modal"
+          (click)="cancelExtraction()"
+          *ngIf="selectedSourceType?.sourceType==='faq'&&statusObject?.status!=='success'||statusObject?.status=='failed'">Cancel
+          Extraction</button>
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-          [disabled]="crawlOkDisable" (click)="closeStatusModal()">OK</button>
+          [disabled]="crawlOkDisable" (click)="closeStatusModal()"
+          *ngIf="selectedSourceType?.sourceType==='faq'">Ok</button>
+        <button type="button" class="kr-sg-button-secondary btn_lg kr-btn-primary float-none ml-2 mr-0" data-dismiss="modal"
+          (click)="closeStatusModal()"
+          *ngIf="selectedSourceType?.sourceType==='content'&&(statusObject?.validation?.url?.validated)||(selectedSourceType?.resourceType === 'file')">Close</button>
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          (click)="jobOndemand()"
+          *ngIf="selectedSourceType?.sourceType==='content'&&selectedSourceType?.resourceType === 'web'&&(statusObject?.validation?.url?.validated)"
+          [disabled]="crawlOkDisable">Crawl</button>
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          *ngIf="selectedSourceType?.sourceType==='content'&&selectedSourceType?.resourceType === 'web'&&!(statusObject?.validation?.url?.validated)"
+          (click)="retryValidation()">Retry</button>
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          (click)="editConfiguration()"
+          *ngIf="selectedSourceType?.sourceType==='content'&&selectedSourceType?.resourceType === 'web'&&!(statusObject?.validation?.url?.validated)" disabled>Edit
+          Configuration</button>
       </div>
     </div>
   </div>
 </kr-modal>
 
 <app-upgrade-plan #plans></app-upgrade-plan>
+

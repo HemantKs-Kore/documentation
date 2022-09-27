@@ -2,8 +2,9 @@ export class CrwalObj {
     url: String = '';
     desc: String = '';
     name: String = '';
-    // resourceType: String = '';
-    advanceOpts: AdvanceOpts = new AdvanceOpts()
+    advanceOpts: AdvanceOpts = new AdvanceOpts();
+    authorizationEnabled: boolean = false;
+    authorizationProfle: AuthorizationProfle = new AuthorizationProfle();
 }
 export class AdvanceOpts {
     scheduleOpt: boolean = false;
@@ -15,13 +16,47 @@ export class AdvanceOpts {
     blockHttpsMsgs = false;
     crawlDepth: number;
     maxUrlLimit: number;
-    //schedulePeriod: String ="";
     repeatInterval: String = "";
     crawlEverything: boolean = true;
-    allowedOpt: boolean = true;
-    allowedURLs: AllowUrl[] = [];
+    allowedOpt: boolean = false;
+    allowedURLs: Array<Object> = [];
     blockedOpt: boolean = false;
-    blockedURLs: BlockUrl[] = [];
+    blockedURLs: Array<Object> = [];
+}
+
+export class AuthorizationProfle {
+    sso_type: String = "";
+    formFields: any = [];
+    basicFields: any = [
+        {
+            isRequired: true,
+            key: "Username or email",
+            type: "textbox",
+            isEnabled: true,
+            value: "Username",
+            isEditable: false,
+            duplicateObj:{value: "Username"}
+        },
+        {
+            isRequired: true,
+            key: "Password",
+            type: "password",
+            isEnabled: true,
+            value: "password",
+            isEditable: false,
+            duplicateObj:{value: "password"}
+        }];
+    authorizationFields: Array<AuthorizationFields> = [];
+    authCheckUrl: String = "";
+    testType: String = "";
+    testValue: String = "";
+}
+
+export class AuthorizationFields {
+    type: String;
+    key: String;
+    value: String;
+    isEnabled: Boolean;
 }
 
 export class scheduleOpts {

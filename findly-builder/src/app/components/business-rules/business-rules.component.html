@@ -3,7 +3,12 @@
         <div class="col-4 lef-sec p-0"
             *ngIf="!(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)">
             <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-            <span class="title">Business Rules</span>
+            <span class="title">Business Rules
+                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+                    <i class="si-topic-guide-1"></i>
+                  </span>
+            </span>
         </div>
         <div class="col-4 lef-sec p-0"
             *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">

@@ -657,6 +657,9 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       document.getElementById(inputSearch).focus();
     }, 100)
   }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
   }
