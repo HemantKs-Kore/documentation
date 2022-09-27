@@ -833,7 +833,7 @@ export class EndPointsService {
       method: 'get'
     }
     this.serviceList['get.apiScopes'] = {
-      endpoint: this.API_SERVER_URL + '/findly/seed_data',
+      endpoint: this.API_SERVER_URL + '/findly/stream/scopes',
       method: 'get'
     }
     this.serviceList['delete.credential'] = {

@@ -176,7 +176,7 @@ export class AppSelectionService {
     this.configSelected = config
     this.workflowService.selectedQueryPipeline(config);
     const previousState = this.getPreviousState();
-    this.setPreviousState(previousState.route);
+    this.setPreviousState(previousState?.route);
     this.queryConfigSelected.next(config);
   }
   getAppData(app) {
