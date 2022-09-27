@@ -1012,7 +1012,7 @@ mediaObj:any = {};
 }
 closeMediaModal(event){
   this.mediaObj = {};
-  console.log(event);
+  //console.log(event);
   $(event.target).closest('.videoContainer').find('iframe').attr("src",$(event.target).closest('.videoContainer').find('iframe').attr("src"));
   // $('.pause-icon').click(); 
   // $('.rounded-box').click();
