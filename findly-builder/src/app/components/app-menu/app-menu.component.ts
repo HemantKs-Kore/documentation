@@ -266,6 +266,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
             }
             this.selectIndexPipelineId(res);
           }
+          this.headerService.updateSearchConfiguration();
           this.closeIndexModalPopup();
         },
         errRes => {
@@ -332,6 +333,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
             this.notify.notify('New Search config created successfully', 'success');
             this.mixpanel.postEvent('Search Config Created - New', {});
           }
+          this.headerService.updateSearchConfiguration();
           this.closeModalPopup();
         },
         errRes => {
