@@ -1915,6 +1915,9 @@
             .modal-content{
                 .right-sec-form{
                     width: 100% !important;
+                    .scroll-talktous{
+                        height: calc(100vh - 110px);
+                    }
                     .scroll-content{
                         padding: 20px 20px !important;
                     }
@@ -1928,6 +1931,9 @@
                             line-height: 19px;
                             color: #000000;
                         }
+                    }
+                    .talk-to-us-footer{
+                        padding: 0 20px;
                     }
                 }
             }

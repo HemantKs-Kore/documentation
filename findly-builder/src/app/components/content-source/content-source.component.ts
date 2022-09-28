@@ -926,6 +926,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             this.editSource.authorizationProfle.authorizationFields.push(obj)
           }
         }
+        if(source?.authorizationProfle?.sso_type === 'basic'){
+           for(let i=0;i<source?.authorizationProfle?.formFields?.length;i++){
+            this.editSource.authorizationProfle.basicFields[i].value = source?.authorizationProfle?.formFields[i].value
+            this.editSource.authorizationProfle.basicFields[i].duplicateObj.value = source?.authorizationProfle?.formFields[i].value
+           }
+        }
         if (source?.authorizationProfle?.formFields?.length > 0 && this.editSource.authorizationProfle.sso_type === 'form') {
           for (let item of source?.authorizationProfle?.formFields) {
             const obj = { ...item, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
@@ -1669,8 +1675,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   scheduleData(scheduleData) {
-    // console.log(scheduleData);
-    if (this.selectedSource?.advanceSettings?.scheduleOpts) this.selectedSource['advanceSettings'].scheduleOpts = scheduleData;
+    //if (this.selectedSource?.advanceSettings?.scheduleOpts) this.selectedSource['advanceSettings'].scheduleOpts = scheduleData;
+    if(this.editSource?.advanceOpts?.scheduleOpts) this.editSource.advanceOpts.scheduleOpts = scheduleData;
   }
   cronExpress(cronExpress) {
     // console.log(cronExpress);
