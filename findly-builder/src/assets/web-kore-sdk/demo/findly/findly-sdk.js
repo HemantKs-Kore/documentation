@@ -20467,16 +20467,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
 
     }
-    FindlySDK.prototype.showMoreClick = function () {
+     FindlySDK.prototype.showMoreClick = function () {
       var _self = this;
-      $('.full-search-data-container').off('click', '.show-more-list').on('click', '.show-more-list', function (e) {
+      $('.full-search-data-container').off('click', '.searchassist-show-more-button').on('click', '.searchassist-show-more-button', function (e) {
         var showMoreData = {
-          groupName: $(this).attr('groupName'),
-          templateName: $(this).attr('templateName'),
-          pageNumber: Number($(this).attr('pageNumber')) + 1,
-          fieldName: $(this).attr('fieldName')
+          groupName: $(this).closest('.show-more-list').attr('groupName'),
+          templateName: $(this).closest('.show-more-list').attr('templateName'),
+          pageNumber: Number($(this).closest('.show-more-list').attr('pageNumber')) + 1,
+          fieldName: $(this).closest('.show-more-list').attr('fieldName')
         }
-        $(this).attr('pageNumber', Number($(this).attr('pageNumber')) + 1);
+        $(this).closest('.show-more-list').attr('pageNumber', Number($(this).closest('.show-more-list').attr('pageNumber')) + 1);
         _self.vars.showingMatchedResults = true;
         _self.invokeSearch(showMoreData)
       });
