@@ -1399,7 +1399,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.appSelectionService.updateTourConfig('addData');
           //this.addSourceModalPopRef.close();
           if (this.selectedSourceType.sourceType === 'content') {
-            this.statusObject = { ...this.statusObject, validation: res.validations };
+            this.statusObject = { ...this.statusObject, validation: res.validations,isURLValid:res?.isURLValid };
             this.mixpanel.postEvent('Content Crawl web domain added', {});
           }
           if (this.selectedSourceType.sourceType === 'faq') {

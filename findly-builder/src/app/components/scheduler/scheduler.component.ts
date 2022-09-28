@@ -120,23 +120,17 @@ export class SchedulerComponent implements OnInit {
       //     this.occurence = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.occurrences;
       //     this.endsFreq(this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.endType);
       //   } 
-      if (this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue) {
-        this.endsFreq(this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.endType, 'set');
-        this.repeatEvery = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.every ? this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.every : this.repeatEvery;
-        this.custFreq = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.schedulePeriod ? this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.schedulePeriod : this.custFreq;
-        this.weeKDay = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.repeatOn ? this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.repeatOn : this.weeKDay;
+      if (this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue) {
+        this.endsFreq(this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.endType, 'set');
+        this.repeatEvery = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.every ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.every : this.repeatEvery;
+        this.custFreq = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.schedulePeriod ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.schedulePeriod : this.custFreq;
+        this.weeKDay = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.repeatOn ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.repeatOn : this.weeKDay;
         //this.weeKDay = this.weeKDay.charAt(0).toUpperCase() + this.weeKDay.slice(1);
-        this.endDate = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.endDate ? this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.endDate : this.endDate;
-        this.occurence = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.occurrences ? this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.occurrences : this.occurence;
-
+        this.endDate = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.endDate ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.endDate : this.endDate;
+        this.occurence = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.occurrences ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.occurrences : this.occurence;
       }
     }
     this.schedulerFlag = this.scheduleFlag;
-    // console.log(this.schedulerFlag);
-
-    //console.log(this.dateConverter('SUN'))
-    //console.log(this.crwalObject);
-
   }
   ngOnChanges(changes) {
     // console.log("ngOnChanges", this.scheduleFlag);
@@ -219,8 +213,6 @@ export class SchedulerComponent implements OnInit {
     this.endDate = event.value;
   }
   addEvent(type: string, event: MatDatepickerInputEvent<Date>, rstz: string) {
-    // console.log(`${type}: ${event.value}`);
-
     if (rstz == 'regular') {
       this.day = event.value.toString().split(" ")[0].toLocaleUpperCase();
       this.month = event.value.toString().split(" ")[1].toLocaleUpperCase();
