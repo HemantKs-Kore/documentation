@@ -1146,21 +1146,22 @@
 
     /*--Regular Modal Basic Styles Ends Here--*/
     &.onboardingJourney-landing-popup {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
         .modal-dialog {
-            width: 575px !important;
-            max-width: 575px !important;
-            // height: calc(100% - 80px);
-            height: auto;
-            max-height: 500px;
-
+            height: 550px;
+            max-height: 550px;
+            width: 1200px !important;
+            max-width: 1200px !important;
             .modal-content {
                 background: #FFFFFF;
                 border-radius: 6px;
                 display: block;
                 flex-direction: unset;
-                overflow: inherit;
                 overflow: initial;
-
+                width: 70%;
+                margin: 0 auto;
                 .close_icon {
                     width: 32px;
                     height: 32px;
@@ -1188,8 +1189,14 @@
 
                     .video-player {
                         position: relative;
-                        min-height: 300px;
-
+                        min-height: 450px;
+                        iframe{
+                            position: absolute; 
+                            top: 0; 
+                            left: 0; 
+                            width: 100%; 
+                            height: 100%;
+                        }
                         video {
                             border: 0;
                             width: 100%;
@@ -1388,6 +1395,9 @@
                     }
                 }
             }
+        }
+        .video-info-section-data{
+
         }
     }
 
