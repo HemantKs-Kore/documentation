@@ -1245,7 +1245,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       //this.mixpanel.postEvent('FAQ File extraction started', {});
     }
     let schdVal = true;
-    // const crawler = this.crwalObject;
+    const crawler = this.crwalObject;
     let payload: any = {};
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -1298,7 +1298,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         quaryparms.faqType = resourceType;
       }
       if (resourceType === 'web') {
-        payload =this.crwalObject;
+        payload ={...crawler};
         payload.name = this.newSourceObj.name;
         payload.url = this.newSourceObj.url;
         payload.desc = this.newSourceObj.desc || '';
@@ -1374,7 +1374,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           payload.resourceType = payload.fileId ? 'file' : 'url';
         }
       }
-      if (payload.advanceOpts.scheduleOpt) {
+      if (payload?.advanceOpts?.scheduleOpt) {
         if (payload.advanceOpts.scheduleOpts) {
           if (!payload.advanceOpts.scheduleOpts.date) {
             schdVal = false;
@@ -1395,7 +1395,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
           this.btnDisabled = false;
           this.openStatusModal();
-          console.log("newSourceObj.desc", this.crwalObject);
           this.extract_sourceId = res._id;
           this.appSelectionService.updateTourConfig('addData');
           //this.addSourceModalPopRef.close();

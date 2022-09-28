@@ -278,8 +278,12 @@ export class CredentialsListComponent implements OnInit {
         this.channnelConguired['customScopeObj'] =[];  
         this.channnelConguired['customScopeObjTitle'] =[];  
         this.channnelConguired.forEach(element => {
-        this.channnelConguired['customScopeObj'].push(element.scope[2].scopes)
-        scopeObj.push(element.scope[2].scopes)
+          if(element.scope && element.scope[2]){
+            this.channnelConguired['customScopeObj'].push(element.scope[2].scopes)
+            scopeObj.push(element.scope[2].scopes)
+          }else{
+            scopeObj.push([])
+          } 
        });
        scopeObj.forEach(element => {
         element['arr']=[]

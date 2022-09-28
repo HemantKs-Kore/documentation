@@ -420,8 +420,9 @@
         </div>
         <!-- Country-->
         <div class="kr-sg-dropdowns col-13 pl-0 mb-3" ngbDropdown>
+          <div class="label-text">Select Country<sup class="field-mandatory">*</sup></div>
           <div class="dropdown dropdown-open">
-            <button class="dropdown-toggle dropdown-input" id="counryBasic" data-toggle="dropdown"
+            <button class="dropdown-toggle dropdown-input" id="counryBasic" data-toggle="dropdown" [ngClass]="{'error':validations && !enterpriseForm.country }"
               ngbDropdownToggle (click)="clearcontent()">
               {{enterpriseForm.country?enterpriseForm.country:"Choose Country"}}
             </button>

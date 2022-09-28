@@ -831,7 +831,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           // }
         })
       });
-      console.log('EA', array);
       this.extractedResources = array;
       this.filterResourcesBack = [...this.extractedResources];
       this.getDyanmicFilterData(searchValue, 'manageExract');
@@ -2089,7 +2088,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.service.invoke('get.clicksViews', quaryparms).subscribe(res => {
       this.numberOf = res
-      console.log(res);
     }, errRes => {
     });
   }

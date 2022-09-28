@@ -451,7 +451,7 @@
               </div>
                    
               <!-- Allow URL -->
-              <div class="crawl-opt-table" *ngIf="(!crwalObject?.advanceOpts?.crawlEverything&&crwalObject.advanceOpts.allowedOpt)">
+              <div class="crawl-opt-table" *ngIf="(!crwalObject?.advanceOpts?.crawlEverything&&crwalObject?.advanceOpts?.allowedOpt)">
                 <div class="crawl-opt-row" *ngFor="let allow of allowURLArray;let i=index;">
                   <div class="crawl-opt-ddl">
                     <div class="kr-sg-dropdowns mar-bot-12">
@@ -480,7 +480,7 @@
               </div>
 
               <!-- Block URL  -->
-              <div class="crawl-opt-table" *ngIf="(!crwalObject?.advanceOpts?.crawlEverything&&crwalObject.advanceOpts.blockedOpt)">
+              <div class="crawl-opt-table" *ngIf="(!crwalObject?.advanceOpts?.crawlEverything&&crwalObject?.advanceOpts?.blockedOpt)">
                 <div class="crawl-opt-row" *ngFor="let block of blockURLArray;let i=index;">
                   <div class="crawl-opt-ddl">
                     <div class="kr-sg-dropdowns mar-bot-12">
@@ -567,7 +567,7 @@
           </div>
 
           <div class="new-crawl-shedule">
-            <div class="new-crawl-shedule-tab" [ngStyle]="{'background':crwalObject.advanceOpts.scheduleOpt?'':'#F8F9FA','border':crwalObject.advanceOpts.scheduleOpt?'':0}">
+            <div class="new-crawl-shedule-tab" [ngStyle]="{'background':crwalObject?.advanceOpts?.scheduleOpt?'':'#F8F9FA','border':crwalObject?.advanceOpts?.scheduleOpt?'':0}">
               <div class="shedual-header">
                 <div class="shedual-hding">SCHEDULE</div>
                 <div class="sr-toggle-btn">
@@ -577,14 +577,14 @@
                   </label>
                 </div>
               </div>
-              <app-scheduler *ngIf="crwalObject.advanceOpts.scheduleOpt" [crwalObject]="crwalObject" [scheduleFlag]="crwalObject.advanceOpts.scheduleOpt"
+              <app-scheduler *ngIf="crwalObject?.advanceOpts?.scheduleOpt" [crwalObject]="crwalObject" [scheduleFlag]="crwalObject.advanceOpts.scheduleOpt"
               [schedule]="'set'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
             </app-scheduler>
             </div>
           </div>
 
           <div class="new-crawl-shedule authenticated-website">
-            <div class="new-crawl-shedule-tab" [ngStyle]="{'border':crwalObject.authorizationEnabled?'':0}">
+            <div class="new-crawl-shedule-tab" [ngStyle]="{'border':crwalObject?.authorizationEnabled?'':0}">
               <div class="shedual-header form-group">
                 <div class="d-block">
                   <div class="shedual-hding">Is this an Authenticated website?</div>
@@ -611,7 +611,7 @@
             </div>
           </div>
 
-          <div class="is-auth-form-block" *ngIf="crwalObject.authorizationEnabled&&['basic','form'].includes(crwalObject.authorizationProfle.sso_type)">
+          <div class="is-auth-form-block" *ngIf="crwalObject?.authorizationEnabled&&['basic','form'].includes(crwalObject?.authorizationProfle.sso_type)">
             <!-- Basic Fields -->
             <div class="is-auth-form" *ngIf="crwalObject.authorizationProfle.sso_type==='basic'">
               <div class="is-auth-form-header-block">
@@ -631,7 +631,7 @@
                           <!-- <div class="col-2"></div> -->
                           <div class="col-4">ACTIONS</div>
                       </header>
-                      <div class="content-body" *ngFor="let form of crwalObject.authorizationProfle.basicFields;let i=index;" [ngClass]="{'is-edit-mode':(form?.isEditable)}">
+                      <div class="content-body" *ngFor="let form of crwalObject?.authorizationProfle?.basicFields;let i=index;" [ngClass]="{'is-edit-mode':(form?.isEditable)}">
                         <ng-container *ngIf="!form?.isEditable">
                           <div class="col-4">{{form?.key}}</div>
                           <div class="col-4">{{(form?.type==='password')?'********':form?.value}}</div>
@@ -683,7 +683,7 @@
             </div>
 
             <!-- Form based -->
-            <div class="is-auth-form" *ngIf="crwalObject.authorizationProfle.sso_type==='form'">
+            <div class="is-auth-form" *ngIf="crwalObject?.authorizationProfle?.sso_type==='form'">
               <div class="is-auth-form-header-block">
                 <div class="is-auth-form-header">
                   FORM FIELD                  
@@ -809,7 +809,7 @@
             </div>
 
             <!-- Authorization optional for both fields types -->
-            <div class="is-auth-form" *ngIf="['basic','form'].includes(crwalObject.authorizationProfle.sso_type)">
+            <div class="is-auth-form" *ngIf="['basic','form'].includes(crwalObject?.authorizationProfle?.sso_type)">
               <div class="is-auth-form-header-block">
                 <div class="is-auth-form-header">
                   AUTHORIZATION FIELD <span class="optional-hding">(Optional)</span>                  
@@ -821,8 +821,8 @@
               </div> 
               
               <div class="is-auth-form-table">
-                <div class="kr-sg-data-table" [ngClass]="{'text-center':crwalObject.authorizationProfle.authorizationFields.length===0}">
-                  <section class="table-content" *ngIf="crwalObject.authorizationProfle.authorizationFields.length>0">
+                <div class="kr-sg-data-table" [ngClass]="{'text-center':crwalObject?.authorizationProfle?.authorizationFields?.length===0}">
+                  <section class="table-content" *ngIf="crwalObject?.authorizationProfle?.authorizationFields.length>0">
                       <header class="table-header">
                           <div class="col-3">FIELD KEY</div> 
                           <div class="col-2">FILED TYPE</div>
@@ -830,7 +830,7 @@
                           <div class="col-2"></div>
                           <div class="col-2 text-right">ACTIONS</div>
                       </header>
-                      <div class="content-body" *ngFor="let auth of crwalObject.authorizationProfle.authorizationFields;let i=index;" [ngClass]="{'is-edit-mode':(form?.isEditable)}">
+                      <div class="content-body" *ngFor="let auth of crwalObject?.authorizationProfle?.authorizationFields;let i=index;" [ngClass]="{'is-edit-mode':(form?.isEditable)}">
                          <ng-container *ngIf="!auth?.isEditable">
                          <div class="col-3">{{auth?.key}}</div>
                           <div class="col-2">{{'contentSource.'+auth?.type|translate}}</div>
@@ -893,7 +893,7 @@
                       </div>
                   </section>  
 
-                  <span class="font-weight-bold" *ngIf="(crwalObject.authorizationProfle.authorizationFields.length===0&&!authorizationFieldObj.isShow)">No authorization fields found</span>
+                  <span class="font-weight-bold" *ngIf="(crwalObject?.authorizationProfle?.authorizationFields?.length===0&&!authorizationFieldObj.isShow)">No authorization fields found</span>
 
                   <!-- ADD DIVISION SATRTS -->
                   <div class="is-auth-form-edit" *ngIf="authorizationFieldObj.isShow">
@@ -941,7 +941,7 @@
             </div>
             
             <!-- Authentication fields -->
-            <ng-container *ngIf="['basic','form'].includes(crwalObject.authorizationProfle.sso_type)">
+            <ng-container *ngIf="['basic','form'].includes(crwalObject?.authorizationProfle?.sso_type)">
             <div class="row col-12 border-top-row">
               <div class="col-4 pl-0">
                 <div class="kr-sg-input-text">
