@@ -284,7 +284,6 @@ export class AppComponent implements OnInit, OnDestroy {
           this.searchExperienceSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
             this.loadSearchExperience();
           })
-          // console.log('navigated to path throught navigator and shown preview ball');
         } else {
           // this.showHideSearch(false);
           // this.showHideTopDownSearch(false);
@@ -350,11 +349,11 @@ export class AppComponent implements OnInit, OnDestroy {
     /** fetching the ID from Previous state for refresh app */
     if(!this.queryPipelineId){
       let preStateData = this.localstore.getPreviousState();
-      if(preStateData){
+      if(preStateData && preStateData.selectedQueryPipeline){
         this.queryPipelineId =  preStateData.selectedQueryPipeline._id;
       }
     }
-    if (this.indexPipelineId && this.searchExperinceLoading === false) {
+    if (this.indexPipelineId && this.queryPipelineId && this.searchExperinceLoading === false) {
       this.getSearchExperience();
     }
   }

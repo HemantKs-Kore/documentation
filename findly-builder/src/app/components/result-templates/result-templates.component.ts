@@ -10,6 +10,7 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as moment from 'moment';
+import { LocalStoreService } from '@kore.services/localstore.service';
 declare const $: any;
 @Component({
   selector: 'app-result-templates',
@@ -143,6 +144,7 @@ export class ResultTemplatesComponent implements OnInit {
     public dialog: MatDialog,
     public headerService: SideBarService,
     public inlineManual: InlineManualService,
+    public localstore: LocalStoreService,
   ) { }
 
   ngOnInit(): void {
@@ -158,6 +160,7 @@ export class ResultTemplatesComponent implements OnInit {
     this.searchExperienceConfig = this.headerService.searchConfiguration;
     this.searchConfigurationSubscription = this.headerService.savedSearchConfiguration.subscribe((res) => {
       this.searchExperienceConfig = res;
+      this.loadFiledsData();
       this.updateResultTemplateTabsAccess();
     });
     this.updateResultTemplateTabsAccess();
