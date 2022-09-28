@@ -896,7 +896,7 @@
                                             .count-clicks{
                                                 display: flex;
                                                 align-items: center;
-                                                justify-content: end;
+                                                justify-content: flex-end;
                                                 padding: 0;
                                                 .views{
                                                     font-weight: 600;
@@ -1210,7 +1210,7 @@
                                     .count-clicks{
                                         display: flex;
                                         align-items: center;
-                                        justify-content: end;
+                                        justify-content: flex-end;
                                         padding-right: 0;
                                         .views{
                                             font-weight: 600;

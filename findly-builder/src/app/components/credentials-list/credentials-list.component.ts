@@ -24,6 +24,7 @@ export class CredentialsListComponent implements OnInit {
   firstlistData: any;
   params:any ={};
   url:string = '';
+  appsData:any = [];
   displayScopes:any =[];
   addCredentialRef: any;
   credentialsListRef: any;
@@ -115,7 +116,8 @@ export class CredentialsListComponent implements OnInit {
     // this.editCredentialRef = this.editCredentialPop.open();
     this.addCredentialRef = this.addCredential.open();
   }
-  openCredentialsList(){
+  openCredentialsList(index){
+    this.appsData = this.channnelConguired[index]
     this.credentialsListRef = this.credentialsList.open();
   }
   closeCredentialsList() {
@@ -286,8 +288,12 @@ export class CredentialsListComponent implements OnInit {
         this.channnelConguired['customScopeObj'] =[];  
         this.channnelConguired['customScopeObjTitle'] =[];  
         this.channnelConguired.forEach(element => {
-        this.channnelConguired['customScopeObj'].push(element.scope[2].scopes)
-        scopeObj.push(element.scope[2].scopes)
+          if(element.scope && element.scope[2]){
+            this.channnelConguired['customScopeObj'].push(element.scope[2].scopes)
+            scopeObj.push(element.scope[2].scopes)
+          }else{
+            scopeObj.push([])
+          } 
        });
        scopeObj.forEach(element => {
         element['arr']=[]

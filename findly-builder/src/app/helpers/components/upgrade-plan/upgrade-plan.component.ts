@@ -92,7 +92,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getAllPlans();
     this.countriesList = this.constantsService.countriesList;
-    this.selectedApp = this.workflowService.selectedApp();
+    this.selectedApp = this.workflowService?.selectedApp();
     this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.selectedPlan = res?.subscription;
@@ -268,8 +268,10 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.contactusModelPopRef = this.contactUsModel.open();
     }
     else if (type === 'close') {
-      this.enterpriseForm = { name: '', email: '', message: '', phone: '', company:'',country:'' };
+      this.enterpriseForm = { name: '', email: '', message: '', phone: '', company:'', country:'' };
       if (this.contactusModelPopRef?.close) this.contactusModelPopRef.close();
+      this.validations = false;
+      this.clearcontent();
     }
   }
   //open or close excess modal popup

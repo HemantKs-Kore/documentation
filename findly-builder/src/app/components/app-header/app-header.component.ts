@@ -189,7 +189,7 @@ export class AppHeaderComponent implements OnInit {
     this.getUserInfo();
     this.topicGuideShowSubscription = this.appSelectionService.topicGuideShow.subscribe(res=>{
       this.openUserMetaTagsSlider();
-      this.onBoardingComponent.openTopicguide();
+      this.onBoardingComponent.openTopicguide(); // Testing For merge
       this.onBoardingComponent.triggerChildFaq(this.router.url)
     })
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
