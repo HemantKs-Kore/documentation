@@ -1499,7 +1499,24 @@
     "botAction_enable_webhook_channel_for_your":"Enable Webhook channel for your Virtual Assistant using the Access Token & Post URL provided below.",
     "botAction_please_subscribe_to_the_kore":"Please subscribe to the Kore.ai bots platform to link a bot here",
     "botAction_choose_any_bot_from_the_list":"Choose any bot from the list to link it to your SearchAssist app.",
-    "botAction_task_type":"Task Type"
+    "botAction_task_type":"Task Type",
+
+
+
+
+    "teams_team":"Team",
+    "teams_selected":"Selected",
+    "teams_add_members":"Add Members",
+    "teams_remove":"Remove",
+    "teams_members":"MEMBERS",
+    "teams_role":"ROLE",
+    "teams_app_members":"Add members",
+    "teams_no_results_found":"No results found",
+    "teams_add":"Add",
+    "teams_cancel":"Cancel"
+
+
+
 
 }
 

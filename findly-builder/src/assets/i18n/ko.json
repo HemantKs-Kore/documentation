@@ -1477,5 +1477,16 @@
     "botAction_enable_webhook_channel_for_your":"아래의 Access Token 과 Post URL을 사용하여 가상비서의 웹훅 채널을 활성화 하시기 바랍니다.",
     "botAction_please_subscribe_to_the_kore":"Kore.ai 봇 플랫폼을 구독하여 봇을 링크해 보세요.",
     "botAction_choose_any_bot_from_the_list":"목록에서 봇을 선택하여 SearchAssist app에 링크해 보세요.,",
-    "botAction_task_type":"작업 유형"
+    "botAction_task_type":"작업 유형",
+
+    "teams_team":"Team",
+    "teams_selected":"Selected",
+    "teams_add_members":"Add Members",
+    "teams_remove":"Remove",
+    "teams_members":"MEMBERS",
+    "teams_role":"ROLE",
+    "teams_app_members":"Add members",
+    "teams_no_results_found":"No results found",
+    "teams_add":"Add",
+    "teams_cancel":"Cancel"
 }
