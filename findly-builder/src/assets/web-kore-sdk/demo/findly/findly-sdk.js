@@ -342,7 +342,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       }
       var addressComponents = data.results[0].address_components;
-      for(i=0;i<addressComponents.length;i++){
+      for(var i=0;i<addressComponents.length;i++){
       var types = addressComponents[i].types;
       if(types=="locality,political"){
       vars.locationObject.location = addressComponents[i].long_name;
