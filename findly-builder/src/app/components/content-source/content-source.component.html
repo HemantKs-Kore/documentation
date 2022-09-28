@@ -502,9 +502,8 @@
                   <button class="btn btn-secondary" type="button"><span class="last-update"><img src="assets/icons/refresh-secondary.svg" alt="refresh-icon" /> Last Updated</span>{{selectedSource?.lMod | dateFormatPipe:'D.MM.YYYY'}}</button>
                 </div>
                 <div class="reload-recrwal width-10 mar-bot-15" *ngIf="!page && !execution">
-                  <button class="btn btn-out-primary" type="button" *ngIf="selectedSource.recentStatus == 'configured'" (click)="jobOndemand(selectedSource,$event)">Crawl</button>
-                  <button class="btn btn-out-primary" type="button" *ngIf="(['success'].includes(selectedSource.recentStatus)) || (selectedSource.recentStatus === 'failed'&&selectedSource?.validations?.url?.validated)" (click)="recrwal('source',selectedSource ,null)"><span class="reload-crwal"><img src="assets/icons/refresh-primary.svg" alt="refresh-icon" /></span> Recrawl</button>
-                  <button class="btn btn-out-primary" type="button" *ngIf="(selectedSource.recentStatus === 'failed'&&!(selectedSource?.validations?.url?.validated))" (click)="retryValidation(selectedSource,$event)">Recrawl</button>
+                  <button class="btn btn-out-primary" type="button" *ngIf="selectedSource.recentStatus === 'configured'" (click)="jobOndemand(selectedSource,$event)">Crawl</button>
+                  <button class="btn btn-out-primary" type="button" *ngIf="(['Success','Stopped'].includes(statusObj[selectedSource?.recentStatus]?.name) && (selectedSource?.isURLValid))" (click)="recrwal('source',selectedSource ,null)"><span class="reload-crwal"><img src="assets/icons/refresh-primary.svg" alt="refresh-icon" /></span> Recrawl</button>
                 </div>
               </div>
 
@@ -1123,7 +1122,7 @@
                       <div class="pages-info-tabs">
                         <div class="heading-title">{{selectedPage?._source?.page_title}}</div>
                         <div class="actions-clicks">
-                          <div class="recall-btn" (click)="reCrwalingWeb('pages',selectedPage ,null)">
+                          <div class="recall-btn" (click)="reCrwalingWeb('pages',selectedPage ,null)" *ngIf="['Success','Stopped'].includes(statusObj[selectedSource?.recentStatus]?.name) && (selectedSource?.isURLValid)">
                             <i class="si-recall"></i>
                             <span>Recrawl</span>
                           </div>
@@ -1299,9 +1298,9 @@
                               <img *ngIf="history?.executionStats?.executionStatusMessage =='Execution In Progress'"
                                 class="inProgress" src="assets/icons/ringLoading.svg">
                               <img *ngIf="history?.executionStats?.executionStatusMessage !='Execution In Progress'"
-                                src="{{executionObj[history.executionStats.executionStatusMessage].icon}}">
+                                [src]="(history?.executionStats?.executionStatusMessage)?executionObj[history?.executionStats?.executionStatusMessage].icon:''">
                               <span
-                                *ngIf="history?.executionStats.executionStatusMessage =='Execution In Progress' && history.executionStats.percentageDone"
+                                *ngIf="history?.executionStats?.executionStatusMessage =='Execution In Progress' && history?.executionStats?.percentageDone"
                                 style="position: absolute;left: 4px;top: 4px;font-size: 10px;font-weight: 600">{{history?.executionStats?.percentageDone
                                 || 0}}%</span>
                             </span>
@@ -1311,7 +1310,7 @@
                               <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Stopped'" src="assets/icons/content/stopped.svg" >
                               <img *ngIf="history.executionStats.executionStatusMessage == 'Execution In Progress'" src="assets/icons/content/failed.svg">
                             </span> -->
-                            <div class="text-truncate w-100 pr-4">{{history?.executionStats.executionStatusMessage}}
+                            <div class="text-truncate w-100 pr-4">{{history?.executionStats?.executionStatusMessage}}
                             </div>
                             <!-- <div class="eye-img" (mouseenter)="executionHistoryPop(history,i)"><img src="assets/icons/content/eye.svg" >
                             </div>
@@ -1320,8 +1319,8 @@
                               {{executionObj[history.executionStats.executionStatusMessage]}}
                             </div> -->
                           </div>
-                          <div class="col_ col-2">{{history?.executionStats.duration}}</div>
-                          <div class="col_ col-3">{{history?.executionStats.triggeredBy}}</div>
+                          <div class="col_ col-2">{{history?.executionStats?.duration}}</div>
+                          <div class="col_ col-3">{{history?.executionStats?.triggeredBy}}</div>
                           <div class="col_ col-3">{{history?.createdOn}}</div>
                         </div>
                         <div class="no-execution" *ngIf="executionHistoryData?.length===0">No executions found</div>
