@@ -665,8 +665,8 @@
                                   <div class="kr-sg-input-text mar-bot-15">
                                     <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
                                     <input [type]="form.type" autocomplete="off" name="url" placeholder="Field Key" class="input-text" #inputPwd [(ngModel)]="form.duplicateObj.value">
-                                     <!-- <i class="si-eye icon-eye" (click)="inputPwd.type=(inputPwd.type=='password')?'text':'password'"></i> -->
-                                     <!-- <i class="si-eyeshow icon-eye"></i> -->
+                                     <!-- <i class="si-eye icon-eye" (click)="inputPwd.type=(inputPwd.type=='password')?'text':'password'" *ngIf="inputPwd.type=='password'&&"></i>
+                                     <i class="si-eyeshow icon-eye" (click)="inputPwd.type=(inputPwd.type=='password')?'text':'password'" *ngIf="inputPwd.type=='text'"></i> -->
                                   </div>
                                 </div>
                               </div>
@@ -1211,7 +1211,7 @@
                 <i class="si-info"></i> 
                 </div>
                 <div class="pro-tip-text">
-                  This might take a while based on the content size. You will be notified when the extraction process is done.
+                  This might take a while based on the content size. You will be notified when the Crawling process is done.
                 </div>
               </div>
             </div>
