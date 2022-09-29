@@ -99,6 +99,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   componentType: string = 'designing';
   subscription: Subscription;
   appSubscription: Subscription;
+  queryConfigsSubscription : Subscription;
   tourData: any = [];
   userName: any = '';
   selectedColor: string = '';
@@ -134,6 +135,12 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     this.loadSearchExperience();
     this.appSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadSearchExperience();
+    })
+    this.queryConfigsSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
+      if(!this.queryPipelineId){
+        this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
+      }
+        this.getSearchExperience();
     })
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourData = res;
@@ -231,7 +238,9 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
-      this.getSearchExperience();
+      if(this.queryPipelineId){
+        this.getSearchExperience();
+      }
     }
   }
   //dynamically increse input text 
@@ -717,6 +726,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     this.appSubscription ? this.appSubscription.unsubscribe() : false;
     this.subscription ? this.subscription.unsubscribe() : false;
     this.searchSDKSubscription ? this.searchSDKSubscription.unsubscribe() : false;
+    this.queryConfigsSubscription ? this.queryConfigsSubscription.unsubscribe() : false;
   }
 
   closeEmojiPicker() {

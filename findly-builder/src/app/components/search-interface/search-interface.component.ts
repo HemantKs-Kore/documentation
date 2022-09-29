@@ -64,6 +64,7 @@ export class SearchInterfaceComponent implements OnInit {
   allSettings: any;
   subscription: Subscription;
   searchConfigurationSubscription: Subscription;
+  queryConfigsSubscription : Subscription;
   searchExperienceConfig: any = {};
   liveSearchResultObj: any = {};
   conversationalSearchResultObj: any = {};
@@ -155,6 +156,13 @@ export class SearchInterfaceComponent implements OnInit {
     this.loadFiledsData();
     this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadFiledsData();
+    })
+    this.queryConfigsSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
+      if(!this.queryPipelineId){
+        //this.queryPipelineId
+        this.getAllSettings();
+      }
+      
     })
     this.searchExperienceConfig = this.headerService.searchConfiguration;
     this.searchConfigurationSubscription = this.headerService.savedSearchConfiguration.subscribe((res) => {

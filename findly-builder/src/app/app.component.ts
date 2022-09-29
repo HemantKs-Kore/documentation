@@ -54,6 +54,7 @@ export class AppComponent implements OnInit, OnDestroy {
   closeSDKSubscription: Subscription;
   searchExperienceSubscription: Subscription;
   showSDKApp: Subscription;
+  queryConfigsSubscription : Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
@@ -104,6 +105,9 @@ export class AppComponent implements OnInit, OnDestroy {
       this.loadSearchExperience();
       this.getSearchExperience();
     });
+    this.queryConfigsSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
+      this.getSearchExperience();
+    })
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       this.searchSDKHeader();
     });
@@ -374,6 +378,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.showHideSourceMenuSubscription ? this.showHideSourceMenuSubscription.unsubscribe() : false;
     this.searchExperienceSubscription ? this.searchExperienceSubscription.unsubscribe() : false;
     this.showSDKApp ? this.showSDKApp.unsubscribe() : false;
+    this.queryConfigsSubscription ? this.queryConfigsSubscription.unsubscribe() : false;
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
@@ -674,7 +679,10 @@ export class AppComponent implements OnInit, OnDestroy {
       if(!quaryparms.indexPipelineId){
         quaryparms.indexPipelineId = _self.workflowService.selectedIndexPipelineId
       }
-      if (quaryparms.indexPipelineId) {
+      if(!quaryparms.queryPipelineId){
+        quaryparms.queryPipelineId = _self.workflowService.selectedQueryPipeline() ? _self.workflowService.selectedQueryPipeline()._id : _self.selectedApp.searchIndexes[0].queryPipelineId
+      }
+      if (quaryparms.indexPipelineId && quaryparms.queryPipelineId) {
         _self.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
           _self.searchExperienceConfig = res;
           _self.searchExperinceLoading = true;
