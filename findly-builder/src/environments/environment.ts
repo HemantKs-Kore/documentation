@@ -5,7 +5,11 @@
 export const environment = {
   production: false,
   tag: 'dev',
+<<<<<<< HEAD
   API_SERVER_URL: 'https://searchassist-app.kore.ai',
+=======
+  API_SERVER_URL: 'https://searchassist-dev.kore.ai', 
+>>>>>>> bed71284a3299ac9607b68c4ac5470afc384403e
   USE_SESSION_STORE: false,
   INLINE_MANUAL_SITE_KEY: "1ec224ee46620656a9b18a17c80587a3",
   APPCUES:{

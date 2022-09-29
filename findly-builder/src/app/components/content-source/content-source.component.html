@@ -229,39 +229,23 @@
                   <span>{{source?.recentStatus==='configured'?'--':source?.numPages}}</span>
                 </div>
                 <div class="col_ col-4">
-                  <!-- <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
-                    [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
-                    {{statusObj[source.recentStatus]?.name}}
-                    <img src="assets/icons/failed-status.svg" class="failed-img" placement="top"
-                       ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].message)?resourcesStatusObj[source.jobId].message:source.vailadtionTootlip}}"
-                      container="body" *ngIf="statusObj[source.recentStatus]?.name == 'Failed'"><img
-                      src="assets/icons/ringLoading.svg" class="ml-2 inProgress"
-                      *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" placement="top" container='body'
-                      ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].message)?resourcesStatusObj[source.jobId].message:statusObj[source.recentStatus]?.name}}">
-                  </span>
-                  <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
-                  <span *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" class="run-percentageDone">{{
-                    (resourcesStatusObj && resourcesStatusObj[source.jobId] &&
-                    resourcesStatusObj[source.jobId].executionStats) ?
-                    resourcesStatusObj[source.jobId].executionStats.percentageDone : ''}} </span>
-                  <span class="sch-createdOn ml-2" *ngIf="statusObj[source.recentStatus]?.name != 'In Progress'"><span
-                      *ngIf="source.schedule_createdOn">({{ source.schedule_createdOn }})</span></span>
-                  <span class="ml-2" title="{{source.schedule_duration}}" *ngIf="source.recentStatus == 'success' || source.recentStatus == 'failed'"
-                    [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
-                    <img class="ml-2" *ngIf="source.recentStatus == 'success'" class="search-icon"
-                      src="assets/icons/succes_duration.svg">
-                    <img class="ml-2" *ngIf="source.recentStatus == 'failed'" class="search-icon"
-                      src="assets/icons/failed_duration.svg">
-                    {{source.schedule_duration}}</span> -->
-
-                    <div class="media-block media-success" *ngIf="source.recentStatus == 'success'">
+                         <!-- Status==='success' -->
+                    <div class="media-block media-success" *ngIf="source.recentStatus === 'success'">
                       <div class="media-logo"><img src="assets/icons/content/latest-content-icons/green-check-circle.svg"></div>
                       <div class="media-right">
                         <div class="media-name">Successful</div>
                         <div class="media-up-time-stamp" *ngIf="source.schedule_createdOn">{{ source.schedule_createdOn }}<span class="pl-1"><img src="assets/icons/content/latest-content-icons/gray-time-change-logs.svg">{{source.schedule_duration}}</span></div>
                       </div>
                     </div>
+                         
+                    <!-- status==='configured' -->
+                    <div class="media-block media-success" *ngIf="statusObj[source.recentStatus]?.name == 'Validated'">
+                      <div class="media-right">
+                        <div class="media-name">Validated</div>
+                      </div>
+                    </div>
 
+                    <!-- status==='In progress' -->
                     <div class="media-block media-inprogress" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'">
                       <div class="media-logo"><img src="assets/icons/content/latest-content-icons/blue-loading.svg"></div>
                       <div class="media-right">
@@ -270,7 +254,8 @@
                       </div>
                     </div>
 
-                    <div class="media-block media-failed" *ngIf="source.recentStatus == 'failed'" >
+                    <!-- status==='falies' -->
+                    <div class="media-block media-failed" *ngIf="source.recentStatus === 'failed'">
                       <div class="media-logo"><img src="assets/icons/content/latest-content-icons/red-warning-circle.svg"></div>
                       <div class="media-right">
                         <div class="media-name">Failed</div>
@@ -286,11 +271,12 @@
                       </div>
                     </div>
 
-                    <div class="media-block media-inQueue d-none">
+                    <!-- status==='queue' -->
+                    <div class="media-block media-inQueue" *ngIf="statusObj[source.recentStatus]?.name == 'In-Queue'">
                       <div class="media-logo"><img src="assets/icons/content/latest-content-icons/blue-progress-indicator.svg"></div>
                       <div class="media-right">
                         <div class="media-name">In-Queue</div>
-                        <div class="media-up-time-stamp">1 out of 3</div>
+                        <!-- <div class="media-up-time-stamp">1 out of 3</div> -->
                       </div>
                     </div>
                 </div>
@@ -301,31 +287,35 @@
                
                 <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
                 <div class="col_ col-1 text-right p-0">
-                  <span class="actions-links re-crawl" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated) || source.recentStatus === 'halted'"
+                  <!-- <span class="actions-links re-crawl" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated) || source.recentStatus === 'halted'"
                   (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/content/latest-content-icons/blue-return.svg" ngbTooltip='Crawl' container="body">
-                  </span>
+                  </span> -->
 
-                  <span class="actions-links re-validate" *ngIf="source.extractionType == 'web' && (source.recentStatus === 'failed'&&!(source?.validations?.url?.validated))"
+                  <!-- <span class="actions-links re-validate" *ngIf="source.extractionType == 'web' && (!source.isURLValid)"
                   (click)="retryValidation(source,$event)">
                     <img class="action_icon" src="assets/icons/content/latest-content-icons/green-validate.svg" ngbTooltip='Validate' container="body">
-                  </span>
+                  </span> -->
 
 
-                  <!-- <span class="actions-links"
-                    *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated) || source.recentStatus === 'halted'"
+                  <span class="actions-links"
+                    *ngIf="source.extractionType == 'web' && ['Success','Stopped'].includes(statusObj[source.recentStatus]?.name) && (source.isURLValid)"
                     (click)="recrwal('source',source,$event)"><img class="action_icon"
-                      src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span> -->
+                      src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span>
+
                   <span class="actions-links"
                     *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'"
                     (click)="jobOndemand(source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"
                       ngbTooltip='Crawl' container="body"></span>
+
                   <!-- <span class="actions-links"*ngIf="source.extractionType == 'web' && (source.recentStatus === 'failed'&&!(source?.validations?.url?.validated))"
                   (click)="retryValidation(source,$event)"><img class="action_icon" src="assets/icons/validate.svg"
                       ngbTooltip='Revalidate' container="body"></span> -->
+
                   <span class="actions-links"
                     *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'"
                     (click)="stopCrwaling(source,$event)"><img class="action_icon" src="assets/icons/content/stop.svg"
                       ngbTooltip='Stop' container="body"></span>
+                      
                   <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
                       src="assets/icons/delete-table.svg" ngbTooltip='Delete' container="body"></span>
                 </div>
@@ -512,9 +502,8 @@
                   <button class="btn btn-secondary" type="button"><span class="last-update"><img src="assets/icons/refresh-secondary.svg" alt="refresh-icon" /> Last Updated</span>{{selectedSource?.lMod | dateFormatPipe:'D.MM.YYYY'}}</button>
                 </div>
                 <div class="reload-recrwal width-10 mar-bot-15" *ngIf="!page && !execution">
-                  <button class="btn btn-out-primary" type="button" *ngIf="selectedSource.recentStatus == 'configured'" (click)="jobOndemand(selectedSource,$event)">Crawl</button>
-                  <button class="btn btn-out-primary" type="button" *ngIf="(['success'].includes(selectedSource.recentStatus)) || (selectedSource.recentStatus === 'failed'&&selectedSource?.validations?.url?.validated)" (click)="recrwal('source',selectedSource ,null)"><span class="reload-crwal"><img src="assets/icons/refresh-primary.svg" alt="refresh-icon" /></span> Recrawl</button>
-                  <button class="btn btn-out-primary" type="button" *ngIf="(selectedSource.recentStatus === 'failed'&&!(selectedSource?.validations?.url?.validated))" (click)="retryValidation(selectedSource,$event)">Recrawl</button>
+                  <button class="btn btn-out-primary" type="button" *ngIf="selectedSource.recentStatus === 'configured'" (click)="jobOndemand(selectedSource,$event)">Crawl</button>
+                  <button class="btn btn-out-primary" type="button" *ngIf="(['Success','Stopped'].includes(statusObj[selectedSource?.recentStatus]?.name) && (selectedSource?.isURLValid))" (click)="recrwal('source',selectedSource ,null)"><span class="reload-crwal"><img src="assets/icons/refresh-primary.svg" alt="refresh-icon" /></span> Recrawl</button>
                 </div>
               </div>
 
@@ -525,7 +514,7 @@
 
               <div class="config-crwal-desc-block">
                 <div class="kr-sg-input-text-area mar-bot-15">
-                  <div class="label-text">Description</div>
+                  <div class="label-text">DESCRIPTION</div>
                   <textarea autocomplete="off" name="sourceDesc" maxlength="250" placeholder="Enter Description" class="input-text" [(ngModel)]="editSource.desc"></textarea>
                 </div>
               </div>
@@ -784,6 +773,8 @@
                                   <div class="kr-sg-input-text mar-bot-15">
                                     <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
                                     <input [type]="form.type" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [(ngModel)]="form.duplicateObj.value">
+                                    <!-- <i class="si-eye icon-eye"></i>
+                                    <i class="si-eyeshow icon-eye"></i> -->
                                   </div>
                                 </div>
                               </div>
@@ -940,7 +931,7 @@
               </div> 
               
               <div class="is-auth-form-table">
-                <div class="kr-sg-data-table" [ngClass]="{'text-center':editSource.authorizationProfle.authorizationFields.length===0}">
+                <div class="kr-sg-data-table">
                   <section class="table-content" *ngIf="editSource.authorizationProfle.authorizationFields.length>0">
                       <header class="table-header">
                           <div class="col-3">FIELD KEY</div> 
@@ -957,7 +948,7 @@
                           <div class="col-2">
                             <div class="d-flex">
                               <label class="kr-sg-toggle with-label">                                       
-                                <input id="sa-formFieldListItemEnableDisable" type="checkbox" checked>
+                                <input id="sa-formFieldListItemEnableDisable" type="checkbox" [checked]="auth?.isEnabled" [(ngModel)]="auth.isEnabled">
                                 <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span></div>
                             </label>
                             </div>
@@ -1012,7 +1003,7 @@
                       </div>
                   </section>  
 
-                  <span class="font-weight-bold" *ngIf="(editSource.authorizationProfle.authorizationFields.length===0&&!authorizationFieldObj.isShow)">No authorization fields found</span>
+                  <span class="font-weight-bold d-inline-block w-100 text-center" *ngIf="(editSource.authorizationProfle.authorizationFields.length===0&&!authorizationFieldObj.isShow)">No authorization fields found</span>
 
                   <!-- ADD DIVISION SATRTS -->
                   <div class="is-auth-form-edit" *ngIf="authorizationFieldObj.isShow">
@@ -1131,7 +1122,7 @@
                       <div class="pages-info-tabs">
                         <div class="heading-title">{{selectedPage?._source?.page_title}}</div>
                         <div class="actions-clicks">
-                          <div class="recall-btn" (click)="reCrwalingWeb('pages',selectedPage ,null)">
+                          <div class="recall-btn" (click)="reCrwalingWeb('pages',selectedPage ,null)" *ngIf="['Success','Stopped'].includes(statusObj[selectedSource?.recentStatus]?.name) && (selectedSource?.isURLValid)">
                             <i class="si-recall"></i>
                             <span>Recrawl</span>
                           </div>
@@ -1150,15 +1141,15 @@
                         <perfect-scrollbar>
                           <div class="scroll-inner-data">
                             <ng-container>
-                              <div class="split-row row">
-                                <div class="split-row-data col-8">
-                                  <div class="row-content-data row">
+                              <div class="split-row row m-0">
+                                <div class="split-row-data col-8 p-0">
+                                  <div class="row-content-data row m-0">
                                     <div class="col-4 title-heading">Title</div>
                                     <div class="col-8 page-content-details">
                                       <div class="info-text">{{selectedPage?._source?.page_title}}</div>
                                     </div>
                                   </div>
-                                  <div class="row-content-data row">
+                                  <div class="row-content-data row m-0">
                                     <div class="col-4 title-heading">Sections</div>
                                     <div class="col-8 page-content-details" [ngClass]="{'no-text-truncate':selectedPage?.isSection,'text-truncate':!selectedPage?.isSection}">
                                       <div class="info-text" *ngFor="let section of selectedPage?._source?.page_sections">{{section}}</div>
@@ -1175,7 +1166,7 @@
                                       </div>
                                     </div>
                                   </div>
-                                  <div class="row-content-data row">
+                                  <div class="row-content-data row m-0">
                                     <div class="col-4 title-heading">Updated on</div>
                                     <div class="col-8 page-content-details">
                                       <div class="info-text">{{selectedPage?.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
@@ -1183,7 +1174,7 @@
                                   </div>
                                 </div>
                                 <div class="split-row-img col-4"  *ngIf="selectedPage?._source?.page_image_url">
-                                  <div class="row-content-data border-0">
+                                  <div class="row-content-data border-0 split-img-preview-block">
                                     <div class="col-12 page-content-details">
                                       <div class="img-preview-header">IMAGE PREVIEW</div>
                                       <div class="img-link-cards">
@@ -1202,8 +1193,8 @@
                                 </div>
                               </div>
                            
-                              <div class="row-content-data row">
-                                <div class="col-4 title-heading">Body</div>
+                              <div class="row-content-data row m-0">
+                                <div class="col-4 title-heading width-22Percent">Body</div>
                                 <div class="col-8 page-content-details">
                                   <div class="info-text" [ngClass]="{'no-body-truncate':selectedPage?.isBody,'body-truncate':!selectedPage?.isBody}">{{selectedPage?._source?.page_body}}</div>
                                   <div class="show-more" (click)="selectedPage.isBody=!selectedPage?.isBody">{{(selectedPage?.isBody)?'Show Less':'Show More'}}</div>
@@ -1218,7 +1209,7 @@
                 </div>
               </div>
             </div>
-            <div class="empty-page-data-container" *ngIf="pagingData.length===0">
+            <div class="empty-page-data-container center-state" *ngIf="pagingData.length===0">
               <img src="assets/icons/content/latest-content-icons/empty-pages.svg">
               <div class="title">Sorry no pages available yet!</div>
               <div class="sub-title">Please crawl the webdomain again</div>
@@ -1307,9 +1298,9 @@
                               <img *ngIf="history?.executionStats?.executionStatusMessage =='Execution In Progress'"
                                 class="inProgress" src="assets/icons/ringLoading.svg">
                               <img *ngIf="history?.executionStats?.executionStatusMessage !='Execution In Progress'"
-                                src="{{executionObj[history.executionStats.executionStatusMessage].icon}}">
+                                [src]="(history?.executionStats?.executionStatusMessage)?executionObj[history?.executionStats?.executionStatusMessage].icon:''">
                               <span
-                                *ngIf="history?.executionStats.executionStatusMessage =='Execution In Progress' && history.executionStats.percentageDone"
+                                *ngIf="history?.executionStats?.executionStatusMessage =='Execution In Progress' && history?.executionStats?.percentageDone"
                                 style="position: absolute;left: 4px;top: 4px;font-size: 10px;font-weight: 600">{{history?.executionStats?.percentageDone
                                 || 0}}%</span>
                             </span>
@@ -1319,7 +1310,7 @@
                               <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Stopped'" src="assets/icons/content/stopped.svg" >
                               <img *ngIf="history.executionStats.executionStatusMessage == 'Execution In Progress'" src="assets/icons/content/failed.svg">
                             </span> -->
-                            <div class="text-truncate w-100 pr-4">{{history?.executionStats.executionStatusMessage}}
+                            <div class="text-truncate w-100 pr-4">{{history?.executionStats?.executionStatusMessage}}
                             </div>
                             <!-- <div class="eye-img" (mouseenter)="executionHistoryPop(history,i)"><img src="assets/icons/content/eye.svg" >
                             </div>
@@ -1328,11 +1319,11 @@
                               {{executionObj[history.executionStats.executionStatusMessage]}}
                             </div> -->
                           </div>
-                          <div class="col_ col-2">{{history?.executionStats.duration}}</div>
-                          <div class="col_ col-3">{{history?.executionStats.triggeredBy}}</div>
+                          <div class="col_ col-2">{{history?.executionStats?.duration}}</div>
+                          <div class="col_ col-3">{{history?.executionStats?.triggeredBy}}</div>
                           <div class="col_ col-3">{{history?.createdOn}}</div>
                         </div>
-                        <div class="no-execution">No executions found</div>
+                        <div class="no-execution" *ngIf="executionHistoryData?.length===0">No executions found</div>
                       </ng-container>
                     </perfect-scrollbar>
                   </section>
