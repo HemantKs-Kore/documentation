@@ -259,15 +259,14 @@
                       <div class="media-logo"><img src="assets/icons/content/latest-content-icons/red-warning-circle.svg"></div>
                       <div class="media-right">
                         <div class="media-name">Failed</div>
-                        <!-- <div class="media-list">
+                        <div class="media-list" *ngIf="source?.isURLValid===false">
                           <div class="media-list-header">Following may be the reason to fail</div>
                           <ul class="media-list-ul">
-                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat nisl vitae posuere.</li>
-                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat nisl vitae posuere.</li>
-                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat nisl vitae posuere.</li>
+                            <li *ngIf="source?.validations?.url?.validated===false">{{source?.validations?.url?.msg}}</li>
+                            <li *ngIf="!source?.validations?.networkConnectivity?.validated&&source?.validations?.networkConnectivity?.msg">{{source?.validations?.networkConnectivity?.msg}}</li>
                           </ul>
-                          <div class="media-show-more">Show more</div>
-                        </div> -->
+                          <!-- <div class="media-show-more">Show more</div> -->
+                        </div>
                       </div>
                     </div>
 
@@ -299,8 +298,7 @@
 
                   <span class="actions-links"
                     *ngIf="source.extractionType == 'web' && ['Success','Stopped'].includes(statusObj[source.recentStatus]?.name) && (source.isURLValid)"
-                    (click)="recrwal('source',source,$event)"><img class="action_icon"
-                      src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span>
+                    (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span>
 
                   <span class="actions-links"
                     *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'"
@@ -772,9 +770,8 @@
                                 <div class="crawl-opt-inp">
                                   <div class="kr-sg-input-text mar-bot-15">
                                     <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
-                                    <input [type]="form.type" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [(ngModel)]="form.duplicateObj.value">
-                                    <!-- <i class="si-eye icon-eye"></i>
-                                    <i class="si-eyeshow icon-eye"></i> -->
+                                    <input [type]="form.type" autocomplete="off" name="url" placeholder="Field Key" class="input-text" #inputPwd [(ngModel)]="form.duplicateObj.value">
+                                    <i class="icon-eye" [ngClass]="{'si-eye':!isPasswordShow,'si-eyeshow':isPasswordShow}" (click)="isPasswordShow=!isPasswordShow;inputPwd.type=(inputPwd.type==='password')?'text':'password'" *ngIf="i===1"></i>
                                   </div>
                                 </div>
                               </div>
@@ -860,6 +857,7 @@
                                   <div class="kr-sg-input-text mar-bot-15">
                                     <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
                                     <input id="{{'contentFormFieldValueId'+i}}" [type]="form.type" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [value]="form.value" [(ngModel)]="form.duplicateObj.value">
+                                    <i class="icon-eye" [ngClass]="{'si-eye':!form.isPwdShow,'si-eyeshow':form.isPwdShow}" (click)="showFormFieldPassword('contentFormFieldValueId'+i,form)" *ngIf="form.duplicateObj.type==='password'"></i>
                                   </div>
                                 </div>
                               </div>
@@ -903,6 +901,7 @@
                           <div class="kr-sg-input-text mar-bot-15">
                             <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
                             <input id="contentFormFieldValueId" [type]="formFieldObj.type" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [(ngModel)]="formFieldObj.value">
+                            <i class="icon-eye" [ngClass]="{'si-eye':!formFieldObj.isPwdShow,'si-eyeshow':formFieldObj.isPwdShow}" (click)="showFormFieldPassword('contentFormFieldValueId',formFieldObj)" *ngIf="formFieldObj.type==='password'"></i>
                           </div>
                         </div>
                       </div>
@@ -1093,7 +1092,6 @@
               <div class="search_header">
                 <div class="label-text">SEARCH PAGE</div>
                 <div class="kr-sg-input-search">                               
-                  <!-- <input type="text" placeholder="Search" class="input-search pl-35" [(ngModel)]="pagesSearch"> -->
                   <input type="text" placeholder="Search" class="input-search pl-35" name='pagesSearch'
                   id="searchInput" [(ngModel)]="pagesSearch" (keyup)="getCrawledPages(10,0,pagesSearch,'search')"
                     autocomplete="off">
@@ -1155,7 +1153,7 @@
                                       <div class="info-text" *ngFor="let section of selectedPage?._source?.page_sections">{{section}}</div>
                                     </div>
                                     <div class="col-4"></div>
-                                    <div class="col-8 show-more" (click)="selectedPage.isSection=!selectedPage?.isSection">{{(selectedPage?.isSection)?'Show Less':'Show More'}}</div>
+                                    <div class="col-8 show-more" (click)="selectedPage.isSection=!selectedPage?.isSection" *ngIf="selectedPage?._source?.page_sections?.length>5">{{(selectedPage?.isSection)?'Show Less':'Show More'}}</div>
                                   </div>
                                   <div class="row-content-data row d-none">
                                     <div class="col-4 title-heading">URLs</div>
@@ -1233,7 +1231,7 @@
                       <ng-container>
                         <div class="content-body" *ngFor="let history of executionHistoryData; let i = index;">
                           <div class="eye-img">
-                            <img src="assets/icons/content/eye.svg" (mouseover)="executionLogStatus = true">
+                            <span class="view-log" (mouseover)="executionLogStatus = true">View Log</span>
                             <div class="execute-log" *ngIf="executionLogStatus">
                               <div class="header-title">
                                 <div class="title">{{"contentSource.execution_log_caps" | translate}}</div>
@@ -1261,35 +1259,6 @@
                                   </span>
                                 </div>
                               </ng-container>
-
-                              <!-- <div class="log-details">
-                                <img src="assets/icons/content/success.svg">
-                                <span class="log-name">URL Validation <span class="time">(5s)</span></span>
-                              </div>
-                              <div class="log-details">
-                                <img src="assets/icons/content/success.svg">
-                                <span class="log-name">Network Validation <span class="time">(3s)</span></span>
-                              </div>
-                              <div class="log-details">
-                                <img src="assets/icons/content/success.svg">
-                                <span class="log-name">Indexing Restrictions <span class="time">(2s)</span></span>
-                              </div>
-                              <div class="log-details">
-                                <img src="assets/icons/content/info-sitemap.svg">
-                                <span class="log-name">Content Verification <span class="time">(1m 9s)</span></span>
-                              </div>
-                              <div class="log-details">
-                                <img src="assets/icons/content/failed-circle.svg">
-                                <span class="log-name">Sitemap Validation <span class="time">(1m)</span></span>
-                              </div>
-                              <div class="log-details">
-                                <img src="assets/icons/content/success.svg">
-                                <span class="log-name">Process in Queue <span class="time">(4m)</span></span>
-                              </div>
-                              <div class="log-details">
-                                <img src="assets/images/success-circle.svg">
-                                <span class="log-name">Successfull</span>
-                              </div> -->
                             </div>
                           </div>
                           <div class="col_ col-4 d-flex">

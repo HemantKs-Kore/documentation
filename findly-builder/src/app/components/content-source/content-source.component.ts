@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy, TestabilityRegistry } from '@angular/core';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { LocalStoreService } from '@kore.services/localstore.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
@@ -257,12 +256,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   allowURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
   blockURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
   authorizationFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
-  formFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, isRequired: true,  duplicateObj: { type: '', key: '', value: '' } };
+  formFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: false,isPwdShow:false, isEditable: false, isRequired: true,  duplicateObj: { type: '', key: '', value: '' } };
   autorizationFieldTypes: Array<String> = ['header', 'payload', 'querystring', 'pathparam'];
   testTypes: Array<String> = ['text_presence', 'redirection_to', 'status_code'];
   authenticationTypes: Array<String> = ['basic', 'form'];
   crawlOptions: Array<String> = ['any', 'block', 'allow'];
   inputTypes: Array<String> = ['textbox', 'password'];
+  isPasswordShow:Boolean = false;
 
   constructor(
     public workflowService: WorkflowService,
@@ -1602,6 +1602,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.statusModalPopRef.close();
     }
     this.editTitleFlag = false;
+    this.addFormField('cancel');
+    this.addAuthorizationField('cancel');
   }
   openAddSourceModal() {
     this.addSourceModalPopRef = this.addSourceModalPop.open();
@@ -1738,6 +1740,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         delete item.duplicateObj;
         delete item.isEditable;
         delete item.isShow;
+        delete item.isPwdShow;
       }
     }
     delete payload.authorizationProfle.basicFields;
@@ -2024,14 +2027,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       const count = this.countValidationInputs(array);
       if (count === array.length) {
         this.editSource.authorizationProfle.formFields.push(this.formFieldObj);
-        this.formFieldObj = { type: '', key: '', value: '', isEnabled: true,isRequired: true,  isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+        this.formFieldObj = { type: '', key: '', value: '', isEnabled: true,isRequired: true,isPwdShow:false,  isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
       }
       else {
         this.notificationService.notify('Enter the required fields to proceed', 'error');
       }
     }
     else if (type === 'cancel') {
-      this.formFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false,isRequired: true, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+      this.formFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false,isPwdShow:false, isRequired: true, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
     }
   }
 
@@ -2054,6 +2057,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       form.duplicateObj.type = form.type;
       form.duplicateObj.key = form.key;
       form.duplicateObj.value = form.value;
+      form.isPwdShow =  false;
       if (type === 'cancel') form.isEditable = false;
     }
   }
@@ -2067,6 +2071,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       form.duplicateObj.value = form.value;
     }
     form.isEditable = false;
+    this.isPasswordShow = false;
   }
 
   //select authentication type
@@ -2076,7 +2081,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.editSource.authorizationProfle.authCheckUrl = '';
     this.editSource.authorizationProfle.testType = '';
     this.editSource.authorizationProfle.testValue = '';
-    this.authorizationFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+    this.authorizationFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' }};
+    if(this.editSource.authorizationProfle.sso_type==='form'&&this.editSource.authorizationProfle.formFields.length===0){
+      this.formFieldObj = { type: '', key: '', value: '', isEnabled: true,isRequired: true,isPwdShow:false,  isShow: true, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+    }
   }
 
   //delete form fields
@@ -2134,9 +2142,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     return count;
   }
+
+  //open topic guide
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next();
   }
+
+  //show or hide password in form fields
+  showFormFieldPassword(id,data){
+    data.isPwdShow=!data.isPwdShow
+    const value:any = document.getElementById(id);
+    value.type=(value.type==='password')?'text':'password'
+ }
 }
 
 
