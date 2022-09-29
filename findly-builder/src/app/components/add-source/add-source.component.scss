@@ -2650,6 +2650,13 @@
                                     height: 20px;
                                 }
                             }
+                               .icon-eye{
+                                position: absolute;
+                                right: 12px;
+                                bottom: 12px;
+                                font-size: 11px;
+                                cursor: pointer;
+                            }
                         }
                     }
                     .crawl-opt-cls{
@@ -2966,6 +2973,22 @@
                     border: 1px solid transparent;
                 }
             }
+        }
+    }
+}
+
+.crawl-opt-inp {
+    .kr-sg-input-text {
+        position: relative;
+        .input-text{
+            padding-right: 35px;
+        }
+        .icon-eye{
+            position: absolute;
+            top: 35px;
+            right: 10px;
+            font-size: 11px;
+            cursor: pointer;
         }
     }
 }

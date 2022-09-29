@@ -24,8 +24,10 @@ export class CredentialsListComponent implements OnInit {
   firstlistData: any;
   params:any ={};
   url:string = '';
+  appsData:any = [];
   displayScopes:any =[];
   addCredentialRef: any;
+  credentialsListRef: any;
   editCredentialRef: any;
   editCredential: any = {};
   listData: any;
@@ -59,6 +61,7 @@ export class CredentialsListComponent implements OnInit {
   scopesList = []
   componentType: string = 'addData';
   @ViewChild('addCredential') addCredential: KRModalComponent;
+  @ViewChild('credentialsList') credentialsList: KRModalComponent;
   @ViewChild('editCredentialPop') editCredentialPop: KRModalComponent;
 
   constructor(public workflowService: WorkflowService,
@@ -112,6 +115,13 @@ export class CredentialsListComponent implements OnInit {
   newCredential() {
     // this.editCredentialRef = this.editCredentialPop.open();
     this.addCredentialRef = this.addCredential.open();
+  }
+  openCredentialsList(index){
+    this.appsData = this.channnelConguired[index]
+    this.credentialsListRef = this.credentialsList.open();
+  }
+  closeCredentialsList() {
+    this.credentialsListRef.close();
   }
   //close the popup
   closeModalPopup() {
