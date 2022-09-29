@@ -208,7 +208,7 @@
           "template": '<script type="text/x-jqury-tmpl">\
               {{if structuredData.length}}\
               <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-              <div class="template-1-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list{{if renderTitle}}-result-group{{/if}} mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
+              <div class="template-1-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-result-group mb-15 {{if textAlignment=="center"}}text-center{{/if}}">\
               {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
               {{if isClickable == true}}\
               <div class="{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-result-item {{if textAlignment=="center"}}text-center{{/if}} click-to-navigate-url faqs-shadow isClickable dataheading" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
@@ -288,10 +288,10 @@
           "template": '<script type="text/x-jqury-tmpl">\
               {{if structuredData.length}}\
               <div class="title-text-heading {{if renderTitle}}display-block{{else}}display-none{{/if}}">${titleName}</div>\
-               <div class="template-4-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list{{if isClickable==false}}-collapse{{/if}} {{if isClickable==false}}template-4-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-collapse-result{{/if}} mb-15">\
+               <div class="template-4-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-result{{if isClickable==false}}-collapse{{/if}} {{if isClickable==false}}template-4-{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-collapse-result{{/if}} mb-15">\
                {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                {{if isClickable == true}}\
-                <div class="{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-item click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
+                <div class="{{if listType=="classic"}}classic{{else}}plain{{/if}}-list-item-result click-to-navigate-url faqs-shadow isClickable" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
                     <div class="img-block">\
                     <img src="${data.img}">\
                     </div>\
