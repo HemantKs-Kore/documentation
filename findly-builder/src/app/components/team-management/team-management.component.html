@@ -6,10 +6,10 @@
     <div *ngIf="!loadingContent">
         <div class="seach_add_feild">
             <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-            <div class="title col-4 p-0" *ngIf="!(selcectionObj && selcectionObj.selectedCount)">{{'teams.team'|
-                translate}}
-                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
- placement="right-center"(click)="openUserMetaTagsSlider()">
+            <div class="title col-4 p-0" *ngIf="!(selcectionObj && selcectionObj.selectedCount)">{{'teams_team'| translate}}
+                <span class="module-topic" tooltipClass="tooltip-global-" 
+                      [container]="'body'" ngbTooltip='Topic Guide' 
+                      placement="right-center"(click)="openUserMetaTagsSlider()">
                     <i class="si-topic-guide-1"></i>
                 </span>
             </div>
@@ -18,12 +18,12 @@
                     <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()"
                         [(ngModel)]="selcectionObj.selectAll">
                     <label for="selectAllFacets" class="checkbox-custom-label"></label>
-                    <span class="selected_count">{{selcectionObj.selectedCount}} {{'teams.selected'| translate}}</span>
+                    <span class="selected_count">{{selcectionObj.selectedCount}} {{'teams_selected'| translate}}</span>
                 </div>
                 <div class="kr-sg-checkbox p-0 m-0" *ngIf="selcectionObj.selectedCount != allMembersCount">
                     <img (click)="selectAllFromPartial()" src="assets/icons/resultranking/selected-checkbox.svg"
                         class="search-icon">
-                    <span class="selected_count">{{selcectionObj.selectedCount}} {{'teams.selected'| translate}}</span>
+                    <span class="selected_count">{{selcectionObj.selectedCount}} {{'teams_selected'| translate}}</span>
                 </div>
             </div>
             <div class="col-8 p-0 d-flex align-items-center justify-content-end p-0"
@@ -42,21 +42,20 @@
                     <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchteam">
                     <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchteam}"
                         (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()"
-                        placement="top-center" container='body' ngbTooltip="Cancel"
+                        placement="top-center" container='body' ngbTooltip="{{'teams_cancel'| translate}}"
                         tooltipClass="ngb_tooltip_custom_class sampleJson">
                 </div>
                 <div class="searchBlock" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')">
                     <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data"><img
-                            src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' |
-                        translate}}</span>
+                            src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' |  translate}}</span>
                 </div>
                 <div class="add_feild" (click)="createNewMember()"><img
-                        src="assets/icons/add_plus.svg">{{'teams.add_members'| translate}}</div>
+                        src="assets/icons/add_plus.svg">{{'teams_add_members'| translate}}</div>
             </div>
 
             <div class="col-8 title text-right delete-action p-0" *ngIf="selcectionObj && selcectionObj.selectedCount">
                 <button id='btn_delete' class="kr-sg-button-danger btn_lg"
-                    (click)="deleteFacets(null,selcectionObj.selectedCount)">{{'teams.remove'| translate}}</button>
+                    (click)="deleteFacets(null,selcectionObj.selectedCount)">{{'teams_remove'| translate}}</button>
             </div>
         </div>
         <div class="table-container-data-teams">
@@ -67,9 +66,9 @@
                             [(ngModel)]="selcectionObj.selectAll">
                         <label for="selectAllFacets" class="checkbox-custom-label"></label>
                     </div>
-                    <div class="title p-0">{{'teams.members'| translate}}</div>
+                    <div class="title p-0">{{'teams_members'| translate}}</div>
                 </div>
-                <div class="col-8 title">{{'teams.role'| translate}}</div>
+                <div class="col-8 title">{{'teams_role'| translate}}</div>
             </div>
             <ng-container *ngIf="(membersList && membersList.length)">
                 <perfect-scrollbar class="scroll-table-data">
@@ -98,7 +97,7 @@
                 </perfect-scrollbar>
             </ng-container>
             <div class="divBlockEmptylastChild text-center">
-                <div class="desc">{{'teams.no_results_found'| translate}}</div>
+                <div class="desc">{{'teams_no_results_found'| translate}}</div>
             </div>
         </div>
     </div>
@@ -106,7 +105,7 @@
 
 <kr-modal modalType="center" modalClass="modal_popups_ smallModal add-members-modal-popup" #teamModalPouup>
     <div class="modal-header">
-        <div class="title">{{'teams.add_members'| translate}}</div>
+        <div class="title">{{'teams_add_members'| translate}}</div>
         <div class="close_icon" (click)="closeModal()"><img src="assets/icons/modal-close.svg"></div>
     </div>
     <ng-container>
@@ -114,7 +113,7 @@
             <div class="modal-body textAlignLeft">
                 <div class="row m-0 mb-20">
                     <div class="kr-sg-input-text col-12 p-0">
-                        <div class="label-text">{{'teams.app_members'| translate}}</div>
+                        <div class="label-text">{{'teams_app_members'| translate}}</div>
                         <mat-form-field class="example-chip-list" [floatLabel]="'never'">
                             <mat-chip-list #chipList aria-label="Fruit selection">
                                 <mat-chip *ngFor="let member of members" [selectable]="selectable"
@@ -137,10 +136,10 @@
             </div>
         </perfect-scrollbar>
         <div class="modal-footer text-left">
-            <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addMember()">{{'teams.add'|
+            <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addMember()">{{'teams_add'|
                 translate}}</button>
             <button type="button" class="kr-sg-button-secondary btn_lg float-right"
-                (click)="closeModal()">{{'teams.cancel'| translate}}</button>
+                (click)="closeModal()">{{'teams_cancel'| translate}}</button>
         </div>
     </ng-container>
 </kr-modal>
