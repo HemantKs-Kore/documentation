@@ -57,6 +57,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   indexSub: Subscription;
   routeChanged: Subscription;
+  queryConfigsSubscription : Subscription;
   editName: boolean = false;
   editNameVal: String = "";
   editIndexName: boolean = false;
@@ -265,8 +266,15 @@ export class AppMenuComponent implements OnInit, OnDestroy {
               this.mixpanel.postEvent('Index Created - New', {});
             }
             this.selectIndexPipelineId(res);
+            /** appSelectedConfigs Subject is triggred to update SearchInterface Component
+             *  the value will be passed to SearchInterface and will work smooth for default SearchInterface Component
+              */
+            //this.appSelectionService.appSelectedConfigs.next([res]);
+            /** Calling for QuerryPipeline  */
+            // this.queryConfigsSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
+            //   this.headerService.updateSearchConfiguration();
+            // })
           }
-          this.headerService.updateSearchConfiguration();
           this.closeIndexModalPopup();
         },
         errRes => {
@@ -333,7 +341,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
             this.notify.notify('New Search config created successfully', 'success');
             this.mixpanel.postEvent('Search Config Created - New', {});
           }
-          this.headerService.updateSearchConfiguration();
+          //this.headerService.updateSearchConfiguration();
           this.closeModalPopup();
         },
         errRes => {
@@ -609,5 +617,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;
     this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
     this.routeChanged ? this.routeChanged.unsubscribe() : null;
+    this.queryConfigsSubscription ? this.queryConfigsSubscription.unsubscribe() : false;
   }
 }

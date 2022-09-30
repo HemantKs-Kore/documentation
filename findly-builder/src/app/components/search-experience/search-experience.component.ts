@@ -133,13 +133,16 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
     this.loadSearchExperience();
-    this.appSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
-      this.loadSearchExperience();
-    })
-    this.queryConfigsSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
-      if(!this.queryPipelineId){
+    // this.appSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+    //   this.loadSearchExperience();
+    // })
+    this.queryConfigsSubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
+      /** 
+       * res.length > 1 - its only query Details 
+       *  res.length == 1- its from Index pipeline and then to query Details.
+       * **/
+        this.indexPipelineId = this.workflowService.selectedIndexPipeline()
         this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
-      }
         this.getSearchExperience();
     })
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {

@@ -106,6 +106,10 @@ export class AppComponent implements OnInit, OnDestroy {
       this.getSearchExperience();
     });
     this.queryConfigsSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
+      /** If Res length 1 , means its added from Indexpipe line. */
+      if(res.length == 1){
+        this.workflowService.selectedQueryPipeline(res[0]);
+      }
       this.getSearchExperience();
     })
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
@@ -673,7 +677,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: searchIndex,
       indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      queryPipelineId : this.queryPipelineId,
+      queryPipelineId : this.workflowService.selectedQueryPipeline() ?this.workflowService.selectedQueryPipeline()._id : this.queryPipelineId,
     };
     setTimeout(function () {
       if(!quaryparms.indexPipelineId){
