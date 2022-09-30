@@ -922,7 +922,7 @@
         "execution_caps": "EXECUTION STATUS",
         "duration_caps": "DURATION",
         "executed_on_caps": "EXECUTED ON",
-        "execution_log_caps": "EXECUTION LOG",
+        "execution_log_caps": "Execution Log",
         "title": "Title",
         "body": "Body",
         "published": "Published",
