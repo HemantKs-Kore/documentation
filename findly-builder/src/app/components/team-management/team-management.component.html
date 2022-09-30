@@ -42,7 +42,7 @@
                     <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchteam">
                     <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchteam}"
                         (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()"
-                        placement="top-center" container='body' ngbTooltip="Cancel"
+                        placement="top-center" container='body' ngbTooltip="{{'teams_cancel'| translate}}"
                         tooltipClass="ngb_tooltip_custom_class sampleJson">
                 </div>
                 <div class="searchBlock" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')">
