@@ -665,8 +665,7 @@
                                   <div class="kr-sg-input-text mar-bot-15">
                                     <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
                                     <input [type]="form.type" autocomplete="off" name="url" placeholder="Field Key" class="input-text" #inputPwd [(ngModel)]="form.duplicateObj.value">
-                                     <!-- <i class="si-eye icon-eye" (click)="inputPwd.type=(inputPwd.type=='password')?'text':'password'" *ngIf="inputPwd.type=='password'&&"></i>
-                                     <i class="si-eyeshow icon-eye" (click)="inputPwd.type=(inputPwd.type=='password')?'text':'password'" *ngIf="inputPwd.type=='text'"></i> -->
+                                     <i class="icon-eye" [ngClass]="{'si-eye':!isPasswordShow,'si-eyeshow':isPasswordShow}" (click)="isPasswordShow=!isPasswordShow;inputPwd.type=(inputPwd.type==='password')?'text':'password'" *ngIf="i===1"></i>
                                   </div>
                                 </div>
                               </div>
@@ -752,6 +751,7 @@
                                   <div class="kr-sg-input-text mar-bot-15">
                                     <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
                                     <input id="{{'contentFormFieldValueId'+i}}" [type]="form.type" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [value]="form.value" [(ngModel)]="form.duplicateObj.value">
+                                    <i class="icon-eye" [ngClass]="{'si-eye':!form.isPwdShow,'si-eyeshow':form.isPwdShow}" (click)="showFormFieldPassword('contentFormFieldValueId'+i,form)" *ngIf="form.duplicateObj.type==='password'"></i>
                                   </div>
                                 </div>
                               </div>
@@ -795,6 +795,7 @@
                           <div class="kr-sg-input-text mar-bot-15">
                             <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
                             <input id="contentFormFieldValueId" [type]="formFieldObj.type" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [(ngModel)]="formFieldObj.value">
+                            <i class="icon-eye" [ngClass]="{'si-eye':!formFieldObj.isPwdShow,'si-eyeshow':formFieldObj.isPwdShow}" (click)="showFormFieldPassword('contentFormFieldValueId',formFieldObj)" *ngIf="formFieldObj.type==='password'"></i>
                           </div>
                         </div>
                       </div>

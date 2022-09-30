@@ -259,13 +259,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   allowURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
   blockURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
   authorizationFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
-  formFieldObj: any = { type: '', key: '', value: '',isRequired: true, isEnabled: true, isShow: true, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+  formFieldObj: any = { type: '', key: '', value: '',isRequired: true, isEnabled: true, isShow: true,isPwdShow:false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
   autorizationFieldTypes: Array<String> = ['header', 'payload', 'querystring', 'pathparam'];
   testTypes: Array<String> = ['text_presence', 'redirection_to', 'status_code'];
   authenticationTypes: Array<String> = ['basic', 'form'];
   crawlOptions: Array<String> = ['any', 'block', 'allow'];
   crwalOptionLabel: String = 'any';
   inputTypes: Array<String> = ['textbox', 'password'];
+  isPasswordShow:Boolean = false;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -1332,6 +1333,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             delete item.duplicateObj;
             delete item.isEditable;
             delete item.isShow;
+            delete item.isPwdShow;
           }
         }
         delete payload.authorizationProfle.basicFields;
@@ -2266,14 +2268,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       const count = this.countValidationInputs(array);
       if (count === array.length) {
         this.crwalObject.authorizationProfle.formFields.push(this.formFieldObj);
-        this.formFieldObj = { type: '', key: '', value: '', isEnabled: true,isRequired: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+        this.formFieldObj = { type: '', key: '', value: '', isEnabled: true,isRequired: true,isPwdShow:false, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
       }
       else {
         this.notificationService.notify('Enter the required fields to proceed', 'error');
       }
     }
     else if (type === 'cancel') {
-      this.formFieldObj = { type: '', key: '', value: '', isEnabled: true,isRequired: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+      this.formFieldObj = { type: '', key: '', value: '', isEnabled: true,isRequired: true,isPwdShow:false, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
     }
   }
 
@@ -2296,6 +2298,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       form.duplicateObj.type = form.type;
       form.duplicateObj.key = form.key;
       form.duplicateObj.value = form.value;
+      form.isPwdShow =  false;
       if (type === 'cancel') form.isEditable = false;
     }
   }
@@ -2309,6 +2312,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       form.duplicateObj.value = form.value;
     }
     form.isEditable = false;
+    this.isPasswordShow = false;
   }
 
   //select authentication type
@@ -2384,6 +2388,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     setTimeout(()=>{
       this.appScheduler?.openCloseSchedular('open');
     },300)
+   }
+
+   //show or hide password in form fields
+   showFormFieldPassword(id,data){
+      data.isPwdShow=!data.isPwdShow
+      const value:any = document.getElementById(id);
+      value.type=(value.type==='password')?'text':'password'
    }
 }
 
