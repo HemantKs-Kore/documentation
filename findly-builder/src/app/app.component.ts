@@ -105,12 +105,14 @@ export class AppComponent implements OnInit, OnDestroy {
       this.loadSearchExperience();
       this.getSearchExperience();
     });
-    this.queryConfigsSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
-      /** If Res length 1 , means its added from Indexpipe line. */
-      if(res.length == 1){
-        this.workflowService.selectedQueryPipeline(res[0]);
-      }
-      this.getSearchExperience();
+    this.queryConfigsSubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
+      /** 
+       * res.length > 1 - its only query Details 
+       *  res.length == 1- its from Index pipeline and then to query Details.
+       * **/
+        this.indexPipelineId = this.workflowService.selectedIndexPipeline()
+        this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
+        this.getSearchExperience();
     })
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       this.searchSDKHeader();

@@ -154,7 +154,12 @@ export class ResultTemplatesComponent implements OnInit {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
 
     this.loadFiledsData();
-    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+    // this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+    //   this.loadFiledsData();
+    // })
+    this.subscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
+      this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
       this.loadFiledsData();
     })
     this.searchExperienceConfig = this.headerService.searchConfiguration;
