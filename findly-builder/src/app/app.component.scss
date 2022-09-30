@@ -52,7 +52,7 @@
     .test-button{
         display: none;
     }
-    .train-btn{
+    .new-train-btn{
         visibility: hidden;
     }
     .notification-dropdown{
@@ -107,7 +107,7 @@
         .dropdown-toggle.dropdown-input.notification{
             pointer-events: unset;
         }
-        .train-btn{
+        .new-train-btn{
             visibility: visible !important;
         }
         .notification-block{
