@@ -1258,11 +1258,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
-      //if(this.isEditDoc){
       this.isEditDoc = false;
       this.cancelDocDetails();
       this.getSourceList()
-      //}
       this.notificationService.notify('Source deleted successsfully', 'success');
       const deleteIndex = _.findIndex(this.resources, (pg) => {
         return pg._id === record._id;
