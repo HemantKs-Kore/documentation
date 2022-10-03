@@ -14,7 +14,7 @@
         <div class="d-flex align-items-center"
             *ngIf="searchUsageLog || usageLogs?.length || searchLoading || showSearch">
             <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
-                <input type="text" placeholder="Search" class="input-search" id="inputSearch"
+                <input type="text" placeholder="sa_search" class="input-search" id="inputSearch"
                     [ngClass]="{'pl-33':!searchUsageLog, 'pl-2':searchUsageLog}" autocomplete="off" autofocus
                     [(ngModel)]="searchUsageLog" (keyup)="searchUsageLogs()"
                     (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
@@ -27,7 +27,7 @@
             <div class="seach-block">
                 <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data"
                     (click)="toggleSearch();focusinSearch('inputSearch')"><img src="assets/icons/search.svg"
-                        [ngClass]="{'d-none': showSearch}">{{'sa_please_wait' | translate}}</span>
+                        [ngClass]="{'d-none': showSearch}">{{'sa_search' | translate}}</span>
             </div>
             <div class="download-icon" tooltipClass="tooltip_custom margin-10" placement="bottom-right" container='body'
                 ngbTooltip="Download Log" (click)="exportUsageLog()">
