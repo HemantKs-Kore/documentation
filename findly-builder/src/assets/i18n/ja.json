@@ -1802,6 +1802,19 @@
     "traits_type_and_enter_to_add_utterances": "Type and Enter to Add Utterances",
    
 
+    "weights_Weights": "Weights",
+    "weights_reset_to_default": "Reset to Default",
+    "weights_no_rankable_field_available": "No Rankable Field Available",
+    "weights_please_add_rankable_field": "Please Add Rankable Field",
+    "weights_SYSTEM-DEFINED": "SYSTEM-DEFINED",
+    "weights_add_searchable_field": "Add Searchable Field",
+    "weights_save_weights": "Save Weights",
+    "weights_weight_name": "Weight Name",
+    "weights_description": "Description",
+    "weights_set_weight": "Set Weight",
+    "weights_delete": "Delete",
+    "weights_cancel": "Cancel",
+
     "10Oct sample":"10Oct  Not Added---------------------------------------------------------------------------------------------------------------",
     
     "sa_save": "Save",
