@@ -4,7 +4,7 @@
         <div class="bread-cum-sec col-3 p-0 d-flex align-items-center">
             <div class="bread-name">{{'metrics.analytics'| translate}}</div>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
-            <div class="bread-name active-name">{{'metrics.result_insights.Results_Insights'| translate}}
+            <div class="bread-name active-name">{{'result_insights_Results_Insights'| translate}}
                 <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
  placement="right-center"(click)="openUserMetaTagsSlider()">
                     <i class="si-topic-guide-1"></i>
@@ -32,7 +32,7 @@
         <div class="data-information-content col-12 m-0 row split-tables">
             <div class="col-12 box-content">
                 <div class="row m-0 col-12 p-0 align-items-center">                    
-                    <div class="title-card col-4 p-0">{{'metrics.result_insights.Top_Search_Results'| translate}}</div>
+                    <div class="title-card col-4 p-0">{{'result_insights_Top_Search_Results'| translate}}</div>
                     <div class="col-8 d-flex justify-content-end p-0 search-filter-block">
                         <div class="kr-sg-input-search">                               
                             <input type="text" placeholder="Search" class="input-search" [ngClass]="{'pl-2':searchSources}"  name="searchSources" [(ngModel)]="searchSources" (keyup)="sortAnalytics('Results',null,null,null,searchSources,'search')" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
@@ -74,38 +74,38 @@
                                 <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('answer','asc')" class="sortImg downArrow">
                                 <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('answer','desc')" class="sortImg upArrow">
                             </span>
-                            {{'metrics.result_insights.Search_Results'| translate}}
+                            {{'result_insights_Search_Results'| translate}}
                         </div>
                         <div class="col-2 title" (click)="sortByApi('Results','appearances')">
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('appearances','asc')" class="sortImg downArrow">
                                 <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('appearances','desc')" class="sortImg upArrow">
                             </span>
-                            {{'metrics.result_insights.Appearances'| translate}}
+                            {{'result_insights_Appearances'| translate}}
                         </div>
                         <div class="col-2 title" (click)="sortByApi('Results','clicks')">
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('clicks','asc')" class="sortImg downArrow">
                                 <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('clicks','desc')" class="sortImg upArrow">
                             </span>
-                            {{'metrics.result_insights.No_of_Clicks'| translate}}
+                            {{'result_insights_No_of_Clicks'| translate}}
                         </div>
                         <div class="col-2 title" (click)="sortByApi('Results','clickThroughRate')">
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('clickThroughRate','asc')" class="sortImg downArrow">
                                 <img src="assets/icons/caretDown.svg"  (click)="getSortIconVisibility('clickThroughRate','desc')" class="sortImg upArrow">
                             </span>
-                            {{'metrics.result_insights.Click-Through_Rate'| translate}}
+                            {{'result_insights_Click-Through_Rate'| translate}}
                         </div>
                         <div class="col-2 title d-flex" (click)="sortByApi('Results','avgPosition')">
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img src="assets/icons/caretDown.svg" (click)="getSortIconVisibility('avgPosition','asc')" class="sortImg downArrow">
                                 <img src="assets/icons/caretDown.svg"  (click)="getSortIconVisibility('avgPosition','desc')" class="sortImg upArrow">
                             </span>
-                            <span>{{'metrics.result_insights.Avg_Position'| translate}}</span>
+                            <span>{{'result_insights_Avg_Position'| translate}}</span>
                         </div>
-                        <!-- <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Positive_Feedback'| translate}}</span></div>-->
-                        <!-- <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Negative_Feedback'| translate}}</span></div>  -->
+                        <!-- <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'result_insights_Positive_Feedback'| translate}}</span></div>-->
+                        <!-- <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'result_insights_Negative_Feedback'| translate}}</span></div>  -->
                     </div>
                     <div class="table_body row m-0" *ngFor="let result of resultsData | filter: [ searchSources , 'answer']">
                         <div class="col-4 title d-flex align-items-center search-results">
@@ -146,20 +146,20 @@
 <kr-modal modalType="center" #viewQueries modalClass="modal_popups_ view-query-modal">
   <div class="modal-header">
     <div>
-        <div class="small-title">{{'metrics.result_insights.Search_Queries_for'| translate}}</div>
+        <div class="small-title">{{'result_insights_Search_Queries_for'| translate}}</div>
         <div class="title-small">{{resultQueryAnswer}}</div>
         <div class="response">{{searchQueryanswerType}} Response</div>
     </div>
     <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
   </div>
     <div class="table_header row m-0">
-    <div class="col-4 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Search_Results'| translate}}</div>
-    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Appearances'| translate}}</div>
-    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.No_of_Clicks'| translate}}</div>
-    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Click-Through_Rate'| translate}}</div>
-    <div class="col-2 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Avg_Position'| translate}}</span></div>
-    <!-- <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Positive_Feedback'| translate}}</span></div>
-    <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Negative_Feedback'| translate}}</span></div> -->
+    <div class="col-4 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'result_insights_Search_Results'| translate}}</div>
+    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'result_insights_Appearances'| translate}}</div>
+    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'result_insights_No_of_Clicks'| translate}}</div>
+    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'result_insights_Click-Through_Rate'| translate}}</div>
+    <div class="col-2 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'result_insights_Avg_Position'| translate}}</span></div>
+    <!-- <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'result_insights_Positive_Feedback'| translate}}</span></div>
+    <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'result_insights_Negative_Feedback'| translate}}</span></div> -->
     </div>
     <div class="mainLoadingSpinner" *ngIf="loadingQueries">
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
