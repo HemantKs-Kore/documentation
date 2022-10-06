@@ -1737,6 +1737,44 @@
     "plan_add":"ADD",
 
 
+
+    
+    "header_overview":"Overview",
+    "header_sources":"SOURCES",
+    "header_indices":"Indices",
+    "header_analytics":"Analytics",
+    "header_dashboard":"Dashboard",
+    "header_userEngagement":"User Engagement",
+    "header_searchInsights":"Search Insights",
+    "header_resultInsights":"Results Insights",
+    "header_manage":"MANAGE",
+    "header_searchAssistApps":"SearchAssist Apps",
+    "header_recentApps":"Recent Apps",
+    "header_viewAllApps":"View all Apps",
+    "header_createNewApp":"Create New App",
+    "header_test":"Test",
+    "header_previewAndCustomize":"Preview & Customize search results",
+    "header_trainYourApp":"Train your App",
+    "header_statusUpdates":"Status Updates",
+    "header_emptyStatusRecords":"You got no records in StatusDocker.",
+    "header_activities":"Activities",
+    "header_accounts":"Accounts",
+    "header_accountOne":"account one",
+    "header_accountsTwo":"account two",
+    "header_switchAccount":"Switch Account",
+    "header_logout":"Sign Out",
+    "header_cancel":"Cancel",
+    "header_createApp":"Create App",
+    "header_appName":"App Name",
+    "header_enterAppName":"Enter App Name",
+    "header_description":"Description",
+    "header_enterAppDescription":"Enter App Description",
+    "header_language":"Language",
+    "header_english":"English",
+    "header_create":"Create",
+    "header_search":"Search",
+
+
 "10Oct sample":"10Oct  Not Added---------------------------------------------------------------------------------------------------------------"
 
 }
