@@ -1892,6 +1892,29 @@
     "synonyms_edit_synonym": "Edit Synonym",
     "synonyms_Searched_results_are_not_found": "No search results found",
 
+    "stopWords_stop_words": "Stop Words",
+     "stopWords_enable_stop_word_removal": "Stop Words" ,
+     "stopWords_disable_stop_word_removal": "Stop Words",
+     "stopWords_add_stop_word": "Add Stop Word",
+     "stopWords_add_stop_words": "Add Stop Words",
+     "stopWords_stop_word_already_added": "Stop word already added",
+     "stopWords_stop_word_should_not_have_space_in_between": "Stop word should not have space in between",
+     "stopWords_add": "Add",
+     "stopWords_lets_start_by_adding_stop_words": "Let’s start by adding stop words",
+     "stopWords_select_on_how_would_you_like_to_add_stop_words": "Select on how would you like to add stop words.",
+     "stopWords_default_stop_words": "Default Stop Words",
+     "stopWords_Eg. if,me, I, can, don’t, not, won’t, should, would, isn’t, may, am, etc...": "Eg. if, me, I, can, don’t, not, won’t, should, would, isn’t, may, am, etc...",
+     "stopWords_start_from_scratch": "Start from Scratch",
+     "stopWords_add_custom_stop_words": "Add custom stop words",
+     "stopWords_Continue": "Continue",
+     "stopWords_Search": "Search",
+     "stopWords_reset_to_default": " Reset to Default",
+     "stopWords_no_search_results_found": "No search results found",
+     "stopwords_your_search_query_doesnot_match_with_any_record":"Your Search Query doesn't match with any record.",
+     "stopwords_you_haven’t_added_any_stop_words_yet!": "You haven’t added any Stop words yet!",
+     "stopwords_stop_words_are_a_set_of_common_words":"Stop words are a set of common words (such as the, a, to, all,etc.) that dilutes the importance of keywords in a search query. SearchAssist allows you to use either the default set of stop words or add a custom set as per your need.",
+
+
     "10Oct sample":"10Oct  Not Added---------------------------------------------------------------------------------------------------------------",
     
     "sa_please_wait":"Please Wait!",
@@ -1907,6 +1930,9 @@
     "sa_save": "Save",
     "sa_add": "Add",
     "sa_copy": "Copy",
-    "sa_topic_guide": "Topic Guide"
+    "sa_topic_guide": "Topic Guide",
+    "sa_enable":"Enable",
+    "sa_disable":"Disable",
+    "sa_delete_all": "Delete All"
 
 }
