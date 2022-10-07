@@ -1,14 +1,14 @@
 
 <div class="mainLoadingSpinner" *ngIf="loadingFaqs" [@fadeInOutAnimation]>
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-    <span class="please-wait-message">{{'please_wait' | translate}}</span>
+    <span class="please-wait-message">{{'sa_please_wait' | translate}}</span>
 </div>
 <div class="faqmain-container" *ngIf="loadingFaqs1">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="faqsListContainer">       
         <div class="faq-header-sec row m-0">
-            <div class="col-6 left-sec p-0 faq-title" >{{'faqSource.faqs' | translate}}
-                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+            <div class="col-6 left-sec p-0 faq-title" >{{'faqSource_faqs' | translate}}
+                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='{{"sa_topic_guide" | translate}}' 
  placement="right-center"(click)="openUserMetaTagsSlider()">
                     <i class="si-topic-guide-1"></i>
                 </span>
@@ -19,9 +19,9 @@
                         <div _ngcontent-rjr-c36="" class="dropdown-toggle" data-identifyelement="1" ngbDropdownToggle><img _ngcontent-rjr-c36="" class="mr-2 mb-1" src="assets/icons/add_plus.svg">Add FAQ</div>
                         <!-- <button class="dropdown-toggle kr-sg-button-primary btn_lg text-left" ngbDropdownToggle>Add FAQ</button>                                             -->
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                          <li (click)="selectSourceDrop.close();addFaqSource('faqWeb')">{{'faqSource.extract_faqs' | translate}}</li>
-                          <li (click)="selectSourceDrop.close();addFaqSource('faqDoc')">{{'faqSource.import_faqs' | translate}}</li>
-                          <li (click)="selectSourceDrop.close();addFaqSource('manual')">{{'faqSource.add_manually' | translate}}</li>
+                          <li (click)="selectSourceDrop.close();addFaqSource('faqWeb')">{{'faqSource_extract_faqs' | translate}}</li>
+                          <li (click)="selectSourceDrop.close();addFaqSource('faqDoc')">{{'faqSource_import_faqs' | translate}}</li>
+                          <li (click)="selectSourceDrop.close();addFaqSource('manual')">{{'faqSource_add_manually' | translate}}</li>
                         </ul>
                     </div>
                 </div>
@@ -32,16 +32,16 @@
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle p-0 border-0 three-dots" ngbDropdownToggle> <img _ngcontent-aif-c18="" class="ng-tns-c18-5" src="assets/icons/elipse.svg"></button>                                            
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                          <li (click)='exportFaq("json")' *ngIf="(faqs && faqs.length) || (extractedResources && extractedResources.length) || viewDetails">{{'faqSource.export_to_json' | translate}}</li>
-                          <li (click)='exportFaq("csv")' *ngIf="(faqs && faqs.length) || (extractedResources && extractedResources.length) || viewDetails">{{'faqSource.export_to_csv' | translate}}</li>                         
-                          <li (click)="openStatusModal()" *ngIf="(faqs && faqs.length) || (extractedResources && extractedResources.length)||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) || viewDetails">{{'faqSource.manage_extracts' | translate}}</li>
+                          <li (click)='exportFaq("json")' *ngIf="(faqs && faqs.length) || (extractedResources && extractedResources.length) || viewDetails">{{'faqSource_export_to_json' | translate}}</li>
+                          <li (click)='exportFaq("csv")' *ngIf="(faqs && faqs.length) || (extractedResources && extractedResources.length) || viewDetails">{{'faqSource_export_to_csv' | translate}}</li>                         
+                          <li (click)="openStatusModal()" *ngIf="(faqs && faqs.length) || (extractedResources && extractedResources.length)||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) || viewDetails">{{'faqSource_manage_extracts' | translate}}</li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="export-success-notification d-none">
                 <div class="check"><img src="assets/icons/docker/check.svg"></div>
-                <div class="desc-info">{{'faqSource.export_to_json_inprogress_check_sd' | translate}}</div>
+                <div class="desc-info">{{'faqSource_export_to_json_inprogress_check_sd' | translate}}</div>
                 <div class="close-notification"><img src="assets/icons/close.svg"></div>
             </div>
         </div>
@@ -51,22 +51,22 @@
         <div  class="empty-landing-screen" >
           <div class="img-block" id ="imageLoad"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/faq-empty.png"></div>
           <ng-container *ngIf="loadImageText">
-              <div class="empty-title">{{'faqSource.no_faqs' | translate}}</div>
-              <div class="desc-text"> {{'faqSource.no_faqs_info' | translate}}
+              <div class="empty-title">{{'faqSource_no_faqs' | translate}}</div>
+              <div class="desc-text"> {{'faqSource_no_faqs_info' | translate}}
               </div>
               <div class="kr-sg-dropdowns" #selectSourceDrop='ngbDropdown' ngbDropdown [container]="'body'">                                         
                 <div class="dropdown dropdown-open">
-                  <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle> {{'faqSource.add_faqs' | translate}}</button>                                            
+                  <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle> {{'faqSource_add_faqs' | translate}}</button>                                            
                   <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                    <li (click)="selectSourceDrop.close();addFaqSource('faqWeb')"> {{'faqSource.extract_faqs' | translate}}</li>
-                    <li (click)="selectSourceDrop.close();addFaqSource('faqDoc')">{{'faqSource.import_faqs' | translate}}</li>
-                    <li (click)="selectSourceDrop.close();addFaqSource('manual')">{{'faqSource.add_manually' | translate}}</li>
+                    <li (click)="selectSourceDrop.close();addFaqSource('faqWeb')"> {{'faqSource_extract_faqs' | translate}}</li>
+                    <li (click)="selectSourceDrop.close();addFaqSource('faqDoc')">{{'faqSource_import_faqs' | translate}}</li>
+                    <li (click)="selectSourceDrop.close();addFaqSource('manual')">{{'faqSource_add_manually' | translate}}</li>
                   </ul>
               </div>                                    
               </div>
           </ng-container>
           <ng-container *ngIf="noItems && emptySearchResults">
-              <div class="desc-text">{{'faqSource.no_search_results_for_match' | translate}}</div>
+              <div class="desc-text">{{'faqSource_no_search_results_for_match' | translate}}</div>
           </ng-container>
       </div>
     </perfect-scrollbar>
@@ -75,9 +75,9 @@
             <div class="content left-content">
                 <div class="content-boxes faq_tasks_list">
                     <div class="tab-sec d-flex" *ngIf="faqSelectionObj.selectedCount == 0">
-                        <div class="tab_title" (click)="selectTab('draft')" [ngClass]="{'active': (selectedtab === 'draft')}"> {{'faqSource.drafts' | translate}} <span class="">({{faqSelectionObj.stats.draft || 0}})</span></div>
-                        <div class="tab_title" (click)="selectTab('in_review')" [ngClass]="{'active': (selectedtab === 'in_review')}">{{'faqSource.inreview' | translate}}<span class="">({{faqSelectionObj.stats.in_review || 0}})</span></div>
-                        <div class="tab_title" (click)="selectTab('approved')"  [ngClass]="{'active': (selectedtab === 'approved')}">{{'faqSource.approved' | translate}} <span class="">({{faqSelectionObj.stats.approved || 0}})</span></div>
+                        <div class="tab_title" (click)="selectTab('draft')" [ngClass]="{'active': (selectedtab === 'draft')}"> {{'faqSource_drafts' | translate}} <span class="">({{faqSelectionObj.stats.draft || 0}})</span></div>
+                        <div class="tab_title" (click)="selectTab('in_review')" [ngClass]="{'active': (selectedtab === 'in_review')}">{{'faqSource_inreview' | translate}}<span class="">({{faqSelectionObj.stats.in_review || 0}})</span></div>
+                        <div class="tab_title" (click)="selectTab('approved')"  [ngClass]="{'active': (selectedtab === 'approved')}">{{'faqSource_approved' | translate}} <span class="">({{faqSelectionObj.stats.approved || 0}})</span></div>
                     </div>
                     <div class="header-sec" *ngIf="faqSelectionObj.selectedCount == 0">
                         <div class="kr-sg-checkbox" [ngStyle]="{'visibility':loadingTab ? 'hidden':'visible'}"> 
@@ -87,10 +87,10 @@
                         <div class="kr-sg-dropdowns" #selectResourceDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom'">                                        
                             <div class="dropdown dropdown-open">
                                 <!-- <span class="filter-count"  placement="top" ngbTooltip="{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}">{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}</span> -->
-                                <button class="dropdown-toggle dropdown-input pl-0 mr-2"  ngbDropdownToggle><img src="assets/icons/filter.svg">{{'faqSource.filter' | translate}}</button>                                            
+                                <button class="dropdown-toggle dropdown-input pl-0 mr-2"  ngbDropdownToggle><img src="assets/icons/filter.svg">{{'faqSource_filter' | translate}}</button>                                            
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                    <li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">{{'faqSource.all' | translate}} </span><img *ngIf="!(selectedResource && selectedResource._id) && !manualFilterSelected" src="assets/icons/check-blue.svg"></li>
-                                    <li  (click)="selectResourceDrop.close();manualFaqsFilter()" *ngIf="noManulaRecords"><span class="list-name"> {{'faqSource.manual' | translate}}</span><img *ngIf="manualFilterSelected" src="assets/icons/check-blue.svg"></li>
+                                    <li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">{{'faqSource_all' | translate}} </span><img *ngIf="!(selectedResource && selectedResource._id) && !manualFilterSelected" src="assets/icons/check-blue.svg"></li>
+                                    <li  (click)="selectResourceDrop.close();manualFaqsFilter()" *ngIf="noManulaRecords"><span class="list-name"> {{'faqSource_manual' | translate}}</span><img *ngIf="manualFilterSelected" src="assets/icons/check-blue.svg"></li>
                                     <ng-container *ngFor="let source of resources">           
                    
                                         <li *ngIf="source.recentStatus.toLowerCase() ==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><span class="list-name">{{source.name}}</span><img *ngIf="selectedResource && (source._id ===  selectedResource._id)" src="assets/icons/check-blue.svg"></li>
@@ -101,13 +101,13 @@
                         <!-- <div class="seach_add_feild"> -->
                             <!-- Landing page Search -->
                             <div class="kr-sg-input-search"  *ngIf="showSearch">                               
-                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup)="getfaqsBy(null,null,null,searchFaq)" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"   (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                                <input type="text" placeholder="{{'sa_search' | translate}}" id="inputSearch" class="input-search" (keyup)="getfaqsBy(null,null,null,searchFaq)" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"   (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFaq">
-                            <img class="close-icon" src="assets/icons/close_icon.svg"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchFaq}" (click)="focusoutSearch()"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                            <img class="close-icon" src="assets/icons/close_icon.svg"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchFaq}" (click)="focusoutSearch()"  placement="top-center" container='body' ngbTooltip="{{'sa_cancel' | translate}}" tooltipClass="ngb_tooltip_custom_class sampleJson">
                             </div>
                             <div class="seach-block" (click)="showSearch=!showSearch;cdRef.detectChanges();focusinSearch('inputSearch')">
-                                <span *ngIf="!showSearch" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+                                <span *ngIf="!showSearch" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'sa_search' | translate}}</span>
                             </div>
                         <!-- </div> -->
 
@@ -128,11 +128,11 @@
                             <div class="title">{{(faqSelectionObj.selectAll)?'All':faqSelectionObj.selectedCount}} Selected</div>
                         </div>
                         <div class="col-8 p-0 d-flex align-items-center justify-content-end">
-                            <button class="kr-sg-button-secondary btn_lg ml-0" [ngClass]="{'px-12px':selectedtab === 'approved'}" *ngIf="(selectedtab === 'in_review')" (click)="bulkUpdate('update','draft')"> {{'faqSource.needs_rework' | translate}}</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">{{'faqSource.approve' | translate}}</button>
-                            <button class="kr-sg-button-danger btn_lg" *ngIf="(selectedtab === 'draft') || (selectedtab === 'approved')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})"> {{'faqSource.delete' | translate}}</button>
-                            <button class="kr-sg-button-primary btn_lg " [ngClass]="{'px-12px':selectedtab === 'approved'}" *ngIf="(selectedtab === 'approved')" (click)="bulkUpdate('update','draft')"> {{'faqSource.move_to_drafts' | translate}} </button>
-                            <button class="kr-sg-button-primary btn_lg" [ngClass]="{'px-12px':selectedtab === 'approved'}" *ngIf="(selectedtab === 'draft') " (click)="bulkUpdate('update','in_review')">{{'faqSource.send_for_review' | translate}}</button>
+                            <button class="kr-sg-button-secondary btn_lg ml-0" [ngClass]="{'px-12px':selectedtab === 'approved'}" *ngIf="(selectedtab === 'in_review')" (click)="bulkUpdate('update','draft')"> {{'faqSource_needs_rework' | translate}}</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">{{'faqSource_approve' | translate}}</button>
+                            <button class="kr-sg-button-danger btn_lg" *ngIf="(selectedtab === 'draft') || (selectedtab === 'approved')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})"> {{'faqSource_delete' | translate}}</button>
+                            <button class="kr-sg-button-primary btn_lg " [ngClass]="{'px-12px':selectedtab === 'approved'}" *ngIf="(selectedtab === 'approved')" (click)="bulkUpdate('update','draft')"> {{'faqSource_move_to_drafts' | translate}} </button>
+                            <button class="kr-sg-button-primary btn_lg" [ngClass]="{'px-12px':selectedtab === 'approved'}" *ngIf="(selectedtab === 'draft') " (click)="bulkUpdate('update','in_review')">{{'faqSource_send_for_review' | translate}}</button>
                          
                             
                         </div>
@@ -162,7 +162,7 @@
                                                     <!-- <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='javascript'">Javascript message</div> -->
                                                 </div>
                                             </div>
-                                            <div class="follow_up d-none" ><span (click)="addFollowUp(faq, $event)"><img src="assets/icons/add_plus.svg">{{'faqSource.faqs' | translate}} Follow-up</span></div>
+                                            <div class="follow_up d-none" ><span (click)="addFollowUp(faq, $event)"><img src="assets/icons/add_plus.svg">{{'faqSource_faqs' | translate}} Follow-up</span></div>
                                         </div>
                                         <div id="{{faq._id}}" class="collapse"  [attr.aria-labelledby]="'faqquestionAcc' + faq._id" data-parent="#accordion">
                                             <div class="cardbody">
@@ -180,7 +180,7 @@
                                     </div> 
                                 </div>
                                 <div class="empty-questions-selected divBlockEmptylastChild">
-                                    <div class="heading">{{'faqSource.no_search_results' | translate}} </div>
+                                    <div class="heading">{{'faqSource_no_search_results' | translate}} </div>
                                 </div>
                             </div>
                             <div class="text-center p-4" [ngClass]="{'hide': !moreLoading.loading}">{{moreLoading.loading?moreLoading.loadingText:'Loading.........'}}</div>
@@ -192,8 +192,8 @@
                         <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length)">
                             <ng-container *ngIf="!loadingTab">
                                 <img src="assets/images/icons/empty_ill.svg">
-                                <div class="heading">{{'faqSource.no_questions' | translate}}</div>
-                                <div class="desc">{{'faqSource.please_add_questions' | translate}}</div>
+                                <div class="heading">{{'faqSource_no_questions' | translate}}</div>
+                                <div class="desc">{{'faqSource_please_add_questions' | translate}}</div>
                             </ng-container>
                         </div>                       
                     </div>
@@ -204,15 +204,15 @@
                     <ng-container *ngIf="!selectedFaq">
                         <div class="empty-questions-selected">
                         <img src="assets/images/icons/empty_ill.svg">
-                        <div class="heading">{{'faqSource.no_questions' | translate}}</div>
-                        <div class="desc">{{'faqSource.please_select_questions' | translate}}</div>
+                        <div class="heading">{{'faqSource_no_questions' | translate}}</div>
+                        <div class="desc">{{'faqSource_please_select_questions' | translate}}</div>
                        </div>
                     </ng-container>
                     <ng-container *ngIf="selectedFaq">
                         <div class="header-info-que" *ngIf="selectedFaq && selectedFaq._meta.state === 'in_review'">
                             <div class="row m-0 col-12 p-0">
                                 <div class="col-5 p-0 lef-info">
-                                    <div class="approved_title">{{'faqSource.sent_for_review_on_caps' | translate}} </div>
+                                    <div class="approved_title">{{'faqSource_sent_for_review_on_caps' | translate}} </div>
                                     <div class="approved_date" ngbTooltip="{{selectedFaq.lMod  | date:'d MMMM yyyy | hh:mm a'}}" placement="top-left">{{selectedFaq.lMod  | date:'d MMMM yyyy | hh:mm a'}}</div>
                                 </div>
                                 <div class="col-7 p-0 actions-sec">
@@ -222,11 +222,11 @@
                                             <ul class="dropdown-menu content-menu info_header_dropdown_content w-274px" ngbDropdownMenu>
                                                 <div class="row m-0 col-12 p-0">
                                                     <div class="col-6 inner-data-column">
-                                                        <div class="heading">{{'faqSource.source_caps' | translate}} </div>
+                                                        <div class="heading">{{'faqSource_source_caps' | translate}} </div>
                                                         <div class="title" ngbTooltip='{{(selectedFaq.sourceName || contentTypes[selectedFaq.contentSource]) || "Manual"| titlecase}}' placement="top-left">{{(selectedFaq.sourceName || contentTypes[selectedFaq.contentSource]) || 'Manual' | titlecase}}</div>
                                                     </div>
                                                     <div class="col-6 inner-data-column">
-                                                        <div class="heading">{{'faqSource.edited_by_caps' | translate}} </div>
+                                                        <div class="heading">{{'faqSource_edited_by_caps' | translate}} </div>
                                                         <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
                                                     </div>
 
@@ -268,8 +268,8 @@
                                                     <div class="footer-data">
                                                         <div class="left_sec d-none"><img src="assets/icons/emoji-black.svg"></div>
                                                         <div class="btn_sec">
-                                                            <button class="kr-sg-button-secondary btn_lg" (click)="commentBox.close()">{{'faqSource.cancel' | translate}}</button>
-                                                            <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">{{'faqSource.post' | translate}} </button>                                           
+                                                            <button class="kr-sg-button-secondary btn_lg" (click)="commentBox.close()">{{'faqSource_cancel' | translate}}</button>
+                                                            <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">{{'faqSource_post' | translate}} </button>                                           
                                                         </div>
                                                     </div>
                                                 </div>  
@@ -277,13 +277,13 @@
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-end">
-                                        <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','approved')">{{'faqSource.approve' | translate}}</button>
+                                        <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','approved')">{{'faqSource_approve' | translate}}</button>
                                         <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                             <div class="dropdown dropdown-open">
                                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
                                                 <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
-                                                    <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">{{'faqSource.needs_rework' | translate}}</li>
-                                                    <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">{{'faqSource.delete' | translate}}</li>                                        
+                                                    <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">{{'faqSource_needs_rework' | translate}}</li>
+                                                    <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">{{'faqSource_delete' | translate}}</li>                                        
                                                 </ul>
                                             </div>
                                         </div>                                    
@@ -294,7 +294,7 @@
                         <div class="header-info-que" *ngIf="selectedFaq && selectedFaq._meta.state === 'draft'">
                             <div class="row m-0 col-12 p-0">
                                 <div class="col-5 p-0 lef-info">
-                                    <div class="approved_title">{{'faqSource.edited_on_caps' | translate}} </div>
+                                    <div class="approved_title">{{'faqSource_edited_on_caps' | translate}} </div>
                                     <div class="approved_date" ngbTooltip="{{selectedFaq.lMod  | date:'d MMMM yyyy | hh:mm a'}}" placement="top-left">{{selectedFaq.lMod   | date:'d MMMM yyyy | hh:mm a'}}</div>
                                 </div>
                                 <div class="col-7 p-0 actions-sec">
@@ -304,11 +304,11 @@
                                             <ul class="dropdown-menu content-menu info_header_dropdown_content w-274px" ngbDropdownMenu>
                                                 <div class="row m-0 col-12 p-0">
                                                     <div class="col-6 inner-data-column"> 
-                                                        <div class="heading">{{'faqSource.source_caps' | translate}} </div>
+                                                        <div class="heading">{{'faqSource_source_caps' | translate}} </div>
                                                         <div class="title" ngbTooltip='{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) || "Manual" | titlecase}}' placement="top-left">{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) || 'Manual' | titlecase}}</div>
                                                     </div>
                                                     <div class="col-6 inner-data-column">
-                                                        <div class="heading">{{'faqSource.edited_by_caps' | translate}} </div>
+                                                        <div class="heading">{{'faqSource_edited_by_caps' | translate}} </div>
                                                         <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
                                                     </div>
                                                     <!-- <div class="col-2 inner-data-column d-none">
@@ -350,8 +350,8 @@
                                                     <div class="footer-data">
                                                         <div class="left_sec d-none"><img src="assets/icons/emoji-black.svg"></div>
                                                         <div class="btn_sec">
-                                                            <button class="kr-sg-button-secondary btn_lg" (click)="commentBox.close()">{{'faqSource.cancel' | translate}} </button>
-                                                            <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">{{'faqSource.post' | translate}}</button>                                                            
+                                                            <button class="kr-sg-button-secondary btn_lg" (click)="commentBox.close()">{{'faqSource_cancel' | translate}} </button>
+                                                            <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">{{'faqSource_post' | translate}}</button>                                                            
                                                         </div>
                                                     </div>
                                                 </div>  
@@ -364,7 +364,7 @@
                                             <div class="dropdown dropdown-open">
                                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
                                                 <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
-                                                    <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">{{'faqSource.delete' | translate}}</li>                                        
+                                                    <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">{{'faqSource_delete' | translate}}</li>                                        
                                                 </ul>
                                             </div>
                                         </div>                                    
@@ -375,7 +375,7 @@
                     <div class="header-info-que" *ngIf="selectedFaq && selectedFaq._meta.state === 'approved'">
                         <div class="row m-0 col-12 p-0">
                             <div class="col-5 p-0 lef-info">
-                                <div class="approved_title">{{'faqSource.approved_on_caps' | translate}} </div>
+                                <div class="approved_title">{{'faqSource_approved_on_caps' | translate}} </div>
                                 <div class="approved_date" ngbTooltip="{{selectedFaq.lMod | date:'d MMMM yyyy | hh:mm a'}}" placement="top-left">{{selectedFaq.lMod | date:'d MMMM yyyy | hh:mm a'}}</div>
                             </div>
                             <div class="col-7 p-0 actions-sec">
@@ -385,15 +385,15 @@
                                         <ul class="dropdown-menu content-menu info_header_dropdown_content ml-58" ngbDropdownMenu>
                                             <div class="row m-0 col-12 p-0">
                                                 <div class="col-3 inner-data-column">
-                                                    <div class="heading">{{'faqSource.source_caps' | translate}} </div>
+                                                    <div class="heading">{{'faqSource_source_caps' | translate}} </div>
                                                     <div class="title" ngbTooltip='{{(selectedFaq.sourceName || "Manual") | titlecase}}' placement="top-left">{{(selectedFaq.sourceName || 'Manual') | titlecase}}</div>
                                                 </div>                                              
                                                 <div class="col-5 inner-data-column pl-3">
-                                                    <div class="heading">{{'faqSource.edited_by_caps' | translate}}</div>
+                                                    <div class="heading">{{'faqSource_edited_by_caps' | translate}}</div>
                                                     <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
                                                 </div>
                                                 <div class="col-4 inner-data-column p-0">
-                                                    <div class="heading">{{'faqSource.reviewed_by' | translate}}</div>
+                                                    <div class="heading">{{'faqSource_reviewed_by' | translate}}</div>
                                                     <div class="title" ngbTooltip="{{(selectedFaq._meta.reviewerDetails?selectedFaq._meta.reviewerDetails.fullName:'---')}}" placement="top-left">{{(selectedFaq._meta.reviewerDetails?selectedFaq._meta.reviewerDetails.fullName:'---')}}</div>
                                                 </div>
                                                 <!-- <div class="col-4 inner-data-column d-none">
@@ -430,8 +430,8 @@
                                                 <div class="footer-data">
                                                     <div class="left_sec d-none"><img src="assets/icons/emoji-black.svg"></div>
                                                     <div class="btn_sec">
-                                                        <button class="kr-sg-button-secondary btn_lg" (click)="commentBox.close()">{{'faqSource.cancel' | translate}}</button>
-                                                        <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">{{'faqSource.post' | translate}}</button>                                                           
+                                                        <button class="kr-sg-button-secondary btn_lg" (click)="commentBox.close()">{{'faqSource_cancel' | translate}}</button>
+                                                        <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">{{'faqSource_post' | translate}}</button>                                                           
                                                     </div>
                                                 </div>
                                             </div>  
@@ -444,8 +444,8 @@
                                         <div class="dropdown dropdown-open">
                                             <button class= "dropdown-toggle dropdown-input p-0 border-0" ngbDropdownToggle ><img src="assets/icons/elipse.svg">  </button>                      
                                             <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1 ml--10" ngbDropdownMenu>
-                                                <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">{{'faqSource.move_to_drafts' | translate}}</li>
-                                                <li class ="list delete-text" (click)="deleteInfividualQuestion(selectedFaq)">{{'faqSource.delete' | translate}}</li>
+                                                <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">{{'faqSource_move_to_drafts' | translate}}</li>
+                                                <li class ="list delete-text" (click)="deleteInfividualQuestion(selectedFaq)">{{'faqSource_delete' | translate}}</li>
                                             </ul>
                                         </div>
                                     </div>                                    
@@ -460,7 +460,7 @@
                                 <div class="question-content">
                                     <div class="title-que">
                                         <span>{{selectedFaq._source.faq_question}}</span>   
-                                        <div class="edit-faq" (click)="editThisQa()" ngbTooltip='Edit' placement="bottom">
+                                        <div class="edit-faq" (click)="editThisQa()" ngbTooltip='{{"sa_edit" | translate}}' placement="bottom">
                                             <img src="assets/icons/edit-blue.svg">Edit
                                         </div>                                    
                                     </div>
@@ -474,7 +474,7 @@
                                                         </div> -->
 
                                                     <div class="response-title-bg row">
-                                                        <div class="bot-response-title col-6">{{'faqSource.response' | translate}}<span *ngIf="(selectedFaq._source.faq_answer.length > 1) || (selectedFaq._source.faq_cond_answers && selectedFaq._source.faq_cond_answers.length)">{{ ' ' + (i + 1)}}</span></div>
+                                                        <div class="bot-response-title col-6">{{'faqSource_response' | translate}}<span *ngIf="(selectedFaq._source.faq_answer.length > 1) || (selectedFaq._source.faq_cond_answers && selectedFaq._source.faq_cond_answers.length)">{{ ' ' + (i + 1)}}</span></div>
                                                         <div class="response-likes-views-sec d-flex col-6">
                                                             <div class="count-sec" >
                                                                 <img src="assets/icons/faq/views.svg" (click)="clicksViews()" placement="top" container='body' ngbTooltip="Views">{{numberOf.appearances}}
@@ -509,7 +509,7 @@
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source.faq_cond_answers && selectedFaq._source.faq_cond_answers.length">
                                             <div  *ngFor="let consitionalAnswer of selectedFaq._source.faq_cond_answers; let i = index;" >
                                                 <div class="response-title-bg row">
-                                                    <div  class="bot-response-title col-6">{{'faqSource.response' | translate}}<span>{{ ' ' + (i + 1 + (selectedFaq._source.faq_answer?selectedFaq._source.faq_answer.length:0))}}</span></div>
+                                                    <div  class="bot-response-title col-6">{{'faqSource_response' | translate}}<span>{{ ' ' + (i + 1 + (selectedFaq._source.faq_answer?selectedFaq._source.faq_answer.length:0))}}</span></div>
                                                     <div class="response-likes-views-sec d-flex col-6">
                                                         <div class="count-sec" >
                                                             <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{selectedFaq?.stats?.appearances?selectedFaq?.stats?.appearances[0][0]: 0}}
@@ -526,14 +526,14 @@
                                                     </div>
                                                    
                                                     <div class="d-flex col-12 conditions-response-block">
-                                                        <div class="title col-2 px-0">{{'faqSource.conditions' | translate}} :</div>
+                                                        <div class="title col-2 px-0">{{'faqSource_conditions' | translate}} :</div>
                                                         <div class="right-content col-10 px-0 condition-content">
                                                             <!-- if-lenthfour -->
                                                             <div class="row added-conditions" *ngFor="let rule of consitionalAnswer.conditions | slice:0:2; let ruleIndex = index" >
                                                                 <ng-container *ngIf="showConditions(consitionalAnswer.conditions,ruleIndex)">
                                                                    <div class="col-2  d-inline px-0 vertical-align-top">
-                                                                    <div class="rule-title pr-10" *ngIf="ruleIndex == 0">{{'faqSource.when_caps' | translate}}</div>
-                                                                    <div class="rule-title pr-20" *ngIf="ruleIndex > 0">{{'faqSource.and_caps' | translate}}</div>
+                                                                    <div class="rule-title pr-10" *ngIf="ruleIndex == 0">{{'faqSource_when_caps' | translate}}</div>
+                                                                    <div class="rule-title pr-20" *ngIf="ruleIndex > 0">{{'faqSource_and_caps' | translate}}</div>
                                                                    </div>
                                                                 <div class="col-10 d-inline-block px-0"[ngStyle]="{'margin-bottom':(showSeeAll(consitionalAnswer.conditions) && ruleIndex==0)?'10px':'0px'}" >
                                                                     <div class="rule-dropdown-data">
@@ -613,14 +613,14 @@
                                                             </div>
                                                             <div id="demo" class="collapse show">
                                                                 <div class="d-flex col-12 conditions-response-block">
-                                                                    <!-- <div class="title col-2 px-0">{{'faqSource.conditions' | translate}} :</div> -->
+                                                                    <!-- <div class="title col-2 px-0">{{'faqSource_conditions' | translate}} :</div> -->
                                                                     <div class="right-content col-10 px-0 condition-content">
                                                                         <!-- if-lenthfour -->
                                                                         <div class="row added-conditions" *ngFor="let rule of consitionalAnswer.conditions | slice:0:2; let ruleIndex = index" >
                                                                             <ng-container *ngIf="showConditions(consitionalAnswer.conditions,ruleIndex)">
                                                                                <div class="col-2  d-inline px-0 vertical-align-top">
-                                                                                <div class="rule-title pr-10" *ngIf="ruleIndex == 0">{{'faqSource.when_caps' | translate}}</div>
-                                                                                <div class="rule-title pr-20" *ngIf="ruleIndex > 0">{{'faqSource.and_caps' | translate}}</div>
+                                                                                <div class="rule-title pr-10" *ngIf="ruleIndex == 0">{{'faqSource_when_caps' | translate}}</div>
+                                                                                <div class="rule-title pr-20" *ngIf="ruleIndex > 0">{{'faqSource_and_caps' | translate}}</div>
                                                                                </div>
                                                                             <div class="col-10 d-inline-block px-0"[ngStyle]="{'margin-bottom':(showSeeAll(consitionalAnswer.conditions) && ruleIndex==0)?'10px':'0px'}" >
                                                                                 <div class="rule-dropdown-data">
@@ -747,11 +747,11 @@
                                 </div>
                                 <div class="appearences-info row" *ngIf="selectedFaq && selectedFaq.feedback">
                                     <div class="col-4 p-0">
-                                        <span class="source">{{'faqSource.appearances' | translate}}:</span>
+                                        <span class="source">{{'faqSource_appearances' | translate}}:</span>
                                         <span class="count">{{selectedFaq?.feedback?.expand}}</span>
                                     </div>
                                     <div class="col-3 p-0">
-                                        <span class="source">{{'faqSource.clicks' | translate}}:</span>
+                                        <span class="source">{{'faqSource_clicks' | translate}}:</span>
                                         <span class="count">{{selectedFaq?.feedback?.click}}</span>
                                     </div>
                                     <!-- <div class="col-2 p-0">
@@ -766,7 +766,7 @@
                             </div>
                             <div class="add-alternative-questions row"  *ngIf="selectedFaq._source.faq_alt_questions?.length">
                                 <div class="header-data">
-                                    <span class="title">{{'faqSource.alternate_questions' | translate}}</span>
+                                    <span class="title">{{'faqSource_alternate_questions' | translate}}</span>
                                     <img src="assets/icons/faq/help.svg">
                                     <span class="count-conditions">{{selectedFaq._source.faq_alt_questions?.length>0?''+selectedFaq._source.faq_alt_questions?.length+'':''}}</span>
                                 </div>
@@ -838,13 +838,13 @@
                         <img *ngIf="showSearch" src="assets/images/close.svg">Search
                     </div> -->
                     <div class="kr-sg-input-search m-0"  *ngIf="showSearch">                               
-                        <input type="text" placeholder="Search" id="inputSearch1" class="input-search"  [ngClass]="{'pl-33':!searchSources,'pl-2':searchSources}" autocomplete="off" [(ngModel)]="searchSources" (keyup)="getSourceList(searchSources,'search')" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                        <input type="text" placeholder="{{'sa_search' | translate}}" id="inputSearch1" class="input-search"  [ngClass]="{'pl-33':!searchSources,'pl-2':searchSources}" autocomplete="off" [(ngModel)]="searchSources" (keyup)="getSourceList(searchSources,'search')" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                         (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                     <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
-                    <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch(true)"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                    <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch(true)"  placement="top-center" container='body' ngbTooltip="{{'sa_cancel' | translate}}" tooltipClass="ngb_tooltip_custom_class sampleJson">
                     </div> 
                       <div class="searchBlock" (click)="showSearch=!showSearch;cdRef.detectChanges();;focusinSearch('inputSearch1')">
-                        <span *ngIf="!showSearch" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+                        <span *ngIf="!showSearch" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'sa_search' | translate}}</span>
                     </div>
                 </div>
 
@@ -933,8 +933,8 @@
                               </div>
                               </div>
                         </div>
-                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('extrated')">{{'faqSource.no_of_faqs_caps' | translate}}<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
-                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('createdOn')">{{'faqSource.triggered_by_caps' | translate}}<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('extrated')">{{'faqSource_no_of_faqs_caps' | translate}}<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('createdOn')">{{'faqSource_triggered_by_caps' | translate}}<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
                         <!-- <div class="col" (click)="sortBy('createdOn')">Created On<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div> -->
                         <div class="col last-child" (click)="sortBy('name')"></div>
                     </header>
@@ -961,13 +961,13 @@
                         <!-- <div class="col" title="{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div> -->
                         <div class="col text-right last-child pl-0">
                             <span class="actions-links" *ngIf="source.recentStatus == 'configured'" (click)="resumeAnnotate(source)"><img class="action_icon" src="assets/icons/play_icon.svg" [container]="'body'" ngbTooltip='Resume Annotation'></span>
-                            <span class="actions-links" (click)="deleteSource(source,$event)" ><img class="action_icon" ngbTooltip='Delete'  [container]="'body'" src="assets/icons/sidemenu/delete-table.svg"></span>
+                            <span class="actions-links" (click)="deleteSource(source,$event)" ><img class="action_icon" ngbTooltip='{{"sa_delete" | translate}}'  [container]="'body'" src="assets/icons/sidemenu/delete-table.svg"></span>
                         </div>
                         <!-- <div class="col text-right last-child re-annotate">
                             <span class="actions-links" (click)="reAnnotateDocument(source)"  ngbTooltip='Re-Annotate'><img class="action_icon" src="assets/images/list.svg"></span>
                         </div> -->
                     </div>
-                    <div class="empty">{{'faqSource.no_search_results' | translate}}</div>
+                    <div class="empty">{{'faqSource_no_search_results' | translate}}</div>
                     </perfect-scrollbar>
                     
                 </section>                               
@@ -1000,7 +1000,7 @@
                           </div>
                             <div class="actions-delete">                           
                                 <span class="actions-links d-none"><img class="action_icon" src="assets/icons/sidemenu/table-refresh.svg"></span>
-                                <span class="actions-links" (click)="deleteSource(source,$event)"  ngbTooltip='Delete' [container]="'body'"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
+                                <span class="actions-links" (click)="deleteSource(source,$event)"  ngbTooltip='{{"sa_delete" | translate}}' [container]="'body'"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
                             </div>
                         </div>
                       </div>          
@@ -1016,7 +1016,7 @@
 <kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addfaqSourceModalPop>
     <ng-container  *ngIf="selectedFaq && selectedFaq.isAddFollow">
         <div class="modal-header">
-          <div class="title">{{'faqSource.add_follow_up_faq' | translate}}</div>
+          <div class="title">{{'faqSource_add_follow_up_faq' | translate}}</div>
           <div class="close_icon"><img (click)="cancleAddFollowUp()" src="assets/icons/modal-close.svg"></div>
         </div>
       <perfect-scrollbar class="app-add-faq-insidescroll" #perfectScroll>
@@ -1025,8 +1025,8 @@
         </div>
       </perfect-scrollbar> 
         <div class="modal-footer">
-            <button class="kr-sg-button-primary btn_lg" (click)="faqUpdateEvent()">{{'faqSource.save' | translate}}</button>
-            <button class="kr-sg-button-secondary btn_lg" (click)="cancleAddFollowUp();">{{'faqSource.cancel' | translate}}</button>
+            <button class="kr-sg-button-primary btn_lg" (click)="faqUpdateEvent()">{{'faqSource_save' | translate}}</button>
+            <button class="kr-sg-button-secondary btn_lg" (click)="cancleAddFollowUp();">{{'faqSource_cancel' | translate}}</button>
         </div>
       </ng-container>
 </kr-modal>
@@ -1035,7 +1035,7 @@
 <kr-modal modalType="center" #editfaqSourceModalPop modalClass="modal_popups_ editfaqSourceModalPop">
     <ng-container  *ngIf="editfaq && selectedFaq">
   <div class="modal-header">
-    <div class="title">{{'faqSource.edit_faq' | translate}}</div>
+    <div class="title">{{'faqSource_edit_faq' | translate}}</div>
     <div class="close_icon"><img (click)="faqCancle()" src="assets/icons/modal-close.svg"></div>
   </div>
 <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
@@ -1044,9 +1044,9 @@
   </div>
 </perfect-scrollbar> 
   <div class="modal-footer">
-      <button class="kr-sg-button-primary btn_lg float-right" (click)="faqUpdateEvent()">{{'faqSource.save' | translate}}</button>
-      <button class="kr-sg-button-secondary btn_lg float-right" (click)="faqCancle()">{{'faqSource.cancel' | translate}}</button>
-      <button class="kr-sg-button-danger btn_lg float-left" (click)="deleteInfividualQuestion(selectedFaq)">{{'faqSource.delete' | translate}}</button>
+      <button class="kr-sg-button-primary btn_lg float-right" (click)="faqUpdateEvent()">{{'faqSource_save' | translate}}</button>
+      <button class="kr-sg-button-secondary btn_lg float-right" (click)="faqCancle()">{{'faqSource_cancel' | translate}}</button>
+      <button class="kr-sg-button-danger btn_lg float-left" (click)="deleteInfividualQuestion(selectedFaq)">{{'faqSource_delete' | translate}}</button>
   </div>
 </ng-container>
 </kr-modal>
