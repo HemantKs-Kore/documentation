@@ -6,7 +6,7 @@
             <img
                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
             <div class="bread-name active-name">{{'search_insights_Search_Insights'| translate}}
-                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='{{"sa_topic_guide" | translate}}' 
  placement="right-center"(click)="openUserMetaTagsSlider()">
                     <i class="si-topic-guide-1"></i>
                 </span>
@@ -47,7 +47,7 @@
                             <img src="assets/icons/search_gray.svg" class="search-icon">
                         </div>                        -->
                         <div class="kr-sg-input-search">
-                            <input type="text" placeholder="Search" class="input-search"
+                            <input type="text" placeholder="{{'sa_search' | translate}}" class="input-search"
                                 [ngClass]="{'pl-33':!searchSources,'pl-2':searchSources}" autocomplete="off"
                                 [(ngModel)]="searchSources"
                                 (keyup)="searchQuery()"
