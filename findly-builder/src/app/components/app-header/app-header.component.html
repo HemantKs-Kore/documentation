@@ -103,7 +103,7 @@
                     <button class="kr-sg-button-primary btn_lg" [disabled]='training' (click)="train()">{{(training)?'Training...':'Train'}}</button>
                 </div> -->
                 <li class="nav-item app-dropdown">
-                    <div class="kr-sg-dropdowns" ngbDropdown #myDrop="ngbDropdown" [placement]="'bottom-center'">
+                    <div class="kr-sg-dropdowns new-line-btn" ngbDropdown #myDrop="ngbDropdown" [placement]="'bottom-center'">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input text-truncate" title="{{appName}}" id="dropdownBasic1" ngbDropdownToggle (click)="getAllApps()" [ngClass]="{'disable_btn':isRouteDisabled}">{{appName}}</button>
                             <ul class="dropdown-menu content-menu" ngbDropdownMenu>
@@ -131,18 +131,28 @@
                         </div>
                     </div>
                 </li>
+                <!-- <li class="nav-item test-button">
+                    <button class="kr-sg-button-secondary btn_lg"> Preview</button>
+                  </li> -->
+
                 <li class="nav-item test-button">
                   <button placement="bottom" triggers="hover" #testButtonTooltip="ngbTooltip"
                       ngbTooltip="{{ 'header.previewAndCustomize' | translate }}" container='body'
                       tooltipClass="test-icon-tooltip" class="kr-sg-button-secondary btn_lg rr-tour-test-btn"
-                      id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()" [disabled]="isRouteDisabled">{{ 'header.test' | translate
+                      id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()" [disabled]="isRouteDisabled"><span class="pr-1 align-middle"><i class="si-play-button"></i></span> {{ 'header.preview' | translate
                       }}</button>
                 </li>
-                <li (click)="isRouteDisabled?null:train()" class="nav-item train-btn" ngbTooltip="{{ 'header.trainYourApp' | translate }}"
+
+                <li class="nav-item new-train-btn" (click)="isRouteDisabled?null:train()" ngbTooltip="{{ 'header.trainYourApp' | translate }}"  [ngClass]='{"active-train":training}'>
+                    <button  class="kr-sg-button-secondary btn_lg"><span class="pr-1 align-middle"><i class="si-train-multi-intent"></i></span> Train</button>
+                  </li>
+                
+
+                <!-- <li (click)="isRouteDisabled?null:train()" class="nav-item train-btn" ngbTooltip="{{ 'header.trainYourApp' | translate }}"
                     container='body' tooltipClass="train-icon-tooltip" [ngClass]='{"active-train":training}'>
                     <div class="loader-train"></div>
                     <img src="assets/icons/train.svg" class="defaultIcon">
-                </li>
+                </li> -->
                 <li class="nav-item search-block show-search1">
                     <div class="search_icon" [ngClass]="{'active-search-top' : showSearch}">
                         <img src="assets/icons/sidemenu/search.svg" (click)="isRouteDisabled?null:focusinSearch()"
@@ -326,8 +336,8 @@
                                 <div class="w-item">
                                     <div class="icon-block" id="selected_profile">{{selected_profile_display}}</div>
                                     <div class="content-sec text-truncate">
-                                        <div class="name-w text-truncate" [ngbTooltip]="selectAccountDetails?.accountName"
-                                        placement="top-center" [container]="'body'"
+                                        <div class="name-w text-truncate" 
+                                        placement="top-center" 
                                         tooltipClass="tooltip-global-">{{selectAccountDetails.accountName}}</div>
                                         <div class="d-flex justify-content-between">
                                           <div class="member-count">{{selectAccountDetails.usersCount}} members</div>
@@ -355,8 +365,8 @@
                                                 (click)="switchAccountInternal(app)" [ngClass]="{'selected-swith-account' : app.userFullName === selectAccountDetails.userFullName}">
                                                     <div class="icon-block"  [ngStyle]="{'background-color':app.color}" attr.id="associateprofiledisplay{{i}}">{{app.associate_profile_display}}</div>
                                                     <div class="content-sec text-truncate">
-                                                        <div class="name-w text-truncate" [ngbTooltip]="app?.accountName"
-                                                        placement="top-center" [container]="'body'"
+                                                        <div class="name-w text-truncate" 
+                                                        placement="top-center" 
                                                         tooltipClass="dashboard-custom-tooltips">{{app.accountName}}</div>
                                                         <div class="d-flex justify-content-between">
                                                           <div class="members text-truncate">{{app.userFullName}}</div>
@@ -425,7 +435,7 @@
                     <div class="borderindication"></div>
                     <div class="heading-text">Start by creating an Application</div>
                     <div class="kr-sg-input-text">
-                        <div class="label-text">Name Your Application</div>
+                        <div class="label-text">Name Your Application<sup class="field-mandatory">*</sup></div>
                         <input maxlength="60" type="text" autocomplete="off"
                             placeholder="{{ 'header.enterAppName' | translate }}" [(ngModel)]="newApp.name"
                             name="appName" id="enterAppName" (blur)="inputChanged('enterName')"

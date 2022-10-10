@@ -288,24 +288,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //   }
       // })
 
-      setTimeout(function () {
-        var IPBasedLocationURL = "https://api.ipregistry.co/?key=tryout"
-        $.ajax({
-          url: IPBasedLocationURL,
-          type: 'GET',
-          success: function (res) {
-            if (res && res.location && res.location.city) {
-              vars.locationObject.location = res.location.city;
-            }
-            if (res && res.location && res.location.country && res.location.country.name) {
-              vars.locationObject.country = res.location.country.name;
-            }
-          },
-          error: function (error) {
-          }
-        })
-      }, 500);
-
+      // setTimeout(function () {
+      //   var IPBasedLocationURL = "https://api.ipregistry.co/?key=tryout"
+      //   $.ajax({
+      //     url: IPBasedLocationURL,
+      //     type: 'GET',
+      //     success: function (res) {
+      //       if (res && res.location && res.location.city) {
+      //         vars.locationObject.location = res.location.city;
+      //       }
+      //       if (res && res.location && res.location.country && res.location.country.name) {
+      //         vars.locationObject.country = res.location.country.name;
+      //       }
+      //     },
+      //     error: function (error) {
+      //     }
+      //   })
+      // }, 500 );
+      this.fetchUserLocation();
       vars.countOfSelectedFilters = 0;
       vars.resultRankingActionPerformed = false;
       vars.customTourResultRank = false;
@@ -313,7 +313,53 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.totalNumOfResults = 0;
     }; //********************original widget.js start */
 
-
+    FindlySDK.prototype.fetchUserLocation = function() {
+      var vars = this.vars;
+      var googleMapsAPIKey =  'AIzaSyD0jXmg7ecQ-1frjFbCk1KfK0QnG3wEFKI';
+      if(vars.locationObject.country) {
+      return;
+      }
+      console.log("Fetching user location");
+      var successCallback = function(position){
+      if(googleMapsAPIKey !== ""){
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+      var request = new XMLHttpRequest();
+      var method = 'GET';
+      var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&sensor=true&key='+googleMapsAPIKey;
+      var async = true;
+      
+      request.open(method, url, async);
+      request.onreadystatechange = function(){
+      if(request.readyState == 4 && request.status == 200){
+      var data = JSON.parse(request.responseText);
+      if(typeof(Storage) !== "undefined") {
+      if(data.results.length == 0) {
+      data = JSON.parse(localStorage.getItem("locationData"));
+      }
+      else{
+      localStorage.setItem("locationData", JSON.stringify(data));
+      }
+      }
+      var addressComponents = data.results[0].address_components;
+      for(let i=0;i<addressComponents.length;i++){
+      var types = addressComponents[i].types;
+      if(types=="locality,political"){
+      vars.locationObject.location = addressComponents[i].long_name;
+      }
+      else if(types=="country,political"){
+      vars.locationObject.country = addressComponents[i].long_name;
+      }
+      }
+      }
+      };
+      request.send();
+      }else{
+      console.warn("please provide google maps API key");
+      }
+      };
+      navigator.geolocation.getCurrentPosition(successCallback);
+      };
 
     FindlySDK.prototype.setAPIDetails = function () {
 
@@ -1049,7 +1095,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{if hideSearchIcon}}\
               style="position: absolute; bottom: 0px; color:#8a959f;">\
             {{else}}\
-              style="position: absolute; bottom: 0px; color:#8a959f; padding-left:37px!important; background : ${searchConfig.searchBarFillColor} !important;"> \
+              style="position: absolute; bottom: 0px; color:#8a959f; padding-left:43px!important; background : ${searchConfig.searchBarFillColor} !important;"> \
             {{/if}}\
             {{/if}}\
             <input autocomplete="off" id="search" name="search"\
@@ -1061,7 +1107,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{if hideSearchIcon}}\
               style="position: absolute; bottom: 0px;  \
             {{else}}\
-              style="position: absolute; bottom: 0px; padding-left:36px!important; border : solid 1px ${searchConfig.searchBarBorderColor} !important; background : ${searchConfig.searchBarFillColor} !important; color :  ${searchConfig.searchBarPlaceholderTextColor} !important; \
+              style="position: absolute; bottom: 0px; padding-left:42px!important; border : solid 1px ${searchConfig.searchBarBorderColor} !important; background : ${searchConfig.searchBarFillColor} !important; color :  ${searchConfig.searchBarPlaceholderTextColor} !important; \
               {{if searchConfig.autocompleteOpt == true}}\
               background : transparent !important; \
               {{else}}\
@@ -1325,7 +1371,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
      <!-- {{if taskPrefix === "SUGGESTED"}}\
         <img class="live-search-close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
       {{/if}}\-->\
-      {{if snippetData?.title}}\
+      {{if snippetData && snippetData?.title}}\
       <div class="snippet-template snippet-margin">\
         <div class="title position-relative"><div class="title-text">{{html snippetData?.title}}</div><div class="title-beta"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzciIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAzNyAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeT0iMiIgd2lkdGg9IjM1IiBoZWlnaHQ9IjE2IiBmaWxsPSIjRDdEOEQ5Ii8+CjxyZWN0IHg9IjIiIHdpZHRoPSIzNSIgaGVpZ2h0PSIxNiIgZmlsbD0iIzc3N0E4MCIvPgo8cGF0aCBkPSJNNy43OTkwMSAxMlY0LjcyNzI3SDEwLjQ2MjRDMTAuOTc4NSA0LjcyNzI3IDExLjQwNTggNC44MTI1IDExLjc0NDMgNC45ODI5NUMxMi4wODI5IDUuMTUxMDQgMTIuMzM2MiA1LjM3OTUgMTIuNTA0MyA1LjY2ODMyQzEyLjY3MjMgNS45NTQ3OCAxMi43NTY0IDYuMjc3OTQgMTIuNzU2NCA2LjYzNzc4QzEyLjc1NjQgNi45NDA4MSAxMi43MDA4IDcuMTk2NSAxMi41ODk1IDcuNDA0ODNDMTIuNDc4MiA3LjYxMDggMTIuMzI5MSA3Ljc3NjUxIDEyLjE0MiA3LjkwMTk5QzExLjk1NzQgOC4wMjUwOSAxMS43NTM4IDguMTE1MDYgMTEuNTMxMiA4LjE3MTg4VjguMjQyOUMxMS43NzI3IDguMjU0NzMgMTIuMDA4MyA4LjMzMjg2IDEyLjIzNzkgOC40NzcyN0MxMi40Njk5IDguNjE5MzIgMTIuNjYxNyA4LjgyMTczIDEyLjgxMzIgOS4wODQ1MkMxMi45NjQ3IDkuMzQ3MyAxMy4wNDA1IDkuNjY2OSAxMy4wNDA1IDEwLjA0MzNDMTMuMDQwNSAxMC40MTUgMTIuOTUyOSAxMC43NDg4IDEyLjc3NzcgMTEuMDQ0N0MxMi42MDQ5IDExLjMzODMgMTIuMzM3NCAxMS41NzE1IDExLjk3NTEgMTEuNzQ0M0MxMS42MTI5IDExLjkxNDggMTEuMTUwMSAxMiAxMC41ODY2IDEySDcuNzk5MDFaTTguODk2MzEgMTEuMDU4OUgxMC40ODAxQzExLjAwNTcgMTEuMDU4OSAxMS4zODIxIDEwLjk1NzEgMTEuNjA5NCAxMC43NTM2QzExLjgzNjYgMTAuNTUgMTEuOTUwMyAxMC4yOTU1IDExLjk1MDMgOS45OTAwNkMxMS45NTAzIDkuNzYwNDIgMTEuODkyMyA5LjU0OTcyIDExLjc3NjMgOS4zNTc5NUMxMS42NjAzIDkuMTY2MTkgMTEuNDk0NiA5LjAxMzQ5IDExLjI3OTEgOC44OTk4NkMxMS4wNjYxIDguNzg2MjIgMTAuODEyNyA4LjcyOTQgMTAuNTE5MiA4LjcyOTRIOC44OTYzMVYxMS4wNTg5Wk04Ljg5NjMxIDcuODczNThIMTAuMzY2NUMxMC42MTI3IDcuODczNTggMTAuODM0IDcuODI2MjMgMTEuMDMwNSA3LjczMTUzQzExLjIyOTQgNy42MzY4NCAxMS4zODY4IDcuNTA0MjYgMTEuNTAyOCA3LjMzMzgxQzExLjYyMTIgNy4xNjA5OCAxMS42ODA0IDYuOTU3MzkgMTEuNjgwNCA2LjcyMzAxQzExLjY4MDQgNi40MjIzNSAxMS41NzUgNi4xNzAyMiAxMS4zNjQzIDUuOTY2NjJDMTEuMTUzNiA1Ljc2MzAyIDEwLjgzMDUgNS42NjEyMiAxMC4zOTQ5IDUuNjYxMjJIOC44OTYzMVY3Ljg3MzU4Wk0xNC4zNDIgMTJWNC43MjcyN0gxOC45MDE2VjUuNjcxODhIMTUuNDM5M1Y3Ljg4Nzc4SDE4LjY2MzdWOC44Mjg4NEgxNS40MzkzVjExLjA1NTRIMTguOTQ0MlYxMkgxNC4zNDJaTTIwLjAwODcgNS42NzE4OFY0LjcyNzI3SDI1LjYzNzNWNS42NzE4OEgyMy4zNjgxVjEySDIyLjI3NDNWNS42NzE4OEgyMC4wMDg3Wk0yNi42MzYgMTJIMjUuNDcxMkwyOC4wODg0IDQuNzI3MjdIMjkuMzU2MkwzMS45NzM0IDEySDMwLjgwODZMMjguNzUyNSA2LjA0ODNIMjguNjk1N0wyNi42MzYgMTJaTTI2LjgzMTMgOS4xNTE5OUgzMC42MDk3VjEwLjA3NTNIMjYuODMxM1Y5LjE1MTk5WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTMxIDIyTDM3IDE2SDMxVjIyWiIgZmlsbD0iIzQ0NDc0QyIvPgo8L3N2Zz4K"/></div></div>\
         <div class="desc-text">{{html snippetData?.answer}}</div>\
@@ -1336,7 +1382,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           </div>\
       </div>\
       {{/if}}\
-      <div class="finalResults {{if snippetData?.title}}snippet-margin{{/if}}">\
+      <div class="finalResults {{if snippetData && snippetData?.title}}snippet-margin{{/if}}">\
       {{if taskPrefix === "SUGGESTED"}}\
         <span class="live-search-close-icon">See All Results</span>\
       {{/if}}\
@@ -5414,7 +5460,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (!resultName) {
         resultName = $(event.currentTarget).find('[title]').attr('title');
       }
-      if (resultType == "web" || resultType == "faq" || resultType == "data" || resultType == "file") {
+      if (resultType !="task") {
+        // if (resultType == "web" || resultType == "faq" || resultType == "data" || resultType == "file") {
         var experimentObjectProps = Object.getOwnPropertyNames(_self.vars.experimentsObject);
         payload.answerInfo = {};
 
@@ -5639,7 +5686,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.parentEvent(responseObject);
           setTimeout(function () {
             $('.query_analytics_content').css('top', event.pageY - 50);
-            $('.query_analytics_content').css('left', event.pageX - 178 - event.offsetX);
+            $('.query_analytics_content').css('left', event.pageX - 268 - event.offsetX);
             $(document).on('click', function (event) {
               if (!($(event.target).closest('.query_analytics_content').length)) {
                 $('.query_analytics_content').hide();
@@ -6206,7 +6253,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             noResults: false,
                             taskPrefix: 'SUGGESTED',
                             viewType: viewType,
-                            customSearchResult: _self.customSearchResult
+                            customSearchResult: _self.customSearchResult,
+                            snippetData:{}
                           };
                           _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
                           searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
@@ -9043,7 +9091,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   
           _self.initKorePicker(findlyConfig);
         });
-      },500);
+      },1000);
       
     }
     var searchConfigurationCopy = {};
@@ -15631,6 +15679,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.sys_content_type = obj.sys_content_type;
           item.contentId = obj.contentId;
           //connectors fields start//
+          if (obj[mapping.icon]) {
+            item.icon = obj[mapping.icon];
+          }
           if (obj[mapping.chips]) {
             item.chips = obj[mapping.chips];
           }
@@ -15639,6 +15690,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if (obj[mapping.textField2]) {
             item.textField2 = obj[mapping.textField2];
+          }
+          if(!obj.icon) {
+            obj.icon = item.icon||'';
           }
           if(!obj.chips) {
             obj.chips = item.chips||'';
@@ -18956,7 +19010,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.parentEvent(responseObject);
             setTimeout(function () {
               $('.query_analytics_content').css('top', event.pageY - 50);
-              $('.query_analytics_content').css('left', event.pageX - 200 - event.offsetX);
+              $('.query_analytics_content').css('left', event.pageX - 290 - event.offsetX);
               $(document).on('click', function (event) {
                 if (!($(event.target).closest('.query_analytics_content').length)) {
                   $('.query_analytics_content').hide();
@@ -20413,16 +20467,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
 
     }
-    FindlySDK.prototype.showMoreClick = function () {
+     FindlySDK.prototype.showMoreClick = function () {
       var _self = this;
-      $('.full-search-data-container').off('click', '.show-more-list').on('click', '.show-more-list', function (e) {
+      $('.full-search-data-container').off('click', '.searchassist-show-more-button').on('click', '.searchassist-show-more-button', function (e) {
         var showMoreData = {
-          groupName: $(this).attr('groupName'),
-          templateName: $(this).attr('templateName'),
-          pageNumber: Number($(this).attr('pageNumber')) + 1,
-          fieldName: $(this).attr('fieldName')
+          groupName: $(this).closest('.show-more-list').attr('groupName'),
+          templateName: $(this).closest('.show-more-list').attr('templateName'),
+          pageNumber: Number($(this).closest('.show-more-list').attr('pageNumber')) + 1,
+          fieldName: $(this).closest('.show-more-list').attr('fieldName')
         }
-        $(this).attr('pageNumber', Number($(this).attr('pageNumber')) + 1);
+        $(this).closest('.show-more-list').attr('pageNumber', Number($(this).closest('.show-more-list').attr('pageNumber')) + 1);
         _self.vars.showingMatchedResults = true;
         _self.invokeSearch(showMoreData)
       });
@@ -20486,7 +20540,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.extractTime = function (timeStamp) {
       if (timeStamp) {
         var d = new Date(timeStamp);
-        // var hours_min = d.getHours() + ":" + d.getMinutes() + ", " + d.toDateString();
         var hours_min = d.getHours() + ":" + d.getMinutes();
         hours_min = moment(timeStamp).format('LT');
         console.log(hours_min)

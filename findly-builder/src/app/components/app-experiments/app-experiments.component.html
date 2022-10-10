@@ -8,7 +8,12 @@
     <div class="header-sec row" *ngIf='listOfExperiments.length>0||filterExperiments.length>0'>
       <div class="col-6 left-sec p-0">
         <div class="tab-sec d-flex">
-          <b>{{"experiments.name"| translate}}</b>
+            <b>{{"experiments.name"| translate}}
+            <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+              <i class="si-topic-guide-1"></i>
+            </span>
+          </b>
         </div>
       </div>
       <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">

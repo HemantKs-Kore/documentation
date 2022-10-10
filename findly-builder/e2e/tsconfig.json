@@ -5,6 +5,8 @@
     "outDir": "../out-tsc/e2e",
     "module": "commonjs",
     "target": "es2018",
+    /* Experimental Options */
+    "experimentalDecorators": true, 
     "types": [
       "jasmine",
       "jasminewd2",

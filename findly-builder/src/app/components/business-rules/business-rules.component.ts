@@ -1546,4 +1546,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false };
     this.selectEditIndex = 0;
   }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
 }

@@ -414,7 +414,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
 
   }
   addOrUpddate(synonymData, dialogRef?, showFlag?) {
-    synonymData = synonymData || this.synonymData;
+    // synonymData = synonymData || this.synonymData;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
@@ -502,7 +502,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          const synonyms = JSON.parse(JSON.stringify(this.synonymArr));
+          const synonyms = JSON.parse(JSON.stringify(this.synonymData));
           synonyms.splice(index, 1);
           if (this.showFlag = true) {
             this.addOrUpddate(synonyms, dialogRef, this.showFlag);
@@ -656,6 +656,9 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       document.getElementById(inputSearch).focus();
     }, 100)
+  }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
