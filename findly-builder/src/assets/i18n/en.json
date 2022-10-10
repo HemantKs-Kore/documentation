@@ -2457,7 +2457,7 @@
     "workbench_stage_definition":"Stage Definition",
     "workbench_loren_text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod ",
     "workbench_extraction_type":"Extraction Type",
-    "workbench_add_condition":"Add Condition",
+    "workbench_condition":"Add Condition",
     "workbench_entity":"Entity",
     "workbench_type_value_press_enter":"Type value and press enter",
     "workbench_enter_field_name":"Enter field name",
