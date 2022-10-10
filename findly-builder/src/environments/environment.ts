@@ -5,7 +5,11 @@
 export const environment = {
   production: false,
   tag: 'dev',
+<<<<<<< HEAD
   API_SERVER_URL: 'https://searchassist-app.kore.ai',
+=======
+  API_SERVER_URL: 'https://searchassist-dev.kore.ai',
+>>>>>>> Search_UI/FLY-4522-NLSQL_Latest
   USE_SESSION_STORE: false,
   INLINE_MANUAL_SITE_KEY: "1ec224ee46620656a9b18a17c80587a3",
   APPCUES:{
