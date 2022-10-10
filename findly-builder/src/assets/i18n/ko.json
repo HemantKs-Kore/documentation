@@ -1494,6 +1494,8 @@
     "teams_no_results_found":"No results found",
     "teams_add":"Add",
     "teams_cancel":"Cancel",
+    "teams_enter_email":"Type Email and Enter",
+
 
 
 
@@ -1517,6 +1519,10 @@
     "credentials_add":	"Add",
     "credentials_cancel":	"Cancel",
     "credentials_save":	"Save",
+    "credentials_credentials":	"Credentials",
+    "credentials_channels":"CHANNELS",
+    "credentials_api_scopes":"API SCOPES",
+
 
 
 

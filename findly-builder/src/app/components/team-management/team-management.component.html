@@ -1,14 +1,14 @@
 <div class="team-managment-main-container">
     <div class="mainLoadingSpinner" *ngIf="loadingContent">
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-        <span class="please-wait-message">{{'please_wait'| translate}}</span>
+        <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
     </div>
     <div *ngIf="!loadingContent">
         <div class="seach_add_feild">
             <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
             <div class="title col-4 p-0" *ngIf="!(selcectionObj && selcectionObj.selectedCount)">{{'teams_team'| translate}}
                 <span class="module-topic" tooltipClass="tooltip-global-" 
-                      [container]="'body'" ngbTooltip='Topic Guide' 
+                      [container]="'body'" ngbTooltip='{{"sa_topic_guide" | translate}}' 
                       placement="right-center"(click)="openUserMetaTagsSlider()">
                     <i class="si-topic-guide-1"></i>
                 </span>
@@ -34,7 +34,7 @@
                 <div class="seach-block" (click)="toggleSearch();focusinSearch('fieldSearchId')"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
              -->
                 <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
-                    <input type="text" maxlength="60" placeholder="Search" id="fieldSearchId" class="input-search"
+                    <input type="text" maxlength="60" placeholder="{{'sa_search' | translate}}" id="fieldSearchId" class="input-search"
                         [ngClass]="{'pl-33':!searchteam,'pl-2':searchteam}" autocomplete="off" [(ngModel)]="searchteam"
                         (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                         (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
@@ -122,7 +122,7 @@
                                     <span class="">{{member.value}}</span>
                                     <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                                 </mat-chip>
-                                <input type="text" placeholder="Type Email and Enter" #fruitInput
+                                <input type="text" placeholder="{{'teams_enter_email' | translate}}" #fruitInput
                                     [formControl]="teamCtrl" [matChipInputFor]="chipList"
                                     [matChipInputAddOnBlur]="addOnBlur"
                                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
