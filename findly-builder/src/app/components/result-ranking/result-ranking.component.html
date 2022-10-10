@@ -3,8 +3,14 @@
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'please_wait' | translate}}</span>
     </div>
-    <div class="header-sec col-12 row m-0" *ngIf="!nextPage&& loadingContent1">
-        <div class="col-4 p-0">{{'resultRanking.resultRanking' | translate}} </div>
+    <!-- <div class="header-sec col-12 row m-0"  *ngIf="!nextPage&& loadingContent1"> -->
+    <div class="header-sec col-12 row m-0">
+        <div class="col-4 p-0">{{'resultRanking.resultRanking' | translate}} 
+            <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+                <i class="si-topic-guide-1"></i>
+            </span>
+        </div>
     </div>
     <ng-container *ngIf="!nextPage&& loadingContent1">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>

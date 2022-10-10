@@ -428,4 +428,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       document.getElementById(inputSearch).focus();
     }, 100)
   }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
 }

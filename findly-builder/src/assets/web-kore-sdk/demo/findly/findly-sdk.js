@@ -288,24 +288,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //   }
       // })
 
-      setTimeout(function () {
-        var IPBasedLocationURL = "https://api.ipregistry.co/?key=tryout"
-        $.ajax({
-          url: IPBasedLocationURL,
-          type: 'GET',
-          success: function (res) {
-            if (res && res.location && res.location.city) {
-              vars.locationObject.location = res.location.city;
-            }
-            if (res && res.location && res.location.country && res.location.country.name) {
-              vars.locationObject.country = res.location.country.name;
-            }
-          },
-          error: function (error) {
-          }
-        })
-      }, 500);
-
+      // setTimeout(function () {
+      //   var IPBasedLocationURL = "https://api.ipregistry.co/?key=tryout"
+      //   $.ajax({
+      //     url: IPBasedLocationURL,
+      //     type: 'GET',
+      //     success: function (res) {
+      //       if (res && res.location && res.location.city) {
+      //         vars.locationObject.location = res.location.city;
+      //       }
+      //       if (res && res.location && res.location.country && res.location.country.name) {
+      //         vars.locationObject.country = res.location.country.name;
+      //       }
+      //     },
+      //     error: function (error) {
+      //     }
+      //   })
+      // }, 500 );
+      this.fetchUserLocation();
       vars.countOfSelectedFilters = 0;
       vars.resultRankingActionPerformed = false;
       vars.customTourResultRank = false;
@@ -313,7 +313,53 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.totalNumOfResults = 0;
     }; //********************original widget.js start */
 
-
+    FindlySDK.prototype.fetchUserLocation = function() {
+      var vars = this.vars;
+      var googleMapsAPIKey =  'AIzaSyD0jXmg7ecQ-1frjFbCk1KfK0QnG3wEFKI';
+      if(vars.locationObject.country) {
+      return;
+      }
+      console.log("Fetching user location");
+      var successCallback = function(position){
+      if(googleMapsAPIKey !== ""){
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+      var request = new XMLHttpRequest();
+      var method = 'GET';
+      var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&sensor=true&key='+googleMapsAPIKey;
+      var async = true;
+      
+      request.open(method, url, async);
+      request.onreadystatechange = function(){
+      if(request.readyState == 4 && request.status == 200){
+      var data = JSON.parse(request.responseText);
+      if(typeof(Storage) !== "undefined") {
+      if(data.results.length == 0) {
+      data = JSON.parse(localStorage.getItem("locationData"));
+      }
+      else{
+      localStorage.setItem("locationData", JSON.stringify(data));
+      }
+      }
+      var addressComponents = data.results[0].address_components;
+      for(let i=0;i<addressComponents.length;i++){
+      var types = addressComponents[i].types;
+      if(types=="locality,political"){
+      vars.locationObject.location = addressComponents[i].long_name;
+      }
+      else if(types=="country,political"){
+      vars.locationObject.country = addressComponents[i].long_name;
+      }
+      }
+      }
+      };
+      request.send();
+      }else{
+      console.warn("please provide google maps API key");
+      }
+      };
+      navigator.geolocation.getCurrentPosition(successCallback);
+      };
 
     FindlySDK.prototype.setAPIDetails = function () {
 
@@ -6207,7 +6253,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             noResults: false,
                             taskPrefix: 'SUGGESTED',
                             viewType: viewType,
-                            customSearchResult: _self.customSearchResult
+                            customSearchResult: _self.customSearchResult,
+                            snippetData:{}
                           };
                           _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
                           searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
@@ -20420,16 +20467,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
 
     }
-    FindlySDK.prototype.showMoreClick = function () {
+     FindlySDK.prototype.showMoreClick = function () {
       var _self = this;
-      $('.full-search-data-container').off('click', '.show-more-list').on('click', '.show-more-list', function (e) {
+      $('.full-search-data-container').off('click', '.searchassist-show-more-button').on('click', '.searchassist-show-more-button', function (e) {
         var showMoreData = {
-          groupName: $(this).attr('groupName'),
-          templateName: $(this).attr('templateName'),
-          pageNumber: Number($(this).attr('pageNumber')) + 1,
-          fieldName: $(this).attr('fieldName')
+          groupName: $(this).closest('.show-more-list').attr('groupName'),
+          templateName: $(this).closest('.show-more-list').attr('templateName'),
+          pageNumber: Number($(this).closest('.show-more-list').attr('pageNumber')) + 1,
+          fieldName: $(this).closest('.show-more-list').attr('fieldName')
         }
-        $(this).attr('pageNumber', Number($(this).attr('pageNumber')) + 1);
+        $(this).closest('.show-more-list').attr('pageNumber', Number($(this).closest('.show-more-list').attr('pageNumber')) + 1);
         _self.vars.showingMatchedResults = true;
         _self.invokeSearch(showMoreData)
       });

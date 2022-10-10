@@ -1911,10 +1911,13 @@
     &.contact-us-modal_{
         .modal-dialog{
             width: 500px !important;
-            height: 500px !important;
+            height: auto !important;
             .modal-content{
                 .right-sec-form{
                     width: 100% !important;
+                    .scroll-talktous{
+                        height: calc(100vh - 170px);
+                    }
                     .scroll-content{
                         padding: 20px 20px !important;
                     }
@@ -1929,8 +1932,39 @@
                             color: #000000;
                         }
                     }
+                    .talk-to-us-footer{
+                        padding: 20px;
+                    }
                 }
             }
         }
     }
 }
+.highlight {
+    font-weight: bold;
+  }
+
+  
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none; 
+}
+
+@media (min-width:1280px) and (max-width: 1440px){
+    ngb-modal-window{
+        &.contact-us-modal_{
+            .modal-dialog{
+                .modal-content{
+                    .right-sec-form{
+                        .scroll-talktous{
+                            height: calc(100vh - 180px) !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
