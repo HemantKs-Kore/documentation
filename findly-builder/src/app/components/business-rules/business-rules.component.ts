@@ -1281,6 +1281,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         const coloredSentence = this.sanitizer.bypassSecurityTrustHtml(sentence);
         this.inputSentence = coloredSentence;
         this.entityObj.colorSentence = coloredSentence;
+        if(this.entityObj.sentence===""){
+          this.nlpAnnotatorObj.Legends =[];
+        }
       },300)
     }
   }
@@ -1299,15 +1302,17 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if(!this.entityObj.isEditable){
       this.entityObj.sentence = document.getElementById('contentText').innerText;
     }
+    let isPush=false;
     this.entityFields.entityId = entity?._id;
-    // if(this.entityObj.entities.length>0){
-    //   for(let i=0;i<=this.entityObj.entities.length;i++){
-    //     if(this.entityFields?.startIndex===this.entityObj.entities[i].startIndex){
-    //       delete this.entityObj.entities[i]
-    //     }
-    //   }
-    // }
-    this.entityObj.entities.push(this.entityFields);
+    if(this.entityObj.entities.length>0){
+      for(let i=0;i<=this.entityObj.entities.length;i++){
+        if(this.entityFields?.startIndex===this.entityObj?.entities[i]?.startIndex){
+          this.entityObj.entities[i].entityId = this.entityFields.entityId;
+          isPush = true;
+        }
+      }
+    }
+    if(isPush===false) this.entityObj.entities.push(this.entityFields);
     this.inputSentence = '';
     const sentence = this.updateColorSentence();
     const coloredSentence = this.sanitizer.bypassSecurityTrustHtml(sentence);
