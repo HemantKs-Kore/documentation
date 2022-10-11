@@ -1,12 +1,12 @@
 <div class="invoice-container">
     <div class="mainLoadingSpinner" *ngIf="loading">
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-        <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
+        <span class="please-wait-message">{{'sa_please_wait' | translate}}</span>
     </div>
     <div class="header-sec">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-        <div class="title">{{"ussageLog.ussageLog"| translate}}
-            <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+        <div class="title">{{"ussageLog_ussageLog"| translate}}
+            <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='{{"sa_topic_guide" | translate}}' 
  placement="right-center"(click)="openUserMetaTagsSlider()">
                 <i class="si-topic-guide-1"></i>
             </span>
@@ -14,7 +14,7 @@
         <div class="d-flex align-items-center"
             *ngIf="searchUsageLog || usageLogs?.length || searchLoading || showSearch">
             <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
-                <input type="text" placeholder="Search" class="input-search" id="inputSearch"
+                <input type="text" placeholder="sa_search" class="input-search" id="inputSearch"
                     [ngClass]="{'pl-33':!searchUsageLog, 'pl-2':searchUsageLog}" autocomplete="off" autofocus
                     [(ngModel)]="searchUsageLog" (keyup)="searchUsageLogs()"
                     (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
@@ -27,7 +27,7 @@
             <div class="seach-block">
                 <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data"
                     (click)="toggleSearch();focusinSearch('inputSearch')"><img src="assets/icons/search.svg"
-                        [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+                        [ngClass]="{'d-none': showSearch}">{{'sa_search' | translate}}</span>
             </div>
             <div class="download-icon" tooltipClass="tooltip_custom margin-10" placement="bottom-right" container='body'
                 ngbTooltip="Download Log" (click)="exportUsageLog()">
@@ -41,19 +41,19 @@
             <div class="img-block">
                 <img src="assets/icons/usage-log/empty-log.png">
             </div>
-            <div class="empty-text">{{"ussageLog.usage_log_will_appear_once_the_app_is_active" | translate}}</div>
+            <div class="empty-text">{{"ussageLog_usage_log_will_appear_once_the_app_is_active" | translate}}</div>
         </div>
     </ng-container>
     <ng-container *ngIf="(usageLogs.length && !loadingLogs) || searchUsageLog || showSearch">
         <div class="plan-type">
-            <div class="current-plan">{{"ussageLog.current_plan"| translate}}</div>
+            <div class="current-plan">{{"ussageLog_current_plan"| translate}}</div>
             <div class="type">{{current_plan_name}}</div>
         </div>
         <perfect-scrollbar class="scroll-invoice-content">
             <div class="table_data_content">
                 <div class="table_header row m-0">
                     <div class="col_ col-4 title d-flex align-items-center">
-                        {{"ussageLog.search_query"| translate}}
+                        {{"ussageLog_search_query"| translate}}
                     </div>
                     <div class="col_ col-3 title d-flex align-items-center" (click)="sortBy('queryType')">
                         <span class="d-flex align-items-center flex-column mr-1">
@@ -62,7 +62,7 @@
                             <img [ngClass]="getSortIconVisibility('queryType', 'up')" src="assets/icons/caretDown.svg"
                                 class="ml-1 sortImg upArrow">
                         </span>
-                        {{"ussageLog.type"| translate}}
+                        {{"ussageLog_type"| translate}}
                         <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #queryTypeFilter="ngbDropdown" ngbDropdown
                             [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
@@ -72,7 +72,7 @@
                                 </button>
                                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                     <li (click)="queryTypeFilter.close();filterTable('all','queryType')">
-                                        <span class="list-name">{{"ussageLog.all"| translate}}</span>
+                                        <span class="list-name">{{"ussageLog_all"| translate}}</span>
                                         <img [ngClass]="{'hide': filterSystem.queryTypeFilter !== 'all'}"
                                             src="assets/icons/check-blue.svg">
                                     </li>
@@ -116,7 +116,7 @@
                             <img [ngClass]="getSortIconVisibility('results', 'up')" src="assets/icons/caretDown.svg"
                                 class="ml-1 sortImg upArrow">
                         </span>
-                        {{"ussageLog.results_caps"| translate}}
+                        {{"ussageLog_results_caps"| translate}}
                         <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #resultsFilter="ngbDropdown" ngbDropdown
                             [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
@@ -126,7 +126,7 @@
                                 </button>
                                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                     <li (click)="resultsFilter.close();filterTable('all','results')">
-                                        <span class="list-name">{{"ussageLog.all"| translate}}</span>
+                                        <span class="list-name">{{"ussageLog_all"| translate}}</span>
                                         <img [ngClass]="{'hide': filterSystem.resultsFilter !== 'all'}"
                                             src="assets/icons/check-blue.svg">
                                     </li>
@@ -147,7 +147,7 @@
                             <img [ngClass]="getSortIconVisibility('createdOn', 'up')" src="assets/icons/caretDown.svg"
                                 class="ml-1 sortImg upArrow">
                         </span>
-                        {{"ussageLog.date_&_time"| translate}}
+                        {{"ussageLog_date_&_time"| translate}}
                     </div>
                 </div>
 

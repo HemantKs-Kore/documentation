@@ -5,8 +5,8 @@
 
 <div class="search-interface-container">
   <div class="header_sec">
-    <div class="title">Result Templates
-      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+    <div class="title">{{"resultTemplate_resultTemplates"| translate}}
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide' | translate}}" 
  placement="right-center"(click)="openUserMetaTagsSlider()">
         <i class="si-topic-guide-1"></i>
       </span>
@@ -18,7 +18,7 @@
           <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
             (click)="$event.stopPropagation();copyConfiguration('close');">
             <img src="assets/icons/resultTemplate/copy.svg">
-            <span class="title">Copy Configuration</span>
+            <span class="title">{{"resultTemplate_copyConfiguration"| translate}}</span>
           </button>
 
           <ul class="dropdown-menu content-menu copy-config-dropdown-content" ngbDropdownMenu>
@@ -26,15 +26,14 @@
             <div class="close-icon" (click)="$event.stopPropagation();myDrop.close();"><img src="assets/icons/close.svg"
                 height="11">
             </div>
-            <div class="info-copy">Choose whether to apply the same configurations as per previous settings or configure
-              the templates separately here</div>
-            <div class="main-title">Apply configurations from</div>
+            <div class="info-copy">{{"result_template_choose_apply_same_config"| translate}}</div>
+            <div class="main-title">{{"resulttemplate_apply_configuration_from"| translate}}</div>
             <div class="btnactions">
               <button class="kr-sg-button-secondary btn_lg mr-3" *ngFor="let tab of tabList"
                 [hidden]="tab.id===selectedTab" (click)="copyConfiguration('open',tab.id)"
                 [disabled]="tab.id==='conversationalSearch'&&searchTemplatesDisabled">{{tab.name}}</button>
             </div>
-            <div class="apply-config-text" *ngIf="copyConfigObj.loader">Applying configurations from
+            <div class="apply-config-text" *ngIf="copyConfigObj.loader">{{"resulttemplate_applying_configuration_from"| translate}}
               {{tabData&&tabData[0].name}}
               <span class="loading-spin-progress ml-2"></span>
             </div>
@@ -46,7 +45,7 @@
         </div>
       </div>
       <!-- <button class="kr-sg-button-primary btn_lg">Preview</button> -->
-      <button class="kr-sg-button-primary btn_lg" (click)="$event.stopPropagation();updateSettings()">Save</button>
+      <button class="kr-sg-button-primary btn_lg" (click)="$event.stopPropagation();updateSettings()">{{"sa_save"| translate}}</button>
     </div>
   </div>
   <div class="body_content">
@@ -57,7 +56,7 @@
             [ngClass]="{'active-tab':tab.id === selectedTab,'disabled':searchTemplatesDisabled&&tab.id==='conversationalSearch'}"
             (click)="(searchTemplatesDisabled&&tab.id==='conversationalSearch')?'':(tabSelection(tab.id))"
             tooltipClass="dashboard-custom-tooltips" [container]="'body'"
-            ngbTooltip='Conversational Search Customization is not needed for Search Bar Experience'
+            ngbTooltip="{{'resulttemplate_conversational_search_customize_tooltip' | translate}}"
             [disableTooltip]="!(searchTemplatesDisabled&&tab.id=='conversationalSearch')" placement="right">
             {{tab.name}}</div>
         </ng-container>
@@ -65,11 +64,10 @@
     </div>
     <perfect-scrollbar class="scroll-interface w-100">
       <div class="search-interface-right-sec">
-        <div class="main-title">Results Classification</div>
-        <div class="desc-text mb-3">Customize the result templates which should be displayed to the end-user</div>
-        <div class="label-text">Result Groups</div>
-        <div class="desc-text mb-2">Result Group will dispaly the results in a grouped format as per the templates you
-          choose</div>
+        <div class="main-title">{{"resultTemplate_resultsClassification"| translate}}</div>
+        <div class="desc-text mb-3">{{"resulttemplate_customize_result_display_enduser"| translate}}</div>
+        <div class="label-text">{{"resulttemplate_resultgroups"| translate}}</div>
+        <div class="desc-text mb-2">{{"resulttemplate_resultgroups_display_results"| translate}}</div>
         <div class="mb-3">
           <label class="kr-sg-toggle">
             <input type="checkbox" [(ngModel)]="resultListObj.groupResults" (change)="updateSettings()">
@@ -79,9 +77,9 @@
 
         <ng-container *ngIf="resultListObj.groupResults">
           <div class="result-group-">
-            <div class="label_text" *ngIf="(resultListObj?.groupSetting?.fieldId)">Field Name <img
+            <div class="label_text" *ngIf="(resultListObj?.groupSetting?.fieldId)">{{"resulttemplate_field_name"| translate}}<img
                 src="assets/icons/result-template/info.svg" tooltipClass="tooltip-global- ml-14 text-left"
-                [container]="'body'" ngbTooltip='Enter the field name on which the result groups are to be created'
+                [container]="'body'" ngbTooltip="{{'resulttemplate_enter_field_name_resultgroups_created' | translate}}"
                 placement="top-left">
             </div>
             <ng-container>
@@ -96,8 +94,8 @@
               </div>
               <div class="values-templates-table mb-2" *ngIf="(resultListObj?.groupSetting?.fieldId.length)">
                 <div class="table-header-sec row col-12">
-                  <div class="title col-5">Values</div>
-                  <div class="title col-7">Layout</div>
+                  <div class="title col-5">{{"resulttemplate_values"| translate}}</div>
+                  <div class="title col-7">{{"resulttemplate_layout"| translate}}</div>
                 </div>
 
                 <ng-container>
@@ -109,7 +107,7 @@
                           <img src="assets/icons/search_gray.svg" class="search-icon">
                           <button id="btn_select_facet_field"
                             class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
-                          <input type="text" maxlength="60" placeholder="Select Value" id="facets-search-input"
+                          <input type="text" maxlength="60" placeholder="{{'resulttemplate_select_value' | translate}}" id="facets-search-input"
                             class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown"
                             autocomplete="off" [(ngModel)]="value.fieldValue">
                           <ul class="dropdown-menu content-menu if-shadow-box" id="facets-search-with-dropdown-menu">
@@ -139,7 +137,7 @@
                         </div>
                       </div>
                       <div class="customize-btn" tooltipClass="tooltip-global-" [container]="'body'"
-                        ngbTooltip='Customize Template' placement="top-center"
+                        ngbTooltip="{{'resultTemplate_customizeTemplate' | translate}}" placement="top-center"
                         [ngStyle]="{'background':value.templateType!==''?'white':'#EFF0F1'}"
                         (click)="value.templateType!==''?customtemplateBtndisable?null:openTemplateConatiner(value,'modal'):null">
                         <img src="assets/icons/result-template/rangeslider.svg">
@@ -151,7 +149,7 @@
                             ngbDropdownToggle [disabled]="value.templateType==''"
                             (click)="openTemplateConatiner(value,'preview')">
                             <img src="assets/icons/result-template/eye.svg" [container]="'body'"
-                              tooltipClass="tooltip-global-" ngbTooltip='Preview Template' placement="top-center">
+                              tooltipClass="tooltip-global-" ngbTooltip="{{'resultTemplate_previewTemplate' | translate}}" placement="top-center">
                           </button>
                           <ul class="dropdown-menu content-menu" ngbDropdownMenu>
                             <perfect-scrollbar>
@@ -174,15 +172,14 @@
             </ng-container>
             <div class="add-filed-btn mb-3" (click)="openCustomModal('add')"
               *ngIf="(resultListObj?.groupSetting?.fieldId.length===0)">
-              <img src="assets/icons/result-template/add.svg">Add Field
+              <img src="assets/icons/result-template/add.svg">{{"resulttemplate_addfield"| translate}}
             </div>
           </div>
         </ng-container>
 
         <ng-container>
-          <div class="label-text">Default Template</div>
-          <div class="desc-text mb-2">Default Template will display the results individually as per the default template
-            you choose</div>
+          <div class="label-text">{{"resulttemplate_default_template"| translate}}</div>
+          <div class="desc-text mb-2">{{"resulttemplate_default_display_results_individually_choose"| translate}}</div>
           <div class="default-template-sec mb-3">
             <div class="kr-sg-dropdowns">
               <div class="dropdown dropdown-open">
@@ -203,7 +200,7 @@
             <div class="kr-sg-dropdowns see-templates" ngbDropdown [placement]="'bottom-center'">
               <div class="dropdown dropdown-open">
                 <button class="dropdown-toggle dropdown-input eye-btn" data-toggle="dropdown" ngbDropdownToggle
-                  [container]="'body'" tooltipClass="tooltip-global-" ngbTooltip='Preview Template'
+                  [container]="'body'" tooltipClass="tooltip-global-" ngbTooltip="{{'resultTemplate_previewTemplate' | translate}}"
                   placement="top-center" (click)="openTemplateConatiner(resultListObj,'preview')">
                   <img src="assets/icons/result-template/eye.svg">
                 </button>
@@ -225,11 +222,11 @@
         </ng-container>
 
         <div class="filter-facets-block" *ngIf="selectedTab==='fullSearch'">
-          <div class="label-text">Filter Facets</div>
-          <div class="desc-text mb-2">Customize the placement of filter facets for the full page result page</div>
+          <div class="label-text">{{"resulttemplate_filter_facets"| translate}}</div>
+          <div class="desc-text mb-2">{{"resulttemplate_customize_placement_filter_facets_fullpage"| translate}}</div>
           <label class="kr-sg-toggle">
             <input type="checkbox" [(ngModel)]="resultListObj.facetsSetting.enabled" (change)="updateSettings();scrollPreview(target)">
-            <div class="slider"><span class="enabled">Enabled</span><span class="disabled">Disabled</span></div>
+            <div class="slider"><span class="enabled">{{"resultTemplate_enabled"| translate}}</span><span class="disabled">{{"resultTemplate_disabled"| translate}}</span></div>
           </label>
           <ng-container *ngIf="resultListObj.facetsSetting.enabled">
             <div class="filter-facets-info-images mt-3">
@@ -273,7 +270,7 @@
   <perfect-scrollbar class="customize-scroll-left">
     <div class="modal-body">
       <div class="search_block">
-        <div class="label-text mb-1">Field Name</div>
+        <div class="label-text mb-1">{{"resulttemplate_field_name"| translate}}</div>
         <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
           <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown ngbDropdown (click)="clearcontent()">
             <div class="dropdown dropdown-open">
@@ -285,7 +282,7 @@
                 style="overflow-y: hidden;">
                 <li class="search-box">
                   <input id="searchBoxId" [(ngModel)]="field_name" autocomplete="off" type="text"
-                    (keydown)="$event.stopPropagation()" placeholder="Search" class="seach-input pl-3" />
+                    (keydown)="$event.stopPropagation()" placeholder="{{'sa_search' | translate}}" class="seach-input pl-3" />
                 </li>
                 <perfect-scrollbar class="scroll-search-field h-189">
                   <ng-container *ngIf="allFieldData && allFieldData.length">
@@ -303,7 +300,7 @@
       </div>
       <ng-container *ngIf="resultListObj?.groupSetting?.fieldId?.length">
         <div class="valuse-available-fileds">
-          <div class="col-12 heading">Values Available</div>
+          <div class="col-12 heading">{{"resulttemplate_values_available"| translate}}</div>
           <ng-container>
             <div class="col-12 title-values" *ngFor="let value of fieldValues">
               {{value?.text?value.text:value}}</div>
@@ -314,14 +311,14 @@
   </perfect-scrollbar>
   <div class="modal-footer">
     <button class="kr-sg-button-primary btn_lg" [disabled]="resultListObj.groupSetting.fieldName===''"
-      (click)="overwriteConfiguration()">save</button>
-    <button class="kr-sg-button-secondary btn_lg" (click)="closeCustomModal()">Cancel</button>
+      (click)="overwriteConfiguration()">{{"resulttemplate_save"| translate}}</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="closeCustomModal()">{{"sa_cancel"| translate}}</button>
   </div>
 </kr-modal>
 
 <kr-modal modalType="center" #templateModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
   <div class="modal-header">
-    <div class="title breadcrum">Customize <img src="assets/icons/search-interface/carrot_right.svg">
+    <div class="title breadcrum">{{"resultTemplate_customize"| translate}} <img src="assets/icons/search-interface/carrot_right.svg">
       <span>{{selectedGroupName}} |
         {{selectedTemplateName}}</span>
     </div>
@@ -332,7 +329,7 @@
       <div class="template-type-sec">
         <perfect-scrollbar>
           <div class="scroll-data">
-            <div class="title">Template Type</div>
+            <div class="title">{{"resultTemplate_templateType"| translate}}</div>
             <div class="template-type-image" [ngClass]="{'active-type': templateDataBind?.layout?.layoutType == 'l1'}"
               (click)="templateTypeSelection('l1')">
               <img src="assets/icons/resultTemplate/type-1.svg">
@@ -385,16 +382,14 @@
         <perfect-scrollbar class="customize-scroll-left">
           <div class="scroll-data-list">
             <div class="kr-sg-dropdowns col-6 p-0 mb-3" *ngIf="templateDataBind.type == 'list'&&!['l10','l11'].includes(templateDataBind.layout.layoutType)">
-              <div class="label-text">List Type</div>
+              <div class="label-text">{{"resulttemplate_list_type"| translate}}</div>
               <div class="dropdown dropdown-open">
                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{templateDatalistext}}</button>
                 <ul class="dropdown-menu content-menu">
                   <li><a
-                      (click)="templateDatalistDisplay('Plain List');templateDataBind.layout.listType = 'plain'">Plain
-                      List</a></li>
+                      (click)="templateDatalistDisplay('Plain List');templateDataBind.layout.listType = 'plain'">{{"resulttemplate_plainlist"| translate}}</a></li>
                   <li><a
-                      (click)="templateDatalistDisplay('Classic List');templateDataBind.layout.listType = 'classic'">Classic
-                      List</a></li>
+                      (click)="templateDatalistDisplay('Classic List');templateDataBind.layout.listType = 'classic'">{{"resulttemplate_classiclist"| translate}}</a></li>
                 </ul>
               </div>
             </div>
@@ -402,41 +397,41 @@
             <ng-container
               *ngIf="templateDataBind.type == 'list'&&(['l1'].includes(templateDataBind.layout.layoutType))">
               <div class="group-radiobutton mb-3">
-                <div class="label-text">Text alignment for template</div>
+                <div class="label-text">{{"resulttemplate_textalignment_template"| translate}}</div>
                 <div class="kr-sg-radiobutton">
                   <input id="radio-text-left" name="radio-text" class="radio-custom" type="radio"
                     (change)="templateDataBind.layout.textAlignment = 'left'"
                     [checked]="templateDataBind.layout.textAlignment == 'left'">
-                  <label for="radio-text-left" class="radio-custom-label">Left</label>
+                  <label for="radio-text-left" class="radio-custom-label">{{"resulttemplate_left"| translate}}</label>
                 </div>
                 <div class="kr-sg-radiobutton">
                   <input id="radio-text-center" name="radio-text" class="radio-custom" type="radio"
                     (change)="templateDataBind.layout.textAlignment = 'center'"
                     [checked]="templateDataBind.layout.textAlignment == 'center'">
-                  <label for="radio-text-center" class="radio-custom-label">Center</label>
+                  <label for="radio-text-center" class="radio-custom-label">{{"resulttemplate_center"| translate}}</label>
                 </div>
               </div>
             </ng-container>
 
             <div class="template-preview-content">
-              <div class="label_text mb-1">Template Preview</div>
-              <div class="desc-text">Preview of the chosen template with the mapped fields will be shown here</div>
+              <div class="label_text mb-1">{{"resulttemplate_template_preview"| translate}}</div>
+              <div class="desc-text">{{"resulttemplate_template_previewofchoosen_template_mapped"| translate}}</div>
               <ng-container *ngIf="['grid','carousel'].includes(templateDataBind.type)">
                 <br />
                 <div class="group-radiobutton mb-3"
                   *ngIf="!(['l4','l5','l9'].includes(templateDataBind.layout.layoutType))">
-                  <div class="label-text">Text alignment for template</div>
+                  <div class="label-text">{{"resulttemplate_textalignment_template"| translate}}</div>
                   <div class="kr-sg-radiobutton">
                     <input id="radio-text-left" name="radio-text" class="radio-custom" type="radio"
                       (change)="templateDataBind.layout.textAlignment = 'left'"
                       [checked]="templateDataBind.layout.textAlignment == 'left'">
-                    <label for="radio-text-left" class="radio-custom-label">Left</label>
+                    <label for="radio-text-left" class="radio-custom-label">{{"resulttemplate_left"| translate}}</label>
                   </div>
                   <div class="kr-sg-radiobutton">
                     <input id="radio-text-center" name="radio-text" class="radio-custom" type="radio"
                       (change)="templateDataBind.layout.textAlignment = 'center'"
                       [checked]="templateDataBind.layout.textAlignment == 'center'">
-                    <label for="radio-text-center" class="radio-custom-label">Center</label>
+                    <label for="radio-text-center" class="radio-custom-label">{{"resulttemplate_center"| translate}}</label>
                   </div>
                 </div>
               </ng-container>
@@ -454,7 +449,7 @@
                         {{templateDataBind?.layout?.title}}</div>
                       <div class="template-1-classic-list mb-3"
                         [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                        <div class="classic-list-item col-6" *ngFor="let data of [0,1,2]">Heading comes here</div>
+                        <div class="classic-list-item col-6" *ngFor="let data of [0,1,2]">{{"resulttemplate_heading_comes_here"| translate}}</div>
                       </div>
                     </ng-container>
                     <!-- Template 1 Classic -->
@@ -465,7 +460,7 @@
                         {{templateDataBind?.layout?.title}}</div>
                       <div class="template-1-plain-list mb-3"
                         [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                        <div class="plain-list-item col-6" *ngFor="let data of [0,1,2]">Heading comes here</div>
+                        <div class="plain-list-item col-6" *ngFor="let data of [0,1,2]">{{"resulttemplate_heading_comes_here"| translate}}</div>
                       </div>
                     </ng-container>
                     <!-- Template 1 Plain -->
@@ -479,9 +474,9 @@
                         {{templateDataBind?.layout?.title}}</div>
                       <div class="template-1-classic-list-result-group mb-3 col-6"
                         [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                        <div class="classic-list-result-item" *ngFor="let data of [0,1,2]">The All Rounder</div>
+                        <div class="classic-list-result-item" *ngFor="let data of [0,1,2]">{{"resulttemplate_allrounder"| translate}}</div>
                         <div class="show-more-list">
-                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                          {{"resulttemplate_showmore"| translate}} <img src="assets/icons/resultTemplate/carrotup.svg">
                         </div>
                       </div>
                     </ng-container>
@@ -493,9 +488,9 @@
                         {{templateDataBind?.layout?.title}}</div>
                       <div class="template-1-plain-list-result-group mb-3 col-6"
                         [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                        <div class="plain-list-result-item" *ngFor="let data of [0,1,2]">The All Rounder</div>
+                        <div class="plain-list-result-item" *ngFor="let data of [0,1,2]">{{"resulttemplate_allrounder"| translate}}</div>
                         <div class="show-more-list">
-                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                          {{"resulttemplate_showmore"| translate}} <img src="assets/icons/resultTemplate/carrotup.svg">
                         </div>
                       </div>
                     </ng-container>
@@ -512,10 +507,7 @@
                         {{templateDataBind?.layout?.title}}</div>
                       <div class="template-2-classic-list col-11 mb-3 p-0">
                         <div class="classic-list-item" *ngFor="let data of [0,1]">
-                          <span>Description comes here, description comes here, description comes here, description
-                            comes
-                            here, description comes here, desc ription comes here, description comes here, description
-                            comes here, description comes here, description comes here, descript...</span>
+                          <span>{{"resulttemplate_description_comes_here"| translate}}</span>
                         </div>
                       </div>
                     </ng-container>
@@ -528,10 +520,7 @@
                         <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
                           <div class="classic-list-collapse-title" data-toggle="collapse"
                             [attr.data-target]="'#demol2' + i">
-                            Description
-                            comes here, description comes here, description comes here, description comes here,
-                            description comes here, des cription comes here, description comes here, description comes
-                            here, description comes here, description comes here, descri...</div>
+                            {{"resulttemplate_description_comes_here"| translate}}</div>
                           <div id="demol2{{i}}" class="collapse"></div>
                         </div>
                       </div>
@@ -543,10 +532,7 @@
                         {{templateDataBind?.layout?.title}}</div>
                       <div class="template-2-plain-list col-11 mb-3 p-0">
                         <div class="plain-list-item" *ngFor="let data of [0,1]">
-                          <span>Description comes here, description comes here, description comes here, description
-                            comes
-                            here, description comes here, desc ription comes here, description comes here, description
-                            comes here, description comes here, description comes here, descript...</span>
+                          <span>{{"resulttemplate_description_comes_here"| translate}}</span>
                         </div>
                       </div>
                     </ng-container>
@@ -558,10 +544,7 @@
                       <div class="template_2_plain_list_collapse col-11 mb-3">
                         <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
                           <div class="plain-list-collapse-title" data-toggle="collapse"
-                            [attr.data-target]="'#demol22' + i">Description
-                            comes here, description comes here, description comes here, description comes here,
-                            description comes here, des cription comes here, description comes here, description comes
-                            here, description comes here, description comes here, descri...</div>
+                            [attr.data-target]="'#demol22' + i">{{"resulttemplate_description_comes_here"| translate}}</div>
                           <div id="demol22{{i}}" class="collapse"></div>
                         </div>
                       </div>
@@ -573,13 +556,10 @@
                         {{templateDataBind?.layout?.title}}</div>
                       <div class="template-2-classic-list-result col-11 mb-3">
                         <div class="classic-list-item-result" *ngFor="let data of [0,1]">
-                          <span>Description comes here, description comes here, description comes here, description
-                            comes
-                            here, description comes here, desc ription comes here, description comes here, description
-                            comes here, description comes here, description comes here, descript...</span>
+                          <span>{{"resulttemplate_description_comes_here"| translate}}</span>
                         </div>
                         <div class="show-more-list">
-                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                          {{"resulttemplate_showmore"| translate}} <img src="assets/icons/resultTemplate/carrotup.svg">
                         </div>
                       </div>
                     </ng-container>
@@ -592,13 +572,11 @@
                         <div class="collapse-item-list-result" *ngFor="let data of [0,1];let i=index;">
                           <div class="classic-list-collapse-title" data-toggle="collapse"
                             [attr.data-target]="'#demo' + i">
-                            Description comes here, description comes here, description comes here, description comes
-                            here, description comes here, des cription comes here, description comes here, description
-                            comes here, description comes here, description comes here, descri...</div>
+                            {{"resulttemplate_description_comes_here"| translate}}</div>
                           <div id="demo{{i}}" class="collapse"></div>
                         </div>
                         <div class="show-more-list">
-                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                          {{"resulttemplate_showmore"| translate}} <img src="assets/icons/resultTemplate/carrotup.svg">
                         </div>
                       </div>
                     </ng-container>
@@ -609,13 +587,10 @@
                         {{templateDataBind?.layout?.title}}</div>
                       <div class="template-2-plain-list-result col-11 mb-3">
                         <div class="plain-list-item-result" *ngFor="let data of [0,1]">
-                          <span>Description comes here, description comes here, description comes here, description
-                            comes
-                            here, description comes here, desc ription comes here, description comes here, description
-                            comes here, description comes here, description comes here, descript...</span>
+                          <span>{{"resulttemplate_description_comes_here"| translate}}</span>
                         </div>
                         <div class="show-more-list">
-                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                          {{"resulttemplate_showmore"| translate}} <img src="assets/icons/resultTemplate/carrotup.svg">
                         </div>
                       </div>
                     </ng-container>
@@ -628,14 +603,11 @@
                         <div class="collapse-item-list-result" *ngFor="let data of [0,1];let i=index;">
                           <div class="plain-list-collapse-title" data-toggle="collapse"
                             [attr.data-target]="'#demol2' + i">
-                            Description
-                            comes here, description comes here, description comes here, description comes here,
-                            description comes here, des cription comes here, description comes here, description comes
-                            here, description comes here, description comes here, descri...</div>
+                            {{"resulttemplate_description_comes_here"| translate}}</div>
                           <div id="demol2{{i}}" class="collapse"></div>
                         </div>
                         <div class="show-more-list">
-                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                          {{"resulttemplate_showmore"| translate}}<img src="assets/icons/resultTemplate/carrotup.svg">
                         </div>
                       </div>
                     </ng-container>
@@ -647,66 +619,43 @@
                     <div class="template-2-classic-list col-11 mb-3 p-0">
                       <div class="title-text-heading">{{templateDataBind?.layout?.title}}</div>
                       <div class="classic-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, desc ription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descript...</span>
+                        <span>{{"resulttemplate_description_comes_here"| translate}}</span>
                       </div>
                       <div class="classic-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, desc ription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descript...</span>
+                        <span>{{"resulttemplate_description_comes_here"| translate}}</span>
                       </div>
                     </div>
 
-                    <div class="title-text-heading">Template title comes here</div>
+                    <div class="title-text-heading">{{"resulttemplate_title"| translate}}</div>
                     <div class="template-2-classic-list-collapse col-11 mb-3 p-0">
                       <div class="collapse-item-list">
-                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo5">Description
-                          comes here, description comes here, description comes here, description comes here,
-                          description comes here, des cription comes here, description comes here, description comes
-                          here, description comes here, description comes here, descri...</div>
+                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo5">{{"resulttemplate_description_comes_here"| translate}}</div>
                         <div id="demo5" class="collapse"></div>
                       </div>
                       <div class="collapse-item-list">
-                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo6">Description
-                          comes here, description comes here, description comes here, description comes here,
-                          description comes here, des cription comes here, description comes here, description comes
-                          here, description comes here, description comes here, descri...</div>
+                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo6">{{"resulttemplate_description_comes_here"| translate}}</div>
                         <div id="demo6" class="collapse"></div>
                       </div>
                     </div>
 
-                    <div class="title-text-heading mb-0">Template title comes here</div>
+                    <div class="title-text-heading mb-0">{{"resulttemplate_title"| translate}}</div>
                     <div class="template-2-plain-list col-11 mb-3 p-0">
                       <div class="plain-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, desc ription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descript...</span>
+                        <span>{{"resulttemplate_description_comes_here"| translate}}</span>
                       </div>
                       <div class="plain-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, desc ription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descript...</span>
+                        <span>{{"resulttemplate_description_comes_here"| translate}}</span>
                       </div>
                     </div>
 
-                    <div class="title-text-heading mb-0">Template title comes here</div>
+                    <div class="title-text-heading mb-0">{{"resulttemplate_title"| translate}}</div>
                     <div class="template-2-plain-list-collapse col-11 mb-3 p-0">
                       <div class="collapse-item-list">
-                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo7">Description
-                          comes here, description comes here, description comes here, description comes here,
-                          description comes here, des cription comes here, description comes here, description comes
-                          here, description comes here, description comes here, descri...</div>
+                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo7">{{"resulttemplate_description_comes_here"| translate}}</div>
                         <div id="demo7" class="collapse"></div>
                       </div>
                       <div class="collapse-item-list">
-                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo8">Description
-                          comes here, description comes here, description comes here, description comes here,
-                          description comes here, des cription comes here, description comes here, description comes
-                          here, description comes here, description comes here, description comes here, description
-                          comes here, description comes here, description comes here, description comes here,
-                          description c omes here, description comes here, description comes here, description comes
-                          here, description comes here, description com...</div>
+                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo8">{{"resulttemplate_description_comes_here_extention_text"| translate}}</div>
                         <div id="demo8" class="collapse"></div>
                       </div>
                     </div>
@@ -725,10 +674,8 @@
                       <div class="template-3-classic-list col-11 mb-3 p-0">
                         <!-- <div class="title-text-heading">{{templateDataBind?.layout?.title}}</div> -->
                         <div class="classic-list-item" *ngFor="let data of [0,1]">
-                          <div class="heading-text">Heading comes here</div>
-                          <div class="text-desc text-truncate">Description comes here, description comes here,
-                            description
-                            comes here, description comes here, description comes here, des...</div>
+                          <div class="heading-text">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                          <div class="text-desc text-truncate">{{"resulttemplate_descrption_5times"| translate}}</div>
                         </div>
                       </div>
                     </ng-container>
@@ -742,13 +689,8 @@
                         <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
                           <div class="classic-list-collapse-title" data-toggle="collapse"
                             [attr.data-target]="'#demo20' + i">
-                            <div class="heading-text">Heading comes here</div>
-                            <div class="text-desc">Description comes here, description comes here, description comes
-                              here,
-                              description comes here, description comes here, des cription comes here, description comes
-                              here, description comes here, description comes here, description comes here, descript
-                              ion comes here, description comes here, description comes here, description comes here,
-                              description comes here, description...</div>
+                            <div class="heading-text">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                            <div class="text-desc">{{"resulttemplate_descrption_15times"| translate}}</div>
                           </div>
                           <div id="demo20{{i}}" class="collapse"></div>
                         </div>
@@ -762,10 +704,8 @@
                       <div class="template-3-plain-list col-11 mb-3 p-0">
                         <!-- <div class="title-text-heading mb-1">Template title comes here</div> -->
                         <div class="plain-list-item" *ngFor="let data of [0,1]">
-                          <div class="heading-text">Heading comes here</div>
-                          <div class="text-desc text-truncate">Description comes here, description comes here,
-                            description
-                            comes here, description comes here, description comes here, des...</div>
+                          <div class="heading-text">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                          <div class="text-desc text-truncate">{{"resulttemplate_descrption_5times"| translate}}</div>
                         </div>
                       </div>
                     </ng-container>
@@ -779,13 +719,8 @@
                         <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
                           <div class="plain-list-collapse-title" data-toggle="collapse"
                             [attr.data-target]="'#demo22' + i">
-                            <div class="heading-text">Heading comes here</div>
-                            <div class="text-desc">Description comes here, description comes here, description comes
-                              here,
-                              description comes here, description comes here, des cription comes here, description comes
-                              here, description comes here, description comes here, description comes here, descript
-                              ion comes here, description comes here, description comes here, description comes here,
-                              description comes here, description...</div>
+                            <div class="heading-text">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                            <div class="text-desc">{{"resulttemplate_descrption_15times"| translate}}</div>
                           </div>
                           <div id="demo22{{i}}" class="collapse"></div>
                         </div>
@@ -799,13 +734,11 @@
                         {{templateDataBind?.layout?.title}}</div>
                       <div class="template-3-classic-list-result col-11 mb-3">
                         <div class="classic-list-item-result" *ngFor="let data of [0,1]">
-                          <div class="heading-text">Heading comes here</div>
-                          <div class="text-desc text-truncate">Description comes here, description comes here,
-                            description
-                            comes here, description comes here, description comes here, des...</div>
+                          <div class="heading-text">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                          <div class="text-desc text-truncate">{{"resulttemplate_descrption_5times"| translate}}</div>
                         </div>
                         <div class="show-more-list">
-                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                          {{"resulttemplate_showmore"| translate}} <img src="assets/icons/resultTemplate/carrotup.svg">
                         </div>
                       </div>
                     </ng-container>
@@ -818,18 +751,13 @@
                         <div class="collapse-item-list-result" *ngFor="let data of [0,1];let i=index;">
                           <div class="classic-list-collapse-title" data-toggle="collapse"
                             [attr.data-target]="'#demol3' + i">
-                            <div class="heading-text">Heading comes here</div>
-                            <div class="text-desc">Description comes here, description comes here, description comes
-                              here,
-                              description comes here, description comes here, des cription comes here, description comes
-                              here, description comes here, description comes here, description comes here, descript
-                              ion comes here, description comes here, description comes here, description comes here,
-                              description comes here, description...</div>
+                            <div class="heading-text">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                            <div class="text-desc">{{"resulttemplate_descrption_15times"| translate}}</div>
                           </div>
                           <div id="demol3{{i}}" class="collapse"></div>
                         </div>
                         <div class="show-more-list">
-                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                          {{"resulttemplate_showmore"| translate}} <img src="assets/icons/resultTemplate/carrotup.svg">
                         </div>
                       </div>
                     </ng-container>
@@ -840,13 +768,11 @@
                         {{templateDataBind?.layout?.title}}</div>
                       <div class="template-3-plain-list-result col-11 mb-3">
                         <div class="plain-list-item-result" *ngFor="let data of [0,1]">
-                          <div class="heading-text">Heading comes here</div>
-                          <div class="text-desc text-truncate">Description comes here, description comes here,
-                            description
-                            comes here, description comes here, description comes here, des...</div>
+                          <div class="heading-text">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                          <div class="text-desc text-truncate">{{"resulttemplate_descrption_5times"| translate}}</div>
                         </div>
                         <div class="show-more-list">
-                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                          {{"resulttemplate_showmore"| translate}} <img src="assets/icons/resultTemplate/carrotup.svg">
                         </div>
                       </div>
                     </ng-container>
@@ -858,30 +784,20 @@
                       <div class="template_3_plain_list_collapse_result col-11 mb-3">
                         <div class="collapse-item-list-result">
                           <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo29">
-                            <div class="heading-text">Heading comes here</div>
-                            <div class="text-desc">Description comes here, description comes here, description comes
-                              here,
-                              description comes here, description comes here, des cription comes here, description comes
-                              here, description comes here, description comes here, description comes here, descript
-                              ion comes here, description comes here, description comes here, description comes here,
-                              description comes here, description...</div>
+                            <div class="heading-text">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                            <div class="text-desc">{{"resulttemplate_descrption_15times"| translate}}</div>
                           </div>
                           <div id="demo29" class="collapse"></div>
                         </div>
                         <div class="collapse-item-list-result">
                           <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo30">
-                            <div class="heading-text">Heading comes here</div>
-                            <div class="text-desc">Description comes here, description comes here, description comes
-                              here,
-                              description comes here, description comes here, des cription comes here, description comes
-                              here, description comes here, description comes here, description comes here, descript
-                              ion comes here, description comes here, description comes here, description comes here,
-                              description comes here, description...</div>
+                            <div class="heading-text">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                            <div class="text-desc">{{"resulttemplate_descrption_15times"| translate}}</div>
                           </div>
                           <div id="demo30" class="collapse"></div>
                         </div>
                         <div class="show-more-list">
-                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                          {{"resulttemplate_showmore"| translate}} <img src="assets/icons/resultTemplate/carrotup.svg">
                         </div>
                       </div>
                     </ng-container>
@@ -900,10 +816,8 @@
                             <img src="assets/icons/resultTemplate/skelton-small.svg">
                           </div>
                           <div class="content_sec">
-                            <div class="heading-">The All Rounder</div>
-                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
-                              there
-                              jackets, same as women love to have small trench coats or c...</div>
+                            <div class="heading-">{{"resulttemplate_allrounder"| translate}}</div>
+                            <div class="text_desc text-truncate">{{"resulttemplate_menwardrobes_jackets_desc"| translate}}</div>
                           </div>
                         </div>
                         <div class="classic-list-item">
@@ -911,10 +825,8 @@
                             <img src="assets/icons/resultTemplate/skelton-small.svg">
                           </div>
                           <div class="content_sec">
-                            <div class="heading-">The All Rounder</div>
-                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
-                              there
-                              jackets, same as women love to have small trench coats or c...</div>
+                            <div class="heading-">{{"resulttemplate_allrounder"| translate}}</div>
+                            <div class="text_desc text-truncate">{{"resulttemplate_menwardrobes_jackets_desc"| translate}}</div>
                           </div>
                         </div>
                       </div>
@@ -928,18 +840,12 @@
                         <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
                           <div class="classic-list-collapse-title" data-toggle="collapse"
                             [attr.data-target]="'#demol4' + i">
-                            <div class="heading-text">Heading comes here</div>
+                            <div class="heading-text">{{"resulttemplate_heading_comes_here"| translate}}</div>
                             <div class="content_sec">
                               <div class="img-block">
                                 <img src="assets/icons/resultTemplate/skelton-large.svg">
                               </div>
-                              <div class="text-desc">Description comes here, description comes here, description comes
-                                here, description comes here, description comes here, des cription comes here,
-                                description
-                                comes here, description comes here, description comes here, description comes here,
-                                description comes here, description comes here, description comes here, description
-                                comes
-                                here, description comes here, description...</div>
+                              <div class="text-desc">{{"resulttemplate_descrption_15times"| translate}}</div>
                             </div>
                           </div>
                           <div id="demol4{{i}}" class="collapse"></div>
@@ -957,10 +863,8 @@
                             <img src="assets/icons/resultTemplate/skelton-small.svg">
                           </div>
                           <div class="content_sec">
-                            <div class="heading-">The All Rounder</div>
-                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
-                              there
-                              jackets, same as women love to have small trench coats or c...</div>
+                            <div class="heading-">{{"resulttemplate_allrounder"| translate}}</div>
+                            <div class="text_desc text-truncate">{{"resulttemplate_menwardrobes_jackets_desc"| translate}}</div>
                           </div>
                         </div>
                       </div>
@@ -974,18 +878,12 @@
                         <div class="collapse-item-list" *ngFor="let data of [0,1];let i=index;">
                           <div class="plain-list-collapse-title" data-toggle="collapse"
                             [attr.data-target]="'#demo33' + i">
-                            <div class="heading-text">Heading comes here</div>
+                            <div class="heading-text">{{"resulttemplate_heading_comes_here"| translate}}</div>
                             <div class="content_sec">
                               <div class="img-block">
                                 <img src="assets/icons/resultTemplate/skelton-large.svg">
                               </div>
-                              <div class="text-desc">Description comes here, description comes here, description comes
-                                here, description comes here, description comes here, des cription comes here,
-                                description
-                                comes here, description comes here, description comes here, description comes here,
-                                description comes here, description comes here, description comes here, description
-                                comes
-                                here, description comes here, description...</div>
+                              <div class="text-desc">{{"resulttemplate_descrption_15times"| translate}}</div>
                             </div>
                           </div>
                           <div id="demo33{{i}}" class="collapse"></div>
@@ -1003,14 +901,12 @@
                             <img src="assets/icons/resultTemplate/skelton-small.svg">
                           </div>
                           <div class="content_sec">
-                            <div class="heading-">The All Rounder</div>
-                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
-                              there
-                              jackets, same as women love to have small trench coats or c...</div>
+                            <div class="heading-">{{"resulttemplate_allrounder"| translate}}</div>
+                            <div class="text_desc text-truncate">{{"resulttemplate_menwardrobes_jackets_desc"| translate}}</div>
                           </div>
                         </div>
                         <div class="show-more-list">
-                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                          {{"resulttemplate_showmore"| translate}} <img src="assets/icons/resultTemplate/carrotup.svg">
                         </div>
                       </div>
                     </ng-container>
@@ -1023,24 +919,18 @@
                         <div class="collapse-item-list-result" *ngFor="let data of [0,1];let i=index;">
                           <div class="classic-list-collapse-title" data-toggle="collapse"
                             [attr.data-target]="'#demol41' + i">
-                            <div class="heading-text">Heading comes here</div>
+                            <div class="heading-text">{{"resulttemplate_heading_comes_here"| translate}}</div>
                             <div class="content_sec">
                               <div class="img-block">
                                 <img src="assets/icons/resultTemplate/skelton-large.svg">
                               </div>
-                              <div class="text-desc">Description comes here, description comes here, description comes
-                                here, description comes here, description comes here, des cription comes here,
-                                description
-                                comes here, description comes here, description comes here, description comes here,
-                                description comes here, description comes here, description comes here, description
-                                comes
-                                here, description comes here, description...</div>
+                              <div class="text-desc">{{"resulttemplate_descrption_15times"| translate}}</div>
                             </div>
                           </div>
                           <div id="demol41{{i}}" class="collapse"></div>
                         </div>
                         <div class="show-more-list">
-                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                          {{"resulttemplate_showmore"| translate}} <img src="assets/icons/resultTemplate/carrotup.svg">
                         </div>
                       </div>
                     </ng-container>
@@ -1055,14 +945,12 @@
                             <img src="assets/icons/resultTemplate/skelton-small.svg">
                           </div>
                           <div class="content_sec">
-                            <div class="heading-">The All Rounder</div>
-                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
-                              there
-                              jackets, same as women love to have small trench coats or c...</div>
+                            <div class="heading-">{{"resulttemplate_allrounder"| translate}}</div>
+                            <div class="text_desc text-truncate">{{"resulttemplate_menwardrobes_jackets_desc"| translate}}</div>
                           </div>
                         </div>
                         <div class="show-more-list">
-                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                          {{"resulttemplate_showmore"| translate}} <img src="assets/icons/resultTemplate/carrotup.svg">
                         </div>
                       </div>
                     </ng-container>
@@ -1075,24 +963,18 @@
                         <div class="collapse-item-list-result" *ngFor="let data of [0,1];let i=index;">
                           <div class="plain-list-collapse-title" data-toggle="collapse"
                             [attr.data-target]="'#demo43' + i">
-                            <div class="heading-text">Heading comes here</div>
+                            <div class="heading-text">{{"resulttemplate_heading_comes_here"| translate}}</div>
                             <div class="content_sec">
                               <div class="img-block">
                                 <img src="assets/icons/resultTemplate/skelton-large.svg">
                               </div>
-                              <div class="text-desc">Description comes here, description comes here, description comes
-                                here, description comes here, description comes here, des cription comes here,
-                                description
-                                comes here, description comes here, description comes here, description comes here,
-                                description comes here, description comes here, description comes here, description
-                                comes
-                                here, description comes here, description...</div>
+                              <div class="text-desc">{{"resulttemplate_descrption_15times"| translate}}</div>
                             </div>
                           </div>
                           <div id="demo43{{i}}" class="collapse"></div>
                         </div>
                         <div class="show-more-list">
-                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                          {{"resulttemplate_showmore"| translate}} <img src="assets/icons/resultTemplate/carrotup.svg">
                         </div>
                       </div>
                     </ng-container>
@@ -1137,37 +1019,27 @@
                   <ng-container *ngIf="templateDataBind.layout.layoutType == 'l6'">
                     <div class="template-preview-box">
                       <div class="template-6-classic-list mb-3">
-                        <div class="title-main">Jackets to look for this winter</div>
+                        <div class="title-main">{{"resulttemplate_jackets_to_look"| translate}}</div>
                         <div class="img-with-text">
                           <div class="img-block">
                             <img src="assets/icons/resultTemplate/skelton-small.svg">
                           </div>
-                          <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored
-                            shapes that suit your body type. Belted coats are a great way to accentuate your waist even
-                            if
-                            you're wearing a woolly jumper underneath. </div>
+                          <div class="info-text">{{"resulttemplate_fitted_styles_are_key"| translate}} </div>
                         </div>
                         <div class="img-with-text">
                           <div class="img-block">
                             <img src="assets/icons/resultTemplate/skelton-small.svg">
                           </div>
-                          <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored
-                            shapes that suit your body type. Belted coats are a great way to accentuate your waist even
-                            if
-                            you're wearing a woolly jumper underneath. </div>
+                          <div class="info-text">{{"resulttemplate_fitted_styles_are_key"| translate}} </div>
                         </div>
                         <div class="img-with-text">
                           <div class="img-block">
                             <img src="assets/icons/resultTemplate/skelton-small.svg">
                           </div>
-                          <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored
-                            shapes that suit your body type. Belted coats are a great way to accentuate your waist even
-                            if
-                            you're wearing a woolly jumper underneath. </div>
+                          <div class="info-text">{{"resulttemplate_fitted_styles_are_key"| translate}} </div>
                         </div>
-                        <div class="author-text-info">About the Author:</div>
-                        <div class="author-text-info">Elisha Burberry is an online, freelance journalist and keen
-                          traveller and watersports enthusiast. Originally from Scotland, she now resides in London.
+                        <div class="author-text-info">{{"resulttemplate_about_author"| translate}}</div>
+                        <div class="author-text-info">{{"resulttemplate_Elisha_burberry_description"| translate}}
                         </div>
                       </div>
                     </div>
@@ -1179,20 +1051,20 @@
                       <div class="scm-list-data-type"  *ngFor="let item of [0,1]">
                         <div class="heading-data">
                           <img src="assets/icons/resultTemplate/dummy-small.svg">
-                          <div class="text-title">Heading Goes Here</div>
+                          <div class="text-title">{{"resulttemplate_heading_goes_here"| translate}}</div>
                         </div>
-                        <div class="text-desc-data">Simply dummy text of the printing and typesetting reports. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five...</div>
+                        <div class="text-desc-data">{{"resulttemplate_simply_dummy_text_printing_Lorem"| translate}}</div>
                         <div class="field-lables">
-                          <div class="field-heading">Author:</div>
-                          <div class="field-text">Text Field 1</div>
+                          <div class="field-heading">{{"resulttemplate_author"| translate}}</div>
+                          <div class="field-text">{{"resulttemplate_text_field_1"| translate}}</div>
                         </div>
                         <div class="field-lables">
-                          <div class="field-heading">Updated on:</div>
-                          <div class="field-text">Text Field 2</div>
+                          <div class="field-heading">{{"resulttemplate_updated_on"| translate}}</div>
+                          <div class="field-text">{{"resulttemplate_text_field_2"| translate}}</div>
                         </div>
                         <div class="labels-info">
-                          <div class="lable-name info-label">Chip 1</div>
-                          <div class="lable-name warning-label">Chip 2</div>
+                          <div class="lable-name info-label">{{"resulttemplate_chip1"| translate}}</div>
+                          <div class="lable-name warning-label">{{"resulttemplate_chip2"| translate}}</div>
                         </div>
                       </div>
 
@@ -1202,20 +1074,20 @@
                           <div class="scm-list-data-type">
                             <div class="heading-data">
                               <img src="assets/icons/resultTemplate/dummy-small.svg">
-                              <div class="text-title">Heading Goes Here</div>
+                              <div class="text-title">{{"resulttemplate_heading_goes_here"| translate}}</div>
                             </div>
-                            <div class="text-desc-data">Simply dummy text of the printing and typesetting reports. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five...</div>
+                            <div class="text-desc-data">{{"resulttemplate_simply_dummy_text_printing_Lorem"| translate}}</div>
                             <div class="field-lables">
-                              <div class="field-heading">Field 1:</div>
-                              <div class="field-text">Text Field 1</div>
+                              <div class="field-heading">{{"resulttemplate_text_field_1"| translate}}</div>
+                              <div class="field-text">{{"resulttemplate_text_field_1"| translate}}</div>
                             </div>
                             <div class="field-lables pr-0">
-                              <div class="field-heading">Field 2:</div>
-                              <div class="field-text">Text Field 2</div>
+                              <div class="field-heading">{{"resulttemplate_Field2"| translate}}</div>
+                              <div class="field-text">{{"resulttemplate_text_field_2"| translate}}</div>
                             </div>
                             <div class="labels-info">
-                              <div class="lable-name info-label">Label 1</div>
-                              <div class="lable-name warning-label">Label 2</div>
+                              <div class="lable-name info-label">{{"resulttemplate_label_1"| translate}}</div>
+                              <div class="lable-name warning-label">{{"resulttemplate_label_2"| translate}}</div>
                             </div>
                           </div>
                         </div>
@@ -1223,20 +1095,20 @@
                           <div class="scm-list-data-type">
                             <div class="heading-data">
                               <img src="assets/icons/resultTemplate/dummy-small.svg">
-                              <div class="text-title">Heading Goes Here</div>
+                              <div class="text-title">{{"resulttemplate_heading_goes_here"| translate}}</div>
                             </div>
-                            <div class="text-desc-data">Simply dummy text of the printing and typesetting reports. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five...</div>
+                            <div class="text-desc-data">{{"resulttemplate_simply_dummy_text_printing_Lorem"| translate}}</div>
                             <div class="field-lables">
-                              <div class="field-heading">Field 1:</div>
-                              <div class="field-text">Text Field 1</div>
+                              <div class="field-heading">{{"resulttemplate_text_field_1"| translate}}</div>
+                              <div class="field-text">{{"resulttemplate_text_field_1"| translate}}</div>
                             </div>
                             <div class="field-lables pr-0">
-                              <div class="field-heading">Field 2:</div>
-                              <div class="field-text">Text Field 2</div>
+                              <div class="field-heading">{{"resulttemplate_Field2"| translate}}</div>
+                              <div class="field-text">{{"resulttemplate_text_field_2"| translate}}</div>
                             </div>
                             <div class="labels-info">
-                              <div class="lable-name info-label">Label 1</div>
-                              <div class="lable-name warning-label">Label 2</div>
+                              <div class="lable-name info-label">{{"resulttemplate_label_1"| translate}}</div>
+                              <div class="lable-name warning-label">{{"resulttemplate_label_2"| translate}}</div>
                             </div>
                           </div>
                         </div>
@@ -1244,20 +1116,20 @@
                           <div class="scm-list-data-type">
                             <div class="heading-data">
                               <img src="assets/icons/resultTemplate/dummy-small.svg">
-                              <div class="text-title">Heading Goes Here</div>
+                              <div class="text-title">{{"resulttemplate_heading_goes_here"| translate}}</div>
                             </div>
-                            <div class="text-desc-data">Simply dummy text of the printing and typesetting reports. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five...</div>
+                            <div class="text-desc-data">{{"resulttemplate_simply_dummy_text_printing_Lorem"| translate}}</div>
                             <div class="field-lables">
-                              <div class="field-heading">Field 1:</div>
-                              <div class="field-text">Text Field 1</div>
+                              <div class="field-heading">{{"resulttemplate_text_field_1"| translate}}</div>
+                              <div class="field-text">{{"resulttemplate_text_field_1"| translate}}</div>
                             </div>
                             <div class="field-lables pr-0">
-                              <div class="field-heading">Field 2:</div>
-                              <div class="field-text">Text Field 2</div>
+                              <div class="field-heading">{{"resulttemplate_Field2"| translate}}</div>
+                              <div class="field-text">{{"resulttemplate_text_field_2"| translate}}</div>
                             </div>
                             <div class="labels-info">
-                              <div class="lable-name info-label">Label 1</div>
-                              <div class="lable-name warning-label">Label 2</div>
+                              <div class="lable-name info-label">{{"resulttemplate_label_1"| translate}}</div>
+                              <div class="lable-name warning-label">{{"resulttemplate_label_2"| translate}}</div>
                             </div>
                           </div>
                         </div>
@@ -1274,15 +1146,15 @@
                         </div>
                         <div class="content-block">
                           <div class="labels-info">
-                            <div class="label-name warning">Label 1</div>
-                            <div class="label-name success">Label 2</div>
+                            <div class="label-name warning">{{"resulttemplate_label_1"| translate}}</div>
+                            <div class="label-name success">{{"resulttemplate_label_2"| translate}}</div>
                           </div>
-                          <div class="heading-title">Heading Comes Here</div>
-                          <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis at consectetur nunc ac non quis. Praesent phasellus in non non egestas malesuada. Hendrerit ac dictumst quam dolor et mauris purus. Rhoncus scelerisque ultricies pharetra eros pharetra egestas libero.</div>
+                          <div class="heading-title">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                          <div class="desc-text">{{"resulttemplate_Lorem"| translate}}.</div>
                           <div class="amout-info-ratings">
                             <div class="amount-data">
-                              <div class="price">$ 12.00</div>
-                              <div class="strike-price">$ 15.00</div>
+                              <div class="price">{{"resulttemplate_$12"| translate}}</div>
+                              <div class="strike-price">{{"resulttemplate_$15"| translate}}</div>
                             </div>
                             <div class="ratings">
                               <img src="assets/icons/resultTemplate/ratings.svg">
@@ -1299,15 +1171,15 @@
                             </div>
                             <div class="content-block">
                               <div class="labels-info">
-                                <div class="label-name warning">Label 1</div>
-                                <div class="label-name success">Label 2</div>
+                                <div class="label-name warning">{{"resulttemplate_label_1"| translate}}</div>
+                                <div class="label-name success">{{"resulttemplate_label_2"| translate}}</div>
                               </div>
-                              <div class="heading-title">Heading Comes Here</div>
-                              <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis at consectetur nunc ac non quis. Praesent phasellus in non non egestas malesuada. Hendrerit ac dictumst quam dolor et mauris purus. Rhoncus scelerisque ultricies pharetra eros pharetra egestas libero.</div>
+                              <div class="heading-title">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                              <div class="desc-text">{{"resulttemplate_Lorem"| translate}}.</div>
                               <div class="amout-info-ratings">
                                 <div class="amount-data">
-                                  <div class="price">$ 12.00</div>
-                                  <div class="strike-price">$ 15.00</div>
+                                  <div class="price">{{"resulttemplate_$12"| translate}}</div>
+                                  <div class="strike-price">{{"resulttemplate_$15"| translate}}</div>
                                 </div>
                                 <div class="ratings">
                                   <img src="assets/icons/resultTemplate/ratings.svg">
@@ -1323,15 +1195,15 @@
                             </div>
                             <div class="content-block">
                               <div class="labels-info">
-                                <div class="label-name warning">Label 1</div>
-                                <div class="label-name success">Label 2</div>
+                                <div class="label-name warning">{{"resulttemplate_label_1"| translate}}</div>
+                                <div class="label-name success">{{"resulttemplate_label_2"| translate}}</div>
                               </div>
-                              <div class="heading-title">Heading Comes Here</div>
-                              <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis at consectetur nunc ac non quis. Praesent phasellus in non non egestas malesuada. Hendrerit ac dictumst quam dolor et mauris purus. Rhoncus scelerisque ultricies pharetra eros pharetra egestas libero.</div>
+                              <div class="heading-title">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                              <div class="desc-text">{{"resulttemplate_Lorem"| translate}}.</div>
                               <div class="amout-info-ratings">
                                 <div class="amount-data">
-                                  <div class="price">$ 12.00</div>
-                                  <div class="strike-price">$ 15.00</div>
+                                  <div class="price">{{"resulttemplate_$12"| translate}}</div>
+                                  <div class="strike-price">{{"resulttemplate_$15"| translate}}</div>
                                 </div>
                                 <div class="ratings">
                                   <img src="assets/icons/resultTemplate/ratings.svg">
@@ -1353,26 +1225,26 @@
                             <img src="assets/icons/resultTemplate/skelton-medium.svg">
                           </div>
                           <div class="content-data">
-                            <div class="heading-text">Heading goes here</div>
+                            <div class="heading-text">{{"resulttemplate_heading_goes_here"| translate}}</div>
                             <div class="rating-data">
-                              <span>3.96</span>
+                              <span>{{"resulttemplate_3.96"| translate}}</span>
                               <img src="assets/icons/resultTemplate/star.svg">
                               <img src="assets/icons/resultTemplate/star.svg">
                               <img src="assets/icons/resultTemplate/star.svg">
                               <img src="assets/icons/resultTemplate/star.svg">
                               <img src="assets/icons/resultTemplate/star-unfill.svg">
                             </div>
-                            <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                            <div class="text-desc-data">{{"resulttemplate_description_goes_dummy_text_placeholder"| translate}}</div>
                           </div>
                         </div>
                         <div class="labels-info">
                           <div class="label-data">
-                            <div class="label-name">Label 1</div>
-                            <div class="label-name">Label 2</div>
+                            <div class="label-name">{{"resulttemplate_label_1"| translate}}</div>
+                            <div class="label-name">{{"resulttemplate_label_2"| translate}}</div>
                           </div>
                           <div class="label-data">
-                            <div class="label-name">Label 3</div>
-                            <div class="label-name">Label 4</div>
+                            <div class="label-name">{{"resulttemplate_label_3"| translate}}</div>
+                            <div class="label-name">{{"resulttemplate_label_4"| translate}}</div>
                           </div>
                         </div>
                       </div>
@@ -1382,26 +1254,26 @@
                             <img src="assets/icons/resultTemplate/skelton-medium.svg">
                           </div>
                           <div class="content-data">
-                            <div class="heading-text">Heading goes here</div>
+                            <div class="heading-text">{{"resulttemplate_heading_goes_here"| translate}}</div>
                             <div class="rating-data">
-                              <span>3.96</span>
+                              <span>{{"resulttemplate_3.96"| translate}}</span>
                               <img src="assets/icons/resultTemplate/star.svg">
                               <img src="assets/icons/resultTemplate/star.svg">
                               <img src="assets/icons/resultTemplate/star.svg">
                               <img src="assets/icons/resultTemplate/star.svg">
                               <img src="assets/icons/resultTemplate/star-unfill.svg">
                             </div>
-                            <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                            <div class="text-desc-data">{{"resulttemplate_description_goes_dummy_text_placeholder"| translate}}</div>
                           </div>
                         </div>
                         <div class="labels-info">
                           <div class="label-data">
-                            <div class="label-name">Label 1</div>
-                            <div class="label-name">Label 2</div>
+                            <div class="label-name">{{"resulttemplate_label_1"| translate}}</div>
+                            <div class="label-name">{{"resulttemplate_label_2"| translate}}</div>
                           </div>
                           <div class="label-data">
-                            <div class="label-name">Label 3</div>
-                            <div class="label-name">Label 4</div>
+                            <div class="label-name">{{"resulttemplate_label_3"| translate}}</div>
+                            <div class="label-name">{{"resulttemplate_label_4"| translate}}</div>
                           </div>
                         </div>
                       </div>
@@ -1414,26 +1286,26 @@
                                 <img src="assets/icons/resultTemplate/skelton-medium.svg">
                               </div>
                               <div class="content-data">
-                                <div class="heading-text">Heading goes here</div>
+                                <div class="heading-text">{{"resulttemplate_heading_goes_here"| translate}}</div>
                                 <div class="rating-data">
-                                  <span>3.96</span>
+                                  <span>{{"resulttemplate_3.96"| translate}}</span>
                                   <img src="assets/icons/resultTemplate/star.svg">
                                   <img src="assets/icons/resultTemplate/star.svg">
                                   <img src="assets/icons/resultTemplate/star.svg">
                                   <img src="assets/icons/resultTemplate/star.svg">
                                   <img src="assets/icons/resultTemplate/star-unfill.svg">
                                 </div>
-                                <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                                <div class="text-desc-data">{{"resulttemplate_description_goes_dummy_text_placeholder"| translate}}</div>
                               </div>
                             </div>
                             <div class="labels-info">
                               <div class="label-data">
-                                <div class="label-name">Label 1</div>
-                                <div class="label-name">Label 2</div>
+                                <div class="label-name">{{"resulttemplate_label_1"| translate}}</div>
+                                <div class="label-name">{{"resulttemplate_label_2"| translate}}</div>
                               </div>
                               <div class="label-data">
-                                <div class="label-name">Label 3</div>
-                                <div class="label-name">Label 4</div>
+                                <div class="label-name">{{"resulttemplate_label_3"| translate}}</div>
+                                <div class="label-name">{{"resulttemplate_label_4"| translate}}</div>
                               </div>
                             </div>
                           </div>
@@ -1445,26 +1317,26 @@
                                 <img src="assets/icons/resultTemplate/skelton-medium.svg">
                               </div>
                               <div class="content-data">
-                                <div class="heading-text">Heading goes here</div>
+                                <div class="heading-text">{{"resulttemplate_heading_goes_here"| translate}}</div>
                                 <div class="rating-data">
-                                  <span>3.96</span>
+                                  <span>{{"resulttemplate_3.96"| translate}}</span>
                                   <img src="assets/icons/resultTemplate/star.svg">
                                   <img src="assets/icons/resultTemplate/star.svg">
                                   <img src="assets/icons/resultTemplate/star.svg">
                                   <img src="assets/icons/resultTemplate/star.svg">
                                   <img src="assets/icons/resultTemplate/star-unfill.svg">
                                 </div>
-                                <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                                <div class="text-desc-data">{{"resulttemplate_description_goes_dummy_text_placeholder"| translate}}</div>
                               </div>
                             </div>
                             <div class="labels-info">
                               <div class="label-data">
-                                <div class="label-name">Label 1</div>
-                                <div class="label-name">Label 2</div>
+                                <div class="label-name">{{"resulttemplate_label_1"| translate}}</div>
+                                <div class="label-name">{{"resulttemplate_label_2"| translate}}</div>
                               </div>
                               <div class="label-data">
-                                <div class="label-name">Label 3</div>
-                                <div class="label-name">Label 4</div>
+                                <div class="label-name">{{"resulttemplate_label_3"| translate}}</div>
+                                <div class="label-name">{{"resulttemplate_label_4"| translate}}</div>
                               </div>
                             </div>
                           </div>
@@ -1476,26 +1348,26 @@
                                 <img src="assets/icons/resultTemplate/skelton-medium.svg">
                               </div>
                               <div class="content-data">
-                                <div class="heading-text">Heading goes here</div>
+                                <div class="heading-text">{{"resulttemplate_heading_goes_here"| translate}}</div>
                                 <div class="rating-data">
-                                  <span>3.96</span>
+                                  <span>{{"resulttemplate_3.96"| translate}}</span>
                                   <img src="assets/icons/resultTemplate/star.svg">
                                   <img src="assets/icons/resultTemplate/star.svg">
                                   <img src="assets/icons/resultTemplate/star.svg">
                                   <img src="assets/icons/resultTemplate/star.svg">
                                   <img src="assets/icons/resultTemplate/star-unfill.svg">
                                 </div>
-                                <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                                <div class="text-desc-data">{{"resulttemplate_description_goes_dummy_text_placeholder"| translate}}</div>
                               </div>
                             </div>
                             <div class="labels-info">
                               <div class="label-data">
-                                <div class="label-name">Label 1</div>
-                                <div class="label-name">Label 2</div>
+                                <div class="label-name">{{"resulttemplate_label_1"| translate}}</div>
+                                <div class="label-name">{{"resulttemplate_label_2"| translate}}</div>
                               </div>
                               <div class="label-data">
-                                <div class="label-name">Label 3</div>
-                                <div class="label-name">Label 4</div>
+                                <div class="label-name">{{"resulttemplate_label_3"| translate}}</div>
+                                <div class="label-name">{{"resulttemplate_label_4"| translate}}</div>
                               </div>
                             </div>
                           </div>
@@ -1514,7 +1386,7 @@
                       <div class="template-1-grid-list row col-7 mb-3"
                         [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="grid-data-item col-6" *ngFor="let data of [0,1,2,3]">
-                          <div class="title-item">Description comes here</div>
+                          <div class="title-item">{{"resulttemplate_descrption_1time"| translate}}</div>
                         </div>
                       </div>
                     </ng-container>
@@ -1526,25 +1398,20 @@
                       <div class="template-2-grid-list row col-11 mb-3"
                         [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="grid-data-item col-4" *ngFor="let data of [0,1,2]">
-                          <div class="title-item">Description comes here, descrip tion comes here, description comes
-                            here,
-                            description comes here, description comes here, description comes here, description comes
-                            here, description comes here, description comes...</div>
+                          <div class="title-item">{{"resulttemplate_descrption_9times"| translate}}</div>
                         </div>
                       </div>
                     </ng-container>
                   </div>
                   <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l3'">
                     <ng-container>
-                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
-                        here</div>
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">{{"resulttemplate_title"| translate}}</div>
                       <div class="template-3-grid-list row col-11 mb-3"
                         [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="grid-data-item col-4" *ngFor="let data of [0,1,2]">
                           <div class="inner-content-list">
-                            <div class="heading-text">Heading comes here. </div>
-                            <div class="title-item">Description comes here, descrip tion comes here, description comes
-                              here, description comes here, description comes here, description comes here, desc....
+                            <div class="heading-text">{{"resulttemplate_heading_comes_here"| translate}}. </div>
+                            <div class="title-item">{{"resulttemplate_descrption_6times"| translate}}
                             </div>
                           </div>
                         </div>
@@ -1563,10 +1430,9 @@
                               <div class="img-block">
                                 <img src="assets/icons/resultTemplate/skelton-dummy.svg">
                               </div>
-                              <div class="info-title">Heading comes here. </div>
+                              <div class="info-title">{{"resulttemplate_heading_comes_here"| translate}}. </div>
                             </div>
-                            <div class="title-item">Description comes here, descrip tion comes here, description comes
-                              here, description comes here, description comes he....</div>
+                            <div class="title-item">{{"resulttemplate_descrption_4times"| translate}}.</div>
                           </div>
                         </div>
                       </div>
@@ -1594,51 +1460,45 @@
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
                             <div class="heading-main"
-                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">Heading
-                              comes here</div>
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">{{"resulttemplate_heading_comes_here"| translate}}</div>
                             <div class="image-with-text" *ngFor="let data of [0,1,2]">
                               <div class="img-block">
                                 <img src="assets/icons/resultTemplate/skelton-small.svg">
                               </div>
-                              <div class="image-info">Men wardrobes there most special piecesa...</div>
+                              <div class="image-info">{{"resulttemplate_menwardrobes"| translate}}</div>
                             </div>
                             <div class="info-text-bottom">
-                              About the Author: Burberry is an online, freelance journalist and keen traveller and
-                              watersports enthusiast. Originally from Scotland, she now resides in London.
+                              {{"resulttemplate_about_author_burberry"| translate}}
                             </div>
                           </div>
                         </div>
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
                             <div class="heading-main"
-                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">Heading
-                              comes here</div>
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">{{"resulttemplate_heading_comes_here"| translate}}</div>
                             <div class="image-with-text" *ngFor="let data of [0,1,2]">
                               <div class="img-block">
                                 <img src="assets/icons/resultTemplate/skelton-small.svg">
                               </div>
-                              <div class="image-info">Men wardrobes there most special piecesa...</div>
+                              <div class="image-info">{{"resulttemplate_menwardrobes"| translate}}</div>
                             </div>
                             <div class="info-text-bottom">
-                              About the Author: Burberry is an online, freelance journalist and keen traveller and
-                              watersports enthusiast. Originally from Scotland, she now resides in London.
+                              {{"resulttemplate_about_author_burberry"| translate}}
                             </div>
                           </div>
                         </div>
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
                             <div class="heading-main"
-                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">Heading
-                              comes here</div>
+                              [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">{{"resulttemplate_heading_comes_here"| translate}}</div>
                             <div class="image-with-text" *ngFor="let data of [0,1,2]">
                               <div class="img-block">
                                 <img src="assets/icons/resultTemplate/skelton-small.svg">
                               </div>
-                              <div class="image-info">Men wardrobes there most special piecesa...</div>
+                              <div class="image-info">{{"resulttemplate_menwardrobes"| translate}}</div>
                             </div>
                             <div class="info-text-bottom">
-                              About the Author: Burberry is an online, freelance journalist and keen traveller and
-                              watersports enthusiast. Originally from Scotland, she now resides in London.
+                              {{"resulttemplate_about_author_burberry"| translate}}
                             </div>
                           </div>
                         </div>
@@ -1656,8 +1516,8 @@
                             <div class="main-img-block">
                               <img src="assets/icons/resultTemplate/skelton-medium.svg">
                             </div>
-                            <div class="heading">Heading comes here</div>
-                            <div class="desc-text-info">Description text comes here, Description text comes here.</div>
+                            <div class="heading">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                            <div class="desc-text-info">{{"resulttemplate_descrption_2times"| translate}}</div>
                           </div>
                         </div>
                       </div>
@@ -1674,8 +1534,8 @@
                             <div class="main-img-block">
                               <img src="assets/icons/resultTemplate/skelton-medium.svg">
                             </div>
-                            <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                            <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                            <div class="desc-text-info">{{"resulttemplate_jacket_insulates"| translate}}</div>
+                            <div class="desc-text-info">{{"resulttemplate_jacket_insulates"| translate}}</div>
                           </div>
                         </div>
                       </div>
@@ -1692,9 +1552,9 @@
                             <div class="main-img-block">
                               <img src="assets/icons/resultTemplate/skelton-medium.svg">
                             </div>
-                            <div class="heading">Heading comes here</div>
-                            <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                            <div class="price-count">$156</div>
+                            <div class="heading">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                            <div class="desc-text-info">{{"resulttemplate_jacket_insulates"| translate}}</div>
+                            <div class="price-count">{{"resulttemplate_$156"| translate}}</div>
                           </div>
                         </div>
                       </div>
@@ -1718,14 +1578,14 @@
                             <div class="template-1-classic-list row col-12 m-0 p-2"
                               [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                               <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
-                                <div class="classic-list-item">Heading comes here</div>
+                                <div class="classic-list-item">{{"resulttemplate_heading_comes_here"| translate}}</div>
                               </div>
                             </div>
                           </div>
                           <div class="carousel-item">
                             <div class="template-1-classic-list row col-12 m-0 p-2">
                               <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,4]">
-                                <div class="classic-list-item">Heading comes here</div>
+                                <div class="classic-list-item">{{"resulttemplate_heading_comes_here"| translate}}</div>
                               </div>
                             </div>
                           </div>
@@ -1756,18 +1616,14 @@
                             <div class="template-2-classic-list row col-12 m-0 p-2"
                               [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                               <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
-                                <div class="classic-list-item">Description comes here, descrip tion comes here,
-                                  description comes here, description comes here, description comes here, description
-                                  comes here, description comes here, description comes here, description comes...</div>
+                                <div class="classic-list-item">{{"resulttemplate_descrption_9times"| translate}}</div>
                               </div>
                             </div>
                           </div>
                           <div class="carousel-item">
                             <div class="template-2-classic-list row col-12 m-0 p-2">
                               <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
-                                <div class="classic-list-item">Description comes here, descrip tion comes here,
-                                  description comes here, description comes here, description comes here, description
-                                  comes here, description comes here, description comes here, description comes...</div>
+                                <div class="classic-list-item">{{"resulttemplate_descrption_9times"| translate}}</div>
                               </div>
                             </div>
                           </div>
@@ -1800,10 +1656,8 @@
                               [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                               <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
                                 <div class="classic-list-item">
-                                  <div class="heading-text">Heading comes here</div>
-                                  <div class="text-desc">Description comes here, description comes here, description
-                                    comes
-                                    here, description comes here, description comes here, des...</div>
+                                  <div class="heading-text">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                                  <div class="text-desc">{{"resulttemplate_descrption_5times"| translate}}</div>
                                 </div>
                               </div>
                             </div>
@@ -1812,10 +1666,8 @@
                             <div class="template-3-classic-list row col-12 m-0 p-2">
                               <div class="col-3 pl-1 pr-1" *ngFor="let data of [0,1,2,3]">
                                 <div class="classic-list-item">
-                                  <div class="heading-text">Heading comes here</div>
-                                  <div class="text-desc">Description comes here, description comes here, description
-                                    comes
-                                    here, description comes here, description comes here, des...</div>
+                                  <div class="heading-text">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                                  <div class="text-desc">{{"resulttemplate_descrption_5times"| translate}}</div>
                                 </div>
                               </div>
                             </div>
@@ -1852,11 +1704,10 @@
                                     <div class="img-block">
                                       <img src="assets/icons/resultTemplate/skelton-small.svg">
                                     </div>
-                                    <div class="heading-">Heading comes here. </div>
+                                    <div class="heading-">{{"resulttemplate_heading_comes_here"| translate}}. </div>
                                   </div>
                                   <div class="content_sec">
-                                    <div class="text_desc">Men wardrobes the most special pieces of cloths are there
-                                      jackets, same as women love to have small trench coats or c...</div>
+                                    <div class="text_desc">{{"resulttemplate_menwardrobes_jackets_desc"| translate}}</div>
                                   </div>
                                 </div>
                               </div>
@@ -1870,11 +1721,10 @@
                                     <div class="img-block">
                                       <img src="assets/icons/resultTemplate/skelton-small.svg">
                                     </div>
-                                    <div class="heading-">Heading comes here. </div>
+                                    <div class="heading-">{{"resulttemplate_heading_comes_here"| translate}}. </div>
                                   </div>
                                   <div class="content_sec">
-                                    <div class="text_desc">Men wardrobes the most special pieces of cloths are there
-                                      jackets, same as women love to have small trench coats or c...</div>
+                                    <div class="text_desc">{{"resulttemplate_menwardrobes_jackets_desc"| translate}}</div>
                                   </div>
                                 </div>
                               </div>
@@ -1955,24 +1805,24 @@
                               [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                               <div class="col-4 pl-1 pr-1" *ngFor="let data of [0,1,2]">
                                 <div class="classic-list-item">
-                                  <div class="title-main">Heading comes here</div>
+                                  <div class="title-main">{{"resulttemplate_heading_comes_here"| translate}}</div>
                                   <div class="img-with-text">
                                     <div class="img-block">
                                       <img src="assets/icons/resultTemplate/skelton-small.svg">
                                     </div>
-                                    <div class="info-text">Men wardrobes there most special piecesa...</div>
+                                    <div class="info-text">{{"resulttemplate_menwardrobes"| translate}}</div>
                                   </div>
                                   <div class="img-with-text">
                                     <div class="img-block">
                                       <img src="assets/icons/resultTemplate/skelton-small.svg">
                                     </div>
-                                    <div class="info-text">Men wardrobes there most special piecesa...</div>
+                                    <div class="info-text">{{"resulttemplate_menwardrobes"| translate}}</div>
                                   </div>
                                   <div class="img-with-text">
                                     <div class="img-block">
                                       <img src="assets/icons/resultTemplate/skelton-small.svg">
                                     </div>
-                                    <div class="info-text">Men wardrobes there most special piecesa...</div>
+                                    <div class="info-text">{{"resulttemplate_menwardrobes"| translate}}</div>
                                   </div>
                                 </div>
                               </div>
@@ -1982,12 +1832,12 @@
                             <div class="template-6-classic-list row col-12 m-0 p-2">
                               <div class="col-4 pl-1 pr-1" *ngFor="let data1 of [0,1,2]">
                                 <div class="classic-list-item">
-                                  <div class="title-main">Heading comes here</div>
+                                  <div class="title-main">{{"resulttemplate_heading_comes_here"| translate}}</div>
                                   <div class="img-with-text">
                                     <div class="img-block">
                                       <img src="assets/icons/resultTemplate/dummyimg.svg">
                                     </div>
-                                    <div class="info-text">Men wardrobes there most special piecesa...</div>
+                                    <div class="info-text">{{"resulttemplate_menwardrobes"| translate}}</div>
                                   </div>
                                 </div>
                               </div>
@@ -2025,8 +1875,8 @@
                                   <div class="main-img-block">
                                     <img src="assets/icons/resultTemplate/skelton-medium.svg">
                                   </div>
-                                  <div class="heading">Heading comes here</div>
-                                  <div class="desc-text-info">Description text comes here, Description text comes here.
+                                  <div class="heading">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                                  <div class="desc-text-info">{{"resulttemplate_description_text_two_times"| translate}}
                                   </div>
                                 </div>
                               </div>
@@ -2039,8 +1889,8 @@
                                   <div class="main-img-block">
                                     <img src="assets/icons/resultTemplate/skelton-medium.svg">
                                   </div>
-                                  <div class="heading">Heading comes here</div>
-                                  <div class="desc-text-info">Description text comes here, Description text comes here.
+                                  <div class="heading">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                                  <div class="desc-text-info">{{"resulttemplate_description_text_two_times"| translate}}
                                   </div>
                                 </div>
                               </div>
@@ -2078,8 +1928,8 @@
                                   <div class="main-img-block">
                                     <img src="assets/icons/resultTemplate/skelton-medium.svg">
                                   </div>
-                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                                  <div class="desc-text-info">{{"resulttemplate_jacket_insulates"| translate}}</div>
+                                  <div class="desc-text-info">{{"resulttemplate_jacket_insulates"| translate}}</div>
                                 </div>
                               </div>
                             </div>
@@ -2091,8 +1941,8 @@
                                   <div class="main-img-block">
                                     <img src="assets/icons/resultTemplate/skelton-medium.svg">
                                   </div>
-                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                                  <div class="desc-text-info">{{"resulttemplate_jacket_insulates"| translate}}</div>
+                                  <div class="desc-text-info">{{"resulttemplate_jacket_insulates"| translate}}</div>
                                 </div>
                               </div>
                             </div>
@@ -2128,9 +1978,9 @@
                                   <div class="main-img-block">
                                     <img src="assets/icons/resultTemplate/skelton-medium.svg">
                                   </div>
-                                  <div class="heading">Heading comes here</div>
-                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                                  <div class="price-count">$156</div>
+                                  <div class="heading">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                                  <div class="desc-text-info">{{"resulttemplate_jacket_insulates"| translate}}</div>
+                                  <div class="price-count">{{"resulttemplate_$156"| translate}}</div>
                                 </div>
                               </div>
                             </div>
@@ -2142,9 +1992,9 @@
                                   <div class="main-img-block">
                                     <img src="assets/icons/resultTemplate/skelton-medium.svg">
                                   </div>
-                                  <div class="heading">Heading comes here</div>
-                                  <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                                  <div class="price-count">$156</div>
+                                  <div class="heading">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                                  <div class="desc-text-info">{{"resulttemplate_jacket_insulates"| translate}}</div>
+                                  <div class="price-count">{{"resulttemplate_$156"| translate}}</div>
                                 </div>
                               </div>
                             </div>
@@ -2175,20 +2025,20 @@
                             <div class="scm-list-data-type mb-0">
                               <div class="heading-data">
                                 <img src="assets/icons/resultTemplate/dummy-small.svg">
-                                <div class="text-title">Heading Goes Here</div>
+                                <div class="text-title">{{"resulttemplate_heading_goes_here"| translate}}</div>
                               </div>
-                              <div class="text-desc-data">Simply dummy text of the printing and typesetting reports. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five...</div>
+                              <div class="text-desc-data">{{"resulttemplate_simply_dummy_text_printing_Lorem"| translate}}</div>
                               <div class="field-lables">
-                                <div class="field-heading">Field 1:</div>
-                                <div class="field-text">Text Field 1</div>
+                                <div class="field-heading">{{"resulttemplate_Field1"| translate}}</div>
+                                <div class="field-text">{{"resulttemplate_text_field_1"| translate}}</div>
                               </div>
                               <div class="field-lables">
-                                <div class="field-heading">Field 2:</div>
-                                <div class="field-text">Text Field 2</div>
+                                <div class="field-heading">{{"resulttemplate_Field2"| translate}}</div>
+                                <div class="field-text">{{"resulttemplate_text_field_2"| translate}}</div>
                               </div>
                               <div class="labels-info">
-                                <div class="lable-name info-label">Label 1</div>
-                                <div class="lable-name warning-label">Label 2</div>
+                                <div class="lable-name info-label">{{"resulttemplate_label_1"| translate}}</div>
+                                <div class="lable-name warning-label">{{"resulttemplate_label_2"| translate}}</div>
                               </div>
                             </div>
                           </div>
@@ -2196,20 +2046,20 @@
                             <div class="scm-list-data-type mb-0">
                               <div class="heading-data">
                                 <img src="assets/icons/resultTemplate/dummy-small.svg">
-                                <div class="text-title">Heading Goes Here</div>
+                                <div class="text-title">{{"resulttemplate_heading_goes_here"| translate}}</div>
                               </div>
-                              <div class="text-desc-data">Simply dummy text of the printing and typesetting reports. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five...</div>
+                              <div class="text-desc-data">{{"resulttemplate_simply_dummy_text_printing_Lorem"| translate}}</div>
                               <div class="field-lables">
-                                <div class="field-heading">Field 1:</div>
-                                <div class="field-text">Text Field 1</div>
+                                <div class="field-heading">{{"resulttemplate_text_field_1"| translate}}</div>
+                                <div class="field-text">{{"resulttemplate_text_field_1"| translate}}</div>
                               </div>
                               <div class="field-lables">
-                                <div class="field-heading">Field 2:</div>
-                                <div class="field-text">Text Field 2</div>
+                                <div class="field-heading">{{"resulttemplate_Field2"| translate}}</div>
+                                <div class="field-text">{{"resulttemplate_text_field_2"| translate}}</div>
                               </div>
                               <div class="labels-info">
-                                <div class="lable-name info-label">Label 1</div>
-                                <div class="lable-name warning-label">Label 2</div>
+                                <div class="lable-name info-label">{{"resulttemplate_label_1"| translate}}</div>
+                                <div class="lable-name warning-label">{{"resulttemplate_label_2"| translate}}</div>
                               </div>
                             </div>
                           </div>
@@ -2244,15 +2094,15 @@
                                   </div>
                                   <div class="content-block">
                                     <div class="labels-info">
-                                      <div class="label-name warning">Label 1</div>
-                                      <div class="label-name success">Label 2</div>
+                                      <div class="label-name warning">{{"resulttemplate_label_1"| translate}}</div>
+                                      <div class="label-name success">{{"resulttemplate_label_2"| translate}}</div>
                                     </div>
-                                    <div class="heading-title">Heading Comes Here</div>
-                                    <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis at consectetur nunc ac non quis. Praesent phasellus in non non egestas malesuada. Hendrerit ac dictumst quam dolor et mauris purus. Rhoncus scelerisque ultricies pharetra eros pharetra egestas libero.</div>
+                                    <div class="heading-title">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                                    <div class="desc-text">{{"resulttemplate_Lorem"| translate}}.</div>
                                     <div class="amout-info-ratings">
                                       <div class="amount-data">
-                                        <div class="price">$ 12.00</div>
-                                        <div class="strike-price">$ 15.00</div>
+                                        <div class="price">{{"resulttemplate_$12"| translate}}</div>
+                                        <div class="strike-price">{{"resulttemplate_$15"| translate}}</div>
                                       </div>
                                       <div class="ratings">
                                         <img src="assets/icons/resultTemplate/ratings.svg">
@@ -2268,15 +2118,15 @@
                                   </div>
                                   <div class="content-block">
                                     <div class="labels-info">
-                                      <div class="label-name warning">Label 1</div>
-                                      <div class="label-name success">Label 2</div>
+                                      <div class="label-name warning">{{"resulttemplate_label_1"| translate}}</div>
+                                      <div class="label-name success">{{"resulttemplate_label_2"| translate}}</div>
                                     </div>
-                                    <div class="heading-title">Heading Comes Here</div>
-                                    <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis at consectetur nunc ac non quis. Praesent phasellus in non non egestas malesuada. Hendrerit ac dictumst quam dolor et mauris purus. Rhoncus scelerisque ultricies pharetra eros pharetra egestas libero.</div>
+                                    <div class="heading-title">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                                    <div class="desc-text">{{"resulttemplate_Lorem"| translate}}.</div>
                                     <div class="amout-info-ratings">
                                       <div class="amount-data">
-                                        <div class="price">$ 12.00</div>
-                                        <div class="strike-price">$ 15.00</div>
+                                        <div class="price">{{"resulttemplate_$12"| translate}}</div>
+                                        <div class="strike-price">{{"resulttemplate_$15"| translate}}</div>
                                       </div>
                                       <div class="ratings">
                                         <img src="assets/icons/resultTemplate/ratings.svg">
@@ -2296,15 +2146,15 @@
                                   </div>
                                   <div class="content-block">
                                     <div class="labels-info">
-                                      <div class="label-name warning">Label 1</div>
-                                      <div class="label-name success">Label 2</div>
+                                      <div class="label-name warning">{{"resulttemplate_label_1"| translate}}</div>
+                                      <div class="label-name success">{{"resulttemplate_label_2"| translate}}</div>
                                     </div>
-                                    <div class="heading-title">Heading Comes Here</div>
-                                    <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis at consectetur nunc ac non quis. Praesent phasellus in non non egestas malesuada. Hendrerit ac dictumst quam dolor et mauris purus. Rhoncus scelerisque ultricies pharetra eros pharetra egestas libero.</div>
+                                    <div class="heading-title">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                                    <div class="desc-text">{{"resulttemplate_Lorem"| translate}}.</div>
                                     <div class="amout-info-ratings">
                                       <div class="amount-data">
-                                        <div class="price">$ 12.00</div>
-                                        <div class="strike-price">$ 15.00</div>
+                                        <div class="price">{{"resulttemplate_$12"| translate}}</div>
+                                        <div class="strike-price">{{"resulttemplate_$15"| translate}}</div>
                                       </div>
                                       <div class="ratings">
                                         <img src="assets/icons/resultTemplate/ratings.svg">
@@ -2320,15 +2170,15 @@
                                   </div>
                                   <div class="content-block">
                                     <div class="labels-info">
-                                      <div class="label-name warning">Label 1</div>
-                                      <div class="label-name success">Label 2</div>
+                                      <div class="label-name warning">{{"resulttemplate_label_1"| translate}}</div>
+                                      <div class="label-name success">{{"resulttemplate_label_2"| translate}}</div>
                                     </div>
-                                    <div class="heading-title">Heading Comes Here</div>
-                                    <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis at consectetur nunc ac non quis. Praesent phasellus in non non egestas malesuada. Hendrerit ac dictumst quam dolor et mauris purus. Rhoncus scelerisque ultricies pharetra eros pharetra egestas libero.</div>
+                                    <div class="heading-title">{{"resulttemplate_heading_comes_here"| translate}}</div>
+                                    <div class="desc-text">{{"resulttemplate_Lorem"| translate}}</div>
                                     <div class="amout-info-ratings">
                                       <div class="amount-data">
-                                        <div class="price">$ 12.00</div>
-                                        <div class="strike-price">$ 15.00</div>
+                                        <div class="price">{{"resulttemplate_$12"| translate}}</div>
+                                        <div class="strike-price">{{"resulttemplate_$15"| translate}}</div>
                                       </div>
                                       <div class="ratings">
                                         <img src="assets/icons/resultTemplate/ratings.svg">
@@ -2370,26 +2220,26 @@
                                       <img src="assets/icons/resultTemplate/skelton-medium.svg">
                                     </div>
                                     <div class="content-data">
-                                      <div class="heading-text">Heading goes here</div>
+                                      <div class="heading-text">{{"resulttemplate_heading_goes_here"| translate}}</div>
                                       <div class="rating-data">
-                                        <span>3.96</span>
+                                        <span>{{"resulttemplate_3.96"| translate}}</span>
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star-unfill.svg">
                                       </div>
-                                      <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                                      <div class="text-desc-data">{{"resulttemplate_description_goes_dummy_text_placeholder"| translate}}</div>
                                     </div>
                                   </div>
                                   <div class="labels-info">
                                     <div class="label-data">
-                                      <div class="label-name">Label 1</div>
-                                      <div class="label-name">Label 2</div>
+                                      <div class="label-name">{{"resulttemplate_label_1"| translate}}</div>
+                                      <div class="label-name">{{"resulttemplate_label_2"| translate}}</div>
                                     </div>
                                     <div class="label-data">
-                                      <div class="label-name">Label 3</div>
-                                      <div class="label-name">Label 4</div>
+                                      <div class="label-name">{{"resulttemplate_label_3"| translate}}</div>
+                                      <div class="label-name">{{"resulttemplate_label_4"| translate}}</div>
                                     </div>
                                   </div>
                                 </div>
@@ -2401,26 +2251,26 @@
                                       <img src="assets/icons/resultTemplate/skelton-medium.svg">
                                     </div>
                                     <div class="content-data">
-                                      <div class="heading-text">Heading goes here</div>
+                                      <div class="heading-text">{{"resulttemplate_heading_goes_here"| translate}</div>
                                       <div class="rating-data">
-                                        <span>3.96</span>
+                                        <span>{{"resulttemplate_3.96"| translate}}</span>
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star-unfill.svg">
                                       </div>
-                                      <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                                      <div class="text-desc-data">{{"resulttemplate_description_goes_dummy_text_placeholder"| translate}}</div>
                                     </div>
                                   </div>
                                   <div class="labels-info">
                                     <div class="label-data">
-                                      <div class="label-name">Label 1</div>
-                                      <div class="label-name">Label 2</div>
+                                      <div class="label-name">{{"resulttemplate_label_1"| translate}}</div>
+                                      <div class="label-name">{{"resulttemplate_label_2"| translate}}</div>
                                     </div>
                                     <div class="label-data">
-                                      <div class="label-name">Label 3</div>
-                                      <div class="label-name">Label 4</div>
+                                      <div class="label-name">{{"resulttemplate_label_3"| translate}}</div>
+                                      <div class="label-name">{{"resulttemplate_label_4"| translate}}</div>
                                     </div>
                                   </div>
                                 </div>
@@ -2432,26 +2282,26 @@
                                       <img src="assets/icons/resultTemplate/skelton-medium.svg">
                                     </div>
                                     <div class="content-data">
-                                      <div class="heading-text">Heading goes here</div>
+                                      <div class="heading-text">{{"resulttemplate_heading_goes_here"| translate}}</div>
                                       <div class="rating-data">
-                                        <span>3.96</span>
+                                        <span>{{"resulttemplate_3.96"| translate}}</span>
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star-unfill.svg">
                                       </div>
-                                      <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                                      <div class="text-desc-data">{{"resulttemplate_description_goes_dummy_text_placeholder"| translate}}</div>
                                     </div>
                                   </div>
                                   <div class="labels-info">
                                     <div class="label-data">
-                                      <div class="label-name">Label 1</div>
-                                      <div class="label-name">Label 2</div>
+                                      <div class="label-name">{{"resulttemplate_label_1"| translate}}</div>
+                                      <div class="label-name">{{"resulttemplate_label_2"| translate}}</div>
                                     </div>
                                     <div class="label-data">
-                                      <div class="label-name">Label 3</div>
-                                      <div class="label-name">Label 4</div>
+                                      <div class="label-name">{{"resulttemplate_label_3"| translate}}</div>
+                                      <div class="label-name">{{"resulttemplate_label_4"| translate}}</div>
                                     </div>
                                   </div>
                                 </div>
@@ -2467,26 +2317,26 @@
                                       <img src="assets/icons/resultTemplate/skelton-medium.svg">
                                     </div>
                                     <div class="content-data">
-                                      <div class="heading-text">Heading goes here</div>
+                                      <div class="heading-text">{{"resulttemplate_heading_goes_here"| translate}}</div>
                                       <div class="rating-data">
-                                        <span>3.96</span>
+                                        <span>{{"resulttemplate_3.96"| translate}}</span>
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star-unfill.svg">
                                       </div>
-                                      <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                                      <div class="text-desc-data">{{"resulttemplate_description_goes_dummy_text_placeholder"| translate}}</div>
                                     </div>
                                   </div>
                                   <div class="labels-info">
                                     <div class="label-data">
-                                      <div class="label-name">Label 1</div>
-                                      <div class="label-name">Label 2</div>
+                                      <div class="label-name">{{"resulttemplate_label_1"| translate}}</div>
+                                      <div class="label-name">{{"resulttemplate_label_2"| translate}}</div>
                                     </div>
                                     <div class="label-data">
-                                      <div class="label-name">Label 3</div>
-                                      <div class="label-name">Label 4</div>
+                                      <div class="label-name">{{"resulttemplate_label_3"| translate}}</div>
+                                      <div class="label-name">{{"resulttemplate_label_4"| translate}}</div>
                                     </div>
                                   </div>
                                 </div>
@@ -2498,26 +2348,26 @@
                                       <img src="assets/icons/resultTemplate/skelton-medium.svg">
                                     </div>
                                     <div class="content-data">
-                                      <div class="heading-text">Heading goes here</div>
+                                      <div class="heading-text">{{"resulttemplate_heading_goes_here"| translate}}</div>
                                       <div class="rating-data">
-                                        <span>3.96</span>
+                                        <span>{{"resulttemplate_3.96"| translate}}</span>
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star-unfill.svg">
                                       </div>
-                                      <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                                      <div class="text-desc-data">{{"resulttemplate_description_goes_dummy_text_placeholder"| translate}}</div>
                                     </div>
                                   </div>
                                   <div class="labels-info">
                                     <div class="label-data">
-                                      <div class="label-name">Label 1</div>
-                                      <div class="label-name">Label 2</div>
+                                      <div class="label-name">{{"resulttemplate_label_1"| translate}}</div>
+                                      <div class="label-name">{{"resulttemplate_label_2"| translate}}</div>
                                     </div>
                                     <div class="label-data">
-                                      <div class="label-name">Label 3</div>
-                                      <div class="label-name">Label 4</div>
+                                      <div class="label-name">{{"resulttemplate_label_3"| translate}}</div>
+                                      <div class="label-name">{{"resulttemplate_label_4"| translate}}</div>
                                     </div>
                                   </div>
                                 </div>
@@ -2529,26 +2379,26 @@
                                       <img src="assets/icons/resultTemplate/skelton-medium.svg">
                                     </div>
                                     <div class="content-data">
-                                      <div class="heading-text">Heading goes here</div>
+                                      <div class="heading-text">{{"resulttemplate_heading_goes_here"| translate}}</div>
                                       <div class="rating-data">
-                                        <span>3.96</span>
+                                        <span>{{"resulttemplate_3.96"| translate}}</span>
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star.svg">
                                         <img src="assets/icons/resultTemplate/star-unfill.svg">
                                       </div>
-                                      <div class="text-desc-data">Description goes here. Now a dummy text is used as a placeholder to depict the description text in user interface.</div>
+                                      <div class="text-desc-data">{{"resulttemplate_description_goes_dummy_text_placeholder"| translate}}</div>
                                     </div>
                                   </div>
                                   <div class="labels-info">
                                     <div class="label-data">
-                                      <div class="label-name">Label 1</div>
-                                      <div class="label-name">Label 2</div>
+                                      <div class="label-name">{{"resulttemplate_label_1"| translate}}</div>
+                                      <div class="label-name">{{"resulttemplate_label_2"| translate}}</div>
                                     </div>
                                     <div class="label-data">
-                                      <div class="label-name">Label 3</div>
-                                      <div class="label-name">Label 4</div>
+                                      <div class="label-name">{{"resulttemplate_label_3"| translate}}</div>
+                                      <div class="label-name">{{"resulttemplate_label_4"| translate}}</div>
                                     </div>
                                   </div>
                                 </div>
@@ -2578,10 +2428,10 @@
               <div class="kr-sg-checkbox mb-2">
                 <input id="checkbox-addToTitle" class="checkbox-custom" type="checkbox" (change)="renderTitleChange()"
                   [checked]="templateDataBind.layout.renderTitle">
-                <label for="checkbox-addToTitle" class="checkbox-custom-label">Add title to template</label>
+                <label for="checkbox-addToTitle" class="checkbox-custom-label">{{"resulttemplate_add_title_template"| translate}}</label>
               </div>
               <div class="kr-sg-input-text mb-2" *ngIf="templateDataBind.layout.renderTitle">
-                <div class="label-text">Template title</div>
+                <div class="label-text">{{"resulttemplate_template_title"| translate}}</div>
                 <input type="text" placeholder="Enter a template title" class="input-text"
                   [(ngModel)]="templateDataBind.layout.title"
                   [class.err-block]="(!(templateDataBind.layout.title?.length) && submitted)">
@@ -2589,8 +2439,8 @@
             </div>
 
             <div class="search-result-mapping">
-              <div class="label-text">Search Result Mapping</div>
-              <div class="desc-text">Map the existing or custom added fields here</div>
+              <div class="label-text">{{"resultTemplate_searchResultMapping"| translate}}</div>
+              <div class="desc-text">{{"resulttemplate_map_the_existing_fields_add"| translate}}</div>
 
                <!-- icon Field -->
                <div class="search_block" *ngIf="['l10'].includes(templateDataBind.layout.layoutType)">
@@ -2606,7 +2456,7 @@
                         ngbDropdownMenu>
                         <li class="search-box">
                           <input id="searchBoxId" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
-                            placeholder="Search" class="seach-input pl-3"
+                          placeholder="{{'sa_search' | translate}}" class="seach-input pl-3"
                             (keyup)="searchlist('icon',$event.target.value,fieldData)"
                             (focus)="searchlist('icon',$event.target.value,fieldData);" autofocus />
                         </li>
@@ -2640,7 +2490,7 @@
                         ngbDropdownMenu>
                         <li class="search-box">
                           <input id="searchBoxId" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
-                            placeholder="Search" class="seach-input pl-3"
+                          placeholder="{{'sa_search' | translate}}" class="seach-input pl-3"
                             (keyup)="searchlist('heading',$event.target.value,fieldData)"
                             (focus)="searchlist('heading',$event.target.value,fieldData);" autofocus />
                         </li>
@@ -2728,7 +2578,7 @@
 
               <!-- Description1 field -->
               <div class="search_block" *ngIf="['l6'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
-                <div class="label-text mb-1">Description 1</div>
+                <div class="label-text mb-1">{{"resulttemplate_description_1"| translate}}</div>
                 <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
                   <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentdesc1()"
                     #descDrop="ngbDropdown">
@@ -2761,7 +2611,7 @@
 
               <!-- Label1 field -->
               <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
-                <div class="label-text mb-1">Label 1</div>
+                <div class="label-text mb-1">{{"resulttemplate_label_1"| translate}}</div>
                 <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
                   <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentLabel1()"
                     #descDrop="ngbDropdown">
@@ -2794,7 +2644,7 @@
 
               <!-- Label2 field -->
               <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
-                <div class="label-text mb-1">Label 2</div>
+                <div class="label-text mb-1">{{"resulttemplate_label_2"| translate}}</div>
                 <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
                   <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentLabel2()"
                     #descDrop="ngbDropdown">
@@ -2807,7 +2657,7 @@
                         ngbDropdownMenu>
                         <li class="search-box">
                           <input id="searchBoxIdLabel2" autocomplete="off" type="text" (keydown)="$event.stopPropagation()"
-                            placeholder="Search" class="seach-input pl-3"
+                          placeholder="{{'sa_search' | translate}}" class="seach-input pl-3"
                             (keyup)="searchlist('label2',$event.target.value,fieldData)"
                             (focus)="searchlist('label2',$event.target.value,fieldData);" autofocus />
                         </li>
@@ -2827,7 +2677,7 @@
 
                 <!-- Rate field -->
                 <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
-                  <div class="label-text mb-1"> Rate</div>
+                  <div class="label-text mb-1">{{"resulttemplate_rate"| translate}}</div>
                   <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
                     <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentRateField()"
                       #descDrop="ngbDropdown">
@@ -2860,7 +2710,7 @@
 
                 <!--Striked Off Rate field -->
                 <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
-                  <div class="label-text mb-1">Striked off Rate</div>
+                  <div class="label-text mb-1">{{"resulttemplate_striked_off_rate"| translate}}</div>
                   <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
                     <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentStrikedRateField()"
                       #descDrop="ngbDropdown">
@@ -2893,7 +2743,7 @@
               
                  <!--Rating field -->
                  <div class="search_block" *ngIf="['l11'].includes(templateDataBind.layout.layoutType) && templateDataBind.type == 'list'">
-                  <div class="label-text mb-1">Rating</div>
+                  <div class="label-text mb-1">{{"resulttemplate_rating"| translate}}</div>
                   <div class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec">
                     <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown (click)="clearcontentStrikedRateField()"
                       #descDrop="ngbDropdown">
@@ -3023,24 +2873,24 @@
             </div>
                
             <div class="search-results-click-settings">
-              <div class="label-text">Search Result Click Settings</div>
-              <div class="desc-text mb-3">Define the click behaviour for the search results</div>
-              <div class="label-text">Clickable</div>
+              <div class="label-text">{{"resulttemplate_search_result_click_settings"| translate}}</div>
+              <div class="desc-text mb-3">{{"resulttemplate_define_click_behavior"| translate}}</div>
+              <div class="label-text">{{"resultTemplate_clickable"| translate}}</div>
               <label class="kr-sg-toggle">
                 <input type="checkbox" (change)="clickableChange()" [checked]="templateDataBind.layout.isClickable">
-                <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                <div class="slider"><span class="enabled">{{"sa_yes"| translate}}</span><span class="disabled">{{"sa_no"| translate}}</span></div>
               </label>
-              <div class="label-text mt-3" *ngIf="templateDataBind.layout.isClickable">Click Behaviour</div>
+              <div class="label-text mt-3" *ngIf="templateDataBind.layout.isClickable">{{"resulttemplate_click_behavior"| translate}}</div>
               <div class="kr-sg-radiobutton" *ngIf="templateDataBind.layout.isClickable">
                 <input id="radio-open-webpage" name="radio" class="radio-custom" type="radio"
                   (change)="clickBehaviorChange('webpage')" [checked]="templateDataBind.layout.behaviour == 'webpage'">
-                <label for="radio-open-webpage" class="radio-custom-label">Open a Webpage</label>
+                <label for="radio-open-webpage" class="radio-custom-label">{{"resulttemplate_open_webpage"| translate}}</label>
               </div>
 
               <div class="kr-sg-radiobutton" *ngIf="templateDataBind.layout.isClickable">
                 <input id="radio-postback" name="radio" class="radio-custom" type="radio"
                   (change)="clickBehaviorChange('postback')" [checked]="templateDataBind.layout.behaviour != 'webpage'">
-                <label for="radio-postback" class="radio-custom-label">Postback</label>
+                <label for="radio-postback" class="radio-custom-label">{{"resulttemplate_postback"| translate}}</label>
               </div>
               <div class="kr-sg-input-text mt-3" *ngIf="templateDataBind.layout.isClickable">
                 <div class="search_block">
@@ -3090,7 +2940,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="kr-sg-button-primary btn_lg" (click)="updateTemplate()">Save</button>
-    <button class="kr-sg-button-secondary btn_lg" (click)="closeTemplateModal()">Cancel</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="updateTemplate()">{{"sa_save"| translate}}</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="closeTemplateModal()">{{"sa_cancel"| translate}}</button>
   </div>
 </kr-modal>

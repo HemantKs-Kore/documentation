@@ -2,14 +2,14 @@
 <div class="contentContainer">
   <div class="mainLoadingSpinner" *ngIf="loadingContent">
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-    <span class="please-wait-message">{{'synonyms.please_wait' | translate }}</span>
+    <span class="please-wait-message">{{'sa_please_wait' | translate }}</span>
   </div>
   <div class="table-list-content">
     <div class="kr-sg-data-table" *ngIf="loadingContent1">
       <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
       <div class="header-sec col-12 row m-0">
         <div class="col-4 p-0">Synonyms
-          <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+          <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide'| translate}}" 
  placement="right-center"(click)="openUserMetaTagsSlider()">
             <i class="si-topic-guide-1"></i>
           </span>
@@ -23,7 +23,7 @@
           <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':synonymSearch}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
           </div>
           <div class="seach-block" *ngIf="!emptyItems && (synonymData && synonymData.length) && !loadingContent"  (click)="showSearch=!showSearch;focusinSearch('inputSearch')">
-              <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+              <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'sa_search' | translate}}</span>
           </div>
           <div class="add_feild" *ngIf="!emptyItems && !loadingContent" (click)='enableAddNewSynonymBtn()'><img src="assets/icons/add_plus.svg">Add Synonym
           </div>
@@ -37,7 +37,7 @@
             <img *ngIf="!searchSources" class="search-icon"src="assets/images/search_gray.svg"> -->
         <!-- </div>  -->
         <!-- <div class="left-btns">
-            <button id="addNewSynonymBtn" (click)='enableAddNewSynonymBtn()' class="kr-sg-button-primary btn_lg mr-0"><img src="assets/icons/plus-white.svg" class="mr-2" >{{'synonyms.adding_a_synonym' | translate }}</button>
+            <button id="addNewSynonymBtn" (click)='enableAddNewSynonymBtn()' class="kr-sg-button-primary btn_lg mr-0"><img src="assets/icons/plus-white.svg" class="mr-2" >{{'synonyms_adding_a_synonym' | translate }}</button>
           </div> -->
       </div>
     </div>
@@ -47,8 +47,8 @@
       <div class="empty-landing-screen"
       *ngIf="!(synonymData && synonymData.length) && !newSynonymObj.addNew && !loadingContent">
       <!-- <img src="assets/images/icons/empty_ill.svg">
-      <div class="heading">{{'synonyms.no_synonyms_available_here' | translate}}</div>
-      <div class="desc">{{'synonyms.please_add_synonyms'| translate}}</div> -->
+      <div class="heading">{{'synonyms_no_synonyms_available_here' | translate}}</div>
+      <div class="desc">{{'synonyms_please_add_synonyms'| translate}}</div> -->
 
         <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()"src="assets\images\synonymEmpty.png"></div>
         <ng-container *ngIf="loadImageText">
@@ -68,25 +68,25 @@
       <!-- <div class="empty-questions-selected"
         *ngIf="!(synonymData && synonymData.length) && !newSynonymObj.addNew && !loadingContent">
         <img src="assets/images/icons/empty_ill.svg">
-        <div class="heading">{{'synonyms.no_synonyms_available_here' | translate}}</div>
-        <div class="desc">{{'synonyms.please_add_synonyms'| translate}}</div>
+        <div class="heading">{{'synonyms_no_synonyms_available_here' | translate}}</div>
+        <div class="desc">{{'synonyms_please_add_synonyms'| translate}}</div>
       </div> -->
       <div class="kr-sg-data-table">
         <section class="table-content">
           <!-- <header class="table-header">
-            <div class="col-8 title-header"><img src="assets/icons/sort_up_down.svg">{{'synonyms.terms'| translate}}
+            <div class="col-8 title-header"><img src="assets/icons/sort_up_down.svg">{{'synonyms_terms'| translate}}
             </div>
-            <div class="col-4 title-header"><img src="assets/icons/sort_up_down.svg">{{'synonyms.type'| translate}}
+            <div class="col-4 title-header"><img src="assets/icons/sort_up_down.svg">{{'synonyms_type'| translate}}
               <span class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom-center'">
                 <div class="dropdown dropdown-open">
                   <img src="assets/icons/synonyms_sort_dropdown.svg" ngbDropdownToggle>
                   <ul class="dropdown-menu content-menu synonyms_sort_dropdown" ngbDropdownMenu>
-                    <li (click)="selectFilter(null)">{{'synonyms.all'| translate}}<img *ngIf="!(selectedFilter)"
+                    <li (click)="selectFilter(null)">{{'sa_all'| translate}}<img *ngIf="!(selectedFilter)"
                         class="pl-2" src="assets/icons/check-blue.svg"></li>
-                    <li (click)="selectFilter('oneWaySynonym')">{{'synonyms.one_way_synonym' | translate}}<img
+                    <li (click)="selectFilter('oneWaySynonym')">{{'synonyms_one_way_synonym' | translate}}<img
                         class="pl-2" *ngIf="(selectedFilter === 'oneWaySynonym')" src="assets/icons/check-blue.svg">
                     </li>
-                    <li (click)="selectFilter('synonym')">{{'synonyms.synonym'| translate}}<img class="pl-2"
+                    <li (click)="selectFilter('synonym')">{{'synonyms_synonym'| translate}}<img class="pl-2"
                         *ngIf="(selectedFilter === 'synonym')" src="assets/icons/check-blue.svg"></li>
                   </ul>
                 </div>
@@ -100,7 +100,7 @@
                 <img  [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
             <img src="assets/icons/sort_up_down.svg"> -->
           <!-- </span>  -->
-              {{'synonyms.terms'| translate}}
+              {{'synonyms_terms'| translate}}
             </div>
             <div class="col-6 title-header">
               <span class="d-flex align-items-center flex-column mr-1" (click)="sortByApi('type')">
@@ -108,12 +108,12 @@
                 <img  [ngClass]="getSortIconVisibility('type', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
           </span>
               <!-- <img src="assets/icons/sort_up_down.svg"> -->
-              {{'synonyms.type'| translate}}
+              {{'synonyms_type'| translate}}
               <span class="kr-sg-dropdowns" #t='ngbDropdown' ngbDropdown [placement]="'bottom-center'">
                 <div class="dropdown dropdown-open">
                   <img src="assets/icons/synonyms_sort_dropdown.svg" ngbDropdownToggle>
                   <ul class="dropdown-menu content-menu synonyms_sort_dropdown" ngbDropdownMenu>
-                    <li [ngClass]="{'selected-list': filterSystem.typefilter == 'all'}" (click)="filterTable('all','type');t.close();">{{'synonyms.All' | translate}}<img
+                    <li [ngClass]="{'selected-list': filterSystem.typefilter == 'all'}" (click)="filterTable('all','type');t.close();">{{'sa_all' | translate}}<img
                       [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" class="check-icon"  src="assets/icons/check-blue.svg"></li>
                     <li [ngClass]="{'selected-list': filterSystem.typefilter == type}" *ngFor="let type of synonymTypeArr$| async; index as i" (click)="filterTable(type,'type');t.close();">
                       <span class="list-name">{{type}}</span>
@@ -123,7 +123,7 @@
                         *ngIf="(selectedFilter === 'oneWaySynonym')" src="assets/icons/check-blue.svg"></li> -->
 
 
-                    <!-- <li *ngIf="filterSynonym" (click)="selectFilter('synonym');t.close();">{{'synonyms.synonym'| translate}}<img class="pl-2"
+                    <!-- <li *ngIf="filterSynonym" (click)="selectFilter('synonym');t.close();">{{'synonyms_synonym'| translate}}<img class="pl-2"
                         *ngIf="(selectedFilter === 'synonym')" src="assets/icons/check-blue.svg"></li> -->
                   </ul>
                 </div>
@@ -132,19 +132,19 @@
           </header>
           <div class="add-synonyms-inputs" *ngIf="!loadingContent && newSynonymObj.addNew">
             <div class="input-group-items">
-              <div class="heading-title">{{'synonyms.adding_a_synonym' | translate }}</div>
+              <div class="heading-title">{{'synonyms_adding_a_synonym' | translate }}</div>
               <div class="synonymTypeBlock">
                 <div class="group-radiobutton">
                   <div class="kr-sg-radiobutton">
                     <input id="buttonIdSynonyms" value="synonym" name="synonymType" class="radio-custom"
                       [(ngModel)]="newSynonymObj.type" type="radio" (click)="synonymChanged()">
-                    <label for="buttonIdSynonyms" class="radio-custom-label" >{{'synonyms.synonym'| translate}}</label>
+                    <label for="buttonIdSynonyms" class="radio-custom-label" >{{'synonyms_synonym'| translate}}</label>
                   </div>
                   <div class="kr-sg-radiobutton">
                     <input id="buttonIdOneWaySynonyms" value="oneWaySynonym" name="synonymType" [(ngModel)]="newSynonymObj.type"
                       class="radio-custom" type="radio" (click)="synonymChanged()">
                     <label for="buttonIdOneWaySynonyms"
-                      class="radio-custom-label">{{'synonyms.one_way_synonym' | translate}}</label>
+                      class="radio-custom-label">{{'synonyms_one_way_synonym' | translate}}</label>
                   </div>
                 </div>
               </div>
@@ -195,9 +195,9 @@
               <div class="saveCacleSynBlock row m-0">
                 <div class="float-right">
                   <button class="kr-sg-button-secondary btn_lg"
-                    (click)="cancleAddSynonyms()">{{'synonyms.cancel_it' | translate}}</button>
+                    (click)="cancleAddSynonyms()">{{'sa_cancel' | translate}}</button>
                   <button class="kr-sg-button-primary btn_lg"
-                    (click)="addNewSynonyms(synonymObj)">{{'synonyms.save' | translate}}</button>
+                    (click)="addNewSynonyms(synonymObj)">{{'sa_save' | translate}}</button>
                   <!-- [disabled]="!newSynonymObj || (newSynonymObj.values && !newSynonymObj.values.length) || ((newSynonymObj.type === 'oneWaySynonym') && (!newSynonymObj.keyword))" -->
                 </div>
               </div>
@@ -209,20 +209,20 @@
               <div *ngIf="currentEditIndex === i" class="w-100">
                 <div class="add-synonyms-inputs ml-0 mr-0 mb-2">
                   <div class="input-group-items">
-                    <div class="heading-title">{{'synonyms.edit_synonym'| translate}}</div>
+                    <div class="heading-title">{{'synonyms_edit_synonym'| translate}}</div>
                     <div class="synonymTypeBlock">
                       <div class="group-radiobutton">
                         <div class="kr-sg-radiobutton">
                           <input id="buttonIdSynonyms" value="synonym" name="synonymType" class="radio-custom"
                             [(ngModel)]="synonym.type" [checked]="!synonym.keyword" type="radio">
                           <label for="buttonIdSynonyms"
-                            class="radio-custom-label">{{'synonyms.synonym'| translate}}</label>
+                            class="radio-custom-label">{{'synonyms_synonym'| translate}}</label>
                         </div>
                         <div class="kr-sg-radiobutton">
                           <input id="buttonIdOneWaySynonyms" value="oneWaySynonym" name="synonymType"
                             [(ngModel)]="synonym.type" [checked]="synonym.keyword" class="radio-custom" type="radio">
                           <label for="buttonIdOneWaySynonyms"
-                            class="radio-custom-label">{{'synonyms.one_way_synonym' | translate}}</label>
+                            class="radio-custom-label">{{'synonyms_one_way_synonym' | translate}}</label>
                         </div>
                       </div>
                     </div>
@@ -252,9 +252,9 @@
                     <div class="saveCacleSynBlock row m-0">
                       <div class="float-right">
                         <button class="kr-sg-button-secondary btn_lg"
-                          (click)="cancleAddEdit()">{{'synonyms.cancel_it' | translate}}</button>
+                          (click)="cancleAddEdit()">{{'sa_cancel' | translate}}</button>
                         <button class="kr-sg-button-primary btn_lg"
-                          (click)="updateSynonm(synonym,synonym._id,i)">{{'synonyms.save' | translate}}</button>
+                          (click)="updateSynonm(synonym,synonym._id,i)">{{'sa_save' | translate}}</button>
                       </div>
                     </div>
                   </div>
@@ -277,9 +277,9 @@
                 </div>
                 <div class="col-6 data_content">
                   <span *ngIf="synonym.type === 'oneWaySynonym'"
-                    class="title_data">{{'synonyms.one_way_synonym'| translate}}</span>
+                    class="title_data">{{'synonyms_one_way_synonym'| translate}}</span>
                   <span *ngIf="!(synonym.type === 'oneWaySynonym')"
-                    class="title_data">{{'synonyms.synonym'| translate}}</span>
+                    class="title_data">{{'synonyms_synonym'| translate}}</span>
                   <span class="float-right action-links">
                     <span class="actions-links mr-3" (click)="editSynRecord(synonym,$event,i)" ngbTooltip='Edit'
                       [container]='"body"'><img class="action_icon" src="assets/images/edit-pencil.svg"></span>
@@ -290,7 +290,7 @@
               </ng-container>
             </div>
             <div class="divBlockEmptylastChild text-center">
-              <div class="desc">{{'synonyms.Searched_results_are_not_found'| translate}}</div>
+              <div class="desc">{{'synonyms_Searched_results_are_not_found'| translate}}</div>
             </div>
           </div>
         </section>

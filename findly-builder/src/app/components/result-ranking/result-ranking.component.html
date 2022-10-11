@@ -1,12 +1,12 @@
 <div class="faqmain-container" id="result-rank-container">
     <div class="mainLoadingSpinner" *ngIf="loadingContent">
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-        <span class="please-wait-message">{{'please_wait' | translate}}</span>
+        <span class="please-wait-message">{{'sa_please_wait' | translate}}</span>
     </div>
     <!-- <div class="header-sec col-12 row m-0"  *ngIf="!nextPage&& loadingContent1"> -->
     <div class="header-sec col-12 row m-0">
-        <div class="col-4 p-0">{{'resultRanking.resultRanking' | translate}} 
-            <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+        <div class="col-4 p-0">{{'resultRanking_resultRanking' | translate}} 
+            <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide'| translate}}" 
  placement="right-center"(click)="openUserMetaTagsSlider()">
                 <i class="si-topic-guide-1"></i>
             </span>
@@ -19,12 +19,12 @@
                 <div class="img-block"><img class="action_icon" (load)="imageLoad()"
                         src="assets/images/resultRanking-empty.png"></div>
                 <ng-container *ngIf="loadImageText">
-                    <div class="empty-title">{{'resultRanking.emptyTitle' | translate}}</div>
-                    <div class="desc-text">{{'resultRanking.descText' | translate}}
+                    <div class="empty-title">{{'resultRanking_emptyTitle' | translate}}</div>
+                    <div class="desc-text">{{'resultRanking_descText' | translate}}
                     </div>
                     <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">
                         <button class="kr-sg-button-primary btn_lg px-2"
-                            (click)="lauchTest()">{{'resultRanking.letstrat' | translate}} </button>
+                            (click)="lauchTest()">{{'resultRanking_letstrat' | translate}} </button>
                     </div>
                 </ng-container>
             </div>
@@ -51,12 +51,12 @@
                                             src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
                                     </div>
                                     <div class="count-selected">
-                                        {{collectedRecord.length}} {{'resultRanking.selected' | translate}}
+                                        {{collectedRecord.length}} {{'resultRanking_selected' | translate}}
                                     </div>
                                 </div>
                                 <div [ngClass]="{'disableDiv' : permisionView }">
                                     <button class="kr-sg-button-danger btn_lg"
-                                        (click)="resetCustomization()">{{'resultRanking.reset' | translate}}</button>
+                                        (click)="resetCustomization()">{{'resultRanking_reset' | translate}}</button>
                                 </div>
                             </div>
                             <ng-container *ngIf="!resultSelected">
@@ -66,7 +66,7 @@
                                     <label for="selectAllFaqs" class="checkbox-custom-label"></label>
                                 </div>
                                 <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
-                                    <input type="text" id="inputSearch" placeholder="Search" class="input-search"
+                                    <input type="text" id="inputSearch" placeholder="{{'sa_search' | translate}}" class="input-search"
                                         [(ngModel)]="searchSources" name='faqsSearch' autocomplete="off"
                                         [ngClass]="{'pl-33':!searchSources,'pl-2':searchSources}">
                                     <img src="assets/icons/search-gray.svg" class="search-icon" *ngIf="!searchSources">
@@ -82,11 +82,11 @@
                             </ng-container>
                         </div>
                         <div class="info-div">
-                            <div>{{'resultRanking.infoDiv' | translate}}</div>
+                            <div>{{'resultRanking_infoDiv' | translate}}</div>
                         </div>
                         <div class="body-content">
                             <div class="empty-questions-selected d-none">
-                                <div class="heading">{{'please_wait' | translate}}</div>
+                                <div class="heading">{{'sa_please_wait' | translate}}</div>
                             </div>
                             <perfect-scrollbar class="accor-scroll" #fqasScrollContainer
                                 [ngClass]="{'show_footer' : totalRecord}">
@@ -113,20 +113,20 @@
                                                         <div class="title-desc-sec">
                                                             <div class="title">{{list.searchQuery}}</div>
                                                             <div class="desc">{{list.numberOfCustomisations}}
-                                                                {{'resultRanking.customization' | translate}}</div>
+                                                                {{'resultRanking_customization' | translate}}</div>
                                                         </div>
                                                     </div>
                                                     <div class="restore-icon" [ngClass]="{'disableDiv' : permisionView}"
                                                         (click)="restore(list)">
                                                         <img class="action-icon" src="assets/icons/restore.svg"
-                                                            ngbTooltip='Reset' placement="top" container='body'>
+                                                            ngbTooltip="{{'resultRanking_reset' | translate}}" placement="top" container='body'>
                                                     </div>
                                                 </div>
                                             </div>
                                         </ng-container>
                                         <div *ngIf="!customizeList"
                                             class="empty-questions-selected divBlockEmptylastChild">
-                                            <div class="heading"> {{'resultRanking.no_search_results' | translate}}
+                                            <div class="heading"> {{'resultRanking_no_search_results' | translate}}
                                             </div>
                                         </div>
                                     </div>
@@ -145,14 +145,14 @@
                             <div class="header-info-que">
                                 <div class="row m-0 col-12 p-0">
                                     <div class="col-4 p-0 lef-info">
-                                        <div class="approved_title">{{'resultRanking.no._of_customizations_caps' |
+                                        <div class="approved_title">{{'resultRanking_no._of_customizations_caps' |
                                             translate}}</div>
                                         <div class="approved_date"><span
                                                 class="time">{{selectedRecord.numberOfCustomisations || '--'}}</span>
                                         </div>
                                     </div>
                                     <div class="col-4 p-0 lef-info">
-                                        <div class="approved_title">{{'resultRanking.last_changes_caps' | translate}}
+                                        <div class="approved_title">{{'resultRanking_last_changes_caps' | translate}}
                                         </div>
                                         <div class="approved_date"><span class="time">{{lastModifiedOn | dateFormatPipe:
                                                 'D MMMM YYYY' || '--'}}</span></div>
@@ -164,7 +164,7 @@
                                                 [ngClass]="{'disableDiv' : permisionView }" (click)="launch()">
                                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
                                                     tooltipClass="test-icon-tooltip"
-                                                    ngbTooltip='Launch query in customize mode' placement="top"><img
+                                                    ngbTooltip="{{'resultRanking_launch_query_in_customize_mode' | translate}}" placement="top"><img
                                                         class="cursor" src="assets/icons/play.svg"></button>
                                             </div>
                                         </div>
@@ -172,7 +172,7 @@
                                             [container]="'body'" [placement]="'bottom-right'">
                                             <div class="dropdown dropdown-open" (click)="showLogs()">
                                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
-                                                    ngbTooltip='Log' placement="top"><img class="cursor"
+                                                    ngbTooltip="{{'resultRanking_log' | translate}}" placement="top"><img class="cursor"
                                                         src="assets/icons/Timer.svg"></button>
                                             </div>
                                         </div>
@@ -180,8 +180,7 @@
                                             [ngClass]="{'disableDiv' : permisionView }">
                                             <button class="kr-sg-button-secondary btn_lg reset_btn"
                                                 (click)="restore(selectedRecord)"><img
-                                                    src="assets/icons/restore.svg">{{'resultRanking.restore' |
-                                                translate}} </button>
+                                                    src="assets/icons/restore.svg">{{'resultRanking_restore' | translate}} </button>
                                         </div>
                                     </div>
                                 </div>
@@ -317,34 +316,34 @@
                                                             <div class="info-data-pinned-or-boostead">
                                                                 <div class="pinned"
                                                                     *ngIf="actLog.customization.action == 'pinned'"><img
-                                                                        src="assets/icons/resultranking/pined.svg">{{'resultRanking.PINNED'
+                                                                        src="assets/icons/resultranking/pined.svg">{{'resultRanking_PINNED'
                                                                     | translate}}</div>
                                                                 <div class="pinned"
                                                                     *ngIf="actLog.customization.action == 'hidden'"><img
-                                                                        src="assets/icons/resultranking/Unsee.svg">{{'resultRanking.HIDDEN'
+                                                                        src="assets/icons/resultranking/Unsee.svg">{{'resultRanking_HIDDEN'
                                                                     | translate}}</div>
                                                                 <div class="pinned"
                                                                     *ngIf="actLog.customization.action == 'lowered'">
                                                                     <img
                                                                         src="assets/icons/resultranking/MoveUp.svg">{{actLog.customization.value}}x
-                                                                    {{'resultRanking.LOWERED' | translate}}</div>
+                                                                    {{'resultRanking_LOWERED' | translate}}</div>
                                                                 <!--multiplyAction(actLog.customization.value)}}-->
                                                                 <div class="pinned"
                                                                     *ngIf="actLog.customization.action == 'boosted'">
                                                                     <img src="assets/icons/resultranking/MoveUp.svg"
                                                                         class="rotateimg180-move-up">{{actLog.customization.value}}x
-                                                                    {{'resultRanking.BOOSTED' | translate}}</div>
+                                                                    {{'resultRanking_BOOSTED' | translate}}</div>
                                                                 <!--multiplyAction(actLog.customization.value)}}-->
                                                                 <div class="pinned manual"
                                                                     *ngIf="actLog.target.addedResult">
-                                                                    {{'resultRanking.MANUALLYADDED' | translate}}</div>
+                                                                    {{'resultRanking_MANUALLYADDED' | translate}}</div>
                                                                 <div class="time-stamp">{{actLog.customization.lMod}}
                                                                 </div>
                                                             </div>
                                                             <div class="remove-btn-sec"
                                                                 [ngClass]="{'disableDiv' : permisionView }">
                                                                 <div class="remove-btn" (click)="removeRecord(actLog)">
-                                                                    {{'resultRanking.Remove' | translate}}</div>
+                                                                    {{'resultRanking_Remove' | translate}}</div>
                                                             </div>
                                                         </div>
                                                     </a>
@@ -365,7 +364,7 @@
 
         <div class="log_section_data" [ngClass]="{'d-none' : !resultLogs}">
             <div class="header-sec">
-                <div class="h-title">LOG ({{customizeLog.length || 0}})</div>
+                <div class="h-title">{{'resultRanking_LOG' | translate}} ({{customizeLog.length || 0}})</div>
                 <div class="close_icon" (click)="closeLogs()"><img src="assets/icons/resultranking/close-log.svg"></div>
             </div>
             <perfect-scrollbar>

@@ -94,11 +94,11 @@
 										</div>
 										<div class="edit-black" *ngIf="!editIndexName&&!(config.default)"
 											(click)="$event.stopPropagation();editIndexConfig(config,'edit')"
-											ngbTooltip='Edit' placement="top-center" [container]="'body'">
+											ngbTooltip='{{"sa_edit" | translate}}' placement="top-center" [container]="'body'">
 											<img src="assets/icons/edit-pencil.svg">
 										</div>
 										<div class="delete" *ngIf="!editIndexName&&!(config.default)"
-											ngbTooltip='Delete' placement="top-center" [container]="'body'"
+											ngbTooltip='{{"sa_delete" | translate}}' placement="top-center" [container]="'body'"
 											(click)="$event.stopPropagation();checkExistInExperiment(config,'index')">
 											<img src="assets/icons/delete.svg">
 										</div>
@@ -198,12 +198,12 @@
 											</div>
 											<div class="edit-black" *ngIf="!editName&&!(config.default)"
 												(click)="$event.stopPropagation();editConfig(config,'edit')"
-												ngbTooltip='Edit' placement="top-center" [container]="'body'">
+												ngbTooltip='{{"sa_edit" | translate}}' placement="top-center" [container]="'body'">
 												<img src="assets/icons/sidemenu/edit.svg">
 											</div>
 											<div class="delete" *ngIf="!editName&&!(config.default)"
 												(click)="$event.stopPropagation();checkExistInExperiment(config,'search')"
-												ngbTooltip='Delete' placement="top-center" [container]="'body'">
+												ngbTooltip='{{"sa_delete" | translate}}' placement="top-center" [container]="'body'">
 												<img src="assets/icons/sidemenu/delete.svg">
 											</div>
 										</div>
@@ -298,7 +298,7 @@
 						<img src="assets/icons/sidemenu/new-icons/result-template.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/result-template-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Result Templates </span>
+					<span class="linkTitle">Result Templates</span>
 				</div>
 			</div>
 
@@ -349,7 +349,7 @@
 						<img src="assets/icons/sidemenu/structured_data.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/structured_data_active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">{{'structuredData.structured_data' | translate}}</span>
+					<span class="linkTitle">{{'structuredData_structured_data' | translate}}</span>
 				</div>
 
 				<div mat-button class="mat-button" [routerLink]="['/connectors']" skipLocationChange
@@ -367,7 +367,6 @@
 		<!-- Inside config tab menus -->
 		<div class="list-group list-group-flush inside-config-tab-left-menus" *ngIf="settingMainMenu && !sourceMenu">
 
-			<div class="inside-menu-title d-none">BOT RESULTS</div>
 			<div mat-button class="mat-button" [ngClass]="{'disable_btn':isRouteDisabled}" [routerLink]="['/generalSettings']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
 				<span class="inlineIconBox leftAdjust">
 					<img src="assets/icons/sidemenu/new-icons/Settings.svg" class="defaultIcon">
@@ -542,7 +541,7 @@
 			(click)="createIndexConfig()">{{newIndexConfigObj.method==='clone'?'Clone':'Add'}}</button>
 		<!-- [disabled]="!newIndexConfigObj.name" -->
 		<button type="button" class="kr-sg-button-secondary btn_lg float-right"
-			(click)="closeIndexModalPopup()">Cancel</button>
+			(click)="closeIndexModalPopup()">{{"sa_cancel" | translate}}</button>
 	</div>
 </kr-modal>
 

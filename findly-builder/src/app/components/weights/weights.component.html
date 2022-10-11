@@ -1,23 +1,23 @@
 <div class="contentContainer">
     <div class="mainLoadingSpinner" *ngIf="loadingContent">
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-        <span class="please-wait-message">{{'please_wait'| translate}}</span>
+        <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
     </div>
     <ng-container *ngIf="!loadingContent">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <div class="header-sec-stopwords">
-            <div class="title">{{'weights.Weights'| translate}}
-                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+            <div class="title">{{'weights_Weights'| translate}}
+                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide'| translate}}"
  placement="right-center"(click)="openUserMetaTagsSlider()">
                     <i class="si-topic-guide-1"></i>
                 </span>
             </div>
             <div class="restore_text" *ngIf="weights.length">
                 <span class="lable_text mr-4" id="btn_openWeight" (click)="openAddNewWeight()"><img
-                        src="assets/icons/editor/plus-add.svg" class="mr-2">{{'weights.add_searchable_field'|
+                        src="assets/icons/editor/plus-add.svg" class="mr-2">{{'weights_add_searchable_field'|
                     translate}}</span>
                 <span class="lable_text mr-2" id="btn_restoreWeight" (click)="restoreWeights();"><img
-                        src="assets/icons/return_black.svg">{{'weights.reset_to_default' | translate}}</span>
+                        src="assets/icons/return_black.svg">{{'weights_reset_to_default' | translate}}</span>
                 <span class="clock_img d-none"><img src="assets/icons/clock.svg"></span>
 
             </div>
@@ -28,8 +28,8 @@
                 <perfect-scrollbar class="scroll-table-allowRow">
                     <div class="empty-weights" *ngIf="!weights.length">
                         <img src="assets/images/icons/empty_ill.svg">
-                        <div class="heading">{{'weights.no_rankable_field_available'| translate}}</div>
-                        <div class="desc">{{'weights.please_add_rankable_field'| translate}}</div>
+                        <div class="heading">{{'weights_no_rankable_field_available'| translate}}</div>
+                        <div class="desc">{{'weights_please_add_rankable_field'| translate}}</div>
                     </div>
                     <div class="content-body" *ngFor="let weightModal of weights; let i = index">
                         <div class="col-2 name text-truncate" ngbTooltip="{{weightModal.name}}">
@@ -42,7 +42,7 @@
                                     ngbTooltip='{{fieldWarnings[weightModal.showFieldWarning] || weightModal.showFieldWarning}}'>
                                 {{weightModal.name}}
                             </div>
-                            <div class="pre_defined d-none" *ngIf="!weightModal.isField">{{'weights.SYSTEM-DEFINED'|
+                            <div class="pre_defined d-none" *ngIf="!weightModal.isField">{{'weights_SYSTEM-DEFINED'|
                                 translate}}</div>
                             <!-- <div class="pre_defined" *ngIf="!weightModal.isField">{{'weights.PRE-DEFINED'| translate}}</div> -->
                         </div>
@@ -85,10 +85,10 @@
                     <div class="cancel_save_sec">
                         <button [ngClass]="{'d-none':!weights.length}" class="kr-sg-button-secondary btn_lg"
                             id="btn_discardWeightChanges" [disabled]="disableCancle"
-                            (click)="setDataToActual()">{{'weights.cancel'| translate}}</button>
+                            (click)="setDataToActual()">{{'sa_cancel'| translate}}</button>
                         <button [ngClass]="{'d-none':!weights.length}" class="kr-sg-button-primary btn_lg"
                             id="btn_confirmWeightChanges"
-                            (click)="addOrUpddate(weights,null,'edit')">{{'weights.save_weights' | translate}}</button>
+                            (click)="addOrUpddate(weights,null,'edit')">{{'weights_save_weights' | translate}}</button>
                     </div>
                 </div>
             </section>
@@ -138,17 +138,17 @@
             </div>
             <div class="kr-sg-input-text mb-25" *ngIf="addEditWeighObj._id"
                 [ngClass]="{'disabled': addEditWeighObj._id}">
-                <div class="label-text">{{'weights.weight_name'| translate}}</div>
+                <div class="label-text">{{'weights_weight_name'| translate}}</div>
                 <input type="text" id="input_weightsName" maxlength="60" [(ngModel)]="addEditWeighObj.name"
                     placeholder="Placeholder text" class="input-text">
             </div>
             <div class="kr-sg-input-text-area mb-25">
-                <div class="label-text">{{'weights.description'| translate}}</div>
+                <div class="label-text">{{'weights_description'| translate}}</div>
                 <textarea id="input_weightsDesc" [(ngModel)]="addEditWeighObj.desc" maxlength="250"
                     placeholder="Short Description" class="input-text"></textarea>
             </div>
             <div class="kr-sg-input-text">
-                <div class="label-text">{{'weights.set_weight'| translate}}</div>
+                <div class="label-text">{{'weights_set_weight'| translate}}</div>
                 <div class="d-flex m-0 slider_sec">
                     <div class="range_slider add-searchable-feild-range-slider">
                         <app-range-slider [customClass]='"weightsSlider"' [allData]='addEditWeighObj.sliderObj'
@@ -162,11 +162,11 @@
     <div class="modal-footer text-left" *ngIf="addEditWeighObj">
         <button id="btn_weightsSave" type="button" class="kr-sg-button-danger btn_lg float-left"
             *ngIf="currentEditIndex>-1"
-            (click)="deleteWeight(addEditWeighObj,$event,currentEditIndex)">{{'weights.delete' | translate}}</button>
+            (click)="deleteWeight(addEditWeighObj,$event,currentEditIndex)">{{'sa_delete' | translate}}</button>
         <button id="btn_weightseditSave" type="button" class="kr-sg-button-primary btn_lg mr-0 float-right"
             (click)="addEditWeight()">{{(currentEditIndex>-1)?'Update':'Add'}}</button>
         <!-- [disabled]="!addEditWeighObj.name" -->
         <button id="btn_weightsClose" type="button" class="kr-sg-button-secondary btn_lg float-right"
-            (click)="closeAddEditWeight()">{{'weights.cancel'| translate}}</button>
+            (click)="closeAddEditWeight()">{{'sa_cancel'| translate}}</button>
     </div>
 </kr-modal>
