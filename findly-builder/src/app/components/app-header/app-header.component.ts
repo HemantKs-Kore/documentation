@@ -673,7 +673,7 @@ export class AppHeaderComponent implements OnInit {
           }
           // this.appSelectionService.updateTourConfig('indexing');
           this.poling();
-        }, 5000)
+        }, 1000)
       }, errRes => {
         self.training = false;
         this.notificationService.notify('Failed to train the app', 'error');

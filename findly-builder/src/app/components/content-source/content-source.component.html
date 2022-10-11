@@ -1195,7 +1195,7 @@
                                 <div class="col-4 title-heading width-22Percent">Body</div>
                                 <div class="col-8 page-content-details">
                                   <div class="info-text" [ngClass]="{'no-body-truncate':selectedPage?.isBody,'body-truncate':!selectedPage?.isBody}">{{selectedPage?._source?.page_body}}</div>
-                                  <div class="show-more" (click)="selectedPage.isBody=!selectedPage?.isBody">{{(selectedPage?.isBody)?'Show Less':'Show More'}}</div>
+                                  <div class="show-more" (click)="selectedPage.isBody=!selectedPage?.isBody">{{(selectedPage?.isBody)?'Read Less':'Read More'}}</div>
                                 </div>
                               </div>
                             </ng-container>
@@ -1207,7 +1207,7 @@
                 </div>
               </div>
             </div>
-            <div class="empty-page-data-container center-state" *ngIf="pagingData.length===0">
+            <div class="empty-page-data-container center-state" *ngIf="pagingData?.length === 0">
               <img src="assets/icons/content/latest-content-icons/empty-pages.svg">
               <div class="title">Sorry no pages available yet!</div>
               <div class="sub-title">Please crawl the webdomain again</div>

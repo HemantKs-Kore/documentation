@@ -1242,8 +1242,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.mixpanel.postEvent('FAQ Web extract added', {});
     }
     else if (this.selectedSourceType.resourceType === 'importfaq' && this.selectedSourceType.sourceType === "faq") {
-      console.log("mix event:FAQ File extraction started")
-      //this.mixpanel.postEvent('FAQ File extraction started', {});
+      this.mixpanel.postEvent('FAQ File extraction started', {});
     }
     let schdVal = true;
     const crawler = this.crwalObject;
