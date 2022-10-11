@@ -1,15 +1,15 @@
 <div class="experiment-container">
   <div class="mainLoadingSpinner" *ngIf="loadingContent">
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-    <span class="please-wait-message">{{'please_wait'| translate}}</span>
+    <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
   </div>
 
   <div *ngIf="loadingContent1">
     <div class="header-sec row" *ngIf='listOfExperiments.length>0||filterExperiments.length>0'>
       <div class="col-6 left-sec p-0">
         <div class="tab-sec d-flex">
-            <b>{{"experiments.name"| translate}}
-            <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+            <b>{{"experiments_name"| translate}}
+            <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='{{sa_topic_guide | translate}}' 
  placement="right-center"(click)="openUserMetaTagsSlider()">
               <i class="si-topic-guide-1"></i>
             </span>
@@ -19,7 +19,7 @@
       <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
 
         <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}" style="float: left">
-          <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search"
+          <input type="text" maxlength="60" placeholder="{{'sa_search' | translate}}" id="inputSearch" class="input-search"
             [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}" autocomplete="off" [(ngModel)]="searchFields"
             maxlength="50" (keyup)="getExperiments(searchFields,'search')"
             (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
@@ -28,7 +28,7 @@
           <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFields">
           <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFields}"
             (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()"
-            placement="top-center" container='body' ngbTooltip="Cancel"
+            placement="top-center" container='body' ngbTooltip="{{'sa_cancel' | translate}}"
             tooltipClass="ngb_tooltip_custom_class sampleJson">
         </div>
         <div class="searchBlock" (click)="showSearch=!showSearch;focusinSearch('inputSearch')"
@@ -37,7 +37,7 @@
               src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
         </div>
         <div (click)="addExperiment('add')" class="title">
-          <img src="assets/icons/add_plus.svg" />{{"experiments.add_btn"| translate}}
+          <img src="assets/icons/add_plus.svg" />{{"experiments_add_btn"| translate}}
         </div>
       </div>
     </div>
@@ -45,11 +45,9 @@
       <div class="table-data-content">
         <div class="row m-0 header-data col-12" *ngIf='filterExperiments.length>0'>
           <div class="col-3 h-title d-flex align-items-center">
-            {{"experiments.exp_name"| translate}}</div>
+            {{"experiments_exp_name"| translate}}</div>
           <div class="col-3 h-title">
-            {{"experiments.variants"| translate}}</div>
-          <!-- <div class="col-2 h-title">Winner</div> -->
-
+            {{"experiments_variants"| translate}}</div>
           <div class="col-2 d-flex align-items-center h-title" (click)="sortByApi('state')">
             <span class="d-flex align-items-center flex-column mr-1">
               <img [ngClass]="getSortIconVisibility('state', 'down')" src="assets/icons/caretDown.svg"
@@ -57,15 +55,12 @@
               <img [ngClass]="getSortIconVisibility('state', 'up')" src="assets/icons/caretDown.svg"
                 class="ml-1 sortImg upArrow">
             </span>
-            {{"experiments.status"| translate}}&nbsp;
+            {{"experiments_status"| translate}}&nbsp;
             <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'"
               [autoClose]="true" [placement]="'bottom-right'">
               <div class="dropdown dropdown-open">
                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
-                  <!-- <img src="assets/icons/caretDown.svg"
-                    [ngClass]="{'assending': (selectedSort==='recentStatus') && isAsc,'decending':(selectedSort==='recentStatus') && !isAsc}"
-                    class="ml-1 sortImg"> -->
-                  <img class="custom-dropdown-toggle-icon" src="assets/icons/type-select-dropdown.svg">
+                  <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
                 </button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                   <li [ngClass]="{'selected-list': filterSystem.statusfilter == 'all'}"
@@ -75,14 +70,12 @@
                       *ngFor="let status of dynamicStatus" (click)="filterTable(status,'status');statusFilter.close();">
                     <span class="list-name">{{status}}</span>
                     <img [ngClass]="{'hide': filterSystem.statusfilter !== status}"  src="assets/icons/check-blue.svg"></li>
-                  <!-- <li *ngFor="let status of dynamicStatus" (click)="filterTable(status,'status');statusFilter.close()"><span
-                      class="list-name">{{status|titlecase}}</span><img [ngClass]="{'hide': status !== setTab}" src="assets/icons/check-blue.svg"></li> -->
                 </ul>
               </div>
             </div>
           </div>
           <div class="col-3 h-title d-flex align-items-center">
-            {{"experiments.duration"| translate}}</div>
+            {{"experiments_duration"| translate}}</div>
         </div>
         <div id="accordion">
           <div class="acc-card" *ngFor="
@@ -106,21 +99,10 @@
                           <span class="v-name status" [style.background-color]="vari.color">{{exp.top_leader}}</span>
                           <span class="winner" *ngIf="vari.leader"><img src="assets/icons/experiment/leader.svg"
                               alt="leader"></span>
-                          <span class="winner" *ngIf="vari.winner">{{"experiments.winner"| translate}}</span></span>
+                          <span class="winner" *ngIf="vari.winner">{{"experiments_winner"| translate}}</span></span>
                       </span>
                     </div>
                   </div>
-                  <!-- <div class="col-2 winner-block">
-                    <div class="variants-block">
-                      <span *ngFor="let vari of exp.variants; let index = index" class="winner-content">
-                        <span class="v-name" [style.background-color]="vari.color">{{ vari.code }}</span>
-                        <span class="winner" *ngIf="vari.leader && (index === exp.variants.length - 1)"><img
-                            src="assets/icons/experiment/leader.svg" alt="leader"></span>
-                        <span class="winner" *ngIf="vari.winner && (index === exp.variants.length - 1)"><img
-                            src="assets/icons/experiment/winner.svg" alt="winner"></span>
-                      </span>
-                    </div>
-                  </div> -->
                   <div class="col-2 status">
                     <span class="a-status" [ngClass]="exp.state">{{
                       exp.state | titlecase
@@ -130,43 +112,34 @@
                     *ngIf="(exp.state !== 'configured') && (exp.state !== 'completed')">
                     <div class="left-sec">
                       <div class="date-stamp">
-                        <span class="s-color">{{"experiments.start_date"| translate}}:</span> {{ exp.start | date:
+                        <span class="s-color">{{"experiments_start_date"| translate}}:</span> {{ exp.start | date:
                         "mediumDate" }}
                       </div>
                       <div class="date-stamp">
-                        <span class="s-color">{{"experiments.end_date"| translate}}:</span> {{ exp.end | date:
+                        <span class="s-color">{{"experiments_end_date"| translate}}:</span> {{ exp.end | date:
                         "mediumDate" }}
                       </div>
                     </div>
                     <div class="right-sec" *ngIf="exp.state !== 'completed'">
                       <div class="hours">
-                        {{ exp.total_days}} {{"experiments.more"| translate}}
+                        {{ exp.total_days}} {{"experiments_more"| translate}}
                       </div>
                       <div class="hours">
                         <ngb-progressbar type="secondary" [value]="exp.time_result" [max]="24 * exp.duration.days">
                         </ngb-progressbar>
                       </div>
                     </div>
-                    <!-- <div class="date-stamp m-0">{{ exp.start | date: "mediumDate" }}</div>
-                    <div class="inline-block mb-1">
-                      <div class="hour">
-                        <ngb-progressbar type="secondary" [value]="exp.date_days" [max]="exp.total_days">
-                        </ngb-progressbar>
-                      </div>
-                      <span class="hours ml-2" *ngIf="exp.state !== 'completed'">{{ exp.date_days }} hrs more to go</span>
-                    </div>
-                    <div class="text-right date-stamp bottom m-0">{{ exp.end | date: "mediumDate" }}</div> -->
                   </div>
                   <div class="col-4 d-flex align-items-center duration-data" *ngIf="(exp.state === 'completed')">
                     <div class="left-sec">
                       <div class="date-stamp">
-                        <span class="s-color">{{"experiments.start_date"| translate}}:</span> {{ exp.start | date:
+                        <span class="s-color">{{"experiments_start_date"| translate}}:</span> {{ exp.start | date:
                         "mediumDate" }}
                       </div>
                     </div>
                     <div class="right-sec">
                       <div class="date-stamp">
-                        <span class="s-color">{{"experiments.end_date"| translate}}:</span> {{ exp.end | date:
+                        <span class="s-color">{{"experiments_end_date"| translate}}:</span> {{ exp.end | date:
                         "mediumDate" }}
                       </div>
                     </div>
@@ -175,16 +148,16 @@
                     *ngIf="exp.state === 'configured'">
                     <div class="left-sec border-0 before-none pl-0" [class.col-9]="status_active">
                       <div class="info-data" *ngIf="status_active">
-                        <img src="assets/icons/experiment/Info.svg" />{{"experiments.cannot_run"| translate}}
+                        <img src="assets/icons/experiment/Info.svg" />{{"experiments_cannot_run"| translate}}
                       </div>
                     </div>
                     <div class="right-sec">
                       <button class="kr-sg-button-secondary btn_lg" [class.mr-2]="!status_active"
                         [disabled]="status_active" (click)="runExperiment(exp._id, 'active', $event)">
-                        {{"experiments.run"| translate}}
+                        {{"experiments_run"| translate}}
                       </button>
                       <!-- <span (click)="addExperiment('edit', exp)" style="padding-left: 2px; font-size: 9px"
-                        *ngIf="!status_active">{{"experiments.view_configuration"| translate}}</span> -->
+                        *ngIf="!status_active">{{"experiments_view_configuration"| translate}}</span> -->
                     </div>
                   </div>
 
@@ -220,20 +193,20 @@
               <div class="acc-card-body">
                 <div class="bg-sec">
                   <div class="row m-0 col-12 acc-row-header">
-                    <div class="col-2 title">{{"experiments.variant"| translate}}</div>
-                    <div class="col-1 title">{{"experiments.index"| translate}}</div>
-                    <div class="col-2 title">{{"experiments.search_config"| translate}}</div>
-                    <div class="col-1 title">{{"experiments.traffic"| translate}}</div>
-                    <div class="col-1 title">{{"experiments.users"| translate}}</div>
-                    <div class="col-1 title">{{"experiments.searches"| translate}}</div>
-                    <div class="col-1 title">{{"experiments.clicks"| translate}}</div>
+                    <div class="col-2 title">{{"experiments_variant"| translate}}</div>
+                    <div class="col-1 title">{{"experiments_index"| translate}}</div>
+                    <div class="col-2 title">{{"experiments_search_config"| translate}}</div>
+                    <div class="col-1 title">{{"experiments_traffic"| translate}}</div>
+                    <div class="col-1 title">{{"experiments_users"| translate}}</div>
+                    <div class="col-1 title">{{"experiments_searches"| translate}}</div>
+                    <div class="col-1 title">{{"experiments_clicks"| translate}}</div>
                     <div class="col-1 title d-flex align-items-center">
                       <span class="d-inline-block text-truncate" style="max-width: 70px;"
-                        title="{{'experiments.ctr' | translate}}">{{"experiments.ctr"| translate}}</span> <span
+                        title="{{'experiments_ctr' | translate}}">{{"experiments_ctr"| translate}}</span> <span
                         placement="top-center" [ngbTooltip]="ctrTooltip" [container]='"body"'
                         tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span>
                     </div>
-                    <div class="col-2 title">{{"experiments.searches_results"| translate}}</div>
+                    <div class="col-2 title">{{"experiments_searches_results"| translate}}</div>
                   </div>
                   <div class="row m-0 col-12 acc-row-body align-items-center" *ngFor="let expCol of exp.variants">
                     <div class="col-2 d-flex varient-data align-items-center">
@@ -263,7 +236,7 @@
                     <div class="col-2 title">{{ expCol.searchesWithResults }}</div>
                   </div>
                   <div class="v-search-config">
-                    <span (click)="addExperiment('edit', exp)">{{"experiments.view_configuration"| translate}}</span>
+                    <span (click)="addExperiment('edit', exp)">{{"experiments_view_configuration"| translate}}</span>
                   </div>
                 </div>
               </div>
@@ -277,17 +250,17 @@
           <div class="img-block"><img class="action_icon" src="assets/images/experiments-empty.png"
               (load)="imageLoaded()"></div>
           <ng-container *ngIf="loadImageText">
-            <div class="empty-title">{{"experiments.havenot_added"| translate}}</div>
-            <div class="desc-text">{{"experiments.desc_text"| translate}}</div>
+            <div class="empty-title">{{"experiments_havenot_added"| translate}}</div>
+            <div class="desc-text">{{"experiments_desc_text"| translate}}</div>
             <!-- <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                          -->
-            <button class="kr-sg-button-primary btn_lg px-3" (click)="addExperiment('add')">{{"experiments.add_btn"|
+            <button class="kr-sg-button-primary btn_lg px-3" (click)="addExperiment('add')">{{"experiments_add_btn"|
               translate}}</button>
             <!-- </div> -->
           </ng-container>
         </div>
       </ng-container>
       <div class="no-experiments" *ngIf="filterExperiments.length!=0&&listOfExperiments.length===0">
-        <div>{{"experiments.no_result_found"| translate}}</div>
+        <div>{{"experiments_no_result_found"| translate}}</div>
       </div>
       <div *ngIf='exp_totalRecord && exp_totalRecord > 10' style="margin-right:45px;">
         <app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='10' (pageChanged)="paginate($event)">
@@ -299,7 +272,7 @@
 <!---add popup-->
 <kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop smallModal" #addExperiments>
   <div class="modal-header">
-    <div class="title">{{form_type === 'edit'?("experiments.view_experiment"| translate):("experiments.new_experiment"|
+    <div class="title">{{form_type === 'edit'?("experiments_view_experiment"| translate):("experiments_new_experiment"|
       translate)}}</div>
     <div class="close_icon" (click)="closeModalPopup()">
       <img src="assets/icons/modal-close.svg" />
@@ -317,11 +290,11 @@
     <div class="modal-body textAlignLeft">
       <div class="info-notifcation" *ngIf="exp_status !== 'configured' && form_type === 'edit'">
         <img src="assets/icons/info-blue.svg" />
-        <span class="title">{{ exp_status | titlecase }} {{"experiments.exp_cannot_edited"| translate}}</span>
+        <span class="title">{{ exp_status | titlecase }} {{"experiments_exp_cannot_edited"| translate}}</span>
       </div>
       <div class="row ml-0 mr-0 mb-3 col-12 p-0 pr-30">
         <div class="kr-sg-input-text col-8 pl-pr-5">
-          <div class="label-text">{{"experiments.exp_name"| translate}}</div>
+          <div class="label-text">{{"experiments_exp_name"| translate}}</div>
           <input type="text" autocomplete="off" maxlength="60" id="enterName" placeholder="Enter Experiment Name"
             class="input-text" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')"
             [(ngModel)]="experimentObj.name" [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{
@@ -335,7 +308,7 @@
 
       <div class="row ml-0 mr-0 mb-3 col-12 p-0 pr-30" *ngFor="let vari of variantsArray; let varIndex = index">
         <div class="kr-sg-input-text col-4 pl-pr-5 ifvariant">
-          <div class="label-text">{{"experiments.var_name"| translate}}</div>
+          <div class="label-text">{{"experiments_var_name"| translate}}</div>
           <input type="text" maxlength="60" autocomplete="off" #varName placeholder="Enter Variant Name"
             class="input-text" id="variantName{{varIndex}}" (change)="inputChanged('variantName', varIndex)"
             [(ngModel)]="vari.name"
@@ -347,7 +320,7 @@
           <img id="infoWarning{{varIndex}}" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
         </div>
         <div class="kr-sg-dropdowns col-4 pl-pr-5">
-          <div class="label-text">{{"experiments.exp_index"| translate}}</div>
+          <div class="label-text">{{"experiments_exp_index"| translate}}</div>
           <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" id="indexPipelineName{{varIndex}}"
               [disabled]="exp_status !== 'configured' && form_type === 'edit'"
@@ -364,7 +337,7 @@
           </div>
         </div>
         <div class="kr-sg-dropdowns col-4 pl-pr-5">
-          <div class="label-text">{{"experiments.search_configuration"| translate}}</div>
+          <div class="label-text">{{"experiments_search_configuration"| translate}}</div>
           <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" id="queryPipelineName{{varIndex}}"
               [disabled]="(exp_status !== 'configured' && form_type === 'edit')||vari.indexPipelineName==undefined"
@@ -387,12 +360,12 @@
 
       <div class="mb-3 variant-add" (click)="addVarient()" *ngIf="variantsArray.length < 4"
         [hidden]="exp_status !== 'configured' && form_type === 'edit'">
-        <img src="assets/icons/add_blue.svg" />{{"experiments.add_variant"| translate}}
+        <img src="assets/icons/add_blue.svg" />{{"experiments_add_variant"| translate}}
       </div>
 
       <div class="trafic-sec">
         <div class="pl-pr-5 slider-sec">
-          <div class="label-text">{{"experiments.traffic"| translate}}</div>
+          <div class="label-text">{{"experiments_traffic"| translate}}</div>
           <nouislider *ngIf="showSlider" #sliderref [config]="someRangeconfig" [(ngModel)]="someRange"
             [ngStyle]="{'pointer-events': (exp_status !== 'configured' && form_type === 'edit')?'none':'auto'}"
             (slide)="sliderChanged()"></nouislider>
@@ -409,7 +382,7 @@
 
       <div class="duration-sec">
         <div class="kr-sg-input-text">
-          <div class="label-text">{{"experiments.exp_duration"| translate}}</div>
+          <div class="label-text">{{"experiments_exp_duration"| translate}}</div>
           <input type="number" autocomplete="off" class="input-text text-center" min="30" max="90"
             (keyup)="checkDuration(experimentObj?.duration.days)" [(ngModel)]="experimentObj?.duration.days"
             [disabled]="exp_status !== 'configured' && form_type === 'edit'"
@@ -429,7 +402,7 @@
                   : 90
             " />
         </div>
-        {{"experiments.exp_days"| translate}}
+        {{"experiments_exp_days"| translate}}
       </div>
     </div>
   </perfect-scrollbar>
@@ -440,10 +413,10 @@
    !experimentObj.name ||
           (exp_status !== 'configured' && form_type === 'edit') || (variantsArray.length < 2) || (experimentObj?.duration.days < 1)
         " -->
-      {{"experiments.save_btn"| translate}}
+      {{"experiments_save_btn"| translate}}
     </button>
     <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">
-      {{"experiments.cancel_btn"| translate}}
+      {{"experiments_cancel_btn"| translate}}
     </button>
   </div>
 </kr-modal>

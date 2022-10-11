@@ -1,17 +1,17 @@
 <ng-container *ngIf="selectedSourceType">
     <form #sourceCreation="ngForm" class="form-structured-data">
         <div class="modal-header">
-            <div class="title">{{ selectedJsonForEdit ? ( selectedSourceType.viewMode ? ('structuredData.view_structured_data' | translate) : ('structuredData.edit_structured_data' | translate) ) : selectedSourceType.name}}</div>
+            <div class="title">{{ selectedJsonForEdit ? ( selectedSourceType.viewMode ? ('structuredData_view_structured_data' | translate) : ('structuredData_edit_structured_data' | translate) ) : selectedSourceType.name}}</div>
             <div class="close_icon" (click)="cancleSourceAddition({cancel : true})" id="btn_close_add_structured_modal"><img src="assets/icons/modal-close.svg"></div>
         </div>
         <perfect-scrollbar class="addSourceModalBody structuredData" #perfectScroll>
             <div class="modal-body">
                 <ng-container *ngIf="selectedSourceType.resourceType === 'structuredData'">
                     <div class="col-12 row mb-3 top-sec p-0 ml-0 mr-0">
-                        <div class="title-data col-6 p-0">{{'structuredData.upload_json' | translate}}</div>
+                        <div class="title-data col-6 p-0">{{'structuredData_upload_json' | translate}}</div>
                         <div class="actions-data col-6 p-0 d-flex align-items-center justify-content-end">
-                            <div class="download" id="btn_download_sample_csv" (click)="downloadSampleData('csv')"><img src="assets/icons/content/arrow-download-blue.svg" alt="Download sample csv">{{'structuredData.sample_csv' | translate}}</div>
-                            <div class="download" id="btn_download_sample_json" (click)="downloadSampleData('json')"><img src="assets/icons/content/arrow-download-blue.svg" alt="Download sample Json">{{'structuredData.sample_json' | translate}}</div>
+                            <div class="download" id="btn_download_sample_csv" (click)="downloadSampleData('csv')"><img src="assets/icons/content/arrow-download-blue.svg" alt="Download sample csv">{{'structuredData_sample_csv' | translate}}</div>
+                            <div class="download" id="btn_download_sample_json" (click)="downloadSampleData('json')"><img src="assets/icons/content/arrow-download-blue.svg" alt="Download sample Json">{{'structuredData_sample_json' | translate}}</div>
                         </div>
                     </div>
                     <div class="kr-sg-input-text-area mb-0 mt-3">
@@ -23,12 +23,12 @@
                                         <img src="assets/images/source-icos/drog_frop.svg">
                                     </div>
                                     <div class="info_text mb-3">Drag and drop file anywhere in this section</div>
-                                    <div class="or-divider mb-3">{{'structuredData.or' | translate}}</div>
+                                    <div class="or-divider mb-3">{{'structuredData_or' | translate}}</div>
                                     <div class="custom-file">
                                         <!-- <input type="file" id="sourceFileUploader_add_structured_data" class="custom-file-input " (change)="fileChangeJsonListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.json"> -->
                                     </div>
                                     <label for="sourceFileUploader_add_structured_data" class="drag-label">
-                                        <span class="btn btn-default browse">{{'structuredData.browse' | translate}}</span>
+                                        <span class="btn btn-default browse">{{'structuredData_browse' | translate}}</span>
                                     </label>
                                 </ng-container>
 
@@ -53,7 +53,7 @@
                                         </div>
                                         <div class="error-text"
                                             *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress">
-                                            {{'structuredData.error_fileUpload' | translate}}</div>
+                                            {{'structuredData_error_fileUpload' | translate}}</div>
                                     </div>
                                 </ng-container>
 
@@ -64,7 +64,7 @@
                 <ng-container *ngIf="selectedSourceType.resourceType === 'structuredDataManual'">
                     <div class="manual-structure-data">
                         <div class="col-12 row ml-0 mr-0 p-0 mb-3 align-items-center justify-content-end">
-                            <div class="title">{{ selectedJsonForEdit ? '' : ('structuredData.add_manually' | translate)}}</div>
+                            <div class="title">{{ selectedJsonForEdit ? '' : ('structuredData_add_manually' | translate)}}</div>
                             <div class="navigation-block mr-3" *ngIf="selectedJsonForEdit" [class.disabled]="!selectedSourceType.viewMode">
                                <span placement="top-center" container="body" ngbTooltip="Previous" tooltipClass="ngb_tooltip_custom_class sampleJson"> 
                                    <img src="assets/icons/arrow-previous.svg" class="navigation-btn" [class.disabled]="(!previousDataIndex && (previousDataIndex != 0))" (click)="navigateToRecord(false)" alt="prevoius" >
@@ -76,7 +76,7 @@
                         </div>
                         <div class="editor">
                             <div class="left-sec" [class.err-block]="(!selectedSourceType?.resourceAdded && submitted)" [class.err-block]="isInvalidJSON">
-                                <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" (dblclick)="doubleClick($event)" [(ngModel)]="structuredData.payload" (ngModelChange)="setEditorContent($event)" id="ngx_codemirror_add_structured_data"></ngx-codemirror>
+                                <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" (dblclick)="doubleClick($event)" [(ngModel)]="structuredData_payload" (ngModelChange)="setEditorContent($event)" id="ngx_codemirror_add_structured_data"></ngx-codemirror>
                             </div>                                                     
                             <div class="sample-json" *ngIf="!selectedJsonForEdit">                              
                                 <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom-right'">
@@ -144,10 +144,10 @@
             </div>
         </perfect-scrollbar>
         <div class="modal-footer">
-            <button class="kr-sg-button-primary btn_lg mr-3" *ngIf="selectedSourceType && selectedSourceType.viewMode" (click)="editRecord()" id="btn_edit_structure_data">{{ 'structuredData.edit' | translate}}</button>
-            <button class="kr-sg-button-primary btn_lg mr-3" *ngIf="!selectedSourceType || (selectedSourceType && !selectedSourceType.viewMode)" (click)="proceedSource()" id="btn_save_structure_data">{{ selectedJsonForEdit ? ('structuredData.save' | translate) : ('structuredData.proceed' | translate)}}</button> <!-- [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" -->
-            <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition({cancel : true})" id="btn_cancel_structure_data">{{ (selectedJsonForEdit && selectedSourceType.viewMode) ? ('structuredData.close' | translate) : ('structuredData.cancel' | translate)}}</button>
-            <button class="kr-sg-button-danger float-left btn_lg mr-3" *ngIf="selectedJsonForEdit && selectedSourceType.viewMode" (click)="deleteStructuredDataPopup(selectedJsonForEdit)" id="btn_delete_structure_data">{{ 'structuredData.delete' | translate}}</button> <!-- Removed Disabled [disabled]="selectedSourceType && !selectedSourceType.viewMode"-->
+            <button class="kr-sg-button-primary btn_lg mr-3" *ngIf="selectedSourceType && selectedSourceType.viewMode" (click)="editRecord()" id="btn_edit_structure_data">{{ 'structuredData_edit' | translate}}</button>
+            <button class="kr-sg-button-primary btn_lg mr-3" *ngIf="!selectedSourceType || (selectedSourceType && !selectedSourceType.viewMode)" (click)="proceedSource()" id="btn_save_structure_data">{{ selectedJsonForEdit ? ('structuredData_save' | translate) : ('structuredData_proceed' | translate)}}</button> <!-- [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" -->
+            <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition({cancel : true})" id="btn_cancel_structure_data">{{ (selectedJsonForEdit && selectedSourceType.viewMode) ? ('structuredData_close' | translate) : ('structuredData_cancel' | translate)}}</button>
+            <button class="kr-sg-button-danger float-left btn_lg mr-3" *ngIf="selectedJsonForEdit && selectedSourceType.viewMode" (click)="deleteStructuredDataPopup(selectedJsonForEdit)" id="btn_delete_structure_data">{{ 'structuredData_delete' | translate}}</button> <!-- Removed Disabled [disabled]="selectedSourceType && !selectedSourceType.viewMode"-->
         </div>
     </form>
 </ng-container>

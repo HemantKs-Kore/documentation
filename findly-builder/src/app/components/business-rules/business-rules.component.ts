@@ -1276,14 +1276,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   eventDeleted(event){
     if(event?.keyCode===8||event?.keyCode===46){
       setTimeout(()=>{
-        this.entityObj.sentence = document.getElementById('contentText').innerText;
+        const id = (!this.entityObj.isEditable)?'contentText':('contentText'+this.selectEditIndex);
+        this.entityObj.sentence = document.getElementById(id).innerText;
         const sentence= this.updateColorSentence();
         const coloredSentence = this.sanitizer.bypassSecurityTrustHtml(sentence);
-        this.inputSentence = coloredSentence;
+        if(!this.entityObj.isEditable) this.inputSentence = coloredSentence;
         this.entityObj.colorSentence = coloredSentence;
-        if(this.entityObj.sentence===""){
-          this.nlpAnnotatorObj.Legends =[];
-        }
+        this.getLegends();
       },300)
     }
   }
@@ -1321,12 +1320,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
     this.entityObj.colorSentence = coloredSentence;
     this.nlpAnnotatorObj.showEntityPopup = false;
+    this.getLegends();
   }
 
   //add color sentence to original sentence
   updateColorSentence() {
     let entityArray = [];
-    let legends = [];
     let total_entities:any = this.getUniqueListBy(this.entityObj.entities,'startIndex');
     total_entities=this.removeEntities(this.entityObj);
     this.entityObj.entities = total_entities;
@@ -1339,14 +1338,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         const applyColor = this.entityDefaultColors.filter(item=>item.type===entity[0].entityType);
         sentence = `<span contenteditable="false" style="font-weight:bold;color:${applyColor[0].color}">` + this.entityObj.sentence.substring(startIndex, endIndex) + '</span>'
         entityArray.push([startIndex, endIndex, sentence]);
-        legends.push({name:entity[0]?.entityName,type:entity[0]?.entityType});
       }
-      this.nlpAnnotatorObj.Legends = this.getUniqueListBy(legends,'name');
       const sentence = this.getSentenceByEntity(entityArray, this.entityObj.sentence);
       return sentence;
     }
     else{
-      legends=[];
       entityArray=[];
       return this.entityObj.sentence;
     }
@@ -1359,7 +1355,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     for(let item of data?.entities){
       const sentence = data?.sentence;
       const word = item?.word;
-     const indexes =  [sentence.indexOf(word), sentence.indexOf(word) + word.length];
+     const indexes =  [sentence.indexOf(word), sentence.indexOf(word) + word?.length];
      if(indexes[0]===item?.startIndex&&indexes[1]===item?.endIndex){
       array.push(item);
      }
@@ -1401,6 +1397,17 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.entityObj = { entities: [], sentence: '', colorSentence: '',isEditable:false };
       this.entityFields = { startIndex: 0, endIndex: 0, entityId: '',word:'' };
     }
+    else{
+      let message='';
+      const text:any = document.getElementById('contentText');
+      if(text.innerText===''){
+        message = 'Sentence is required'
+
+      } else if(this.entityObj.entities.length===0){
+        message = 'At least one Tag is required'
+      }
+      this.notificationService.notify(message, 'error');
+    }
   }
   //create or cancel entity
   createTag(isPopup, isEdit) {
@@ -1430,6 +1437,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //delete annotator using index
   deleteAnnotator(index) {
     this.nlpAnnotatorObj.annotator.splice(index, 1);
+    this.getLegends();
   }
   //get entities list
   getEntities() {
@@ -1551,7 +1559,26 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false };
     this.selectEditIndex = 0;
   }
+
+  //show legends method
+  getLegends(){
+    let legends = [];
+    for(let annotator of this.nlpAnnotatorObj.annotator){
+      for(let entity of annotator.entities){
+        const Item  = this.sys_entities.filter(item=>item._id===entity.entityId);
+        legends.push({name:Item[0]?.entityName,type:Item[0]?.entityType});
+      }
+    }
+    for(let obj of this.entityObj.entities){
+      const Item  = this.sys_entities.filter(item=>item._id===obj.entityId);
+        legends.push({name:Item[0]?.entityName,type:Item[0]?.entityType});
+    }
+    this.nlpAnnotatorObj.Legends = this.getUniqueListBy(legends,'name');
+  }
+
+  //toipc guide method
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next();
   }
+
 }

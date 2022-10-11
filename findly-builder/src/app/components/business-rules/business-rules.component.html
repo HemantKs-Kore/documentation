@@ -75,7 +75,7 @@
                     </span>
                     <!-- <img  src="assets/icons/sort_up_down.svg" class="pr-1" />
                     <img   src="assets/icons/caretDown.svg" class="pr-1" /> -->
-                    {{ "name_caps" | translate }}
+                    {{ "businessRules_name_caps" | translate }}
                 </div>
             </div>
             <div class="col-3 content" *ngIf="selcectionObj?.ruleType === 'contextual'">{{ "businessRules.condition_caps" | translate }}</div>
@@ -86,7 +86,7 @@
                     <img [ngClass]="getSortIconVisibility('isRuleActive', 'down')" src="assets/icons/caretDown.svg" class="sortImg downArrow">
                     <img [ngClass]="getSortIconVisibility('isRuleActive', 'up')" src="assets/icons/caretDown.svg" class="sortImg upArrow">
                 </span>
-                {{ "businessRules.status_caps" | translate }}
+                {{ "businessRules_status_caps" | translate }}
                 <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #isRuleActiveFilter="ngbDropdown" ngbDropdown
                     [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                     <div class="dropdown dropdown-open">
@@ -442,7 +442,7 @@
                                                                 <span class="mat-val" *ngIf="value">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
                                                                 <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                                                             </mat-chip>
-                                                            <span>OR</span>
+                                                            <span>{{'businessRules_or'| translate}}</span>
                                                         </ng-container>
                                                     </ng-container>
                                                     <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator === 'between')">
@@ -455,7 +455,7 @@
                                                                 </span>
                                                                 <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                                                             </mat-chip>
-                                                            <span>OR</span>
+                                                            <span>{{'businessRules_or'| translate}}</span>
                                                         </ng-container>
                                                     </ng-container> -->
                                                         <ng-container
@@ -583,7 +583,7 @@
                          <!-- nlp annotator text area end -->
                          <!-- nlp custom tag builder area start -->
                         <div class="nlp-custom-tag-block">
-                            <div class="nlp-tag-legend">{{"businessRules.legend"| translate}}</div>
+                            <div class="nlp-tag-legend">{{"businessRules.legend"| translate}}:</div>
                             <div class="nlp-custom-tag-dynamic">
                                 <div class="nlp-custom-tag" *ngFor="let legend of nlpAnnotatorObj.Legends" [ngClass]="{'nlp-system-entity':legend.type==='system_defined','nlp-index-entity':legend.type==='index_field','nlp-custom-entity':legend.type==='custom'}"><span class="nlp-tag">{{legend.name}}</span></div> 
                                 <!-- <span class="close-tag"><i class="si-close"></i></span> -->
@@ -602,7 +602,7 @@
                             <div class="nlp-custom-tag-data-block" *ngFor="let annotator of nlpAnnotatorObj.annotator;let i=index;" [ngClass]="{'nlp-tag-edit':annotator.isEditable}">
                                 <div class="nlp-custom-tag-data-line">
                                     <div contenteditable="false"  [innerHTML]="annotator.colorSentence" *ngIf="!annotator.isEditable"></div>
-                                    <div contenteditable="true" class="div-editable" [innerHTML]="annotator.colorSentence" *ngIf="annotator.isEditable" (mouseup)="getDialogDiemensions($event)" (selectedIndex)="getSelectedIndex($event)" appSelectText></div>                                   
+                                    <div contenteditable="true" id="contentText{{i}}" class="div-editable" [innerHTML]="annotator.colorSentence" *ngIf="annotator.isEditable" (mouseup)="getDialogDiemensions($event)" (keydown)="eventDeleted($event)" (selectedIndex)="getSelectedIndex($event)" appSelectText></div>                                   
                                    <div class="nlp-custom-tag-overflow-menu" *ngIf="annotator.isEditable===false">
                                     <div class="dropdown nlp-overflow-menu">
                                         <button class="btn dropdown-toggle dropdown-btn" type="button" id="nlpOverflowMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -619,7 +619,7 @@
                                     <div class="nlp-preview-header"></div> <!--<span class="warning-span"><img src="assets/images/warning.svg" class="warning-icon "/></span>Please tag  <span class="nlp-custom-tag"><span class="nlp-tag">Topic</span></span>-->
                                     <div class="nlp-preview-action-list">
                                         <div class="nlp-preview-action-done" (click)="AddSelectedEnity()"><span class="nlp-preview-action-span"><img src="assets/images/check-primary.svg" class="warning-icon "/></span> {{"businessRules.done"| translate}}</div>
-                                        <div class="nlp-preview-action-cancel" (click)="annotator.isEditable=false;editNlpAnnotatorObj={}"><span class="nlp-preview-action-span"><img src="assets/images/close.svg" class="warning-icon "/></span> {{"businessRules.cancel"| translate}}</div>
+                                        <div class="nlp-preview-action-cancel" (click)="cancelAnnotatorSentence(annotator)"><span class="nlp-preview-action-span"><img src="assets/images/close.svg" class="warning-icon "/></span> {{"businessRules.cancel"| translate}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -772,6 +772,7 @@
                 </div>
             </div>
         </div>
+
         <!---NLP Annotator modal-->
         <div class="nlp-custom-tag-popup" id="tagDialog" [ngStyle]="{'visibility':nlpAnnotatorObj.showEntityPopup?'visible':'hidden'}">
             <div class="nlp-choose-tag" *ngIf="!nlpAnnotatorObj.isEditPage">
