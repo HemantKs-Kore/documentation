@@ -1494,7 +1494,6 @@
     "teams_no_results_found":"No results found",
     "teams_add":"Add",
     "teams_cancel":"Cancel",
-    "teams_enter_email":"Type Email and Enter",
 
 
 
@@ -1519,10 +1518,6 @@
     "credentials_add":	"Add",
     "credentials_cancel":	"Cancel",
     "credentials_save":	"Save",
-    "credentials_credentials":	"Credentials",
-    "credentials_channels":"CHANNELS",
-    "credentials_api_scopes":"API SCOPES",
-
 
 
 
@@ -2915,5 +2910,37 @@
     "sa_done":"Done",
     "sa_or":"or",
     "sa_are":"are",
-    "sa_choose_field": "Choose field"
+    "sa_choose_field": "Choose field",
+
+    "teams_enter_email":"Type Email and Enter",
+
+
+    "credentials_credentials":"Credentials",
+    "credentials_channels":"CHANNELS",
+    "credentials_api_scopes":"API SCOPES",
+    "credentials_enter_name":"Enter Name",
+
+    "settings_disabled":"Channel Disabled",
+    "settings_appDetails":"App Details",
+    "settings_associate_an_app_with_SA_description":"Associate an app with your Search Assistant to securely enable the Web / Mobile Client.",
+    "settings_web_client_deatils":"Web Client Details",
+    "settings_hosted_by_Kore_ai_to_start_info":"Use the Web / Mobile Client hosted by Kore.ai to start interating with the Search Assistant.",
+    "settings_URL":"URL",
+    "settings_share_this_url_with_users_info":"Share this URL with the users to interact with your Search Assistant.",
+    "settings_to_start_interacting_via_URL":"To start interacting with the  Search Assistant via URL sharing:",
+    "settings_save_the_search_assistance":"Save the Search Assistant.",
+    "settings_configuration_the_associated_app_HS256":"Configuration the assiociated app to use HS256 signing algoritm",
+    "settings_embed_code":"Embed Code",
+    "settings_copy_and_paste_HTML_desc_info":"Copy and paste the following HTML code before the end of the BODY tag on every page of the application where you want to display the chat widget." ,
+    "settings_HTML_code":"HTML Code",
+    "settings_to_start_interacting_via_embeeded_code":"To start interacting with the  Search Assistant via the embedded code:",
+    "settings_whitelist_domains":"Whitelist domains",
+    "settings_whitelist_domains_below_only_domains_added_info":"Whitelist domains below. Only domains added here will be able to display the chat widget",
+    "settings_add_domains":"Add Domain",
+    "settings_web_mobileSDK":"Web / Mobile SDK",
+    "settings_setup_configure_web_mobileSDK_":"Setup and configure the Web / Mobile SDK using the prebuilt libraries.",
+    "settings_downloadSDK":"Download SDK",
+    "settings_enter_name":"Enter Name",
+    "settings_type_name":"Type Name"
+
 }
