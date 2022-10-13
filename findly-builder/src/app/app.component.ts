@@ -87,7 +87,11 @@ export class AppComponent implements OnInit, OnDestroy {
     router.events.subscribe((event: RouterEvent) => {
       this.navigationInterceptor(event);
     });
-    translate.setDefaultLang('en');
+    if(window.location.href.split("home/").length && window.location.href.split("home/")[1]){
+      let lang = window.location.href.split("home/")[1];
+      translate.setDefaultLang(lang);
+    }
+    
   }
 
   ngOnInit() {
