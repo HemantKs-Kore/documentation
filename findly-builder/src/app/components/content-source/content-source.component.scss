@@ -443,6 +443,15 @@
                             }
                         }
 
+                        &.media-stopped {
+                            .media-right {
+                                padding-left: 5px;
+
+                                .media-name {
+                                    color: #DD3646;
+                                }
+                            }
+                        }
                         .media-logo {
                             padding: 4px 0;
                         }
@@ -1665,8 +1674,8 @@
                                 color: #5F6368;
                                 padding: 0 10px 0 0;
                                 &.width-22Percent{
-                                    flex: 0 0 22.333333%;
-                                    max-width: 22.333333%;
+                                    flex: 0 0 16.333333%;
+                                    max-width: 16.333333%;
                                 }
                             }
 
