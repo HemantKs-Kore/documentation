@@ -205,11 +205,11 @@
                       </div>
                       <div class="media-right">
                         <div class="media-name text-truncate"  title="{{source.title || source.name}}">{{source.title || source.name}}
-                          <span class="ml-2" *ngIf="source.advanceSettings">
-                            <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon"
-                             src="assets/icons/schedule_timer.svg">
-                         </span>
                         </div>
+                        <span class="ml-2" *ngIf="source.advanceSettings">
+                          <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon"
+                           src="assets/icons/schedule_timer.svg">
+                       </span>
                         <!-- <div class="media-time-stamp" (click)="openScheduler($event,source,i)" *ngIf="source.advanceSettings?.scheduleOpt" ><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
                         <div class="media-up-time-stamp d-none"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div> -->
                       </div>
@@ -1202,7 +1202,7 @@
                                 <div class="col-3 title-heading width-22Percent">Body</div>
                                 <div class="col-9 page-content-details">
                                   <div class="info-text" [ngClass]="{'no-body-truncate':selectedPage?.isBody,'body-truncate':!selectedPage?.isBody}">{{selectedPage?._source?.page_body}}</div>
-                                  <div class="show-more" (click)="selectedPage.isBody=!selectedPage?.isBody">{{(selectedPage?.isBody)?'Show Less':'Show More'}}</div>
+                                  <div class="show-more" (click)="selectedPage.isBody=!selectedPage?.isBody">{{(selectedPage?.isBody)?'Read Less':'Read More'}}</div>
                                 </div>
                               </div>
                             </ng-container>
