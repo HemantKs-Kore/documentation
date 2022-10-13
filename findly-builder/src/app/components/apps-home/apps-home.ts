@@ -228,7 +228,7 @@ export class AppsListingComponent implements OnInit {
     else if (this.steps == 'showSearchExperience'){
       this.steps = 'displayApp'
       this.progressBarFun(4, 4)
-      this.mixpanel.postEvent('Explore App Searchexperience Type selected',{})
+      this.mixpanel.postEvent('Explore App Search experience selected',{})
     }
     else if (this.steps == 'displayApp' && this.newApp.name){
       this.appCreationAtOnboarding();
