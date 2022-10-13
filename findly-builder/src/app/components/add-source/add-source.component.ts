@@ -24,7 +24,7 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-import {SchedulerComponent} from '../scheduler/scheduler.component';
+import { SchedulerComponent } from '../scheduler/scheduler.component';
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -50,7 +50,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   filePath;
   extension;
   receivedQuaryparms: any;
-  
+
   addSourceModalPopDummyRef: any;
   schedularDataPopRef: any;
   statusModalPopRef: any;
@@ -62,7 +62,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   addStructuredDataModalPopRef: any;
   structuredDataStatusModalRef: any;
   crawlModalPopRef: any;
-  contentStatusModalPopRef:any;
+  contentStatusModalPopRef: any;
 
   searchIndexId;
   selectedSourceType: any = null;
@@ -255,18 +255,18 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   structuredDataDocPayload: any;
   selectExtractType: string = 'file';
 
-  allowURLValues: Array<String> = ['is','isNot','beginsWith','endsWith','contains', 'doesNotContains'];
+  allowURLValues: Array<String> = ['is', 'isNot', 'beginsWith', 'endsWith', 'contains', 'doesNotContains'];
   allowURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
   blockURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
   authorizationFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
-  formFieldObj: any = { type: '', key: '', value: '',isRequired: true, isEnabled: true, isShow: true,isPwdShow:false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+  formFieldObj: any = { type: '', key: '', value: '', isRequired: true, isEnabled: true, isShow: true, isPwdShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
   autorizationFieldTypes: Array<String> = ['header', 'payload', 'querystring', 'pathparam'];
   testTypes: Array<String> = ['text_presence', 'redirection_to', 'status_code'];
   authenticationTypes: Array<String> = ['basic', 'form'];
   crawlOptions: Array<String> = ['any', 'block', 'allow'];
   crwalOptionLabel: String = 'any';
   inputTypes: Array<String> = ['textbox', 'password'];
-  isPasswordShow:Boolean = false;
+  isPasswordShow: Boolean = false;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -390,7 +390,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.addSourceModalPopDummyRef.close();
       this.url_failed = false;
       //this.selectedSourceType=null;
-      if(isEmit) this.cancleEvent.emit();
+      if (isEmit) this.cancleEvent.emit();
     }
   }
 
@@ -411,6 +411,42 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.statusModalPopRef.close();
     }
     this.url_failed = true;
+    if (this.crwalObject?.authorizationProfle) {
+      if (this.crwalObject?.authorizationProfle?.authorizationFields?.length > 0) {
+        this.crwalObject.authorizationProfle.authorizationFields = this.crwalObject?.authorizationProfle?.authorizationFields?.map(item => {
+          return { ...item, isEditable: false, duplicateObj: { type: '', key: '', value: '' } }
+        })
+      }
+      if (this.crwalObject?.authorizationProfle?.sso_type === 'basic') {
+        this.crwalObject.authorizationProfle.basicFields = this.crwalObject?.authorizationProfle?.formFields;
+        this.crwalObject.authorizationProfle.formFields = [];
+      }
+      if (this.crwalObject?.authorizationProfle?.formFields?.length > 0 && this.crwalObject.authorizationProfle.sso_type === 'form') {
+        this.crwalObject.authorizationProfle.formFields = this.crwalObject?.authorizationProfle?.formFields?.map(item => {
+          return { ...item, isEditable: false, duplicateObj: { type: '', key: '', value: '' } }
+        })
+        const basicObj = [{
+          isRequired: true,
+          key: "Username or email",
+          type: "textbox",
+          isEnabled: true,
+          value: "Username",
+          isEditable: false,
+          duplicateObj: { value: "Username" }
+        },
+        {
+          isRequired: true,
+          key: "Password",
+          type: "password",
+          isEnabled: true,
+          value: "password",
+          isEditable: false,
+          duplicateObj: { value: "password" }
+        }]
+        this.crwalObject.authorizationProfle.basicFields = basicObj;
+      }
+    }
+
     this.openAddContentModal();
   }
   //retry failed url validation
@@ -1126,12 +1162,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   //Form validation
   validateSource() {
-    if (["web","faq"].includes(this.selectedSourceType.resourceType)) {
+    if (["web", "faq"].includes(this.selectedSourceType.resourceType)) {
       this.btnDisabled = true;
-      if(this.validationInputs(this.selectedSourceType.resourceType)){
+      if (this.validationInputs(this.selectedSourceType.resourceType)) {
         this.proceedSource();
       }
-      else{
+      else {
         this.btnDisabled = false;
       }
     }
@@ -1299,7 +1335,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         quaryparms.faqType = resourceType;
       }
       if (resourceType === 'web') {
-        payload ={...crawler};
+        payload = { ...crawler };
         payload.name = this.newSourceObj.name;
         payload.url = this.newSourceObj.url;
         payload.desc = this.newSourceObj.desc || '';
@@ -1308,8 +1344,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         payload.advanceOpts.crawlBeyondSitemaps = this.crawlBeyondSitemaps;
         payload.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
         payload.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
-        payload.advanceOpts.allowedURLs = (payload.advanceOpts.allowedOpt)?this.allowURLArray:[];
-        payload.advanceOpts.blockedURLs = (payload.advanceOpts.blockedOpt)?this.blockURLArray:[];
+        payload.advanceOpts.allowedURLs = (payload.advanceOpts.allowedOpt) ? this.allowURLArray : [];
+        payload.advanceOpts.blockedURLs = (payload.advanceOpts.blockedOpt) ? this.blockURLArray : [];
         if (Number(this.crawlDepth) || Number(this.crawlDepth) == 0) {
           payload.advanceOpts.crawlDepth = Number(this.crawlDepth);
         } else {
@@ -1319,17 +1355,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           payload.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
         } else {
           delete payload.advanceOpts.maxUrlLimit;
-        }       
-        for(let item of payload.authorizationProfle.authorizationFields){
-           delete item.duplicateObj;
-           delete item.isEditable;
-           delete item.isShow;
         }
-        if(payload.authorizationProfle.sso_type==='basic'){
-           payload.authorizationProfle.formFields=payload.authorizationProfle.basicFields;
+        for (let item of payload.authorizationProfle.authorizationFields) {
+          delete item.duplicateObj;
+          delete item.isEditable;
+          delete item.isShow;
         }
-        else if(payload.authorizationProfle.sso_type==='form'){
-          for(let item of payload.authorizationProfle.formFields){
+        if (payload.authorizationProfle.sso_type === 'basic') {
+          payload.authorizationProfle.formFields = payload.authorizationProfle.basicFields;
+        }
+        else if (payload.authorizationProfle.sso_type === 'form') {
+          for (let item of payload.authorizationProfle.formFields) {
             delete item.duplicateObj;
             delete item.isEditable;
             delete item.isShow;
@@ -1346,7 +1382,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             }
           }
         }
-        quaryparms.resourceType = resourceType;        
+        quaryparms.resourceType = resourceType;
       }
 
       if (resourceType === 'file') {
@@ -1401,7 +1437,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.appSelectionService.updateTourConfig('addData');
           //this.addSourceModalPopRef.close();
           if (this.selectedSourceType.sourceType === 'content') {
-            this.statusObject = { ...this.statusObject, validation: res.validations,isURLValid:res?.isURLValid };
+            this.statusObject = { ...this.statusObject, validation: res.validations, isURLValid: res?.isURLValid };
             this.mixpanel.postEvent('Content Crawl web domain added', {});
           }
           if (this.selectedSourceType.sourceType === 'faq') {
@@ -1559,7 +1595,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     // this.dataFromScheduler = scheduleData
   }
   cronExpress(cronExpress) {
-    // console.log(cronExpress);
     this.crwalObject.advanceOpts.repeatInterval = cronExpress;
   }
 
@@ -2205,7 +2240,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   //add allow/block obj into array
   addAllowBlockObj(type) {
-    const obj = { condition: 'contains', url: ''};
+    const obj = { condition: 'contains', url: '' };
     if (type === 'allow') {
       this.allowURLArray.push(obj)
     }
@@ -2268,14 +2303,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       const count = this.countValidationInputs(array);
       if (count === array.length) {
         this.crwalObject.authorizationProfle.formFields.push(this.formFieldObj);
-        this.formFieldObj = { type: '', key: '', value: '', isEnabled: true,isRequired: true,isPwdShow:false, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+        this.formFieldObj = { type: '', key: '', value: '', isEnabled: true, isRequired: true, isPwdShow: false, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
       }
       else {
         this.notificationService.notify('Enter the required fields to proceed', 'error');
       }
     }
     else if (type === 'cancel') {
-      this.formFieldObj = { type: '', key: '', value: '', isEnabled: true,isRequired: true,isPwdShow:false, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+      this.formFieldObj = { type: '', key: '', value: '', isEnabled: true, isRequired: true, isPwdShow: false, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
     }
   }
 
@@ -2298,7 +2333,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       form.duplicateObj.type = form.type;
       form.duplicateObj.key = form.key;
       form.duplicateObj.value = form.value;
-      form.isPwdShow =  false;
+      form.isPwdShow = false;
       if (type === 'cancel') form.isEditable = false;
     }
   }
@@ -2384,18 +2419,18 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   //open schedular in scheduler component 
-   openScheduler(){
-    setTimeout(()=>{
+  openScheduler() {
+    setTimeout(() => {
       this.appScheduler?.openCloseSchedular('open');
-    },300)
-   }
+    }, 300)
+  }
 
-   //show or hide password in form fields
-   showFormFieldPassword(id,data){
-      data.isPwdShow=!data.isPwdShow
-      const value:any = document.getElementById(id);
-      value.type=(value.type==='password')?'text':'password'
-   }
+  //show or hide password in form fields
+  showFormFieldPassword(id, data) {
+    data.isPwdShow = !data.isPwdShow
+    const value: any = document.getElementById(id);
+    value.type = (value.type === 'password') ? 'text' : 'password'
+  }
 }
 
 
