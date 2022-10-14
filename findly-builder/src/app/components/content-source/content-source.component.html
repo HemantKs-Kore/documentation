@@ -12,9 +12,8 @@
   </div> -->
   <ng-container *ngIf="!(resources && resources.length) && loadingContent1">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-    <div class="title-content">{{"contentSource.content" | translate}}
-      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
- placement="right-center"(click)="openUserMetaTagsSlider()">
+    <div class="title-content">{{"contentSource_content" | translate}}
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' placement="right-center"(click)="openUserMetaTagsSlider()">
         <i class="si-topic-guide-1"></i>
       </span>
     </div>    
@@ -23,63 +22,35 @@
         <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()"
             src="assets/images/contentmanag-empty.png"></div>
         <ng-container *ngIf="loadImageText">
-          <div class="empty-title">{{"contentSource.no_content" | translate}}</div>
-          <div class="desc-text"> {{"contentSource.no_content_info" | translate}}</div>
+          <div class="empty-title">{{"contentSource_no_content" | translate}}</div>
+          <div class="desc-text"> {{"contentSource_no_content_info" | translate}}</div>
           <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">
             <div class="dropdown dropdown-open">
-              <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>{{"contentSource.add_content" |
+              <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>{{"contentSource_add_content" |
                 translate}}</button>
               <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                <li class="webDomain" (click)="addNewContentSource('contentWeb')">{{"contentSource.craw_web_domain" |
+                <li class="webDomain" (click)="addNewContentSource('contentWeb')">{{"contentSource_craw_web_domain" |
                   translate}}</li>
-                <li class="webDomain" (click)="addNewContentSource('contentDoc')">{{"contentSource.upload_file" |
+                <li class="webDomain" (click)="addNewContentSource('contentDoc')">{{"contentSource_upload_file" |
                   translate}}</li>
               </ul>
             </div>
           </div>
         </ng-container>
         <ng-container *ngIf="noItems && emptySearchResults">
-          <div class="desc-text">{{"contentSource.no_search_query" | translate}}</div>
+          <div class="desc-text">{{"contentSource_no_search_query" | translate}}</div>
         </ng-container>
       </div>
     </perfect-scrollbar>
-
   </ng-container>
 
-  <!-- <div class="empty-case-showing-cotent" *ngIf="!(resources && resources.length) && !loadingContent">
-    <div class="crawlContent row m-0 mb-4">
-      <div class="col-12 main-title label_text">Add Content</div>
-      <div class="webDomain" (click)="addNewContentSource('contentWeb')">
-        <div class="box-block">
-          <div class="title label_text m-0">Crawl Web Domain</div>
-          <div class="imageDiv"><img src="assets/images/source-icos/crawlwebdomain.svg"></div>
-          <div class="info-text">Extract and index web pages and documents</div>
-        </div>
-      </div>
-      <div class="webDomain" (click)="addNewContentSource('contentDoc')">
-        <div class="box-block">
-          <div class="title label_text m-0">Upload File</div>
-          <div class="imageDiv"><img src="assets/images/source-icos/file_upload.svg"></div>
-          <div class="info-text">Index file content</div>
-        </div>
-      </div>
-      <div class="webDomain d-none">
-        <div class="box-block">
-          <div class="title label_text m-0">Others</div>
-          <div class="imageDiv"><img src="assets/images/source-icos/others.svg"></div>
-          <div class="info-text">Extract content from other</div>
-        </div>
-      </div>
-    </div>
-  </div> -->
   <div class="table-list-content" *ngIf="!loadingData">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="kr-sg-data-table with-checkbox">
       <div class="table-action-header">
         <div class="title-main">
-          {{"contentSource.content_management" | translate}}
-          <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
- placement="right-center"(click)="openUserMetaTagsSlider()">
+          {{"contentSource_content_management" | translate}}
+          <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' placement="right-center"(click)="openUserMetaTagsSlider()">
             <i class="si-topic-guide-1"></i>
           </span>
         </div>
@@ -91,8 +62,6 @@
               (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
               <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
               <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch(true);">
-              <!-- <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
-            <img *ngIf="!searchSources" class="search-icon" src="assets/images/search_gray.svg"> -->
           </div>
 
           <div class="search-block">
@@ -104,11 +73,10 @@
           <div class="kr-sg-dropdowns">
             <div class="dropdown dropdown-open">
               <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img
-                  src="assets/icons/sidemenu/plus-table.svg">{{"contentSource.add_content" | translate}}</button>
+                  src="assets/icons/sidemenu/plus-table.svg">{{"contentSource_add_content" | translate}}</button>
               <ul class="dropdown-menu content-menu">
-                <li (click)="addNewContentSource('contentWeb')">{{"contentSource.craw_web_domain" | translate}}</li>
-                <li (click)="addNewContentSource('contentDoc')">{{"contentSource.upload_file" | translate}}</li>
-                <!-- <li (click)="addStructuredDataSource()">{{"contentSource.structuredData" | translate}}</li> -->
+                <li (click)="addNewContentSource('contentWeb')">{{"contentSource_craw_web_domain" | translate}}</li>
+                <li (click)="addNewContentSource('contentDoc')">{{"contentSource_upload_file" | translate}}</li>
               </ul>
             </div>
           </div>
@@ -132,7 +100,7 @@
                 <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg"
                   class="ml-1 sortImg upArrow">
               </span>
-              {{"contentSource.source_title_caps" | translate}}
+              {{"contentSource_source_title_caps" | translate}}
             </div>
             <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('triggeredBy')">
               <!-- <img src="assets/icons/caretDown.svg"
@@ -142,14 +110,14 @@
                   <img [ngClass]="getSortIconVisibility('triggeredBy', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                   <img [ngClass]="getSortIconVisibility('triggeredBy', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                 </span>
-                {{"contentSource.triggered_by_caps" | translate}}
+                {{"contentSource_triggered_by_caps" | translate}}
             </div>
             <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('numOfDocs')">
               <span class="d-flex align-items-center flex-column mr-1">
                 <img [ngClass]="getSortIconVisibility('numOfDocs', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                 <img [ngClass]="getSortIconVisibility('numOfDocs', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
               </span>
-              {{"contentSource.no_of_pages_caps" | translate}}
+              {{"contentSource_no_of_pages_caps" | translate}}
             </div>
             <div class="col_ col-4 d-flex align-items-center" (click)="sortByApi('recentStatus')"><span
               class="selected-length-doc-web hide">({{this.filterSystem.statusFilter}})</span>
@@ -159,7 +127,7 @@
               <img [ngClass]="getSortIconVisibility('recentStatus', 'up')" src="assets/icons/caretDown.svg"
                 class="ml-1 sortImg upArrow">
             </span>
-            {{"contentSource.status_caps" | translate}}
+            {{"contentSource_status_caps" | translate}}
             <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'"
               [autoClose]="true" [placement]="'bottom-right'">
               <div class="dropdown dropdown-open">
@@ -167,7 +135,7 @@
                   <!-- <img src="assets/icons/caretDown.svg"
                     [ngClass]="{'assending': (selectedSort==='recentStatus') && isAsc,'decending':(selectedSort==='recentStatus') && !isAsc}"
                     class="ml-1 sortImg"> -->
-                  <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                  <img class="custom-dropdown-toggle-icon" src="assets/icons/filter-content.svg">
                 </button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                   <li (click)="statusFilter.close();filterTable('all','recentStatus')"><span
@@ -196,7 +164,7 @@
                 <img [ngClass]="getSortIconVisibility('contentSource', 'up')" src="assets/icons/caretDown.svg"
                   class="ml-1 sortImg upArrow">
               </span>
-              {{"contentSource.type_caps" | translate}}
+              {{"contentSource_type_caps" | translate}}
               <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
                 [autoClose]="true" [placement]="'bottom-right'">
                 <div class="dropdown dropdown-open">
@@ -261,39 +229,23 @@
                   <span>{{source?.recentStatus==='configured'?'--':source?.numPages}}</span>
                 </div>
                 <div class="col_ col-4">
-                  <!-- <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
-                    [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
-                    {{statusObj[source.recentStatus]?.name}}
-                    <img src="assets/icons/failed-status.svg" class="failed-img" placement="top"
-                       ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].message)?resourcesStatusObj[source.jobId].message:source.vailadtionTootlip}}"
-                      container="body" *ngIf="statusObj[source.recentStatus]?.name == 'Failed'"><img
-                      src="assets/icons/ringLoading.svg" class="ml-2 inProgress"
-                      *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" placement="top" container='body'
-                      ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].message)?resourcesStatusObj[source.jobId].message:statusObj[source.recentStatus]?.name}}">
-                  </span>
-                  <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
-                  <span *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" class="run-percentageDone">{{
-                    (resourcesStatusObj && resourcesStatusObj[source.jobId] &&
-                    resourcesStatusObj[source.jobId].executionStats) ?
-                    resourcesStatusObj[source.jobId].executionStats.percentageDone : ''}} </span>
-                  <span class="sch-createdOn ml-2" *ngIf="statusObj[source.recentStatus]?.name != 'In Progress'"><span
-                      *ngIf="source.schedule_createdOn">({{ source.schedule_createdOn }})</span></span>
-                  <span class="ml-2" title="{{source.schedule_duration}}" *ngIf="source.recentStatus == 'success' || source.recentStatus == 'failed'"
-                    [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
-                    <img class="ml-2" *ngIf="source.recentStatus == 'success'" class="search-icon"
-                      src="assets/icons/succes_duration.svg">
-                    <img class="ml-2" *ngIf="source.recentStatus == 'failed'" class="search-icon"
-                      src="assets/icons/failed_duration.svg">
-                    {{source.schedule_duration}}</span> -->
-
-                    <div class="media-block media-success" *ngIf="source.recentStatus == 'success'">
+                         <!-- Status==='success' -->
+                    <div class="media-block media-success" *ngIf="source.recentStatus === 'success'">
                       <div class="media-logo"><img src="assets/icons/content/latest-content-icons/green-check-circle.svg"></div>
                       <div class="media-right">
                         <div class="media-name">Successful</div>
                         <div class="media-up-time-stamp" *ngIf="source.schedule_createdOn">{{ source.schedule_createdOn }}<span class="pl-1"><img src="assets/icons/content/latest-content-icons/gray-time-change-logs.svg">{{source.schedule_duration}}</span></div>
                       </div>
                     </div>
+                         
+                    <!-- status==='configured' -->
+                    <div class="media-block media-success" *ngIf="statusObj[source.recentStatus]?.name == 'Validated'">
+                      <div class="media-right">
+                        <div class="media-name">Validated</div>
+                      </div>
+                    </div>
 
+                    <!-- status==='In progress' -->
                     <div class="media-block media-inprogress" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'">
                       <div class="media-logo"><img src="assets/icons/content/latest-content-icons/blue-loading.svg"></div>
                       <div class="media-right">
@@ -302,27 +254,28 @@
                       </div>
                     </div>
 
-                    <div class="media-block media-failed" *ngIf="source.recentStatus == 'failed'" >
+                    <!-- status==='falies' -->
+                    <div class="media-block media-failed" *ngIf="source.recentStatus === 'failed'">
                       <div class="media-logo"><img src="assets/icons/content/latest-content-icons/red-warning-circle.svg"></div>
                       <div class="media-right">
                         <div class="media-name">Failed</div>
-                        <!-- <div class="media-list">
+                        <div class="media-list" *ngIf="source?.isURLValid===false">
                           <div class="media-list-header">Following may be the reason to fail</div>
                           <ul class="media-list-ul">
-                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat nisl vitae posuere.</li>
-                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat nisl vitae posuere.</li>
-                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat nisl vitae posuere.</li>
+                            <li *ngIf="source?.validations?.url?.validated===false">{{source?.validations?.url?.msg}}</li>
+                            <li *ngIf="!source?.validations?.networkConnectivity?.validated&&source?.validations?.networkConnectivity?.msg">{{source?.validations?.networkConnectivity?.msg}}</li>
                           </ul>
-                          <div class="media-show-more">Show more</div>
-                        </div> -->
+                          <!-- <div class="media-show-more">Show more</div> -->
+                        </div>
                       </div>
                     </div>
 
-                    <div class="media-block media-inQueue d-none">
+                    <!-- status==='queue' -->
+                    <div class="media-block media-inQueue" *ngIf="statusObj[source.recentStatus]?.name == 'In-Queue'">
                       <div class="media-logo"><img src="assets/icons/content/latest-content-icons/blue-progress-indicator.svg"></div>
                       <div class="media-right">
                         <div class="media-name">In-Queue</div>
-                        <div class="media-up-time-stamp">1 out of 3</div>
+                        <!-- <div class="media-up-time-stamp">1 out of 3</div> -->
                       </div>
                     </div>
                 </div>
@@ -333,38 +286,41 @@
                
                 <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
                 <div class="col_ col-1 text-right p-0">
-                  <span class="actions-links re-crawl" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated) || source.recentStatus === 'halted'"
+                  <!-- <span class="actions-links re-crawl" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated) || source.recentStatus === 'halted'"
                   (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/content/latest-content-icons/blue-return.svg" ngbTooltip='Crawl' container="body">
-                  </span>
+                  </span> -->
 
-                  <span class="actions-links re-validate" *ngIf="source.extractionType == 'web' && (source.recentStatus === 'failed'&&!(source?.validations?.url?.validated))"
+                  <!-- <span class="actions-links re-validate" *ngIf="source.extractionType == 'web' && (!source.isURLValid)"
                   (click)="retryValidation(source,$event)">
                     <img class="action_icon" src="assets/icons/content/latest-content-icons/green-validate.svg" ngbTooltip='Validate' container="body">
-                  </span>
+                  </span> -->
 
 
-                  <!-- <span class="actions-links"
-                    *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated) || source.recentStatus === 'halted'"
-                    (click)="recrwal('source',source,$event)"><img class="action_icon"
-                      src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span> -->
+                  <span class="actions-links"
+                    *ngIf="source.extractionType == 'web' && ['Success','Stopped'].includes(statusObj[source.recentStatus]?.name) && (source.isURLValid)"
+                    (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span>
+
                   <span class="actions-links"
                     *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'"
                     (click)="jobOndemand(source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"
                       ngbTooltip='Crawl' container="body"></span>
+
                   <!-- <span class="actions-links"*ngIf="source.extractionType == 'web' && (source.recentStatus === 'failed'&&!(source?.validations?.url?.validated))"
                   (click)="retryValidation(source,$event)"><img class="action_icon" src="assets/icons/validate.svg"
                       ngbTooltip='Revalidate' container="body"></span> -->
+
                   <span class="actions-links"
                     *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'"
                     (click)="stopCrwaling(source,$event)"><img class="action_icon" src="assets/icons/content/stop.svg"
                       ngbTooltip='Stop' container="body"></span>
+                      
                   <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
                       src="assets/icons/delete-table.svg" ngbTooltip='Delete' container="body"></span>
                 </div>
               </div>
             </ng-container>
             <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord > 10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginateContent($event)"></app-record-pagination></div>
-            <div class="empty">{{"contentSource.no_results_found" | translate}}</div>
+            <div class="empty">{{"contentSource_no_results_found" | translate}}</div>
           </perfect-scrollbar>
         </section>
 
@@ -425,7 +381,7 @@
                       *ngIf="statusObj[source.recentStatus]?.name == ('In Progress' || 'Queued'); else executed">Started -
                       {{source.schedule_createdOn}}</div>
                     <ng-template #executed>
-                      <div class="timestamp"> {{"contentSource.last_updated_on" | translate}} {{source.lMod |
+                      <div class="timestamp"> {{"contentSource_last_updated_on" | translate}} {{source.lMod |
                         dateFormatPipe: 'D MMMM YYYY'}}</div>
                     </ng-template>
                     <div class="status text-right" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'">
@@ -438,12 +394,12 @@
                         class="run-percentageDoneGrid">{{ (resourcesStatusObj && resourcesStatusObj[source.jobId] &&
                         resourcesStatusObj[source.jobId].executionStats) ?
                         resourcesStatusObj[source.jobId].executionStats.percentageDone : ''}} </span>
-                      <span class="status-title"> {{"contentSource.in_progress" | translate}}</span>
+                      <span class="status-title"> {{"contentSource_in_progress" | translate}}</span>
                     </div>
                     <div class="pages-count text-right">
                       <!-- *ngIf="statusObj[source.recentStatus]?.name == 'Success' || statusObj[source.recentStatus].name == 'Stopped'" -->
                       <span *ngIf="source.numPages">
-                        <span class="count">{{source.numPages}}</span>{{"contentSource.pages" | translate}}
+                        <span class="count">{{source.numPages}}</span>{{"contentSource_pages" | translate}}
                       </span>
                       <span *ngIf="!source.numPages">
                         <span class="count"> -- </span>
@@ -451,7 +407,7 @@
                     </div>
                     <div class="status text-right" *ngIf="statusObj[source.recentStatus]?.name == 'Failed'">
                       <span class="img-block"><img src="assets/icons/content/failed-status.svg"></span>
-                      <span class="status-title failed">{{"contentSource.failed" | translate}}</span>
+                      <span class="status-title failed">{{"contentSource_failed" | translate}}</span>
                     </div>
                   </div>
                   <div class="delete-refresh">
@@ -503,7 +459,7 @@
 
       <div class="content-accordion-sec" *ngIf="sliderStep === 0">
         <ng-container *ngIf="!(selectedSource && selectedSource.pages && selectedSource.pages.length)">
-          <!-- <div class="noPages" *ngIf="!loadingContent && isConfig">{{"contentSource.no_pages_available" | translate}}</div> -->
+          <!-- <div class="noPages" *ngIf="!loadingContent && isConfig">{{"contentSource_no_pages_available" | translate}}</div> -->
         </ng-container>
         <ng-container *ngIf="selectedSource ">
           <!--&& selectedSource.pages && selectedSource.pages.length -->
@@ -511,39 +467,20 @@
           <div class="search-header">
             <div class="tabs-sec">
               <span class="tabname" [ngClass]="{'active' : isConfig}"
-                (click)="swapSlider('config')">{{"contentSource.configuration" | translate}}</span>
-                <span class="tabname" [ngClass]="{'active' : page}" (click)="swapSlider('page')">{{"contentSource.pages"
+                (click)="swapSlider('config')">{{"contentSource_configuration" | translate}}</span>
+                <span class="tabname" [ngClass]="{'active' : page}" (click)="swapSlider('page')">{{"contentSource_pages"
                   | translate}}</span>
               <span class="tabname"
                 *ngIf="executionHistoryData && selectedSource.recentStatus != 'scheduled' && selectedSource.recentStatus != 'configured'"
-                [ngClass]="{'active' : execution}" (click)="swapSlider('execution')">{{"contentSource.executions" |
+                [ngClass]="{'active' : execution}" (click)="swapSlider('execution')">{{"contentSource_executions" |
                 translate}}</span>
             </div>
-            <div class="right-side">
-              <div *ngIf="page">
-                <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
-                  <input type="text" maxlength="60" placeholder="Search" class="input-search" name='pagesSearch'
-                    placeholder="Search" [ngClass]="{'pl-2':pagesSearch}" id="searchInput" [(ngModel)]="pagesSearch" (keyup)="getCrawledPages(10,0,pagesSearch,'search')"
-                    autocomplete="off"
-                    (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
-                    (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
-                    (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
-                  <img [src]="searchImgSrc" class="search-icon" *ngIf="!pagesSearch">
-                  <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':pagesSearch}"
-                    (mouseover)="activeClose=true" (mouseout)="activeClose=false"
-                    (click)="pagesSearch='';showSearch = !showSearch">
-                </div>
-
-                <div class="search-block" *ngIf="!(sourceStatus == 'failed' && page)">
-                  <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data"
-                    (click)="showSearch = !showSearch;focusinSearch('searchInput')"><img src="assets/icons/search.svg"
-                      [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
-                </div>
-              </div>          
+            <div class="right-side">       
             </div>
           </div>
+
+          <!-- Configuration-->
           <div *ngIf="isConfig && !loadingSliderContent">
-            <!-- Conf Configuration-->
             <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table-allowRow">
               <!-- new Configuration html start -->
               <div class="config-first-row">
@@ -563,9 +500,8 @@
                   <button class="btn btn-secondary" type="button"><span class="last-update"><img src="assets/icons/refresh-secondary.svg" alt="refresh-icon" /> Last Updated</span>{{selectedSource?.lMod | dateFormatPipe:'D.MM.YYYY'}}</button>
                 </div>
                 <div class="reload-recrwal width-10 mar-bot-15" *ngIf="!page && !execution">
-                  <button class="btn btn-out-primary" type="button" *ngIf="selectedSource.recentStatus == 'configured'" (click)="jobOndemand(selectedSource,$event)">Crawl</button>
-                  <button class="btn btn-out-primary" type="button" *ngIf="(['success'].includes(selectedSource.recentStatus)) || (selectedSource.recentStatus === 'failed'&&selectedSource?.validations?.url?.validated)" (click)="recrwal('source',selectedSource ,null)"><span class="reload-crwal"><img src="assets/icons/refresh-primary.svg" alt="refresh-icon" /></span> Recrawl</button>
-                  <button class="btn btn-out-primary" type="button" *ngIf="(selectedSource.recentStatus === 'failed'&&!(selectedSource?.validations?.url?.validated))" (click)="retryValidation(selectedSource,$event)">Recrawl</button>
+                  <button class="btn btn-out-primary" type="button" *ngIf="selectedSource.recentStatus === 'configured'" (click)="jobOndemand(selectedSource,$event)">Crawl</button>
+                  <button class="btn btn-out-primary" type="button" *ngIf="(['Success','Stopped'].includes(statusObj[selectedSource?.recentStatus]?.name) && (selectedSource?.isURLValid))" (click)="recrwal('source',selectedSource ,null)"><span class="reload-crwal"><img src="assets/icons/refresh-primary.svg" alt="refresh-icon" /></span> Recrawl</button>
                 </div>
               </div>
 
@@ -576,7 +512,7 @@
 
               <div class="config-crwal-desc-block">
                 <div class="kr-sg-input-text-area mar-bot-15">
-                  <div class="label-text">Description</div>
+                  <div class="label-text">DESCRIPTION</div>
                   <textarea autocomplete="off" name="sourceDesc" maxlength="250" placeholder="Enter Description" class="input-text" [(ngModel)]="editSource.desc"></textarea>
                 </div>
               </div>
@@ -749,14 +685,10 @@
                   </div>
                   </div>
                 </div>
-              </div>
-                 
+              </div>                 
                   </div>
-      
                 </div>
-      
-
-      
+            
                 <div class="new-crawl-shedule authenticated-website">
                   <div class="new-crawl-shedule-tab" [ngStyle]="{'border':editSource.authorizationEnabled?'':0}">
                     <div class="shedual-header form-group">
@@ -838,7 +770,8 @@
                                 <div class="crawl-opt-inp">
                                   <div class="kr-sg-input-text mar-bot-15">
                                     <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
-                                    <input [type]="form.type" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [(ngModel)]="form.duplicateObj.value">
+                                    <input [type]="form.type" autocomplete="off" name="url" placeholder="Field Key" class="input-text" #inputPwd [(ngModel)]="form.duplicateObj.value">
+                                    <i class="icon-eye" [ngClass]="{'si-eye':!isPasswordShow,'si-eyeshow':isPasswordShow}" (click)="isPasswordShow=!isPasswordShow;inputPwd.type=(inputPwd.type==='password')?'text':'password'" *ngIf="i===1"></i>
                                   </div>
                                 </div>
                               </div>
@@ -924,6 +857,7 @@
                                   <div class="kr-sg-input-text mar-bot-15">
                                     <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
                                     <input id="{{'contentFormFieldValueId'+i}}" [type]="form.type" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [value]="form.value" [(ngModel)]="form.duplicateObj.value">
+                                    <i class="icon-eye" [ngClass]="{'si-eye':!form.isPwdShow,'si-eyeshow':form.isPwdShow}" (click)="showFormFieldPassword('contentFormFieldValueId'+i,form)" *ngIf="form.duplicateObj.type==='password'"></i>
                                   </div>
                                 </div>
                               </div>
@@ -967,6 +901,7 @@
                           <div class="kr-sg-input-text mar-bot-15">
                             <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
                             <input id="contentFormFieldValueId" [type]="formFieldObj.type" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [(ngModel)]="formFieldObj.value">
+                            <i class="icon-eye" [ngClass]="{'si-eye':!formFieldObj.isPwdShow,'si-eyeshow':formFieldObj.isPwdShow}" (click)="showFormFieldPassword('contentFormFieldValueId',formFieldObj)" *ngIf="formFieldObj.type==='password'"></i>
                           </div>
                         </div>
                       </div>
@@ -995,7 +930,7 @@
               </div> 
               
               <div class="is-auth-form-table">
-                <div class="kr-sg-data-table" [ngClass]="{'text-center':editSource.authorizationProfle.authorizationFields.length===0}">
+                <div class="kr-sg-data-table">
                   <section class="table-content" *ngIf="editSource.authorizationProfle.authorizationFields.length>0">
                       <header class="table-header">
                           <div class="col-3">FIELD KEY</div> 
@@ -1012,7 +947,7 @@
                           <div class="col-2">
                             <div class="d-flex">
                               <label class="kr-sg-toggle with-label">                                       
-                                <input id="sa-formFieldListItemEnableDisable" type="checkbox" checked>
+                                <input id="sa-formFieldListItemEnableDisable" type="checkbox" [checked]="auth?.isEnabled" [(ngModel)]="auth.isEnabled">
                                 <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span></div>
                             </label>
                             </div>
@@ -1067,7 +1002,7 @@
                       </div>
                   </section>  
 
-                  <span class="font-weight-bold" *ngIf="(editSource.authorizationProfle.authorizationFields.length===0&&!authorizationFieldObj.isShow)">No authorization fields found</span>
+                  <span class="font-weight-bold d-inline-block w-100 text-center" *ngIf="(editSource.authorizationProfle.authorizationFields.length===0&&!authorizationFieldObj.isShow)">No authorization fields found</span>
 
                   <!-- ADD DIVISION SATRTS -->
                   <div class="is-auth-form-edit" *ngIf="authorizationFieldObj.isShow">
@@ -1149,17 +1084,14 @@
               </div>
               <!-- new Configuration html end -->
             </perfect-scrollbar>
-            <!-- Conf Configuration-->
-
           </div>
 
-<!-- New Pages Starts -->
+        <!-- Pages -->
           <ng-container *ngIf="page && !loadingSliderContent">
-            <div class="pages-container-content">
+            <div class="pages-container-content" *ngIf="pagingData.length>0">
               <div class="search_header">
                 <div class="label-text">SEARCH PAGE</div>
                 <div class="kr-sg-input-search">                               
-                  <!-- <input type="text" placeholder="Search" class="input-search pl-35" [(ngModel)]="pagesSearch"> -->
                   <input type="text" placeholder="Search" class="input-search pl-35" name='pagesSearch'
                   id="searchInput" [(ngModel)]="pagesSearch" (keyup)="getCrawledPages(10,0,pagesSearch,'search')"
                     autocomplete="off">
@@ -1172,9 +1104,9 @@
                     <div class="inner-scroll-data">
                       <ul class="nav nav-tabs">
                         <li class="nav-item"  *ngFor="let page of pagingData;let i = index">
-                          <a id="page{{i}}" class="nav-link" [ngClass]= "{ 'active': selectedPage==page }" (click)="selectedPage=page;selectDefalutPage(i)" data-toggle="tab" href="#menu{{i}}">
-                            <div class="page-name">{{page._source.page_title}}</div>
-                            <div class="page_link text-truncate">{{page._source.page_url|| selectedSource.url}}</div>
+                          <a id="page{{i}}" class="nav-link" [ngClass]= "{ 'active': selectedPage?._id===page?._id }" (click)="selectedPage=page" data-toggle="tab" href="#menu{{i}}">
+                            <div class="page-name page-truncate" [title]="page?._source?.page_title">{{page._source.page_title}}</div>
+                            <div class="page_link text-truncate" appEllipsisActive>{{page._source.page_url|| selectedSource.url}}</div>
                             <div class="page-c-data">{{page.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
                           </a>
                         </li>
@@ -1188,7 +1120,7 @@
                       <div class="pages-info-tabs">
                         <div class="heading-title">{{selectedPage?._source?.page_title}}</div>
                         <div class="actions-clicks">
-                          <div class="recall-btn" (click)="reCrwalingWeb('pages',selectedPage ,null)">
+                          <div class="recall-btn" (click)="reCrwalingWeb('pages',selectedPage ,null)" *ngIf="['Success','Stopped'].includes(statusObj[selectedSource?.recentStatus]?.name) && (selectedSource?.isURLValid)">
                             <i class="si-recall"></i>
                             <span>Recrawl</span>
                           </div>
@@ -1207,19 +1139,21 @@
                         <perfect-scrollbar>
                           <div class="scroll-inner-data">
                             <ng-container>
-                              <div class="split-row row">
-                                <div class="split-row-data col-8">
-                                  <div class="row-content-data row">
+                              <div class="split-row row m-0">
+                                <div class="split-row-data col-8 p-0">
+                                  <div class="row-content-data row m-0">
                                     <div class="col-4 title-heading">Title</div>
                                     <div class="col-8 page-content-details">
                                       <div class="info-text">{{selectedPage?._source?.page_title}}</div>
                                     </div>
                                   </div>
-                                  <div class="row-content-data row">
+                                  <div class="row-content-data row m-0">
                                     <div class="col-4 title-heading">Sections</div>
-                                    <div class="col-8 page-content-details">
-                                      <div class="info-text" *ngFor="let section of selectedPage?._source?.page_sections ">{{section}}</div>
+                                    <div class="col-8 page-content-details" [ngClass]="{'no-text-truncate':selectedPage?.isSection,'text-truncate':!selectedPage?.isSection}">
+                                      <div class="info-text" *ngFor="let section of selectedPage?._source?.page_sections">{{section}}</div>
                                     </div>
+                                    <div class="col-4"></div>
+                                    <div class="col-8 show-more" (click)="selectedPage.isSection=!selectedPage?.isSection" *ngIf="selectedPage?._source?.page_sections?.length>5">{{(selectedPage?.isSection)?'Show Less':'Show More'}}</div>
                                   </div>
                                   <div class="row-content-data row d-none">
                                     <div class="col-4 title-heading">URLs</div>
@@ -1230,7 +1164,7 @@
                                       </div>
                                     </div>
                                   </div>
-                                  <div class="row-content-data row">
+                                  <div class="row-content-data row m-0">
                                     <div class="col-4 title-heading">Updated on</div>
                                     <div class="col-8 page-content-details">
                                       <div class="info-text">{{selectedPage?.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
@@ -1238,7 +1172,7 @@
                                   </div>
                                 </div>
                                 <div class="split-row-img col-4"  *ngIf="selectedPage?._source?.page_image_url">
-                                  <div class="row-content-data border-0">
+                                  <div class="row-content-data border-0 split-img-preview-block">
                                     <div class="col-12 page-content-details">
                                       <div class="img-preview-header">IMAGE PREVIEW</div>
                                       <div class="img-link-cards">
@@ -1257,10 +1191,11 @@
                                 </div>
                               </div>
                            
-                              <div class="row-content-data row">
-                                <div class="col-4 title-heading">Body</div>
+                              <div class="row-content-data row m-0">
+                                <div class="col-4 title-heading width-22Percent">Body</div>
                                 <div class="col-8 page-content-details">
-                                  <div class="info-text">{{selectedPage?._source.page_body}}</div>
+                                  <div class="info-text" [ngClass]="{'no-body-truncate':selectedPage?.isBody,'body-truncate':!selectedPage?.isBody}">{{selectedPage?._source?.page_body}}</div>
+                                  <div class="show-more" (click)="selectedPage.isBody=!selectedPage?.isBody">{{(selectedPage?.isBody)?'Show Less':'Show More'}}</div>
                                 </div>
                               </div>
                             </ng-container>
@@ -1272,12 +1207,14 @@
                 </div>
               </div>
             </div>
+            <div class="empty-page-data-container center-state" *ngIf="pagingData.length===0">
+              <img src="assets/icons/content/latest-content-icons/empty-pages.svg">
+              <div class="title">Sorry no pages available yet!</div>
+              <div class="sub-title">Please crawl the webdomain again</div>
+              <div><button class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" (click)="jobOndemand(selectedSource,$event)"><span class="si-Internet"></span>   Crawl Web Domain</button></div>
+            </div>
           </ng-container>
-<!-- New Pages End -->
-          <div class="empty-page-data-container" *ngIf="page &&  totalRecord == 0 && source?.recentStatus == 'success'">
-            <img src="assets\images\emptyList.png">
-            <div class="title">Sorry! No Pages available yet!! Please <span> crawl</span>the web domain again</div>
-          </div>
+
           <!-- Execution -->
           <div *ngIf="execution && !loadingSliderContent" class="execution-table-data">
             <div class="accordion-content-info text-left">
@@ -1285,19 +1222,19 @@
                 <div class="kr-sg-data-table with-checkbox">
                   <section class="table-content m-0">
                     <header class="table-header">
-                      <div class="col_ col-4">{{"contentSource.execution_caps" | translate}}</div>
-                      <div class="col_ col-2">{{"contentSource.duration_caps" | translate}}</div>
-                      <div class="col_ col-3">{{"contentSource.triggered_by_caps" | translate}}</div>
-                      <div class="col_ col-3">{{"contentSource.executed_on_caps" | translate}}</div>
+                      <div class="col_ col-4">{{"contentSource_execution_caps" | translate}}</div>
+                      <div class="col_ col-2">{{"contentSource_duration_caps" | translate}}</div>
+                      <div class="col_ col-3">{{"contentSource_triggered_by_caps" | translate}}</div>
+                      <div class="col_ col-3">{{"contentSource_executed_on_caps" | translate}}</div>
                     </header>
                     <perfect-scrollbar class="scroll-table" #perfectScroll>
                       <ng-container>
                         <div class="content-body" *ngFor="let history of executionHistoryData; let i = index;">
                           <div class="eye-img">
-                            <img src="assets/icons/content/eye.svg" (mouseover)="executionLogStatus = true">
+                            <span class="view-log" (mouseover)="executionLogStatus = true">View Log</span>
                             <div class="execute-log" *ngIf="executionLogStatus">
                               <div class="header-title">
-                                <div class="title">{{"contentSource.execution_log_caps" | translate}}</div>
+                                <div class="title">{{"contentSource_execution_log_caps" | translate}}</div>
                                 <div class="close-log"><img src="assets/images/close.svg"
                                     (click)="executionLogStatus = false"></div>
                               </div>
@@ -1322,35 +1259,6 @@
                                   </span>
                                 </div>
                               </ng-container>
-
-                              <!-- <div class="log-details">
-                                <img src="assets/icons/content/success.svg">
-                                <span class="log-name">URL Validation <span class="time">(5s)</span></span>
-                              </div>
-                              <div class="log-details">
-                                <img src="assets/icons/content/success.svg">
-                                <span class="log-name">Network Validation <span class="time">(3s)</span></span>
-                              </div>
-                              <div class="log-details">
-                                <img src="assets/icons/content/success.svg">
-                                <span class="log-name">Indexing Restrictions <span class="time">(2s)</span></span>
-                              </div>
-                              <div class="log-details">
-                                <img src="assets/icons/content/info-sitemap.svg">
-                                <span class="log-name">Content Verification <span class="time">(1m 9s)</span></span>
-                              </div>
-                              <div class="log-details">
-                                <img src="assets/icons/content/failed-circle.svg">
-                                <span class="log-name">Sitemap Validation <span class="time">(1m)</span></span>
-                              </div>
-                              <div class="log-details">
-                                <img src="assets/icons/content/success.svg">
-                                <span class="log-name">Process in Queue <span class="time">(4m)</span></span>
-                              </div>
-                              <div class="log-details">
-                                <img src="assets/images/success-circle.svg">
-                                <span class="log-name">Successfull</span>
-                              </div> -->
                             </div>
                           </div>
                           <div class="col_ col-4 d-flex">
@@ -1359,9 +1267,9 @@
                               <img *ngIf="history?.executionStats?.executionStatusMessage =='Execution In Progress'"
                                 class="inProgress" src="assets/icons/ringLoading.svg">
                               <img *ngIf="history?.executionStats?.executionStatusMessage !='Execution In Progress'"
-                                src="{{executionObj[history.executionStats.executionStatusMessage].icon}}">
+                                [src]="(history?.executionStats?.executionStatusMessage)?executionObj[history?.executionStats?.executionStatusMessage].icon:''">
                               <span
-                                *ngIf="history?.executionStats.executionStatusMessage =='Execution In Progress' && history.executionStats.percentageDone"
+                                *ngIf="history?.executionStats?.executionStatusMessage =='Execution In Progress' && history?.executionStats?.percentageDone"
                                 style="position: absolute;left: 4px;top: 4px;font-size: 10px;font-weight: 600">{{history?.executionStats?.percentageDone
                                 || 0}}%</span>
                             </span>
@@ -1371,7 +1279,7 @@
                               <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Stopped'" src="assets/icons/content/stopped.svg" >
                               <img *ngIf="history.executionStats.executionStatusMessage == 'Execution In Progress'" src="assets/icons/content/failed.svg">
                             </span> -->
-                            <div class="text-truncate w-100 pr-4">{{history?.executionStats.executionStatusMessage}}
+                            <div class="text-truncate w-100 pr-4">{{history?.executionStats?.executionStatusMessage}}
                             </div>
                             <!-- <div class="eye-img" (mouseenter)="executionHistoryPop(history,i)"><img src="assets/icons/content/eye.svg" >
                             </div>
@@ -1380,13 +1288,11 @@
                               {{executionObj[history.executionStats.executionStatusMessage]}}
                             </div> -->
                           </div>
-                          <div class="col_ col-2">{{history?.executionStats.duration}}</div>
-                          <div class="col_ col-3">{{history?.executionStats.triggeredBy}}</div>
+                          <div class="col_ col-2">{{history?.executionStats?.duration}}</div>
+                          <div class="col_ col-3">{{history?.executionStats?.triggeredBy}}</div>
                           <div class="col_ col-3">{{history?.createdOn}}</div>
                         </div>
-                        <!-- test   (mouseleave) = "mouseleave()" -->
-
-                        <!-- test -->
+                        <div class="no-execution" *ngIf="executionHistoryData?.length===0">No executions found</div>
                       </ng-container>
                     </perfect-scrollbar>
                   </section>
@@ -1556,6 +1462,7 @@
   <app-add-structured-data *ngIf="isStructuredDataAdd" [selectedSourceType]="selectedSourceType"
     (closeStructuredDataModal)="closeAddStructuredDataModal($event)"></app-add-structured-data>
 </kr-modal>
+
 <kr-modal modalType="center" modalClass="modal_popups_ schedualarDataModelPop" #schedularDataPop
   id="schedualarDataModelPop">
   <div class="modal-header">

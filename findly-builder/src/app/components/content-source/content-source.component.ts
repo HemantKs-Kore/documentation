@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy, TestabilityRegistry } from '@angular/core';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { LocalStoreService } from '@kore.services/localstore.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
@@ -257,12 +256,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   allowURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
   blockURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
   authorizationFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
-  formFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+  formFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: false,isPwdShow:false, isEditable: false, isRequired: true,  duplicateObj: { type: '', key: '', value: '' } };
   autorizationFieldTypes: Array<String> = ['header', 'payload', 'querystring', 'pathparam'];
   testTypes: Array<String> = ['text_presence', 'redirection_to', 'status_code'];
   authenticationTypes: Array<String> = ['basic', 'form'];
   crawlOptions: Array<String> = ['any', 'block', 'allow'];
   inputTypes: Array<String> = ['textbox', 'password'];
+  isPasswordShow:Boolean = false;
 
   constructor(
     public workflowService: WorkflowService,
@@ -662,7 +662,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   getCrawledPages(limit?, skip?) {
-    this.pagingData = [];
+    // this.pagingData = [];
     this.docContent = {};
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -715,24 +715,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       let isFocused = (document.activeElement === searchEl);
       this.lastPageSearch = this.pagesSearch;
       this.lastData = data
-      console.log(data.length, this.pagesSearch, isFocused)
       if (data.length || this.pagesSearch || isFocused) {
         this.swapSlider('page');
-        this.selectedPage = this.pagingData[0];
+        this.selectedPage = {...this.pagingData[0],isSection:false,isBody:false};
       }
       else {
-        // console.log(data.length, this.pagesSearch, 'configOut..')
         if (data.length == 0 && this.pagesSearch.length == 0) {
           this.swapSlider('config')
-          // console.log(data.length, this.pagesSearch, 'config..')
         }
       }
-      this.clicksViews('file')
-      // if(this.isConfig && $('.tabname') && $('.tabname').length){
-      //   $('.tabname')[1].classList.remove('active');
-      //   $('.tabname')[0].classList.add('active');
-      // }
-      // this.isConfig = false;
+      if(res?.content[0]?.extractionType==='file'){
+        this.clicksViews('file')
+      }
     }, errRes => {
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
         this.loadingSliderContent = false;
@@ -749,7 +743,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   viewPageDetails(page) {
     this.content_id = page._id
     this.sliderStep = 1;
-    this.clicksViews('web');
+    //this.clicksViews('web');
   }
   sliderBack() {
     if (this.sliderStep) {
@@ -932,6 +926,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             this.editSource.authorizationProfle.authorizationFields.push(obj)
           }
         }
+        if(source?.authorizationProfle?.sso_type === 'basic'){
+           for(let i=0;i<source?.authorizationProfle?.formFields?.length;i++){
+            this.editSource.authorizationProfle.basicFields[i].value = source?.authorizationProfle?.formFields[i].value
+            this.editSource.authorizationProfle.basicFields[i].duplicateObj.value = source?.authorizationProfle?.formFields[i].value
+           }
+        }
         if (source?.authorizationProfle?.formFields?.length > 0 && this.editSource.authorizationProfle.sso_type === 'form') {
           for (let item of source?.authorizationProfle?.formFields) {
             const obj = { ...item, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
@@ -948,16 +948,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.loadingSliderContent = true;
       this.totalCrawledCount = source.numPages;
       this.getCrawledPages(this.limitpage, 0);
-      this.executionHistory();
+      if(source?.recentStatus!=='failed'){
+        this.executionHistory();
+      }
       this.sourceStatus = source.recentStatus;
-      console.log("sourec opned", this.editSource)
     }
     else if (source.extractionType === 'file') {
       this.openDocumentModal();
       this.getCrawledPages(this.limitpage, 0);
     }
-    // this.sliderComponent.openSlider('#sourceSlider', 'right500');
-    //}
     this.isEditDoc = false;
   }
   pageination(pages, action) {
@@ -1259,11 +1258,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
-      //if(this.isEditDoc){
       this.isEditDoc = false;
       this.cancelDocDetails();
       this.getSourceList()
-      //}
       this.notificationService.notify('Source deleted successsfully', 'success');
       const deleteIndex = _.findIndex(this.resources, (pg) => {
         return pg._id === record._id;
@@ -1603,6 +1600,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.statusModalPopRef.close();
     }
     this.editTitleFlag = false;
+    this.addFormField('cancel');
+    this.addAuthorizationField('cancel');
   }
   openAddSourceModal() {
     this.addSourceModalPopRef = this.addSourceModalPop.open();
@@ -1653,31 +1652,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     });
   }
-  urlCondition(condition, type) {
-    type == 'allow' ? this.urlConditionAllow = condition : this.urlConditionBlock = condition;
-    type == 'allow' ? this.allowUrl.condition = condition : this.blockUrl.condition = condition;
-    if (condition === 'is') {
-      type === 'allow' ? this.allowUrl.name = "Equals to" : this.blockUrl.name = "Equals to";
-    }
-    else if (condition === 'isNot') {
-      type === 'allow' ? this.allowUrl.name = "Not equals to" : this.blockUrl.name = "Not equals to";
-    }
-    else if (condition === 'beginsWith') {
-      type === 'allow' ? this.allowUrl.name = "Begins with" : this.blockUrl.name = "Begins with";
-    }
-    else if (condition === 'endsWith') {
-      type === 'allow' ? this.allowUrl.name = "Ends with" : this.blockUrl.name = "Ends with";
-    }
-    else if (condition === 'contains') {
-      type === 'allow' ? this.allowUrl.name = "Contains" : this.blockUrl.name = "Contains";
-    }
-    else if (condition === 'doesNotContains') {
-      type === 'allow' ? this.allowUrl.name = "Doesn't contain" : this.blockUrl.name = "Doesn't contain";
-    }
-  }
   scheduleData(scheduleData) {
-    // console.log(scheduleData);
-    if (this.selectedSource?.advanceSettings?.scheduleOpts) this.selectedSource['advanceSettings'].scheduleOpts = scheduleData;
+    //if (this.selectedSource?.advanceSettings?.scheduleOpts) this.selectedSource['advanceSettings'].scheduleOpts = scheduleData;
+    if(this.editSource?.advanceOpts?.scheduleOpts) this.editSource.advanceOpts.scheduleOpts = scheduleData;
   }
   cronExpress(cronExpress) {
     // console.log(cronExpress);
@@ -1761,6 +1738,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         delete item.duplicateObj;
         delete item.isEditable;
         delete item.isShow;
+        delete item.isPwdShow;
       }
     }
     delete payload.authorizationProfle.basicFields;
@@ -1903,7 +1881,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.closeStatusModal()
     const queryParams: any = {
       searchIndexID: this.serachIndexId,
-      sourceId: source._id
+      sourceId: source?._id
     };
     this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
       this.getSourceList();
@@ -1971,20 +1949,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
   clicksViews(type) {
     if (type == 'file') {
-      this.Id = this.contentId;
+      const quaryparms: any = {
+        searchIndexId: this.serachIndexId,
+        contentId: this.contentId
+      };
+      this.service.invoke('get.clicksViewsContent', quaryparms).subscribe(res => {
+        this.numberOf = res;
+      }, errRes => {
+      });
     }
-    else if (type == 'web') {
-      this.Id = this.content_id
-    }
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      contentId: this.Id,
-    };
-    this.service.invoke('get.clicksViewsContent', quaryparms).subscribe(res => {
-      // console.log(res);
-      this.numberOf = res;
-    }, errRes => {
-    });
   }
 
   //add allow/block obj into array
@@ -2052,14 +2025,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       const count = this.countValidationInputs(array);
       if (count === array.length) {
         this.editSource.authorizationProfle.formFields.push(this.formFieldObj);
-        this.formFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+        this.formFieldObj = { type: '', key: '', value: '', isEnabled: true,isRequired: true,isPwdShow:false,  isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
       }
       else {
         this.notificationService.notify('Enter the required fields to proceed', 'error');
       }
     }
     else if (type === 'cancel') {
-      this.formFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+      this.formFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false,isPwdShow:false, isRequired: true, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
     }
   }
 
@@ -2082,6 +2055,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       form.duplicateObj.type = form.type;
       form.duplicateObj.key = form.key;
       form.duplicateObj.value = form.value;
+      form.isPwdShow =  false;
       if (type === 'cancel') form.isEditable = false;
     }
   }
@@ -2095,6 +2069,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       form.duplicateObj.value = form.value;
     }
     form.isEditable = false;
+    this.isPasswordShow = false;
   }
 
   //select authentication type
@@ -2104,7 +2079,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.editSource.authorizationProfle.authCheckUrl = '';
     this.editSource.authorizationProfle.testType = '';
     this.editSource.authorizationProfle.testValue = '';
-    this.authorizationFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+    this.authorizationFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' }};
+    if(this.editSource.authorizationProfle.sso_type==='form'&&this.editSource.authorizationProfle.formFields.length===0){
+      this.formFieldObj = { type: '', key: '', value: '', isEnabled: true,isRequired: true,isPwdShow:false,  isShow: true, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+    }
   }
 
   //delete form fields
@@ -2162,9 +2140,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     return count;
   }
+
+  //open topic guide
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next();
   }
+
+  //show or hide password in form fields
+  showFormFieldPassword(id,data){
+    data.isPwdShow=!data.isPwdShow
+    const value:any = document.getElementById(id);
+    value.type=(value.type==='password')?'text':'password'
+ }
 }
 
 

@@ -11,7 +11,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service'
 import { AppHeaderComponent } from './components/app-header/app-header.component';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 
-// import {TranslateService} from '@ngx-translate/core';
+import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
 // declare const KoreWidgetSDK: any;
 declare const FindlySDK: any;
@@ -54,6 +54,7 @@ export class AppComponent implements OnInit, OnDestroy {
   closeSDKSubscription: Subscription;
   searchExperienceSubscription: Subscription;
   showSDKApp: Subscription;
+  queryConfigsSubscription : Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
@@ -64,7 +65,9 @@ export class AppComponent implements OnInit, OnDestroy {
   searchExperienceConfig: any;
   searchExperinceLoading: boolean = false;
   indexPipelineId: any;
+  queryPipelineId: any;
   isDemoApp: boolean = false;
+  selectedApp : any;
   @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(private router: Router,
     private authService: AuthService,
@@ -77,14 +80,14 @@ export class AppComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
     public inlineManual: InlineManualService,
-    public mixpanel: MixpanelServiceService
-    // private translate: TranslateService
+    public mixpanel: MixpanelServiceService,
+    private translate: TranslateService
   ) {
     this.mixpanel.init();
     router.events.subscribe((event: RouterEvent) => {
       this.navigationInterceptor(event);
     });
-    // translate.setDefaultLang('en');
+    translate.setDefaultLang('en');
   }
 
   ngOnInit() {
@@ -102,6 +105,15 @@ export class AppComponent implements OnInit, OnDestroy {
       this.loadSearchExperience();
       this.getSearchExperience();
     });
+    this.queryConfigsSubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
+      /** 
+       * res.length > 1 - its only query Details 
+       *  res.length == 1- its from Index pipeline and then to query Details.
+       * **/
+        this.indexPipelineId = this.workflowService.selectedIndexPipeline()
+        this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
+        this.getSearchExperience();
+    })
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       this.searchSDKHeader();
     });
@@ -124,8 +136,9 @@ export class AppComponent implements OnInit, OnDestroy {
       this.isDemoApp = true;
       this.getSearchExperience();
     })
-      this.inlineManual.loadAppscue();
-      //this.inlineManual.loadInlineManualScripts();
+    this.inlineManual.loadAppscue();
+    //this.inlineManual.loadInlineManualScripts();
+    this.selectedApp = this.workflowService.selectedApp();
   }
   showMenu(event) {
     this.showMainMenu = event
@@ -281,7 +294,6 @@ export class AppComponent implements OnInit, OnDestroy {
           this.searchExperienceSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
             this.loadSearchExperience();
           })
-          // console.log('navigated to path throught navigator and shown preview ball');
         } else {
           // this.showHideSearch(false);
           // this.showHideTopDownSearch(false);
@@ -343,7 +355,15 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   loadSearchExperience() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId && this.searchExperinceLoading === false) {
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
+    /** fetching the ID from Previous state for refresh app */
+    if(!this.queryPipelineId){
+      let preStateData = this.localstore.getPreviousState();
+      if(preStateData && preStateData.selectedQueryPipeline){
+        this.queryPipelineId =  preStateData.selectedQueryPipeline._id;
+      }
+    }
+    if (this.indexPipelineId && this.queryPipelineId && this.searchExperinceLoading === false) {
       this.getSearchExperience();
     }
   }
@@ -364,6 +384,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.showHideSourceMenuSubscription ? this.showHideSourceMenuSubscription.unsubscribe() : false;
     this.searchExperienceSubscription ? this.searchExperienceSubscription.unsubscribe() : false;
     this.showSDKApp ? this.showSDKApp.unsubscribe() : false;
+    this.queryConfigsSubscription ? this.queryConfigsSubscription.unsubscribe() : false;
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
@@ -381,6 +402,8 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.workflowService.selectedApp() && (this.workflowService.selectedApp().searchIndexes || []).length && this.workflowService.selectedApp().searchIndexes[0]._id) {
       botOptionsFindly.searchIndexID = this.workflowService.selectedApp().searchIndexes[0]._id
     }
+    // botOptionsFindly.indexPipelineId = this.workflowService.selectedIndexPipeline()||'';
+    // botOptionsFindly.queryPipelineId = this.queryPipelineId||'';
     botOptionsFindly.botInfo = { chatBot: this.workflowService.selectedApp().name, taskBotId: this.workflowService.selectedApp()._id };  // bot name is case sensitive
     botOptionsFindly.assertionFn = this.assertion;
     botOptionsFindly.koreAPIUrl = this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint;
@@ -588,6 +611,8 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.workflowService.selectedApp() && (this.workflowService.selectedApp().searchIndexes || []).length && this.workflowService.selectedApp().searchIndexes[0]._id) {
       botOptionsFindly.searchIndexID = this.workflowService.selectedApp().searchIndexes[0]._id
     }
+    // botOptionsFindly.indexPipelineId = this.workflowService.selectedIndexPipeline()||'';
+    // botOptionsFindly.queryPipelineId = this.queryPipelineId||'';
     botOptionsFindly.assertionFn = this.assertion;
     botOptionsFindly.koreAPIUrl = this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint;
     // To modify the web socket url use the following option
@@ -653,10 +678,17 @@ export class AppComponent implements OnInit, OnDestroy {
     const searchIndex = selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      indexPipelineId: this.workflowService.selectedIndexPipeline()
+      indexPipelineId: this.workflowService.selectedIndexPipeline(),
+      queryPipelineId : this.workflowService.selectedQueryPipeline() ?this.workflowService.selectedQueryPipeline()._id : this.queryPipelineId,
     };
     setTimeout(function () {
-      if (quaryparms.indexPipelineId) {
+      if(!quaryparms.indexPipelineId){
+        quaryparms.indexPipelineId = _self.workflowService.selectedIndexPipelineId
+      }
+      if(!quaryparms.queryPipelineId){
+        quaryparms.queryPipelineId = _self.workflowService.selectedQueryPipeline() ? _self.workflowService.selectedQueryPipeline()._id : _self.selectedApp.searchIndexes[0].queryPipelineId
+      }
+      if (quaryparms.indexPipelineId && quaryparms.queryPipelineId) {
         _self.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
           _self.searchExperienceConfig = res;
           _self.searchExperinceLoading = true;

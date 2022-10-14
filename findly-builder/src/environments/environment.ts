@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   tag: 'dev',
-  API_SERVER_URL: 'https://d208-49-249-160-22.in.ngrok.io', 
+  API_SERVER_URL: 'https://searchassist-app.kore.ai',
   USE_SESSION_STORE: false,
   INLINE_MANUAL_SITE_KEY: "1ec224ee46620656a9b18a17c80587a3",
   APPCUES:{
@@ -16,7 +16,7 @@ export const environment = {
   topicGuideBaseUrl:'https://koredotcom.github.io/koredotai-docs/searchassist/topic-guide/'
   // API_SERVER_URL: 'http://192.168.10.101:5000' 
   //testing purpose
-  // topicGuideBaseUrl:'https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/'
+  //topicGuideBaseUrl:'https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/'
 };
 
 /*

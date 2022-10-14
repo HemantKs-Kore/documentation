@@ -4,7 +4,7 @@
 <div class="channels-main-container">
     <div class="header-sec-breadcums col-12 row m-0 " *ngIf="slider==0">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-        <div class="col-4 lef-sec p-0"><span class="title">{{"settings.channels" | translate}}</span>
+        <div class="col-4 lef-sec p-0"><span class="title">{{"settings_channels" | translate}}</span>
            <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
  placement="right-center"(click)="openUserMetaTagsSlider()">
                 <i class="si-topic-guide-1"></i>
@@ -12,13 +12,13 @@
         </div>
         <div class="col-8 right-sec p-0">
             <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">                               
-                <input type="text" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchchannel,'pl-2':searchchannel}" autocomplete="off" [(ngModel)]="searchchannel"  maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                <input type="text" placeholder="{{'settings_search' | translate}}" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchchannel,'pl-2':searchchannel}" autocomplete="off" [(ngModel)]="searchchannel"  maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchchannel">
-            <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchchannel}" (mouseover)="activeClose=true" (mouseout)="activeClose=false"  (click)="focusoutSearch()"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+            <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchchannel}" (mouseover)="activeClose=true" (mouseout)="activeClose=false"  (click)="focusoutSearch()"  placement="top-center" container='body' ngbTooltip="{{'settings_cancel' | translate}}" tooltipClass="ngb_tooltip_custom_class sampleJson">
             </div> 
               <div class="seach-block" (click)="showSearch=!showSearch;focusinSearch('inputSearch')">
-                <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+                <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'settings_search' | translate}}</span>
             </div>
             <!-- <div class="seach-block"><img src="assets/icons/search.svg">{{'search' | translate}}
             </div> -->
@@ -27,22 +27,23 @@
     </div>
     <div class="header-sec row m-0 col-12 " *ngIf="slider!==0" >
         <div class="bread-cum-sec col-6 p-0 d-flex align-items-center">
-            <div class="bread-name">{{"settings.channels" | translate}}</div>
+            <div class="bread-name">{{"settings_channels" | translate}}</div>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
-            <div class="bread-name active-name" >{{"settings.web_mobile_client" | translate}}</div>            
+            <div class="bread-name active-name" >{{"settings_web_mobile_client" | translate}}</div>            
         </div>
         <div class="col-6 toggle-check d-none">        
             <label class="kr-sg-toggle">
                 <input type="checkbox" [checked] = "enableConfiguration" (click)="disableCredential(pageDisable)">
-                <div class="slider"><span class="enabled" >{{"settings.channel_enabled" | translate}}</span><span class="disabled" >Channel Disabled</span></div>
+                <div class="slider"><span class="enabled" >{{"settings_channel_enabled" | translate}}</span><span class="disabled" >Channel Disabled</span></div>
             </label>     
             <!-- <div class="bread-name active-name1"  *ngIf="existingCredential"><img src="assets/icons/viewinstruction.svg"> View Instructions</div>                  -->
         </div>
     </div>
+    
     <div class="body-sec" *ngIf="slider==0">
         <div class="info-data">
             <div class="img-block"><img src="assets/icons/Info_gray.svg"></div>
-            <div class="info-title">{{"settings.info_text" | translate}}
+            <div class="info-title">{{"settings_info_text" | translate}}
             </div>
         </div>
         <div class="card_data row m-0">
@@ -55,7 +56,7 @@
                             <!-- <li (click)="disableCredential()"><a (click)="enableConfiguration = !enableConfiguration"> Disable</a></li> 
                             <li *ngIf="!enableConfiguration = enableConfiguration" (click)="configureCredential()"><a> Enable</a></li>  -->
                             <!-- <li><a (click)="enableConfiguration = !enableConfiguration) ? disableCredential()">Enaable</a></li> -->
-                            <li  class="d-none"(click) = "deleteChannel()"><a>{{"settings.delete" | translate}} </a></li>               
+                            <li  class="d-none"(click) = "deleteChannel()"><a>{{"settings_delete" | translate}} </a></li>               
                         </ul>
                     </div>
                 </div>
@@ -70,7 +71,7 @@
                 <div class="main" (click)="proceedChannel(channel)">
                     <div class="img-block cursor-pointer"><img src="{{channel.icon}}" height="140"></div>
                     <div class="main-title">{{channel.name}}</div>
-                    <div class="configuration" *ngIf="channel.enable && !delChannel">{{"settings.configured" | translate}}</div>
+                    <div class="configuration" *ngIf="channel.enable && !delChannel">{{"settings_configured" | translate}}</div>
                 </div>
 
             </div>
@@ -83,50 +84,50 @@
             <div class="progress_indiactors row" *ngIf="slider!==0 && !existingCredential">
                 <div class="progress_bar col-4 text-center active-bar step">
                     <div class="circle"></div>
-                    <div class="title ">{{"settings.instructions" | translate}}</div>
+                    <div class="title ">{{"settings_instructions" | translate}}</div>
                 </div>
 
                 <div class="progress_bar col-4 p-0 text-center  step" [ngClass]="{'active-bar' : slider>1}">
                     <div class="circle"></div>
-                    <div class="title"> {{"settings.select _credential" | translate}}</div>
+                    <div class="title"> {{"settings_select_credential" | translate}}</div>
 
                 </div>
                 <div class="progress_bar col-4 p-0 text-center step" [ngClass]="{'active-bar' : slider>2}">
                     <div class="circle"></div>
-                    <div class="title">{{"settings.generate_token" | translate}} </div>
+                    <div class="title">{{"settings_generate_token" | translate}} </div>
                 </div>
             </div>
             <div class="row card-steps" *ngIf="slider==1">
                 <div class="card_list">
-                    <div class="step-title"> {{"settings.step_1" | translate}} </div>
+                    <div class="step-title"> {{"settings_step_1" | translate}} </div>
                     <div class="img-block"><img src="assets/images/icons/sdkdownload.svg"></div>
-                    <div class="title-main"> {{"settings.download_searchassist_kit_sdk" | translate}} </div>
-                    <div class="desc-text"> {{"settings.download_info" | translate}} </div>
+                    <div class="title-main"> {{"settings_download_searchassist_kit_sdk" | translate}} </div>
+                    <div class="desc-text"> {{"settings_download_info" | translate}} </div>
                 </div>
                 <div class="card_list">
-                    <div class="step-title"> {{"settings.step_2" | translate}} </div>
+                    <div class="step-title"> {{"settings_step_2" | translate}} </div>
                     <div class="img-block"><img src="assets/images/icons/register-credentials.svg"></div>
-                    <div class="title-main"> {{"settings.register_credential" | translate}}</div>
-                    <div class="desc-text"> {{"settings.register_info" | translate}}</div>
+                    <div class="title-main"> {{"settings_register_credential" | translate}}</div>
+                    <div class="desc-text"> {{"settings_register_info" | translate}}</div>
                 </div>
                 <div class="card_list">
-                    <div class="step-title"> {{"settings.step_3" | translate}}</div>
+                    <div class="step-title"> {{"settings_step_3" | translate}}</div>
                     <div class="img-block"><img src="assets/images/icons/callback.svg"></div>
-                    <div class="title-main">{{"settings.define_callback_url" | translate}}</div>
-                    <div class="desc-text"> {{"settings.callback_info" | translate}} </div>
+                    <div class="title-main">{{"settings_define_callback_url" | translate}}</div>
+                    <div class="desc-text"> {{"settings_callback_info" | translate}} </div>
                 </div>
                 <div class="card_list">
-                    <div class="step-title">{{"settings.step_4" | translate}}</div>
+                    <div class="step-title">{{"settings_step_4" | translate}}</div>
                     <div class="img-block"><img src="assets/images/icons/selectevent.svg"></div>
-                    <div class="title-main pl-5">{{"settings.select_events" | translate}} </div>
-                    <div class="desc-text">{{"settings.select_events_info" | translate}} </div>
+                    <div class="title-main pl-5">{{"settings_select_events" | translate}} </div>
+                    <div class="desc-text">{{"settings_select_events_info" | translate}} </div>
                 </div>
             </div>
             <div class="select_credentials_sec" *ngIf="slider==2">
-                <div class="main-heading"> {{"settings.seems_like_there_are_no_credentails_created" | translate}}</div>
-                <div class="desc-text">{{"settings.create_a_credential_to_associate_it_with_the_channel" | translate}} </div>
+                <div class="main-heading"> {{"settings_seems_like_there_are_no_credentails_created" | translate}}</div>
+                <div class="desc-text">{{"settings_create_a_credential_to_associate_it_with_the_channel" | translate}} </div>
                 <div class="kr-sg-input-text">
-                    <div class="label-text">{{"settings.credential_name" | translate}}</div>
+                    <div class="label-text">{{"settings_credential_name" | translate}}</div>
                     <input type="text" placeholder="Type Name" id="addSourceTitleInput" class="input-text" [(ngModel)]="credntial.name" (change)="inputChanged('title')"required>
                     <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
 
@@ -134,12 +135,12 @@
                 <div class="kr-sg-checkbox p-0 d-none ">
                     <input id="checkbox-1" class="checkbox-custom" type="checkbox" [(ngModel)]="credntial.anonymus"
                         checked>
-                    <label for="checkbox-1" class="checkbox-custom-label"> {{"settings.allow_anonymous_users_to_chat_with_the_bot" | translate}} </label>
+                    <label for="checkbox-1" class="checkbox-custom-label"> {{"settings_allow_anonymous_users_to_chat_with_the_bot" | translate}} </label>
                 </div>
                 <div class="kr-sg-checkbox  p-0 d-none">
                     <input id="checkbox-2" class="checkbox-custom" type="checkbox" [(ngModel)]="credntial.register"
                         checked>
-                    <label for="checkbox-2" class="checkbox-custom-label">{{"settings.instructions" | translate}} </label>
+                    <label for="checkbox-2" class="checkbox-custom-label">{{"settings_instructions" | translate}} </label>
                 </div>
                 <!-- <div class="kr-sg-dropdowns">
                     <div class="label-text mb-2"> {{"settings.jwt_algorithm" | translate}} </div>
@@ -155,19 +156,19 @@
                     </div>
                 </div> -->
                 <div class="kr-sg-dropdowns jwt-signing-alg-dropdown" ngbDropdown [placement]="'bottom'">    
-                    <div class="label-text 2"> {{"settings.jwt_algorithm" | translate}} </div>                                    
+                    <div class="label-text 2"> {{"settings_jwt_algorithm" | translate}} </div>                                    
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" >{{ credntial.awt }}</button>                                            
                         <ul class="dropdown-menu content-menu faq-filter-add mw-100 w-100 p-0" ngbDropdownMenu>
-                            <li (click)="jwtAuth('RS256')"><a>{{"settings.RS256" | translate}}</a></li>
-                            <li (click)="jwtAuth('HS256')"><a>{{"settings.HS256" | translate}}</a></li>            
+                            <li (click)="jwtAuth('RS256')"><a>{{"settings_RS256" | translate}}</a></li>
+                            <li (click)="jwtAuth('HS256')"><a>{{"settings_HS256" | translate}}</a></li>            
                         </ul>
                     </div>
                 </div>
                 <label class="kr-sg-toggle d-none">
                     <input type="checkbox" >
-                    <div class="slider"><span class="enabled"> {{"settings.push_notifications_enabled" | translate}} </span><span
-                            class="disabled"> {{"settings.push_notifications_enabled" | translate}} </span></div>
+                    <div class="slider"><span class="enabled"> {{"settings_push_notifications_enabled" | translate}} </span><span
+                            class="disabled"> {{"settings_push_notifications_enabled" | translate}} </span></div>
                 </label>
             </div>
 
@@ -176,9 +177,9 @@
                     <div class="channels-container-info">
                         <!-- <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey> -->
                         <div class="breadcum-header d-none">
-                            <div class="primary-text">{{"settings.channels" | translate}}</div>
+                            <div class="primary-text">{{"settings_channels" | translate}}</div>
                             <img src="assets/images/back-icon.svg">
-                            <div class="secondary-text">{{"settings.web_mobile_client" | translate}}</div>
+                            <div class="secondary-text">{{"settings_web_mobile_client" | translate}}</div>
                         </div>
                         <perfect-scrollbar class="scroll-data-channels">
                             <div class="info-data-channels-accordion">
@@ -197,7 +198,7 @@
                                             <div class="card-body">
                                                 <div class="generator-token-sec">
                                                     <div class="kr-sg-dropdowns credentials-dropdown mb-4 pl-4">
-                                                        <div class="label-text">{{"settings.select_credential" | translate}}</div>
+                                                        <div class="label-text">{{"settings_select_credential" | translate}}</div>
                                                         <div class="dropdown dropdown-open">
                                                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
                                                                 <span class="select-placeholder">{{listData?listData.appName:'Select or Add Credential'}}</span>
@@ -209,45 +210,45 @@
                                                                     </li>
                                                                 </perfect-scrollbar>
                                                                 <li class="add-custom" (click)="newCredential()">
-                                                                    <a>{{"settings.add_new_credential" | translate}} </a>
+                                                                    <a>{{"settings_add_new_credential" | translate}} </a>
                                                                 </li>
                                                             </ul>
                                                         </div>
                                                     </div>
                                                     <div class="box-data pl-4">
                                                         <div class="input-data">
-                                                            <div class="label-text">{{"settings.App_Name" | translate}}</div>
+                                                            <div class="label-text">{{"settings_App_Name" | translate}}</div>
                                                             <div class="input-box mb-3">
                                                                 <div class="kr-sg-input-text">
                                                                     <input type="text" class="input-text" [value]="selectedApp.name" readonly>
                                                                 </div>
-                                                                <div class="copy-btn" (click)="copy(selectedApp.name)"><img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
+                                                                <div class="copy-btn" (click)="copy(selectedApp.name)"><img src="assets/images/icons/copy.svg">{{"settings_copy" | translate}}</div>
                                                             </div>
                                                         </div>
                                                         <div class="input-data">
-                                                            <div class="label-text">{{"settings.App_ID" | translate}}</div>
+                                                            <div class="label-text">{{"settings_App_ID" | translate}}</div>
                                                             <div class="input-box mb-3">
                                                                 <div class="kr-sg-input-text">
                                                                     <input type="text" class="input-text" [value]="selectedApp._id" readonly>
                                                                 </div>
                                                                 <div class="copy-btn" (click)="copy(selectedApp._id)">
-                                                                    <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
+                                                                    <img src="assets/images/icons/copy.svg">{{"settings_copy" | translate}}
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="input-data">
-                                                            <div class="label-text">{{"settings.client_id" | translate}} </div>
+                                                            <div class="label-text">{{"settings_client_id" | translate}} </div>
                                                             <div class="input-box mb-3">
                                                                 <div class="kr-sg-input-text">
                                                                     <input type="text" class="input-text" [value]="listData?.clientId" readonly>
                                                                 </div>
                                                                 <div class="copy-btn" (click)="copy(listData.clientId)">
-                                                                    <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
+                                                                    <img src="assets/images/icons/copy.svg">{{"settings_copy" | translate}}
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="input-data">
-                                                            <div class="label-text">{{"settings.Client_Secret_ID" | translate}} </div>
+                                                            <div class="label-text">{{"settings_Client_Secret_ID" | translate}} </div>
                                                             <div class="input-box mb-3">
                                                                 <div class="kr-sg-input-text" >
                                                                     <input type="password" id="password"  class="input-text" [value]="listData?.clientSecret" readonly>
@@ -255,23 +256,23 @@
                                                                     <img (click)="showPasword()" *ngIf="showPassword" src="assets/images/icons/viewPw.svg.svg"class="eye" type="eye">
                                                                 </div>
                                                                 <div class="copy-btn" (click)="copy(listData.clientSecret)">
-                                                                    <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
+                                                                    <img src="assets/images/icons/copy.svg">{{"settings_copy" | translate}}
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="input-data">
-                                                            <div class="label-text">{{"settings.Search_ID" | translate}}</div>
+                                                            <div class="label-text">{{"settings_Search_ID" | translate}}</div>
                                                             <div class="input-box mb-3">
                                                                 <div class="kr-sg-input-text">
                                                                     <input type="text" class="input-text" [value]="serachIndexId" readonly>
                                                                 </div>
                                                                 <div class="copy-btn" (click)="copy(serachIndexId)">
-                                                                    <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
+                                                                    <img src="assets/images/icons/copy.svg">{{"settings_copy" | translate}}
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="border-line"></div>
-                                                        <div class="accordion-sec">{{"settings.view_JSON_web_encryption_public_key" | translate}} 
+                                                        <div class="accordion-sec">{{"settings_view_JSON_web_encryption_public_key" | translate}} 
                                                             <img src="assets/images/icons/carrot_up.svg">
                                                         </div>
                                                     </div>
@@ -290,7 +291,7 @@
                                                         <label class="kr-sg-toggle">
                                                             <input type="checkbox" [checked]="enableConfiguration" (click)="disableCredential(pageDisable)">
                                                             <div class="slider">
-                                                                <span class="enabled">{{"settings.channel_enabled" | translate}}</span>
+                                                                <span class="enabled">{{"settings_channel_enabled" | translate}}</span>
                                                                 <span class="disabled" >Channel Disabled</span>
                                                             </div>
                                                         </label>
@@ -466,11 +467,11 @@
                             </div>
                         </perfect-scrollbar>
                         <div class="footer-channels d-none">
-                            <button class="kr-sg-button-primary btn_lg mr-2" (click)="configureCredential($event)">Save</button>
-                            <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>
+                            <button class="kr-sg-button-primary btn_lg mr-2" (click)="configureCredential($event)">{{"settings_save" | translate}}</button>
+                            <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">{{"settings_cancel" | translate}}</button>
                         </div>
                     </div>
-                    <div class="sel-title d-none"> {{"settings.select_credential" | translate}}</div>
+                    <div class="sel-title d-none"> {{"settings_select_credential" | translate}}</div>
                     <div class="kr-sg-dropdowns credentials-dropdown d-none">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><span
@@ -481,7 +482,7 @@
                                 <li *ngFor="let channel of channnelConguired.apps" (click)="selctedChannel(channel)">
                                     <a>{{channel.appName}}</a>
                                 </li>
-                                <li class="add-custom" (click)="newCredential()"><a>{{"settings.add_new_credential" | translate}} </a>
+                                <li class="add-custom" (click)="newCredential()"><a>{{"settings_add_new_credential" | translate}} </a>
                                 </li>
                             </ul>
                         </div>
@@ -489,36 +490,36 @@
                 </div>
                 <div class="box-data d-none">
                     <div class="input-data">
-                        <div class="label-text">{{"settings.App_Name" | translate}}</div>
+                        <div class="label-text">{{"settings_App_Name" | translate}}</div>
                         <div class="input-box mb-4">
                             <div class="kr-sg-input-text">
                                 <input type="text" class="input-text" [value]="selectedApp.name" readonly>
                             </div>
-                            <div class="copy-btn" (click)="copy(selectedApp.name,clipAppName)"><img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
+                            <div class="copy-btn" (click)="copy(selectedApp.name,clipAppName)"><img src="assets/images/icons/copy.svg">{{"settings_copy" | translate}}</div>
                         </div>
                     </div>
                     <div class="input-data">
-                        <div class="label-text">{{"settings.App_ID" | translate}}</div>
+                        <div class="label-text">{{"settings_App_ID" | translate}}</div>
                         <div class="input-box mb-4">
                             <div class="kr-sg-input-text">
                                 <input type="text" class="input-text" [value]="selectedApp._id" readonly>
                             </div>
                             <div class="copy-btn" (click)="copy(selectedApp._id)"><img
-                                    src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
+                                    src="assets/images/icons/copy.svg">{{"settings_copy" | translate}}</div>
                         </div>
                     </div>
                     <div class="input-data">
-                        <div class="label-text">{{"settings.client_id" | translate}} </div>
+                        <div class="label-text">{{"settings_client_id" | translate}} </div>
                         <div class="input-box mb-4">
                             <div class="kr-sg-input-text">
                                 <input type="text" class="input-text" [value]="listData?.clientId" readonly>
                             </div>
                             <div class="copy-btn" (click)="copy(listData.clientId)"><img
-                                    src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
+                                    src="assets/images/icons/copy.svg">{{"settings_copy" | translate}}</div>
                         </div>
                     </div>
                     <div class="input-data">
-                        <div class="label-text">{{"settings.Client_Secret_ID" | translate}} </div>
+                        <div class="label-text">{{"settings_Client_Secret_ID" | translate}} </div>
                         <div class="input-box mb-4">
                             <div class="kr-sg-input-text" >
                                 <input type="password" id="password"  class="input-text"
@@ -527,22 +528,22 @@
                                 <img  (click)="showPasword()"   *ngIf="showPassword" src="assets/images/icons/viewPw.svg.svg"class="eye" type="eye" >
                             </div>
                             <div class="copy-btn" (click)="copy(listData.clientSecret)"><img
-                                    src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
+                                    src="assets/images/icons/copy.svg">{{"settings_copy" | translate}}</div>
                         </div>
                     </div>
                     <div class="input-data">
-                        <div class="label-text">{{"settings.Search_ID" | translate}}</div>
+                        <div class="label-text">{{"settings_Search_ID" | translate}}</div>
                         <div class="input-box mb-4">
                             <div class="kr-sg-input-text">
                                 <input type="text" class="input-text" [value]="serachIndexId" readonly>
                             </div>
                             <div class="copy-btn" (click)="copy(serachIndexId)"><img
-                                    src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
+                                    src="assets/images/icons/copy.svg">{{"settings_copy" | translate}}</div>
                         </div>
                     </div>
 
                     <div class="border-line"></div>
-                    <div class="accordion-sec d-none">{{"settings.view_JSON_web_encryption_public_key " | translate}} <img
+                    <div class="accordion-sec d-none">{{"settings_view_JSON_web_encryption_public_key" | translate}} <img
                             src="assets/images/icons/carrot_up.svg"></div>
                 </div>
                 <!-- <div class="group-radiobutton d-none">
@@ -563,13 +564,13 @@
     <div class="footer-sec" >
         <div class="btn-sec">
             <div>
-                <button *ngIf="!existingCredential" class="kr-sg-button-secondary btn_lg" (click)="cancel()">{{"settings.cancel" | translate}} </button>
+                <button *ngIf="!existingCredential" class="kr-sg-button-secondary btn_lg" (click)="cancel()">{{"settings_cancel" | translate}} </button>
             </div>
             <div>
-                <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf=!existingCredential (click)="back()"> {{"settings.back" | translate}}</button>
+                <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf=!existingCredential (click)="back()"> {{"settings_back" | translate}}</button>
                 <button class="kr-sg-button-primary btn_lg" (click)="continue()" *ngIf="slider!==3" [disabled]="(!(credntial.name) || !(credntial.awt)) && (slider==2)">{{"settings.continue" | translate}}</button>
-                <button class="kr-sg-button-secondary btn_lg mr-2"  *ngIf=existingCredential (click)="cancel()">{{"settings.cancel" | translate}} </button>
-                <button class="kr-sg-button-primary btn_lg" *ngIf="slider==3" (click)="configureCredential($event)"> {{"settings.save" | translate}}</button>
+                <button class="kr-sg-button-secondary btn_lg mr-2"  *ngIf=existingCredential (click)="cancel()">{{"settings_cancel" | translate}} </button>
+                <button class="kr-sg-button-primary btn_lg" *ngIf="slider==3" (click)="configureCredential($event)"> {{"settings_save" | translate}}</button>
             </div>
         </div>
     </div>
@@ -579,32 +580,32 @@
 
 <kr-modal modalType="center" #addCredential modalClass="modal_popups_ add-credentials-popup">
     <div class="modal-header">
-        <span> {{"settings.add_credential" | translate}} </span>
+        <span> {{"settings_add_new_credential" | translate}} </span>
         <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
     </div>    
     <div class="modal-body">
         <div class="kr-sg-input-text mb-4">
-            <div class="label-text"> {{"settings.credential_name" | translate}}</div>
+            <div class="label-text"> {{"settings_credential_name" | translate}}</div>
             <input type="text" id="addSourceTitleInput" autocomplete="off" name="credname" placeholder="Enter Name" [(ngModel)]="credntial.name" (change)="inputChanged('title')" class="input-text">                
         </div>
         <div class="kr-sg-checkbox d-none p-0">
             <input id="checkbox_1" class="checkbox-custom" type="checkbox" [(ngModel)]="credntial.anonymus">
-            <label for="checkbox_1" class="checkbox-custom-label">{{"settings.allow_anonymous_users_to_chat_with_bot" | translate}} </label>
+            <label for="checkbox_1" class="checkbox-custom-label">{{"settings_allow_anonymous_users_to_chat_with_the_bot" | translate}} </label>
         </div>
         <div class="kr-sg-checkbox d-none p-0">
             <input id="checkbox_2" class="checkbox-custom" type="checkbox" [(ngModel)]="credntial.register">
-            <label for="checkbox_2" class="checkbox-custom-label">{{"settings.auto_register_new_user_Kore.ai_bots_platform" | translate}} </label>
+            <label for="checkbox_2" class="checkbox-custom-label">{{"settings_auto_register_new_user_Kore.ai_bots_platform" | translate}} </label>
         </div>
         <hr>
         
         <div class="kr-sg-dropdowns">
-            <div class="label-text mb-2">{{"settings.jwt_algorithm" | translate}} </div>
+            <div class="label-text mb-2">{{"settings_jwt_algorithm" | translate}} </div>
             <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'">                                        
                 <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" >{{credntial.awt}}</button>                                            
                     <ul class="dropdown-menu content-menu faq-filter-add mw-100 w-100 p-0" ngbDropdownMenu>
-                        <li (click)="jwtAuth('RS256')"><a>{{"settings.RS256" | translate}}</a></li>
-                        <li (click)="jwtAuth('HS256')"><a>{{"settings.HS256" | translate}}</a></li>            
+                        <li (click)="jwtAuth('RS256')"><a>{{"settings_RS256" | translate}}</a></li>
+                        <li (click)="jwtAuth('HS256')"><a>{{"settings_HS256" | translate}}</a></li>            
                     </ul>
                 </div>
             </div>
@@ -612,362 +613,15 @@
         <div class="switch-toggle mt-4 d-none">
             <label class="kr-sg-toggle">
                 <input type="checkbox" [(ngModel)]="credntial.enabled">
-                <div class="slider"><span class="enabled">{{"settings.push_notifications_enabled" | translate}}</span><span class="disabled">{{"settings.push_notifications_enabled" | translate}}</span></div>
+                <div class="slider"><span class="enabled">{{"settings_push_notifications_enabled" | translate}}</span><span class="disabled">{{"settings.push_notifications_enabled" | translate}}</span></div>
             </label>
         </div>
 
 
     </div>    
     <div class="modal-footer">
-        <button class="kr-sg-button-primary btn_lg" (click)=" validateSource()">{{"settings.add" | translate}}</button>
-        <button class="kr-sg-button-secondary btn_lg" (click)="closeModalPopup()">{{"settings.cancel" | translate}}</button>
+        <button class="kr-sg-button-primary btn_lg" (click)=" validateSource()">{{"settings_add" | translate}}</button>
+        <button class="kr-sg-button-secondary btn_lg" (click)="closeModalPopup()">{{"settings_cancel" | translate}}</button>
     </div>
 </kr-modal>
 
-<!-- Instruction slider -->
-<div class="instructions-slide d-none ">
-    <div class="header-sec">
-        <div class="title">{{"settings.instructions" | translate}}</div>
-        <div class="close-link"><img src="assets/images/close.svg"></div>
-    </div>
-    <div class="instructions-body">
-        <div class="steps-inst">
-            <div class="title">{{"settings.step_1" | translate}}</div>
-            <div class="content-sec">
-                <div class="img-block"><img src="assets/images/icons/sdkdownload.svg"></div>
-                <div class="titles-data">
-                    <div class="primary-title"> {{"settings.download_searchassist_kit_sdk" | translate}}</div>
-                    <div class="secondary-title">{{"settings.download_info" | translate}}</div>
-                </div>
-            </div>
-        </div>
-        <div class="steps-inst">
-            <div class="title">{{"settings.step_2" | translate}}</div>
-            <div class="content-sec">
-                <div class="img-block"><img src="assets/images/icons/register-credentials.svg"></div>
-                <div class="titles-data">
-                    <div class="primary-title">{{"settings.register_credential" | translate}}</div>
-                    <div class="secondary-title">{{"settings.register_info" | translate}} 
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="steps-inst">
-            <div class="title">{{"settings.step_3" | translate}}</div>
-            <div class="content-sec">
-                <div class="img-block"><img src="assets/images/icons/selectevent.svg"></div>
-                <div class="titles-data">
-                    <div class="primary-title">{{"settings.define_callback_url" | translate}}</div>
-                    <div class="secondary-title">{{"settings.callback_info" | translate}}</div>
-                </div>
-            </div>
-        </div>
-        <div class="steps-inst">
-            <div class="title">{{"settings.step_4" | translate}}</div>
-            <div class="content-sec">
-                <div class="img-block"><img src="assets/images/icons/callback.svg"></div>
-                <div class="titles-data">
-                    <div class="primary-title">{{"settings.select_events" | translate}}</div>
-                    <div class="secondary-title">{{"settings.select_events_info" | translate}} </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- New Screen changes FLY-4512 -->
-<!-- <div class="channels-container-info d-none">
-    <!-- <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey> -->
-    <!-- <div class="breadcum-header">
-        <div class="primary-text">{{"settings.channels" | translate}}</div>
-        <img src="assets/images/back-icon.svg">
-        <div class="secondary-text">{{"settings.web_mobile_client" | translate}}</div>
-    </div> -->
-    <!-- <perfect-scrollbar class="scroll-data-channels">
-        <div class="info-data-channels-accordion">
-            <div id="accordion">
-                <div class="card-channel">
-                    <div class="card_header">
-                        <div data-toggle="collapse" data-parent="#accordion" href="#appdetails" class="card_link collapsed" aria-expanded="true">
-                            <div class="title">App Details</div>
-                            <div class="desc-text">Associate an app with your Virtual Assistant to securely enable the Web / Mobile Client.</div>
-                            <div class="arrow-indicator">
-                                <img src="assets/images/carrot-right.svg">
-                            </div>
-                        </div>
-                    </div>
-                    <div id="appdetails" class="collapse">
-                        <div class="card-body">
-                            <div class="generator-token-sec">
-                                <div class="kr-sg-dropdowns credentials-dropdown mb-4 pl-4">
-                                    <div class="label-text">{{"settings.select_credential" | translate}}</div>
-                                    <div class="dropdown dropdown-open">
-                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
-                                            <span class="select-placeholder">{{listData?listData.appName:'Select or Add Credential'}}</span>
-                                        </button>
-                                        <ul class="dropdown-menu content-menu">
-                                            <perfect-scrollbar class="scroll-search-field h-200">
-                                                <li *ngFor="let channel of channnelConguired.apps" (click)="selctedChannel(channel)">
-                                                    <a>{{channel.appName}}</a>
-                                                </li>
-                                            </perfect-scrollbar>
-                                            <li class="add-custom" (click)="newCredential()">
-                                                <a>{{"settings.add_new_credential" | translate}} </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="box-data pl-4">
-                                    <div class="input-data">
-                                        <div class="label-text">{{"settings.App_Name" | translate}}</div>
-                                        <div class="input-box mb-3">
-                                            <div class="kr-sg-input-text">
-                                                <input type="text" class="input-text" [value]="selectedApp?.name" readonly>
-                                            </div>
-                                            <div class="copy-btn" (click)="copy(selectedApp.name)"><img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}</div>
-                                        </div>
-                                    </div>
-                                    <div class="input-data">
-                                        <div class="label-text">{{"settings.App_ID" | translate}}</div>
-                                        <div class="input-box mb-3">
-                                            <div class="kr-sg-input-text">
-                                                <input type="text" class="input-text" [value]="selectedApp._id" readonly>
-                                            </div>
-                                            <div class="copy-btn" (click)="copy(selectedApp._id)">
-                                                <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="input-data">
-                                        <div class="label-text">{{"settings.client_id" | translate}} </div>
-                                        <div class="input-box mb-3">
-                                            <div class="kr-sg-input-text">
-                                                <input type="text" class="input-text" [value]="listData?.clientId" readonly>
-                                            </div>
-                                            <div class="copy-btn" (click)="copy(listData.clientId)">
-                                                <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="input-data">
-                                        <div class="label-text">{{"settings.Client_Secret_ID" | translate}} </div>
-                                        <div class="input-box mb-3">
-                                            <div class="kr-sg-input-text" >
-                                                <input type="password" id="password"  class="input-text" [value]="listData?.clientSecret" readonly>
-                                                <img (click)="showPasword()" *ngIf="!showPassword" src="assets/images/icons/eye.svg" class="eye" type="eye">
-                                                <img (click)="showPasword()" *ngIf="showPassword" src="assets/images/icons/viewPw.svg.svg"class="eye" type="eye">
-                                            </div>
-                                            <div class="copy-btn" (click)="copy(listData.clientSecret)">
-                                                <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="input-data">
-                                        <div class="label-text">{{"settings.Search_ID" | translate}}</div>
-                                        <div class="input-box mb-3">
-                                            <div class="kr-sg-input-text">
-                                                <input type="text" class="input-text" [value]="serachIndexId" readonly>
-                                            </div>
-                                            <div class="copy-btn" (click)="copy(serachIndexId)">
-                                                <img src="assets/images/icons/copy.svg">{{"settings.copy" | translate}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="border-line"></div>
-                                    <div class="accordion-sec">{{"settings.view_JSON_web_encryption_public_key" | translate}} 
-                                        <img src="assets/images/icons/carrot_up.svg">
-                                    </div>
-                                </div>
-                                <div class="group-radiobutton">
-                                    <div class="heading-title">{{"settings.task_setup" | translate}} </div>
-                                    <div class="kr-sg-radiobutton d-block">
-                                        <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
-                                        <label for="radio-32" class="radio-custom-label">{{"settings.task_setup_info" | translate}}</label>
-                                    </div>
-                                    <div class="kr-sg-radiobutton d-block">
-                                        <input id="radio-33" name="radio" class="radio-custom" type="radio">
-                                        <label for="radio-33" class="radio-custom-label"> {{"settings.no_task_setup_info" | translate}}  </label>
-                                    </div>
-                                </div>
-                                <div class="toggle-check pb-2">        
-                                    <label class="kr-sg-toggle">
-                                        <input type="checkbox" [checked]="enableConfiguration" (click)="disableCredential(pageDisable)">
-                                        <div class="slider">
-                                            <span class="enabled">{{"settings.channel_enabled" | translate}}</span>
-                                            <span class="disabled" >Channel Disabled</span>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-channel">
-                    <div class="card_header">
-                    <div class="card_link collapsed" data-toggle="collapse" data-parent="#accordion" href="#webclient" aria-expanded="true">
-                        <div class="title">Web Client Details</div>
-                        <div class="desc-text">Use the Web / Mobile Client hosted by Kore.ai to start interating with the virtual assistant.</div>
-                        <div class="arrow-indicator">
-                            <img src="assets/images/carrot-right.svg">
-                        </div>
-                    </div>
-                    </div>
-                    <div id="webclient" class="collapse">
-                        <div class="card-body">
-                            <div class="webclient-info-data">
-                                <!-- URL -->
-                                <!-- <ng-container>
-                                    <div class="section-wise-data">
-                                        <div class="heading-text">URL</div>
-                                        <div class="heading-info-text">Share this URL with the users to interact with your virtual assistant.</div>
-                                        <div class="input-url-box">
-                                            <div class="kr-sg-input-text">
-                                                <input type="text" placeholder="http://sampleurl.com/" class="input-text" [value]="webClientDetails?.chatURL">
-                                            </div>
-                                            <div class="actions-copy-ext">
-                                                <div class="btn-ext-copy">
-                                                    <img src="assets/icons/clone.svg" (click)="copy(webClientDetails.chatURL)">
-                                                </div>
-                                                <div class="btn-ext-copy">
-                                                  <a href="{{webClientDetails.chatURL}}" target="_blank">
-                                                    <img src="assets/icons/external-link.svg"> </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="hint-info-data">
-                                            <div class="hint-bg">
-                                                <div class="hint-text-img">
-                                                    <div class="img-info">
-                                                        <img src="assets/icons/info.svg">
-                                                    </div>
-                                                    <div class="text-hint font-500">To start interacting with the virtual assistant via URL sharing:</div>
-                                                </div>
-                                                <div class="hint-text-img">
-                                                <div class="img-info disabled-check">
-                                                    <img src="assets/icons/check-white.svg" class="check-img">
-                                                </div>
-                                                    <div class="text-hint">Save and Publish the virtual assistant. <a>Publish Now</a></div>
-                                                </div>
-                                                <div class="hint-text-img">
-                                                    <div class="img-info success-check">
-                                                        <img src="assets/icons/check-white.svg" class="check-img">
-                                                    </div>
-                                                    <div class="text-hint">Configuration the assiociated app to use HS256 signing algoritm</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </ng-container> -->
-
-                                <!-- Embed Code -->
-                                <!-- <ng-container>
-                                    <div class="section-wise-data">
-                                        <div class="heading-text">Embed Code</div>
-                                        <div class="heading-info-text">Copy and paste the following HTML code before the end of the BODY tag on every page of the application where you want to display the chat widget. <a href="#">Know more</a></div>
-                                        <div class="embedcode">
-                                            <div class="header d-flex align-items-center justify-content-between">
-                                                <div class="code">HTML Code</div>
-                                                <div class="copy">
-                                                    <img src="assets/icons/clone.svg">
-                                                </div>
-                                            </div>
-                                            <div class="scriptTag">
-                                                <!-- <div class="script" id="embedCode">
-
-                                                </div> -->
-                                                <!-- <div class="script" id="embedCode"></div>
-                                            </div>
-                                        </div> -->
-                                        <!-- <div class="hint-info-data">
-                                            <div class="hint-bg">
-                                                <div class="hint-text-img">
-                                                    <div class="img-info">
-                                                        <img src="assets/icons/info.svg">
-                                                    </div>
-                                                    <div class="text-hint font-500">To start interacting with the virtual assistant via the embedded code:</div>
-                                                </div>
-                                                <div class="hint-text-img">
-                                                <div class="img-info disabled-check">
-                                                    <img src="assets/icons/check-white.svg" class="check-img">
-                                                </div>
-                                                    <div class="text-hint">Save and Publish the virtual assistant. <a>Publish Now</a></div>
-                                                </div>
-                                                <div class="hint-text-img">
-                                                    <div class="img-info success-check">
-                                                        <img src="assets/icons/check-white.svg" class="check-img">
-                                                    </div>
-                                                    <div class="text-hint">Configuration the assiociated app to use HS256 signing algoritm</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </ng-container>  -->
-
-                                <!-- Web / Mobile SDK -->
-                                <!-- <ng-container>
-                                    <div class="section-wise-data">
-                                        <div class="heading-text">Whitelist domains</div>
-                                        <div class="heading-info-text">Whitelist domains below. Only domains added here will be able to display the chat widget</div>
-                                        
-                                        <!-- Repeated Domain Data -->
-                                        <!-- <ng-container>
-                                            <div class="input-url-box mb-2">
-                                                <div class="kr-sg-input-text">
-                                                    <input type="text" placeholder="http://sampleurl.com/" class="input-text" [value]="domainUrl">
-                                                </div>
-                                                <div class="actions-copy-ext">
-                                                    <div class="btn-ext-copy">
-                                                        <img src="assets/icons/delete.svg">
-                                                    </div>
-                                                    <div class="btn-ext-copy invisible"></div>
-                                                </div>
-                                            </div>
-                                        </ng-container> -->
-
-                                        <!-- <div class="add-domain">
-                                            <img src="assets/icons/add_blue.svg" (click)="addNewDomain()">
-                                            <span>Add Domain</span>
-                                        </div> -->
-                                    <!-- </div> -->
-                                <!-- </ng-container>  -->
-
-                                <!-- Whitelist domains -->
-                                <!-- <ng-container>
-                                    <div class="section-wise-data">
-                                        <div class="heading-text">Web / Mobile SDK</div>
-                                        <div class="heading-info-text">Setup and configure the Web / Mobile SDK using the prebuilt libraries.</div>
-                                        <div class="download-sdk">
-                                            <span>Download SDK</span>
-                                                 <a href="https://github.com/Koredotcom/web-kore-sdk-private" target="_blank">
-                                            <img src="assets/icons/external-link.svg">
-                                        </a>
-                                        </div>
-                                    </div>
-                                </ng-container> -->
-
-                                <!-- Allow Alert Task Setup -->
-                                <!-- <div class="group-radiobutton">
-                                    <div class="heading-title">Allow Alert Task Setup</div>
-                                    <div class="kr-sg-radiobutton d-block">
-                                        <input id="radio-322" name="radio" class="radio-custom" type="radio" checked>
-                                        <label for="radio-322" class="radio-custom-label">Yes, let users setup the Alert Tasks using Web Client.</label>
-                                    </div>
-                                    <div class="kr-sg-radiobutton d-block">
-                                        <input id="radio-333" name="radio" class="radio-custom" type="radio">
-                                        <label for="radio-333" class="radio-custom-label"> No, do not list the Alert Tasks or allow users to setup the Alert Tasks using the Web Client.  </label>
-                                    </div>
-                                </div> -->
-
-                            <!-- </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-    <!-- </perfect-scrollbar>
-    <div class="footer-channels">
-        <button class="kr-sg-button-primary btn_lg mr-2" (click)="configureCredential($event);updateEmbededSdk()">Save</button>
-        <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>
-    </div>
-</div>  -->

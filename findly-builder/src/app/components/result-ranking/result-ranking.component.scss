@@ -108,7 +108,9 @@
                         display: flex;
                         align-items: center;
                         background: #F8F9FA;
-                        padding: 23px 20px;                    
+                        padding: 23px 20px;
+                        border-top: 1px solid;
+                        border-color: #E4E5E7;                    
                         .kr-sg-input-search{
                             width: 215px;
                             position: relative;
@@ -488,6 +490,8 @@
                         padding: 21px 30px;
                         background: #EFF0F1;
                         border-bottom: 0px;
+                        border-top: 1px solid;
+                        border-color: #E4E5E7;
                         .lef-info{
                             .approved_title{
                                 color: #9AA0A6;

@@ -121,6 +121,9 @@ import { OnboardingComponentComponent } from './components/onboarding-component/
 import { AnalyticsDropdownComponent } from './helpers/components/analytics-dropdown/analytics-dropdown.component';
 import { ConnectorsSourceComponent } from './components/connectors-source/connectors-source.component';
 import { SearchFieldPropertiesComponent } from './components/search-field-properties/search-field-properties.component';
+import { SafeHtmlPipe } from './helpers/filters/safe-html.pipe';
+import { SelectTextDirective } from './helpers/directives/select-text.directive';
+import { EllipsisActiveDirective } from './helpers/directives/ellipsis-active.directive';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -209,7 +212,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AnalyticsDropdownComponent,
     ConnectorsSourceComponent,
     OnboardingComponentComponent,
-    SearchFieldPropertiesComponent
+    SearchFieldPropertiesComponent,
+    SafeHtmlPipe,
+    SelectTextDirective,
+    EllipsisActiveDirective
   ],
   imports: [
     BrowserModule,
