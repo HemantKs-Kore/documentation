@@ -40,17 +40,24 @@ export class FieldManagementComponent implements OnInit {
   isAsc = true;
   fieldAutoSuggestion: any = [];
   fieldDataTypeArr: any = [];
-  isMultiValuedArr: any = [];
-  isRequiredArr: any = [];
-  isStoredArr: any = [];
-  isIndexedArr: any = [];
+  // isMultiValuedArr: any = [];
+  // isRequiredArr: any = [];
+  // isStoredArr: any = [];
+  // isIndexedArr: any = [];
+  isAutosuggestArr: any = [];
+  isSearchableArr: any = [];
   totalRecord: number = 0;
+  // filterSystem: any = {
+  //   'typefilter': 'all',
+  //   'isMultiValuedFilter': 'all',
+  //   'isRequiredFilter': 'all',
+  //   'isStoredFilter': 'all',
+  //   'isIndexedFilter': 'all'
+  // }
   filterSystem: any = {
     'typefilter': 'all',
-    'isMultiValuedFilter': 'all',
-    'isRequiredFilter': 'all',
-    'isStoredFilter': 'all',
-    'isIndexedFilter': 'all'
+    'isAutosuggestFilter':'all',
+    'isSearchableFilter':'all'
   }
   activeClose = false
   beforeFilterFields: any = [];
@@ -133,14 +140,21 @@ export class FieldManagementComponent implements OnInit {
       this.getFieldAutoComplete(field.fieldName);
       this.getFieldUsageData(field)
     } else {
+      // this.newFieldObj = {
+      //   fieldName: '',
+      //   fieldDataType: 'string',
+      //   previousFieldDataType: 'string',
+      //   isMultiValued: true,
+      //   isRequired: false,
+      //   isStored: true,
+      //   isIndexed: true
+      // }
       this.newFieldObj = {
         fieldName: '',
         fieldDataType: 'string',
         previousFieldDataType: 'string',
-        isMultiValued: true,
-        isRequired: false,
-        isStored: true,
-        isIndexed: true
+        isAutosuggest: true,
+        isSearchable: true,
       }
     }
     this.getAllFields();
@@ -320,12 +334,16 @@ export class FieldManagementComponent implements OnInit {
     this.submitted = true;
     if (this.validateFilelds()) {
       const temppayload: any = {
+        // fieldName: this.newFieldObj.fieldName,
+        // fieldDataType: this.newFieldObj.fieldDataType,
+        // isMultiValued: this.newFieldObj.isMultiValued,
+        // isRequired: this.newFieldObj.isRequired,
+        // isStored: this.newFieldObj.isStored,
+        // isIndexed: this.newFieldObj.isIndexed,
         fieldName: this.newFieldObj.fieldName,
         fieldDataType: this.newFieldObj.fieldDataType,
-        isMultiValued: this.newFieldObj.isMultiValued,
-        isRequired: this.newFieldObj.isRequired,
-        isStored: this.newFieldObj.isStored,
-        isIndexed: this.newFieldObj.isIndexed,
+        isAutosuggest: this.newFieldObj.isAutosuggest,
+        isSearchable: this.newFieldObj.isSearchable,
       }
       let payload: any = {
         fields: []
@@ -509,7 +527,51 @@ export class FieldManagementComponent implements OnInit {
           return "display-none"
         }
       }
-      case "isMultiValued": {
+      // case "isMultiValued": {
+      //   if (this.selectedSort == sortingField) {
+      //     if (this.isAsc == false && type == 'down') {
+      //       return "display-block";
+      //     }
+      //     if (this.isAsc == true && type == 'up') {
+      //       return "display-block";
+      //     }
+      //     return "display-none"
+      //   }
+      // }
+      // case "isRequired": {
+      //   if (this.selectedSort == sortingField) {
+      //     if (this.isAsc == false && type == 'down') {
+      //       return "display-block";
+      //     }
+      //     if (this.isAsc == true && type == 'up') {
+      //       return "display-block";
+      //     }
+      //     return "display-none"
+      //   }
+      // }
+      // case "isStored": {
+      //   if (this.selectedSort == sortingField) {
+      //     if (this.isAsc == false && type == 'down') {
+      //       return "display-block";
+      //     }
+      //     if (this.isAsc == true && type == 'up') {
+      //       return "display-block";
+      //     }
+      //     return "display-none"
+      //   }
+      // }
+      // case "isIndexed": {
+      //   if (this.selectedSort == sortingField) {
+      //     if (this.isAsc == false && type == 'down') {
+      //       return "display-block";
+      //     }
+      //     if (this.isAsc == true && type == 'up') {
+      //       return "display-block";
+      //     }
+      //     return "display-none"
+      //   }
+      // }
+      case "isAutosuggest": {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
             return "display-block";
@@ -520,29 +582,7 @@ export class FieldManagementComponent implements OnInit {
           return "display-none"
         }
       }
-      case "isRequired": {
-        if (this.selectedSort == sortingField) {
-          if (this.isAsc == false && type == 'down') {
-            return "display-block";
-          }
-          if (this.isAsc == true && type == 'up') {
-            return "display-block";
-          }
-          return "display-none"
-        }
-      }
-      case "isStored": {
-        if (this.selectedSort == sortingField) {
-          if (this.isAsc == false && type == 'down') {
-            return "display-block";
-          }
-          if (this.isAsc == true && type == 'up') {
-            return "display-block";
-          }
-          return "display-none"
-        }
-      }
-      case "isIndexed": {
+      case "isSearchableFilter": {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
             return "display-block";
@@ -571,11 +611,13 @@ export class FieldManagementComponent implements OnInit {
       const isAsc = this.isAsc;
       switch (sort) {
         case 'fieldDataType': return this.compare(a.fieldDataType, b.fieldDataType, isAsc);
-        case 'isMultiValued': return this.compare(a.isMultiValued, b.isMultiValued, isAsc);
+        // case 'isMultiValued': return this.compare(a.isMultiValued, b.isMultiValued, isAsc);
         case 'fieldName': return this.compare(a.fieldName, b.fieldName, isAsc);
-        case 'isRequired': return this.compare(a.isRequired, b.isRequired, isAsc);
-        case 'isStored': return this.compare(a.isStored, b.isStored, isAsc);
-        case 'isIndexed': return this.compare(a.isIndexed, b.isIndexed, isAsc);
+        // case 'isRequired': return this.compare(a.isRequired, b.isRequired, isAsc);
+        // case 'isStored': return this.compare(a.isStored, b.isStored, isAsc);
+        // case 'isIndexed': return this.compare(a.isIndexed, b.isIndexed, isAsc);
+        case 'isAutosuggest': return this.compare(a.fieldName, b.fieldName, isAsc);
+        case 'isSearchable': return this.compare(a.fieldName, b.fieldName, isAsc);
         default: return 0;
       }
     });
@@ -669,11 +711,14 @@ export class FieldManagementComponent implements OnInit {
     // this.filterSystem.isStoredFilter = 'all';
     // this.filterSystem.isIndexedFilter = 'all';  
     switch (headerOption) {
+      // case 'fieldDataType': { this.filterSystem.typefilter = source; break; };
+      // case 'isMultiValued': { this.filterSystem.isMultiValuedFilter = source; break; };
+      // case 'isRequired': { this.filterSystem.isRequiredFilter = source; break; };
+      // case 'isStored': { this.filterSystem.isStoredFilter = source; break; };
+      // case 'isIndexed': { this.filterSystem.isIndexedFilter = source; break; };
       case 'fieldDataType': { this.filterSystem.typefilter = source; break; };
-      case 'isMultiValued': { this.filterSystem.isMultiValuedFilter = source; break; };
-      case 'isRequired': { this.filterSystem.isRequiredFilter = source; break; };
-      case 'isStored': { this.filterSystem.isStoredFilter = source; break; };
-      case 'isIndexed': { this.filterSystem.isIndexedFilter = source; break; };
+      case 'isAutosuggest': { this.filterSystem.isAutosuggestFilter = source; break; };
+      case 'isSearchable': { this.filterSystem.isSearchableFilter = source; break; };
     };
     this.filterObject = {
       type: source,
@@ -721,27 +766,37 @@ export class FieldManagementComponent implements OnInit {
     request={}
     }
       
+    // request.fieldDataType = this.filterSystem.typefilter;
+    // request.isMultiValued = this.filterSystem.isMultiValuedFilter;
+    // request.isStored = this.filterSystem.isStoredFilter;
+    // request.isIndexed = this.filterSystem.isIndexedFilter;
+    // request.isRequired = this.filterSystem.isRequiredFilter;
     request.fieldDataType = this.filterSystem.typefilter;
-    request.isMultiValued = this.filterSystem.isMultiValuedFilter;
-    request.isStored = this.filterSystem.isStoredFilter;
-    request.isIndexed = this.filterSystem.isIndexedFilter;
-    request.isRequired = this.filterSystem.isRequiredFilter;
+    request.isAutosuggest = this.filterSystem.isAutosuggestFilter;
+    request.isSearchable = this.filterSystem.isSearchableFilter;
     request.search= this.searchFields;
     if (request.fieldDataType == 'all') {
      delete  request.fieldDataType;
     }
-     if ( request.isMultiValued == 'all') {
-      delete request.isMultiValued; 
+    //  if ( request.isMultiValued == 'all') {
+    //   delete request.isMultiValued; 
+    // }
+    //  if (request.isStored == 'all') {
+    //  delete request.isStored; 
+    // }
+    //  if (request.isIndexed == 'all') {
+    //  delete  request.isIndexed;
+    // }
+    // if (request.isRequired == 'all') { 
+    //  delete request.isRequired;
+    // }
+    if ( request.isSearchable == 'all') {
+      delete request.isSearchable; 
     }
-     if (request.isStored == 'all') {
-     delete request.isStored; 
+     if (request.isAutosuggest == 'all') {
+     delete request.isAutosuggest; 
     }
-     if (request.isIndexed == 'all') {
-     delete  request.isIndexed;
-    }
-    if (request.isRequired == 'all') { 
-     delete request.isRequired;
-    }
+
     if (this.searchFields === '') {
      delete request.search;
     }
@@ -754,17 +809,23 @@ export class FieldManagementComponent implements OnInit {
     if(sortHeaderOption === 'fieldDataType' ){
       request.sort.fieldDataType = sortValue
     }
-    if(sortHeaderOption === 'isMultiValued' ){
+    // if(sortHeaderOption === 'isMultiValued' ){
+    //   request.sort.isMultiValued = sortValue
+    // }
+    // if(sortHeaderOption === 'isStored' ){
+    //   request.sort.isStored = sortValue
+    // }
+    // if(sortHeaderOption === 'isRequired' ){
+    //   request.sort.isRequired = sortValue
+    // }
+    // if(sortHeaderOption === 'isIndexed' ){
+    //   request.sort.isIndexed = sortValue
+    // }
+    if(sortHeaderOption === 'isAutosuggest' ){
       request.sort.isMultiValued = sortValue
     }
-    if(sortHeaderOption === 'isStored' ){
+    if(sortHeaderOption === 'isSearchable' ){
       request.sort.isStored = sortValue
-    }
-    if(sortHeaderOption === 'isRequired' ){
-      request.sort.isRequired = sortValue
-    }
-    if(sortHeaderOption === 'isIndexed' ){
-      request.sort.isIndexed = sortValue
     }
 
     // end
@@ -811,26 +872,38 @@ export class FieldManagementComponent implements OnInit {
       this.isAsc = !this.isAsc;
     }
     // filter along with sort start 
+    // request.fieldDataType = this.filterSystem.typefilter;
+    // request.isMultiValued = this.filterSystem.isMultiValuedFilter;
+    // request.isStored = this.filterSystem.isRequiredFilter;
+    // request.isIndexed = this.filterSystem.isStoredFilter;
+    // request.isRequired = this.filterSystem.isIndexedFilter;
+    // request.search= this.searchFields;
+
     request.fieldDataType = this.filterSystem.typefilter;
-    request.isMultiValued = this.filterSystem.isMultiValuedFilter;
-    request.isStored = this.filterSystem.isRequiredFilter;
-    request.isIndexed = this.filterSystem.isStoredFilter;
-    request.isRequired = this.filterSystem.isIndexedFilter;
+    request.isAutosuggest = this.filterSystem.isAutosuggestFilter;
+    request.isSearchable = this.filterSystem.isSearchableFilter;
     request.search= this.searchFields;
+
     if (request.fieldDataType == 'all') {
      delete  request.fieldDataType;
     }
-     if ( request.isMultiValued == 'all') {
+    //  if ( request.isMultiValued == 'all') {
+    //   delete request.isMultiValued; 
+    // }
+    //  if (request.isStored == 'all') {
+    //  delete request.isStored; 
+    // }
+    //  if (request.isIndexed == 'all') {
+    //  delete  request.isIndexed;
+    // }
+    // if (request.isRequired == 'all') { 
+    //  delete request.isRequired;
+    // }
+    if ( request.isSearchable == 'all') {
       delete request.isMultiValued; 
     }
-     if (request.isStored == 'all') {
+     if (request.isAutosuggest == 'all') {
      delete request.isStored; 
-    }
-     if (request.isIndexed == 'all') {
-     delete  request.isIndexed;
-    }
-    if (request.isRequired == 'all') { 
-     delete request.isRequired;
     }
     if (this.searchFields === '') {
      delete request.search;
@@ -843,17 +916,23 @@ export class FieldManagementComponent implements OnInit {
     if(type === 'fieldDataType' ){
       request.sort.fieldDataType = value
     }
-    if(type === 'isMultiValued' ){
-      request.sort.isMultiValued = value
+    // if(type === 'isMultiValued' ){
+    //   request.sort.isMultiValued = value
+    // }
+    // if(type === 'isStored' ){
+    //   request.sort.isStored = value
+    // }
+    // if(type === 'isRequired' ){
+    //   request.sort.isRequired = value
+    // }
+    // if(type === 'isIndexed' ){
+    //   request.sort.isIndexed = value
+    // }
+    if(type === 'isAutosuggest' ){
+      request.sort.isAutosuggest = value
     }
-    if(type === 'isStored' ){
-      request.sort.isStored = value
-    }
-    if(type === 'isRequired' ){
-      request.sort.isRequired = value
-    }
-    if(type === 'isIndexed' ){
-      request.sort.isIndexed = value
+    if(type === 'isSearchable' ){
+      request.sort.isSearchable = value
     }
     this.getFileds()
     // end
@@ -880,36 +959,64 @@ export class FieldManagementComponent implements OnInit {
       moduleName: "fields",
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
     };
+    // request.fieldDataType = this.filterSystem.typefilter;
+    // request.isMultiValued = this.filterSystem.isMultiValuedFilter;
+    // request.isStored = this.filterSystem.isStoredFilter;
+    // request.isIndexed = this.filterSystem.isIndexedFilter;
+    // request.isRequired = this.filterSystem.isRequiredFilter;
+    // request.search= this.searchFields;
+
     request.fieldDataType = this.filterSystem.typefilter;
-    request.isMultiValued = this.filterSystem.isMultiValuedFilter;
-    request.isStored = this.filterSystem.isStoredFilter;
-    request.isIndexed = this.filterSystem.isIndexedFilter;
-    request.isRequired = this.filterSystem.isRequiredFilter;
+    request.isAutosuggest = this.filterSystem.isAutosuggestFilter;
+    request.isSearchable = this.filterSystem.isSearchableFilter;
     request.search= this.searchFields;
+
+    // if (request.fieldDataType == 'all') {
+    //  delete  request.fieldDataType;
+    // }
+    //  if ( request.isMultiValued == 'all') {
+    //   delete request.isMultiValued; 
+    // }
+    //  if (request.isStored == 'all') {
+    //  delete request.isStored; 
+    // }
+    //  if (request.isIndexed == 'all') {
+    //  delete  request.isIndexed;
+    // }
+    // if (request.isRequired == 'all') { 
+    //  delete request.isRequired;
+    // }
+    // if (this.searchFields === '') {
+    //   delete request.search;
+    //  }
+
     if (request.fieldDataType == 'all') {
-     delete  request.fieldDataType;
-    }
-     if ( request.isMultiValued == 'all') {
-      delete request.isMultiValued; 
-    }
-     if (request.isStored == 'all') {
-     delete request.isStored; 
-    }
-     if (request.isIndexed == 'all') {
-     delete  request.isIndexed;
-    }
-    if (request.isRequired == 'all') { 
-     delete request.isRequired;
-    }
-    if (this.searchFields === '') {
-      delete request.search;
+      delete  request.fieldDataType;
      }
+      if ( request.isAutosuggest == 'all') {
+       delete request.isAutosuggest; 
+     }
+      if (request.isSearchable == 'all') {
+      delete request.isSearchable; 
+     }      
+     if (this.searchFields === '') {
+       delete request.search;
+      }
+
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
+      // this.fieldDataTypeArr = [...res.fieldDataType];
+      // this.isMultiValuedArr = [...res.isMultiValued];
+      // this.isRequiredArr = [...res.isRequired];
+      // this.isStoredArr = [...res.isStored];
+      // this.isIndexedArr = [...res.isIndexed];
+
       this.fieldDataTypeArr = [...res.fieldDataType];
-      this.isMultiValuedArr = [...res.isMultiValued];
-      this.isRequiredArr = [...res.isRequired];
-      this.isStoredArr = [...res.isStored];
-      this.isIndexedArr = [...res.isIndexed];
+      // this.isMultiValuedArr = [...res.isMultiValued];
+      // this.isRequiredArr = [...res.isRequired];
+      // this.isStoredArr = [...res.isStored];
+      // this.isIndexedArr = [...res.isIndexed];
+      this.isAutosuggestArr = [...res.isAutosuggest];
+      this.isSearchableArr = [...res.isSearchable];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get filters');
     });

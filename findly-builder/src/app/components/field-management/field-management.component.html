@@ -77,8 +77,8 @@
                         <!-- new table headers are added here -->
                         <div class="col_  col-3 title d-flex align-items-center">
                             <span class="d-flex align-items-center flex-column mr-1">
-                                <img [ngClass]="getSortIconVisibility('isMultiValued', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img  [ngClass]="getSortIconVisibility('isMultiValued', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                                <img [ngClass]="getSortIconVisibility('isSearchable', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img  [ngClass]="getSortIconVisibility('isSearchable', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span>
                               {{'fields.searchable' | translate}}
                               <span class="info-text-icon"  [container]="'body'" ngbTooltip='Text goes here' placement="bottom-left"><i class="si-info icon-info"></i></span>
@@ -90,15 +90,15 @@
                                     <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
                                 </button>
                                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                                    <li (click)="selectFilter.close();filterTable('all','isMultiValued')"><span
+                                    <li (click)="selectFilter.close();filterTable('all','isSearchable')"><span
                                             class="list-name">All</span><img
-                                            [ngClass]="{'hide': filterSystem.isMultiValuedFilter !== 'all'}"
+                                            [ngClass]="{'hide': filterSystem.isSearchableFilter !== 'all'}"
                                             src="assets/icons/check-blue.svg"></li>
-                                    <li *ngFor="let docType of isMultiValuedArr"
-                                        (click)="selectFilter.close();filterTable(docType,'isMultiValued')">
+                                    <li *ngFor="let docType of isSearchableArr"
+                                        (click)="selectFilter.close();filterTable(docType,'isSearchable')">
                                         <span class="list-name">{{docType == false ? 'No' :(docType == true? 'Yes':
                                             '')}}</span><img
-                                            [ngClass]="{'hide': filterSystem.isMultiValuedFilter !== docType}"
+                                            [ngClass]="{'hide': filterSystem.isSearchableFilter !== docType}"
                                             src="assets/icons/check-blue.svg">
                                     </li>
                                 </ul>
@@ -108,8 +108,8 @@
 
                         <div class="col_  col-2 title d-flex align-items-center">
                             <span class="d-flex align-items-center flex-column mr-1">
-                                <img [ngClass]="getSortIconVisibility('isMultiValued', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img  [ngClass]="getSortIconVisibility('isMultiValued', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                                <img [ngClass]="getSortIconVisibility('isAutosuggest', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img  [ngClass]="getSortIconVisibility('isAutosuggest', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span>
                               {{'fields.auto_suggest' | translate}}
                               <span class="info-text-icon" [container]="'body'" ngbTooltip='Text goes here' placement="bottom-left"><i class="si-info icon-info"></i></span>
@@ -121,15 +121,15 @@
                                     <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
                                 </button>
                                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                                    <li (click)="selectFilter.close();filterTable('all','isMultiValued')"><span
+                                    <li (click)="selectFilter.close();filterTable('all','isAutosuggest')"><span
                                             class="list-name">All</span><img
-                                            [ngClass]="{'hide': filterSystem.isMultiValuedFilter !== 'all'}"
+                                            [ngClass]="{'hide': filterSystem.isAutosuggestFilter !== 'all'}"
                                             src="assets/icons/check-blue.svg"></li>
-                                    <li *ngFor="let docType of isMultiValuedArr"
-                                        (click)="selectFilter.close();filterTable(docType,'isMultiValued')">
+                                    <li *ngFor="let docType of isAutosuggestArr"
+                                        (click)="selectFilter.close();filterTable(docType,'isAutosuggest')">
                                         <span class="list-name">{{docType == false ? 'No' :(docType == true? 'Yes':
                                             '')}}</span><img
-                                            [ngClass]="{'hide': filterSystem.isMultiValuedFilter !== docType}"
+                                            [ngClass]="{'hide': filterSystem.isAutosuggestFilter !== docType}"
                                             src="assets/icons/check-blue.svg">
                                     </li>
                                 </ul>
@@ -260,12 +260,12 @@
                         <div class="col-4 title text-left" [title]="field.fieldName">{{field.fieldName}}</div>
                         <div class="col-2 title">{{field.fieldDataType | translate}}</div>
                         <div class="col-3 title">
-                            <span class="field-value yes">{{field.isMultiValued?'Yes':'No'}}</span>
+                            <span class="field-value" [ngClass]="field.isSearchable ? 'yes' : 'no'">{{field.isSearchable?'Yes':'No'}}</span>
                         </div>
                         <!-- <div class="col-2 title">{{field.isRequired?'Yes':'No'}}</div>
                         <div class="col-2 title">{{field.isStored?'Yes':'No'}}</div> -->
                         <div class="col-2 title">
-                            <span class="field-value no">{{field.isIndexed?'Yes':'No'}}</span>
+                            <span class="field-value" [ngClass]="field.isAutosuggest ? 'yes' : 'no'">{{field.isAutosuggest?'Yes':'No'}}</span>
                         </div>
                         <div class="col-1">
                             <div class="action_links text-right">
@@ -399,7 +399,7 @@
                         <div class="option-selection-desc">The value of the field can be used to make the content of the field ready to be searched</div>
                         <div class="option-selection-checkbox">
                             <div class="kr-sg-checkbox">
-                                <input id="searchable_option" class="checkbox-custom" type="checkbox">
+                                <input id="searchable_option" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isSearchable">
                                 <label for="searchable_option" class="checkbox-custom-label"></label>
                             </div>
                         </div>
@@ -410,7 +410,7 @@
                             auto-suggestions to complete the query </div>
                         <div class="option-selection-checkbox">
                             <div class="kr-sg-checkbox">
-                                <input id="auto_suggest_option" class="checkbox-custom" type="checkbox">
+                                <input id="auto_suggest_option" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isAutosuggest">
                                 <label for="auto_suggest_option" class="checkbox-custom-label"></label>
                             </div>
                         </div>
