@@ -662,7 +662,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   getCrawledPages(limit?, skip?) {
-    // this.pagingData = [];
+    this.pagingData = [];
     this.docContent = {};
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -1657,8 +1657,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     if(this.editSource?.advanceOpts?.scheduleOpts) this.editSource.advanceOpts.scheduleOpts = scheduleData;
   }
   cronExpress(cronExpress) {
-    // console.log(cronExpress);
-    this.selectedSource['advanceSettings'].repeatInterval = cronExpress;
+    this.editSource.advanceOpts.repeatInterval = cronExpress;
   }
   exceptUrl(bool) {
     this.selectedSource.advanceSettings.allowedOpt = !bool;
