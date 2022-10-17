@@ -353,7 +353,12 @@ export class FieldManagementComponent implements OnInit {
           this.notificationService.notify('Updated Successfully', 'success');
         } else {
           this.notificationService.notify('Added Successfully', 'success');
-          this.mixpanel.postEvent('Add Field complete',{'Field Type':this.newFieldObj.fieldDataType, 'Field config':''})
+          let fieldConfig='';
+          fieldConfig = (payload.fields[0].isMultiValued?'Multi valued':'');
+          fieldConfig = fieldConfig + (fieldConfig?', ':'') + (payload.fields[0].isRequired?'Required':'');
+          fieldConfig = fieldConfig + (fieldConfig?', ':'') + (payload.fields[0].isStored?'Stored':'');
+          fieldConfig = fieldConfig + (fieldConfig?', ':'') + (payload.fields[0].isIndexed?'Indexed':'') ;
+          this.mixpanel.postEvent('Add Field complete',{'Field Type':this.newFieldObj.fieldDataType, 'Field config':fieldConfig})
 
         }
         this.getFileds(this.searchFields);

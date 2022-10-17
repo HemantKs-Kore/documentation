@@ -170,7 +170,7 @@ export class TraitsComponent implements OnInit {
       quaryparms.search = this.serachTraits
     }
     this.service.invoke('get.traits', quaryparms).subscribe(res => {
-      this.mixpanel.postEvent('Enter Traits',{})
+      this.mixpanel.postEvent('Enter Traits',{});
       this.traits.traitGroups = res.traitGroups;
       this.totalRecord = res.totalCount || 0;
       // this.loadingTraits = false;
