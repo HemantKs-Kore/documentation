@@ -205,11 +205,11 @@
                       </div>
                       <div class="media-right">
                         <div class="media-name text-truncate"  title="{{source.title || source.name}}">{{source.title || source.name}}
-                          <span class="ml-2" *ngIf="source.advanceSettings">
-                            <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon"
-                             src="assets/icons/schedule_timer.svg">
-                         </span>
                         </div>
+                        <span class="ml-2" *ngIf="source.advanceSettings">
+                          <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon"
+                           src="assets/icons/schedule_timer.svg">
+                       </span>
                         <!-- <div class="media-time-stamp" (click)="openScheduler($event,source,i)" *ngIf="source.advanceSettings?.scheduleOpt" ><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
                         <div class="media-up-time-stamp d-none"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div> -->
                       </div>
@@ -242,6 +242,13 @@
                     <div class="media-block media-success" *ngIf="statusObj[source.recentStatus]?.name == 'Validated'">
                       <div class="media-right">
                         <div class="media-name">Validated</div>
+                      </div>
+                    </div>
+
+                    <!-- status==='stopped' -->
+                    <div class="media-block media-stopped" *ngIf="statusObj[source.recentStatus]?.name == 'Stopped'">
+                      <div class="media-right">
+                        <div class="media-name">Stopped</div>
                       </div>
                     </div>
 
@@ -432,6 +439,7 @@
 
             </div>
             <!-- New Design -->
+            <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord > 10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginateContent($event)"></app-record-pagination></div>
           </perfect-scrollbar>
 
         </ng-container>
@@ -471,7 +479,7 @@
                 <span class="tabname" [ngClass]="{'active' : page}" (click)="swapSlider('page')">{{"contentSource_pages"
                   | translate}}</span>
               <span class="tabname"
-                *ngIf="executionHistoryData && selectedSource.recentStatus != 'scheduled' && selectedSource.recentStatus != 'configured'"
+                *ngIf="executionHistoryData && selectedSource.recentStatus != 'scheduled'"
                 [ngClass]="{'active' : execution}" (click)="swapSlider('execution')">{{"contentSource_executions" |
                 translate}}</span>
             </div>
@@ -1142,22 +1150,22 @@
                               <div class="split-row row m-0">
                                 <div class="split-row-data col-8 p-0">
                                   <div class="row-content-data row m-0">
-                                    <div class="col-4 title-heading">Title</div>
-                                    <div class="col-8 page-content-details">
+                                    <div class="col-3 title-heading">Title</div>
+                                    <div class="col-9 page-content-details">
                                       <div class="info-text">{{selectedPage?._source?.page_title}}</div>
                                     </div>
                                   </div>
                                   <div class="row-content-data row m-0">
-                                    <div class="col-4 title-heading">Sections</div>
-                                    <div class="col-8 page-content-details" [ngClass]="{'no-text-truncate':selectedPage?.isSection,'text-truncate':!selectedPage?.isSection}">
+                                    <div class="col-3 title-heading">Sections</div>
+                                    <div class="col-9 page-content-details" [ngClass]="{'no-text-truncate':selectedPage?.isSection,'text-truncate':!selectedPage?.isSection}">
                                       <div class="info-text" *ngFor="let section of selectedPage?._source?.page_sections">{{section}}</div>
                                     </div>
-                                    <div class="col-4"></div>
-                                    <div class="col-8 show-more" (click)="selectedPage.isSection=!selectedPage?.isSection" *ngIf="selectedPage?._source?.page_sections?.length>5">{{(selectedPage?.isSection)?'Show Less':'Show More'}}</div>
+                                    <div class="col-3"></div>
+                                    <div class="col-9 show-more" (click)="selectedPage.isSection=!selectedPage?.isSection" *ngIf="selectedPage?._source?.page_sections?.length>5">{{(selectedPage?.isSection)?'Show Less':'Show More'}}</div>
                                   </div>
                                   <div class="row-content-data row d-none">
-                                    <div class="col-4 title-heading">URLs</div>
-                                    <div class="col-8 page-content-details">
+                                    <div class="col-3 title-heading">URLs</div>
+                                    <div class="col-9 page-content-details">
                                       <div class="url">
                                         <i class="si-externallink"></i>
                                         <span class="text-truncate">{{selectedPage?._source?.page_url}}</span>
@@ -1165,8 +1173,8 @@
                                     </div>
                                   </div>
                                   <div class="row-content-data row m-0">
-                                    <div class="col-4 title-heading">Updated on</div>
-                                    <div class="col-8 page-content-details">
+                                    <div class="col-3 title-heading">Updated on</div>
+                                    <div class="col-9 page-content-details">
                                       <div class="info-text">{{selectedPage?.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
                                     </div>
                                   </div>
@@ -1192,10 +1200,10 @@
                               </div>
                            
                               <div class="row-content-data row m-0">
-                                <div class="col-4 title-heading width-22Percent">Body</div>
-                                <div class="col-8 page-content-details">
+                                <div class="col-3 title-heading width-22Percent">Body</div>
+                                <div class="col-9 page-content-details">
                                   <div class="info-text" [ngClass]="{'no-body-truncate':selectedPage?.isBody,'body-truncate':!selectedPage?.isBody}">{{selectedPage?._source?.page_body}}</div>
-                                  <div class="show-more" (click)="selectedPage.isBody=!selectedPage?.isBody">{{(selectedPage?.isBody)?'Show Less':'Show More'}}</div>
+                                  <div class="show-more" (click)="selectedPage.isBody=!selectedPage?.isBody">{{(selectedPage?.isBody)?'Read Less':'Read More'}}</div>
                                 </div>
                               </div>
                             </ng-container>
