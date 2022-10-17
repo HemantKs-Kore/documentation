@@ -47,7 +47,7 @@ export class AddResultComponent implements OnInit {
   ngOnInit(): void {
     //this.appDetails();
     this.searchType = this.searchRadioType;
-    this.results();
+    //this.results();
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
       this.results();
     });

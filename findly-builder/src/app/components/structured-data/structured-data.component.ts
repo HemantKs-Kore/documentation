@@ -150,7 +150,7 @@ export class StructuredDataComponent implements OnInit {
         debounceTime(200),
         map(term => this.searchItems())
       )
-    this.loadData();
+    //this.loadData();
     this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadData();
     })    
