@@ -25,6 +25,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   selectedApp: any = {};
   serachIndexId: any;
   indexPipelineId: any;
+  queryPipelineId: any;
   suggestions: any = [];
   searchObject: any = {
     "searchExperienceConfig": {
@@ -98,6 +99,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   componentType: string = 'designing';
   subscription: Subscription;
   appSubscription: Subscription;
+  queryConfigsSubscription : Subscription;
   tourData: any = [];
   userName: any = '';
   selectedColor: string = '';
@@ -131,8 +133,17 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
     this.loadSearchExperience();
-    this.appSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
-      this.loadSearchExperience();
+    // this.appSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+    //   this.loadSearchExperience();
+    // })
+    this.queryConfigsSubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
+      /** 
+       * res.length > 1 - its only query Details 
+       *  res.length == 1- its from Index pipeline and then to query Details.
+       * **/
+        this.indexPipelineId = this.workflowService.selectedIndexPipeline()
+        this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
+        this.getSearchExperience();
     })
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourData = res;
@@ -229,7 +240,10 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   loadSearchExperience() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
-      this.getSearchExperience();
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
+      if(this.queryPipelineId){
+        this.getSearchExperience();
+      }
     }
   }
   //dynamically increse input text 
@@ -598,7 +612,8 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId,
     };
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
       this.searchObject = { searchExperienceConfig: res.experienceConfig, searchWidgetConfig: res.widgetConfig, searchInteractionsConfig: res.interactionsConfig }
@@ -674,7 +689,8 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId
     };
     this.service.invoke('put.searchexperience', quaryparms, obj).subscribe(res => {
       this.searchIcon = res.widgetConfig.searchBarIcon;
@@ -713,6 +729,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     this.appSubscription ? this.appSubscription.unsubscribe() : false;
     this.subscription ? this.subscription.unsubscribe() : false;
     this.searchSDKSubscription ? this.searchSDKSubscription.unsubscribe() : false;
+    this.queryConfigsSubscription ? this.queryConfigsSubscription.unsubscribe() : false;
   }
 
   closeEmojiPicker() {
