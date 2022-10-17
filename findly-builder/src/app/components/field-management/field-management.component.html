@@ -1,12 +1,12 @@
 <div class="fieldManagementComponent">
     <div class="mainLoadingSpinner" *ngIf="loadingContent">
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-        <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
+        <span class="please-wait-message">{{'sa_please_wait' | translate}}</span>
     </div>
     <div class="table_sec" *ngIf="!loadingContent">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
             <div class="seach_add_feild">
-                <div class="title">{{'fields.fields' | translate}}
+                <div class="title">{{'fields_fields' | translate}}
                     <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
  placement="right-center"(click)="openUserMetaTagsSlider()">
                         <i class="si-topic-guide-1"></i>
@@ -14,26 +14,26 @@
                 </div>
                 <div class="d-flex align-items-center">
                     <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
-                        <input type="text" placeholder="{{'search' | translate}}" maxlength="60" class="input-search"  [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}"
+                        <input type="text" placeholder="{{'sa_search' | translate}}" maxlength="60" class="input-search"  [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}"
                             autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields" (keyup)="fieldsFilter(searchFields,'search')"
                             (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                             (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                         <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFields">
                         <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFields}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" 
-                            (click)="focusoutSearch()" placement="top-center" container='body' ngbTooltip="{{'fields.cancel' | translate}}"
+                            (click)="focusoutSearch()" placement="top-center" container='body' ngbTooltip="{{'sa_cancel' | translate}}"
                             tooltipClass="ngb_tooltip_custom_class sampleJson">
                     </div>
                     <div class="seach-block" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')">
                         <span [ngClass]="{'d-none': showSearch}"  class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                     </div>
-                    <div class="add_feild" (click)="addEditFiled()"><img src="assets/icons/add_plus.svg">{{'fields.add_field' | translate}}</div>
+                    <div class="add_feild" (click)="addEditFiled()"><img src="assets/icons/add_plus.svg">{{'fields_add_field' | translate}}</div>
                 </div>
             </div> 
             <div class="empty-list"  *ngIf="!(filelds && filelds.length)">
                 <ng-container>
                     <img src="assets/images/icons/empty_ill.svg">
-                    <div class="desc">{{'fields.no_fields_available' | translate}}</div>
+                    <div class="desc">{{'fields_no_fields_available' | translate}}</div>
                 </ng-container>
             </div>     
             <div>
@@ -44,13 +44,13 @@
                                 <img  [ngClass]="getSortIconVisibility('fieldName', 'down')"   src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img [ngClass]="getSortIconVisibility('fieldName', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span>
-                              {{'fields.field_name' | translate}}</div>
+                              {{'fields_field_name' | translate}}</div>
                         <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('fieldDataType')">
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img  [ngClass]="getSortIconVisibility('fieldDataType', 'down')"   src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img [ngClass]="getSortIconVisibility('fieldDataType', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span>
-                              {{'fields.type' | translate}} 
+                              {{'fields_type' | translate}} 
                             <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
                             [autoClose]="true" [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
@@ -61,7 +61,7 @@
                                 </button>
                                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                     <li (click)="sourceFilter.close();filterTable('all','fieldDataType')"><span
-                                            class="list-name">All</span><img
+                                            class="list-name">{{'fields_all' | translate}} </span><img
                                             [ngClass]="{'hide': filterSystem.typefilter !== 'all'}"
                                             src="assets/icons/check-blue.svg"></li>
                                     <li *ngFor="let fieldDataType of fieldDataTypeArr"
@@ -80,7 +80,7 @@
                                 <img [ngClass]="getSortIconVisibility('isSearchable', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img  [ngClass]="getSortIconVisibility('isSearchable', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span>
-                              {{'fields.searchable' | translate}}
+                              {{'fields_searchable' | translate}}
                               <span class="info-text-icon"  [container]="'body'" ngbTooltip='Text goes here' placement="bottom-left"><i class="si-info icon-info"></i></span>
                             <div class="kr-sg-dropdowns type_sort_dropdown" #selectFilter="ngbDropdown" ngbDropdown [container]="'body'"
                             [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
@@ -91,7 +91,7 @@
                                 </button>
                                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                     <li (click)="selectFilter.close();filterTable('all','isSearchable')"><span
-                                            class="list-name">All</span><img
+                                            class="list-name">{{'fields_all' | translate}}</span><img
                                             [ngClass]="{'hide': filterSystem.isSearchableFilter !== 'all'}"
                                             src="assets/icons/check-blue.svg"></li>
                                     <li *ngFor="let docType of isSearchableArr"
@@ -111,7 +111,7 @@
                                 <img [ngClass]="getSortIconVisibility('isAutosuggest', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img  [ngClass]="getSortIconVisibility('isAutosuggest', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span>
-                              {{'fields.auto_suggest' | translate}}
+                              {{'fields_auto_suggest' | translate}}
                               <span class="info-text-icon" [container]="'body'" ngbTooltip='Text goes here' placement="bottom-left"><i class="si-info icon-info"></i></span>
                             <div class="kr-sg-dropdowns type_sort_dropdown" #selectFilter="ngbDropdown" ngbDropdown [container]="'body'"
                             [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
@@ -122,7 +122,7 @@
                                 </button>
                                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                     <li (click)="selectFilter.close();filterTable('all','isAutosuggest')"><span
-                                            class="list-name">All</span><img
+                                            class="list-name">{{'fields_all' | translate}}</span><img
                                             [ngClass]="{'hide': filterSystem.isAutosuggestFilter !== 'all'}"
                                             src="assets/icons/check-blue.svg"></li>
                                     <li *ngFor="let docType of isAutosuggestArr"
@@ -289,7 +289,7 @@
 
                     </div>
                     <div class="divBlockEmptylastChild text-center">
-                        <div class="desc">{{'fields.no_search_results_found' | translate}}</div>
+                        <div class="desc">{{'fields_no_search_results_found' | translate}}</div>
                     </div>
                     <div style="margin-right: 10px;">
                         <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord'
@@ -306,7 +306,7 @@
 <kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop fieldsAddModalPopup smallModal"
     #addFieldModalPop>
     <div class="modal-header">
-        <div class="title">{{(newFieldObj && newFieldObj._id)?('fields.edit_field' | translate):('fields.add_field' |
+        <div class="title">{{(newFieldObj && newFieldObj._id)?('fields_edit_field' | translate):('fields_add_field' |
             translate)}}</div>
         <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
     </div>
@@ -316,7 +316,7 @@
                 <div class="top_sec">
                     <div class="row m-0 mb-20">
                         <div class="kr-sg-input-text col-12 p-0">
-                            <div class="label-text">{{'fields.field_name' | translate}}<sup class="field-mandatory">*</sup></div>
+                            <div class="label-text">{{'fields_field_name' | translate}}<sup class="field-mandatory">*</sup></div>
                             <div class="kr-sg-dropdowns col-12 p-0">
                                 <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                                     <input type="text" placeholder="{{'fields.enter_field_name' | translate}}"
@@ -340,20 +340,20 @@
                                 <div class="kr-sg-inline-notification"
                                     *ngIf="selectedFieldId === selectedField?.fieldId && addEditFacetObj?.showFieldWarning && addEditFacetObj?.showFieldWarning === 'NOT_INDEXED'">
                                     <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                                    <div class="tost-text">{{selectedField.fieldName}} {{'fields.is_not_indexed' |
+                                    <div class="tost-text">{{selectedField.fieldName}} {{'fields_is_not_indexed' |
                                         translate}} </div>
                                 </div>
                                 <div class="kr-sg-inline-notification"
                                     *ngIf="selectedFieldId === selectedField?.fieldId && addEditFacetObj?.showFieldWarning && addEditFacetObj?.showFieldWarning === 'CHANGE_IN_TYPE'">
                                     <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                                    <div class="tost-text">{{'fields.the_field_type_has_been_changed' | translate}}
+                                    <div class="tost-text">{{'fields_the_field_type_has_been_changed' | translate}}
                                     </div>
                                 </div>
                             </div>
                             <!-- <input type="text" placeholder="Enter Field Name" class="input-text" [(ngModel)]="newFieldObj.fieldName"> -->
                         </div>
                     </div>
-                    <div class="label-text col-12 p-0 mb-1">{{'fields.field_type' | translate}}</div>
+                    <div class="label-text col-12 p-0 mb-1">{{'fields_field_type' | translate}}</div>
                     <div class="row m-0 align-items-center">
                         <div class="kr-sg-dropdowns col-12 p-0">
                             <div class="dropdown dropdown-open">
@@ -363,21 +363,21 @@
                                 <ul class="dropdown-menu content-menu dropdown_overflow">
                                     <perfect-scrollbar class="scroll-search-field-">
                                         <div class="scroll_">
-                                            <li (click)="selectFieldType('string')"><a>{{'fields.string' |
+                                            <li (click)="selectFieldType('string')"><a>{{'fields_string' |
                                                     translate}}</a></li>
-                                            <li (click)="selectFieldType('number')"><a>{{'fields.number' |
+                                            <li (click)="selectFieldType('number')"><a>{{'fields_number' |
                                                     translate}}</a></li>
-                                            <li (click)="selectFieldType('trait')"><a>{{'fields.trait' | translate}}</a>
+                                            <li (click)="selectFieldType('trait')"><a>{{'fields_trait' | translate}}</a>
                                             </li>
-                                            <li (click)="selectFieldType('dense_vector')"><a>{{'fields.dense_vector' |
+                                            <li (click)="selectFieldType('dense_vector')"><a>{{'fields_dense_vector' |
                                                     translate}}</a></li>
-                                            <li (click)="selectFieldType('entity')"><a>{{'fields.entity' |
+                                            <li (click)="selectFieldType('entity')"><a>{{'fields_entity' |
                                                     translate}}</a></li>
-                                            <li (click)="selectFieldType('keyword')"><a>{{'fields.keyword' |
+                                            <li (click)="selectFieldType('keyword')"><a>{{'fields_keyword' |
                                                     translate}}</a></li>
-                                            <li (click)="selectFieldType('array')"><a>{{'fields.array' | translate}}</a>
+                                            <li (click)="selectFieldType('array')"><a>{{'fields_array' | translate}}</a>
                                             </li>
-                                            <li (click)="selectFieldType('object')"><a>{{'fields.object' |
+                                            <li (click)="selectFieldType('object')"><a>{{'fields_object' |
                                                     translate}}</a></li>
                                         </div>
                                     </perfect-scrollbar>
@@ -387,16 +387,16 @@
                         <div class="kr-sg-checkbox col-2 pl-5 pr-0 m-0 d-none">
                             <input id="checkbox-1" class="checkbox-custom" type="checkbox"
                                 [(ngModel)]="newFieldObj.isDynamic">
-                            <label for="checkbox-1" class="checkbox-custom-label">{{'fields.dynamic' |
+                            <label for="checkbox-1" class="checkbox-custom-label">{{'fields_dynamic' |
                                 translate}}</label>
                         </div>
                     </div>
                 </div>
                 <div class="option-selection-block">
-                    <div class="option-selection-header">{{'fields.select_ones_that_apply' | translate}}</div>
+                    <div class="option-selection-header">{{'fields_select_ones_that_apply' | translate}}</div>
                     <div class="option-selection-type">
-                        <div class="option-selection-hding">Searchable</div>
-                        <div class="option-selection-desc">The value of the field can be used to make the content of the field ready to be searched</div>
+                        <div class="option-selection-hding">{{'fields_searchable' | translate}}</div>
+                        <div class="option-selection-desc"> {{'fields_searchable_desc' | translate}}</div>
                         <div class="option-selection-checkbox">
                             <div class="kr-sg-checkbox">
                                 <input id="searchable_option" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isSearchable">
@@ -405,9 +405,8 @@
                         </div>
                     </div>
                     <div class="option-selection-type">
-                        <div class="option-selection-hding">Auto Suggest</div>
-                        <div class="option-selection-desc">The value of the field can be used to provide
-                            auto-suggestions to complete the query </div>
+                        <div class="option-selection-hding"> {{'fields_auto_suggest' | translate}}</div>
+                        <div class="option-selection-desc">  {{'fields_auto_suggest_desc' | translate}} </div>
                         <div class="option-selection-checkbox">
                             <div class="kr-sg-checkbox">
                                 <input id="auto_suggest_option" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isAutosuggest">
@@ -416,10 +415,25 @@
                         </div>
                     </div>
                 </div>
+                <!-- added warning tags content from line 418 to 432 -->
+                <div class="kr-sg-inline-notification align-items-start" *ngIf="!newFieldObj.isIndexed">
+                    <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
+                    <div class="tost-text">{{'fields.indexed_property_has_been_set_to_false' | translate}}
+                        {{indexedWarningMessage?(indexedWarningMessage+'.'):indexedWarningMessage}}</div>
+                </div>
+
+                <div class="kr-sg-inline-notification align-items-start"
+                *ngIf="newFieldObj._id && (newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType)">
+                <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
+                <div class="tost-text">{{'fields.the_field_type_has_been_changed_from' | translate}}
+                    {{newFieldObj.previousFieldDataType | translate}} {{'fields.to' | translate}}
+                    {{newFieldObj.fieldDataType | translate}}.
+                    {{indexedWarningMessage?(indexedWarningMessage+'.'):indexedWarningMessage}}</div>
+               </div>
 
                 <div class="bottom_sec d-none">
                     <div class="group-checkbox mb-3 add-fields-checkbox">
-                        <div class="label-text mb-2">{{'fields.select_ones_that_apply' | translate}}</div>
+                        <div class="label-text mb-2">{{'fields_select_ones_that_apply' | translate}}</div>
                         <div class="kr-sg-checkbox">
                             <input id="checkbox_grpfd" class="checkbox-custom" type="checkbox"
                                 [(ngModel)]="newFieldObj.isMultiValued">
@@ -482,10 +496,10 @@
         </perfect-scrollbar>
         <div class="modal-footer text-left">
             <button type="button" class="kr-sg-button-primary btn_lg float-right"
-                (click)="addField()">{{newFieldObj._id?('fields.save' | translate):('fields.add' | translate)}}</button>
+                (click)="addField()">{{newFieldObj._id?('fields_save' | translate):('fields_add' | translate)}}</button>
             <!-- [disabled]="!(newFieldObj.fieldName) || !(newFieldObj.fieldDataType)" -->
             <button type="button" class="kr-sg-button-secondary btn_lg float-right"
-                (click)="closeModalPopup()">{{'fields.cancel' | translate}}</button>
+                (click)="closeModalPopup()">{{'fields_cancel' | translate}}</button>
         </div>
     </ng-container>
 </kr-modal>

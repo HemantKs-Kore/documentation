@@ -257,10 +257,14 @@ export class FieldManagementComponent implements OnInit {
         facets: false,
         rules: false,
         weights: false,
-        resultTemplate: false
+        resultTemplate: false,
+        searchFields:false,
+        nlpRules:false,
+        entites:false
+
       }
       // let usageText1 = "This field is being used in Facets, Weights, and Rules (Dynamic). Deleting it will remove the associated Facets, Weights, and Rules.";
-      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplate && res.resultTemplate.used)) {
+      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplate && res.resultTemplate.used) ||(res.nlpRules && res.nlpRules.used) || (res.searchFields && res.searchFields.used) || (res.entites && res.entites.used)) {
         isDisableDeleteBtn = true;
         let usageText1 = "";
         usageText1 = "This field is being used in";
@@ -278,6 +282,7 @@ export class FieldManagementComponent implements OnInit {
             usageText = usageText + ' Weights'
           }
         }
+        
         if (res && res.rules && res.rules.used) {
           if (deps.facets || deps.weights) {
             usageText = usageText + ' , ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
