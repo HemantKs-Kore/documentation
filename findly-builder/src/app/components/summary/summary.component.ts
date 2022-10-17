@@ -7,6 +7,7 @@ import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { ParentBridgeService } from '@kore.services/parent-bridge.service';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { UseronboardingJourneyComponent } from '../../helpers/components/useronboarding-journey/useronboarding-journey.component';
 import * as moment from 'moment';
@@ -116,7 +117,8 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public inlineManual: InlineManualService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    public parentBridgeService : ParentBridgeService
   ) { }
 
 
