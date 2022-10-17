@@ -383,8 +383,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.isAuthorizeStatus = false;
       this.isloadingBtn = false;
       if (dialogRef) dialogRef.close();
-      // this.errorToaster(errRes, 'error');
-      if (document.getElementsByClassName("modal").length === 0) this.openDeleteModel('open');
+      if (document.getElementsByClassName("modal").length === 1) this.openDeleteModel('open');
     });
   }
   //call if authorize api was success

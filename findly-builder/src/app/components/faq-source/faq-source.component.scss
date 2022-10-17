@@ -610,6 +610,7 @@
                                 margin-right: 10px;
                                 &.show{
                                     .dropdown{
+                                        z-index: 1;
                                         .dropdown-input{
                                             background:#fff;
                                             border: 1px solid #BDC1C6;

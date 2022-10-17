@@ -677,12 +677,12 @@ export class AppHeaderComponent implements OnInit {
         searchIndexId: selectedApp.searchIndexes[0]._id
       }
       this.service.invoke('train.app', quaryparms, payload).subscribe(res => {
+        if (this.training) {
+          self.notificationService.notify('Training has been Initiated', 'success');
+        }
         setTimeout(() => {
           // self.training = false;
           this.trainingInitiated = true;
-          if (this.training) {
-            self.notificationService.notify('Training has been Initiated', 'success');
-          }
           // this.appSelectionService.updateTourConfig('indexing');
           this.poling();
         }, 5000)
