@@ -760,7 +760,7 @@
         <div class="modal-footer">
             <button class="kr-sg-button-primary btn_lg" *ngIf="addEditRuleObj._id" (click)="updateRule(addEditRuleObj)">
                 {{'sa_save'| translate}}</button>
-            <button class="kr-sg-button-primary btn_lg" *ngIf="!addEditRuleObj._id" (click)="createRule()">{{'sa_add_caps'| translate}}</button>
+            <button class="kr-sg-button-primary btn_lg" *ngIf="!addEditRuleObj._id" (click)="createRule()">{{'sa_add'| translate}}</button>
             <button class="kr-sg-button-secondary btn_lg"
                 (click)="closeModalPopup()">{{addEditRuleObj._id?"Cancel":"Back"}}</button>
         </div>
