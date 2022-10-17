@@ -13,6 +13,9 @@ import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+
 
 declare const $: any;
 @Component({
@@ -81,7 +84,9 @@ export class FieldManagementComponent implements OnInit {
     public dialog: MatDialog,
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
-    public inlineManual : InlineManualService
+    public inlineManual : InlineManualService,
+    private router: Router,
+    public mixpanel: MixpanelServiceService
   ) { }
 
   ngOnInit(): void {
@@ -142,6 +147,7 @@ export class FieldManagementComponent implements OnInit {
         isStored: true,
         isIndexed: true
       }
+      this.mixpanel.postEvent('Enter Add field',{})
     }
     this.getAllFields();
     this.submitted = false;
@@ -347,6 +353,8 @@ export class FieldManagementComponent implements OnInit {
           this.notificationService.notify('Updated Successfully', 'success');
         } else {
           this.notificationService.notify('Added Successfully', 'success');
+          this.mixpanel.postEvent('Add Field complete',{'Field Type':this.newFieldObj.fieldDataType, 'Field config':''})
+
         }
         this.getFileds(this.searchFields);
         this.closeModalPopup();
@@ -424,6 +432,7 @@ export class FieldManagementComponent implements OnInit {
     //   this.getDyanmicFilterData();
     // }
     this.service.invoke(serviceId, quaryparms,payload).subscribe(res => {
+      this.mixpanel.postEvent('Enter Fields',{})
       this.filelds = res.fields || [];
       this.totalRecord = res.totalCount || 0;
       this.loadingContent = false;
