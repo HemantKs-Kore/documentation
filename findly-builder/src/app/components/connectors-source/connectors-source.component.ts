@@ -11,6 +11,7 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { Router } from '@angular/router';
+import { DELETE } from '@angular/cdk/keycodes';
 @Component({
   selector: 'app-connectors-source',
   templateUrl: './connectors-source.component.html',
@@ -44,6 +45,24 @@ export class ConnectorsSourceComponent implements OnInit {
       url: "https://www.servicenow.com/",
       doc_url: "https://developer.servicenow.com/dev.do",
       tag: "The world works with ServiceNow"
+    },
+    {
+      connector_name: "Zendesk",
+      description: "Please complete configuration",
+      type: "zendesk",
+      image: "assets/icons/connectors/zendesk.png",
+      url: "https://www.zendesk.com/",
+      doc_url: "https://developer.zendesk.com/documentation/",
+      tag: "Engineering Awesome"
+    },
+    {
+      connector_name: "SharePoint",
+      description: "Please complete configuration",
+      type: "sharePoint",
+      image: "assets/icons/connectors/sharepoint.png",
+      url: "https://microsoft.sharepoint.com/",
+      doc_url: "https://learn.microsoft.com/en-us/sharepoint/dev/",
+      tag: "Empowering teamwork"
     }
   ];
   componentType = 'Connectors';
@@ -340,6 +359,9 @@ export class ConnectorsSourceComponent implements OnInit {
       payload.authDetails.username = this.configurationObj.username;
       payload.authDetails.password = this.configurationObj.password;
     }
+    if (this.selectedConnector.type === 'zendesk' || this.selectedConnector.type === 'sharePoint' ) {
+      delete payload.configuration.hostDomainName;   
+    }
     this.service.invoke('post.connector', quaryparms, payload).subscribe(res => {
       if (res) {
         this.connectorId = res?._id;
@@ -362,7 +384,7 @@ export class ConnectorsSourceComponent implements OnInit {
     this.service.invoke('post.authorizeConnector', quaryparms, payload).subscribe(res => {
       if (res) {
         this.isloadingBtn = false;
-        if (data?.type === 'confluenceCloud') {
+        if (data?.type === 'confluenceCloud' || data?.type === 'zendesk'|| data?.type === 'sharePoint') {
           window.open(res.url, '_self');
         }
         else {
@@ -444,6 +466,9 @@ export class ConnectorsSourceComponent implements OnInit {
     if (this.selectedConnector.type === 'serviceNow') {
       payload.authDetails.username = this.configurationObj.username;
       payload.authDetails.password = this.configurationObj.password;
+    }
+    if (this.selectedConnector.type === 'zendesk' || this.selectedConnector.type === 'sharePoint' ) {
+      delete  payload.configuration.hostDomainName
     }
     this.service.invoke('put.connector', quaryparms, payload).subscribe(res => {
       if (res) {
