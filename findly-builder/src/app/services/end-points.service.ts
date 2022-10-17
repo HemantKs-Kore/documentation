@@ -1201,7 +1201,7 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['get.synonyms'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms/list',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms/list?offset=:offset&limit=:limit',
       method: 'post'
     }
     /** Delete apps API */

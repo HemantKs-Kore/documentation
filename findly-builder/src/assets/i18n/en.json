@@ -2891,7 +2891,7 @@
     "contentSource_source_title_caps":"SOURCE TITLE",
     "contentSource_type_caps":"TYPE",
     "contentSource_all":"All",
-    "contentSource_status_caps":"STATUS",
+    "contentSource_status_caps":"RECENT STATUS",
     "contentSource_no_of_pages_caps":"NO. OF PAGES",
     "contentSource_triggered_by_caps":"TRIGGERED BY",
     "contentSource_no_results_found":"No results found",
@@ -2968,6 +2968,7 @@
     "sa_or":"or",
     "sa_are":"are",
     "sa_choose_field": "Choose field",
+    "sa_add_caps":"ADD",
 
 
     "teams_enter_email":"Type Email and Enter",
@@ -3000,6 +3001,5 @@
     "settings_downloadSDK":"Download SDK",
     "settings_enter_name":"Enter Name",
     "settings_type_name":"Type Name"
-
 }
 
