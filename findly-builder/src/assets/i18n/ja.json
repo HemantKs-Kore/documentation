@@ -2931,6 +2931,7 @@
     "sa_done":"Done",
     "sa_or":"or",
     "sa_are":"are",
-    "sa_choose_field": "Choose field"
+    "sa_choose_field": "Choose field",
+    "sa_add_caps":"ADD"
 
 }

@@ -2949,7 +2949,7 @@
     "contentSource_source_title_caps":"SOURCE TITLE",
     "contentSource_type_caps":"TYPE",
     "contentSource_all":"All",
-    "contentSource_status_caps":"STATUS",
+    "contentSource_status_caps":"RECENT STATUS",
     "contentSource_no_of_pages_caps":"NO. OF PAGES",
     "contentSource_triggered_by_caps":"TRIGGERED BY",
     "contentSource_no_results_found":"No results found",
@@ -3033,6 +3033,7 @@
     "fields_searchable":"Searchable",
     "fields_auto_suggest": "Auto suggest",
     "fields_searchable_desc":"The value of the field can be used to make the content of the field ready to be searched",
-    "fields_auto_suggest_desc":"The value of the field can be used to provide auto-suggestions to complete the query"
+    "fields_auto_suggest_desc":"The value of the field can be used to provide auto-suggestions to complete the query",
+    "sa_add_caps":"ADD"
 }
 

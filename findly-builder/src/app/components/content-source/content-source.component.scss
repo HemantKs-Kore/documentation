@@ -375,6 +375,7 @@
                                 padding-left: 5px;
 
                                 .media-name {
+                                    width: 185px;
                                     color: #28A745;
                                 }
                             }
@@ -442,18 +443,29 @@
                             }
                         }
 
+                        &.media-stopped {
+                            .media-right {
+                                padding-left: 5px;
+
+                                .media-name {
+                                    color: #DD3646;
+                                }
+                            }
+                        }
                         .media-logo {
                             padding: 4px 0;
                         }
 
                         .media-right {
                             padding-left: 20px;
+                            display: flex;
 
                             .media-name {
                                 color: #202124;
                                 font-weight: 600;
                                 font-size: 14px;
                                 padding: 4px 0;
+                                width: 185px;
                             }
 
                             .media-time-stamp {
@@ -1662,8 +1674,8 @@
                                 color: #5F6368;
                                 padding: 0 10px 0 0;
                                 &.width-22Percent{
-                                    flex: 0 0 22.333333%;
-                                    max-width: 22.333333%;
+                                    flex: 0 0 16.333333%;
+                                    max-width: 16.333333%;
                                 }
                             }
 
