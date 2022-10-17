@@ -273,24 +273,24 @@
                         <div class="title-data">
                             <img src="assets/icons/business-rules/ifcondition.svg">
                             <div class="text-title">{{ "businessRules.condition" | translate }}</div>
-                            <span class="info-tooltip-data">
+                            <span class="info-tooltip-data" *ngIf="selcectionObj?.ruleType==='contextual'">
                                 <i class="si-help"></i>
                                 <div class="conditon-info-tooltip">
-                                    <div class="left-data-info">
+                                    <!-- <div class="left-data-info">
                                         <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                             Auctor posuere amet malesuada in. Et nullam.</div>
                                         <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                             Auctor posuere amet malesuada in. Et nullam.</div>
-                                    </div>
+                                    </div> -->
                                     <div class="img-data">
                                         <img src="assets/icons/business-rules/conditions.png">
                                     </div>
-                                    <div class="right-data-info">
+                                    <!-- <div class="right-data-info">
                                         <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                             Auctor posuere amet malesuada in. Et nullam.</div>
                                         <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                             Auctor posuere amet malesuada in. Et nullam.</div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </span>
                         </div>
@@ -874,7 +874,7 @@
             (click)="updateRule(addEditRuleObj)">{{"businessRules.save"| translate}}</button>
         <button class="kr-sg-button-primary btn_lg" *ngIf="!addEditRuleObj._id" (click)="createRule()">{{"businessRules.add"| translate}}</button>
         <button class="kr-sg-button-secondary btn_lg"
-            (click)="closeModalPopup()">{{addEditRuleObj._id?"Cancel":"Back"}}</button>
+            (click)="closeModalPopup()">Cancel</button>
     </div>
 
    

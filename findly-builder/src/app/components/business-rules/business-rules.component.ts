@@ -1421,7 +1421,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //select rule type 
   selectRuleType(type) {
     this.selcectionObj.ruleType = type;
-    this.rules = this.allRules?.filter(item => item?.ruleType === type);
+    this.rules = this.allRules?.filter(item =>{
+      if(type==='contextual'){
+       return (item?.ruleType === type||item?.ruleType === null)
+      }else{
+        return item?.ruleType === type
+      }
+
+    });
     this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
     if (this.rules.length > 0) {
       this.loadingContent = false;
