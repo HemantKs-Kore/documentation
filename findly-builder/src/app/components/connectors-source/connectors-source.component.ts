@@ -359,7 +359,7 @@ export class ConnectorsSourceComponent implements OnInit {
       payload.authDetails.username = this.configurationObj.username;
       payload.authDetails.password = this.configurationObj.password;
     }
-    if (['zendesk','sharePoint'].includes(this.selectedConnector.type) ) {
+    if (['zendesk','sharePoint'].includes(this.selectedConnector.type)) {
       delete payload.configuration.hostDomainName;   
     }
     this.service.invoke('post.connector', quaryparms, payload).subscribe(res => {
@@ -384,7 +384,7 @@ export class ConnectorsSourceComponent implements OnInit {
     this.service.invoke('post.authorizeConnector', quaryparms, payload).subscribe(res => {
       if (res) {
         this.isloadingBtn = false;
-        if (data?.type === 'confluenceCloud' || data?.type === 'zendesk'|| data?.type === 'sharePoint') {
+        if (['confluenceCloud','zendesk','sharePoint'].includes(data?.type)) {
           window.open(res.url, '_self');
         }
         else {
