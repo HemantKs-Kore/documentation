@@ -1718,6 +1718,14 @@
                                     .inner-data-content {
                                         padding-right: 15px;
 
+                                        .outcome-number{
+                                            font-weight: 500;
+                                            font-size: 12px;
+                                            line-height: 15px;
+                                            padding-bottom: 8px;
+                                            color: #000000;
+                                        }
+
                                         .box-data-conditions {
                                             border: 1px solid #93D3A2;
                                             box-sizing: border-box;

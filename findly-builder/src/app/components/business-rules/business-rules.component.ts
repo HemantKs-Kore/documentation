@@ -280,7 +280,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         for (let item of ruleObj.rules) {
           this.createColorSentence(item);
         }
-        console.log("this.nlpAnnotatorObj",this.nlpAnnotatorObj);
       }
     }
     if (ruleObj && ruleObj.outcomes && ruleObj.outcomes.length) {
@@ -1421,7 +1420,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //select rule type 
   selectRuleType(type) {
     this.selcectionObj.ruleType = type;
-    this.rules = this.allRules?.filter(item => item?.ruleType === type);
+    this.rules = this.allRules?.filter(item =>{
+      if(type==='contextual'){
+       return (item?.ruleType === type||item?.ruleType === null)
+      }else{
+        return item?.ruleType === type
+      }
+
+    });
     this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
     if (this.rules.length > 0) {
       this.loadingContent = false;
@@ -1544,6 +1550,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.entityObj.colorSentence  = this.sanitizer.bypassSecurityTrustHtml(sentence);
     this.nlpAnnotatorObj.annotator.push(this.entityObj);
     this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false };
+    this.getLegends();
   }
 
   //edit annotator object

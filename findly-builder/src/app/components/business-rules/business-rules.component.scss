@@ -585,3 +585,31 @@
     visibility: hidden !important;
   }
 
+
+  .info-warning-container {
+    background: #FFFBEA;
+    border: 1px solid #806D16;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 9px 10px;
+    align-items: center;
+    margin-bottom: 80px !important;
+    .w-text {
+        color: #806D16;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 18px;
+        display: flex;
+        align-items: center;
+        img {
+            margin-right: 10px;
+        }
+    }
+    .know-more {
+        color: #0D6EFD;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 14px;
+        cursor: pointer;
+    }
+}

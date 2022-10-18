@@ -273,24 +273,24 @@
                         <div class="title-data">
                             <img src="assets/icons/business-rules/ifcondition.svg">
                             <div class="text-title">{{ "businessRules.condition" | translate }}</div>
-                            <span class="info-tooltip-data">
+                            <span class="info-tooltip-data" *ngIf="selcectionObj?.ruleType==='contextual'">
                                 <i class="si-help"></i>
                                 <div class="conditon-info-tooltip">
-                                    <div class="left-data-info">
+                                    <!-- <div class="left-data-info">
                                         <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                             Auctor posuere amet malesuada in. Et nullam.</div>
                                         <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                             Auctor posuere amet malesuada in. Et nullam.</div>
-                                    </div>
+                                    </div> -->
                                     <div class="img-data">
                                         <img src="assets/icons/business-rules/conditions.png">
                                     </div>
-                                    <div class="right-data-info">
+                                    <!-- <div class="right-data-info">
                                         <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                             Auctor posuere amet malesuada in. Et nullam.</div>
                                         <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                             Auctor posuere amet malesuada in. Et nullam.</div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </span>
                         </div>
@@ -544,7 +544,7 @@
                                     <div class="row m-0 col-12 info-warning-container">
                                         <div class="col-10 pl-0 w-text"><img
                                                 src="assets/icons/business-rules/warning-info.svg">{{"businessRules.define_rule_without_condition"| translate}}</div>
-                                        <div class="know-more col-2 pl-0 text-right">{{"businessRules.define_rule_without_condition"| translate}}</div>
+                                        <div class="know-more col-2 pl-0 text-right">{{"businessRules.know_more"| translate}}</div>
                                     </div>
                                 </ng-container>
                                 <!-- End repeat -->
@@ -645,6 +645,7 @@
                             <div class="inner-data-content">
                                 <!-- Repeat the data here conditions -->
                                 <ng-container *ngFor="let outcomeObj of outcomeArrayforAddEdit; let index = index">
+                                    <div class="outcome-number">{{ "businessRules.outcome_caps_small" | translate }} {{index+1}}</div>
                                     <div class="box-data-conditions">
                                         <div class="close-conditions" (click)="removeOutcome(index)">
                                             <i class="si-close"></i>
@@ -667,6 +668,18 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-4" style="bottom:6px;">
+                                                <ng-container *ngIf="outcomeObj.outcomeType === 'boost' || outcomeObj.outcomeType === 'lower'"> 
+                                                <div class="business-rules-outcome-slider">
+                                                        <span class="action-name">{{(outcomeObj.outcomeType === 'boost'?"businessRules_boostResults":"businessRules_lowerResults")|translate}}</span>
+                                                        <span class="slider-number">{{ outcomeObj.scale }}x</span>
+                                                    <app-range-slider [customClass]="'weightsSlider'"
+                                                        [allData]="outcomeObj.sliderObj" [addTextToTooltip]="'X'"
+                                                        (valueEvent)="valueEvent($event, outcomeObj)">
+                                                    </app-range-slider>
+                                                </div>                                                
+                                            </ng-container>
+                                            </div>
                                         </div>
                                         <div class="row-input-data row col-12">
                                             <div class="col-12 title-info">{{"businessRules.response"| translate}}</div>
@@ -675,6 +688,12 @@
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" ngbDropdownToggle>{{outcomeObj.fieldName? outcomeObj.fieldName : "Choose field"}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                                            <li class="search-box">
+                                                                <input id="searchBoxId" autocomplete="off" type="text"
+                                                                    (keydown)="$event.stopPropagation()"
+                                                                    (keyup)="getFieldAutoComplete($event,outcomeObj)"
+                                                                    placeholder="{{'sa_search'| translate}}" class="seach-input" />
+                                                            </li>
                                                             <perfect-scrollbar class="scroll-max-200">
                                                                 <div class="scroll-max-200">
                                                                     <li class="p-0" ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion" (click)="selectField(suggestion, outcomeObj)">
@@ -774,7 +793,7 @@
         </div>
 
         <!---NLP Annotator modal-->
-        <div class="nlp-custom-tag-popup" id="tagDialog" [ngStyle]="{'visibility':nlpAnnotatorObj.showEntityPopup?'visible':'hidden'}">
+        <div class="nlp-custom-tag-popup" id="tagDialog" [ngStyle]="{'visibility':nlpAnnotatorObj.showEntityPopup?'visible':'hidden','z-index':'9999'}">
             <div class="nlp-choose-tag" *ngIf="!nlpAnnotatorObj.isEditPage">
                 <div class="nlp-choose-tag-header">
                     <span class="bot-tasks"><img src="assets/images/bot-tasks.svg" /></span> {{"businessRules.choose_tag"| translate}}
@@ -874,7 +893,7 @@
             (click)="updateRule(addEditRuleObj)">{{"businessRules.save"| translate}}</button>
         <button class="kr-sg-button-primary btn_lg" *ngIf="!addEditRuleObj._id" (click)="createRule()">{{"businessRules.add"| translate}}</button>
         <button class="kr-sg-button-secondary btn_lg"
-            (click)="closeModalPopup()">{{addEditRuleObj._id?"Cancel":"Back"}}</button>
+            (click)="closeModalPopup()">Cancel</button>
     </div>
 
    
