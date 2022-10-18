@@ -280,7 +280,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         for (let item of ruleObj.rules) {
           this.createColorSentence(item);
         }
-        console.log("this.nlpAnnotatorObj",this.nlpAnnotatorObj);
       }
     }
     if (ruleObj && ruleObj.outcomes && ruleObj.outcomes.length) {
@@ -1551,6 +1550,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.entityObj.colorSentence  = this.sanitizer.bypassSecurityTrustHtml(sentence);
     this.nlpAnnotatorObj.annotator.push(this.entityObj);
     this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false };
+    this.getLegends();
   }
 
   //edit annotator object
