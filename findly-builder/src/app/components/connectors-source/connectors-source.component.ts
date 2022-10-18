@@ -359,7 +359,7 @@ export class ConnectorsSourceComponent implements OnInit {
       payload.authDetails.username = this.configurationObj.username;
       payload.authDetails.password = this.configurationObj.password;
     }
-    if (this.selectedConnector.type === 'zendesk' || this.selectedConnector.type === 'sharePoint' ) {
+    if (['zendesk','sharePoint'].includes(this.selectedConnector.type) ) {
       delete payload.configuration.hostDomainName;   
     }
     this.service.invoke('post.connector', quaryparms, payload).subscribe(res => {
@@ -467,7 +467,7 @@ export class ConnectorsSourceComponent implements OnInit {
       payload.authDetails.username = this.configurationObj.username;
       payload.authDetails.password = this.configurationObj.password;
     }
-    if (this.selectedConnector.type === 'zendesk' || this.selectedConnector.type === 'sharePoint' ) {
+    if (['zendesk','sharePoint'].includes(this.selectedConnector.type)) {
       delete  payload.configuration.hostDomainName
     }
     this.service.invoke('put.connector', quaryparms, payload).subscribe(res => {
