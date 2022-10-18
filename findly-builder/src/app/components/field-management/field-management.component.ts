@@ -183,27 +183,39 @@ export class FieldManagementComponent implements OnInit {
       const deps: any = {
         facets: false,
         rules: false,
-        weights: false,
-        resultTemplate: false
+        //weights: false
+        searchFields: false,
+        resultTemplate: false,
+        nlpRules:false,
+        entites:false
       }
       let usageText = '';
-      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplates && res.resultTemplates.used)) {
+      //if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplates && res.resultTemplates.used)) {
+      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.searchFields && res.searchFields.used) || (res.resultTemplates && res.resultTemplates.used) || (res.nlpRules && res.nlpRules.used) || (res.entites && res.entites.used)) {
         usageText = usageText + ' This will impact'
         if (res && res.facets && res.facets.used) {
           deps.facets = true;
           usageText = usageText + ' facet'
         }
-        if (res && res.weights && res.weights.used) {
-          deps.weights = true;
+        // if (res && res.weights && res.weights.used) {
+        //   deps.weights = true;
+        //   if (deps.facets) {
+        //     usageText = usageText + ', ' + 'Weights'
+        //   } else {
+        //     usageText = usageText + ' Weights'
+        //   }
+        // }
+        if (res && res.searchFields && res.searchFields.used) {
+          deps.searchFields = true;
           if (deps.facets) {
-            usageText = usageText + ', ' + 'Weights'
+            usageText = usageText + ', ' + 'searchFields'
           } else {
-            usageText = usageText + ' Weights'
+            usageText = usageText + ' searchFields'
           }
         }
         if (res && res.rules && res.rules.used) {
           deps.rules = true;
-          if (deps.facets || deps.weights) {
+          if (deps.facets || deps.searchFields) {
             usageText = usageText + ' , ' + res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '')
           } else {
             usageText = usageText + ' ' + res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '')
@@ -212,10 +224,28 @@ export class FieldManagementComponent implements OnInit {
 
         if (res && res.resultTemplates && res.resultTemplates.used) {
           deps.resultTemplate = true;
-          if (deps.facets || deps.weights || deps.rules) {
+          if (deps.facets || deps.searchFields || deps.rules) {
             usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
           } else {
             usageText = usageText + ' will impact ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
+          }
+        }
+
+        if (res && res.nlpRules && res.nlpRules.used) {
+          deps.nlpRules = true;
+          if (deps.facets || deps.searchFields || deps.rules || deps.resultTemplate) {
+            usageText = usageText + ' , ' + res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '');
+          } else {
+            usageText = usageText + ' will impact ' + res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '')
+          }
+        }
+
+        if (res && res.entites && res.entites.used) {
+          deps.entites = true;
+          if (deps.facets || deps.searchFields || deps.rules || deps.resultTemplate || deps.nlpRules) {
+            usageText = usageText + ' , ' + res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
+          } else {
+            usageText = usageText + ' will impact ' + res.nlpRules.entites.length + (res.entites.records.length == 1 ? 'entity' : '') + (res.entites.records.length > 1 ? 'entities' : '');
           }
         }
       }
@@ -252,19 +282,18 @@ export class FieldManagementComponent implements OnInit {
     this.service.invoke('get.getFieldUsage', quaryparms).subscribe(res => {
       this.currentfieldUsage = res
       this.fetchingFieldUsage = false;
-      let usageText = record.fieldName + ' will be deleted'
+      let usageText = record.fieldName + ' will be deleted' 
       const deps: any = {
         facets: false,
         rules: false,
-        weights: false,
+        //weights: false
+        searchFields: false,
         resultTemplate: false,
-        searchFields:false,
         nlpRules:false,
         entites:false
-
       }
       // let usageText1 = "This field is being used in Facets, Weights, and Rules (Dynamic). Deleting it will remove the associated Facets, Weights, and Rules.";
-      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplate && res.resultTemplate.used) ||(res.nlpRules && res.nlpRules.used) || (res.searchFields && res.searchFields.used) || (res.entites && res.entites.used)) {
+      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.searchFields && res.searchFields.used) || (res.resultTemplates && res.resultTemplates.used) || (res.nlpRules && res.nlpRules.used) || (res.entites && res.entites.used)) {
         isDisableDeleteBtn = true;
         let usageText1 = "";
         usageText1 = "This field is being used in";
@@ -274,17 +303,17 @@ export class FieldManagementComponent implements OnInit {
           deps.facets = true;
           usageText = usageText + ' Facets'
         }
-        if (res && res.weights && res.weights.used) {
-          deps.weights = true;
+        if (res && res.searchFields && res.searchFields.used) {
+          deps.searchFields = true;
           if (deps.facets) {
-            usageText = usageText + ', ' + 'Weights'
+            usageText = usageText + ', ' + 'searchFields'
           } else {
-            usageText = usageText + ' Weights'
+            usageText = usageText + ' searchFields'
           }
         }
         
         if (res && res.rules && res.rules.used) {
-          if (deps.facets || deps.weights) {
+          if (deps.facets || deps.searchFields) {
             usageText = usageText + ' , ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
           } else {
             usageText = usageText + ' ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
@@ -292,10 +321,26 @@ export class FieldManagementComponent implements OnInit {
         }
         if (res && res.resultTemplates && res.resultTemplates.used) {
           deps.resultTemplate = true;
-          if (deps.facets || deps.weights || deps.rules) {
+          if (deps.facets || deps.searchFields || deps.rules) { 
             usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
           } else {
             usageText = usageText + ' ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
+          }
+        }
+        if (res && res.nlpRules && res.nlpRules.used) {
+          deps.nlpRules = true;
+          if (deps.facets || deps.searchFields || deps.rules || deps.resultTemplate) { 
+            usageText = usageText + ' , ' + res.nlpRules.records.length + 'nlpRule' + (res.nlpRules.records.length > 1 ? 's' : '')
+          } else {
+            usageText = usageText + ' ' + res.nlpRules.records.length + 'nlpRule' + (res.nlpRules.records.length > 1 ? 's' : '')
+          }
+        }
+        if (res && res.entites && res.entites.used) {
+          deps.entites = true;
+          if (deps.facets || deps.searchFields || deps.rules || deps.resultTemplate || deps.nlpRules) {
+            usageText = usageText + ' , ' + res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
+          } else {
+            usageText = usageText + ' will impact ' + res.nlpRules.entites.length + (res.entites.records.length == 1 ? 'entity' : '') + (res.entites.records.length > 1 ? 'entities' : '');
           }
         }
         usageText = this.replaceLast(",", " and", usageText);

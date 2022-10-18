@@ -416,11 +416,11 @@
                     </div>
                 </div>
                 <!-- added warning tags content from line 418 to 432 -->
-                <div class="kr-sg-inline-notification align-items-start" *ngIf="!newFieldObj.isIndexed">
+                <!-- <div class="kr-sg-inline-notification align-items-start" *ngIf="!newFieldObj.isIndexed">
                     <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
                     <div class="tost-text">{{'fields.indexed_property_has_been_set_to_false' | translate}}
                         {{indexedWarningMessage?(indexedWarningMessage+'.'):indexedWarningMessage}}</div>
-                </div>
+                </div> -->
 
                 <div class="kr-sg-inline-notification align-items-start"
                 *ngIf="newFieldObj._id && (newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType)">
