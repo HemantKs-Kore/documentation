@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Router } from '@angular/router';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { ParentBridgeService } from '@kore.services/parent-bridge.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { Subscription } from 'rxjs';
@@ -812,7 +813,8 @@ topicGuideObj = {
 };
 mediaObj:any = {};
 
-  constructor( private appSelectionService: AppSelectionService, private notificationService: NotificationService, private service: ServiceInvokerService,public router: Router,public sanitizer: DomSanitizer) {}
+  constructor( private appSelectionService: AppSelectionService, private notificationService: NotificationService, private service: ServiceInvokerService,public router: Router,public sanitizer: DomSanitizer,
+    public parentBridgeService : ParentBridgeService) {}
 
   ngOnInit(): void {
       this.getVersion();
