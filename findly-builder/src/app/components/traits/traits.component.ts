@@ -10,7 +10,9 @@ import * as _ from 'underscore';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { nanoid } from 'nanoid'
+import { nanoid } from 'nanoid';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 
 declare const $: any;
 @Component({
@@ -99,7 +101,9 @@ export class TraitsComponent implements OnInit {
     private notificationService: NotificationService,
     public dialog: MatDialog,
     public authService: AuthService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    private router: Router,
+    public mixpanel: MixpanelServiceService
   ) { }
 
   ngOnInit(): void {
@@ -166,6 +170,7 @@ export class TraitsComponent implements OnInit {
       quaryparms.search = this.serachTraits
     }
     this.service.invoke('get.traits', quaryparms).subscribe(res => {
+      this.mixpanel.postEvent('Enter Traits',{});
       this.traits.traitGroups = res.traitGroups;
       this.totalRecord = res.totalCount || 0;
       // this.loadingTraits = false;
@@ -636,6 +641,7 @@ export class TraitsComponent implements OnInit {
       this.traits.addEditTraits = {};
       this.traits.addEditTraits.matchStrategy = 'probability';
       this.notificationService.notify('Created Successfully', 'success');
+      this.mixpanel.postEvent('Trait Group created', {'Trait added count':Object.keys(payload.traits).length});
     }, (err) => {
       if (err && err.error && err.error.errors && err.error.errors[0]) {
         this.notificationService.notify(err.error.errors[0].msg, 'error');
@@ -997,6 +1003,7 @@ export class TraitsComponent implements OnInit {
         this.traits.addEditTraits.traitsArray[index] = this.traits.addEditTraits.traits[key];
       }
       this.traits.addEditTraits.traits[key].utterance = '';
+      this.mixpanel.postEvent('Trait utterance added', {});
     }
     this.closeUtteranceModal();
   }
