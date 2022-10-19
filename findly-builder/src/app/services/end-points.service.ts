@@ -1291,5 +1291,17 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/structuredData/export',
       method: 'post'
     }
+    //get all list of field properties
+    this.serviceList['get.allsearchFields'] = {
+      endpoint: this.API_SERVER_URL + '/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/fields',
+      method: 'get'
+    }
+
+    //edit field properties
+    this.serviceList['put.updatesearchFieldsProperties'] = {
+      endpoint: this.API_SERVER_URL + '/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/field/:fieldId',
+      method: 'put'
+    }
+
   }
 }
