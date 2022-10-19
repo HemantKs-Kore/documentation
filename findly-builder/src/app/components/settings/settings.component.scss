@@ -139,7 +139,34 @@
         height: calc(100vh - 168px);
     }
     .body-sec{
-        padding: 10px 25px;       
+        padding: 30px 25px 10px 25px; 
+        .web-and-mobile-client-steps{
+            .web-and-client-card{
+                background: #F8F9FA;
+                border-radius: 4px;
+                padding: 20px 20px;
+                margin-bottom: 15px;
+                .wacc-step{
+                    font-weight: 600;
+                    font-size: 16px;
+                    line-height: 19px;
+                    color: #9AA0A6;
+                }
+                .wacc-header{
+                    font-weight: 600;
+                    font-size: 16px;
+                    line-height: 19px;
+                    color: #202124;
+                    padding: 13px 0;
+                }
+                .wacc-desc{
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 17px;
+                    color: #9AA0A6;
+                }
+            }
+        }      
         .info-data{
             display: flex;
             max-width: 58%;
@@ -359,11 +386,11 @@
             margin-bottom: 4px;
         }
         .select_credentials_sec{
-            width: 810px;
-            margin: 10px auto;
+            width: 80%;
+            // margin: 10px auto;
            
             .main-heading{
-                text-align: center;
+                text-align: left;
                 color: #202124;
                 font-weight: 500;
                 font-size: 16px;
@@ -371,7 +398,7 @@
                 margin-bottom: 4px;
             }
             .desc-text{
-                text-align: center;
+                text-align: left;
                 color: #9AA0A6;
                 font-weight: 500;
                 font-size: 12px;
@@ -490,8 +517,10 @@
         }
     }
     .footer-sec{
-        background: #FFFFFF;
-        box-shadow: inset 0px 1px 0px #BDC1C6;
+        // background: #FFFFFF;
+        background: #F8F9FA;
+        // box-shadow: inset 0px 1px 0px #BDC1C6;
+        box-shadow: none;
         padding: 10px 25px;
         .btn-sec{                    
             margin: 0 auto;
