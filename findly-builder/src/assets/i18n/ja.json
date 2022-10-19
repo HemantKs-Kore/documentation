@@ -2932,6 +2932,7 @@
     "sa_or":"or",
     "sa_are":"are",
     "sa_choose_field": "Choose field",
-    "sa_add_caps":"ADD"
+    "sa_add_caps":"ADD",
+    "Search_Field_Properties": "Search Field Properties"
 
 }

@@ -1,1 +1,178 @@
-search field properties
+<div class="fieldManagementComponent">
+    <div class="table_sec">
+        <div class="seach_add_feild">
+            <div class="title">{{'Search_Field_Properties' | translate}}
+                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide'
+                    placement="right-center">
+                    <i class="si-topic-guide-1"></i>
+                </span>
+            </div>
+            <div class="d-flex align-items-center">
+                <!-- <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
+                    <input type="text" placeholder="{{'sa_search' | translate}}" maxlength="60" class="input-search"  [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}"
+                        autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields" (keyup)="fieldsFilter(searchFields,'search')"
+                        (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                        (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
+                        (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+                    <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFields">
+                    <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFields}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" 
+                        (click)="focusoutSearch()" placement="top-center" container='body' ngbTooltip="{{'sa_cancel' | translate}}"
+                        tooltipClass="ngb_tooltip_custom_class sampleJson">
+                </div> -->
+                <!-- <div class="seach-block" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')">
+                    <span [ngClass]="{'d-none': showSearch}"  class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+                </div> -->
+                <div class="add_feild"><img src="assets/icons/add_plus.svg">{{'fields_add_field' | translate}}</div>
+            </div>
+        </div>
+        <div>
+            <div class="table_data_content">
+                <div class="table_header row m-0">
+                    <div class="col_ col-2 title d-flex align-items-center justify-content-start">
+                        <span class="d-flex align-items-center flex-column mr-1">
+                            <img class="ml-1 sortImg downArrow display-none" src="assets/icons/caretDown.svg" />
+                            <img class="ml-1 sortImg upArrow display-block" src="assets/icons/caretDown.svg" />
+                        </span> Field Name
+                    </div>
+                    <div class="col_  col-3 title d-flex align-items-center">
+                        <span class="d-flex align-items-center flex-column mr-1">
+                            <img class="ml-1 sortImg downArrow" src="assets/icons/caretDown.svg" />
+                            <img class="ml-1 sortImg upArrow" src="assets/icons/caretDown.svg" />
+                        </span> weights
+                    </div>
+                    <div class="col_  col-2 title d-flex align-items-center">
+                        <span class="d-flex align-items-center flex-column mr-1">
+                            <img class="ml-1 sortImg downArrow" src="assets/icons/caretDown.svg" />
+                            <img class="ml-1 sortImg upArrow" src="assets/icons/caretDown.svg" />
+                        </span> Presentable <span class="info-text-icon" [container]="'body'"
+                            ngbTooltip='Text goes here' placement="bottom-left"><i class="si-info icon-info"></i></span>
+                        <div class="kr-sg-dropdowns type_sort_dropdown d-none" #selectFilter="ngbDropdown" ngbDropdown
+                            [container]="'body'" [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
+                                    (click)="$event.stopImmediatePropagation()">
+                                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Fields_Vector.svg">
+                                </button>
+                                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                                    <li (click)="selectFilter.close();filterTable('all','isSearchable')"><span
+                                            class="list-name">{{'fields_all' | translate}}</span><img
+                                            [ngClass]="{'hide': filterSystem.isSearchableFilter !== 'all'}"
+                                            src="assets/icons/check-blue.svg"></li>
+                                    <li *ngFor="let docType of isSearchableArr"
+                                        (click)="selectFilter.close();filterTable(docType,'isSearchable')">
+                                        <span class="list-name">{{docType == false ? 'No' :(docType == true? 'Yes':
+                                            '')}}</span><img
+                                            [ngClass]="{'hide': filterSystem.isSearchableFilter !== docType}"
+                                            src="assets/icons/check-blue.svg">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col_  col-2 title d-flex align-items-center">
+                        <span class="d-flex align-items-center flex-column mr-1">
+                            <img class="ml-1 sortImg downArrow" src="assets/icons/caretDown.svg" />
+                            <img class="ml-1 sortImg upArrow" src="assets/icons/caretDown.svg" />
+                        </span> Highlight <span class="info-text-icon" [container]="'body'" ngbTooltip='Text goes here'
+                            placement="bottom-left"><i class="si-info icon-info"></i></span>
+                    </div>
+                    <div class="col_  col-2 title d-flex align-items-center">
+                        <span class="d-flex align-items-center flex-column mr-1">
+                            <img class="ml-1 sortImg downArrow" src="assets/icons/caretDown.svg" />
+                            <img class="ml-1 sortImg upArrow" src="assets/icons/caretDown.svg" />
+                        </span> Spell correct <span class="info-text-icon" [container]="'body'"
+                            ngbTooltip='Text goes here' placement="bottom-left"><i class="si-info icon-info"></i></span>
+                    </div>
+                </div>
+                <perfect-scrollbar class="table_body_content">
+                    <div class="table_body row m-0">
+                        <div class="col-2 title text-left" title="faq_question_keywords">
+                            faq_question_keywords</div>
+                        <div class="col-3 title">
+                            <div class="range-slider">
+                                <app-range-slider [customClass]='"weightsSlider"' [allData]='weightModal.sliderObj'
+                                    (valueEvent)="valueEvent($event,weightModal)"></app-range-slider>
+                            </div>
+                        </div>
+                        <div class="col-2 title">
+                            <span class="field-value yes">Yes</span>
+                            <div class="toggle_switch">
+                                <label class="kr-sg-toggle">
+                                    <input checked="" type="checkbox">
+                                    <div class="slider"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-2 title">
+                            <span class="field-value yes">Yes</span>
+                            <div class="toggle_switch">
+                                <label class="kr-sg-toggle">
+                                    <input checked="" type="checkbox">
+                                    <div class="slider"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-2 title">
+                            <span class="field-value yes">Yes</span>
+                            <div class="toggle_switch">
+                                <label class="kr-sg-toggle">
+                                    <input checked="" type="checkbox">
+                                    <div class="slider"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="action_links text-right">
+                                <span class="action_link-icon">
+                                    <i class="si-pencil-edit"></i>
+                                </span>
+                                <!-- <span class="action_link-icon ml-3"><i class="si-delete1"></i>
+                                </span> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table_body row m-0">
+                        <div class="col-2 title text-left" title="faq_question_keywords">
+                            faq_question_keywords</div>
+                        <div class="col-3 title">
+                            <div class="range-slider">
+                                <app-range-slider [customClass]='"weightsSlider"' [allData]='weightModal.sliderObj'
+                                    (valueEvent)="valueEvent($event,weightModal)"></app-range-slider>
+                            </div>
+                        </div>
+                        <div class="col-2 title"><span class="field-value yes">Yes</span></div>
+                        <div class="col-2 title"><span class="field-value no">No</span></div>
+                        <div class="col-2 title"><span class="field-value no">No</span></div>
+                        <div class="col-1">
+                            <div class="action_links text-right">
+                                <span class="action_link-icon">
+                                    <i class="si-pencil-edit"></i>
+                                </span>
+                                <!-- <span class="action_link-icon ml-3"><i class="si-delete1"></i>
+                                </span> -->
+                                <div class="field-edit-mode">
+                                    <span class="action_link-icon">
+                                        <i class="si-check"></i>
+                                    </span>
+                                    <span class="action_link-icon">
+                                        <i class="si-close"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divBlockEmptylastChild text-center">
+                        <div class="desc">No search results found</div>
+                    </div>
+
+                    <div class="pagination-block">
+                        <app-record-pagination [totalRecord]='totalRecord' [limitpage]='10'
+                            (pageChanged)="paginate($event)"></app-record-pagination>
+                    </div>
+                </perfect-scrollbar>
+            </div>
+        </div>
+    </div>
+</div>

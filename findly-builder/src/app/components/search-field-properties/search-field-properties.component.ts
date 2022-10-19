@@ -15,6 +15,7 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+import { RangeSlider } from '../../helpers/models/range-slider.model';
 
 declare const $: any;
 
