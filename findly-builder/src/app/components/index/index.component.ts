@@ -920,14 +920,21 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         if (res && res.targetFields && res.targetFields.length) {
           const newFileds: any = [];
           res.targetFields.forEach(field => {
+            // const tempPayload: any = {
+            //   fieldName: field.fieldName,
+            //   fieldDataType: field.fieldDataType,
+            //   isMultiValued: field.isMultiValued || true, // can use hasobjectket property if required to take server values in furture //
+            //   isActive: field.isActive || true,
+            //   isRequired: field.isRequired || false,
+            //   isStored: field.isStored || true,
+            //   isIndexed: field.isIndexed || true,
+            // }
             const tempPayload: any = {
               fieldName: field.fieldName,
               fieldDataType: field.fieldDataType,
-              isMultiValued: field.isMultiValued || true, // can use hasobjectket property if required to take server values in furture //
+              isAutosuggest:field.isAutosuggest?field.isAutosuggest:false,
+              isSearchable:field.isSearchable?field.isSearchable:false,
               isActive: field.isActive || true,
-              isRequired: field.isRequired || false,
-              isStored: field.isStored || true,
-              isIndexed: field.isIndexed || true,
             }
             newFileds.push(tempPayload);
           });
@@ -1698,13 +1705,19 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       fields: []
     }
     this.newfieldsData.forEach(field => {
+      // const tempPayload: any = {
+      //   fieldName: field.fieldName,
+      //   fieldDataType: field.fieldDataType,
+      //   isMultiValued: field.isMultiValued,
+      //   isRequired: field.isRequired,
+      //   isStored: field.isStored,
+      //   isIndexed: field.isIndexed,
+      // }
       const tempPayload: any = {
         fieldName: field.fieldName,
         fieldDataType: field.fieldDataType,
-        isMultiValued: field.isMultiValued,
-        isRequired: field.isRequired,
-        isStored: field.isStored,
-        isIndexed: field.isIndexed,
+        isAutosuggest:field.isAutosuggest? field.isAutosuggest:false,
+        isSearchable:field.isSearchable?field.isSearchable: false
       }
       if (field.isActive) {
         payload.fields.push(tempPayload);

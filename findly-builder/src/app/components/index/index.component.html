@@ -1276,10 +1276,12 @@
                 </div>
               </div>
               <div class="col">{{'workbench_type' | translate}}</div>
-              <div class="col text-center">{{'workbench_multi_value' | translate}}</div>
+              <div class="col text-center">{{'fields_searchable' | translate}}</div>
+              <div class="col text-center">{{'fields_auto_suggest' | translate}}</div>
+              <!-- <div class="col text-center">{{'workbench_multi_value' | translate}}</div>
               <div class="col text-center">{{'workbench_required' | translate}}</div>
               <div class="col text-center">{{'workbench_stored' | translate}}</div>
-              <div class="col text-center">{{'workbench_indexed' | translate}}</div>
+              <div class="col text-center">{{'workbench_indexed' | translate}}</div> -->
             </header>
             <div class="content-body" *ngFor="let field of newfieldsData; let i = index">
               <div class="col">
@@ -1290,23 +1292,23 @@
                 </div>
               </div>
               <div class="col">{{ field.fieldDataType | translate }}</div>
-              <div class="col text-center">
+              <!-- <div class="col text-center">
                 <div class="kr-sg-checkbox">
                   <input id="fieldMultiValue{{ i }}" class="checkbox-custom" [(ngModel)]="field.isMultiValued"
                     [disabled]="!field.isActive" type="checkbox" />
                   <label for="fieldMultiValue{{ i }}" class="checkbox-custom-label"
                     [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
-              </div>
-              <div class="col text-center">
+              </div> -->
+              <!-- <div class="col text-center">
                 <div class="kr-sg-checkbox">
                   <input id="field.isRequired{{ i }}" class="checkbox-custom" [(ngModel)]="field.isRequired"
                     [disabled]="!field.isActive" type="checkbox" />
                   <label for="field.isRequired{{ i }}" class="checkbox-custom-label"
                     [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
-              </div>
-              <div class="col text-center">
+              </div> -->
+              <!-- <div class="col text-center">
                 <div class="kr-sg-checkbox">
                   <input id="field.isStored{{ i }}" class="checkbox-custom" [(ngModel)]="field.isStored"
                     [disabled]="!field.isActive"
@@ -1314,13 +1316,29 @@
                   <label for="field.isStored{{ i }}" class="checkbox-custom-label"
                     [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
-              </div>
-              <div class="col text-center">
+              </div> -->
+              <!-- <div class="col text-center">
                 <div class="kr-sg-checkbox">
                   <input id="field.isIndexed{{ i }}" class="checkbox-custom"
                     (change)='(field.isIndexed)?field.isStored = true:false' [(ngModel)]="field.isIndexed"
                     [disabled]="!field.isActive" type="checkbox" />
                   <label for="field.isIndexed{{ i }}" class="checkbox-custom-label"
+                    [ngClass]="{'gray-checkbox':!field.isActive}"></label>
+                </div>
+              </div> -->
+              <div class="col text-center">
+                <div class="kr-sg-checkbox">
+                  <input id="searchable{{ i }}" class="checkbox-custom" [(ngModel)]="field.isSearchable"
+                    [disabled]="!field.isActive" type="checkbox" />
+                  <label for="searchable{{ i }}" class="checkbox-custom-label"
+                    [ngClass]="{'gray-checkbox':!field.isActive}"></label>
+                </div>
+              </div>
+              <div class="col text-center">
+                <div class="kr-sg-checkbox">
+                  <input id="autosuggest{{ i }}" class="checkbox-custom" [(ngModel)]="field.isAutosuggest"
+                    [disabled]="!field.isActive" type="checkbox" />
+                  <label for="autosuggest{{ i }}" class="checkbox-custom-label"
                     [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
               </div>
