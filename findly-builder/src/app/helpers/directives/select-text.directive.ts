@@ -1,10 +1,11 @@
-import { Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
 declare const $:any;
 @Directive({
   selector: '[appSelectText]'
 })
 export class SelectTextDirective {
   @Output() selectedIndex=new EventEmitter();
+  // @Output() selectedCursorIndex=new EventEmitter();
   @HostListener('mouseup',['$event'])
   onMouseUp(e){
     setTimeout(()=>{
@@ -12,6 +13,10 @@ export class SelectTextDirective {
       e.preventDefault();
     },500);
   }
+  // @HostListener("focus",['$event'])
+  // onFocus(e) {
+  //           console.log("event",e)
+  // }
   constructor(private el:ElementRef) { }
 
   handleContextMenu = (event) => {
