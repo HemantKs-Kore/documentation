@@ -42,6 +42,7 @@ export class ActionsComponent implements OnInit {
    
   };
   indexPipelineId:any;
+  queryPipelineId: any;
   actionConfig:any = {
     actionExecution:"auto",
     actionExperience:"top",
@@ -77,6 +78,7 @@ export class ActionsComponent implements OnInit {
     this.previewTopBottom = this.workflowService.topDownOrBottomUp;
     if(!this.workflowService.topDownOrBottomUp){
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
     if (this.indexPipelineId) {
       this.getSearchExperience();
     }
@@ -91,7 +93,8 @@ export class ActionsComponent implements OnInit {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId,
     };
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
       this.previewTopBottom = ((res||{}).experienceConfig ||{}).searchBarPosition || 'top';
