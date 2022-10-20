@@ -32,6 +32,8 @@ export class SearchFieldPropertiesComponent implements OnInit {
   querySubscription : Subscription;
   queryPipelineId: any;
   searchFieldProperties : any = [];
+  totalRecord: number = 0;
+  skip = 0;
   propeties : any = {
     highlight:false,
     presentable : false,
@@ -99,10 +101,17 @@ export class SearchFieldPropertiesComponent implements OnInit {
         // };
         element.properties['slider'] = new RangeSlider(0, 10, 1, element.properties.weight, name + index)
       });
+      this.totalRecord = res.totalCount
       console.log(this.searchFieldProperties);
     }, errRes => {
       // console.log(errRes);
     });
+
+  }
+  paginate(event) {
+    this.skip= event.skip
+     
+    // this.getFileds(event.skip, this.searchFields)
 
   }
   editSearchFiledProperties(properties?){
@@ -131,7 +140,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
 
   }
   valueEvent(event , searchProperties){
-
+    searchProperties.properties.slider.default = event;
   }
   ngOnDestroy() {
     this.querySubscription ? this.querySubscription.unsubscribe() : false;

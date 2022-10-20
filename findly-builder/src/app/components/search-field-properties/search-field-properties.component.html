@@ -184,12 +184,11 @@
                     </div>
 
                     <div class="divBlockEmptylastChild text-center">
-                        <div class="desc">No search results found</div>
+                        <div class="desc" *ngIf="!totalRecord">No search results found</div>
                     </div>
-
                     <div class="pagination-block">
-                        <app-record-pagination [totalRecord]='totalRecord' [limitpage]='10'
-                            (pageChanged)="paginate($event)"></app-record-pagination>
+                        <app-record-pagination  *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord'
+                            [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
                     </div>
                 </perfect-scrollbar>
             </div>
