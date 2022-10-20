@@ -46,7 +46,7 @@
                             <img class="ml-1 sortImg upArrow" src="assets/icons/caretDown.svg" />
                         </span> Presentable <span class="info-text-icon" [container]="'body'"
                             ngbTooltip='Text goes here' placement="bottom-left"><i class="si-info icon-info"></i></span>
-                        <div class="kr-sg-dropdowns type_sort_dropdown d-none" #selectFilter="ngbDropdown" ngbDropdown
+                        <!-- <div class="kr-sg-dropdowns type_sort_dropdown d-none" #selectFilter="ngbDropdown" ngbDropdown
                             [container]="'body'" [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
@@ -67,7 +67,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col_  col-2 title d-flex align-items-center">
                         <span class="d-flex align-items-center flex-column mr-1">
@@ -85,7 +85,7 @@
                     </div>
                 </div>
                 <perfect-scrollbar class="table_body_content">
-                    <div class="table_body row m-0">
+                    <!-- <div class="table_body row m-0">
                         <div class="col-2 title text-left" title="faq_question_keywords">
                             faq_question_keywords</div>
                         <div class="col-3 title">
@@ -126,24 +126,44 @@
                                 <span class="action_link-icon">
                                     <i class="si-pencil-edit"></i>
                                 </span>
-                                <!-- <span class="action_link-icon ml-3"><i class="si-delete1"></i>
-                                </span> -->
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="table_body row m-0">
+                    <div class="table_body row m-0" *ngFor="let searchProperties of searchFieldProperties ; let i = index">
                         <div class="col-2 title text-left" title="faq_question_keywords">
-                            faq_question_keywords</div>
+                            {{searchProperties.fieldName}}</div>
                         <div class="col-3 title">
                             <div class="range-slider">
-                                <app-range-slider [customClass]='"weightsSlider"' [allData]='weightModal.sliderObj'
-                                    (valueEvent)="valueEvent($event,weightModal)"></app-range-slider>
+                                <app-range-slider [customClass]='"weightsSlider"' [allData]='searchProperties.properties.slider'
+                                    (valueEvent)="valueEvent($event,searchProperties)"></app-range-slider>
                             </div>
                         </div>
-                        <div class="col-2 title"><span class="field-value yes">Yes</span></div>
-                        <div class="col-2 title"><span class="field-value no">No</span></div>
-                        <div class="col-2 title"><span class="field-value no">No</span></div>
+                        <div class="col-2 title"><span class="field-value yes">Yes</span>
+                            <div class="toggle_switch">
+                                <label class="kr-sg-toggle">
+                                    <input checked="" type="checkbox">
+                                    <div class="slider"></div>
+                                </label>
+                            </div>
+                        
+                        </div>
+                        <div class="col-2 title"><span class="field-value no">No</span>
+                            <div class="toggle_switch">
+                                <label class="kr-sg-toggle">
+                                    <input checked="" type="checkbox">
+                                    <div class="slider"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-2 title"><span class="field-value no">No</span>
+                            <div class="toggle_switch">
+                                <label class="kr-sg-toggle">
+                                    <input checked="" type="checkbox">
+                                    <div class="slider"></div>
+                                </label>
+                            </div>
+                        </div>
                         <div class="col-1">
                             <div class="action_links text-right">
                                 <span class="action_link-icon">

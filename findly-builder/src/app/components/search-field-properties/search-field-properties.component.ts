@@ -91,8 +91,15 @@ export class SearchFieldPropertiesComponent implements OnInit {
       queryPipelineId:this.queryPipelineId
     };
     this.service.invoke('get.allsearchFields', quaryparms).subscribe(res => {
-      this.searchFieldProperties = res;
-      //console.log(res);
+      this.searchFieldProperties = res.data;
+      this.searchFieldProperties.forEach((element ,index)=> {
+        const name = element.fieldName.replaceAll('_', '')
+        // let sliderObj = {
+        //   slider: new RangeSlider(0, 10, 1, element.value, name + index)
+        // };
+        element.properties['slider'] = new RangeSlider(0, 10, 1, element.properties.weight, name + index)
+      });
+      console.log(this.searchFieldProperties);
     }, errRes => {
       // console.log(errRes);
     });
@@ -121,6 +128,9 @@ export class SearchFieldPropertiesComponent implements OnInit {
     }, errRes => {
       // console.log(errRes);
     });    
+
+  }
+  valueEvent(event , searchProperties){
 
   }
   ngOnDestroy() {
