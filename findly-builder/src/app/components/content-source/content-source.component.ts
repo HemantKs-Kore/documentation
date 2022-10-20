@@ -21,6 +21,7 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
+import { SchedulerComponent } from '../../components/scheduler/scheduler.component';
 declare var require: any
 const FileSaver = require('file-saver');
 @Component({
@@ -226,7 +227,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   crwalOptionLabel = '';
   structuredDataModalRef: any;
   addStructuredDataModalPopRef: any;
-  schedularDataPopRef: any;
   selectedSourceType: any;
   isStructuredDataAdd: boolean = false;
   sortedObject = {
@@ -245,7 +245,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   @ViewChild('structuredDataModal') structuredDataModal: KRModalComponent;
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
-  @ViewChild('schedularDataPop') schedularDataPop: KRModalComponent;
+  @ViewChild('schedular') schedular: SchedulerComponent;
   @ViewChild(OnboardingComponentComponent, { static: true }) onBoardingComponent: OnboardingComponentComponent;
   templateState = new Subject();
   loadingData: boolean = true;
@@ -860,20 +860,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     });
 
   }
-  openScheduler(event, source) {
-    this.selectedSource = source;
-    if (event) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-    }
-    this.schedularDataPopRef = this.schedularDataPop.open();
-    this.schedularData = source?.advanceSettings
-  }
-  closeScheduler() {
-    if (this.schedularDataPopRef && this.schedularDataPopRef.close) {
-      this.schedularDataPopRef.close();
-    }
-  }
+
   copyUrl(val) {
     const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
@@ -2151,6 +2138,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     const value:any = document.getElementById(id);
     value.type=(value.type==='password')?'text':'password'
  }
+
+ //open Schedular
+ openSchedular(event){
+  const isOpen = (event?.currentTarget?.checked||event===true);
+  if(isOpen) this.schedular?.openCloseSchedular('open');
+}
 }
 
 
