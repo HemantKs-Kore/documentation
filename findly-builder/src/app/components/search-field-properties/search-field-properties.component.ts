@@ -34,12 +34,19 @@ export class SearchFieldPropertiesComponent implements OnInit {
   searchFieldProperties : any = [];
   totalRecord: number = 0;
   skip = 0;
+  limit = 10;
+  enableIndex = - 1;
+  defaultIndex = -1;
   propeties : any = {
     highlight:false,
     presentable : false,
     spellCorrect : false,
     weight : 0
   };
+  selectedProperties : any = {}
+  showSearch = false;
+  searchFields: any = '';
+  activeClose = false;
 
   constructor(
     public workflowService: WorkflowService,
@@ -68,22 +75,22 @@ export class SearchFieldPropertiesComponent implements OnInit {
     // }
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
 
-    //this.fetchPropeties();
+    this.fetchPropeties();
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-      this.fetchPropeties()
-      this.editSearchFiledProperties();
+      this.fetchPropeties()      
     })
     
     
   }
 
-  fetchPropeties(){
+  fetchPropeties(search?,type?){
     const quaryparms: any = {
       sortyBy: "createdOn",
-      page:1,
-      limit:10,
+      search : this.searchFields || "",
+      page:this.skip/10,
+      limit:this.limit,
       spellCorrect:true,
       presentable: true,
       highlight:true,
@@ -99,7 +106,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
         // let sliderObj = {
         //   slider: new RangeSlider(0, 10, 1, element.value, name + index)
         // };
-        element.properties['slider'] = new RangeSlider(0, 10, 1, element.properties.weight, name + index)
+        element.properties['slider'] = new RangeSlider(0, 10, 1, element.properties.weight, name + index,'',false)
       });
       this.totalRecord = res.totalCount
       console.log(this.searchFieldProperties);
@@ -110,35 +117,51 @@ export class SearchFieldPropertiesComponent implements OnInit {
   }
   paginate(event) {
     this.skip= event.skip
+    this.fetchPropeties()
      
     // this.getFileds(event.skip, this.searchFields)
 
   }
-  editSearchFiledProperties(properties?){
-
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchFields = '';
+      this.activeClose = false;
+      this.fetchPropeties(this.searchFields)
+    }
+    this.showSearch = !this.showSearch;
+  }
+  editSearchFiledProperties(properties?,index?){
+    const name = this.searchFieldProperties[index].fieldName.replaceAll('_', '')
+    this.searchFieldProperties[index].properties['slider'] = new RangeSlider(0, 10, 1, properties.weight, name + index,'',true)
+   
+    this.enableIndex = index;
+    this.selectedProperties =properties;
+  }
+  cancel(properties?,index?){
+    const name = this.searchFieldProperties[index].fieldName.replaceAll('_', '')
+    this.searchFieldProperties[index].properties['slider'] = new RangeSlider(0, 10, 1, properties.weight, name + index,'',false)
+   
+  }
+  saveAPI(selectedProperties, fieldId,i?){
     const quaryparms: any = {
       indexPipelineId:this.indexPipelineId,
       streamId:this.selectedApp._id,
       queryPipelineId:this.queryPipelineId,
-      fieldId:"fld-1ddbd2bb-9a82-541c-925f-37733d4a56b6"
+      fieldId:fieldId
     };
-    const payload ={
-      "weight": 5,
-      "spellCorrect": false,
-      "presentable": true,
-      "highlight": true,
-    }
-
-    
-
+    const payload = selectedProperties;
     this.service.invoke('put.updatesearchFieldsProperties',quaryparms,payload).subscribe(res => {
-      this.propeties = res;
+      //this.propeties = res;
+      this.enableIndex = this.defaultIndex;
+      this.fetchPropeties();      
       console.log(res);
     }, errRes => {
       // console.log(errRes);
     });    
 
+  
   }
+    
   valueEvent(event , searchProperties){
     searchProperties.properties.slider.default = event;
   }

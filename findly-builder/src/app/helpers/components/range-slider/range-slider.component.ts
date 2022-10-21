@@ -15,7 +15,9 @@ export class RangeSliderComponent implements OnInit, AfterViewInit {
   @Output() valueEvent = new EventEmitter();
   sliderUpdatedVal: number;
   sliderRet: any;
-  constructor() { }
+  constructor() { 
+  }
+  someSubscription: any;
 
   ngAfterViewInit() {
     this.sliderRet = this.registerSlider('#'+this.allData.id, { tooltip_position: 'top'})

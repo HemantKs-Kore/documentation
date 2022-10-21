@@ -211,6 +211,14 @@
                                 color: #202124;
                             }
                         }
+                        .toggle_switch{
+                            .kr-sg-toggle{
+                                &.disable-toggle{
+                                    opacity: 0.2;
+                                    pointer-events: none;
+                                }
+                            }
+                        }
                     }
                     .action_links{
                         padding: 0 5px;
@@ -422,6 +430,23 @@ perfect-scrollbar .ps--active-y{
             .single-slider{
                 width: 100% !important;
                 // padding-right: 10px !important;
+                &.disable-slider{
+                    .slider{
+                        &.slider-horizontal{
+                            width: 100%;
+                            .slider-track{
+                                .slider-selection{
+                                    background: #BDC1C6 !important;
+                                }
+                            }
+                            .slider-handle{
+                                &.round{
+                                    background: #BDC1C6 !important;
+                                }
+                            }
+                        }
+                    } 
+                }
                 .countThreshold{
                     display: none;
                 }

@@ -1293,7 +1293,7 @@ export class EndPointsService {
     }
     //get all list of field properties
     this.serviceList['get.allsearchFields'] = {
-      endpoint: this.API_SERVER_URL + '/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/fields',
+      endpoint: this.API_SERVER_URL + '/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/fields?search=:search&sortyBy=:sortyBy&orderBy=:orderBy&page=:page&limit=:limit',
       method: 'get'
     }
 

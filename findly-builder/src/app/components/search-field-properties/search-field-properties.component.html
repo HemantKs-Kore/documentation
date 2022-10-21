@@ -10,7 +10,7 @@
             <div class="d-flex align-items-center">
                 <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
                     <input type="text" placeholder="{{'sa_search' | translate}}" maxlength="60" class="input-search"  [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}"
-                        autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields" (keyup)="fieldsFilter(searchFields,'search')"
+                        autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields" (keyup)="fetchPropeties(searchFields,'search')"
                         (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                         (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                         (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
@@ -22,7 +22,7 @@
                 <div class="seach-block" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')">
                     <span [ngClass]="{'d-none': showSearch}"  class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                 </div>
-                <div class="add_feild"><span class="pr-2"><i class="si-recall"></i></span> {{'resultRanking.reset' | translate}}</div>
+                <div class="add_feild d-none"><span class="pr-2"><i class="si-recall"></i></span> {{'resultRanking.reset' | translate}}</div>
             </div>
         </div>
         <div>
@@ -133,52 +133,73 @@
                     <div class="table_body row m-0" *ngFor="let searchProperties of searchFieldProperties ; let i = index">
                         <div class="col-2 title text-left" title="faq_question_keywords">
                             {{searchProperties.fieldName}}</div>
-                        <div class="col-3 title">
-                            <div class="silder-range-block">
-                                <div class="range-slider">
-                                    <app-range-slider [customClass]='"weightsSlider"' [allData]='searchProperties.properties.slider'
-                                        (valueEvent)="valueEvent($event,searchProperties)"></app-range-slider>
+                            <div class="col-3 title">
+                                <div class="silder-range-block">
+                                    <div class="range-slider">
+                                        <app-range-slider [customClass]='"weightsSlider"' [allData]='searchProperties.properties.slider'
+                                            (valueEvent)="valueEvent($event,searchProperties)"></app-range-slider>
+                                    </div>
+                                    <div class="slider-value">{{searchProperties.properties.weight}}</div>
                                 </div>
-                                <div class="slider-value">3</div>
                             </div>
-                        </div>
-                        <div class="col-2 title"><span class="field-value yes">Yes</span>
-                            <div class="toggle_switch">
-                                <label class="kr-sg-toggle">
-                                    <input checked="" type="checkbox">
-                                    <div class="slider"></div>
-                                </label>
+                        <ng-container *ngIf="i != enableIndex">
+                            
+                            <div class="col-2 title"><span  class="field-value" [ngClass]="searchProperties.properties.presentable ? 'yes' : 'no'">{{searchProperties.properties.presentable?'Yes':'No'}}</span></div>
+                            <div class="col-2 title"><span class="field-value" [ngClass]="searchProperties.properties.highlight ? 'yes' : 'no'">{{searchProperties.properties.highlight?'Yes':'No'}}</span></div>
+                            <div class="col-2 title"><span  class="field-value " [ngClass]="searchProperties.properties.spellCorrect ? 'yes' : 'no'">{{searchProperties.properties.spellCorrect?'Yes':'No'}}</span></div>
+                        </ng-container>
+                        <ng-container *ngIf="i == enableIndex">
+                            <!-- <div class="col-3 title">
+                                <div class="silder-range-block">
+                                    <div class="range-slider">
+                                        <app-range-slider [customClass]='"weightsSlider"' [allData]='searchProperties.properties.slider'
+                                            (valueEvent)="valueEvent($event,searchProperties)"></app-range-slider>
+                                    </div>
+                                    <div class="slider-value">{{searchProperties.properties.weight}}</div>
+                                </div>
+                            </div> -->
+                            <!-- presentable -->
+                            <div class="col-2 title">
+                                <div class="toggle_switch">
+                                    <label class="kr-sg-toggle">
+                                        <input checked="" type="checkbox" [(ngModel)]="selectedProperties.presentable">
+                                        <div class="slider"></div>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-2 title"><span class="field-value no">No</span>
-                            <div class="toggle_switch">
-                                <label class="kr-sg-toggle">
-                                    <input checked="" type="checkbox">
-                                    <div class="slider"></div>
-                                </label>
+                            <!-- highlight -->
+                            <div class="col-2 title">
+                                <div class="toggle_switch" *ngIf="i == enableIndex">
+                                    <label class="kr-sg-toggle">
+                                        <input checked="" type="checkbox" [(ngModel)]="selectedProperties.highlight">
+                                        <div class="slider"></div>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-2 title"><span class="field-value no">No</span>
-                            <div class="toggle_switch">
-                                <label class="kr-sg-toggle">
-                                    <input checked="" type="checkbox">
-                                    <div class="slider"></div>
-                                </label>
+                            <!-- spellCorrect -->
+                            <div class="col-2 title">
+                                <div class="toggle_switch" *ngIf="i == enableIndex">
+                                    <label class="kr-sg-toggle" [ngClass]="searchFieldProperties[i].properties.highlight== false?'disable-toggle':''">
+                                        <input checked="" type="checkbox" [(ngModel)]="selectedProperties.spellCorrect">
+                                        <div class="slider"></div>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
+                        </ng-container>
+                        
                         <div class="col-1">
                             <div class="action_links text-right">
-                                <span class="action_link-icon" ngbTooltip="{{'fields.edit' | translate}}"
+                                <span class="action_link-icon" ngbTooltip="{{'fields.edit' | translate}}" *ngIf="i !== enableIndex" (click)="editSearchFiledProperties(searchProperties.properties,i)"
                                 [container]="'body'">
                                     <i class="si-pencil-edit"></i>
                                 </span>
                                 <!-- <span class="action_link-icon ml-3"><i class="si-delete1"></i>
                                 </span> -->
-                                <div class="field-edit-mode">
-                                    <span class="action_link-icon">
+                                <div class="field-edit-mode" *ngIf="i == enableIndex">
+                                    <span class="action_link-icon" (click)="saveAPI(selectedProperties,searchProperties._id,i)">
                                         <i class="si-check"></i>
                                     </span>
-                                    <span class="action_link-icon">
+                                    <span class="action_link-icon" (click)="cancel(searchProperties.properties,i);enableIndex = defaultIndex ">
                                         <i class="si-close"></i>
                                     </span>
                                 </div>
