@@ -643,7 +643,7 @@
                                 <ng-container *ngFor="let outcomeObj of outcomeArrayforAddEdit; let index = index">
                                     <div class="outcome-number">{{ "businessRules.outcome_caps_small" | translate }} {{index+1}}</div>
                                     <div class="box-data-conditions">
-                                        <div class="close-conditions" (click)="removeOutcome(index)">
+                                        <div class="close-conditions" (click)="removeOutcome(index)" *ngIf="outcomeArrayforAddEdit.length>1">
                                             <i class="si-close"></i>
                                         </div>
                                         <div class="row-input-data row col-12">
@@ -680,19 +680,16 @@
                                         <div class="row-input-data row col-12">
                                             <div class="col-12 title-info">{{"businessRules.response"| translate}}</div>
                                             <div class="col-4 column-sec">
-                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index;getFieldAutoComplete(null, null,'clearText')">
+                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index">
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" ngbDropdownToggle>{{outcomeObj.fieldName? outcomeObj.fieldName : "Choose field"}}</button>
+                                                        <button class="dropdown-toggle dropdown-input" id="responseFields" data-toggle="dropdown" ngbDropdownToggle>{{outcomeObj.fieldName? outcomeObj.fieldName : "Choose field"}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                                             <li class="search-box">
-                                                                <input id="searchBoxId" autocomplete="off" type="text"
-                                                                    (keydown)="$event.stopPropagation()"
-                                                                    (keyup)="getFieldAutoComplete($event,outcomeObj)"
-                                                                    placeholder="{{'sa_search'| translate}}" class="seach-input" />
+                                                                <input id="searchBoxId" autocomplete="off" type="text" placeholder="{{'sa_search'| translate}}" class="seach-input" [(ngModel)]="search_field" />
                                                             </li>
                                                             <perfect-scrollbar class="scroll-max-200">
                                                                 <div class="scroll-max-200">
-                                                                    <li class="p-0" ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion" (click)="selectField(suggestion, outcomeObj)">
+                                                                    <li class="p-0" ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion | filter:[search_field,'fieldName']" (click)="selectField(suggestion, outcomeObj)">
                                                                         <a class="text-truncate" [ngClass]="{'font-weight-bold':outcomeObj.fieldName===suggestion.fieldName}" appEllipsisActive>{{ suggestion.fieldName }}</a>
                                                                     </li>
                                                                 </div>
@@ -862,14 +859,11 @@
                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{nlpAnnotatorObj.entities.fieldId===''?'Select':nlpAnnotatorObj.entities.field_name}}</button>
                             <ul class="dropdown-menu content-menu">
                                 <li class="search-box">
-                                    <input id="searchBoxId1" autocomplete="off" type="text"
-                                        (keydown)="$event.stopPropagation()"
-                                        (keyup)="getFieldAutoComplete($event,outcomeObj)"
-                                        placeholder="{{'sa_search'| translate}}" class="seach-input" />
+                                    <input id="searchBoxId1" autocomplete="off" type="text" placeholder="{{'sa_search'| translate}}" class="seach-input" [(ngModel)]="search_field" />
                                 </li>
                                 <perfect-scrollbar class="scroll-max-200">
                                     <div class="scroll-max-200">
-                                     <li *ngFor="let field of fieldAutoSuggestion" (click)="selectNLPField(field)"><a class="text-truncate" [ngClass]="{'font-weight-bold':field?._id===nlpAnnotatorObj.entities.fieldId}">{{field?.fieldName}}</a></li>
+                                     <li *ngFor="let field of fieldAutoSuggestion | filter:[search_field,'fieldName']" (click)="selectNLPField(field)"><a class="text-truncate" [ngClass]="{'font-weight-bold':field?._id===nlpAnnotatorObj.entities.fieldId}">{{field?.fieldName}}</a></li>
                                     </div>
                                 </perfect-scrollbar>
                             </ul>
