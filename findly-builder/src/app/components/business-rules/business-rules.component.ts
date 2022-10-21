@@ -668,6 +668,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     outcomeObj.fieldDataType = data.fieldDataType
     outcomeObj.fieldName = data.fieldName
     outcomeObj.fieldId = data._id;
+    $('#searchBoxId')[0].value = "";
   }
   checkDuplicateTags(suggestion: string, alltTags): boolean {
     return alltTags.every((f) => f !== suggestion);
@@ -717,7 +718,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       outcome.outcomeValue = [];
       outcome.outcomeValueType = value;
     }
-    // console.log("filter data", this.fieldAutoSuggestion)
   }
   checkUncheckfacets(rule) {
     const selectedElements = $('.selectRuleCheckBoxDiv:checkbox:checked');
@@ -908,13 +908,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (clearText && $('#searchBoxId') && $('#searchBoxId').length) {
       $('#searchBoxId')[0].value = "";
     }
+     
     let query: any = '';
     if (event) {
       query = $(event.currentTarget).val();
     }
-    // if (/^\d+$/.test(query)) {
-    //   query = query.parseInt();
-    // }
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
@@ -1609,6 +1607,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //toipc guide method
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next();
+  }
+
+  //assign field to object
+  selectNLPField(field){
+    this.nlpAnnotatorObj.entities.fieldId=field?._id;
+    this.nlpAnnotatorObj.entities.field_name=field?.fieldName
+    $('#searchBoxId1')[0].value = "";
   }
 
 }
