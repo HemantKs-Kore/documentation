@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="col-8 right-sec p-0" *ngIf="!( selcectionObj?.selectedItems && selcectionObj?.selectedCount)">
-            <div class="clock"><img src="assets/icons/clock.svg" /></div>
+            <!-- <div class="clock"><img src="assets/icons/clock.svg" /></div> -->
         </div>
     </div>
     <div class="header-tabs-rules col-12 row m-0">
@@ -124,7 +124,7 @@
                 <div class="info-data-box">
                     <div class="text-info-empty" [ngClass]="{'d-none':(selcectionObj?.ruleType==='nlp')}">{{"businessRules.contextual_rules_allow"| translate}}<br/>{{"businessRules.contextual_rules_are"| translate}}</div>
                     <div class="text-info-empty" [ngClass]="{'d-none':(selcectionObj?.ruleType==='contextual')}">{{"businessRules.try_adding_nlp"| translate}}</div>
-                    <div class="text-info-empty">{{"businessRules.not_sure_what_are"| translate}} {{selcectionObj?.ruleType==='contextual'?("businessRules.contextual"| translate):("businessRules.nlp"| translate)}}? {{"businessRules.visit_our"| translate}} <a [href]="selcectionObj.supportURL" target="blank">{{"businessRules.support"| translate}} <i class="si-external-horizantal"></i></a></div>
+                    <div class="text-info-empty">{{"businessRules.not_sure_what_are"| translate}} {{selcectionObj?.ruleType==='contextual'?("businessRules.contextual"| translate):("businessRules.nlp"| translate)}} {{"businessRules.rules_small"| translate}}? {{"businessRules.visit_our"| translate}} <a [href]="selcectionObj.supportURL" target="blank">{{"businessRules.support"| translate}} <i class="si-external-horizantal"></i></a></div>
                 </div>
             </div>
         </perfect-scrollbar>
@@ -643,7 +643,7 @@
                                 <ng-container *ngFor="let outcomeObj of outcomeArrayforAddEdit; let index = index">
                                     <div class="outcome-number">{{ "businessRules.outcome_caps_small" | translate }} {{index+1}}</div>
                                     <div class="box-data-conditions">
-                                        <div class="close-conditions" (click)="removeOutcome(index)">
+                                        <div class="close-conditions" (click)="removeOutcome(index)" *ngIf="outcomeArrayforAddEdit.length>1">
                                             <i class="si-close"></i>
                                         </div>
                                         <div class="row-input-data row col-12">
@@ -680,19 +680,16 @@
                                         <div class="row-input-data row col-12">
                                             <div class="col-12 title-info">{{"businessRules.response"| translate}}</div>
                                             <div class="col-4 column-sec">
-                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index;getFieldAutoComplete(null, null,'clearText')">
+                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index">
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" ngbDropdownToggle>{{outcomeObj.fieldName? outcomeObj.fieldName : "Choose field"}}</button>
+                                                        <button class="dropdown-toggle dropdown-input" id="responseFields" data-toggle="dropdown" ngbDropdownToggle>{{outcomeObj.fieldName? outcomeObj.fieldName : "Choose field"}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                                             <li class="search-box">
-                                                                <input id="searchBoxId" autocomplete="off" type="text"
-                                                                    (keydown)="$event.stopPropagation()"
-                                                                    (keyup)="getFieldAutoComplete($event,outcomeObj)"
-                                                                    placeholder="{{'sa_search'| translate}}" class="seach-input" />
+                                                                <input id="searchBoxId" autocomplete="off" type="text" placeholder="{{'sa_search'| translate}}" class="seach-input" [(ngModel)]="search_field" />
                                                             </li>
                                                             <perfect-scrollbar class="scroll-max-200">
                                                                 <div class="scroll-max-200">
-                                                                    <li class="p-0" ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion" (click)="selectField(suggestion, outcomeObj)">
+                                                                    <li class="p-0" ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion | filter:[search_field,'fieldName']" (click)="selectField(suggestion, outcomeObj)">
                                                                         <a class="text-truncate" [ngClass]="{'font-weight-bold':outcomeObj.fieldName===suggestion.fieldName}" appEllipsisActive>{{ suggestion.fieldName }}</a>
                                                                     </li>
                                                                 </div>
@@ -842,12 +839,6 @@
                     <div class="entity-radiobtn-group">
                         <div class="group-radiobutton">
                             <div class="heading-title">{{"businessRules.entity_type"| translate}}</div>
-                            <!-- <div class="kr-sg-radiobutton">
-                                <input id="radio-24" name="radio" class="radio-custom" checked type="radio">
-                                <label for="radio-24" class="radio-custom-label">
-                                    <span class="lable-truncate">SYSTEM ENTITY</span>
-                                </label>
-                            </div> -->
                             <div class="kr-sg-radiobutton">
                                 <input id="radio-25" name="radio" class="radio-custom" type="radio" value="index_field" [(ngModel)]="nlpAnnotatorObj.entities.entityType" (click)="setModalHeight('index')">
                                 <label for="radio-25" class="radio-custom-label">
@@ -867,9 +858,12 @@
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{nlpAnnotatorObj.entities.fieldId===''?'Select':nlpAnnotatorObj.entities.field_name}}</button>
                             <ul class="dropdown-menu content-menu">
+                                <li class="search-box">
+                                    <input id="searchBoxId1" autocomplete="off" type="text" placeholder="{{'sa_search'| translate}}" class="seach-input" [(ngModel)]="search_field" />
+                                </li>
                                 <perfect-scrollbar class="scroll-max-200">
                                     <div class="scroll-max-200">
-                                     <li *ngFor="let field of fieldAutoSuggestion" (click)="nlpAnnotatorObj.entities.fieldId=field?._id;nlpAnnotatorObj.entities.field_name=field?.fieldName"><a class="text-truncate" [ngClass]="{'font-weight-bold':field?._id===nlpAnnotatorObj.entities.fieldId}">{{field?.fieldName}}</a></li>
+                                     <li *ngFor="let field of fieldAutoSuggestion | filter:[search_field,'fieldName']" (click)="selectNLPField(field)"><a class="text-truncate" [ngClass]="{'font-weight-bold':field?._id===nlpAnnotatorObj.entities.fieldId}">{{field?.fieldName}}</a></li>
                                     </div>
                                 </perfect-scrollbar>
                             </ul>

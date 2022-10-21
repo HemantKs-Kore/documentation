@@ -572,13 +572,12 @@
                 <div class="shedual-hding">SCHEDULE</div>
                 <div class="sr-toggle-btn">
                   <label class="kr-sg-toggle">
-                    <input id="sa-shedularEnableDisable" type="checkbox" name="scheduleOpts" [(ngModel)]="crwalObject.advanceOpts.scheduleOpt" (change)="openScheduler()">
+                    <input id="sa-shedularEnableDisable" type="checkbox" name="scheduleOpts" (change)="openSchedular($event)">
                     <div class="slider"></div>
                   </label>
                 </div>
               </div>
-              <app-scheduler *ngIf="crwalObject?.advanceOpts?.scheduleOpt" [crwalObject]="crwalObject" [scheduleFlag]="crwalObject.advanceOpts.scheduleOpt"
-              [schedule]="'set'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
+              <app-scheduler #schedular [crwalObject]="crwalObject" [scheduleFlag]="crwalObject.advanceOpts.scheduleOpt" [schedule]="'set'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
             </app-scheduler>
             </div>
           </div>
@@ -1240,7 +1239,6 @@
   </div>
 </kr-modal>
 
-
 <!--Content Validation Status popup-->
 <kr-modal modalType="default" #statusModalPop>
   <div class="status-modal-popup">
@@ -1313,7 +1311,7 @@
           *ngIf="selectedSourceType?.sourceType==='faq'">Ok</button>
         <button type="button" class="kr-sg-button-secondary btn_lg kr-btn-primary float-none ml-2 mr-0" data-dismiss="modal"
           (click)="closeStatusModal()"
-          *ngIf="selectedSourceType?.sourceType==='content'&&(statusObject?.isURLValid)||(selectedSourceType?.resourceType === 'file')">Close</button>
+          *ngIf="selectedSourceType?.sourceType==='content'&&(statusObject?.isURLValid)||(selectedSourceType?.resourceType === 'file')"><img class="mr-1" height="14" style="margin-bottom:2px" src="assets/icons/content/latest-content-icons/blue-calendar.svg"> {{(selectedSourceType?.sourceType==='content')?'Crawl Later':'Close'}}</button>
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
           (click)="jobOndemand()"
           *ngIf="selectedSourceType?.sourceType==='content'&&selectedSourceType?.resourceType === 'web'&&(statusObject?.isURLValid)"
@@ -1323,7 +1321,7 @@
           (click)="retryValidation()">Retry</button>
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
           (click)="editConfiguration()"
-          *ngIf="selectedSourceType?.sourceType==='content'&&selectedSourceType?.resourceType === 'web'&&!(statusObject?.isURLValid)">Edit
+          *ngIf="selectedSourceType?.sourceType==='content'&&selectedSourceType?.resourceType === 'web'&&!(statusObject?.isURLValid)" disabled>Edit
           Configuration</button>
       </div>
     </div>

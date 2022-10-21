@@ -3,7 +3,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { scheduleOpts, InterVal, Time, IntervalValue, EndsOn } from 'src/app/helpers/models/Crwal-advance.model';
 import { NotificationService } from '@kore.services/notification.service';
-import { EventListenerFocusTrapInertStrategy } from '@angular/cdk/a11y';
+import {  PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 declare const $: any;
 
 @Component({
@@ -13,9 +13,6 @@ declare const $: any;
   
 })
 export class SchedulerComponent implements OnInit {
-  //allowUrl : AllowUrl = new AllowUrl();
-  // blockUrl : BlockUrl = new BlockUrl();
-  customRecurrenceRef: any = [];
   schedualarDataModelPopRef:any;
   istStratDate: any;
   startDate: any;
@@ -44,16 +41,17 @@ export class SchedulerComponent implements OnInit {
   endsOnSelected = '';
   minDate;
   schedulerFlag: boolean = false;
-  displayCustomForVerticalSchedular: boolean = false;
-  //scheduleData : scheduleOpts = new scheduleOpts();
+  recurringFrequency:boolean = false;
+  isCustom: boolean = false;
+  scheduledData:Object={};
   @Input() scheduleFlag: any;
   @Input() crwalObject: any;
   @Input() schedule: any;
   @Input() schedulerType: String='horizantalSchedular';
   @Output() scheduleData = new EventEmitter();
   @Output() cronExpress = new EventEmitter();
-  @ViewChild('customRecurrence') customRecurrence: KRModalComponent;
   @ViewChild('schedualarDataModelPop') schedualarDataModelPop: KRModalComponent;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   constructor(private notificationService: NotificationService) {
     var date = new Date;
     this.day = date.toString().split(" ")[0].toLocaleUpperCase();
@@ -68,39 +66,6 @@ export class SchedulerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // if(this.schedule == 'get'){
-    //   if(this.crwalObject && this.crwalObject.advanceOpts && this.crwalObject.advanceOpts){
-    //     this.startDate  = this.crwalObject.advanceOpts.date;
-    //     this.timeHH = this.crwalObject.advanceOpts.hour;
-    //     this.timeMM = this.crwalObject.advanceOpts.minute;
-    //     this.meridiem = this.crwalObject.advanceOpts.timeOpt;
-    //     this.stz = this.crwalObject.advanceOpts.timezone || 'Time Zone';
-    //     this.rstz = this.crwalObject.advanceOpts.intervalType || 'Does not repeat';
-    //       this.repeatEvery = this.crwalObject.advanceOpts.every;
-    //       this.custFreq = this.crwalObject.advanceOpts.schedulePeriod;
-    //       this.weeKDay = this.crwalObject.advanceOpts.repeatOn;
-    //       this.endDate  = this.crwalObject.advanceOpts.endDate;
-    //       this.occurence = this.crwalObject.advanceOpts.occurrences;
-    //       this.endsFreq(this.crwalObject.advanceOpts.endType);
-    //   } 
-    // }else{
-    //  if(this.crwalObject && this.crwalObject.advanceOpts && this.crwalObject.advanceOpts.scheduleOpts){
-    //   this.startDate  = this.crwalObject.advanceOpts.scheduleOpts.date;
-    //   this.timeHH = this.crwalObject.advanceOpts.scheduleOpts.time.hour;
-    //   this.timeMM = this.crwalObject.advanceOpts.scheduleOpts.time.minute;
-    //   this.meridiem = this.crwalObject.advanceOpts.scheduleOpts.time.timeOpt;
-    //   this.stz = this.crwalObject.advanceOpts.scheduleOpts.time.timezone || 'Time Zone';
-    //   this.rstz = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalType || 'Does not repeat';
-    //   if(this.crwalObject.advanceOpts.scheduleOpts.intervalValue){
-    //     this.repeatEvery = this.crwalObject.advanceOpts.scheduleOpts.intervalValue.every;
-    //     this.custFreq = this.crwalObject.advanceOpts.scheduleOpts.intervalValue.schedulePeriod;
-    //     this.weeKDay = this.crwalObject.advanceOpts.scheduleOpts.intervalValue.repeatOn;
-    //     this.endDate  = this.crwalObject.advanceOpts.scheduleOpts.intervalValue.endsOn.endDate;
-    //     this.occurence = this.crwalObject.advanceOpts.scheduleOpts.intervalValue.endsOn.occurrences;
-    //     this.endsFreq(this.crwalObject.advanceOpts.scheduleOpts.intervalValue.endsOn.endType);
-    //   }
-    // } 
-    // }
     this.endsFreq('never');
     if (this.crwalObject && this.crwalObject.advanceOpts && this.crwalObject.advanceOpts.scheduleOpts) {
       this.istStratDate = this.crwalObject.advanceOpts.scheduleOpts.date;
@@ -112,20 +77,11 @@ export class SchedulerComponent implements OnInit {
         this.stz = this.crwalObject.advanceOpts.scheduleOpts.time.timezone || 'Time Zone';
       }
       this.rstz = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalType || 'Does not repeat';
-      //  if(this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue){
-      //     this.repeatEvery = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.every;
-      //     this.custFreq = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.schedulePeriod;
-      //     this.weeKDay = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.repeatOn;
-      //     this.endDate  = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.endDate;
-      //     this.occurence = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.occurrences;
-      //     this.endsFreq(this.crwalObject.advanceOpts.scheduleOpts.interval.intervalValue.endsOn.endType);
-      //   } 
       if (this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue) {
         this.endsFreq(this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.endType, 'set');
         this.repeatEvery = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.every ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.every : this.repeatEvery;
         this.custFreq = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.schedulePeriod ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.schedulePeriod : this.custFreq;
         this.weeKDay = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.repeatOn ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.repeatOn : this.weeKDay;
-        //this.weeKDay = this.weeKDay.charAt(0).toUpperCase() + this.weeKDay.slice(1);
         this.endDate = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.endDate ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.endDate : this.endDate;
         this.occurence = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.occurrences ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.occurrences : this.occurence;
       }
@@ -133,7 +89,6 @@ export class SchedulerComponent implements OnInit {
     this.schedulerFlag = this.scheduleFlag;
   }
   ngOnChanges(changes) {
-    // console.log("ngOnChanges", this.scheduleFlag);
     this.schedulerFlag = this.scheduleFlag;
     if (!this.scheduleFlag && !this.crwalObject?.advanceOpts?.scheduleOpts?.date) {
       var emptyData = new scheduleOpts();
@@ -169,9 +124,6 @@ export class SchedulerComponent implements OnInit {
     } else {
       this.custFrequency(this.custFreq)
     }
-    // if(time == 'MM'){
-    //   this.calculateCronExpression()
-    // }
   }
 
    verticalDatepicker(event){
@@ -179,23 +131,12 @@ export class SchedulerComponent implements OnInit {
   }
   timeZone(stz) {
     this.stz = stz;
-    // if(this.startDate){
-    //   if(this.stz == 'IST'){
-    //     this.startDate = this.istStratDate;
-    //   }else if(this.stz == 'UTC'){
-    //     this.startDate = new Date(this.startDate).toISOString();
-    //   }else{
-    //     var dt = new Date();
-    //     var estDate = new Date(dt.getTime() + -300*60*1000);
-    //     this.startDate = estDate.toString();
-    //   } 
-    // }
     this.calculateCronExpression()
   }
   repeatTimeZone(rstz) {
     this.rstz = rstz;
     this.calculateCronExpression()
-    this.displayCustomForVerticalSchedular = false;
+    this.isCustom = false;
   }
   changeMeridiem(meridiem) {
     if (this.scheduleFlag) {
@@ -221,8 +162,6 @@ export class SchedulerComponent implements OnInit {
       this.year = event.value.toString().split(" ")[3];
       this.istStratDate = event.value;
       this.startDate = event.value;
-    } else if (rstz = 'custom') {
-
     }
     this.calculateCronExpression()
   }
@@ -381,10 +320,9 @@ export class SchedulerComponent implements OnInit {
     endsOn.endType = this.endsOnSelected;
     endsOn.endDate = this.dateFormatConverter(this.endDate);
     endsOn.occurrences = Number(this.occurence) > 0 ? Number(this.occurence) : null;
-    /**  EndsOn data */
-    /**Secheduled Data */
-    this.scheduleData.emit(scheduledObject);
-    this.cronExpress.emit(this.cronExpression)
+    this.scheduledData = scheduledObject;
+    // this.scheduleData.emit(scheduledObject);
+    // this.cronExpress.emit(this.cronExpression)
   }
   proccedWithCrwal() {
     if (this.endsOnSelected == 'on' && this.endDate == '') {
@@ -393,7 +331,6 @@ export class SchedulerComponent implements OnInit {
       this.notificationService.notify('Please fill occurence field', 'error');
     } else {
       this.calculateCronExpression();
-      this.closeCustomRecModal();
     }
   }
   cancelCustomRecModal() {
@@ -404,7 +341,6 @@ export class SchedulerComponent implements OnInit {
     this.occurence = '';
     this.endsFreq('never');
     this.rstz = 'Does not repeat';
-    this.closeCustomRecModal();
   }
   endsFreq(freq, type?) {
     if (!type) {
@@ -471,18 +407,8 @@ export class SchedulerComponent implements OnInit {
   }
   openCustomRecModal(rstz) {
     this.rstz = rstz;
-    if(this.schedulerType == 'horizantalSchedular'){
-      this.customRecurrenceRef = this.customRecurrence.open();
-    }
-    else{
-      this.displayCustomForVerticalSchedular = true
-    }
-  }
-
-  closeCustomRecModal() {
-    if (this.customRecurrenceRef && this.customRecurrenceRef.close) {
-      this.customRecurrenceRef.close();
-    }
+    this.isCustom = true
+    this.perfectScroll.directiveRef.scrollToTop();
   }
 
   //open or close schedular popup
@@ -490,8 +416,24 @@ export class SchedulerComponent implements OnInit {
     if(type==='open'){
       this.schedualarDataModelPopRef = this.schedualarDataModelPop.open();
     } else if(type==='close'){
+      this.isCustom = false;
       if(this.schedualarDataModelPopRef?.close) this.schedualarDataModelPopRef.close();
     }
+  }
+
+  //save schedule data
+  sendScheduleData(){
+    this.scheduleData.emit(this.scheduledData);
+    this.cronExpress.emit(this.cronExpression);
+    this.scheduledData = {};
+    this.openCloseSchedular('close');
+  }
+
+  //back to home page
+  gotoPreviousPage(){
+    this.isCustom = false;
+    // this.recurringFrequency = false;
+    // this.rstz = 'Does not repeat';
   }
 }
 

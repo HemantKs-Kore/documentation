@@ -145,6 +145,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   inputSentence: any;
   selectEditIndex: number = 0;
   nlpAnnotatorObj: any = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [], };
+  search_field:String='';
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
       this.contextSuggestedImput = content;
@@ -197,7 +198,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       if (this.queryPipelineId) {
         this.getDyanmicFilterData()
         this.getRules();
-        this.getFieldAutoComplete(null, null);
+        this.getFields();
       }
     }
   }
@@ -224,7 +225,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     };
     this.addNewOutcome();
     this.openModalPopup();
-    this.getFieldAutoComplete(null, null);
     if (this.selcectionObj.ruleType === 'contextual') {
       this.addNewRule();
     }
@@ -257,7 +257,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.addEditRuleObj = { ...rule };
     this.setDataForEdit(this.addEditRuleObj);
     this.openModalPopup();
-    this.getFieldAutoComplete(null, null);
   }
   closeModalPopup() {
     this.submitted = false;
@@ -668,6 +667,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     outcomeObj.fieldDataType = data.fieldDataType
     outcomeObj.fieldName = data.fieldName
     outcomeObj.fieldId = data._id;
+    this.search_field = '';
+    $("#responseFields")[0].style.borderColor="";
   }
   checkDuplicateTags(suggestion: string, alltTags): boolean {
     return alltTags.every((f) => f !== suggestion);
@@ -717,7 +718,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       outcome.outcomeValue = [];
       outcome.outcomeValueType = value;
     }
-    // console.log("filter data", this.fieldAutoSuggestion)
   }
   checkUncheckfacets(rule) {
     const selectedElements = $('.selectRuleCheckBoxDiv:checkbox:checked');
@@ -817,11 +817,15 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   validateOut() {
     for (let i = 0; i < this.outcomeArrayforAddEdit.length; i++) {
       for (let j = 0; j <= this.outcomeArrayforAddEdit[i].outcomeValue.length; j++) {
-        if (!this.outcomeArrayforAddEdit[i].outcomeValue.length) {
+        if(this.outcomeArrayforAddEdit[i].fieldId===''){
+          $("#responseFields")[0].style.borderColor="#DD3646";
+        }       
+        else if (!this.outcomeArrayforAddEdit[i].outcomeValue.length) {
           $("#OutcomeInput").parent('div').css("border-color", "#DD3646");
           this.iconImageOut = true;
           return false;
-        } else {
+        }
+        else {
           this.iconImageOut = false;
           this.submitted = false;
           return true;
@@ -834,7 +838,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.submitted = true;
     let isValidate: boolean;
     if (this.selcectionObj?.ruleType === 'nlp') {
-      isValidate = this.validateRules() && this.validateOut()
+      isValidate = this.validateRules() && this.validateOut() && this.emptyAnnotatorValidate();
     }
     else if (this.selcectionObj?.ruleType === 'contextual') {
       isValidate = this.validateRules() && this.validateCon() && this.validateOut()
@@ -900,33 +904,58 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         $("#OutcomeInput").parent('div').css("border-color", "#DD3646");
         $("#infoWarningOut").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
       }
+      if(!this.emptyAnnotatorValidate()){
+        $("#contentText")[0].style.borderColor='#DD3646';
+      }
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
     this.loadRules();
   }
-  getFieldAutoComplete(event, outcomeObj, clearText?) {
-    if (clearText && $('#searchBoxId') && $('#searchBoxId').length) {
-      $('#searchBoxId')[0].value = "";
-    }
-    let query: any = '';
-    if (event) {
-      query = $(event.currentTarget).val();
-    }
-    // if (/^\d+$/.test(query)) {
-    //   query = query.parseInt();
-    // }
+
+  //check nlp annotaator is empty
+  emptyAnnotatorValidate(){
+    return this.nlpAnnotatorObj.annotator.length===0?false:true;
+  }
+
+  //get all fields
+  getFields(){
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      category: 'rules',
-      query
+      indexPipelineId: this.indexPipelineId,
     };
-    this.service.invoke('get.getFieldAutocompleteIndices', quaryparms).subscribe(res => {
-      this.fieldAutoSuggestion = res || [];
+     const payload = {
+        "sort": {
+          "fieldName": 1,
+        }
+      }
+    this.service.invoke('post.allField', quaryparms, payload).subscribe(res => {
+      this.fieldAutoSuggestion = res.fields || [];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get fields');
     });
   }
+
+  // getFieldAutoComplete(event, outcomeObj, clearText?) {
+  //   if (clearText && $('#searchBoxId') && $('#searchBoxId').length) {
+  //     $('#searchBoxId')[0].value = "";
+  //   }
+     
+  //   let query: any = '';
+  //   if (event) {
+  //     query = $(event.currentTarget).val();
+  //   }
+  //   const quaryparms: any = {
+  //     searchIndexID: this.serachIndexId,
+  //     indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+  //     category: 'rules',
+  //     query
+  //   };
+  //   this.service.invoke('get.getFieldAutocompleteIndices', quaryparms).subscribe(res => {
+  //     this.fieldAutoSuggestion = res || [];
+  //   }, errRes => {
+  //     this.errorToaster(errRes, 'Failed to get fields');
+  //   });
+  // }
   getRules(searchValue?, searchSource?, source?, headerOption?, sortHeaderOption?, sortValue?, navigate?, request?) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
@@ -1410,6 +1439,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
       else if (!this.entityObj.isEditable) {
         this.nlpAnnotatorObj.annotator.push(this.entityObj);
+        $("#contentText")[0].style.borderColor='';
       }
       this.inputSentence = '';
       this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false };
@@ -1609,6 +1639,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //toipc guide method
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next();
+  }
+
+  //assign field to object
+  selectNLPField(field){
+    this.nlpAnnotatorObj.entities.fieldId=field?._id;
+    this.nlpAnnotatorObj.entities.field_name=field?.fieldName
+    this.search_field = '';
   }
 
 }
