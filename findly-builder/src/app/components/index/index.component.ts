@@ -1551,6 +1551,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   simulate(warningmessage?) {
+    let stagesList = '';
+    this.pipeline.forEach(function (stage:any) {
+      stagesList = stagesList + (stagesList?', ':'') + stage.type +'('+ stage.name+')';
+    });
+    this.mixpanel.postEvent('Workbench Simulated',{'Stage count': this.pipeline.length, 'Stage list': ''});
     this.loadingSimulate = true;
     let plainScriptTxt: any;
     if (this.newMappingObj && this.newMappingObj.custom_script &&
@@ -1618,8 +1623,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.simulteObj.currentSimulateAnimi = -1;
         this.simulteObj.simulationInprogress = false;
-
+        this.mixpanel.postEvent('Workbench simulation complete',{});
       }, errRes => {
+        this.mixpanel.postEvent('Workbench simulation failed',{'Stage Fail Type':this.selectedStage.category});
         this.loadingSimulate = false;
         if (warningmessage) {
           this.notificationService.notify(warningmessage, 'warning');
@@ -1812,6 +1818,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     // console.log("index queryparams", quaryparms);
     this.service.invoke('get.indexpipelineStages', quaryparms).subscribe(res => {
+      this.mixpanel.postEvent('Enter Workbench', {});
       res.stages.map(data => {
         return data?.condition?.mappings?.map(data1 => {
           let obj = this.fields.find(da => da._id === data1?.fieldId);
@@ -2146,6 +2153,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.selectedStage = this.pipeline[0];
       this.showNewStageType = false;
       this.modifiedStages.createdStages.push(this.pipeline[0]);
+      this.mixpanel.postEvent('Workbench Stage added',{"Stage Type":obj.type});
     }
     this.selectedStage.type = this.defaultStageTypes[i].type;
     this.selectedStage.category = this.defaultStageTypes[i].category;

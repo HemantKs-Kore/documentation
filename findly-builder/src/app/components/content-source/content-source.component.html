@@ -439,6 +439,7 @@
 
             </div>
             <!-- New Design -->
+            <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord > 10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginateContent($event)"></app-record-pagination></div>
           </perfect-scrollbar>
 
         </ng-container>
