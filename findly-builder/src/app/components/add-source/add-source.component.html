@@ -572,13 +572,12 @@
                 <div class="shedual-hding">SCHEDULE</div>
                 <div class="sr-toggle-btn">
                   <label class="kr-sg-toggle">
-                    <input id="sa-shedularEnableDisable" type="checkbox" name="scheduleOpts" [(ngModel)]="crwalObject.advanceOpts.scheduleOpt" (change)="openScheduler()">
+                    <input id="sa-shedularEnableDisable" type="checkbox" name="scheduleOpts" (change)="openSchedular($event)">
                     <div class="slider"></div>
                   </label>
                 </div>
               </div>
-              <app-scheduler *ngIf="crwalObject?.advanceOpts?.scheduleOpt" [crwalObject]="crwalObject" [scheduleFlag]="crwalObject.advanceOpts.scheduleOpt"
-              [schedule]="'set'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
+              <app-scheduler #schedular [crwalObject]="crwalObject" [scheduleFlag]="crwalObject.advanceOpts.scheduleOpt" [schedule]="'set'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
             </app-scheduler>
             </div>
           </div>
