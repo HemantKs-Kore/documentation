@@ -81,7 +81,7 @@
 
     <perfect-scrollbar class="stepjourney-scroll">
         <div class="body-sec">
-            <div class="progress_indiactors row" *ngIf="slider!==0 && !existingCredential">
+            <div class="progress_indiactors row d-none" *ngIf="slider!==0 && !existingCredential">
                 <div class="progress_bar col-4 text-center active-bar step">
                     <div class="circle"></div>
                     <div class="title ">{{"settings_instructions" | translate}}</div>
@@ -97,7 +97,7 @@
                     <div class="title">{{"settings_generate_token" | translate}} </div>
                 </div>
             </div>
-            <div class="row card-steps" *ngIf="slider==1">
+            <div class="row card-steps d-none" *ngIf="slider==1">
                 <div class="card_list">
                     <div class="step-title"> {{"settings_step_1" | translate}} </div>
                     <div class="img-block"><img src="assets/images/icons/sdkdownload.svg"></div>
@@ -123,6 +123,54 @@
                     <div class="desc-text">{{"settings_select_events_info" | translate}} </div>
                 </div>
             </div>
+
+            <div class="web-and-mobile-client-steps" *ngIf="slider==1">
+                <div class="web-and-client-card">
+                    <div class="wacc-step">
+                        STEP 1
+                    </div>
+                    <div class="wacc-header">
+                        Download Searchassist SDK
+                    </div>
+                    <div class="wacc-desc">
+                        Download the Kore.ai FindlyKit SDK from our GitHub Repo
+                    </div>
+                </div>
+                <div class="web-and-client-card">
+                    <div class="wacc-step">
+                        STEP 2
+                    </div>
+                    <div class="wacc-header">
+                        Register Credential
+                    </div>
+                    <div class="wacc-desc">
+                        Create an credential or register an existing credential from below. 
+                    </div>
+                </div>
+                <div class="web-and-client-card">
+                    <div class="wacc-step">
+                        STEP 3
+                    </div>
+                    <div class="wacc-header">
+                        Define Callback URL
+                    </div>
+                    <div class="wacc-desc">
+                        Define the callback URL of your credential to be invoked for FindlyKit SDK events.
+                    </div>
+                </div>
+                <div class="web-and-client-card">
+                    <div class="wacc-step">
+                        STEP 4
+                    </div>
+                    <div class="wacc-header">
+                        Select Events
+                    </div>
+                    <div class="wacc-desc">
+                        Select the required events and complete the setup process. 
+                    </div>
+                </div>
+            </div>
+
             <div class="select_credentials_sec" *ngIf="slider==2">
                 <div class="main-heading"> {{"settings_seems_like_there_are_no_credentails_created" | translate}}</div>
                 <div class="desc-text">{{"settings_create_a_credential_to_associate_it_with_the_channel" | translate}} </div>
