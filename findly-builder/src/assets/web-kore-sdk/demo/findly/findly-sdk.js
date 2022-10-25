@@ -20889,7 +20889,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
 
     FindlySDK.prototype.getSetI18nLangData = function(selectedlang){
+
       var _self = this;
+      if(!_self.enLangJsonObj || !_self.jaLangJsonObj || !_self.koLangJsonObj){
+        _self.enLangJsonObj = new enLangJson();
+        _self.jaLangJsonObj = new jaLangJson();
+        _self.koLangJsonObj = new koLangJson();
+      }
       var lang = selectedlang || 'en';
       if(localStorage.getItem('languageTranslator') == 'undefined' || selectedlang || localStorage.getItem('languageTranslator') == null){
         lang = selectedlang || 'en';
@@ -20897,10 +20903,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }else{
         lang = localStorage.getItem('languageTranslator');
       }
-      var jsonUrl = _self.isDev? ('assets/web-kore-sdk/demo/i18n/'+lang+'.json'): ('i18n/'+lang+'.json');
-      $.getJSON({url:jsonUrl,async: false} ,function(data) {
-        sdk_i18n = data;
-      })
+      // var jsonUrl = _self.isDev? ('assets/web-kore-sdk/demo/i18n/'+lang+'.json'): ('i18n/'+lang+'.json');
+      // $.getJSON({url:jsonUrl,async: false} ,function(data) {
+      //   sdk_i18n = data;
+      // })
+      sdk_i18n = _self[lang+'LangJsonObj'].getLang();
     }
     FindlySDK.prototype.convertTextToSelectLang = function(selectedlang){
       var _self = this;
