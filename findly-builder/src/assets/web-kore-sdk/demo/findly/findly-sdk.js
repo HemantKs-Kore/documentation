@@ -5774,6 +5774,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if(searchText == 'language=en' || searchText == 'language=ja' || searchText == 'language=ko'){
               _self.convertTextToSelectLang(searchText.split('=')[1]);
               $('.search-top-down').val('') ;
+              $('#search').val('') ;
               return;
             }
             $('.skelton-load-img').show();
@@ -5788,7 +5789,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var searchText =  $('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val();
             if(searchText == 'language=en' || searchText == 'language=ja' || searchText == 'language=ko'){
               _self.convertTextToSelectLang(searchText.split('=')[1]);
-               $('.bottom-up-search').val('');
+              $('#search').val('') ;
+              $('.bottom-up-search').val('');
                $('.parent-search-live-auto-suggesition').hide();
                $('#autoSuggestionContainer').addClass('hide');
                $('.bottom-up-suggestion').val('');
