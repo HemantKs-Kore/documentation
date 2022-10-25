@@ -458,10 +458,18 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       sourceId: this.extract_sourceId
     };
     const payload = {
-      url: this.newSourceObj.url
+      url: this.newSourceObj.url,
+      authorizationEnabled: false
     }
     this.service.invoke('put.retryValidation', quaryparms, payload).subscribe(res => {
       this.statusObject = { ...this.statusObject, validation: res.validations };
+      let message ='';
+      if(!this.statusObject?.validation?.url?.validated){
+        message = this.statusObject?.validation?.url?.msg;
+      } else if(!this.statusObject?.validation?.networkConnectivity?.validated){
+        message = this.statusObject?.validation?.networkConnectivity?.msg;
+      }
+      if(!this.statusObject?.isURLValid) this.notificationService.notify(message, 'error');
     }, errRes => {
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');

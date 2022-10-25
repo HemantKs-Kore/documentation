@@ -184,6 +184,7 @@ export class ResultTemplatesComponent implements OnInit {
       // this.getAllSettings(this.selectedTab)
     }
   }
+  
   //selected tab method
   tabSelection(id) {
     this.getAllSettings(id);

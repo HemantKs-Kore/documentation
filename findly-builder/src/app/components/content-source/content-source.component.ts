@@ -411,9 +411,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         return '';
     }
   }
+  
   getSourceList(nxt?, searchValue?, searchSource?, source?, headerOption?, sortHeaderOption?, sortValue?, navigate?, request?) {
-    // this.statusArr = [];
-    // this.docTypeArr = [];
+    this.statusArr = [];
+    this.docTypeArr = [];
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
@@ -935,9 +936,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.loadingSliderContent = true;
       this.totalCrawledCount = source.numPages;
       this.getCrawledPages(this.limitpage, 0);
-      if(source?.recentStatus!=='failed'){
         this.executionHistory();
-      }
       this.sourceStatus = source.recentStatus;
     }
     else if (source.extractionType === 'file') {

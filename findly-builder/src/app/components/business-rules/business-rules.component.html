@@ -119,7 +119,7 @@
                 </div>
                 <div class="empty-title">{{selcectionObj?.ruleType==='contextual'?("businessRules.no_contextual_rule"| translate):("businessRules.no_nlp_rule"| translate)}}</div>
                 <div>
-                    <button class="kr-sg-button-primary btn_lg" (click)="createNewRule()"><i class="si-add-plus mr-2"></i>{{"businessRules.add"| translate}} {{selcectionObj?.ruleType==='contextual'?("businessRules.contextual"| translate):("businessRules.nlp"| translate)}} {{"businessRules.rule"| translate}}</button>
+                    <button class="kr-sg-button-primary btn_lg" (click)="createNewRule()"><i class="si-add-plus-white mr-2"></i>{{"businessRules.add"| translate}} {{selcectionObj?.ruleType==='contextual'?("businessRules.contextual"| translate):("businessRules.nlp"| translate)}} {{"businessRules.rule"| translate}}</button>
                 </div>
                 <div class="info-data-box">
                     <div class="text-info-empty" [ngClass]="{'d-none':(selcectionObj?.ruleType==='nlp')}">{{"businessRules.contextual_rules_allow"| translate}}<br/>{{"businessRules.contextual_rules_are"| translate}}</div>
@@ -322,7 +322,7 @@
                                             </div>
                                         </div>
                                         <div class="row-input-data row col-12">
-                                            <div class="col-12 title-info">{{"businessRules.set_parameters"| translate}}</div>
+                                            <div class="col-12 column-sec title-info">{{"businessRules.set_parameters"| translate}}</div>
                                             <div class="col-4 column-sec" *ngIf="ruleObj.contextType !=='userContext'">
                                                 <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'">
                                                     <div class="dropdown dropdown-open">
@@ -678,7 +678,7 @@
                                             </div>
                                         </div>
                                         <div class="row-input-data row col-12">
-                                            <div class="col-12 title-info">{{"businessRules.response"| translate}}</div>
+                                            <div class="col-12 column-sec title-info">{{"businessRules.response"| translate}}</div>
                                             <div class="col-4 column-sec">
                                                 <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index">
                                                     <div class="dropdown dropdown-open">
@@ -699,7 +699,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-4 column-sec">
-                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index">
+                                                <div class="kr-sg-dropdowns w-auto opacity-4" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index">
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" ngbDropdownToggle disabled>{{outcomeObj.fieldDataType?(("businessRules."+outcomeObj.fieldDataType) | translate):"String"}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>                                                           

@@ -91,7 +91,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   datePlaceHolders = {
     equals: ''
   }
-  tagsArray: any = []
   defaultOutcomeObj: any = {
     fieldDataType: 'string',
     fieldName: '',
@@ -259,10 +258,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.openModalPopup();
   }
   closeModalPopup() {
+    this.addBusinessRulesRef.close();
     this.submitted = false;
     this.rulesArrayforAddEdit = [];
     this.outcomeArrayforAddEdit = [];
-    this.addBusinessRulesRef.close();
     this.removedCon = false;
     this.createTag(false, false);
     this.nlpAnnotatorObj = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [] };
@@ -403,7 +402,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
             this.currentSugg = filteredValues;
           } else if (selectedContextSelections.length === 1 && _ruleOptions[selectedContextSelections[0]]) {
             this.currentSugg = _ruleOptions[selectedContextSelections[0]];
-          } else {
+          }
+           else {
             this.currentSugg = [];
           }
         } else {
@@ -854,10 +854,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         payload.rules = this.getRulesArrayPayload(this.rulesArrayforAddEdit) || []
       }
       else if (this.selcectionObj?.ruleType === 'nlp') {
-        for (let item of this.nlpAnnotatorObj.annotator) {
-          delete item?.colorSentence;
-          delete item?.isEditable;
-        }
+        // for (let item of this.nlpAnnotatorObj.annotator) {
+        //   delete item?.colorSentence;
+        //   delete item?.isEditable;
+        // }
         payload.rules = this.nlpAnnotatorObj.annotator;
       }
       if (!payload.outcomes.length) {
@@ -1008,10 +1008,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           payload.outcomes = this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
       }
       else if (this.selcectionObj?.ruleType === 'nlp') {
-        for (let item of this.nlpAnnotatorObj.annotator) {
-          delete item?.colorSentence;
-          delete item?.isEditable;
-        }
+        // for (let item of this.nlpAnnotatorObj.annotator) {
+        //   delete item?.colorSentence;
+        //   delete item?.isEditable;
+        // }
         payload.rules = this.nlpAnnotatorObj.annotator;
       }
       if (!payload.outcomes.length) {
