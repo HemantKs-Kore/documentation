@@ -115,7 +115,7 @@
               </div>
               <div class="ends-never sp-at row ">
                 <input type="radio" name="radio"  value ="endsAt" class="ends-radio" [checked] = "endsOnSelected == 'after'" (click)="endsFreq('after')"> <span class="sp">At</span>
-                <input id="occurenceId" type="number" min="0" max="30" class="input-text date-pick" placeholder="0" [(ngModel)] = "occurence" [disabled] = "!endsAt"> <span class="occur-span">Occurrences</span>
+                <input id="occurenceId" type="number" min="0" max="4" class="input-text date-pick" placeholder="0" [(ngModel)]="occurence" [disabled] = "!endsAt" onKeyPress="if(this.value.length===4) return false;"> <span class="occur-span">Occurrences</span>
               </div>
             </div>
           </div> 
