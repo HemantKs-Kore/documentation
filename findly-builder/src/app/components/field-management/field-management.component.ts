@@ -255,7 +255,7 @@ export class FieldManagementComponent implements OnInit {
           }
         }
       }
-      usageText = this.replaceLast(",", " and", usageText);
+      usageText = this.replaceLast(",", " and", usageText) +','+'Please retrain the application for the change to take effect';
       this.indexedWarningMessage = usageText;
     }, errRes => {
       this.fetchingFieldUsage = false;
@@ -304,7 +304,8 @@ export class FieldManagementComponent implements OnInit {
         let usageText1 = "";
         usageText1 = "This field is being used in";
         usageText = '';
-        let usageText2 = 'Deleting it will remove the associated';
+        // let usageText2 = 'Deleting it will remove the associated';
+        let usageText2 ='Please remove the dependency before deleting the field'
         if (res && res.facets && res.facets.used) {
           deps.facets = true;
           usageText = usageText + ' Facets'
@@ -350,7 +351,8 @@ export class FieldManagementComponent implements OnInit {
           }
         }
         usageText = this.replaceLast(",", " and", usageText);
-        usageText = usageText1 + usageText + '. ' + usageText2 + usageText + '.';
+        // usageText = usageText1 + usageText + '. ' + usageText2 + usageText + '.';
+        usageText = usageText1 + usageText + '. ' + usageText2 +'.';
       }
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         width: '446px',
