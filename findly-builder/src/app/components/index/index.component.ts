@@ -108,14 +108,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   entityNlp = [
-    // Reverting for FLY - 4688
     { title: 'Date', value: 'DATE', isDepricated: false },
     { title: 'Time', value: 'TIME', isDepricated: false },
-    { title: 'URL', value: 'URL', isDepricated: false },
-    { title: 'Email', value: 'EMAIL', isDepricated: false },
     { title: 'Location', value: 'LOC', isDepricated: false },
-    { title: 'City', value: 'GPE', isDepricated: false },
-    { title: 'Country', value: 'GPE', isDepricated: false },
+    { title: 'GeoPoliticalEntities', value: 'GPE', isDepricated: false },
     { title: 'Company Name or Organization', value: 'ORG', isDepricated: false },
     { title: 'Currency', value: 'MONEY', isDepricated: false },
     { title: 'Person Name', value: 'PERSON', isDepricated: false },
