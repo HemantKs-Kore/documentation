@@ -182,8 +182,9 @@
                     <div class="media-block media-success" *ngIf="source.recentStatus === 'success'">
                       <div class="media-logo"><img src="assets/icons/content/latest-content-icons/green-check-circle.svg"></div>
                       <div class="media-right">
-                        <div class="media-name">Successful</div>
-                        <div class="media-up-time-stamp" *ngIf="source.schedule_createdOn">{{ source.schedule_createdOn }}<span class="pl-1"><img src="assets/icons/content/latest-content-icons/gray-time-change-logs.svg">{{source.schedule_duration}}</span></div>
+                        <div class="media-name">Successful
+                          <div class="media-up-time-stamp" *ngIf="source.schedule_createdOn">{{ source.schedule_createdOn }}<span class="pl-1"><img src="assets/icons/content/latest-content-icons/gray-time-change-logs.svg">{{source.schedule_duration}}</span></div>
+                        </div>
                       </div>
                     </div>
                          
