@@ -47,6 +47,11 @@ export class SearchFieldPropertiesComponent implements OnInit {
   showSearch = false;
   searchFields: any = '';
   activeClose = false;
+  searchFocusIn = false;
+  selectedSort = 'fieldName';
+  isAsc = true;
+  checksort='asc'
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
 
   constructor(
     public workflowService: WorkflowService,
@@ -85,16 +90,19 @@ export class SearchFieldPropertiesComponent implements OnInit {
     
   }
 
-  fetchPropeties(search?,type?){
+  fetchPropeties(search?,type?,skip?){
+    if(this.searchFields || this.searchFields.length>0){
+      this.skip=0;
+    }
     const quaryparms: any = {
-      sortyBy: "createdOn",
+      sortBy: this.selectedSort,
       search : this.searchFields || "",
       page:this.skip/10,
       limit:this.limit,
-      spellCorrect:true,
-      presentable: true,
-      highlight:true,
-      orderBy: "asc", //desc,
+      spellCorrect:this.selectedProperties.spellCorrect || true,
+      presentable: this.selectedProperties.presentable || true,
+      highlight: this.selectedProperties.highlight || true,
+      orderBy: this.checksort, //desc,
       indexPipelineId:this.indexPipelineId,
       streamId:this.selectedApp._id,
       queryPipelineId:this.queryPipelineId
@@ -111,7 +119,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
       this.totalRecord = res.totalCount
       console.log(this.searchFieldProperties);
     }, errRes => {
-      // console.log(errRes);
+      this.notificationService.notify(errRes,'failed to get search field propeties');
     });
 
   }
@@ -126,9 +134,15 @@ export class SearchFieldPropertiesComponent implements OnInit {
     if (this.activeClose) {
       this.searchFields = '';
       this.activeClose = false;
-      this.fetchPropeties(this.searchFields)
+      this.fetchPropeties(this.searchFields,this.skip)
     }
     this.showSearch = !this.showSearch;
+  }
+
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+    }, 100)
   }
   editSearchFiledProperties(properties?,index?){
     const name = this.searchFieldProperties[index].fieldName.replaceAll('_', '')
@@ -155,11 +169,93 @@ export class SearchFieldPropertiesComponent implements OnInit {
       this.enableIndex = this.defaultIndex;
       this.fetchPropeties();      
       console.log(res);
+      this.notificationService.notify('Updated Successfully', 'success');
     }, errRes => {
-      // console.log(errRes);
+      this.notificationService.notify('Updated Successfully', 'error');
     });    
 
   
+  }
+  getSortIconVisibility(sortingField: string, type: string) {
+    switch (this.selectedSort) {
+      case "fieldName": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "weight": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "presentable": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "highlight": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "spellCorrect": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+    }
+  }
+
+  sortByApi(sort){
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    var naviagtionArrow ='';
+    //var checkSortValue= 1;
+    if(this.isAsc){
+      naviagtionArrow= 'up';
+      this.checksort='asc'
+    }
+    else{
+      naviagtionArrow ='down';
+      //checkSortValue = -1;
+      this.checksort='desc'
+    }
+    //this.fieldsFilter(null,null,null,null,sort,checkSortValue,naviagtionArrow)
+    this.fetchPropeties();
   }
     
   valueEvent(event , searchProperties){

@@ -1293,13 +1293,13 @@ export class EndPointsService {
     }
     //get all list of field properties
     this.serviceList['get.allsearchFields'] = {
-      endpoint: this.API_SERVER_URL + '/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/fields?search=:search&sortyBy=:sortyBy&orderBy=:orderBy&page=:page&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/fields?search=:search&sortBy=:sortBy&orderBy=:orderBy&page=:page&limit=:limit',
       method: 'get'
     }
 
     //edit field properties
     this.serviceList['put.updatesearchFieldsProperties'] = {
-      endpoint: this.API_SERVER_URL + '/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/field/:fieldId',
+      endpoint: this.API_SERVER_URL + '/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/field/:fieldId',
       method: 'put'
     }
 

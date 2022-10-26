@@ -10,7 +10,7 @@
             <div class="d-flex align-items-center">
                 <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
                     <input type="text" placeholder="{{'sa_search' | translate}}" maxlength="60" class="input-search"  [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}"
-                        autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields" (keyup)="fetchPropeties(searchFields,'search')"
+                        autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields" (keyup)="fetchPropeties(searchFields,'search',0)"
                         (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                         (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                         (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
@@ -26,24 +26,24 @@
             </div>
         </div>
         <div>
-            <div class="table_data_content">
+            <div class="table_data_content" *ngIf="searchFieldProperties && searchFieldProperties.length">
                 <div class="table_header row m-0">
-                    <div class="col_ col-2 title d-flex align-items-center justify-content-start">
+                    <div class="col_ col-2 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldName')">
                         <span class="d-flex align-items-center flex-column mr-1">
-                            <img class="ml-1 sortImg downArrow display-none" src="assets/icons/caretDown.svg" />
-                            <img class="ml-1 sortImg upArrow display-block" src="assets/icons/caretDown.svg" />
+                            <img class="ml-1 sortImg downArrow" [ngClass]="getSortIconVisibility('fieldName', 'down')" src="assets/icons/caretDown.svg" />
+                            <img class="ml-1 sortImg upArrow" [ngClass]="getSortIconVisibility('fieldName', 'up')" src="assets/icons/caretDown.svg" />
                         </span> Field Name
                     </div>
-                    <div class="col_  col-3 title d-flex align-items-center">
+                    <div class="col_  col-3 title d-flex align-items-center" (click)="sortByApi('weight')">
                         <span class="d-flex align-items-center flex-column mr-1">
-                            <img class="ml-1 sortImg downArrow" src="assets/icons/caretDown.svg" />
-                            <img class="ml-1 sortImg upArrow" src="assets/icons/caretDown.svg" />
+                            <img class="ml-1 sortImg downArrow" [ngClass]="getSortIconVisibility('weight', 'down')" src="assets/icons/caretDown.svg" />
+                            <img class="ml-1 sortImg upArrow" [ngClass]="getSortIconVisibility('weight', 'up')" src="assets/icons/caretDown.svg" />
                         </span> weights
                     </div>
-                    <div class="col_  col-2 title d-flex align-items-center">
+                    <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('presentable')">
                         <span class="d-flex align-items-center flex-column mr-1">
-                            <img class="ml-1 sortImg downArrow" src="assets/icons/caretDown.svg" />
-                            <img class="ml-1 sortImg upArrow" src="assets/icons/caretDown.svg" />
+                            <img class="ml-1 sortImg downArrow" [ngClass]="getSortIconVisibility('presentable', 'down')" src="assets/icons/caretDown.svg" />
+                            <img class="ml-1 sortImg upArrow" [ngClass]="getSortIconVisibility('presentable', 'up')" src="assets/icons/caretDown.svg" />
                         </span> Presentable <span class="info-text-icon" [container]="'body'"
                             ngbTooltip='Text goes here' placement="bottom-left"><i class="si-info icon-info"></i></span>
                         <!-- <div class="kr-sg-dropdowns type_sort_dropdown d-none" #selectFilter="ngbDropdown" ngbDropdown
@@ -69,17 +69,17 @@
                             </div>
                         </div> -->
                     </div>
-                    <div class="col_  col-2 title d-flex align-items-center">
+                    <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('highlight')">
                         <span class="d-flex align-items-center flex-column mr-1">
-                            <img class="ml-1 sortImg downArrow" src="assets/icons/caretDown.svg" />
-                            <img class="ml-1 sortImg upArrow" src="assets/icons/caretDown.svg" />
+                            <img class="ml-1 sortImg downArrow" [ngClass]="getSortIconVisibility('highlight', 'down')" src="assets/icons/caretDown.svg" />
+                            <img class="ml-1 sortImg upArrow" [ngClass]="getSortIconVisibility('highlight', 'up')" src="assets/icons/caretDown.svg" />
                         </span> Highlight <span class="info-text-icon" [container]="'body'" ngbTooltip='Text goes here'
                             placement="bottom-left"><i class="si-info icon-info"></i></span>
                     </div>
-                    <div class="col_  col-2 title d-flex align-items-center">
+                    <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('spellCorrect')">
                         <span class="d-flex align-items-center flex-column mr-1">
-                            <img class="ml-1 sortImg downArrow" src="assets/icons/caretDown.svg" />
-                            <img class="ml-1 sortImg upArrow" src="assets/icons/caretDown.svg" />
+                            <img class="ml-1 sortImg downArrow" [ngClass]="getSortIconVisibility('spellCorrect', 'down')" src="assets/icons/caretDown.svg" />
+                            <img class="ml-1 sortImg upArrow" [ngClass]="getSortIconVisibility('spellCorrect', 'up')" src="assets/icons/caretDown.svg" />
                         </span> Spell correct <span class="info-text-icon" [container]="'body'"
                             ngbTooltip='Text goes here' placement="bottom-left"><i class="si-info icon-info"></i></span>
                     </div>
@@ -207,7 +207,7 @@
                         </div>
                     </div>
 
-                    <div class="divBlockEmptylastChild text-center">
+                    <div class="divBlockEmptylastChild text-center" *ngIf="!(searchFieldProperties && searchFieldProperties.length)">
                         <div class="desc" *ngIf="!totalRecord">No search results found</div>
                     </div>
                   

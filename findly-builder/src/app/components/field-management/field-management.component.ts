@@ -646,6 +646,17 @@ export class FieldManagementComponent implements OnInit {
           return "display-none"
         }
       }
+      case "isSearchable": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
       case "isSearchableFilter": {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
@@ -886,10 +897,10 @@ export class FieldManagementComponent implements OnInit {
     //   request.sort.isIndexed = sortValue
     // }
     if(sortHeaderOption === 'isAutosuggest' ){
-      request.sort.isMultiValued = sortValue
+      request.sort.isAutosuggest = sortValue
     }
     if(sortHeaderOption === 'isSearchable' ){
-      request.sort.isStored = sortValue
+      request.sort.isSearchable = sortValue
     }
 
     // end

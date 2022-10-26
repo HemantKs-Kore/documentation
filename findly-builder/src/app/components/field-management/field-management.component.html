@@ -75,7 +75,7 @@
                         </div>
                         </div>
                         <!-- new table headers are added here -->
-                        <div class="col_  col-3 title d-flex align-items-center">
+                        <div class="col_  col-3 title d-flex align-items-center" (click)="sortByApi('isSearchable')">
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img [ngClass]="getSortIconVisibility('isSearchable', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img  [ngClass]="getSortIconVisibility('isSearchable', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
@@ -106,7 +106,7 @@
                         </div>
                         </div>
 
-                        <div class="col_  col-2 title d-flex align-items-center">
+                        <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('isAutosuggest')">
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img [ngClass]="getSortIconVisibility('isAutosuggest', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img  [ngClass]="getSortIconVisibility('isAutosuggest', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
