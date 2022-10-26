@@ -15,28 +15,28 @@
                 <div class="total-structured-data-wrap {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customization{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}">\
                   {{if tour && isFullResults == true && viewType=="Customize"&&devMode==true}}\
                     <div class="tours-information sdk-tours-info-start">\
-                      <div class="tourtitle">Customize</div>\
-                      <div class="tour-info">Start Customizing your search results by hovering on the matched content and performing below actions:</div>\
-                      <div class="tour-action-info"><b>HIDE</b> - Hide the search result</div>\
-                      <div class="tour-action-info"><b>PIN</b> - Pin results in a specific position</div>\
-                      <div class="tour-action-info"><b>BOOST</b> - Boost the relevance score</div>\
-                      <div class="tour-action-info"><b>LOWER</b> - Lower the relevance score</div>\
+                      <div class="tourtitle sdk-i18n-lang" sdk-i18n-key="sa_sdk_customize">{{html langTranslator("sa_sdk_customize")}}</div>\
+                      <div class="tour-info sdk-i18n-lang" sdk-i18n-key="sa_sdk_start_customizing_your_search_results_by_hovering">{{html langTranslator("sa_sdk_start_customizing_your_search_results_by_hovering")}}</div>\
+                      <div class="tour-action-info"><b class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_hide_caps">{{html langTranslator("sa_sdk_hide_caps")}}</b> - <span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_hide_the_search_result">{{html langTranslator("sa_sdk_hide_the_search_result")}}</span></div>\
+                      <div class="tour-action-info"><b class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_pin_caps">{{html langTranslator("sa_sdk_pin_caps")}}</b> - <span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_pin_results_in_a_specific_position">{{html langTranslator("sa_sdk_pin_results_in_a_specific_position")}}</span></div>\
+                      <div class="tour-action-info"><b class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_boost_caps">{{html langTranslator("sa_sdk_boost_caps")}}</b> - <span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_boost_the_relevance_score">{{html langTranslator("sa_sdk_boost_the_relevance_score")}}</span></div>\
+                      <div class="tour-action-info"><b class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_lower_caps">{{html langTranslator("sa_sdk_lower_caps")}}</b> - <span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_lower_the_relelavance_score">{{html langTranslator("sa_sdk_lower_the_relelavance_score")}}</span></div>\
                       <div class="footer-tour">\
                         <div class="tour-length">1 of 2</div>\
                         <div class="tour-btns">\
-                            <button class="next-btn sdk-tours-info-nxt">Next</button>\
-                            <button class="close-btn sdk-tours-info-close">Close</button>\
+                            <button class="next-btn sdk-tours-info-nxt sdk-i18n-lang" sdk-i18n-key="sa_sdk_next">{{html langTranslator("sa_sdk_next")}}</button>\
+                            <button class="close-btn sdk-tours-info-close sdk-i18n-lang" sdk-i18n-key="sa_sdk_close">{{html langTranslator("sa_sdk_close")}}</button>\
                         </div>\
                       </div>\
                     </div>\
                     <div class="tours-information tour-customization-info sdk-tours-info-end hide">\
-                      <div class="tourtitle">Customize</div>\
-                      <div class="tour-info mb-2 pb-1">You can order the results by clicking on this icon and dragging up and down.</div>\
+                      <div class="tourtitle sdk-i18n-lang" sdk-i18n-key="sa_sdk_customize">{{html langTranslator("sa_sdk_customize")}}</div>\
+                      <div class="tour-info mb-2 pb-1 sdk-i18n-lang" sdk-i18n-key="sa_sdk_you_can_order_the_results_by_clicking">{{html langTranslator("sa_sdk_you_can_order_the_results_by_clicking")}}</div>\
                       <div class="footer-tour">\
                         <div class="tour-length">2 of 2</div>\
                         <div class="tour-btns">\
-                            <button class="next-btn sdk-tours-info-close">Got it</button>\
-                            <button class="close-btn sdk-tours-info-pre">Previous</button>\
+                            <button class="next-btn sdk-tours-info-close sdk-i18n-lang" sdk-i18n-key="sa_sdk_got_it">{{html langTranslator("sa_sdk_got_it")}}</button>\
+                            <button class="close-btn sdk-tours-info-pre sdk-i18n-lang" sdk-i18n-key="sa_sdk_previous">{{html langTranslator("sa_sdk_previous")}}</button>\
                         </div>\
                       </div>\
                     </div>\
@@ -66,11 +66,11 @@
                                           <div class="actions-content">\
                                             <span class="action-item visibility" type="{{if data.config.visible == true}}Hide{{/if}}{{if data.config.visible == false}}UnHide{{/if}}">\
                                               <span class="tooltiptext">\
-                                                <span class="_hide {{if data.config.visible == true}}display-block{{else}}display-none{{/if}}">\
-                                                    Hide\
+                                                <span class="_hide sdk-i18n-lang {{if data.config.visible == true}}display-block{{else}}display-none{{/if}}" sdk-i18n-key="sa_sdk_hide">\
+                                                {{html langTranslator("sa_sdk_hide")}}\
                                                 </span>\
-                                                <span class="unhide {{if data.config.visible == false}}display-block{{else}}display-none{{/if}}">\
-                                                    UnHide\
+                                                <span class="unhide sdk-i18n-lang {{if data.config.visible == false}}display-block{{else}}display-none{{/if}}" sdk-i18n-key="sa_sdk_unhide">\
+                                                {{html langTranslator("sa_sdk_unhide")}}\
                                                 </span>\
                                               </span>\
                                               <span class="img_hide {{if data.config.visible == true}}display-block{{else}}display-none{{/if}}">\
@@ -82,11 +82,11 @@
                                             </span>\
                                             <span class="action-item pinning" type="{{if data.config.pinIndex >= 0}}UnPin{{/if}}{{if data.config.pinIndex < 0}}Pin{{/if}}">\
                                               <span class="tooltiptext">\
-                                                <span class="unpin {{if data.config.pinIndex >= 0}}display-block{{else}}display-none{{/if}}">\
-                                                  UnPin\
+                                                <span class="unpin sdk-i18n-lang {{if data.config.pinIndex >= 0}}display-block{{else}}display-none{{/if}}" sdk-i18n-key="sa_sdk_unpin">\
+                                                {{html langTranslator("sa_sdk_unpin")}}\
                                                 </span>\
-                                                <span class="pin {{if data.config.pinIndex < 0}}display-block{{else}}display-none{{/if}}">\
-                                                  Pin\
+                                                <span class="pin sdk-i18n-lang {{if data.config.pinIndex < 0}}display-block{{else}}display-none{{/if}}" sdk-i18n-key="sa_sdk_pin">\
+                                                {{html langTranslator("sa_sdk_pin")}}\
                                                 </span>\
                                               </span>\
                                               <span class="img_unpin {{if data.config.pinIndex >= 0}}display-block{{else}}display-none{{/if}}">\
@@ -97,11 +97,11 @@
                                               </span>\
                                             </span>\
                                             <span class="action-item boosting">\
-                                              <span class="tooltiptext">Boost</span>\
+                                              <span class="tooltiptext">{{html langTranslator("sa_sdk_boost")}}</span>\
                                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBfY/BCcJAEEVnNiKKrGgHKSElmA7swBxFJEkHYgfRg3jTTtKCHSQdKIIoMTtjNhgI65o5fh5//gMwbhxyJNfl3MyFAW0YKAaBJxnywgp+oeBdFD6VygegxIRrSIYqGyyfbpONVoVXZdcGxnbT6zjM2wUaFj0nrR7Hglh5Nkjf49C/1DOYZmCz1l/MHC3WgU6Rxfm+x22ntYPCZ6Tgp9lmPYnZlZHKGrjTWsOKKUWCnSAop/+sbwnmeoYCBR8N24MPhSbzYAAAAABJRU5ErkJggg==">\
                                             </span>\
                                             <span class="action-item burying {{if data.config.boost == 0}}disabled{{/if}} {{if data.score <= 0}}disabled{{/if}}">\
-                                              <span class="tooltiptext">Lower</span>\
+                                              <span class="tooltiptext">{{html langTranslator("sa_sdk_lower")}}</span>\
                                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADJSURBVHgBdZDRDYIwEIZbEFKDTRiBEVzBSfDRmBRxA11BX3xTJ3AE4ghOgE7ggyaalvbskZCUWP633n253neUC31USm6/h/GdeJKWkDXG5AFQ84jiuGKLT+aDNJiKEEPbwqRQG17o2oUR4itdYw/ftGtggZIgV1LOGGMEJwGY83sX9UEXxqoLeYNwImT51+DCXHwiXZKlnOJlrLW+DVkjFIxCaw3XQet2UqGfXDTzQeswCNN2EsD6tR+demDP2p7RhfzLW+PuOzc/5PRxOXt0QzUAAAAASUVORK5CYII=">\
                                             </span>\
                                           </div>\
@@ -109,7 +109,7 @@
                                         {{if data.addedResult && data.addedResult == true}}\
                                           <div class="actions-content manually_added_pin">\
                                             <span class="action-item unpin_added_result">\
-                                              <span class="tooltiptext">Unpinning will remove the result</span>\
+                                              <span class="tooltiptext sdk-i18n-lang"  sdk-i18n-key="sa_sdk_unpinning_will_remove_the_result">{{html langTranslator("sa_sdk_unpinning_will_remove_the_result")}}</span>\
                                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGFSURBVHgBxVK/S8NAFH53SaugKQHpntp/oBlcBAdxcmsXKS5aJxX7Y3Jw0U6OFaluIl1EBUk3x4KTuLTgKNouQrGINyjV9HJnHxiN/YW6+EFI7uW9777vuwP4gJZ2DoeXmwb8EtT9UAjN+nxDfyL5hJ6RhpYUJS9Ju6ZrKafaj5h6F2yH1BSFJFDJ9b20pJQ4pLcfw+f3l3qR0M4CklxtEFg/E9G7BpQmw7BACKmAlNl+JF3AnW8fZHV215EXN0JmTmQU61qSL3baUeF7BrojRDmQFmCMgb43T2D7XEI+TnL8iEPhkmxiGyp5BQj1yoBJEAVsqjZErP7MzXyc1taOhTE3Qa2pMBRatm0qlJoDLYymWluu1NOyHUEbaAdtte3p3l61ZwZcFokKaZS6dCASoaBkxRXKZnKS1Z/ekIC5vV2nMLJqR6iqWII702iHUGrVHoGNB8FkTRIbeNlwGKXju9MOfAXdddn6Dnv/eddeEuIWAylRdjhPvOz7K/ADIAl4svg/vANVesefO32vSgAAAABJRU5ErkJggg==">\
                                             </span>\
                                           </div>\
@@ -119,55 +119,55 @@
                                         <div class="appearences-count count">\
                                           <span class="tooltip-appearnces">\
                                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADqSURBVHgBTU/BTcNAEJzxnRDiAyVQAukASuALj+APPG0qcFIB+BVFPI4IIp4pAVMBLbgE54eSnIc9FKPs47Q7M7czS+xrFt4uPV0l6ALgGYFG0uI+v31NfJael8VH5ZiteukrajPaSqOdiUBWiUsazsLyzhkQxStgd24fxmljVKwB3zr231H9debJMaTpXrSCuJawdnSfCbO+tr7yKdMWeDyiezLr+iG/mSSreVi2hC97oHRQYRnZnGDTCujsgBb/pc5Rp8f46WxoOMDz8F6SWWHZ8jSbXUiRhquJgzK7CYnib584tRjPA/cLSnRp8KbGJuoAAAAASUVORK5CYII=">\
-                                          <span class="tooltip_text">Appearances</span>\
+                                          <span class="tooltip_text sdk-i18n-lang"  sdk-i18n-key="sa_sdk_appearances">{{html langTranslator("sa_sdk_appearances")}}</span>\
                                           </span>\
                                           <span class="count">${data.feedback?.appearances}</span>\
                                         </div>\
                                         <div class="appearences-count count">\
                                         <span class="tooltip-appearnces-clicks">\
                                           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEMSURBVHgBnZK/bcJQEMbvniFJmRGSDZINnA2SEijgioConA1iNkgqlKS4IASUwAaMABPgEWgBoeMOyQiZh0F8hU86v9/9+d5DyOivM/gUkRgR4/dqqQUeuWzCgI3go0U4IedLNqmUQI4cXKFC3s/f/74gwEQAwsMdcyHbLUCZ7yLIXIvsDHLmllW0mIXS3dKYGoQGrEWei4isVUaWrNfKmDeyU4+/DdAqbwq8wgVydap8iMBMZx8aqLnpWcg+DSrXtMv4APSPxvykIdnfU4MqcQoy872XwrtIz3SOFv7hntla1V1bG1hNmkRJm/mhgLeR3VdRli9el9rcDQMMIn2JoZa3rol1uIHVFxEttjVMjEnBcNKUAAAAAElFTkSuQmCC">\
-                                          <span class="tooltip_text">Clicks</span>\
+                                          <span class="tooltip_text sdk-i18n-lang" sdk-i18n-key="sa_sdk_clicks">{{html langTranslator("sa_sdk_clicks")}}</span>\
                                         </span>\
                                         <span class="count">${data.feedback?.clicks}</span>\
                                         </div>\
                                         {{if !data.addedResult || data.addedResult == false}}\
                                           <div class="appearences-count customize-chips bg-data record-status-pinned" style="display : {{if data.config.pinIndex >= 0}}block{{else}}none{{/if}}">\
                                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD7SURBVHgBhZB/asJQDMeTZy0dW0eP0N1Aj9ATjJ1A9p8MVnYEvcFgMPxTT6A38Aj2BnqEgojSviYm/oAnvmLg8SD5fpNPgtASyQ8nDdGqrqrsMHnaXPMG2iORl3bDcBkN9+lDAxG8I2IBzGPXFPjEcc4DBhpR3WS7/7CIvy2oCYb7DF1eF4fsWfz8VfVM0JlfEMsTUvmLpXScaZKJPjvGvKlYGqWmK2LBkuX7ku+ji/KS1yMEM9DLRFFUNixTicfbv2DqXZotL3SK8lpre8AArvjGcGVVdsVDY+aee5yv5Ig/lF1SheCB4t05VBznzVp/X+3O8JrTyltoiSM5w31qLIEkiwAAAABJRU5ErkJggg==">\
-                                            <span class="count">PINNED</span>\
+                                            <span class="count sdk-i18n-lang" sdk-i18n-key="sa_sdk_pinned_caps">{{html langTranslator("sa_sdk_pinned_caps")}}</span>\
                                           </div>\
                                           <div class="appearences-count customize-chips bg-data record-status-hidden" style="display : {{if data.config.visible == false}}block{{else}}none{{/if}}">\
-                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEgSURBVHgB3VLRTcNADLUv4VREI90IYQPYACagnaDwh1ALHaGZAFQkxF9H6AjABGSEbEBQQaDcnc25JSgqCPWvVS1Z8vme37MtA6zbcDnR7tsjiNQJMnTCM12AMGfm3Noq+7zfLZp49YtSqWtgerVVdTwbRyjunTsD4KdY66kZsoHNM5l776I6WBUfxkiTvpMdLXYQlmSiOJ6sSuCZHkKR+SEgooIhsA7o3yXJX3LlJ8BgyFM+F5ekJ3om57sYYwdB9YA5E8D7nZ6DWucfqdatHgMNiX0GHh5VHE0jpQ6xZi5vsJRYFJg4BUSD33fAAEUgLQN5ObtV3WYNLrcYunkJN7AvB9O+tCPJv413RnWnolqL/WnSbh0nA3cq3hSA7bMvciOL7FwWG34AAAAASUVORK5CYII=">\
-                                            <span class="count">HIDDEN</span>\
+                                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEgSURBVHgB3VLRTcNADLUv4VREI90IYQPYACagnaDwh1ALHaGZAFQkxF9H6AjABGSEbEBQQaDcnc25JSgqCPWvVS1Z8vme37MtA6zbcDnR7tsjiNQJMnTCM12AMGfm3Noq+7zfLZp49YtSqWtgerVVdTwbRyjunTsD4KdY66kZsoHNM5l776I6WBUfxkiTvpMdLXYQlmSiOJ6sSuCZHkKR+SEgooIhsA7o3yXJX3LlJ8BgyFM+F5ekJ3om57sYYwdB9YA5E8D7nZ6DWucfqdatHgMNiX0GHh5VHE0jpQ6xZi5vsJRYFJg4BUSD33fAAEUgLQN5ObtV3WYNLrcYunkJN7AvB9O+tCPJv413RnWnolqL/WnSbh0nA3cq3hSA7bMvciOL7FwWG34AAAAASUVORK5CYII=">\
+                                          <span class="count sdk-i18n-lang" sdk-i18n-key="sa_sdk_hidden_caps">{{html langTranslator("sa_sdk_hidden_caps")}}</span>\
                                           </div>\
                                           <div class="appearences-count customize-chips bg-data record-status-boosted {{if data.config.boost > 1}}display-block{{/if}}">\
                                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBfY/BCcJAEEVnNiKKrGgHKSElmA7swBxFJEkHYgfRg3jTTtKCHSQdKIIoMTtjNhgI65o5fh5//gMwbhxyJNfl3MyFAW0YKAaBJxnywgp+oeBdFD6VygegxIRrSIYqGyyfbpONVoVXZdcGxnbT6zjM2wUaFj0nrR7Hglh5Nkjf49C/1DOYZmCz1l/MHC3WgU6Rxfm+x22ntYPCZ6Tgp9lmPYnZlZHKGrjTWsOKKUWCnSAop/+sbwnmeoYCBR8N24MPhSbzYAAAAABJRU5ErkJggg==">\
-                                            <span class="count boosted">${data.config.boost}X BOOSTED</span>\
+                                            <span class="count boosted">${data.config.boost}X <span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_boosted_caps">{{html langTranslator("sa_sdk_boosted_caps")}}</span></span>\
                                           </div>\
                                           <div class="appearences-count customize-chips bg-data record-status-lowered {{if data.config.boost < 1}}display-block{{/if}}">\
                                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADJSURBVHgBdZDRDYIwEIZbEFKDTRiBEVzBSfDRmBRxA11BX3xTJ3AE4ghOgE7ggyaalvbskZCUWP633n253neUC31USm6/h/GdeJKWkDXG5AFQ84jiuGKLT+aDNJiKEEPbwqRQG17o2oUR4itdYw/ftGtggZIgV1LOGGMEJwGY83sX9UEXxqoLeYNwImT51+DCXHwiXZKlnOJlrLW+DVkjFIxCaw3XQet2UqGfXDTzQeswCNN2EsD6tR+demDP2p7RhfzLW+PuOzc/5PRxOXt0QzUAAAAASUVORK5CYII=">\
-                                            <span class="count lowered">${data.config.boost}X LOWERED</span>\
+                                            <span class="count lowered">${data.config.boost}X <span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_lowered_caps">{{html langTranslator("sa_sdk_lowered_caps")}}</span></span>\
                                           </div>\
                                         {{/if}}\
                                         {{if data.addedResult && data.addedResult == true}}\
                                           <div class="appearences-count bg-data">\
                                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
-                                            <span class="count">PINNED</span>\
+                                            <span class="count sdk-i18n-lang" sdk-i18n-key="sa_sdk_pinned_caps">{{html langTranslator("sa_sdk_pinned_caps")}}</span>\
                                           </div>\
                                           <div class="appearences-count bg-data">\
-                                            <span class="count">MANUALLY ADDED</span>\
+                                            <span class="count sdk-i18n-lang" sdk-i18n-key="sa_sdk_manually_added_caps">{{html langTranslator("sa_sdk_manually_added_caps")}}D</span>\
                                           </div>\
                                         {{/if}}\
                                         {{if data.sys_content_type === "faq"}}\
-                                          <div class="tag-ref">FAQ Response</div>\
+                                          <div class="tag-ref sdk-i18n-lang" sdk-i18n-key="sa_sdk_faq_response">{{html langTranslator("sa_sdk_faq_response")}}</div>\
                                         {{/if}}\
                                         {{if data.sys_content_type === "web"}}\
-                                          <div class="tag-ref">WEB Response</div>\
+                                          <div class="tag-ref sdk-i18n-lang" sdk-i18n-key="sa_sdk_web_response">{{html langTranslator("sa_sdk_web_response")}}</div>\
                                         {{/if}}\
                                         {{if data.sys_content_type === "file"}}\
-                                          <div class="tag-ref">FILE Response</div>\
+                                          <div class="tag-ref sdk-i18n-lang" sdk-i18n-key="sa_sdk_file_response">{{html langTranslator("sa_sdk_file_response")}}</div>\
                                         {{/if}}\
                                         {{if data.sys_content_type === "data"}}\
-                                          <div class="tag-ref">DATA Response</div>\
+                                          <div class="tag-ref sdk-i18n-lang" sdk-i18n-key="sa_sdk_data_response">{{html langTranslator("sa_sdk_data_response")}}</div>\
                                         {{/if}}\
                                     </div>\
                                   </div>\
@@ -191,7 +191,7 @@
                           </li>\
                         {{/each}}\
                         <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-                            <div class="searchassist-show-more-button">Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+                            <div class="searchassist-show-more-button"><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_show_more">{{html langTranslator("sa_sdk_show_more")}}</span> <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
                       </div>\
                       </ul>\
                       <!-- <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div> -->\
@@ -218,7 +218,7 @@
               {{/if}}\
                {{/each}}\
                <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-               <div class="searchassist-show-more-button">Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+               <div class="searchassist-show-more-button"><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_show_more">{{html langTranslator("sa_sdk_show_more")}}</span> <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
            </div>\
               </div>\
               {{/if}}\
@@ -247,7 +247,7 @@
               {{/if}}\
               {{/each}}\
               <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-              <div class="searchassist-show-more-button">Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+              <div class="searchassist-show-more-button"><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_show_more">{{html langTranslator("sa_sdk_show_more")}}</span> <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
           </div>\
             {{/if}}\
               </script>',
@@ -276,7 +276,7 @@
               {{/if}}\
               {{/each}}\
             <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-            <div class="searchassist-show-more-button">Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+            <div class="searchassist-show-more-button"><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_show_more">{{html langTranslator("sa_sdk_show_more")}}</span> <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
            </div>\
             {{/if}}\
               </script>',
@@ -318,7 +318,7 @@
                     {{/if}}\
                   {{/each}}\
                   <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-                  <div class="searchassist-show-more-button">Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+                  <div class="searchassist-show-more-button"><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_show_more">{{html langTranslator("sa_sdk_show_more")}}</span> <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
               </div>\
             {{/if}}\
               </script>',
@@ -341,7 +341,7 @@
                 </div>\
                   {{/each}}\
                   <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-                  <div class="searchassist-show-more-button">Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+                  <div class="searchassist-show-more-button"><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_show_more">{{html langTranslator("sa_sdk_show_more")}}</span> <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
               </div>\
               </div>\
             {{/if}}\
@@ -368,7 +368,7 @@
               {{/if}}\
               {{/each}}\
               <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-               <div class="searchassist-show-more-button">Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+               <div class="searchassist-show-more-button"><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_show_more">{{html langTranslator("sa_sdk_show_more")}}</span> <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
             </div>\
             {{/if}}\
               </script>',
@@ -394,7 +394,7 @@
               {{/if}}\
               {{/each}}\
               <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-               <div class="searchassist-show-more-button">Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+               <div class="searchassist-show-more-button"><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_show_more">{{html langTranslator("sa_sdk_show_more")}}</span> <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
             </div>\
             {{/if}}\
               </script>',
@@ -426,7 +426,7 @@
               {{/if}}\
               {{/each}}\
               <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-               <div class="searchassist-show-more-button">Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+               <div class="searchassist-show-more-button"><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_show_more">{{html langTranslator("sa_sdk_show_more")}}</span> <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
             </div>\
             {{/if}}\
               </script>',
@@ -468,7 +468,7 @@
                 {{/if}}\
                 {{/each}}\
                 <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-               <div class="searchassist-show-more-button">Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+               <div class="searchassist-show-more-button"><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_show_more">{{html langTranslator("sa_sdk_show_more")}}</span> <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
               </div>\
               {{/if}}\
               </script>',
@@ -498,7 +498,7 @@
               {{/if}}\
                 {{/each}}\
                 <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-               <div class="searchassist-show-more-button">Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+               <div class="searchassist-show-more-button"><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_show_more">{{html langTranslator("sa_sdk_show_more")}}</span> <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
               </div>\
               {{/if}}\
               </script>',
@@ -528,7 +528,7 @@
               </div>\
               {{/each}}\
               <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-               <div class="searchassist-show-more-button">Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+               <div class="searchassist-show-more-button"><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_show_more">{{html langTranslator("sa_sdk_show_more")}}</span> <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
                   </div>\
            </div>\
            {{/if}}\
@@ -558,7 +558,7 @@
                   </div>\
               {{/each}}\
               <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-               <div class="searchassist-show-more-button">Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+               <div class="searchassist-show-more-button"><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_show_more">{{html langTranslator("sa_sdk_show_more")}}</span> <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
               </div>\
               {{/if}}\
               </script>',
@@ -587,7 +587,7 @@
                   </div>\
               {{/each}}\
               <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-               <div class="searchassist-show-more-button">Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+               <div class="searchassist-show-more-button"><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_show_more">{{html langTranslator("sa_sdk_show_more")}}</span> <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
               </div>\
               {{/if}}\
               </script>',
@@ -617,7 +617,7 @@
                   </div>\
               {{/each}}\
               <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-               <div class="searchassist-show-more-button">Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+               <div class="searchassist-show-more-button"><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_show_more">{{html langTranslator("sa_sdk_show_more")}}</span> <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
               </div>\
               {{/if}}\
               </script>',
@@ -910,7 +910,7 @@
               </div>\
               {{/each}}\
               <div class="show-more-list {{if doc_count==0 || doc_count<6 || isLiveSearch || isSearch}}display-none{{/if}}" groupName="${groupName}" templateName="${templateName}" pageNumber="${pageNumber}" fieldName="${fieldName}">\
-               <div class="searchassist-show-more-button">Show more <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
+               <div class="searchassist-show-more-button"><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_show_more">{{html langTranslator("sa_sdk_show_more")}}</span> <img src="{{if devMode}}assets/web-kore-sdk/demo/{{/if}}images/show_more.png" height="6" width="10" /></div>\
             </div>\
               </div>\
           </script>',
