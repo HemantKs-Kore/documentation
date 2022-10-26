@@ -154,7 +154,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
   cancel(properties?,index?){
     const name = this.searchFieldProperties[index].fieldName.replaceAll('_', '')
     this.searchFieldProperties[index].properties['slider'] = new RangeSlider(0, 10, 1, properties.weight, name + index,'',false)
-   
+    this.fetchPropeties();
   }
   saveAPI(selectedProperties, fieldId,i?){
     const quaryparms: any = {
