@@ -2,7 +2,7 @@
     <div class="header-sec col-12 row m-0">
         <div class="col-4 lef-sec p-0" *ngIf="!(selcectionObj?.selectedItems && selcectionObj?.selectedCount)">
             <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-            <span class="title">{{"businessRules.business_rules"| translate}}
+            <span class="title">{{"businessRules_business_rules"| translate}}
                 <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
  placement="right-center"(click)="openUserMetaTagsSlider()">
                     <i class="si-topic-guide-1"></i>
@@ -14,12 +14,12 @@
                 <span class="mr-1">
                     <img (click)="selectAllFromPartial()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
                 </span>
-                <span class="pl-3">{{ selcectionObj.selectedCount }} {{ (selcectionObj.selectedCount>1?"businessRules.rules_selected":"businessRules.rule_selected") | translate }}</span>
+                <span class="pl-3">{{ selcectionObj.selectedCount }} {{ (selcectionObj.selectedCount>1?"businessRules_rule_selected":"businessRules_rule_selected") | translate }}</span>
             </div>
             <div class="kr-sg-checkbox m-0" *ngIf="selcectionObj.selectAll">
                 <input id="checkbox-1" class="checkbox-custom" type="checkbox" [(ngModel)]="selcectionObj.selectAll" (change)="selectAll()" />
                 <label for="checkbox-1" class="checkbox-custom-label"></label>
-                <span class="allselected">{{ selcectionObj.selectedCount }} {{ (selcectionObj.selectedCount>1?"businessRules.rules_selected":"businessRules.rule_selected") | translate }}</span>
+                <span class="allselected">{{ selcectionObj.selectedCount }} {{ (selcectionObj.selectedCount>1?"businessRules_rule_selected":"businessRules_rule_selected") | translate }}</span>
             </div>
         </div>
         <div class="col-8 right-sec p-0" *ngIf="!( selcectionObj?.selectedItems && selcectionObj?.selectedCount)">
@@ -28,9 +28,9 @@
     </div>
     <div class="header-tabs-rules col-12 row m-0">
         <div class="left-tabs col-4 p-0">
-            <div class="tab-name-text" [ngClass]="{'active-tab-rule':selcectionObj?.ruleType==='contextual'}" (click)="selectRuleType('contextual')"><span>{{"businessRules.contextual"| translate}} {{"businessRules.rules"| translate}}</span></div>
+            <div class="tab-name-text" [ngClass]="{'active-tab-rule':selcectionObj?.ruleType==='contextual'}" (click)="selectRuleType('contextual')"><span>{{"businessRules_contextual"| translate}} {{"businessRules_rules"| translate}}</span></div>
             <i class="si-help info-icon" placement="right" [ngbTooltip]="('businessRules.contextual_rules_allow'| translate)" [container]='"body"' tooltipClass="metrics_tooltips m-0"></i>
-            <div class="tab-name-text" [ngClass]="{'active-tab-rule':selcectionObj?.ruleType==='nlp'}" (click)="selectRuleType('nlp')"><span>{{"businessRules.nlp"| translate}} {{"businessRules.rules"| translate}}</span></div>
+            <div class="tab-name-text" [ngClass]="{'active-tab-rule':selcectionObj?.ruleType==='nlp'}" (click)="selectRuleType('nlp')"><span>{{"businessRules_nlp"| translate}} {{"businessRules_rules"| translate}}</span></div>
         </div>
         <div class="right-contnet col-8 p-0 justify-content-end">
             <div class="kr-sg-input-search">
@@ -46,18 +46,18 @@
             <ng-container>
                 <div class="add-rule-text" (click)="createNewRule()">
                     <i class="si-add-plus"></i>
-                    <span>Add {{selcectionObj?.ruleType==='contextual'?("businessRules.contextual"| translate):("businessRules.nlp"| translate)}} {{"businessRules.rule"| translate}}</span>
+                    <span>Add {{selcectionObj?.ruleType==='contextual'?("businessRules_contextual"| translate):("businessRules_nlp"| translate)}} {{"businessRules_rule"| translate}}</span>
                 </div>
             </ng-container>
             <div class="ml-3 pl-1" *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">
-                <button class="kr-sg-button-danger btn_lg" (click)="deleteMultiePop()"><i class="si-delete1 mr-2"></i>{{ "businessRules.delete" | translate }}</button>
+                <button class="kr-sg-button-danger btn_lg" (click)="deleteMultiePop()"><i class="si-delete1 mr-2"></i>{{ "businessRules_delete" | translate }}</button>
             </div>
         </div>
     </div>
 
     <div class="mainLoadingSpinner" *ngIf="loadingContent">
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-        <span class="please-wait-message">{{"businessRules.please_wait"| translate}}</span>
+        <span class="please-wait-message">{{"sa_please_wait"| translate}}</span>
     </div>
 
     <!-- Table default header -->
@@ -78,9 +78,9 @@
                     {{ "businessRules_name_caps" | translate }}
                 </div>
             </div>
-            <div class="col-3 content" *ngIf="selcectionObj?.ruleType === 'contextual'">{{ "businessRules.condition_caps" | translate }}</div>
-            <div class="col-3 content" *ngIf="selcectionObj?.ruleType === 'nlp'">{{ "businessRules.tags" | translate }}</div>
-            <div class="col-3 content">{{ "businessRules.outcome_caps" | translate }}</div>
+            <div class="col-3 content" *ngIf="selcectionObj?.ruleType === 'contextual'">{{ "businessRules_condition_caps" | translate }}</div>
+            <div class="col-3 content" *ngIf="selcectionObj?.ruleType === 'nlp'">{{ "businessRules_tags" | translate }}</div>
+            <div class="col-3 content">{{ "businessRules_outcome_caps" | translate }}</div>
             <div class="col-3 content cursor-pointer d-flex align-items-center" (click)="sortByApi('isRuleActive')">
                 <span class="d-flex align-items-center flex-column mr-1">
                     <img [ngClass]="getSortIconVisibility('isRuleActive', 'down')" src="assets/icons/caretDown.svg" class="sortImg downArrow">
@@ -117,14 +117,14 @@
                 <div class="img-block">
                     <img src="assets/icons/businessrules/b-rules-empty.svg">
                 </div>
-                <div class="empty-title">{{selcectionObj?.ruleType==='contextual'?("businessRules.no_contextual_rule"| translate):("businessRules.no_nlp_rule"| translate)}}</div>
+                <div class="empty-title">{{selcectionObj?.ruleType==='contextual'?("businessRules_no_contextual_rule"| translate):("businessRules_no_nlp_rule"| translate)}}</div>
                 <div>
-                    <button class="kr-sg-button-primary btn_lg" (click)="createNewRule()"><i class="si-add-plus-white mr-2"></i>{{"businessRules.add"| translate}} {{selcectionObj?.ruleType==='contextual'?("businessRules.contextual"| translate):("businessRules.nlp"| translate)}} {{"businessRules.rule"| translate}}</button>
+                    <button class="kr-sg-button-primary btn_lg" (click)="createNewRule()"><i class="si-add-plus-white mr-2"></i>{{"businessRules_add"| translate}} {{selcectionObj?.ruleType==='contextual'?("businessRules_contextual"| translate):("businessRules_nlp"| translate)}} {{"businessRules_rule"| translate}}</button>
                 </div>
                 <div class="info-data-box">
-                    <div class="text-info-empty" [ngClass]="{'d-none':(selcectionObj?.ruleType==='nlp')}">{{"businessRules.contextual_rules_allow"| translate}}<br/>{{"businessRules.contextual_rules_are"| translate}}</div>
-                    <div class="text-info-empty" [ngClass]="{'d-none':(selcectionObj?.ruleType==='contextual')}">{{"businessRules.try_adding_nlp"| translate}}</div>
-                    <div class="text-info-empty">{{"businessRules.not_sure_what_are"| translate}} {{selcectionObj?.ruleType==='contextual'?("businessRules.contextual"| translate):("businessRules.nlp"| translate)}} {{"businessRules.rules_small"| translate}}? {{"businessRules.visit_our"| translate}} <a [href]="selcectionObj.supportURL" target="blank">{{"businessRules.support"| translate}} <i class="si-external-horizantal"></i></a></div>
+                    <div class="text-info-empty" [ngClass]="{'d-none':(selcectionObj?.ruleType==='nlp')}">{{"businessRules_contextual_rules_allow"| translate}}<br/>{{"businessRules.contextual_rules_are"| translate}}</div>
+                    <div class="text-info-empty" [ngClass]="{'d-none':(selcectionObj?.ruleType==='contextual')}">{{"businessRules_try_adding_nlp"| translate}}</div>
+                    <div class="text-info-empty">{{"businessRules.not_sure_what_are"| translate}} {{selcectionObj?.ruleType==='contextual'?("businessRules_contextual"| translate):("businessRules_nlp"| translate)}} {{"businessRules_rules_small"| translate}}? {{"businessRules_visit_our"| translate}} <a [href]="selcectionObj.supportURL" target="blank">{{"businessRules_support"| translate}} <i class="si-external-horizantal"></i></a></div>
                 </div>
             </div>
         </perfect-scrollbar>
@@ -166,7 +166,7 @@
                                             <span *ngIf="!numIndex"> - </span>
                                         </span>
                                     </span>
-                                    <span class="divider" *ngIf="valueIndex < rule.value.length - 1">{{ "or_caps" |translate}}</span>
+                                    <span class="divider" *ngIf="valueIndex < rule.value.length - 1">{{ "businessRules_or_caps" |translate}}</span>
                                 </ng-container>
                             </div>
                         </div>
@@ -195,7 +195,7 @@
                             <span class="outer-name mr-1 mb-1">{{"businessRules." + outcome.outcomeOperator |translate}}</span>
                             <span class="tags-input mr-1 mb-1 outcome-tags-input">{{ outcome.fieldName }}:
                                 <span *ngFor="let value of outcome.outcomeValue;let valueIndex = index" container="body" ngbTooltip="{{value}}">{{ value }}
-                                    <span *ngIf="valueIndex < outcome.outcomeValue.length - 1" class="divider ">{{"or_caps" | translate }}</span>
+                                    <span *ngIf="valueIndex < outcome.outcomeValue.length - 1" class="divider ">{{"businessRules_or_caps" | translate }}</span>
                                 </span>
                             </span>
                         </div>
@@ -212,8 +212,8 @@
                             <input type="checkbox" checked [(ngModel)]="ruleObj.isRuleActive" (click)="updateRuleStatus(ruleObj,$event)">
                             <div class="slider"></div>
                         </label>
-                        <span class="active-status ml-2" *ngIf="ruleObj.isRuleActive"><span class="indication"></span>{{"businessRules.active" | translate }}</span>
-                        <span class="in-active-status ml-2" *ngIf="!ruleObj.isRuleActive"><span class="indication"></span>{{"businessRules.In-Active" | translate }}</span>
+                        <span class="active-status ml-2" *ngIf="ruleObj.isRuleActive"><span class="indication"></span>{{"businessRules_active" | translate }}</span>
+                        <span class="in-active-status ml-2" *ngIf="!ruleObj.isRuleActive"><span class="indication"></span>{{"businessRules_In-Active" | translate }}</span>
                     </div>
                     <div class="actions-icons">
                         <span class="edit-icon" (click)="editRule(ruleObj)" ngbTooltip='Edit' [container]="'body'" tooltipClass="tooltip-global-" placement="top-center">
@@ -226,26 +226,26 @@
                 </div>
             </div>
             <div class="divBlockEmptylastChild text-center">
-                <div class="desc">{{"businessRules.no_search_results"| translate}}</div>
+                <div class="desc">{{"businessRules_no_search_results"| translate}}</div>
             </div>
             <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
         </perfect-scrollbar>
         <div class="empty-rules" *ngIf="!loadingContent && !(rules && beforeFilterRules && beforeFilterRules.length)">
             <img src="assets/images/icons/empty_ill.svg" />
-            <div class="heading">{{"businessRules.no_rules_found"| translate}}</div>
-            <div class="desc">{{"businessRules.plz_add_rules"| translate}}</div>
+            <div class="heading">{{"businessRules_no_rules_found"| translate}}</div>
+            <div class="desc">{{"businessRules_plz_add_rules"| translate}}</div>
         </div>
     </div>
 </div>
 
 <kr-modal modalType="center" #addBusinessRules modalClass="modal_popups_ business-rules-popup">
     <div class="modal-header">
-        <div class="title font-weight-bold">{{ (addEditRuleObj._id ?"businessRules.edit_rule" :"businessRules.add_rule")| translate }}</div>
+        <div class="title font-weight-bold">{{ (addEditRuleObj._id ?"businessRules.edit_rule" :"businessRules_add_rule")| translate }}</div>
         <label class="kr-sg-toggle toggle-switch">
             <input type="checkbox" [(ngModel)]="addEditRuleObj.isRuleActive" />
             <div class="slider">
-                <span class="enabled">{{"businessRules.rule_active" | translate}}</span>
-                <span class="disabled">{{"businessRules.rule_in_active" | translate}}</span>
+                <span class="enabled">{{"businessRules_rule_active" | translate}}</span>
+                <span class="disabled">{{"businessRules_rule_in_active" | translate}}</span>
             </div>
         </label>
         <div class="close_icon" (click)="closeModalPopup()">
@@ -258,7 +258,7 @@
     <div class="modal-body">
         <div class="col-6 rule-name-input">
             <div class="kr-sg-input-text">
-                <div class="label-text">{{ "businessRules.rule_name" | translate }}</div>
+                <div class="label-text">{{ "businessRules_rule_name" | translate }}</div>
                 <input type="text" placeholder="Rule Name" class="input-text" maxlength="60" [(ngModel)]="addEditRuleObj.ruleName" [ngClass]="{'err-block' : (!addEditRuleObj.ruleName.length && submitted)}">
             </div>
         </div>
@@ -268,7 +268,7 @@
                     <div class="info-rule-contnet">
                         <div class="title-data">
                             <img src="assets/icons/business-rules/ifcondition.svg">
-                            <div class="text-title">{{ "businessRules.condition" | translate }}</div>
+                            <div class="text-title">{{ "businessRules_condition" | translate }}</div>
                             <span class="info-tooltip-data" *ngIf="selcectionObj?.ruleType==='contextual'">
                                 <i class="si-help"></i>
                                 <div class="conditon-info-tooltip">
@@ -290,7 +290,7 @@
                                 </div>
                             </span>
                         </div>
-                        <div class="sub-text text-truncate">{{"businessRules.the_context_selection"| translate}}</div>
+                        <div class="sub-text text-truncate">{{"businessRules_the_context_selection"| translate}}</div>
                     </div>
                     <div class="conditions-sec-data" *ngIf="selcectionObj?.ruleType==='contextual'">
                         <perfect-scrollbar class="scoll-data">
@@ -302,7 +302,7 @@
                                             <i class="si-close"></i>
                                         </div>
                                         <div class="row-input-data row col-12">
-                                            <div class="col-12 column-sec title-info">{{"businessRules.select_context"| translate}}</div>
+                                            <div class="col-12 column-sec title-info">{{"businessRules_select_context"| translate}}</div>
                                             <div class="col-4 column-sec">
                                                 <div class="kr-sg-dropdowns w-auto" ngbDropdown
                                                     [placement]="'bottom-right'">
@@ -404,7 +404,7 @@
                                                                     <mat-icon matChipRemove><img
                                                                             src="assets/images/close.svg" /></mat-icon>
                                                                 </mat-chip>
-                                                                <span>{{"businessRules.or"| translate}}</span>
+                                                                <span>{{"sa_or"| translate}}</span>
                                                             </ng-container>
                                                         </ng-container>
                                                         <ng-container
@@ -429,7 +429,7 @@
                                                                     <mat-icon matChipRemove><img
                                                                             src="assets/images/close.svg" /></mat-icon>
                                                                 </mat-chip>
-                                                                <span>{{"businessRules.or"| translate}}</span>
+                                                                <span>{{"sa_or"| translate}}</span>
                                                             </ng-container>
                                                         </ng-container>
                                                         <!-- <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator !== 'between')">
@@ -480,7 +480,7 @@
                                                                     <mat-icon matChipRemove><img
                                                                             src="assets/images/close.svg" /></mat-icon>
                                                                 </mat-chip>
-                                                                <span>{{"businessRules.or"| translate}}</span>
+                                                                <span>{{"sa_or"| translate}}</span>
                                                             </ng-container>
                                                         </ng-container>
                                                         <ng-container
@@ -498,7 +498,7 @@
                                                         <ng-container *ngIf="ruleObj.dataType == 'date'">
                                                             <ng-container *ngIf="ruleObj.operator === 'between'">
                                                                 <span class="select_data_placeholder w-120 py-1"
-                                                                    (click)="openDateTimePicker(ruleObj,ruleIndex)">{{"businessRules.select_range"| translate}}</span>
+                                                                    (click)="openDateTimePicker(ruleObj,ruleIndex)">{{"businessRules_select_range"| translate}}</span>
                                                                 <input class="dateRangePicker d-none"
                                                                     id="rangePicker_{{ruleIndex}}" ngxDaterangepickerMd
                                                                     #dateRangePicker placeholder="Select range"
@@ -509,7 +509,7 @@
                                                             </ng-container>
                                                             <ng-container *ngIf="ruleObj.operator !== 'between'">
                                                                 <span (click)="openDateTimePicker(ruleObj,ruleIndex)"
-                                                                    class="select_data_placeholder py-1">{{"businessRules.select_date"| translate}}</span>
+                                                                    class="select_data_placeholder py-1">{{"businessRules_select_date"| translate}}</span>
                                                                 <input class="singleDatePicker d-none"
                                                                     id="datePicker_{{ruleIndex}}"
                                                                     [singleDatePicker]="true" ngxDaterangepickerMd
@@ -534,19 +534,19 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="and-condition" *ngIf="rulesArrayforAddEdit && rulesArrayforAddEdit.length-1 !==ruleIndex">{{"businessRules.and"| translate}}</div>
+                                    <div class="and-condition" *ngIf="rulesArrayforAddEdit && rulesArrayforAddEdit.length-1 !==ruleIndex">{{"businessRules_and"| translate}}</div>
                                 </ng-container>
                                 <ng-container *ngIf="!rulesArrayforAddEdit.length">
                                     <div class="row m-0 col-12 info-warning-container">
                                         <div class="col-10 pl-0 w-text"><img
-                                                src="assets/icons/business-rules/warning-info.svg">{{"businessRules.define_rule_without_condition"| translate}}</div>
-                                        <div class="know-more col-2 pl-0 text-right">{{"businessRules.know_more"| translate}}</div>
+                                                src="assets/icons/business-rules/warning-info.svg">{{"businessRules_define_rule_without_condition"| translate}}</div>
+                                        <div class="know-more col-2 pl-0 text-right">{{"businessRules_know_more"| translate}}</div>
                                     </div>
                                 </ng-container>
                                 <!-- End repeat -->
                                 <div class="add-condition-btn" (click)="addNewRule()">
                                     <i class="si-add-plus"></i>
-                                    <span>{{"businessRules.add_condition"| translate}}</span>
+                                    <span>{{"businessRules_add_condition"| translate}}</span>
                                 </div>
                             </div>
                         </perfect-scrollbar>
@@ -558,7 +558,7 @@
                             <div class="kr-sg-input-text-area">
                                 <!-- <div class="label-text">NLP Annotator </div> -->
                                 <div class="title-data">
-                                    <div class="text-title">{{"businessRules.nlp_annotator"| translate}}</div>
+                                    <div class="text-title">{{"businessRules_nlp_annotator"| translate}}</div>
                                     <span class="info-tooltip-data">
                                         <i class="si-help"></i>
                                         <div class="conditon-info-tooltip">
@@ -572,14 +572,14 @@
                             </div>
                             <div class="kr-sg-btn">
                                 <button class="kr-sg-buttonicon-secondary" (click)="AddSelectedEnity()">
-                                    <i class="si-add-plus add-icon"></i> {{"businessRules.add"| translate}}
+                                    <i class="si-add-plus add-icon"></i> {{"businessRules_add"| translate}}
                                 </button>
                             </div>
                         </div>
                          <!-- nlp annotator text area end -->
                          <!-- nlp custom tag builder area start -->
                         <div class="nlp-custom-tag-block">
-                            <div class="nlp-tag-legend">{{"businessRules.legend"| translate}}:</div>
+                            <div class="nlp-tag-legend">{{"businessRules_legend"| translate}}:</div>
                             <div class="nlp-custom-tag-dynamic">
                                 <div class="nlp-custom-tag" *ngFor="let legend of nlpAnnotatorObj.Legends" [ngClass]="{'nlp-system-entity':legend.type==='system_defined','nlp-index-entity':legend.type==='index_field','nlp-custom-entity':legend.type==='custom'}"><span class="nlp-tag">{{legend.name}}</span></div> 
                                 <!-- <span class="close-tag"><i class="si-close"></i></span> -->
@@ -590,8 +590,8 @@
                          <!-- nlp annotator first time custom tag add start -->
                          <div class="nlp-first-custom-tag" *ngIf="nlpAnnotatorObj.annotator?.length===0">
                              <div class="nlp-first-custom-block">
-                                 <div class="nlp-first-custom-header">{{"businessRules.nlp_annotator"| translate}}</div>
-                                 <div class="nlp-first-custom-tag-name">{{"businessRules.i_am_looking_for"| translate}}</div>
+                                 <div class="nlp-first-custom-header">{{"businessRules_nlp_annotator"| translate}}</div>
+                                 <div class="nlp-first-custom-tag-name">{{"businessRules_i_am_looking_for"| translate}}</div>
                              </div>
                          </div>
                          <div class="nlp-custom-tag-generator-list" *ngIf="nlpAnnotatorObj.annotator?.length>0">
@@ -605,8 +605,8 @@
                                             <img class="action_icon" src="assets/images/overflow-elipse.svg">
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="nlpOverflowMenu">
-                                          <div class="dropdown-item" (click)="editAnnotatorSentence(i,annotator)"><span><img class="dropdown-list-icon" src="assets/images/edit-pencil.svg"></span> {{"businessRules.edit"| translate}}</div>
-                                          <div class="dropdown-item delete-item" (click)="deleteAnnotator(i)"><span><img class="dropdown-list-icon" src="assets/icons/delete-table.svg"></span> {{"businessRules.delete"| translate}}</div>
+                                          <div class="dropdown-item" (click)="editAnnotatorSentence(i,annotator)"><span><img class="dropdown-list-icon" src="assets/images/edit-pencil.svg"></span> {{"businessRules_edit"| translate}}</div>
+                                          <div class="dropdown-item delete-item" (click)="deleteAnnotator(i)"><span><img class="dropdown-list-icon" src="assets/icons/delete-table.svg"></span> {{"sa_delete"| translate}}</div>
                                         </div>
                                       </div>
                                    </div>
@@ -614,8 +614,8 @@
                                 <div class="nlp-preview-block" *ngIf="annotator.isEditable">
                                     <div class="nlp-preview-header"></div> <!--<span class="warning-span"><img src="assets/images/warning.svg" class="warning-icon "/></span>Please tag  <span class="nlp-custom-tag"><span class="nlp-tag">Topic</span></span>-->
                                     <div class="nlp-preview-action-list">
-                                        <div class="nlp-preview-action-done" (click)="AddSelectedEnity()"><span class="nlp-preview-action-span"><img src="assets/images/check-primary.svg" class="warning-icon "/></span> {{"businessRules.done"| translate}}</div>
-                                        <div class="nlp-preview-action-cancel" (click)="cancelAnnotatorSentence(annotator)"><span class="nlp-preview-action-span"><img src="assets/images/close.svg" class="warning-icon "/></span> {{"businessRules.cancel"| translate}}</div>
+                                        <div class="nlp-preview-action-done" (click)="AddSelectedEnity()"><span class="nlp-preview-action-span"><img src="assets/images/check-primary.svg" class="warning-icon "/></span> {{"sa_done"| translate}}</div>
+                                        <div class="nlp-preview-action-cancel" (click)="cancelAnnotatorSentence(annotator)"><span class="nlp-preview-action-span"><img src="assets/images/close.svg" class="warning-icon "/></span> {{"sa_cancel"| translate}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -631,7 +631,7 @@
                     <div class="info-rule-contnet">
                         <div class="title-data">
                             <img src="assets/icons/business-rules/outcomesearch.svg">
-                            <div class="text-title">{{ "businessRules.outcome_caps_small" | translate }}</div>
+                            <div class="text-title">{{ "businessRules_outcome_caps_small" | translate }}</div>
                         </div>
                         <div class="sub-text text-truncate">{{ "businessRules.condition_desc_outcome" | translate }}</div>
                     </div>
@@ -641,13 +641,13 @@
                             <div class="inner-data-content">
                                 <!-- Repeat the data here conditions -->
                                 <ng-container *ngFor="let outcomeObj of outcomeArrayforAddEdit; let index = index">
-                                    <div class="outcome-number">{{ "businessRules.outcome_caps_small" | translate }} {{index+1}}</div>
+                                    <div class="outcome-number">{{ "businessRules_outcome_caps_small" | translate }} {{index+1}}</div>
                                     <div class="box-data-conditions">
                                         <div class="close-conditions" (click)="removeOutcome(index)" *ngIf="outcomeArrayforAddEdit.length>1">
                                             <i class="si-close"></i>
                                         </div>
                                         <div class="row-input-data row col-12">
-                                            <div class="col-12 column-sec title-info">{{"businessRules.action"| translate}}</div>
+                                            <div class="col-12 column-sec title-info">{{"businessRules_action"| translate}}</div>
                                             <div class="col-4 column-sec">
                                                 <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'">
                                                     <div class="dropdown dropdown-open">
@@ -678,7 +678,7 @@
                                             </div>
                                         </div>
                                         <div class="row-input-data row col-12">
-                                            <div class="col-12 column-sec title-info">{{"businessRules.response"| translate}}</div>
+                                            <div class="col-12 column-sec title-info">{{"businessRules_response"| translate}}</div>
                                             <div class="col-4 column-sec">
                                                 <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index">
                                                     <div class="dropdown dropdown-open">
@@ -732,8 +732,8 @@
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                                             <perfect-scrollbar class="scroll-max-200">
                                                                 <div class="scroll-max-200">
-                                                                 <li ngbDropdownItem (click)="outcomeSclection(outcomeObj,'static','outcomeValueType');" [ngClass]="{'font-weight-bold':outcomeObj.outcomeValueType==='static'}">{{"businessRules.static" | translate}}</li>
-                                                                 <li ngbDropdownItem (click)="outcomeSclection(outcomeObj,'dynamic','outcomeValueType');" [ngClass]="{'font-weight-bold':outcomeObj.outcomeValueType==='dynamic'}">{{"businessRules.dynamic" | translate}}</li>
+                                                                 <li ngbDropdownItem (click)="outcomeSclection(outcomeObj,'static','outcomeValueType');" [ngClass]="{'font-weight-bold':outcomeObj.outcomeValueType==='static'}">{{"businessRules_static" | translate}}</li>
+                                                                 <li ngbDropdownItem (click)="outcomeSclection(outcomeObj,'dynamic','outcomeValueType');" [ngClass]="{'font-weight-bold':outcomeObj.outcomeValueType==='dynamic'}">{{"businessRules_dynamic" | translate}}</li>
                                                                 </div>
                                                             </perfect-scrollbar>
                                                         </ul>
@@ -749,7 +749,7 @@
                                                                 <span class="mat-val" *ngIf="value" container="body" ngbTooltip="{{value}}">{{value}}</span>
                                                                 <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                                                             </mat-chip>
-                                                            <span>{{"businessRules.or"| translate}}</span>
+                                                            <span>{{"businessRules_or"| translate}}</span>
                                                         </ng-container>
                                                         <input #contextSuggestedImput
                                                         id="OutcomeInput"
@@ -776,7 +776,7 @@
                                 <!-- End repeat -->
                                 <div class="add-condition-btn" (click)="addNewOutcome()">
                                     <i class="si-add-plus"></i>
-                                    <span>{{"businessRules.add_condition"| translate}}</span>
+                                    <span>{{"businessRules_add_condition"| translate}}</span>
                                 </div>
                             </div>
                         </perfect-scrollbar>
@@ -789,11 +789,11 @@
         <div class="nlp-custom-tag-popup" id="tagDialog" [ngStyle]="{'visibility':nlpAnnotatorObj.showEntityPopup?'visible':'hidden','z-index':'9999'}">
             <div class="nlp-choose-tag" *ngIf="!nlpAnnotatorObj.isEditPage">
                 <div class="nlp-choose-tag-header">
-                    <span class="bot-tasks"><img src="assets/images/bot-tasks.svg" /></span> {{"businessRules.choose_tag"| translate}}
+                    <span class="bot-tasks"><img src="assets/images/bot-tasks.svg" /></span> {{"businessRules_choose_tag"| translate}}
                     <i class="si-close close-icon" (click)="createTag(false,false)"></i>
                 </div>
                 <div class="nlp-add-tag">
-                    <button class="kr-sg-button-ghost pl-0" type="button" (click)="chooseEntity('add')">+ {{"businessRules.add_tag"| translate}}</button>
+                    <button class="kr-sg-button-ghost pl-0" type="button" (click)="chooseEntity('add')">+ {{"businessRules_add_tag"| translate}}</button>
                 </div>
                 <div class="nlp-search-tag">
                     <div  class="kr-sg-input-search">
@@ -821,34 +821,34 @@
             </div>
             <div class="nlp-custom-add-tag" *ngIf="nlpAnnotatorObj.isEditPage">
                 <div class="nlp-choose-tag-header">
-                    <span class="bot-tasks"><img src="assets/images/bot-tasks.svg" /></span> {{nlpAnnotatorObj.entities.isEditable?'Edit':'Create'}} {{"businessRules.tag"| translate}}
+                    <span class="bot-tasks"><img src="assets/images/bot-tasks.svg" /></span> {{nlpAnnotatorObj.entities.isEditable?'Edit':'Create'}} {{"businessRules_tag"| translate}}
                 </div>
                 <div class="nlp-choose-tag-sub-header">
                     <div class="back-to-list" (click)="chooseEntity('remove')">
                         <span><img src="assets/images/back-arrow.svg" /></span> {{"businessRules.back"| translate}}
                     </div>
                     <div class="create-nlp-tag">
-                        <span class="choose-tag">{{"businessRules.choose_Tag"| translate}} </span> / {{nlpAnnotatorObj.entities.isEditable?'Edit':'Create'}} {{"businessRules.TAG"| translate}}
+                        <span class="choose-tag">{{"businessRules_choose_Tag"| translate}} </span> / {{nlpAnnotatorObj.entities.isEditable?'Edit':'Create'}} {{"businessRules_TAG"| translate}}
                     </div>
                 </div>
                 <div class="nlp-tag-form">
                     <div class="kr-sg-input-text form-group">
-                        <div  class="label-text">{{"businessRules.tag_name"| translate}}</div>
+                        <div  class="label-text">{{"businessRules_tag_name"| translate}}</div>
                         <input  class="input-text" placeholder="Type here..." type="text" [(ngModel)]="nlpAnnotatorObj.entities.entityName">
                     </div>
                     <div class="entity-radiobtn-group">
                         <div class="group-radiobutton">
-                            <div class="heading-title">{{"businessRules.entity_type"| translate}}</div>
+                            <div class="heading-title">{{"businessRules_entity_type"| translate}}</div>
                             <div class="kr-sg-radiobutton">
                                 <input id="radio-25" name="radio" class="radio-custom" type="radio" value="index_field" [(ngModel)]="nlpAnnotatorObj.entities.entityType" (click)="setModalHeight('index')">
                                 <label for="radio-25" class="radio-custom-label">
-                                    <span class="lable-truncate nlp-index-entity">{{"businessRules.index_field"| translate}}</span>
+                                    <span class="lable-truncate nlp-index-entity">{{"businessRules_index_field"| translate}}</span>
                                 </label>
                             </div>
                             <div class="kr-sg-radiobutton">
                                 <input id="radio-26" name="radio" class="radio-custom" type="radio" value="custom" [(ngModel)]="nlpAnnotatorObj.entities.entityType" (click)="setModalHeight('custom')">
                                 <label for="radio-26" class="radio-custom-label">
-                                    <span class="lable-truncate nlp-custom-entity">{{"businessRules.custom_entity"| translate}}</span>
+                                    <span class="lable-truncate nlp-custom-entity">{{"businessRules_custom_entity"| translate}}</span>
                                 </label>
                             </div>
                         </div>
@@ -871,8 +871,8 @@
                     </div>
 
                     <div class="btn-grp">
-                        <div class="btn-cancel"><button type="button" class="kr-sg-button-ghost" (click)="createTag(false,false)">{{"businessRules.cancel"| translate}}</button></div>
-                        <div class="btn-save"><button type="button" class="kr-sg-button-primary" (click)="addEntity()">{{"businessRules.tag_save"| translate}}</button></div>
+                        <div class="btn-cancel"><button type="button" class="kr-sg-button-ghost" (click)="createTag(false,false)">{{"sa_cancel"| translate}}</button></div>
+                        <div class="btn-save"><button type="button" class="kr-sg-button-primary" (click)="addEntity()">{{"businessRules_tag_save"| translate}}</button></div>
                     </div>
                 </div>
             </div>
@@ -880,10 +880,10 @@
     </div>
     <div class="modal-footer">
         <button class="kr-sg-button-primary btn_lg" *ngIf="addEditRuleObj._id"
-            (click)="updateRule(addEditRuleObj)">{{"businessRules.save"| translate}}</button>
-        <button class="kr-sg-button-primary btn_lg" *ngIf="!addEditRuleObj._id" (click)="createRule()">{{"businessRules.add"| translate}}</button>
+            (click)="updateRule(addEditRuleObj)">{{"businessRules_save"| translate}}</button>
+        <button class="kr-sg-button-primary btn_lg" *ngIf="!addEditRuleObj._id" (click)="createRule()">{{"businessRules_add"| translate}}</button>
         <button class="kr-sg-button-secondary btn_lg"
-            (click)="closeModalPopup()">Cancel</button>
+            (click)="closeModalPopup()">{{"businessRules_cancel"| translate}}</button>
     </div>
 
    
