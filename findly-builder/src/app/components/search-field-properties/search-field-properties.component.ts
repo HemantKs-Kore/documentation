@@ -145,12 +145,11 @@ export class SearchFieldPropertiesComponent implements OnInit {
     const name = this.searchFieldProperties[index].fieldName.replaceAll('_', '');
     this.searchFieldProperties[index].properties['slider'] = new RangeSlider(0, 10, 1, properties.weight, name + index,'',true)
     this.enableIndex = index;
-    this.selectedProperties =properties;
+    this.selectedProperties = Object.assign(this.selectedProperties, properties);
   }
   cancel(properties?,index?){
     const name = this.searchFieldProperties[index].fieldName.replaceAll('_', '')
     this.searchFieldProperties[index].properties['slider'] = new RangeSlider(0, 10, 1, properties.weight, name + index,'',false)
-    //this.fetchPropeties();
   }
   saveAPI(selectedProperties, fieldId,i?){
     const quaryparms: any = {
@@ -167,7 +166,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
       console.log(res);
       this.notificationService.notify('Updated Successfully', 'success');
     }, errRes => {
-      this.notificationService.notify('Updated Successfully', 'error');
+      this.notificationService.notify('Update Failed', 'error');
     });    
 
   
