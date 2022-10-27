@@ -5342,6 +5342,42 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           facets = [];
           var totalResultsCount = 0;
+            _self.countTotalResults(res, totalResultsCount);
+            _self.vars.totalNumOfResults = totalResultsCount;
+            facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
+            facets = facets.concat((res.tabFacet || {}).buckets || [])
+            facets = _self.rearrangeTabsList(facets);
+            if ((res.tasks || []).length) {
+              facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+            }
+            _self.vars.tabsList = facets;
+            _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
+            _self.pubSub.publish('sa-source-type', facets);
+            var dataObj = _self.vars.searchObject.liveData;
+            _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' });
+            _self.pubSub.publish('sa-search-facets', searchFacets);
+            if (!$('body').hasClass('top-down')) {
+
+              var container = $('#show-all-results-container');
+              var dataObj = _self.vars.searchObject.liveData;
+              var facetdata = _self.vars.searchFacetFilters;
+              _self.pubSub.publish('sa-search-full-results', { container: container, isFullResults: true, selectedFacet: 'all', isLiveSearch: false, isSearch: false, facetData: facetdata, dataObj });
+            }
+            else {
+
+              if (_self.isDev) {
+                $('.custom-header-container-center').removeClass('display-none');
+                if (_self.vars.customizeView) {
+                  $('.custom-add-result-container').removeClass('display-none');
+                } else {
+                  $(".query-analytics-control-container").hide();
+                }
+              }
+              // _self.prepAllSearchData(facetActive);
+              setTimeout(function () {
+                _self.bindStructuredDataTriggeringOptions();
+              }, 100);
+            }
           if (res.tabFacet && res.tabFacet.buckets && res.tabFacet.buckets.length) {
             res.tabFacet.buckets.forEach((tab) => {
               totalResultsCount = totalResultsCount + tab.doc_count;
@@ -5387,6 +5423,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 }
                 var publishSearchData = 'sa-' + groupName + '-search-data';
                 _self.pubSub.publish(publishSearchData, { container: '.full-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
+                setTimeout(() => {
+                  if (!$('.full-search-data-container').children().length) {
+                    if (_self.isDev) {
+                      $('.no-templates-defined-full-results-container').show();
+                    } else {
+                      $('.empty-full-results-container').removeClass('hide');
+                    }
+                  }
+                }, 500);
               });
               _self.vars.totalNumOfResults = totalResultsCount;
               res.results = results;
@@ -5429,41 +5474,41 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.empty-full-results-container').removeClass('hide');
             }
           }
-          _self.vars.totalNumOfResults = totalResultsCount;
-          facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
-          facets = facets.concat((res.tabFacet || {}).buckets || [])
-          facets = _self.rearrangeTabsList(facets);
-          if ((res.tasks || []).length) {
-            facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
-          }
-          _self.vars.tabsList = facets;
-          _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
-          _self.pubSub.publish('sa-source-type', facets);
-          var dataObj = _self.vars.searchObject.liveData;
-          _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' });
-          _self.pubSub.publish('sa-search-facets', searchFacets);
-          if (!$('body').hasClass('top-down')) {
+          // _self.vars.totalNumOfResults = totalResultsCount;
+          // facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
+          // facets = facets.concat((res.tabFacet || {}).buckets || [])
+          // facets = _self.rearrangeTabsList(facets);
+          // if ((res.tasks || []).length) {
+          //   facets.push({ key: "task", doc_count: (res.tasks || []).length, name: 'Actions' });
+          // }
+          // _self.vars.tabsList = facets;
+          // _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
+          // _self.pubSub.publish('sa-source-type', facets);
+          // var dataObj = _self.vars.searchObject.liveData;
+          // _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' });
+          // _self.pubSub.publish('sa-search-facets', searchFacets);
+          // if (!$('body').hasClass('top-down')) {
 
-            var container = $('#show-all-results-container');
-            var dataObj = _self.vars.searchObject.liveData;
-            var facetdata = _self.vars.searchFacetFilters;
-            _self.pubSub.publish('sa-search-full-results', { container: container, isFullResults: true, selectedFacet: 'all', isLiveSearch: false, isSearch: false, facetData: facetdata, dataObj });
-          }
-          else {
+          //   var container = $('#show-all-results-container');
+          //   var dataObj = _self.vars.searchObject.liveData;
+          //   var facetdata = _self.vars.searchFacetFilters;
+          //   _self.pubSub.publish('sa-search-full-results', { container: container, isFullResults: true, selectedFacet: 'all', isLiveSearch: false, isSearch: false, facetData: facetdata, dataObj });
+          // }
+          // else {
 
-            if (_self.isDev) {
-              $('.custom-header-container-center').removeClass('display-none');
-              if (_self.vars.customizeView) {
-                $('.custom-add-result-container').removeClass('display-none');
-              } else {
-                $(".query-analytics-control-container").hide();
-              }
-            }
-            // _self.prepAllSearchData(facetActive);
-            setTimeout(function () {
-              _self.bindStructuredDataTriggeringOptions();
-            }, 100);
-          }
+          //   if (_self.isDev) {
+          //     $('.custom-header-container-center').removeClass('display-none');
+          //     if (_self.vars.customizeView) {
+          //       $('.custom-add-result-container').removeClass('display-none');
+          //     } else {
+          //       $(".query-analytics-control-container").hide();
+          //     }
+          //   }
+          //   // _self.prepAllSearchData(facetActive);
+          //   setTimeout(function () {
+          //     _self.bindStructuredDataTriggeringOptions();
+          //   }, 100);
+          // }
           _self.clickNavigateToUrl();
           setTimeout(() => {
             _self.bindCustomizeAction();
@@ -16292,7 +16337,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //   _self.checkBoostAndLowerTimes();
         // }, 400);
         _self.bindAllResultRankingOperations();
-        _self.bindShowAllResultsTrigger(showAllHTML, facetData, data);
+        _self.bindShowAllResultsTrigger(showAllHTML, facetData, data, true);
         setTimeout(() => {
           if (!$('body').hasClass('top-down')) {
             if (_self.isDev) {
@@ -17506,34 +17551,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         </div>\
         <div class="files-full-search-container matched-structured-data-contaniers">\
         </div>\
-        <div class="kore-sdk-pagination-div">\
-          <div class="kore-sdk-custom-pagination">\
-            <div class="kore-sdk-bottom-up-first pagination-tootlip-buttons">\
-              <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAAQABADAREAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD+zn9pz9o/XPhre6B8H/gxpfhzxb+0d8Q9H1XxB4esPF8t9B8MfhH8OtBmjh8WfH74+6vpdzZXXh34V+Et722l6XFqWk+IPin4vFt4F8I3th/xUvirwe0r77fi/JeYiT9mv49eP/2j9X8SfEbRPCulaJ+y3/ZVjpXwe8b61p+taZ49+POsxXLtrnxc8OaBd33keEPgTfQKlj8NW1221DxV8RoXm8cW0ujeDG8M3PjAat69fLy9e4LX0Iv2m/2bda+JWoaD8Yvg1q2g+Ef2jvh9oupeHdAvvFYvZfhj8Xfh1rU4uPFPwB+PujafZ6nL4g+FXi9g89jqtvpOp+Jvhj4qa38beD7e7ceIfDPisT6Pb8vNef5g/wAST9mv4C/ED9nDV/Enw50XxVpWufst/wBlWOq/B7wRrWo61qfj74DazLcuuufCLw5r93YeR4v+BNjAyXvw0Gu3On+KvhzAk3ge3i1nwYnhm38IDaevXr2fn5PuMP/Z">\
-              <span class="tooltip_text"> First</span>\
-              </div>\
-            <div class="kore-sdk-bottom-up-previous pagination-tootlip-buttons">\
-              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACuSURBVHgB3VKxDcIwEDwTD2AEA3xk0zMCbMAGrMAIGYWSjhFQJgipEcIlnTMAknloaPImSZecZMnS3+nuTw+MAkRk+FHbbNZBTFBZBegd+uLrnLuKyBUSR6XEUPqCGEvv7weJJ6+g9JnFdUoM2d0Vn+hduEKC1xGI3Lzr7/5Lwcjtg6zdp3iZNGgYxixL/p7MYv5sQqgxLMlqzX0EXmfTNv97SN7frohqy50Qpok3s14tS5MeJgUAAAAASUVORK5CYII=">\
-              <span class="tooltip_text"> Previous</span>\
-              </div>\
-            <div class="input-text-data">\
-              <div class="title">Page</div>\
-              <div>\
-                <input id="kore-current-page-number" class="kore-current-page-number" type="text" value="1">\
-              </div>\
-              <div class="title">of</div>\
-              <div id="kore-total-page-number" class="kore-total-page-number">15</div>\
-            </div>\
-            <div class="kore-sdk-bottom-up-next pagination-tootlip-buttons">\
-              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAALCAYAAABcUvyWAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBXY+xDQIxEAT3bAIiZEQD99gf4xKgEuiEkDY+JUJUQEoGxAjhCsAhwUvmEHqw/8LZW2lWM9femNEwyiE7BaQ5SB+Y2eSBjvFxNGYyBqmNNLdSfH0C6j6YbQOiGVK7CCFE1QUh3FZI6QIa7IrGr1m5ExL2qoBTtxYZkWibP7R2yZW9ix33oHuWUAZ+Ye17A+GRSBSv5zx4A80eMIB299aVAAAAAElFTkSuQmCC">\
-              <span class="tooltip_text">Next</span>\
-              </div>\
-            <div class="kore-sdk-bottom-up-last pagination-tootlip-buttons">\
-              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC8SURBVHgB3ZKxEcIwDEUVZwAEWUCJnJ5R2AA2YAQYIRswAkdJyQRQ0kEJTewFOBBxjos5QkI68htbOn//d7YA+iWK9Z4oHb9q4owSvfjmCasF4vAKAawRo621+QVxcAQIMhxFaE2+g1YUxDMhMSRytSjmUx1J+N6w1hwciVoJweYseq4dSPSySCZCj4R5Wj2nam9QcC936PVv8kqN6Uk6L9PJSxeqZrMgdjcTT9wPuFn4yVwYPg1SW/P/6gGaqz4/5BlCXQAAAABJRU5ErkJggg==">\
-              <span class="tooltip_text">Last </span>\
-              </div>\
-          </div>\
-        </div>\
         <div class="custom-add-result-container {{if devMode== false || viewType != "Customize"}}display-none{{/if}}">\
           <div class="custom-add-new-result-content">\
             <div class="bold-text">Not finding the result?</div>\
@@ -17887,6 +17904,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var bearer = "bearer " + this.bot.options.accessToken || this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
       var headers = {};
       headers['Authorization'] = bearer;
+      headers['Content-Type'] = "application/json";
 
       if (!_self.isDev) {
         if (_self.config.botOptions.assertion) {
@@ -17906,7 +17924,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         type: type,
         dataType: 'json',
         headers: headers,
-        data: payload,
+        data: JSON.stringify(payload),
         success: function (data) {
 
           if (!data.isBotLocked) {
@@ -18912,34 +18930,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             </div>\
                             <div class="full-search-data-container">\
                             </div>\
-                            <div class="kore-sdk-pagination-div">\
-                            <div class="kore-sdk-custom-pagination">\
-                              <div class="kore-sdk-bottom-up-first pagination-tootlip-buttons">\
-                                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAAQABADAREAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD+zn9pz9o/XPhre6B8H/gxpfhzxb+0d8Q9H1XxB4esPF8t9B8MfhH8OtBmjh8WfH74+6vpdzZXXh34V+Et722l6XFqWk+IPin4vFt4F8I3th/xUvirwe0r77fi/JeYiT9mv49eP/2j9X8SfEbRPCulaJ+y3/ZVjpXwe8b61p+taZ49+POsxXLtrnxc8OaBd33keEPgTfQKlj8NW1221DxV8RoXm8cW0ujeDG8M3PjAat69fLy9e4LX0Iv2m/2bda+JWoaD8Yvg1q2g+Ef2jvh9oupeHdAvvFYvZfhj8Xfh1rU4uPFPwB+PujafZ6nL4g+FXi9g89jqtvpOp+Jvhj4qa38beD7e7ceIfDPisT6Pb8vNef5g/wAST9mv4C/ED9nDV/Enw50XxVpWufst/wBlWOq/B7wRrWo61qfj74DazLcuuufCLw5r93YeR4v+BNjAyXvw0Gu3On+KvhzAk3ge3i1nwYnhm38IDaevXr2fn5PuMP/Z">\
-                                <span class="tooltip_text"> First</span>\
-                                </div>\
-                              <div class="kore-sdk-bottom-up-previous pagination-tootlip-buttons">\
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACuSURBVHgB3VKxDcIwEDwTD2AEA3xk0zMCbMAGrMAIGYWSjhFQJgipEcIlnTMAknloaPImSZecZMnS3+nuTw+MAkRk+FHbbNZBTFBZBegd+uLrnLuKyBUSR6XEUPqCGEvv7weJJ6+g9JnFdUoM2d0Vn+hduEKC1xGI3Lzr7/5Lwcjtg6zdp3iZNGgYxixL/p7MYv5sQqgxLMlqzX0EXmfTNv97SN7frohqy50Qpok3s14tS5MeJgUAAAAASUVORK5CYII=">\
-                                <span class="tooltip_text"> Previous</span>\
-                                </div>\
-                              <div class="input-text-data">\
-                                <div class="title">Page</div>\
-                                <div>\
-                                  <input id="kore-current-page-number" class="kore-current-page-number" type="text" value="1">\
-                                </div>\
-                                <div class="title">of</div>\
-                                <div id="kore-total-page-number" class="kore-total-page-number">15</div>\
-                              </div>\
-                              <div class="kore-sdk-bottom-up-next pagination-tootlip-buttons">\
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAALCAYAAABcUvyWAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBXY+xDQIxEAT3bAIiZEQD99gf4xKgEuiEkDY+JUJUQEoGxAjhCsAhwUvmEHqw/8LZW2lWM9femNEwyiE7BaQ5SB+Y2eSBjvFxNGYyBqmNNLdSfH0C6j6YbQOiGVK7CCFE1QUh3FZI6QIa7IrGr1m5ExL2qoBTtxYZkWibP7R2yZW9ix33oHuWUAZ+Ye17A+GRSBSv5zx4A80eMIB299aVAAAAAElFTkSuQmCC">\
-                                <span class="tooltip_text"> Next</span>\
-                                </div>\
-                              <div class="kore-sdk-bottom-up-last pagination-tootlip-buttons">\
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC8SURBVHgB3ZKxEcIwDEUVZwAEWUCJnJ5R2AA2YAQYIRswAkdJyQRQ0kEJTewFOBBxjos5QkI68htbOn//d7YA+iWK9Z4oHb9q4owSvfjmCasF4vAKAawRo621+QVxcAQIMhxFaE2+g1YUxDMhMSRytSjmUx1J+N6w1hwciVoJweYseq4dSPSySCZCj4R5Wj2nam9QcC936PVv8kqN6Uk6L9PJSxeqZrMgdjcTT9wPuFn4yVwYPg1SW/P/6gGaqz4/5BlCXQAAAABJRU5ErkJggg==">\
-                                <span class="tooltip_text"> Last</span>\
-                                </div>\
-                            </div>\
-                          </div>\
                             <div class="custom-add-result-container display-none">\
                               <div class="custom-add-new-result-content">\
                                 <div class="bold-text">Not finding the result?</div>\
