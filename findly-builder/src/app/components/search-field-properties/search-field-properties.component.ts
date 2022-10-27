@@ -111,9 +111,6 @@ export class SearchFieldPropertiesComponent implements OnInit {
       this.searchFieldProperties = res.data;
       this.searchFieldProperties.forEach((element ,index)=> {
         const name = element.fieldName.replaceAll('_', '')
-        // let sliderObj = {
-        //   slider: new RangeSlider(0, 10, 1, element.value, name + index)
-        // };
         element.properties['slider'] = new RangeSlider(0, 10, 1, element.properties.weight, name + index,'',false)
       });
       this.totalRecord = res.totalCount
@@ -145,16 +142,15 @@ export class SearchFieldPropertiesComponent implements OnInit {
     }, 100)
   }
   editSearchFiledProperties(properties?,index?){
-    const name = this.searchFieldProperties[index].fieldName.replaceAll('_', '')
+    const name = this.searchFieldProperties[index].fieldName.replaceAll('_', '');
     this.searchFieldProperties[index].properties['slider'] = new RangeSlider(0, 10, 1, properties.weight, name + index,'',true)
-   
     this.enableIndex = index;
     this.selectedProperties =properties;
   }
   cancel(properties?,index?){
     const name = this.searchFieldProperties[index].fieldName.replaceAll('_', '')
     this.searchFieldProperties[index].properties['slider'] = new RangeSlider(0, 10, 1, properties.weight, name + index,'',false)
-    this.fetchPropeties();
+    //this.fetchPropeties();
   }
   saveAPI(selectedProperties, fieldId,i?){
     const quaryparms: any = {

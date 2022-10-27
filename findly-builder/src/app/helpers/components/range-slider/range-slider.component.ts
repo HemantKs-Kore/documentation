@@ -16,28 +16,43 @@ export class RangeSliderComponent implements OnInit, AfterViewInit {
   sliderUpdatedVal: number;
   sliderRet: any;
   constructor() { 
+    console.log(this.allData)
   }
   someSubscription: any;
-
-  ngAfterViewInit() {
+  ngOnChanges(){
     this.sliderRet = this.registerSlider('#'+this.allData.id, { tooltip_position: 'top'})
-    this.sliderRet.bootstrapSlider('setValue', this.allData.default);
-    this.formatTooltip(this.allData.default);
+     if(this.allData.enable){
+        this.sliderRet.bootstrapSlider('enable');
+      }else{
+        this.sliderRet.bootstrapSlider('disable');
+      }
+  }
+  ngAfterViewInit() {
+      this.sliderRet = this.registerSlider('#'+this.allData.id, { tooltip_position: 'top'})
+      this.sliderRet.bootstrapSlider('setValue', this.allData.default);
+      // if(this.allData.enable){
+      //   this.sliderRet.bootstrapSlider('enable');
+      // }else{
+      //   this.sliderRet.bootstrapSlider('disable');
+      // }
+      this.formatTooltip(this.allData.default);
   }
 
   ngOnInit(): void {
-
+    console.log(this.allData)
   }
 
   registerSlider(ele,obj){
-    const slider =$(ele).bootstrapSlider(obj);
-    $(ele).bootstrapSlider().on('slideStop', (ev) => {
-      this.onSliderChanged(ev.value);
-    });
-    $(ele).bootstrapSlider().on('slide', (ev) => {
-      this.formatTooltip(ev.value,true);
-    });
-    return slider;
+    //setTimeout(()=>{
+      const slider =$(ele).bootstrapSlider(obj);
+        $(ele).bootstrapSlider().on('slideStop', (ev) => {
+          this.onSliderChanged(ev.value);
+        });
+        $(ele).bootstrapSlider().on('slide', (ev) => {
+          this.formatTooltip(ev.value,true);
+        });
+      return slider;
+   // },100)
   }
 
   onSliderChanged(val) {
