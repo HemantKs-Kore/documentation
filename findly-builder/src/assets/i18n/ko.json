@@ -3038,6 +3038,14 @@
     "addFaq_grid":"Grid",
     "addFaq_list":"List",
     "addFaq_resume_annotation":"Resume Annotation",
-    "addFaq_add_a_comment":"Add a comment"
+    "addFaq_add_a_comment":"Add a comment",
+
+    "connectors_enter_name_here":"Enter name here",
+    "connectors_paste_client_ID_here":"Paste Client ID here",
+    "connectors_Paste_Secret_ID_here":"Paste Secret ID here",
+    "connectors_Enter_Host_URL_here":"Enter Host URL here",
+    "connectors_Enter_username_here":"Enter username here",
+    "connectors_enter_password_here":"Enter password here",
+    "connectors_enter_host_domainname_here":"Enter Host DomainName here"
 
 }
