@@ -140,10 +140,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   sys_entities: any = [];
   entityDefaultColors: any = [{ type: 'system_defined', color: '#135423' }, { type: 'custom', color: '#803C25' }, { type: 'index_field', color: '#381472' }];
   entityFields = { startIndex: 0, endIndex: 0, entityId: '', word: '' };
-  entityObj: any = { entities: [], sentence: '', colorSentence: '', isEditable: false };
+  entityObj: any = { entities: [], sentence: '', colorSentence: '', isEditable: false, legends:[] };
   inputSentence: any;
   selectEditIndex: number = 0;
-  nlpAnnotatorObj: any = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [], };
+  nlpAnnotatorObj: any = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [] };
   search_field:String='';
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
@@ -266,7 +266,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.createTag(false, false);
     this.nlpAnnotatorObj = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [] };
     this.entityFields = { startIndex: 0, endIndex: 0, entityId: '', word: '' };
-    this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false };
+    this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false,legends:[] };
     this.inputSentence = '';
   }
   setDataForEdit(ruleObj) {
@@ -838,7 +838,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.submitted = true;
     let isValidate: boolean;
     if (this.selcectionObj?.ruleType === 'nlp') {
-      isValidate = this.validateRules() && this.validateOut() && this.emptyAnnotatorValidate();
+      isValidate = this.validateRules() && this.validateOut() && this.emptyAnnotatorValidate() && this.validateLegends();
     }
     else if (this.selcectionObj?.ruleType === 'contextual') {
       isValidate = this.validateRules() && this.validateCon() && this.validateOut()
@@ -896,18 +896,25 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       });
     }
     else {
+      let message='';
       if (!this.validateCon()) {
         $("#ConditionInput").parent('div').css("border-color", "#DD3646");
         $("#infoWarningCon").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+        message = 'Enter the required fields to proceed';
       }
       if (!this.validateOut()) {
         $("#OutcomeInput").parent('div').css("border-color", "#DD3646");
         $("#infoWarningOut").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+        message = 'Enter the required fields to proceed';
       }
       if(!this.emptyAnnotatorValidate()){
         $("#contentText")[0].style.borderColor='#DD3646';
+        message = 'Enter the required fields to proceed';
       }
-      this.notificationService.notify('Enter the required fields to proceed', 'error');
+      if(!this.validateLegends()){
+       message = 'Tags should equally matched with legends in each annotator';
+      }
+      this.notificationService.notify(message, 'error');
     }
     this.loadRules();
   }
@@ -915,6 +922,15 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //check nlp annotaator is empty
   emptyAnnotatorValidate(){
     return this.nlpAnnotatorObj.annotator.length===0?false:true;
+  }
+
+  //validate legends in all annotators
+  validateLegends(){
+    let count=0;
+    for(let item of this.nlpAnnotatorObj.annotator){
+      if(item.legends.length>0) count++;
+    }
+    return count===0?true:false;
   }
 
   //get all fields
@@ -1016,6 +1032,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
       if (!payload.outcomes.length) {
         this.errorToaster(null, 'Atleast one outcome is required');
+        return;
+      }
+      if(!this.validateLegends()&&this.selcectionObj?.ruleType === 'nlp'){
+        this.errorToaster(null, 'Tags should equally matched with legends in each annotator');
         return;
       }
       this.service.invoke('update.businessRule', quaryparms, payload).subscribe(res => {
@@ -1438,11 +1458,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         this.nlpAnnotatorObj.annotator[this.selectEditIndex] = this.entityObj;
       }
       else if (!this.entityObj.isEditable) {
-        this.nlpAnnotatorObj.annotator.push(this.entityObj);
+        this.nlpAnnotatorObj.annotator.push(this.entityObj);        
         $("#contentText")[0].style.borderColor='';
       }
+      this.updateLegendAnnotators();
       this.inputSentence = '';
-      this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false };
+      this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false,legends:[] };
       this.entityFields = { startIndex: 0, endIndex: 0, entityId: '', word: '' };
     }
     else {
@@ -1597,12 +1618,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //create color sentence while click on edit
   createColorSentence(rule) {
-    this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false };
-    this.entityObj = { entities: rule?.entities, sentence: rule?.sentence, colorSentence: '', isEditable: false };
+    this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false,legends:[] };
+    this.entityObj = { entities: rule?.entities, sentence: rule?.sentence, colorSentence: '', isEditable: false,legends:[] };
     const sentence = this.updateColorSentence();
     this.entityObj.colorSentence = this.sanitizer.bypassSecurityTrustHtml(sentence);
     this.nlpAnnotatorObj.annotator.push(this.entityObj);
-    this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false };
+    this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false,legends:[] };
     this.getLegends();
   }
 
@@ -1611,12 +1632,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     annotator.isEditable = true;
     this.selectEditIndex = index;
     this.entityObj = annotator;
+    this.updateLegendAnnotators();
   }
 
   //cancel annotator sentence
   cancelAnnotatorSentence(annotator) {
     annotator.isEditable = false;
-    this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false };
+    this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false,legends:[] };
     this.selectEditIndex = 0;
   }
 
@@ -1649,8 +1671,20 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
 
   //validate legends equality with annotators
-  // validateLegendAnnotatorEquality(){
-
-  // }
+  updateLegendAnnotators(){
+    for(let item of this.nlpAnnotatorObj.annotator){
+       let entities = [];
+       item.legends = [];
+       for(let entity of item?.entities){
+        const Item = this.sys_entities.filter(item => item._id === entity.entityId);
+        entities.push(Item[0].entityName);
+       }
+       for(let legend of this.nlpAnnotatorObj.Legends){
+         if(!entities.includes(legend.name)){
+           item.legends.push({name:legend.name,type:legend.type});
+         }
+       }
+    }
+  }
 
 }
