@@ -139,7 +139,7 @@
                                         <app-range-slider [customClass]='"weightsSlider"' [allData]='searchProperties.properties.slider'
                                             (valueEvent)="valueEvent($event,searchProperties)"></app-range-slider>
                                     </div>
-                                    <div class="slider-value">{{searchProperties.properties.weight}}</div>
+                                    <div class="slider-value">{{searchProperties.properties.slider.default}}</div>
                                 </div>
                             </div>
                         <ng-container *ngIf="i != enableIndex">
@@ -171,7 +171,9 @@
                             <div class="col-2 title">
                                 <div class="toggle_switch" *ngIf="i == enableIndex">
                                     <label class="kr-sg-toggle">
-                                        <input checked="" type="checkbox" [(ngModel)]="selectedProperties.highlight">
+                                        <input checked="" type="checkbox" [(ngModel)]="selectedProperties.highlight" 
+                                        (change)="!selectedProperties.highlight ? selectedProperties.spellCorrect = false : selectedProperties.spellCorrect = selectedProperties.spellCorrect">
+                                        <!--  Chnage is added for validation based on Highlight property -->
                                         <div class="slider"></div>
                                     </label>
                                 </div>
@@ -179,7 +181,7 @@
                             <!-- spellCorrect -->
                             <div class="col-2 title">
                                 <div class="toggle_switch" *ngIf="i == enableIndex">
-                                    <label class="kr-sg-toggle" [ngClass]="searchFieldProperties[i].properties.highlight== false?'disable-toggle':''">
+                                    <label class="kr-sg-toggle" [ngClass]="!selectedProperties.highlight?'disable-toggle':''">
                                         <input checked="" type="checkbox" [(ngModel)]="selectedProperties.spellCorrect">
                                         <div class="slider"></div>
                                     </label>

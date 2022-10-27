@@ -17,14 +17,15 @@ export class RangeSliderComponent implements OnInit, AfterViewInit {
   sliderRet: any;
   constructor() {}
   
-  /** triggers when parent is resposible for the change in the Slider object */
+  /** triggers when parent is resposible for the change in the Slider object (Author : Sunil Singh) */
   ngOnChanges(){
     this.sliderRet = this.registerSlider('#'+this.allData.id, { tooltip_position: 'top'})
     if(this.sliderRet){
       this.allData.enable ?  this.sliderRet.bootstrapSlider('enable') : this.sliderRet.bootstrapSlider('disable');
+      this.sliderRet.bootstrapSlider('setValue', this.allData.default);
     }
   }
-  /** triggers when view is initialized and to register and set the values */
+  /** triggers when view is initialized and to register and set the values (Author : Sunil Singh) */
   ngAfterViewInit() {
       this.sliderRet = this.registerSlider('#'+this.allData.id, { tooltip_position: 'top'})
       this.sliderRet.bootstrapSlider('setValue', this.allData.default);

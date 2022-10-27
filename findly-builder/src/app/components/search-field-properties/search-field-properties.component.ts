@@ -52,7 +52,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
   isAsc = true;
   checksort='asc'
   searchImgSrc: any = 'assets/icons/search_gray.svg';
-
+  activeSliderIndex = -1; // Since the array value cannot be -1 , so this can used for any case;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -113,8 +113,13 @@ export class SearchFieldPropertiesComponent implements OnInit {
         const name = element.fieldName.replaceAll('_', '')
         element.properties['slider'] = new RangeSlider(0, 10, 1, element.properties.weight, name + index,'',false)
       });
-      this.totalRecord = res.totalCount
-      console.log(this.searchFieldProperties);
+      this.totalRecord = res.totalCount;
+      this.enableIndex = this.defaultIndex;
+      /** Clear Slider after Paginate , It will call only if the Paginagtion is done (Author : Sunil Singh)*/
+      // if(this.activeSliderIndex > -1){
+      //   this.cancel(this.searchFieldProperties[this.activeSliderIndex].properties,this.activeSliderIndex)
+      // }
+      // this.activeSliderIndex  = -1 // defaulting since the pagination hold the information of Index
     }, errRes => {
       this.notificationService.notify(errRes,'failed to get search field propeties');
     });
@@ -123,9 +128,6 @@ export class SearchFieldPropertiesComponent implements OnInit {
   paginate(event) {
     this.skip= event.skip
     this.fetchPropeties()
-     
-    // this.getFileds(event.skip, this.searchFields)
-
   }
   focusoutSearch() {
     if (this.activeClose) {
@@ -141,7 +143,15 @@ export class SearchFieldPropertiesComponent implements OnInit {
       document.getElementById(inputSearch).focus();
     }, 100)
   }
+  /** Clear slider  (Author : Sunil Singh) */
+  clearSlider(index){
+    if(this.activeSliderIndex > -1 && this.activeSliderIndex != index){
+      this.cancel(this.searchFieldProperties[this.activeSliderIndex].properties,this.activeSliderIndex)
+    }
+    this.activeSliderIndex = index;
+  }
   editSearchFiledProperties(properties?,index?){
+    this.clearSlider(index)
     const name = this.searchFieldProperties[index].fieldName.replaceAll('_', '');
     this.searchFieldProperties[index].properties['slider'] = new RangeSlider(0, 10, 1, properties.weight, name + index,'',true)
     this.enableIndex = index;
@@ -150,6 +160,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
   cancel(properties?,index?){
     const name = this.searchFieldProperties[index].fieldName.replaceAll('_', '')
     this.searchFieldProperties[index].properties['slider'] = new RangeSlider(0, 10, 1, properties.weight, name + index,'',false)
+    this.activeSliderIndex = -1;
   }
   saveAPI(selectedProperties, fieldId,i?){
     const quaryparms: any = {
@@ -158,9 +169,9 @@ export class SearchFieldPropertiesComponent implements OnInit {
       queryPipelineId:this.queryPipelineId,
       fieldId:fieldId
     };
+    selectedProperties.weight = selectedProperties.slider.default;
     const payload = selectedProperties;
     this.service.invoke('put.updatesearchFieldsProperties',quaryparms,payload).subscribe(res => {
-      //this.propeties = res;
       this.enableIndex = this.defaultIndex;
       this.fetchPropeties();      
       console.log(res);
