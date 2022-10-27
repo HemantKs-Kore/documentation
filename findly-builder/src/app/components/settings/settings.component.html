@@ -39,6 +39,7 @@
             <!-- <div class="bread-name active-name1"  *ngIf="existingCredential"><img src="assets/icons/viewinstruction.svg"> View Instructions</div>                  -->
         </div>
     </div>
+    
     <div class="body-sec" *ngIf="slider==0">
         <div class="info-data">
             <div class="img-block"><img src="assets/icons/Info_gray.svg"></div>
@@ -122,8 +123,56 @@
                     <div class="desc-text">{{"settings_select_events_info" | translate}} </div>
                 </div>
             </div>
+
+            <div class="web-and-mobile-client-steps d-none" *ngIf="slider==1">
+                <div class="web-and-client-card">
+                    <div class="wacc-step">
+                        STEP 1
+                    </div>
+                    <div class="wacc-header">
+                        Download Searchassist SDK
+                    </div>
+                    <div class="wacc-desc">
+                        Download the Kore.ai FindlyKit SDK from our GitHub Repo
+                    </div>
+                </div>
+                <div class="web-and-client-card">
+                    <div class="wacc-step">
+                        STEP 2
+                    </div>
+                    <div class="wacc-header">
+                        Register Credential
+                    </div>
+                    <div class="wacc-desc">
+                        Create an credential or register an existing credential from below. 
+                    </div>
+                </div>
+                <div class="web-and-client-card">
+                    <div class="wacc-step">
+                        STEP 3
+                    </div>
+                    <div class="wacc-header">
+                        Define Callback URL
+                    </div>
+                    <div class="wacc-desc">
+                        Define the callback URL of your credential to be invoked for FindlyKit SDK events.
+                    </div>
+                </div>
+                <div class="web-and-client-card">
+                    <div class="wacc-step">
+                        STEP 4
+                    </div>
+                    <div class="wacc-header">
+                        Select Events
+                    </div>
+                    <div class="wacc-desc">
+                        Select the required events and complete the setup process. 
+                    </div>
+                </div>
+            </div>
+
             <div class="select_credentials_sec" *ngIf="slider==2">
-                <div class="main-heading"> {{"settings_seems_like_there_are_no_credentails_created" | translate}}</div>
+                <div class="main-heading"> {{"settings_seems_like_there_are_no_credentials_created" | translate}}</div>
                 <div class="desc-text">{{"settings_create_a_credential_to_associate_it_with_the_channel" | translate}} </div>
                 <div class="kr-sg-input-text">
                     <div class="label-text">{{"settings_credential_name" | translate}}</div>
@@ -373,9 +422,9 @@
                                                                 </div>
                                                                 <div class="scriptTag">
                                                                     <!-- <div class="script" id="embedCode">
-                    
+                                                                        <br>{{webClientDetails?.cssTag}} 
                                                                     </div> -->
-                                                                    <div class="script" id="embedCode">{{webClientDetails?.scriptTag}} <br>{{webClientDetails?.cssTag}} <br>{{webClientDetails?.scriptTagInitilization}}</div>
+                                                                    <div class="script" id="embedCode">{{webClientDetails?.scriptTag}}<br>{{webClientDetails?.scriptTagInitilization}}</div>
                                                                 </div>
                                                             </div>
                                                             <div class="hint-info-data">
@@ -566,7 +615,7 @@
                 <button *ngIf="!existingCredential" class="kr-sg-button-secondary btn_lg" (click)="cancel()">{{"settings_cancel" | translate}} </button>
             </div>
             <div>
-                <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf=!existingCredential (click)="back()"> {{"settings_back" | translate}}</button>
+                <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf="slider==2" (click)="back()"> {{"settings_back" | translate}}</button>
                 <button class="kr-sg-button-primary btn_lg" (click)="continue()" *ngIf="slider!==3" [disabled]="(!(credntial.name) || !(credntial.awt)) && (slider==2)">{{"settings.continue" | translate}}</button>
                 <button class="kr-sg-button-secondary btn_lg mr-2"  *ngIf=existingCredential (click)="cancel()">{{"settings_cancel" | translate}} </button>
                 <button class="kr-sg-button-primary btn_lg" *ngIf="slider==3" (click)="configureCredential($event)"> {{"settings_save" | translate}}</button>

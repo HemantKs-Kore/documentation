@@ -3,13 +3,6 @@
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
   </div>
-  <!-- <div class="table-list-content">
-    <div class="kr-sg-data-table" *ngIf="!loadingContent">
-      <div class="header-sec col-12 row m-0">
-        <div class="col-4 p-0">Content Management</div>
-      </div>
-    </div>
-  </div> -->
   <ng-container *ngIf="!(resources && resources.length) && loadingContent1">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="title-content">{{"contentSource_content" | translate}}
@@ -91,9 +84,6 @@
           <header class="table-header">
             
             <div class="col_ col-3 d-flex align-items-center" (click)="sortByApi('name')">
-              <!-- <img src="assets/icons/caretDown.svg"
-                [ngClass]="{'assending': (selectedSort==='name') && isAsc,'decending':(selectedSort==='name') && !isAsc}"
-                class="ml-1 sortImg"> -->
               <span class="d-flex align-items-center flex-column mr-1">
                 <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg"
                   class="ml-1 sortImg downArrow">
@@ -103,9 +93,6 @@
               {{"contentSource_source_title_caps" | translate}}
             </div>
             <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('triggeredBy')">
-              <!-- <img src="assets/icons/caretDown.svg"
-                [ngClass]="{'assending': (selectedSort==='createdOn') && isAsc,'decending':((selectedSort==='createdOn') && !isAsc)}"
-                class="ml-1 sortImg"> -->
                 <span class="d-flex align-items-center flex-column mr-1">
                   <img [ngClass]="getSortIconVisibility('triggeredBy', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                   <img [ngClass]="getSortIconVisibility('triggeredBy', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
@@ -132,9 +119,6 @@
               [autoClose]="true" [placement]="'bottom-right'">
               <div class="dropdown dropdown-open">
                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
-                  <!-- <img src="assets/icons/caretDown.svg"
-                    [ngClass]="{'assending': (selectedSort==='recentStatus') && isAsc,'decending':(selectedSort==='recentStatus') && !isAsc}"
-                    class="ml-1 sortImg"> -->
                   <img class="custom-dropdown-toggle-icon" src="assets/icons/filter-content.svg">
                 </button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
@@ -155,41 +139,7 @@
                 </ul>
               </div>
             </div>
-          </div>
-            <!-- <div class="col_ col-2 d-flex align-items-center pr-0" (click)="sortByApi('contentSource')"><span
-                class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
-              <span class="d-flex align-items-center flex-column mr-1">
-                <img [ngClass]="getSortIconVisibility('contentSource', 'down')" src="assets/icons/caretDown.svg"
-                  class="ml-1 sortImg downArrow">
-                <img [ngClass]="getSortIconVisibility('contentSource', 'up')" src="assets/icons/caretDown.svg"
-                  class="ml-1 sortImg upArrow">
-              </span>
-              {{"contentSource_type_caps" | translate}}
-              <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
-                [autoClose]="true" [placement]="'bottom-right'">
-                <div class="dropdown dropdown-open">
-                  <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
-                    (click)="$event.stopImmediatePropagation()">
-                    <img src="assets/icons/caretDown.svg"
-                      [ngClass]="{'assending': (selectedSort==='type') && isAsc,'decending':(selectedSort==='type') && !isAsc}"
-                      class="ml-1 sortImg">
-                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
-                  </button>
-                  <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                    <li (click)="sourceFilter.close();filterTable('all','contentSource')"><span class="list-name">All</span><img
-                        [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
-                    <li *ngFor="let docType of docTypeArr" (click)="sourceFilter.close();filterTable(docType,'contentSource')">
-                      <span
-                        class="list-name">{{docType == 'web' ? 'Web' :(docType == 'file'? 'File': '')}}</span><img
-                        [ngClass]="{'hide': filterSystem.typefilter !== docType}" src="assets/icons/check-blue.svg"></li>
-                  </ul>
-                </div>
-              </div>
-            </div> -->
-            <!-- <div class="col" (click)="sortBy('collection')">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div> -->
-           
-        
-            
+          </div> 
           </header>
           <perfect-scrollbar class="table-scroll-perfect">
             <ng-container *ngIf="sectionShow">
@@ -204,14 +154,13 @@
                         <img *ngIf="source.extractionType == 'file'" src="assets/icons/content/latest-content-icons/green-check-document.svg">
                       </div>
                       <div class="media-right">
-                        <div class="media-name text-truncate"  title="{{source.title || source.name}}">{{source.title || source.name}}
-                        </div>
+                        <div class="media-name text-truncate"  title="{{source.title || source.name}}">{{source.title || source.name}}</div>
                         <span class="ml-2" *ngIf="source.advanceSettings">
                           <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon"
                            src="assets/icons/schedule_timer.svg">
                        </span>
-                        <!-- <div class="media-time-stamp" (click)="openScheduler($event,source,i)" *ngIf="source.advanceSettings?.scheduleOpt" ><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
-                        <div class="media-up-time-stamp d-none"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div> -->
+                        <!-- <div class="media-time-stamp" (click)="$event.stopImmediatePropagation();openSchedular(true,source);" *ngIf="source.advanceSettings?.scheduleOpt"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
+                        <div class="media-up-time-stamp" *ngIf="source.advanceSettings?.scheduleOpt"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div> -->
                       </div>
                     </div>
                 </div>
@@ -233,8 +182,9 @@
                     <div class="media-block media-success" *ngIf="source.recentStatus === 'success'">
                       <div class="media-logo"><img src="assets/icons/content/latest-content-icons/green-check-circle.svg"></div>
                       <div class="media-right">
-                        <div class="media-name">Successful</div>
-                        <div class="media-up-time-stamp" *ngIf="source.schedule_createdOn">{{ source.schedule_createdOn }}<span class="pl-1"><img src="assets/icons/content/latest-content-icons/gray-time-change-logs.svg">{{source.schedule_duration}}</span></div>
+                        <div class="media-name">Successful
+                          <div class="media-up-time-stamp" *ngIf="source.schedule_createdOn">{{ source.schedule_createdOn }}<span class="pl-1"><img src="assets/icons/content/latest-content-icons/gray-time-change-logs.svg">{{source.schedule_duration}}</span></div>
+                        </div>
                       </div>
                     </div>
                          
@@ -543,18 +493,17 @@
 
               <div class="new-crawl-web-form mr-tb20-rl10">
                 <div class="new-crawl-shedule">
-                  <div class="new-crawl-shedule-tab" [ngStyle]="{'background':editSource.advanceOpts.scheduleOpt?'':'#F8F9FA','border':editSource.advanceOpts.scheduleOpt?'':0}">
+                  <div class="new-crawl-shedule-tab" [ngStyle]="{'background':editSource?.advanceOpts?.scheduleOpt?'':'#F8F9FA','border':editSource?.advanceOpts.scheduleOpt?'':0}">
                     <div class="shedual-header">
-                      <div class="shedual-hding">SCHEDULE</div>
+                      <div class="shedual-hding">SCHEDULE <span class="si-pencil-edit cursor-pointer" (click)="openSchedular(true)"></span></div>
                       <div class="sr-toggle-btn">
                         <label class="kr-sg-toggle">
-                          <input type="checkbox" name="scheduleOpts" [(ngModel)]="editSource.advanceOpts.scheduleOpt">
+                          <input type="checkbox" name="scheduleOpts" [(ngModel)]="editSource.advanceOpts.scheduleOpt" (change)="openSchedular($event)">
                           <div class="slider"></div>
                         </label>
                       </div>
                     </div>
-                    <app-scheduler *ngIf="editSource?.advanceOpts?.scheduleOpt" [crwalObject]="editSource" [scheduleFlag]="editSource?.advanceOpts?.scheduleOpt"
-                    [schedule]="'get'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
+                    <app-scheduler #schedular [crwalObject]="editSource" [scheduleFlag]="editSource?.advanceOpts?.scheduleOpt" [schedule]="'get'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
                   </app-scheduler>
                   </div>
                 </div>
@@ -1469,22 +1418,6 @@
   id="addStructuredDataModalPop">
   <app-add-structured-data *ngIf="isStructuredDataAdd" [selectedSourceType]="selectedSourceType"
     (closeStructuredDataModal)="closeAddStructuredDataModal($event)"></app-add-structured-data>
-</kr-modal>
-
-<kr-modal modalType="center" modalClass="modal_popups_ schedualarDataModelPop" #schedularDataPop
-  id="schedualarDataModelPop">
-  <div class="modal-header">
-    <div class="title">Scheduler</div>
-  </div>
-  <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
-       <app-scheduler [scheduleFlag]="selectedSource?.advanceSettings?.scheduleOpt"
-          [crwalObject]="selectedSource" [schedule]="'get'"   [schedulerType]="'verticalSchedular'" (scheduleData)="scheduleData($event)"
-        (cronExpress)="cronExpress($event)"></app-scheduler>
-  </perfect-scrollbar>
-  <div class="shedular-footer">
-    <button class="kr-sg-button-secondary btn_lg" (click)="closeScheduler()">Cancel</button>
-    <button class="kr-sg-button-primary btn_lg">Ok</button>
-  </div>
 </kr-modal>
 
 <ng-container *ngIf="showSourceAddition">
