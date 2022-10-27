@@ -383,6 +383,10 @@
   content: "\e911";
   color: #0d6efd;
 }
+.si-add-plus-green:before {
+  content: "\e911";
+  color: #28A745;
+}
 .si-add-plus-white:before {
   content: "\e911";
   color: white;
