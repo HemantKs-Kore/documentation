@@ -79,7 +79,6 @@ export class SearchFieldPropertiesComponent implements OnInit {
     //   this.streamId = null;
     // }
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
-
     this.fetchPropeties();
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -89,7 +88,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
     
     
   }
-
+  /**   */
   fetchPropeties(search?,type?,skip?){
     if(this.searchFields || this.searchFields.length>0){
       this.skip=0;
@@ -99,9 +98,9 @@ export class SearchFieldPropertiesComponent implements OnInit {
       search : this.searchFields || "",
       page:this.skip/10,
       limit:this.limit,
-      spellCorrect:this.selectedProperties.spellCorrect || true,
-      presentable: this.selectedProperties.presentable || true,
-      highlight: this.selectedProperties.highlight || true,
+      spellCorrect:this.selectedProperties.spellCorrect || true, // Not Required
+      presentable: this.selectedProperties.presentable || true, // Not Required
+      highlight: this.selectedProperties.highlight || true, // Not Required
       orderBy: this.checksort, //desc,
       indexPipelineId:this.indexPipelineId,
       streamId:this.selectedApp._id,
@@ -125,10 +124,12 @@ export class SearchFieldPropertiesComponent implements OnInit {
     });
 
   }
+   /** Record Pagination's ( Child ) event captured here in SearchFiled ( Parent ) */
   paginate(event) {
     this.skip= event.skip
     this.fetchPropeties()
   }
+  //SearchFiledProperties's Search Event 
   focusoutSearch() {
     if (this.activeClose) {
       this.searchFields = '';
@@ -137,7 +138,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
     }
     this.showSearch = !this.showSearch;
   }
-
+ //SearchFiledProperties's Search Event 
   focusinSearch(inputSearch) {
     setTimeout(() => {
       document.getElementById(inputSearch).focus();
@@ -150,18 +151,27 @@ export class SearchFieldPropertiesComponent implements OnInit {
     }
     this.activeSliderIndex = index;
   }
-  editSearchFiledProperties(properties?,index?){
-    this.clearSlider(index)
+  /** helping Change detection for Slider If edit or Canceled  (Author : Sunil Singh) */
+  sliderChange(properties,index,enable){
     const name = this.searchFieldProperties[index].fieldName.replaceAll('_', '');
-    this.searchFieldProperties[index].properties['slider'] = new RangeSlider(0, 10, 1, properties.weight, name + index,'',true)
-    this.enableIndex = index;
-    this.selectedProperties = Object.assign(this.selectedProperties, properties);
+    this.searchFieldProperties[index].properties['slider'] = new RangeSlider(0, 10, 1, properties.weight, name + index,'',enable)
   }
+  /** On Edit event  */
+  editSearchFiledProperties(searchProperties?,index?){
+    this.clearSlider(index)
+    this.sliderChange(searchProperties.properties,index,searchProperties.isSearchable) // if isSearchable == flase Slider should be disabled
+    if(!searchProperties.isSearchable) {
+      this.notificationService.notify('This field is non Searchable ', 'warning')
+    }
+    this.enableIndex = index;
+    this.selectedProperties = Object.assign(this.selectedProperties, searchProperties.properties);
+  }
+  /** On Cancel event  */
   cancel(properties?,index?){
-    const name = this.searchFieldProperties[index].fieldName.replaceAll('_', '')
-    this.searchFieldProperties[index].properties['slider'] = new RangeSlider(0, 10, 1, properties.weight, name + index,'',false)
+    this.sliderChange(properties,index,false)
     this.activeSliderIndex = -1;
   }
+  /** On Save / Update event for existing SearchFields */
   saveAPI(selectedProperties, fieldId,i?){
     const quaryparms: any = {
       indexPipelineId:this.indexPipelineId,
@@ -182,6 +192,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
 
   
   }
+  /** Function for Icon Visiblity show Up / Show Down */
   getSortIconVisibility(sortingField: string, type: string) {
     switch (this.selectedSort) {
       case "fieldName": {
@@ -241,7 +252,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
       }
     }
   }
-
+ /** Function for sorting Column */
   sortByApi(sort){
     this.selectedSort = sort;
     if (this.selectedSort !== sort) {
@@ -263,10 +274,13 @@ export class SearchFieldPropertiesComponent implements OnInit {
     //this.fieldsFilter(null,null,null,null,sort,checkSortValue,naviagtionArrow)
     this.fetchPropeties();
   }
-    
+  /** slider's ( Child ) event captured here in SearchFiled ( Parent ) */
   valueEvent(event , searchProperties){
     searchProperties.properties.slider.default = event;
   }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+    }
   ngOnDestroy() {
     this.querySubscription ? this.querySubscription.unsubscribe() : false;
   }

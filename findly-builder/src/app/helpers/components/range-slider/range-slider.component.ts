@@ -25,7 +25,7 @@ export class RangeSliderComponent implements OnInit, AfterViewInit {
       this.sliderRet.bootstrapSlider('setValue', this.allData.default);
     }
   }
-  /** triggers when view is initialized and to register and set the values (Author : Sunil Singh) */
+  /** triggers when view is initialized and to register and set the values */
   ngAfterViewInit() {
       this.sliderRet = this.registerSlider('#'+this.allData.id, { tooltip_position: 'top'})
       this.sliderRet.bootstrapSlider('setValue', this.allData.default);
