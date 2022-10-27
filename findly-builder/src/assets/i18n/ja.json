@@ -2960,7 +2960,18 @@
     "settings_setup_configure_web_mobileSDK_":"Setup and configure the Web / Mobile SDK using the prebuilt libraries.",
     "settings_downloadSDK":"Download SDK",
     "settings_enter_name":"Enter Name",
-    "settings_type_name":"Type Name"
+    "settings_type_name":"Type Name",
+
+
+    "genaralSettings_generalSettings":"General Settings",
+    "genaralSettings_small_talk":"Small Talk",
+    "genaralSettings_smalltalk_refres_to_desc":"Small Talk refers to the casual conversations that a Search app can have with the end-users. Search apps that can answer social inputs like \"How Are You?\" are more likely to create a positive impression and help build an invaluable connection with the user.",
+    "genaralSettings_enabled":"Enabled",
+    "genaralSettings_disabled":"Disabled",
+
+
+    "actions_botActions_1":	"Bot Action 1",
+    "actions_preview_template":	"Preview template"
 
 
 
