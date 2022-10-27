@@ -248,6 +248,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.filterObject = [];
       vars.searchFacetFilters = [];
       vars.enterIsClicked = false;
+      vars.isQueryEntered = false;
+      vars.enteredQuery = '';
       vars.requestId = '';
       vars.previousLivesearchData = null;
       vars.previousAutosuggestionData = '';
@@ -5919,7 +5921,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if (code == 40 || code == 38) {
             _self.suggestionSelectedByNavigationKeys(e);
-
           }
           if ($('body').hasClass('top-down')) {
             $('.top-down-suggestion').val('');
@@ -5929,7 +5930,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (code == 9) {
             e.preventDefault();
           }
+          if (code == 27){
+            if ($('body').hasClass('top-down')) {
+              $('.search-top-down').val(_self.vars.enteredQuery);
+            }
+            else {
+              $('.bottom-up-search').val(_self.vars.enteredQuery);
+            }
+            _self.vars.isQueryEntered = false;
+          }
           if (code == 13) {
+            if ($('body').hasClass('top-down')) {
+              _self.vars.enteredQuery = $('.search-top-down').val();
+            }
+            else {
+              _self.vars.enteredQuery = $('.bottom-up-search').val();
+            }
+            _self.vars.isQueryEntered = false;
             $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
             $('.search-suggested-title.highlightSuggestion').removeClass('highlightSuggestion');
             $('.parent-search-live-auto-suggesition').hide();
@@ -20439,6 +20456,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
 
     FindlySDK.prototype.suggestionSelectedByNavigationKeys = function (e) {
+      var _self = this;
       if ($('body').hasClass('top-down')) {
         var $hlight = $('.suggestion-box.highlightSuggestion'), $div = $('.suggestion-box');
         if (e.keyCode == 40) {
@@ -20446,17 +20464,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if ($hlight.next().length == 0) {
             $div.eq(0).addClass('highlightSuggestion')
           }
+          if(!_self.vars.isQueryEntered){
+            _self.vars.enteredQuery =  $('.search-top-down').val();
+          }
           var querySuggestionId = $('.suggestion-box.highlightSuggestion .sugg-query-box').attr('id');
           $('.search-top-down').val(querySuggestionId);
           $('.top-down-suggestion').val('');
+          _self.vars.isQueryEntered = true;
         } else if (e.keyCode === 38) {
           $hlight.removeClass('highlightSuggestion').prev().addClass('highlightSuggestion');
           if ($hlight.prev().length == 0) {
             $div.eq(-1).addClass('highlightSuggestion');
           }
+          if(!_self.vars.isQueryEntered){
+            _self.vars.enteredQuery =  $('.search-top-down').val();
+          }
           var querySuggestionId = $('.suggestion-box.highlightSuggestion .sugg-query-box').attr('id');
           $('.search-top-down').val(querySuggestionId);
           $('.top-down-suggestion').val('');
+          _self.vars.isQueryEntered = true;
         }
       } else {
         var $hlight = $('.search-suggested-title.highlightSuggestion'), $div = $('.search-suggested-title');
@@ -20468,9 +20494,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           } else {
             $('.bottom-to-top-suggestion').animate({ scrollTop: ($('.bottom-to-top-suggestion').scrollTop() + 34) }, 300)
           }
+          if(!_self.vars.isQueryEntered){
+            _self.vars.enteredQuery =  $('.bottom-up-search').val();
+          }
           var querySuggestionId = $('.search-suggested-title.highlightSuggestion').attr('suggestion');
           $('.bottom-up-search').val(querySuggestionId);
           $('.bottom-up-suggestion').val('');
+          _self.vars.isQueryEntered = true;
         } else if (e.keyCode === 38) {
           $hlight.removeClass('highlightSuggestion').prev().addClass('highlightSuggestion');
           if ($hlight.prev().length == 0) {
@@ -20479,9 +20509,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           } else {
             $('.bottom-to-top-suggestion').animate({ scrollTop: ($('.bottom-to-top-suggestion').scrollTop() - 34) }, 300)
           }
+          if(!_self.vars.isQueryEntered){
+            _self.vars.enteredQuery =  $('.bottom-up-search').val();
+          }
           var querySuggestionId = $('.search-suggested-title.highlightSuggestion').attr('suggestion');
           $('.bottom-up-search').val(querySuggestionId);
           $('.bottom-up-suggestion').val('');
+          _self.vars.isQueryEntered = true;
         }
       }
     }
