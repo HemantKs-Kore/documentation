@@ -3108,8 +3108,25 @@
     "app_menu_Clone ":"Clone",
     "app_menu_search_profile":"Search Profile",    
     "app_menu_plan_details":"Plan Details",
-    "app_menu_Usage_Log":"Usage Log"
+    "app_menu_Usage_Log":"Usage Log",
 
+    
+    "addFaq_all_responses":"ALL responses",
+    "addFaq_conditional_responses":"Conditional Responses",
+    "addFaq_displays_responses_to_user":"Displays responses to users based on the conditions provided.",
+    "addFaq_default_responses":"Default Responses",
+    "addFaq_display_responses":"Displays responses to users without any condition.",
+    "addFaq_display_responses_to_other_alternate":"Displays responses to other alternate form of questions.",
+    "addFaq_enter_link_text":"Enter Link Text",
+    "addFaq_app_name":"App name",
+    "addFaq_enter_url":"Enter Url",
+    "addFaq_enter_question":"Enter question",
+    "addFaq_enter_name":"Enter Name",
+    "addFaq_select_data":"Select Date",
+    "addFaq_http":"http(s)://",
+    "addFaq_enter_your_question":"Enter Your Question",
+    "addFaq_enter_reference_id":"Enter ReferenceId",
+    "addFaq_type_keyword":"Type Keyword"
 
 }
 
