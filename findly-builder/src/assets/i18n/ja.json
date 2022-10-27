@@ -2963,7 +2963,17 @@
     "settings_type_name":"Type Name",
 
     "businessRules_rules_small":"rules",
-    "businessRules_or_caps": "OR"
+    "businessRules_or_caps": "OR",
+
+    "onboarding_support":"Support",
+    "onboarding_app_checklist":"App Checklist",
+    "onboarding_browser_video_tag":"Your browser does not support the video tag.",
+    "onboarding_out_of_6_steps_completed":" Out of 6 Steps Completed",
+    "onboarding_status_bar":"Status Bar",
+    "onboarding_show":"Show",
+    "onboarding_guide_me":"Guide Me",
+    "onboarding_documentation":"Documentation",
+    "onboarding_look_for_a_question":"look for a question"
 
 
 
