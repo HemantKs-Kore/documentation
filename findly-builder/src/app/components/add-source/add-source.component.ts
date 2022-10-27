@@ -24,7 +24,7 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-import { SchedulerComponent } from '../scheduler/scheduler.component';
+import { SchedulerComponent } from '../../components/scheduler/scheduler.component';
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -44,7 +44,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('perfectScroll3') perfectScroll3: PerfectScrollbarComponent;
   @ViewChild('perfectScroll4') perfectScroll4: PerfectScrollbarComponent;
   @ViewChild('perfectScroll9') perfectScroll9: PerfectScrollbarComponent;
-  @ViewChild('appScheduler') appScheduler: SchedulerComponent;
+  @ViewChild('schedular') schedular: SchedulerComponent;
+
   sampleJsonPath: any = '/home/assets/sample-data/sample.json';
   sampleCsvPath: any = '/home/assets/sample-data/sample.csv';
   filePath;
@@ -106,6 +107,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   multipleFileArr = [];
   importFaqInprogress = false;
   selectedLinkBotConfig: any;
+  schedulerOpen:boolean=false;
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
   @Output() saveEvent = new EventEmitter();
@@ -456,10 +458,18 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       sourceId: this.extract_sourceId
     };
     const payload = {
-      url: this.newSourceObj.url
+      url: this.newSourceObj.url,
+      authorizationEnabled: false
     }
     this.service.invoke('put.retryValidation', quaryparms, payload).subscribe(res => {
       this.statusObject = { ...this.statusObject, validation: res.validations };
+      let message ='';
+      if(!this.statusObject?.validation?.url?.validated){
+        message = this.statusObject?.validation?.url?.msg;
+      } else if(!this.statusObject?.validation?.networkConnectivity?.validated){
+        message = this.statusObject?.validation?.networkConnectivity?.msg;
+      }
+      if(!this.statusObject?.isURLValid) this.notificationService.notify(message, 'error');
     }, errRes => {
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -831,51 +841,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       } else {
         return;
       }
-    // OLD CODE //
-    // let showProg: boolean = false;
-    // const _ext = fileName.substring(fileName.lastIndexOf('.'));
-    // this.extension = _ext
-    // if (this.selectedSourceType.sourceType != "faq") {
-    //   if (['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx'].includes(this.extension)) {
-    //     showProg = true;
-    //   }
-    //   else {
-    //     $('#sourceFileUploader').val(null);
-    //     this.notificationService.notify('Please select a valid file', 'error');
-    //     // return;
-    //   }
-    // }
-    // else {
-
-    //   if (this.selectedSourceType.sourceType == "faq") {
-    //     if (this.selectedSourceType.resourceType == '') {
-    //       if (this.extension === '.pdf') {
-    //         showProg = true;
-    //       }
-    //       else {
-    //         this.notificationService.notify('Please select a valid pdf file', 'error');
-    //       }
-    //     }
-    //     else {
-    //       if (this.extension === '.csv' || this.extension === '.json') {
-    //         showProg = true;
-    //       }
-    //       else {
-    //         this.notificationService.notify('Please select a valid csv or json file', 'error');
-    //       }
-    //     }
-    //   }
-    //   else {
-    //     showProg = true;
-    //   }
-
-    // }
-    // if (showProg) {
-    //   this.onFileSelect(event.target, this.extension);
-    //   this.fileObj.fileUploadInProgress = true; // unknown binding
-    //   this.fileObj.fileName = fileName; // for  single file
-    //   this.fileObj.file_ext = this.extension.replace(".", "");
-    // }
   }
 
   onFileSelect(input: HTMLInputElement, ext) {
@@ -1571,27 +1536,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   /** proceed Source API */
   scheduleData(scheduleData) {
-    // console.log(scheduleData);
-    // if(scheduleData.date){
-    //   let date = scheduleData.date;
-    //   if(String(date).split(" ")) scheduleData.date =  String(date).split(" ")[1] + " " + String(date).split(" ")[2]  + " " + String(date).split(" ")[3];
-    // }
-    // if(scheduleData.interval.intervalType && scheduleData.interval.intervalType != "Custom"){
-    //   scheduleData.interval.intervalValue = {};
-    // }
-    // if(scheduleData.interval &&
-    //   scheduleData.interval.intervalValue &&
-    //   scheduleData.interval.intervalValue.endsOn &&
-    //   scheduleData.interval.intervalValue.endsOn.endDate){
-    //   let endate = scheduleData.interval.intervalValue.endsOn.endDate;
-    //   if(String(endate).split(" ")) scheduleData.interval.intervalValue.endsOn.endDate =  String(endate).split(" ")[1]  + " " +  String(endate).split(" ")[2] + " " +  String(endate).split(" ")[3];
-    // }
     if (scheduleData.interval.intervalType && scheduleData.interval.intervalType != "Custom") {
       scheduleData.interval.intervalValue = {};
     }
     this.crwalObject.advanceOpts.scheduleOpts = scheduleData;
-
-    // this.dataFromScheduler = scheduleData
   }
   cronExpress(cronExpress) {
     this.crwalObject.advanceOpts.repeatInterval = cronExpress;
@@ -2417,18 +2365,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     return count;
   }
 
-  //open schedular in scheduler component 
-  openScheduler() {
-    setTimeout(() => {
-      this.appScheduler?.openCloseSchedular('open');
-    }, 300)
-  }
-
   //show or hide password in form fields
   showFormFieldPassword(id, data) {
     data.isPwdShow = !data.isPwdShow
     const value: any = document.getElementById(id);
     value.type = (value.type === 'password') ? 'text' : 'password'
+  }
+
+  //open Schedular
+  openSchedular(event){
+    this.crwalObject.advanceOpts.scheduleOpt = event?.currentTarget?.checked;
+    if(event?.currentTarget?.checked) this.schedular?.openCloseSchedular('open');
   }
 }
 

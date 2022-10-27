@@ -914,7 +914,9 @@ body {
     display: flex;
     align-items: center;
 }
-
+.searchAssist-kore-chat-window.search-container .box-header .logo-sec-title .powered-by-kore-text{
+    padding-left: 5px;
+}
 .searchAssist-kore-chat-window.search-container .box-header .right-side-icons {
     display: flex;
     align-items: center;
@@ -11753,9 +11755,10 @@ a.tile-heading {
     border:0px;
 }
 .show-all-results-outer-wrap .feedback-template-positions.if-live-search-top-down {
-    width: 31%;
+    width: 36%;
     right: 0 !important;
-    background: linear-gradient(180deg,rgba(255,255,255,0.31) 0%,#FFFFFF 38.74%) !important; 
+    background: linear-gradient(180deg,rgba(255,255,255,0.31) 0%,#FFFFFF 38.74%) !important;
+    padding-left: 0px;
 }
 .feedback-template-positions.if-live-search-top-down.bottom-up-show-all{
     /* top: 241px;
