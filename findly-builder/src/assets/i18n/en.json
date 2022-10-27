@@ -3140,7 +3140,18 @@
     "addFaq_http":"http(s)://",
     "addFaq_enter_your_question":"Enter Your Question",
     "addFaq_enter_reference_id":"Enter ReferenceId",
-    "addFaq_type_keyword":"Type Keyword"
+    "addFaq_type_keyword":"Type Keyword",
+
+    "addFaq_info":"Info",
+    "addFaq_comment":"Comment",
+    "addFaq_views":"Views",
+    "addFaq_clicks":"Clicks",
+    "addFaq_grid":"Grid",
+    "addFaq_list":"List",
+    "addFaq_resume_annotation":"Resume Annotation",
+    "addFaq_add_a_comment":"Add a comment"
+
+
 
 }
 
