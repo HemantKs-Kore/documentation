@@ -1648,4 +1648,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.search_field = '';
   }
 
+  //validate legends equality with annotators
+  // validateLegendAnnotatorEquality(){
+
+  // }
+
 }
