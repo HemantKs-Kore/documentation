@@ -108,11 +108,12 @@ export class RecordPaginationComponent implements OnInit {
     this.pageChangeEvent(this.inputPage)
   }
   arrowPrevious() {
-    if (this.inputPage > this.startpage) this.inputPage = this.inputPage - 1;
+    if (this.inputPage > this.startpage) this.inputPage = Number(this.inputPage) - 1;
+    this.inputPage > 0 ? this.inputPage : this.inputPage  = 1;
     this.pageChangeEvent(this.inputPage)
   }
   arrowNext() {
-    if (this.inputPage < this.endPage) this.inputPage = this.inputPage + 1;
+    if (this.inputPage < this.endPage) this.inputPage = Number(this.inputPage) + 1;
     this.pageChangeEvent(this.inputPage)
   }
 }
