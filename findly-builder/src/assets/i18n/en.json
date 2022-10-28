@@ -3177,7 +3177,14 @@
     "result_insights_24_hrs":"24 Hrs",
     "result_insights_7_days":"7 Days",
     "result_insights_custom":"Custom",
-    "result_insights_view_queries":"View Queries"
+    "result_insights_view_queries":"View Queries",
+
+    "search_insights_24hrs":"24 Hrs",
+    "search_insights_7days":"7 Days",
+    "search_insights_custom":"Custom",
+    "search_insights_view_results":"View Results",
+    "search_insights_no_of_times_query_searched":"Number of times the query was searched for by the end-users",
+    "search_insights_no_of_times_atleast_one_result_query":"Number of times where at least one result of the query was clicked on by the end-users"
 
 
 }
