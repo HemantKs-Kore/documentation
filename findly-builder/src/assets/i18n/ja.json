@@ -3194,7 +3194,32 @@
     "plan_planTo":"plan to",
     "plan_contact_number":"Contact Number",
     "plan_talk_to_us":"Talk to us",
-    "plan_submit":"Submit"
+    "plan_submit":"Submit",
+
+
+    "header_help":"Help",
+    "header_preview":"Preview",
+    "header_train":"Train",
+    "header_workspaces":"Workspaces",
+    "header_your_workspaces":"Your Workspaces",
+    "header_all_the_workspaces_desc":"All the workspaces that you have access to",
+    "header_members":"members",
+    "header_there_are_no_other_workspaces":"There are no other workspces",
+    "header_that_we_could_find":"that we could find for",
+    "header_other_workspaces":"Other Workspaces",
+    "header_workspaces_from_your_org_desc":"Workspaces from your organisation that you can join",
+    "header_of_6_steps_completed":"of 6 Steps Completed",
+    "header_view":"View",
+    "header_experiments":"Experiments",
+    "header_search_workspace":"Search Workspaces",
+    "header_enter_app_description":"Enter App Description",
+    "header_get_started":"Get Started",
+    "header_switch_workspace":"SWITCH WORKSPACE",
+    "header_current_workspace":"CURRENT WORKSPACE",
+    "header_start_by_creating_an_application":"Start by creating an Application",
+    "header_name_your_application":"Name Your Application",
+    "header_created_by":"Created by:"
+
 
 
 
