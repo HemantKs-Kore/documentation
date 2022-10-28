@@ -971,7 +971,7 @@ mediaObj:any = {};
       this.breadcrumbNameFaq='Search Interface'
     }
     else if(this.breadcrumbNameFaq=='resultTemplate'){
-      this.breadcrumbNameFaq='Result Template'
+      this.breadcrumbNameFaq='Result Templates'
     }
     /**Analytics*/
     else if(this.breadcrumbNameFaq=='experiments'){
