@@ -3074,6 +3074,16 @@
     "search_insights_custom":"Custom",
     "search_insights_view_results":"View Results",
     "search_insights_no_of_times_query_searched":"Number of times the query was searched for by the end-users",
-    "search_insights_no_of_times_atleast_one_result_query":"Number of times where at least one result of the query was clicked on by the end-users"
+    "search_insights_no_of_times_atleast_one_result_query":"Number of times where at least one result of the query was clicked on by the end-users",
 
+    "user_engagement_24hrs":"24 Hrs",
+    "user_engagement_7_days":"7 Days",
+    "user_engagement_custom":"Custom",
+    "user_engagement_0":"0",
+    "user_engagement_24":"24",
+    "user_engagement_no_of_unique_users_performed_during_selected_period":"Number of unique users performed search during the selected period",
+    "user_engagement_no_of_new_users_performed_search":"Number of new users performed search during the selected period",
+    "user_engagement_no_of_unqiue_users_who_performed_search_during_selected_period":"Number of unique users who performed search during the selected period",
+    "user_engagement_volume_of_users_that_performed_searches_at_different_hrs":"Volume of users that performed searches at different hours of the day",
+    "user_engagement_hrs":"hrs"
 }
