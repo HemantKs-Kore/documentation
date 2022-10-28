@@ -91,10 +91,12 @@ export class RecordPaginationComponent implements OnInit {
       else if(Number(inputNumber) > this.endPage){
         this.inputPage = this.endPage
       }
-      this.pageChangeEvent(this.inputPage)
+      setTimeout(()=>{
+        this.pageChangeEvent(this.inputPage)
+      },500)
     }
     else{
-      this.inputPage = 1
+      //this.inputPage = 1
     }
   }
   arrowFirst() {
