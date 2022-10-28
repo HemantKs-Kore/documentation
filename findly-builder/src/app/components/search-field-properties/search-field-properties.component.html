@@ -1,12 +1,17 @@
+<!-- Search Field Properties 
+- Author : Sujit
+-->
 <div class="fieldManagementComponent">
     <div class="table_sec">
+        <!-- SearchField Main Header -->
         <div class="seach_add_feild">
             <div class="title">{{'Search_Field_Properties' | translate}}
                 <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide'
-                    placement="right-center">
-                    <i class="si-topic-guide-1"></i>
+                    placement="right-center" (click)="openUserMetaTagsSlider()">
+                    <i class="si-topic-guide-1"></i> <!-- Topic Guide yet to Impiment -->
                 </span>
             </div>
+            <!-- Search -->
             <div class="d-flex align-items-center">
                 <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
                     <input type="text" placeholder="{{'sa_search' | translate}}" maxlength="60" class="input-search"  [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}"
@@ -24,9 +29,12 @@
                 </div>
                 <div class="add_feild d-none"><span class="pr-2"><i class="si-recall"></i></span> {{'resultRanking.reset' | translate}}</div>
             </div>
+            <!-- Search -->
         </div>
+        <!-- SearchField Main Header end-->
         <div>
             <div class="table_data_content" *ngIf="searchFieldProperties && searchFieldProperties.length">
+                <!-- SearchField Table Header -->
                 <div class="table_header row m-0">
                     <div class="col_ col-2 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldName')">
                         <span class="d-flex align-items-center flex-column mr-1">
@@ -45,7 +53,7 @@
                             <img class="ml-1 sortImg downArrow" [ngClass]="getSortIconVisibility('presentable', 'down')" src="assets/icons/caretDown.svg" />
                             <img class="ml-1 sortImg upArrow" [ngClass]="getSortIconVisibility('presentable', 'up')" src="assets/icons/caretDown.svg" />
                         </span> Presentable <span class="info-text-icon" [container]="'body'"
-                            ngbTooltip='Text goes here' placement="bottom-left"><i class="si-info icon-info"></i></span>
+                            ngbTooltip='Presentable' placement="bottom-left"><i class="si-info icon-info"></i></span>
                         <!-- <div class="kr-sg-dropdowns type_sort_dropdown d-none" #selectFilter="ngbDropdown" ngbDropdown
                             [container]="'body'" [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
@@ -73,7 +81,7 @@
                         <span class="d-flex align-items-center flex-column mr-1">
                             <img class="ml-1 sortImg downArrow" [ngClass]="getSortIconVisibility('highlight', 'down')" src="assets/icons/caretDown.svg" />
                             <img class="ml-1 sortImg upArrow" [ngClass]="getSortIconVisibility('highlight', 'up')" src="assets/icons/caretDown.svg" />
-                        </span> Highlight <span class="info-text-icon" [container]="'body'" ngbTooltip='Text goes here'
+                        </span> Highlight <span class="info-text-icon" [container]="'body'" ngbTooltip='Highlight'
                             placement="bottom-left"><i class="si-info icon-info"></i></span>
                     </div>
                     <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('spellCorrect')">
@@ -81,55 +89,12 @@
                             <img class="ml-1 sortImg downArrow" [ngClass]="getSortIconVisibility('spellCorrect', 'down')" src="assets/icons/caretDown.svg" />
                             <img class="ml-1 sortImg upArrow" [ngClass]="getSortIconVisibility('spellCorrect', 'up')" src="assets/icons/caretDown.svg" />
                         </span> Spell correct <span class="info-text-icon" [container]="'body'"
-                            ngbTooltip='Text goes here' placement="bottom-left"><i class="si-info icon-info"></i></span>
+                            ngbTooltip='Spell correct' placement="bottom-left"><i class="si-info icon-info"></i></span>
                     </div>
                 </div>
+                <!-- SearchField Table Header end-->
+                <!-- SearchField Table Records/Body -->
                 <perfect-scrollbar class="table_body_content">
-                    <!-- <div class="table_body row m-0">
-                        <div class="col-2 title text-left" title="faq_question_keywords">
-                            faq_question_keywords</div>
-                        <div class="col-3 title">
-                            <div class="range-slider">
-                                <app-range-slider [customClass]='"weightsSlider"' [allData]='weightModal.sliderObj'
-                                    (valueEvent)="valueEvent($event,weightModal)"></app-range-slider>
-                            </div>
-                        </div>
-                        <div class="col-2 title">
-                            <span class="field-value yes">Yes</span>
-                            <div class="toggle_switch">
-                                <label class="kr-sg-toggle">
-                                    <input checked="" type="checkbox">
-                                    <div class="slider"></div>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-2 title">
-                            <span class="field-value yes">Yes</span>
-                            <div class="toggle_switch">
-                                <label class="kr-sg-toggle">
-                                    <input checked="" type="checkbox">
-                                    <div class="slider"></div>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-2 title">
-                            <span class="field-value yes">Yes</span>
-                            <div class="toggle_switch">
-                                <label class="kr-sg-toggle">
-                                    <input checked="" type="checkbox">
-                                    <div class="slider"></div>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-1">
-                            <div class="action_links text-right">
-                                <span class="action_link-icon">
-                                    <i class="si-pencil-edit"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div> -->
-
                     <div class="table_body row m-0" *ngFor="let searchProperties of searchFieldProperties ; let i = index">
                         <div class="col-2 title text-left" title="faq_question_keywords">
                             {{searchProperties.fieldName}}</div>
@@ -139,30 +104,26 @@
                                         <app-range-slider [customClass]='"weightsSlider"' [allData]='searchProperties.properties.slider'
                                             (valueEvent)="valueEvent($event,searchProperties)"></app-range-slider>
                                     </div>
-                                    <div class="slider-value">{{searchProperties.properties.weight}}</div>
+                                    <div class="slider-value">{{searchProperties.properties.slider.default}}</div>
                                 </div>
                             </div>
+                        <!-- Disabled Conatiner -->
                         <ng-container *ngIf="i != enableIndex">
                             
                             <div class="col-2 title"><span  class="field-value" [ngClass]="searchProperties.properties.presentable ? 'yes' : 'no'">{{searchProperties.properties.presentable?'Yes':'No'}}</span></div>
                             <div class="col-2 title"><span class="field-value" [ngClass]="searchProperties.properties.highlight ? 'yes' : 'no'">{{searchProperties.properties.highlight?'Yes':'No'}}</span></div>
                             <div class="col-2 title"><span  class="field-value " [ngClass]="searchProperties.properties.spellCorrect ? 'yes' : 'no'">{{searchProperties.properties.spellCorrect?'Yes':'No'}}</span></div>
                         </ng-container>
+                        <!-- Disabled Conatiner end -->
+                        <!-- Edit Conatiner -->
                         <ng-container *ngIf="i == enableIndex">
-                            <!-- <div class="col-3 title">
-                                <div class="silder-range-block">
-                                    <div class="range-slider">
-                                        <app-range-slider [customClass]='"weightsSlider"' [allData]='searchProperties.properties.slider'
-                                            (valueEvent)="valueEvent($event,searchProperties)"></app-range-slider>
-                                    </div>
-                                    <div class="slider-value">{{searchProperties.properties.weight}}</div>
-                                </div>
-                            </div> -->
                             <!-- presentable -->
                             <div class="col-2 title">
                                 <div class="toggle_switch">
                                     <label class="kr-sg-toggle">
-                                        <input checked="" type="checkbox" [(ngModel)]="selectedProperties.presentable">
+                                        <input checked="" type="checkbox" [(ngModel)]="selectedProperties.presentable" 
+                                        (change)="!selectedProperties.presentable ? selectedProperties.highlight = false : selectedProperties.highlight = selectedProperties.highlight">
+                                        <!--  Chnage is added for validation based on Highlight property -->
                                         <div class="slider"></div>
                                     </label>
                                 </div>
@@ -170,8 +131,8 @@
                             <!-- highlight -->
                             <div class="col-2 title">
                                 <div class="toggle_switch" *ngIf="i == enableIndex">
-                                    <label class="kr-sg-toggle">
-                                        <input checked="" type="checkbox" [(ngModel)]="selectedProperties.highlight">
+                                    <label class="kr-sg-toggle" [ngClass]="!selectedProperties.presentable?'disable-toggle':''">
+                                        <input checked="" type="checkbox" [(ngModel)]="selectedProperties.highlight" >
                                         <div class="slider"></div>
                                     </label>
                                 </div>
@@ -179,17 +140,17 @@
                             <!-- spellCorrect -->
                             <div class="col-2 title">
                                 <div class="toggle_switch" *ngIf="i == enableIndex">
-                                    <label class="kr-sg-toggle" [ngClass]="searchFieldProperties[i].properties.highlight== false?'disable-toggle':''">
+                                    <label class="kr-sg-toggle">
                                         <input checked="" type="checkbox" [(ngModel)]="selectedProperties.spellCorrect">
                                         <div class="slider"></div>
                                     </label>
                                 </div>
                             </div>
                         </ng-container>
-                        
+                        <!-- Edit Conatiner end-->
                         <div class="col-1">
-                            <div class="action_links text-right">
-                                <span class="action_link-icon" ngbTooltip="{{'fields.edit' | translate}}" *ngIf="i !== enableIndex" (click)="editSearchFiledProperties(searchProperties.properties,i)"
+                            <div class="action_links text-right" *ngIf="selectedProperties.owner != 'sys'">
+                                <span class="action_link-icon" ngbTooltip="{{'fields.edit' | translate}}" *ngIf="i !== enableIndex" (click)="editSearchFiledProperties(searchProperties,i)"
                                 [container]="'body'">
                                     <i class="si-pencil-edit"></i>
                                 </span>
@@ -206,17 +167,19 @@
                             </div>
                         </div>
                     </div>
-
+                    <!-- NO RESULT FOUND-->
                     <div class="divBlockEmptylastChild text-center" *ngIf="!(searchFieldProperties && searchFieldProperties.length)">
                         <div class="desc" *ngIf="!totalRecord">No search results found</div>
                     </div>
-                  
+                    <!-- NO RESULT FOUND-->
                 </perfect-scrollbar>
-
+                <!-- SearchField Table Records/Body end-->
+                <!-- SearchField Pagnation -->
                 <div class="pagination-block">
                     <app-record-pagination  *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord'
                         [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
                 </div>
+                <!-- SearchField Pagnation end -->
             </div>
         </div>
     </div>

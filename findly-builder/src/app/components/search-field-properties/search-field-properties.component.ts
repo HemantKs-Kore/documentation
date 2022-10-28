@@ -52,7 +52,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
   isAsc = true;
   checksort='asc'
   searchImgSrc: any = 'assets/icons/search_gray.svg';
-
+  activeSliderIndex = -1; // Since the array value cannot be -1 , so this can used for any case;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -79,7 +79,6 @@ export class SearchFieldPropertiesComponent implements OnInit {
     //   this.streamId = null;
     // }
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
-
     this.fetchPropeties();
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -89,7 +88,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
     
     
   }
-
+  /**   */
   fetchPropeties(search?,type?,skip?){
     if(this.searchFields || this.searchFields.length>0){
       this.skip=0;
@@ -99,9 +98,9 @@ export class SearchFieldPropertiesComponent implements OnInit {
       search : this.searchFields || "",
       page:this.skip/10,
       limit:this.limit,
-      spellCorrect:this.selectedProperties.spellCorrect || true,
-      presentable: this.selectedProperties.presentable || true,
-      highlight: this.selectedProperties.highlight || true,
+      spellCorrect:this.selectedProperties.spellCorrect || true, // Not Required
+      presentable: this.selectedProperties.presentable || true, // Not Required
+      highlight: this.selectedProperties.highlight || true, // Not Required
       orderBy: this.checksort, //desc,
       indexPipelineId:this.indexPipelineId,
       streamId:this.selectedApp._id,
@@ -113,20 +112,24 @@ export class SearchFieldPropertiesComponent implements OnInit {
         const name = element.fieldName.replaceAll('_', '')
         element.properties['slider'] = new RangeSlider(0, 10, 1, element.properties.weight, name + index,'',false)
       });
-      this.totalRecord = res.totalCount
-      console.log(this.searchFieldProperties);
+      this.totalRecord = res.totalCount;
+      this.enableIndex = this.defaultIndex;
+      /** Clear Slider after Paginate , It will call only if the Paginagtion is done (Author : Sunil Singh)*/
+      // if(this.activeSliderIndex > -1){
+      //   this.cancel(this.searchFieldProperties[this.activeSliderIndex].properties,this.activeSliderIndex)
+      // }
+      // this.activeSliderIndex  = -1 // defaulting since the pagination hold the information of Index
     }, errRes => {
       this.notificationService.notify(errRes,'failed to get search field propeties');
     });
 
   }
+   /** Record Pagination's ( Child ) event captured here in SearchFiled ( Parent ) */
   paginate(event) {
     this.skip= event.skip
     this.fetchPropeties()
-     
-    // this.getFileds(event.skip, this.searchFields)
-
   }
+  //SearchFiledProperties's Search Event 
   focusoutSearch() {
     if (this.activeClose) {
       this.searchFields = '';
@@ -135,23 +138,40 @@ export class SearchFieldPropertiesComponent implements OnInit {
     }
     this.showSearch = !this.showSearch;
   }
-
+ //SearchFiledProperties's Search Event 
   focusinSearch(inputSearch) {
     setTimeout(() => {
       document.getElementById(inputSearch).focus();
     }, 100)
   }
-  editSearchFiledProperties(properties?,index?){
+  /** Clear slider  (Author : Sunil Singh) */
+  clearSlider(index){
+    if(this.activeSliderIndex > -1 && this.activeSliderIndex != index){
+      this.cancel(this.searchFieldProperties[this.activeSliderIndex].properties,this.activeSliderIndex)
+    }
+    this.activeSliderIndex = index;
+  }
+  /** helping Change detection for Slider If edit or Canceled  (Author : Sunil Singh) */
+  sliderChange(properties,index,enable){
     const name = this.searchFieldProperties[index].fieldName.replaceAll('_', '');
-    this.searchFieldProperties[index].properties['slider'] = new RangeSlider(0, 10, 1, properties.weight, name + index,'',true)
+    this.searchFieldProperties[index].properties['slider'] = new RangeSlider(0, 10, 1, properties.weight, name + index,'',enable)
+  }
+  /** On Edit event  */
+  editSearchFiledProperties(searchProperties?,index?){
+    this.clearSlider(index)
+    this.sliderChange(searchProperties.properties,index,searchProperties.isSearchable) // if isSearchable == flase Slider should be disabled
+    if(!searchProperties.isSearchable) {
+      this.notificationService.notify('This field is non Searchable ', 'warning')
+    }
     this.enableIndex = index;
-    this.selectedProperties =properties;
+    this.selectedProperties = Object.assign(this.selectedProperties, searchProperties.properties);
   }
+  /** On Cancel event  */
   cancel(properties?,index?){
-    const name = this.searchFieldProperties[index].fieldName.replaceAll('_', '')
-    this.searchFieldProperties[index].properties['slider'] = new RangeSlider(0, 10, 1, properties.weight, name + index,'',false)
-    //this.fetchPropeties();
+    this.sliderChange(properties,index,false)
+    this.activeSliderIndex = -1;
   }
+  /** On Save / Update event for existing SearchFields */
   saveAPI(selectedProperties, fieldId,i?){
     const quaryparms: any = {
       indexPipelineId:this.indexPipelineId,
@@ -159,19 +179,20 @@ export class SearchFieldPropertiesComponent implements OnInit {
       queryPipelineId:this.queryPipelineId,
       fieldId:fieldId
     };
+    selectedProperties.weight = selectedProperties.slider.default;
     const payload = selectedProperties;
     this.service.invoke('put.updatesearchFieldsProperties',quaryparms,payload).subscribe(res => {
-      //this.propeties = res;
       this.enableIndex = this.defaultIndex;
       this.fetchPropeties();      
       console.log(res);
       this.notificationService.notify('Updated Successfully', 'success');
     }, errRes => {
-      this.notificationService.notify('Updated Successfully', 'error');
+      this.notificationService.notify('Update Failed', 'error');
     });    
 
   
   }
+  /** Function for Icon Visiblity show Up / Show Down */
   getSortIconVisibility(sortingField: string, type: string) {
     switch (this.selectedSort) {
       case "fieldName": {
@@ -231,7 +252,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
       }
     }
   }
-
+ /** Function for sorting Column */
   sortByApi(sort){
     this.selectedSort = sort;
     if (this.selectedSort !== sort) {
@@ -253,10 +274,13 @@ export class SearchFieldPropertiesComponent implements OnInit {
     //this.fieldsFilter(null,null,null,null,sort,checkSortValue,naviagtionArrow)
     this.fetchPropeties();
   }
-    
+  /** slider's ( Child ) event captured here in SearchFiled ( Parent ) */
   valueEvent(event , searchProperties){
     searchProperties.properties.slider.default = event;
   }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+    }
   ngOnDestroy() {
     this.querySubscription ? this.querySubscription.unsubscribe() : false;
   }

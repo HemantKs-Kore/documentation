@@ -15,44 +15,36 @@ export class RangeSliderComponent implements OnInit, AfterViewInit {
   @Output() valueEvent = new EventEmitter();
   sliderUpdatedVal: number;
   sliderRet: any;
-  constructor() { 
-    console.log(this.allData)
-  }
-  someSubscription: any;
+  constructor() {}
+  
+  /** triggers when parent is resposible for the change in the Slider object (Author : Sunil Singh) */
   ngOnChanges(){
     this.sliderRet = this.registerSlider('#'+this.allData.id, { tooltip_position: 'top'})
-     if(this.allData.enable){
-        this.sliderRet.bootstrapSlider('enable');
-      }else{
-        this.sliderRet.bootstrapSlider('disable');
-      }
+    if(this.sliderRet){
+      this.allData.enable ?  this.sliderRet.bootstrapSlider('enable') : this.sliderRet.bootstrapSlider('disable');
+      this.sliderRet.bootstrapSlider('setValue', this.allData.default);
+    }
   }
+  /** triggers when view is initialized and to register and set the values */
   ngAfterViewInit() {
       this.sliderRet = this.registerSlider('#'+this.allData.id, { tooltip_position: 'top'})
       this.sliderRet.bootstrapSlider('setValue', this.allData.default);
-      // if(this.allData.enable){
-      //   this.sliderRet.bootstrapSlider('enable');
-      // }else{
-      //   this.sliderRet.bootstrapSlider('disable');
-      // }
       this.formatTooltip(this.allData.default);
   }
 
-  ngOnInit(): void {
-    console.log(this.allData)
-  }
+  ngOnInit(): void {}
 
   registerSlider(ele,obj){
-    //setTimeout(()=>{
       const slider =$(ele).bootstrapSlider(obj);
+      if($(ele).bootstrapSlider()){
         $(ele).bootstrapSlider().on('slideStop', (ev) => {
           this.onSliderChanged(ev.value);
         });
         $(ele).bootstrapSlider().on('slide', (ev) => {
           this.formatTooltip(ev.value,true);
         });
+      }
       return slider;
-   // },100)
   }
 
   onSliderChanged(val) {
