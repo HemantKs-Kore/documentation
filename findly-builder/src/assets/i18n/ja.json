@@ -3078,7 +3078,12 @@
     "structuredData_age_key_value_pair":"“Age” : “61”",
     "structuredData_previous":"Previous",
     "structuredData_next":"Next",
-    "structuredData_indent":"Indent"
+    "structuredData_indent":"Indent",
+
+    "result_insights_24_hrs":"24 Hrs",
+    "result_insights_7_days":"7 Days",
+    "result_insights_custom":"Custom",
+    "result_insights_view_queries":"View Queries"
 
 
 
