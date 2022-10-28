@@ -3112,7 +3112,14 @@
     "dash_board_total_no_of_searches_that_returned_one_result":"Total number of searches that returned at least one result",
     "dash_board_no_of_searches_where_atleast_one_result_was_clicked":"No. of searches where at least one result was clicked on by the search user",
     "dash_board_average_position_of_click_performed_search_results":"Average position of the clicks performed on the search results",
-    "dash_board_position_which_search_results_clicked_on_by_end_users":"Position at which the search results were clicked on by the end - users most number of times."
+    "dash_board_position_which_search_results_clicked_on_by_end_users":"Position at which the search results were clicked on by the end - users most number of times.",
+
+    "experiments_pause":"Pause",
+    "experiments_stop":"Stop",
+    "experiments_play":"Play",
+    "experiments_delete":"Delete",
+    "experiments_enter_experiment_name":"Enter Experiment Name",
+    "experiments_enter_variant_name":"Enter Variant Name"
 
 
 
