@@ -168,10 +168,12 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         else {
           this.notify.notify('Set to default Index successfully', 'success');
         }
-        this.appSelectionService.getIndexPipelineIds(config);
-        if (config && config._id && action !== 'edit') {
-          this.selectQueryPipelineId(config);
-        }
+        this.appSelectionService.getIndexPipelineIds(config)
+        this.selectedIndexConfig = config._id;
+        // this.appSelectionService.getIndexPipelineIds(config);
+        // if (config && config._id && action !== 'edit') {
+        //   this.selectQueryPipelineId(config);
+        // }
         this.closeIndexModalPopup();
       },
       errRes => {
