@@ -3,10 +3,10 @@
   <perfect-scrollbar>
     <div class="modal-body">
       <div class="pricing-paln-change-modal">
-        <div class="close-modal" (click)="closeSelectedPopup('choose_plan')">Close <span class="close-span"><i class="si-close close-icon"></i></span></div>     
+        <div class="close-modal" (click)="closeSelectedPopup('choose_plan')">{{"sa_close" | translate}}<span class="close-span"><i class="si-close close-icon"></i></span></div>     
         <div class="pricing-main-header">
-          <h2 class="pricing-header">Straight Forward Pricing</h2>
-          <p class="pricing-desc">Simple usage-based pricing that align with your business goals.</p>
+          <h2 class="pricing-header">{{"plan_straight_forward_pricing" | translate}}</h2>
+          <p class="pricing-desc">{{"plan_simple_usage_based_pricing_info" | translate}}</p>
         </div>
   
         <div class="pricing-paln-types">
@@ -20,7 +20,7 @@
               <div class="plan-details">
                 <div class="plan-type">
                   <div class="plan-name">{{plan?.name}}</div>
-                  <div class="plan-current-status" [ngClass]="{'d-none':(plan?.name|lowercase)!=='free'}">Free Forever</div>
+                  <div class="plan-current-status" [ngClass]="{'d-none':(plan?.name|lowercase)!=='free'}">{{"plan_free_forever" | translate}}</div>
                 </div>
                 <div class="plan-cost-details">
                   <div class="plan-cost">{{['free','standard'].includes(plan?.name|lowercase)?'$':'Custom Plans'}}{{plan?.planAmount}} <span class="plan-duration-type">{{['free','enterprise','unlimited'].includes(plan?.name|lowercase)?'':'/ '}}{{(plan?.name|lowercase)==='free'?'Forever':['unlimited','enterprise'].includes(plan?.name|lowercase)?'':plan?.billingUnit}}</span></div>
@@ -46,16 +46,16 @@
                 <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span>{{['unlimited','enterprise'].includes(plan?.name|lowercase)?plan?.featureAccess?.ingestDocs?.displayText:plan?.featureAccess?.ingestDocs?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">Records</span> </div>
                 <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span> {{['unlimited','enterprise'].includes(plan?.name|lowercase)?plan?.featureAccess?.searchQueries?.displayText:plan?.featureAccess?.searchQueries?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">Queries/Month</span> </div>
                 <div class="plan-sub-features">
-                  <div class="plan-sub-feature-hding" *ngIf="(plan?.name|lowercase)==='free'"><strong>Free</strong> Includes</div>
-                  <div class="plan-sub-feature-hding" *ngIf="['standard','enterprise','unlimited'].includes(plan?.name|lowercase)">Everything in <strong>{{(plan?.name|lowercase)==='standard'?'Free':'Standard'}}</strong>, plus:</div>
+                  <div class="plan-sub-feature-hding" *ngIf="(plan?.name|lowercase)==='free'"><strong>{{"plan_free" | translate}}</strong> {{"plan_includes" | translate}}</div>
+                  <div class="plan-sub-feature-hding" *ngIf="['standard','enterprise','unlimited'].includes(plan?.name|lowercase)">{{"plan_everything" | translate}}<strong>{{(plan?.name|lowercase)==='standard'?'Free':'Standard'}}</strong>{{"plan_plus" | translate}}</div>
                   <ng-container *ngFor="let feature of plan?.featureData|slice:0:((plan?.name|lowercase)==='free'?featureLimit:(plan?.featureData?.length))">
                     <div class="plan-feature-desc" *ngIf="feature?.displayOnBanner"><span class="icon-si"><i class="si-green-check"></i></span> {{(feature?.name)}} </div>
                   </ng-container>
-                  <div class="show-more" (click)="featureLimit=(plan?.featureData?.length);" [ngClass]="{'d-none':(featureLimit!==8||(plan?.name|lowercase)!=='free')}"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show <span class="show-more-count">10</span>more features </div>
+                  <div class="show-more" (click)="featureLimit=(plan?.featureData?.length);" [ngClass]="{'d-none':(featureLimit!==8||(plan?.name|lowercase)!=='free')}"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span>{{"plan_show" | translate}}<span class="show-more-count">{{"plan_10" | translate}}</span>{{"plan_more_feature" | translate}}</div>
                   <div class="plan-sub-feature-hding"><strong>{{(plan?.name|lowercase)==='free'?'Self-Service Support':'Support'}}</strong></div>
-                  <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>Kore.ai Community</div>
-                  <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>Kore.ai Academy</div>
-                  <div class="plan-feature-desc" *ngIf="['standard','enterprise','unlimited'].includes(plan?.name|lowercase)"><span class="icon-si"><i class="si-green-check"></i></span>{{plan?.name}} Support Upgrade Option</div>
+                  <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>{{"plan_koreAi_community" | translate}}</div>
+                  <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>{{"plan_koreAi_academay" | translate}}</div>
+                  <div class="plan-feature-desc" *ngIf="['standard','enterprise','unlimited'].includes(plan?.name|lowercase)"><span class="icon-si"><i class="si-green-check"></i></span>{{plan?.name}}{{"plan_support_upgrade_option" | translate}}</div>
                 </div>
               </perfect-scrollbar>
             </div>
@@ -65,14 +65,14 @@
         <!-- compare plan start from here -->
         <div class="compare-plans-section">
           <div class="pricing-main-header">
-            <h2 class="pricing-header">Compare Plans</h2>
-            <p class="pricing-desc">Compare the features of each plan and find the one that suites you best.</p>
+            <h2 class="pricing-header">{{"plan_compare_plans" | translate}}</h2>
+            <p class="pricing-desc">{{"plan_compare_the_features_info" | translate}}</p>
           </div>
 
           <div class="compare-plan-tabs row">
-            <div class="compare-plan-tab-name col-lg-3 offset-lg-3">Free</div>
-            <div class="compare-plan-tab-name col-lg-3">Standard</div>
-            <div class="compare-plan-tab-name col-lg-3">Enterprise</div>
+            <div class="compare-plan-tab-name col-lg-3 offset-lg-3">{{"plan_free" | translate}}</div>
+            <div class="compare-plan-tab-name col-lg-3">{{"plan_standard" | translate}}</div>
+            <div class="compare-plan-tab-name col-lg-3">{{"plan_enterprise" | translate}}</div>
           </div>
          <ng-container *ngFor="let feature of featureTypes">
           <div class="plan-table-block">
@@ -106,7 +106,7 @@
         <div class="faq-list-section">
           <div class="faq-list-block">
             <div class="faq-list-header">
-              Frequently Asked Questions
+             {{"plan_frequenty_asked_questions" | translate}}
             </div>
             <div class="faq-list-acc-section">
               <div class="p-pricing-faq-tile" *ngFor="let faq of frequentFAQs;let i=index;">
@@ -134,7 +134,7 @@
 <!--order confirm & payment gateway popup-->
 <kr-modal modalType="center" modalClass="modal_popups_ payment_gateway" #paymentGatewayModel>
   <div class="modal-header">
-    <div class="title">{{"plan.order_confirmation"| translate}}</div>
+    <div class="title">{{"plan_order_confirmation"| translate}}</div>
     <div class="close_icon" (click)="closeSelectedPopup('payment_gateway')">
       <img src="assets/icons/modal-close.svg">
     </div>
@@ -149,8 +149,8 @@
                   <div class="rotaion-img">
                     <img src="assets/images/pricing-plan/rotaion-spinner.svg" />
                   </div>
-                  <div class="request-hding">Please wait</div>
-                  <div class="request-desc">Thank you for your order, please wait while we get the order confirmation details. </div>
+                  <div class="request-hding">{{"plan_please_weight"| translate}}</div>
+                  <div class="request-desc">{{"plan_thankyou_for_your_order_desc"| translate}} </div>
                 </div>
               </div>
               <div class="col-12">
@@ -158,9 +158,9 @@
                   <div class="rotaion-img">
                     <img src="assets/images/pricing-plan/rotaion-spinner.svg" />
                   </div>
-                  <div class="request-hding">Please wait</div>
-                  <div class="request-desc">Looks like it is taking longer than usual to process your transaction. </div>
-                  <div class="request-desc">You can either choose to wait or close this window to continue with your work. We will let you know once the payment is done.</div>
+                  <div class="request-hding">{{"plan_please_weight"| translate}}</div>
+                  <div class="request-desc">{{"plan_looks_like_it_is_taking_longer_desc"| translate}}</div>
+                  <div class="request-desc">{{"plan_you_can_either_choose_to_wait_desc"| translate}}</div>
                 </div>
               </div>
               </div>
@@ -172,24 +172,24 @@
                   </div>
                 </div>
                 <div class="col-6">
-                  <div class="order-header text-center">Order Summary</div>
+                  <div class="order-header text-center">{{"plan_order_summary"| translate}}</div>
                   <div class="order-summary-table">
-                    <div class="order-summary-header">You are changing from {{selectedPlan?.planName}} plan to {{orderConfirmData?.name}} Plan</div>
+                    <div class="order-summary-header">{{"plan_you_are_changing_from2"| translate}} {{selectedPlan?.planName}} {{"plan_planTo" | translate}} {{orderConfirmData?.name}} {{"plan_plana"| translate}}</div>
                     <div class="row order-summary-table-body">
                       <div class="col col-lg-6">
-                        <div class="order-summary-table-header">PLAN</div>
+                        <div class="order-summary-table-header">{{"plan_plan_caps"| translate}}</div>
                       </div>
                       <div class="col col-lg-6">
-                        <div class="order-summary-table-header text-right">AMOUNT</div>
+                        <div class="order-summary-table-header text-right">{{"plan_amount_caps" | translate}}</div>
                       </div>
                     </div>
       
                     <div class="row order-summary-table-body">
                       <div class="col col-lg-6">
-                        <div class="order-summary-table-row">{{orderConfirmData?.name}} PLAN</div>
+                        <div class="order-summary-table-row">{{orderConfirmData?.name}} {{"plan_amount_caps" | translate}}</div>
                       </div>
                       <div class="col col-lg-6">
-                        <div class="order-summary-table-row text-right">$ {{orderConfirmData?.planAmount}}</div>
+                        <div class="order-summary-table-row text-right">{{"plan_$" | translate}} {{orderConfirmData?.planAmount}}</div>
                       </div>
                     </div>      
                     <div class="order-type">
@@ -215,11 +215,11 @@
                 <div class="col-6">
                   <div class="payment-status-overview">
                     <div class="payment-status-img"> <img src="assets/images/pricing-plan/plan-order/payment-confirm-success.svg" /></div>
-                    <div class="payment-status-header">Yay! Payment Successful...</div>
-                    <div class="payment-status-desc">{{(orderConfirmData?.featureAccess?.ingestDocs?.limit|valueFormat)}} Documents added and {{(orderConfirmData?.featureAccess?.searchQueries?.limit|valueFormat)}} Queries added per {{orderConfirmData?.billing?.unit}}</div>
-                    <div class="payment-status-expire">Expires on {{(selectedPlan?.endDate|date:'dd MMM yyyy')}}</div>
+                    <div class="payment-status-header">{{"plan_yay_payment_successful" | translate}}</div>
+                    <div class="payment-status-desc">{{(orderConfirmData?.featureAccess?.ingestDocs?.limit|valueFormat)}} {{"plan_documents_added_and" | translate}} {{(orderConfirmData?.featureAccess?.searchQueries?.limit|valueFormat)}} {{"plan_queries_add_per" | translate}} {{orderConfirmData?.billing?.unit}}</div>
+                    <div class="payment-status-expire">{{"plan_expires_on" | translate}} {{(selectedPlan?.endDate|date:'dd MMM yyyy')}}</div>
                     <div class="payment-status-btn">
-                      <button class="kr-sg-button-secondary btn_lg" (click)="downloadInvoice()">Download Invoice <span class="px-2"><i class="si si-download-file primaryColor"></i></span></button>
+                      <button class="kr-sg-button-secondary btn_lg" (click)="downloadInvoice()">{{"plan_downloadinvoice" | translate}} <span class="px-2"><i class="si si-download-file primaryColor"></i></span></button>
                     </div>
                   </div>
                 </div>
@@ -234,11 +234,11 @@
                 <div class="col-6">
                   <div class="payment-status-overview">
                     <div class="payment-status-img"> <img src="assets/images/pricing-plan/plan-order/payment-confirm-fail.svg" /></div>
-                    <div class="payment-status-header">Payment Failed!</div>
-                    <div class="payment-status-desc">{{(orderConfirmData?.overage?.ingestDocs?.limit|valueFormat)}} Documents added and {{(orderConfirmData?.overage?.searchQueries?.limit|valueFormat)}} Queries added per {{orderConfirmData?.billing?.unit}}</div>
+                    <div class="payment-status-header">{{"plan_payment_failed2" | translate}}</div>
+                    <div class="payment-status-desc">{{(orderConfirmData?.overage?.ingestDocs?.limit|valueFormat)}} {{"plan_documents_added_and" | translate}} {{(orderConfirmData?.overage?.searchQueries?.limit|valueFormat)}} {{"plan_queries_add_per" | translate}} {{orderConfirmData?.billing?.unit}}</div>
                     <div class="payment-status-expire">Something Went Wrong</div>
                     <div class="payment-status-btn">
-                      <button class="kr-sg-button-secondary btn_lg">Retry Payment <span class="px-2"><i class="si si-re-fresh primaryColor"></i></span></button>
+                      <button class="kr-sg-button-secondary btn_lg">{{"plan_something_went_wrong" | translate}} <span class="px-2"><i class="si si-re-fresh primaryColor"></i></span></button>
                     </div>
                   </div>
                 </div>
@@ -253,8 +253,8 @@
                 <div class="col-6">
                   <div class="payment-status-overview">
                     <div class="payment-status-img"> <img src="assets/images/pricing-plan/plan-order/payment-confirm-hold.svg" /></div>
-                    <div class="payment-status-header">Payment On Hold!</div>
-                    <div class="payment-status-desc">We will send you an email if we need any further information from you. You can either wait or close this window to continue with your work. </div>
+                    <div class="payment-status-header">{{"plan_payment_on_hold" | translate}}</div>
+                    <div class="payment-status-desc">{{"plan_we will_send_you_an_email_info" | translate}}</div>
                   </div>
                 </div>
               </div>
@@ -262,16 +262,16 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="openPaymentGateway()" *ngIf="selectedPaymentPage==='payment_confirm'">{{"plan.proceed"| translate}}</button>
-    <button class="kr-sg-button-ghost btn_lg" (click)="closeSelectedPopup('payment_gateway')" *ngIf="['payment_confirm','payment_iframe'].includes(selectedPaymentPage)">{{"plan.cancel"|translate}}</button>
-    <button class="kr-sg-button-ghost btn_lg" (click)="closeSelectedPopup('payment_gateway')" *ngIf="['payment_fail','payment_hold'].includes(selectedPaymentPage)">{{"plan.close"|translate}}</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="openPaymentGateway()" *ngIf="selectedPaymentPage==='payment_confirm'">{{"plan_proceed"| translate}}</button>
+    <button class="kr-sg-button-ghost btn_lg" (click)="closeSelectedPopup('payment_gateway')" *ngIf="['payment_confirm','payment_iframe'].includes(selectedPaymentPage)">{{"plan_cancel"|translate}}</button>
+    <button class="kr-sg-button-ghost btn_lg" (click)="closeSelectedPopup('payment_gateway')" *ngIf="['payment_fail','payment_hold'].includes(selectedPaymentPage)">{{"plan_close"|translate}}</button>
   </div>
 </kr-modal>
 
 <!--Add overage modal-->
 <kr-modal modalType="center" modalClass="modal_popups_ cancel_subscription_new" #addOverageModel>
   <div class="modal-header">
-    <div class="title">{{"plan.order_confirmation"| translate}}</div>
+    <div class="title">{{"plan_order_confirmation"| translate}}</div>
     <div class="close_icon" (click)="overageModal('close')">
       <img src="assets/icons/modal-close.svg">
     </div>
@@ -286,20 +286,20 @@
         </div>
         <div class="col-7">
          <section class="add-overage-section">
-          <div class="order-header text-center">Order Summary</div>
+          <div class="order-header text-center">{{"plan_order_summary"| translate}}</div>
           <div class="order-summary-table">
             <div class="row order-summary-table-body">
               <div class="col col-lg-10">
-                <div class="order-summary-table-header">PLAN</div>
+                <div class="order-summary-table-header">{{"plan_plan_caps"| translate}}</div>
               </div>
               <div class="col col-lg-2">
-                <div class="order-summary-table-header text-right">AMOUNT</div>
+                <div class="order-summary-table-header text-right">{{"plan_amount_caps"| translate}}</div>
               </div>
             </div>
             <div class="row order-summary-table-body">
               <div class="col col-lg-10">
                 <div class="order-summary-table-row">
-                  <div class="order-summary-header">Document Overage</div>
+                  <div class="order-summary-header">{{"plan_document_overage"| translate}}</div>
                   <div class="count-btn-group">
                     <div class="count-btn count-dec" (click)="overageDeatils.docCount=overageDeatils.docCount>0?overageDeatils.docCount-1:0">-</div>
                     <div class="count-input"><input class="count-value" type="text" [value]="overageDeatils?.docCount" name="count-num" readonly/></div>
@@ -310,14 +310,14 @@
               </div>
               <div class="col col-lg-2 d-flex align-items-center">
                 <div class="order-summary-table-row text-right">
-                  <div class="row-amount-total">$ {{(overageDeatils?.ingestDocs?.amount*overageDeatils.docCount)}}</div>
+                  <div class="row-amount-total">{{"plan_$"| translate}} {{(overageDeatils?.ingestDocs?.amount*overageDeatils.docCount)}}</div>
                 </div>
               </div>
             </div>
             <div class="row order-summary-table-body">
               <div class="col col-lg-10">
                 <div class="order-summary-table-row">
-                  <div class="order-summary-header">Queries Overage</div>
+                  <div class="order-summary-header">{{"plan_queries_overage"| translate}}</div>
                   <div class="count-btn-group">
                     <div class="count-btn count-dec" (click)="overageDeatils.queriesCount=overageDeatils.queriesCount>0?overageDeatils.queriesCount-1:0">-</div>
                     <div class="count-input"><input class="count-value" type="text" [value]="overageDeatils?.queriesCount" name="count-num" readonly/></div>
@@ -328,29 +328,29 @@
               </div>
               <div class="col col-lg-2 d-flex align-items-center">
                 <div class="order-summary-table-row text-right">
-                  <div class="row-amount-total">$ {{(overageDeatils?.searchQueries?.amount*overageDeatils.queriesCount)}}</div>
+                  <div class="row-amount-total">{{"plan_$"| translate}} {{(overageDeatils?.searchQueries?.amount*overageDeatils.queriesCount)}}</div>
                 </div>
               </div>
             </div>
             <div class="row order-summary-table-body table-footer">
               <div class="col col-lg-10">
                 <div class="order-summary-table-row">
-                  <div class="order-summary-header">Total Charges</div>
+                  <div class="order-summary-header">{{"plan_total_charges"| translate}}</div>
                 </div>
               </div>
               <div class="col col-lg-2 d-flex align-items-center">
                 <div class="order-summary-table-row text-right">
-                  <div class="row-amount-total">$ {{(overageDeatils?.ingestDocs?.amount*overageDeatils?.docCount)+(overageDeatils?.searchQueries?.amount*overageDeatils.queriesCount)}}</div>
+                  <div class="row-amount-total">{{"plan_$"| translate}} {{(overageDeatils?.ingestDocs?.amount*overageDeatils?.docCount)+(overageDeatils?.searchQueries?.amount*overageDeatils.queriesCount)}}</div>
                 </div>
               </div>
             </div>
           </div>
           <div class="order-compare-plan">
             <div class="order-suggation-type">
-              <div class="suggation-text">You can also compare and upgrade to Enterprise plan</div>
-              <div class="suggation-text">{{selectedPlan?.subscription?.planName}} Plan - {{(selectedPlan?.usage?.ingestDocs?.limit|valueFormat)}} Documents and {{(selectedPlan?.usage?.searchQueries?.limit|valueFormat)}} Queries per month.</div>
+              <div class="suggation-text">{{"plan_you_can_also_compare_and_upgrade_desc"| translate}}</div>
+              <div class="suggation-text">{{selectedPlan?.subscription?.planName}} {{"plan_plan_"| translate}} {{(selectedPlan?.usage?.ingestDocs?.limit|valueFormat)}} Documents and {{(selectedPlan?.usage?.searchQueries?.limit|valueFormat)}} {{"plan_queries_per_month"| translate}}</div>
             </div>
-            <div class="compare-plans-link" (click)="openSelectedPopup('choose_plan')">Compare all plans</div>
+            <div class="compare-plans-link" (click)="openSelectedPopup('choose_plan')">{{"plan_queries_per_month"| translate}}</div>
           </div>
          </section>
         </div>
@@ -358,27 +358,27 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="buyOverage()" [disabled]="(overageDeatils?.docCount===0&&overageDeatils?.queriesCount===0)||btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>{{"plan.proceed"| translate}}</button>
-    <button class="kr-sg-button-secondary btn_lg" (click)="overageModal('close')">{{"plan.no_thanks"| translate}}</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="buyOverage()" [disabled]="(overageDeatils?.docCount===0&&overageDeatils?.queriesCount===0)||btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>{{"plan_proceed"| translate}}</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="overageModal('close')">{{"plan_no_thanks"| translate}}</button>
   </div>
 </kr-modal>
 
 <!--change plan/excess data show popup-->
 <kr-modal modalType="above-modal-drop" modalClass="modal_popups_ order-confirmation excess-modal-data" #changePlanModel>
   <!-- <div class="modal-header">
-    <div class="title">{{"plan.change_plan"| translate}}</div>
+    <div class="title">{{"plan_change_plan"| translate}}</div>
     <div class="close_icon"><img src="assets/icons/modal-close.svg"></div>
   </div> -->
   <perfect-scrollbar>
     <div class="modal-body">
       <div class="desc-text-info">
-        {{"plan.please"| translate}} <span>{{"plan.delete_excess"| translate}}</span> {{"plan.choose_another_plan"| translate}}.
+        {{"plan_please"| translate}} <span>{{"plan_delete_excess"| translate}}</span> {{"plan_choose_another_plan"| translate}}.
       </div>
       <div class="excess-table-data">
         <div class="excess-header col-12 row">
-          <div class="col-4">{{"plan.features"| translate}}</div>
-          <div class="col-4">{{"plan.current_usage"| translate}}</div>
-          <div class="col-4">{{"plan.limit"| translate}}</div>
+          <div class="col-4">{{"plan_features"| translate}}</div>
+          <div class="col-4">{{"plan_current_usage"| translate}}</div>
+          <div class="col-4">{{"plan_limit"| translate}}</div>
         </div>
         <div class="excess-table-body col-12 row" *ngFor="let feature of featuresExceededUsage">
           <div class="excess-type col-4">{{feature?.name}}</div>
@@ -389,7 +389,7 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="openExcessDataPopup('close')">{{"plan.okay"| translate}}</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="openExcessDataPopup('close')">{{"plan_okay"| translate}}</button>
   </div>
 </kr-modal>
 
@@ -397,29 +397,29 @@
 <kr-modal modalType="above-modal-drop" modalClass="modal_popups_ contact-us-modal_" #contactUsModel>
   <div class="right-sec-form"> 
     <div class="modal-header">
-      <div class="modal-hding">Talk to us</div>
+      <div class="modal-hding">{{"plan_talk_to_us" | translate}}</div>
       <div class="close_icon"><img (click)="contactusModel('close');validations=false" src="assets/icons/modal-close.svg"></div>
     </div>
   <perfect-scrollbar class="scroll-talktous">
       <div class="scroll-content">       
         <div class="kr-sg-input-text mb-3">
-          <div class="label-text">Name<sup class="field-mandatory">*</sup></div>
-          <input type="text" placeholder="Name" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.name" [ngClass]="{'error':validations && !enterpriseForm.name }">
+          <div class="label-text">{{"plan_name"| translate}}<sup class="field-mandatory">*</sup></div>
+          <input type="text" placeholder="{{'plan_name' | translate}}" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.name" [ngClass]="{'error':validations && !enterpriseForm.name }">
         </div>
         <div class="kr-sg-input-text mb-3">
-          <div class="label-text">Email<sup class="field-mandatory">*</sup></div>
-          <input type="text" placeholder="Email" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.email" [ngClass]="{'error':validations && !enterpriseForm.email }">
+          <div class="label-text">{{"plan_email"| translate}}<sup class="field-mandatory">*</sup></div>
+          <input type="text" placeholder="{{'plan_email' | translate}}" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.email" [ngClass]="{'error':validations && !enterpriseForm.email }">
         </div>
         <div class="kr-sg-input-text mb-3">
-          <div class="label-text">Contact Number</div>
-          <input type='text' placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.phone">
+          <div class="label-text">{{"plan_contact_number"| translate}}</div>
+          <input type='text' placeholder="{{'plan_optional' | translate}}" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.phone">
         </div>
         <div class="kr-sg-input-text mb-3">
-          <div class="label-text">Company Name</div>
-          <input type="text" placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.company">
+          <div class="label-text">{{"plan_company_name"| translate}}</div>
+          <input type="text" placeholder="{{'plan_optional' | translate}}" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.company">
         </div>
         <!-- Country-->
-        <div class="label-text mb-1">Select Country<sup class="field-mandatory">*</sup></div>
+        <div class="label-text mb-1">{{"plan_select_country" | translate}}<sup class="field-mandatory">*</sup></div>
         <div class="kr-sg-dropdowns col-13 pl-0 mb-3" ngbDropdown>
           <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" id="counryBasic" data-toggle="dropdown" [ngClass]="{'error':validations && !enterpriseForm.country }"
@@ -430,7 +430,7 @@
               ngbDropdownMenu>
               <li class="search-box">
                 <input id="searchBoxId" autocomplete="off" type="text" [(ngModel)]="search_country"
-                  placeholder="Search" class="seach-input" autofocus />
+                  placeholder="{{'sa_search' | translate}}" class="seach-input" autofocus />
               </li>
               <perfect-scrollbar class="scroll-search-field h-178">
                 <ng-container>
@@ -447,13 +447,13 @@
         </div>
         <!-- Country-->
         <div class="kr-sg-input-text-area mb-3">
-          <div class="label-text">Message</div>
-          <textarea placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.message"></textarea>
+          <div class="label-text">{{"plan_message" | translate}}</div>
+          <textarea placeholder="{{'plan_optional' | translate}}" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.message"></textarea>
         </div>
       </div>
   </perfect-scrollbar>
   <div class="text-right talk-to-us-footer">
-    <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()" [disabled]="btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>Submit Request</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()" [disabled]="btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>{{"plan_submit_request" | translate}}</button>
   </div>
 </div> 
 </kr-modal>
@@ -461,7 +461,7 @@
 <!--Confirm upgrade/downgrade modal-->
 <kr-modal modalType="above-modal-drop" modalClass="modal_popups_ revert-cancellation-popup above-modal-drop-class" #confirmUpgradeModel>
   <div class="modal-header">
-    <div class="title">Are you sure you want to continue?</div>
+    <div class="title">{{"plan_are_you_sure_you_want_to_continue" | translate}}</div>
     <div class="close_icon" (click)="closeConfirmUpgradeModal('close')">
       <img src="assets/icons/modal-close.svg">
     </div>
@@ -470,7 +470,7 @@
     <div class="desc-text-info">Your cancellation request will be reverted and current plan will be retained</div>
   </div> -->
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="downgradePlan()" [disabled]="btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>Submit</button>
-    <button class="kr-sg-button-secondary btn_lg" (click)="closeConfirmUpgradeModal('close')">Cancel</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="downgradePlan()" [disabled]="btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>{{"plan_submit" | translate}}</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="closeConfirmUpgradeModal('close')">{{"sa_cancel" | translate}}</button>
   </div>
 </kr-modal>
