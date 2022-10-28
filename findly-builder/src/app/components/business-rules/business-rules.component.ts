@@ -258,6 +258,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.openModalPopup();
   }
   closeModalPopup() {
+    if($("#contentText").length>0){
+      $("#contentText")[0].style.borderColor='';
+    } 
     this.addBusinessRulesRef.close();
     this.submitted = false;
     this.rulesArrayforAddEdit = [];
@@ -692,6 +695,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       if (ruleObj.contextType === 'userContext') {
         ruleObj.contextCategory = '';
       }
+      ruleObj.value=[];
     }
     if (key === 'operator') {
       if (ruleObj.operator !== value) {
