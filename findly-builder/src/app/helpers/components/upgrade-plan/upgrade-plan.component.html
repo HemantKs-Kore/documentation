@@ -33,17 +33,13 @@
             </div>
             <div class="plan-upgrade-block">
               <!-- latest code wrt new prod -->
-              <div *ngIf="enable_pricing">
-                <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName)?null:(selectedPlan?.planName==='Enterprise')?contactusModel('open'):closeConfirmUpgradeModal('open',plan)" placement="right" [ngbTooltip]="(selectedPlan?.planName==='Enterprise')?'Please contact us to downgrade to standard subscription':''" [container]='"body"' tooltipClass="metrics_tooltips m-0">{{(plan?.name===selectedPlan?.planName)?'Current Plan':(selectedPlan?.planName==='Enterprise')?'Talk to us':'Choose Plan'}}</button>
-                <button class="btn" [ngClass]="{'current-paln':(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===plan?.billingUnit)}" *ngIf="(plan?.name|lowercase)==='standard'" (click)="((plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan))?null:(selectedPlan?.billingUnit==='Monthly'&&selectedPlan?.planName!=='Enterprise')?closeConfirmUpgradeModal('open',plan):(selectedPlan?.billingUnit==='Yearly'||selectedPlan?.planName==='Enterprise')?contactusModel('open'):[openSelectedPopup('payment_gateway'),orderConfirmData=plan]">{{(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan)?'Current Plan':(selectedPlan?.billingUnit==='Yearly'||selectedPlan?.planName==='Enterprise')?'Talk to us':'Choose Plan'}}<span class="d-none"><i class="si-right-arrow-large"></i></span></button>
-                <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="['unlimited','enterprise'].includes(plan?.name|lowercase)" (click)="plan?.name===selectedPlan?.planName?null:contactusModel('open')">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
-              </div>
-              <!-- old code wrt old prod -->
-              <div *ngIf="!enable_pricing">
-                <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName)?null:contactusModel('open')" placement="right" [ngbTooltip]="(selectedPlan?.planName==='Enterprise')?'Please contact us to downgrade to standard subscription':''" [container]='"body"' tooltipClass="metrics_tooltips m-0">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
-                <button class="btn" [ngClass]="{'current-paln':(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===plan?.billingUnit)}" *ngIf="(plan?.name|lowercase)==='standard'" (click)="((plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan))?null:contactusModel('open')">{{(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan)?'Current Plan':'Talk to us'}}<span class="d-none"><i class="si-right-arrow-large"></i></span></button>
-                <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="['unlimited','enterprise'].includes(plan?.name|lowercase)" (click)="plan?.name===selectedPlan?.planName?null:contactusModel('open')">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
-            </div>
+              <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName)?null:(selectedPlan?.planName==='Enterprise')?contactusModel('open'):closeConfirmUpgradeModal('open',plan)" placement="right" [ngbTooltip]="(selectedPlan?.planName==='Enterprise')?'Please contact us for any changes in plan':''" [container]='"body"' tooltipClass="metrics_tooltips m-0">{{(plan?.name===selectedPlan?.planName)?'Current Plan':(selectedPlan?.planName==='Enterprise')?'Talk to us':'Choose Plan'}}</button>
+              <button class="btn" [ngClass]="{'current-paln':(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===plan?.billingUnit)}" *ngIf="(plan?.name|lowercase)==='standard'" (click)="((plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan))?null:(selectedPlan?.billingUnit==='Monthly'&&selectedPlan?.planName!=='Enterprise')?closeConfirmUpgradeModal('open',plan):(selectedPlan?.billingUnit==='Yearly'||selectedPlan?.planName==='Enterprise')?contactusModel('open'):[openSelectedPopup('payment_gateway'),orderConfirmData=plan]">{{(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan)?'Current Plan':(selectedPlan?.billingUnit==='Yearly'||selectedPlan?.planName==='Enterprise')?'Talk to us':'Choose Plan'}}<span class="d-none"><i class="si-right-arrow-large"></i></span></button>
+              <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="['unlimited','enterprise'].includes(plan?.name|lowercase)" (click)="plan?.name===selectedPlan?.planName?null:contactusModel('open')" placement="left" [ngbTooltip]="(plan?.name!==selectedPlan?.planName)?'Please contact us for any changes in plan':''" [container]='"body"' tooltipClass="metrics_tooltips m-0">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
+             <!-- old code wrt old prod -->
+             <!-- <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName)?null:contactusModel('open')" placement="right" [ngbTooltip]="(selectedPlan?.planName==='Enterprise')?'Please contact us to downgrade to standard subscription':''" [container]='"body"' tooltipClass="metrics_tooltips m-0">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
+               <button class="btn" [ngClass]="{'current-paln':(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===plan?.billingUnit)}" *ngIf="(plan?.name|lowercase)==='standard'" (click)="((plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan))?null:contactusModel('open')">{{(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan)?'Current Plan':'Talk to us'}}<span class="d-none"><i class="si-right-arrow-large"></i></span></button>
+              <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="['unlimited','enterprise'].includes(plan?.name|lowercase)" (click)="plan?.name===selectedPlan?.planName?null:contactusModel('open')">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button> -->
             </div>
             <div class="plan-features-block">
               <perfect-scrollbar class="paln-overflow-scroll">
@@ -387,7 +383,7 @@
         <div class="excess-table-body col-12 row" *ngFor="let feature of featuresExceededUsage">
           <div class="excess-type col-4">{{feature?.name}}</div>
           <div class="excess-name col-4">{{feature?.used}}</div>
-          <div class="excess-type col-4">{{feature?.limit}}</div>
+          <div class="excess-type col-4">{{feature?.targetLimit}}</div>
         </div>
       </div>
     </div>
@@ -402,31 +398,63 @@
   <div class="right-sec-form"> 
     <div class="modal-header">
       <div class="modal-hding">Talk to us</div>
-      <div class="close_icon"><img (click)="contactusModel('close')" src="assets/icons/modal-close.svg"></div>
+      <div class="close_icon"><img (click)="contactusModel('close');validations=false" src="assets/icons/modal-close.svg"></div>
     </div>
-  <perfect-scrollbar>
+  <perfect-scrollbar class="scroll-talktous">
       <div class="scroll-content">       
         <div class="kr-sg-input-text mb-3">
-          <div class="label-text">Name</div>
-          <input type="text" placeholder="Name" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.name">
+          <div class="label-text">Name<sup class="field-mandatory">*</sup></div>
+          <input type="text" placeholder="Name" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.name" [ngClass]="{'error':validations && !enterpriseForm.name }">
         </div>
         <div class="kr-sg-input-text mb-3">
-          <div class="label-text">Email</div>
-          <input type="text" placeholder="Email" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.email">
+          <div class="label-text">Email<sup class="field-mandatory">*</sup></div>
+          <input type="text" placeholder="Email" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.email" [ngClass]="{'error':validations && !enterpriseForm.email }">
         </div>
         <div class="kr-sg-input-text mb-3">
           <div class="label-text">Contact Number</div>
-          <input type="text" placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.phone">
+          <input type='text' placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.phone">
         </div>
+        <div class="kr-sg-input-text mb-3">
+          <div class="label-text">Company Name</div>
+          <input type="text" placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.company">
+        </div>
+        <!-- Country-->
+        <div class="label-text mb-1">Select Country<sup class="field-mandatory">*</sup></div>
+        <div class="kr-sg-dropdowns col-13 pl-0 mb-3" ngbDropdown>
+          <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input" id="counryBasic" data-toggle="dropdown" [ngClass]="{'error':validations && !enterpriseForm.country }"
+              ngbDropdownToggle (click)="clearcontent()">
+              {{enterpriseForm.country?enterpriseForm.country:"Choose Country"}}
+            </button>
+            <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+              ngbDropdownMenu>
+              <li class="search-box">
+                <input id="searchBoxId" autocomplete="off" type="text" [(ngModel)]="search_country"
+                  placeholder="Search" class="seach-input" autofocus />
+              </li>
+              <perfect-scrollbar class="scroll-search-field h-178">
+                <ng-container>
+                  <li ngbDropdownItem
+                    *ngFor="let country of countriesList | filter : [search_country, 'name']"
+                    (click)="enterpriseForm.country = country.name"
+                    [ngClass]="{'highlight':enterpriseForm.country == country.name}">
+                    {{ country.name }}
+                  </li>
+                </ng-container>
+              </perfect-scrollbar>
+            </ul>
+          </div>
+        </div>
+        <!-- Country-->
         <div class="kr-sg-input-text-area mb-3">
           <div class="label-text">Message</div>
           <textarea placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.message"></textarea>
         </div>
-        <div class="text-right">
-          <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()" [disabled]="btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>Submit Request</button>
-        </div>
       </div>
   </perfect-scrollbar>
+  <div class="text-right talk-to-us-footer">
+    <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()" [disabled]="btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>Submit Request</button>
+  </div>
 </div> 
 </kr-modal>
 

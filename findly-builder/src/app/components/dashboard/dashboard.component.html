@@ -5,7 +5,12 @@
             <div class="bread-name">{{'metrics.analytics'| translate}}</div>
             <img
                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
-            <div class="bread-name active-name">{{'metrics.dash_board_view.dashboard'| translate}}</div>
+            <div class="bread-name active-name">{{'dash_board_view_dashboard'| translate}}
+                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='{{"sa_topic_guide" | translate}}' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+                    <i class="si-topic-guide-1"></i>
+                </span>
+            </div>
         </div>
         <div class="d-flex justify-content-end align-items-center col-9 p-0">
             <div class="custom_date_picker_sec">
@@ -19,13 +24,13 @@
             <!-- <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                 -->
             <div class="date-select">
                 <span class="day time " (click)="getDateRange(1)"
-                    [ngClass]="{'selected': defaultSelectedDay === 1}">{{'metrics.dash_board_view.24_Hrs'|
+                    [ngClass]="{'selected': defaultSelectedDay === 1}">{{'dash_board_view_24_Hrs'|
                     translate}}</span>
                 <span class="week time" (click)="getDateRange(7)"
-                    [ngClass]="{'selected': defaultSelectedDay === 7}">{{'metrics.dash_board_view.7_Days'|
+                    [ngClass]="{'selected': defaultSelectedDay === 7}">{{'dash_board_view_7_Days'|
                     translate}}</span>
                 <span class="custom time" (click)="getDateRange(-1)"
-                    [ngClass]="{'selected': defaultSelectedDay === -1}">{{'metrics.dash_board_view.Custom'|
+                    [ngClass]="{'selected': defaultSelectedDay === -1}">{{'dash_board_view_Custom'|
                     translate}}</span>
             </div>
             <div class="export d-none"><img src="assets/icons/share.svg"></div>
@@ -40,7 +45,7 @@
             <div class="top-cards-section row m-0" *ngIf="totalUsersStats && totalSearchesStats">
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">{{'metrics.dash_board_view.total_user'| translate}}
+                        <div class="title-info">{{'dash_board_view_total_user'| translate}}
                             <img src="assets/icons/gray_info.svg" placement="top-center"
                                 ngbTooltip="Number of unique users performed search during the selected period"
                                 [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
@@ -68,7 +73,7 @@
                 </div>
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">{{'metrics.dash_board_view.total_searches'| translate}}
+                        <div class="title-info">{{'dash_board_view_total_searches'| translate}}
                             <img src="assets/icons/gray_info.svg"
                                 ngbTooltip="Total number of searches performed during the selected period"
                                 placement="top-center" [container]="'body'" tooltipClass="dashboard-custom-tooltips"
@@ -97,7 +102,7 @@
                 </div>
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">{{'metrics.dash_board_view.result_rate'| translate}}
+                        <div class="title-info">{{'dash_board_view_result_rate'| translate}}
                             <img src="assets/icons/gray_info.svg" placement="top-center"
                                 ngbTooltip="Total number of searches that returned at least one result"
                                 [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
@@ -107,7 +112,7 @@
                                 <div class="count text-truncate" title="{{totalSearchesStats.searchesWithResults }}%">
                                     {{totalSearchesStats.searchesWithResults==null?0:totalSearchesStats.searchesWithResults}}
                                 </div>
-                                <!-- <div class="count">{{totalSearchesStats.searchesWithResults }}<span class="ctr">{{'metrics.dash_board_view.Result_Rate'| translate}}: <span class="ctr-count">{{totalSearchesStats.resultRate}}%</span></span></div> -->
+                                <!-- <div class="count">{{totalSearchesStats.searchesWithResults }}<span class="ctr">{{'dash_board_view_Result_Rate'| translate}}: <span class="ctr-count">{{totalSearchesStats.resultRate}}%</span></span></div> -->
                                 <div class="data-percentage"
                                     [ngClass]="{'failed' : totalSearchesStats.increasedResultRate < 0}">
                                     <img src="assets/icons/arrow-increase.svg"
@@ -135,7 +140,7 @@
                 </div>
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">{{'metrics.dash_board_view.searches_with_click'| translate}}
+                        <div class="title-info">{{'dash_board_view_searches_with_click'| translate}}
                             <img src="assets/icons/gray_info.svg" placement="top-center"
                                 ngbTooltip="No. of searches where at least one result was clicked on by the search user"
                                 [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
@@ -145,7 +150,7 @@
                                 <div class="count-data">
                                     <div class="count text-truncate" title="{{totalSearchesStats.clicks}}">
                                         {{totalSearchesStats.clicks }}</div>
-                                    <div class="ctr">{{'metrics.dash_board_view.CTR'| translate}}:
+                                    <div class="ctr">{{'dash_board_view_CTR'| translate}}:
                                         <span class="ctr-count">{{math.abs(totalSearchesStats.ctr)}}%</span>
                                     </div>
                                 </div>
@@ -161,7 +166,7 @@
                 </div>
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">{{'metrics.dash_board_view.avg_click_position'| translate}}
+                        <div class="title-info">{{'dash_board_view_avg_click_position'| translate}}
                             <img src="assets/icons/gray_info.svg" placement="top-right"
                                 ngbTooltip="Average position of the clicks performed on the search results"
                                 [container]="'body'" tooltipClass="dashboard-custom-tooltips ml_12" class="pl-1">
@@ -179,54 +184,22 @@
                     <div class="full-card pb-4">
                         <div class="legends-info">
                             <div class="content">
-                                <div class="title">{{'metrics.dash_board_view.search_trends'| translate}}</div>
-                                <!-- <div class="count-data">
-                                    <span class="count"><img src="assets/icons/arrow_green.svg">{{totalSearchSum}}</span>
-                                    <span class="percentage">+8%</span>
-                                </div> -->
+                                <div class="title">{{'dash_board_view_search_trends'| translate}}</div>
                             </div>
                         </div>
-                        <!-- <div class="kr-sg-dropdowns filter-dropdown" ngbDropdown [placement]="'bottom-right'">
-                            <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img
-                                        src="assets/icons/filter.svg"></button>
-                                <ul class="dropdown-menu content-menu m-0" ngbDropdownMenu>
-                                    <div class="kr-sg-checkbox d-block p-0">
-                                        <input id="checkbox_1" class="checkbox-custom" type="checkbox" checked>
-                                        <label for="checkbox_1" class="checkbox-custom-label">Live Search</label>
-                                    </div>
-                                    <div class="kr-sg-checkbox d-block p-0 m-0">
-                                        <input id="checkbox_12" class="checkbox-custom" type="checkbox" checked>
-                                        <label for="checkbox_12" class="checkbox-custom-label">Full Search</label>
-                                    </div>
-                                </ul>
-                            </div>
-                        </div> -->
                         <div echarts [options]="chartOption" class="demo-chart-graphMode"></div>
                         <div class="legends-info mt-2 mb-2">
                             <div class="content">
-                                <div class="title">{{'metrics.dash_board_view.total_searches'| translate}} <span
+                                <div class="title">{{'dash_board_view_total_searches'| translate}} <span
                                         class="toatlsearches"></span></div>
-                                <!-- <div class="count-data">
-                                    <span class="count"><img src="assets/icons/arrow_green.svg">{{totalSearchSum}}</span>
-                                    <span class="percentage">+8%</span>
-                                </div> -->
                             </div>
                             <div class="content">
-                                <div class="title">{{'metrics.dash_board_view.searches_with_result'| translate}} <span
+                                <div class="title">{{'dash_board_view_searches_with_result'| translate}} <span
                                         class="withresults"></span></div>
-                                <!-- <div class="count-data">
-                                    <span class="count"><img src="assets/icons/arrow_green.svg">{{searchesWithResultsSum}}</span>
-                                    <span class="percentage">2%</span>
-                                </div> -->
                             </div>
                             <div class="content">
-                                <div class="title">{{'metrics.dash_board_view.searches_with_click'| translate}} <span
+                                <div class="title">{{'dash_board_view_searches_with_click'| translate}} <span
                                         class="clicks"></span></div>
-                                <!-- <div class="count-data">
-                                    <span class="count"><img src="assets/icons/arrow_green.svg">{{searchesWithClicksSum}}</span>
-                                    <span class="percentage">+1%</span>
-                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -235,10 +208,10 @@
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-6 box-content">
                     <div class="full-card">
-                        <div class="title-card">{{'metrics.dash_board_view.Top_Search_Queries'| translate}} </div>
+                        <div class="title-card">{{'dash_board_view_Top_Search_Queries'| translate}} </div>
                         <div class="table-content-data">
                             <div class="table_header row m-0">
-                                <div class="col-10 header-title pl-0">{{'metrics.dash_board_view.Searched_Intent'|
+                                <div class="col-10 header-title pl-0">{{'dash_board_view_Searched_Intent'|
                                     translate}}</div>
                                 <div class="col-2 header-title text-right"
                                     (click)="sortByApi('MostSearchedQuries','count')">
@@ -248,7 +221,7 @@
                                         <img src="assets/icons/caretDown.svg"
                                             (click)="getSortIconVisibility('count','asc')" class="sortImg upArrow">
                                     </span>
-                                    {{'metrics.dash_board_view.Count'| translate}}
+                                    {{'dash_board_view_Count'| translate}}
                                 </div>
                             </div>
                             <div *ngIf="mostSearchedQuries">
@@ -260,17 +233,15 @@
                         </div>
                         <div class="create_new_link" (click)="viewAll('/searchInsights','Top_Search_Queries')">View all
                         </div>
-                        <!-- <app-pagination  [totalRecord]='tsqtotalRecord' [limitpage]='tsqlimitpage' [recordEnd]="tsqrecordEnd"
-                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                     </div>
                 </div>
                 <div class="col-6 box-content">
                     <div class="full-card">
-                        <div class="title-card">{{'metrics.dash_board_view.Top_Search_Queries_with_No_Result'|
+                        <div class="title-card">{{'dash_board_view_Top_Search_Queries_with_No_Result'|
                             translate}} </div>
                         <div class="table-content-data">
                             <div class="table_header row m-0">
-                                <div class="col-10 header-title  pl-0">{{'metrics.dash_board_view.Searched_Intent'|
+                                <div class="col-10 header-title  pl-0">{{'dash_board_view_Searched_Intent'|
                                     translate}}</div>
                                 <div class="col-2 header-title text-right"
                                     (click)="sortByApi('TopQuriesWithNoResults','count')">
@@ -280,7 +251,7 @@
                                         <img src="assets/icons/caretDown.svg"
                                             (click)="getSortIconVisibility('count','desc')" class="sortImg upArrow">
                                     </span>
-                                    {{'metrics.dash_board_view.Count'| translate}}
+                                    {{'dash_board_view_Count'| translate}}
                                 </div>
                             </div>
                             <div *ngIf="topQuriesWithNoResults">
@@ -294,8 +265,6 @@
                         </div>
                         <div class="create_new_link"
                             (click)="viewAll('/searchInsights','Top_Search_Queries_with_No_Result')">View all</div>
-                        <!-- <app-pagination  [totalRecord]='tsqNoRtotalRecord' [limitpage]='tsqNoRlimitpage' [recordEnd]="tsqNoRrecordEnd"
-                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                     </div>
                 </div>
             </div>
@@ -322,9 +291,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <!-- <div class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts"
-                            [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div> -->
-                        <div class="title-card">{{'metrics.dash_board_view.Top_Search_Results'| translate}} </div>
+                        <div class="title-card">{{'dash_board_view_Top_Search_Results'| translate}} </div>
                         <div class="table-content-data">
                             <div class="table_header row m-0">
                                 <div class="col-4 header-title  pl-0">
@@ -337,9 +304,8 @@
                                             (click)="getSortIconVisibility('answer','desc')" class="sortImg upArrow">
                                     </span> -->
                                     <!-- As per FLY-4691 Query title has to be updated to Search results -->
-                                    {{'metrics.dash_board_view.Search_Results'|translate}}
+                                    {{'dash_board_view_Search_Results'|translate}}
                                 </div>
-                                <!-- <div class="col-1 header-title text-right"><img src="assets/icons/sort_up_down.svg"></div> -->
                                 <div class="col-2 header-title" (click)="sortByApi('TopSearchResults','appearances')">
                                     <span class="d-flex align-items-center flex-column mr-1">
                                         <img src="assets/icons/caretDown.svg"
@@ -349,7 +315,7 @@
                                             (click)="getSortIconVisibility('appearances','desc')"
                                             class="sortImg upArrow">
                                     </span>
-                                    {{'metrics.dash_board_view.Appearances'| translate}}
+                                    {{'dash_board_view_Appearances'| translate}}
                                 </div>
                                 <div class="col-2 header-title" (click)="sortByApi('TopSearchResults','clicks')">
                                     <span class="d-flex align-items-center flex-column mr-1">
@@ -358,7 +324,7 @@
                                         <img src="assets/icons/caretDown.svg"
                                             (click)="getSortIconVisibility('clicks','desc')" class="sortImg upArrow">
                                     </span>
-                                    {{'metrics.dash_board_view.Clicks'| translate}}
+                                    {{'dash_board_view_Clicks'| translate}}
                                 </div>
                                 <div class="col-2 header-title"
                                     (click)="sortByApi('TopSearchResults','clickThroughRate')">
@@ -370,7 +336,7 @@
                                             (click)="getSortIconVisibility('clickThroughRate','desc')"
                                             class="sortImg upArrow">
                                     </span>
-                                    {{'metrics.dash_board_view.ctr'| translate}}
+                                    {{'dash_board_view_ctr'| translate}}
                                 </div>
                                 <!--  ngbTooltip='Click-Through Rate' -->
                                 <div class="col-2 header-title" (click)="sortByApi('TopSearchResults','avgPosition')">
@@ -381,75 +347,20 @@
                                         <img src="assets/icons/caretDown.svg"
                                             (click)="getSortIconVisibility('avgPosition','desc')"
                                             class="sortImg upArrow">
-                                    </span>{{'metrics.dash_board_view.Avg_Position'| translate}}
+                                    </span>{{'dash_board_view_Avg_Position'| translate}}
                                 </div>
-                                <!-- <div class="col-1 header-title text-center"><img src="assets/icons/pos-thumb.svg"></div>
-                                <div class="col-1 header-title text-center"><img src="assets/icons/neg-thumb.svg"></div> -->
-                                <!-- <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
-                                    Count</div> -->
                             </div>
                             <div class="table_body row m-0"
                                 *ngFor="let topSearchResult of topSearchResults;let i = index">
                                 <div class="col-4 body-title  pl-0">{{topSearchResult.answer}}</div>
-                                <!-- <div class="col-1 header-title text-right"></div> -->
                                 <div class="col-2 body-title" id="search-results">{{topSearchResult.appearances}}</div>
                                 <div class="col-2 body-title" id="search-results-clicks">{{topSearchResult.clicks}}</div>
                                 <div class="col-2 body-title" id="search-results">{{topSearchResult.clickThroughRate | number : '1.2-2'}}%
                                 </div>
                                 <div class="col-2 body-title" id="search-results">{{topSearchResult.avgPosition | number : '1.2-2'}}</div>
-                                <!-- <div class="col-1 body-title text-center">{{topSearchResult.positiveFeedback}}</div>
-                                <div class="col-1 body-title text-center">{{topSearchResult.negativeFeedback}}</div> -->
                             </div>
-                            <!-- <div class="table_body row m-0">
-                                <div class="col-6 body-title ">Opening a new account in HDFC</div>
-                                <div class="col-1 body-title text-center">1130</div>
-                                <div class="col-1 body-title text-center">1000</div>
-                                <div class="col-1 body-title text-center">80%</div>
-                                <div class="col-1 body-title text-center">3.8</div>
-                                <div class="col-1 body-title text-center">1632</div>
-                                <div class="col-1 body-title text-center">147</div>
-                            </div>
-                            <div class="table_body row m-0">
-                                <div class="col-6 body-title ">Password change of Saving account</div>
-                                <div class="col-1 body-title text-center">1090</div>
-                                <div class="col-1 body-title text-center">950</div>
-                                <div class="col-1 body-title text-center">70%</div>
-                                <div class="col-1 body-title text-center">2.1</div>
-                                <div class="col-1 body-title text-center">532</div>
-                                <div class="col-1 body-title text-center">47</div>
-                            </div>
-                            <div class="table_body row m-0">
-                                <div class="col-6 body-title">Opening a new saving account </div>
-                                <div class="col-1 body-title text-center">1140</div>
-                                <div class="col-1 body-title text-center">1300</div>
-                                <div class="col-1 body-title text-center">50%</div>
-                                <div class="col-1 body-title text-center">1.8</div>
-                                <div class="col-1 body-title text-center">143</div>
-                                <div class="col-1 body-title text-center">7</div>
-                            </div>
-                            <div class="table_body row m-0">
-                                <div class="col-6 body-title ">Changing of Net banking Pin</div>
-                                <div class="col-1 body-title text-center">1004</div>
-                                <div class="col-1 body-title text-center">546</div>
-                                <div class="col-1 body-title text-center" >40%</div>
-                                <div class="col-1 body-title text-center">8.8</div>
-                                <div class="col-1 body-title text-center">2532</div>
-                                <div class="col-1 body-title text-center">1347</div>
-                            </div> -->
-                            <!-- 
-                           
-                            <div class="table_body row m-0">
-                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
-                                <div class="col-2 body-title text-right">15</div>
-                            </div>
-                            <div class="table_body row m-0">
-                                <div class="col-10 body-title pr-3">Changing of Net banking Pin</div>
-                                <div class="col-2 body-title text-right">2</div>
-                            </div> -->
                         </div>
                         <div class="create_new_link" (click)="viewAll('/resultInsights')">View all</div>
-                        <!-- <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
-                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                     </div>
                 </div>
             </div>
@@ -457,21 +368,21 @@
                 <div class="col-6 box-content">
                     <div class="full-card pb-4"
                         [ngStyle]="{'opacity':isyAxisMostClickPostiondata?'unset':'0.3','pointer-events':isyAxisMostClickPostiondata?'auto':'none'}">
-                        <div class="title-card">{{'metrics.dash_board_view.Most_Clicked_Position'| translate}}
+                        <div class="title-card">{{'dash_board_view_Most_Clicked_Position'| translate}}
                             <img src="assets/icons/gray_info.svg" placement="top-center"
                                 ngbTooltip="Position at which the search results were clicked on by the end - users most number of times."
                                 [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
                         </div>
                         <div echarts [options]="mostClickBar" class="demo-chart-graphMode bottom"></div>
-                        <div class="text-center">{{'metrics.dash_board_view.Number_of_Clicks'| translate}}</div>
+                        <div class="text-center">{{'dash_board_view_Number_of_Clicks'| translate}}</div>
                     </div>
                 </div>
                 <div class="col-6 box-content">
                     <div class="full-card pb-4">
                         <div class="row col-12">
-                            <div class="title-card">{{'metrics.dash_board_view.Feedback'| translate}}
+                            <div class="title-card">{{'dash_board_view_Feedback'| translate}}
                                 <img src="assets/icons/help.svg" placement="top-center"
-                                    ngbTooltip="{{'metrics.dash_board_view.feedback_tooltip' | translate}}"
+                                    ngbTooltip="{{'dash_board_view_feedback_tooltip' | translate}}"
                                     [container]="'body'" tooltipClass="dashboard-custom-tooltips" />
                             </div>
                         </div>
@@ -492,12 +403,12 @@
                                 <div class="legend-data col-12 p-0">
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="indication total"></span>
-                                        <span class="title">{{'metrics.dash_board_view.total_searches'|
+                                        <span class="title">{{'dash_board_view_total_searches'|
                                             translate}}</span>
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="indication feedback"></span>
-                                        <span class="title">{{'metrics.dash_board_view.Feedback_Received'|
+                                        <span class="title">{{'dash_board_view_Feedback_Received'|
                                             translate}}</span>
                                     </div>
                                 </div>
@@ -507,11 +418,11 @@
                                 <div class="legend-data col-12 p-0">
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="indication usefull"></span><span
-                                            class="title">{{'metrics.dash_board_view.Useful_Result'| translate}}</span>
+                                            class="title">{{'dash_board_view_Useful_Result'| translate}}</span>
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="indication notusefull"></span><span
-                                            class="title">{{'metrics.dash_board_view.Not_Useful_Result'|
+                                            class="title">{{'dash_board_view_Not_Useful_Result'|
                                             translate}}</span>
                                     </div>
                                 </div>
@@ -521,76 +432,5 @@
                 </div>
             </div>
         </div>
-        <!-- <div *ngIf="slider === 2">
-            <div class="data-information-content col-12 m-0 row split-tables">
-                <div class="col-12 box-content">
-                    <div class="full-card">
-                        <div class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts"
-                            [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div>
-                        <div class="title-card">Top Search Queries</div>
-                        <div class="table-content-data">
-                            <div class="table_header row m-0">
-                                <div class="col-10 header-title">Searched Intent</div>
-                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">Count</div>
-                            </div>
-                            <ng-container *ngIf="mostSearchedQuries">
-                                <div class="table_body row m-0" *ngFor="let top of mostSearchedQuries;let i = index">
-                                    <div class="col-10 body-title pr-3">{{top.query}}</div>
-                                    <div class="col-2 body-title text-right">{{top.count}}</div>
-                                </div>
-                            </ng-container>
-                        </div>
-                        <app-pagination  [totalRecord]='tsqPtotalRecord' [limitpage]='tsqPlimitpage' [recordEnd]="tsqPrecordEnd"
-                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
-                    </div>
-                </div>
-            </div>
-            <div class="data-information-content col-12 m-0 row split-tables">
-                <div class="col-12 box-content">
-                    <div class="full-card">
-                        <div class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts"
-                            [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div>
-                        <div class="title-card">Top Search Queries with No Results</div>
-                        <div class="table-content-data" >
-                            <div class="table_header row m-0">
-                                <div class="col-10 header-title">Searched Intent</div>
-                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">Count</div>
-                            </div>
-                            <ng-container *ngIf="topQuriesWithNoResults">
-                                <div class="table_body row m-0" *ngFor="let top of topQuriesWithNoResults;let i = index">
-                                    <div class="col-10 header-title pr-3">{{top.query}}</div>
-                                    <div class="col-2 header-title text-right">{{top.count}}</div>
-                                </div>
-                            </ng-container>
-                        </div>
-                        <app-pagination  [totalRecord]='tsqNoRPtotalRecord' [limitpage]='tsqNoRPlimitpage' [recordEnd]="tsqNoRPrecordEnd"
-                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
-                    </div>
-                </div>
-            </div>
-            <div class="data-information-content col-12 m-0 row split-tables">
-                <div class="col-12 box-content">
-                    <div class="full-card">
-                        <div class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts"
-                            [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div>
-                        <div class="title-card">Top Search Queries with No Clicks</div>
-                        <div class="table-content-data">
-                            <div class="table_header row m-0">
-                                <div class="col-10 header-title">Searched Intent</div>
-                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">Count</div>
-                            </div>
-                            <ng-container *ngIf="queriesWithNoClicks">
-                                <div class="table_body row m-0" *ngFor="let top of queriesWithNoClicks;let i = index">
-                                    <div class="col-10 header-title">{{top.query}}</div>
-                                    <div class="col-2 header-title text-right">{{top.count}}</div>
-                                </div>
-                            </ng-container>
-                        </div>
-                        <app-pagination  [totalRecord]='tsqNoRPtotalRecord' [limitpage]='tsqNoRPlimitpage' [recordEnd]="tsqNoRPrecordEnd"
-                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </perfect-scrollbar>
 </div>

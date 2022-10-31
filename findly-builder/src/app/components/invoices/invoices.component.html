@@ -1,14 +1,19 @@
 <div class="invoice-container">
     <div class="mainLoadingSpinner" *ngIf="loading" >
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-        <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
+        <span class="please-wait-message">{{'sa_please_wait' | translate}}</span>
     </div>
     <div class="header-sec">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-        <div class="title">{{"invoices.invoices" | translate}}</div>
+        <div class="title">{{"invoices_invoices" | translate}}
+            <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+                <i class="si-topic-guide-1"></i>
+            </span>
+        </div>
         <div class="d-flex align-items-center" *ngIf="invoices.length">
             <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
-                <input type="text" placeholder="{{'search' | translate}}" maxlength="60" class="input-search"
+                <input type="text" placeholder="{{'sa_topic_guide' | translate}}" maxlength="60" class="input-search"
                     autocomplete="off" id="fieldSearchId" [(ngModel)]="searchInvoice" 
                     (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                     (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
@@ -21,7 +26,7 @@
             <div class="seach-block" (click)="showSearch=!showSearch;">
                 <span [ngClass]="{'d-none': showSearch}"  class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
             </div>
-            <div class="download-icon" (click)="downloadAll()"><img src="assets/icons/usage-log/download.svg" placement="bottom" ngbTooltip="{{'invoices.download_all' | translate}}" [container]="'body'" tooltipClass="ngb_tooltip_custom_class sampleJson"></div>
+            <div class="download-icon" (click)="downloadAll()"><img src="assets/icons/usage-log/download.svg" placement="bottom" ngbTooltip="{{'invoices_download_all' | translate}}" [container]="'body'" tooltipClass="ngb_tooltip_custom_class sampleJson"></div>
         </div>
     </div>
 
@@ -30,7 +35,7 @@
             <div class="img-block">
                 <img src="assets/icons/invoices/invoice-empty-log.png">
             </div>
-            <div class="empty-text">{{"invoices.no_invoice_log" | translate}}</div>
+            <div class="empty-text">{{"invoices_no_invoice_log" | translate}}</div>
             <div class="empty-warning">
                 <div><i class="si-warning"></i></div>
                 <div class="empty-warning-text">After subscribing to any of the plans offered, your invoices will appear here</div>
@@ -42,13 +47,13 @@
         <perfect-scrollbar class="scroll-invoice-content if-pagination">
             <div class="invoice-table-data">
                 <div class="invoice-table-header row col-12">
-                    <div class="title col-1">{{"invoices.invoices_id_caps" | translate}}</div>
-                    <div class="title col-3">{{"invoices.BILLING_period" | translate}}</div>
-                    <div class="title col-1">{{"invoices.plan_name" | translate}}</div>
-                    <div class="title col-1">{{"invoices.order_status" | translate}}</div>
-                    <div class="title col-2">{{"invoices.invoice_amount_caps" | translate}}</div>
-                    <div class="title col-1">{{"invoices.details" | translate}}</div>
-                    <div class="title col-2">{{"invoices.invoice" | translate}}</div>
+                    <div class="title col-1">{{"invoices_invoices_id_caps" | translate}}</div>
+                    <div class="title col-3">{{"invoices_BILLING_period" | translate}}</div>
+                    <div class="title col-1">{{"invoices_plan_name" | translate}}</div>
+                    <div class="title col-1">{{"invoices_order_status" | translate}}</div>
+                    <div class="title col-2">{{"invoices_invoice_amount_caps" | translate}}</div>
+                    <div class="title col-1">{{"invoices_details" | translate}}</div>
+                    <div class="title col-2">{{"invoices_invoice" | translate}}</div>
                 </div>
                 <div class="invoice-table-body row col-12" *ngFor="let invoice of invoices | fieldsFilter: [ searchInvoice, '_id']">
                     <div class="title col-1">{{invoice?._id}}</div>

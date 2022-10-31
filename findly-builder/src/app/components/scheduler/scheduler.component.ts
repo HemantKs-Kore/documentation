@@ -3,18 +3,17 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { scheduleOpts, InterVal, Time, IntervalValue, EndsOn } from 'src/app/helpers/models/Crwal-advance.model';
 import { NotificationService } from '@kore.services/notification.service';
-import { EventListenerFocusTrapInertStrategy } from '@angular/cdk/a11y';
+import {  PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 declare const $: any;
 
 @Component({
   selector: 'app-scheduler',
   templateUrl: './scheduler.component.html',
   styleUrls: ['./scheduler.component.scss']
+  
 })
 export class SchedulerComponent implements OnInit {
-  //allowUrl : AllowUrl = new AllowUrl();
-  // blockUrl : BlockUrl = new BlockUrl();
-  customRecurrenceRef: any = [];
+  schedualarDataModelPopRef:any;
   istStratDate: any;
   startDate: any;
   endDate: any;
@@ -34,18 +33,25 @@ export class SchedulerComponent implements OnInit {
   repeatEvery = '1';
   day = '';
   date = '';
+  selectedDate:any = {
+    value:'',
+  };
   month = '';
   year = '';
   endsOnSelected = '';
   minDate;
   schedulerFlag: boolean = false;
-  //scheduleData : scheduleOpts = new scheduleOpts();
+  recurringFrequency:boolean = false;
+  isCustom: boolean = false;
+  scheduledData:Object={};
   @Input() scheduleFlag: any;
   @Input() crwalObject: any;
   @Input() schedule: any;
+  @Input() schedulerType: String='horizantalSchedular';
   @Output() scheduleData = new EventEmitter();
   @Output() cronExpress = new EventEmitter();
-  @ViewChild('customRecurrence') customRecurrence: KRModalComponent;
+  @ViewChild('schedualarDataModelPop') schedualarDataModelPop: KRModalComponent;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   constructor(private notificationService: NotificationService) {
     var date = new Date;
     this.day = date.toString().split(" ")[0].toLocaleUpperCase();
@@ -60,80 +66,31 @@ export class SchedulerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // if(this.schedule == 'get'){
-    //   if(this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings){
-    //     this.startDate  = this.crwalObject.advanceSettings.date;
-    //     this.timeHH = this.crwalObject.advanceSettings.hour;
-    //     this.timeMM = this.crwalObject.advanceSettings.minute;
-    //     this.meridiem = this.crwalObject.advanceSettings.timeOpt;
-    //     this.stz = this.crwalObject.advanceSettings.timezone || 'Time Zone';
-    //     this.rstz = this.crwalObject.advanceSettings.intervalType || 'Does not repeat';
-    //       this.repeatEvery = this.crwalObject.advanceSettings.every;
-    //       this.custFreq = this.crwalObject.advanceSettings.schedulePeriod;
-    //       this.weeKDay = this.crwalObject.advanceSettings.repeatOn;
-    //       this.endDate  = this.crwalObject.advanceSettings.endDate;
-    //       this.occurence = this.crwalObject.advanceSettings.occurrences;
-    //       this.endsFreq(this.crwalObject.advanceSettings.endType);
-    //   } 
-    // }else{
-    //  if(this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings.scheduleOpts){
-    //   this.startDate  = this.crwalObject.advanceSettings.scheduleOpts.date;
-    //   this.timeHH = this.crwalObject.advanceSettings.scheduleOpts.time.hour;
-    //   this.timeMM = this.crwalObject.advanceSettings.scheduleOpts.time.minute;
-    //   this.meridiem = this.crwalObject.advanceSettings.scheduleOpts.time.timeOpt;
-    //   this.stz = this.crwalObject.advanceSettings.scheduleOpts.time.timezone || 'Time Zone';
-    //   this.rstz = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalType || 'Does not repeat';
-    //   if(this.crwalObject.advanceSettings.scheduleOpts.intervalValue){
-    //     this.repeatEvery = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.every;
-    //     this.custFreq = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.schedulePeriod;
-    //     this.weeKDay = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.repeatOn;
-    //     this.endDate  = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.endsOn.endDate;
-    //     this.occurence = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.endsOn.occurrences;
-    //     this.endsFreq(this.crwalObject.advanceSettings.scheduleOpts.intervalValue.endsOn.endType);
-    //   }
-    // } 
-    // }
     this.endsFreq('never');
-    if (this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings.scheduleOpts) {
-      this.istStratDate = this.crwalObject.advanceSettings.scheduleOpts.date;
-      this.startDate = this.crwalObject.advanceSettings.scheduleOpts.date;
-      if (this.crwalObject.advanceSettings.scheduleOpts.time) {
-        this.timeHH = this.crwalObject.advanceSettings.scheduleOpts.time.hour;
-        this.timeMM = this.crwalObject.advanceSettings.scheduleOpts.time.minute;
-        this.meridiem = this.crwalObject.advanceSettings.scheduleOpts.time.timeOpt;
-        this.stz = this.crwalObject.advanceSettings.scheduleOpts.time.timezone || 'Time Zone';
+    if (this.crwalObject && this.crwalObject.advanceOpts && this.crwalObject.advanceOpts.scheduleOpts) {
+      this.istStratDate = this.crwalObject.advanceOpts.scheduleOpts.date;
+      this.startDate = this.crwalObject.advanceOpts.scheduleOpts.date;
+      if (this.crwalObject.advanceOpts.scheduleOpts.time) {
+        this.timeHH = this.crwalObject.advanceOpts.scheduleOpts.time.hour;
+        this.timeMM = this.crwalObject.advanceOpts.scheduleOpts.time.minute;
+        this.meridiem = this.crwalObject.advanceOpts.scheduleOpts.time.timeOpt;
+        this.stz = this.crwalObject.advanceOpts.scheduleOpts.time.timezone || 'Time Zone';
       }
-      this.rstz = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalType || 'Does not repeat';
-      //  if(this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue){
-      //     this.repeatEvery = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.every;
-      //     this.custFreq = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod;
-      //     this.weeKDay = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn;
-      //     this.endDate  = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate;
-      //     this.occurence = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.occurrences;
-      //     this.endsFreq(this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endType);
-      //   } 
-      if (this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue) {
-        this.endsFreq(this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endType, 'set');
-        this.repeatEvery = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.every ? this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.every : this.repeatEvery;
-        this.custFreq = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod ? this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod : this.custFreq;
-        this.weeKDay = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn ? this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn : this.weeKDay;
-        //this.weeKDay = this.weeKDay.charAt(0).toUpperCase() + this.weeKDay.slice(1);
-        this.endDate = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate ? this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate : this.endDate;
-        this.occurence = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.occurrences ? this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.occurrences : this.occurence;
-
+      this.rstz = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalType || 'Does not repeat';
+      if (this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue) {
+        this.endsFreq(this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.endType, 'set');
+        this.repeatEvery = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.every ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.every : this.repeatEvery;
+        this.custFreq = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.schedulePeriod ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.schedulePeriod : this.custFreq;
+        this.weeKDay = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.repeatOn ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.repeatOn : this.weeKDay;
+        this.endDate = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.endDate ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.endDate : this.endDate;
+        this.occurence = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.occurrences ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.occurrences : this.occurence;
       }
     }
     this.schedulerFlag = this.scheduleFlag;
-    // console.log(this.schedulerFlag);
-
-    //console.log(this.dateConverter('SUN'))
-    //console.log(this.crwalObject);
-
   }
   ngOnChanges(changes) {
-    // console.log("ngOnChanges", this.scheduleFlag);
     this.schedulerFlag = this.scheduleFlag;
-    if (!this.scheduleFlag && !this.crwalObject?.advanceSettings?.scheduleOpts?.date) {
+    if (!this.scheduleFlag && !this.crwalObject?.advanceOpts?.scheduleOpts?.date) {
       var emptyData = new scheduleOpts();
       this.scheduleData.emit(emptyData);
       this.istStratDate = '';
@@ -167,29 +124,19 @@ export class SchedulerComponent implements OnInit {
     } else {
       this.custFrequency(this.custFreq)
     }
-    // if(time == 'MM'){
-    //   this.calculateCronExpression()
-    // }
+  }
 
+   verticalDatepicker(event){
+    this.selectedDate.value = event; 
   }
   timeZone(stz) {
     this.stz = stz;
-    // if(this.startDate){
-    //   if(this.stz == 'IST'){
-    //     this.startDate = this.istStratDate;
-    //   }else if(this.stz == 'UTC'){
-    //     this.startDate = new Date(this.startDate).toISOString();
-    //   }else{
-    //     var dt = new Date();
-    //     var estDate = new Date(dt.getTime() + -300*60*1000);
-    //     this.startDate = estDate.toString();
-    //   } 
-    // }
     this.calculateCronExpression()
   }
   repeatTimeZone(rstz) {
     this.rstz = rstz;
     this.calculateCronExpression()
+    this.isCustom = false;
   }
   changeMeridiem(meridiem) {
     if (this.scheduleFlag) {
@@ -207,8 +154,6 @@ export class SchedulerComponent implements OnInit {
     this.endDate = event.value;
   }
   addEvent(type: string, event: MatDatepickerInputEvent<Date>, rstz: string) {
-    // console.log(`${type}: ${event.value}`);
-
     if (rstz == 'regular') {
       this.day = event.value.toString().split(" ")[0].toLocaleUpperCase();
       this.month = event.value.toString().split(" ")[1].toLocaleUpperCase();
@@ -217,8 +162,6 @@ export class SchedulerComponent implements OnInit {
       this.year = event.value.toString().split(" ")[3];
       this.istStratDate = event.value;
       this.startDate = event.value;
-    } else if (rstz = 'custom') {
-
     }
     this.calculateCronExpression()
   }
@@ -377,10 +320,9 @@ export class SchedulerComponent implements OnInit {
     endsOn.endType = this.endsOnSelected;
     endsOn.endDate = this.dateFormatConverter(this.endDate);
     endsOn.occurrences = Number(this.occurence) > 0 ? Number(this.occurence) : null;
-    /**  EndsOn data */
-    /**Secheduled Data */
-    this.scheduleData.emit(scheduledObject);
-    this.cronExpress.emit(this.cronExpression)
+    this.scheduledData = scheduledObject;
+    // this.scheduleData.emit(scheduledObject);
+    // this.cronExpress.emit(this.cronExpression)
   }
   proccedWithCrwal() {
     if (this.endsOnSelected == 'on' && this.endDate == '') {
@@ -389,7 +331,6 @@ export class SchedulerComponent implements OnInit {
       this.notificationService.notify('Please fill occurence field', 'error');
     } else {
       this.calculateCronExpression();
-      this.closeCustomRecModal();
     }
   }
   cancelCustomRecModal() {
@@ -400,7 +341,6 @@ export class SchedulerComponent implements OnInit {
     this.occurence = '';
     this.endsFreq('never');
     this.rstz = 'Does not repeat';
-    this.closeCustomRecModal();
   }
   endsFreq(freq, type?) {
     if (!type) {
@@ -467,37 +407,33 @@ export class SchedulerComponent implements OnInit {
   }
   openCustomRecModal(rstz) {
     this.rstz = rstz;
-    this.customRecurrenceRef = this.customRecurrence.open();
+    this.isCustom = true
+    this.perfectScroll.directiveRef.scrollToTop();
   }
 
-  closeCustomRecModal() {
-    if (this.customRecurrenceRef && this.customRecurrenceRef.close) {
-      this.customRecurrenceRef.close();
+  //open or close schedular popup
+  openCloseSchedular(type){
+    if(type==='open'){
+      this.schedualarDataModelPopRef = this.schedualarDataModelPop.open();
+    } else if(type==='close'){
+      this.isCustom = false;
+      if(this.schedualarDataModelPopRef?.close) this.schedualarDataModelPopRef.close();
     }
+  }
+
+  //save schedule data
+  sendScheduleData(){
+    this.scheduleData.emit(this.scheduledData);
+    this.cronExpress.emit(this.cronExpression);
+    this.scheduledData = {};
+    this.openCloseSchedular('close');
+  }
+
+  //back to home page
+  gotoPreviousPage(){
+    this.isCustom = false;
+    // this.recurringFrequency = false;
+    // this.rstz = 'Does not repeat';
   }
 }
 
-
-// export class InterVal {
-//   intervalType:String ="";
-//   intervalValue: IntervalValue = new IntervalValue();
-// }
-// export class Time{
-//       hour:String ="";
-//       minute:String ="";
-//       timeOpt:String ="";
-//       timezone:String ="";
-// }
-
-// export class IntervalValue {
-//   every: number = null ;
-//   schedulePeriod: String ="";
-//   repeatOn: String ="";
-//   endsOn: EndsOn = new EndsOn();
-// }
-// export class EndsOn {
-//   endType:String ="";
-//   endDate:String ="";
-//   occurrences:number = null;
-
-// }

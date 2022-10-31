@@ -1,10 +1,12 @@
-import { ThrowStmt } from '@angular/compiler';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Router } from '@angular/router';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { ParentBridgeService } from '@kore.services/parent-bridge.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { Subscription } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { DomSanitizer } from '@angular/platform-browser';
 declare const $: any;
 
 @Component({
@@ -26,7 +28,7 @@ export class OnboardingComponentComponent implements OnInit {
   tourData: any;
   statusSlider:boolean=true;
   checkList:any=[];
-  subscription: Subscription;
+  tourConfigSubscription: Subscription;
   supportChildData:any=[];
   supportParentData:boolean=true;
   breadcrumbName:any;
@@ -37,6 +39,10 @@ export class OnboardingComponentComponent implements OnInit {
   searchOpenFaq:boolean=false;
   support_Search:any;
   faq_Search:any;
+  topicGuideUrl: any;
+  topicGuideVideoUrl:string='';
+  showLoader: boolean;
+  showLoader1: boolean;
   supportData = [{
     title:'Getting started',
     desc:'Explore our Guide on popular topics to start building your own Search Application',
@@ -801,12 +807,18 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
  ]
 }
 ];
+topicGuideObj = {
+  enableIframe:false,
+  selectedContent:''
+};
+mediaObj:any = {};
 
-  constructor( private appSelectionService: AppSelectionService, private notificationService: NotificationService, private service: ServiceInvokerService,public router: Router,) {}
+  constructor( private appSelectionService: AppSelectionService, private notificationService: NotificationService, private service: ServiceInvokerService,public router: Router,public sanitizer: DomSanitizer,
+    public parentBridgeService : ParentBridgeService) {}
 
   ngOnInit(): void {
       this.getVersion();
-      this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
+      this.tourConfigSubscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourConfigData = res;
       this.tourData = res.onBoardingChecklist;
       this.checkList=[{ step: 'Step 1',title:'Add Data',desc:'Data is fetched from various sources and ingested into the application for accurate search results', imgURL:'assets/icons/onboarding/database.svg',route:'/source',tourdata:this.tourData[0].addData, videoUrl:'https://www.w3schools.com/tags/movie.mp4', docUrl:'https://docs.kore.ai/searchassist/concepts/managing-content/introduction-to-content-sources/'},
@@ -819,32 +831,214 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
       imgURL:'assets/icons/onboarding/hand.svg',route:'/settings',tourdata:this.tourData[5].fineTuneRelevance, videoUrl:'https://www.w3schools.com/tags/movie.mp4', docUrl:'https://docs.kore.ai/searchassist/deploying-searchassist-app/developers-corner/'}];
       this.trackChecklist();
     })
+    window.addEventListener("message", (event) => {
+      this.readEvent(event.data,event.data.action)      
+   }, false)
   }
-  triggerFaq() {
-    this.currentRouteData=this.currentRouteData.replace("/", "");
-    let index = this.faqData.findIndex(el => el.key == this.currentRouteData)
-    if(index < 0) {
-      // this.triggerChild()
-      this.supportParentfaq=true;
-      this.closeFaqSearch()
-    } else {
-      this.faqData.forEach(element => {
-        if(this.currentRouteData==element.key){
-         this.triggerChildFaq(element);
-        }
-      });
+  readEvent(data,action){
+    if(action=="videoModal"){
+      this.openMediaModal(data.payload);
     }
   }
-  triggerChild(data) {
+ openMediaModal = function(payload) {  
+  // var med =  mediaObj || {};
+  // mediaObj = med;
+  // $('#topicGuideVideoModal').modal('show');   
+  // mediaObj.loadingMedia = true;
+  // this.showLoader1 = true;
+  // this.topicGuideVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(mediaObj.url);
+  // mediaObj.title=this.mediaObj.title   
+   this.mediaObj = payload;
+   this.mediaObj.title=payload.title;
+   this.mediaObj.description=payload.description;
+   $('#topicGuideVideoModal').modal('show');   
+   this.mediaObj.loadingMedia = true;
+   this.showLoader1 = true;
+   this.topicGuideVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(payload.url); 
+};
+
+  triggerFaq() {
+    //added below if condition to prevent the loader multiple times on click of topic guide
+    // if(this.topicGuideObj.enableIframe){
+    //   return
+    // }
+    this.currentRouteData=this.currentRouteData.replace("/", "");
+    if(this.currentRouteData==''){
+      this.currentRouteData=this.router.url;
+      this.currentRouteData=this.currentRouteData.replace("/", "");
+    }
+    this.triggerChildFaq(this.currentRouteData);
+    //let index = this.faqData.findIndex(el => el.key == this.currentRouteData)
+    // if(index < 0) {
+    //   // this.triggerChild()
+    //   this.supportParentfaq=true;
+    //   this.closeFaqSearch()    //  
+    // } else {
+    //   this.faqData.forEach(element => {
+    //     if(this.currentRouteData==element.key){
+    //      this.triggerChildFaq(element);
+    //     }
+    //   });
+    // }
+  }
+  showHideSpinner() {  
+    setTimeout(() => {
+      this.showLoader = false;
+      this.showLoader1 = false;
+    }, 2500)
+}
+  triggerChild(data) {  
     this.supportParentData = false
     this.supportChildData = data.childData;
-     this.breadcrumbName = data.title;
+    this.breadcrumbName = data.title;
   }
   triggerChildFaq(faq) {
+    const topicGuide: any = environment;
+    if (topicGuide.hasOwnProperty('topicGuideBaseUrl') && topicGuide['topicGuideBaseUrl']) {
+      var topicGuideBaseUrl = topicGuide['topicGuideBaseUrl']
+      var version = 'latest';
+      var language = 'en';
+      var topicId = faq;
+      var topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl(topicGuideBaseUrl+language+'/'+version+'/'+topicId);
+      this.topicGuideUrl=topicGuideUrl;
+      $(".topic-guide-tab" ).trigger( "click" );
+      if(this.topicGuideObj.enableIframe){
+        this.showLoader = false;
+      }
+      else{
+        this.showLoader = true;
+      } 
+      //this.topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/en/latest/summary');
+      // this.topicGuideUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://koredotcom.github.io/koredotai-docs/platform/topic-guide/en/latest/No Bots Form?rnd=cd1at9')
+      //this.topicGuideUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://koredotcom.github.io/koredotai-docs/platform/topic-guide/en/latest/Dialog Tasks?rnd=cd1at9')
+      this.topicGuideObj.enableIframe =  true;
+      this.topicGuideObj.selectedContent =  topicId;
+    } else {
+      this.topicGuideObj.enableIframe =  false;
+   }
     this.supportParentfaq = false
     this.supportChildfaq = faq.childData;
-    this.breadcrumbNameFaq = faq.display;
+    this.breadcrumbNameFaq=faq.replace("/", "");
+     /**Sources*/
+    if(this.breadcrumbNameFaq=='content'){
+      this.breadcrumbNameFaq='Content'
+    }
+    else if(this.breadcrumbNameFaq=='faqs'){
+      this.breadcrumbNameFaq='FAQs'
+    }
+    else if(this.breadcrumbNameFaq=='botActions'){
+      this.breadcrumbNameFaq='Actions'
+    }
+    else if(this.breadcrumbNameFaq=='structuredData'){
+      this.breadcrumbNameFaq='Structured Data'
+    }
+    else if(this.breadcrumbNameFaq=='connectors'){
+      this.breadcrumbNameFaq='Connectors'
+    }
+    /**Overview*/
+    else if(this.breadcrumbNameFaq=='summary'){
+      this.breadcrumbNameFaq='Overview'
+    }
+    /**Indices */
+    else if(this.breadcrumbNameFaq=='FieldManagementComponent'){
+      this.breadcrumbNameFaq='Field Management'
+    }
+    else if(this.breadcrumbNameFaq=='traits'){
+      this.breadcrumbNameFaq='Traits'
+    }
+    else if(this.breadcrumbNameFaq=='index'){
+      this.breadcrumbNameFaq='Workbench'
+    }
+    else if(this.breadcrumbNameFaq=='weights'){
+      this.breadcrumbNameFaq='Weights'
+    }
+    else if(this.breadcrumbNameFaq=='synonyms'){
+      this.breadcrumbNameFaq='Synonyms'
+    }
+    else if(this.breadcrumbNameFaq=='stopWords'){
+      this.breadcrumbNameFaq='Stop Words'
+    }
+    else if(this.breadcrumbNameFaq=='resultranking'){
+      this.breadcrumbNameFaq='Results Ranking'
+    }
+    else if(this.breadcrumbNameFaq=='facets'){
+      this.breadcrumbNameFaq='Facets'
+    }
+    else if(this.breadcrumbNameFaq=='rules'){
+      this.breadcrumbNameFaq='Business Rules'
+    }
+    else if(this.breadcrumbNameFaq=='search-experience'){
+      this.breadcrumbNameFaq='Search Interface'
+    }
+    else if(this.breadcrumbNameFaq=='resultTemplate'){
+      this.breadcrumbNameFaq='Result Templates'
+    }
+    /**Analytics*/
+    else if(this.breadcrumbNameFaq=='experiments'){
+      this.breadcrumbNameFaq='Experiments'
+    }
+    else if(this.breadcrumbNameFaq=='dashboard'){
+      this.breadcrumbNameFaq='Dashboard'
+    }
+    else if(this.breadcrumbNameFaq=='userEngagement'){
+      this.breadcrumbNameFaq='User Engagement'
+    }
+    else if(this.breadcrumbNameFaq=='searchInsights'){
+      this.breadcrumbNameFaq='Search Insights'
+    }
+    else if(this.breadcrumbNameFaq=='resultInsights'){
+      this.breadcrumbNameFaq='Results Insights'
+    }
+    /**Manage */
+    else if(this.breadcrumbNameFaq=='generalSettings'){
+      this.breadcrumbNameFaq='General Settings'
+    }
+    else if(this.breadcrumbNameFaq=='settings'){
+      this.breadcrumbNameFaq='Channels'
+    }
+    else if(this.breadcrumbNameFaq=='credentials-list'){
+      this.breadcrumbNameFaq='Credentials List'
+    }
+    else if(this.breadcrumbNameFaq=='team-management'){
+      this.breadcrumbNameFaq='Team Management'
+    }
+    else if(this.breadcrumbNameFaq=='pricing'){
+      this.breadcrumbNameFaq='Pricing'
+    }
+    else if(this.breadcrumbNameFaq=='usageLog'){
+      this.breadcrumbNameFaq='Usage Log'
+    }
+    else if(this.breadcrumbNameFaq=='invoices'){
+      this.breadcrumbNameFaq='Invoices'
+    }
 }
+closeMediaModal(event){
+  this.mediaObj = {};
+  //console.log(event);
+  $(event.target).closest('.videoContainer').find('iframe').attr("src",$(event.target).closest('.videoContainer').find('iframe').attr("src"));
+  // $('.pause-icon').click(); 
+  // $('.rounded-box').click();
+   
+  // $('.play').click();  
+  // $('.rounded-box').ariaLabel = 'Pause'
+  // let $frame=$('#topicGuideVideoModal');
+  // let vidsrc = $frame.attr('src');
+  // $frame.attr('src','');   
+   
+    
+//   $("#topicGuideVideoModal").on('hide.bs.modal', function (e) {
+//     $("#topicGuideVideoModal iframe").attr("src", $("#topicGuideVideoModal iframe").attr("src"));
+// });
+  // $('iframe').attr('src', $('iframe').attr('src'));
+  $('#topicGuideVideoModal').modal('hide');  
+};
+
+onMediaLoadedLoaded(){
+  setTimeout(function(){
+   this.mediaObj.loadingMedia = false;
+ });
+};
+
   // openAccordiandata(index) {
   //   $(document).ready(function(){
   //     $(".data"+index).mouseenter(function(){
@@ -896,7 +1090,10 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
 
   openCheckList(){
     $(".nav-link" ).trigger( "click" );
-  }
+  }  
+  openTopicguide(){
+    $("#topicguide").trigger("click");
+  } 
 
 
   openAccordiandata2() {

@@ -37,8 +37,22 @@
             margin-left: -11px;
         }
         &.no-landing-screen{
-            height: 22px;
-            width: 22px;
+            height: 24px;
+            width: 24px;
+            position: relative;
+            &::before{
+                content: "";
+                position: absolute;
+                width: 100%;
+                border-bottom: 2px solid #0D6EFD;
+                bottom: -18px;
+                left: 0;
+                display: none;
+            }
+            img{
+                height: 24px;
+                width: 24px;
+            }
         }
     }
     &.onboarding-header {
@@ -252,6 +266,19 @@
                     margin: 0 5px;
                 }
                 .kr-sg-dropdowns {
+                    &.new-line-btn{
+                        border: 1px solid #BDC1C6;
+                        background: #FFFFFF;
+                        border-radius: 2px;
+                        padding: 0 5px;
+                        height: 34px;
+                        .dropdown-open{
+                            .dropdown-toggle{
+                                height: 32px;
+                            }
+                        }
+                    }
+                   
                     .dropdown-open{
                         .dropdown-input{
                             border: 0 !important;
@@ -364,12 +391,18 @@
                     margin: 0 5px;
                 }
                 button{
+                    border-radius: 2px;
                     &.active-test{
                         background: #E4E5E7;
                         border: 1px solid #BDC1C6;
                         box-sizing: border-box;
                         border-radius: 4px;
                     }
+                }
+            }
+            &.new-train-btn{
+                .kr-sg-button-secondary{
+                    border-radius: 2px;
                 }
             }
             &.train-btn{
@@ -379,7 +412,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                border-radius: 4px;
+                border-radius: 2px;
                 margin: 0 10px;
                 transition: 0.2s all ease;
                 @media screen and (max-width: 1201px) {
@@ -608,6 +641,10 @@
                 border-radius: 4px;
                 margin: 0 10px;
                 transition: 0.2s all ease;
+                border-left: 1px solid #C4C4C4;
+                border-top-left-radius: 0px;
+                border-bottom-left-radius: 0px;
+                padding-left: 5px;
                 @media screen and (max-width: 1201px) {
                     margin: 0 10px 0 5px;
                 }

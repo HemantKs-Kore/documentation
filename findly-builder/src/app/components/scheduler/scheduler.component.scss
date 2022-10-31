@@ -275,32 +275,110 @@
     
 }
 .custom-ref{
-    .modal-body{
-        height: 400px;
-        padding: 0px 0px 0px 0px;
-        .cust-ref{
-            span{
-                position: absolute;
-                left: 30px;
-                font-weight: 500;
-                font-size: 14px;
-            }
-            .cust-repeat{
-                position: absolute;
-                left: 127px;
-                top: 38px;
-            }
-            .cust-repeat-type{
-                position: absolute;
-                width: 100px;
-                left: 187px;
-                top: -7px;
-            }
-            .content-width{
-                width: 25%;
+    &.new-custom-ref{
+        width: 311px;
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+        .modal_content{
+            .shedualr-seacondary-header{
+                padding: 15px 0 20px 0;
+                .cr-chev-left-icon{
+                    display: inline-block;
+                    transform: rotate(-270deg);
+                    padding: 0;
+                    cursor: pointer;
+                }
+                .shedualr-seacondary-heading{
+                    padding-left: 15px;
+                    font-weight: 500;
+                    font-size: 14px;
+                    line-height: 17px;
+                    color: #121314;
+                }
+
             }
         }
+    }
+    .modal-body{
+        height: 400px;
+        padding: 0px 0px 0px 0px !important;
+        .cust-ref{
+            &.inner-modal{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 20px;
+                .label-text{
+                    font-weight: 500;
+                    font-size: 12px;
+                    line-height: 15px;
+                    color: #121314;
+                }
+                .repeat-input{
+                    .cust-repeat{
+                        text-align: center;
+                        position: relative;
+                        left: auto;
+                        top: auto;
+                        padding-left: 2px;
+                    }
+                }
+                .schedule-Interval{
+                    width: 30%;
+                    .cust-repeat-type{
+                        position: relative;
+                        width: 100%;
+                        left: auto;
+                        top: auto;
+                    }
+                }
+            }
+            // span{
+            //     position: absolute;
+            //     left: 30px;
+            //     font-weight: 500;
+            //     font-size: 14px;
+            // }
+            // .cust-repeat{
+            //     position: absolute;
+            //     left: 127px;
+            //     top: 38px;
+            // }
+            // .cust-repeat-type{
+            //     position: absolute;
+            //     width: 100px;
+            //     left: 187px;
+            //     top: -7px;
+            // }
+            // .content-width{
+            //     width: 25%;
+            // }
+        }
         .repeat-on{
+            .label-text{
+                margin-bottom: 11px;
+            }
+            .days-name{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                text-align: center;
+                margin-bottom: 20px;
+                .circle {
+                    position: relative;
+                    top: auto;
+                    background: #fff;
+                    border-radius: 4px;
+                    border: 1px solid #BDC1C6;
+                    &.active{
+                        background: #F3F8FF;
+                        color: #000000;
+                        font-weight: 600;
+                        font-size: 14px;
+                        border: 1px solid #0D6EFD;
+                    }
+                }
+            }
             span{
                 position: absolute;
                 top: 100px;
@@ -319,8 +397,6 @@
                 background: #E4E5E7;
             }
             .custom-repeat-on{
-                margin-top: 85px;
-                /* border: 1px solid white; */
                 background: white;
                 padding: 8px;
                 border-radius: 5px;
@@ -332,27 +408,63 @@
             .cs{
                 //top: 114px;
                }
-           .cm{
-               left: 77px;
-           }
-           .ct{
-            left: 116px;
-           }
-           .cw{
-            left: 154px;
-           }
-           .cth{
-            left: 193px;
-           }
-           .cf{
-            left: 232px;
-           }
-           .csa{
-            left: 271px;
-           }
+        //    .cm{
+        //        left: 77px;
+        //    }
+        //    .ct{
+        //     left: 116px;
+        //    }
+        //    .cw{
+        //     left: 154px;
+        //    }
+        //    .cth{
+        //     left: 193px;
+        //    }
+        //    .cf{
+        //     left: 232px;
+        //    }
+        //    .csa{
+        //     left: 271px;
+        //    }
         }
         
        .ends{
+        &.shedular-ends-form{
+            .ends-never{
+                position: relative;
+                left: auto;
+                top: auto;
+                margin: 0 0 10px 0;
+                height: 40px;
+                .ends-radio{
+                    cursor: pointer;
+                }
+                .sp{
+                    position: absolute;
+                    top: 8px;
+                }
+                &.sp-at{
+                    .occur-span{
+                        font-weight: 400;
+                        font-size: 14px;
+                        line-height: 17px;
+                        display: flex;
+                        align-items: center;
+                        color: #121314;
+                    }
+                }
+                .date-pick{
+                    text-align: center;
+                    font-weight: 600;
+                    padding-left: 2px;
+                }
+                .mat-datepicker-input{
+                    text-align: left;
+                    padding-left: 8px;
+                    font-weight: 500;
+                }
+            }
+        }
 
            span{
             position: absolute;
@@ -438,9 +550,12 @@
         .scheduletitle{
             font-size: 12px;
             margin-bottom: 5px;
+            margin-top: 15px;
         } 
         .middle_content{
             display: flex;
+            border-bottom: 1px solid #E4E5E7;
+            padding-bottom: 15px;
             .kr-sg-input-text{
                 margin-right: 5px;
                 position: relative;                
@@ -510,20 +625,7 @@
     }
 }
 
-::ng-deep .custome_date_picker.mat-datepicker-toggle{
-    // position: absolute;
-    // top: 9px;
-    // .mat-icon-button{
-    //     position: absolute;
-    //     top: 0;
-    //     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAMCAYAAABSgIzaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADeSURBVHgBlVLbDcIwDLSrDtAR3Af/dIOyAWzABqwAE8AGZQMYoUyA+KYoYQP+KQmOWkSaRiqc1Mrn+M6nKAAWiCiiODuDA4pTYc7sHnYCamlIgFiCfs56SgwFaOBeIw2VDCRK5zx8gH+gMQ8AgojdKilqBN3EbC9NbX9ttBd1dcXKKLCNTAQ2Wfg2CCHudisY5lBEyWT1YW2tyJ3yCNEMTb8+Kud/4U6FbkPKetfntyV4MNhISbalJC17nLL16EZQ+tTF7ThezC2OCjnasc+ve/CAherBD6Dgp6bhd2ze6XBS58KPSfYAAAAASUVORK5CYII=');
-    //     background-repeat: no-repeat;
-    //     height: 16px;
-    //     width: 16px;
-    //     right: 10px;
-    //     background-position: center;
-    // }            
-}
+
 
 .custome_date_picker{
     cursor: pointer;
@@ -532,3 +634,133 @@
     bottom: -1px;
 }
 
+.mt-15{
+    margin-top: 15px;
+}
+.recurringFrequencyBlock{
+    .schedule-Interval{
+        // border-bottom: 1px solid #E4E5E7;
+        padding-bottom: 15px;
+    }
+}
+.dropdown-disable{
+    background: #EFF0F1 !important;
+    border: 0 !important;
+    color: #BDC1C6 !important;
+    cursor: default;
+}
+.shedular-footer{
+    border-top: 1px solid #E4E5E7;
+}
+
+::ng-deep ngb-modal-window{
+    &.schedualarDataModelPop{
+        .modal-dialog{
+            background: rgb(94 99 105 / 20%);
+            .modal-content{
+                .perfect-scroll-modal-body{
+                    padding: 0 20px;
+                }
+            }
+        }
+    }
+}
+
+::ng-deep .schedualarDataModelPop{
+    .modal-dialog{
+        .modal-content{
+            height: 551px !important;
+            width: 366px !important;
+            margin: 15px auto;
+            border-radius: 4px !important;
+            .modal-header{
+                border-bottom: 1px solid transparent !important;
+                box-shadow: none !important;
+                padding: 22px 20px 0px 20px;
+                .title{
+                    font-weight: 600;
+                    color: #000000;
+                }
+            }
+            app-scheduler{
+                .schedular_row_data{
+                    padding: 15px 20px;
+                    margin: 0px !important;
+                    padding-bottom: 0px !important;
+                    .row_column{
+                        margin-bottom: 15px;
+                        border-bottom: 1px solid #E4E5E7;
+                        padding: 0 0 15px 0 !important;
+                        &:first-child{
+                            border-bottom: 1px solid transparent;
+                        }
+                        .kr-sg-input-text{
+                            mat-card{
+                                width: 70%;
+                            }
+                        }
+                        .calender{
+                            mat-card{
+                                &.demo-inline-calendar-card{
+                                    box-shadow: 0px 4px 4px rgb(32 33 36 / 20%), 0px 1px 2px rgb(32 33 36 / 10%);
+                                    .mat-calendar{
+                                        .mat-calendar-content{
+                                            mat-month-view{
+                                                .mat-calendar-table{
+                                                    .mat-calendar-body{
+                                                        .mat-calendar-body-cell{
+                                                            .mat-calendar-body-cell-content{
+                                                                &.mat-calendar-body-selected{
+                                                                    box-shadow: inset 0 0 0 1px #0d6efd;
+                                                                    background-color: #0D6EFD;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .status-modal-popup{
+                        &.custom-ref{
+                            width: 100%;
+                            .modal_content{
+                                .modal-body{
+                                    background-color: #fff;
+                                    .cust-ref{
+                                        .cust-repeat{
+                                            position: absolute;
+                                            left: 127px;
+                                            top: 18px !important;
+                                        }
+                                    }
+                                    .repeat-on{
+                                        .circle {
+                                                text-align: center;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .shedular-footer{
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                gap: 10px;
+                width: 100%;
+                padding: 15px 20px;
+                .kr-sg-button-secondary{
+                    border: 1px solid transparent;
+                }
+            }
+        }
+    }
+}

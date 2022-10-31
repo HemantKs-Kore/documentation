@@ -13,6 +13,7 @@ import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } f
 import { of } from 'rxjs/internal/observable/of';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 declare const $: any;
 @Component({
   selector: 'app-weights',
@@ -53,7 +54,8 @@ export class WeightsComponent implements OnInit, OnDestroy
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
-    public inlineManual: InlineManualService
+    public inlineManual: InlineManualService,
+    public mixpanel: MixpanelServiceService
   ) { }
   selectedApp: any = {};
   serachIndexId;
@@ -212,6 +214,7 @@ export class WeightsComponent implements OnInit, OnDestroy
         this.inlineManual.openHelp('WEIGHTS')
         this.inlineManual.visited('WEIGHTS')
       }
+      this.mixpanel.postEvent('Enter Weights',{});
     }, errRes =>
     {
       this.loadingContent = false;
@@ -379,7 +382,8 @@ export class WeightsComponent implements OnInit, OnDestroy
       this.prepereWeights();
       if (type == 'add')
       {
-        this.notificationService.notify('Added Successfully', 'success')
+        this.notificationService.notify('Added Successfully', 'success');
+      this.mixpanel.postEvent('Save Weights',{});
       }
       else if (type == 'edit')
       {
@@ -455,6 +459,9 @@ export class WeightsComponent implements OnInit, OnDestroy
       $('#searchBoxIdW')[0].value = "";
       this.search_FieldName = '';
     }
+  }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
   }
   ngOnDestroy()
   {

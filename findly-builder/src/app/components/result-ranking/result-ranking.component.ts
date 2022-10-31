@@ -153,7 +153,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       interface: interfaceType,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId,
     };
     this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
       if (res && res.groupSetting) {
@@ -178,7 +179,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       templateId: templateId,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId,
     };
     this.service.invoke('get.templateById', quaryparms).subscribe(res => {
       let strucDataHeadingId = res.mapping.heading;
@@ -741,5 +743,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
+  }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
   }
 }

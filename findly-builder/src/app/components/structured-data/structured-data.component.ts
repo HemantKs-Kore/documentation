@@ -16,7 +16,9 @@ import { InlineManualService } from '../../services/inline-manual.service';
 import { AppSelectionService } from './../../services/app.selection.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-
+import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
+import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
+import * as moment from 'moment';
 @Component({
   selector: 'app-structured-data',
   templateUrl: './structured-data.component.html',
@@ -44,6 +46,7 @@ export class StructuredDataComponent implements OnInit {
       resourceType: 'structuredDataManual'
     }
   ];
+  
   structuredDataItemsList: any = [];
   selectedApp: any;
   codeMirrorOptions: any = {
@@ -113,15 +116,20 @@ export class StructuredDataComponent implements OnInit {
   showSelectAllQues: boolean
   enableSearchBlock: boolean = false;
   indexPipelineId: any;
+  queryPipelineId : any;
   subscription: Subscription;
   activeClose = false;
   paginateEvent:any;
   showSelectedCount = 0 ;
   componentType: string = 'addData';
+  onboardingOpened: boolean = false;
+  currentRouteData: any = "";
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
   @ViewChild('structuredDataStatusModalPop') structuredDataStatusModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  @ViewChild(OnboardingComponentComponent, { static: true }) onBoardingComponent: OnboardingComponentComponent;
+  @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -142,7 +150,7 @@ export class StructuredDataComponent implements OnInit {
         debounceTime(200),
         map(term => this.searchItems())
       )
-    this.loadData();
+    //this.loadData();
     this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadData();
     })    
@@ -151,6 +159,7 @@ export class StructuredDataComponent implements OnInit {
   loadData() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       this.getAllSettings();
     }
   }
@@ -1330,11 +1339,92 @@ export class StructuredDataComponent implements OnInit {
       this.getStructuredDataList();
     }
   }
+  exportStructureData(ext) {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+    };
+    const payload = {
+      exportType: ext,
+    }
+    this.service.invoke('export.structuredData', quaryparms, payload).subscribe(res => {
+      if (ext === 'json') {
+        this.notificationService.notify('Export to JSON is in progress. You can check the status in the Status Docker', 'success');
+      }
+      else {
+        this.notificationService.notify('Export to CSV is in progress. You can check the status in the Status Docker', 'success');
+      }
+      this.checkStructureData();
+    },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      });
+  }
+
+  checkStructureData() {
+    const queryParms = {
+      searchIndexId: this.workflowService.selectedSearchIndexId
+    }
+    this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
+      /**made changes on 24/02 as per new api contract in response we no longer use the key
+         dockStatuses added updated code in 1894*/
+      // if (res && res.dockStatuses) {
+      if (res) {
+        /**made changes on 24/02 as per new api contract in response we no longer use the key
+       dockStatuses added updated code in 1898 line*/
+        // res.dockStatuses.forEach((record: any) => {
+        res.forEach((record: any) => {
+          record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
+          /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is updated to success as per new api contract */
+          /** made code updates in line no 1903 on 03/09 added new condition for record.fileInfo and record.fileInfo.fileId,since fileId is now has to be fetched from fileInfo  as per new api contract  */
+          // if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
+          if ((record.status === 'SUCCESS' || record.status === 'success') && (record.fileInfo) && (record.fileInfo.fileId) && !record?.store?.toastSeen) {
+            /**added condition for jobType in 1906,since we are no longer recieving action in jobs api response,using the jobType for condition check as per new api contract 10/03 */
+            // if (record.action === 'EXPORT') {
+            if (record.jobType === "DATA_EXPORT") {
+              this.downloadDockFile(record.fileInfo.fileId, record.store.urlParams, record.streamId, record._id);
+            }
+          }
+        })
+      }
+    }, errRes => {
+      //this.pollingSubscriber.unsubscribe();
+      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed to get Status of Docker.', 'error');
+      }
+    });
+  }
+  downloadDockFile(fileId, fileName, streamId, dockId) {
+    const params = {
+      fileId,
+      streamId: streamId,
+      dockId: dockId,
+      jobId: dockId,
+      sidx: this.serachIndexId
+    }
+    let payload = {
+      "store": {
+        "toastSeen": true,
+        "urlParams": fileName,
+      }
+    }
+    this.service.invoke('attachment.file', params).subscribe(res => {
+      let hrefURL = res.fileUrl + fileName;
+      window.open(hrefURL, '_self');
+      this.service.invoke('put.dockStatus', params, payload).subscribe(res => { });
+    }, err => { console.log(err) });
+  }
 
   getAllSettings() {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId,
       interface: 'fullSearch'
     };
     this.isResultTemplateLoading = true;
@@ -1377,6 +1467,10 @@ export class StructuredDataComponent implements OnInit {
       document.getElementById(inputSearch).focus();
     }, 100)
   }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  } 
+  
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();

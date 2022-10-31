@@ -1,7 +1,7 @@
 <div class="facets-main-container">
     <div class="mainLoadingSpinner" *ngIf="loadingContent">
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-        <span class="please-wait-message">{{'please_wait'| translate}}</span>
+        <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
     </div>
     <div *ngIf="loadingContent1">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
@@ -13,7 +13,7 @@
                     <label for="selectAllFacets" class="checkbox-custom-label"></label>
                     <span class="selected_count"
                         *ngIf="selcectionObj && selcectionObj.selectedCount">{{selcectionObj.selectedCount}}
-                        {{'facets.selected' | translate}}</span>
+                        {{'facets_selected' | translate}}</span>
                 </div>
                 <div class="kr-sg-checkbox p-0 ml-1 mb-0 adjust-checkbox-padding partial-select-checkbox d-none"
                     *ngIf="selcectionObj.selectedItems.length != facets.length">
@@ -21,30 +21,34 @@
                         class="search-icon">
                     <span class="selected_count"
                         *ngIf="selcectionObj && selcectionObj.selectedCount">{{selcectionObj.selectedCount}}
-                        {{'facets.selected' | translate}}</span>
+                        {{'facets_selected' | translate}}</span>
                 </div>
             </div>
             <div class="actions text-right col-8 right-sec p-0">
-                <!-- <span class="selected_count mr-4" *ngIf="selcectionObj && selcectionObj.selectedCount">{{selcectionObj.selectedCount}} {{'facets.selected' | translate}}</span> -->
-                <!-- <button id='btn_cancleFacet' ng class="kr-sg-button-secondary btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="addRemovefacetFromSelection(null,null,true)">{{'facets.deselect'| translate}}</button> -->
+                <!-- <span class="selected_count mr-4" *ngIf="selcectionObj && selcectionObj.selectedCount">{{selcectionObj.selectedCount}} {{'facets_selected' | translate}}</span> -->
+                <!-- <button id='btn_cancleFacet' ng class="kr-sg-button-secondary btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="addRemovefacetFromSelection(null,null,true)">{{'facets_deselect'| translate}}</button> -->
                 <button id='btn_delete' class="kr-sg-button-danger btn_lg"
                     *ngIf="selcectionObj && selcectionObj.selectedCount"
-                    (click)="deleteFacets(null,selcectionObj.selectedCount)">{{'facets.delete'| translate}}</button>
+                    (click)="deleteFacets(null,selcectionObj.selectedCount)">{{'sa_delete'| translate}}</button>
             </div>
         </div>
         <div class="header-sec m-0" [ngClass]="{ 'd-none' : selcectionObj.selectedCount}">
-            <div class="title">{{'facets.facets'| translate}}</div>
+            <div class="title">{{'facets_facets'| translate}}
+                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide'| translate}}" 
+ placement="right-center"(click)="openUserMetaTagsSlider()">
+                    <i class="si-topic-guide-1"></i>
+                </span>
+            </div>
             <div class="d-flex align-items-center">
                 <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
                     <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search"
                         [ngClass]="{'pl-33':!searchfacet,'pl-2':searchfacet}" autocomplete="off"
-                        [(ngModel)]="searchfacet"  (change)="filterFacets(searchfacet,'search')"
+                        [(ngModel)]="searchfacet"
                         (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                         (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                         (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                     <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchfacet">
-                    <img class="close-icon" src="assets/icons/close_icon.svg" (mouseover)="activeClose=true"
-                        (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchfacet}" (click)="focusoutSearch()">
+                    <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchfacet}" (click)="focusoutSearch()">
                 </div>
                 <!-- <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
                     <img src="assets/icons/search_gray.svg" class="search-icon">
@@ -57,7 +61,7 @@
                     <!-- <img [ngClass]="{'d-none': !showSearch}" id="btn_close_search_structured_data" src="assets/images/close.svg" (click)="toggleSearch(false)"> -->
                 </div>
                 <button id='btn_addFacet'  class="kr-sg-button-primary btn_lg"
-                    (click)="createNewFacet()"><img src="assets/icons/add_plus.svg">{{'facets.add_facet'|
+                    (click)="createNewFacet()"><img src="assets/icons/add_plus.svg">{{'facets_add_facet'|
                     translate}}</button>
                 <!-- <img class="mr-3" src="assets/icons/clock.svg"> -->
             </div>
@@ -66,13 +70,13 @@
             <div class="actions text-right">
                 <span class="selected_count mr-4"
                     *ngIf="selcectionObj && selcectionObj.selectedCount">{{selcectionObj.selectedCount}}
-                    {{'facets.selected' | translate}}</span>
+                    {{'facets_selected' | translate}}</span>
                 <button id='btn_cancleFacet' ng class="kr-sg-button-secondary btn_lg"
                     *ngIf="selcectionObj && selcectionObj.selectedCount"
-                    (click)="addRemovefacetFromSelection(null,null,true)">{{'facets.deselect'| translate}}</button>
+                    (click)="addRemovefacetFromSelection(null,null,true)">{{'facets_deselect'| translate}}</button>
                 <button id='btn_delete' class="kr-sg-button-danger btn_lg"
                     *ngIf="selcectionObj && selcectionObj.selectedCount"
-                    (click)="deleteFacets(null,true)">{{'facets.delete_facets'| translate}}</button>
+                    (click)="deleteFacets(null,true)">{{'facets_delete_facets'| translate}}</button>
                 <!-- <img src="assets/icons/clock.svg"> -->
             </div>
         </div>
@@ -83,18 +87,15 @@
                             src="assets/images/facets-empty.png">
                     </div>
                     <ng-container *ngIf="loadImageText">
-                        <div class="empty-title">You haven’t added any Facets yet!</div>
-                        <div class="desc-text">Facets allow search users to refine their search results by selecting
-                            appropriate filters. SearchAssist allows you to add value and range facets, and you can
-                            configure any indexed fields as facets.
+                        <div class="empty-title">{{'facets_you_havenot_added_any_facets_yet!' | translate}}</div>
+                        <div class="desc-text">{{'facets_facets_allow_search_users_to' | translate}}
                         </div>
                         <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">
-                            <button class="kr-sg-button-primary btn_lg px-3" (click)="createNewFacet()">Add
-                                Facets</button>
+                            <button class="kr-sg-button-primary btn_lg px-3" (click)="createNewFacet()">{{'facets_add_facets' | translate}}</button>
                         </div>
                     </ng-container>
                     <ng-container *ngIf="!noItems && emptySearchResults">
-                        <div class="desc-text">Your Search Query doesn't match with any record.</div>
+                        <div class="desc-text">{{'facets_your_search_query_doesnot_match_with_any_record' | translate}}</div>
                     </ng-container>
                 </div>
             </perfect-scrollbar>
@@ -113,14 +114,14 @@
                         <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                         <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                     </span> -->
-                    <div class="title selectall-title">{{'facets.facet_caps_Name' | translate}}</div>
+                    <div class="title selectall-title">{{'facets_facet_caps_Name' | translate}}</div>
                 </div>
                 <div class="col-2 content d-flex">
                     <!-- <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('type')">
                         <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                         <img [ngClass]="getSortIconVisibility('type', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                     </span>  -->
-                    {{'facets.type_caps' | translate}}
+                    {{'facets_type_caps' | translate}}
                     <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #typeFilter="ngbDropdown" ngbDropdown
                         [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
@@ -129,11 +130,11 @@
                                 <!-- <img src="assets/icons/caretDown.svg"
                                       [ngClass]="{'assending': (selectedSort==='type') && isAsc,'decending':(selectedSort==='type') && !isAsc}"
                                       class="ml-1 sortImg"> -->
-                                <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                                <img class="custom-dropdown-toggle-icon" src="assets/icons/type-select-dropdown.svg">
                             </button>
                             <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                 <li (click)="typeFilter.close();filterTable('all','facetType')"><span
-                                        class="list-name">All</span><img
+                                        class="list-name">{{'sa_all' | translate}}</span><img
                                         [ngClass]="{'hide': filterSystem.typefilter !== 'all'}"
                                         src="assets/icons/check-blue.svg"></li>
                                 <li *ngFor="let docType of docTypeArr"
@@ -151,7 +152,7 @@
                         <img [ngClass]="getSortIconVisibility('select', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                         <img [ngClass]="getSortIconVisibility('select', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                     </span> -->
-                    {{'facets.multiselect_caps' | translate}}
+                    {{'facets_multiselect_caps' | translate}}
                     <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #selectFilter="ngbDropdown" ngbDropdown
                         [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
@@ -160,11 +161,11 @@
                                 <!-- <img src="assets/icons/caretDown.svg"
                                       [ngClass]="{'assending': (selectedSort==='type') && isAsc,'decending':(selectedSort==='type') && !isAsc}"
                                       class="ml-1 sortImg"> -->
-                                <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                                <img class="custom-dropdown-toggle-icon" src="assets/icons/type-select-dropdown.svg">
                             </button>
                             <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                 <li (click)="selectFilter.close();filterTable('all','isMultiSelect')"><span
-                                        class="list-name">All</span><img
+                                        class="list-name">{{'sa_all'| translate}}</span><img
                                         [ngClass]="{'hide': filterSystem.selectFilter !== 'all'}"
                                         src="assets/icons/check-blue.svg"></li>
                                 <li *ngFor="let docType of selectTypeArr"
@@ -182,7 +183,7 @@
                         <img [ngClass]="getSortIconVisibility('status', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                         <img [ngClass]="getSortIconVisibility('status', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                     </span>  -->
-                    {{'facets.status_caps' | translate}}
+                    {{'facets_status_caps' | translate}}
                     <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown
                         [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
@@ -191,11 +192,11 @@
                                 <!-- <img src="assets/icons/caretDown.svg"
                                       [ngClass]="{'assending': (selectedSort==='type') && isAsc,'decending':(selectedSort==='type') && !isAsc}"
                                       class="ml-1 sortImg"> -->
-                                <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                                <img class="custom-dropdown-toggle-icon" src="assets/icons/type-select-dropdown.svg">
                             </button>
                             <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                 <li (click)="statusFilter.close();filterTable('all','statusType')"><span
-                                        class="list-name">All</span><img
+                                        class="list-name">{{'sa_all' | translate}}</span><img
                                         [ngClass]="{'hide': filterSystem.statusFilter !== 'all'}"
                                         src="assets/icons/check-blue.svg"></li>
                                 <li *ngFor="let docType of statusArr"
@@ -214,8 +215,8 @@
                 <div class="empty-list" *ngIf="!(facets && facets.length)">
                     <ng-container>
                         <img src="assets/images/icons/empty_ill.svg">
-                        <div class="heading">{{'facets.no_facets' | translate}}</div>
-                        <div class="desc">{{'facets.please_add_facets' | translate}}</div>
+                        <div class="heading">{{'facets_no_facets' | translate}}</div>
+                        <div class="desc">{{'facets_please_add_facets' | translate}}</div>
                     </ng-container>
                 </div>
                 <ng-container *ngIf="(facets && facets.length)">
@@ -268,20 +269,20 @@
                     </div>
                 </ng-container>
                 <div class="divBlockEmptylastChild text-center">
-                    <div class="desc">{{'facets.no_search_results_found'| translate}}</div>
+                    <div class="desc">{{'facets_no_search_results_found'| translate}}</div>
                 </div>
             </perfect-scrollbar>
         </div>
 
         <div class="log_section d-none">
             <div class="header-log">
-                <div class="title">{{'facets.log'| translate}}</div>
+                <div class="title">{{'facets_log'| translate}}</div>
                 <div class="close_log"><img src="assets/images/close-cross.svg"></div>
             </div>
             <div class="empty_log">
                 <img src="assets/icons/empty-log.svg">
-                <div class="main-title">{{'facets.nothing_in_log_to_display'| translate}}</div>
-                <div class="desc">{{'facets.go_ahead_and_make_some_changes'| translate}}</div>
+                <div class="main-title">{{'facets_nothing_in_log_to_display'| translate}}</div>
+                <div class="desc">{{'facets_go_ahead_and_make_some_changes'| translate}}</div>
             </div>
         </div>
 
@@ -319,16 +320,16 @@
                         *ngIf="currentFacetObj&&currentFacetTab==='filter'">
                         <div class="filterfacet-content">
                             <div class="group-radiobutton">
-                                <div class="heading-title">Facet Type</div>
+                                <div class="heading-title">{{'facets_facet_type'| translate}}</div>
                                 <div class="kr-sg-radiobutton">
                                     <input id="radio-1" name="radio" class="radio-custom" type="radio" value="value"
                                         [(ngModel)]="currentFacetObj.subtype">
-                                    <label for="radio-1" class="radio-custom-label">Value</label>
+                                    <label for="radio-1" class="radio-custom-label">{{'facets_value'| translate}}</label>
                                 </div>
                                 <div class="kr-sg-radiobutton">
                                     <input id="radio-12" name="radio" class="radio-custom" type="radio" value="range"
                                         [(ngModel)]="currentFacetObj.subtype">
-                                    <label for="radio-12" class="radio-custom-label">Range</label>
+                                    <label for="radio-12" class="radio-custom-label">{{'facets_range'| translate}}</label>
                                 </div>
                             </div>
                             <div class="kr-sg-input-text mb-20"></div>
@@ -360,7 +361,7 @@
                                 </div>
                             </div>
                             <div class="kr-sg-input-text mb-20">
-                                <div class="label-text">Facet Name</div>
+                                <div class="label-text">{{'facets_facet_name'| translate}}</div>
                                 <input type="text" placeholder="Enter name" class="input-text"
                                     [(ngModel)]="currentFacetObj.name"
                                     [class.err-block]="((!currentFacetObj?.name?.length) && submitted)">
@@ -373,7 +374,7 @@
                                 <div class="box-input-data col-12 row">
                                     <div class="col-8 sort-section">
                                         <div class="inner-sort-inputs">
-                                            <div class="label-text">Sort by</div>
+                                            <div class="label-text">{{'facets_sort_by'| translate}}</div>
                                             <div class="d-flex">
                                                 <div class="kr-sg-dropdowns">
                                                     <div class="dropdown dropdown-open">
@@ -383,10 +384,10 @@
                                                         <ul class="dropdown-menu content-menu">
                                                             <perfect-scrollbar class="scroll-search-field h-200">
                                                                 <li (click)="currentFacetObj.sortConfig.sortBy='label'">
-                                                                    <a>{{'facets.label'| translate}}</a>
+                                                                    <a>{{'facets_label'| translate}}</a>
                                                                 </li>
                                                                 <li (click)="currentFacetObj.sortConfig.sortBy='count'">
-                                                                    <a>{{'facets.count'|translate}}</a>
+                                                                    <a>{{'facets_count'|translate}}</a>
                                                                 </li>
                                                             </perfect-scrollbar>
                                                         </ul>
@@ -401,10 +402,10 @@
                                                         <ul class="dropdown-menu content-menu">
                                                             <perfect-scrollbar class="scroll-search-field h-200">
                                                                 <li (click)="currentFacetObj.sortConfig.order='asc'">
-                                                                    <a>{{'facets.ascending'| translate}}</a>
+                                                                    <a>{{'facets_ascending'| translate}}</a>
                                                                 </li>
                                                                 <li (click)="currentFacetObj.sortConfig.order='desc'">
-                                                                    <a>{{'facets.descending'|translate}}</a>
+                                                                    <a>{{'facets_descending'|translate}}</a>
                                                                 </li>
                                                             </perfect-scrollbar>
                                                         </ul>
@@ -418,7 +419,7 @@
                                             <div class="label-text">Facet Size <img class="cursor-pointer"
                                                     src="assets/icons/facets/info.svg" tooltipClass="tooltip-global-"
                                                     [container]="'body'"
-                                                    ngbTooltip='Maximum number of facet values to be displayed'
+                                                    ngbTooltip="{{'facets_facet_size_info'| translate}}"
                                                     placement="top-center">
                                             </div>
                                             <input type="text" placeholder="0" class="input-text"
@@ -440,27 +441,27 @@
                                     <div class="range-data-box-inputs row col-12"
                                         *ngFor="let range of currentFacetObj.ranges;let i=index;">
                                         <div class="kr-sg-input-text col-6 pr-2 pl-2">
-                                            <div class="label-text">Range Name (Optional)</div>
-                                            <input type="text" placeholder="Enter name" class="input-text"
+                                            <div class="label-text">{{'facets_range_name'| translate}}</div>
+                                            <input type="text" placeholder="{{'facets_enter_name'| translate}}" class="input-text"
                                                 [(ngModel)]="range.name">
                                         </div>
                                         <div class="kr-sg-input-text col-3 pr-2 pl-2">
-                                            <div class="label-text">From</div>
-                                            <input type="text" placeholder="Range start value" class="input-text"
+                                            <div class="label-text">{{'facets_from'| translate}}</div>
+                                            <input type="text" placeholder="{{'facets_range_start_value'| translate}}" class="input-text"
                                                 [(ngModel)]="range.from">
                                         </div>
                                         <div class="kr-sg-input-text col-3 pr-2 pl-2">
-                                            <div class="label-text">To</div>
-                                            <input type="text" placeholder="Range end value" class="input-text"
+                                            <div class="label-text">{{'facets_to'| translate}}</div>
+                                            <input type="text" placeholder="{{'facets_range_end_value'| translate}}" class="input-text"
                                                 [(ngModel)]="range.to">
                                         </div>
                                         <div class="delete-row" tooltipClass="tooltip-global-" [container]="'body'"
-                                            ngbTooltip='Remove range' placement="top-center">
+                                            ngbTooltip="{{'facets_remove_range'| translate}}" placement="top-center">
                                             <img src="assets/icons/facets/close.svg" (click)="addNewRange('remove',i)">
                                         </div>
                                     </div>
                                     <div class="add-range-btn" (click)="addNewRange('add')">
-                                        <img src="assets/icons/facets/add-blue.svg">Add Range
+                                        <img src="assets/icons/facets/add-blue.svg">{{'facets_add_range'| translate}}
                                     </div>
                                 </div>
                             </ng-container>
@@ -470,14 +471,14 @@
                                     <input type="checkbox" [(ngModel)]="currentFacetObj.multiselect">
                                     <div class="slider"></div>
                                 </label>
-                                <div class="text-toggle">Allow to select muliple facets values</div>
+                                <div class="text-toggle">{{'facets_allow_to_select_multiple_facets_value'| translate}}</div>
                             </div>
                         </div>
                     </div>
                     <div id="sortablefacet" class="tab-pane fade  in show active" *ngIf="currentFacetTab==='sortable'">
                         <div class="filterfacet-content">
                             <div class="search_block mb-10">
-                                <div class="label-text">Field</div>
+                                <div class="label-text">{{'facets_field'| translate}}</div>
                                 <div class="col-12 row ml-0 mr-0 mb-3 align-items-center right-side-sec p-0" [ngClass]="{activeDrop: currentEditInex === index}">
                                     <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown ngbDropdown (click)="currentEditInex = index;clearcontent()">
                                         <div class="dropdown dropdown-open">
@@ -506,8 +507,8 @@
                                     </div>   
                             </div>
                             <div class="kr-sg-input-text mb-20">
-                                <div class="label-text">Facet Name</div>
-                                <input type="text" placeholder="Enter name" class="input-text"
+                                <div class="label-text">{{'facets_facet_name'| translate}}</div>
+                                <input type="text" placeholder="{{'facets_enter_name'| translate}}" class="input-text"
                                     [(ngModel)]="currentFacetObj.name"
                                     [class.err-block]="((!currentFacetObj?.name?.length) && submitted)">
                                 <img *ngIf="(!currentFacetObj?.name?.length) && submitted" id="fieldWarning"
@@ -519,7 +520,7 @@
                                 <div class="box-input-data col-12 row">
                                     <div class="col-12 sort-section">
                                         <div class="inner-sort-inputs">
-                                            <div class="label-text">Sort by</div>
+                                            <div class="label-text">{{'facets_sort_by'| translate}}</div>
                                             <div class="d-flex">
                                                 <!-- <div class="kr-sg-dropdowns">
                                                     <div class="dropdown dropdown-open">
@@ -529,10 +530,10 @@
                                                         <ul class="dropdown-menu content-menu">
                                                             <perfect-scrollbar class="scroll-search-field h-200">
                                                                 <li (click)="currentFacetObj.sortConfig.sortBy='label'">
-                                                                    <a>{{'facets.label'|translate}}</a>
+                                                                    <a>{{'facets_label'|translate}}</a>
                                                                 </li>
                                                                 <li (click)="currentFacetObj.sortConfig.sortBy='count'">
-                                                                    <a>{{'facets.count'|translate}}</a>
+                                                                    <a>{{'facets_count'|translate}}</a>
                                                                 </li>
                                                             </perfect-scrollbar>
                                                         </ul>
@@ -547,10 +548,10 @@
                                                         <ul class="dropdown-menu content-menu">
                                                             <perfect-scrollbar class="scroll-search-field h-200">
                                                                 <li (click)="currentFacetObj.sortConfig.order='asc'">
-                                                                    <a>{{'facets.ascending'| translate}}</a>
+                                                                    <a>{{'facets_ascending'| translate}}</a>
                                                                 </li>
                                                                 <li (click)="currentFacetObj.sortConfig.order='desc'">
-                                                                    <a>{{'facets.descending'|translate}}</a>
+                                                                    <a>{{'facets_descending'|translate}}</a>
                                                                 </li>
                                                             </perfect-scrollbar>
                                                         </ul>
@@ -570,12 +571,12 @@
                                 <div class="warning-icon">
                                     <img src="assets/images/warning.svg">
                                 </div>
-                                <div class="text-content">Maximum 20 facets can be added.</div>
+                                <div class="text-content">{{'facets_maximum_20_facets_can_be_added' | translate}}</div>
                             </div>
-                            <div class="ok-btn" (click)="hide_facet_info=true;">OK</div>
+                            <div class="ok-btn" (click)="hide_facet_info=true;">{{'facets_ok' | translate}}</div>
                         </div>
                         <div class="tabfacet-data">
-                            <div class="label-text">Field</div>
+                            <div class="label-text">{{'facets_field' | translate}}</div>
                             <div class="search-filter-btn mb-20">
                                 <div class="search_block w-100">
                                     <div class="kr-sg-dropdowns">
@@ -583,7 +584,7 @@
                                             <button id="btn_select_facet_field"
                                                 class="dropdown-toggle dropdown-input search-with-dropdown"
                                                 data-toggle="dropdown"></button>
-                                            <input type="text" maxlength="60" placeholder="Search For Field"
+                                            <input type="text" maxlength="60" placeholder="{{'facets_search_for_field' | translate}}"
                                                 id="facets-search-input"
                                                 class="input-search dropdown-toggle dropdown-input pl-35"
                                                 data-toggle="dropdown" [(ngModel)]="tab_configure_filed_name"
@@ -593,16 +594,16 @@
                                     </div>
                                 </div>
                                 <div class="filter-btn" (click)="clickConfiguredFacet()" tooltipClass="tooltip-global-"
-                                    [container]="'body'" ngbTooltip='Click here to configure field'
+                                    [container]="'body'" ngbTooltip="{{'facets_click_here_to_configure_field' | translate}}"
                                     placement="top-right">
                                     <img src="assets/icons/facets/rangeslider.svg">
                                 </div>
                             </div>
                             <div class="configured-facets" *ngIf="currentFacetObj?.tabs?.length">
-                                <div class="main-heading-title">Configured Facets</div>
+                                <div class="main-heading-title">{{'facets_configured_facets' | translate}}</div>
                                 <div class="header-sec-config-facet col-12 row">
-                                    <div class="col-6 title values-data">Values</div>
-                                    <div class="col-6 title">Display Name</div>
+                                    <div class="col-6 title values-data">{{'facets_values' | translate}}</div>
+                                    <div class="col-6 title">{{'facets_display_name' | translate}}</div>
                                 </div>
                                 <ng-container>
                                     <div cdkDropList (cdkDropListDropped)="dropTabs($event,currentFacetObj?.tabs)">
@@ -623,7 +624,7 @@
             </ng-container>
             <ng-container *ngIf="showConfiguredFacet">
                 <div class="search_block mb-10">
-                    <div class="label-text">Field Name <img class="cursor-pointer" src="assets/icons/facets/info.svg"
+                    <div class="label-text">{{'facets_field_name' | translate}} <img class="cursor-pointer" src="assets/icons/facets/info.svg"
                             tooltipClass="tooltip-global-" [container]="'body'"
                             ngbTooltip='Only search results for the values configured here will be displayed, other results will be discarded'
                             placement="right-center"></div>
@@ -664,7 +665,7 @@
                                         </button>
                                         <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" ngbDropdownMenu style="overflow-y: hidden;">
                                             <li class="search-box">
-                                                       <input id="searchBoxId" [(ngModel)]="field_name" autocomplete="off" type="text" (keydown)="$event.stopPropagation()" placeholder="Search" class="seach-input" />
+                                                       <input id="searchBoxId" [(ngModel)]="field_name" autocomplete="off" type="text" (keydown)="$event.stopPropagation()" placeholder="{{'sa_search' | translate}}" class="seach-input" />
                                             </li>
 
                                            <perfect-scrollbar class="scroll-search-field h-189">
@@ -689,9 +690,9 @@
                                     [(ngModel)]="selectAllConfigure" (click)="selectAllConfiguredFacets('all')">
                                 <label for="checkbox-1" class="checkbox-custom-label"></label>
                             </div> -->
-                            <div class="title-checkbox">Values</div>
+                            <div class="title-checkbox">{{'facets_values' | translate}}</div>
                         </div>
-                        <div class="display-name col-6">Display Name (Optional)</div>
+                        <div class="display-name col-6">{{'facets_dispaly_name_optional' | translate}}</div>
                     </div>
                     <ng-container>
                         <div class="col-12 row table-body-facet"
@@ -711,7 +712,7 @@
                                             <button id="btn_select_facet_field"
                                                 class="dropdown-toggle dropdown-input search-with-dropdown"
                                                 data-toggle="dropdown"></button>
-                                            <input type="text" placeholder="Enter Value" id="facets-search-input"
+                                            <input type="text" placeholder="{{'facets_enter_value' | translate}}" id="facets-search-input"
                                                 class="input-search dropdown-toggle dropdown-input"
                                                 data-toggle="dropdown" autocomplete="off" [(ngModel)]="configure.Value">
                                             <ul class="dropdown-menu content-menu if-shadow-box"
@@ -729,18 +730,18 @@
                             </div>
                             <div class="display-name col-5">
                                 <div class="kr-sg-input-text">
-                                    <input type="text" placeholder="Enter display name" class="input-text"
+                                    <input type="text" placeholder="{{'facets_enter_display_name' | translate}}" class="input-text"
                                         [(ngModel)]="configure.Name">
                                 </div>
                             </div>
                             <div class="delete col-1">
                                 <img src="assets/icons/delete-table.svg" (click)="addCustomValue('remove',i)"
-                                    ngbTooltip="Delete" placement="top-center">
+                                    ngbTooltip="{{'sa_delete' | translate}}" placement="top-center">
                             </div>
                         </div>
                     </ng-container>
                     <div class="add-value" (click)="addCustomValue('add')">
-                        <img src="assets/images/plus-add.svg" /> <span>Add Value</span>
+                        <img src="assets/images/plus-add.svg" /> <span>{{'facets_add_value' | translate}}</span>
                     </div>
                 </div>
             </ng-container>
@@ -750,6 +751,6 @@
         <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="saveFacet()"
             [disabled]="(disableSaveBtn&&showConfiguredFacet)">{{(showConfiguredFacet||enable_Edit_Facet)?'Save':'Add'}}</button>
         <button type="button" class="kr-sg-button-secondary btn_lg float-right"
-            (click)="closeFacetDialog()">Cancel</button>
+            (click)="closeFacetDialog()">{{'sa_cancel' | translate}}</button>
     </div>
 </kr-modal>

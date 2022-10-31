@@ -92,6 +92,7 @@ export class AppHeaderComponent implements OnInit {
   subscription: Subscription;
   routeChanged: Subscription;
   updateHeaderMainMenuSubscription: Subscription;
+  topicGuideShowSubscription:Subscription;
   accountIdRef = "";
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
@@ -103,6 +104,7 @@ export class AppHeaderComponent implements OnInit {
   @ViewChild('browseWorkspace') browseWorkspace: KRModalComponent;
   availableRouts = [
     { displayName: 'Summary', routeId: '/summary', quaryParms: {} },
+    { displayName: 'Overview', routeId: '/summary', quaryParms: {} },
     { displayName: 'Add Sources', routeId: '/source', quaryParms: {} },
     { displayName: 'Crawl Web Domain', routeId: '/source', quaryParms: { sourceType: 'contentWeb' } },
     { displayName: 'Extract Document', routeId: '/source', quaryParms: { sourceType: 'contentDoc' } },
@@ -115,6 +117,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Experiments', routeId: '/experiments', quaryParms: {} },
     { displayName: 'Actions', routeId: '/botActions', quaryParms: {} },
     { displayName: 'Workbench', routeId: '/index', quaryParms: {} },
+    { displayName: 'Indices', routeId: '/FieldManagementComponent', quaryParms: {} },
     { displayName: 'Fields', routeId: '/FieldManagementComponent', quaryParms: {} },
     { displayName: 'Traits', routeId: '/traits', quaryParms: {} },
     { displayName: 'Weights', routeId: '/weights', quaryParms: {} },
@@ -128,6 +131,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'User Engagement Metrics', routeId: '/userEngagement', quaryParms: {} },
     { displayName: 'Search Insights', routeId: '/searchInsights', quaryParms: {} },
     { displayName: 'Result Insights', routeId: '/resultInsights', quaryParms: {} },
+    { displayName: 'Manage', routeId: '/generalSettings', quaryParms: {} },
     { displayName: 'General Settings', routeId: '/generalSettings', quaryParms: {} },
     { displayName: 'Channels', routeId: '/settings', quaryParms: {} },
     { displayName: 'Credentials', routeId: '/credentials-list', quaryParms: {} },
@@ -136,7 +140,12 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Usage Log', routeId: '/usageLog', quaryParms: {} },
     { displayName: 'Invoices', routeId: '/invoices', quaryParms: {} },
     { displayName: 'Connectors', routeId: '/connectors', quaryParms: {} },
-    { displayName: 'Results Ranking', routeId: '/resultranking', quaryParms: {} }
+    { displayName: 'Results Ranking', routeId: '/resultranking', quaryParms: {} },
+    { displayName: 'Analytics(Experiments)', routeId: '/experiments', quaryParms: {} },
+    { displayName: 'Analytics(Dashboard)', routeId: '/dashboard', quaryParms: {} },
+    { displayName: 'Analytics(User Engagement Metrics)', routeId: '/userEngagement', quaryParms: {} },
+    { displayName: 'Analytics(Search Insights)', routeId: '/searchInsights', quaryParms: {} },
+    { displayName: 'Analytics(Result Insights)', routeId: '/resultInsights', quaryParms: {} },
   ];
   menuItems:any={sources:['/source','/content','/faqs','/botActions','/structuredData','/connectors'],indices:['/FieldManagementComponent','/traits','/index','/weights','/synonyms','/stopWords','/resultranking','/facets','/rules','/search-experience','/resultTemplate'],anlytics:['/dashboard','/userEngagement','/searchInsights','/experiments','/resultInsights'],manage:['/settings','/credentials-list','/actions','/team-management','/smallTalk','/pricing','/usageLog','/invoices','/generalSettings']};
   public dockersList: Array<any> = [];
@@ -178,6 +187,11 @@ export class AppHeaderComponent implements OnInit {
   }
   ngOnInit() {
     this.getUserInfo();
+    this.topicGuideShowSubscription = this.appSelectionService.topicGuideShow.subscribe(res=>{
+      this.openUserMetaTagsSlider();
+      this.onBoardingComponent.openTopicguide(); // Testing For merge
+      this.onBoardingComponent.triggerChildFaq(this.router.url)
+    })
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourConfigData = res;
       this.tourData = res.onBoardingChecklist;
@@ -574,12 +588,24 @@ export class AppHeaderComponent implements OnInit {
         }
       }
     }
+    //this.resetPreviousState(menu)
     if (!skipRouterLink) {
       this.router.navigate([menu], { skipLocationChange: true });
     }
+    
     this.showMenu.emit(this.showMainMenu)
     this.settingMenu.emit(this.menuFlag)
     this.showSourceMenu.emit(this.sourcesFlag);
+  }
+  resetPreviousState(menu){
+    let prDetails
+    if (localStorage.getItem('krPreviousState')) {
+      prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
+    }
+    if (prDetails) {
+      prDetails.route = menu;
+      localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
+    }
   }
   logoutClick() {
     this.authService.logout();
@@ -651,12 +677,12 @@ export class AppHeaderComponent implements OnInit {
         searchIndexId: selectedApp.searchIndexes[0]._id
       }
       this.service.invoke('train.app', quaryparms, payload).subscribe(res => {
+        if (this.training) {
+          self.notificationService.notify('Training has been Initiated', 'success');
+        }
         setTimeout(() => {
           // self.training = false;
           this.trainingInitiated = true;
-          if (this.training) {
-            self.notificationService.notify('Training has been Initiated', 'success');
-          }
           // this.appSelectionService.updateTourConfig('indexing');
           this.poling();
         }, 5000)
@@ -992,6 +1018,7 @@ export class AppHeaderComponent implements OnInit {
     this.updateHeaderMainMenuSubscription ? (this.updateHeaderMainMenuSubscription.unsubscribe()) : false;
     this.indexSubscription ? this.indexSubscription.unsubscribe() : null;
     this.subscription ? this.subscription.unsubscribe() : null;
+    this.topicGuideShowSubscription? this.topicGuideShowSubscription.unsubscribe():null;
   }
   //get all apps
   getAllApps() {
@@ -1430,6 +1457,7 @@ export class AppHeaderComponent implements OnInit {
       this.onboardingOpened = false;
       this.onBoardingComponent.closeSupport();
     }
+    this.sliderComponent.closeSlider("#supportOnboarding");
   }
   emitStatus(event) {
     this.displyStatusBar = event;

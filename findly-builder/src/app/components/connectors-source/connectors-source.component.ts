@@ -8,6 +8,9 @@ import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
+import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-connectors-source',
   templateUrl: './connectors-source.component.html',
@@ -70,11 +73,15 @@ export class ConnectorsSourceComponent implements OnInit {
   isloadingBtn: boolean = false;
   pageLoading: boolean = false;
   total_records: number;
+  onboardingOpened: boolean = false;
+  currentRouteData: any = "";
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
   connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' },{name:'Jobs',type:'jobs'}];
   @ViewChild('plans') plans: UpgradePlanComponent;
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
-  constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private appSelectionService: AppSelectionService) { }
+  @ViewChild(OnboardingComponentComponent, { static: true }) onBoardingComponent: OnboardingComponentComponent;
+  @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
+  constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private appSelectionService: AppSelectionService,private router: Router) { }
 
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
@@ -135,11 +142,8 @@ export class ConnectorsSourceComponent implements OnInit {
       if (result?.length) {
         this.Connectors.forEach(item => {
           result.forEach(item1 => {
-            if (item.type === item1.type) {
+            if (item.type === item1.type&&item1?.isDeleted==false) {
               this.connectorsData.push({ ...item, ...item1 });
-            }
-            else {
-
             }
           })
         })        
@@ -379,8 +383,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.isAuthorizeStatus = false;
       this.isloadingBtn = false;
       if (dialogRef) dialogRef.close();
-      // this.errorToaster(errRes, 'error');
-      if (document.getElementsByClassName("modal").length === 0) this.openDeleteModel('open');
+      if (document.getElementsByClassName("modal").length === 1) this.openDeleteModel('open');
     });
   }
   //call if authorize api was success
@@ -521,4 +524,8 @@ export class ConnectorsSourceComponent implements OnInit {
       })
     },3000)
   }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
+
 }

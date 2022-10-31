@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { ConstantsService } from '@kore.services/constants.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
@@ -27,7 +28,9 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   contactusSuccessModelPopRef: any;
   changePlanModelPopRef: any;
   confirmUpgradeModelPopRef: any;
-
+  validations:boolean = false;
+  countriesList:any = []
+  search_country = '';
   featureLimit: number = 8;
   termPlan = "Monthly";
   featureTypes: any = [];
@@ -67,12 +70,13 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   currentSubsciptionData: Subscription;
   isOverageShow: boolean = false;
   btnLoader: boolean = false;
-  enterpriseForm: any = { name: '', email: '', message: '', phone: '' }; 
+  enterpriseForm: any = { name: '', email: '', message: '', phone: '' , company:'',country:''};
   @Input() componentType: string;
   @Output() upgradedEvent = new EventEmitter();
   constructor(public dialog: MatDialog,
     private service: ServiceInvokerService,
     private appSelectionService: AppSelectionService,
+    private constantsService: ConstantsService,
     public workflowService: WorkflowService,
     private authService: AuthService,
     public sanitizer: DomSanitizer,
@@ -89,11 +93,18 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   @ViewChild(PerfectScrollbarComponent) public directiveScroll: PerfectScrollbarComponent;
   ngOnInit(): void {
     this.getAllPlans();
-    this.selectedApp = this.workflowService.selectedApp();
+    this.countriesList = this.constantsService.countriesList;
+    this.selectedApp = this.workflowService?.selectedApp();
     this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.selectedPlan = res?.subscription;
     });
+  }
+  clearcontent() {
+    if ($('#searchBoxId') && $('#searchBoxId').length) {
+      $('#searchBoxId')[0].value = "";
+      this.search_country = '';
+    }
   }
   //get plans api
   getAllPlans() {
@@ -264,8 +275,10 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.contactusModelPopRef = this.contactUsModel.open();
     }
     else if (type === 'close') {
-      this.enterpriseForm = { name: '', email: '', message: '', phone: '' };
+      this.enterpriseForm = { name: '', email: '', message: '', phone: '', company:'', country:'' };
       if (this.contactusModelPopRef?.close) this.contactusModelPopRef.close();
+      this.validations = false;
+      this.clearcontent();
     }
   }
   //open or close excess modal popup
@@ -280,6 +293,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   //submitEnterpriseRequest method
   submitEnterpriseRequest() {
     this.btnLoader = true;
+    this.validations = true;
     this.selectedApp = this.workflowService.selectedApp();
     const queryParams = { "streamId": this.selectedApp?._id };
     const enterpriseRequest = this.service.invoke('post.enterpriseRequest', queryParams, this.enterpriseForm);
@@ -315,16 +329,16 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
         this.getPayementStatus();
       }
       else if (res.status === 'failed' && res.code === 'ERR_FAILED_ACCESS_EXCEEDED') {
-        this.featuresExceededUsage = [];
+        this.featuresExceededUsage = res?.featuresExceededUsage;
         this.btnLoader = false;
-        const currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
-        const usageData = currentSubscriptionPlan?.usage;
-        const featureArray: any = Object.values(usageData);
-        res?.featuresExceededUsage?.forEach(item => {
-          const featureData = featureArray?.filter(feature => feature?.name === item);
-          const obj = { name: item, used: featureData[0]?.used, limit: featureData[0]?.limit };
-          this.featuresExceededUsage.push(obj);
-        })
+        // const currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+        // const usageData = currentSubscriptionPlan?.usage;
+        // const featureArray: any = Object.values(usageData);
+        // res?.featuresExceededUsage?.forEach(item => {
+        //   const featureData = featureArray?.filter(feature => feature?.name === item);
+        //   const obj = { name: item, used: featureData[0]?.used, limit: featureData[0]?.limit };
+        //   this.featuresExceededUsage.push(obj);
+        // })
         this.openExcessDataPopup('open');
       }
     }), errRes => {

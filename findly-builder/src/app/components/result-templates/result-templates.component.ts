@@ -10,6 +10,7 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as moment from 'moment';
+import { LocalStoreService } from '@kore.services/localstore.service';
 declare const $: any;
 @Component({
   selector: 'app-result-templates',
@@ -24,6 +25,7 @@ export class ResultTemplatesComponent implements OnInit {
   copyConfigObj: any = { loader: false, message: '' };
   serachIndexId: any;
   indexPipelineId: any;
+  queryPipelineId : any;
   allFieldData: any;
   preview_title: any = '';
   preview_desc: any = '';
@@ -134,6 +136,7 @@ export class ResultTemplatesComponent implements OnInit {
   filterFacets: any = [{ name: 'Left Aligned', type: 'left' }, { name: 'Right Aligned', type: 'right' }, { name: 'Top Aligned', type: 'top' }]
   @ViewChild('customModal') customModal: KRModalComponent;
   @ViewChild('templateModal') templateModal: KRModalComponent;
+
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -141,6 +144,7 @@ export class ResultTemplatesComponent implements OnInit {
     public dialog: MatDialog,
     public headerService: SideBarService,
     public inlineManual: InlineManualService,
+    public localstore: LocalStoreService,
   ) { }
 
   ngOnInit(): void {
@@ -150,12 +154,18 @@ export class ResultTemplatesComponent implements OnInit {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
 
     this.loadFiledsData();
-    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+    // this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+    //   this.loadFiledsData();
+    // })
+    this.subscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
+      this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
       this.loadFiledsData();
     })
     this.searchExperienceConfig = this.headerService.searchConfiguration;
     this.searchConfigurationSubscription = this.headerService.savedSearchConfiguration.subscribe((res) => {
       this.searchExperienceConfig = res;
+      this.loadFiledsData();
       this.updateResultTemplateTabsAccess();
     });
     this.updateResultTemplateTabsAccess();
@@ -169,10 +179,12 @@ export class ResultTemplatesComponent implements OnInit {
   loadFiledsData() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       this.getFieldAutoComplete();
       // this.getAllSettings(this.selectedTab)
     }
   }
+  
   //selected tab method
   tabSelection(id) {
     this.getAllSettings(id);
@@ -382,6 +394,7 @@ export class ResultTemplatesComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId,
       interface: setting
     };
     this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
@@ -407,7 +420,8 @@ export class ResultTemplatesComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       templateId: templateData.templateId,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId,
     };
     this.service.invoke('get.templateById', quaryparms).subscribe((res: any) => {
       this.templateDataBind = res;
@@ -596,7 +610,8 @@ export class ResultTemplatesComponent implements OnInit {
   getTemplateData(type, index?, value?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      queryPipelineId : this.queryPipelineId,
     };
     const payload = { type: type };
     this.service.invoke('post.templates', quaryparms, payload).subscribe(res => {
@@ -660,7 +675,8 @@ export class ResultTemplatesComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       settingsId: this.settingsId,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId : this.queryPipelineId,
     };
     this.resultListObj.resultsLimit = 20;
     if (dialogRef) {
@@ -692,7 +708,8 @@ export class ResultTemplatesComponent implements OnInit {
       const quaryparms: any = {
         searchIndexId: this.serachIndexId,
         templateId: this.templateDataBind._id,
-        indexPipelineId: this.indexPipelineId
+        indexPipelineId: this.indexPipelineId,
+        queryPipelineId : this.queryPipelineId
       };
       if (this.templateDataBind.layout.renderTitle === false) {
         this.templateDataBind.layout.title = '';
@@ -827,6 +844,7 @@ export class ResultTemplatesComponent implements OnInit {
       const quaryparms: any = {
         searchIndexId: this.serachIndexId,
         indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+        queryPipelineId : this.queryPipelineId,
         settingsId: this.resultListObj._id,
         fromInterface: tab
       };
@@ -931,6 +949,9 @@ export class ResultTemplatesComponent implements OnInit {
       this.field_name = '';
     }
 
+  }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
   }
 
 }

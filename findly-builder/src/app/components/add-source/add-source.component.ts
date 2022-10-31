@@ -12,7 +12,7 @@ import * as _ from 'underscore';
 import { of, interval, Subject } from 'rxjs';
 import { startWith, take } from 'rxjs/operators';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
+import { CrwalObj, AdvanceOpts, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
 
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,7 +24,7 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-
+import { SchedulerComponent } from '../../components/scheduler/scheduler.component';
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -36,26 +36,39 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   crwalEvery = false;
   crawlOkDisable = false;
   crwalObject: CrwalObj = new CrwalObj();
-  allowUrl: AllowUrl = new AllowUrl();
   allBotArray: any = [];
   showMore = false;
   @ViewChild('botsConfigurationModalElement') botsConfigurationModalElement: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  @ViewChild('perfectScrollD') perfectScrollD: PerfectScrollbarComponent;
   @ViewChild('perfectScroll3') perfectScroll3: PerfectScrollbarComponent;
   @ViewChild('perfectScroll4') perfectScroll4: PerfectScrollbarComponent;
   @ViewChild('perfectScroll9') perfectScroll9: PerfectScrollbarComponent;
-  blockUrl: BlockUrl = new BlockUrl();
+  @ViewChild('schedular') schedular: SchedulerComponent;
+
   sampleJsonPath: any = '/home/assets/sample-data/sample.json';
   sampleCsvPath: any = '/home/assets/sample-data/sample.csv';
   filePath;
   extension;
   receivedQuaryparms: any;
+
+  addSourceModalPopDummyRef: any;
+  schedularDataPopRef: any;
+  statusModalPopRef: any;
+  botsConfigurationModalRef: any;
+  customRecurrenceRef: any;
+  addManualFaqModalPopRef: any;
+  addSourceModalPopRef: any;
+  linkBotsModalPopRef: any;
+  addStructuredDataModalPopRef: any;
+  structuredDataStatusModalRef: any;
+  crawlModalPopRef: any;
+  contentStatusModalPopRef: any;
+
   searchIndexId;
   selectedSourceType: any = null;
   newSourceObj: any = {};
   selectedApp: any = {};
-  statusModalPopRef: any = [];
-  customRecurrenceRef: any = [];
   pollingSubscriber: any = null;
   initialValidations: any = {};
   doesntContains = 'Doesn\'t Contains';
@@ -72,10 +85,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   crawlBeyondSitemaps = false;
   isJavaScriptRendered = false;
   blockHttpsMsgs = false;
-  crwalOptionLabel = "Crawl Everything";
   crawlDepth: number;
   maxUrlLimit: number;
-  botsConfigurationModalRef: any;
   removedArr = [];
   submitted = false;
   showPassword = false;
@@ -96,6 +107,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   multipleFileArr = [];
   importFaqInprogress = false;
   selectedLinkBotConfig: any;
+  schedulerOpen:boolean=false;
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
   @Output() saveEvent = new EventEmitter();
@@ -235,21 +247,29 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ];
   anntationObj: any = {};
-  addManualFaqModalPopRef: any;
-  addSourceModalPopRef: any;
-  crawlModalPopRef: any;
   showSourceTitle = false
-  linkBotsModalPopRef: any;
   noAssociatedBots: boolean = true;
   associatedBots: any = [];
   streamID: any;
   showProgressBar: boolean;
   searchAssociatedBots: any;
-  addStructuredDataModalPopRef: any;
   structuredData: any = {};
-  structuredDataStatusModalRef: any;
   structuredDataDocPayload: any;
   selectExtractType: string = 'file';
+
+  allowURLValues: Array<String> = ['is', 'isNot', 'beginsWith', 'endsWith', 'contains', 'doesNotContains'];
+  allowURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
+  blockURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
+  authorizationFieldObj: any = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+  formFieldObj: any = { type: '', key: '', value: '', isRequired: true, isEnabled: true, isShow: true, isPwdShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+  autorizationFieldTypes: Array<String> = ['header', 'payload', 'querystring', 'pathparam'];
+  testTypes: Array<String> = ['text_presence', 'redirection_to', 'status_code'];
+  authenticationTypes: Array<String> = ['basic', 'form'];
+  crawlOptions: Array<String> = ['any', 'block', 'allow'];
+  crwalOptionLabel: String = 'any';
+  inputTypes: Array<String> = ['textbox', 'password'];
+  isPasswordShow: Boolean = false;
+
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -269,11 +289,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('customRecurrence') customRecurrence: KRModalComponent;
   @ViewChild('addManualFaqModalPop') addManualFaqModalPop: KRModalComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
+  @ViewChild('addSourceModalPopDummy') addSourceModalPopDummy: KRModalComponent;
   @ViewChild('linkBotsModalPop') linkBotsModalPop: KRModalComponent;
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('structuredDataStatusModalPop') structuredDataStatusModalPop: KRModalComponent;
   @ViewChild('crawlModalPop') crawlModalPop: KRModalComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
+  @ViewChild('schedularDataPop') schedularDataPop: KRModalComponent;
+  @ViewChild('contentStatusModalPop') contentStatusModalPop: KRModalComponent;
   ngOnInit() {
     const _self = this
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
@@ -327,10 +350,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   openAddManualFAQModal() {
     this.addManualFaqModalPopRef = this.addManualFaqModalPop.open();
-    setTimeout(() => {
-      this.perfectScroll3.directiveRef.update();
-      this.perfectScroll3.directiveRef.scrollToTop();
-    }, 500)
+
   }
   closeAddManualFAQModal() {
     if (this.addManualFaqModalPopRef && this.addManualFaqModalPopRef.close) {
@@ -351,17 +371,28 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop();
     }, 500);
-    if(this.router?.url==='/content'){
-      this.mixpanel.postEvent('Enter Crawl web domain',{'Crawl web CTA spurce':'Sources'})
+    if (this.router?.url === '/content') {
+      this.mixpanel.postEvent('Enter Crawl web domain', { 'Crawl web CTA spurce': 'Sources' })
     }
-    else if(this.router?.url==='/source'){
-      this.mixpanel.postEvent('Enter Crawl web domain',{'Crawl web CTA spurce':'Setup guide'})
+    else if (this.router?.url === '/source') {
+      this.mixpanel.postEvent('Enter Crawl web domain', { 'Crawl web CTA spurce': 'Setup guide' })
     }
   }
   closeAddSourceModal() {
     if (this.addSourceModalPopRef && this.addSourceModalPopRef.close) {
       this.url_failed = false;
       this.addSourceModalPopRef.close();
+    }
+  }
+  openAddContentModal() {
+    this.addSourceModalPopDummyRef = this.addSourceModalPopDummy.open();
+  }
+  closeAddContentModal(isEmit?) {
+    if (this.addSourceModalPopDummyRef?.close) {
+      this.addSourceModalPopDummyRef.close();
+      this.url_failed = false;
+      //this.selectedSourceType=null;
+      if (isEmit) this.cancleEvent.emit();
     }
   }
 
@@ -378,12 +409,47 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   editConfiguration() {
-    //this.closeStatusModal();
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
     this.url_failed = true;
-    this.openAddSourceModal();
+    if (this.crwalObject?.authorizationProfle) {
+      if (this.crwalObject?.authorizationProfle?.authorizationFields?.length > 0) {
+        this.crwalObject.authorizationProfle.authorizationFields = this.crwalObject?.authorizationProfle?.authorizationFields?.map(item => {
+          return { ...item, isEditable: false, duplicateObj: { type: '', key: '', value: '' } }
+        })
+      }
+      if (this.crwalObject?.authorizationProfle?.sso_type === 'basic') {
+        this.crwalObject.authorizationProfle.basicFields = this.crwalObject?.authorizationProfle?.formFields;
+        this.crwalObject.authorizationProfle.formFields = [];
+      }
+      if (this.crwalObject?.authorizationProfle?.formFields?.length > 0 && this.crwalObject.authorizationProfle.sso_type === 'form') {
+        this.crwalObject.authorizationProfle.formFields = this.crwalObject?.authorizationProfle?.formFields?.map(item => {
+          return { ...item, isEditable: false, duplicateObj: { type: '', key: '', value: '' } }
+        })
+        const basicObj = [{
+          isRequired: true,
+          key: "Username or email",
+          type: "textbox",
+          isEnabled: true,
+          value: "Username",
+          isEditable: false,
+          duplicateObj: { value: "Username" }
+        },
+        {
+          isRequired: true,
+          key: "Password",
+          type: "password",
+          isEnabled: true,
+          value: "password",
+          isEditable: false,
+          duplicateObj: { value: "password" }
+        }]
+        this.crwalObject.authorizationProfle.basicFields = basicObj;
+      }
+    }
+
+    this.openAddContentModal();
   }
   //retry failed url validation
   retryValidation() {
@@ -392,10 +458,18 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       sourceId: this.extract_sourceId
     };
     const payload = {
-      url: this.newSourceObj.url
+      url: this.newSourceObj.url,
+      authorizationEnabled: false
     }
     this.service.invoke('put.retryValidation', quaryparms, payload).subscribe(res => {
       this.statusObject = { ...this.statusObject, validation: res.validations };
+      let message ='';
+      if(!this.statusObject?.validation?.url?.validated){
+        message = this.statusObject?.validation?.url?.msg;
+      } else if(!this.statusObject?.validation?.networkConnectivity?.validated){
+        message = this.statusObject?.validation?.networkConnectivity?.msg;
+      }
+      if(!this.statusObject?.isURLValid) this.notificationService.notify(message, 'error');
     }, errRes => {
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -436,13 +510,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
 
           if ((queuedJobs[0].status !== 'running') && (queuedJobs[0].status !== 'queued')) {
-            if (this.selectedSourceType.sourceType === 'content'&&queuedJobs[0].status === 'success'){
+            if (this.selectedSourceType.sourceType === 'content' && queuedJobs[0].status === 'success') {
               this.mixpanel.postEvent('Content Crawl web domain success', {});
             }
-            else if(this.selectedSourceType.sourceType === 'faq'&&this.selectedSourceType.resourceType === ''&&queuedJobs[0].status === 'success'){
-               this.mixpanel.postEvent('FAQ Web extract success', {});
+            else if (this.selectedSourceType.sourceType === 'faq' && this.selectedSourceType.resourceType === '' && queuedJobs[0].status === 'success') {
+              this.mixpanel.postEvent('FAQ Web extract success', {});
             }
-            if(this.selectedSourceType.sourceType === 'content'&&queuedJobs[0].status === 'failed'){
+            if (this.selectedSourceType.sourceType === 'content' && queuedJobs[0].status === 'failed') {
               this.mixpanel.postEvent('Content Crawl web domain failed', {});
             }
             this.pollingSubscriber.unsubscribe();
@@ -497,6 +571,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   openStatusModal() {
     this.closeAddManualFAQModal();
     this.closeAddSourceModal();
+    this.closeAddContentModal();
     if (this.resourceIDToOpen) {
       $('.addSourceModalComponent').addClass('hide');
     }
@@ -508,16 +583,15 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.statusModalPopRef = this.statusModalPop.open();
   }
   closeStatusModal() {
+    if (this.statusModalPopRef && this.statusModalPopRef.close) {
+      this.statusModalPopRef.close();
+    }
     this.importFaqInprogress = false;
     this.saveEvent.emit();
     const self = this;
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
-    if (this.statusModalPopRef && this.statusModalPopRef.close) {
-      this.statusModalPopRef.close();
-    }
-
     this.redirectTo();
     this.cancleSourceAddition();
     this.closeCrawlModalPop();
@@ -575,6 +649,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.closeAddSourceModal();
     this.closeLinkBotsModal();
     this.closeStructuredDataModal(event);
+    this.closeAddContentModal();
   }
   selectSource(selectedCrawlMethod) {
     if (selectedCrawlMethod && selectedCrawlMethod.id === 'manual') {
@@ -593,10 +668,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.inlineManual.visited('IMPORT_STRUCTURED_DATA')
       }
     }
-    else if(selectedCrawlMethod && selectedCrawlMethod.resourceType === 'connectors'){
+    else if (selectedCrawlMethod && selectedCrawlMethod.resourceType === 'connectors') {
       this.router.navigate(['/connectors'], { skipLocationChange: true });
     }
-    else {
+    else if (['contentWeb'].includes(this.resourceIDToOpen) || selectedCrawlMethod.resourceType == 'web') {
+      this.selectedSourceType = selectedCrawlMethod;
+      this.openAddContentModal();
+    }
+    else if (['contentDoc', 'faqWeb', 'faqDoc'].includes(this.resourceIDToOpen) || ['file', 'importfaq', ''].includes(selectedCrawlMethod.resourceType)) {
       this.selectedSourceType = selectedCrawlMethod;
       this.openAddSourceModal();
     }
@@ -762,51 +841,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       } else {
         return;
       }
-    // OLD CODE //
-    // let showProg: boolean = false;
-    // const _ext = fileName.substring(fileName.lastIndexOf('.'));
-    // this.extension = _ext
-    // if (this.selectedSourceType.sourceType != "faq") {
-    //   if (['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx'].includes(this.extension)) {
-    //     showProg = true;
-    //   }
-    //   else {
-    //     $('#sourceFileUploader').val(null);
-    //     this.notificationService.notify('Please select a valid file', 'error');
-    //     // return;
-    //   }
-    // }
-    // else {
-
-    //   if (this.selectedSourceType.sourceType == "faq") {
-    //     if (this.selectedSourceType.resourceType == '') {
-    //       if (this.extension === '.pdf') {
-    //         showProg = true;
-    //       }
-    //       else {
-    //         this.notificationService.notify('Please select a valid pdf file', 'error');
-    //       }
-    //     }
-    //     else {
-    //       if (this.extension === '.csv' || this.extension === '.json') {
-    //         showProg = true;
-    //       }
-    //       else {
-    //         this.notificationService.notify('Please select a valid csv or json file', 'error');
-    //       }
-    //     }
-    //   }
-    //   else {
-    //     showProg = true;
-    //   }
-
-    // }
-    // if (showProg) {
-    //   this.onFileSelect(event.target, this.extension);
-    //   this.fileObj.fileUploadInProgress = true; // unknown binding
-    //   this.fileObj.fileName = fileName; // for  single file
-    //   this.fileObj.file_ext = this.extension.replace(".", "");
-    // }
   }
 
   onFileSelect(input: HTMLInputElement, ext) {
@@ -1093,27 +1127,15 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   //Form validation
   validateSource() {
-    this.btnDisabled = true;
-    if (this.selectedSourceType.resourceType == "web" || this.selectedSourceType.resourceType == "faq") {
-      if (this.newSourceObj.name) {
-        if (this.newSourceObj.url) {
-          this.proceedSource()
-        }
-        else {
-          this.btnDisabled = false;
-          $("#extractUrl").css("border-color", "#DD3646");
-          $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-          this.notificationService.notify('Enter the required fields to proceed', 'error');
-        }
+    if (["web", "faq"].includes(this.selectedSourceType.resourceType)) {
+      this.btnDisabled = true;
+      if (this.validationInputs(this.selectedSourceType.resourceType)) {
+        this.proceedSource();
       }
       else {
         this.btnDisabled = false;
-        $("#addSourceTitleInput").css("border-color", "#DD3646");
-        $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-        this.notificationService.notify('Enter the required fields to proceed', 'error');
       }
     }
-    // NEW CODE containing multiple file upload in Content and single file upload in FAQ
     else {
       if (this.selectedSourceType.resourceType == "file") {
         if (this.selectExtractType == 'file') {
@@ -1200,62 +1222,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
     }
-
-    //OLD CODE //
-    // else if (this.selectedSourceType.resourceType == "file" || this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == "") {
-    //   // if (this.newSourceObj.name) {
-    //   if (this.selectExtractType == 'file') {
-    //     if (this.multipleFileArr.length === 1) {
-    //       if (this.fileObj.fileId) {               //|| this.multipleFileArr.length
-    //         this.proceedSource()
-    //       }
-    //     }
-    //      //For deleting unacceptable files while uploading
-    //     else if (this.multipleFileArr.length > 1) {
-    //       if (this.multipleData.files.length != this.filesListData.length) {
-    //         let parentArr = [...this.removedArr];
-    //         let childArr = [...this.multipleData.files];
-    //         parentArr.forEach(parentArrElement => {
-    //           childArr.forEach((childElement, index) => {
-    //             if (parentArrElement.name.replace(parentArrElement.name.substring(parentArrElement.name.lastIndexOf('.')), '') === childElement.name) {
-    //               childArr.splice(index, 1)
-    //             }
-
-    //           })
-
-
-    //         })
-    //         this.multipleData.files = [...childArr]
-    //         console.log(this.multipleData.files)
-    //       }
-
-    //       this.multiplefileupload(this.multipleData)
-    //     }
-    //     else {
-    //       this.btnDisabled = false;
-    //       $(".drag-drop-sec").css("border-color", "#DD3646");
-    //       this.notificationService.notify('Please upload the file to continue', 'error');
-    //     }
-    //   }
-    //   else if (this.selectExtractType == 'url') {
-    //     if (this.newSourceObj.url && this.newSourceObj.name) {
-    //       this.proceedSource()
-    //     }
-    //     else {
-    //       this.btnDisabled = false;
-    //       $("#extractUrl").css("border-color", "#DD3646");
-    //       $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-    //       this.notificationService.notify('Enter the required fields to proceed', 'error');
-    //     }
-    //   }
-    //   // }
-    //   else {
-    //     this.btnDisabled = false;
-    //     $("#addSourceTitleInput").css("border-color", "#DD3646");
-    //     $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-    //     this.notificationService.notify('Enter the required fields to proceed', 'error');
-    //   }
-    // }
   }
   //track changing of input
   inputChanged(type) {
@@ -1270,19 +1236,18 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   proceedSource() {
-    if(this.selectedSourceType.resourceType === 'file'){
+    if (this.selectedSourceType.resourceType === 'file') {
       this.mixpanel.postEvent('Content File extraction started', {});
     }
-    else if(this.selectedSourceType.sourceType === 'faq'&&this.selectedSourceType.resourceType === ''){
-       this.mixpanel.postEvent('FAQ Web extract added', {});
+    else if (this.selectedSourceType.sourceType === 'faq' && this.selectedSourceType.resourceType === '') {
+      this.mixpanel.postEvent('FAQ Web extract added', {});
     }
-    else if(this.selectedSourceType.resourceType === 'importfaq'&&this.selectedSourceType.sourceType === "faq"){
-      console.log("mix event:FAQ File extraction started")
-       //this.mixpanel.postEvent('FAQ File extraction started', {});
+    else if (this.selectedSourceType.resourceType === 'importfaq' && this.selectedSourceType.sourceType === "faq") {
+      this.mixpanel.postEvent('FAQ File extraction started', {});
     }
-    let payload: any = {};
     let schdVal = true;
     const crawler = this.crwalObject;
+    let payload: any = {};
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
@@ -1334,36 +1299,44 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         quaryparms.faqType = resourceType;
       }
       if (resourceType === 'web') {
-        crawler.name = this.newSourceObj.name;
-        crawler.url = this.newSourceObj.url;
-        crawler.desc = this.newSourceObj.desc || '';
-        crawler.advanceOpts.useCookies = this.useCookies;
-        crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
-        crawler.advanceOpts.crawlBeyondSitemaps = this.crawlBeyondSitemaps;
-        crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
-        crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
+        payload = { ...crawler };
+        payload.name = this.newSourceObj.name;
+        payload.url = this.newSourceObj.url;
+        payload.desc = this.newSourceObj.desc || '';
+        payload.advanceOpts.useCookies = this.useCookies;
+        payload.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
+        payload.advanceOpts.crawlBeyondSitemaps = this.crawlBeyondSitemaps;
+        payload.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
+        payload.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
+        payload.advanceOpts.allowedURLs = (payload.advanceOpts.allowedOpt) ? this.allowURLArray : [];
+        payload.advanceOpts.blockedURLs = (payload.advanceOpts.blockedOpt) ? this.blockURLArray : [];
         if (Number(this.crawlDepth) || Number(this.crawlDepth) == 0) {
-          crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
+          payload.advanceOpts.crawlDepth = Number(this.crawlDepth);
         } else {
-          delete crawler.advanceOpts.crawlDepth;
+          delete payload.advanceOpts.crawlDepth;
         }
         if (Number(this.maxUrlLimit) || Number(this.maxUrlLimit) == 0) {
-          crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
+          payload.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
         } else {
-          delete crawler.advanceOpts.maxUrlLimit;
+          delete payload.advanceOpts.maxUrlLimit;
         }
-        if (this.allowUrl.url) {
-          this.allowUrls(this.allowUrl);
+        for (let item of payload.authorizationProfle.authorizationFields) {
+          delete item.duplicateObj;
+          delete item.isEditable;
+          delete item.isShow;
         }
-        if (this.blockUrl.url) {
-          this.blockUrls(this.blockUrl);
+        if (payload.authorizationProfle.sso_type === 'basic') {
+          payload.authorizationProfle.formFields = payload.authorizationProfle.basicFields;
         }
-        // crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
-        // crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
-        // crawler.resourceType = this.selectedSourceType.resourceType;
-        crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
-        crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
-        payload = { ...crawler };
+        else if (payload.authorizationProfle.sso_type === 'form') {
+          for (let item of payload.authorizationProfle.formFields) {
+            delete item.duplicateObj;
+            delete item.isEditable;
+            delete item.isShow;
+            delete item.isPwdShow;
+          }
+        }
+        delete payload.authorizationProfle.basicFields;
         delete payload.resourceType;
         if (payload.advanceOpts) {
           if (!payload.advanceOpts.scheduleOpt) {
@@ -1373,9 +1346,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             }
           }
         }
-
         quaryparms.resourceType = resourceType;
-
       }
 
       if (resourceType === 'file') {
@@ -1405,17 +1376,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           payload.resourceType = payload.fileId ? 'file' : 'url';
         }
       }
-      if (crawler.advanceOpts.scheduleOpt) {
-        if (crawler.advanceOpts.scheduleOpts) {
-          if (!crawler.advanceOpts.scheduleOpts.date) {
+      if (payload?.advanceOpts?.scheduleOpt) {
+        if (payload.advanceOpts.scheduleOpts) {
+          if (!payload.advanceOpts.scheduleOpts.date) {
             schdVal = false;
           }
-          if (!crawler.advanceOpts.scheduleOpts.time) {
+          if (!payload.advanceOpts.scheduleOpts.time) {
             schdVal = false;
           } else {
-            if (crawler.advanceOpts.scheduleOpts.time.hour == "" || crawler.advanceOpts.scheduleOpts.time.hour == "null") schdVal = false;
-            if (crawler.advanceOpts.scheduleOpts.time.timeOpt == "") schdVal = false;
-            if (crawler.advanceOpts.scheduleOpts.time.timezone == "Time Zone") schdVal = false;
+            if (payload.advanceOpts.scheduleOpts.time.hour == "" || payload.advanceOpts.scheduleOpts.time.hour == "null") schdVal = false;
+            if (payload.advanceOpts.scheduleOpts.time.timeOpt == "") schdVal = false;
+            if (payload.advanceOpts.scheduleOpts.time.timezone == "Time Zone") schdVal = false;
           }
         }
       }
@@ -1428,24 +1399,24 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.openStatusModal();
           this.extract_sourceId = res._id;
           this.appSelectionService.updateTourConfig('addData');
-          this.addSourceModalPopRef.close();
+          //this.addSourceModalPopRef.close();
           if (this.selectedSourceType.sourceType === 'content') {
-            this.statusObject = { ...this.statusObject, validation: res.validations };
+            this.statusObject = { ...this.statusObject, validation: res.validations, isURLValid: res?.isURLValid };
             this.mixpanel.postEvent('Content Crawl web domain added', {});
           }
           if (this.selectedSourceType.sourceType === 'faq') {
             this.mixpanel.postEvent('FAQ-created', {});
             this.poling(res._id, 'scheduler');
           }
-          if(this.selectedSourceType.resourceType === 'file'){
+          if (this.selectedSourceType.resourceType === 'file') {
             this.mixpanel.postEvent('Content File extraction success', {});
           }
-          if(this.selectedSourceType.resourceType === ''&&this.selectedSourceType.sourceType === "faq"){
+          if (this.selectedSourceType.resourceType === '' && this.selectedSourceType.sourceType === "faq") {
             this.mixpanel.postEvent('FAQ Web extract started', {});
           }
-          if(this.selectedSourceType.resourceType === 'importfaq'&&this.selectedSourceType.sourceType === "faq"){
+          if (this.selectedSourceType.resourceType === 'importfaq' && this.selectedSourceType.sourceType === "faq") {
             console.log("mix event:FAQ File extraction started")
-             //this.mixpanel.postEvent('FAQ File extraction started', {});
+            //this.mixpanel.postEvent('FAQ File extraction started', {});
           }
           //this.dockService.trigger(true)
         }, errRes => {
@@ -1472,7 +1443,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.btnDisabled = false;
         this.notificationService.notify('Please fill Date and Time fields', 'error');
       }
-      // this.callWebCraller(this.crwalObject,searchIndex)
     }
   }
   //upgrade plan
@@ -1566,44 +1536,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   /** proceed Source API */
   scheduleData(scheduleData) {
-    // console.log(scheduleData);
-    // if(scheduleData.date){
-    //   let date = scheduleData.date;
-    //   if(String(date).split(" ")) scheduleData.date =  String(date).split(" ")[1] + " " + String(date).split(" ")[2]  + " " + String(date).split(" ")[3];
-    // }
-    // if(scheduleData.interval.intervalType && scheduleData.interval.intervalType != "Custom"){
-    //   scheduleData.interval.intervalValue = {};
-    // }
-    // if(scheduleData.interval &&
-    //   scheduleData.interval.intervalValue &&
-    //   scheduleData.interval.intervalValue.endsOn &&
-    //   scheduleData.interval.intervalValue.endsOn.endDate){
-    //   let endate = scheduleData.interval.intervalValue.endsOn.endDate;
-    //   if(String(endate).split(" ")) scheduleData.interval.intervalValue.endsOn.endDate =  String(endate).split(" ")[1]  + " " +  String(endate).split(" ")[2] + " " +  String(endate).split(" ")[3];
-    // }
     if (scheduleData.interval.intervalType && scheduleData.interval.intervalType != "Custom") {
       scheduleData.interval.intervalValue = {};
     }
     this.crwalObject.advanceOpts.scheduleOpts = scheduleData;
-
-    // this.dataFromScheduler = scheduleData
   }
   cronExpress(cronExpress) {
-    // console.log(cronExpress);
     this.crwalObject.advanceOpts.repeatInterval = cronExpress;
   }
-  /*Crwaler */
-  allowUrls(data) {
-    this.crwalObject.advanceOpts.allowedURLs.push(data);
-    this.allowUrl = new AllowUrl();
 
-  }
-  blockUrls(data) {
-    this.crwalObject.advanceOpts.blockedURLs.push(data);
-    this.blockUrl = new BlockUrl
-  }
   /*Crwaler */
-
   exceptUrl(bool) {
     this.crwalObject.advanceOpts.allowedOpt = !bool;
     this.crwalObject.advanceOpts.blockedOpt = !this.crwalObject.advanceOpts.allowedOpt;
@@ -1615,27 +1557,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   updateUrlRecord(index, type) {
     type === 'allow' ? this.crwalObject.advanceOpts.allowedURLs.splice(index, 1) : this.crwalObject.advanceOpts.blockedURLs.splice(index, 1)
   }
-  urlCondition(condition, type) {
-    type === 'allow' ? this.allowUrl.condition = condition : this.blockUrl.condition = condition;
-    if (condition === 'is') {
-      type === 'allow' ? this.allowUrl.name = "Equals to" : this.blockUrl.name = "Equals to";
-    }
-    else if (condition === 'isNot') {
-      type === 'allow' ? this.allowUrl.name = "Not equals to" : this.blockUrl.name = "Not equals to";
-    }
-    else if (condition === 'beginsWith') {
-      type === 'allow' ? this.allowUrl.name = "Begins with" : this.blockUrl.name = "Begins with";
-    }
-    else if (condition === 'endsWith') {
-      type === 'allow' ? this.allowUrl.name = "Ends with" : this.blockUrl.name = "Ends with";
-    }
-    else if (condition === 'contains') {
-      type === 'allow' ? this.allowUrl.name = "Contains" : this.blockUrl.name = "Contains";
-    }
-    else if (condition === 'doesNotContains') {
-      type === 'allow' ? this.allowUrl.name = "Doesn't contain" : this.blockUrl.name = "Doesn't contain";
-    }
-  }
+
   /* Annotation Modal */
   annotationModal(sourceId) {
     if (this.newSourceObj && this.newSourceObj.name && this.fileObj.fileId) {
@@ -1849,19 +1771,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   }
-  crawlOption(opt, label) {
-    this.crwalOptionLabel = label;
-    if (opt != 'any') {
-      this.crwalObject.advanceOpts.crawlEverything = false;
-      if (opt == 'allow') {
-        this.crwalObject.advanceOpts.allowedOpt = true;
-        this.crwalObject.advanceOpts.blockedOpt = false;
-      } else if (opt == 'block') {
-        this.crwalObject.advanceOpts.blockedOpt = true;
-        this.crwalObject.advanceOpts.allowedOpt = false;
-      }
-    } else {
+  crawlOption(opt) {
+    this.crwalObject.advanceOpts.crawlEverything = false;
+    this.crwalObject.advanceOpts.allowedOpt = false;
+    this.crwalObject.advanceOpts.blockedOpt = false;
+    this.crwalOptionLabel = opt;
+    if (opt === 'any') {
       this.crwalObject.advanceOpts.crawlEverything = true;
+    } else if (opt === 'allow') {
+      this.crwalObject.advanceOpts.allowedOpt = true;
+    } else if (opt === 'block') {
+      this.crwalObject.advanceOpts.blockedOpt = true;
     }
   }
 
@@ -1931,9 +1851,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       // streamId: this.streamId,
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
-      if(this.selectedSourceType.resourceType === 'importfaq'&&this.selectedSourceType.sourceType === "faq"){
+      if (this.selectedSourceType.resourceType === 'importfaq' && this.selectedSourceType.sourceType === "faq") {
         this.mixpanel.postEvent('FAQ-created', {});
-         this.mixpanel.postEvent('FAQ File extraction success', {});
+        this.mixpanel.postEvent('FAQ File extraction success', {});
       }
       // console.log("imp faq res", res);
       this.importFaqInprogress = true;
@@ -2050,20 +1970,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     )
   }
-  checkValue(value, valueFrom) {
-    // console.log()
-    // var valueCheck = value.includes("-");
-    if (value <= -1) {
-      this.crawlDepth = 0;
-      this.maxUrlLimit = 0;
-    }
-    else if (value == null || value == 'undefined') {
-      // this.notificationService.notify('Range cannot be entered', 'error');
-    }
-    // if(value < 500 && valueFrom == 'maxUrlLimit'){
-    //   this.maxUrlLimit = 500;
-    // }
-  }
+
   copy(val) {
     const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
@@ -2276,34 +2183,200 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       );
 
     }
+  }
 
+  //add allow/block obj into array
+  addAllowBlockObj(type) {
+    const obj = { condition: 'contains', url: '' };
+    if (type === 'allow') {
+      this.allowURLArray.push(obj)
+    }
+    else if (type === 'block') {
+      this.blockURLArray.push(obj)
+    }
+  }
+
+  //add authorization field
+  addAuthorizationField(type) {
+    if (type === 'add') {
+      this.authorizationFieldObj.isShow = true;
+    }
+    else if (type === 'save') {
+      const array = ['contentFieldKeyId', 'contentFieldTypeId', 'contentFieldValueId'];
+      const count = this.countValidationInputs(array);
+      if (count === array.length) {
+        this.crwalObject.authorizationProfle.authorizationFields.push(this.authorizationFieldObj);
+        this.authorizationFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+      }
+      else {
+        this.notificationService.notify('Enter the required fields to proceed', 'error');
+      }
+    }
+    else if (type === 'cancel') {
+      this.authorizationFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+    }
+  }
+
+  //edit authorization field
+  editAuthorizationField(type, form, index?) {
+    if (type === 'save') {
+      const array = [`contentFieldKeyId${index}`, `contentFieldTypeId${index}`, `contentFieldValueId${index}`]
+      const count = this.countValidationInputs(array);
+      if (array.length === count) {
+        form.type = form.duplicateObj.type;
+        form.key = form.duplicateObj.key;
+        form.value = form.duplicateObj.value;
+        form.isEditable = false;
+      }
+      else {
+        this.notificationService.notify('Enter the required fields to proceed', 'error');
+      }
+    }
+    else if (['cancel', 'edit'].includes(type)) {
+      form.duplicateObj.type = form.type;
+      form.duplicateObj.key = form.key;
+      form.duplicateObj.value = form.value;
+      if (type === 'cancel') form.isEditable = false;
+    }
+  }
+
+  //add form field
+  addFormField(type) {
+    if (type === 'add') {
+      this.formFieldObj.isShow = true;
+    }
+    else if (type === 'save') {
+      const array = ['contentFormFieldKeyId', 'contentFormFieldTypeId', 'contentFormFieldValueId'];
+      const count = this.countValidationInputs(array);
+      if (count === array.length) {
+        this.crwalObject.authorizationProfle.formFields.push(this.formFieldObj);
+        this.formFieldObj = { type: '', key: '', value: '', isEnabled: true, isRequired: true, isPwdShow: false, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+      }
+      else {
+        this.notificationService.notify('Enter the required fields to proceed', 'error');
+      }
+    }
+    else if (type === 'cancel') {
+      this.formFieldObj = { type: '', key: '', value: '', isEnabled: true, isRequired: true, isPwdShow: false, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+    }
+  }
+
+  //edit authorization field
+  editFormField(type, form, index) {
+    if (type === 'save') {
+      const array = [`contentFormFieldKeyId${index}`, `contentFormFieldTypeId${index}`, `contentFormFieldValueId${index}`]
+      const count = this.countValidationInputs(array);
+      if (count === array.length) {
+        form.type = form.duplicateObj.type;
+        form.key = form.duplicateObj.key;
+        form.value = form.duplicateObj.value;
+        form.isEditable = false;
+      }
+      else {
+        this.notificationService.notify('Enter the required fields to proceed', 'error');
+      }
+    }
+    else if (['cancel', 'edit'].includes(type)) {
+      form.duplicateObj.type = form.type;
+      form.duplicateObj.key = form.key;
+      form.duplicateObj.value = form.value;
+      form.isPwdShow = false;
+      if (type === 'cancel') form.isEditable = false;
+    }
+  }
+
+  //save basic field
+  saveBasicField(form, type) {
+    if (type === 'save') {
+      form.value = form.duplicateObj.value;
+    }
+    else if (type === 'cancel') {
+      form.duplicateObj.value = form.value;
+    }
+    form.isEditable = false;
+    this.isPasswordShow = false;
+  }
+
+  //select authentication type
+  selectAuthenticationType(type) {
+    this.crwalObject.authorizationProfle.sso_type = type;
+    this.crwalObject.authorizationProfle.authorizationFields = [];
+    this.crwalObject.authorizationProfle.authCheckUrl = '';
+    this.crwalObject.authorizationProfle.testType = '';
+    this.crwalObject.authorizationProfle.testValue = '';
+    this.authorizationFieldObj = { type: '', key: '', value: '', isEnabled: true, isShow: false, isEditable: false, duplicateObj: { type: '', key: '', value: '' } };
+  }
+
+  //delete form fields
+  deleteFormFields(index) {
+    if (this.crwalObject.authorizationProfle.formFields.length === 1) {
+      this.formFieldObj.isShow = true;
+    }
+    this.crwalObject.authorizationProfle.formFields.splice(index, 1);
+  }
+
+  //validation method
+  validationInputs(type) {
+    let inputs = ['contentURL', 'addSourceTitleInput'];
+    if (type === 'web') {
+      if (this.crwalObject.advanceOpts.blockedOpt || this.crwalObject.advanceOpts.allowedOpt) {
+        const array: any = (this.crwalObject.advanceOpts.allowedOpt) ? this.allowURLArray : this.blockURLArray;
+        const name = (this.crwalObject.advanceOpts.allowedOpt) ? 'contentAllowId' : 'contentBlockId';
+        for (let i = 0; i < array.length; i++) {
+          inputs.push(name + i);
+        }
+      }
+      if (this.crwalObject.authorizationEnabled) {
+        inputs.push('contentIsAuthId');
+        if (this.crwalObject.authorizationProfle.sso_type === 'basic' || this.crwalObject.authorizationProfle.sso_type === 'form') {
+          inputs.push('contentAuthURLId', 'contentTestTypeId', 'contentTestValueId');
+          if (this.authorizationFieldObj.isShow) {
+            inputs.push('contentFieldKeyId', 'contentFieldTypeId', 'contentFieldValueId');
+          }
+          if (this.crwalObject.authorizationProfle.sso_type === 'form' && this.formFieldObj.isShow) {
+            inputs.push('contentFormFieldKeyId', 'contentFormFieldTypeId', 'contentFormFieldValueId');
+          }
+        }
+
+      }
+    }
+    const count = this.countValidationInputs(inputs);
+    if (count !== inputs.length) {
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
+    return (count === inputs.length) ? true : false;
+  }
+
+  //count validation input's
+  countValidationInputs(data) {
+    let count = 0;
+    for (let item of data) {
+      let text = 0;
+      let id: any = document.getElementById(item);
+      if (id?.type === 'submit') {
+        text = ['Select Authentication Type', 'Choose an option', 'Select Field Type'].includes(id.innerHTML) ? 0 : 1;
+      }
+      else {
+        text = id?.value?.length;
+      }
+      $(id).css("border-color", (text > 0) ? "" : "#DD3646");
+      if (text > 0) count++;
+    }
+    return count;
+  }
+
+  //show or hide password in form fields
+  showFormFieldPassword(id, data) {
+    data.isPwdShow = !data.isPwdShow
+    const value: any = document.getElementById(id);
+    value.type = (value.type === 'password') ? 'text' : 'password'
+  }
+
+  //open Schedular
+  openSchedular(event){
+    this.crwalObject.advanceOpts.scheduleOpt = event?.currentTarget?.checked;
+    if(event?.currentTarget?.checked) this.schedular?.openCloseSchedular('open');
   }
 }
 
 
-// class CrwalObj{
-
-//     url: String = '';
-//     desc: String = '';
-//     name: String = '';
-//     resourceType: String = '';
-//     advanceOpts: AdvanceOpts = new AdvanceOpts()
-
-
-// }
-// class AdvanceOpts{
-//   scheduleOpts:boolean = false;
-//       schedulePeriod: String ="";
-//       repeatInterval: String ="";
-//       crawlEverything: boolean = true;
-//          allowedURLs:AllowUrl[] = [];
-//          blockedURLs: BlockUrl[] = [];
-// }
-// class AllowUrl {
-//   condition:String = 'contains';
-//    url: String = '';
-// }
-// class BlockUrl {
-//   condition:String = 'contains';
-//    url: String = '';
-// }

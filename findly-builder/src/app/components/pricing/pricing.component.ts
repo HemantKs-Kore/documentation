@@ -50,7 +50,7 @@ export class PricingComponent implements OnInit, OnDestroy {
   @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
   @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
   async ngOnInit() {
-    await this.appSelectionService.getCurrentUsage();
+    await this.appSelectionService.getCurrentSubscriptionData();
     this.currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.currentSubscriptionPlan = res;     
@@ -414,7 +414,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       const currentUsageData = this.appSelectionService?.currentUsageData
       const planName = this.currentSubscriptionPlan?.subscription?.planName;
       const currentPlan = this.plans?.totalPlansData?.filter(plan => plan?.name === planName);
-      this.usageDetails.ingestDocsLimit = currentPlan[0].featureAccess?.ingestDocs?.limit;
+      this.usageDetails.ingestDocsLimit = currentPlan[0]?.featureAccess?.ingestDocs?.limit;
       this.usageDetails.ingestDocsUsed = (currentUsageData?.ingestCount<=this.usageDetails.ingestDocsLimit)?(currentUsageData?.ingestCount):(this.usageDetails?.ingestDocsLimit)
       
       this.usageDetails.searchQueriesLimit = currentPlan[0]?.featureAccess?.searchQueries?.limit;
@@ -440,5 +440,8 @@ export class PricingComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;
     this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
+  }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
   }
 }

@@ -797,7 +797,8 @@ export class AppExperimentsComponent implements OnInit {
           let hours = moment().diff(moment(data.end), 'hours');
           let days = moment().diff(moment(data.end), 'days');
           let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
-          return { ...data, total_days: days_result, time_result: Math.abs(hours) };
+          let res_obj = data.variants.reduce((p, c) => p.ctr > c.ctr ? p : c);
+          return { ...data, total_days: days_result, time_result: Math.abs(hours),top_leader: res_obj.ctr > 0 ? res_obj.code : null };
         })
       }
       this.listOfExperiments = this.filterExperiments;
@@ -970,5 +971,8 @@ export class AppExperimentsComponent implements OnInit {
   }
   ngOnDestroy() {
     this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : null;
+  }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
   }
 }

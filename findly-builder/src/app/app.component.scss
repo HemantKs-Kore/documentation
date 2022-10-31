@@ -40,7 +40,10 @@
         display: none;
         transition: 0.1s all ease;
         &:hover{
-            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+            // filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+            &::before{
+                display: block !important;
+            }
         }
     }
     .app-dropdown{
@@ -49,7 +52,7 @@
     .test-button{
         display: none;
     }
-    .train-btn{
+    .new-train-btn{
         visibility: hidden;
     }
     .notification-dropdown{
@@ -104,7 +107,7 @@
         .dropdown-toggle.dropdown-input.notification{
             pointer-events: unset;
         }
-        .train-btn{
+        .new-train-btn{
             visibility: visible !important;
         }
         .notification-block{

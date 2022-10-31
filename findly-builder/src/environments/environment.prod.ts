@@ -4,7 +4,13 @@ export const environment = {
   API_SERVER_URL:'https://bots.kore.ai',
   USE_SESSION_STORE:false,
   INLINE_MANUAL_SITE_KEY :"1ec224ee46620656a9b18a17c80587a3",
+  APPCUES:{
+    ENABLE : true,
+    APPCUES_KEY : '112004'
+  },
   MIXPANEL_KEY : "b8cca4172b544f41f2dde97189667d81",
   //API_SERVER_URL: 'http://192.168.10.101:5000'
-  PRICING:false
+  PRICING:false,
+  topicGuideBaseUrl:'https://koredotcom.github.io/koredotai-docs/searchassist/topic-guide/'
+  // topicGuideBaseUrl:'https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/'
 };

@@ -161,6 +161,7 @@ export class SettingsComponent implements OnInit {
     // }
   }
   cancel() {
+    this.credntial.name = '';
     if (this.slider > 0)
       this.slider = this.slider - 1;
     if (this.existingCredential = true)
@@ -170,8 +171,9 @@ export class SettingsComponent implements OnInit {
   back() {
     if (this.slider != 0)
       this.slider = this.slider - 1;
-    if (this.existingCredential = true) {
+    if (this.existingCredential = true && this.slider != 1) {
       this.slider = 0
+      this.credntial.name = '';
     }
   }
 
@@ -728,6 +730,9 @@ export class SettingsComponent implements OnInit {
     setTimeout(() => {
       document.getElementById(inputSearch).focus();
     }, 100)
+  }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
   }
 }
 

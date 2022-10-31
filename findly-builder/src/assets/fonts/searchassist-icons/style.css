@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'searchassist-icons';
-  src:  url('fonts/searchassist-icons.eot?96iade');
-  src:  url('fonts/searchassist-icons.eot?96iade#iefix') format('embedded-opentype'),
-    url('fonts/searchassist-icons.ttf?96iade') format('truetype'),
-    url('fonts/searchassist-icons.woff?96iade') format('woff'),
-    url('fonts/searchassist-icons.svg?96iade#searchassist-icons') format('svg');
+  src:  url('fonts/searchassist-icons.eot?n5k9pd');
+  src:  url('fonts/searchassist-icons.eot?n5k9pd#iefix') format('embedded-opentype'),
+    url('fonts/searchassist-icons.ttf?n5k9pd') format('truetype'),
+    url('fonts/searchassist-icons.woff?n5k9pd') format('woff'),
+    url('fonts/searchassist-icons.svg?n5k9pd#searchassist-icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -23,6 +23,22 @@
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.si-topic-guide-1:before {
+  content: "\e912";
+}
+.si-topic-guide:before {
+  content: "\e962";
+}
+.si-copy:before {
+  content: "\e963";
+}
+.si-recall:before {
+  content: "\e964";
+}
+.si-train-multi-intent:before {
+  content: "\e961";
 }
 
 .si-config-form:before {
@@ -366,6 +382,14 @@
 .si-add-plus:before {
   content: "\e911";
   color: #0d6efd;
+}
+.si-add-plus-green:before {
+  content: "\e911";
+  color: #28A745;
+}
+.si-add-plus-white:before {
+  content: "\e911";
+  color: white;
 }
 .si-settings:before {
   content: "\e913";

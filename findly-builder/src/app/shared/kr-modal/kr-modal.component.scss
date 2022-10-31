@@ -163,6 +163,307 @@
                         }
                     }
                 }
+
+                .modal-body {
+                    .nlp-custom-tag-popup {
+                        position: fixed;
+                        top: 15%;
+                        left: 30%;
+                        width: 380px;
+                        height: 450px;
+                        background: #ffffff;
+                        box-shadow: 0px 6px 170px rgba(0, 0, 0, 0.07), 0px 1.34018px 37.9717px rgba(0, 0, 0, 0.0417275), 0px 0.399006px 11.3052px rgba(0, 0, 0, 0.0282725);
+                        border-radius: 4px;
+                        padding: 15px 15px;
+
+                        .nlp-choose-tag {
+                            .nlp-choose-tag-header {
+                                color: #5F6368;
+                                font-weight: 600;
+                                font-size: 12px;
+                                line-height: 15px;
+                                border-bottom: 1px solid #E4E5E7;
+                                padding: 0 0 15px 0;
+
+                                .bot-tasks {
+                                    padding: 0 10px 0 0;
+                                }
+                                .close-icon{
+                                    float: right;
+                                    cursor: pointer;
+                                    margin-top: 2px;
+                                }
+                            }
+
+                            .nlp-add-tag {
+                                padding: 10px 0;
+
+                                .kr-sg-button-ghost {
+                                    font-weight: 400;
+                                    font-size: 10px;
+                                    line-height: 12px;
+                                    color: #0D6EFD;
+
+                                    &:focus {
+                                        outline: none;
+                                        box-shadow: none;
+                                        border: 1px solid transparent;
+                                    }
+                                }
+                            }
+
+                            .nlp-search-tag {
+                                .kr-sg-input-search {
+                                    .input-search {
+                                        padding: 0 10px 0 30px;
+                                        height: 36px;
+                                    }
+                                }
+                            }
+
+                            .nlp-search-list {
+                                padding: 15px 0;
+
+                                .scroll-data {
+                                    // height: calc(100vh - 415px);
+                                    height: 300px;
+                                    padding: 0 5px 0 0;
+                                }
+
+                                .nlp-tag-list {
+                                    padding: 10px 5px;
+
+                                    .nlp-tag-and-name {
+                                        display: flex;
+                                        justify-content: space-between;
+                                        align-items: center;
+                                        padding: 0px 5px 5px 5px;
+
+                                        .nlp-name-value {
+                                            color: #3C4043;
+                                            font-weight: 600;
+                                            font-size: 10px;
+                                            line-height: 12px;
+                                            max-width: 220px;
+                                            text-overflow: ellipsis;
+                                            overflow: hidden;
+                                            white-space: nowrap;
+                                            display: inline-block;
+                                        }
+
+                                        .nlp-tag-value {
+                                            font-weight: 400;
+                                            font-size: 7px;
+                                            line-height: 8px;
+                                            padding: 5px 5px;
+                                            max-width: 150px;
+                                            text-overflow: ellipsis;
+                                            overflow: hidden;
+                                            white-space: nowrap;
+                                            display: inline-block;
+                                        }
+                                    }
+
+                                    .nlp-tag-field-actions {
+                                        display: flex;
+                                        justify-content: space-between;
+                                        align-items: center;
+                                        padding: 0px 5px 5px 5px;
+
+                                        .nlp-field-value {
+                                            font-weight: 400;
+                                            font-size: 10px;
+                                            line-height: 12px;
+                                            color: #9AA0A6;
+                                            max-width: 265px;
+                                            text-overflow: ellipsis;
+                                            overflow: hidden;
+                                            white-space: nowrap;
+                                            display: inline-block;
+                                        }
+
+                                        .nlp-tag-actions {
+                                            display: flex;
+                                            opacity: 0;
+
+                                            .nlp-tag-edit {
+                                                border-right: 1px solid #E4E5E7;
+                                                padding: 0 6px;
+                                                cursor: pointer;
+
+                                                i {
+                                                    font-size: 10px
+                                                }
+                                            }
+
+                                            .nlp-tag-delete {
+                                                padding: 0 6px;
+                                                color: #DD3646;
+                                                cursor: pointer;
+
+                                                i {
+                                                    font-size: 10px
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    &:hover {
+                                        background: #F8F9FA;
+                                        cursor: pointer;
+                                        .nlp-tag-actions {
+                                            display: flex !important;
+                                            opacity: 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        .nlp-custom-add-tag {
+                            .nlp-choose-tag-header {
+                                color: #5F6368;
+                                font-weight: 600;
+                                font-size: 12px;
+                                line-height: 15px;
+                                border-bottom: 1px solid #E4E5E7;
+                                padding: 0 0 15px 0;
+
+                                .bot-tasks {
+                                    padding: 0 10px 0 0;
+                                }
+                            }
+
+                            .nlp-choose-tag-sub-header {
+                                display: flex;
+                                padding: 15px 0;
+                                border-bottom: 1px solid #E4E5E7;
+
+                                .back-to-list {
+                                    color: #202124;
+                                    font-weight: 400;
+                                    font-size: 10px;
+                                    line-height: 12px;
+                                    background: #F8F9FA;
+                                    padding: 14px 11px;
+                                    margin: 0 5px 0 0;
+                                    cursor: pointer;
+
+                                    span {
+                                        padding: 0 6px 0 0;
+                                    }
+                                }
+
+                                .create-nlp-tag {
+                                    font-weight: 400;
+                                    font-size: 13px;
+                                    line-height: 16px;
+                                    color: #202124;
+                                    background: #F8F9FA;
+                                    padding: 12px 11px;
+                                    width: 79%;
+
+                                    .choose-tag {
+                                        color: #9AA0A6;
+                                    }
+                                }
+                            }
+
+                            .nlp-tag-form {
+                                padding: 15px 10px;
+
+                                .entity-radiobtn-group {
+                                    border-radius: 5px;
+                                    padding: 10px 0px 25px 0;
+
+                                    .group-radiobutton {
+                                        background: #F8F9FA;
+                                        padding: 10px 10px;
+
+                                        .heading-title {
+                                            font-weight: 600;
+                                            font-size: 10px;
+                                            line-height: 12px;
+                                            color: #9AA0A6;
+                                            margin-bottom: 8px;
+                                        }
+
+                                        .kr-sg-radiobutton {
+                                            padding: 0 15px 0 0 !important;
+
+                                            .radio-custom-label {
+                                                font-weight: 400;
+                                                font-size: 7px;
+                                                line-height: 8px;
+                                                padding: 5px 5px;
+                                                margin-left: 25px;
+
+                                                .lable-truncate {
+                                                    max-width: 65px;
+                                                    text-overflow: ellipsis;
+                                                    overflow: hidden;
+                                                    white-space: nowrap;
+                                                    display: inherit;
+                                                    padding: 3px;
+                                                }
+                                            }
+
+                                            .radio-custom {
+                                                +.radio-custom-label {
+                                                    &::before {
+                                                        left: -22px;
+                                                        position: absolute;
+                                                        top: 5px;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                .btn-grp {
+                                    display: flex;
+                                    justify-content: flex-end;
+
+                                    .btn-cancel {
+                                        .kr-sg-button-ghost {
+                                            font-weight: 400;
+                                            font-size: 14px;
+                                            line-height: 17px;
+                                            color: #202124;
+                                            padding: 0 10px;
+
+                                            &:focus {
+                                                outline: none;
+                                                box-shadow: none;
+                                                border: 1px solid transparent;
+                                            }
+                                        }
+                                    }
+
+                                    .btn-save {
+                                        margin: 0 0 0 5px;
+
+                                        .kr-sg-button-ghost {
+                                            font-weight: 400;
+                                            font-size: 14px;
+                                            line-height: 17px;
+                                            color: #0D6EFD;
+                                            padding-left: 10px;
+
+                                            &:focus {
+                                                outline: none;
+                                                box-shadow: none;
+                                                border: 1px solid transparent;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
             }
         }
     }
@@ -499,6 +800,67 @@
             }
         }
     }
+    &.credential-list-popUp {
+        .modal-dialog {
+            width: 530px;
+            height: auto;
+            max-width: 100%;
+
+            .label-text {
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 15px;
+                margin-bottom: 8px;
+            }
+
+            .modal-content {
+                text-align: left;
+                height: 100%;
+                border-radius: 4px;
+
+                .modal-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    background: #FFFFFF;
+                    padding: 25px 30px 0px 30px;
+
+                    .modal-title {
+                        font-weight: 600;
+                        font-size: 14px;
+                        line-height: 17px;
+                        color: #3C4043;
+                        text-transform: uppercase;
+                    }
+
+                    .close_modal {
+                        cursor: pointer;
+                    }
+                }
+
+                .modal-body {
+                    padding: 15px 30px;
+
+                    .kr-sg-input-text {
+                        margin-bottom: 15px;
+                    }
+
+                    .info-desc {
+                        font-weight: normal;
+                        font-size: 14px;
+                        line-height: 24px;
+                        color: #605E5C;
+                    }
+
+                    .btns-sec {
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-end;
+                    }
+                }
+            }
+        }
+    }
 
     &.new-uses-registration-about-modal {
         .modal-dialog {
@@ -584,6 +946,863 @@
 
                             .mb-20 {
                                 margin-bottom: 20px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &.business-rules-popup {
+        .modal-dialog {
+            .modal-content {
+                .modal-header {
+                    .title {}
+
+                    .toggle-switch {
+                        position: absolute;
+                        right: 180px;
+                        margin-top: 3px;
+
+                        .slider {
+                            span {
+                                margin-left: 48px;
+                                padding-left: 22px !important;
+                                white-space: nowrap;
+
+                                &.enabled {
+                                    background: #EAF6EC;
+                                    border-radius: 5px;
+                                    padding: 5px 10px;
+                                    margin-top: -1px;
+                                    font-weight: 400;
+                                    font-size: 12px;
+                                    line-height: 14px;
+                                    color: #135423;
+
+                                    &::before {
+                                        content: "";
+                                        position: absolute;
+                                        width: 7px;
+                                        height: 7px;
+                                        background: #28A745;
+                                        left: 9px;
+                                        top: 8px;
+                                        border-radius: 100%;
+                                    }
+                                }
+
+                                &.disabled {
+                                    background: #EFF0F1;
+                                    border-radius: 5px;
+                                    padding: 5px 10px;
+                                    margin-top: -1px;
+                                    font-weight: 400;
+                                    font-size: 12px;
+                                    line-height: 14px;
+                                    color: #3C4043;
+
+                                    &::before {
+                                        content: "";
+                                        position: absolute;
+                                        width: 7px;
+                                        height: 7px;
+                                        background: #9AA0A6;
+                                        left: 9px;
+                                        top: 8px;
+                                        border-radius: 100%;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .modal-body {
+                    padding-bottom: 0px !important;
+
+                    .rule-name-input {
+                        padding: 0 12px 0 0;
+                        margin-bottom: 20px;
+                    }
+
+                    .rules-contexual-data {
+                        .condition-rules {
+                            padding: 0 12px 0 0;
+
+                            .inner-data-wrapper {
+                                .info-rule-contnet {
+                                    background: #F3F8FF;
+                                    padding: 10px;
+                                    display: inline-block;
+                                    width: 100%;
+                                    border-bottom: 1px solid rgba(7, 54, 126, 0.7);
+                                    margin-bottom: 20px;
+                                    min-height: 68px;
+
+                                    .title-data {
+                                        display: flex;
+                                        align-items: center;
+
+                                        .text-title {
+                                            font-weight: 500;
+                                            font-size: 14px;
+                                            line-height: 17px;
+                                            color: #07377F;
+                                            margin: 0 10px 0 5px;
+                                        }
+
+                                        .info-tooltip-data {
+                                            line-height: normal;
+                                            position: relative;
+
+                                            &:hover {
+                                                .conditon-info-tooltip {
+                                                    visibility: visible;
+                                                    opacity: 1;
+                                                }
+                                            }
+
+                                            i {
+                                                color: #0D6EFD;
+                                                cursor: pointer;
+                                            }
+
+                                            .conditon-info-tooltip {
+                                                position: absolute;
+                                                top: -12px;
+                                                left: 25px;
+                                                background: #FFFFFF;
+                                                border-radius: 4px;
+                                                box-shadow: 0px 6px 170px rgba(0, 0, 0, 0.07), 0px 1.34018px 37.9717px rgba(0, 0, 0, 0.0417275), 0px 0.399006px 11.3052px rgba(0, 0, 0, 0.0282725);
+                                                // width: 592px;
+                                                width: auto;
+                                                z-index: 2;
+                                                // height: 150px;
+                                                padding: 15px 25px;
+                                                display: flex;
+                                                visibility: hidden;
+                                                opacity: 0;
+                                                transition: opacity 0.3s;
+
+                                                &::before {
+                                                    content: "";
+                                                    position: absolute;
+                                                    width: 12px;
+                                                    height: 12px;
+                                                    background: #ffffff;
+                                                    left: -6px;
+                                                    top: 13px;
+                                                    transform: rotate(45deg);
+                                                }
+
+                                                .info-text {
+                                                    font-weight: 400;
+                                                    font-size: 10px;
+                                                    line-height: 12px;
+                                                    color: #5F6368;
+                                                    margin-bottom: 9px;
+                                                }
+
+                                                .left-data-info {}
+
+                                                .img-data {
+                                                    width: 263px;
+                                                    flex-shrink: 0;
+                                                    margin: 0 5px;
+                                                }
+
+                                                .right-data-info {}
+                                            }
+                                        }
+                                    }
+
+                                    .sub-text {
+                                        font-weight: 500;
+                                        font-size: 12px;
+                                        line-height: 15px;
+                                        color: #07377F;
+                                        opacity: 0.6;
+                                        margin-top: 10px;
+                                    }
+                                }
+
+                                .conditions-sec-data {
+                                    .scoll-data {
+                                        height: calc(100vh - 330px);
+                                    }
+
+                                    .inner-data-content {
+                                        padding-right: 15px;
+
+                                        .box-data-conditions {
+                                            border: 1px solid #85B7FE;
+                                            box-sizing: border-box;
+                                            border-radius: 4px;
+                                            padding: 15px 0 5px 0;
+                                            position: relative;
+
+                                            .close-conditions {
+                                                position: absolute;
+                                                right: 10px;
+                                                top: 8px;
+                                                color: #000000;
+                                                font-size: 12px;
+                                                cursor: pointer;
+                                                z-index: 1;
+                                            }
+
+                                            .row-input-data {
+                                                margin: 0 0 10px 0;
+                                                padding: 0 5px;
+
+                                                .column-sec {
+                                                    padding: 0 5px;
+
+                                                    .kr-sg-dropdowns {
+                                                        .dropdown-open {
+                                                            .dropdown-input {
+                                                                &:disabled {
+                                                                    background: #EFF0F1;
+                                                                    border: 1px solid #EFF0F1;
+                                                                }
+                                                            }
+                                                        }
+
+                                                        .content-menu {
+                                                            min-width: 100%;
+                                                        }
+                                                    }
+                                                }
+
+                                                .title-info {
+                                                    font-weight: 500;
+                                                    font-size: 12px;
+                                                    line-height: 15px;
+                                                    color: #9AA0A6;
+                                                    margin-bottom: 8px;
+                                                }
+                                            }
+                                        }
+
+                                        .and-condition {
+                                            font-weight: 500;
+                                            font-size: 12px;
+                                            line-height: 15px;
+                                            margin: 14px 0;
+                                            text-align: center;
+                                            color: #9AA0A6;
+                                        }
+
+                                        .add-condition-btn {
+                                            background: #F3F8FF;
+                                            border: 1px solid #85B7FE;
+                                            box-sizing: border-box;
+                                            border-radius: 4px;
+                                            font-weight: 500;
+                                            font-size: 14px;
+                                            line-height: 17px;
+                                            color: #0D6EFD;
+                                            display: flex;
+                                            align-items: center;
+                                            min-height: 40px;
+                                            padding: 6px 10px;
+                                            justify-content: center;
+                                            cursor: pointer;
+                                            margin: 15px 0;
+
+                                            i {
+                                                margin-right: 8px;
+                                                position: relative;
+                                                top: -1px;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                /*--nlp annotator css start from here--*/
+                                .nlp-annotator {
+                                    .scoll-data {
+                                        height: calc(100vh - 330px);
+                                        padding: 0 5px 0 0;
+                                    }
+
+                                    .title-data {
+                                        display: flex;
+                                        align-items: center;
+                                        margin: 0 0 8px 0;
+
+                                        .text-title {
+                                            font-size: 12px;
+                                            font-weight: 500;
+                                            margin-bottom: 4px;
+                                            color: #202124;
+                                            line-height: 17px;
+                                            margin: 0 8px 0 0px;
+                                        }
+
+                                        .info-tooltip-data {
+                                            line-height: normal;
+                                            position: relative;
+
+                                            &:hover {
+                                                .conditon-info-tooltip {
+                                                    visibility: visible;
+                                                    opacity: 1;
+                                                }
+                                            }
+
+                                            i {
+                                                color: #9AA0A6;
+                                                cursor: pointer;
+                                            }
+
+                                            .conditon-info-tooltip {
+                                                position: absolute;
+                                                top: -12px;
+                                                left: 25px;
+                                                background: #FFFFFF;
+                                                border-radius: 4px;
+                                                box-shadow: 0px 6px 170px rgba(0, 0, 0, 0.07), 0px 1.34018px 37.9717px rgba(0, 0, 0, 0.0417275), 0px 0.399006px 11.3052px rgba(0, 0, 0, 0.0282725);
+                                                // width: 592px;
+                                                width: auto;
+                                                z-index: 2;
+                                                // height: 150px;
+                                                padding: 15px 25px;
+                                                display: flex;
+                                                visibility: hidden;
+                                                opacity: 0;
+                                                transition: opacity 0.3s;
+
+                                                &::before {
+                                                    content: "";
+                                                    position: absolute;
+                                                    width: 12px;
+                                                    height: 12px;
+                                                    background: #ffffff;
+                                                    left: -6px;
+                                                    top: 13px;
+                                                    transform: rotate(45deg);
+                                                }
+
+                                                .info-text {
+                                                    font-weight: 400;
+                                                    font-size: 10px;
+                                                    line-height: 12px;
+                                                    color: #5F6368;
+                                                    margin-bottom: 9px;
+                                                }
+
+                                                .left-data-info {}
+
+                                                .img-data {
+                                                    width: 263px;
+                                                    flex-shrink: 0;
+                                                    margin: 0 5px;
+                                                }
+
+                                                .right-data-info {}
+                                            }
+                                        }
+                                    }
+
+                                    .nlp-annotator_form {
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 20px;
+
+                                        .kr-sg-input-text-area {
+                                            flex: 1;
+
+                                            .input-text {
+                                                min-height: 34px;
+                                                line-height: 22px;
+                                                padding: 5px 10px;
+                                                border: 1px solid #BDC1C6;
+                                                overflow: scroll;
+                                                /* height: 55px; */
+                                                width: 490px;
+                                            }
+                                        }
+
+                                        .kr-sg-btn {
+                                            padding: 23px 0 0px 0;
+
+                                            .kr-sg-buttonicon-secondary {
+                                                height: 34px;
+                                                color: #0D6EFD;
+                                                border: 1px solid #0d6efd;
+
+                                                .add-icon {
+                                                    padding: 0 5px 0 5px;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    .nlp-custom-tag-block {
+                                        border-bottom: 1px solid #BDC1C6;
+                                        padding: 15px 0;
+                                        display: flex;
+                                        align-items: center;
+
+                                        .nlp-tag-legend {
+                                            font-weight: 500;
+                                            font-size: 12px;
+                                            line-height: 15px;
+                                            color: #9AA0A6;
+                                            padding: 0 10px 0 0;
+                                        }
+
+                                        .nlp-custom-tag-dynamic {
+                                            .nlp-custom-tag {
+                                                padding: 3px;
+                                                // background: #F1E9FB;
+                                                font-weight: 500;
+                                                font-size: 10px;
+                                                line-height: 12px;
+                                                margin: 0 5px;
+                                                display: inline-flex;
+                                                -ms-flex-pack: justify;
+                                                justify-content: space-between;
+                                                -ms-flex-align: center;
+                                                align-items: center;
+
+                                                .nlp-tag {
+                                                    max-width: 120px;
+                                                    text-overflow: ellipsis;
+                                                    overflow: hidden;
+                                                    white-space: nowrap;
+                                                    display: inline-block;
+                                                }
+
+                                                .close-tag {
+                                                    padding: 0 2px;
+                                                    color: #202124;
+                                                    cursor: pointer;
+
+                                                    i {
+                                                        font-size: 6px;
+                                                        font-weight: 600;
+                                                    }
+                                                }
+                                            }
+                                            .nlp-system-entity{
+                                                color: #135423;
+                                                background: #EAF6EC;
+                                            }
+                                            .nlp-index-entity{
+                                                color: #381472;
+                                                background: #F1E9FB;
+                                            }
+                                            .nlp-custom-entity{
+                                                color: #803C25;
+                                                background: #FFF1ED;
+                                            }
+                                        }
+
+                                    }
+
+                                    .nlp-first-custom-tag {
+                                        background: #EFF0F1;
+                                        padding: 60px 70px;
+                                        margin: 10px 0;
+
+                                        .nlp-first-custom-block {
+                                            border: 3px solid #E4E5E7;
+                                            border-radius: 4px;
+                                            background: #fff;
+                                            height: 180px;
+
+                                            .nlp-first-custom-header {
+                                                font-size: 12px;
+                                                font-weight: 500;
+                                                margin-bottom: 4px;
+                                                padding: 15px 10px 5px 10px;
+                                            }
+
+                                            .nlp-first-custom-tag-name {
+                                                font-size: 18px;
+                                                font-weight: 600;
+                                                padding: 10px 10px;
+                                                margin: 0 10px;
+                                                background: #f4f0f0;
+                                                border-radius: 4px;
+                                                border: 1.5px solid #85b7fe;
+                                            }
+                                        }
+                                    }
+
+                                    .nlp-custom-tag-generator-list {
+                                        margin: 10px 0;
+
+                                        .nlp-custom-tag-data-block {
+                                            border-bottom: 1px solid #E4E5E7;
+                                            padding: 10px 10px;
+                                            min-height: 47px;
+                                            &.nlp-tag-edit {
+                                                background: #F8F9FA;
+
+                                                .nlp-preview-block {
+                                                    // display: flex !important;
+                                                    display: block;
+                                                    opacity: 1;
+                                                    font-weight: 500;
+                                                    font-size: 10px;
+                                                    line-height: 12px;
+                                                }
+
+                                                // .nlp-custom-tag-data-line {
+                                                //     background: #FFFFFF;
+                                                //     border: 1px solid #85B7FE;
+                                                //     border-radius: 2px;
+                                                //     padding: 2px;
+                                                // }
+
+                                                &:hover {
+                                                    .nlp-custom-tag-data-line {
+                                                        .nlp-custom-tag-overflow-menu {
+                                                            display: none !important;
+                                                            opacity: 0 !important;
+                                                        }
+                                                    }
+
+                                                }
+                                            }
+
+                                            .nlp-custom-tag-data-line {
+                                                display: flex;
+                                                align-items: center;
+                                                justify-content: space-between;
+                                                width: 100%;
+                                                .nlp-custom-tag-data {
+                                                    font-weight: 400;
+                                                    font-size: 12px;
+                                                    line-height: 15px;
+                                                                                                       
+
+                                                    .nlp-custom-tag-highlight {
+                                                        cursor: pointer;
+                                                        font-weight: bold;
+                                                        color: #5A038A;
+                                                    }
+
+                                                    .input-text {
+                                                        min-height: auto;
+                                                        height: 34px;
+                                                        line-height: 22px;
+                                                        padding: 5px 10px;
+                                                    }
+                                                }
+
+                                                .nlp-custom-tag-overflow-menu {
+                                                    // display: none;
+                                                    opacity: 0;
+                                                    visibility: hidden;
+                                                    .nlp-overflow-menu {
+                                                        .dropdown-btn {
+                                                            padding: 0px !important;
+
+                                                            &:focus {
+                                                                border: solid 1px transparent;
+                                                                outline: 0;
+                                                                box-shadow: none;
+                                                            }
+                                                        }
+
+                                                        .dropdown-menu {
+                                                            &.show {
+                                                                position: absolute;
+                                                                will-change: unset !important;
+                                                                top: 23px !important;
+                                                                left: auto !important;
+                                                                right: 0px !important;
+                                                                transform: none !important;
+                                                                padding: 0px;
+                                                                min-width: auto;
+
+                                                                .dropdown-item {
+                                                                    font-weight: 400;
+                                                                    font-size: 10px;
+                                                                    line-height: 12px;
+                                                                    padding: 10px 10px;
+                                                                    border-radius: 0.25rem;
+                                                                    cursor: pointer;
+
+                                                                    &.delete-item {
+                                                                        color: #DD3646;
+                                                                    }
+
+                                                                    span {
+                                                                        padding: 0 5px;
+                                                                    }
+
+                                                                    .dropdown-list-icon {
+                                                                        width: 10px;
+                                                                    }
+
+                                                                    &:active {
+                                                                        color: #16181b;
+                                                                        text-decoration: none;
+                                                                        background-color: #f8f9fa;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            .nlp-preview-block {
+                                                display: none;
+                                                justify-content: space-between;
+                                                padding: 8px 0 0 0;
+                                                opacity: 0;
+
+                                                .nlp-preview-header {
+                                                    font-weight: 500;
+                                                    font-size: 10px;
+                                                    line-height: 12px;
+
+                                                    .warning-span {
+                                                        padding: 0 5px 0 0;
+
+                                                        .warning-icon {
+                                                            width: 10px;
+                                                        }
+                                                    }
+
+                                                    .nlp-custom-tag {
+                                                        padding: 3px;
+                                                        background: #F1E9FB;
+                                                        font-weight: 500;
+                                                        font-size: 10px;
+                                                        line-height: 12px;
+                                                        color: #7027E5;
+                                                        margin: 0 5px;
+                                                        display: inline-flex;
+                                                        -ms-flex-pack: justify;
+                                                        justify-content: space-between;
+                                                        -ms-flex-align: center;
+                                                        align-items: center;
+
+                                                        .nlp-tag {
+                                                            max-width: 120px;
+                                                            text-overflow: ellipsis;
+                                                            overflow: hidden;
+                                                            white-space: nowrap;
+                                                            display: inline-block;
+                                                        }
+
+                                                        .close-tag {
+                                                            padding: 0 2px;
+                                                            color: #202124;
+                                                            cursor: pointer;
+
+                                                            i {
+                                                                font-size: 6px;
+                                                                font-weight: 600;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                                .nlp-preview-action-list {
+                                                    display: flex;
+                                                    font-weight: 400;
+                                                    font-size: 8px;
+                                                    line-height: 10px;
+                                                    cursor: pointer;
+                                                    align-items: center;
+                                                    float: right;
+
+                                                    .nlp-preview-action-done {
+                                                        color: #0D6EFD;
+                                                        padding: 0 5px;
+                                                    }
+
+                                                    .nlp-preview-action-cancel {
+                                                        color: #202124;
+                                                        padding: 0 0 0 5px;
+                                                    }
+
+                                                    .nlp-preview-action-span {
+                                                        padding: 0 5px;
+
+                                                        img {
+                                                            vertical-align: bottom;
+                                                            width: 10px;
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            &:hover {
+                                                background: #F8F9FA;
+
+                                                .nlp-custom-tag-data-line {
+                                                    .nlp-custom-tag-overflow-menu {
+                                                        // display: block;
+                                                        visibility: visible;
+                                                        opacity: 1;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                }
+
+                                /*-- nlp annotator css ends here--*/
+                            }
+                        }
+
+                        .outcome-rules {
+                            padding: 0 0 0 12px;
+
+                            .inner-data-wrapper {
+                                .info-rule-contnet {
+                                    background: #EAF6EC;
+                                    padding: 10px;
+                                    display: inline-block;
+                                    width: 100%;
+                                    border-bottom: 1px solid rgba(19, 84, 35, 0.7);
+                                    margin-bottom: 20px;
+                                    min-height: 68px;
+
+                                    .title-data {
+                                        display: flex;
+                                        align-items: center;
+
+                                        .text-title {
+                                            font-weight: 500;
+                                            font-size: 14px;
+                                            line-height: 17px;
+                                            color: #135423;
+                                            margin: 0 10px 0 5px;
+                                        }
+
+                                        .info-tooltip-data {
+                                            line-height: normal;
+
+                                            i {
+                                                color: #0D6EFD;
+                                                cursor: pointer;
+                                            }
+                                        }
+                                    }
+
+                                    .sub-text {
+                                        font-weight: 500;
+                                        font-size: 12px;
+                                        line-height: 15px;
+                                        color: #135423;
+                                        opacity: 0.6;
+                                        margin-top: 10px;
+                                    }
+                                }
+
+                                .outcome-sec-data {
+                                    .scoll-data {
+                                        height: calc(100vh - 330px);
+                                    }
+
+                                    .inner-data-content {
+                                        padding-right: 15px;
+
+                                        .outcome-number{
+                                            font-weight: 500;
+                                            font-size: 12px;
+                                            line-height: 15px;
+                                            padding-bottom: 8px;
+                                            color: #000000;
+                                        }
+
+                                        .box-data-conditions {
+                                            border: 1px solid #93D3A2;
+                                            box-sizing: border-box;
+                                            border-radius: 4px;
+                                            padding: 15px 0 5px 0;
+                                            position: relative;
+
+                                            .close-conditions {
+                                                position: absolute;
+                                                right: 10px;
+                                                top: 8px;
+                                                color: #000000;
+                                                font-size: 12px;
+                                                cursor: pointer;
+                                                z-index: 1;
+                                            }
+
+                                            .row-input-data {
+                                                margin: 0 0 10px 0;
+                                                padding: 0 5px;
+
+                                                .column-sec {
+                                                    padding: 0 5px;
+
+                                                    .kr-sg-dropdowns {
+                                                        .dropdown-open {
+                                                            .dropdown-input {
+                                                                &:disabled {
+                                                                    background: #EFF0F1;
+                                                                    border: 1px solid #EFF0F1;
+                                                                }
+                                                            }
+                                                        }
+
+                                                        .content-menu {
+                                                            min-width: 100%;
+                                                        }
+                                                    }
+                                                }
+
+                                                .title-info {
+                                                    font-weight: 500;
+                                                    font-size: 12px;
+                                                    line-height: 15px;
+                                                    color: #9AA0A6;
+                                                    margin-bottom: 8px;
+                                                }
+                                            }
+                                        }
+
+                                        .and-condition {
+                                            font-weight: 500;
+                                            font-size: 12px;
+                                            line-height: 15px;
+                                            margin: 14px 0;
+                                            text-align: center;
+                                            color: #9AA0A6;
+                                        }
+
+                                        .add-condition-btn {
+                                            background: #EAF6EC;
+                                            border: 1px solid #28A745;
+                                            box-sizing: border-box;
+                                            border-radius: 4px;
+                                            font-weight: 500;
+                                            font-size: 14px;
+                                            line-height: 17px;
+                                            color: #28A745;
+                                            display: flex;
+                                            align-items: center;
+                                            min-height: 40px;
+                                            padding: 6px 10px;
+                                            justify-content: center;
+                                            cursor: pointer;
+                                            margin: 15px 0;
+
+                                            i {
+                                                margin-right: 8px;
+                                                position: relative;
+                                                top: -1px;
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -1146,21 +2365,22 @@
 
     /*--Regular Modal Basic Styles Ends Here--*/
     &.onboardingJourney-landing-popup {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
         .modal-dialog {
-            width: 780px !important;
-            max-width: 780px !important;
-            // height: calc(100% - 80px);
-            height: auto;
-            max-height: 500px;
-
+            height: 550px;
+            max-height: 550px;
+            width: 1200px !important;
+            max-width: 1200px !important;
             .modal-content {
                 background: #FFFFFF;
                 border-radius: 6px;
                 display: block;
                 flex-direction: unset;
-                overflow: inherit;
                 overflow: initial;
-
+                width: 70%;
+                margin: 0 auto;
                 .close_icon {
                     width: 32px;
                     height: 32px;
@@ -1188,9 +2408,15 @@
 
                     .video-player {
                         position: relative;
-                        min-height: 300px;
-
-                        iframe {
+                        min-height: 450px;
+                        iframe{
+                            position: absolute; 
+                            top: 0; 
+                            left: 0; 
+                            width: 100%; 
+                            height: 100%;
+                        }
+                        video {
                             border: 0;
                             width: 100%;
                             height: 370px;
@@ -1388,6 +2614,9 @@
                     }
                 }
             }
+        }
+        .video-info-section-data{
+
         }
     }
 

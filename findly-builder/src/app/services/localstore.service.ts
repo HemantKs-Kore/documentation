@@ -38,7 +38,15 @@ export class LocalStoreService {
   public isEmpty(obj) {
     return Object.keys(obj).length === 0;
   }
-
+  public getPreviousState(){
+    let _krPreviousState = window[this.storageType].getItem('krPreviousState');
+    if (_krPreviousState) {
+      _krPreviousState = JSON.parse(_krPreviousState);
+    } else {
+      return false;
+    }
+    return _krPreviousState;
+  }
   public removeAuthInfo() {
     try {
       window[this.storageType].setItem('jStorage', '{}');
