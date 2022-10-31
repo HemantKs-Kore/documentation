@@ -337,9 +337,10 @@ export class AppHeaderComponent implements OnInit {
   extractProfiledisplayname() {
     let name = this.loginusername
     //match the spaces
-    var matches = name.split(/(?<=^\S+)\s/)
+    // var matches = name.split(/(?<=^\S+)\s/)
+    var matches = name.split(" ");
     var firstName = matches[0];
-    var lastName = matches[1];
+    var lastName = matches[1] ? matches[1] : "";
     var firstLetter =firstName?firstName.charAt(0):'';
     var secondLetter =lastName?lastName.charAt(0):'';
     this.profile_display = firstLetter.concat(secondLetter);
