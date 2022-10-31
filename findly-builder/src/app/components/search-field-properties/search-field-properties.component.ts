@@ -114,13 +114,8 @@ export class SearchFieldPropertiesComponent implements OnInit {
       });
       this.totalRecord = res.totalCount;
       this.enableIndex = this.defaultIndex;
-      /** Clear Slider after Paginate , It will call only if the Paginagtion is done (Author : Sunil Singh)*/
-      // if(this.activeSliderIndex > -1){
-      //   this.cancel(this.searchFieldProperties[this.activeSliderIndex].properties,this.activeSliderIndex)
-      // }
-      // this.activeSliderIndex  = -1 // defaulting since the pagination hold the information of Index
     }, errRes => {
-      this.notificationService.notify(errRes,'failed to get search field propeties');
+      this.notificationService.notify(errRes,'error');
     });
 
   }
@@ -280,7 +275,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
   }
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next();
-    }
+  }
   ngOnDestroy() {
     this.querySubscription ? this.querySubscription.unsubscribe() : false;
   }
