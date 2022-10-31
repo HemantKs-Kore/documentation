@@ -12,6 +12,7 @@ import { UseronboardingJourneyComponent } from '../../helpers/components/useronb
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+import { environment } from '../../../environments/environment';
 declare const $: any;
 @Component({
   selector: 'app-summary',
@@ -34,6 +35,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   totalUsersStats: any = {};
   totalSearchesStats: any = {};
   selectedApp: any;
+  installer_summary_flag: any;
   loading = true;
   summary: any;
   showError = false;
@@ -185,6 +187,11 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   //initial ngoninit method call
   initialCall(status?) {
+
+    const Installer_Flag: any = environment;
+    if(Installer_Flag && Installer_Flag["Installer_FLAG"]){
+      this.installer_summary_flag=Installer_Flag["Installer_FLAG"]
+    }
     const toogleObj = {
       title: 'Summary',
       toShowWidgetNavigation: this.workflowService.showAppCreationHeader()

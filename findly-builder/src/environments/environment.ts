@@ -8,7 +8,8 @@ export const environment = {
   API_SERVER_URL: 'https://searchassist-qa.kore.ai', 
   USE_SESSION_STORE: false,
   INLINE_MANUAL_SITE_KEY: "1ec224ee46620656a9b18a17c80587a3",
-  //PRICING:false
+  PROD_FLAG:true,
+  Installer_FLAG:true,
   APPCUES:{
     ENABLE : true,
     APPCUES_KEY : '112004'
