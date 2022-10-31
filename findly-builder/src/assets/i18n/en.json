@@ -1624,7 +1624,7 @@
     "settings_step_4":"STEP 4",
     "settings_select_events":"Select Events",
     "settings_select_events_info":"Select the required events and complete the setup process.",
-    "settings_seems_like_there_are_no_credentails_created":"Seems like there are no credentails created",
+    "settings_seems_like_there_are_no_credentials_created":"Seems like there are no credentials created",
     "settings_create_a_credential_to_associate_it_with_the_channel":"Create a credential to associate it with the channel",
     "settings_credential_name":"Credential Name",
     "settings_allow_anonymous_users_to_chat_with_the_bot":"Allow anonymous users to chat with the bot",

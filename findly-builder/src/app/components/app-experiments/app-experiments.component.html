@@ -60,7 +60,7 @@
               [autoClose]="true" [placement]="'bottom-right'">
               <div class="dropdown dropdown-open">
                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
-                  <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                  <img class="custom-dropdown-toggle-icon" src="assets/icons/type-select-dropdown.svg">
                 </button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                   <li [ngClass]="{'selected-list': filterSystem.statusfilter == 'all'}"
@@ -176,16 +176,6 @@
                         exp.state === 'paused'
                       " (click)="deleteExperimentPopup(exp._id, $event)" />
                   </div>
-
-                  <!-- <div class="delete-table" *ngIf="exp.state === 'paused'">
-                    <img src="assets/icons/play_black.svg" (click)="runExperiment(exp._id, 'stopped', $event)" />
-                  </div>
-                  <div class="delete-table" *ngIf="exp.state === 'stopped'">
-                    <img src="assets/icons/return_black.svg" (click)="runExperiment(exp._id, 'active', $event)" />
-                  </div>
-                  <div class="delete-table" (click)="deleteExperimentPopup(exp._id, $event)" *ngIf="exp.state === 'completed' || exp.state === 'stopped' || exp.state === 'paused' || exp.state === 'active'">
-                    <img src="assets/icons/delete-table.svg" />
-                  </div> -->
                 </div>
               </div>
             </div>
