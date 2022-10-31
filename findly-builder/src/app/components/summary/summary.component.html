@@ -284,7 +284,7 @@
             </ng-container>
           </div>
         <!-- to disable the subscription summary for installer deployment update Installer_FLAG as false in environment file-->
-        <div *ngIf="!installer_summary_flag">
+        <!-- <div *ngIf="!installer_summary_flag"> -->
           <!-- <div class="col-12 inner-content mb-20 right-sec-cards h-auto">
             <div class="title-heading">{{'plan.current_subscription_plan' | translate}}</div>
             <ng-container *ngIf="!loading_skelton">
@@ -327,7 +327,7 @@
               </div>
             </ng-container>
           </div> -->
-        </div>
+        <!-- </div> -->
         <div class="col-12 inner-content right-sec-cards h-auto">
           <div class="title-heading mb-1">{{'overview_experiments' |translate}}</div>
           <ng-container *ngIf="!loading_skelton&&experiments.length>0">
