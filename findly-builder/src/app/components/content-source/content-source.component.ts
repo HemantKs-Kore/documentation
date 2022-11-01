@@ -1639,7 +1639,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     });
   }
   scheduleData(scheduleData) {
-    //if (this.selectedSource?.advanceSettings?.scheduleOpts) this.selectedSource['advanceSettings'].scheduleOpts = scheduleData;
     if(this.editSource?.advanceOpts?.scheduleOpts) this.editSource.advanceOpts.scheduleOpts = scheduleData;
   }
   cronExpress(cronExpress) {
@@ -1857,6 +1856,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   //crawl job ondemand
   jobOndemand(source, event) {
     if (event) {
@@ -1871,23 +1871,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
       this.getSourceList();
       this.dockService.trigger(true);
-      //this.notificationService.notify('Bot linked, successfully', 'success');
     },
       (err) => {
-        // console.log(err);
         this.notificationService.notify('Failed to crawl', 'error');
       }
     )
   }
-  ngOnDestroy() {
-    const timerObjects = Object.keys(this.polingObj);
-    if (timerObjects && timerObjects.length) {
-      timerObjects.forEach(job => {
-        clearInterval(this.polingObj[job]);
-      });
-    }
-    window.removeEventListener('scroll', this.scroll, true);
-  }
+
   toggleSearch() {
     if (this.showSearch && this.searchSources) {
       this.searchSources = '';
@@ -1927,9 +1917,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     else if (value == null || value.includes("-")) {
       this.notificationService.notify('Range cannot be entered', 'error');
     }
-    // if(value < 500 && valueFrom == 'maxUrlLimit'){
-    //   this.maxUrlLimit = 500;
-    // }
   }
 
   clicksViews(type) {
@@ -2143,6 +2130,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   const isOpen = (event?.currentTarget?.checked||event===true);
   if(isOpen) this.schedular?.openCloseSchedular('open');
 }
+
+ngOnDestroy() {
+  const timerObjects = Object.keys(this.polingObj);
+  if (timerObjects && timerObjects.length) {
+    timerObjects.forEach(job => {
+      clearInterval(this.polingObj[job]);
+    });
+  }
+  window.removeEventListener('scroll', this.scroll, true);
+}
+
 }
 
 
