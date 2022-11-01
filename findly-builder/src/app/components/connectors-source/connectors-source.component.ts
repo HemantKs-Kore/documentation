@@ -380,7 +380,7 @@ export class ConnectorsSourceComponent implements OnInit {
     let payload: any = {};
     if (data?.type === 'confluenceCloud') {
       payload.url = window.location.protocol + '//' + window.location.host + '/home?isRedirect=true'
-    }
+    } 
     this.service.invoke('post.authorizeConnector', quaryparms, payload).subscribe(res => {
       if (res) {
         this.isloadingBtn = false;
