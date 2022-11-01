@@ -187,11 +187,6 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   //initial ngoninit method call
   initialCall(status?) {
-
-    const Installer_Flag: any = environment;
-    if(Installer_Flag && Installer_Flag["Installer_FLAG"]){
-      this.installer_summary_flag=Installer_Flag["Installer_FLAG"]
-    }
     const toogleObj = {
       title: 'Summary',
       toShowWidgetNavigation: this.workflowService.showAppCreationHeader()

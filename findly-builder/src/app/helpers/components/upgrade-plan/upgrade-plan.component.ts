@@ -52,7 +52,6 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   upgradePlanData:any={};
   selectedPaymentPage: string = 'payment_confirm';
   showLoader: boolean;
-  prod_enable_pricing : any;
   payementResponse: any = {
     hostedPage: {
       transactionId: "",
@@ -107,11 +106,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
     }
   }
   //get plans api
-  getAllPlans() {
-    const PRICING_CHECK: any = environment;
-    if(PRICING_CHECK && PRICING_CHECK["PROD_FLAG"]){
-      this.prod_enable_pricing=PRICING_CHECK["PROD_FLAG"]
-    }
+  getAllPlans() {   
 
     this.service.invoke('get.pricingPlans').subscribe(res => {
       this.featureTypes = res?.featureTypes;

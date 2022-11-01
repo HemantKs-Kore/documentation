@@ -64,7 +64,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   editIndexName: boolean = false;
   editIndexNameVal: String = "";
   submitted: boolean = false;
-  installer_pricing: any;
   public showStatusDocker: boolean = false;
   public statusDockerLoading: boolean = false;
   public dockersList: Array<any> = [];
@@ -487,10 +486,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
   //check subscription data
   getSubscriptionData(){
-    const Installer_Flag: any = environment;
-    if(Installer_Flag && Installer_Flag["Installer_FLAG"]){
-      this.installer_pricing=Installer_Flag["Installer_FLAG"]
-    }
     if(this.currentSubscriptionPlan?.subscription){
       this.showUpgrade=(['Unlimited','Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName))? false:true;
     }

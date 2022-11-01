@@ -10,8 +10,7 @@ export const environment = {
   },
   MIXPANEL_KEY : "b8cca4172b544f41f2dde97189667d81",
   //API_SERVER_URL: 'http://192.168.10.101:5000'
-  PROD_FLAG:false,
-  Installer_FLAG:true,
+  deployment_type:"prod",
   topicGuideBaseUrl:'https://koredotcom.github.io/koredotai-docs/searchassist/topic-guide/'
   // topicGuideBaseUrl:'https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/'
 };
