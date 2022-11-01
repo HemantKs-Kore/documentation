@@ -168,10 +168,12 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         else {
           this.notify.notify('Set to default Index successfully', 'success');
         }
-        this.appSelectionService.getIndexPipelineIds(config);
-        if (config && config._id && action !== 'edit') {
-          this.selectQueryPipelineId(config);
-        }
+        this.appSelectionService.getIndexPipelineIds(config)
+        this.selectedIndexConfig = config._id;
+        // this.appSelectionService.getIndexPipelineIds(config);
+        // if (config && config._id && action !== 'edit') {
+        //   this.selectQueryPipelineId(config);
+        // }
         this.closeIndexModalPopup();
       },
       errRes => {
@@ -506,7 +508,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
   closeIndexModalPopup() {
     this.submitted = false;
-    this.addIndexFieldModalPopRef.close();
+    this.addIndexFieldModalPopRef ? this.addIndexFieldModalPopRef.close() : null;
     this.newIndexConfigObj = {
       method: 'default',
       name: '',
