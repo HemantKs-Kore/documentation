@@ -509,7 +509,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
   closeIndexModalPopup() {
     this.submitted = false;
-    this.addIndexFieldModalPopRef.close();
+    this.addIndexFieldModalPopRef ? this.addIndexFieldModalPopRef.close() : null;
     this.newIndexConfigObj = {
       method: 'default',
       name: '',
