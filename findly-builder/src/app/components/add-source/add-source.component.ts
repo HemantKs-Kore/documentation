@@ -458,10 +458,18 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       sourceId: this.extract_sourceId
     };
     const payload = {
-      url: this.newSourceObj.url
+      url: this.newSourceObj.url,
+      authorizationEnabled: false
     }
     this.service.invoke('put.retryValidation', quaryparms, payload).subscribe(res => {
       this.statusObject = { ...this.statusObject, validation: res.validations };
+      let message ='';
+      if(!this.statusObject?.validation?.url?.validated){
+        message = this.statusObject?.validation?.url?.msg;
+      } else if(!this.statusObject?.validation?.networkConnectivity?.validated){
+        message = this.statusObject?.validation?.networkConnectivity?.msg;
+      }
+      if(!this.statusObject?.isURLValid) this.notificationService.notify(message, 'error');
     }, errRes => {
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -833,51 +841,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       } else {
         return;
       }
-    // OLD CODE //
-    // let showProg: boolean = false;
-    // const _ext = fileName.substring(fileName.lastIndexOf('.'));
-    // this.extension = _ext
-    // if (this.selectedSourceType.sourceType != "faq") {
-    //   if (['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx'].includes(this.extension)) {
-    //     showProg = true;
-    //   }
-    //   else {
-    //     $('#sourceFileUploader').val(null);
-    //     this.notificationService.notify('Please select a valid file', 'error');
-    //     // return;
-    //   }
-    // }
-    // else {
-
-    //   if (this.selectedSourceType.sourceType == "faq") {
-    //     if (this.selectedSourceType.resourceType == '') {
-    //       if (this.extension === '.pdf') {
-    //         showProg = true;
-    //       }
-    //       else {
-    //         this.notificationService.notify('Please select a valid pdf file', 'error');
-    //       }
-    //     }
-    //     else {
-    //       if (this.extension === '.csv' || this.extension === '.json') {
-    //         showProg = true;
-    //       }
-    //       else {
-    //         this.notificationService.notify('Please select a valid csv or json file', 'error');
-    //       }
-    //     }
-    //   }
-    //   else {
-    //     showProg = true;
-    //   }
-
-    // }
-    // if (showProg) {
-    //   this.onFileSelect(event.target, this.extension);
-    //   this.fileObj.fileUploadInProgress = true; // unknown binding
-    //   this.fileObj.fileName = fileName; // for  single file
-    //   this.fileObj.file_ext = this.extension.replace(".", "");
-    // }
   }
 
   onFileSelect(input: HTMLInputElement, ext) {
@@ -1577,8 +1540,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       scheduleData.interval.intervalValue = {};
     }
     this.crwalObject.advanceOpts.scheduleOpts = scheduleData;
-
-    // this.dataFromScheduler = scheduleData
   }
   cronExpress(cronExpress) {
     this.crwalObject.advanceOpts.repeatInterval = cronExpress;

@@ -61,7 +61,7 @@
     </div>
 
     <!-- Table default header -->
-    <div class="table_section">
+    <div class="table_section" *ngIf="(!loadingContent && rules && beforeFilterRules && beforeFilterRules.length) || searchRules || showSearch">
         <div class="header_sec row m-0">
             <div class="col-3 content withcheckbox " (click)="sortByApi('ruleName')">
                 <!-- <div class="kr-sg-checkbox p-0 m-0">
@@ -119,7 +119,7 @@
                 </div>
                 <div class="empty-title">{{selcectionObj?.ruleType==='contextual'?("businessRules.no_contextual_rule"| translate):("businessRules.no_nlp_rule"| translate)}}</div>
                 <div>
-                    <button class="kr-sg-button-primary btn_lg" (click)="createNewRule()"><i class="si-add-plus mr-2"></i>{{"businessRules.add"| translate}} {{selcectionObj?.ruleType==='contextual'?("businessRules.contextual"| translate):("businessRules.nlp"| translate)}} {{"businessRules.rule"| translate}}</button>
+                    <button class="kr-sg-button-primary btn_lg" (click)="createNewRule()"><i class="si-add-plus-white mr-2"></i>{{"businessRules.add"| translate}} {{selcectionObj?.ruleType==='contextual'?("businessRules.contextual"| translate):("businessRules.nlp"| translate)}} {{"businessRules.rule"| translate}}</button>
                 </div>
                 <div class="info-data-box">
                     <div class="text-info-empty" [ngClass]="{'d-none':(selcectionObj?.ruleType==='nlp')}">{{"businessRules.contextual_rules_allow"| translate}}<br/>{{"businessRules.contextual_rules_are"| translate}}</div>
@@ -322,7 +322,7 @@
                                             </div>
                                         </div>
                                         <div class="row-input-data row col-12">
-                                            <div class="col-12 title-info">{{"businessRules.set_parameters"| translate}}</div>
+                                            <div class="col-12 column-sec title-info">{{"businessRules.set_parameters"| translate}}</div>
                                             <div class="col-4 column-sec" *ngIf="ruleObj.contextType !=='userContext'">
                                                 <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'">
                                                     <div class="dropdown dropdown-open">
@@ -612,7 +612,8 @@
                                    </div>
                                 </div>
                                 <div class="nlp-preview-block" *ngIf="annotator.isEditable">
-                                    <div class="nlp-preview-header"></div> <!--<span class="warning-span"><img src="assets/images/warning.svg" class="warning-icon "/></span>Please tag  <span class="nlp-custom-tag"><span class="nlp-tag">Topic</span></span>-->
+                                    <div class="nlp-preview-header"></div> 
+                                    <span class="warning-span"><img src="assets/images/warning.svg" class="warning-icon" height="8" *ngIf="annotator?.legends?.length>0"/></span><span class="ml-1 mr-2">{{(annotator?.legends?.length>0)?'Please tag':''}}</span>  <span class="nlp-custom-tag"  *ngFor="let tag of annotator?.legends"  [ngClass]="{'nlp-system-entity':tag.type==='system_defined','nlp-index-entity':tag.type==='index_field','nlp-custom-entity':tag.type==='custom'}"><span class="nlp-tag">{{tag?.name}}</span></span>
                                     <div class="nlp-preview-action-list">
                                         <div class="nlp-preview-action-done" (click)="AddSelectedEnity()"><span class="nlp-preview-action-span"><img src="assets/images/check-primary.svg" class="warning-icon "/></span> {{"businessRules.done"| translate}}</div>
                                         <div class="nlp-preview-action-cancel" (click)="cancelAnnotatorSentence(annotator)"><span class="nlp-preview-action-span"><img src="assets/images/close.svg" class="warning-icon "/></span> {{"businessRules.cancel"| translate}}</div>
@@ -641,9 +642,9 @@
                             <div class="inner-data-content">
                                 <!-- Repeat the data here conditions -->
                                 <ng-container *ngFor="let outcomeObj of outcomeArrayforAddEdit; let index = index">
-                                    <div class="outcome-number">{{ "businessRules.outcome_caps_small" | translate }} {{index+1}}</div>
+                                    <!-- <div class="outcome-number">{{ "businessRules.outcome_caps_small" | translate }} {{index+1}}</div> -->
                                     <div class="box-data-conditions">
-                                        <div class="close-conditions" (click)="removeOutcome(index)">
+                                        <div class="close-conditions" (click)="removeOutcome(index)" *ngIf="outcomeArrayforAddEdit.length>1">
                                             <i class="si-close"></i>
                                         </div>
                                         <div class="row-input-data row col-12">
@@ -678,21 +679,18 @@
                                             </div>
                                         </div>
                                         <div class="row-input-data row col-12">
-                                            <div class="col-12 title-info">{{"businessRules.response"| translate}}</div>
+                                            <div class="col-12 column-sec title-info">{{"businessRules.response"| translate}}</div>
                                             <div class="col-4 column-sec">
-                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index;getFieldAutoComplete(null, null,'clearText')">
+                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index">
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" ngbDropdownToggle>{{outcomeObj.fieldName? outcomeObj.fieldName : "Choose field"}}</button>
+                                                        <button class="dropdown-toggle dropdown-input" id="responseFields" data-toggle="dropdown" ngbDropdownToggle>{{outcomeObj.fieldName? outcomeObj.fieldName : "Choose field"}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                                             <li class="search-box">
-                                                                <input id="searchBoxId" autocomplete="off" type="text"
-                                                                    (keydown)="$event.stopPropagation()"
-                                                                    (keyup)="getFieldAutoComplete($event,outcomeObj)"
-                                                                    placeholder="{{'sa_search'| translate}}" class="seach-input" />
+                                                                <input id="searchBoxId" autocomplete="off" type="text" placeholder="{{'sa_search'| translate}}" class="seach-input" [(ngModel)]="search_field" />
                                                             </li>
                                                             <perfect-scrollbar class="scroll-max-200">
                                                                 <div class="scroll-max-200">
-                                                                    <li class="p-0" ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion" (click)="selectField(suggestion, outcomeObj)">
+                                                                    <li class="p-0" ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion | filter:[search_field,'fieldName']" (click)="selectField(suggestion, outcomeObj)">
                                                                         <a class="text-truncate" [ngClass]="{'font-weight-bold':outcomeObj.fieldName===suggestion.fieldName}" appEllipsisActive>{{ suggestion.fieldName }}</a>
                                                                     </li>
                                                                 </div>
@@ -702,7 +700,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-4 column-sec">
-                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index">
+                                                <div class="kr-sg-dropdowns w-auto opacity-4" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index">
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" ngbDropdownToggle disabled>{{outcomeObj.fieldDataType?(("businessRules."+outcomeObj.fieldDataType) | translate):"String"}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>                                                           
@@ -778,8 +776,8 @@
                                 </ng-container>
                                 <!-- End repeat -->
                                 <div class="add-condition-btn" (click)="addNewOutcome()">
-                                    <i class="si-add-plus"></i>
-                                    <span>{{"businessRules.add_condition"| translate}}</span>
+                                    <i class="si-add-plus-green"></i>
+                                    <span>{{"businessRules.add"| translate}} {{"businessRules.outcome_caps_small"| translate}}</span>
                                 </div>
                             </div>
                         </perfect-scrollbar>
@@ -862,14 +860,11 @@
                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{nlpAnnotatorObj.entities.fieldId===''?'Select':nlpAnnotatorObj.entities.field_name}}</button>
                             <ul class="dropdown-menu content-menu">
                                 <li class="search-box">
-                                    <input id="searchBoxId1" autocomplete="off" type="text"
-                                        (keydown)="$event.stopPropagation()"
-                                        (keyup)="getFieldAutoComplete($event,outcomeObj)"
-                                        placeholder="{{'sa_search'| translate}}" class="seach-input" />
+                                    <input id="searchBoxId1" autocomplete="off" type="text" placeholder="{{'sa_search'| translate}}" class="seach-input" [(ngModel)]="search_field" />
                                 </li>
                                 <perfect-scrollbar class="scroll-max-200">
                                     <div class="scroll-max-200">
-                                     <li *ngFor="let field of fieldAutoSuggestion" (click)="selectNLPField(field)"><a class="text-truncate" [ngClass]="{'font-weight-bold':field?._id===nlpAnnotatorObj.entities.fieldId}">{{field?.fieldName}}</a></li>
+                                     <li *ngFor="let field of fieldAutoSuggestion | filter:[search_field,'fieldName']" (click)="selectNLPField(field)"><a class="text-truncate" [ngClass]="{'font-weight-bold':field?._id===nlpAnnotatorObj.entities.fieldId}">{{field?.fieldName}}</a></li>
                                     </div>
                                 </perfect-scrollbar>
                             </ul>

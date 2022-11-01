@@ -108,19 +108,15 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   entityNlp = [
-    // Reverting for FLY - 4688
-    { title: 'Date', value: 'DATE', isDepricated: false },
-    { title: 'Time', value: 'TIME', isDepricated: false },
-    { title: 'URL', value: 'URL', isDepricated: false },
-    { title: 'Email', value: 'EMAIL', isDepricated: false },
-    { title: 'Location', value: 'LOCATION', isDepricated: false },
-    { title: 'City', value: 'CITY', isDepricated: false },
-    { title: 'Country', value: 'COUNTRY', isDepricated: false },
-    { title: 'Company Name or Organization', value: 'ORGANIZATION', isDepricated: false },
-    { title: 'Currency', value: 'MONEY', isDepricated: false },
-    { title: 'Person Name', value: 'PERSON', isDepricated: false },
-    { title: 'Number', value: 'NUMBER', isDepricated: false },
-    { title: 'Percentage', value: 'PERCENTAGE', isDepricated: false }
+    { title: 'Date', value: 'Date', isDepricated: false },
+    { title: 'Time', value: 'Time', isDepricated: false },
+    { title: 'Location', value: 'Location', isDepricated: false },
+    { title: 'GeoPoliticalEntities', value: 'GeoPoliticalEntities', isDepricated: false },
+    { title: 'Company Name or Organization', value: 'Company Name or Organization', isDepricated: false },
+    { title: 'Currency', value: 'Currency', isDepricated: false },
+    { title: 'Person Name', value: 'Person Name', isDepricated: false },
+    { title: 'Number', value: 'Number', isDepricated: false },
+    { title: 'Percentage', value: 'Percentage', isDepricated: false }
     //Reverting for FLY - 4688
     //Orignal 
     // { title: 'Date', value: 'DATE', isDepricated: false },
