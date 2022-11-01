@@ -118,7 +118,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public inlineManual: InlineManualService,
-    private appSelectionService: AppSelectionService
+    public appSelectionService: AppSelectionService
   ) { }
 
 
