@@ -432,8 +432,6 @@ export class SchedulerComponent implements OnInit {
   //back to home page
   gotoPreviousPage(){
     this.isCustom = false;
-    // this.recurringFrequency = false;
-    // this.rstz = 'Does not repeat';
   }
 }
 
