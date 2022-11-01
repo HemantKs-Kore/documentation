@@ -396,7 +396,7 @@ export class ConnectorsSourceComponent implements OnInit {
           else {
             this.isPopupDelete = false;
             this.isAuthorizeStatus = true;
-            this.openDeleteModel('open');
+            if (document.getElementsByClassName("modal").length === 1) this.openDeleteModel('open');
           }
         }
       }
@@ -549,6 +549,7 @@ export class ConnectorsSourceComponent implements OnInit {
       })
     },3000)
   }
+  
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next();
   }
