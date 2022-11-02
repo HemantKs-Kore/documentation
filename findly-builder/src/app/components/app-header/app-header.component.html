@@ -141,7 +141,7 @@
                       tooltipClass="test-icon-tooltip" class="kr-sg-button-secondary btn_lg rr-tour-test-btn"
                       id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()" [disabled]="isRouteDisabled"><span class="pr-1 align-middle"><i class="si-play-button"></i></span>Preview</button>
                 </li>
-                <li class="nav-item new-train-btn"  (mouseenter)="showClose = true" (mouseleave)="showClose = false" (click)="isRouteDisabled?null:train()" ngbTooltip="{{ 'header_trainYourApp' | translate }}">
+                <li class="nav-item new-train-btn"  (mouseenter)="showClose = true" (mouseleave)="showClose = false" (click)="isRouteDisabled?null:train()" [ngbTooltip]="training && showClose?'Stop Training The App':'Train Your APP'">
                         <button  class="kr-sg-button-secondary btn_lg" [ngClass]='{"show-close":showClose && training}'>
                             <span class="align-middle train-btn-icons">
                                 <span *ngIf="!training" >
