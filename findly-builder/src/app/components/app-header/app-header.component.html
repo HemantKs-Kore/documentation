@@ -142,12 +142,24 @@
                       id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()" [disabled]="isRouteDisabled"><span class="pr-1 align-middle"><i class="si-play-button"></i></span>Preview</button>
                 </li>
                 <li class="nav-item new-train-btn"  (mouseenter)="showClose = true" (mouseleave)="showClose = false" (click)="isRouteDisabled?null:train()" ngbTooltip="{{ 'header_trainYourApp' | translate }}">
-                        <button  class="kr-sg-button-secondary btn_lg">
-                            <span class="pr-1 align-middle">
-                                <i *ngIf="!training" class="si-train-multi-intent"></i>
-                                <img *ngIf="training && !showClose" src="assets/icons/train-loading.svg" class="defaultIcon training-pending-icon">
-                                <i *ngIf="showClose && training" class="si-close"></i>
-                            </span>{{training && !showClose?"Train":training && showClose?" Stop" : "Train"}}
+                        <button  class="kr-sg-button-secondary btn_lg" [ngClass]='{"show-close":showClose && training}'>
+                            <span class="align-middle train-btn-icons">
+                                <span *ngIf="!training" >
+                                    <i class="si-train-multi-intent"></i>
+                                </span>
+                                <span class="training-pending-icon" *ngIf="training && !showClose">
+                                    <i class="si-recall"></i>
+                                </span>
+                                <span *ngIf="showClose && training">
+                                    <i class="si-close icon-close"></i>
+                                </span>
+                               
+                                <!-- <img *ngIf="training && !showClose" src="assets/icons/train-loading.svg" class="defaultIcon training-pending-icon"> -->
+                                
+                            </span>
+                            <span class="pl-1">
+                                {{training && !showClose?"Train":training && showClose?" Stop" : "Train"}}
+                            </span>
                         </button>
                 </li>
                 
