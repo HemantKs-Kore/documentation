@@ -13,6 +13,7 @@ import { LocalStoreService } from '@kore.services/localstore.service';
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
+import { environment } from '../../../../environments/environment'
 declare const $: any;
 @Component({
   selector: 'app-upgrade-plan',
@@ -105,7 +106,8 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
     }
   }
   //get plans api
-  getAllPlans() {
+  getAllPlans() {   
+
     this.service.invoke('get.pricingPlans').subscribe(res => {
       this.featureTypes = res?.featureTypes;
       this.frequentFAQs = res?.FAQS;
