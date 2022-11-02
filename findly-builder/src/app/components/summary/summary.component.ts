@@ -12,6 +12,7 @@ import { UseronboardingJourneyComponent } from '../../helpers/components/useronb
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+import { environment } from '../../../environments/environment';
 declare const $: any;
 @Component({
   selector: 'app-summary',
@@ -34,6 +35,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   totalUsersStats: any = {};
   totalSearchesStats: any = {};
   selectedApp: any;
+  installer_summary_flag: any;
   loading = true;
   summary: any;
   showError = false;
@@ -116,7 +118,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public inlineManual: InlineManualService,
-    private appSelectionService: AppSelectionService
+    public appSelectionService: AppSelectionService
   ) { }
 
 
