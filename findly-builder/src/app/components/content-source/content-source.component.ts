@@ -263,6 +263,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   crawlOptions: Array<String> = ['any', 'block', 'allow'];
   inputTypes: Array<String> = ['textbox', 'password'];
   isPasswordShow:Boolean = false;
+  isShowSchedlerModal:Boolean = false;
+  scheduleObject:any={};
 
   constructor(
     public workflowService: WorkflowService,
@@ -931,7 +933,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         }
 
       }
-
+      this.scheduleObject = source?.advanceSettings?.scheduleOpts
       this.openStatusModal();
       this.loadingSliderContent = true;
       this.totalCrawledCount = source.numPages;
@@ -1608,7 +1610,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   editTitle(event) {
     this.editTitleFlag = true;
-    //var editConfObj : any = {};
     this.editConfObj.title = this.selectedSource.name;
     this.editConfObj.url = this.selectedSource.url;
     this.editConfObj.desc = this.selectedSource.desc;
@@ -1640,6 +1641,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   scheduleData(scheduleData) {
     if(this.editSource?.advanceOpts?.scheduleOpts) this.editSource.advanceOpts.scheduleOpts = scheduleData;
+    console.log("statusModalPop",this.statusModalPopRef);
   }
   cronExpress(cronExpress) {
     this.editSource.advanceOpts.repeatInterval = cronExpress;
@@ -2126,7 +2128,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
  }
 
  //open Schedular
- openSchedular(event){
+ openSchedular(event,source?){
+  this.isShowSchedlerModal = true;
+  if(source) this.scheduleObject = source?.advanceSettings?.scheduleOpts;
   const isOpen = (event?.currentTarget?.checked||event===true);
   if(isOpen) this.schedular?.openCloseSchedular('open');
 }

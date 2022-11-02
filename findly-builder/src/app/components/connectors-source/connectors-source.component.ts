@@ -4,7 +4,6 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
@@ -50,7 +49,6 @@ export class ConnectorsSourceComponent implements OnInit {
   selectedContent: string = 'list';
   selectAddContent: string = 'instructions';
   selectedTab: string = 'overview';
-  searchContent: string = '';
   connectorId: string = '';
   searchIndexId: string;
   selectedApp: any;
@@ -75,12 +73,14 @@ export class ConnectorsSourceComponent implements OnInit {
   total_records: number;
   onboardingOpened: boolean = false;
   currentRouteData: any = "";
+  contentInputSearch:string='';
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
   connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' },{name:'Jobs',type:'jobs'}];
   @ViewChild('plans') plans: UpgradePlanComponent;
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
   @ViewChild(OnboardingComponentComponent, { static: true }) onBoardingComponent: OnboardingComponentComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
+  
   constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private appSelectionService: AppSelectionService,private router: Router) { }
 
   async ngOnInit() {
@@ -98,6 +98,7 @@ export class ConnectorsSourceComponent implements OnInit {
       }
     }
   }
+
   //open delete model popup
   openDeleteModel(type) {
     if (type === 'open') {
@@ -110,10 +111,12 @@ export class ConnectorsSourceComponent implements OnInit {
       this.getConnectors();
     }
   }
+
   //upgrade plan
   upgrade(){
     this.plans?.openSelectedPopup('choose_plan');
   }
+
   //common for toast messages
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -124,12 +127,13 @@ export class ConnectorsSourceComponent implements OnInit {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+
   //change edit tabs
   changeEditTabs(type) {
     this.selectedTab = type;
     this.showProtecedText = { isClientShow: false, isSecretShow: false, isPassword: false };
-    this.searchContent='';
   }
+
   //get connector list
   getConnectors() {
     this.availableConnectorsData = [];
@@ -163,15 +167,18 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Failed to get Connectors');
     });
   }
+
   //goto result template page
   navigateToResultTemplate() {
     this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/resultTemplate' });
   }
+
   //remove spaces in url
   removeSpaces(url){
    const contentURL = url.trim();
    window.open(contentURL);
   }
+
   //get connectors by Id
   getConnectorData() {
     const quaryparms: any = {
@@ -194,12 +201,26 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
+
+  //on change get content data using search function
+  getDynamicSearchContent(type){
+    const text = (type==='input')?this.contentInputSearch:'';
+    this.getConentData(0,text); 
+    if(type==='clear') this.contentInputSearch='';
+  }
+
+  //content pagination 
+  paginate(event) {
+    this.getConentData(event?.skip);
+  }
+
   //get content data api
-  getConentData(offset?) {
+  getConentData(offset?,text?) {
     const quaryparms: any = {
       searchIndexId: this.searchIndexId,
       connectorId: this.connectorId,
       offset: offset || 0,
+      q:text || '',
       limit: 10
     };
     this.service.invoke('get.contentData', quaryparms).subscribe(res => {
@@ -209,6 +230,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
+
   //disable connector
   disableConnector(data, dialogRef) {
     const quaryparms: any = {
@@ -225,6 +247,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
+
   //change page like list, add ,edit
   changeContent(page, data) {
     this.showProtecedText = { isClientShow: false, isSecretShow: false, isPassword: false };
@@ -247,16 +270,14 @@ export class ConnectorsSourceComponent implements OnInit {
       })
     }
   }
-  //content pagination 
-  paginate(event) {
-    this.getConentData(event?.skip);
-  }
+
   //loop sync count numbers
   getSyncCount() {
     for (let i = 0; i < 60; i++) {
       this.syncCount.count.push(i + 1);
     }
   }
+
   //back to page in add page
   backToPage(type) {
     if (type === 'back') {
@@ -301,10 +322,12 @@ export class ConnectorsSourceComponent implements OnInit {
       }
     }
   }
+
   //navaigate to next page based on selectAddContent
   navigatePage() {
     this.selectAddContent = this.selectAddContent === 'instructions' ? 'configurtion' : 'instructions';
   }
+
   //create connector validation
   fieldsValidation() {
     if (this.selectedConnector.type === 'confluenceServer') {
@@ -319,6 +342,7 @@ export class ConnectorsSourceComponent implements OnInit {
       return true;
     }
   }
+
   //save connectors create api
   createConnector() {
     const quaryparms: any = {
@@ -349,6 +373,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Failed to get Connectors');
     });
   }
+
   //authorize created connector
   authorizeConnector(data?, dialogRef?) {
     const quaryparms: any = {
@@ -386,12 +411,14 @@ export class ConnectorsSourceComponent implements OnInit {
       if (document.getElementsByClassName("modal").length === 1) this.openDeleteModel('open');
     });
   }
+
   //call if authorize api was success
   goBacktoListPage() {
     this.openDeleteModel('close');
     this.backToPage('cancel');
     if (this.selectedContent !== 'edit') this.selectedContent = 'list';
   }
+
   //update connector 
   openConnectorDialog(data) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -422,6 +449,7 @@ export class ConnectorsSourceComponent implements OnInit {
         }
       })
   }
+
   //update connector method
   updateConnector(data?, checked?, dialog?) {
     this.isloadingBtn = true;
@@ -454,6 +482,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
+
   //update sync frequency method
   updateSyncFrequency() {
     const quaryparms: any = {
@@ -479,6 +508,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
+
   //delete connector
   deleteConnector() {
     const quaryparms: any = {
@@ -496,6 +526,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
+
   // queue-content API
  ingestConnector(isShow?) {
     this.isSyncLoading = true;
@@ -511,6 +542,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
+
   //call jobs api wrt status
   checkJobStatus(){
     let jobInterval = setInterval(()=>{

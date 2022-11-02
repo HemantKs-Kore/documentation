@@ -22,11 +22,11 @@
           <div class="kr-sg-input-text">          
             <input id="scheduleMn" type="number" min="0" max="59" class="input-text timeMM" placeholder="MM" name = "timeMM" [(ngModel)] = "timeMM"  (ngModelChange)="modelChangeFn($event,'MM')"> 
           </div>
-          <div id="schedule-AM" class="schedule-AM" [ngClass] = "{'active' : meridiem == 'AM' && schedulerFlag}" (click)="changeMeridiem('AM')" >AM</div>
-          <div id="schedule-PM"  class="schedule-PM" [ngClass] = "{'active' : meridiem == 'PM' && schedulerFlag}" (click)="changeMeridiem('PM')" >PM</div>
+          <div id="schedule-AM" class="schedule-AM" [ngClass] = "{'active' : meridiem == 'AM'}" (click)="changeMeridiem('AM')" >AM</div>
+          <div id="schedule-PM"  class="schedule-PM" [ngClass] = "{'active' : meridiem == 'PM'}" (click)="changeMeridiem('PM')" >PM</div>
           <div class="kr-sg-dropdowns schedule-timZon">
             <div class="dropdown dropdown-open">
-              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" [disabled] ="!schedulerFlag"><span [ngClass] = "{'schedule-drop-text' : stz == 'Time Zone'}" >{{stz}}</span></button>                                            
+              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><span [ngClass] = "{'schedule-drop-text' : stz == 'Time Zone'}" >{{stz}}</span></button>                                            
               <ul class="dropdown-menu content-menu">                                               
                 <li (click) = "timeZone('IST')"><a>IST</a></li>
                 <li (click) = "timeZone('EST')"><a>EST</a></li>
