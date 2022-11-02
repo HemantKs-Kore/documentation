@@ -124,7 +124,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Synonyms', routeId: '/synonyms', quaryParms: {} },
     { displayName: 'StopWords', routeId: '/stopWords', quaryParms: {} },
     { displayName: 'Facets', routeId: '/facets', quaryParms: {} },
-    { displayName: 'Rules', routeId: '/rules', quaryParms: {} },
+    { displayName: 'Business Rules', routeId: '/rules', quaryParms: {} },
     { displayName: 'Search Interface', routeId: '/search-experience', quaryParms: {} },
     { displayName: 'Result Templates', routeId: '/searchInterface', quaryParms: {} },
     { displayName: 'Dashboard', routeId: '/dashboard', quaryParms: {} },
