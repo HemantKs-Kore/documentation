@@ -33,6 +33,7 @@ export class AppHeaderComponent implements OnInit {
   toShowAppHeader: boolean;
   mainMenu = '';
   showMainMenu: boolean = true;
+  showClose: boolean = false;
   currentRouteData: any = "";
   displyStatusBar: boolean = true;
   onboardingOpened: boolean = false;
@@ -669,6 +670,7 @@ export class AppHeaderComponent implements OnInit {
     }
     this.training = true;
     const self = this;
+    var url ;
     const selectedApp = this.workflowService.selectedApp();
     if (selectedApp && selectedApp.searchIndexes && selectedApp.searchIndexes.length) {
       const payload = {
@@ -677,6 +679,12 @@ export class AppHeaderComponent implements OnInit {
       const quaryparms = {
         searchIndexId: selectedApp.searchIndexes[0]._id
       }
+      // if(this.showClose){
+      //   url = 'train.app' 
+      // }
+      // else{
+
+      // }
       this.service.invoke('train.app', quaryparms, payload).subscribe(res => {
         if (this.training) {
           self.notificationService.notify('Training has been Initiated', 'success');
@@ -692,6 +700,24 @@ export class AppHeaderComponent implements OnInit {
         this.notificationService.notify('Failed to train the app', 'error');
       });
     }
+  }
+  stopTrain(){
+    this.training = false;
+    const selectedApp = this.workflowService.selectedApp();
+    const payload = {
+      indexPipelineId: this.workflowService.selectedIndexPipeline()
+    }
+    const quaryparms = {
+      searchIndexId: selectedApp.searchIndexes[0]._id
+    }
+    this.service.invoke('stopTrain.app', quaryparms, payload).subscribe(res => {
+      if (!this.training && res) {
+        this.notificationService.notify('Training has been stopped', 'success');
+      }
+    }, errRes => {
+      this.training = true;
+      this.notificationService.notify('Failed to stop training the app', 'error');
+    });
   }
   switchAccount() {
     localStorage.removeItem('selectedAccount');
