@@ -265,6 +265,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isPasswordShow:Boolean = false;
   isShowSchedlerModal:Boolean = false;
   scheduleObject:any={};
+  isContentPage:boolean=false;
 
   constructor(
     public workflowService: WorkflowService,
@@ -1641,8 +1642,55 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   scheduleData(scheduleData) {
     if(this.editSource?.advanceOpts?.scheduleOpts) this.editSource.advanceOpts.scheduleOpts = scheduleData;
-    console.log("statusModalPop",this.statusModalPopRef);
+    if(this.isContentPage){
+      this.selectedSource.advanceSettings.scheduleOpts = scheduleData;
+       if(this.selectedSource?.authorizationEnabled){
+          delete this.selectedSource?.authorizationProfle?.createdBy;
+          delete this.selectedSource?.authorizationProfle?.createdOn;
+          delete this.selectedSource?.authorizationProfle?.lModified;
+          delete this.selectedSource?.authorizationProfle?.lModifiedBy;
+          delete this.selectedSource?.authorizationProfle?._id;
+          delete this.selectedSource?.authorizationProfle?.streamId;
+          delete this.selectedSource?.authorizationProfle?.searchIndexId;
+          delete this.selectedSource?.authorizationProfle?.resourceid;
+          delete this.selectedSource?.authorizationProfle?.name;
+          delete this.selectedSource?.authorizationProfle?.__v;
+       } 
+       this.updateSchedular();
+    }
   }
+  
+  //update scheduler data
+  updateSchedular(){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      sourceId: this.selectedSource._id,
+      sourceType: this.selectedSource.extractionType,
+    };
+    const payload = {
+      "name":this.selectedSource?.name,
+      "desc":this.selectedSource?.desc,
+      "url":this.selectedSource?.url,
+      "authorizationProfle":this.selectedSource?.authorizationProfle,
+      "authorizationEnabled":this.selectedSource?.authorizationEnabled,
+      "advanceOpts":this.selectedSource?.advanceSettings
+    }
+    
+    this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
+      this.scheduleObject={};
+      this.selectedSource={};
+      this.isContentPage = false;
+      this.notificationService.notify('Scheduler data saved successfully', 'success');
+      this.getSourceList();
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
+  }
+
   cronExpress(cronExpress) {
     this.editSource.advanceOpts.repeatInterval = cronExpress;
   }
@@ -2130,9 +2178,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
  //open Schedular
  openSchedular(event,source?){
   this.isShowSchedlerModal = true;
-  if(source) this.scheduleObject = source?.advanceSettings?.scheduleOpts;
+  if(source){
+    this.selectedSource = source;
+    this.scheduleObject = source?.advanceSettings?.scheduleOpts;
+    this.isContentPage = true;
+  }
   const isOpen = (event?.currentTarget?.checked||event===true);
-  if(isOpen) this.schedular?.openCloseSchedular('open');
+  if(isOpen){
+    setTimeout(()=>{
+      this.schedular?.openCloseSchedular('open');
+    },500)
+  }
 }
 
 ngOnDestroy() {
