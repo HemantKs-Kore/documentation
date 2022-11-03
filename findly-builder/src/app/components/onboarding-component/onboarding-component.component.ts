@@ -1178,7 +1178,7 @@ onMediaLoadedLoaded(){
        this.appVersion= res.APP_VERSION;
      }
     }, errRes => {
-      this.notificationService.notify('No Active Login found redirecting to Landing Screen', 'error');
+      this.notificationService.notify('Something has gone wrong.', 'error');      
     });
   }
 

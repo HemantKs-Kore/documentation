@@ -383,7 +383,7 @@ export class AppsListingComponent implements OnInit {
         }, 400);
       }
     }, errRes => {
-      this.notificationService.notify('Something has gone wrong.', 'warning');
+      this.notificationService.notify('Something has gone wrong.', 'error');
     });
   }
 
