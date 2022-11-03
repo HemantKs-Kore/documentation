@@ -152,9 +152,10 @@
                 height: calc(100vh - 232px);
                 text-align: left;
                 .table_body{
-                    padding: 18px 15px;
+                    padding: 0px 15px;
                     box-shadow: inset 0px -1px 0px #E4E5E7;                        
                     transition: 0.3s all ease-in;
+                    align-items: center;
                     // cursor: pointer;
                     &:hover{
                         background: #F8F9FA;
@@ -199,10 +200,14 @@
                         }
                         .silder-range-block{
                             display: flex;
-                            align-items: flex-start;
+                            align-items: center;
                             gap: 16px;
                             .range-slider{
                                 width: 100%;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                padding: 25px 0;
                             }
                             .slider-value{
                                 font-weight: 400;
@@ -212,6 +217,7 @@
                             }
                         }
                         .toggle_switch{
+                            height: 20px;
                             .kr-sg-toggle{
                                 &.disable-toggle{
                                     opacity: 0.2;
@@ -429,6 +435,7 @@ perfect-scrollbar .ps--active-y{
         &.custom-created-range-slider{
             .single-slider{
                 width: 100% !important;
+                margin-bottom: 0px;
                 // padding-right: 10px !important;
                 &.disable-slider{
                     .slider{
