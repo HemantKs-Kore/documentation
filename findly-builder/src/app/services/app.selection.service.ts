@@ -31,6 +31,7 @@ export class AppSelectionService {
   public currentsubscriptionPlanDetails: any;
   public currentUsageData: any;
   public inlineManualInfo: any = [];
+  public env_dep_type:String = '';
   res_length: number = 0;
   getTourArray: any = [];
   private storageType = 'localStorage';
@@ -47,6 +48,7 @@ export class AppSelectionService {
     if (environment && environment.USE_SESSION_STORE) {
       this.storageType = 'sessionStorage';
     }
+    this.env_dep_type = environment?.deployment_type;
   }
   public getIndexPipelineIds(setindex?): ReplaySubject<any> {
     const payload = {

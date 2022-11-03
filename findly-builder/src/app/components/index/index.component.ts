@@ -1556,9 +1556,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   simulate(warningmessage?) {
     let stagesList = '';
     this.pipeline.forEach(function (stage:any) {
-      stagesList = stagesList + (stagesList?', ':'') + stage.type +'('+ stage.name+')';
+      stagesList = stagesList + (stagesList?', ':'') + stage.type;
     });
-    this.mixpanel.postEvent('Workbench Simulated',{'Stage count': this.pipeline.length, 'Stage list': ''});
+    this.mixpanel.postEvent('Workbench Simulated',{'Stage count': this.pipeline.length, 'Stage list': stagesList});
     this.loadingSimulate = true;
     let plainScriptTxt: any;
     if (this.newMappingObj && this.newMappingObj.custom_script &&

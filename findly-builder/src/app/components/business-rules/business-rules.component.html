@@ -61,7 +61,7 @@
     </div>
 
     <!-- Table default header -->
-    <div class="table_section">
+    <div class="table_section" *ngIf="(!loadingContent && rules && beforeFilterRules && beforeFilterRules.length) || searchRules || showSearch">
         <div class="header_sec row m-0">
             <div class="col-3 content withcheckbox " (click)="sortByApi('ruleName')">
                 <!-- <div class="kr-sg-checkbox p-0 m-0">
@@ -612,7 +612,8 @@
                                    </div>
                                 </div>
                                 <div class="nlp-preview-block" *ngIf="annotator.isEditable">
-                                    <div class="nlp-preview-header"></div> <!--<span class="warning-span"><img src="assets/images/warning.svg" class="warning-icon "/></span>Please tag  <span class="nlp-custom-tag"><span class="nlp-tag">Topic</span></span>-->
+                                    <div class="nlp-preview-header"></div> 
+                                    <span class="warning-span"><img src="assets/images/warning.svg" class="warning-icon" height="8" *ngIf="annotator?.legends?.length>0"/></span><span class="ml-1 mr-2">{{(annotator?.legends?.length>0)?'Please tag':''}}</span>  <span class="nlp-custom-tag"  *ngFor="let tag of annotator?.legends"  [ngClass]="{'nlp-system-entity':tag.type==='system_defined','nlp-index-entity':tag.type==='index_field','nlp-custom-entity':tag.type==='custom'}"><span class="nlp-tag">{{tag?.name}}</span></span>
                                     <div class="nlp-preview-action-list">
                                         <div class="nlp-preview-action-done" (click)="AddSelectedEnity()"><span class="nlp-preview-action-span"><img src="assets/images/check-primary.svg" class="warning-icon "/></span> {{"businessRules.done"| translate}}</div>
                                         <div class="nlp-preview-action-cancel" (click)="cancelAnnotatorSentence(annotator)"><span class="nlp-preview-action-span"><img src="assets/images/close.svg" class="warning-icon "/></span> {{"businessRules.cancel"| translate}}</div>
@@ -641,7 +642,7 @@
                             <div class="inner-data-content">
                                 <!-- Repeat the data here conditions -->
                                 <ng-container *ngFor="let outcomeObj of outcomeArrayforAddEdit; let index = index">
-                                    <div class="outcome-number">{{ "businessRules.outcome_caps_small" | translate }} {{index+1}}</div>
+                                    <!-- <div class="outcome-number">{{ "businessRules.outcome_caps_small" | translate }} {{index+1}}</div> -->
                                     <div class="box-data-conditions">
                                         <div class="close-conditions" (click)="removeOutcome(index)" *ngIf="outcomeArrayforAddEdit.length>1">
                                             <i class="si-close"></i>
@@ -775,8 +776,8 @@
                                 </ng-container>
                                 <!-- End repeat -->
                                 <div class="add-condition-btn" (click)="addNewOutcome()">
-                                    <i class="si-add-plus"></i>
-                                    <span>{{"businessRules.add_condition"| translate}}</span>
+                                    <i class="si-add-plus-green"></i>
+                                    <span>{{"businessRules.add"| translate}} {{"businessRules.outcome_caps_small"| translate}}</span>
                                 </div>
                             </div>
                         </perfect-scrollbar>
