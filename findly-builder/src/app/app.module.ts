@@ -124,6 +124,7 @@ import { SearchFieldPropertiesComponent } from './components/search-field-proper
 import { SafeHtmlPipe } from './helpers/filters/safe-html.pipe';
 import { SelectTextDirective } from './helpers/directives/select-text.directive';
 import { EllipsisActiveDirective } from './helpers/directives/ellipsis-active.directive';
+import { IndexConfigurationSettingsComponent } from './components/index-configuration-settings/index-configuration-settings.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -215,7 +216,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SearchFieldPropertiesComponent,
     SafeHtmlPipe,
     SelectTextDirective,
-    EllipsisActiveDirective
+    EllipsisActiveDirective,
+    IndexConfigurationSettingsComponent
   ],
   imports: [
     BrowserModule,
