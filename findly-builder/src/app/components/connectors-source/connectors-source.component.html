@@ -211,7 +211,7 @@
                                                     <input type="text" placeholder="Enter HostURL here" class="input-text" [(ngModel)]="configurationObj.hostUrl">
                                                     <!-- <i class="si-eye"></i> -->
                                                 </div>
-                                                <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type!=='serviceNow'">
+                                                <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type !== 'serviceNow'&&  selectedConnector.type !== 'zendesk'">
                                                     <div class="label-text">{{'connectors_host_domain_name'|translate}}</div>
                                                     <input type="text" placeholder="Enter HostURL here" class="input-text" [(ngModel)]="configurationObj.hostDomainName">
                                                     <!-- <i class="si-eye"></i> -->
@@ -343,7 +343,7 @@
                                                 <div class="label-text">{{'connectors_hostURL'|translate}}</div>
                                                 <input type="text" placeholder="{{'connectors_Enter_Host_URL_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.hostUrl">
                                             </div>
-                                            <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type!=='serviceNow'">
+                                            <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type!=='serviceNow' && selectedConnector.type!=='zendesk'">
                                                 <div class="label-text">{{'connectors_host_domain_name'|translate}}</div>
                                                 <input type="text" placeholder="{{'connectors_enter_host_domainname_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.hostDomainName">
                                             </div>
