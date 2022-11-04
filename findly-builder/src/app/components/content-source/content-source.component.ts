@@ -263,6 +263,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   crawlOptions: Array<String> = ['any', 'block', 'allow'];
   inputTypes: Array<String> = ['textbox', 'password'];
   isPasswordShow:Boolean = false;
+  isShowSchedlerModal:Boolean = false;
+  scheduleObject:any={};
+  isContentPage:boolean=false;
 
   constructor(
     public workflowService: WorkflowService,
@@ -931,7 +934,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         }
 
       }
-
+      this.scheduleObject = source?.advanceSettings?.scheduleOpts
       this.openStatusModal();
       this.loadingSliderContent = true;
       this.totalCrawledCount = source.numPages;
@@ -1608,7 +1611,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   editTitle(event) {
     this.editTitleFlag = true;
-    //var editConfObj : any = {};
     this.editConfObj.title = this.selectedSource.name;
     this.editConfObj.url = this.selectedSource.url;
     this.editConfObj.desc = this.selectedSource.desc;
@@ -1639,9 +1641,56 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     });
   }
   scheduleData(scheduleData) {
-    //if (this.selectedSource?.advanceSettings?.scheduleOpts) this.selectedSource['advanceSettings'].scheduleOpts = scheduleData;
     if(this.editSource?.advanceOpts?.scheduleOpts) this.editSource.advanceOpts.scheduleOpts = scheduleData;
+    if(this.isContentPage){
+      this.selectedSource.advanceSettings.scheduleOpts = scheduleData;
+       if(this.selectedSource?.authorizationEnabled){
+          delete this.selectedSource?.authorizationProfle?.createdBy;
+          delete this.selectedSource?.authorizationProfle?.createdOn;
+          delete this.selectedSource?.authorizationProfle?.lModified;
+          delete this.selectedSource?.authorizationProfle?.lModifiedBy;
+          delete this.selectedSource?.authorizationProfle?._id;
+          delete this.selectedSource?.authorizationProfle?.streamId;
+          delete this.selectedSource?.authorizationProfle?.searchIndexId;
+          delete this.selectedSource?.authorizationProfle?.resourceid;
+          delete this.selectedSource?.authorizationProfle?.name;
+          delete this.selectedSource?.authorizationProfle?.__v;
+       } 
+       this.updateSchedular();
+    }
   }
+  
+  //update scheduler data
+  updateSchedular(){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      sourceId: this.selectedSource._id,
+      sourceType: this.selectedSource.extractionType,
+    };
+    const payload = {
+      "name":this.selectedSource?.name,
+      "desc":this.selectedSource?.desc,
+      "url":this.selectedSource?.url,
+      "authorizationProfle":this.selectedSource?.authorizationProfle,
+      "authorizationEnabled":this.selectedSource?.authorizationEnabled,
+      "advanceOpts":this.selectedSource?.advanceSettings
+    }
+    
+    this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
+      this.scheduleObject={};
+      this.selectedSource={};
+      this.isContentPage = false;
+      this.notificationService.notify('Scheduler data saved successfully', 'success');
+      this.getSourceList();
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
+  }
+
   cronExpress(cronExpress) {
     this.editSource.advanceOpts.repeatInterval = cronExpress;
   }
@@ -1857,6 +1906,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   //crawl job ondemand
   jobOndemand(source, event) {
     if (event) {
@@ -1871,23 +1921,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
       this.getSourceList();
       this.dockService.trigger(true);
-      //this.notificationService.notify('Bot linked, successfully', 'success');
     },
       (err) => {
-        // console.log(err);
         this.notificationService.notify('Failed to crawl', 'error');
       }
     )
   }
-  ngOnDestroy() {
-    const timerObjects = Object.keys(this.polingObj);
-    if (timerObjects && timerObjects.length) {
-      timerObjects.forEach(job => {
-        clearInterval(this.polingObj[job]);
-      });
-    }
-    window.removeEventListener('scroll', this.scroll, true);
-  }
+
   toggleSearch() {
     if (this.showSearch && this.searchSources) {
       this.searchSources = '';
@@ -1927,9 +1967,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     else if (value == null || value.includes("-")) {
       this.notificationService.notify('Range cannot be entered', 'error');
     }
-    // if(value < 500 && valueFrom == 'maxUrlLimit'){
-    //   this.maxUrlLimit = 500;
-    // }
   }
 
   clicksViews(type) {
@@ -2139,10 +2176,31 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
  }
 
  //open Schedular
- openSchedular(event){
+ openSchedular(event,source?){
+  this.isShowSchedlerModal = true;
+  if(source){
+    this.selectedSource = source;
+    this.scheduleObject = source?.advanceSettings?.scheduleOpts;
+    this.isContentPage = true;
+  }
   const isOpen = (event?.currentTarget?.checked||event===true);
-  if(isOpen) this.schedular?.openCloseSchedular('open');
+  if(isOpen){
+    setTimeout(()=>{
+      this.schedular?.openCloseSchedular('open');
+    },500)
+  }
 }
+
+ngOnDestroy() {
+  const timerObjects = Object.keys(this.polingObj);
+  if (timerObjects && timerObjects.length) {
+    timerObjects.forEach(job => {
+      clearInterval(this.polingObj[job]);
+    });
+  }
+  window.removeEventListener('scroll', this.scroll, true);
+}
+
 }
 
 

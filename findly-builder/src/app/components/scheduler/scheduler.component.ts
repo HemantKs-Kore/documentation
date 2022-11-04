@@ -40,11 +40,9 @@ export class SchedulerComponent implements OnInit {
   year = '';
   endsOnSelected = '';
   minDate;
-  schedulerFlag: boolean = false;
   recurringFrequency:boolean = false;
   isCustom: boolean = false;
   scheduledData:Object={};
-  @Input() scheduleFlag: any;
   @Input() crwalObject: any;
   @Input() schedule: any;
   @Input() schedulerType: String='horizantalSchedular';
@@ -67,30 +65,28 @@ export class SchedulerComponent implements OnInit {
 
   ngOnInit(): void {
     this.endsFreq('never');
-    if (this.crwalObject && this.crwalObject.advanceOpts && this.crwalObject.advanceOpts.scheduleOpts) {
-      this.istStratDate = this.crwalObject.advanceOpts.scheduleOpts.date;
-      this.startDate = this.crwalObject.advanceOpts.scheduleOpts.date;
-      if (this.crwalObject.advanceOpts.scheduleOpts.time) {
-        this.timeHH = this.crwalObject.advanceOpts.scheduleOpts.time.hour;
-        this.timeMM = this.crwalObject.advanceOpts.scheduleOpts.time.minute;
-        this.meridiem = this.crwalObject.advanceOpts.scheduleOpts.time.timeOpt;
-        this.stz = this.crwalObject.advanceOpts.scheduleOpts.time.timezone || 'Time Zone';
+    if (this.crwalObject) {
+      this.istStratDate = this.crwalObject?.date;
+      this.startDate = this.crwalObject?.date;
+      if (this.crwalObject?.time) {
+        this.timeHH = this.crwalObject?.time?.hour;
+        this.timeMM = this.crwalObject?.time?.minute;
+        this.meridiem = this.crwalObject?.time?.timeOpt;
+        this.stz = this.crwalObject?.time?.timezone || 'Time Zone';
       }
-      this.rstz = this.crwalObject.advanceOpts.scheduleOpts.interval.intervalType || 'Does not repeat';
-      if (this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue) {
-        this.endsFreq(this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.endType, 'set');
-        this.repeatEvery = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.every ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.every : this.repeatEvery;
-        this.custFreq = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.schedulePeriod ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.schedulePeriod : this.custFreq;
-        this.weeKDay = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.repeatOn ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.repeatOn : this.weeKDay;
-        this.endDate = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.endDate ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.endDate : this.endDate;
-        this.occurence = this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.occurrences ? this.crwalObject?.advanceOpts?.scheduleOpts?.interval?.intervalValue?.endsOn?.occurrences : this.occurence;
+      this.rstz = this.crwalObject?.interval?.intervalType || 'Does not repeat';
+      if (this.crwalObject?.interval?.intervalValue) {
+        this.endsFreq(this.crwalObject?.interval?.intervalValue?.endsOn?.endType, 'set');
+        this.repeatEvery = this.crwalObject?.interval?.intervalValue?.every ? this.crwalObject?.interval?.intervalValue?.every : this.repeatEvery;
+        this.custFreq = this.crwalObject?.interval?.intervalValue?.schedulePeriod ? this.crwalObject?.interval?.intervalValue?.schedulePeriod : this.custFreq;
+        this.weeKDay = this.crwalObject?.interval?.intervalValue?.repeatOn ? this.crwalObject?.interval?.intervalValue?.repeatOn : this.weeKDay;
+        this.endDate = this.crwalObject?.interval?.intervalValue?.endsOn?.endDate ? this.crwalObject?.interval?.intervalValue?.endsOn?.endDate : this.endDate;
+        this.occurence = this.crwalObject?.interval?.intervalValue?.endsOn?.occurrences ? this.crwalObject?.interval?.intervalValue?.endsOn?.occurrences : this.occurence;
       }
     }
-    this.schedulerFlag = this.scheduleFlag;
   }
   ngOnChanges(changes) {
-    this.schedulerFlag = this.scheduleFlag;
-    if (!this.scheduleFlag && !this.crwalObject?.advanceOpts?.scheduleOpts?.date) {
+    if (!this.crwalObject?.date) {
       var emptyData = new scheduleOpts();
       this.scheduleData.emit(emptyData);
       this.istStratDate = '';
@@ -107,7 +103,6 @@ export class SchedulerComponent implements OnInit {
       this.endDate = '';
       this.occurence = '';
       this.endsFreq('never');
-
     }
   }
   modelChangeFn(event, time) {
@@ -139,7 +134,6 @@ export class SchedulerComponent implements OnInit {
     this.isCustom = false;
   }
   changeMeridiem(meridiem) {
-    if (this.scheduleFlag) {
       if (Number(this.timeHH) >= 12) {
         meridiem = 'PM';
       } else if (Number(this.timeHH) == 0) {
@@ -147,8 +141,6 @@ export class SchedulerComponent implements OnInit {
       }
       this.meridiem = meridiem;
       this.calculateCronExpression()
-    }
-
   }
   addEventCustom(type: string, event: MatDatepickerInputEvent<Date>, rstz: string) {
     this.endDate = event.value;
@@ -432,8 +424,6 @@ export class SchedulerComponent implements OnInit {
   //back to home page
   gotoPreviousPage(){
     this.isCustom = false;
-    // this.recurringFrequency = false;
-    // this.rstz = 'Does not repeat';
   }
 }
 

@@ -13,6 +13,7 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import * as _ from 'underscore';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+import { environment } from '../../../environments/environment';
 declare const $: any;
 @Component({
   selector: 'app-mainmenu',
@@ -508,7 +509,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
   closeIndexModalPopup() {
     this.submitted = false;
-    this.addIndexFieldModalPopRef.close();
+    this.addIndexFieldModalPopRef ? this.addIndexFieldModalPopRef.close() : null;
     this.newIndexConfigObj = {
       method: 'default',
       name: '',

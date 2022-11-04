@@ -8,6 +8,7 @@ export const environment = {
     API_SERVER_URL:'https://pilot-bots.kore.ai',
     USE_SESSION_STORE:false,
     MIXPANEL_KEY : "5c3bf404d138a0e9ca816fb8421d6665",
+    deployment_type:"",
     INLINE_MANUAL_SITE_KEY :"1ec224ee46620656a9b18a17c80587a3",
     APPCUES:{
       ENABLE : true,
