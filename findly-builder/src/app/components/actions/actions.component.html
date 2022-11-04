@@ -23,12 +23,12 @@
         </div> 
         <div class="group-radiobutton mb-3" [ngClass]="{'no-linked' : !botLinked }"> 
             <!-- If it is no linked add this class "no-linked" or remove class -->
-            <div class="heading-title ">{{"actions_bot_action_execution_behaviour" | translate}}</div>
+            <div class="heading-title ">{{"actions_bot_action_experience" | translate}}</div>
             <div class="info-desc header-info-desc pb-1">{{"actions_define_the_placement_and_template_todisplay_bot_actions" | translate}}</div>
             <div class="kr-sg-radiobutton d-block" >
                 <input id="radio-actionExperienceTop" name="actionExperienceTop" class="radio-custom" type="radio" value='top' [(ngModel)]="actionConfig.actionExperience"> 
-                <label for="radio-actionExperienceTop" (click)='topDownOrBottomUp("top")' class="radio-custom-label">{{"actions_actions_at_bottom" | translate}}</label>
-                <div class="info-desc">{{"actions_bottom_bot_result_info" | translate}}</div>
+                <label for="radio-actionExperienceTop" (click)='topDownOrBottomUp("top")' class="radio-custom-label">{{"actions_actions_at_top" | translate}}</label>
+                <div class="info-desc">{{"actions_top_bot_result_info" | translate}}</div>
             </div> 
             <ng-container *ngIf="actionConfig.actionExperience == 'top' && previewTopBottom == 'top' && botLinked">
                 <div class="preview-bolock">
