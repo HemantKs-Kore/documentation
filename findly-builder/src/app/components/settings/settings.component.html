@@ -5,7 +5,7 @@
     <div class="header-sec-breadcums col-12 row m-0 " *ngIf="slider==0">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <div class="col-4 lef-sec p-0"><span class="title">{{"settings_channels" | translate}}</span>
-           <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+           <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='{{"sa_topic_guide" | translate}}' 
  placement="right-center"(click)="openUserMetaTagsSlider()">
                 <i class="si-topic-guide-1"></i>
             </span>
@@ -176,7 +176,7 @@
                 <div class="desc-text">{{"settings_create_a_credential_to_associate_it_with_the_channel" | translate}} </div>
                 <div class="kr-sg-input-text">
                     <div class="label-text">{{"settings_credential_name" | translate}}</div>
-                    <input type="text" placeholder="Type Name" id="addSourceTitleInput" class="input-text" [(ngModel)]="credntial.name" (change)="inputChanged('title')"required>
+                    <input type="text" placeholder="{{'settings_type_name' | translate}}" id="addSourceTitleInput" class="input-text" [(ngModel)]="credntial.name" (change)="inputChanged('title')"required>
                     <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
 
                 </div>
@@ -235,8 +235,8 @@
                                     <div class="card-channel">
                                         <div class="card_header">
                                             <div data-toggle="collapse" data-parent="#accordion" href="#appdetails" class="card_link collapsed" aria-expanded="true">
-                                                <div class="title">App Details</div>
-                                                <div class="desc-text">Associate an app with your Search Assistant to securely enable the Web / Mobile Client.</div>
+                                                <div class="title">{{"settings_appDetails" | translate}}</div>
+                                                <div class="desc-text">{{"settings_associate_an_app_with_SA_description" | translate}}</div>
                                                 <div class="arrow-indicator">
                                                     <img src="assets/images/carrot-right.svg">
                                                 </div>
@@ -340,7 +340,7 @@
                                                             <input type="checkbox" [checked]="enableConfiguration" (click)="disableCredential(pageDisable)">
                                                             <div class="slider">
                                                                 <span class="enabled">{{"settings_channel_enabled" | translate}}</span>
-                                                                <span class="disabled" >Channel Disabled</span>
+                                                                <span class="disabled" >{{"settings_disabled" | translate}}</span>
                                                             </div>
                                                         </label>
                                                     </div>
@@ -351,8 +351,8 @@
                                     <div class="card-channel">
                                         <div class="card_header">
                                         <div class="card_link collapsed" data-toggle="collapse" data-parent="#accordion" href="#webclient" aria-expanded="true">
-                                            <div class="title">Web Client Details</div>
-                                            <div class="desc-text">Use the Web / Mobile Client hosted by Kore.ai to start interating with the Search Assistant.</div>
+                                            <div class="title">{{"settings_web_client_deatils" | translate}}</div>
+                                            <div class="desc-text">{{"settings_hosted_by_Kore_ai_to_start_info" | translate}}</div>
                                             <div class="arrow-indicator">
                                                 <img src="assets/images/carrot-right.svg">
                                             </div>
@@ -364,16 +364,16 @@
                                                     <!-- URL -->
                                                     <ng-container>
                                                         <div class="section-wise-data">
-                                                            <div class="heading-text">URL</div>
-                                                            <div class="heading-info-text">Share this URL with the users to interact with your Search Assistant.</div>
+                                                            <div class="heading-text">{{"settings_URL" | translate}}</div>
+                                                            <div class="heading-info-text">{{"settings_share_this_url_with_users_info" | translate}}</div>
                                                             <div class="input-url-box">
                                                                 <div class="kr-sg-input-text">
                                                                     <input type="text" placeholder="http://sampleurl.com/" class="input-text" [value]="webClientDetails?.chatURL">
                                                                 </div>
                                                                 <div class="actions-copy-ext" >
                                                                     <div class="btn-ext-copy" [ngClass]="{'disableClass' : !configured }">
-                                                                        <img src="assets/icons/clone.svg"  *ngIf="!configured" ngbTooltip="Copy" >  <!-- If channel is not configured -->
-                                                                        <img src="assets/icons/clone.svg" *ngIf="configured" ngbTooltip="Copy" (click)="copy(webClientDetails.chatURL)">
+                                                                        <img src="assets/icons/clone.svg"  *ngIf="!configured" ngbTooltip="{{'sa_copy' | translate}}" >  <!-- If channel is not configured -->
+                                                                        <img src="assets/icons/clone.svg" *ngIf="configured" ngbTooltip="{{'sa_copy' | translate}}" (click)="copy(webClientDetails.chatURL)">
                                                                     </div>
                                                                     <div class="btn-ext-copy" [ngClass]="{'disableClass' : !configured }" >
                                                                         <a *ngIf="!configured">
@@ -389,19 +389,19 @@
                                                                         <div class="img-info">
                                                                             <img src="assets/icons/info.svg">
                                                                         </div>
-                                                                        <div class="text-hint font-500">To start interacting with the  Search Assistant via URL sharing:</div>
+                                                                        <div class="text-hint font-500">{{"settings_to_start_interacting_via_URL" | translate}}</div>
                                                                     </div>
                                                                     <div class="hint-text-img">
                                                                     <div class="img-info disabled-check">
                                                                         <img src="assets/icons/check-white.svg" class="check-img">
                                                                     </div>
-                                                                        <div class="text-hint">Save the Search Assistant. </div>
+                                                                        <div class="text-hint">{{"settings_save_the_search_assistance" | translate}} </div>
                                                                     </div>
                                                                     <div class="hint-text-img">
                                                                         <div class="img-info success-check">
                                                                             <img src="assets/icons/check-white.svg" class="check-img">
                                                                         </div>
-                                                                        <div class="text-hint">Configuration the assiociated app to use HS256 signing algoritm</div>
+                                                                        <div class="text-hint">{{"settings_configuration_the_associated_app_HS256" | translate}}</div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -411,13 +411,13 @@
                                                     <!-- Embed Code -->
                                                     <ng-container>
                                                         <div class="section-wise-data">
-                                                            <div class="heading-text">Embed Code</div>
-                                                            <div class="heading-info-text">Copy and paste the following HTML code before the end of the BODY tag on every page of the application where you want to display the chat widget. <a href="#"></a></div>
+                                                            <div class="heading-text">{{"settings_embed_code" | translate}}</div>
+                                                            <div class="heading-info-text">{{"settings_copy_and_paste_HTML_desc_info" | translate}}<a href="#"></a></div>
                                                             <div class="embedcode">
                                                                 <div class="header d-flex align-items-center justify-content-between">
-                                                                    <div class="code">HTML Code</div>
+                                                                    <div class="code">{{"settings_HTML_code" | translate}}</div>
                                                                     <div class="copy">
-                                                                        <img src="assets/icons/clone.svg" ngbTooltip="Copy" (click)="copy(scriptTags)">
+                                                                        <img src="assets/icons/clone.svg" ngbTooltip="{{'sa_copy' | translate}}" (click)="copy(scriptTags)">
                                                                     </div>
                                                                 </div>
                                                                 <div class="scriptTag">
@@ -433,19 +433,19 @@
                                                                         <div class="img-info">
                                                                             <img src="assets/icons/info.svg">
                                                                         </div>
-                                                                        <div class="text-hint font-500">To start interacting with the  Search Assistant via the embedded code:</div>
+                                                                        <div class="text-hint font-500">{{"settings_to_start_interacting_via_embeeded_code" | translate}}</div>
                                                                     </div>
                                                                     <div class="hint-text-img">
                                                                     <div class="img-info disabled-check">
                                                                         <img src="assets/icons/check-white.svg" class="check-img">
                                                                     </div>
-                                                                        <div class="text-hint">Save the Search Assistant. </div>
+                                                                        <div class="text-hint">{{"settings_save_the_search_assistance" | translate}}</div>
                                                                     </div>
                                                                     <div class="hint-text-img">
                                                                         <div class="img-info success-check">
                                                                             <img src="assets/icons/check-white.svg" class="check-img">
                                                                         </div>
-                                                                        <div class="text-hint">Configuration the assiociated app to use HS256 signing algoritm</div>
+                                                                        <div class="text-hint">{{"settings_configuration_the_associated_app_HS256" | translate}}</div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -455,8 +455,8 @@
                                                     <!-- Web / Mobile SDK -->
                                                     <ng-container>
                                                         <div class="section-wise-data">
-                                                            <div class="heading-text">Whitelist domains</div>
-                                                            <div class="heading-info-text">Whitelist domains below. Only domains added here will be able to display the chat widget</div>
+                                                            <div class="heading-text">{{"settings_whitelist_domains" | translate}}</div>
+                                                            <div class="heading-info-text">{{"settings_whitelist_domains_below_only_domains_added_info" | translate}}</div>
                                                             
                                                             <!-- Repeated Domain Data -->
                                                             <ng-container *ngFor="let domainUrl of webClientDetails.domains ;let i = index">
@@ -465,7 +465,7 @@
                                                                         <input type="text" placeholder="http://sampleurl.com/" class="input-text" [value]="domainUrl"  (focusout)="onFocusOutEvent($event)" [disabled]="i != (webClientDetails.domains.length-1)">
                                                                     </div>
                                                                     <div class="actions-copy-ext">
-                                                                        <div class="btn-ext-copy" ngbTooltip="Delete" (click)="deleteDomain(i)">
+                                                                        <div class="btn-ext-copy" ngbTooltip="{{'sa_delete' | translate}}" (click)="deleteDomain(i)">
                                                                             <img src="assets/icons/delete.svg">
                                                                         </div>
                                                                         <div class="btn-ext-copy invisible"></div>
@@ -475,7 +475,7 @@
                     
                                                             <div class="add-domain" (click)="addNewDomain(domainUrl)">
                                                                 <img src="assets/icons/add_blue.svg" >
-                                                                <span>Add Domain</span>
+                                                                <span>{{"settings_add_domains" | translate}}</span>
                                                             </div>
                                                         </div>
                                                     </ng-container>
@@ -483,10 +483,10 @@
                                                     <!-- Whitelist domains -->
                                                     <ng-container>
                                                         <div class="section-wise-data">
-                                                            <div class="heading-text">Web / Mobile SDK</div>
-                                                            <div class="heading-info-text">Setup and configure the Web / Mobile SDK using the prebuilt libraries.</div>
+                                                            <div class="heading-text">{{"settings_web_mobileSDK" | translate}}</div>
+                                                            <div class="heading-info-text">{{"settings_setup_configure_web_mobileSDK_" | translate}}</div>
                                                             <div class="download-sdk">
-                                                                <span>Download SDK</span>
+                                                                <span>{{"settings_downloadSDK" | translate}}</span>
                                                                      <a href="https://github.com/Koredotcom/web-kore-sdk-private" target="_blank">
                                                                 <img src="assets/icons/external-link.svg">
                                                             </a>
@@ -634,7 +634,7 @@
     <div class="modal-body">
         <div class="kr-sg-input-text mb-4">
             <div class="label-text"> {{"settings_credential_name" | translate}}</div>
-            <input type="text" id="addSourceTitleInput" autocomplete="off" name="credname" placeholder="Enter Name" [(ngModel)]="credntial.name" (change)="inputChanged('title')" class="input-text">                
+            <input type="text" id="addSourceTitleInput" autocomplete="off" name="credname" placeholder="{{'settings_enter_name' | translate}}" [(ngModel)]="credntial.name" (change)="inputChanged('title')" class="input-text">                
         </div>
         <div class="kr-sg-checkbox d-none p-0">
             <input id="checkbox_1" class="checkbox-custom" type="checkbox" [(ngModel)]="credntial.anonymus">
