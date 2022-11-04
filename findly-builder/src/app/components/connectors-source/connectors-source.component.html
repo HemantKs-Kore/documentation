@@ -369,9 +369,9 @@
                                 <div class="content-settings-tab-data">
                                     <div class="search-tab">
                                         <div class="kr-sg-input-search">
-                                            <input autocomplete="off" class="input-search pl-33" id="inputSearch" maxlength="60" placeholder="{{'sa_search' | translate}}" type="text" [(ngModel)]="searchContent">
+                                            <input autocomplete="off" class="input-search pl-33" #inputSearch maxlength="60" placeholder="{{'sa_search' | translate}}" type="text" [(ngModel)]="contentInputSearch" (change)="getDynamicSearchContent('input')">
                                           <img class="search-icon" src="assets/icons/search_gray.svg">
-                                          <img class="close-icon" src="assets/icons/close_icon.svg" (click)="searchContent=''">
+                                          <img class="close-icon" src="assets/icons/close_icon.svg" (click)="getDynamicSearchContent('clear')">
                                         </div>
                                     </div>
                                     <div class="content-data-table">
@@ -382,7 +382,7 @@
                                                     <div class="col-4">{{'connectors_URL'|translate}}</div>
                                                     <div class="col-4">{{'connectors_last_update'|translate}}</div>
                                                 </header>
-                                                <div class="content-body cursor-pointer" *ngFor="let content of overViewData.content | filter: [ searchContent, 'title']">
+                                                <div class="content-body cursor-pointer" *ngFor="let content of overViewData.content">
                                                     <div class="col-4 p-0">{{content?.title}}</div>
                                                     <div class="col-4 text-overflow" [title]="content?.url" (click)="removeSpaces(content?.url)"><span class="url-link">{{content?.url}}</span></div>
                                                     <div class="col-4">{{content?.lastUpdatedAt | date:'d/M/yyyy, h:mm:s a'}}</div>

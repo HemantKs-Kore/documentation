@@ -864,7 +864,7 @@
                                 </li>
                                 <perfect-scrollbar class="scroll-max-200">
                                     <div class="scroll-max-200">
-                                     <li *ngFor="let field of fieldAutoSuggestion | filter:[search_field,'fieldName']" (click)="selectNLPField(field)"><a class="text-truncate" [ngClass]="{'font-weight-bold':field?._id===nlpAnnotatorObj.entities.fieldId}">{{field?.fieldName}}</a></li>
+                                     <li *ngFor="let field of filteredFields | filter:[search_field,'fieldName']" (click)="selectNLPField(field)"><a class="text-truncate" [ngClass]="{'font-weight-bold':field?._id===nlpAnnotatorObj.entities.fieldId}">{{field?.fieldName}}</a></li>
                                     </div>
                                 </perfect-scrollbar>
                             </ul>

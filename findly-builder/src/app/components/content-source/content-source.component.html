@@ -155,12 +155,11 @@
                       </div>
                       <div class="media-right">
                         <div class="media-name text-truncate"  title="{{source.title || source.name}}">{{source.title || source.name}}</div>
-                        <span class="ml-2" *ngIf="source.advanceSettings">
-                          <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon"
-                           src="assets/icons/schedule_timer.svg">
-                       </span>
-                        <!-- <div class="media-time-stamp" (click)="$event.stopImmediatePropagation();openSchedular(true,source);" *ngIf="source.advanceSettings?.scheduleOpt"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
-                        <div class="media-up-time-stamp" *ngIf="source.advanceSettings?.scheduleOpt"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div> -->
+                        <!-- <span class="ml-2" *ngIf="source.advanceSettings">
+                          <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon" src="assets/icons/schedule_timer.svg">
+                       </span> -->
+                        <div class="media-time-stamp" (click)="$event.stopImmediatePropagation();openSchedular(true,source);" *ngIf="source.advanceSettings?.scheduleOpt"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
+                        <!-- <div class="media-up-time-stamp" *ngIf="source.advanceSettings?.scheduleOpt"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div> -->
                       </div>
                     </div>
                 </div>
@@ -283,44 +282,6 @@
 
         <ng-container *ngIf="currentView === 'grid'">
           <perfect-scrollbar class="table-scroll-perfect list">
-            <!-- <div class="list-view-data">
-              <div class="row row_list">
-                <div class="box-content" *ngFor="let source of resources | filter: [ searchSources , 'name']"
-                  (click)="openStatusSlider(source)">
-                  <div class="box">
-                    <div class="title">{{source.title || source.name}}</div>
-                    <div class="type" [ngClass]="{'doc': (source.type==='document')}">
-                      {{contentTypes[source.type] | titlecase}}</div>
-                    <div class="status-data">
-                      <div class="count-pages" *ngIf="statusObj[source.recentStatus]?.name == 'Success'"><span
-                          class="pagelength">{{source.numPages}}</span> Pages</div>
-                      <div class="status-info"
-                        *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') "
-                        [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
-                        <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus]?.name == 'Failed'"
-                          placement="top"
-                          ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:''}}"
-                          container="body">
-                        <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
-                          *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" placement="top" container='body'
-                          ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:statusObj[source.recentStatus]?.name}}">
-                        <div class="status-name" *ngIf="statusObj[source.recentStatus]?.name !== 'Success'">
-                          {{statusObj[source.recentStatus]?.name}}</div>
-                      </div>
-                      <div *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</div>
-                      <div class="created-date" *ngIf="statusObj[source.recentStatus]?.name == 'Success'">
-                        {{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}</div>
-                    </div>
-                    <div class="actions-delete">
-                      <span class="actions-links d-none"><img class="action_icon" ngbTooltip='Refresh'
-                          src="assets/icons/sidemenu/table-refresh.svg"></span>
-                      <span class="actions-links" (click)="deletePages('source',source,$event)" ngbTooltip='Delete'><img
-                          class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> -->
             <!-- New Design -->
             <div class="row col-12 p-0 grid-data-sec">
               <div class="col-4 grid-card" *ngFor="let source of resources | filter: [ searchSources , 'name']"
@@ -493,7 +454,7 @@
 
               <div class="new-crawl-web-form mr-tb20-rl10">
                 <div class="new-crawl-shedule">
-                  <div class="new-crawl-shedule-tab" [ngStyle]="{'background':editSource?.advanceOpts?.scheduleOpt?'':'#F8F9FA','border':editSource?.advanceOpts.scheduleOpt?'':0}">
+                  <div class="new-crawl-shedule-tab" [ngStyle]="{'background':editSource?.advanceOpts?.scheduleOpt?'':'#F8F9FA','border':editSource?.advanceOpts?.scheduleOpt?'':0}">
                     <div class="shedual-header">
                       <div class="shedual-hding">SCHEDULE <span class="si-pencil-edit cursor-pointer" (click)="openSchedular(true)"></span></div>
                       <div class="sr-toggle-btn">
@@ -503,8 +464,7 @@
                         </label>
                       </div>
                     </div>
-                    <app-scheduler #schedular [crwalObject]="editSource" [scheduleFlag]="editSource?.advanceOpts?.scheduleOpt" [schedule]="'get'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
-                  </app-scheduler>
+
                   </div>
                 </div>
               </div>
@@ -533,7 +493,7 @@
                     </div>
       
                     <!-- Allow URL -->
-              <div class="crawl-opt-table" *ngIf="(!editSource?.advanceOpts?.crawlEverything&&editSource.advanceOpts.allowedOpt)">
+              <div class="crawl-opt-table" *ngIf="(!editSource?.advanceOpts?.crawlEverything&&editSource?.advanceOpts?.allowedOpt)">
                 <div class="crawl-opt-row" *ngFor="let allow of allowURLArray;let i=index;">
                   <div class="crawl-opt-ddl">
                     <div class="kr-sg-dropdowns mar-bot-12">
@@ -1423,4 +1383,9 @@
 <ng-container *ngIf="showSourceAddition">
   <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition"
     (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
+</ng-container>
+
+<ng-container *ngIf="isShowSchedlerModal">
+<app-scheduler #schedular [crwalObject]="scheduleObject" [schedule]="'get'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
+</app-scheduler>
 </ng-container>
