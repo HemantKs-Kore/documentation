@@ -13,7 +13,7 @@
               <div class="title col-4 p-0" role="contentinfo">{{'Your_Applications' | translate}}</div>
               <div class="col-8 right-sec p-0 row justify-content-end align-items-center text-right m-0">
                 <div class="kr-sg-input-search m-0" role="searchbox" [ngClass]="{'d-none': !showSearch}">
-                  <input type="text" placeholder="Search" id="inputSearch" class="input-search"
+                  <input type="text" placeholder="{{'sa_search' | translate}}" id="inputSearch" class="input-search"
                     [ngClass]="{'pl-33':!searchApp,'pl-2':searchApp}" autocomplete="off" [(ngModel)]="searchApp"
                     maxlength="60"
                     (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
@@ -453,7 +453,7 @@
                         </div>
                         <div class="kr-sg-input-text-area form-group">
                           <div class="label-text">{{"home_description" | translate}}</div>
-                          <textarea class="input-text" style="padding-top:8px" [(ngModel)]="newApp.description" placeholder="Enter App Description" autocomplete="off"  name="appDesc"></textarea>
+                          <textarea class="input-text" style="padding-top:8px" [(ngModel)]="newApp.description" placeholder="{{'home_enter_app_description' | translate}}" autocomplete="off"  name="appDesc"></textarea>
                         </div>
                        </div>
                     </div>
@@ -491,7 +491,7 @@
           </div>
           <div class="kr-sg-input-text">
             <div class="label-text">{{"home_description" | translate}}</div>
-            <input class="input-text" maxlength="250" placeholder="Enter App Description" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
+            <input class="input-text" maxlength="250" placeholder="{{'home_enter_app_description' | translate}}" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
           </div>
           <!-- <div class="kr-sg-dropdowns w-100">
             <div class="label-text">Language</div>
@@ -526,8 +526,8 @@
     <div class="video-section-block">
         <div class="video-player">
           <iframe src="https://player.vimeo.com/video/751634558?h=683f1edfdb&badge=0&autopause=0&player_id=0&app_id=58479/embed?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>
-          <div class="video-header">Welcome to SearchAssist</div>
-        <div class="video-desc">Watch a quick introductory video on the SearchAssist’s features.</div>
+          <div class="video-header">{{"home_welcome_to_search_assist" | translate}}</div>
+        <div class="video-desc">{{"home_watch_a_quick_desc" | translate}}</div>
     </div>
   </div>
 
@@ -555,9 +555,9 @@
   <div  *ngIf="!unlinkPop" class="modal-body">
     <div  class="info-desc">{{'deleteToConfirm' | translate}}</div>
     <div  class="kr-sg-input-text">
-      <input type="text" placeholder="Start Typing here... "
+      <input type="text" placeholder="{{'home_start_typing_here' | translate}} "
       [(ngModel)]="confirmApp" class="input-text"  [ngClass]="{'err-block' : (!confirmApp && submitted) || (confirmApp!='DELETE' &&submitted)}">
-      <div class="error-msg" *ngIf="!confirmApp && submitted || confirmApp!='DELETE' &&submitted"><img style="padding-right: 4px;height: 12px" src="assets/icons/warning_escalation.svg" />Please type DELETE to confirm</div>
+      <div class="error-msg" *ngIf="!confirmApp && submitted || confirmApp!='DELETE' &&submitted"><img style="padding-right: 4px;height: 12px" src="assets/icons/warning_escalation.svg" />{{"home_please_type_delete" | translate}}</div>
     </div>
     <div class="info-desc">{{"home_deleting_your_application_desc" | translate}}</div>
     <div class="info-desc">{{"home_are_you_sure_want_to_continue" | translate}}</div>
@@ -593,7 +593,7 @@
           <div class="desc-text">{{"home_please_enter_below_details" | translate}}</div>
           <div class="kr-sg-input-text mb-20">
             <div class="label-text">{{"home_job_title" | translate}}</div>
-            <input type="text" placeholder="Enter your role title" class="input-text">
+            <input type="text" placeholder="{{'home_enter_your_role_title' | translate}}" class="input-text">
           </div>
           <div class="kr-sg-dropdowns mb-20">
             <div class="label-text">{{"home_department" | translate}}</div>
@@ -614,7 +614,7 @@
             </div>
           </div>
           <div class="kr-sg-input-text mb-5">
-            <input type="text" placeholder="Enter your Industry name" class="input-text">
+            <input type="text" placeholder="{{'home_enter_your_industry_name' | translate}}" class="input-text">
           </div>
           <button class="kr-sg-button-primary btn_lg" disabled>{{"home_submit" | translate}}</button>
         </div>
