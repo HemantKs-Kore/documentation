@@ -125,6 +125,12 @@ import { SafeHtmlPipe } from './helpers/filters/safe-html.pipe';
 import { SelectTextDirective } from './helpers/directives/select-text.directive';
 import { EllipsisActiveDirective } from './helpers/directives/ellipsis-active.directive';
 import { IndexConfigurationSettingsComponent } from './components/index-configuration-settings/index-configuration-settings.component';
+import { SearchSettingsComponent } from './components/search-settings/search-settings.component';
+import { PresentableComponent } from './components/presentable/presentable.component';
+import { HighlightingComponent } from './components/highlighting/highlighting.component';
+import { SpellCorrectionComponent } from './components/spell-correction/spell-correction.component';
+import { SearchRelevanceComponent } from './components/search-relevance/search-relevance.component';
+import { ListFieldsComponent } from './components/search-settings/list-fields/list-fields.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -217,7 +223,13 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SafeHtmlPipe,
     SelectTextDirective,
     EllipsisActiveDirective,
-    IndexConfigurationSettingsComponent
+    IndexConfigurationSettingsComponent,
+    SearchSettingsComponent,
+    PresentableComponent,
+    HighlightingComponent,
+    SpellCorrectionComponent,
+    SearchRelevanceComponent,
+    ListFieldsComponent
   ],
   imports: [
     BrowserModule,

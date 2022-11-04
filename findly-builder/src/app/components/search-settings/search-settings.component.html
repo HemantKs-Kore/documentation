@@ -1,0 +1,69 @@
+<div>Search Settings</div>
+<div class="row">
+    <div class="col-4">
+        <ng-container *ngFor="let component of componentsArray">
+            <button (click)="selectedComponent=component.value" [ngClass]="{'btn-primary':(selectedComponent===component.value)}">{{component.key}}</button><br/>
+        </ng-container>
+    </div>
+    <div class="col-8">
+         <div [ngSwitch]="selectedComponent">
+            <!--weights component-->
+            <ng-container *ngSwitchCase="'weights'">
+              <app-weights></app-weights>
+            </ng-container>
+
+             <!--Presentable component-->
+             <ng-container *ngSwitchCase="'presentable'">
+                <app-presentable></app-presentable>
+                <app-list-fields></app-list-fields>
+              </ng-container>
+
+              <!--Presentable component-->
+             <ng-container *ngSwitchCase="'highlighting'">
+                <app-highlighting></app-highlighting>
+                <app-list-fields></app-list-fields>
+              </ng-container>
+
+              <!--Presentable component-->
+             <ng-container *ngSwitchCase="'spell_correction'">
+                <app-spell-correction></app-spell-correction>
+                <app-list-fields></app-list-fields>
+              </ng-container>
+
+              <!--Presentable component-->
+             <ng-container *ngSwitchCase="'snippets'">
+                Snippets Component
+              </ng-container>
+
+              <!--Presentable component-->
+             <ng-container *ngSwitchCase="'search_relevance'">
+                <app-search-relevance></app-search-relevance>
+              </ng-container>
+
+              <!--Presentable component-->
+             <ng-container *ngSwitchCase="'synonyms'">
+                <app-synonyms></app-synonyms>
+              </ng-container>
+
+              <!--Presentable component-->
+             <ng-container *ngSwitchCase="'stop_words'">
+                <app-stop-words></app-stop-words>
+              </ng-container>
+
+              <!--Presentable component-->
+             <ng-container *ngSwitchCase="'bot_actions'">
+                Bot actions Component
+              </ng-container>
+
+              <!--Presentable component-->
+             <ng-container *ngSwitchCase="'small_talk'">
+                Small talk Component
+              </ng-container>
+
+              <!--Presentable component-->
+             <ng-container *ngSwitchCase="'custom_configurations'">
+                Custom Configuration
+              </ng-container>
+         </div>
+    </div>
+</div>
