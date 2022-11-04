@@ -39,6 +39,7 @@ import { InvoicesComponent } from './components/invoices/invoices.component';
 import { UsageLogComponent } from './components/usage-log/usage-log.component';
 import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 import { ResultTemplatesComponent } from './components/result-templates/result-templates.component';
+import { IndexConfigurationSettingsComponent } from './components/index-configuration-settings/index-configuration-settings.component';
 const routes: Routes = [
   {
     path: '',
@@ -83,6 +84,7 @@ const routes: Routes = [
       { path: 'invoices', component: InvoicesComponent },
       { path: 'usageLog', component: UsageLogComponent },
       { path: 'search-field-properties', component: SearchFieldPropertiesComponent },
+      { path: 'index-configuration-settings', component: IndexConfigurationSettingsComponent },
       { path: '**', component: AppsListingComponent }
     ]
   }
