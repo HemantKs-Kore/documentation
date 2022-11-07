@@ -18,11 +18,11 @@
                 <button type="button" class="ngx-daterangepicker-action invisible custom_date_picker" style="position: absolute; width: 0; height: 0;" (click)="openDateTimePicker($event)" #datetimeTrigger></button>
             </div>
             <div class="date-select">
-                <span class="day time" (click)="getDateRange(1)" [ngClass]="{'selected': defaultSelectedDay === 1}">24 Hrs
+                <span class="day time" (click)="getDateRange(1)" [ngClass]="{'selected': defaultSelectedDay === 1}">{{'user_engagement_24hrs'| translate}}
                 </span>
-                <span class="week time" (click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">7 Days
+                <span class="week time" (click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">{{'user_engagement_7_days'| translate}}
                 </span>
-                <span class="custom time" (click)="getDateRange(-1)" [ngClass]="{'selected': defaultSelectedDay === -1}">Custom
+                <span class="custom time" (click)="getDateRange(-1)" [ngClass]="{'selected': defaultSelectedDay === -1}">{{'user_engagement_custom'| translate}}
                 </span>
             </div>
         </div>
@@ -42,7 +42,7 @@
                         <div class="legends-info">
                             <div class="content no-bg">
                                 <div class="title">{{'user_engagement_Total_User'| translate}}
-                                    <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="Number of unique users performed search during the selected period" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"> <span class="toatlsearches"></span>
+                                    <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="{{'user_engagement_no_of_unique_users_performed_during_selected_period' | translate}}" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"> <span class="toatlsearches"></span>
                                 </div>
                                 <div class="count-data">
                                     <span class="count">{{totalUser}}
@@ -54,7 +54,7 @@
                             </div>
                             <div class="content">
                                 <div class="title">{{'user_engagement_New_Users'| translate}}<span class="withresults"></span>
-                                    <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="Number of new users performed search during the selected period" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"></div>
+                                    <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="{{'user_engagement_no_of_new_users_performed_search' | translate}}" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"></div>
                                 <div class="count-data">
                                     <span class="count">{{newUser}}
                                         <img style=" background: #DD3646;" *ngIf ="newUserProgress < 0" src="assets/icons/arrow-decrease.svg">
@@ -66,7 +66,7 @@
                             <div class="content">
                                 <div class="title">{{'user_engagement_Repeat_Users'| translate}}<span class="clicks">
                                 </span>
-                                <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="Number of unique users who performed search during the selected period" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
+                                <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="{{'user_engagement_no_of_unqiue_users_who_performed_search_during_selected_period' | translate}}" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
                             </div>
                                 <div class="count-data " >
                                     <span class="count">{{repeatUser}}
@@ -89,7 +89,7 @@
                         <div class="legends-info">
                             <div class="content no-bg">
                                 <div class="title">{{'user_engagement_Busy_Hours'| translate}}
-                                    <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="Volume of users that performed searches at different hours of the day" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"> <span class="toatlsearches"></span></div>
+                                    <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="{{'user_engagement_volume_of_users_that_performed_searches_at_different_hrs' | translate}}" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"> <span class="toatlsearches"></span></div>
                             </div>
                         </div>
                         <div echarts [options]="heatMapChartOption" class="demo-chart-graphMode" style="z-index : 1"></div>
@@ -98,10 +98,10 @@
                             <div class="row m-0 bottom-row col-12 ">
                                 <div class="slider-sec col-6 p-0">
                                     <div class="label-hours">{{'user_engagement_Hours'| translate}}</div>
-                                    <span class="span00">00</span>
+                                    <span class="span00">{{'user_engagement_0'| translate}}</span>
                                     <ng5-slider class="col-3" [(value)]="durationRange1" [(highValue)]="durationRange2" [options]="durationOptions" class="double_slider slider1" (userChangeEnd)="onUserChangeEnd('duration', $event, 'slider1')" (userChange)="onUserChange($event, 'slider1', true)"
                                         placement="top-center" container='body' ngbTooltip="{{highValue - lowValue}} hrs"></ng5-slider>
-                                    <span class="span24">24</span>
+                                    <span class="span24">{{'user_engagement_24'| translate}}</span>
                                 </div>
                                 <div class="legend-sec col-6 p-0">
                                     <div class="title">{{'user_engagement_Volume_Of_Users'| translate}}</div>

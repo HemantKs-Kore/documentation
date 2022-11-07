@@ -23,12 +23,12 @@
         </div> 
         <div class="group-radiobutton mb-3" [ngClass]="{'no-linked' : !botLinked }"> 
             <!-- If it is no linked add this class "no-linked" or remove class -->
-            <div class="heading-title ">{{"actions_bot_action_execution_behaviour" | translate}}</div>
+            <div class="heading-title ">{{"actions_bot_action_experience" | translate}}</div>
             <div class="info-desc header-info-desc pb-1">{{"actions_define_the_placement_and_template_todisplay_bot_actions" | translate}}</div>
             <div class="kr-sg-radiobutton d-block" >
                 <input id="radio-actionExperienceTop" name="actionExperienceTop" class="radio-custom" type="radio" value='top' [(ngModel)]="actionConfig.actionExperience"> 
-                <label for="radio-actionExperienceTop" (click)='topDownOrBottomUp("top")' class="radio-custom-label">{{"actions_actions_at_bottom" | translate}}</label>
-                <div class="info-desc">{{"actions_bottom_bot_result_info" | translate}}</div>
+                <label for="radio-actionExperienceTop" (click)='topDownOrBottomUp("top")' class="radio-custom-label">{{"actions_actions_at_top" | translate}}</label>
+                <div class="info-desc">{{"actions_top_bot_result_info" | translate}}</div>
             </div> 
             <ng-container *ngIf="actionConfig.actionExperience == 'top' && previewTopBottom == 'top' && botLinked">
                 <div class="preview-bolock">
@@ -82,7 +82,7 @@
             </div>
             <div class="kr-sg-dropdowns preview-template" ngbDropdown [placement]="'right-center'">                
                 <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Preview template' placement="top-center">
+                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='{{"actions_preview_template" | translate}}' placement="top-center">
                         <img src="{{botLinked?'assets/icons/generalsettings/password.svg' : 'assets/icons/generalsettings/gray_password.svg'}}">
                     </button>                                            
                     <ul class="dropdown-menu content-menu" ngbDropdownMenu>                                               
@@ -90,26 +90,26 @@
                             <ng-container *ngIf="actionConfig.actionTemplate == 'grid'">
                                 <div class="grid-view-preview">
                                     <div class="grid_item">
-                                        <div class="inner-data-grid">Bot Action 1</div>
+                                        <div class="inner-data-grid">{{"actions_botActions_1" | translate}}</div>
                                     </div>
                                     <div class="grid_item">
-                                        <div class="inner-data-grid">Bot Action 1</div>
+                                        <div class="inner-data-grid">{{"actions_botActions_1" | translate}}</div>
                                     </div>
                                     <div class="grid_item">
-                                        <div class="inner-data-grid">Bot Action 1</div>
+                                        <div class="inner-data-grid">{{"actions_botActions_1" | translate}}</div>
                                     </div>
                                     <div class="grid_item">
-                                        <div class="inner-data-grid">Bot Action 1</div>
+                                        <div class="inner-data-grid">{{"actions_botActions_1" | translate}}</div>
                                     </div>
                                 </div>
                             </ng-container>
                             <ng-container *ngIf="actionConfig.actionTemplate == 'carousel'">
                                 <div class="carousel-preview">
                                     <div class="carousel_item">
-                                        <div class="carousel-title">Bot Action 1</div>
+                                        <div class="carousel-title">{{"actions_botActions_1" |translate}}</div>
                                     </div>
                                     <div class="carousel_item inactive-carousel">
-                                        <div class="carousel-title">Bot Action 1</div>
+                                        <div class="carousel-title">{{"actions_botActions_1" |translate}}</div>
                                     </div>
                                     <div class="control-carousel">
                                         <img src="assets/icons/generalsettings/carrotright.svg">
@@ -118,9 +118,9 @@
                             </ng-container>
                             <ng-container *ngIf="actionConfig.actionTemplate == 'list'">
                                 <div class="list-view-preview">
-                                    <div class="list_view_title">Bot Action 1</div>
-                                    <div class="list_view_title">Bot Action 1</div>
-                                    <div class="list_view_title">Bot Action 1</div>
+                                    <div class="list_view_title">{{"actions_botActions_1" |translate}}</div>
+                                    <div class="list_view_title">{{"actions_botActions_1" |translate}}</div>
+                                    <div class="list_view_title">{{"actions_botActions_1" |translate}}</div>
                                 </div>
                             </ng-container>
                         </div>
@@ -130,7 +130,7 @@
         </div>
         <div class="mainLoadingSpinner" *ngIf="loader" [@fadeInOutAnimation]>
             <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-            <span class="please-wait-message">{{"please_wait" | translate}}</span>
+            <span class="please-wait-message">{{"sa_please_wait" | translate}}</span>
         </div>
     </div>
 </div>
