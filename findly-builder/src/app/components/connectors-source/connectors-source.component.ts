@@ -4,13 +4,13 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { Router } from '@angular/router';
+import { DELETE } from '@angular/cdk/keycodes';
 @Component({
   selector: 'app-connectors-source',
   templateUrl: './connectors-source.component.html',
@@ -44,13 +44,30 @@ export class ConnectorsSourceComponent implements OnInit {
       url: "https://www.servicenow.com/",
       doc_url: "https://developer.servicenow.com/dev.do",
       tag: "The world works with ServiceNow"
+    },
+    {
+      connector_name: "Zendesk",
+      description: "Please complete configuration",
+      type: "zendesk",
+      image: "assets/icons/connectors/zendesk.png",
+      url: "https://www.zendesk.com/",
+      doc_url: "https://developer.zendesk.com/documentation/",
+      tag: "Engineering Awesome"
     }
+    // {
+    //   connector_name: "SharePoint",
+    //   description: "Please complete configuration",
+    //   type: "sharePoint",
+    //   image: "assets/icons/connectors/sharepoint.png",
+    //   url: "https://microsoft.sharepoint.com/",
+    //   doc_url: "https://learn.microsoft.com/en-us/sharepoint/dev/",
+    //   tag: "Empowering teamwork"
+    // }
   ];
   componentType = 'Connectors';
   selectedContent: string = 'list';
   selectAddContent: string = 'instructions';
   selectedTab: string = 'overview';
-  searchContent: string = '';
   connectorId: string = '';
   searchIndexId: string;
   selectedApp: any;
@@ -75,12 +92,14 @@ export class ConnectorsSourceComponent implements OnInit {
   total_records: number;
   onboardingOpened: boolean = false;
   currentRouteData: any = "";
+  contentInputSearch:string='';
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
   connectorTabs: any = [{ name: 'Overview', type: 'overview' }, { name: 'Content', type: 'content' }, { name: 'Connection Settings', type: 'connectionSettings' }, { name: 'Configurations', type: 'configurations' },{name:'Jobs',type:'jobs'}];
   @ViewChild('plans') plans: UpgradePlanComponent;
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
   @ViewChild(OnboardingComponentComponent, { static: true }) onBoardingComponent: OnboardingComponentComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
+  
   constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private appSelectionService: AppSelectionService,private router: Router) { }
 
   async ngOnInit() {
@@ -98,6 +117,7 @@ export class ConnectorsSourceComponent implements OnInit {
       }
     }
   }
+
   //open delete model popup
   openDeleteModel(type) {
     if (type === 'open') {
@@ -110,10 +130,12 @@ export class ConnectorsSourceComponent implements OnInit {
       this.getConnectors();
     }
   }
+
   //upgrade plan
   upgrade(){
     this.plans?.openSelectedPopup('choose_plan');
   }
+
   //common for toast messages
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -124,12 +146,13 @@ export class ConnectorsSourceComponent implements OnInit {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+
   //change edit tabs
   changeEditTabs(type) {
     this.selectedTab = type;
     this.showProtecedText = { isClientShow: false, isSecretShow: false, isPassword: false };
-    this.searchContent='';
   }
+
   //get connector list
   getConnectors() {
     this.availableConnectorsData = [];
@@ -163,15 +186,18 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Failed to get Connectors');
     });
   }
+
   //goto result template page
   navigateToResultTemplate() {
     this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/resultTemplate' });
   }
+
   //remove spaces in url
   removeSpaces(url){
    const contentURL = url.trim();
    window.open(contentURL);
   }
+
   //get connectors by Id
   getConnectorData() {
     const quaryparms: any = {
@@ -194,12 +220,26 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
+
+  //on change get content data using search function
+  getDynamicSearchContent(type){
+    const text = (type==='input')?this.contentInputSearch:'';
+    this.getConentData(0,text); 
+    if(type==='clear') this.contentInputSearch='';
+  }
+
+  //content pagination 
+  paginate(event) {
+    this.getConentData(event?.skip);
+  }
+
   //get content data api
-  getConentData(offset?) {
+  getConentData(offset?,text?) {
     const quaryparms: any = {
       searchIndexId: this.searchIndexId,
       connectorId: this.connectorId,
       offset: offset || 0,
+      q:text || '',
       limit: 10
     };
     this.service.invoke('get.contentData', quaryparms).subscribe(res => {
@@ -209,6 +249,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
+
   //disable connector
   disableConnector(data, dialogRef) {
     const quaryparms: any = {
@@ -225,6 +266,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
+
   //change page like list, add ,edit
   changeContent(page, data) {
     this.showProtecedText = { isClientShow: false, isSecretShow: false, isPassword: false };
@@ -247,16 +289,14 @@ export class ConnectorsSourceComponent implements OnInit {
       })
     }
   }
-  //content pagination 
-  paginate(event) {
-    this.getConentData(event?.skip);
-  }
+
   //loop sync count numbers
   getSyncCount() {
     for (let i = 0; i < 60; i++) {
       this.syncCount.count.push(i + 1);
     }
   }
+
   //back to page in add page
   backToPage(type) {
     if (type === 'back') {
@@ -301,10 +341,12 @@ export class ConnectorsSourceComponent implements OnInit {
       }
     }
   }
+
   //navaigate to next page based on selectAddContent
   navigatePage() {
     this.selectAddContent = this.selectAddContent === 'instructions' ? 'configurtion' : 'instructions';
   }
+
   //create connector validation
   fieldsValidation() {
     if (this.selectedConnector.type === 'confluenceServer') {
@@ -319,6 +361,7 @@ export class ConnectorsSourceComponent implements OnInit {
       return true;
     }
   }
+
   //save connectors create api
   createConnector() {
     const quaryparms: any = {
@@ -340,6 +383,9 @@ export class ConnectorsSourceComponent implements OnInit {
       payload.authDetails.username = this.configurationObj.username;
       payload.authDetails.password = this.configurationObj.password;
     }
+    if (['zendesk','sharePoint'].includes(this.selectedConnector.type)) {
+      delete payload.configuration.hostDomainName;   
+    }
     this.service.invoke('post.connector', quaryparms, payload).subscribe(res => {
       if (res) {
         this.connectorId = res?._id;
@@ -349,6 +395,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Failed to get Connectors');
     });
   }
+
   //authorize created connector
   authorizeConnector(data?, dialogRef?) {
     const quaryparms: any = {
@@ -358,11 +405,11 @@ export class ConnectorsSourceComponent implements OnInit {
     let payload: any = {};
     if (data?.type === 'confluenceCloud') {
       payload.url = window.location.protocol + '//' + window.location.host + '/home?isRedirect=true'
-    }
+    } 
     this.service.invoke('post.authorizeConnector', quaryparms, payload).subscribe(res => {
       if (res) {
         this.isloadingBtn = false;
-        if (data?.type === 'confluenceCloud') {
+        if (['confluenceCloud','zendesk','sharePoint'].includes(data?.type)) {
           window.open(res.url, '_self');
         }
         else {
@@ -386,12 +433,14 @@ export class ConnectorsSourceComponent implements OnInit {
       if (document.getElementsByClassName("modal").length === 1) this.openDeleteModel('open');
     });
   }
+
   //call if authorize api was success
   goBacktoListPage() {
     this.openDeleteModel('close');
     this.backToPage('cancel');
     if (this.selectedContent !== 'edit') this.selectedContent = 'list';
   }
+
   //update connector 
   openConnectorDialog(data) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -422,6 +471,7 @@ export class ConnectorsSourceComponent implements OnInit {
         }
       })
   }
+
   //update connector method
   updateConnector(data?, checked?, dialog?) {
     this.isloadingBtn = true;
@@ -445,6 +495,9 @@ export class ConnectorsSourceComponent implements OnInit {
       payload.authDetails.username = this.configurationObj.username;
       payload.authDetails.password = this.configurationObj.password;
     }
+    if (['zendesk','sharePoint'].includes(this.selectedConnector.type)) {
+      delete  payload.configuration.hostDomainName
+    }
     this.service.invoke('put.connector', quaryparms, payload).subscribe(res => {
       if (res) {
         this.authorizeConnector(this.selectedConnector);
@@ -454,6 +507,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
+
   //update sync frequency method
   updateSyncFrequency() {
     const quaryparms: any = {
@@ -479,6 +533,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
+
   //delete connector
   deleteConnector() {
     const quaryparms: any = {
@@ -496,6 +551,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
+
   // queue-content API
  ingestConnector(isShow?) {
     this.isSyncLoading = true;
@@ -511,6 +567,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
   }
+
   //call jobs api wrt status
   checkJobStatus(){
     let jobInterval = setInterval(()=>{

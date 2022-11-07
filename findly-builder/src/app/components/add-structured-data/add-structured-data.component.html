@@ -22,7 +22,7 @@
                                     <div class="imageDiv mb-3">
                                         <img src="assets/images/source-icos/drog_frop.svg">
                                     </div>
-                                    <div class="info_text mb-3">Drag and drop file anywhere in this section</div>
+                                    <div class="info_text mb-3">{{'structuredData_drag_and_drop_file' | translate}}</div>
                                     <div class="or-divider mb-3">{{'structuredData_or' | translate}}</div>
                                     <div class="custom-file">
                                         <!-- <input type="file" id="sourceFileUploader_add_structured_data" class="custom-file-input " (change)="fileChangeJsonListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.json"> -->
@@ -66,13 +66,13 @@
                         <div class="col-12 row ml-0 mr-0 p-0 mb-3 align-items-center justify-content-end">
                             <div class="title">{{ selectedJsonForEdit ? '' : ('structuredData_add_manually' | translate)}}</div>
                             <div class="navigation-block mr-3" *ngIf="selectedJsonForEdit" [class.disabled]="!selectedSourceType.viewMode">
-                               <span placement="top-center" container="body" ngbTooltip="Previous" tooltipClass="ngb_tooltip_custom_class sampleJson"> 
+                               <span placement="top-center" container="body" ngbTooltip="{{'structuredData_previous' | translate}}" tooltipClass="ngb_tooltip_custom_class sampleJson"> 
                                    <img src="assets/icons/arrow-previous.svg" class="navigation-btn" [class.disabled]="(!previousDataIndex && (previousDataIndex != 0))" (click)="navigateToRecord(false)" alt="prevoius" >
                                 </span>
-                            <span placement="top-center"  container="body" ngbTooltip="Next" tooltipClass="ngb_tooltip_custom_class sampleJson"> 
+                            <span placement="top-center"  container="body" ngbTooltip="{{'structuredData_next' | translate}}" tooltipClass="ngb_tooltip_custom_class sampleJson"> 
                                 <img src="assets/icons/arrow-next.svg" (click)="navigateToRecord(true)" class="navigation-btn" [class.disabled]="(!nextDataIndex && (nextDataIndex != 0))" alt="next"></span>
                             </div>
-                            <div class="indent" placement="top-center" container='body' ngbTooltip="Indent" tooltipClass="ngb_tooltip_custom_class sampleJson" id="btn_indent_add_structured_data" (click)="indentObj()"><img src="assets/icons/content/indent.svg"></div>                        
+                            <div class="indent" placement="top-center" container='body' ngbTooltip="{{'structuredData_indent' | translate}}" tooltipClass="ngb_tooltip_custom_class sampleJson" id="btn_indent_add_structured_data" (click)="indentObj()"><img src="assets/icons/content/indent.svg"></div>                        
                         </div>
                         <div class="editor">
                             <div class="left-sec" [class.err-block]="(!selectedSourceType?.resourceAdded && submitted)" [class.err-block]="isInvalidJSON">
@@ -81,29 +81,29 @@
                             <div class="sample-json" *ngIf="!selectedJsonForEdit">                              
                                 <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom-right'">
                                     <div class="dropdown dropdown-open">
-                                        <button class="dropdown-toggle dropdown-input p-0" id="btn_toggle_sample_json_add_structured_data" ngbDropdownToggle placement="top-right" container='body' ngbTooltip="Sample JSON" tooltipClass="ngb_tooltip_custom_class sampleJson">                 
+                                        <button class="dropdown-toggle dropdown-input p-0" id="btn_toggle_sample_json_add_structured_data" ngbDropdownToggle placement="top-right" container='body' ngbTooltip="{{'structuredData_sample_json' | translate}}" tooltipClass="ngb_tooltip_custom_class sampleJson">                 
                                             <img class="action_icon" src="assets/icons/content/sample-json.svg" >
                                         </button>                                     
                                         <ul class="dropdown-menu content-menu samplejsoncontent" ngbDropdownMenu>
                                             <div class="row m-0">
                                                 <div class="lft_sec">
                                                     <div class="row m-0">
-                                                        <div class="lft_sec_num">1</div>
+                                                        <div class="lft_sec_num">{{'structuredData_1' | translate}}</div>
                                                     </div>
                                                     <div class="row m-0">
-                                                        <div class="lft_sec_num">2</div>
+                                                        <div class="lft_sec_num">{{'structuredData_2' | translate}}</div>
                                                     </div>
                                                     <div class="row m-0">
-                                                        <div class="lft_sec_num">3</div>
+                                                        <div class="lft_sec_num">{{'structuredData_3' | translate}}</div>
                                                     </div>
                                                     <div class="row m-0">
-                                                        <div class="lft_sec_num">4</div>
+                                                        <div class="lft_sec_num">{{'structuredData_4' | translate}}</div>
                                                     </div>
                                                     <div class="row m-0">
-                                                        <div class="lft_sec_num">5</div>
+                                                        <div class="lft_sec_num">{{'structuredData_5' | translate}}</div>
                                                     </div>
                                                     <div class="row m-0">
-                                                        <div class="lft_sec_num">6</div>
+                                                        <div class="lft_sec_num">{{'structuredData_6' | translate}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="rgt_sec">
@@ -113,19 +113,19 @@
                                                     </div>
                                                     <div class="row m-0">
                                                         <!-- <div class="lft_sec">2</div> -->
-                                                        <div class="rgt_sec">“firstname” : “John”,</div>
+                                                        <div class="rgt_sec">{{'structuredData_first_name_john_key_value_pair' | translate}}</div>
                                                     </div>
                                                     <div class="row m-0">
                                                         <!-- <div class="lft_sec">3</div> -->
-                                                        <div class="rgt_sec">“lastname” : ”Doe”,</div>
+                                                        <div class="rgt_sec">{{'structuredData_last_name_doe_key_value_pair' | translate}}</div>
                                                     </div>
                                                     <div class="row m-0">
                                                         <!-- <div class="lft_sec">4</div> -->
-                                                        <div class="rgt_sec">“zipcode” : null,</div>
+                                                        <div class="rgt_sec">{{'structuredData_zip_code_key_value_pair' | translate}}</div>
                                                     </div>
                                                     <div class="row m-0">
                                                         <!-- <div class="lft_sec">5</div> -->
-                                                        <div class="rgt_sec">“Age” : “61”</div>
+                                                        <div class="rgt_sec">{{'structuredData_age_key_value_pair' | translate}}</div>
                                                     </div>   
                                                     <div class="row m-0">
                                                         <!-- <div class="lft_sec">6</div> -->
