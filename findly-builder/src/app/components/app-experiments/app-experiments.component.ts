@@ -249,13 +249,19 @@ export class AppExperimentsComponent implements OnInit {
       }
     }
     else if (length === 2) {
-      this.star.push(50, 100);
+      const percent = (this.form_type==='edit')?(this.variantsArray[0].trafficPct):50;
+      this.star.push(percent, 100);
     }
     else if (length === 3) {
-      this.star.push(30, 60, 100);
+      const percent1 = (this.form_type==='edit')?(this.variantsArray[0].trafficPct):30;
+      const percent2 = (this.form_type==='edit')?(this.variantsArray[0].trafficPct+this.variantsArray[1].trafficPct):60;
+      this.star.push(percent1, percent2, 100);
     }
     else if (length === 4) {
-      this.star.push(25, 50, 75, 100);
+      const percent1 = (this.form_type==='edit')?(this.variantsArray[0].trafficPct):25;
+      const percent2 = (this.form_type==='edit')?(this.variantsArray[0].trafficPct+this.variantsArray[1].trafficPct):50;
+      const percent3 = (this.form_type==='edit')?(this.variantsArray[0].trafficPct+this.variantsArray[1].trafficPct+this.variantsArray[2].trafficPct):75;
+      this.star.push(percent1, percent2, percent3, 100);
     }
     setTimeout(() => {
       this.showSlider = false;
