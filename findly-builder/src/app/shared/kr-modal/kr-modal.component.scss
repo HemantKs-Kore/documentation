@@ -73,6 +73,13 @@
             }
         }
 
+        &.addLanguageModal {
+            .modal-dialog {
+                max-width: 28% !important;
+                height: 85%;
+            }
+        }
+
         .modal-dialog {
             max-width: 80% !important;
             margin: 0 !important;
