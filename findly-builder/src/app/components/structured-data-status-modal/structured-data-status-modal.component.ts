@@ -108,6 +108,7 @@ export class StructuredDataStatusModalComponent implements OnInit {
 
   closeModal(){
     this.closeStructuredDataStatusModal.emit();
+    this.docStatusObject={};
     if(this.pollingSubscriber){
       this.pollingSubscriber.unsubscribe();
     }
