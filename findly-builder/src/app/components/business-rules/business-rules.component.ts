@@ -145,6 +145,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   selectEditIndex: number = 0;
   nlpAnnotatorObj: any = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [] };
   search_field:String='';
+  filteredFields:Array<Object>=[];
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
       this.contextSuggestedImput = content;
@@ -430,6 +431,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
     this.currentSugg = [...this.currentSugg, ...entitiesArray];
   }
+  
   filterTable(source, headerOption) {
     // this.filterSystem.isRuleActiveFilter = 'all';
 
@@ -955,27 +957,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     });
   }
 
-  // getFieldAutoComplete(event, outcomeObj, clearText?) {
-  //   if (clearText && $('#searchBoxId') && $('#searchBoxId').length) {
-  //     $('#searchBoxId')[0].value = "";
-  //   }
-     
-  //   let query: any = '';
-  //   if (event) {
-  //     query = $(event.currentTarget).val();
-  //   }
-  //   const quaryparms: any = {
-  //     searchIndexID: this.serachIndexId,
-  //     indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-  //     category: 'rules',
-  //     query
-  //   };
-  //   this.service.invoke('get.getFieldAutocompleteIndices', quaryparms).subscribe(res => {
-  //     this.fieldAutoSuggestion = res || [];
-  //   }, errRes => {
-  //     this.errorToaster(errRes, 'Failed to get fields');
-  //   });
-  // }
   getRules(searchValue?, searchSource?, source?, headerOption?, sortHeaderOption?, sortValue?, navigate?, request?) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
@@ -1369,9 +1350,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //click on Entity to select
   selectEntity(entity) {
-    if (!this.entityObj.isEditable) {
-      this.entityObj.sentence = document.getElementById('contentText').innerText;
-    }
+    const id = (!this.entityObj.isEditable) ? 'contentText' : ('contentText' + this.selectEditIndex);
+    this.entityObj.sentence = document.getElementById(id).innerText;
     let isPush = false;
     this.entityFields.entityId = entity?._id;
     if (this.entityObj.entities.length > 0) {
@@ -1459,7 +1439,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (this.entityObj.entities.length > 0) {
       if (this.entityObj.isEditable) {
         this.entityObj.isEditable = false;
-        this.nlpAnnotatorObj.annotator[this.selectEditIndex] = this.entityObj;
+        this.entityObj.sentence = document.getElementById('contentText' + this.selectEditIndex).innerText;
+        const sentence = this.updateColorSentence();
+        const coloredSentence = this.sanitizer.bypassSecurityTrustHtml(sentence);
+        this.entityObj.colorSentence = coloredSentence;
+        this.nlpAnnotatorObj.annotator[this.selectEditIndex] = this.entityObj;       
       }
       else if (!this.entityObj.isEditable) {
         this.nlpAnnotatorObj.annotator.push(this.entityObj);        
@@ -1560,6 +1544,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //choose specific entity by clicking
   chooseEntity(type, entity?) {
+    this.filteredFields = [];
     const isEditEntity = type === 'add' ? true : false;
     this.createTag(true, isEditEntity);
     if (entity) {
@@ -1572,6 +1557,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       if (field_name.length) this.nlpAnnotatorObj.entities.field_name = field_name[0].fieldName;
     }
     this.setModalHeight(entity ? (entity?.entityType) : 'index');
+    const fields = [];
+    for(let item of this.sys_entities){
+      if(item?.entityType==='index_field') fields.push(item?.fieldId);
+    }
+    for(let field of this.fieldAutoSuggestion){
+      const isInclude = fields.includes(field?._id);
+      if(!isInclude) this.filteredFields.push(field);
+    }
   }
 
   //add entity
@@ -1676,17 +1669,19 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //validate legends equality with annotators
   updateLegendAnnotators(){
-    for(let item of this.nlpAnnotatorObj.annotator){
+    for(let item of this.nlpAnnotatorObj?.annotator){
        let entities = [];
        item.legends = [];
        for(let entity of item?.entities){
         const Item = this.sys_entities.filter(item => item._id === entity.entityId);
         entities.push(Item[0].entityName);
        }
-       for(let legend of this.nlpAnnotatorObj.Legends){
-         if(!entities.includes(legend.name)){
-           item.legends.push({name:legend.name,type:legend.type});
-         }
+       if(this.nlpAnnotatorObj?.Legends){
+        for(let legend of this.nlpAnnotatorObj?.Legends){
+          if(!entities.includes(legend.name)){
+            item.legends.push({name:legend.name,type:legend.type});
+          }
+        }
        }
     }
   }

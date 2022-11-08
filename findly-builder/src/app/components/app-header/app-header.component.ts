@@ -684,7 +684,6 @@ export class AppHeaderComponent implements OnInit {
         setTimeout(() => {
           // self.training = false;
           this.trainingInitiated = true;
-          // this.appSelectionService.updateTourConfig('indexing');
           this.poling();
         }, 5000)
       }, errRes => {

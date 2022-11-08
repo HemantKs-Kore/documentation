@@ -18,9 +18,9 @@
               </div>
             <!-- <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                 -->
             <div class="date-select">
-                <span class="day time "  (click)="getDateRange(1)" [ngClass]="{'selected': defaultSelectedDay === 1}">24 Hrs</span>
-                <span class="week time"  (click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">7 Days</span>
-                <span class="custom time"  (click)="getDateRange(-1)" [ngClass]="{'selected': defaultSelectedDay === -1}">Custom</span>
+                <span class="day time "  (click)="getDateRange(1)" [ngClass]="{'selected': defaultSelectedDay === 1}">{{'result_insights_24_hrs'| translate}}</span>
+                <span class="week time"  (click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">{{'result_insights_7_days'| translate}}</span>
+                <span class="custom time"  (click)="getDateRange(-1)" [ngClass]="{'selected': defaultSelectedDay === -1}">{{'result_insights_custom'| translate}}</span>
             </div>
             <div class="export d-none"><img src="assets/icons/share.svg"></div>
         </div>
@@ -97,7 +97,7 @@
                         <div class="col-2 title data-overview d-flex align-items-center justify-content-between pl-3">{{result.avgPosition | number : '1.2-2'}}
                             <div class="view-query" (click)="openModalPopup(result)">
                                 <img src="assets/icons/view-query.svg">    
-                                <span>View Queries</span>                           
+                                <span>{{'result_insights_view_queries'| translate}}</span>                           
                             </div>
                         </div>
                     </div>    

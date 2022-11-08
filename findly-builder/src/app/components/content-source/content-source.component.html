@@ -6,7 +6,7 @@
   <ng-container *ngIf="!(resources && resources.length) && loadingContent1">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="title-content">{{"contentSource_content" | translate}}
-      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' placement="right-center"(click)="openUserMetaTagsSlider()">
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'contentSource_topic_guide' | translate}}" placement="right-center"(click)="openUserMetaTagsSlider()">
         <i class="si-topic-guide-1"></i>
       </span>
     </div>    
@@ -43,7 +43,7 @@
       <div class="table-action-header">
         <div class="title-main">
           {{"contentSource_content" | translate}}
-          <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' placement="right-center"(click)="openUserMetaTagsSlider()">
+          <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'contentSource_topic_guide' | translate}}" placement="right-center"(click)="openUserMetaTagsSlider()">
             <i class="si-topic-guide-1"></i>
           </span>
         </div>
@@ -76,7 +76,7 @@
           <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'"
             ngbTooltip='Grid'><img src="assets/icons/grid-view.svg"></div>
           <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"
-            ngbTooltip='List'><img src="assets/icons/list-view.svg"></div>
+          ngbTooltip="{{'contentSource_list' | translate}}"><img src="assets/icons/list-view.svg"></div>
         </div>
       </div>
       <ng-container  *ngIf="resources && resources.length">
@@ -155,12 +155,11 @@
                       </div>
                       <div class="media-right">
                         <div class="media-name text-truncate"  title="{{source.title || source.name}}">{{source.title || source.name}}</div>
-                        <span class="ml-2" *ngIf="source.advanceSettings">
-                          <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon"
-                           src="assets/icons/schedule_timer.svg">
-                       </span>
-                        <!-- <div class="media-time-stamp" (click)="$event.stopImmediatePropagation();openSchedular(true,source);" *ngIf="source.advanceSettings?.scheduleOpt"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
-                        <div class="media-up-time-stamp" *ngIf="source.advanceSettings?.scheduleOpt"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div> -->
+                        <!-- <span class="ml-2" *ngIf="source.advanceSettings">
+                          <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon" src="assets/icons/schedule_timer.svg">
+                       </span> -->
+                        <div class="media-time-stamp" (click)="$event.stopImmediatePropagation();openSchedular(true,source);" *ngIf="source.advanceSettings?.scheduleOpt"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
+                        <!-- <div class="media-up-time-stamp" *ngIf="source.advanceSettings?.scheduleOpt"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div> -->
                       </div>
                     </div>
                 </div>
@@ -182,7 +181,7 @@
                     <div class="media-block media-success" *ngIf="source.recentStatus === 'success'">
                       <div class="media-logo"><img src="assets/icons/content/latest-content-icons/green-check-circle.svg"></div>
                       <div class="media-right">
-                        <div class="media-name">Successful
+                        <div class="media-name">{{'contentSource_successful'| translate}}
                           <div class="media-up-time-stamp" *ngIf="source.schedule_createdOn">{{ source.schedule_createdOn }}<span class="pl-1"><img src="assets/icons/content/latest-content-icons/gray-time-change-logs.svg">{{source.schedule_duration}}</span></div>
                         </div>
                       </div>
@@ -191,14 +190,14 @@
                     <!-- status==='configured' -->
                     <div class="media-block media-success" *ngIf="statusObj[source.recentStatus]?.name == 'Validated'">
                       <div class="media-right">
-                        <div class="media-name">Validated</div>
+                        <div class="media-name">{{'contentSource_validated'| translate}}</div>
                       </div>
                     </div>
 
                     <!-- status==='stopped' -->
                     <div class="media-block media-stopped" *ngIf="statusObj[source.recentStatus]?.name == 'Stopped'">
                       <div class="media-right">
-                        <div class="media-name">Stopped</div>
+                        <div class="media-name">{{'contentSource_stopped'| translate}}</div>
                       </div>
                     </div>
 
@@ -206,7 +205,7 @@
                     <div class="media-block media-inprogress" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'">
                       <div class="media-logo"><img src="assets/icons/content/latest-content-icons/blue-loading.svg"></div>
                       <div class="media-right">
-                        <div class="media-name">In-Progress</div>
+                        <div class="media-name">{{'contentSource_in-Progress'| translate}}</div>
                         <!-- <div class="media-up-time-stamp">{{ source.schedule_createdOn }}; <span>{{source.schedule_duration}}</span></div> -->
                       </div>
                     </div>
@@ -215,9 +214,9 @@
                     <div class="media-block media-failed" *ngIf="source.recentStatus === 'failed'">
                       <div class="media-logo"><img src="assets/icons/content/latest-content-icons/red-warning-circle.svg"></div>
                       <div class="media-right">
-                        <div class="media-name">Failed</div>
+                        <div class="media-name">{{'contentSource_failed'| translate}}</div>
                         <div class="media-list" *ngIf="source?.isURLValid===false">
-                          <div class="media-list-header">Following may be the reason to fail</div>
+                          <div class="media-list-header">{{'contentSource_following_may_be_the_reason_to_fail'| translate}}</div>
                           <ul class="media-list-ul">
                             <li *ngIf="source?.validations?.url?.validated===false">{{source?.validations?.url?.msg}}</li>
                             <li *ngIf="!source?.validations?.networkConnectivity?.validated&&source?.validations?.networkConnectivity?.msg">{{source?.validations?.networkConnectivity?.msg}}</li>
@@ -231,7 +230,7 @@
                     <div class="media-block media-inQueue" *ngIf="statusObj[source.recentStatus]?.name == 'In-Queue'">
                       <div class="media-logo"><img src="assets/icons/content/latest-content-icons/blue-progress-indicator.svg"></div>
                       <div class="media-right">
-                        <div class="media-name">In-Queue</div>
+                        <div class="media-name">{{'contentSource_in-queue'| translate}}</div>
                         <!-- <div class="media-up-time-stamp">1 out of 3</div> -->
                       </div>
                     </div>
@@ -255,7 +254,7 @@
 
                   <span class="actions-links"
                     *ngIf="source.extractionType == 'web' && ['Success','Stopped'].includes(statusObj[source.recentStatus]?.name) && (source.isURLValid)"
-                    (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span>
+                    (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip="{{'contentSource_recrwal' | translate}}" container="body"></span>
 
                   <span class="actions-links"
                     *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'"
@@ -269,10 +268,10 @@
                   <span class="actions-links"
                     *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'"
                     (click)="stopCrwaling(source,$event)"><img class="action_icon" src="assets/icons/content/stop.svg"
-                      ngbTooltip='Stop' container="body"></span>
+                    ngbTooltip="{{'contentSource_stop' | translate}}"  container="body"></span>
                       
                   <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
-                      src="assets/icons/delete-table.svg" ngbTooltip='Delete' container="body"></span>
+                      src="assets/icons/delete-table.svg" ngbTooltip="{{'contentSource_delete' | translate}}" container="body"></span>
                 </div>
               </div>
             </ng-container>
@@ -283,44 +282,6 @@
 
         <ng-container *ngIf="currentView === 'grid'">
           <perfect-scrollbar class="table-scroll-perfect list">
-            <!-- <div class="list-view-data">
-              <div class="row row_list">
-                <div class="box-content" *ngFor="let source of resources | filter: [ searchSources , 'name']"
-                  (click)="openStatusSlider(source)">
-                  <div class="box">
-                    <div class="title">{{source.title || source.name}}</div>
-                    <div class="type" [ngClass]="{'doc': (source.type==='document')}">
-                      {{contentTypes[source.type] | titlecase}}</div>
-                    <div class="status-data">
-                      <div class="count-pages" *ngIf="statusObj[source.recentStatus]?.name == 'Success'"><span
-                          class="pagelength">{{source.numPages}}</span> Pages</div>
-                      <div class="status-info"
-                        *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') "
-                        [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
-                        <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus]?.name == 'Failed'"
-                          placement="top"
-                          ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:''}}"
-                          container="body">
-                        <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
-                          *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" placement="top" container='body'
-                          ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:statusObj[source.recentStatus]?.name}}">
-                        <div class="status-name" *ngIf="statusObj[source.recentStatus]?.name !== 'Success'">
-                          {{statusObj[source.recentStatus]?.name}}</div>
-                      </div>
-                      <div *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</div>
-                      <div class="created-date" *ngIf="statusObj[source.recentStatus]?.name == 'Success'">
-                        {{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}</div>
-                    </div>
-                    <div class="actions-delete">
-                      <span class="actions-links d-none"><img class="action_icon" ngbTooltip='Refresh'
-                          src="assets/icons/sidemenu/table-refresh.svg"></span>
-                      <span class="actions-links" (click)="deletePages('source',source,$event)" ngbTooltip='Delete'><img
-                          class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> -->
             <!-- New Design -->
             <div class="row col-12 p-0 grid-data-sec">
               <div class="col-4 grid-card" *ngFor="let source of resources | filter: [ searchSources , 'name']"
@@ -373,15 +334,15 @@
                       (click)="recrwal('source',source,$event)" ngbTooltip='Recrawl' container="body">
                     <img src="assets/icons/refresh-table.svg"
                       *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'"
-                      (click)="jobOndemand(source,$event)" ngbTooltip='Crawl' container="body">
+                      (click)="jobOndemand(source,$event)" ngbTooltip="{{'contentSource_crwal' | translate}}" container="body">
                     <img src="assets/icons/validate.svg"
                       *ngIf="source.extractionType == 'web' && (source.recentStatus === 'failed'&&!(source?.validations?.url?.validated))"
-                      (click)="retryValidation(source,$event)" ngbTooltip='Revalidate' container="body">
+                      (click)="retryValidation(source,$event)" ngbTooltip="{{'contentSource_revalidate' | translate}}" container="body">
                     <img src="assets/icons/content/stop.svg"
                       *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'"
-                      (click)="stopCrwaling(source,$event)" ngbTooltip='Stop' container="body">
+                      (click)="stopCrwaling(source,$event)" ngbTooltip="{{'contentSource_stop' | translate}}" container="body">
                     <img src="assets/icons/content/delete.svg" (click)="deletePages('source',source,$event)"
-                      ngbTooltip='Delete'>
+                    ngbTooltip="{{'contentSource_delete' | translate}}">
                   </div>
                 </div>
               </div>
@@ -444,22 +405,22 @@
               <div class="config-first-row">
                 <div class="width-40">
                   <div class="kr-sg-input-text mar-bot-15">
-                    <div class="label-text">TITLE<sup class="field-mandatory">*</sup></div>
-                    <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput" name="title" placeholder="Enter Title" class="input-text" [(ngModel)]="editSource.name" required>
+                    <div class="label-text">{{'contentSource_title_caps'| translate}}<sup class="field-mandatory">*</sup></div>
+                    <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput" name="title" placeholder="{{'contentSource_enter_title' | translate}}" class="input-text" [(ngModel)]="editSource.name" required>
                   </div>
                 </div>
                 <div class="width-30">
                   <div class="kr-sg-input-text mar-bot-15">
-                    <div class="label-text">CREATED BY</div>
-                    <input type="url" autocomplete="off" maxlength="60" id="createdBy" name="createdBy" placeholder="Enter Title" class="input-text" [value]="selectedSource?.userDetails?.firstName" disabled>
+                    <div class="label-text">{{'contentSource_created_by_caps'| translate}}</div>
+                    <input type="url" autocomplete="off" maxlength="60" id="createdBy" name="createdBy" placeholder="{{'contentSource_enter_title' | translate}}" class="input-text" [value]="selectedSource?.userDetails?.firstName" disabled>
                   </div>
                 </div>
                 <div class="update-timestamp width-20 mar-bot-15">
-                  <button class="btn btn-secondary" type="button"><span class="last-update"><img src="assets/icons/refresh-secondary.svg" alt="refresh-icon" /> Last Updated</span>{{selectedSource?.lMod | dateFormatPipe:'D.MM.YYYY'}}</button>
+                  <button class="btn btn-secondary" type="button"><span class="last-update"><img src="assets/icons/refresh-secondary.svg" alt="refresh-icon" /> {{'contentSource_last_updated'| translate}}</span>{{selectedSource?.lMod | dateFormatPipe:'D.MM.YYYY'}}</button>
                 </div>
                 <div class="reload-recrwal width-10 mar-bot-15" *ngIf="!page && !execution">
-                  <button class="btn btn-out-primary" type="button" *ngIf="selectedSource.recentStatus === 'configured'" (click)="jobOndemand(selectedSource,$event)">Crawl</button>
-                  <button class="btn btn-out-primary" type="button" *ngIf="(['Success','Stopped'].includes(statusObj[selectedSource?.recentStatus]?.name) && (selectedSource?.isURLValid))" (click)="recrwal('source',selectedSource ,null)"><span class="reload-crwal"><img src="assets/icons/refresh-primary.svg" alt="refresh-icon" /></span> Recrawl</button>
+                  <button class="btn btn-out-primary" type="button" *ngIf="selectedSource.recentStatus === 'configured'" (click)="jobOndemand(selectedSource,$event)">{{'contentSource_crawl'| translate}}</button>
+                  <button class="btn btn-out-primary" type="button" *ngIf="(['Success','Stopped'].includes(statusObj[selectedSource?.recentStatus]?.name) && (selectedSource?.isURLValid))" (click)="recrwal('source',selectedSource ,null)"><span class="reload-crwal"><img src="assets/icons/refresh-primary.svg" alt="refresh-icon" /></span>{{'contentSource_recrawl'| translate}}</button>
                 </div>
               </div>
 
@@ -470,16 +431,16 @@
 
               <div class="config-crwal-desc-block">
                 <div class="kr-sg-input-text-area mar-bot-15">
-                  <div class="label-text">DESCRIPTION</div>
-                  <textarea autocomplete="off" name="sourceDesc" maxlength="250" placeholder="Enter Description" class="input-text" [(ngModel)]="editSource.desc"></textarea>
+                  <div class="label-text">{{'contentSource_description_caps'| translate}}</div>
+                  <textarea autocomplete="off" name="sourceDesc" maxlength="250" placeholder="{{'contentSource_enter_desc' | translate}}" class="input-text" [(ngModel)]="editSource.desc"></textarea>
                 </div>
               </div>
 
               <div class="config-sitemap-url-block">
                 <div class="sitemap-header">
-                  <div class="sitemap-hding">Sitemap URLs</div>
+                  <div class="sitemap-hding">{{'contentSource_sitemap_urls'| translate}}</div>
                 </div>
-                <div class="font-weight-bold text-center" *ngIf="selectedSource?.sitemaps?.length===0">No sitemaps found</div>
+                <div class="font-weight-bold text-center" *ngIf="selectedSource?.sitemaps?.length===0">{{'contentSource_no_sitemaps_found'| translate}}</div>
                 <div class="sitemap-url-list" *ngFor="let sitemap of selectedSource?.sitemaps">
                   <div class="sitemap-url">
                     <div class="config-sitemap-url"><a class="crwal-url" [href]="sitemap" target="_blank">{{sitemap}}</a></div>
@@ -493,9 +454,9 @@
 
               <div class="new-crawl-web-form mr-tb20-rl10">
                 <div class="new-crawl-shedule">
-                  <div class="new-crawl-shedule-tab" [ngStyle]="{'background':editSource?.advanceOpts?.scheduleOpt?'':'#F8F9FA','border':editSource?.advanceOpts.scheduleOpt?'':0}">
+                  <div class="new-crawl-shedule-tab" [ngStyle]="{'background':editSource?.advanceOpts?.scheduleOpt?'':'#F8F9FA','border':editSource?.advanceOpts?.scheduleOpt?'':0}">
                     <div class="shedual-header">
-                      <div class="shedual-hding">SCHEDULE <span class="si-pencil-edit cursor-pointer" (click)="openSchedular(true)"></span></div>
+                      <div class="shedual-hding">{{'contentSource_schedule_caps'| translate}} <span class="si-pencil-edit cursor-pointer" (click)="openSchedular(true)"></span></div>
                       <div class="sr-toggle-btn">
                         <label class="kr-sg-toggle">
                           <input type="checkbox" name="scheduleOpts" [(ngModel)]="editSource.advanceOpts.scheduleOpt" (change)="openSchedular($event)">
@@ -503,8 +464,7 @@
                         </label>
                       </div>
                     </div>
-                    <app-scheduler #schedular [crwalObject]="editSource" [scheduleFlag]="editSource?.advanceOpts?.scheduleOpt" [schedule]="'get'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
-                  </app-scheduler>
+
                   </div>
                 </div>
               </div>
@@ -513,7 +473,7 @@
                 <div class="new-crawling">
                   <div class="new-crawling-tab">
                     <div class="new-crawling-tab-block">
-                      <div class="new-ccrawling-hding">CRAWLING</div>
+                      <div class="new-ccrawling-hding">{{'contentSource_crwaling'| translate}}</div>
                     </div>
                     <div class="new-crawling-tab-btn">
                       <button type="button" class="btn" aria-expanded="true" data-toggle="collapse" data-target="#newCrawlingTab"><i class="si-carrotup"></i></button>
@@ -522,7 +482,7 @@
                   <div id="newCrawlingTab" class="new-crawling-collapse">
                     <div class="crawl-option-ddl">
                       <div class="kr-sg-dropdowns mar-bot-12">
-                        <div class="label-text">Crawl Options</div>
+                        <div class="label-text">{{'contentSource_crwal_options'| translate}}</div>
                         <div class="dropdown dropdown-open">
                           <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{'contentSource.'+crwalOptionLabel | translate}}</button>
                           <ul class="dropdown-menu content-menu">
@@ -533,11 +493,11 @@
                     </div>
       
                     <!-- Allow URL -->
-              <div class="crawl-opt-table" *ngIf="(!editSource?.advanceOpts?.crawlEverything&&editSource.advanceOpts.allowedOpt)">
+              <div class="crawl-opt-table" *ngIf="(!editSource?.advanceOpts?.crawlEverything&&editSource?.advanceOpts?.allowedOpt)">
                 <div class="crawl-opt-row" *ngFor="let allow of allowURLArray;let i=index;">
                   <div class="crawl-opt-ddl">
                     <div class="kr-sg-dropdowns mar-bot-12">
-                      <div class="label-text">Allow if URL</div>
+                      <div class="label-text">{{'contentSource_allow_if_url'| translate}}</div>
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{'contentSource.'+allow?.condition|translate}}</button>
                         <ul class="dropdown-menu content-menu">
@@ -548,8 +508,8 @@
                   </div>
                   <div class="crawl-opt-inp">
                     <div class="kr-sg-input-text mar-bot-15">
-                      <div class="label-text no-label">Source URL</div>
-                      <input type="text" autocomplete="off" name="url" id="{{'contentAllowId'+i}}" placeholder="http(s)://" class="input-text" [(ngModel)]="allow.url">
+                      <div class="label-text no-label">{{'contentSource_source_url'| translate}}</div>
+                      <input type="text" autocomplete="off" name="url" id="{{'contentAllowId'+i}}" placeholder="{{'contentSource_https' | translate}}" class="input-text" [(ngModel)]="allow.url">
                     </div>
                   </div>
                   <div class="crawl-opt-cls" *ngIf="allowURLArray.length>1">
@@ -557,7 +517,7 @@
                   </div>
                 </div>
                 <div class="crawl-add-row">
-                  <button class="btn add-btn-primary" (click)="addAllowBlockObj('allow')"><span class="add-btn-img"><img _ngcontent-gxv-c13="" src="assets/icons/add_blue.svg"></span> Add</button>
+                  <button class="btn add-btn-primary" (click)="addAllowBlockObj('allow')"><span class="add-btn-img"><img _ngcontent-gxv-c13="" src="assets/icons/add_blue.svg"></span>{{'contentSource_add'| translate}}</button>
                 </div>
               </div>
 
@@ -566,7 +526,7 @@
                 <div class="crawl-opt-row" *ngFor="let block of blockURLArray;let i=index;">
                   <div class="crawl-opt-ddl">
                     <div class="kr-sg-dropdowns mar-bot-12">
-                      <div class="label-text">Block If URL</div>
+                      <div class="label-text">{{'contentSource_block_if_url'| translate}}</div>
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{'contentSource.'+block.condition|translate}}</button>
                         <ul class="dropdown-menu content-menu">
@@ -577,7 +537,7 @@
                   </div>
                   <div class="crawl-opt-inp">
                     <div class="kr-sg-input-text mar-bot-15">
-                      <div class="label-text no-label">Source URL</div>
+                      <div class="label-text no-label">{{'contentSource_source_url'| translate}}</div>
                       <input type="text" id="{{'contentBlockId'+i}}" autocomplete="off" name="url" placeholder="http(s)://" class="input-text" [(ngModel)]="block.url">
                     </div>
                   </div>
@@ -594,19 +554,19 @@
               <div class="group-checkbox">
                 <div class="kr-sg-checkbox">
                   <input class="checkbox-custom" id="checkbox_cook" name="useCookies" type="checkbox" [(ngModel)]="useCookies" [ngModelOptions]="{standalone: true}">
-                  <label class="checkbox-custom-label" for="checkbox_cook">Use Cookies</label>
+                  <label class="checkbox-custom-label" for="checkbox_cook">{{'contentSource_use_cookies'| translate}}</label>
                 </div>
                 <div class="kr-sg-checkbox">
                   <input class="checkbox-custom" id="checkbox_grph" name="isJavaScriptRendered" type="checkbox" [(ngModel)]="isJavaScriptRendered" [ngModelOptions]="{standalone: true}">
-                  <label class="checkbox-custom-label" for="checkbox_grph">Java Script Rendered</label>
+                  <label class="checkbox-custom-label" for="checkbox_grph">{{'contentSource_java_script_rendered'| translate}}</label>
                 </div>
                 <div class="kr-sg-checkbox">
                   <input class="checkbox-custom" id="checkbox_grpi" name="crawlBeyondSitemaps" type="checkbox" [(ngModel)]="crawlBeyondSitemaps" [ngModelOptions]="{standalone: true}">
-                  <label class="checkbox-custom-label" for="checkbox_grpi">Crawl Beyond Sitemap</label>
+                  <label class="checkbox-custom-label" for="checkbox_grpi">{{'contentSource_crwal_beyond_sitemap'| translate}}</label>
                 </div>
                 <div class="kr-sg-checkbox">
                   <input class="checkbox-custom" id="checkbox_robot" name="respectRobotTxtDirectives" type="checkbox" [(ngModel)]="respectRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
-                  <label class="checkbox-custom-label" for="checkbox_robot">Respect robots.txt directives</label>
+                  <label class="checkbox-custom-label" for="checkbox_robot">{{'contentSource_respect_robots_directives'| translate}}</label>
                 </div>
               </div>
               </div>
@@ -615,30 +575,30 @@
                 <div class="crwal-depth-form-row">
                   <div class="crwal-depth-form-inp">
                     <div class="kr-sg-input-text">
-                      <div class="label-text">Crawl Depth
+                      <div class="label-text">{{'contentSource_crwal_depth'| translate}}
                         <div class="tooltip-custom">
                           <img src="assets/icons/sidemenu/help.svg">
                           <span class="tooltiptext">
-                            <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                            <div class="t-text">{{'contentSource_max_depth_allowed'| translate}}</div>
                             <div class="v-text">Value = 0 (No limit)</div>
                           </span>
                         </div>
                       </div>
-                    <input class="input-text maxUrlLimit-class" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="5" type="number" [(ngModel)]="crawlDepth">
+                    <input class="input-text maxUrlLimit-class" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="{{'contentSource_5' | translate}}" type="number" [(ngModel)]="crawlDepth">
                   </div>
                   </div>
                   <div class="crwal-max-form-inp">
                     <div class="kr-sg-input-text">
-                      <div class="label-text">Max URL
+                      <div class="label-text">{{'contentSource_max_url'| translate}}
                         <div class="tooltip-custom">
                           <img src="assets/icons/sidemenu/help.svg">
                           <span class="tooltiptext">
-                            <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                            <div class="t-text">{{'contentSource_max_depth_allowed'| translate}}</div>
                             <div class="v-text">Value = 0 (No limit)</div>
                           </span>
                         </div>
                       </div>
-                    <input class="input-text maxUrlLimit-class" autocomplete="off" id="maxURL" name="maxURL" placeholder="10" type="number" [(ngModel)]="maxUrlLimit">
+                    <input class="input-text maxUrlLimit-class" autocomplete="off" id="maxURL" name="maxURL" placeholder="{{'contentSource_10' | translate}}" type="number" [(ngModel)]="maxUrlLimit">
                   </div>
                   </div>
                 </div>
@@ -650,7 +610,7 @@
                   <div class="new-crawl-shedule-tab" [ngStyle]="{'border':editSource.authorizationEnabled?'':0}">
                     <div class="shedual-header form-group">
                       <div class="d-block">
-                        <div class="shedual-hding">Is this an Authenticated website?</div>
+                        <div class="shedual-hding">{{'contentSource_is_autheticated_website'| translate}}</div>
                       </div>
                       
                       <div class="sr-toggle-btn">
@@ -679,7 +639,7 @@
             <div class="is-auth-form" *ngIf="editSource.authorizationProfle.sso_type==='basic'">
               <div class="is-auth-form-header-block">
                 <div class="is-auth-form-header">
-                  BASIC FIELD
+                  {{'contentSource_basic_field_caps'| translate}}
                 </div>
                 <!-- <div class="is-auth-form-add-field">
                   <span><img src="assets/icons/facets/add-blue.svg" class="add-icon-blue" /> <img src="assets/images/add.svg" class="add-icon-black" /></span>Add Field
@@ -689,10 +649,10 @@
                 <div class="kr-sg-data-table">
                   <section class="table-content">
                       <header class="table-header">
-                          <div class="col-4">FIELD KEY</div> 
-                          <div class="col-4">FIELD VALUE</div>
+                          <div class="col-4">{{'contentSource_field_key_caps'| translate}}</div> 
+                          <div class="col-4">{{'contentSource_field_value_caps'| translate}}</div>
                           <!-- <div class="col-2"></div> -->
-                          <div class="col-4">ACTIONS</div>
+                          <div class="col-4">{{'contentSource_actions_caps'| translate}}</div>
                       </header>
                       <div class="content-body" *ngFor="let form of editSource.authorizationProfle.basicFields;let i=index;" [ngClass]="{'is-edit-mode':(form?.isEditable)}">
                         <ng-container *ngIf="!form?.isEditable">
@@ -718,24 +678,25 @@
                               <div class="col-3">
                                 <div class="crawl-opt-inp">
                                   <div class="kr-sg-input-text mar-bot-15">
-                                    <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
-                                    <input type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [value]="form.key" disabled>
+                                    <div class="label-text no-label">{{'contentSource_field_key'| translate}}<sup class="field-mandatory">*</sup></div>
+                                    <input type="text" autocomplete="off" name="url" placeholder="{{'contentSource_field_key' | translate}}" class="input-text" [value]="form.key" disabled>
                                   </div>
                                 </div>
                               </div>
                               <div class="col-3">
                                 <div class="crawl-opt-inp">
                                   <div class="kr-sg-input-text mar-bot-15">
-                                    <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
-                                    <input [type]="form.type" autocomplete="off" name="url" placeholder="Field Key" class="input-text" #inputPwd [(ngModel)]="form.duplicateObj.value">
+                                    <div class="label-text no-label">{{'contentSource_field_value'| translate}}
+                                      <sup class="field-mandatory">*</sup></div>
+                                    <input [type]="form.type" autocomplete="off" name="url" placeholder="{{'contentSource_field_key' | translate}}" class="input-text" #inputPwd [(ngModel)]="form.duplicateObj.value">
                                     <i class="icon-eye" [ngClass]="{'si-eye':!isPasswordShow,'si-eyeshow':isPasswordShow}" (click)="isPasswordShow=!isPasswordShow;inputPwd.type=(inputPwd.type==='password')?'text':'password'" *ngIf="i===1"></i>
                                   </div>
                                 </div>
                               </div>
                               <div class="col-3 d-flex align-items-center">
                                 <div class="is-auth-btn-group">
-                                <button class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="saveBasicField(form,'cancel')">Cancel</button>
-                                <button class="kr-sg-button-secondary btn_lg" (click)="saveBasicField(form,'save')">Save</button>
+                                <button class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="saveBasicField(form,'cancel')">{{'contentSource_cancel'| translate}}</button>
+                                <button class="kr-sg-button-secondary btn_lg" (click)="saveBasicField(form,'save')">{{'contentSource_save'| translate}}</button>
                               </div>
                               </div>
                             </div>                
@@ -750,21 +711,21 @@
             <div class="is-auth-form" *ngIf="editSource.authorizationProfle.sso_type==='form'">
               <div class="is-auth-form-header-block">
                 <div class="is-auth-form-header">
-                  FORM FIELD                  
+                  {{'contentSource_form_field'| translate}}                  
                 </div>
                 <div class="is-auth-form-add-field" (click)="addFormField('add')" *ngIf="!formFieldObj.isShow">
-                  <span><img src="assets/icons/facets/add-blue.svg" class="add-icon-blue" /> <img src="assets/images/add.svg" class="add-icon-black" /></span>Add Field
+                  <span><img src="assets/icons/facets/add-blue.svg" class="add-icon-blue" /> <img src="assets/images/add.svg" class="add-icon-black" /></span>{{'contentSource_add_field'| translate}}
                 </div>
               </div>
               <div class="is-auth-form-table">
                 <div class="kr-sg-data-table">
                   <section class="table-content" *ngIf="editSource.authorizationProfle.formFields.length>0">
                       <header class="table-header">
-                          <div class="col-3">FIELD KEY</div> 
-                          <div class="col-2">FIELD TYPE</div>
-                          <div class="col-3">FIELD VALUE</div>
+                          <div class="col-3">{{'contentSource_field_key_caps'| translate}}</div> 
+                          <div class="col-2">{{'contentSource_field_type_caps'| translate}}</div>
+                          <div class="col-3">{{'contentSource_field_value_caps'| translate}}</div>
                           <div class="col-2"></div>
-                          <div class="col-2 text-right">ACTIONS</div>
+                          <div class="col-2 text-right">{{'contentSource_actions_caps'| translate}}</div>
                       </header>
                       <div class="content-body" *ngFor="let form of editSource.authorizationProfle.formFields;let i=index;" [ngClass]="{'is-edit-mode':(form?.isEditable)}">
                           <ng-container *ngIf="!form?.isEditable">
@@ -775,7 +736,7 @@
                             <div class="d-flex">
                               <label class="kr-sg-toggle with-label">                                       
                                 <input type="checkbox" [(ngModel)]="form.isEnabled">
-                                <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span></div>
+                                <div class="slider"> <span class="no">{{'contentSource_disable'| translate}}</span><span class="yes">{{'contentSource_enable'| translate}}</span></div>
                             </label>
                             </div>
                           </div>
@@ -791,7 +752,7 @@
                               <div class="col-3">
                                 <div class="crawl-opt-inp">
                                   <div class="kr-sg-input-text mar-bot-15">
-                                    <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                                    <div class="label-text no-label">{{'contentSource_field_key'| translate}}<sup class="field-mandatory">*</sup></div>
                                     <input id="{{'contentFormFieldKeyId'+i}}" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [value]="form.key" [(ngModel)]="form.duplicateObj.key">
                                   </div>
                                 </div>
@@ -799,7 +760,7 @@
                               <div class="col-3">
                                 <div class="crawl-option-ddl">
                                   <div class="kr-sg-dropdowns mar-bot-12">
-                                    <div class="label-text">Field Type<sup class="field-mandatory">*</sup></div>
+                                    <div class="label-text">{{'contentSource_field_type'| translate}}<sup class="field-mandatory">*</sup></div>
                                     <div class="dropdown dropdown-open">
                                       <button id="{{'contentFormFieldTypeId'+i}}" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{form.duplicateObj.type===''?'Select Field Type':('contentSource.'+form.duplicateObj.type|translate)}}</button>
                                       <ul class="dropdown-menu content-menu">
@@ -812,16 +773,16 @@
                               <div class="col-3">
                                 <div class="crawl-opt-inp">
                                   <div class="kr-sg-input-text mar-bot-15">
-                                    <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
-                                    <input id="{{'contentFormFieldValueId'+i}}" [type]="form.type" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [value]="form.value" [(ngModel)]="form.duplicateObj.value">
+                                    <div class="label-text no-label">{{'contentSource_field_value'| translate}}<sup class="field-mandatory">*</sup></div>
+                                    <input id="{{'contentFormFieldValueId'+i}}" [type]="form.type" autocomplete="off" name="url" placeholder="{{'contentSource_field_value' | translate}}" class="input-text" [value]="form.value" [(ngModel)]="form.duplicateObj.value">
                                     <i class="icon-eye" [ngClass]="{'si-eye':!form.isPwdShow,'si-eyeshow':form.isPwdShow}" (click)="showFormFieldPassword('contentFormFieldValueId'+i,form)" *ngIf="form.duplicateObj.type==='password'"></i>
                                   </div>
                                 </div>
                               </div>
                               <div class="col-3 d-flex align-items-center">
                                 <div class="is-auth-btn-group">
-                                  <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="editFormField('cancel',form)">Cancel</button>
-                                  <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="editFormField('save',form,i)">Save</button>
+                                  <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="editFormField('cancel',form)">{{'contentSource_cancel'| translate}}</button>
+                                  <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="editFormField('save',form,i)">{{'contentSource_save'| translate}}</button>
                                 </div>
                               </div>
                             </div>
@@ -835,7 +796,7 @@
                       <div class="col-3">
                         <div class="crawl-opt-inp">
                           <div class="kr-sg-input-text mar-bot-15">
-                            <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                            <div class="label-text no-label">{{'contentSource_field_key'| translate}}<sup class="field-mandatory">*</sup></div>
                             <input id="contentFormFieldKeyId" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [(ngModel)]="formFieldObj.key">
                           </div>
                         </div>
@@ -843,7 +804,7 @@
                       <div class="col-3">
                         <div class="crawl-option-ddl">
                           <div class="kr-sg-dropdowns mar-bot-12">
-                            <div class="label-text">Field Type<sup class="field-mandatory">*</sup></div>
+                            <div class="label-text">{{'contentSource_field_type'| translate}}<sup class="field-mandatory">*</sup></div>
                             <div class="dropdown dropdown-open">
                               <button id="contentFormFieldTypeId" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{(formFieldObj.type==='')?'Select Field Type':('contentSource.'+formFieldObj.type|translate)}}</button>
                               <ul class="dropdown-menu content-menu">
@@ -856,16 +817,16 @@
                       <div class="col-3">
                         <div class="crawl-opt-inp">
                           <div class="kr-sg-input-text mar-bot-15">
-                            <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
-                            <input id="contentFormFieldValueId" [type]="formFieldObj.type" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [(ngModel)]="formFieldObj.value">
+                            <div class="label-text no-label">{{'contentSource_field_value'| translate}}<sup class="field-mandatory">*</sup></div>
+                            <input id="contentFormFieldValueId" [type]="formFieldObj.type" autocomplete="off" name="url" placeholder="{{'contentSource_field_value' | translate}}" class="input-text" [(ngModel)]="formFieldObj.value">
                             <i class="icon-eye" [ngClass]="{'si-eye':!formFieldObj.isPwdShow,'si-eyeshow':formFieldObj.isPwdShow}" (click)="showFormFieldPassword('contentFormFieldValueId',formFieldObj)" *ngIf="formFieldObj.type==='password'"></i>
                           </div>
                         </div>
                       </div>
                       <div class="col-3 d-flex align-items-center">
                         <div class="is-auth-btn-group">
-                          <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="addFormField('cancel')" [disabled]="editSource.authorizationProfle.formFields.length===0">Cancel</button>
-                          <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="addFormField('save')">Add</button>
+                          <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="addFormField('cancel')" [disabled]="editSource.authorizationProfle.formFields.length===0">{{'contentSource_cancel'| translate}}</button>
+                          <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="addFormField('save')">{{'contentSource_add'| translate}</button>
                         </div>
                       </div>
                     </div>
@@ -878,11 +839,11 @@
             <div class="is-auth-form" *ngIf="['basic','form'].includes(editSource.authorizationProfle.sso_type)">
               <div class="is-auth-form-header-block">
                 <div class="is-auth-form-header">
-                  AUTHORIZATION FIELD <span class="optional-hding">(Optional)</span>                  
+                  {{'contentSource_authorization_field'| translate}} <span class="optional-hding">(Optional)</span>                  
                 </div>
                 <div class="is-auth-form-add-field" (click)="addAuthorizationField('add')" *ngIf="!authorizationFieldObj.isShow">
                   <span><img src="assets/icons/facets/add-blue.svg" class="add-icon-blue" /> <img src="assets/images/add.svg" class="add-icon-black" /></span>
-                  Add
+                  {{'contentSource_add'| translate}}
                 </div>
               </div> 
               
@@ -890,11 +851,11 @@
                 <div class="kr-sg-data-table">
                   <section class="table-content" *ngIf="editSource.authorizationProfle.authorizationFields.length>0">
                       <header class="table-header">
-                          <div class="col-3">FIELD KEY</div> 
-                          <div class="col-2">FILED TYPE</div>
-                          <div class="col-3">FIELD VALUE</div>
+                          <div class="col-3">{{'contentSource_field_key_caps'| translate}}</div> 
+                          <div class="col-2">{{'contentSource_field_type'| translate}}</div>
+                          <div class="col-3">{{'contentSource_field_value_caps'| translate}}</div>
                           <div class="col-2"></div>
-                          <div class="col-2 text-right">ACTIONS</div>
+                          <div class="col-2 text-right">{{'contentSource_actions_caps'| translate}}</div>
                       </header>
                       <div class="content-body" *ngFor="let auth of editSource.authorizationProfle.authorizationFields;let i=index;" [ngClass]="{'is-edit-mode':(form?.isEditable)}">
                          <ng-container *ngIf="!auth?.isEditable">
@@ -905,7 +866,7 @@
                             <div class="d-flex">
                               <label class="kr-sg-toggle with-label">                                       
                                 <input id="sa-formFieldListItemEnableDisable" type="checkbox" [checked]="auth?.isEnabled" [(ngModel)]="auth.isEnabled">
-                                <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span></div>
+                                <div class="slider"> <span class="no">{{'contentSource_disable'| translate}}</span><span class="yes">{{'contentSource_enable'| translate}}</span></div>
                             </label>
                             </div>
                           </div>
@@ -921,7 +882,7 @@
                           <div class="col-3">
                             <div class="crawl-opt-inp">
                               <div class="kr-sg-input-text mar-bot-15">
-                                <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                                <div class="label-text no-label">{{'contentSource_field_key'| translate}}<sup class="field-mandatory">*</sup></div>
                                 <input id="{{'contentFieldKeyId'+i}}" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [value]="auth.key" [(ngModel)]="auth.duplicateObj.key">
                               </div>
                             </div>
@@ -929,7 +890,7 @@
                           <div class="col-3">
                             <div class="crawl-option-ddl">
                               <div class="kr-sg-dropdowns mar-bot-12">
-                                <div class="label-text">Field Type<sup class="field-mandatory">*</sup></div>
+                                <div class="label-text">{{'contentSource_field_type'| translate}}<sup class="field-mandatory">*</sup></div>
                                 <div class="dropdown dropdown-open">
                                   <button id="{{'contentFieldTypeId'+i}}" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{auth.duplicateObj.type===''?('contentSource.'+auth.type |translate):('contentSource.'+auth?.duplicateObj.type|translate)}}</button>
                                   <ul class="dropdown-menu content-menu">
@@ -942,15 +903,15 @@
                           <div class="col-3">
                             <div class="crawl-opt-inp">
                               <div class="kr-sg-input-text mar-bot-15">
-                                <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
-                                <input id="{{'contentFieldValueId'+i}}" type="text" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [value]="auth.value" [(ngModel)]="auth.duplicateObj.value">
+                                <div class="label-text no-label">{{'contentSource_field_value'| translate}}<sup class="field-mandatory">*</sup></div>
+                                <input id="{{'contentFieldValueId'+i}}" type="text" autocomplete="off" name="url" placeholder="{{'contentSource_field_value' | translate}}" class="input-text" [value]="auth.value" [(ngModel)]="auth.duplicateObj.value">
                               </div>
                             </div>
                           </div>
                           <div class="col-3 d-flex align-items-center">
                             <div class="is-auth-btn-group">
-                              <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="editAuthorizationField('cancel',auth)">Cancel</button>
-                              <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="editAuthorizationField('save',auth,i)">Save</button>
+                              <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="editAuthorizationField('cancel',auth)">{{'contentSource_cancel'| translate}}</button>
+                              <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="editAuthorizationField('save',auth,i)">{{'contentSource_save'| translate}}</button>
                             </div>
                           </div>
                         </div>
@@ -959,7 +920,7 @@
                       </div>
                   </section>  
 
-                  <span class="font-weight-bold d-inline-block w-100 text-center" *ngIf="(editSource.authorizationProfle.authorizationFields.length===0&&!authorizationFieldObj.isShow)">No authorization fields found</span>
+                  <span class="font-weight-bold d-inline-block w-100 text-center" *ngIf="(editSource.authorizationProfle.authorizationFields.length===0&&!authorizationFieldObj.isShow)">{{'contentSource_no_auth_fields_found'| translate}}</span>
 
                   <!-- ADD DIVISION SATRTS -->
                   <div class="is-auth-form-edit" *ngIf="authorizationFieldObj.isShow">
@@ -967,7 +928,7 @@
                       <div class="col-3">
                         <div class="crawl-opt-inp">
                           <div class="kr-sg-input-text mar-bot-15">
-                            <div class="label-text no-label">Field Key<sup class="field-mandatory">*</sup></div>
+                            <div class="label-text no-label">{{'contentSource_field_key'| translate}}<sup class="field-mandatory">*</sup></div>
                             <input id="contentFieldKeyId" type="text" autocomplete="off" name="url" placeholder="Field Key" class="input-text" [(ngModel)]="authorizationFieldObj.key">
                           </div>
                         </div>
@@ -975,7 +936,7 @@
                       <div class="col-3">
                         <div class="crawl-option-ddl">
                           <div class="kr-sg-dropdowns mar-bot-12">
-                            <div class="label-text">Field Type<sup class="field-mandatory">*</sup></div>
+                            <div class="label-text">{{'contentSource_field_type'| translate}}<sup class="field-mandatory">*</sup></div>
                             <div class="dropdown dropdown-open">
                               <button id="contentFieldTypeId" class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{(authorizationFieldObj.type==='')?'Select Field Type':('contentSource.'+authorizationFieldObj.type|translate)}}</button>
                               <ul class="dropdown-menu content-menu">
@@ -988,15 +949,15 @@
                       <div class="col-3">
                         <div class="crawl-opt-inp">
                           <div class="kr-sg-input-text mar-bot-15">
-                            <div class="label-text no-label">Field Value<sup class="field-mandatory">*</sup></div>
-                            <input id="contentFieldValueId" type="text" autocomplete="off" name="url" placeholder="Field Value" class="input-text" [(ngModel)]="authorizationFieldObj.value">
+                            <div class="label-text no-label">{{'contentSource_field_value'| translate}}<sup class="field-mandatory">*</sup></div>
+                            <input id="contentFieldValueId" type="text" autocomplete="off" name="url" placeholder="{{'contentSource_field_value' | translate}}" class="input-text" [(ngModel)]="authorizationFieldObj.value">
                           </div>
                         </div>
                       </div>
                       <div class="col-3 d-flex align-items-center">
                         <div class="is-auth-btn-group">
-                          <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="addAuthorizationField('cancel')">Cancel</button>
-                          <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="addAuthorizationField('save')">Add</button>
+                          <button id="sa-cancelAddAuthFieldToTable" class="kr-sg-button-secondary btn-no-bg btn_lg" (click)="addAuthorizationField('cancel')">{{'contentSource_cancel'| translate}}</button>
+                          <button id="sa-addAuthFieldToTable" class="kr-sg-button-secondary btn_lg" (click)="addAuthorizationField('save')">{{'contentSource_add'| translate}}</button>
                         </div>
                       </div>
                     </div>
@@ -1011,7 +972,7 @@
             <div class="row col-12 border-top-row">
               <div class="col-4 pl-0">
                 <div class="kr-sg-input-text">
-                  <div class="label-text">Authentication URL<sup class="field-mandatory">*</sup></div>
+                  <div class="label-text">{{'contentSource_authentication_url'| translate}}<sup class="field-mandatory">*</sup></div>
                   <input id="contentAuthURLId" type="text" placeholder="Authentication Url" class="input-text" [(ngModel)]="editSource.authorizationProfle.authCheckUrl" autocomplete="off">
                 </div>
               </div>
@@ -1019,7 +980,7 @@
             <div class="row col-12 border-top-row">
               <div class="col-4 pl-0">
                 <div class="kr-sg-dropdowns">
-                  <div class="label-text">Test Type<sup class="field-mandatory">*</sup></div>
+                  <div class="label-text">{{'contentSource_test_type'| translate}}<sup class="field-mandatory">*</sup></div>
                   <div class="dropdown dropdown-open">
                       <button id="contentTestTypeId" class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(editSource.authorizationProfle.testType==='')?'Choose an option':('contentSource.'+editSource.authorizationProfle.testType|translate)}}</button>                                            
                       <ul class="dropdown-menu content-menu">                                              
@@ -1030,8 +991,8 @@
               </div>
               <div class="col-4">
                 <div class="kr-sg-input-text">
-                  <div class="label-text">Test Value<sup class="field-mandatory">*</sup></div>
-                  <input id="contentTestValueId" [type]="(editSource.authorizationProfle.testType==='status_code')?'number':'text'" placeholder="Test Value" class="input-text" [ngClass]="{'maxUrlLimit-class':editSource.authorizationProfle.testType==='status_code'}" [(ngModel)]="editSource.authorizationProfle.testValue" autocomplete="off">
+                  <div class="label-text">{{'contentSource_test_value'| translate}}<sup class="field-mandatory">*</sup></div>
+                  <input id="contentTestValueId" [type]="(editSource.authorizationProfle.testType==='status_code')?'number':'text'" placeholder="{{'contentSource_test_value' | translate}}" class="input-text" [ngClass]="{'maxUrlLimit-class':editSource.authorizationProfle.testType==='status_code'}" [(ngModel)]="editSource.authorizationProfle.testValue" autocomplete="off">
                 </div>
               </div>
             </div>
@@ -1047,9 +1008,9 @@
           <ng-container *ngIf="page && !loadingSliderContent">
             <div class="pages-container-content" *ngIf="pagingData.length>0">
               <div class="search_header">
-                <div class="label-text">SEARCH PAGE</div>
+                <div class="label-text">{{'contentSource_search_page'| translate}}</div>
                 <div class="kr-sg-input-search">                               
-                  <input type="text" placeholder="Search" class="input-search pl-35" name='pagesSearch'
+                  <input type="text" placeholder="{{'contentSource_search' | translate}}" class="input-search pl-35" name='pagesSearch'
                   id="searchInput" [(ngModel)]="pagesSearch" (keyup)="getCrawledPages(10,0,pagesSearch,'search')"
                     autocomplete="off">
                   <i class="si-search search-icon"></i>
@@ -1079,11 +1040,11 @@
                         <div class="actions-clicks">
                           <div class="recall-btn" (click)="reCrwalingWeb('pages',selectedPage ,null)" *ngIf="['Success','Stopped'].includes(statusObj[selectedSource?.recentStatus]?.name) && (selectedSource?.isURLValid)">
                             <i class="si-recall"></i>
-                            <span>Recrawl</span>
+                            <span>{{'contentSource_recrwal'| translate}}</span>
                           </div>
                           <div class="delete-btn" (click)="deletePages('pages',selectedPage ,null)">
                             <i class="si-delete1"></i>
-                            <span>Delete</span>
+                            <span>{{'contentSource_delete'| translate}}</span>
                           </div>
                         </div>
                         <div class="page_link">
@@ -1099,13 +1060,13 @@
                               <div class="split-row row m-0">
                                 <div class="split-row-data col-8 p-0">
                                   <div class="row-content-data row m-0">
-                                    <div class="col-3 title-heading">Title</div>
+                                    <div class="col-3 title-heading">{{'contentSource_title'| translate}}</div>
                                     <div class="col-9 page-content-details">
                                       <div class="info-text">{{selectedPage?._source?.page_title}}</div>
                                     </div>
                                   </div>
                                   <div class="row-content-data row m-0">
-                                    <div class="col-3 title-heading">Sections</div>
+                                    <div class="col-3 title-heading">{{'contentSource_sections'| translate}}</div>
                                     <div class="col-9 page-content-details" [ngClass]="{'no-text-truncate':selectedPage?.isSection,'text-truncate':!selectedPage?.isSection}">
                                       <div class="info-text" *ngFor="let section of selectedPage?._source?.page_sections">{{section}}</div>
                                     </div>
@@ -1113,7 +1074,7 @@
                                     <div class="col-9 show-more" (click)="selectedPage.isSection=!selectedPage?.isSection" *ngIf="selectedPage?._source?.page_sections?.length>5">{{(selectedPage?.isSection)?'Show Less':'Show More'}}</div>
                                   </div>
                                   <div class="row-content-data row d-none">
-                                    <div class="col-3 title-heading">URLs</div>
+                                    <div class="col-3 title-heading">{{'contentSource_urls'| translate}}</div>
                                     <div class="col-9 page-content-details">
                                       <div class="url">
                                         <i class="si-externallink"></i>
@@ -1122,7 +1083,7 @@
                                     </div>
                                   </div>
                                   <div class="row-content-data row m-0">
-                                    <div class="col-3 title-heading">Updated on</div>
+                                    <div class="col-3 title-heading">{{'contentSource_updated_on'| translate}}</div>
                                     <div class="col-9 page-content-details">
                                       <div class="info-text">{{selectedPage?.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
                                     </div>
@@ -1131,7 +1092,7 @@
                                 <div class="split-row-img col-4"  *ngIf="selectedPage?._source?.page_image_url">
                                   <div class="row-content-data border-0 split-img-preview-block">
                                     <div class="col-12 page-content-details">
-                                      <div class="img-preview-header">IMAGE PREVIEW</div>
+                                      <div class="img-preview-header">{{'contentSource_image_preview'| translate}}</div>
                                       <div class="img-link-cards">
                                         <div class="img-card">
                                           <div class="img-block">
@@ -1149,7 +1110,7 @@
                               </div>
                            
                               <div class="row-content-data row m-0">
-                                <div class="col-3 title-heading width-22Percent">Body</div>
+                                <div class="col-3 title-heading width-22Percent">{{'contentSource_body'| translate}}</div>
                                 <div class="col-9 page-content-details">
                                   <div class="info-text" [ngClass]="{'no-body-truncate':selectedPage?.isBody,'body-truncate':!selectedPage?.isBody}">{{selectedPage?._source?.page_body}}</div>
                                   <div class="show-more" (click)="selectedPage.isBody=!selectedPage?.isBody">{{(selectedPage?.isBody)?'Read Less':'Read More'}}</div>
@@ -1166,9 +1127,9 @@
             </div>
             <div class="empty-page-data-container center-state" *ngIf="pagingData.length===0">
               <img src="assets/icons/content/latest-content-icons/empty-pages.svg">
-              <div class="title">Sorry no pages available yet!</div>
-              <div class="sub-title">Please crawl the webdomain again</div>
-              <div><button class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" (click)="jobOndemand(selectedSource,$event)"><span class="si-Internet"></span>   Crawl Web Domain</button></div>
+              <div class="title">{{'contentSource_sorry_no_pages_available'| translate}}</div>
+              <div class="sub-title">{{'contentSource_please_crawl_web'| translate}}</div>
+              <div><button class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" (click)="jobOndemand(selectedSource,$event)"><span class="si-Internet"></span>   {{'contentSource_craw_web_domain'| translate}}</button></div>
             </div>
           </ng-container>
 
@@ -1188,7 +1149,7 @@
                       <ng-container>
                         <div class="content-body" *ngFor="let history of executionHistoryData; let i = index;">
                           <div class="eye-img">
-                            <span class="view-log" (mouseover)="executionLogStatus = true">View Log</span>
+                            <span class="view-log" (mouseover)="executionLogStatus = true">{{'contentSource_view_log'| translate}}</span>
                             <div class="execute-log" *ngIf="executionLogStatus">
                               <div class="header-title">
                                 <div class="title">{{"contentSource_execution_log_caps" | translate}}</div>
@@ -1249,7 +1210,7 @@
                           <div class="col_ col-3">{{history?.executionStats?.triggeredBy}}</div>
                           <div class="col_ col-3">{{history?.createdOn}}</div>
                         </div>
-                        <div class="no-execution" *ngIf="executionHistoryData?.length===0">No executions found</div>
+                        <div class="no-execution" *ngIf="executionHistoryData?.length===0">{{'contentSource_no_exec_found'| translate}}</div>
                       </ng-container>
                     </perfect-scrollbar>
                   </section>
@@ -1269,33 +1230,33 @@
         <div class="table-view-details table-content" *ngIf="sliderStep === 1 && selectedPage">
           <div class="totalViewsNlikes">
             <div class="d-flex justify-content-between infoBlock">
-              <div class="infoType"><img class="viewsIcon" placement="top" container='body' ngbTooltip="Views"
+              <div class="infoType"><img class="viewsIcon" placement="top" container='body' ngbTooltip="{{'contentSource_views' | translate}}"
                   src="assets/icons/faq/views.svg"><span>{{numberOf.appearances}}</span></div>
-              <div class="infoType"><img placement="top" container='body' ngbTooltip="Clicks"
+              <div class="infoType"><img placement="top" container='body' ngbTooltip="{{'contentSource_clicks' | translate}}"
                   src="assets/icons/faq/hand.svg"><span>{{numberOf.clicks}}</span></div>
             </div>
           </div>
           <div class="view-details-data">
-            <div class="title">Title</div>
+            <div class="title">{{'contentSource_title'| translate}}</div>
             <div class="desc-info">{{selectedPage?._source.page_title}}</div>
           </div>
 
           <div class="view-details-data">
-            <div class="title">Body</div>
+            <div class="title">{{'contentSource_body'| translate}}</div>
             <perfect-scrollbar class="scroll-table-sourceContent-pageBody" #perfectScroll [scrollIndicators]="true">
               <div class="desc-info" [innerHtml]="selectedPage._source.page_body"></div>
             </perfect-scrollbar>
           </div>
           <div class="view-details-data">
-            <div class="title">URL</div>
+            <div class="title">{{'contentSource_url'| translate}}</div>
             <div class="desc-info">{{selectedPage?._source.page_url|| selectedPage._source.page_image_url }}<img
                 class="external_link" (click)="openImageLink(selectedPage.url_display)"
                 src="assets/icons/sidemenu/external-link.svg"></div>
           </div>
           <div class="view-details-data">
-            <div class="title">Published</div>
+            <div class="title">{{'contentSource_published'| translate}}</div>
             <div class="desc-info">{{selectedPage?.publishedOn}}</div>
-            <div class="desc-info" *ngIf="!selectedPage.publishedOn">No publish information available</div>
+            <div class="desc-info" *ngIf="!selectedPage.publishedOn">{{'contentSource_no_publish_information_available'| translate}}</div>
           </div>
         </div>
       </perfect-scrollbar>
@@ -1305,11 +1266,11 @@
   <div class="modal-footer moadal-footer-config footer-btns" *ngIf="isConfig">
 
     <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal"
-      (click)="updateSourceConfiguration()">Save</button>
+      (click)="updateSourceConfiguration()">{{'contentSource_save'| translate}}</button>
     <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal"
-      (click)="closeStatusModal()">Cancel</button>
+      (click)="closeStatusModal()">{{'contentSource_cancel'| translate}}</button>
     <button type="button" class="kr-sg-button-secondary-two btn_lg" data-dismiss="modal"
-      (click)="deletePages('source',selectedSource,null)">Delete</button>
+      (click)="deletePages('source',selectedSource,null)">{{'contentSource_delete'| translate}}</button>
   </div>
   <div class="footer-btns" *ngIf="page && totalCrawledCount>10">
     <app-record-pagination *ngIf = "totalCrawledCount" [totalRecord]='totalCrawledCount' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
@@ -1318,7 +1279,7 @@
 
 <kr-modal modalType="center" modalClass="modal_popups_ sliderComponent" #statusModalDocument id="sourceSlider">
   <div class="modal-header">
-    <div class="title">View Details</div>
+    <div class="title">{{'contentSource_view_details'| translate}}</div>
     <div class="close_icon"><img (click)="closeDocumentModal()" src="assets/icons/modal-close.svg"></div>
   </div>
   <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
@@ -1333,30 +1294,30 @@
         <div class="totalViewsNlikes">
           <div class="d-flex justify-content-between infoBlock">
             <div class="infoType"><img class="viewsIcon" src="assets/icons/faq/views.svg" placement="top"
-                container='body' ngbTooltip="Views"><span>{{numberOf.appearances}}</span></div>
+                container='body' ngbTooltip="{{'contentSource_views' | translate}}"><span>{{numberOf.appearances}}</span></div>
             <div class="infoType"><img src="assets/icons/faq/hand.svg" placement="top" container='body'
-                ngbTooltip="Clicks"><span>{{numberOf.clicks}}</span></div>
+              ngbTooltip="{{'contentSource_clicks' | translate}}"><span>{{numberOf.clicks}}</span></div>
           </div>
         </div>
-        <div class="title-text">Title
+        <div class="title-text">{{'contentSource_title'| translate}}
           <img src="assets/images/edit-pencil.svg">
         </div>
         <div class="title-desc-text" *ngIf="!isEditDoc && selectedSource.fileMeta">
           <span>{{docContent.sys_source_name}}</span>
         </div>
-        <div class="title-text">Description</div>
+        <div class="title-text">{{'contentSource_description'| translate}}</div>
         <div class="title-desc-text" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div>
 
-        <div class="title-text">Document
+        <div class="title-text">{{'contentSource_document'| translate}}
           <img class="dwnld-image" src="assets/images/download.svg" (click)="downloadDoc(docContent.file_url)">
         </div>
         <div class="title-desc-text" *ngIf="selectedSource.fileMeta">{{docContent.file_title || '---'}}</div>
-        <div class="title-text">No. Of. Pages</div>
+        <div class="title-text">{{'no_of_pages'| translate}}</div>
         <div class="title-desc-text">{{docContentType.pageCount}}</div>
 
-        <div class="title-text">Last Updated</div>
+        <div class="title-text">{{'last_updated'| translate}}</div>
         <div class="title-desc-text">{{selectedSource.createdOn | dateFormatPipe: 'D MMMM YYYY , hh:mm A'}}</div>
-        <div class="title-text">Results Preview</div>
+        <div class="title-text">{{'contentSource_results_preview'| translate}}</div>
         <div class="title-desc-text">{{docContent.file_preview || '---'}}</div>
 
         <!-- <div class="title-text">STATUS</div>
@@ -1371,14 +1332,14 @@
           <!-- <div class="col-2" *ngIf="!isEditDoc"><span>{{selectedSource.name}}</span></div> -->
           <div class="col-2" *ngIf="isEditDoc">
             <div class="kr-sg-input-text">
-              <input type="text" maxlength="60" placeholder="Title" class="input-text" [(ngModel)]="editDocObj.title">
+              <input type="text" maxlength="60" placeholder="{{'contentSource_title' | translate}}" class="input-text" [(ngModel)]="editDocObj.title">
             </div>
           </div>
           <!-- <div class="col-2" *ngIf="selectedSource.fileMeta">{{selectedSource.fileMeta.fileName || '---'}}</div> -->
           <!-- <div class="col-2" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div> -->
           <div class="col-2" *ngIf="isEditDoc">
             <div class="kr-sg-input-text-area">
-              <textarea placeholder="Description" maxlength="250" class="input-text" [(ngModel)]="editDocObj.desc"
+              <textarea placeholder="{{'contentSource_description' | translate}}" maxlength="250" class="input-text" [(ngModel)]="editDocObj.desc"
                 style="min-height: 50px;"></textarea>
             </div>
           </div>
@@ -1403,7 +1364,7 @@
   </perfect-scrollbar>
   <div class="footer-btns">
     <button class="kr-sg-button-secondary-two btn_lg"
-      (click)="deleteDocument('source',selectedSource ,$event)">Delete</button>
+      (click)="deleteDocument('source',selectedSource ,$event)">{{'contentSource_delete'| translate}}</button>
     <!-- <button type="button" class="kr-sg-button-primary btn_lg" (click)="saveDocDetails()">Save</button>
   <button type="button" class="kr-sg-button-secondary btn_lg" (click) = "cancelDocDetails()">Cancel</button> -->
   </div>
@@ -1423,4 +1384,9 @@
 <ng-container *ngIf="showSourceAddition">
   <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition"
     (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
+</ng-container>
+
+<ng-container *ngIf="isShowSchedlerModal">
+<app-scheduler #schedular [crwalObject]="scheduleObject" [schedule]="'get'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
+</app-scheduler>
 </ng-container>
