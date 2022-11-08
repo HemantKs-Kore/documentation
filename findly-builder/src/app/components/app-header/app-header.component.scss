@@ -757,6 +757,8 @@
                                     overflow: hidden;
                                     white-space: nowrap;
                                     text-overflow: ellipsis;
+                                    font-family: 'Inter';
+                                    font-style: normal;
 //                                     text-transform: capitalize;
                                 }
                                 .u-mail{
@@ -1312,4 +1314,13 @@
   .disable_btn{
     pointer-events: none;
     color: #BDC1C6 !important;
+}
+
+
+.domain-name{
+    font-weight: 400 !important;
+    color: #5F6368 !important;
+    font-size: 11px !important;
+    font-family: 'Inter';
+    font-style: normal;
 }
