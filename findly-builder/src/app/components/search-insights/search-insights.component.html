@@ -264,11 +264,11 @@
             <div class="table_data_content">
                 <div class="table_body row m-0" *ngFor="let result of getSearchQueriesResults;let i = index">
                     <div class="col-4 title d-flex align-items-center">
-                            <span class="img-sec" *ngIf="result.answerType =='faq'"  ngbTooltip="{{result.answerType}}"><img src="assets/icons/question-box.svg" ></span>
-                            <span class="img-sec" *ngIf="result.answerType =='web'" ngbTooltip="{{result.answerType}}"><img src="assets/icons/page.svg"></span>
-                            <span class="img-sec" *ngIf="result.answerType =='file'" ngbTooltip="{{result.answerType}}"><img src="assets/icons/resultranking/file-icon.svg"></span>
-                            <span class="img-sec" *ngIf="result.answerType =='data'" ngbTooltip="{{result.answerType}}"><img src="assets/icons/resultranking/data-icon.svg"></span>
-                            <span class="img-sec" *ngIf="result.answerType =='task'" ngbTooltip="{{result.answerType}}"><img src="assets/icons/sidemenu/new-icons/actions.svg" ></span>
+                            <span class="img-sec" *ngIf="result.answerType =='faq'"  ngbTooltip="{{result.answerType}}" placement="bottom"><img src="assets/icons/question-box.svg" ></span>
+                            <span class="img-sec" *ngIf="result.answerType =='web'" ngbTooltip="{{result.answerType}}"  placement="bottom"><img src="assets/icons/page.svg"></span>
+                            <span class="img-sec" *ngIf="result.answerType =='file'" ngbTooltip="{{result.answerType}}" placement="bottom"><img src="assets/icons/resultranking/file-icon.svg"></span>
+                            <span class="img-sec" *ngIf="result.answerType =='data'" ngbTooltip="{{result.answerType}}" placement="bottom"><img src="assets/icons/resultranking/data-icon.svg"></span>
+                            <span class="img-sec" *ngIf="result.answerType =='task'" ngbTooltip="{{result.answerType}}" placement="bottom"><img src="assets/icons/sidemenu/new-icons/actions.svg" ></span>
                              <span class="results ">{{result.answer}}</span>
                     </div>
                     <div class="col-2 title pl-3">{{result.appearances}}</div>

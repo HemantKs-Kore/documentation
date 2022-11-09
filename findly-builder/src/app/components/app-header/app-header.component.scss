@@ -287,7 +287,7 @@
                             font-size: 12px;
                             line-height: 15px;
                             padding: 0 25px 0 10px;
-                            max-width: 120px;
+                            max-width: 117px;
                             &::before{
                                 right: 4px !important;
                                 top: 1px !important;
@@ -757,6 +757,8 @@
                                     overflow: hidden;
                                     white-space: nowrap;
                                     text-overflow: ellipsis;
+                                    font-family: 'Inter';
+                                    font-style: normal;
 //                                     text-transform: capitalize;
                                 }
                                 .u-mail{
@@ -867,7 +869,7 @@
                                 line-height: 16px;
                                 color: #3C4043;
                                 margin-right: 15px;
-                                max-width: 85px;
+                                max-width: 68px;
                                 @media screen and (max-width: 1201px) {
                                     display: none;
                                 }
@@ -1312,4 +1314,13 @@
   .disable_btn{
     pointer-events: none;
     color: #BDC1C6 !important;
+}
+
+
+.domain-name{
+    font-weight: 400 !important;
+    color: #5F6368 !important;
+    font-size: 11px !important;
+    font-family: 'Inter';
+    font-style: normal;
 }

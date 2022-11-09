@@ -431,6 +431,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
     this.currentSugg = [...this.currentSugg, ...entitiesArray];
   }
+  
   filterTable(source, headerOption) {
     // this.filterSystem.isRuleActiveFilter = 'all';
 
@@ -1668,17 +1669,19 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //validate legends equality with annotators
   updateLegendAnnotators(){
-    for(let item of this.nlpAnnotatorObj.annotator){
+    for(let item of this.nlpAnnotatorObj?.annotator){
        let entities = [];
        item.legends = [];
        for(let entity of item?.entities){
         const Item = this.sys_entities.filter(item => item._id === entity.entityId);
         entities.push(Item[0].entityName);
        }
-       for(let legend of this.nlpAnnotatorObj?.Legends){
-         if(!entities.includes(legend.name)){
-           item.legends.push({name:legend.name,type:legend.type});
-         }
+       if(this.nlpAnnotatorObj?.Legends){
+        for(let legend of this.nlpAnnotatorObj?.Legends){
+          if(!entities.includes(legend.name)){
+            item.legends.push({name:legend.name,type:legend.type});
+          }
+        }
        }
     }
   }
