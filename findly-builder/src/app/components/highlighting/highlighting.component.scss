@@ -16,6 +16,10 @@
 }
 .highlighting-block{
     padding: 15px 20px 15px 35px;
+
+    // .page-common-scroll{
+    //     height: calc(100vh - 120px);
+    // }
   .highlighting-toggle{
     padding: 0 0 10px 0;
     .kr-sg-toggle{
@@ -84,11 +88,26 @@
     border-bottom: 1px solid #E3E4E6;
   }
 
+  .show-hide-container{
+    max-height: 0;
+    transition: max-height 0.15s ease-out;
+    overflow: hidden;
+    &.showmore{
+        max-height: 255px;
+        transition: max-height 0.25s ease-in;
+    }
+  }
+
   .show-hide-block{
-    margin: 10px 0;
     padding: 15px 15px;
     background: #F7F9FA;
     border-radius: 4px;
+    &.block-1{
+        margin: 15px 0 20px 0;
+    }
+    &.block-2{
+        margin: 20px 0 10px 0;
+    }
     .toggle-block{
         display: flex;
         align-items: flex-start;
@@ -141,4 +160,66 @@
     }
   }
 
+}
+
+::ng-deep ngb-modal-window{
+    &.highlightAppearanceModalPopup {
+        .modal-dialog{
+            .modal-content{
+                border-radius: 4px !important;
+                .modal-header{
+                    background: #FFF !important;
+                    box-shadow: none;
+                    padding: 10px 20px 0px 20px;
+                    height: auto;
+                    .title{
+                        font-weight: 500;
+                        font-size: 14px;
+                        line-height: 17px;
+                    }
+                    .close_icon{
+                        background: #fff;
+                        .icon-close{
+                            font-size: 11px;
+                        }
+                    }
+                }
+                .modal-body{
+                    padding: 10px 20px 0px 20px !important;
+                    .tag-desc{
+                        font-weight: 400;
+                        font-size: 12px;
+                        line-height: 15px;
+                        color: #777A80;
+                        padding-bottom: 13px;
+                    }
+                    .tag-form-block{
+                        padding-bottom: 13px;
+                        .kr-sg-input-text{
+                            .label-text{
+                                font-weight: 500;
+                                font-size: 12px;
+                                line-height: 15px;
+                            }
+                            .input-text{
+                                border: 1px solid #EFF0F1;
+                            }
+                        }
+                    }
+                }
+                .modal-footer{
+                    padding: 10px 20px !important;
+                    box-shadow: none;
+                    .modal-footer-with-selected-count{
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-end;
+                        .slected-count{
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
