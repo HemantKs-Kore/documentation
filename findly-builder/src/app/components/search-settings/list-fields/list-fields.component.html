@@ -1,1 +1,301 @@
-<p>list-fields works!</p>
+
+
+<div class="presentable-table-block">
+    <div class="p-table-filter-block">
+        <div class="pt-add">
+            <div class="add-field-link-btn" (click)="openModalPopup()"><span class="icon-add-span"><i class="si-add-plus icon-add"></i></span>
+                Add Field</div>
+        </div>
+        <div class="pt-search">
+            <div class="kr-sg-input-inline-search">                               
+                <input type="text" placeholder="Search" class="input-search">
+                <span class="search-icon close-icon">
+                    <i class="si-close"></i>
+                </span>
+                <span class="search-icon">
+                    <i class="si-search"></i>
+                </span>                                   
+            </div>
+        </div>
+    </div>
+
+    <!-- table start from here -->
+    <div class="index-config-lang-table row m-0">
+        <div class="table_data_content col-12">
+            <div class="table_header row m-0">
+                <div class="col_ col-5 title d-flex align-items-center justify-content-start">
+                    <span class="d-flex align-items-center flex-column mr-2 filter-sort">
+                        <i class="si-chev-up icon-up"></i>
+                        <i class="si-chev-down icon-down"></i>
+                    </span>
+                    FIELD NAME
+                </div>
+                <div class="col_ col-5 title d-flex align-items-center justify-content-start"> 
+                    <span class="d-flex align-items-center flex-column mr-2 filter-sort">
+                        <i class="si-chev-up icon-up"></i>
+                        <i class="si-chev-down icon-down"></i>
+                    </span>
+                    TYPE 
+                </div>
+                <div class="col_ col-2 title d-flex align-items-center justify-content-start"> 
+                    ACTION 
+                </div>
+            </div>
+            <perfect-scrollbar class="table_body_content">
+                        <div class="table_body row m-0">
+                            <div class="col-5 title text-left text-truncate" title="">
+                                English
+                            </div>
+                            <div class="col-5 title text-left p-0">
+                                en
+                            </div>
+                            <div class="col-2 p-0 text-left">
+                                <div class="action_links">
+                                    <!-- <span class="action_link-icon">
+                                        <i class="si-pencil-edit"></i> Edit
+                                    </span> -->
+                                    <span class="action_link-icon link-delete">
+                                        <i class="si-delete1 mr-1"></i> Delete
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table_body row m-0">
+                            <div class="col-5 title text-left text-truncate" title="">
+                                Korean
+                            </div>
+                            <div class="col-5 title text-left p-0">
+                                ko
+                            </div>
+                            <div class="col-2 p-0 text-left">
+                                <div class="action_links">
+                                    <span class="action_link-icon link-delete">
+                                        <i class="si-delete1 mr-1"></i> Delete
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table_body row m-0">
+                            <div class="col-5 title text-left text-truncate" title="">
+                                Korean
+                            </div>
+                            <div class="col-5 title text-left p-0">
+                                ko
+                            </div>
+                            <div class="col-2 p-0 text-left">
+                                <div class="action_links">
+                                    <span class="action_link-icon link-delete">
+                                        <i class="si-delete1 mr-1"></i> Delete
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table_body row m-0">
+                            <div class="col-5 title text-left text-truncate" title="">
+                                Korean
+                            </div>
+                            <div class="col-5 title text-left p-0">
+                                ko
+                            </div>
+                            <div class="col-2 p-0 text-left">
+                                <div class="action_links">
+                                    <span class="action_link-icon link-delete">
+                                        <i class="si-delete1 mr-1"></i> Delete
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table_body row m-0">
+                            <div class="col-5 title text-left text-truncate" title="">
+                                Korean
+                            </div>
+                            <div class="col-5 title text-left p-0">
+                                ko
+                            </div>
+                            <div class="col-2 p-0 text-left">
+                                <div class="action_links">
+                                    <span class="action_link-icon link-delete">
+                                        <i class="si-delete1 mr-1"></i> Delete
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table_body row m-0">
+                            <div class="col-5 title text-left text-truncate" title="">
+                                Korean
+                            </div>
+                            <div class="col-5 title text-left p-0">
+                                ko
+                            </div>
+                            <div class="col-2 p-0 text-left">
+                                <div class="action_links">
+                                    <span class="action_link-icon link-delete">
+                                        <i class="si-delete1 mr-1"></i> Delete
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table_body row m-0">
+                            <div class="col-5 title text-left text-truncate" title="">
+                                Korean
+                            </div>
+                            <div class="col-5 title text-left p-0">
+                                ko
+                            </div>
+                            <div class="col-2 p-0 text-left">
+                                <div class="action_links">
+                                    <span class="action_link-icon link-delete">
+                                        <i class="si-delete1 mr-1"></i> Delete
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table_body row m-0">
+                            <div class="col-5 title text-left text-truncate" title="">
+                                Korean
+                            </div>
+                            <div class="col-5 title text-left p-0">
+                                ko
+                            </div>
+                            <div class="col-2 p-0 text-left">
+                                <div class="action_links">
+                                    <span class="action_link-icon link-delete">
+                                        <i class="si-delete1 mr-1"></i> Delete
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table_body row m-0">
+                            <div class="col-5 title text-left text-truncate" title="">
+                                Korean
+                            </div>
+                            <div class="col-5 title text-left p-0">
+                                ko
+                            </div>
+                            <div class="col-2 p-0 text-left">
+                                <div class="action_links">
+                                    <span class="action_link-icon link-delete">
+                                        <i class="si-delete1 mr-1"></i> Delete
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table_body row m-0">
+                            <div class="col-5 title text-left text-truncate" title="">
+                                Korean
+                            </div>
+                            <div class="col-5 title text-left p-0">
+                                ko
+                            </div>
+                            <div class="col-2 p-0 text-left">
+                                <div class="action_links">
+                                    <span class="action_link-icon link-delete">
+                                        <i class="si-delete1 mr-1"></i> Delete
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table_body row m-0">
+                            <div class="col-5 title text-left text-truncate" title="">
+                                faq_cond_answers
+                            </div>
+                            <div class="col-5 title text-left p-0">
+                                Array
+                            </div>
+                            <div class="col-2 p-0 text-left">
+                                <div class="action_links">
+                                    <span class="action_link-icon link-delete">
+                                        <i class="si-delete1 mr-1"></i> Delete
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+            </perfect-scrollbar>
+        </div>
+    </div>
+
+</div>
+
+
+
+<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop addFieldModalPopup addLanguageModal"
+    #addFieldModalPop>
+    <div class="modal-header">
+        <div class="title">Add Field</div>
+        <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
+    </div>
+    <ng-container>
+
+            <div class="modal-body">
+                <div class="search-field-bar">
+                        <div class="kr-sg-input-inline-search">                               
+                            <input type="text" placeholder="Search" class="input-search">
+                            <span class="search-icon close-icon">
+                                <i class="si-close"></i>
+                            </span>
+                            <span class="search-icon">
+                                <i class="si-search"></i>
+                            </span>                                   
+                        </div>
+                </div>
+                <div class="index-config-lang-table">
+                    <div class="table_data_content">
+                        <div class="table_header row m-0">
+                            <div class="col_ col-8 title d-flex align-items-center justify-content-start">
+                                <span class="d-flex align-items-center flex-column mr-2 filter-sort">
+                                    <i class="si-chev-up icon-up"></i>
+                                    <i class="si-chev-down icon-down"></i>
+                                </span>
+                                FIELD NAME
+                            </div>
+                            <div class="col_ col-4 title d-flex align-items-center justify-content-start"> 
+                                <span class="d-flex align-items-center flex-column mr-2 filter-sort">
+                                    <i class="si-chev-up icon-up"></i>
+                                    <i class="si-chev-down icon-down"></i>
+                                </span>
+                                TYPE 
+                            </div>
+                        </div>
+                        <perfect-scrollbar class="table_body_content">
+                                    <div class="table_body row m-0">
+                                        <div class="col-8 title text-left text-truncate">
+                                            <div class="kr-sg-checkbox">
+                                                <input id="checkbox-2" class="checkbox-custom" type="checkbox">
+                                                <label for="checkbox-2" class="checkbox-custom-label text-truncate" title="faq_question">faq_question faq_question faq_question faq_question</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 title text-left">
+                                            String
+                                        </div>
+                                    </div>
+                                    <div class="table_body row m-0">
+                                        <div class="col-8 title text-left text-truncate">
+                                            <div class="kr-sg-checkbox">
+                                                <input id="checkbox-3" class="checkbox-custom" type="checkbox">
+                                                <label for="checkbox-3" class="checkbox-custom-label text-truncate" title="faq_alt_questions">faq_alt_questions</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 title text-left">
+                                            Array
+                                        </div>
+                                    </div>
+                                   
+                        </perfect-scrollbar>
+                    </div>
+                </div>
+            </div>
+
+        <div class="modal-footer">
+            <div class="modal-footer-with-selected-count">
+                <div class="slected-count">
+                    <span class="slected-count-num">4</span> / <span class="slected-count-num">10</span> Selected
+                </div>
+                <div>
+                    <button type="button" class="kr-sg-button-primary btn_lg float-right">Add</button>
+                    <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
+                </div>
+            </div>
+           
+        </div>
+    </ng-container>
+</kr-modal>
