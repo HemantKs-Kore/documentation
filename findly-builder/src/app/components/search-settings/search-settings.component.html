@@ -32,14 +32,18 @@
     
                   <!--Presentable component-->
                  <ng-container *ngSwitchCase="'highlighting'">
+                  <perfect-scrollbar class="page-common-scroll">
                     <app-highlighting></app-highlighting>
                     <app-list-fields></app-list-fields>
+                  </perfect-scrollbar>
                   </ng-container>
     
                   <!--Presentable component-->
                  <ng-container *ngSwitchCase="'spell_correction'">
+                  <perfect-scrollbar class="page-common-scroll">
                     <app-spell-correction></app-spell-correction>
                     <app-list-fields></app-list-fields>
+                  </perfect-scrollbar>
                   </ng-container>
     
                   <!--Presentable component-->

@@ -1,12 +1,14 @@
 <div class="widget-header-block">
     <div class="widget-header">Presentable</div>
-    <div class="widget-desc">Fields added as presentable are used in displaying the search results. Presentable fields are included in the result payload.</div>
+    <div class="widget-desc">Fields added as presentable are used in displaying the search results. Presentable fields
+        are included in the result payload.</div>
 </div>
 <div class="highlighting-block">
+
     <div class="highlighting-toggle">
-        <label class="kr-sg-toggle with-label">                                       
+        <label class="kr-sg-toggle with-label">
             <input type="checkbox" checked="">
-            <div class="slider"> 
+            <div class="slider">
                 <span class="no">Disable</span>
                 <span class="yes">Enable</span>
             </div>
@@ -14,27 +16,30 @@
     </div>
 
     <!-- show hide content start from here -->
-        <div class="show-hide-block">
+    <div class="show-hide-container showmore">
+        <div class="show-hide-block block-1">
             <div class="toggle-block">
                 <div class="toggle-block-header">
                     <div class="toggle-block-hding">Synonyms Highlighting</div>
-                    <div class="toggle-block-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vulputate dolor nisl non, et nunc, </div>
+                    <div class="toggle-block-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vulputate dolor
+                        nisl non, et nunc, </div>
                 </div>
                 <div class="toggle-block-btn">
-                    <label class="kr-sg-toggle with-label">                                       
+                    <label class="kr-sg-toggle with-label">
                         <input type="checkbox" checked="">
-                        <div class="slider"> 
+                        <div class="slider">
                             <span class="yes">No</span>
                         </div>
                     </label>
                 </div>
             </div>
         </div>
-        <div class="show-hide-block">
+        <div class="show-hide-block block-2">
             <div class="toggle-block">
                 <div class="toggle-block-header">
                     <div class="toggle-block-hding">Highlight Appearance</div>
-                    <div class="toggle-block-desc">Enable Highlighting to highlight the query matches in the search results. It improves readability and helps users </div>
+                    <div class="toggle-block-desc">Enable Highlighting to highlight the query matches in the search results.
+                        It improves readability and helps users </div>
                 </div>
             </div>
             <div class="form-block">
@@ -42,7 +47,8 @@
                     <div class="col-5 pl-0">
                         <div class="kr-sg-input-text">
                             <div class="label-text">Pre Tag</div>
-                            <input type="text" placeholder="Placeholder text" value="<span class='highlightText'>" class="input-text">
+                            <input type="text" placeholder="Placeholder text" value="<span class='highlightText'>"
+                                class="input-text">
                         </div>
                     </div>
                     <div class="col-5 pl-0">
@@ -52,11 +58,13 @@
                         </div>
                     </div>
                     <div class="col-2 p-0">
-                        <div class="form-edit-btn"><span><i class="si-pencil-edit"></i> Edit</span></div>
+                        <div class="form-edit-btn" (click)="openModalPopup();"><span><i class="si-pencil-edit"></i>
+                                Edit</span></div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     <!-- show hide content ends here -->
 
     <div class="show-more-less-link-btn">
@@ -70,3 +78,47 @@
     <div class="block-separate-line"></div>
 
 </div>
+
+<kr-modal modalType="center"
+    modalClass="modal_popups_ highlightAppearanceModalPop highlightAppearanceModalPopup highlightAppearanceModal"
+    #highlightAppearanceModalPop>
+    <div class="modal-header">
+        <div class="title">Highlight Appearance</div>
+        <div class="close_icon" (click)="closeModalPopup()">
+            <i class="si-close icon-close"></i>
+        </div>
+    </div>
+    <ng-container>
+
+        <div class="modal-body">
+            <div class="tag-desc">
+                Enable Highlighting to highlight the query matches in the search results. It improves readability and helps users easily identify where the query matches are in the search results.
+            </div>
+            <div class="tag-form-block">
+                <div class="kr-sg-input-text form-group">
+                    <div class="label-text">Pre Tag</div>
+                    <input type="text" placeholder="Placeholder text" value="<span class='highlightText'>"
+                        class="input-text">
+                </div>
+                <div class="kr-sg-input-text form-group">
+                    <div class="label-text">Post Tag</div>
+                    <input type="text" placeholder="Placeholder text" value="</span>" class="input-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <div class="modal-footer-with-selected-count">
+                <div class="slected-count">
+                    <span class="slected-count-num">4</span> / <span class="slected-count-num">10</span> Selected
+                </div>
+                <div>
+                    <button type="button" class="kr-sg-button-primary btn_lg float-right">Add</button>
+                    <button type="button" class="kr-sg-button-secondary btn_lg float-right"
+                        (click)="closeModalPopup()">Cancel</button>
+                </div>
+            </div>
+
+        </div>
+    </ng-container>
+</kr-modal>
