@@ -278,11 +278,11 @@ export class SettingsComponent implements OnInit {
     );
   }
   updateEmbededSdk(){
-      this.webClientDetails.domains.forEach(element => {
-        if(element = ""){
-          this.webClientDetails.domains.remove(element);
-        }
-      });
+    this.webClientDetails.domains.forEach(element => {
+      if(element == ""){
+        this.webClientDetails.domains.remove(element);
+      }
+    });
       const queryParams = {
         userId: this.authService.getUserId(),
         streamId: this.selectedApp._id

@@ -199,6 +199,9 @@
             .modal-content{
                 border-radius: 4px !important;
                 .modal-header{
+                    .title{
+                        font-weight: 700;
+                    }
                     background: #F7F9FA !important;
                     padding: 10px 15px;
                     height: auto;

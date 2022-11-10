@@ -1302,6 +1302,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/field/:fieldId',
       method: 'put'
     }
+    this.serviceList['put.indexLanguages'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:streamId/indexPipeline/:indexPipelineId/settings',
+      method: 'put'
+    }
 
   }
 }

@@ -229,7 +229,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     HighlightingComponent,
     SpellCorrectionComponent,
     SearchRelevanceComponent,
-    ListFieldsComponent
+    ListFieldsComponent,
   ],
   imports: [
     BrowserModule,

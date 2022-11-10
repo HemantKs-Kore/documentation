@@ -3546,19 +3546,16 @@
     "home_watch_a_quick_desc":"Watch a quick introductory video on the SearchAssist’s features.",
 
 
+    "10NOv":"10NOv  Not Added keys---------------------------------------------------------------------------------------------------------------",
+
+
     "index_Settings": "Index Settings",
-    "index_index_languages": "Index Languages",
-    "index_multilabgual_support_desc":"Multilingual support extends the customer support experience to people who don't speak English, or who are more comfortable conversing in another language.",
-    "index_add_language": "Add Language",
-    "index_language": "LANGUAGE",
-    "index_code": "CODE",
-    "index_Settings": "Index Settings",
-    "index_Settings": "Index Settings",
-    "index_Settings": "Index Settings",
-    "index_Settings": "Index Settings",
-    "index_Settings": "Index Settings",
-    "index_Settings": "Index Settings",
-    "index_Settings": "Index Settings"
+    "index_Settings_index_languages": "Index Languages",
+    "index_Settings_multilangual_support_desc":"Multilingual support extends the customer support experience to people who don't speak English, or who are more comfortable conversing in another language.",
+    "index_Settings_add_language": "Add Language",
+    "index_Settings_language": "LANGUAGE",
+    "index_Settings_code": "CODE",
+    "index_Settings_selected": "Selected"
 
 }
 
