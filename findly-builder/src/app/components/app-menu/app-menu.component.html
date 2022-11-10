@@ -5,17 +5,17 @@
 			<!-- <span [ngClass]="{'status-type':upgradeBannerFlag}"></span> -->
 			<div class="product-subscription-alert">
 				<span class="px-1 close-btn" (click)="showUpgrade=!showUpgrade"><i class="si-close-red"></i></span>
-				<p class="product-subscription-desc" *ngIf="(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80)">You have utilized more than 80% of your current plan, please upgrade plan to enjoy uninturrepted services.</p>
+				<p class="product-subscription-desc" *ngIf="(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80)">{{'app_menu_utlization_80%' | translate}}</p>
 				<img src="assets/images/pricing-plan/plan-subscrition/product-launch.svg" class="product-subscription-img"/>
-				<div class="upgrade-plan-btn" [ngClass]="{'danger':(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80),'warning':((usageDetails?.searchQueries>50&&usageDetails?.searchQueries<=80)||(usageDetails?.ingestDocs>50&&usageDetails?.ingestDocs<=80))}" (click)="upgrade()" (mouseover)="showNotificationBanner('over')" (mouseout)="showNotificationBanner('out')"><i class="si-publish si-icon m-r-2"></i>Upgrade Plan</div>
+				<div class="upgrade-plan-btn" [ngClass]="{'danger':(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80),'warning':((usageDetails?.searchQueries>50&&usageDetails?.searchQueries<=80)||(usageDetails?.ingestDocs>50&&usageDetails?.ingestDocs<=80))}" (click)="upgrade()" (mouseover)="showNotificationBanner('over')" (mouseout)="showNotificationBanner('out')"><i class="si-publish si-icon m-r-2"></i>{{'app_menu_upgrade_plan' | translate}}</div>
 				<div class="hover-documnet-show-data">
 					<div class="card-data- card1">
 						<div class="img-block">
 							<img src="assets/icons/pricing/query-limits.svg">
 						</div>
 						<div class="content-sec">
-							<div class="title">Query limit</div>
-							<div class="desc-text">Percentage of queries asked by the user</div>
+							<div class="title">{{'app_menu_query_limit' | translate}}</div>
+							<div class="desc-text">{{'app_menu_percent_of_queries' | translate}}</div>
 							<div class="count-data">
 								<div class="linit-k">
 									<span>{{usageDetails?.searchCount | valueFormat}}</span> / {{usageDetails?.searchLimit|valueFormat}}
@@ -32,8 +32,8 @@
 							<img src="assets/icons/pricing/document-limit.svg">
 						</div>
 						<div class="content-sec">
-							<div class="title">Document limit</div>
-							<div class="desc-text">Percentage of documents ingested</div>
+							<div class="title">{{'app_menu_doc_limit' | translate}}</div>
+							<div class="desc-text">{{'app_menu_percent_ingest_doc' | translate}}</div>
 							<div class="count-data">
 								<div class="linit-k">
 									<span>{{usageDetails?.ingestCount| valueFormat}}</span> / {{usageDetails?.ingestLimit|valueFormat}}
@@ -108,14 +108,14 @@
 
 							<div class="create-new"
 								(click)="openIndexModalPopup('default');selectIndexConfigDrop.close();"> <img
-									class="mr-2" src="assets\images\plus-add.svg">Create New</div>
+									class="mr-2" src="assets\images\plus-add.svg">{{'app_menu_create_new' | translate}}</div>
 						</ul>
 					</div>
 				</div>
 			</div>
 
 			<div class="index-config-nav-block">
-				<div class="index-title text-truncate">Index Configuration</div>
+				<div class="index-title text-truncate">{{'app_menu_index_config' | translate}}</div>
 
 
 				<div mat-button class="mat-button" [routerLink]="['/FieldManagementComponent']" skipLocationChange
@@ -124,7 +124,7 @@
 						<img src="assets/icons/sidemenu/new-icons/fields.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/fields-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Fields</span>
+					<span class="linkTitle">{{'app_menu_fields' | translate}}</span>
 				</div>
 
 				<div mat-button class="mat-button" [routerLink]="['/traits']" skipLocationChange
@@ -133,7 +133,7 @@
 						<img src="assets/icons/sidemenu/new-icons/traits.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/traits-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Traits</span>
+					<span class="linkTitle">{{'app_menu_traits' | translate}}</span>
 				</div>
 
 				<div mat-button class="mat-button" [routerLink]="['/index']" skipLocationChange
@@ -142,13 +142,13 @@
 						<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/index-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Workbench</span>
+					<span class="linkTitle">{{'app_menu_Workbench' | translate}}</span>
 				</div>
 			</div>
 
 			<div class="search-config-nav-block mb-2">
 
-				<div class="search-config-title text-truncate">Search Configuration</div>
+				<div class="search-config-title text-truncate">{{'app_menu_Search_Configuration' | translate}}</div>
 
 				<div class="search-config-elipse-block pr-0">
 					<div class="title text-truncate"
@@ -162,10 +162,10 @@
 								<img src="assets/icons/sidemenu/dropdownup.svg">
 							</button>
 							<ul class="dropdown-menu content-menu queryPipelineConfig" ngbDropdownMenu>
-								<div class="title-main">Search Profile</div>
+								<div class="title-main">{{'app_menu_search_profile' | translate}}</div>
 								<div class="create-new"
 									(click)="openModalPopup('default');selectSearchConfigDrop.close();">
-									<img class="mr-2" src="assets\images\plus-add.svg">New Profile
+									<img class="mr-2" src="assets\images\plus-add.svg">{{'app_menu_New_Profile' | translate}}
 								</div>
 								<perfect-scrollbar>
 									<li class="list-name text-truncate"
@@ -220,7 +220,7 @@
 						<img src="assets/icons/sidemenu/new-icons/weights.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/weights-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Weights</span>
+					<span class="linkTitle">{{'app_menu_Weights' | translate}}</span>
 				</div>
 
 				<div mat-button class="mat-button" [routerLink]="['/synonyms']" skipLocationChange
@@ -229,7 +229,7 @@
 						<img src="assets/icons/sidemenu/new-icons/synonyms.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/synonyms-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Synonyms</span>
+					<span class="linkTitle">{{'app_menu_Synonyms' | translate}} </span>
 				</div>
 
 				<div mat-button class="mat-button" [routerLink]="['/stopWords']" skipLocationChange
@@ -238,7 +238,7 @@
 						<img src="assets/icons/sidemenu/new-icons/stop-words.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/stop-words-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Stop Words</span>
+					<span class="linkTitle">{{'app_menu_Stop_Words' | translate}} </span>
 				</div>
 
 				<div mat-button class="mat-button" [routerLink]="['/resultranking']" skipLocationChange
@@ -247,7 +247,7 @@
 						<img src="assets/icons/sidemenu/new-icons/results.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/results-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Results Ranking</span>
+					<span class="linkTitle">{{'app_menu_Results_Ranking' | translate}}</span>
 				</div>
 
 				<div mat-button class="mat-button" [routerLink]="['/facets']" skipLocationChange
@@ -256,7 +256,7 @@
 						<img src="assets/icons/sidemenu/new-icons/facets.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/facets-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Facets</span>
+					<span class="linkTitle">{{'app_menu_Facets' | translate}}</span>
 				</div>
 
 				<div mat-button class="mat-button" [routerLink]="['/rules']" skipLocationChange
@@ -265,13 +265,13 @@
 						<img src="assets/icons/sidemenu/new-icons/rules.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/rules-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Business Rules</span>
+					<span class="linkTitle">{{'app_menu_Business_Rules' | translate}}</span>
 				</div>
 
 			</div>
 
 			<div class="search-experience-nav-block mb-2">
-				<div class="search-experience-title text-truncate">SEARCH EXPERIENCE</div>
+				<div class="search-experience-title text-truncate">{{'app_menu_search_experience' | translate}}</div>
 
 				<div mat-button class="mat-button" [routerLink]="['/search-experience']" skipLocationChange
 					routerLinkActive="active" (click)="preview('index')" mat-button>
@@ -281,7 +281,7 @@
 						<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/search-interface-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Search Interface</span>
+					<span class="linkTitle">{{'app_menu_search_interface' | translate}}</span>
 				</div>
 
 				<!-- <div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
@@ -298,7 +298,7 @@
 						<img src="assets/icons/sidemenu/new-icons/result-template.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/result-template-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Result Templates</span>
+					<span class="linkTitle">{{'app_menu_result_templates' | translate}}</span>
 				</div>
 			</div>
 
@@ -308,7 +308,7 @@
 
 			<div class="sources-block-nav-items">
 				<div class="link-side-menu add-sources-btn pr-2">
-					<div class="source_title">Sources</div>
+					<div class="source_title">{{'app_menu_sources' | translate}}</div>
 					<div class="add-sources" [routerLink]="['/source']" skipLocationChange routerLinkActive="active"
 						(click)="preview('Source')">
 						<img src="assets/icons/sidemenu/new-icons/add-source.svg">
@@ -321,7 +321,7 @@
 						<img src="assets/icons/sidemenu/new-icons/page.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/page-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Content</span>
+					<span class="linkTitle">{{'app_menu_content' | translate}}</span>
 				</div>
 
 				<div [routerLink]="['/faqs']" mat-button class="mat-button" skipLocationChange routerLinkActive="active"
@@ -330,7 +330,7 @@
 						<img src="assets/icons/sidemenu/new-icons/faq.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/faq-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">FAQs</span>
+					<span class="linkTitle">{{'app_menu_FAQs' | translate}}</span> 
 				</div>
 
 				<div mat-button class="mat-button" id="botActionsTab" [routerLink]="['/botActions']" skipLocationChange
@@ -339,7 +339,7 @@
 						<img src="assets/icons/sidemenu/new-icons/actions.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/actions-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Actions</span>
+					<span class="linkTitle">{{'app_menu_Actions' | translate}}</span>
 				</div>
 
 
@@ -358,7 +358,7 @@
 						<img src="assets/icons/sidemenu/new-icons/connectors.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/connectors-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Connectors</span>
+					<span class="linkTitle">{{'app_menu_Connectors' | translate}}</span>
 				</div>
 
 			</div>
@@ -372,7 +372,7 @@
 					<img src="assets/icons/sidemenu/new-icons/Settings.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/Settings-active.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle" [ngClass]="{'disable_btn':isRouteDisabled}">General Settings</span>
+				<span class="linkTitle" [ngClass]="{'disable_btn':isRouteDisabled}">{{'app_menu_General_Settings' | translate}}</span>
 			</div>
 
 			<!-- <div class="inside-menu-title">SETTINGS</div> -->
@@ -381,21 +381,21 @@
 					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/channels-active.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle" [ngClass]="{'disable_btn':isRouteDisabled}">Channels</span>
+				<span class="linkTitle" [ngClass]="{'disable_btn':isRouteDisabled}">{{'app_menu_Channels' | translate}}</span>
 			</div>
 			<div mat-button class="mat-button" [ngClass]="{'disable_btn':isRouteDisabled}" [routerLink]="['/credentials-list']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/credentials-active.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle" [ngClass]="{'disable_btn':isRouteDisabled}">Credentials</span>
+				<span class="linkTitle" [ngClass]="{'disable_btn':isRouteDisabled}">{{'app_menu_Credentials' | translate}}</span>
 			</div>
 			<div mat-button class="mat-button" [ngClass]="{'disable_btn':isRouteDisabled}" [routerLink]="['/team-management']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/team_management.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/team_management-active.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle" [ngClass]="{'disable_btn':isRouteDisabled}">Team</span>
+				<span class="linkTitle" [ngClass]="{'disable_btn':isRouteDisabled}">{{'app_menu_Team' | translate}} </span>
 			</div>
 
 			    <div *ngIf="appSelectionService?.env_dep_type!=='installer'">
@@ -439,17 +439,17 @@
 				<div class="kr-sg-radiobutton">
 					<input id="createQueryConfig" [(ngModel)]="newConfigObj.method" name="default" value='default'
 						class="radio-custom" type="radio">
-					<label for="createQueryConfig" class="radio-custom-label">Create New</label>
+					<label for="createQueryConfig" class="radio-custom-label"> {{'app_menu_Create_New' | translate}}</label>
 				</div>
 				<div class="kr-sg-radiobutton">
 					<input id="cloneQueryConfig" [(ngModel)]="newConfigObj.method" (change)='selectDefault()'
 						name="clone" value='clone' class="radio-custom" type="radio">
-					<label for="cloneQueryConfig" class="radio-custom-label">Clone Configuration</label>
+					<label for="cloneQueryConfig" class="radio-custom-label"> {{'app_menu_Clone_Configuration' | translate}}</label>
 				</div>
 			</div>
 			<ng-container *ngIf="newConfigObj.method === 'clone'">
 				<div class="kr-sg-dropdowns kr_sg_dropdowns mb-2 pb-1 pt-4">
-					<div class="label-text">Search Configuration</div>
+					<div class="label-text">{{'app_menu_Search_Configuration' | translate}} </div>
 					<div class="dropdown dropdown-open">
 						<button class="dropdown-toggle dropdown-input"
 							[ngClass]="{'err-block' : (!newConfigObj.config_name.length && submitted)}"
@@ -483,7 +483,7 @@
 			(click)="createConfig()">{{newConfigObj.method==='clone'?'Clone':'Add'}}</button>
 		<!-- [disabled]="!newConfigObj.name" -->
 		<button type="button" class="kr-sg-button-secondary btn_lg float-right"
-			(click)="closeModalPopup()">Cancel</button>
+			(click)="closeModalPopup()">{{'sa_cancel' | translate}}</button>
 	</div>
 </kr-modal>
 <!--index config popup-->
@@ -498,17 +498,17 @@
 				<div class="kr-sg-radiobutton">
 					<input id="createIndexConfig" [(ngModel)]="newIndexConfigObj.method" name="creationType"
 						value='default' class="radio-custom" type="radio">
-					<label for="createIndexConfig" class="radio-custom-label">Create New</label>
+					<label for="createIndexConfig" class="radio-custom-label">{{'app_menu_create_new' | translate}}</label>
 				</div>
 				<div class="kr-sg-radiobutton">
 					<input id="cloneIndexConfig" [(ngModel)]="newIndexConfigObj.method" (change)='selectDefault()'
 						name="creationType" value='clone' class="radio-custom" type="radio">
-					<label for="cloneIndexConfig" class="radio-custom-label">Clone Configuration</label>
+					<label for="cloneIndexConfig" class="radio-custom-label">{{'app_menu_Clone_Configuration' | translate}}</label>
 				</div>
 			</div>
 			<ng-container *ngIf="newIndexConfigObj.method === 'clone'">
 				<div class="kr-sg-dropdowns kr_sg_dropdowns mb-2 pb-1 pt-4">
-					<div class="label-text">Index Configuration</div>
+					<div class="label-text">{{'app_menu_Index_Configuration' | translate}}</div>
 					<div class="dropdown dropdown-open">
 						<button class="dropdown-toggle dropdown-input"
 							[ngClass]="{'err-block' : (!newIndexConfigObj.index_config_name.length && submitted)}"

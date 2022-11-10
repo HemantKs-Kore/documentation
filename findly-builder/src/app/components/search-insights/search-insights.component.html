@@ -23,12 +23,10 @@
             </div>
             <!-- <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                 -->
             <div class="date-select">
-                <span class="day time " (click)="getDateRange(1)" [ngClass]="{'selected': defaultSelectedDay === 1}">24
-                    Hrs</span>
-                <span class="week time" (click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">7
-                    Days</span>
+                <span class="day time " (click)="getDateRange(1)" [ngClass]="{'selected': defaultSelectedDay === 1}">{{'search_insights_24hrs'| translate}}</span>
+                <span class="week time" (click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">{{'search_insights_7days'| translate}}</span>
                 <span class="custom time" (click)="getDateRange(-1)"
-                    [ngClass]="{'selected': defaultSelectedDay === -1}">Custom</span>
+                    [ngClass]="{'selected': defaultSelectedDay === -1}">{{'search_insights_custom'| translate}}</span>
             </div>
             <div class="export d-none"><img src="assets/icons/share.svg"></div>
         </div>
@@ -123,7 +121,7 @@
                                         </span>
                                         {{'search_insights_No_of_Clicks'| translate}} <span class="info-icon"
                                             placement="top-center"
-                                            ngbTooltip="Number of times where at least one result of the query was clicked on by the end-users"
+                                            ngbTooltip="{{'search_insights_no_of_times_atleast_one_result_query' | translate}}"
                                             [container]="'body'" tooltipClass="dashboard-custom-tooltips"
                                             class="pl-1"><img src="assets/icons/Info_gray.svg"></span>
                                     </div>
@@ -164,7 +162,7 @@
                                         <span class="count">{{result.clicks}}</span>
                                         <div class="view-query" (click)="openModalPopup(result)">
                                             <img src="assets/icons/view-query.svg">
-                                            <span>View Results</span>
+                                            <span>{{'search_insights_view_results'| translate}}</span>
                                         </div>
                                     </div>
                                     <div class="col-1 title">{{result.thumbsUps}}</div>
@@ -201,7 +199,7 @@
                                         </span>
                                         {{'search_insights_Count'| translate}} <span class="info-icon"
                                             placement="top-center"
-                                            ngbTooltip="Number of times the query was searched for by the end-users"
+                                            ngbTooltip="{{'search_insights_no_of_times_query_searched' | translate}}"
                                             [container]="'body'" tooltipClass="dashboard-custom-tooltips"
                                             class="pl-1"><img src="assets/icons/Info_gray.svg"></span>
                                     </div>
@@ -266,11 +264,11 @@
             <div class="table_data_content">
                 <div class="table_body row m-0" *ngFor="let result of getSearchQueriesResults;let i = index">
                     <div class="col-4 title d-flex align-items-center">
-                            <span class="img-sec" *ngIf="result.answerType =='faq'"  ngbTooltip="{{result.answerType}}"><img src="assets/icons/question-box.svg" ></span>
-                            <span class="img-sec" *ngIf="result.answerType =='web'" ngbTooltip="{{result.answerType}}"><img src="assets/icons/page.svg"></span>
-                            <span class="img-sec" *ngIf="result.answerType =='file'" ngbTooltip="{{result.answerType}}"><img src="assets/icons/resultranking/file-icon.svg"></span>
-                            <span class="img-sec" *ngIf="result.answerType =='data'" ngbTooltip="{{result.answerType}}"><img src="assets/icons/resultranking/data-icon.svg"></span>
-                            <span class="img-sec" *ngIf="result.answerType =='task'" ngbTooltip="{{result.answerType}}"><img src="assets/icons/sidemenu/new-icons/actions.svg" ></span>
+                            <span class="img-sec" *ngIf="result.answerType =='faq'"  ngbTooltip="{{result.answerType}}" placement="bottom"><img src="assets/icons/question-box.svg" ></span>
+                            <span class="img-sec" *ngIf="result.answerType =='web'" ngbTooltip="{{result.answerType}}"  placement="bottom"><img src="assets/icons/page.svg"></span>
+                            <span class="img-sec" *ngIf="result.answerType =='file'" ngbTooltip="{{result.answerType}}" placement="bottom"><img src="assets/icons/resultranking/file-icon.svg"></span>
+                            <span class="img-sec" *ngIf="result.answerType =='data'" ngbTooltip="{{result.answerType}}" placement="bottom"><img src="assets/icons/resultranking/data-icon.svg"></span>
+                            <span class="img-sec" *ngIf="result.answerType =='task'" ngbTooltip="{{result.answerType}}" placement="bottom"><img src="assets/icons/sidemenu/new-icons/actions.svg" ></span>
                              <span class="results ">{{result.answer}}</span>
                     </div>
                     <div class="col-2 title pl-3">{{result.appearances}}</div>

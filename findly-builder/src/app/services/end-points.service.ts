@@ -1275,7 +1275,7 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['get.contentData'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/connectors/:connectorId/content?offset=:offset&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/connectors/:connectorId/content?offset=:offset&q=:q&limit=:limit',
       method: 'get'
     }
     this.serviceList['post.disableConnector'] = {
