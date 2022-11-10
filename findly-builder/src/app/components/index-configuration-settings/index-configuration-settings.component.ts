@@ -22,6 +22,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   addLangModalPopRef: any;
   indexPipelineId;
   queryPipelineId;
+  searchLanguages:any = '';
   selectedApp;
   seedData;
   saveLanguages:boolean = false
