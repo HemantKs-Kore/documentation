@@ -4,11 +4,11 @@
     <div class="p-table-filter-block">
         <div class="pt-add">
             <div class="add-field-link-btn" (click)="openModalPopup()"><span class="icon-add-span"><i class="si-add-plus icon-add"></i></span>
-                Add Field</div>
+               {{"fields_add_field" |translate}}</div>
         </div>
         <div class="pt-search">
             <div class="kr-sg-input-inline-search">                               
-                <input type="text" placeholder="Search" class="input-search">
+                <input type="text" placeholder="{{'sa_search' | translate}}"  class="input-search">
                 <span class="search-icon close-icon">
                     <i class="si-close"></i>
                 </span>
@@ -28,17 +28,17 @@
                         <i class="si-chev-up icon-up"></i>
                         <i class="si-chev-down icon-down"></i>
                     </span>
-                    FIELD NAME
+                    {{"search_settings_field_name_caps" |translate}}
                 </div>
                 <div class="col_ col-5 title d-flex align-items-center justify-content-start"> 
                     <span class="d-flex align-items-center flex-column mr-2 filter-sort">
                         <i class="si-chev-up icon-up"></i>
                         <i class="si-chev-down icon-down"></i>
                     </span>
-                    TYPE 
+                    {{"search_settings_type" |translate}}
                 </div>
                 <div class="col_ col-2 title d-flex align-items-center justify-content-start"> 
-                    ACTION 
+                    {{"search_settings_action_caps" |translate}}
                 </div>
             </div>
             <perfect-scrollbar class="table_body_content">

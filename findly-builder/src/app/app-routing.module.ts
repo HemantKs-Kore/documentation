@@ -88,6 +88,7 @@ const routes: Routes = [
       { path: 'search-field-properties', component: SearchSettingsComponent },
       { path: 'search-field-properties', component: SearchFieldPropertiesComponent },
       { path: 'index-configuration-settings', component: IndexConfigurationSettingsComponent },
+      { path: 'search-settings', loadChildren: () => import('./modules/search-settings/search-settings.module').then(m => m.SearchSettingsModule) },
       { path: '**', component: AppsListingComponent }
     ]
   }
