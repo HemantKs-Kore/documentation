@@ -44,6 +44,7 @@ export class AppHeaderComponent implements OnInit {
   progressPrecent = 0;
   pagetitle: any;
   field_name: any;
+  countTrainAction = 0;
   workspace_search: any;
   profile_display: any;
   associate_profile_display: any;
@@ -698,6 +699,22 @@ export class AppHeaderComponent implements OnInit {
       this.notificationService.notify('Stoping Train Initiated', 'success');
     }
   }
+// showing Stop button
+displayStopTrain(){
+  if(this.training){
+   this.countTrainAction = this.countTrainAction+1; 
+   this.countTrainAction>1?this.showClose=true:this.showClose=false;
+  }
+  else {
+    this.countTrainAction = 0;
+  }
+}
+displayStopTrainLeave(){
+  this.countTrainAction = 0;
+  this.displayStopTrain()
+}
+
+
   //For stoping Train
   stopTrain(){
     this.training = false;
