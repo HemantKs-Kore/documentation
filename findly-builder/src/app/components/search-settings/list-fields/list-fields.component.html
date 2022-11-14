@@ -6,8 +6,9 @@
             <div class="add-field-link-btn" id="add-field" (click)="openModalPopup()"><span class="icon-add-span"><i class="si-add-plus icon-add"></i></span>
                {{"fields_add_field" |translate}}</div>
         </div>
-
+        <!-- Search -->
         <app-search-filter (searchkey)="getsearchvalue($event)"></app-search-filter>
+        <!-- Search ends-->
         <!-- <div class="pt-search" id="pt-search">
             <div class="kr-sg-input-inline-search" id="inline-search">                               
                 <input type="text" placeholder="{{'sa_search' | translate}}"  class="input-search">
@@ -21,37 +22,42 @@
         </div> -->
     </div>
 
-    <!-- table start from here -->
+    <!-- table header start from here -->
     <div class="index-config-lang-table row m-0" id="sa_lang-table">
         <div class="table_data_content col-12" id="sa_table_data_content">
-            <div class="table_header row m-0" id="sa_table_header">
-                <div class="col_ col-5 title d-flex align-items-center justify-content-start">
-                    <span class="d-flex align-items-center flex-column mr-2 filter-sort" id="filter-sort">
-                        <i class="si-chev-up icon-up" id="sa_icon-up"></i>
-                        <i class="si-chev-down icon-down" id="sa_icon-down"></i>
-                    </span>
-                    {{"search_settings_field_name_caps" |translate}}
+             <!-- table header start from here -->
+                <div class="table_header row m-0" id="sa_table_header">
+                    <div class="col_ col-5 title d-flex align-items-center justify-content-start">
+                        <span class="d-flex align-items-center flex-column mr-2 filter-sort" id="filter-sort">
+                            <i class="si-chev-up icon-up" id="sa_icon-up"></i>
+                            <i class="si-chev-down icon-down" id="sa_icon-down"></i>
+                        </span>
+                        {{"search_settings_field_name_caps" |translate}}
+                    </div>
+                    <div class="col_ col-5 title d-flex align-items-center justify-content-start" id="title"> 
+                        <span class="d-flex align-items-center flex-column mr-2 filter-sort" id="sa_filter-sort">
+                            <i class="si-chev-up icon-up" id="sa_icon-up1"></i>
+                            <i class="si-chev-down icon-down" id="sa_icon-icon-down1"></i>
+                        </span>
+                        {{"search_settings_type" |translate}}
+                    </div>
+                    <div class="col_ col-2 title d-flex align-items-center justify-content-start"> 
+                        {{"search_settings_action_caps" |translate}}
+                    </div>
                 </div>
-                <div class="col_ col-5 title d-flex align-items-center justify-content-start" id="title"> 
-                    <span class="d-flex align-items-center flex-column mr-2 filter-sort" id="sa_filter-sort">
-                        <i class="si-chev-up icon-up" id="sa_icon-up1"></i>
-                        <i class="si-chev-down icon-down" id="sa_icon-icon-down1"></i>
-                    </span>
-                    {{"search_settings_type" |translate}}
-                </div>
-                <div class="col_ col-2 title d-flex align-items-center justify-content-start"> 
-                    {{"search_settings_action_caps" |translate}}
-                </div>
-            </div>
+            <!-- table header end from here -->
+            
+            <!-- Table Records/Body -->
             <perfect-scrollbar class="table_body_content">
-                        <div class="table_body row m-0">
-                            <div class="col-5 title text-left text-truncate" title="">
-                                English
+                        <div class="table_body row m-0" *ngFor="let fields of fieldsArr | filter : [search_value, 'field_name']; ; let i = index" >
+                     
+                            <div class="col-5 title text-left text-truncate" title="" *ngIf="fields.isPresentable">
+                                {{fields.field_name}}
                             </div>
-                            <div class="col-5 title text-left p-0">
-                                en
+                            <div class="col-5 title text-left p-0" *ngIf="fields.isPresentable">
+                                {{fields.type}}
                             </div>
-                            <div class="col-2 p-0 text-left">
+                            <div class="col-2 p-0 text-left" *ngIf="fields.isPresentable">
                                 <div class="action_links">
                                     <!-- <span class="action_link-icon">
                                         <i class="si-pencil-edit"></i> Edit
@@ -61,8 +67,9 @@
                                     </span>
                                 </div>
                             </div>
+                         
                         </div>
-                        <div class="table_body row m-0">
+                        <!-- <div class="table_body row m-0">
                             <div class="col-5 title text-left text-truncate" title="">
                                 Korean
                             </div>
@@ -211,7 +218,7 @@
                                     </span>
                                 </div>
                             </div>
-                         </div>
+                         </div> -->
             </perfect-scrollbar>
         </div>
     </div>
@@ -229,7 +236,8 @@
     <ng-container>
         
             <div class="modal-body">
-                <div class="search-field-bar" id="sa_search-field-bar">
+                <app-search-filter (searchkey)="getsearchvalue($event)"></app-search-filter>
+                <!-- <div class="search-field-bar" id="sa_search-field-bar">
                         <div class="kr-sg-input-inline-search">                               
                             <input type="text" placeholder="{{'sa_search' | translate}}" class="input-search">
                             <span class="search-icon close-icon">
@@ -239,7 +247,7 @@
                                 <i class="si-search" id="sa-si-search"></i>
                             </span>                                   
                         </div>
-                </div>
+                </div> -->
                 <div class="index-config-lang-table" id="sa_index_config_lang_table">
                     <div class="table_data_content">
                         <div class="table_header row m-0" id="sa_table_data_content">
@@ -262,18 +270,18 @@
                             </div>
                         </div>
                         <perfect-scrollbar class="table_body_content" id="sa_table_body">
-                                    <div class="table_body row m-0">
-                                        <div class="col-3">
-                                            <div class="kr-sg-checkbox" id="sa_checkbox">
+                                    <div class="table_body row m-0" *ngFor="let fields of fieldsArr | filter : [search_value, 'field_name']; ; let i = index" >
+                                        <div class="col-3" *ngIf="!fields.isPresentable">
+                                            <div class="kr-sg-checkbox" id="sa_checkbox" >
                                                 <input id="checkbox-2" class="checkbox-custom" type="checkbox">
                                                 <label for="checkbox-2" class="checkbox-custom-label"></label>
                                             </div>
                                         </div>
-                                        <div class="col-6 title text-left p-0 text-truncate" title="">
-                                            faq_alt_questions
+                                        <div class="col-6 title text-left p-0 text-truncate" title=""  *ngIf="!fields.isPresentable">
+                                            {{fields.field_name}}
                                         </div>
-                                        <div class="col-3 title text-left p-0">
-                                            String
+                                        <div class="col-3 title text-left p-0"  *ngIf="!fields.isPresentable">
+                                            {{fields.type}}
                                         </div>
                                     </div>
                         </perfect-scrollbar>

@@ -25,6 +25,7 @@ export class SearchFilterComponent implements OnInit {
     }, 100)
   }
 
+
   focusoutSearch() {
     if (!this.activeClose) {
       this.searchFields = '';
