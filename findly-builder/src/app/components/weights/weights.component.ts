@@ -135,7 +135,7 @@ export class WeightsComponent implements OnInit, OnDestroy
           isField: element.isField,
           fieldId: element.fieldId,
           showFieldWarning: element.showFieldWarning,
-          sliderObj: new RangeSlider(0, 10, 1, element.value, name + i)
+          sliderObj: new RangeSlider(0, 10, 1, element.value, name + i,'',true)
         }
         this.weights.push(obj);
         // console.log("weight noe ", this.weights);
@@ -227,7 +227,10 @@ export class WeightsComponent implements OnInit, OnDestroy
     {
       this.disableCancle = false;
     }
-    weight.sliderObj.default = val;
+    if(weight.sliderObj.default != val){
+      weight.sliderObj.default = val;
+      this.sliderChange();
+    }
   }
   editWeight(weight, index)
   {
@@ -278,7 +281,7 @@ export class WeightsComponent implements OnInit, OnDestroy
       name: '',
       desc: '',
       isField: true,
-      sliderObj: new RangeSlider(0, 10, 1, 2, 'editSlider')
+      sliderObj: new RangeSlider(0, 10, 1, 2, 'editSlider','',true)
     };
     // this. getFieldAutoComplete(''); 
     this.openAddEditWeight();
@@ -362,6 +365,15 @@ export class WeightsComponent implements OnInit, OnDestroy
       tempweights.push(obj);
     });
     return tempweights
+  }
+  sliderChange(){
+   if(this.sliderOpen){
+    return
+   }
+   else {
+    const weights = JSON.parse(JSON.stringify(this.weights));
+    this.addOrUpddate(weights,null,'edit');
+   }
   }
   addOrUpddate(weights, dialogRef?, type?)
   {
