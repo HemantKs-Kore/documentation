@@ -1,39 +1,41 @@
 
 
-<div class="presentable-table-block">
-    <div class="p-table-filter-block">
-        <div class="pt-add">
-            <div class="add-field-link-btn" (click)="openModalPopup()"><span class="icon-add-span"><i class="si-add-plus icon-add"></i></span>
+<div class="presentable-table-block" id="sa_presentable-table">
+    <div class="p-table-filter-block" id="sa_filter-block">
+        <div class="pt-add" id="sa_pt-add">
+            <div class="add-field-link-btn" id="add-field" (click)="openModalPopup()"><span class="icon-add-span"><i class="si-add-plus icon-add"></i></span>
                {{"fields_add_field" |translate}}</div>
         </div>
-        <div class="pt-search">
-            <div class="kr-sg-input-inline-search">                               
+
+        <app-search-filter (searchkey)="getsearchvalue($event)"></app-search-filter>
+        <!-- <div class="pt-search" id="pt-search">
+            <div class="kr-sg-input-inline-search" id="inline-search">                               
                 <input type="text" placeholder="{{'sa_search' | translate}}"  class="input-search">
-                <span class="search-icon close-icon">
+                <span class="search-icon close-icon" id="close-icon">
                     <i class="si-close"></i>
                 </span>
-                <span class="search-icon">
+                <span class="search-icon" id="search-icon">
                     <i class="si-search"></i>
                 </span>                                   
             </div>
-        </div>
+        </div> -->
     </div>
 
     <!-- table start from here -->
-    <div class="index-config-lang-table row m-0">
-        <div class="table_data_content col-12">
-            <div class="table_header row m-0">
+    <div class="index-config-lang-table row m-0" id="sa_lang-table">
+        <div class="table_data_content col-12" id="sa_table_data_content">
+            <div class="table_header row m-0" id="sa_table_header">
                 <div class="col_ col-5 title d-flex align-items-center justify-content-start">
-                    <span class="d-flex align-items-center flex-column mr-2 filter-sort">
-                        <i class="si-chev-up icon-up"></i>
-                        <i class="si-chev-down icon-down"></i>
+                    <span class="d-flex align-items-center flex-column mr-2 filter-sort" id="filter-sort">
+                        <i class="si-chev-up icon-up" id="sa_icon-up"></i>
+                        <i class="si-chev-down icon-down" id="sa_icon-down"></i>
                     </span>
                     {{"search_settings_field_name_caps" |translate}}
                 </div>
-                <div class="col_ col-5 title d-flex align-items-center justify-content-start"> 
-                    <span class="d-flex align-items-center flex-column mr-2 filter-sort">
-                        <i class="si-chev-up icon-up"></i>
-                        <i class="si-chev-down icon-down"></i>
+                <div class="col_ col-5 title d-flex align-items-center justify-content-start" id="title"> 
+                    <span class="d-flex align-items-center flex-column mr-2 filter-sort" id="sa_filter-sort">
+                        <i class="si-chev-up icon-up" id="sa_icon-up1"></i>
+                        <i class="si-chev-down icon-down" id="sa_icon-icon-down1"></i>
                     </span>
                     {{"search_settings_type" |translate}}
                 </div>
@@ -209,7 +211,7 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
+                         </div>
             </perfect-scrollbar>
         </div>
     </div>
@@ -220,49 +222,49 @@
 
 <kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop addFieldModalPopup addLanguageModal"
     #addFieldModalPop>
-    <div class="modal-header">
-        <div class="title">Add Field</div>
-        <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
+    <div class="modal-header" id="sa_modal-header">
+        <div class="title" id="sa_title">{{"fields_add_field" |translate}}</div>
+        <div class="close_icon" id="sa_close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
     </div>
     <ng-container>
-
+        
             <div class="modal-body">
-                <div class="search-field-bar">
+                <div class="search-field-bar" id="sa_search-field-bar">
                         <div class="kr-sg-input-inline-search">                               
-                            <input type="text" placeholder="Search" class="input-search">
+                            <input type="text" placeholder="{{'sa_search' | translate}}" class="input-search">
                             <span class="search-icon close-icon">
-                                <i class="si-close"></i>
+                                <i class="si-close" id="sa_si-close"></i>
                             </span>
                             <span class="search-icon">
-                                <i class="si-search"></i>
+                                <i class="si-search" id="sa-si-search"></i>
                             </span>                                   
                         </div>
                 </div>
-                <div class="index-config-lang-table">
+                <div class="index-config-lang-table" id="sa_index_config_lang_table">
                     <div class="table_data_content">
-                        <div class="table_header row m-0">
+                        <div class="table_header row m-0" id="sa_table_data_content">
                             <div class="col_ col-3 title d-flex align-items-center justify-content-start">
                                 <div class="d-none">checkbox</div>
                             </div>
                             <div class="col_ col-6 title d-flex align-items-center justify-content-start p-0">
-                                <span class="d-flex align-items-center flex-column mr-2 filter-sort">
-                                    <i class="si-chev-up icon-up"></i>
-                                    <i class="si-chev-down icon-down"></i>
+                                <span class="d-flex align-items-center flex-column mr-2 filter-sort" id="sa_filter_sort">
+                                    <i class="si-chev-up icon-up" id="sa_icon_up_2"></i>
+                                    <i class="si-chev-down icon-down" id="sa_icon_up_3"></i>
                                 </span>
-                                FIELD NAME
+                                {{"search_settings_field_name_caps" |translate}}
                             </div>
-                            <div class="col_ col-3 title d-flex align-items-center justify-content-start p-0">
-                                <span class="d-flex align-items-center flex-column mr-2 filter-sort">
-                                    <i class="si-chev-up icon-up"></i>
+                            <div class="col_ col-3 title d-flex align-items-center justify-content-start p-0" id="sa_title">
+                                <span class="d-flex align-items-center flex-column mr-2 filter-sort" id="filter-sort-1">
+                                    <i class="si-chev-up icon-up" id=""></i>
                                     <i class="si-chev-down icon-down"></i>
                                 </span>
-                                 TYPE
+                                {{"search_settings_type" |translate}}
                             </div>
                         </div>
-                        <perfect-scrollbar class="table_body_content">
+                        <perfect-scrollbar class="table_body_content" id="sa_table_body">
                                     <div class="table_body row m-0">
                                         <div class="col-3">
-                                            <div class="kr-sg-checkbox">
+                                            <div class="kr-sg-checkbox" id="sa_checkbox">
                                                 <input id="checkbox-2" class="checkbox-custom" type="checkbox">
                                                 <label for="checkbox-2" class="checkbox-custom-label"></label>
                                             </div>
@@ -325,13 +327,13 @@
             </div>
 
         <div class="modal-footer">
-            <div class="modal-footer-with-selected-count">
-                <div class="slected-count">
-                    <span class="slected-count-num">4</span> / <span class="slected-count-num">10</span> Selected
+            <div class="modal-footer-with-selected-count" id="sa_selected-count">
+                <div class="slected-count" class="sa_slected-count">
+                    <span class="slected-count-num">{{"search_settings_4" |translate}}</span> / <span class="slected-count-num">{{"search_settings_10" |translate}}</span> {{"search_settings_Selected" |translate}}
                 </div>
                 <div>
-                    <button type="button" class="kr-sg-button-primary btn_lg float-right">Add</button>
-                    <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
+                    <button type="button" class="kr-sg-button-primary btn_lg float-right" id="sa_primary_button">{{"search_settings_add" |translate}}</button>
+                    <button type="button" class="kr-sg-button-secondary btn_lg float-right" id="sa_secondary_button" (click)="closeModalPopup()">{{"search_settings__cancel" |translate}}</button>
                 </div>
             </div>
            

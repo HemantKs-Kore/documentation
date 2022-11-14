@@ -12,13 +12,40 @@ export class ListFieldsComponent implements OnInit {
   constructor() { }
 
   addFieldModalPopRef: any;
+  search_value: any;
+  fields:any = [{
+    language: "English",
+    code: "en"
+    }]
+  languageList:any = [
+    {
+      language:'English',
+      code:'en',
+      selected:false
+    },
+    {
+      language:'Korean',
+      code:'ko',
+      selected:false
+    },
+    {
+      language:'Japanese',
+      code:'ja',
+      selected:false
+    },
+    {
+      language:'German',
+      code:'ge',
+      selected:false
+    },
+  ];
 
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
   ngOnInit(): void {
   }
-
+  
   openModalPopup() {
     this.addFieldModalPopRef = this.addFieldModalPop.open();
     setTimeout(() => {
@@ -29,6 +56,10 @@ export class ListFieldsComponent implements OnInit {
 
   closeModalPopup() {
     this.addFieldModalPopRef.close();
+  }
+
+  getsearchvalue(value){
+    this.search_value=value
   }
 
 }
