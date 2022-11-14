@@ -87,7 +87,7 @@ const routes: Routes = [
       { path: 'usageLog', component: UsageLogComponent },
       { path: 'search-field-properties', component: SearchSettingsComponent },
       { path: 'search-field-properties', component: SearchFieldPropertiesComponent },
-      { path: 'index-configuration-settings', component: IndexConfigurationSettingsComponent },
+      { path: 'index-configuration-settings', component: IndexConfigurationSettingsComponent },      
       { path: '**', component: AppsListingComponent }
     ]
   }

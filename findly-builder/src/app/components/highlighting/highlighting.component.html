@@ -1,16 +1,15 @@
 <div class="widget-header-block">
-    <div class="widget-header">Presentable</div>
-    <div class="widget-desc">Fields added as presentable are used in displaying the search results. Presentable fields
-        are included in the result payload.</div>
+    <div class="widget-header" id="sa_widget_header">{{"search_settings_highlighting" |translate}}</div>
+    <div class="widget-desc" id="sa_widget_desc">{{"search_settings_highlighting_desc" |translate}}</div>
 </div>
 <div class="highlighting-block">
 
     <div class="highlighting-toggle">
         <label class="kr-sg-toggle with-label">
             <input type="checkbox" checked="">
-            <div class="slider">
-                <span class="no">Disable</span>
-                <span class="yes">Enable</span>
+            <div class="slider" id="sa_slider">
+                <span class="no">{{"search_settings_disable" |translate}}</span>
+                <span class="yes">{{"search_settings_enable" |translate}}</span>
             </div>
         </label>
     </div>
@@ -19,16 +18,15 @@
     <div class="show-hide-container showmore">
         <div class="show-hide-block block-1">
             <div class="toggle-block">
-                <div class="toggle-block-header">
-                    <div class="toggle-block-hding">Synonyms Highlighting</div>
-                    <div class="toggle-block-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vulputate dolor
-                        nisl non, et nunc, </div>
+                <div class="toggle-block-header" id="sa_block_header">
+                    <div class="toggle-block-hding" id="sa_toggle_block_heading">{{"search_settings_synonyms_highlight" |translate}}</div>
+                    <div class="toggle-block-desc" id="sa_toggle_block_desc">{{"search_settings_loren_ipsum" |translate}}</div>
                 </div>
                 <div class="toggle-block-btn">
                     <label class="kr-sg-toggle with-label">
                         <input type="checkbox" checked="">
-                        <div class="slider">
-                            <span class="yes">No</span>
+                        <div class="slider" id="sa_slider">
+                            <span class="yes">{{"search_settings_no" |translate}}</span>
                         </div>
                     </label>
                 </div>
@@ -36,30 +34,29 @@
         </div>
         <div class="show-hide-block block-2">
             <div class="toggle-block">
-                <div class="toggle-block-header">
-                    <div class="toggle-block-hding">Highlight Appearance</div>
-                    <div class="toggle-block-desc">Enable Highlighting to highlight the query matches in the search results.
-                        It improves readability and helps users </div>
+                <div class="toggle-block-header" id="sa_toggle_header">
+                    <div class="toggle-block-hding" id="sa_toggle_heading_1">{{"search_highlight_appearance" |translate}}</div>
+                    <div class="toggle-block-desc" id="sa_block_desc_1">{{"search_settings_enable_highlight_to_highlight_desc" |transla</div>
                 </div>
             </div>
             <div class="form-block">
                 <div class="row m-0 p-0 col-12">
                     <div class="col-5 pl-0">
                         <div class="kr-sg-input-text">
-                            <div class="label-text">Pre Tag</div>
+                            <div class="label-text" id="sa_label_text">{{"search_settings_pre_tag" |translate}}</div>
                             <input type="text" placeholder="Placeholder text" value="<span class='highlightText'>"
                                 class="input-text">
                         </div>
                     </div>
                     <div class="col-5 pl-0">
                         <div class="kr-sg-input-text">
-                            <div class="label-text">Post Tag</div>
+                            <div class="label-text" id="sa_label_text">{{"search_settings_post_tag" |translate}}</div>
                             <input type="text" placeholder="Placeholder text" value="</span>" class="input-text">
                         </div>
                     </div>
                     <div class="col-2 p-0">
-                        <div class="form-edit-btn" (click)="openModalPopup();"><span><i class="si-pencil-edit"></i>
-                                Edit</span></div>
+                        <div class="form-edit-btn" (click)="openModalPopup();" id="sa_form_edit"><span><i class="si-pencil-edit"></i>
+                            {{"sa_edit" |translate}}</span></div>
                     </div>
                 </div>
             </div>
@@ -72,7 +69,7 @@
             <i class="si-chev-down icon-down-1"></i>
             <i class="si-chev-down icon-down-2"></i>
         </span>
-        <span class="show-more-less-txt">More Options</span>
+        <span class="show-more-less-txt" id="sa_show-more_less">{{"search_settings_more_options" |translate}}</span>
     </div>
 
     <div class="block-separate-line"></div>
@@ -82,40 +79,40 @@
 <kr-modal modalType="center"
     modalClass="modal_popups_ highlightAppearanceModalPop highlightAppearanceModalPopup highlightAppearanceModal"
     #highlightAppearanceModalPop>
-    <div class="modal-header">
-        <div class="title">Highlight Appearance</div>
-        <div class="close_icon" (click)="closeModalPopup()">
+    <div class="modal-header" id="sa_modal_header">
+        <div class="title" id="sa_title">{{"search_settings_highlight_appearnce" |translate}}</div>
+        <div class="close_icon" id="sa_close_icon" (click)="closeModalPopup()">
             <i class="si-close icon-close"></i>
         </div>
     </div>
     <ng-container>
 
         <div class="modal-body">
-            <div class="tag-desc">
-                Enable Highlighting to highlight the query matches in the search results. It improves readability and helps users easily identify where the query matches are in the search results.
+            <div class="tag-desc" id="sa_tag_desc">
+                {{"search_settings_enable_highlight_identify_query_matches" |translate}}
             </div>
             <div class="tag-form-block">
                 <div class="kr-sg-input-text form-group">
-                    <div class="label-text">Pre Tag</div>
+                    <div class="label-text" id="sa_label_text_1">{{"search_settings_pre_tag" |translate}}</div>
                     <input type="text" placeholder="Placeholder text" value="<span class='highlightText'>"
-                        class="input-text">
+                        class="input-text" id="sa_input_field_1">
                 </div>
                 <div class="kr-sg-input-text form-group">
-                    <div class="label-text">Post Tag</div>
-                    <input type="text" placeholder="Placeholder text" value="</span>" class="input-text">
+                    <div class="label-text" id="sa_label_text_2">{{"search_settings_post_tag" |translate}}</div>
+                    <input type="text" placeholder="Placeholder text" value="</span>" class="input-text" id="sa_input_2">
                 </div>
             </div>
         </div>
 
         <div class="modal-footer">
             <div class="modal-footer-with-selected-count">
-                <div class="slected-count">
-                    <span class="slected-count-num">4</span> / <span class="slected-count-num">10</span> Selected
+                <div class="slected-count" id="sa_selected_count_3">
+                    <span class="slected-count-num" id="sa_selected_count_number_3">{{"search_settings_4" |translate}}</span> / <span class="slected-count-num">{{"search_settings_10" |translate}}</span> {{"search_settings_Selected" |translate}}
                 </div>
                 <div>
-                    <button type="button" class="kr-sg-button-primary btn_lg float-right">Add</button>
+                    <button type="button" class="kr-sg-button-primary btn_lg float-right" id="sa_add_button">{{"search_settings_add" |translate}}</button>
                     <button type="button" class="kr-sg-button-secondary btn_lg float-right"
-                        (click)="closeModalPopup()">Cancel</button>
+                        (click)="closeModalPopup()" id="sa_cancel_button">{{"search_settings__cancel" |translate}}</button>
                 </div>
             </div>
 
