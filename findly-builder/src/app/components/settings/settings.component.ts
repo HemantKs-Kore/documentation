@@ -266,7 +266,7 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('get.embededSdk', queryParams).subscribe(
       res => {
         this.webClientDetails = res;
-        this.scriptTags =    res.cssTag +  res.scriptTag +  res.scriptTagInitilization ;
+        this.scriptTags =    res.scriptTag +  res.scriptTagInitilization ;
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
