@@ -1395,7 +1395,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <div class="quick-links">\
           <div>\
           <span class="quick-source">Source:</span>\
-          <span><img class="know-more-snippet" snippetURL="${snippetData?.url}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBbVBRSgNBDE1mMkoRYY/Qo+gRegJ3fgXRK3gCBUX8W3sCewM9gkfwCANtod2ZJJ2ULmxL85U8Xt7LC8KZap60yZxb6znzYvM5+XdnSFMR/bHegUshXHa2SKfEUspUReP64+LP5uuHApmlpbGdCDwKSgPC8/GyKeNgx6ydKj9XteSJOnYlBgjJ8Jy30Q8kGxAQ9qRSIio2qvhiuIUhZr6ponMbTP3qvo9I2NY2eYez5dskGU4C9aYKHiUSWKzew+8YouDDV7X+tnS25JHu+n47O/2GS6+YvMd4UAbn8HY4Y1w7HnB+uw0SNsYAAAAASUVORK5CYII="/><span class="quick-sourcename know-more-snippet" snippetURL="${snippetData?.url}">${snippetData?.source}</span></span>\
+          <span><img class="know-more-snippet" snippetURL="${snippetData?.page_url}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBbVBRSgNBDE1mMkoRYY/Qo+gRegJ3fgXRK3gCBUX8W3sCewM9gkfwCANtod2ZJJ2ULmxL85U8Xt7LC8KZap60yZxb6znzYvM5+XdnSFMR/bHegUshXHa2SKfEUspUReP64+LP5uuHApmlpbGdCDwKSgPC8/GyKeNgx6ydKj9XteSJOnYlBgjJ8Jy30Q8kGxAQ9qRSIio2qvhiuIUhZr6ponMbTP3qvo9I2NY2eYez5dskGU4C9aYKHiUSWKzew+8YouDDV7X+tnS25JHu+n47O/2GS6+YvMd4UAbn8HY4Y1w7HnB+uw0SNsYAAAAASUVORK5CYII="/><span class="quick-sourcename know-more-snippet" snippetURL="${snippetData?.page_url}">${snippetData?.source}</span></span>\
           </div>\
           <div class="quick-item display-none more-results-btn">\
             <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik02LjI5ODM4IDAuNzk2ODc1QzMuMjYyMTQgMC43OTY4NzUgMC44MDA3ODEgMy4yNjQ4MSAwLjgwMDc4MSA2LjMwOTE2QzAuODAwNzgxIDkuMzUzNTEgMy4yNjIxNCAxMS44MjE0IDYuMjk4MzggMTEuODIxNEM3LjYyNjE1IDExLjgyMTQgOC44NDM5OSAxMS4zNDk1IDkuNzk0MTIgMTAuNTYzN0wxMi4zNDMgMTMuMDg4TDEyLjM4MSAxMy4xMjIyQzEyLjU5MDIgMTMuMjkzMyAxMi44OTg4IDEzLjI3OTkgMTMuMDkyMyAxMy4wODM0QzEzLjI5OCAxMi44NzQ2IDEzLjI5NTkgMTIuNTM4MiAxMy4wODc3IDEyLjMzMkwxMC41NDMzIDkuODEyMTZDMTEuMzI2IDguODU5OCAxMS43OTYgNy42Mzk1MSAxMS43OTYgNi4zMDkxNkMxMS43OTYgMy4yNjQ4MSA5LjMzNDYyIDAuNzk2ODc1IDYuMjk4MzggMC43OTY4NzVaTTYuMjk4MzggMS44NTk0OEM4Ljc0OTMyIDEuODU5NDggMTAuNzM2MiAzLjg1MTY3IDEwLjczNjIgNi4zMDkxNkMxMC43MzYyIDguNzY2NjQgOC43NDkzMiAxMC43NTg4IDYuMjk4MzggMTAuNzU4OEMzLjg0NzQ0IDEwLjc1ODggMS44NjA1NiA4Ljc2NjY0IDEuODYwNTYgNi4zMDkxNkMxLjg2MDU2IDMuODUxNjcgMy44NDc0NCAxLjg1OTQ4IDYuMjk4MzggMS44NTk0OFoiIGZpbGw9IiMwMDc3RDIiLz4KPC9zdmc+Cg=="><span class="sdk-i18n-lang" sdk-i18n-key="sa_sdk_more_results">{{html langTranslator("sa_sdk_more_results")}}</span></div>\
@@ -17913,7 +17913,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var payload = {
         "query": ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()),
         // "maxNumOfResults": 9,
-        "maxNumOfResults": 5,
+        "maxNumOfResults": searchConfigurationCopy?.querySuggestionsLimit||2,
         "userId": _self.API.uuid,
         "streamId": _self.API.streamId,
         "lang": "en",
