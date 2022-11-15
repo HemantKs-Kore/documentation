@@ -280,7 +280,8 @@ export class SettingsComponent implements OnInit {
   updateEmbededSdk(){
     this.webClientDetails.domains.forEach(element => {
       if(element == ""){
-        this.webClientDetails.domains.remove(element);
+       var index = this.webClientDetails.domains.indexOf(element);
+       this.webClientDetails.domains.splice(index,1)
       }
     });
       const queryParams = {
@@ -306,11 +307,10 @@ export class SettingsComponent implements OnInit {
     
   }
   onFocusOutEvent(event){
-  this.webClientDetails.domains[this.webClientDetails.domains.length - 1] = event.target.value;
+    this.webClientDetails.domains[this.webClientDetails.domains.length - 1] = event;
   }
   addNewDomain(){
-  this.webClientDetails.domains.push('')
-  
+  this.webClientDetails.domains.push('')  
   }
   deleteDomain(recordIndex){
     this.webClientDetails.domains.splice(recordIndex,1) 

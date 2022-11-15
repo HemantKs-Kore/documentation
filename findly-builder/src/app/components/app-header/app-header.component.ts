@@ -792,7 +792,7 @@ displayStopTrainLeave(){
           }
           this.training = false;
         }
-        if(this.dockersList[0].status === "INPROGRESS"){
+        if(this.dockersList[0]?.status === "INPROGRESS"){
           this.training = true;
         }
         /**made code updates in line no 512 on 03/01 added new condition for FAILED,jobType,TRAINING since FAILURE is updated to FAILED  and action is updated to jobType and TRAIN has been updated to TRAINING as per new api contract*/
