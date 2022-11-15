@@ -28,6 +28,8 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   contactusSuccessModelPopRef: any;
   changePlanModelPopRef: any;
   confirmUpgradeModelPopRef: any;
+  freePlanUpgradeModelPopRef: any;
+
   validations:boolean = false;
   countriesList:any = []
   search_country = '';
@@ -72,6 +74,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   enterpriseForm: any = { name: '', email: '', message: '', phone: '' , company:'',country:''};
   @Input() componentType: string;
   @Output() upgradedEvent = new EventEmitter();
+
   constructor(public dialog: MatDialog,
     private service: ServiceInvokerService,
     private appSelectionService: AppSelectionService,
@@ -81,6 +84,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
     public sanitizer: DomSanitizer,
     private notificationService: NotificationService,
     public localstore: LocalStoreService) { }
+
   @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
   @ViewChild('changePlanModel') changePlanModel: KRModalComponent;
   @ViewChild('choosePlanModel') choosePlanModel: KRModalComponent;
@@ -90,6 +94,8 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   @Output() updateBanner = new EventEmitter<{}>();
   @Output() plansData = new EventEmitter<''>();
   @ViewChild(PerfectScrollbarComponent) public directiveScroll: PerfectScrollbarComponent;
+  @ViewChild('freePlanUpgradeModel') freePlanUpgradeModel: KRModalComponent;
+
   ngOnInit(): void {
     this.getAllPlans();
     this.countriesList = this.constantsService.countriesList;
@@ -97,17 +103,20 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
     this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.selectedPlan = res?.subscription;
+      const billingUnit = (this.selectedPlan?.billingUnit)?(this.selectedPlan?.billingUnit):'Monthly';
+      this.typeOfPlan(billingUnit);
     });
   }
+
   clearcontent() {
     if ($('#searchBoxId') && $('#searchBoxId').length) {
       $('#searchBoxId')[0].value = "";
       this.search_country = '';
     }
   }
+
   //get plans api
   getAllPlans() {   
-
     this.service.invoke('get.pricingPlans').subscribe(res => {
       this.featureTypes = res?.featureTypes;
       this.frequentFAQs = res?.FAQS;
@@ -128,6 +137,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -137,6 +147,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+
   //open popup based on input parameter
   openSelectedPopup(type) {
     if (type === 'choose_plan') {
@@ -152,12 +163,17 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
     else if (type === 'add_overage') {
       this.overageModal('open');
     }
+    else if(type==='free_upgrade'){
+      this.freePlanUpgradeModelPopRef = this.freePlanUpgradeModel.open();
+    }
   }
+
   //close popup based on input parameter
   closeSelectedPopup(type) {
     if (type === 'choose_plan') {
-      this.termPlan = 'Monthly';
-      this.typeOfPlan("Monthly");
+      const billingUnit = (this.selectedPlan?.billingUnit)?(this.selectedPlan?.billingUnit):'Monthly';
+      this.termPlan = billingUnit;
+      this.typeOfPlan(billingUnit);
       if (this.choosePlanModalPopRef?.close) this.choosePlanModalPopRef.close();
     }
     else if (type === 'payment_gateway') {
@@ -169,7 +185,11 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
         this.upgradedEvent.emit();
       }
     }
+    else if(type==='free_upgrade'){
+      if(this.freePlanUpgradeModelPopRef?.close) this.freePlanUpgradeModelPopRef.close();
+    }
   }
+
   //close or open confirmUpgradeModel
   closeConfirmUpgradeModal(type,data?){
    if(type==='open'){
@@ -185,12 +205,14 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
     } 
    }
   }
+
   //hide spinner in payment page
   showHideSpinner() {
     setTimeout(() => {
       this.showLoader = false;
     }, 1500)
   }
+
   //open payment gateway popup
   openPaymentGateway() {
     this.selectedPaymentPage = 'payment_iframe';
@@ -223,11 +245,14 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'failed');
     });
   }
+
+  //status call using poling method
   poling() {
     this.paymentStatusInterval = setInterval(() => {
       this.getPayementStatus();
     }, 3000)
   }
+
   //payment status api
   getPayementStatus() {
     const queryParams = {
@@ -261,12 +286,14 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'failed to payment status');
     });
   }
+
   //open contact us popup
-  contactusModel(type) {
+  contactusModel(type,plan?) {
     if (type === 'open') {
       const userInfo = this.localstore.getAuthInfo();
       this.enterpriseForm.name = userInfo.currentAccount.userInfo.fName;
       this.enterpriseForm.email = userInfo.currentAccount.userInfo.emailId;
+      this.enterpriseForm.message = (plan?.billingUnit&&plan?.name!=='Enterprise')?`${plan?.name} Plan(${plan?.billingUnit}) -`:(plan?.name+' Plan -');
       this.contactusModelPopRef = this.contactUsModel.open();
     }
     else if (type === 'close') {
@@ -276,6 +303,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.clearcontent();
     }
   }
+
   //open or close excess modal popup
   openExcessDataPopup(type) {
     if (type === 'open') {
@@ -285,6 +313,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       if (this.changePlanModelPopRef?.close) this.changePlanModelPopRef.close();
     }
   }
+
   //submitEnterpriseRequest method
   submitEnterpriseRequest() {
     this.btnLoader = true;
@@ -321,7 +350,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       }
       else if (res.status === 'processing' && res.type === 'upgrade') {
         this.invoiceOrderId = res.transactionId;
-        this.getPayementStatus();
+        this.poling();
       }
       else if (res.status === 'failed' && res.code === 'ERR_FAILED_ACCESS_EXCEEDED') {
         this.featuresExceededUsage = res?.featuresExceededUsage;
@@ -341,6 +370,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, errRes?.error?.errors[0].code);
     };
   }
+
   //close payment gateway popup
   closePaymentGatewayPopup() {
     if (this.paymentGatewayModelPopRef && this.paymentGatewayModelPopRef.close) {
@@ -350,6 +380,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.paymentGatewayModelPopRef.close();
     }
   }
+
   //select type plan like monthly or yearly
   typeOfPlan(type) {
     this.filterPlansData = [];
@@ -384,11 +415,13 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
     }
     this.listPlanFeaturesData = listDataMonthlyFeature;
   }
+
   //based on choosePlanType in order confirm popup
   choosePlanType(type) {
     let data = this.totalPlansData.filter(plan => plan.name == this.orderConfirmData.name && plan.billingUnit == type);
     this.orderConfirmData = data[0];
   }
+
   //open | close add overage modal
   overageModal(type) {
     if (type === 'open') {
@@ -409,6 +442,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       if (this.addOverageModalPopRef?.close) this.addOverageModalPopRef.close();
     }
   }
+
   //add overage api
   buyOverage() {
     this.btnLoader = true;
@@ -454,6 +488,14 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'Downloading Invoice failed');
     });
   }
+
+  //open upgrade plan modal
+  freePlanUpgrade(){
+    this.closeSelectedPopup('free_upgrade');
+    this.openSelectedPopup('choose_plan');
+  }
+
+  //clear all subscriptions in below lifecycle
   ngOnDestroy() {
     this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;
   }

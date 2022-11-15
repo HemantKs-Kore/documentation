@@ -127,7 +127,9 @@
                           <img src="assets/icons/Unlink.svg" (click)="openUnlinkApp($event,filter)">
                         </div>
                       </div>
-                      <div class="name">{{filter.name}}</div>
+                      <div class="name">{{filter.name}}
+                        <img src="assets/icons/Info-red.svg" tooltipClass="tooltip-global-" *ngIf="filter.disabled" ngbTooltip="Your App has been deactivated">
+                      </div>
                       <div class="info-text" *ngIf="filter.description !==''" title="{{filter.description}}">{{filter.description}}</div>
                     </div>
                     <div class="user-name text-truncate" ngbTooltip="{{filter.userDetails.fullName}}">{{filter.userDetails.fullName}}</div>
