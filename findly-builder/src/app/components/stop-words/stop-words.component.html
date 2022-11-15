@@ -3,7 +3,28 @@
       <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
       <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
     </div>
-    <div class="header-sec-stopwords">
+
+    <div class="landing-page-header">
+
+      <div class="widget-header-block">
+        <div class="widget-header">{{'stopWords_stop_words'| translate}}</div>
+        <div class="widget-desc">Enable stopwords to filter out the commonly used English words like "a," "an," "the," etc. from the user query before searching</div>
+      </div>
+  
+      <div class="landing-page-toggle">
+          <label class="kr-sg-toggle with-label" *ngIf="(stopwords && stopwords.length)">
+              <input type="checkbox" checked (change)="enableStopWords($event)" [(ngModel)]="enabled">
+              <div class="slider">
+                  <span class="no">Disable</span>
+                  <span class="yes">Enable</span>
+              </div>
+          </label>
+      </div>
+
+      <div class="block-separate-line"></div>
+    </div>
+
+    <!-- <div class="header-sec-stopwords">
       <div class="title">{{'stopWords_stop_words'| translate}}
         <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide'| translate}}" 
  placement="right-center"(click)="openUserMetaTagsSlider()">
@@ -16,11 +37,17 @@
           <div class="slider" ><span class="enabled">{{'stopWords_stop_words'| translate}}</span><span class="disabled">{{'stopWords_stop_words'| translate}}</span></div>
         </label>
       </div>     
-    </div>    
+    </div> -->
+
+    <div class="page-sub-headers">
+      <div class="page-sub-hding">Add Stopwords</div>
+      <div class="page-sub-desc">Lorem Ipsum is a dummy text</div>
+    </div>
+
     <div *ngIf="loadingContent1" class="stop-words-wrapper">
       <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
       <div class="m-0 row addStopWordsBlock" *ngIf="((stopwords && stopwords.length) && !loadingContent) || createFromScratch">
-        <div class="label_text col-12 p-0">{{'stopWords_add_stop_word'| translate}}</div>
+        <!-- <div class="label_text col-12 p-0">{{'stopWords_add_stop_word'| translate}}</div> -->
         <div class="kr-sg-input-text">
             <input [class.err-block]="((!newStopWord || !newStopWord.length) && submitted)" type="text" autocomplete="off" (keyup)="validate($event)" placeholder="Multiple words can be added with comma separation"  maxlength="60" class="input-text" [(ngModel)]="newStopWord">
             <img *ngIf="(!newStopWord || !newStopWord.length) && submitted" id="searchTermWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
@@ -28,13 +55,13 @@
             <div class="error-msg" *ngIf="validation.spaceFound"><img class="pr-1" src="assets/icons/warning_escalation.svg">{{'stopWords_stop_word_should_not_have_space_in_between'| translate}}</div>
         </div>
         <div class="addStopWordsButton">
-            <button class="kr-sg-button-primary btn_lg" (click)="addStopWord()">{{'sa_add'| translate}}</button> <!-- [disabled]="validation.duplicate || validation.spaceFound || !newStopWord" -->
+            <button class="kr-sg-button-primary btn_lg" (click)="addStopWord()"><i class="si-add-plus"></i> {{'sa_add'| translate}}</button> <!-- [disabled]="validation.duplicate || validation.spaceFound || !newStopWord" -->
         </div>
      </div> 
 
      <div class="empty-stopwords" *ngIf="showAddStopWordsContainer && !(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
-      <div class="main_heading">{{'stopWords_lets_start_by_adding_stop_words'| translate}}</div>
-      <div class="desc_info">{{'stopWords_select_on_how_would_you_like_to_add_stop_words'| translate}}</div>
+      <div class="main_heading">{{'Add_Stop_Words'| translate}}</div>
+      <div class="desc_info">{{'How_would_you_like_to_start'| translate}}</div>
       <div class="radio-sec">
         <div class="radio_block">            
           <div class="kr-sg-radiobutton">
@@ -55,7 +82,7 @@
           </div> 
         </div>
       </div>
-      <div class="text-center">
+      <div class="text-left">
         <button class="kr-sg-button-primary btn_lg" (click)="createInit()">{{'stopWords_Continue' | translate}}</button>
       </div>
       </div>  

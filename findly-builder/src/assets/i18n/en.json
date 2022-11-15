@@ -3544,6 +3544,9 @@
     "home_please_type_delete":"Please type DELETE to confirm",
     "home_welcome_to_search_assist":"Welcome to SearchAssist",
     "home_watch_a_quick_desc":"Watch a quick introductory video on the SearchAssist’s features.",
+    "index_Settings": "Index Settings",
+    "Add_Stop_Words": "Add Stop Words",
+    "How_would_you_like_to_start": "How would you like to start?"
 
 
     "10NOv":"10NOv  Not Added keys---------------------------------------------------------------------------------------------------------------",
@@ -3559,9 +3562,6 @@
 
     "11thNov sample":"11Oct  Not Added---------------------------------------------------------------------------------------------------------------",
     "search_settings_title":"Search Settings",
-    "search_settings_Snippets_Component":"Snippets Component",
-    "search_settings_Bot_actions_Component":"Bot actions Component",
-    "search_settings_Small_talk_Component":"Small talk Component",
     "search_settings_Custom_Configuration":"Custom Configuration",
     "search_settings_field_name_caps":"FIELD NAME",
     "search_settings_type":"TYPE",
