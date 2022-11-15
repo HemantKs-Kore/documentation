@@ -24,6 +24,7 @@
         "sa_sdk_search_results": "Search Results",
         "sa_sdk_sort_by_caps": "SORT BY",
         "sa_sdk_know_more": "Know More",
+        "sa_sdk_source": "Source",
         "sa-sdk-sure-please-find-the-matched-results-below": "Sure, please find the matched results below",
         "sa-sdk-unable-to-find-results-at-this-moment": "Unable to find results at this moment",
         "sa_sdk_filters_caps": "FILTERS",
