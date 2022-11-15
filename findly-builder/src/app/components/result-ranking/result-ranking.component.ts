@@ -38,7 +38,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   icontoggle: boolean = false;
   faqDesc: any;
   mocData: any;
-  subscription: Subscription;
+  subscription: Subscription;4
   timeLogData: any;
   lastModifiedOn: any;
   resultSelected = false;
@@ -58,6 +58,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   strucDataDecDis = '';
   loadImageText: boolean = false;
   loadingContent1: boolean;
+  customizedActionLogData = [];
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -469,7 +470,67 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
 
         }
       }
-
+      this.customizedActionLogData = [];
+      this.actionLogData.forEach(data => {
+        let actLog = new ActionLog();
+        actLog.selected  = false;
+        actLog.drop = false;
+        actLog.contentType = data.target.contentType;
+        if(data.target.contentType == 'web'){
+          actLog.icon = "assets/icons/resultranking/copy.svg";
+          actLog.title = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.page_title : '';
+          actLog.desc = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.page_preview : '';
+        }
+        if(data.target.contentType == 'faq'){
+          actLog.icon = "assets/icons/resultranking/faq.svg";
+          actLog.title = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.faq_question : '';
+          actLog.desc = data.target && data.target.contentInfo &&
+           data.target.contentInfo._source && 
+           data.target.contentInfo._source.faq_answer[0].text ? data.target.contentInfo._source.faq_answer[0].text : '';
+        }
+        if(data.target.contentType == 'task'){
+          actLog.icon = "assets/icons/resultranking/task.svg";
+          actLog.title = data.target && data.target.contentInfo ? data.target.contentInfo.lname : '';
+          actLog.desc = data.target && data.target.contentInfo ? data.target.contentInfo.shortDesc : '';
+        }
+        if(data.target.contentType == 'file'){
+          actLog.icon = "assets/icons/resultranking/file-icon.svg";
+          actLog.title = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.file_title : '';
+          actLog.desc = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.file_preview : '';
+        }
+        if(data.target.contentType == 'data'){
+          actLog.icon = "assets/icons/resultranking/data-icon.svg";
+          if (data.target && data.target.contentInfo && data.target.contentInfo._source) {
+            actLog.title = data.target.contentInfo._source[this.strucDataHeading];
+            actLog.desc = data.target.contentInfo._source[this.strucDataDec];
+          }
+        }
+        actLog.action = data.customization.action
+        if(data.customization.action == "pinned"){
+          actLog.actionIcon = "assets/icons/resultranking/pined.svg"
+          //actLog.actionDesc
+        }
+        if(data.customization.action == "hidden"){
+          actLog.actionIcon = "assets/icons/resultranking/Unsee.svg"
+          //actLog.actionDesc
+        }
+        if(data.customization.action == "lowered"){
+          actLog.actionIcon = "assets/icons/resultranking/MoveUp.svg"
+          //actLog.actionDesc
+        }
+        if(data.customization.action == "boosted"){
+          actLog.actionIcon = "assets/icons/resultranking/MoveUp.svg"
+          //actLog.actionDesc
+        }
+        actLog.value = data.customization.value
+        actLog.addedResult = data.target.addedResult
+        actLog.lMod = moment(data.customization.lMod).fromNow();
+        if (data.logs) {
+          actLog.createdOn = moment(data.createdOn).fromNow();
+        }
+        this.customizedActionLogData.push(actLog)
+      });
+      console.log(this.customizedActionLogData);
       this.timeLog(record)
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -748,3 +809,20 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     this.appSelectionService.topicGuideShow.next();
   }
 }
+
+class ActionLog {
+  selected : boolean = false;
+  drop : boolean = false;
+  contentType : string =""
+  icon : string = ""
+  title : string = ""
+  desc : string = ""
+  action : string = ""
+  actionIcon : string = ""
+  actionDesc : string = ""
+  value : string = ""
+  addedResult : string = ""
+  lMod : string = ""
+  createdOn : string =""
+}
+
