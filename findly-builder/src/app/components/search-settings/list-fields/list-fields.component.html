@@ -49,21 +49,21 @@
             
             <!-- Table Records/Body -->
             <perfect-scrollbar class="table_body_content">
-                        <div class="table_body row m-0" *ngFor="let fields of fieldsArr | filter : [search_value, 'field_name']; ; let i = index" >
+                        <div class="table_body row m-0" *ngFor="let fields of fieldsArr | filter : [search_value, 'field_name'];let i = index" >
                      
-                            <div class="col-5 title text-left text-truncate" title="" *ngIf="fields.isPresentable">
+                            <div class="col-5 title text-left text-truncate" title="">
                                 {{fields.field_name}}
                             </div>
-                            <div class="col-5 title text-left p-0" *ngIf="fields.isPresentable">
+                            <div class="col-5 title text-left p-0">
                                 {{fields.type}}
                             </div>
-                            <div class="col-2 p-0 text-left" *ngIf="fields.isPresentable">
+                            <div class="col-2 p-0 text-left">
                                 <div class="action_links">
                                     <!-- <span class="action_link-icon">
                                         <i class="si-pencil-edit"></i> Edit
                                     </span> -->
-                                    <span class="action_link-icon link-delete">
-                                        <i class="si-delete1 mr-1"></i> Delete
+                                    <span class="action_link-icon link-delete" (click)="deletefieldsDataPopup(fields)">
+                                        <i class="si-delete1 mr-1" ></i> Delete
                                     </span>
                                 </div>
                             </div>
@@ -270,17 +270,17 @@
                             </div>
                         </div>
                         <perfect-scrollbar class="table_body_content" id="sa_table_body">
-                                    <div class="table_body row m-0" *ngFor="let fields of fieldsArr | filter : [search_value, 'field_name']; ; let i = index" >
-                                        <div class="col-3" *ngIf="!fields.isPresentable">
+                                    <div class="table_body row m-0" *ngFor="let fields of fieldsArr | filter : [search_value, 'field_name'];let i = index" >
+                                        <div class="col-3">
                                             <div class="kr-sg-checkbox" id="sa_checkbox" >
-                                                <input id="checkbox-2" class="checkbox-custom" type="checkbox">
-                                                <label for="checkbox-2" class="checkbox-custom-label"></label>
+                                                <input id="{{ fields._id }}"  class="checkbox-custom" type="checkbox" (click)="addRecord(fields,i,$event)">
+                                                <label for="{{ fields._id }}" class="checkbox-custom-label"></label>
                                             </div>
                                         </div>
-                                        <div class="col-6 title text-left p-0 text-truncate" title=""  *ngIf="!fields.isPresentable">
-                                            {{fields.field_name}}
+                                        <div class="col-6 title text-left p-0 text-truncate" title="" >
+                                            {{fields.field_name}} 
                                         </div>
-                                        <div class="col-3 title text-left p-0"  *ngIf="!fields.isPresentable">
+                                        <div class="col-3 title text-left p-0" >
                                             {{fields.type}}
                                         </div>
                                     </div>
@@ -336,9 +336,9 @@
 
         <div class="modal-footer">
             <div class="modal-footer-with-selected-count" id="sa_selected-count">
-                <div class="slected-count" class="sa_slected-count">
-                    <span class="slected-count-num">{{"search_settings_4" |translate}}</span> / <span class="slected-count-num">{{"search_settings_10" |translate}}</span> {{"search_settings_Selected" |translate}}
-                </div>
+                <!-- <div class="slected-count" class="sa_slected-count">
+                    <span class="slected-count-num">{{this.recordArray.length}}</span> / <span class="slected-count-num">{{fieldsArr.length}}</span> {{"search_settings_Selected" |translate}}
+                </div> -->
                 <div>
                     <button type="button" class="kr-sg-button-primary btn_lg float-right" id="sa_primary_button">{{"search_settings_add" |translate}}</button>
                     <button type="button" class="kr-sg-button-secondary btn_lg float-right" id="sa_secondary_button" (click)="closeModalPopup()">{{"search_settings__cancel" |translate}}</button>

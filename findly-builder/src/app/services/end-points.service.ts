@@ -1306,6 +1306,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:streamId/indexPipeline/:indexPipelineId/settings',
       method: 'put'
     }
-
-  }
+    //get presentable list elements
+    this.serviceList['get.presentableFields'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?isSelected=:isSelected',
+      method: 'get'
+    }
+ }
 }
