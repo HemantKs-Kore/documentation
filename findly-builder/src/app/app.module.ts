@@ -131,6 +131,7 @@ import { HighlightingComponent } from './components/highlighting/highlighting.co
 import { SpellCorrectionComponent } from './components/spell-correction/spell-correction.component';
 import { SearchRelevanceComponent } from './components/search-relevance/search-relevance.component';
 import { ListFieldsComponent } from './components/search-settings/list-fields/list-fields.component';
+import { SearchFilterComponent } from './helpers/components/search-filter/search-filter.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -229,7 +230,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     HighlightingComponent,
     SpellCorrectionComponent,
     SearchRelevanceComponent,
-    ListFieldsComponent
+    ListFieldsComponent,
+    SearchFilterComponent,
   ],
   imports: [
     BrowserModule,

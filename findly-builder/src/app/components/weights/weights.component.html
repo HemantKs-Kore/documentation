@@ -61,7 +61,7 @@
                             </div>
                             <div class="sliderVal">{{weightModal.sliderObj.default}}</div>
                             <div class="action_links" *ngIf="(currentEditIndex !== i)">
-                                <span class="actions-links pr-4" id="btn_editWeight"
+                                <span class="actions-links pr-4 d-none" id="btn_editWeight"
                                     (click)="editWeight(weightModal,i)"><img class="action_icon" [container]="'body'"
                                         ngbTooltip='Edit' src="assets/images/edit-pencil.svg"></span>
                                 <span class="actions-links" id="btn_deleteWeight" ngbTooltip='Delete'
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                 </perfect-scrollbar>
-                <div class="weightsFooter">
+                <div class="weightsFooter d-none">
                     <!-- <div class="add_btn_sec">
                 </div> -->
                     <div class="cancel_save_sec">
@@ -142,7 +142,7 @@
                 <input type="text" id="input_weightsName" maxlength="60" [(ngModel)]="addEditWeighObj.name"
                     placeholder="Placeholder text" class="input-text">
             </div>
-            <div class="kr-sg-input-text-area mb-25">
+            <div class="kr-sg-input-text-area mb-25 d-none">
                 <div class="label-text">{{'weights_description'| translate}}</div>
                 <textarea id="input_weightsDesc" [(ngModel)]="addEditWeighObj.desc" maxlength="250"
                     placeholder="Short Description" class="input-text"></textarea>
