@@ -214,7 +214,7 @@ export class WeightsComponent implements OnInit, OnDestroy
         this.inlineManual.openHelp('WEIGHTS')
         this.inlineManual.visited('WEIGHTS')
       }
-      this.mixpanel.postEvent('Enter Weights',{});
+      // this.mixpanel.postEvent('Enter Weights',{});
     }, errRes =>
     {
       this.loadingContent = false;
@@ -383,7 +383,7 @@ export class WeightsComponent implements OnInit, OnDestroy
       if (type == 'add')
       {
         this.notificationService.notify('Added Successfully', 'success');
-      this.mixpanel.postEvent('Save Weights',{});
+      // this.mixpanel.postEvent('Save Weights',{});
       }
       else if (type == 'edit')
       {
