@@ -25,68 +25,142 @@
             left: 25px;
             font-size: 12px;
         }  
-    }  
-    .header-sec-stopwords{
-        display: flex;
-        align-items: center;
-        background: #F8F9FA;
-        padding: 15px 30px;
-        justify-content: space-between;
-        .title{
-            font-weight: 500;
-            font-size: 18px;   
-            line-height: 22px;
-            color: #000000;         
+    }
+
+    .landing-page-header{
+        padding: 0px 20px 0px 35px;
+        .widget-header-block{
+            padding: 35px 0px 15px 0px;
+            .widget-header{
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 17px;
+                color: #121314;
+                padding-bottom: 10px;
+            }
+            .widget-desc{
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 15px;
+                color: #777A80;
+            }
         }
-        .toggle_switch{
-            margin-right: 115px;
-            line-height: normal;
+    
+        .landing-page-toggle{
+            padding: 0 20px 5px 0px;
             .kr-sg-toggle{
-                position: relative;
-                display: inline-block;
-                width: 40px;
-                height: 20px;
-                margin: 0;               
                 input{
-                    height: auto;
-                    &:checked {
+                    &:not(:checked){
                         + .slider{
-                            border: 1px solid #0D6EFD;
-                            background-color: #0D6EFD;
-                            &::before{
-                                transform: translateX(20px);
-                                background-color: #ffffff;
+                            span{
+                                &.no{
+                                    color: #202124;
+                                }
                             }
                         }
                     }
                 }
-                .slider{
-                    background-color: #ffffff;
-                    border: 1px solid #BDC1C6;
-                    &::before{
-                        height: 12px;
-                        top: 3px;
-                        width: 12px;
-                        left: 3px;    
-                        background: #BDC1C6;                  
-                    }
-                    .enabled, .disabled{
-                        width: 214px;
-                        font-size: 12px;
-                        color: #202124;
-                        padding-left: 50px;
-                        top: 1px;
-                    }
-                    .disabled{
-
+                &.with-label{
+                    margin-left: 49px;
+                    .slider{
+                        .no{
+                            margin-left: -49px;
+                        }
                     }
                 }
             }
+          }
+
+          .block-separate-line{
+            border-bottom: 1px solid #E3E4E6;
+          }
+    }
+
+    .page-sub-headers{
+        padding: 20px 20px 10px 35px;
+        .page-sub-hding{
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 17px;
+            color: #121314;
         }
-    }         
+        .page-sub-desc{
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            color: #777A80;
+            padding-top: 10px;
+        }
+    }
+
+
+    // .header-sec-stopwords{
+    //     display: flex;
+    //     align-items: center;
+    //     background: #fff;
+    //     padding: 15px 30px;
+    //     justify-content: space-between;
+    //     .title{
+    //         font-weight: 500;
+    //         font-size: 18px;   
+    //         line-height: 22px;
+    //         color: #000000;         
+    //     }
+    //     .toggle_switch{
+    //         margin-right: 115px;
+    //         line-height: normal;
+    //         .kr-sg-toggle{
+    //             position: relative;
+    //             display: inline-block;
+    //             width: 40px;
+    //             height: 20px;
+    //             margin: 0;               
+    //             input{
+    //                 height: auto;
+    //                 &:checked {
+    //                     + .slider{
+    //                         border: 1px solid #0D6EFD;
+    //                         background-color: #0D6EFD;
+    //                         &::before{
+    //                             transform: translateX(20px);
+    //                             background-color: #ffffff;
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //             .slider{
+    //                 background-color: #ffffff;
+    //                 border: 1px solid #BDC1C6;
+    //                 &::before{
+    //                     height: 12px;
+    //                     top: 3px;
+    //                     width: 12px;
+    //                     left: 3px;    
+    //                     background: #BDC1C6;                  
+    //                 }
+    //                 .enabled, .disabled{
+    //                     width: 214px;
+    //                     font-size: 12px;
+    //                     color: #202124;
+    //                     padding-left: 50px;
+    //                     top: 1px;
+    //                 }
+    //                 .disabled{
+
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }      
+    
+    
     .stop-words-wrapper{
-        padding: 40px 30px;
-        height: calc(100% - 52px);
+        // padding: 40px 30px;
+        // height: calc(100% - 52px);
+        border: 1px solid #E3E4E6;
+        border-radius: 4px;
+        padding: 10px 15px 10px 15px;
+        margin: 0 30px;
         .addStopWordsBlock{     
             margin-bottom: 8px;       
            .kr-sg-input-text{
@@ -105,15 +179,24 @@
             .addStopWordsButton{
                 display: inline-block;
                 padding: 0;
-                margin-left: 15px;                              
+                margin-left: 15px;    
+                .kr-sg-button-primary{
+                    .si-add-plus{
+                        font-size: 11px;
+                        padding-right: 5px;
+                        &::before{
+                            color: #fff;
+                        }
+                    }
+                }                          
             }         
         }  
         .empty_screen_data{
             .scoll-empty-screen{
-                height: calc(100vh - 156px);
+                height: calc(100vh - 230px);
                 .empty-landing-screen{
                     padding: 0;                    
-                    height: calc(100vh - 156px);
+                    // height: calc(100vh - 156px);
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -122,37 +205,37 @@
             }
         }     
         .empty-stopwords{
-            width: 569px;
+            width: 100%;
             background: #FFFFFF;
-            box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
-            border-radius: 10px;
+            box-shadow: none;
+            border-radius: 0px;
             margin: 0 auto;
-            padding: 45px 40px;
+            padding: 0px 0px;
             .main_heading{
                 font-weight: 600;
                 font-size: 18px;
                 line-height: 14px;
                 color: #423F3F;
                 margin-bottom: 12px;
-                text-align: center;
+                text-align: left;
             }
             .desc_info{
                 font-weight: 500;
                 font-size: 12px;
                 line-height: 14px;
                 color: #423F3F;
-                text-align: center;
+                text-align: left;
             }
             .radio-sec{
-                padding: 48px 0;
+                padding: 30px 0;
                 .radio_block{
-                    background: #FAFAFA;
-                    border: 1px solid #E5E8EC;
+                    background: #fff;
+                    border: 1px solid #FFF;
                     box-sizing: border-box;
                     border-radius: 8px;
-                    padding: 16px 24px;
-                    width: 486px;
-                    margin: 12px 0;
+                    padding: 10px 0px;
+                    width: 100%;
+                    margin: 0px 0;
                     .kr-sg-radiobutton{
                         padding: 0;
                         .radio-custom {
@@ -234,7 +317,7 @@
             }
         }
         .table-scroll-perfect-synonyms{
-            height: calc(100vh - 285px);
+            height: calc(100vh - 455px);
             .stopWordsListing{
                 padding: 11px 0;
                 .wordTag{                                                                       

@@ -53,7 +53,9 @@
     
                   <!--Presentable component-->
                  <ng-container *ngSwitchCase="'search_relevance'">
+                  <perfect-scrollbar class="page-common-scroll">
                     <app-search-relevance></app-search-relevance>
+                  </perfect-scrollbar>
                   </ng-container>
     
                   <!--Presentable component-->
@@ -73,7 +75,8 @@
     
                   <!--Presentable component-->
                  <ng-container *ngSwitchCase="'small_talk'">
-                    Small talk Component
+                    <!-- Small talk Component -->
+                    <app-small-talk></app-small-talk>
                   </ng-container>
     
                   <!--Presentable component-->
