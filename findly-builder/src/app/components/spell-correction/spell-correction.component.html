@@ -63,10 +63,10 @@
 
     <div class="show-more-less-link-btn">
         <span class="icon-add-span d-flex align-items-center flex-column">
-            <i class="si-chev-down icon-down-1" *ngIf="!more_options"></i>
-            <i class="si-chev-down icon-down-2" *ngIf="!more_options"></i>
-            <i class="si-chev-up icon-down-1" *ngIf="more_options"></i>
-            <i class="si-chev-up icon-down-2"  *ngIf="more_options"></i>
+            <i class="si-chev-down icon-down-1" *ngIf="!more_options" (click)="openContainer()"></i>
+            <i class="si-chev-down icon-down-2" *ngIf="!more_options" (click)="openContainer()"></i>
+            <i class="si-chev-up icon-down-1" *ngIf="more_options" (click)="closeContainer()"></i>
+            <i class="si-chev-up icon-down-2"  *ngIf="more_options" (click)="closeContainer()"></i>
         </span>
         <span class="show-more-less-txt"  (click)="openContainer()" *ngIf="!more_options">{{"search_settings_more_options" |translate}}</span>
         <span class="show-more-less-txt" id="sa_show-more_less" (click)="closeContainer()" *ngIf="more_options">{{"search_settings_less_options" |translate}}</span>
