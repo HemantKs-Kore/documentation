@@ -53,16 +53,16 @@ export class ConnectorsSourceComponent implements OnInit {
       url: "https://www.zendesk.com/",
       doc_url: "https://developer.zendesk.com/documentation/",
       tag: "Engineering Awesome"
+    },
+    {
+      connector_name: "SharePoint",
+      description: "Please complete configuration",
+      type: "sharePoint",
+      image: "assets/icons/connectors/sharepoint.png",
+      url: "https://microsoft.sharepoint.com/",
+      doc_url: "https://learn.microsoft.com/en-us/sharepoint/dev/",
+      tag: "Empowering teamwork"
     }
-    // {
-    //   connector_name: "SharePoint",
-    //   description: "Please complete configuration",
-    //   type: "sharePoint",
-    //   image: "assets/icons/connectors/sharepoint.png",
-    //   url: "https://microsoft.sharepoint.com/",
-    //   doc_url: "https://learn.microsoft.com/en-us/sharepoint/dev/",
-    //   tag: "Empowering teamwork"
-    // }
   ];
   componentType = 'Connectors';
   selectedContent: string = 'list';
