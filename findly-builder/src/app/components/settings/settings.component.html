@@ -462,7 +462,7 @@
                                                             <ng-container *ngFor="let domainUrl of webClientDetails.domains ;let i = index">
                                                                 <div class="input-url-box mb-2">
                                                                     <div class="kr-sg-input-text">
-                                                                        <input type="text" placeholder="sampleurl.com" class="input-text" [value]="domainUrl" (input)="onFocusOutEvent($event.target.value)" [disabled]="i != (webClientDetails.domains.length-1)">
+                                                                        <input type="text" placeholder="sampleurl.com" class="input-text" [value]="domainUrl" (input)="onFocusOutEvent($event)" [disabled]="i != (webClientDetails.domains.length-1)">
                                                                     </div>
                                                                     <div class="actions-copy-ext">
                                                                         <div class="btn-ext-copy" ngbTooltip="{{'sa_delete' | translate}}" (click)="deleteDomain(i)">

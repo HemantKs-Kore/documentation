@@ -278,9 +278,9 @@ export class SettingsComponent implements OnInit {
     );
   }
   updateEmbededSdk(){
-    this.webClientDetails.domains.forEach(element => {
+    this.webClientDetails.domains.forEach((element, index) => {
       if(element == ""){
-       var index = this.webClientDetails.domains.indexOf(element);
+      //  var index = this.webClientDetails.domains.indexOf(element);
        this.webClientDetails.domains.splice(index,1)
       }
     });
@@ -294,7 +294,7 @@ export class SettingsComponent implements OnInit {
       // payload.domains = this.webClientDetails.domains;
       this.service.invoke('post.updateEmbededSdk', queryParams ,payload).subscribe(
         res => {
-          console.log('API Triggered',res);
+          // console.log('API Triggered',res);
         },
         errRes => {
           if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -307,7 +307,7 @@ export class SettingsComponent implements OnInit {
     
   }
   onFocusOutEvent(event){
-    this.webClientDetails.domains[this.webClientDetails.domains.length - 1] = event;
+    this.webClientDetails.domains[this.webClientDetails.domains.length - 1] = event.target.value;
   }
   addNewDomain(){
   this.webClientDetails.domains.push('')  
