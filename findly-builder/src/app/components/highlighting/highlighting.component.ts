@@ -8,7 +8,7 @@ import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
   styleUrls: ['./highlighting.component.scss']
 })
 export class HighlightingComponent implements OnInit {
-
+   more_options:boolean=false;
   constructor() { }
 
   highlightAppearanceModalPopRef: any;
@@ -17,6 +17,7 @@ export class HighlightingComponent implements OnInit {
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
   ngOnInit(): void {
+    this.more_options=false;
   }
 
   openModalPopup() {
@@ -29,6 +30,12 @@ export class HighlightingComponent implements OnInit {
 
   closeModalPopup() {
     this.highlightAppearanceModalPopRef.close();
+  }
+  openContainer(){
+    this.more_options=true;
+  }
+  closeContainer(){
+    this.more_options=false;
   }
 
 }

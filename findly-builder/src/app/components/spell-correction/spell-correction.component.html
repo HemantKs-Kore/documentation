@@ -1,41 +1,41 @@
-<div class="widget-header-block">
-    <div class="widget-header">Spell Correction</div>
-    <div class="widget-desc">Enable spell correction to identify and correct the misspellings in the user’s query and improve the search results</div>
+<div class="widget-header-block" id="sa_widget-header-block">
+    <div class="widget-header" id="sa-widget-header">{{"search_settings_spell_correction" |translate}}</div>
+    <div class="widget-desc" id="sa_widget-desc">{{"search_settings_spell_correction_desc" |translate}}</div>
 </div>
 
-<div class="landing-page-block">
-    <div class="landing-page-toggle">
-        <label class="kr-sg-toggle with-label">
-            <input type="checkbox" checked="">
-            <div class="slider">
-                <span class="no">Disable</span>
-                <span class="yes">Enable</span>
+<div class="landing-page-block" id="sa-landing-page-block">
+    <div class="landing-page-toggle" id="sa-landing-page-toggle">
+        <label class="kr-sg-toggle with-label" id="kr-sg-toggle-with-label">
+            <input type="checkbox" checked="" id="sa_checkbox_1">
+            <div class="slider" id="sa_slider_1">
+                <span class="no" id="sa_no_1">{{"search_settings_disable" |translate}}</span>
+                <span class="yes" id="sa_yes_1">{{"search_settings_enable"|translate}}</span>
             </div>
         </label>
     </div>
 
     <!-- show hide content start from here -->
-    <div class="show-hide-container showmore">
+    <div class="show-hide-container" [ngClass]="{'showmore' : more_options}">
         <div class="show-hide-block block-1">
             <div class="toggle-block w-100">
                 <div class="toggle-block-header width-25 text-truncate">
-                    <div class="toggle-block-hding text-truncate" title="Minimum Character Threshold">Minimum Character Threshold</div>
+                    <div class="toggle-block-hding text-truncate" title="Minimum Character Threshold">{{"search_settings_minimum_char_threshold" |translate}}</div>
                 </div>
 
                 <div class="toggle-block-header width-55">
-                    <div class="toggle-block-desc">Set value for the minimum number of characters a word should have to be spell corrected</div>
+                    <div class="toggle-block-desc">{{"search_settings_set_value_minimum_no_of_char" |translate}}</div>
                 </div>
 
                 <div class="toggle-count-btn width-15">
-                    <div class="toggle-count-sub">-</div>
-                    <div class="toggle-count-num">4</div>
-                    <div class="toggle-count-add">+</div>
+                    <div class="toggle-count-sub" (click)="mindecrementValue()">-</div>
+                    <div class="toggle-count-num">{{min_threshold}}</div>
+                    <div class="toggle-count-add" (click)="minincrementValue()">+</div>
                 </div>
             </div>
 
             <div class="text-note-warning">
                 <span class="warning-icon-span"><i class="si-warning"></i></span>
-                For a very small value for minimum number of characters a word, you'll get a lot of false positive results.
+                {{"search_setting_small_value_min_no_of_char" |translate}}
             </div>
 
         </div>
@@ -43,17 +43,17 @@
         <div class="show-hide-block block-2">
             <div class="toggle-block w-100">
                 <div class="toggle-block-header width-25 text-truncate">
-                    <div class="toggle-block-hding text-truncate" title="Minimum Character Threshold">Maximum Typo Edits</div>
+                    <div class="toggle-block-hding text-truncate" title="Minimum Character Threshold">{{"search_setting_max_typo_edits" |translate}}</div>
                 </div>
 
                 <div class="toggle-block-header width-55">
-                    <div class="toggle-block-desc">Set value for the maximum number of typos that will be corrected in a word</div>
+                    <div class="toggle-block-desc">{{"search_setting_max_no_of_typos_will_be_corrected" |translate}}</div>
                 </div>
 
                 <div class="toggle-count-btn width-15">
-                    <div class="toggle-count-sub">-</div>
-                    <div class="toggle-count-num">4</div>
-                    <div class="toggle-count-add">+</div>
+                    <div class="toggle-count-sub" (click)="maxdecrementValue()">-</div>
+                    <div class="toggle-count-num">{{max_threshold}}</div>
+                    <div class="toggle-count-add" (click)="maxincrementValue()">+</div>
                 </div>
             
             </div>
@@ -63,10 +63,13 @@
 
     <div class="show-more-less-link-btn">
         <span class="icon-add-span d-flex align-items-center flex-column">
-            <i class="si-chev-down icon-down-1"></i>
-            <i class="si-chev-down icon-down-2"></i>
+            <i class="si-chev-down icon-down-1" *ngIf="!more_options"></i>
+            <i class="si-chev-down icon-down-2" *ngIf="!more_options"></i>
+            <i class="si-chev-up icon-down-1" *ngIf="more_options"></i>
+            <i class="si-chev-up icon-down-2"  *ngIf="more_options"></i>
         </span>
-        <span class="show-more-less-txt">More Options</span>
+        <span class="show-more-less-txt"  (click)="openContainer()" *ngIf="!more_options">{{"search_settings_more_options" |translate}}</span>
+        <span class="show-more-less-txt" id="sa_show-more_less" (click)="closeContainer()" *ngIf="more_options">{{"search_settings_less_options" |translate}}</span>
     </div>
 
     <div class="block-separate-line"></div>

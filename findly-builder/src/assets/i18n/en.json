@@ -3579,7 +3579,7 @@
     "search_settings_enable":"Enable",
     "search_settings_synonyms_highlight":"Synonyms Highlighting",
     "search_settings_loren_ipsum":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vulputate dolor nisl non, et nunc, ",
-    "search_settings_no":"No",
+    "search_settings_no":"On",
     "search_highlight_appearance":"Highlight Appearance",
     "search_settings_enable_highlight_to_highlight_desc":"Enable Highlighting to highlight the query matches in the search results.It improves readability and helps users",
     "search_settings_pre_tag":"Pre Tag",
@@ -3595,6 +3595,7 @@
     "search_settings_plus":"+",
     "search_setting_small_value_min_no_of_char":"For a very small value for minimum number of characters a word, you'll get a lot of false positive results.",
     "search_setting_max_typo_edits":"Maximum Typo Edits",
-    "search_setting_max_no_of_typos_will_be_corrected":"Set value for the maximum number of typos that will be corrected in a word"
+    "search_setting_max_no_of_typos_will_be_corrected":"Set value for the maximum number of typos that will be corrected in a word",
+    "search_settings_less_options":"Show Less"
 }
 

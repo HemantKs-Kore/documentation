@@ -15,7 +15,7 @@
     </div>
 
     <!-- show hide content start from here -->
-    <div class="show-hide-container showmore">
+    <div class="show-hide-container" [ngClass]="{'showmore' : more_options}">
         <div class="show-hide-block block-1">
             <div class="toggle-block">
                 <div class="toggle-block-header" id="sa_block_header">
@@ -36,7 +36,7 @@
             <div class="toggle-block">
                 <div class="toggle-block-header" id="sa_toggle_header">
                     <div class="toggle-block-hding" id="sa_toggle_heading_1">{{"search_highlight_appearance" |translate}}</div>
-                    <div class="toggle-block-desc" id="sa_block_desc_1">{{"search_settings_enable_highlight_to_highlight_desc" |transla</div>
+                    <div class="toggle-block-desc" id="sa_block_desc_1">{{"search_settings_enable_highlight_to_highlight_desc" |translate}}</div>
                 </div>
             </div>
             <div class="form-block">
@@ -66,10 +66,13 @@
 
     <div class="show-more-less-link-btn">
         <span class="icon-add-span d-flex align-items-center flex-column">
-            <i class="si-chev-down icon-down-1"></i>
-            <i class="si-chev-down icon-down-2"></i>
+            <i class="si-chev-down icon-down-1" *ngIf="!more_options"></i>
+            <i class="si-chev-down icon-down-2"  *ngIf="!more_options"></i>
+            <i class="si-chev-up icon-down-1" *ngIf="more_options"></i>
+            <i class="si-chev-up icon-down-2"  *ngIf="more_options"></i>
         </span>
-        <span class="show-more-less-txt" id="sa_show-more_less">{{"search_settings_more_options" |translate}}</span>
+        <span class="show-more-less-txt" id="sa_show-more_less" (click)="openContainer()" *ngIf="!more_options">{{"search_settings_more_options" |translate}}</span>
+        <span class="show-more-less-txt" id="sa_show-more_less" (click)="closeContainer()" *ngIf="more_options">{{"search_settings_less_options" |translate}}</span>
     </div>
 
     <div class="block-separate-line"></div>
