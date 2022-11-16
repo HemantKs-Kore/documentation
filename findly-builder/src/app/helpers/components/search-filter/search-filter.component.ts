@@ -25,10 +25,19 @@ export class SearchFilterComponent implements OnInit {
     }, 100)
   }
 
+
+  // focusoutSearch() {
+  //   if (!this.activeClose) {
+  //     this.searchFields = '';
+  //     this.activeClose = false;
+  //   }
+  //   this.showSearch = !this.showSearch;
+  // }
   focusoutSearch() {
-    if (!this.activeClose) {
+    if (this.activeClose) {
       this.searchFields = '';
       this.activeClose = false;
+      //this.getFileds(this.searchFields)
     }
     this.showSearch = !this.showSearch;
   }
