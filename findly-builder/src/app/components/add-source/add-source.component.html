@@ -87,7 +87,7 @@
               *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='file')">
               <ul class="nav nav-tabs" *ngIf=" (selectedSourceType.id !='faqDoc')" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active" data-toggle="tab" href="#fromfile" (click)="selectExtract('file')">{{"ContentSource_extract_from_file" | translate}}</a>
+                  <a class="nav-link active" data-toggle="tab" href="#fromfile" (click)="selectExtract('file')">{{"contentSource_extract_from_file" | translate}}</a>
                 </li>
                 <li class="nav-item ">
                   <a class="nav-link" data-toggle="tab" href="#fromurl" (click)="selectExtract('url')">{{"contentSource_extract_from_url" | translate}}</a>
@@ -539,7 +539,7 @@
                   <section class="table-content">
                       <header class="table-header">
                           <div class="col-4">{{"contentSource_field_key_caps" | translate}}</div> 
-                          <div class="col-4">{{"CONTENTSOURCE_FIELD_VALUE_CAPS" | translate}}</div>
+                          <div class="col-4">{{"contentSource_field_value_caps" | translate}}</div>
                           <!-- <div class="col-2"></div> -->
                           <div class="col-4">{{"contentSource_actions_caps" | translate}}</div>
                       </header>
@@ -609,7 +609,7 @@
                 <div class="kr-sg-data-table">
                   <section class="table-content" *ngIf="crwalObject.authorizationProfle.formFields.length>0">
                       <header class="table-header">
-                          <div class="col-3">{{"CONTENTSOURCE_FIELD_KEY_CAPS" | translate}}</div> 
+                          <div class="col-3">{{"contentSource_field_value_caps" | translate}}</div> 
                           <div class="col-2">{{"contentSource_field_type_caps" | translate}}</div>
                           <div class="col-3">{{"contentSource_field_value_caps" | translate}}</div>
                           <div class="col-2"></div>
@@ -739,9 +739,9 @@
                 <div class="kr-sg-data-table">
                   <section class="table-content" *ngIf="crwalObject?.authorizationProfle?.authorizationFields.length>0">
                       <header class="table-header">
-                          <div class="col-3">{{"CONTENTSOURCE_FIELD_KEY_CAPS" | translate}}</div> 
+                          <div class="col-3">{{"contentSource_field_value_caps" | translate}}</div> 
                           <div class="col-2">FILED TYPE</div>
-                          <div class="col-3">{{"CONTENTSOURCE_FIELD_VALUE_CAPS" | translate}}</div>
+                          <div class="col-3">{{"contentSource_field_value_caps" | translate}}</div>
                           <div class="col-2"></div>
                           <div class="col-2 text-right">{{"contentSource_actions_caps" | translate}}</div>
                       </header>
@@ -880,7 +880,7 @@
               <div class="col-4">
                 <div class="kr-sg-input-text">
                   <div class="label-text">{{"contentSource_test_value" | translate}}<sup class="field-mandatory">*</sup></div>
-                  <input id="contentTestValueId" [type]="(crwalObject.authorizationProfle.testType==='status_code')?'number':'text'" placeholder="{{'contentSource_test_value' | translate}" class="input-text" [ngClass]="{'maxUrlLimit-class':crwalObject.authorizationProfle.testType==='status_code'}" [(ngModel)]="crwalObject.authorizationProfle.testValue" autocomplete="off">
+                  <input id="contentTestValueId" [type]="(crwalObject.authorizationProfle.testType==='status_code')?'number':'text'" placeholder="{{'contentSource_test_value' | translate}}" class="input-text" [ngClass]="{'maxUrlLimit-class':crwalObject.authorizationProfle.testType==='status_code'}" [(ngModel)]="crwalObject.authorizationProfle.testValue" autocomplete="off">
                 </div>
               </div>
             </div>

@@ -403,6 +403,18 @@
             &.new-train-btn{
                 .kr-sg-button-secondary{
                     border-radius: 2px;
+                    min-width: 98px !important;
+                    &.show-close{
+                        border: 1px solid #dd3646;
+                    }
+                    .train-btn-icons{
+                        .icon-close{
+                            font-size: 10px;
+                            position: relative;
+                            top: -1px;
+                            font-weight: 600;
+                        }
+                    }
                 }
             }
             &.train-btn{
@@ -1315,12 +1327,22 @@
     pointer-events: none;
     color: #BDC1C6 !important;
 }
-
-
-.domain-name{
-    font-weight: 400 !important;
-    color: #5F6368 !important;
-    font-size: 11px !important;
-    font-family: 'Inter';
-    font-style: normal;
+.training-pending-icon {
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // width: 17px;
+    // height: 28px;
+    // margin:-14px 0 0 -33px;
+    position: relative;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
 }
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

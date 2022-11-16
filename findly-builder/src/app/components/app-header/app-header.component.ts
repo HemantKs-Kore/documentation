@@ -33,6 +33,7 @@ export class AppHeaderComponent implements OnInit {
   toShowAppHeader: boolean;
   mainMenu = '';
   showMainMenu: boolean = true;
+  showClose: boolean = false;
   currentRouteData: any = "";
   displyStatusBar: boolean = true;
   onboardingOpened: boolean = false;
@@ -43,6 +44,7 @@ export class AppHeaderComponent implements OnInit {
   progressPrecent = 0;
   pagetitle: any;
   field_name: any;
+  countTrainAction = 0;
   workspace_search: any;
   profile_display: any;
   associate_profile_display: any;
@@ -124,7 +126,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Synonyms', routeId: '/synonyms', quaryParms: {} },
     { displayName: 'StopWords', routeId: '/stopWords', quaryParms: {} },
     { displayName: 'Facets', routeId: '/facets', quaryParms: {} },
-    { displayName: 'Rules', routeId: '/rules', quaryParms: {} },
+    { displayName: 'Business Rules', routeId: '/rules', quaryParms: {} },
     { displayName: 'Search Interface', routeId: '/search-experience', quaryParms: {} },
     { displayName: 'Result Templates', routeId: '/searchInterface', quaryParms: {} },
     { displayName: 'Dashboard', routeId: '/dashboard', quaryParms: {} },
@@ -664,33 +666,71 @@ export class AppHeaderComponent implements OnInit {
     this.ref.detectChanges();
   }
   train() {
-    if (this.training) {
-      return;
-    }
-    this.training = true;
-    const self = this;
-    const selectedApp = this.workflowService.selectedApp();
-    if (selectedApp && selectedApp.searchIndexes && selectedApp.searchIndexes.length) {
-      const payload = {
-        indexPipelineId: this.workflowService.selectedIndexPipeline()
-      }
-      const quaryparms = {
-        searchIndexId: selectedApp.searchIndexes[0]._id
-      }
-      this.service.invoke('train.app', quaryparms, payload).subscribe(res => {
-        if (this.training) {
-          self.notificationService.notify('Training has been Initiated', 'success');
+    if(!this.training){
+      this.training = true;
+      const self = this;
+      var url ;
+      const selectedApp = this.workflowService.selectedApp();
+      if (selectedApp && selectedApp.searchIndexes && selectedApp.searchIndexes.length) {
+        const payload = {
+          indexPipelineId: this.workflowService.selectedIndexPipeline()
         }
-        setTimeout(() => {
-          // self.training = false;
-          this.trainingInitiated = true;
-          this.poling();
-        }, 5000)
-      }, errRes => {
-        self.training = false;
-        this.notificationService.notify('Failed to train the app', 'error');
-      });
+        const quaryparms = {
+          searchIndexId: selectedApp.searchIndexes[0]._id
+        }
+        this.service.invoke('train.app', quaryparms, payload).subscribe(res => {
+          if (this.training) {
+            self.notificationService.notify('Training has been Initiated', 'success');
+          }
+          setTimeout(() => {
+            // self.training = false;
+            this.trainingInitiated = true;
+            // this.appSelectionService.updateTourConfig('indexing');
+            this.poling();
+          }, 200)
+        }, errRes => {
+          self.training = false;
+          this.notificationService.notify('Failed to train the app', 'error');
+        });
+      }
     }
+    else {
+      this.stopTrain();
+      this.notificationService.notify('Stoping Train Initiated', 'success');
+    }
+  }
+// showing Stop button
+displayStopTrain(){
+  if(this.training){
+   this.countTrainAction = this.countTrainAction+1; 
+   this.countTrainAction>1?this.showClose=true:this.showClose=false;
+  }
+  else {
+    this.countTrainAction = 0;
+  }
+}
+displayStopTrainLeave(){
+  this.countTrainAction = 0;
+  this.displayStopTrain()
+}
+
+
+  //For stoping Train
+  stopTrain(){
+    this.training = false;
+    const selectedApp = this.workflowService.selectedApp();
+    const quaryparms = {
+      searchIndexId: selectedApp.searchIndexes[0]._id,
+      jobId: this.dockersList[0]._id
+    }
+    this.service.invoke('stopTrain.app', quaryparms).subscribe(res => {
+      if (res && !this.training) {
+        this.notificationService.notify('Training has been stopped', 'success');
+      }
+    }, errRes => {
+      this.training = true;
+      this.notificationService.notify('Failed to stop training', 'error');
+    });
   }
   switchAccount() {
     localStorage.removeItem('selectedAccount');
@@ -751,6 +791,9 @@ export class AppHeaderComponent implements OnInit {
             this.notificationService.notify('Training Completed', 'success');
           }
           this.training = false;
+        }
+        if(this.dockersList[0]?.status === "INPROGRESS"){
+          this.training = true;
         }
         /**made code updates in line no 512 on 03/01 added new condition for FAILED,jobType,TRAINING since FAILURE is updated to FAILED  and action is updated to jobType and TRAIN has been updated to TRAINING as per new api contract*/
         // if (this.trainingInitiated && this.dockersList[0].status === 'FAILURE' && this.dockersList[0].action === "TRAIN") {
