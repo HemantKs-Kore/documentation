@@ -84,7 +84,7 @@
                 <ng-template #rt let-r="result" let-t="term">
                     <ngb-highlight (click)="triggerRoute(null,r)" [result]="r.displayName" [term]="t"></ngb-highlight>
                 </ng-template>
-                <li class="nav-item autoSearchTools d-none">
+                <!-- <li class="nav-item autoSearchTools d-none">
                     <img src="assets/icons/sidemenu/search.svg" (click)="toggleSearch(true)"
                         [ngClass]="{'d-none': searchActive}">
                     <div class="kr-sg-input-search" [ngClass]="{'d-none': !searchActive}">
@@ -98,7 +98,7 @@
                         <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchText">
                         <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}" (click)="focusoutSearch()">
                     </div>
-                </li>
+                </li> -->
                 <!-- <div class="text-right nav-item trainBlock d-none">
                     <button class="kr-sg-button-primary btn_lg" [disabled]='training' (click)="train()">{{(training)?'Training...':'Train'}}</button>
                 </div> -->

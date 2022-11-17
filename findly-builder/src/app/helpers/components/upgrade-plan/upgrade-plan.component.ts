@@ -37,8 +37,8 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   termPlan = "Monthly";
   featureTypes: any = [];
   frequentFAQs: any = [];
-  totalPlansData: any;
-  filterPlansData: any;
+  totalPlansData: Array<any>=[];
+  filterPlansData: Array<any>=[];
   showPlanDetails: string = '';
   orderConfirmData: any;
   selectedPlan: any = {};
@@ -101,6 +101,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
     this.countriesList = this.constantsService.countriesList;
     this.selectedApp = this.workflowService?.selectedApp();
     this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
+    this.typeOfPlan();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.selectedPlan = res?.subscription;
       const billingUnit = (this.selectedPlan?.billingUnit)?(this.selectedPlan?.billingUnit):'Monthly';
@@ -121,12 +122,12 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.featureTypes = res?.featureTypes;
       this.frequentFAQs = res?.FAQS;
       this.totalPlansData = res?.plans?.sort((a, b) => { return a.displayOrder - b.displayOrder });
-      this.typeOfPlan("Monthly");
       this.totalPlansData.forEach(data => {
         let dat = Object.values(data.featureAccess);
         data = Object.assign(data, { "featureData": dat });
       });
       this.plansData.emit();
+      this.typeOfPlan();
     }, errRes => {
       if (localStorage.jStorage) {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -382,44 +383,48 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   }
 
   //select type plan like monthly or yearly
-  typeOfPlan(type) {
+  typeOfPlan(type?) {
+    const billingUnit = (type)?type:(this.selectedPlan?.billingUnit||'Monthly');
     this.filterPlansData = [];
-    this.termPlan = type;
-    for (let data of this.totalPlansData) {
-      if (data?.billingUnit == type || data?.planId === 'fp_free') {
-        this.filterPlansData.push(data);
+    this.termPlan = billingUnit;
+    if(this.totalPlansData.length>0){
+      for (let data of this.totalPlansData) {
+        if (data?.billingUnit == billingUnit || data?.planId === 'fp_free') {
+          this.filterPlansData.push(data);
+        }
       }
-    }
-    let listData = [...this.totalPlansData];
-    this.listPlanFeaturesData = [];
-    let listDataMonthlyFeature = [];
-    listData.forEach(data => {
-      Object.keys(data.featureAccess);
-      Object.values(data.featureAccess);
-      Object.entries(data.featureAccess);
-      /** Pick only the Month Plans */
-      if (data.planId == this.plansIdList.free || data.type == this.plansIdList.standardMonth || data.type == this.plansIdList.enterpriceMonth) {
-        listDataMonthlyFeature.push(Object.entries(data.featureAccess))
-      }
-    })
-    for (let i = 1; i <= listDataMonthlyFeature.length; i++) {
-      if (listDataMonthlyFeature[i]) {
-        for (let j = 0; j < listDataMonthlyFeature[i].length; j++) {
-          if (listDataMonthlyFeature[i][j]) {
-            if (listDataMonthlyFeature[i][j][0] == listDataMonthlyFeature[0][j][0]) { //comapre 3 records with 1st record's Key
-              listDataMonthlyFeature[0][j].push(listDataMonthlyFeature[i][j][1])       // push the values array in 1st record
+      let listData = [...this.totalPlansData];
+      this.listPlanFeaturesData = [];
+      let listDataMonthlyFeature = [];
+      listData.forEach(data => {
+        Object.keys(data.featureAccess);
+        Object.values(data.featureAccess);
+        Object.entries(data.featureAccess);
+        /** Pick only the Month Plans */
+        if (data.planId == this.plansIdList.free || data.type == this.plansIdList.standardMonth || data.type == this.plansIdList.enterpriceMonth) {
+          listDataMonthlyFeature.push(Object.entries(data.featureAccess))
+        }
+      })
+      for (let i = 1; i <= listDataMonthlyFeature.length; i++) {
+        if (listDataMonthlyFeature[i]) {
+          for (let j = 0; j < listDataMonthlyFeature[i].length; j++) {
+            if (listDataMonthlyFeature[i][j]) {
+              if (listDataMonthlyFeature[i][j][0] == listDataMonthlyFeature[0][j][0]) { //comapre 3 records with 1st record's Key
+                listDataMonthlyFeature[0][j].push(listDataMonthlyFeature[i][j][1])       // push the values array in 1st record
+              }
             }
           }
         }
       }
+      this.listPlanFeaturesData = listDataMonthlyFeature;
     }
-    this.listPlanFeaturesData = listDataMonthlyFeature;
   }
 
   //based on choosePlanType in order confirm popup
   choosePlanType(type) {
     let data = this.totalPlansData.filter(plan => plan.name == this.orderConfirmData.name && plan.billingUnit == type);
     this.orderConfirmData = data[0];
+    console.log("this.orderConfirmData",this.orderConfirmData);
   }
 
   //open | close add overage modal

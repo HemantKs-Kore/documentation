@@ -253,7 +253,7 @@
               <button class="btn" (click)="selectModal('choose_plan')">{{"plan_upgrade_plan" | translate}}</button>
             </div>
             <div class="plan-features-block">
-              <!-- <perfect-scrollbar class="paln-overflow-scroll"> -->
+              <perfect-scrollbar class="paln-overflow-scroll">
                 <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span>{{['unlimited','enterprise'].includes(plan?.name|lowercase)?plan?.featureAccess?.ingestDocs?.displayText:plan?.featureAccess?.ingestDocs?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">{{"plan_documents" | translate}}</span> </div>
                 <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span> {{['unlimited','enterprise'].includes(plan?.name|lowercase)?plan?.featureAccess?.searchQueries?.displayText:plan?.featureAccess?.searchQueries?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">{{"plan_queries_month" | translate}}{{currentSubscriptionPlan?.subscription?.billingUnit&&'/'+currentSubscriptionPlan?.subscription?.billingUnit}}</span> </div>
                 <div class="plan-sub-features">
@@ -267,7 +267,7 @@
                   <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>{{"plan_koreAi_academay" | translate}}</div>
                   <div class="plan-feature-desc" *ngIf="['standard','enterprise','unlimited'].includes(plan?.name|lowercase)"><span class="icon-si"><i class="si-green-check"></i></span>{{plan?.name}} {{"plan_support_upgrade_option" | translate}}</div>
                 </div>
-              <!-- </perfect-scrollbar> -->
+              </perfect-scrollbar>
             </div>
           </div>
         </div>

@@ -168,7 +168,7 @@
                       (click)="runExperiment(exp._id, 'stopped', $event)" />
                     <img src="assets/icons/play_black.svg" ngbTooltip="{{'experiments_play' | translate}}" *ngIf="exp.state === 'paused'"
                       (click)="runExperiment(exp._id, 'active', $event)" />
-                    <img src="assets/icons/return_black.svg" *ngIf="exp.state === 'stopped'"
+                    <img src="assets/icons/return_black.svg" ngbTooltip="{{'experiments_restart' | translate}}" *ngIf="exp.state === 'stopped'"
                       (click)="runExperiment(exp._id, 'active', $event)" />
                     <img src="assets/icons/delete-table.svg" ngbTooltip="{{'experiments_delete' | translate}}" *ngIf="
                         exp.state === 'completed' ||

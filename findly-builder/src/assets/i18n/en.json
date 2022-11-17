@@ -3210,6 +3210,7 @@
     "experiments_stop":"Stop",
     "experiments_play":"Play",
     "experiments_delete":"Delete",
+    "experiments_restart":"Restart",
     "experiments_enter_experiment_name":"Enter Experiment Name",
     "experiments_enter_variant_name":"Enter Variant Name",
 
