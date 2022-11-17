@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-highlighting',
@@ -14,7 +14,8 @@ export class HighlightingComponent implements OnInit {
   highlightAppearanceModalPopRef: any;
 
   @ViewChild('highlightAppearanceModalPop') highlightAppearanceModalPop: KRModalComponent;
-  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  @ViewChild(PerfectScrollbarComponent) perfectScroll: PerfectScrollbarComponent;
+  @ViewChild(PerfectScrollbarDirective) directiveRef: PerfectScrollbarDirective;
 
   ngOnInit(): void {
     this.more_options=false;
@@ -33,9 +34,11 @@ export class HighlightingComponent implements OnInit {
   }
   openContainer(){
     this.more_options=true;
+    this.perfectScroll.directiveRef.scrollTo(25,50,500)
   }
   closeContainer(){
     this.more_options=false;
+    this.perfectScroll.directiveRef.scrollTo(25,50,500)
   }
 
 }
