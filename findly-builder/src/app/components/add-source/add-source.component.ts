@@ -676,8 +676,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.openAddContentModal();
     }
     else if (['contentDoc', 'faqWeb', 'faqDoc'].includes(this.resourceIDToOpen) || ['file', 'importfaq', ''].includes(selectedCrawlMethod.resourceType)) {
-      this.selectedSourceType = selectedCrawlMethod;
-      this.openAddSourceModal();
+      const isFreePlan = (this.appSelectionService?.currentsubscriptionPlanDetails?.subscription?.planName==='Free')?true:false;
+      if(isFreePlan&&selectedCrawlMethod.resourceType==='file'){
+        this.plans?.openSelectedPopup('free_upgrade');
+      }
+      else{
+        this.selectedSourceType = selectedCrawlMethod;
+        this.openAddSourceModal();
+      } 
     }
 
     if (selectedCrawlMethod && selectedCrawlMethod.id === 'contentWeb') {
@@ -1677,8 +1683,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         //}
       },
         (err) => { console.log(err); this.notificationService.notify('Error in loading associated bots', 'error') },
-
-        () => { console.log('Call Complete') }
       )
     }
     else {

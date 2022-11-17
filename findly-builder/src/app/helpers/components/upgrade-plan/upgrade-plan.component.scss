@@ -1968,3 +1968,117 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
+// upgrade plan modal css start from here
+::ng-deep ngb-modal-window{
+    &.upgrade-now-plan-modal-popup{
+        .modal-dialog{
+            width: 377px !important;
+            .modal-content{
+                overflow: inherit !important;
+                position: relative !important;
+                .user-avthar-power{
+                    position: absolute;
+                    top: -90px;
+                    z-index: 1;
+                    display: flex;
+                    justify-content: center;
+                    width: 100%;
+                }
+                .modalbody{
+                    padding: 0px 0px !important;
+                    .bg-svg{
+                        transform: rotate(-180deg);
+                    }
+                    .modal-close{
+                        position: absolute;
+                        top: 15px;
+                        right: 15px;
+                        cursor: pointer;
+                        font-size: 10px;
+                        z-index:9;
+                    }
+                    .upgrade-now-plan{
+                        margin-top: -52px;
+                        z-index: 99;
+                        overflow: inherit !important;
+                        position: relative;
+                        .u-n-p-header{
+                            font-weight: 600;
+                            font-size: 16px;
+                            line-height: 19px;
+                            color: #121314;
+                            text-align: center;
+                            padding: 0 40px !important;
+                        }
+                        .u-n-p-desc{
+                            font-weight: 400;
+                            font-size: 12px;
+                            line-height: 15px;
+                            color: #777A80;
+                            padding: 20px 40px !important;
+                        }
+                        .plan-features-block{
+                            .plan-feature-desc{
+                                background: #F7F9FA;
+                                padding: 8px 40px;
+                                color: #777A80;
+                                font-weight: 600;
+                                font-size: 12px;
+                                line-height: 15px;
+                                &:nth-child(even){
+                                    background: #fff;
+                                }
+                                .icon-si{
+                                    padding-right: 15px;
+                                }
+                            }
+                            .and-more{
+                                font-weight: 400;
+                                font-size: 14px;
+                                line-height: 20px;
+                                color: #777A80;
+                                padding: 8px 40px;
+                            }
+                        }
+                        .upgrade-now-btn-block{
+                            width: 190px;
+                            margin: 0 auto;
+                            height: 56px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            .upgrade-now-btn{
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                background: #F2B705;
+                                border-radius: 50px;
+                                padding: 10px 20px 10px 10px;
+                                position: absolute;
+                                bottom: -20px;
+                                gap: 20px;
+                                cursor: pointer;
+                                .btn-iocn{
+                                    background: #F7D469;
+                                    border-radius: 30px;
+                                    width: 36px;
+                                    height: 36px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                }
+                                .btn-txt{
+                                    color: #121314;
+                                    font-weight: 700;
+                                    font-size: 14px;
+                                    line-height: 17px;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}

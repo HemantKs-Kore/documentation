@@ -571,14 +571,19 @@ export class ConnectorsSourceComponent implements OnInit {
   //call jobs api wrt status
   checkJobStatus(){
     let jobInterval = setInterval(()=>{
-      this.appSelectionService.connectorSyncJobStatus(this.searchIndexId,this.connectorId).then((res:any)=>{
-        this.overViewData.jobs = res;
-        if(res&&res[0]?.status!=='INPROGRESS'){
+      if(this.connectorId){
+        this.appSelectionService.connectorSyncJobStatus(this.searchIndexId,this.connectorId).then((res:any)=>{
+          this.overViewData.jobs = res;
+          if(res&&res[0]?.status!=='INPROGRESS'){
+            clearInterval(jobInterval);
+            this.isSyncLoading = false;
+            this.getConnectorData();
+          }
+        })
+      }else{
           clearInterval(jobInterval);
           this.isSyncLoading = false;
-          this.getConnectorData();
-        }
-      })
+      }
     },3000)
   }
   
