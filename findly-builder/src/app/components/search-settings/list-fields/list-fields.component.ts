@@ -366,7 +366,7 @@ export class ListFieldsComponent implements OnInit {
   /** On Perfect Scroll Event Y end */
   onYReachStart(){
     console.log('Why this is printing multiple times when I reach TOP, I wanted it to be single fire')
-    this.perfectScroll.directiveRef.scrollTo(75,50,500)
+    this.perfectScroll.directiveRef.scrollTo(25,50,500)
   }
   // addRecord(record, i, event) {
   //   let duplicate = false;
