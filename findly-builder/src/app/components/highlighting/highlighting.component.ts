@@ -9,6 +9,10 @@ import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 })
 export class HighlightingComponent implements OnInit {
    more_options:boolean=false;
+   home_pre_tag="<span class='highlightText'>";
+   home_post_tag="</span>"
+   pre_tag="<span class='highlightText'>";
+   post_tag="</span>"
   constructor() { }
 
   highlightAppearanceModalPopRef: any;
@@ -36,6 +40,11 @@ export class HighlightingComponent implements OnInit {
   }
   closeContainer(){
     this.more_options=false;
+  }
+  addTags(pretag,posttag){
+    this.home_pre_tag=pretag;
+    this.home_post_tag=posttag
+    this.highlightAppearanceModalPopRef.close();
   }
 
 }

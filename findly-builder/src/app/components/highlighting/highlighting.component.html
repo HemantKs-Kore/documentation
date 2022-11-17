@@ -44,14 +44,16 @@
                     <div class="col-5 pl-0">
                         <div class="kr-sg-input-text">
                             <div class="label-text" id="sa_label_text">{{"search_settings_pre_tag" |translate}}</div>
-                            <input type="text" placeholder="Placeholder text" value="<span class='highlightText'>"
+                            <!-- <input type="text" placeholder="Placeholder text" value="<span class='highlightText'>" -->
+                            <input type="text" [(ngModel)]="home_pre_tag"
                                 class="input-text">
                         </div>
                     </div>
                     <div class="col-5 pl-0">
                         <div class="kr-sg-input-text">
                             <div class="label-text" id="sa_label_text">{{"search_settings_post_tag" |translate}}</div>
-                            <input type="text" placeholder="Placeholder text" value="</span>" class="input-text">
+                            <!-- <input type="text" placeholder="Placeholder text" value="</span>" class="input-text"> -->
+                            <input type="text"  [(ngModel)]="home_post_tag" class="input-text">
                         </div>
                     </div>
                     <div class="col-2 p-0">
@@ -97,12 +99,14 @@
             <div class="tag-form-block">
                 <div class="kr-sg-input-text form-group">
                     <div class="label-text" id="sa_label_text_1">{{"search_settings_pre_tag" |translate}}</div>
-                    <input type="text" placeholder="Placeholder text" value="<span class='highlightText'>"
+                    <!-- <input type="text" placeholder="Placeholder text" value="<span class='highlightText'>" -->
+                    <input type="text" [(ngModel)]="pre_tag"
                         class="input-text" id="sa_input_field_1">
                 </div>
                 <div class="kr-sg-input-text form-group">
                     <div class="label-text" id="sa_label_text_2">{{"search_settings_post_tag" |translate}}</div>
-                    <input type="text" placeholder="Placeholder text" value="</span>" class="input-text" id="sa_input_2">
+                    <!-- <input type="text" placeholder="Placeholder text" value="</span>" class="input-text" id="sa_input_2"> -->
+                    <input type="text" [(ngModel)]="post_tag"  class="input-text" id="sa_input_2">
                 </div>
             </div>
         </div>
@@ -113,7 +117,8 @@
                     <span class="slected-count-num" id="sa_selected_count_number_3">{{"search_settings_4" |translate}}</span> / <span class="slected-count-num">{{"search_settings_10" |translate}}</span> {{"search_settings_Selected" |translate}}
                 </div>
                 <div>
-                    <button type="button" class="kr-sg-button-primary btn_lg float-right" id="sa_add_button">{{"search_settings_add" |translate}}</button>
+                    <!-- <button type="button" class="kr-sg-button-primary btn_lg float-right" id="sa_add_button">{{"search_settings_add" |translate}}</button> -->
+                    <button type="button" class="kr-sg-button-primary btn_lg float-right" id="sa_add_button" (click)="addTags(pre_tag,post_tag)">{{"search_settings_add" |translate}}</button>
                     <button type="button" class="kr-sg-button-secondary btn_lg float-right"
                         (click)="closeModalPopup()" id="sa_cancel_button">{{"search_settings__cancel" |translate}}</button>
                 </div>
