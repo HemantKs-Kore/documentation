@@ -1312,8 +1312,59 @@ export class EndPointsService {
     }
     //get presentable list elements
     this.serviceList['get.presentableFields'] = {
-      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?isSelected=:isSelected',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/presentable?page=:page&limit=:limit&isSelected=:isSelected&orderBy=:orderType&sortyBy=:sortField&isSearchable=:isSearchable&search=:searchKey',
       method: 'get'
     }
+    //add presentable elements
+    this.serviceList['add.presentableFields'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/presentable',
+      method: 'post'
+    }
+    //delete Presentable elements
+    this.serviceList['delete.presentableFields'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/presentable/field/:fieldId',
+      method: 'delete'
+    }
+
+    //* Highlight API's */
+
+    //get highlight list elements
+    this.serviceList['get.highlightFields'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/highlights?page=:page&limit=:limit&isSelected=:isSelected&orderBy=:orderType&sortyBy=:sortField&search=:searchKey',
+      method: 'get'
+    }
+
+    //Add Highlight Fields
+    this.serviceList['add.highlightFields'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/highlights',
+      method: 'post'
+    }
+
+    //delete Highlight Fields
+    this.serviceList['delete.highlightFields'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/highlights/field/:fieldId',
+      method: 'delete'
+    }
+
+    //**Spellcorrect API's */
+
+    //get spellcorrect list elements
+    this.serviceList['get.spellcorrectFields'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/spell-correct?page=:page&limit=:limit&isSelected=:isSelected&orderBy=:orderType&sortyBy=:sortField&search=:searchKey',
+      method: 'get'
+    }
+
+    //add spell-correct Fields
+    this.serviceList['add.spellcorrectFields'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/spell-correct',
+      method: 'post'
+    }
+
+     //delete Spell_correct Fields
+    this.serviceList['delete.spellcorrectFields'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/spell-correct/field/:fieldId',
+      method: 'delete'
+    }   
+
  }
 }
