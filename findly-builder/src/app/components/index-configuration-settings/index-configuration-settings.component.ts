@@ -68,10 +68,10 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+      this.getAvilableLanguages();
       this.selectedApp = this.workflowService.selectedApp();
       this.configurationsSubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-      this.seedData = this.workflowService.seedData();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
     })
   }
@@ -98,6 +98,24 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     this.saveLanguages = false;
     this.clearCheckbox();
   }
+  //geting the seedData
+  getAvilableLanguages(){
+    let  url = 'get.indexAvailableLanguages'
+    this.service.invoke(url).subscribe(
+      res => {
+      console.log(res)
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed To Add Language', 'error');
+        }
+      }
+    );
+  }
+
+  // clearing the seedData
   clearCheckbox(){
     let arr = [...this.addedlanguageList]
     let dumyArr = []
@@ -112,10 +130,11 @@ export class IndexConfigurationSettingsComponent implements OnInit {
       }
     });
   }
+  //adding Language 
   addLanguage(index){
     this.languageList[index].selected = !this.languageList[index].selected
   }
-
+  //add or edit Language
   saveLanguage(){
         this.saveLanguages = true;
         if(this.saveLanguages){
@@ -156,6 +175,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
         // );
     this.closeModalPopup();
   }
+  //delete language
   deleteLanguage(index){
     this.addedlanguageList.splice(index,1);
     this.addedlanguageList.forEach(element => {

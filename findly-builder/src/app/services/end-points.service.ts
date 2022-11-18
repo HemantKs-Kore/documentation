@@ -1365,6 +1365,30 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/spell-correct/field/:fieldId',
       method: 'delete'
     }   
+    //Apis for Index settings module 
 
+    //Api request for seedDAta of Languages Available 
+    this.serviceList['get.indexAvailableLanguages'] = {
+      endpoint:  'http://localhost/searchassistapi/findly/seed_data?languages=true' ,
+      method: 'get'
+    }
+    //Apis for Weights module
+
+    //API request for getting List of Weights starts
+    this.serviceList['get.weightsList'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?page=:pageNo&limit=:noOfRecords&isSelected=:isSelected',
+      method: 'get'
+    }
+    //API request for updating  Weight
+    this.serviceList['put.updateWeight'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights/:fieldId',
+      method: 'put'
+    }
+    //API request for delete  Weight
+    this.serviceList['delete.updateWeight'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights/:fieldId',
+      method: 'delete'
+    }
+    //API request for getting List of Weights ends
  }
 }

@@ -22,6 +22,9 @@ declare const $: any;
 })
 export class WeightsComponent implements OnInit, OnDestroy
 {
+  pageNumber:number;
+  numberofweigths:number;
+  selected:boolean = false;
   addEditWeighObj: any = null;
   loadingContent = true;
   addDditWeightPopRef: any;
@@ -230,6 +233,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     if(weight.sliderObj.default != val){
       weight.sliderObj.default = val;
       this.sliderChange();
+      this.updatedSliderValue(weight);
     }
   }
   editWeight(weight, index)
@@ -475,6 +479,72 @@ export class WeightsComponent implements OnInit, OnDestroy
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next();
   }
+  //getting List of Weigths 
+  getListOfweigts(){
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      pageNo: this.pageNumber,
+      noOfRecords: this.numberofweigths,
+      isSelected : this.selected
+    };
+    this.service.invoke('get.weightsList', quaryparms).subscribe(res =>
+      {
+        this.pipeline = res || {}; // list of the weights from the responce
+        this.prepereWeights();
+      }, errRes =>
+      {
+        this.loadingContent = false;
+        this.errorToaster(errRes, 'Failed to get weights');
+      });
+  }
+  //Slider change method 
+  updatedSliderValue(weight){
+    if(this.sliderOpen){
+     return
+    }
+    else {
+     this.addUpdateWeight(weight);
+    }
+   }
+  // update weight 
+  addUpdateWeight(weight){
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      fieldId:weight.fieldId
+    };
+    this.service.invoke('put.updateWeight', quaryparms).subscribe(res =>
+      {
+        this.notificationService.notify('Weight Updated Successfully', 'success');
+      }, errRes =>
+      {
+        this.loadingContent = false;
+        this.errorToaster(errRes, 'Failed to update weight');
+      }); 
+  }
+
+// deletes added field weight from only List of weights
+  deleteWeightFromList(weight){
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      fieldId:weight.fieldId
+    };
+    this.service.invoke('delete.weight', quaryparms).subscribe(res =>
+      {
+        this.notificationService.notify('Weight Deleted Successfully', 'success');
+        this.prepereWeights()
+      }, errRes =>
+      {
+        this.loadingContent = false;
+        this.errorToaster(errRes, 'Failed To Delete Weight');
+      });
+  }
+
   ngOnDestroy()
   {
     this.subscription ? this.subscription.unsubscribe() : false;

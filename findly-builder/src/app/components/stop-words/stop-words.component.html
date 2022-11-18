@@ -12,7 +12,7 @@
       </div>
   
       <div class="landing-page-toggle">
-          <label class="kr-sg-toggle with-label" *ngIf="(stopwords && stopwords.length)">
+          <label class="kr-sg-toggle with-label">
               <input type="checkbox" checked (change)="enableStopWords($event)" [(ngModel)]="enabled">
               <div class="slider">
                   <span class="no">Disable</span>
@@ -38,12 +38,6 @@
         </label>
       </div>     
     </div> -->
-
-    <div class="page-sub-headers">
-      <div class="page-sub-hding">Add Stopwords</div>
-      <div class="page-sub-desc">Lorem Ipsum is a dummy text</div>
-    </div>
-
     <div *ngIf="loadingContent1" class="stop-words-wrapper">
       <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
       <div class="m-0 row addStopWordsBlock" *ngIf="((stopwords && stopwords.length) && !loadingContent) || createFromScratch">
@@ -59,7 +53,7 @@
         </div>
      </div> 
 
-     <div class="empty-stopwords" *ngIf="showAddStopWordsContainer && !(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
+     <div class="empty-stopwords" *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
       <div class="main_heading">{{'Add_Stop_Words'| translate}}</div>
       <div class="desc_info">{{'How_would_you_like_to_start'| translate}}</div>
       <div class="radio-sec">
@@ -86,9 +80,9 @@
         <button class="kr-sg-button-primary btn_lg" (click)="createInit()">{{'stopWords_Continue' | translate}}</button>
       </div>
       </div>  
-      <ng-container *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
+      <ng-container class="d-none" *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
         <div class="empty_screen_data">
-          <perfect-scrollbar class="scoll-empty-screen" *ngIf="!showAddStopWordsContainer">
+          <perfect-scrollbar class="scoll-empty-screen d-none" *ngIf="!showAddStopWordsContainer">
             <div class="empty-landing-screen">
               <div class="img-block"*ngIf="!emptyItems"><img class="action_icon"  (load)="imageLoad()" src="assets/images/stopwords-empty.png"></div>
               <ng-container *ngIf="loadImageText">
