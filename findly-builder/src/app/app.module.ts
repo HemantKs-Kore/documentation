@@ -123,6 +123,7 @@ import { ConnectorsSourceComponent } from './components/connectors-source/connec
 import { SafeHtmlPipe } from './helpers/filters/safe-html.pipe';
 import { SelectTextDirective } from './helpers/directives/select-text.directive';
 import { EllipsisActiveDirective } from './helpers/directives/ellipsis-active.directive';
+import { EmptyScreenModule } from './modules/empty-screen/empty-screen.module';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -256,7 +257,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       autoDismiss: false,
       closeButton: true
     }),
-    NgxDaterangepickerMd.forRoot()
+    NgxDaterangepickerMd.forRoot(),
+    EmptyScreenModule,
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [ConfirmationDialogComponent, ImportFaqsModalComponent, EditorUrlDialogComponent],

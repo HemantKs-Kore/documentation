@@ -22,7 +22,8 @@ import { DockStatusService } from '../../services/dockstatusService/dock-status.
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
 import { SchedulerComponent } from '../../components/scheduler/scheduler.component';
-declare var require: any
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
+declare var require: any;
 const FileSaver = require('file-saver');
 @Component({
   selector: 'app-content-source',
@@ -31,6 +32,7 @@ const FileSaver = require('file-saver');
   animations: [fadeInOutAnimation]
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
+  emptyScreen = EMPTY_SCREEN.CONTENT;
   loadingSliderContent = false;
   showSearch;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
@@ -446,6 +448,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.source.list', quaryparms, payload).subscribe(res => {
       this.resources = res.sources;
       this.totalRecord = res.totalCount || 0;
+      this.imageLoad();
       //  this.resourcesDoc=this.resources[0].fileMeta;
       //element.advanceSettings.scheduleOpts.interval.intervalType
       this.resources.forEach(element => {

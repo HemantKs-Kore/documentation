@@ -48,7 +48,37 @@
         <ng-container *ngIf="!(faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) && !faqSelectionObj.loadingStats && !(extractedResources && extractedResources.length)  && !extractedFaqs && !viewDetails && !searchFaq && !showSearch && !loading">
         <!-- <ng-container *ngIf="!(faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) && faqSelectionObj.loadingStats && !(extractedResources && extractedResources.length)  && !extractedFaqs && !viewDetails && !searchFaq && !showSearch && !loading"> -->
         <perfect-scrollbar class="empty-scroll">
-        <div  class="empty-landing-screen" >
+            <app-empty-screen
+            [title]="emptyScreen.TITLE"
+            [desc]="emptyScreen.DESC"
+            [imgName]="emptyScreen.IMG_NAME"
+          >
+            <div class="action-buttons">
+              <button
+                class="kr-sg-button-secondary btn_lg mr-2"
+                (click)="addFaqSource('faqWeb')"
+              >
+                <img src="assets/images/empty-screen/glob.png" alt="icon" />
+                {{ "faqSource_extract_faqs" | translate }}
+              </button>
+              <button
+                class="kr-sg-button-secondary btn_lg mr-2"
+                (click)="addFaqSource('faqDoc')"
+              >
+                <img src="assets/images/empty-screen/down.png" alt="icon" />
+                {{ "faqSource_import_faqs" | translate }}
+              </button>
+              <button
+                class="kr-sg-button-secondary btn_lg"
+                (click)="addFaqSource('manual')"
+              >
+                <img src="assets/images/empty-screen/add.png" alt="icon" />
+                {{ "faqSource_add_manually" | translate }}
+              </button>
+            </div>
+          </app-empty-screen>
+          
+        <!-- <div  class="empty-landing-screen" >
           <div class="img-block" id ="imageLoad"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/faq-empty.png"></div>
           <ng-container *ngIf="loadImageText">
               <div class="empty-title">{{'faqSource_no_faqs' | translate}}</div>
@@ -68,7 +98,7 @@
           <ng-container *ngIf="noItems && emptySearchResults">
               <div class="desc-text">{{'faqSource_no_search_results_for_match' | translate}}</div>
           </ng-container>
-      </div>
+      </div> -->
     </perfect-scrollbar>
 </ng-container>
         <div class="faq-content-boxes"  *ngIf="((extractedResources && extractedResources.length) || faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) ||  extractedFaqs || searchFaq || showSearch ||loading">
@@ -864,17 +894,20 @@
             </div>
         </div>      
     </div>
-   
-    <div *ngIf="!( extractedResources &&  extractedResources.length)"  class="empty-source-modal">
+    <ng-container *ngIf="!(extractedResources && extractedResources.length)">
+        <app-empty-screen [title]="emptyScreen.TITLE_NO_SOURCES" [desc]="emptyScreen.DESC_NO_SOURCES" [imgName]="emptyScreen.IMG_NAME">
+        </app-empty-screen>
+    </ng-container>
+    <!-- <div *ngIf="!( extractedResources &&  extractedResources.length)"  class="empty-source-modal">
         <div class="empty-sources">
             <img src="assets/images/icons/empty_ill.svg">
             <div class="heading">{{'manageExtracts.no_faq_sources_are_available' | translate}}</div>
         </div>
-    </div>
+    </div> -->
     <div class="modal-body source-modal-popup" *ngIf="extractedResources &&  extractedResources.length">
         <ng-container  *ngIf="currentView === 'list'">
             <div class="table-list-content">
-                <div class="kr-sg-data-table with-checkbox"  *ngIf=" extractedResources &&  extractedResources.length">
+                <div class="kr-sg-data-table with-checkbox">
                 <section class="table-content">
                     <header class="table-header">
                         <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('name')">
@@ -938,75 +971,97 @@
                         <!-- <div class="col" (click)="sortBy('createdOn')">Created On<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div> -->
                         <div class="col last-child" (click)="sortBy('name')"></div>
                     </header>
-                    <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
-                    <div class="content-body" *ngFor="let source of extractedResources | filter: [ searchSources, 'name']">
-                        <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name | titlecase}}</div>
-                        <div class="col_ col-2">{{source.contentSource | titlecase}}</div>
-                        <div class="col_ col-3">
-                            <span class="mr-2" *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}" >{{statusObj[source.recentStatus].name}}</span>
-                            <span [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">
-                                
-                                <img  class="failed mr-1" src="assets/icons/failed-status.svg" 
-                                *ngIf="statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{source.message}}"><span class="sch-createdOn" *ngIf="duriationDays" >({{duriationDays}})</span>
-                                <img  *ngIf="statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'Success'" class="search-icon ml-2 mr-1" placement="top" container='body'  ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"
-                                src="assets/icons/succes_duration.svg">
-                                <img class="inProgress ml-2 mr-1" src="assets/icons/ringLoading.svg"
-                                 *ngIf=" statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
-                                 {{ duriationTime}}
-                            </span>
-                            <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
-                        </div>
-                        <div class="col_ col-2">{{source.extractedFaqsCount || '0'}}</div>
-                        <div class="col_ col-2" *ngIf="source && source.userDetails" >{{source.userDetails.fullName || source.userDetails.firstName + ' ' + source.userDetails.lastName }}</div>
-                        <!-- <div class="col" title="{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div> -->
-                        <div class="col text-right last-child pl-0">
-                            <span class="actions-links" *ngIf="source.recentStatus == 'configured'" (click)="resumeAnnotate(source)"><img class="action_icon" src="assets/icons/play_icon.svg" [container]="'body'" ngbTooltip="{{'addFaq_resume_annotation' | translate}}"></span>
-                            <span class="actions-links" (click)="deleteSource(source,$event)" ><img class="action_icon" ngbTooltip='{{"sa_delete" | translate}}'  [container]="'body'" src="assets/icons/sidemenu/delete-table.svg"></span>
-                        </div>
-                        <!-- <div class="col text-right last-child re-annotate">
-                            <span class="actions-links" (click)="reAnnotateDocument(source)"  ngbTooltip='Re-Annotate'><img class="action_icon" src="assets/images/list.svg"></span>
-                        </div> -->
-                    </div>
-                    <div class="empty">{{'faqSource_no_search_results' | translate}}</div>
-                    </perfect-scrollbar>
+                    <ng-container *ngIf="extractedResources &&  extractedResources.length">
+                        <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
+                            <div class="content-body" *ngFor="let source of extractedResources | filter: [ searchSources, 'name']">
+                                <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name | titlecase}}</div>
+                                <div class="col_ col-2">{{source.contentSource | titlecase}}</div>
+                                <div class="col_ col-3">
+                                    <span class="mr-2" *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}" >{{statusObj[source.recentStatus].name}}</span>
+                                    <span [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">
+                                        
+                                        <img  class="failed mr-1" src="assets/icons/failed-status.svg" 
+                                        *ngIf="statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{source.message}}"><span class="sch-createdOn" *ngIf="duriationDays" >({{duriationDays}})</span>
+                                        <img  *ngIf="statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'Success'" class="search-icon ml-2 mr-1" placement="top" container='body'  ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"
+                                        src="assets/icons/succes_duration.svg">
+                                        <img class="inProgress ml-2 mr-1" src="assets/icons/ringLoading.svg"
+                                         *ngIf=" statusObj[source.recentStatus] && statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
+                                         {{ duriationTime}}
+                                    </span>
+                                    <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
+                                </div>
+                                <div class="col_ col-2">{{source.extractedFaqsCount || '0'}}</div>
+                                <div class="col_ col-2" *ngIf="source && source.userDetails" >{{source.userDetails.fullName || source.userDetails.firstName + ' ' + source.userDetails.lastName }}</div>
+                                <!-- <div class="col" title="{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div> -->
+                                <div class="col text-right last-child pl-0">
+                                    <span class="actions-links" *ngIf="source.recentStatus == 'configured'" (click)="resumeAnnotate(source)"><img class="action_icon" src="assets/icons/play_icon.svg" [container]="'body'" ngbTooltip="{{'addFaq_resume_annotation' | translate}}"></span>
+                                    <span class="actions-links" (click)="deleteSource(source,$event)" ><img class="action_icon" ngbTooltip='{{"sa_delete" | translate}}'  [container]="'body'" src="assets/icons/sidemenu/delete-table.svg"></span>
+                                </div>
+                                <!-- <div class="col text-right last-child re-annotate">
+                                    <span class="actions-links" (click)="reAnnotateDocument(source)"  ngbTooltip='Re-Annotate'><img class="action_icon" src="assets/images/list.svg"></span>
+                                </div> -->
+                            </div>
+                            <div class="empty">
+                                <app-empty-screen
+                                *ngIf="searchSources"
+                                [title]="emptyScreen.TITLE_SEARCH"
+                                [desc]="emptyScreen.DESC_SEARCH"
+                                [imgName]="emptyScreen.IMG_NAME"
+                              >
+                              </app-empty-screen>
+                            </div>
+                            </perfect-scrollbar>
+                    </ng-container>
                     
                 </section>                               
             </div>
-            <div class="divBlockEmptylastChild">{{searchSources?'No Data Found': 'No search results'}}</div>
             </div>
+            <!-- <div class="divBlockEmptylastChild">{{searchSources?'No Data Found': 'No search results'}}</div>
+            </div> -->
            <!-- <div style="margin-right: 10px;"> <app-record-pagination *ngIf="!isNotSearching && !loadingTab && faqSelectionObj.stats[selectedtab] && faqSelectionObj.stats[selectedtab]>0" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' (pageChanged)="paginate($event)"></app-record-pagination></div> PAGINATION -->
         </ng-container>
         <ng-container  *ngIf="currentView === 'grid'"> 
-            <perfect-scrollbar class="faqScurceListScroll">
-                <div class="list-view-data">
-                    <div class="row row_list">
-                        <div class="box-content" *ngFor="let source of extractedResources | filter: [ searchSources , 'name']"
-                        (click)="openStatusSlider(source)">
-                        <div class="box">
-                          <div class="title">{{source.title || source.name}}</div>
-                          <div class="type" [ngClass]="{'doc': (source.type==='file')}">{{contentTypes[source.contentSource] | titlecase}}</div>
-                          <div class="status-data">
-                            <div class="count-pages" *ngIf="statusObj[source.recentStatus].name == 'Success'"><span class="pagelength">{{source.extractedFaqsCount}}</span> FAQs</div>
-                            <div class="status-info" *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') " [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
-                                <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:''}}">
-                              <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
-                                *ngIf="statusObj[source.recentStatus].name == 'In Progress'"  placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
-                              <div class="status-name" *ngIf="statusObj[source.recentStatus].name !== 'Success'">{{statusObj[source.recentStatus].name}}</div>
+            <ng-container *ngIf="extractedResources &&  extractedResources.length">
+                <perfect-scrollbar class="faqScurceListScroll">
+                    <div class="list-view-data">
+                        <div class="row row_list">
+                            <div class="box-content" *ngFor="let source of extractedResources | filter: [ searchSources , 'name']"
+                            (click)="openStatusSlider(source)">
+                            <div class="box">
+                              <div class="title">{{source.title || source.name}}</div>
+                              <div class="type" [ngClass]="{'doc': (source.type==='file')}">{{contentTypes[source.contentSource] | titlecase}}</div>
+                              <div class="status-data">
+                                <div class="count-pages" *ngIf="statusObj[source.recentStatus].name == 'Success'"><span class="pagelength">{{source.extractedFaqsCount}}</span> FAQs</div>
+                                <div class="status-info" *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') " [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
+                                    <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:''}}">
+                                  <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
+                                    *ngIf="statusObj[source.recentStatus].name == 'In Progress'"  placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
+                                  <div class="status-name" *ngIf="statusObj[source.recentStatus].name !== 'Success'">{{statusObj[source.recentStatus].name}}</div>
+                                </div>
+                                <div *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</div>
+                                <div class="created-date" *ngIf="statusObj[source.recentStatus].name == 'Success'">
+                                  {{source.createdOn | dateFormatPipe}}
+                                </div>
+                              </div>
+                                <div class="actions-delete">                           
+                                    <span class="actions-links d-none"><img class="action_icon" src="assets/icons/sidemenu/table-refresh.svg"></span>
+                                    <span class="actions-links" (click)="deleteSource(source,$event)"  ngbTooltip='{{"sa_delete" | translate}}' [container]="'body'"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
+                                </div>
                             </div>
-                            <div *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</div>
-                            <div class="created-date" *ngIf="statusObj[source.recentStatus].name == 'Success'">
-                              {{source.createdOn | dateFormatPipe}}
-                            </div>
-                          </div>
-                            <div class="actions-delete">                           
-                                <span class="actions-links d-none"><img class="action_icon" src="assets/icons/sidemenu/table-refresh.svg"></span>
-                                <span class="actions-links" (click)="deleteSource(source,$event)"  ngbTooltip='{{"sa_delete" | translate}}' [container]="'body'"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
-                            </div>
+                          </div>          
                         </div>
-                      </div>          
+                    </div> 
+                    <div class="empty">
+                        <app-empty-screen
+                        *ngIf="searchSources"
+                        [title]="emptyScreen.TITLE_SEARCH"
+                        [desc]="emptyScreen.DESC_SEARCH"
+                        [imgName]="emptyScreen.IMG_NAME"
+                      >
+                      </app-empty-screen>
                     </div>
-                </div> 
-            </perfect-scrollbar>            
+                </perfect-scrollbar>    
+            </ng-container>
         </ng-container>
     </div>
 </kr-modal>

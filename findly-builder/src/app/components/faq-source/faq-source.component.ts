@@ -31,7 +31,7 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 import { CompileShallowModuleMetadata, ThrowStmt } from '@angular/compiler';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
-
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 @Component({
   selector: 'app-faq-source',
   templateUrl: './faq-source.component.html',
@@ -41,6 +41,7 @@ import { OnboardingComponentComponent } from 'src/app/components/onboarding-comp
   { provide: 'instance2', useClass: FaqsService },]
 })
 export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
+  emptyScreen = EMPTY_SCREEN.FAQ;
   loadingSliderContent = false;
   serachIndexId;
   currentView = 'list'
@@ -1016,6 +1017,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.service.invoke('get.source.list', quaryparms, payload).subscribe(res => {
       this.resources = [...res.sources];
+      this.imageLoad();
       res.sources.forEach(element => {
         if (element.recentStatus == 'queued' || element.recentStatus == 'failed' || element.recentStatus == 'running' || element.recentStatus == 'configured') {
           this.viewDetails = true;
