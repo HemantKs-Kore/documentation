@@ -25,4 +25,16 @@ export const EMPTY_SCREEN = {
     TITLE_SEARCH: 'No search results found',
     DESC_SEARCH: 'We couldn’t find what you are looking for'
   },
+  STRUCTURED_DATA: {
+    IMG_NAME: 'structured-data.svg',
+    TITLE: 'You haven’t added any structured data yet!',
+    DESC: 'Structured Data can be used to index commerce content for product search use cases. SearchAssist allows you to add structured data by either importing from a JSON/CSV file or adding manually.',
+    TITLE_SEARCH: 'No search results found',
+    DESC_SEARCH: 'We couldn’t find what you are looking for'
+  },
+  CONNECTORS: {
+    IMG_NAME: 'connector.svg',
+    TITLE_SEARCH: 'No search results found',
+    DESC_SEARCH: 'We couldn’t find the connector you are looking for'
+  },
 };
