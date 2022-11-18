@@ -17,6 +17,7 @@ export class ListFieldsComponent implements OnInit {
   @ViewChild(PerfectScrollbarDirective) directiveRef?: PerfectScrollbarDirective;
   @Input() tablefieldvalues;
   @Input() popupfieldvalues;
+  @Output() emitRecord = new EventEmitter();
   constructor(
     public dialog: MatDialog
   ) { }
@@ -422,7 +423,13 @@ export class ListFieldsComponent implements OnInit {
   getsearchvalue(value){
     this.search_value=value
   }
-
+  add(){
+    let record = [];
+    this.emitRecord.emit({
+      record :record,
+      type : 'add'
+    });
+  }
   deletefieldsDataPopup(record) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
@@ -438,6 +445,10 @@ export class ListFieldsComponent implements OnInit {
     dialogRef.componentInstance.onSelect.subscribe(res => {
       if (res === 'yes') {
         dialogRef.close();
+        this.emitRecord.emit({
+          record :[record],
+          type : 'delete'
+        });
         //this.deleteStructuredData(record);
       }
       else if (res === 'no') {

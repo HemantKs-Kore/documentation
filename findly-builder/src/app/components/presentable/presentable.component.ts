@@ -46,6 +46,52 @@ export class PresentableComponent implements OnInit {
       this.getPresentableFields();
    })
  }
+ /** Emited Value for Operation (Add/Delete)  */
+ getrecord(recordData : any){
+  let record = recordData.record;
+  if(record.length > 1){
+
+  }
+  let deleteData = {
+    url :'delete.presentableFields',
+    quaryparms : {
+      streamId:this.selectedApp._id,
+      indexPipelineId:this.indexPipelineId,
+      queryPipelineId:this.queryPipelineId,
+      fieldId :  record[0]._id
+    }
+   }
+   let addData = {
+    url :'add.presentableFields',
+    quaryparms : {
+      streamId:this.selectedApp._id,
+      indexPipelineId:this.indexPipelineId,
+      queryPipelineId:this.queryPipelineId,
+    },
+    payload : record
+   }
+   recordData.type == 'delete' ? this.removeRecord(deleteData) : this.addRecords(addData)
+   
+ }
+ /** remove fromPresentable */
+ removeRecord(deleteData){
+  const quaryparms: any = deleteData.quaryparms;
+  this.service.invoke(deleteData.url, quaryparms).subscribe(res => {
+   this.getPresentableFields();
+  }, errRes => {
+    this.notificationService.notify("Failed to remove Fields",'error');
+  });
+ }
+  /** Add to Prescentable */
+ addRecords(addData){
+  this.service.invoke(addData.url.addData.quaryparms,addData.payload).subscribe(res => {
+   this.getPresentableFields();
+  }, errRes => {
+    this.notificationService.notify("Failed to remove Fields",'error');
+  });
+  // 
+ }
+
  //** get api for retrieving the presentable Fields */
  getPresentableFields(){
   const quaryparms: any = {
@@ -69,13 +115,13 @@ export class PresentableComponent implements OnInit {
         this.nonPresentable.push(element)
       }
     });
-    console.log(this.presentable)
-    console.log(this.nonPresentable)
   }, errRes => {
     this.notificationService.notify("Failed to get presentable fields",'error');
   });
  }
+ delete(){
 
+ }
   ngOnDestroy() {
     this.querySubscription ? this.querySubscription.unsubscribe() : false;
   }
