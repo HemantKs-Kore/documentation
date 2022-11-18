@@ -28,23 +28,20 @@
     
                  <!--Presentable component-->
                  <ng-container *ngSwitchCase="'presentable'">
-                    <app-presentable></app-presentable>
-                    <app-list-fields></app-list-fields>
+                    <app-presentable [presentabledata]="pipeline.settings.presentable" [selectedcomponent]="selectedComponent"></app-presentable>                 
                   </ng-container>
     
                   <!--highlighting component-->
                  <ng-container *ngSwitchCase="'highlighting'">
                   <perfect-scrollbar class="page-common-scroll">
-                    <app-highlighting></app-highlighting>
-                    <app-list-fields></app-list-fields>
+                    <app-highlighting [highlightdata]="pipeline.settings.highlight" [selectedcomponent]="selectedComponent"></app-highlighting>
                   </perfect-scrollbar>
                   </ng-container>
     
                   <!-- spell-correction component-->
                  <ng-container *ngSwitchCase="'spell_correction'">
                   <perfect-scrollbar class="page-common-scroll">
-                    <app-spell-correction></app-spell-correction>
-                    <app-list-fields></app-list-fields>
+                    <app-spell-correction [spellcorrectdata]="pipeline.settings.spellCorrect" [selectedcomponent]="selectedComponent"></app-spell-correction>
                   </perfect-scrollbar>
                   </ng-container>
     
