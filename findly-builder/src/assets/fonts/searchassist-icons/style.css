@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'searchassist-icons';
-  src:  url('fonts/searchassist-icons.eot?n5k9pd');
-  src:  url('fonts/searchassist-icons.eot?n5k9pd#iefix') format('embedded-opentype'),
-    url('fonts/searchassist-icons.ttf?n5k9pd') format('truetype'),
-    url('fonts/searchassist-icons.woff?n5k9pd') format('woff'),
-    url('fonts/searchassist-icons.svg?n5k9pd#searchassist-icons') format('svg');
+  src:  url('fonts/searchassist-icons.eot?ydbjr6');
+  src:  url('fonts/searchassist-icons.eot?ydbjr6#iefix') format('embedded-opentype'),
+    url('fonts/searchassist-icons.ttf?ydbjr6') format('truetype'),
+    url('fonts/searchassist-icons.woff?ydbjr6') format('woff'),
+    url('fonts/searchassist-icons.svg?ydbjr6#searchassist-icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,22 +25,41 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.si-union:before {
+  content: "\e965";
+}
+.si-bot:before {
+  content: "\e966";
+  color: #fff;
+}
+.si-sort-down:before {
+  content: "\e967";
+}
+.si-upload:before {
+  content: "\e968";
+}
+.si-web:before {
+  content: "\e969";
+}
 .si-topic-guide-1:before {
   content: "\e912";
+  color: #5f6368;
 }
 .si-topic-guide:before {
   content: "\e962";
+  color: #0d6efd;
 }
 .si-copy:before {
   content: "\e963";
+  color: #0d6efd;
 }
 .si-recall:before {
   content: "\e964";
+  color: #0d6efd;
 }
 .si-train-multi-intent:before {
   content: "\e961";
 }
-
 .si-config-form:before {
   content: "\e95e";
 }
@@ -49,15 +68,19 @@
 }
 .si-time-estimate:before {
   content: "\e960";
+  color: #9aa0a6;
 }
 .si-skelton-medium:before {
   content: "\e95d";
+  color: #bdc1c6;
 }
 .si-pdf:before {
   content: "\e95c";
+  color: #07377f;
 }
 .si-cart:before {
   content: "\e95b";
+  color: #28a745;
 }
 .si-star-un-filled:before {
   content: "\e958";
@@ -71,12 +94,14 @@
 }
 .si-layout:before {
   content: "\e953";
+  color: #0d6efd;
 }
 .si-list-view:before {
   content: "\e954";
 }
 .si-richtext:before {
   content: "\e955";
+  color: #fff;
 }
 .si-carousal:before {
   content: "\e956";
@@ -86,12 +111,15 @@
 }
 .si-avg:before {
   content: "\e952";
+  color: #9aa0a6;
 }
 .si-interuptions:before {
   content: "\e950";
+  color: #5f6368;
 }
 .si-checkround-up:before {
   content: "\e951";
+  color: #28a745;
 }
 .si-loading .path1:before {
   content: "\e91d";
@@ -119,18 +147,23 @@
 }
 .si-re-fresh:before {
   content: "\e922";
+  color: #0d6efd;
 }
 .si-link-file:before {
   content: "\e923";
+  color: #dd3646;
 }
 .si-share:before {
   content: "\e924";
+  color: #803c25;
 }
 .si-maximize:before {
   content: "\e925";
+  color: #0d6efd;
 }
 .si-close-red:before {
   content: "\e926";
+  color: #ef4444;
 }
 .si-graph-filter:before {
   content: "\e927";
@@ -238,7 +271,7 @@
 }
 .si-plan-crown .path2:before {
   content: "\e93c";
-  margin-left: -1em;
+  margin-left: -0.9619140625em;
   color: rgb(255, 152, 0);
 }
 .si-minus-circle-o:before {
@@ -337,9 +370,6 @@
   content: "\e918";
   color: #dd3646;
 }
-.si-key:before {
-  content: "\e912";
-}
 .si-eyeshow:before {
   content: "\e917";
 }
@@ -383,14 +413,6 @@
   content: "\e911";
   color: #0d6efd;
 }
-.si-add-plus-green:before {
-  content: "\e911";
-  color: #28A745;
-}
-.si-add-plus-white:before {
-  content: "\e911";
-  color: white;
-}
 .si-settings:before {
   content: "\e913";
   color: #fff;
@@ -413,15 +435,15 @@
 }
 .si-faq:before {
   content: "\e901";
-  color: #0D6EFD;
+  color: #7027e5;
 }
 .si-home:before {
   content: "\e902";
-  color: #0D6EFD;
+  color: #fff;
 }
 .si-list:before {
   content: "\e903";
-  color: #0D6EFD;
+  color: #7027e5;
 }
 .si-search:before {
   content: "\e904";

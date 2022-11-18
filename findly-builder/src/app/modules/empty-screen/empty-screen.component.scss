@@ -4,6 +4,7 @@
     align-items: center;
     text-align: center;
     margin-top: 4%;
+    margin-bottom: 30px;
     font-family: 'Inter';
     font-style: normal;
     
@@ -37,7 +38,9 @@
     
     ::ng-deep {
         .action-buttons  {
-            img {
+            i {
+                position: relative;
+                top: 1px;
                 margin-right: 10px;
             }
         }

@@ -14,11 +14,11 @@
       <app-empty-screen [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
         <div class="action-buttons">
           <button class="kr-sg-button-secondary btn_lg mr-2" (click)="addNewContentSource('contentWeb')">
-            <img src="assets/images/empty-screen/glob.png" alt="icon" />
+            <i class="si-web"></i>
             {{ "contentSource_craw_web_domain" | translate }}
           </button>
           <button class="kr-sg-button-secondary btn_lg" (click)="addNewContentSource('contentDoc')">
-            <img src="assets/images/empty-screen/upload.png" alt="icon" />
+            <i class="si-upload"></i>
             {{ "contentSource_upload_file" | translate }}
           </button>
         </div>
@@ -49,7 +49,7 @@
     </perfect-scrollbar>
   </ng-container>
 
-  <div class="table-list-content" *ngIf="!loadingData">
+  <div class="table-list-content">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="kr-sg-data-table with-checkbox">
       <div class="table-action-header">
@@ -289,7 +289,7 @@
                 </div>
               </ng-container>
               <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord > 10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginateContent($event)"></app-record-pagination></div>
-              <div class="empty">{{"contentSource_no_results_found" | translate}}</div>
+              <!-- <div class="empty">{{"contentSource_no_results_found" | translate}}</div> -->
             </perfect-scrollbar>
           </ng-container>
           <ng-template #noListContent>
