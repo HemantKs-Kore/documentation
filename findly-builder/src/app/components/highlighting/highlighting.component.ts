@@ -29,7 +29,7 @@ export class HighlightingComponent implements OnInit {
    checksort:string='fieldName';
    selectionflag:boolean=true;
    isSearchable:boolean=true;
-   page:number=1;
+   page:number=0;
    limit:number=10;
    allhighlightFields : any = [];
    highlighttrueFields: any=[];
@@ -69,14 +69,14 @@ export class HighlightingComponent implements OnInit {
       streamId:this.selectedApp._id,
       queryPipelineId:this.queryPipelineId,
       isSearchable:this.isSearchable,
-      page:1,
+      page:0,
       limit:this.limit,
       searchKey:''
     };
     this.service.invoke('get.highlightFields', quaryparms).subscribe(res => {
       this.allhighlightFields = res.data;
-      for(let i=0;i<this.allhighlightFields;i++){
-        if(this.allhighlightFields[i].highlight===true){
+      for(let i=0;i<this.allhighlightFields.length;i++){
+        if(this.allhighlightFields[i].highlight.value===true){
           for(let j=0;j<=this.allhighlightFields.length;j++)
           this.highlighttrueFields[j]=this.allhighlightFields[i]
         }

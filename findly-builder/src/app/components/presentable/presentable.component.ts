@@ -56,14 +56,14 @@ export class PresentableComponent implements OnInit {
     streamId:this.selectedApp._id,
     queryPipelineId:this.queryPipelineId,
     isSearchable:this.isSearchable,
-    page:1,
+    page:0,
     limit:this.limit,
     searchKey:''
   };
   this.service.invoke('get.presentableFields', quaryparms).subscribe(res => {
     this.allpresentableFields = res.data;
-    for(let i=0;i<this.allpresentableFields;i++){
-      if(this.allpresentableFields[i].presentable===true){
+    for(let i=0;i<this.allpresentableFields.length;i++){
+      if(this.allpresentableFields[i].presentable.value===true){
         for(let j=0;j<=this.allpresentableFields.length;j++)
         this.presentabletrueFields[j]=this.allpresentableFields[i]
       }
