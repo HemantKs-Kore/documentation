@@ -35,6 +35,8 @@ export const EMPTY_SCREEN = {
   CONNECTORS: {
     IMG_NAME: 'connector.svg',
     TITLE_SEARCH: 'No search results found',
-    DESC_SEARCH: 'We couldn’t find the connector you are looking for'
+    DESC_SEARCH: 'We couldn’t find the connector you are looking for',
+    TITLE_SEARCH_CONTENT: 'No search results found',
+    DESC_SEARCH_CONTENT: 'We couldn’t find the content you are looking for'
   },
 };

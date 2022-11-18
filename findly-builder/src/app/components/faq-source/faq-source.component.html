@@ -1028,7 +1028,7 @@
            <!-- <div style="margin-right: 10px;"> <app-record-pagination *ngIf="!isNotSearching && !loadingTab && faqSelectionObj.stats[selectedtab] && faqSelectionObj.stats[selectedtab]>0" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' (pageChanged)="paginate($event)"></app-record-pagination></div> PAGINATION -->
         </ng-container>
         <ng-container  *ngIf="currentView === 'grid'"> 
-            <ng-container *ngIf="extractedResources &&  extractedResources.length">
+            <ng-container *ngIf="extractedResources &&  extractedResources.length; else ngGridFaq">
                 <perfect-scrollbar class="faqScurceListScroll">
                     <div class="list-view-data">
                         <div class="row row_list">
@@ -1069,6 +1069,10 @@
                     </div>
                 </perfect-scrollbar>    
             </ng-container>
+
+            <ng-template #ngGridFaq>
+                ngGridFaq
+            </ng-template>
         </ng-container>
     </div>
 </kr-modal>

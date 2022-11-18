@@ -37,142 +37,83 @@
             </div>
         </div>
     </div>
-    <div [ngSwitch]="selectedContent">
-        <div *ngSwitchCase="'list'">
-            <div class="connector-cards-data full-height-show">
-                <perfect-scrollbar>
-                    <div class="inner-content-data">
-                        <ng-container>
-                            <div class="desc-text-heading">{{'connectors_picksourceandconfigure'|translate}}</div>
-                            <ng-container *ngIf="connectorsData?.length">
-                                <div class="heading-with-line">
-                                    <div class="main-heading">{{'connectors_connected'|translate}}</div>
-                                    <div class="line-border"></div>
-                                </div>
-                                <div class="card-connectors-info row">
-                                    <div class="card-connector-column" *ngFor="let connector of connectorsData|filter: [ searchField, 'connector_name']">
-                                        <div class="inner-card" [ngClass]="{'active-connector':connector.isActive,'disable-connector':connector.isActive===false}" style="cursor:default;">
-                                            <label class="kr-sg-toggle">
-                                                <input type="checkbox" [(ngModel)]="connector.isActive" (change)="openConnectorDialog(connector,$event);">
-                                                <div class="slider"></div>
-                                            </label>
-                                            <div class="icon-block">
-                                                <img [src]="connector?.image" alt="connector-img">
-                                            </div>
-                                            <div class="content-block text-truncate">
-                                                <div class="title add-new-link">
-                                                    <div class="connector-name text-truncate">{{connector?.connector_name}}</div>
-                                                    <div class="details-span" (click)="changeContent('edit',connector)"><a href="javascript:void(0)" class="details-link">details</a></div>
+    
+    <ng-container
+        *ngIf="(!(connectorsData|filter: [ searchField, 'connector_name']).length && !(availableConnectorsData|filter: [ searchField, 'connector_name']).length); else noConnectors">
+    
+        <app-empty-screen [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH"
+            [imgName]="emptyScreen.IMG_NAME">
+        </app-empty-screen>
+    </ng-container>
+
+    <ng-template #noConnectors>
+        <div [ngSwitch]="selectedContent">
+            <div *ngSwitchCase="'list'">
+                <div class="connector-cards-data full-height-show">
+                    <perfect-scrollbar>
+                        <div class="inner-content-data">
+                            <ng-container>
+                                <div class="desc-text-heading">{{'connectors_picksourceandconfigure'|translate}}</div>
+                                <ng-container>
+                                    <div class="heading-with-line">
+                                        <div class="main-heading">{{'connectors_connected'|translate}}</div>
+                                        <div class="line-border"></div>
+                                    </div>
+                                    <div class="card-connectors-info row">
+                                        <div class="card-connector-column" *ngFor="let connector of connectorsData|filter: [ searchField, 'connector_name']">
+                                            <div class="inner-card" [ngClass]="{'active-connector':connector.isActive,'disable-connector':connector.isActive===false}" style="cursor:default;">
+                                                <label class="kr-sg-toggle">
+                                                    <input type="checkbox" [(ngModel)]="connector.isActive" (change)="openConnectorDialog(connector,$event);">
+                                                    <div class="slider"></div>
+                                                </label>
+                                                <div class="icon-block">
+                                                    <img [src]="connector?.image" alt="connector-img">
                                                 </div>
-                                                    <!-- <div class="title" *ngIf="connector?.type==='confluenceServer'">(Server)</div> -->
-                                                <div class="desc-text text-truncate">({{connector?.name}})</div>
+                                                <div class="content-block text-truncate">
+                                                    <div class="title add-new-link">
+                                                        <div class="connector-name text-truncate">{{connector?.connector_name}}</div>
+                                                        <div class="details-span" (click)="changeContent('edit',connector)"><a href="javascript:void(0)" class="details-link">details</a></div>
+                                                    </div>
+                                                        <!-- <div class="title" *ngIf="connector?.type==='confluenceServer'">(Server)</div> -->
+                                                    <div class="desc-text text-truncate">({{connector?.name}})</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </ng-container>
-                            <ng-container *ngIf="availableConnectorsData?.length">
-                                <div class="heading-with-line" *ngIf="connectorsData?.length">
-                                    <div class="main-heading">{{'connectors_available'|translate}}</div>
-                                    <div class="line-border"></div>
-                                </div>
-                                <div class="card-connectors-info row">
-                                    <div class="card-connector-column" *ngFor="let avaiable of availableConnectorsData|filter: [ searchField, 'connector_name']" (click)="changeContent('add',avaiable)">
-                                        <div class="inner-card">
-                                            <!-- <div class="connect-link" *ngIf="avaiable?.type==='confluenceServer'">
-                                                Connect</div> -->
-                                            <div class="icon-block">
-                                                <img [src]="avaiable.image">
-                                            </div>
-                                            <div class="content-block text-truncate">
-                                                <div class="title">{{avaiable?.connector_name}}</div>
-                                                <div class="desc-text text-truncate">{{avaiable?.description}}</div>
+                                </ng-container>
+                                <ng-container *ngIf="availableConnectorsData?.length">
+                                    <div class="heading-with-line" *ngIf="connectorsData?.length">
+                                        <div class="main-heading">{{'connectors_available'|translate}}</div>
+                                        <div class="line-border"></div>
+                                    </div>
+                                    <div class="card-connectors-info row">
+                                        <div class="card-connector-column" *ngFor="let avaiable of availableConnectorsData|filter: [ searchField, 'connector_name']" (click)="changeContent('add',avaiable)">
+                                            <div class="inner-card">
+                                                <!-- <div class="connect-link" *ngIf="avaiable?.type==='confluenceServer'">
+                                                    Connect</div> -->
+                                                <div class="icon-block">
+                                                    <img [src]="avaiable.image">
+                                                </div>
+                                                <div class="content-block text-truncate">
+                                                    <div class="title">{{avaiable?.connector_name}}</div>
+                                                    <div class="desc-text text-truncate">{{avaiable?.description}}</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </ng-container>
                             </ng-container>
-                        </ng-container>
-                    </div>                   
-                </perfect-scrollbar>                
+                        </div>                   
+                    </perfect-scrollbar>                
+                </div>
             </div>
-        </div>
-        <!---Add functionality-->
-        <div *ngSwitchCase="'add'">
-            <div class="configuration-connectors-sec">
-                <div class="body-config-data">
-                   
-                        <div class="inner-scroll-data" [ngSwitch]="selectAddContent">
-                            <div class="connector-brand m-0">
-                                <div class="c-img">
-                                    <img [src]="selectedConnector?.image">
-                                </div>
-                                <div class="c-content-sec">
-                                    <div class="title">{{selectedConnector?.connector_name}}</div>
-                                    <div class="sub-text">{{selectedConnector?.tag}}</div>
-                                </div>
-                            </div>
-                            <div class="header-configuration-data">
-                                <div class="progress-indicators">
-                                    <div class="indicator-bg"  *ngFor="let item of addConnectorSteps" [ngClass]="{'active-indicator':item.isCompleted}"></div>
-                                </div>
-                            </div>
-                            <perfect-scrollbar class="inside-scroll-bar">
-                            <div class="instruction-setup" *ngSwitchCase="'instructions'">
-                                <div class="header-configuration-data mt-0">
-                                    <div class="config-tab">
-                                        <div class="icon-config">
-                                            <i class="si-instructions"></i>
-                                        </div>
-                                        <div class="title">{{'connectors_introduction'|translate}}</div>
-                                    </div>
-                                </div>
-                                <div class="desc-text mb-4">{{'connectors_quick_setup_desc'|translate}}</div>
-                                <div class="instruction-steps-data">
-                                    <div class="right-block">
-                                        <div class="steps-hint-data">
-                                            <div class="step-data-title">{{'connectors_step_1'|translate}}</div>
-                                            <div class="steps-info-sec">
-                                                <div class="h-title">{{'connectors_configure_an_OAuth_application'|translate}}</div>
-                                                <a [href]="selectedConnector.doc_url" target="_blank"><i class="si-external-link"></i> {{'connectors_documentation'|translate}}</a>
-                                                <div class="text-desc">{{'connectors_set_up_secure_oauth'|translate}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="steps-hint-data">
-                                            <div class="step-data-title">{{'connectors_step_2'|translate}}</div>
-                                            <div class="steps-info-sec">
-                                                <div class="h-title">{{'connectors_connect_the_content_source'|translate}}</div>
-                                                <div class="text-desc">{{'connectors_use_new_oauth'|translate}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="steps-hint-data">
-                                            <div class="step-data-title">{{'connectors_step_3'|translate}}</div>
-                                            <div class="steps-info-sec">
-                                                <div class="h-title">{{'connectors_follow_authentication_flow'|translate}}</div>
-                                                <div class="text-desc">{{'connectors_follow_the'|translate}} {{selectedConnector?.connector_name}} {{'connectors_authentication_flow'|translate}} <a [href]="selectedConnector.doc_url" target="_blank">{{'connectors_documentation_link'|translate}}</a>.</div>
-                                            </div>
-                                        </div>
-                                        <div class="steps-hint-data">
-                                            <div class="step-data-title">{{'connectors_step_4'|translate}}</div>
-                                            <div class="steps-info-sec">
-                                                <div class="h-title">{{'connectors_authentication'|translate}}</div>
-                                                <div class="text-desc">{{'connectors_upon_the_success'|translate}}<br /><br />{{selectedConnector?.connector_name}} {{'connectors_content_now_captured'|translate}} {{selectedConnector?.connector_name}} {{'connectors_will_synchronize_automatically'|translate}}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="configuration-setup" *ngSwitchCase="'configurtion'">
-                                <div class="header-configuration-data mt-0">
-                                    <div class="config-tab">
-                                        <div class="icon-config">
-                                            <i class="si-instructions"></i>
-                                        </div>
-                                        <div class="title">{{'connectors_configuration_authentication'|translate}}</div>
-                                    </div>
-                                </div>
-                                <div class="desc-text">{{'connectors_set_up_secure_oauth'|translate}} {{selectedConnector?.connector_name}} {{'connectors_authentication_flow'|translate}} <a [href]="selectedConnector.doc_url" target="_blank">{{'connectors_documentation_link'|translate}}.</a></div>
-                                <!-- <div class="connector-brand">
+            <!---Add functionality-->
+            <div *ngSwitchCase="'add'">
+                <div class="configuration-connectors-sec">
+                    <div class="body-config-data">
+                       
+                            <div class="inner-scroll-data" [ngSwitch]="selectAddContent">
+                                <div class="connector-brand m-0">
                                     <div class="c-img">
                                         <img [src]="selectedConnector?.image">
                                     </div>
@@ -180,395 +121,470 @@
                                         <div class="title">{{selectedConnector?.connector_name}}</div>
                                         <div class="sub-text">{{selectedConnector?.tag}}</div>
                                     </div>
-                                </div> -->
-                                <div class="config-steps-boxes">
-                                    <div class="left-box">
-                                        <div class="inner-content">
-                                            <div class="box-data-step">
-                                                <!-- <div class="text-data-desc">After generating configuration
-                                                    information
-                                                    from step 1, please provide valid credintials to connect to
-                                                    {{selectedConnector?.connector_name}}.</div> -->
-                                                <div class="heading-label">{{'connectors_provide_appropriate_config_info'|translate}}</div>
+                                </div>
+                                <div class="header-configuration-data">
+                                    <div class="progress-indicators">
+                                        <div class="indicator-bg"  *ngFor="let item of addConnectorSteps" [ngClass]="{'active-indicator':item.isCompleted}"></div>
+                                    </div>
+                                </div>
+                                <perfect-scrollbar class="inside-scroll-bar">
+                                <div class="instruction-setup" *ngSwitchCase="'instructions'">
+                                    <div class="header-configuration-data mt-0">
+                                        <div class="config-tab">
+                                            <div class="icon-config">
+                                                <i class="si-instructions"></i>
+                                            </div>
+                                            <div class="title">{{'connectors_introduction'|translate}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="desc-text mb-4">{{'connectors_quick_setup_desc'|translate}}</div>
+                                    <div class="instruction-steps-data">
+                                        <div class="right-block">
+                                            <div class="steps-hint-data">
+                                                <div class="step-data-title">{{'connectors_step_1'|translate}}</div>
+                                                <div class="steps-info-sec">
+                                                    <div class="h-title">{{'connectors_configure_an_OAuth_application'|translate}}</div>
+                                                    <a [href]="selectedConnector.doc_url" target="_blank"><i class="si-external-link"></i> {{'connectors_documentation'|translate}}</a>
+                                                    <div class="text-desc">{{'connectors_set_up_secure_oauth'|translate}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="steps-hint-data">
+                                                <div class="step-data-title">{{'connectors_step_2'|translate}}</div>
+                                                <div class="steps-info-sec">
+                                                    <div class="h-title">{{'connectors_connect_the_content_source'|translate}}</div>
+                                                    <div class="text-desc">{{'connectors_use_new_oauth'|translate}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="steps-hint-data">
+                                                <div class="step-data-title">{{'connectors_step_3'|translate}}</div>
+                                                <div class="steps-info-sec">
+                                                    <div class="h-title">{{'connectors_follow_authentication_flow'|translate}}</div>
+                                                    <div class="text-desc">{{'connectors_follow_the'|translate}} {{selectedConnector?.connector_name}} {{'connectors_authentication_flow'|translate}} <a [href]="selectedConnector.doc_url" target="_blank">{{'connectors_documentation_link'|translate}}</a>.</div>
+                                                </div>
+                                            </div>
+                                            <div class="steps-hint-data">
+                                                <div class="step-data-title">{{'connectors_step_4'|translate}}</div>
+                                                <div class="steps-info-sec">
+                                                    <div class="h-title">{{'connectors_authentication'|translate}}</div>
+                                                    <div class="text-desc">{{'connectors_upon_the_success'|translate}}<br /><br />{{selectedConnector?.connector_name}} {{'connectors_content_now_captured'|translate}} {{selectedConnector?.connector_name}} {{'connectors_will_synchronize_automatically'|translate}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="configuration-setup" *ngSwitchCase="'configurtion'">
+                                    <div class="header-configuration-data mt-0">
+                                        <div class="config-tab">
+                                            <div class="icon-config">
+                                                <i class="si-instructions"></i>
+                                            </div>
+                                            <div class="title">{{'connectors_configuration_authentication'|translate}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="desc-text">{{'connectors_set_up_secure_oauth'|translate}} {{selectedConnector?.connector_name}} {{'connectors_authentication_flow'|translate}} <a [href]="selectedConnector.doc_url" target="_blank">{{'connectors_documentation_link'|translate}}.</a></div>
+                                    <!-- <div class="connector-brand">
+                                        <div class="c-img">
+                                            <img [src]="selectedConnector?.image">
+                                        </div>
+                                        <div class="c-content-sec">
+                                            <div class="title">{{selectedConnector?.connector_name}}</div>
+                                            <div class="sub-text">{{selectedConnector?.tag}}</div>
+                                        </div>
+                                    </div> -->
+                                    <div class="config-steps-boxes">
+                                        <div class="left-box">
+                                            <div class="inner-content">
+                                                <div class="box-data-step">
+                                                    <!-- <div class="text-data-desc">After generating configuration
+                                                        information
+                                                        from step 1, please provide valid credintials to connect to
+                                                        {{selectedConnector?.connector_name}}.</div> -->
+                                                    <div class="heading-label">{{'connectors_provide_appropriate_config_info'|translate}}</div>
+                                                    <div class="kr-sg-input-text mb-3">
+                                                        <div class="label-text">{{'connectors_name'|translate}}</div>
+                                                        <input type="text" placeholder="{{'connectors_enter_name_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.name">
+                                                    </div>
+                                                    <div class="kr-sg-input-text mb-3">
+                                                        <div class="label-text">{{'connectors_clientid'|translate}}</div>
+                                                        <input [type]="showProtecedText.isClientShow?'text':'password'" placeholder="{{'connectors_paste_client_ID_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.clientId">
+                                                        <i class="si-eye" *ngIf="!showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
+                                                        <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
+                                                    </div>
+                                                    <div class="kr-sg-input-text mb-3">
+                                                        <div class="label-text">{{'connectors_clientsecretId'|translate}}</div>
+                                                        <input [type]="showProtecedText.isSecretShow?'text':'password'" placeholder="{{'connectors_Paste_Secret_ID_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.clientSecret">
+                                                        <i class="si-eye" *ngIf="!showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
+                                                        <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
+                                                    </div>
+                                                    <div class="kr-sg-input-text mb-3">
+                                                        <div class="label-text">{{'connectors_hostURL'|translate}}</div>
+                                                        <input type="text" placeholder="Enter HostURL here" class="input-text" [(ngModel)]="configurationObj.hostUrl">
+                                                        <!-- <i class="si-eye"></i> -->
+                                                    </div>
+                                                    <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type !== 'serviceNow'&&  selectedConnector.type !== 'zendesk'">
+                                                        <div class="label-text">{{'connectors_host_domain_name'|translate}}</div>
+                                                        <input type="text" placeholder="Enter HostURL here" class="input-text" [(ngModel)]="configurationObj.hostDomainName">
+                                                        <!-- <i class="si-eye"></i> -->
+                                                    </div>
+                                                    <ng-container *ngIf="selectedConnector.type==='serviceNow'">
+                                                    <div class="kr-sg-input-text mb-3">
+                                                        <div class="label-text">{{'connectors_username'|translate}}</div>
+                                                        <input type="text" placeholder="{{'connectors_Enter_username_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.username">
+                                                    </div>
+                                                    <div class="kr-sg-input-text">
+                                                        <div class="label-text">{{'connectors_password'|translate}}</div>
+                                                        <input [type]="showProtecedText.isPassword?'text':'password'" placeholder="Enter password here" class="input-text" [(ngModel)]="configurationObj.password">
+                                                        <i class="si-eye" *ngIf="!showProtecedText.isPassword" (click)="showProtecedText.isPassword=!showProtecedText.isPassword"></i>
+                                                        <i class="si-eyeshow" *ngIf="showProtecedText.isPassword" (click)="showProtecedText.isPassword=!showProtecedText.isPassword"></i>
+                                                    </div>
+                                                </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="authentication-sec" *ngSwitchCase="'authentication'">
+                                    <div class="desc-text">{{'connectors_upon_successful_authentication'|translate}}, {{selectedConnector?.connector_name}} {{'connectors_content_now_captured'|translate}} {{selectedConnector?.connector_name}} {{'connectors_will_synchronize_automatically'|translate}}.</div>
+                                    <div class="connector-brand">
+                                        <div class="c-img">
+                                            <img [src]="selectedConnector?.image">
+                                        </div>
+                                        <div class="c-content-sec">
+                                            <div class="title m-0">{{selectedConnector?.connector_name}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </perfect-scrollbar>
+                            </div>
+                     
+                        <div class="footer-btns">
+                            <div class="left-btn">
+                                <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('back')" *ngIf="selectAddContent!=='instructions'">{{'connectors_back_button'|translate}}</button>
+                            </div>
+                            <div class="right-btn">
+                                <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('cancel')">{{'connectors_cancel_button'|translate}}</button>
+                                <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='instructions'" (click)="backToPage('submit')">{{'connectors_proceed_button'|translate}}</button>
+                                <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='configurtion'" (click)="backToPage('submit')" [disabled]="!(configurationObj?.clientId?.length && configurationObj?.clientSecret?.length)">{{'connectors_save_configuration'|translate}}</button>
+                                <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='authentication'" (click)="backToPage('submit')">{{'connectors_connect'|translate}} {{selectedConnector?.connector_name}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!---Edit functionality-->
+            <div class="connector-cards-data" *ngSwitchCase="'edit'">        
+                    <div class="inner-content-data">
+                        <!-- <div class="desc-text">{{'connectors_editremoveconnectedsources'|translate}}</div> -->
+                        <div class="back-to-block"><div class="back-to-page" (click)="backToPage('cancel')"><i class="si-carrotup"></i></div>{{'connectors_back'|translate}}</div>
+                        <div class="connector-brand">
+                            <div class="c-img">
+                                <img [src]="selectedConnector.image">
+                            </div>
+                            <div class="c-content-sec">
+                                <div class="title">{{selectedConnector?.connector_name}}</div>
+                                <div class="sub-text">Created {{selectedConnector?.createdOn | date:'mediumDate'}}</div>
+                            </div>
+                        </div>
+                        <div class="edit-connectors-block">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item" *ngFor="let tab of connectorTabs">
+                                    <span class="nav-link" [ngClass]="{'active':tab.type===selectedTab}" data-toggle="tab" (click)="changeEditTabs(tab.type)">{{tab.name}}</span>
+                                </li>                                                      
+                            </ul>
+    
+                            <div class="tab-content" [ngSwitch]="selectedTab">    
+                                <!--Overview tab-->                       
+                                <div class="tab-pane active" *ngSwitchCase="'overview'">
+                                    <perfect-scrollbar class="tab-content-scroll-data">
+                                        <div class="overview-tab-data">
+                                            <div class="heading-summery">
+                                                {{'connectors_summary'|translate}}</div>
+                                            <div class="overview-summery-cards">
+                                                <div class="table-summery">
+                                                    <div class="table-heading-summery">
+                                                        <div class="title">{{'connectors_source_type'|translate}}</div>
+                                                        <div class="title text-right">{{'connectors_items'|translate}}</div>
+                                                    </div>
+                                                    <ng-container *ngFor="let overview of overViewData?.overview">
+                                                        <div class="repeat-table-body">
+                                                            <div class="title user-type">{{overview?.key|titlecase}}</div>
+                                                            <div class="title item-count">{{overview?.doc_count}}</div>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                                <div class="source-data">
+                                                    <div class="source-card sync-source-card">
+                                                        <div class="sync-card-title">{{'connectors_synchronization'|translate}}</div>
+                                                        <div class="sync-card-btn"><button class="kr-sg-button-primary btn_lg" [ngStyle]="{'background':isSyncLoading?'#85B7FE':'#0D6EFD'}" (click)="isSyncLoading?null:ingestConnector(true)"><span class="loader-spin-inside-btn" *ngIf="isSyncLoading"></span>{{isSyncLoading?('connectors_sync_progress'|translate):('connectors_synchronize_content_now'|translate)}}</button></div>
+                                                        <div class="sync-card-desc">{{'connectors_you_can_also_configure_your'|translate}} <span class="sync-card-link" (click)="selectedTab='configurations'">{{'connectors_sync_frequency'|translate}}.</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </perfect-scrollbar>
+                                </div>
+                                <!--Connection Settings tab-->
+                                <div class="tab-pane active" *ngSwitchCase="'connectionSettings'">
+                                    <perfect-scrollbar class="tab-content-scroll-data">
+                                    <div class="connection-settings-tab-data">
+                                            <div class="connection-settings-title">
+                                                {{'connectors_content_source_configuration'|translate}}
+                                                <span class="connection-settings-desc pl-2">{{'connectors_edit_connector_settings'|translate}}</span>
+                                            </div>
+                                            <div class="connection-settings-form">
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">{{'connectors_name'|translate}}</div>
-                                                    <input type="text" placeholder="{{'connectors_enter_name_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.name">
+                                                    <input class="input-text" placeholder="{{'connectors_enter_name_here' | translate}}" type="text" [(ngModel)]="configurationObj.name">
+                                                        <!-- <i class="si-eye"></i> -->
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">{{'connectors_clientid'|translate}}</div>
-                                                    <input [type]="showProtecedText.isClientShow?'text':'password'" placeholder="{{'connectors_paste_client_ID_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.clientId">
+                                                    <input class="input-text" placeholder="{{'connectors_paste_client_ID_here' | translate}}" [type]="showProtecedText.isClientShow?'text':'password'" [(ngModel)]="configurationObj.clientId">
                                                     <i class="si-eye" *ngIf="!showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                                     <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">{{'connectors_clientsecretId'|translate}}</div>
-                                                    <input [type]="showProtecedText.isSecretShow?'text':'password'" placeholder="{{'connectors_Paste_Secret_ID_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.clientSecret">
+                                                    <input class="input-text" placeholder="{{'connectors_Paste_Secret_ID_here' | translate}}" [type]="showProtecedText.isSecretShow?'text':'password'" [(ngModel)]="configurationObj.clientSecret">
                                                     <i class="si-eye" *ngIf="!showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                                     <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">{{'connectors_hostURL'|translate}}</div>
-                                                    <input type="text" placeholder="Enter HostURL here" class="input-text" [(ngModel)]="configurationObj.hostUrl">
-                                                    <!-- <i class="si-eye"></i> -->
+                                                    <input type="text" placeholder="{{'connectors_Enter_Host_URL_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.hostUrl">
                                                 </div>
-                                                <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type !== 'serviceNow'&&  selectedConnector.type !== 'zendesk'">
+                                                <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type!=='serviceNow' && selectedConnector.type!=='zendesk'">
                                                     <div class="label-text">{{'connectors_host_domain_name'|translate}}</div>
-                                                    <input type="text" placeholder="Enter HostURL here" class="input-text" [(ngModel)]="configurationObj.hostDomainName">
-                                                    <!-- <i class="si-eye"></i> -->
+                                                    <input type="text" placeholder="{{'connectors_enter_host_domainname_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.hostDomainName">
                                                 </div>
-                                                <ng-container *ngIf="selectedConnector.type==='serviceNow'">
-                                                <div class="kr-sg-input-text mb-3">
-                                                    <div class="label-text">{{'connectors_username'|translate}}</div>
-                                                    <input type="text" placeholder="{{'connectors_Enter_username_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.username">
-                                                </div>
-                                                <div class="kr-sg-input-text">
-                                                    <div class="label-text">{{'connectors_password'|translate}}</div>
-                                                    <input [type]="showProtecedText.isPassword?'text':'password'" placeholder="Enter password here" class="input-text" [(ngModel)]="configurationObj.password">
-                                                    <i class="si-eye" *ngIf="!showProtecedText.isPassword" (click)="showProtecedText.isPassword=!showProtecedText.isPassword"></i>
-                                                    <i class="si-eyeshow" *ngIf="showProtecedText.isPassword" (click)="showProtecedText.isPassword=!showProtecedText.isPassword"></i>
-                                                </div>
-                                            </ng-container>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="authentication-sec" *ngSwitchCase="'authentication'">
-                                <div class="desc-text">{{'connectors_upon_successful_authentication'|translate}}, {{selectedConnector?.connector_name}} {{'connectors_content_now_captured'|translate}} {{selectedConnector?.connector_name}} {{'connectors_will_synchronize_automatically'|translate}}.</div>
-                                <div class="connector-brand">
-                                    <div class="c-img">
-                                        <img [src]="selectedConnector?.image">
-                                    </div>
-                                    <div class="c-content-sec">
-                                        <div class="title m-0">{{selectedConnector?.connector_name}}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            </perfect-scrollbar>
-                        </div>
-                 
-                    <div class="footer-btns">
-                        <div class="left-btn">
-                            <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('back')" *ngIf="selectAddContent!=='instructions'">{{'connectors_back_button'|translate}}</button>
-                        </div>
-                        <div class="right-btn">
-                            <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('cancel')">{{'connectors_cancel_button'|translate}}</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='instructions'" (click)="backToPage('submit')">{{'connectors_proceed_button'|translate}}</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='configurtion'" (click)="backToPage('submit')" [disabled]="!(configurationObj?.clientId?.length && configurationObj?.clientSecret?.length)">{{'connectors_save_configuration'|translate}}</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='authentication'" (click)="backToPage('submit')">{{'connectors_connect'|translate}} {{selectedConnector?.connector_name}}</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!---Edit functionality-->
-        <div class="connector-cards-data" *ngSwitchCase="'edit'">        
-                <div class="inner-content-data">
-                    <!-- <div class="desc-text">{{'connectors_editremoveconnectedsources'|translate}}</div> -->
-                    <div class="back-to-block"><div class="back-to-page" (click)="backToPage('cancel')"><i class="si-carrotup"></i></div>{{'connectors_back'|translate}}</div>
-                    <div class="connector-brand">
-                        <div class="c-img">
-                            <img [src]="selectedConnector.image">
-                        </div>
-                        <div class="c-content-sec">
-                            <div class="title">{{selectedConnector?.connector_name}}</div>
-                            <div class="sub-text">Created {{selectedConnector?.createdOn | date:'mediumDate'}}</div>
-                        </div>
-                    </div>
-                    <div class="edit-connectors-block">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item" *ngFor="let tab of connectorTabs">
-                                <span class="nav-link" [ngClass]="{'active':tab.type===selectedTab}" data-toggle="tab" (click)="changeEditTabs(tab.type)">{{tab.name}}</span>
-                            </li>                                                      
-                        </ul>
-
-                        <div class="tab-content" [ngSwitch]="selectedTab">    
-                            <!--Overview tab-->                       
-                            <div class="tab-pane active" *ngSwitchCase="'overview'">
-                                <perfect-scrollbar class="tab-content-scroll-data">
-                                    <div class="overview-tab-data">
-                                        <div class="heading-summery">
-                                            {{'connectors_summary'|translate}}</div>
-                                        <div class="overview-summery-cards">
-                                            <div class="table-summery">
-                                                <div class="table-heading-summery">
-                                                    <div class="title">{{'connectors_source_type'|translate}}</div>
-                                                    <div class="title text-right">{{'connectors_items'|translate}}</div>
-                                                </div>
-                                                <ng-container *ngFor="let overview of overViewData?.overview">
-                                                    <div class="repeat-table-body">
-                                                        <div class="title user-type">{{overview?.key|titlecase}}</div>
-                                                        <div class="title item-count">{{overview?.doc_count}}</div>
+                                                <ng-container  *ngIf="selectedConnector.type==='serviceNow'">
+                                                    <div class="kr-sg-input-text mb-3">
+                                                        <div class="label-text">{{'connectors_username'|translate}}</div>
+                                                        <input type="text" placeholder="{{'connectors_Enter_username_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.username">
                                                     </div>
-                                                </ng-container>
+                                                    <div class="kr-sg-input-text mb-3">
+                                                        <div class="label-text">{{'connectors_password'|translate}}</div>
+                                                        <input [type]="showProtecedText.isPassword?'text':'password'" placeholder="{{'connectors_enter_password_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.password">
+                                                        <i class="si-eye" *ngIf="!showProtecedText.isPassword" (click)="showProtecedText.isPassword=!showProtecedText.isPassword"></i>
+                                                        <i class="si-eyeshow" *ngIf="showProtecedText.isPassword" (click)="showProtecedText.isPassword=!showProtecedText.isPassword"></i>
+                                                    </div>
+                                                </ng-container>                                           
                                             </div>
-                                            <div class="source-data">
-                                                <div class="source-card sync-source-card">
-                                                    <div class="sync-card-title">{{'connectors_synchronization'|translate}}</div>
-                                                    <div class="sync-card-btn"><button class="kr-sg-button-primary btn_lg" [ngStyle]="{'background':isSyncLoading?'#85B7FE':'#0D6EFD'}" (click)="isSyncLoading?null:ingestConnector(true)"><span class="loader-spin-inside-btn" *ngIf="isSyncLoading"></span>{{isSyncLoading?('connectors_sync_progress'|translate):('connectors_synchronize_content_now'|translate)}}</button></div>
-                                                    <div class="sync-card-desc">{{'connectors_you_can_also_configure_your'|translate}} <span class="sync-card-link" (click)="selectedTab='configurations'">{{'connectors_sync_frequency'|translate}}.</span></div>
-                                                </div>
+                                    </div>
+                                    </perfect-scrollbar>
+                                </div>
+                                <!--content list tab-->
+                                <div class="tab-pane active" *ngSwitchCase="'content'">
+                                    <perfect-scrollbar class="tab-content-scroll-data">
+                                    <div class="content-settings-tab-data">
+                                        <div class="search-tab">
+                                            <div class="kr-sg-input-search">
+                                                <input autocomplete="off" class="input-search pl-33" #inputSearch maxlength="60" placeholder="{{'sa_search' | translate}}" type="text" [(ngModel)]="contentInputSearch" (change)="getDynamicSearchContent('input')">
+                                              <img class="search-icon" src="assets/icons/search_gray.svg">
+                                              <img class="close-icon" src="assets/icons/close_icon.svg" (click)="getDynamicSearchContent('clear')">
+                                            </div>
+                                        </div>
+                                        <div class="content-data-table">
+                                            <div class="kr-sg-data-table">
+                                                <section class="table-content">
+                                                    <header class="table-header">
+                                                        <div class="col-4 p-0">{{'connectors_title'|translate}}</div>
+                                                        <div class="col-4">{{'connectors_URL'|translate}}</div>
+                                                        <div class="col-4">{{'connectors_last_update'|translate}}</div>
+                                                    </header>
+                                                    <div class="content-body cursor-pointer" *ngFor="let content of overViewData.content">
+                                                        <div class="col-4 p-0">{{content?.title}}</div>
+                                                        <div class="col-4 text-overflow" [title]="content?.url" (click)="removeSpaces(content?.url)"><span class="url-link">{{content?.url}}</span></div>
+                                                        <div class="col-4">{{content?.lastUpdatedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
+                                                    </div>
+                                                    <div *ngIf="overViewData.content?.length===0">
+                                                        <app-empty-screen [title]="emptyScreen.TITLE_SEARCH_CONTENT" [desc]="emptyScreen.DESC_SEARCH_CONTENT"
+                                                            [imgName]="emptyScreen.IMG_NAME">
+                                                        </app-empty-screen>
+                                                    </div>
+                                                </section>
+                                                <app-record-pagination [totalRecord]='total_records' [limitpage]='10' (pageChanged)="paginate($event)" *ngIf="overViewData.content?.length">
+                                                </app-record-pagination>                               
                                             </div>
                                         </div>
                                     </div>
-                                </perfect-scrollbar>
-                            </div>
-                            <!--Connection Settings tab-->
-                            <div class="tab-pane active" *ngSwitchCase="'connectionSettings'">
-                                <perfect-scrollbar class="tab-content-scroll-data">
-                                <div class="connection-settings-tab-data">
+                                    </perfect-scrollbar>
+                                </div>
+                                <!--configuration or sync frequency tab-->
+                                <div class="tab-pane active" *ngSwitchCase="'configurations'">
+                                    <perfect-scrollbar class="tab-content-scroll-data">
+                                    <div class="configurations-tab-data">
                                         <div class="connection-settings-title">
-                                            {{'connectors_content_source_configuration'|translate}}
-                                            <span class="connection-settings-desc pl-2">{{'connectors_edit_connector_settings'|translate}}</span>
+                                           {{'connectors_content_source_name'|translate}}
+                                            <span class="connection-settings-desc pl-2">{{'connectors_customize_the_name'|translate}}</span>
                                         </div>
-                                        <div class="connection-settings-form">
+                                        <div class="configurations-form w-60">
                                             <div class="kr-sg-input-text mb-3">
-                                                <div class="label-text">{{'connectors_name'|translate}}</div>
-                                                <input class="input-text" placeholder="{{'connectors_enter_name_here' | translate}}" type="text" [(ngModel)]="configurationObj.name">
-                                                    <!-- <i class="si-eye"></i> -->
-                                            </div>
-                                            <div class="kr-sg-input-text mb-3">
-                                                <div class="label-text">{{'connectors_clientid'|translate}}</div>
-                                                <input class="input-text" placeholder="{{'connectors_paste_client_ID_here' | translate}}" [type]="showProtecedText.isClientShow?'text':'password'" [(ngModel)]="configurationObj.clientId">
-                                                <i class="si-eye" *ngIf="!showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
-                                                <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
-                                            </div>
-                                            <div class="kr-sg-input-text mb-3">
-                                                <div class="label-text">{{'connectors_clientsecretId'|translate}}</div>
-                                                <input class="input-text" placeholder="{{'connectors_Paste_Secret_ID_here' | translate}}" [type]="showProtecedText.isSecretShow?'text':'password'" [(ngModel)]="configurationObj.clientSecret">
-                                                <i class="si-eye" *ngIf="!showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
-                                                <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
-                                            </div>
-                                            <div class="kr-sg-input-text mb-3">
-                                                <div class="label-text">{{'connectors_hostURL'|translate}}</div>
-                                                <input type="text" placeholder="{{'connectors_Enter_Host_URL_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.hostUrl">
-                                            </div>
-                                            <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type!=='serviceNow' && selectedConnector.type!=='zendesk'">
-                                                <div class="label-text">{{'connectors_host_domain_name'|translate}}</div>
-                                                <input type="text" placeholder="{{'connectors_enter_host_domainname_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.hostDomainName">
-                                            </div>
-                                            <ng-container  *ngIf="selectedConnector.type==='serviceNow'">
-                                                <div class="kr-sg-input-text mb-3">
-                                                    <div class="label-text">{{'connectors_username'|translate}}</div>
-                                                    <input type="text" placeholder="{{'connectors_Enter_username_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.username">
-                                                </div>
-                                                <div class="kr-sg-input-text mb-3">
-                                                    <div class="label-text">{{'connectors_password'|translate}}</div>
-                                                    <input [type]="showProtecedText.isPassword?'text':'password'" placeholder="{{'connectors_enter_password_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.password">
-                                                    <i class="si-eye" *ngIf="!showProtecedText.isPassword" (click)="showProtecedText.isPassword=!showProtecedText.isPassword"></i>
-                                                    <i class="si-eyeshow" *ngIf="showProtecedText.isPassword" (click)="showProtecedText.isPassword=!showProtecedText.isPassword"></i>
-                                                </div>
-                                            </ng-container>                                           
-                                        </div>
-                                </div>
-                                </perfect-scrollbar>
-                            </div>
-                            <!--content list tab-->
-                            <div class="tab-pane active" *ngSwitchCase="'content'">
-                                <perfect-scrollbar class="tab-content-scroll-data">
-                                <div class="content-settings-tab-data">
-                                    <div class="search-tab">
-                                        <div class="kr-sg-input-search">
-                                            <input autocomplete="off" class="input-search pl-33" #inputSearch maxlength="60" placeholder="{{'sa_search' | translate}}" type="text" [(ngModel)]="contentInputSearch" (change)="getDynamicSearchContent('input')">
-                                          <img class="search-icon" src="assets/icons/search_gray.svg">
-                                          <img class="close-icon" src="assets/icons/close_icon.svg" (click)="getDynamicSearchContent('clear')">
-                                        </div>
-                                    </div>
-                                    <div class="content-data-table">
-                                        <div class="kr-sg-data-table">
-                                            <section class="table-content">
-                                                <header class="table-header">
-                                                    <div class="col-4 p-0">{{'connectors_title'|translate}}</div>
-                                                    <div class="col-4">{{'connectors_URL'|translate}}</div>
-                                                    <div class="col-4">{{'connectors_last_update'|translate}}</div>
-                                                </header>
-                                                <div class="content-body cursor-pointer" *ngFor="let content of overViewData.content">
-                                                    <div class="col-4 p-0">{{content?.title}}</div>
-                                                    <div class="col-4 text-overflow" [title]="content?.url" (click)="removeSpaces(content?.url)"><span class="url-link">{{content?.url}}</span></div>
-                                                    <div class="col-4">{{content?.lastUpdatedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
-                                                </div>
-                                                <div *ngIf="overViewData.content?.length===0" class="no-content">{{'connectors_no_content'|translate}}</div>
-                                            </section>
-                                            <app-record-pagination [totalRecord]='total_records' [limitpage]='10' (pageChanged)="paginate($event)" *ngIf="overViewData.content?.length">
-                                            </app-record-pagination>                               
-                                        </div>
-                                    </div>
-                                </div>
-                                </perfect-scrollbar>
-                            </div>
-                            <!--configuration or sync frequency tab-->
-                            <div class="tab-pane active" *ngSwitchCase="'configurations'">
-                                <perfect-scrollbar class="tab-content-scroll-data">
-                                <div class="configurations-tab-data">
-                                    <div class="connection-settings-title">
-                                       {{'connectors_content_source_name'|translate}}
-                                        <span class="connection-settings-desc pl-2">{{'connectors_customize_the_name'|translate}}</span>
-                                    </div>
-                                    <div class="configurations-form w-60">
-                                        <div class="kr-sg-input-text mb-3">
-                                            <input type="text" placeholder="{{'connectors_enter_name_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.name">
-                                        </div>
-                                    </div>
-                                    <div class="sync-frequency-block d-none">
-                                        <div class="sync-frequency-title">{{'connectors_sync_frequency'|translate}}</div>
-                                        <div class="sync-frequency-form-block">
-                                            <div class="sync-frequency-left">
-                                                <div class="label-text sync-title col-2 pl-0">{{'connectors_sync_every'|translate}}</div>
-                                                <div class="kr-sg-dropdowns">
-                                                    <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.days===0?'Days':syncCount.days}}</button>
-                                                        <ul class="dropdown-menu content-menu">
-                                                            <perfect-scrollbar class="scroll-search-field h-200">
-                                                              <li class="p-0" *ngFor="let count of syncCount.count | slice:0:31" (click)="syncCount.days=count"><a>{{count}}</a></li>
-                                                            </perfect-scrollbar>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="kr-sg-dropdowns">
-                                                    <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.hours===0?'Hours':syncCount.hours}}</button>
-                                                        <ul class="dropdown-menu content-menu">
-                                                            <perfect-scrollbar class="scroll-search-field h-200">
-                                                                <li class="p-0" *ngFor="let count of syncCount.count | slice:0:24" (click)="syncCount.hours=count"><a>{{count}}</a></li>
-                                                              </perfect-scrollbar>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="kr-sg-dropdowns">
-                                                    <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.minutes===0?'Mins':syncCount.minutes}}</button>
-                                                        <ul class="dropdown-menu content-menu">
-                                                            <perfect-scrollbar class="scroll-search-field h-200">
-                                                                <li class="p-0" *ngFor="let count of syncCount.count | slice:0:60" (click)="syncCount.minutes=count"><a>{{count}}</a></li>
-                                                              </perfect-scrollbar>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="sync-frequency-right" *ngIf="false">
-                                                <div class="sync-timer">
-                                                    <span class="pr-2"><img src="assets/images/timer.svg" /></span> <span>26 Mins ago</span>
-                                                </div>
-                                                <div class="sync-estimated-time">
-                                                    <span>Estimated time</span> : <span>Few seconds</span>
-                                                </div>
+                                                <input type="text" placeholder="{{'connectors_enter_name_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.name">
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="new-sync-frequency-block">
-                                        <div class="sync-frequency-header-block">
+                                        <div class="sync-frequency-block d-none">
                                             <div class="sync-frequency-title">{{'connectors_sync_frequency'|translate}}</div>
-                                            <!-- <div class="sync-frequency-time"><span class="align-middle"><i class="si-time-estimate pr-2"></i></span> Synced 26 Mins ago <span class="sync-estimate-time">Estimated time : </span><span class="sync-estimate-time">3 Mins</span></div> -->
-                                        </div>
-                                        <div class="sync-note">
-                                            <div><span><i class="si-info pr-1"></i></span></div>
-                                            <div class="sync-note-desc">Time required for syncing is usually longer,therefore a minimum time interval between consecutive syncs should atleast be an hour</div>
-                                        </div>
-
-                                        <div class="sync-every-block">
-                                            <div class="sync-every-title">Sync every</div>
-                                            <div class="sync-radio-block">
-                                                    <div class="sync-radio-block-flex">
-                                                        <div class="sync-radio-btn-width">
-                                                            <div class="kr-sg-radiobutton">
-                                                                <input id="radio-12" name="radio" class="radio-custom" type="radio" checked>
-                                                                <label for="radio-12" class="radio-custom-label"></label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="kr-sg-width-20">
-                                                            <div class="kr-sg-dropdowns">
-                                                                <div class="dropdown dropdown-open">
-                                                                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.days===0?'Days':syncCount.days}}</button>
-                                                                    <ul class="dropdown-menu content-menu">
-                                                                        <perfect-scrollbar class="scroll-search-field h-200">
-                                                                          <li class="p-0" *ngFor="let count of syncCount.count | slice:0:31" (click)="syncCount.days=count"><a>{{count}}</a></li>
-                                                                        </perfect-scrollbar>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
+                                            <div class="sync-frequency-form-block">
+                                                <div class="sync-frequency-left">
+                                                    <div class="label-text sync-title col-2 pl-0">{{'connectors_sync_every'|translate}}</div>
+                                                    <div class="kr-sg-dropdowns">
+                                                        <div class="dropdown dropdown-open">
+                                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.days===0?'Days':syncCount.days}}</button>
+                                                            <ul class="dropdown-menu content-menu">
+                                                                <perfect-scrollbar class="scroll-search-field h-200">
+                                                                  <li class="p-0" *ngFor="let count of syncCount.count | slice:0:31" (click)="syncCount.days=count"><a>{{count}}</a></li>
+                                                                </perfect-scrollbar>
+                                                            </ul>
                                                         </div>
                                                     </div>
-                                                
-                                                    <div class="sync-radio-block-flex">
-                                                        <div class="sync-radio-btn-width">
-                                                            <div class="kr-sg-radiobutton">
-                                                                <input id="radio-13" name="radio" class="radio-custom" type="radio">
-                                                                <label for="radio-13" class="radio-custom-label"></label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="kr-sg-width-20">
-                                                            <div class="kr-sg-dropdowns">
-                                                                <div class="dropdown dropdown-open">
-                                                                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.hours===0?'Hours':syncCount.hours}}</button>
-                                                                    <ul class="dropdown-menu content-menu">
-                                                                        <perfect-scrollbar class="scroll-search-field h-200">
-                                                                            <li class="p-0" *ngFor="let count of syncCount.count | slice:0:24" (click)="syncCount.hours=count"><a>{{count}}</a></li>
-                                                                          </perfect-scrollbar>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="kr-sg-width-20">
-                                                            <div class="kr-sg-dropdowns">
-                                                                <div class="dropdown dropdown-open">
-                                                                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.minutes===0?'Mins':syncCount.minutes}}</button>
-                                                                    <ul class="dropdown-menu content-menu">
-                                                                        <perfect-scrollbar class="scroll-search-field h-200">
-                                                                            <li class="p-0" *ngFor="let count of syncCount.count | slice:0:60" (click)="syncCount.minutes=count"><a>{{count}}</a></li>
-                                                                          </perfect-scrollbar>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
+                                                    <div class="kr-sg-dropdowns">
+                                                        <div class="dropdown dropdown-open">
+                                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.hours===0?'Hours':syncCount.hours}}</button>
+                                                            <ul class="dropdown-menu content-menu">
+                                                                <perfect-scrollbar class="scroll-search-field h-200">
+                                                                    <li class="p-0" *ngFor="let count of syncCount.count | slice:0:24" (click)="syncCount.hours=count"><a>{{count}}</a></li>
+                                                                  </perfect-scrollbar>
+                                                            </ul>
                                                         </div>
                                                     </div>
+                                                    <div class="kr-sg-dropdowns">
+                                                        <div class="dropdown dropdown-open">
+                                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.minutes===0?'Mins':syncCount.minutes}}</button>
+                                                            <ul class="dropdown-menu content-menu">
+                                                                <perfect-scrollbar class="scroll-search-field h-200">
+                                                                    <li class="p-0" *ngFor="let count of syncCount.count | slice:0:60" (click)="syncCount.minutes=count"><a>{{count}}</a></li>
+                                                                  </perfect-scrollbar>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="sync-frequency-right" *ngIf="false">
+                                                    <div class="sync-timer">
+                                                        <span class="pr-2"><img src="assets/images/timer.svg" /></span> <span>26 Mins ago</span>
+                                                    </div>
+                                                    <div class="sync-estimated-time">
+                                                        <span>Estimated time</span> : <span>Few seconds</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                        <div class="new-sync-frequency-block">
+                                            <div class="sync-frequency-header-block">
+                                                <div class="sync-frequency-title">{{'connectors_sync_frequency'|translate}}</div>
+                                                <!-- <div class="sync-frequency-time"><span class="align-middle"><i class="si-time-estimate pr-2"></i></span> Synced 26 Mins ago <span class="sync-estimate-time">Estimated time : </span><span class="sync-estimate-time">3 Mins</span></div> -->
+                                            </div>
+                                            <div class="sync-note">
+                                                <div><span><i class="si-info pr-1"></i></span></div>
+                                                <div class="sync-note-desc">Time required for syncing is usually longer,therefore a minimum time interval between consecutive syncs should atleast be an hour</div>
+                                            </div>
+    
+                                            <div class="sync-every-block">
+                                                <div class="sync-every-title">Sync every</div>
+                                                <div class="sync-radio-block">
+                                                        <div class="sync-radio-block-flex">
+                                                            <div class="sync-radio-btn-width">
+                                                                <div class="kr-sg-radiobutton">
+                                                                    <input id="radio-12" name="radio" class="radio-custom" type="radio" checked>
+                                                                    <label for="radio-12" class="radio-custom-label"></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="kr-sg-width-20">
+                                                                <div class="kr-sg-dropdowns">
+                                                                    <div class="dropdown dropdown-open">
+                                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.days===0?'Days':syncCount.days}}</button>
+                                                                        <ul class="dropdown-menu content-menu">
+                                                                            <perfect-scrollbar class="scroll-search-field h-200">
+                                                                              <li class="p-0" *ngFor="let count of syncCount.count | slice:0:31" (click)="syncCount.days=count"><a>{{count}}</a></li>
+                                                                            </perfect-scrollbar>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    
+                                                        <div class="sync-radio-block-flex">
+                                                            <div class="sync-radio-btn-width">
+                                                                <div class="kr-sg-radiobutton">
+                                                                    <input id="radio-13" name="radio" class="radio-custom" type="radio">
+                                                                    <label for="radio-13" class="radio-custom-label"></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="kr-sg-width-20">
+                                                                <div class="kr-sg-dropdowns">
+                                                                    <div class="dropdown dropdown-open">
+                                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.hours===0?'Hours':syncCount.hours}}</button>
+                                                                        <ul class="dropdown-menu content-menu">
+                                                                            <perfect-scrollbar class="scroll-search-field h-200">
+                                                                                <li class="p-0" *ngFor="let count of syncCount.count | slice:0:24" (click)="syncCount.hours=count"><a>{{count}}</a></li>
+                                                                              </perfect-scrollbar>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="kr-sg-width-20">
+                                                                <div class="kr-sg-dropdowns">
+                                                                    <div class="dropdown dropdown-open">
+                                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" aria-expanded="false">{{syncCount.minutes===0?'Mins':syncCount.minutes}}</button>
+                                                                        <ul class="dropdown-menu content-menu">
+                                                                            <perfect-scrollbar class="scroll-search-field h-200">
+                                                                                <li class="p-0" *ngFor="let count of syncCount.count | slice:0:60" (click)="syncCount.minutes=count"><a>{{count}}</a></li>
+                                                                              </perfect-scrollbar>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    </perfect-scrollbar>
                                 </div>
-                                </perfect-scrollbar>
-                            </div>
-                            <!--Jobs tab-->
-                            <div class="tab-pane active" *ngSwitchCase="'jobs'">
-                                <perfect-scrollbar class="tab-content-scroll-data">
-                                <div class="content-settings-tab-data">
-                                    <div class="content-data-table">
-                                        <div class="kr-sg-data-table">
-                                            <section class="table-content">
-                                                <header class="table-header">
-                                                    <div class="col-4 p-0">{{'connectors_title'|translate}}</div>
-                                                    <div class="col-3">{{'connectors_type'|translate}}</div>
-                                                    <div class="col-2">{{'connectors_status'|translate}}</div>
-                                                    <div class="col-3">{{'connectors_started_at'|translate}}</div>
-                                                </header>
-                                                <div class="content-body cursor-pointer" *ngFor="let job of overViewData.jobs">
-                                                    <div class="col-4 p-0">{{job?.title|titlecase}}</div>
-                                                    <div class="col-3">{{(job?.opType==='Manual')?'On-Demand':'Scheduler'}}</div>
-                                                    <div class="col-2" [ngStyle]="{'color':(job?.status==='SUCCESS')?'green':(job?.status==='INPROGRESS')?'black':'red'}">{{job?.status|titlecase}}</div>
-                                                    <div class="col-3">{{job?.startedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
-                                                </div>
-                                                <div *ngIf="overViewData.jobs?.length===0" class="no-content">{{'connectors_no_job'|translate}}</div>
-                                            </section>                           
+                                <!--Jobs tab-->
+                                <div class="tab-pane active" *ngSwitchCase="'jobs'">
+                                    <perfect-scrollbar class="tab-content-scroll-data">
+                                    <div class="content-settings-tab-data">
+                                        <div class="content-data-table">
+                                            <div class="kr-sg-data-table">
+                                                <section class="table-content">
+                                                    <header class="table-header">
+                                                        <div class="col-4 p-0">{{'connectors_title'|translate}}</div>
+                                                        <div class="col-3">{{'connectors_type'|translate}}</div>
+                                                        <div class="col-2">{{'connectors_status'|translate}}</div>
+                                                        <div class="col-3">{{'connectors_started_at'|translate}}</div>
+                                                    </header>
+                                                    <div class="content-body cursor-pointer" *ngFor="let job of overViewData.jobs">
+                                                        <div class="col-4 p-0">{{job?.title|titlecase}}</div>
+                                                        <div class="col-3">{{(job?.opType==='Manual')?'On-Demand':'Scheduler'}}</div>
+                                                        <div class="col-2" [ngStyle]="{'color':(job?.status==='SUCCESS')?'green':(job?.status==='INPROGRESS')?'black':'red'}">{{job?.status|titlecase}}</div>
+                                                        <div class="col-3">{{job?.startedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
+                                                    </div>
+                                                    <div *ngIf="overViewData.jobs?.length===0" class="no-content">{{'connectors_no_job'|translate}}</div>
+                                                </section>                           
+                                            </div>
                                         </div>
                                     </div>
+                                    </perfect-scrollbar>
                                 </div>
-                                </perfect-scrollbar>
                             </div>
                         </div>
                     </div>
-                </div>
-            
-            <div class="view-more-btn">
-                <div *ngIf="['connectionSettings','configurations'].includes(selectedTab)">
-                    <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('cancel')">{{'connectors_cancel'|translate}}</button>
-                    <button class="kr-sg-button-primary btn_lg" (click)="selectedTab==='configurations'?updateSyncFrequency():fieldsValidation()?updateConnector():null" [disabled]="isloadingBtn"><span class="spin-loader-button mr-2"></span> {{selectedTab==='configurations'?'Save Changes':'Connect'}}</button>
-                </div>
-                <div *ngIf="selectedTab==='connectionSettings'">
-                    <button class="kr-sg-button-danger btn_lg" (click)="openDeleteModel('open')"><i class="si-delete"></i>{{'connectors_remove_this_content_source'|translate}}</button>
+                
+                <div class="view-more-btn">
+                    <div *ngIf="['connectionSettings','configurations'].includes(selectedTab)">
+                        <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('cancel')">{{'connectors_cancel'|translate}}</button>
+                        <button class="kr-sg-button-primary btn_lg" (click)="selectedTab==='configurations'?updateSyncFrequency():fieldsValidation()?updateConnector():null" [disabled]="isloadingBtn"><span class="spin-loader-button mr-2"></span> {{selectedTab==='configurations'?'Save Changes':'Connect'}}</button>
+                    </div>
+                    <div *ngIf="selectedTab==='connectionSettings'">
+                        <button class="kr-sg-button-danger btn_lg" (click)="openDeleteModel('open')"><i class="si-delete"></i>{{'connectors_remove_this_content_source'|translate}}</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </ng-template>
+
 </div>
 
 <!--kr model for delete connectors-->
