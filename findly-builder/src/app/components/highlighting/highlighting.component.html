@@ -24,7 +24,7 @@
                 </div>
                 <div class="toggle-block-btn">
                     <label class="kr-sg-toggle with-label">
-                        <input type="checkbox" checked="">
+                        <input type="checkbox" [checked]="highlightdata.synonymsHighlight" (change)="sildervaluechanged($event,'synonyms')">
                         <div class="slider" id="sa_slider">
                             <span class="yes">{{"search_settings_no" |translate}}</span>
                         </div>
@@ -79,7 +79,7 @@
 
     <div class="block-separate-line"></div>
 
-    <app-list-fields [tablefieldvalues]="highlight" [popupfieldvalues]="nonhighlight"></app-list-fields>
+    <app-list-fields [tablefieldvalues]="highlight" [popupfieldvalues]="nonhighlight" (emitRecord)="getrecord($event)"></app-list-fields>
 
 </div>
 

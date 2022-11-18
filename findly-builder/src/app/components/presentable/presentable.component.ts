@@ -39,11 +39,13 @@ export class PresentableComponent implements OnInit {
     console.log(this.presentabledata);
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
-    this.getPresentableFields();
+    //this.getPresentableFields(true);
+    this.getPresentableFields(false)
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-      this.getPresentableFields();
+      //this.getPresentableFields(true);
+      this.getPresentableFields(false)
    })
  }
  /** Emited Value for Operation (Add/Delete)  */
@@ -58,7 +60,7 @@ export class PresentableComponent implements OnInit {
       streamId:this.selectedApp._id,
       indexPipelineId:this.indexPipelineId,
       queryPipelineId:this.queryPipelineId,
-      fieldId :  record[0]._id
+      fieldId :  record[0]
     }
    }
    let addData = {
@@ -93,9 +95,9 @@ export class PresentableComponent implements OnInit {
  }
 
  //** get api for retrieving the presentable Fields */
- getPresentableFields(){
+ getPresentableFields(selected?){
   const quaryparms: any = {
-    isSelected:this.selectionflag,
+    isSelected:selected,
     sortField: "fieldName",
     orderType: this.selectedSort, //desc,
     indexPipelineId:this.indexPipelineId,
@@ -109,7 +111,7 @@ export class PresentableComponent implements OnInit {
   this.service.invoke('get.presentableFields', quaryparms).subscribe(res => {
     this.allpresentableFields = res.data;
     this.allpresentableFields.forEach(element => {
-      if(element.presentable){
+      if(element.presentable.value){
         this.presentable.push(element)
       }else{
         this.nonPresentable.push(element)
