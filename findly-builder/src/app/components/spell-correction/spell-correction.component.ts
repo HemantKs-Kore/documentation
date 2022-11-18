@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {   Component, OnInit,Output,Input,EventEmitter ,ViewChild } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
@@ -17,6 +17,8 @@ export class SpellCorrectionComponent implements OnInit {
   more_options:boolean=false;
   max_threshold:number=0;
   min_threshold:number=0;
+  @Input() spellcorrectdata;
+  @Input() selectedcomponent
   constructor(
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Output,Input,EventEmitter } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';;
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
 @Component({
   selector: 'app-presentable',
@@ -19,11 +19,14 @@ export class PresentableComponent implements OnInit {
   checksort:string='fieldName';
   selectionflag:boolean=true;
   isSearchable:boolean=true;
-  page:number=1;
+  page:number=0;
   limit:number=10;
+  searchKey:any;
   allpresentableFields : any = [];
   presentabletrueFields: any=[];
   presentablefalseFields: any=[];
+  @Input() presentabledata;
+  @Input() selectedcomponent
   constructor(
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
@@ -33,6 +36,7 @@ export class PresentableComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
+    console.log(this.presentabledata);
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
     this.getPresentableFields();
@@ -46,30 +50,33 @@ export class PresentableComponent implements OnInit {
  getPresentableFields(){
   const quaryparms: any = {
     isSelected:this.selectionflag,
-    sortField: this.checksort,
+    sortField: "fieldName",
     orderType: this.selectedSort, //desc,
     indexPipelineId:this.indexPipelineId,
     streamId:this.selectedApp._id,
     queryPipelineId:this.queryPipelineId,
     isSearchable:this.isSearchable,
-    page:this.page,
-    limit:this.limit
+    page:1,
+    limit:this.limit,
+    searchKey:''
   };
   this.service.invoke('get.presentableFields', quaryparms).subscribe(res => {
     this.allpresentableFields = res.data;
     for(let i=0;i<this.allpresentableFields;i++){
       if(this.allpresentableFields[i].presentable===true){
-        for(let j=0;j<=this.presentabletrueFields.length;j++)
+        for(let j=0;j<=this.allpresentableFields.length;j++)
         this.presentabletrueFields[j]=this.allpresentableFields[i]
       }
       else{
-        for(let k=0;k<=this.presentabletrueFields.length;k++)
+        for(let k=0;k<=this.allpresentableFields.length;k++)
         this.presentablefalseFields[k]=this.allpresentableFields[i]
       }
     }
+    console.log(this.presentabletrueFields)
+    console.log(this.presentablefalseFields)
     
   }, errRes => {
-    this.notificationService.notify(errRes,'error');
+    this.notificationService.notify("Failed to get presentable fields",'error');
   });
  }
 

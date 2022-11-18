@@ -8,8 +8,8 @@
         <label class="kr-sg-toggle with-label">
             <input type="checkbox" checked="">
             <div class="slider" id="sa_slider">
-                <span class="no">{{"search_settings_disable" |translate}}</span>
-                <span class="yes">{{"search_settings_enable" |translate}}</span>
+                <span [ngClass]="{'no': !this.highlightdata.enable}">>{{"search_settings_disable" |translate}}</span>
+                <span [ngClass]="{'yes': this.highlightdata.enable}">{{"search_settings_enable" |translate}}</span>
             </div>
         </label>
     </div>
@@ -78,6 +78,8 @@
     </div>
 
     <div class="block-separate-line"></div>
+
+    <app-list-fields></app-list-fields>
 
 </div>
 

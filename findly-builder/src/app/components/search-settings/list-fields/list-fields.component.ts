@@ -23,335 +23,335 @@ export class ListFieldsComponent implements OnInit {
   search_value: any;
   fieldsArr_backup:any;
   recordArray = [];
-  fieldsArr:any = [{
-    _id:1,
-    field_name: "page_body",
-    type: "String",
-    isPresentable:false,
-    isSpellcorrect:true,
-    isHighlight:true
-    },{
-      _id:2,
-    field_name: "page_image_url",
-    type: "String",
-    isPresentable:false,
-    isSpellcorrect:true,
-    isHighlight:true
-    },{
-      _id:3,
-      field_name: "page_title",
-      type: "String",
-      isPresentable:false,
-      isSpellcorrect:true,
-      isHighlight:true
-    },
-    {
-      _id:4,
-      field_name: "page_title_keywords",
-      type: "Array",
-      isPresentable:false,
-      isSpellcorrect:false,
-      isHighlight:true
-    },{
-      _id:5,
-      field_name: "page_title",
-      type: "String",
-      isPresentable:false,
-      isSpellcorrect:true,
-      isHighlight:true
-    },{
-      _id:6,
-      field_name: "page_title_vector",
-      type: "Dense Vector",
-      isPresentable:false,
-      isSpellcorrect:true,
-      isHighlight:true
-    },{
-      _id:6,
-      field_name: "page_url",
-      type: "String",
-      isPresentable:false,
-      isSpellcorrect:false,
-      isHighlight:false
-    },{
-      _id:7,
-      field_name: "faq_alt_questions",
-      type: "Array",
-      isPresentable:false,
-      isSpellcorrect:false,
-      isHighlight:false
-    },{
-      _id:8,
-      field_name: "faq_answer",
-      type: "String",
-      isPresentable:true,
-      isSpellcorrect:true,
-      isHighlight:true
-    },{
-      _id:9,
-      field_name: "faq_cond_answers",
-      type: "Array",
-      isPresentable:false,
-      isSpellcorrect:false,
-      isHighlight:false
-    },{
-      _id:10,
-      field_name: "faq_question",
-      type: "String",
-      isPresentable:true,
-      isSpellcorrect:true,
-      isHighlight:true
-    },{
-      _id:11,
-      field_name: "faq_question_keywords",
-      type: "Array",
-      isPresentable:false,
-      isSpellcorrect:false,
-      isHighlight:false
+  // fieldsArr:any = [{
+  //   _id:1,
+  //   field_name: "page_body",
+  //   type: "String",
+  //   isPresentable:false,
+  //   isSpellcorrect:true,
+  //   isHighlight:true
+  //   },{
+  //     _id:2,
+  //   field_name: "page_image_url",
+  //   type: "String",
+  //   isPresentable:false,
+  //   isSpellcorrect:true,
+  //   isHighlight:true
+  //   },{
+  //     _id:3,
+  //     field_name: "page_title",
+  //     type: "String",
+  //     isPresentable:false,
+  //     isSpellcorrect:true,
+  //     isHighlight:true
+  //   },
+  //   {
+  //     _id:4,
+  //     field_name: "page_title_keywords",
+  //     type: "Array",
+  //     isPresentable:false,
+  //     isSpellcorrect:false,
+  //     isHighlight:true
+  //   },{
+  //     _id:5,
+  //     field_name: "page_title",
+  //     type: "String",
+  //     isPresentable:false,
+  //     isSpellcorrect:true,
+  //     isHighlight:true
+  //   },{
+  //     _id:6,
+  //     field_name: "page_title_vector",
+  //     type: "Dense Vector",
+  //     isPresentable:false,
+  //     isSpellcorrect:true,
+  //     isHighlight:true
+  //   },{
+  //     _id:6,
+  //     field_name: "page_url",
+  //     type: "String",
+  //     isPresentable:false,
+  //     isSpellcorrect:false,
+  //     isHighlight:false
+  //   },{
+  //     _id:7,
+  //     field_name: "faq_alt_questions",
+  //     type: "Array",
+  //     isPresentable:false,
+  //     isSpellcorrect:false,
+  //     isHighlight:false
+  //   },{
+  //     _id:8,
+  //     field_name: "faq_answer",
+  //     type: "String",
+  //     isPresentable:true,
+  //     isSpellcorrect:true,
+  //     isHighlight:true
+  //   },{
+  //     _id:9,
+  //     field_name: "faq_cond_answers",
+  //     type: "Array",
+  //     isPresentable:false,
+  //     isSpellcorrect:false,
+  //     isHighlight:false
+  //   },{
+  //     _id:10,
+  //     field_name: "faq_question",
+  //     type: "String",
+  //     isPresentable:true,
+  //     isSpellcorrect:true,
+  //     isHighlight:true
+  //   },{
+  //     _id:11,
+  //     field_name: "faq_question_keywords",
+  //     type: "Array",
+  //     isPresentable:false,
+  //     isSpellcorrect:false,
+  //     isHighlight:false
       
-    },{
-      _id:12,
-      field_name: "faq_question_vector",
-      type: "Dense Vector",
-      isPresentable:true,
-      isSpellcorrect:true,
-      isHighlight:true
-    },{
-      _id:13,
-      field_name: "file_content",
-      type: "String",
-      isPresentable:false,
-      isSpellcorrect:false,
-      isHighlight:false
-    },{
-      _id:14,
-      field_name: "file_image_url",
-      type: "String",
-      isPresentable:true,
-      isSpellcorrect:true,
-      isHighlight:true
-    },{
-      _id:15,
-      field_name: "file_preview",
-      type: "String",
-      isPresentable:false,
-      isSpellcorrect:false,
-      isHighlight:false
-    },{
-      _id:16,
-      field_name: "file_title",
-      type: "String",
-      isPresentable:true,
-      isSpellcorrect:true,
-      isHighlight:true
-    },{
-      _id:17,
-      field_name: "file_url",
-      type: "String",
-      isPresentable:false,
-      isSpellcorrect:false,
-      isHighlight:false
-    },{
-      _id:18,
-      field_name: "file_title_vector",
-      type: "Dense Vector",
-      isPresentable:true,
-      isSpellcorrect:true,
-      isHighlight:true
-    },{
-      _id:19,
-      field_name: "sys_content_type",
-      type: "String",
-      isPresentable:false,
-      isSpellcorrect:false,
-      isHighlight:false
-    },{
-      _id:20,
-      field_name: "sys_source_name",
-      type: "String",
-      isPresentable:true,
-      isSpellcorrect:true,
-      isHighlight:true
-    },{
-      _id:21,
-      field_name: "sys_racl",
-      type: "Array",
-      isPresentable:false,
-      isSpellcorrect:false,
-      isHighlight:false
-    },{
-      _id:22,
-      field_name: "confluenceServer_name",
-      type: "String",
-      isPresentable:true,
-      isSpellcorrect:true,
-      isHighlight:true
-    },
-    {
-      _id:1,
-      field_name: "page_body",
-      type: "String",
-      isPresentable:false,
-      isSpellcorrect:true,
-      isHighlight:true
-      },{
-        _id:2,
-      field_name: "page_image_url",
-      type: "String",
-      isPresentable:false,
-      isSpellcorrect:true,
-      isHighlight:true
-      },{
-        _id:3,
-        field_name: "page_title",
-        type: "String",
-        isPresentable:false,
-        isSpellcorrect:true,
-        isHighlight:true
-      },
-      {
-        _id:4,
-        field_name: "page_title_keywords",
-        type: "Array",
-        isPresentable:false,
-        isSpellcorrect:false,
-        isHighlight:true
-      },{
-        _id:5,
-        field_name: "page_title",
-        type: "String",
-        isPresentable:false,
-        isSpellcorrect:true,
-        isHighlight:true
-      },{
-        _id:6,
-        field_name: "page_title_vector",
-        type: "Dense Vector",
-        isPresentable:false,
-        isSpellcorrect:true,
-        isHighlight:true
-      },{
-        _id:6,
-        field_name: "page_url",
-        type: "String",
-        isPresentable:false,
-        isSpellcorrect:false,
-        isHighlight:false
-      },{
-        _id:7,
-        field_name: "faq_alt_questions",
-        type: "Array",
-        isPresentable:false,
-        isSpellcorrect:false,
-        isHighlight:false
-      },{
-        _id:8,
-        field_name: "faq_answer",
-        type: "String",
-        isPresentable:true,
-        isSpellcorrect:true,
-        isHighlight:true
-      },{
-        _id:9,
-        field_name: "faq_cond_answers",
-        type: "Array",
-        isPresentable:false,
-        isSpellcorrect:false,
-        isHighlight:false
-      },{
-        _id:10,
-        field_name: "faq_question",
-        type: "String",
-        isPresentable:true,
-        isSpellcorrect:true,
-        isHighlight:true
-      },{
-        _id:11,
-        field_name: "faq_question_keywords",
-        type: "Array",
-        isPresentable:false,
-        isSpellcorrect:false,
-        isHighlight:false
+  //   },{
+  //     _id:12,
+  //     field_name: "faq_question_vector",
+  //     type: "Dense Vector",
+  //     isPresentable:true,
+  //     isSpellcorrect:true,
+  //     isHighlight:true
+  //   },{
+  //     _id:13,
+  //     field_name: "file_content",
+  //     type: "String",
+  //     isPresentable:false,
+  //     isSpellcorrect:false,
+  //     isHighlight:false
+  //   },{
+  //     _id:14,
+  //     field_name: "file_image_url",
+  //     type: "String",
+  //     isPresentable:true,
+  //     isSpellcorrect:true,
+  //     isHighlight:true
+  //   },{
+  //     _id:15,
+  //     field_name: "file_preview",
+  //     type: "String",
+  //     isPresentable:false,
+  //     isSpellcorrect:false,
+  //     isHighlight:false
+  //   },{
+  //     _id:16,
+  //     field_name: "file_title",
+  //     type: "String",
+  //     isPresentable:true,
+  //     isSpellcorrect:true,
+  //     isHighlight:true
+  //   },{
+  //     _id:17,
+  //     field_name: "file_url",
+  //     type: "String",
+  //     isPresentable:false,
+  //     isSpellcorrect:false,
+  //     isHighlight:false
+  //   },{
+  //     _id:18,
+  //     field_name: "file_title_vector",
+  //     type: "Dense Vector",
+  //     isPresentable:true,
+  //     isSpellcorrect:true,
+  //     isHighlight:true
+  //   },{
+  //     _id:19,
+  //     field_name: "sys_content_type",
+  //     type: "String",
+  //     isPresentable:false,
+  //     isSpellcorrect:false,
+  //     isHighlight:false
+  //   },{
+  //     _id:20,
+  //     field_name: "sys_source_name",
+  //     type: "String",
+  //     isPresentable:true,
+  //     isSpellcorrect:true,
+  //     isHighlight:true
+  //   },{
+  //     _id:21,
+  //     field_name: "sys_racl",
+  //     type: "Array",
+  //     isPresentable:false,
+  //     isSpellcorrect:false,
+  //     isHighlight:false
+  //   },{
+  //     _id:22,
+  //     field_name: "confluenceServer_name",
+  //     type: "String",
+  //     isPresentable:true,
+  //     isSpellcorrect:true,
+  //     isHighlight:true
+  //   },
+  //   {
+  //     _id:1,
+  //     field_name: "page_body",
+  //     type: "String",
+  //     isPresentable:false,
+  //     isSpellcorrect:true,
+  //     isHighlight:true
+  //     },{
+  //       _id:2,
+  //     field_name: "page_image_url",
+  //     type: "String",
+  //     isPresentable:false,
+  //     isSpellcorrect:true,
+  //     isHighlight:true
+  //     },{
+  //       _id:3,
+  //       field_name: "page_title",
+  //       type: "String",
+  //       isPresentable:false,
+  //       isSpellcorrect:true,
+  //       isHighlight:true
+  //     },
+  //     {
+  //       _id:4,
+  //       field_name: "page_title_keywords",
+  //       type: "Array",
+  //       isPresentable:false,
+  //       isSpellcorrect:false,
+  //       isHighlight:true
+  //     },{
+  //       _id:5,
+  //       field_name: "page_title",
+  //       type: "String",
+  //       isPresentable:false,
+  //       isSpellcorrect:true,
+  //       isHighlight:true
+  //     },{
+  //       _id:6,
+  //       field_name: "page_title_vector",
+  //       type: "Dense Vector",
+  //       isPresentable:false,
+  //       isSpellcorrect:true,
+  //       isHighlight:true
+  //     },{
+  //       _id:6,
+  //       field_name: "page_url",
+  //       type: "String",
+  //       isPresentable:false,
+  //       isSpellcorrect:false,
+  //       isHighlight:false
+  //     },{
+  //       _id:7,
+  //       field_name: "faq_alt_questions",
+  //       type: "Array",
+  //       isPresentable:false,
+  //       isSpellcorrect:false,
+  //       isHighlight:false
+  //     },{
+  //       _id:8,
+  //       field_name: "faq_answer",
+  //       type: "String",
+  //       isPresentable:true,
+  //       isSpellcorrect:true,
+  //       isHighlight:true
+  //     },{
+  //       _id:9,
+  //       field_name: "faq_cond_answers",
+  //       type: "Array",
+  //       isPresentable:false,
+  //       isSpellcorrect:false,
+  //       isHighlight:false
+  //     },{
+  //       _id:10,
+  //       field_name: "faq_question",
+  //       type: "String",
+  //       isPresentable:true,
+  //       isSpellcorrect:true,
+  //       isHighlight:true
+  //     },{
+  //       _id:11,
+  //       field_name: "faq_question_keywords",
+  //       type: "Array",
+  //       isPresentable:false,
+  //       isSpellcorrect:false,
+  //       isHighlight:false
         
-      },{
-        _id:12,
-        field_name: "faq_question_vector",
-        type: "Dense Vector",
-        isPresentable:true,
-        isSpellcorrect:true,
-        isHighlight:true
-      },{
-        _id:13,
-        field_name: "file_content",
-        type: "String",
-        isPresentable:false,
-        isSpellcorrect:false,
-        isHighlight:false
-      },{
-        _id:14,
-        field_name: "file_image_url",
-        type: "String",
-        isPresentable:true,
-        isSpellcorrect:true,
-        isHighlight:true
-      },{
-        _id:15,
-        field_name: "file_preview",
-        type: "String",
-        isPresentable:false,
-        isSpellcorrect:false,
-        isHighlight:false
-      },{
-        _id:16,
-        field_name: "file_title",
-        type: "String",
-        isPresentable:true,
-        isSpellcorrect:true,
-        isHighlight:true
-      },{
-        _id:17,
-        field_name: "file_url",
-        type: "String",
-        isPresentable:false,
-        isSpellcorrect:false,
-        isHighlight:false
-      },{
-        _id:18,
-        field_name: "file_title_vector",
-        type: "Dense Vector",
-        isPresentable:true,
-        isSpellcorrect:true,
-        isHighlight:true
-      },{
-        _id:19,
-        field_name: "sys_content_type",
-        type: "String",
-        isPresentable:false,
-        isSpellcorrect:false,
-        isHighlight:false
-      },{
-        _id:20,
-        field_name: "sys_source_name",
-        type: "String",
-        isPresentable:true,
-        isSpellcorrect:true,
-        isHighlight:true
-      },{
-        _id:21,
-        field_name: "sys_racl",
-        type: "Array",
-        isPresentable:false,
-        isSpellcorrect:false,
-        isHighlight:false
-      },{
-        _id:22,
-        field_name: "confluenceServer_name",
-        type: "String",
-        isPresentable:true,
-        isSpellcorrect:true,
-        isHighlight:true
-      },
-  ]
+  //     },{
+  //       _id:12,
+  //       field_name: "faq_question_vector",
+  //       type: "Dense Vector",
+  //       isPresentable:true,
+  //       isSpellcorrect:true,
+  //       isHighlight:true
+  //     },{
+  //       _id:13,
+  //       field_name: "file_content",
+  //       type: "String",
+  //       isPresentable:false,
+  //       isSpellcorrect:false,
+  //       isHighlight:false
+  //     },{
+  //       _id:14,
+  //       field_name: "file_image_url",
+  //       type: "String",
+  //       isPresentable:true,
+  //       isSpellcorrect:true,
+  //       isHighlight:true
+  //     },{
+  //       _id:15,
+  //       field_name: "file_preview",
+  //       type: "String",
+  //       isPresentable:false,
+  //       isSpellcorrect:false,
+  //       isHighlight:false
+  //     },{
+  //       _id:16,
+  //       field_name: "file_title",
+  //       type: "String",
+  //       isPresentable:true,
+  //       isSpellcorrect:true,
+  //       isHighlight:true
+  //     },{
+  //       _id:17,
+  //       field_name: "file_url",
+  //       type: "String",
+  //       isPresentable:false,
+  //       isSpellcorrect:false,
+  //       isHighlight:false
+  //     },{
+  //       _id:18,
+  //       field_name: "file_title_vector",
+  //       type: "Dense Vector",
+  //       isPresentable:true,
+  //       isSpellcorrect:true,
+  //       isHighlight:true
+  //     },{
+  //       _id:19,
+  //       field_name: "sys_content_type",
+  //       type: "String",
+  //       isPresentable:false,
+  //       isSpellcorrect:false,
+  //       isHighlight:false
+  //     },{
+  //       _id:20,
+  //       field_name: "sys_source_name",
+  //       type: "String",
+  //       isPresentable:true,
+  //       isSpellcorrect:true,
+  //       isHighlight:true
+  //     },{
+  //       _id:21,
+  //       field_name: "sys_racl",
+  //       type: "Array",
+  //       isPresentable:false,
+  //       isSpellcorrect:false,
+  //       isHighlight:false
+  //     },{
+  //       _id:22,
+  //       field_name: "confluenceServer_name",
+  //       type: "String",
+  //       isPresentable:true,
+  //       isSpellcorrect:true,
+  //       isHighlight:true
+  //     },
+  // ]
   filteredFieldsArr = [];
    modal_open:boolean=false;
 

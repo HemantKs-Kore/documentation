@@ -1308,7 +1308,7 @@ export class EndPointsService {
     }
     //get presentable list elements
     this.serviceList['get.presentableFields'] = {
-      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/presentable?page=:pageno&limit=:limit&isSelected=:isSelected&orderBy=:orderType&sortyBy=:&isSearchable=:isSearchable&search=:searchKey',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/presentable?page=:page&limit=:limit&isSelected=:isSelected&orderBy=:orderType&sortyBy=:sortField&isSearchable=:isSearchable&search=:searchKey',
       method: 'get'
     }
     //add presentable elements
@@ -1326,7 +1326,7 @@ export class EndPointsService {
 
     //get highlight list elements
     this.serviceList['get.highlightFields'] = {
-      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/highlights?page=:pageno&limit=:limit&isSelected=:isSelected&orderBy=:orderType&sortyBy=:sortField&search=:searchKey',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/highlights?page=:page&limit=:limit&isSelected=:isSelected&orderBy=:orderType&sortyBy=:sortField&search=:searchKey',
       method: 'get'
     }
 
@@ -1346,7 +1346,7 @@ export class EndPointsService {
 
     //get spellcorrect list elements
     this.serviceList['get.spellcorrectFields'] = {
-      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/spell-correct?page=:pageno&limit=:limit&isSelected=:isSelected&orderBy=:orderType&sortyBy=:sortField&search=:searchKey',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/spell-correct?page=:page&limit=:limit&isSelected=:isSelected&orderBy=:orderType&sortyBy=:sortField&search=:searchKey',
       method: 'get'
     }
 
