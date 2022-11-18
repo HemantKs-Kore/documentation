@@ -22,5 +22,7 @@ export const EMPTY_SCREEN = {
     IMG_NAME: 'no-bot-actions.svg',
     TITLE: 'No search results found',
     DESC: 'We couldn’t find what you are looking for',
+    TITLE_SEARCH: 'No search results found',
+    DESC_SEARCH: 'We couldn’t find what you are looking for'
   },
 };

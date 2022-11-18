@@ -27,7 +27,7 @@
       <app-empty-screen [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
         <div class="action-buttons">
           <button class="kr-sg-button-primary btn_lg" (click)="openBotsModalElement()">
-            <img src="assets/images/empty-screen/link-bot.png" alt="icon" />
+            <i class="si-bot"></i>
             {{'botAction_link_a_bot' | translate}}
           </button>
         </div>
@@ -210,7 +210,7 @@
           </div>
         </div>
       </div>
-      <ng-container *ngIf="( linkedBotTasks && linkedBotTasks.length )">
+      <ng-container *ngIf="( linkedBotTasks && linkedBotTasks.length ); else noBotTasks">
         <perfect-scrollbar class="scroll-task-data">
           <div class="table-body-content-task">
             <div class="data-container-sec row col-12" [ngClass]="{'checked-item':selcectionObj.selectedItems[task._id]}" *ngFor="let task of linkedBotTasks  | filter: [ searchTasks, 'name']; let i = index;">
@@ -253,6 +253,10 @@
           </div>
         </perfect-scrollbar>  
       </ng-container>
+      <ng-template #noBotTasks>
+        <app-empty-screen [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+        </app-empty-screen>
+      </ng-template>
     </div>
   </ng-container>
 

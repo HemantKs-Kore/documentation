@@ -220,11 +220,18 @@
                         <app-record-pagination *ngIf="!isNotSearching && !loadingTab && faqSelectionObj.stats[selectedtab] && faqSelectionObj.stats[selectedtab]>10" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' (pageChanged)="paginate($event)"></app-record-pagination>
                        <!-- <app-pagination *ngIf="!loadingTab && !searchFaq" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                         <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length)">
-                            <ng-container *ngIf="!loadingTab">
+                            <app-empty-screen
+                            *ngIf="!loadingTab"
+                            [title]="emptyScreen.TITLE_SEARCH"
+                            [desc]="emptyScreen.DESC_SEARCH"
+                            [imgName]="emptyScreen.IMG_NAME"
+                          >
+                          </app-empty-screen>
+                            <!-- <ng-container *ngIf="!loadingTab">
                                 <img src="assets/images/icons/empty_ill.svg">
                                 <div class="heading">{{'faqSource_no_questions' | translate}}</div>
                                 <div class="desc">{{'faqSource_please_add_questions' | translate}}</div>
-                            </ng-container>
+                            </ng-container> -->
                         </div>                       
                     </div>
                 </div>
