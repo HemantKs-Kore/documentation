@@ -570,6 +570,8 @@ export class AppHeaderComponent implements OnInit {
   analyticsClick(menu, skipRouterLink?) {
     this.mainMenu = menu;
     if (this.menuItems?.anlytics?.includes(menu) ||menu == '/summary') {
+      this.showClose = false;
+      this.training = false;
       this.showMainMenu = false;
     } else {
       this.showMainMenu = true;
@@ -785,7 +787,7 @@ displayStopTrainLeave(){
         this.dockersList = JSON.parse(JSON.stringify(res));
         /**made code updates in line no 503 on 03/01 added new condition for success and jobType,since SUCCESS is updated to success and action is updated to jobType and TRAIN has been updated to TRAINING */
         // if (this.trainingInitiated && this.dockersList[0].status === 'SUCCESS' && this.dockersList[0].action === "TRAIN") {
-        if (this.trainingInitiated && (this.dockersList[0].status === 'SUCCESS' || this.dockersList[0].status === 'success') && this.dockersList[0].jobType === "TRAINING") {
+        if (this.trainingInitiated && (this.dockersList[0]?.status === 'SUCCESS' || this.dockersList[0]?.status === 'success') && this.dockersList[0]?.jobType === "TRAINING") {
           this.trainingInitiated = false;
           if (this.training) {
             this.notificationService.notify('Training Completed', 'success');
@@ -797,7 +799,7 @@ displayStopTrainLeave(){
         }
         /**made code updates in line no 512 on 03/01 added new condition for FAILED,jobType,TRAINING since FAILURE is updated to FAILED  and action is updated to jobType and TRAIN has been updated to TRAINING as per new api contract*/
         // if (this.trainingInitiated && this.dockersList[0].status === 'FAILURE' && this.dockersList[0].action === "TRAIN") {
-        if (this.trainingInitiated && (this.dockersList[0].status === 'FAILURE' || this.dockersList[0].status === "FAILED") && this.dockersList[0].jobType === "TRAINING") {
+        if (this.trainingInitiated && (this.dockersList[0]?.status === 'FAILURE' || this.dockersList[0]?.status === "FAILED") && this.dockersList[0]?.jobType === "TRAINING") {
           this.trainingInitiated = false;
           if (this.training) {
             this.notificationService.notify(this.dockersList[0].message, 'error');
