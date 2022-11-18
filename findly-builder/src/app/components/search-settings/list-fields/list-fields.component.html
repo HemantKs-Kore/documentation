@@ -49,13 +49,13 @@
             
             <!-- Table Records/Body -->
             <perfect-scrollbar class="table_body_content" id="sa_table_body_ps" (psYReachStart)="onYReachStart()" (psYReachEnd)="onYReachEnd($event)">
-                        <div class="table_body row m-0" *ngFor="let fields of fieldsArr | filter : [search_value, 'field_name'];let i = index" >
+                        <div class="table_body row m-0" *ngFor="let fields of tablefieldvalues | filter : [search_value, 'field_name'];let i = index" >
                      
                             <div class="col-5 title text-left text-truncate" title="">
-                                {{fields.field_name}}
+                                {{fields.fieldName}}
                             </div>
                             <div class="col-5 title text-left p-0">
-                                {{fields.type}}
+                                {{fields.fieldDataType}}
                             </div>
                             <div class="col-2 p-0 text-left">
                                 <div class="action_links">
@@ -270,7 +270,7 @@
                             </div>
                         </div>
                         <perfect-scrollbar class="table_body_content" id="sa_table_body">
-                                    <div class="table_body row m-0" *ngFor="let fields of fieldsArr | filter : [search_value, 'field_name'];let i = index" >
+                                    <div class="table_body row m-0" *ngFor="let fields of popupfieldvalues | filter : [search_value, 'field_name'];let i = index" >
                                         <div class="col-3">
                                             <div class="kr-sg-checkbox" id="sa_checkbox" >
                                                 <input id="{{ fields._id }}"  class="checkbox-custom" type="checkbox" (click)="addRecord(fields,i,$event)">
@@ -278,10 +278,10 @@
                                             </div>
                                         </div>
                                         <div class="col-6 title text-left p-0 text-truncate" title="" >
-                                            {{fields.field_name}} 
+                                            {{fields.fieldName}} 
                                         </div>
                                         <div class="col-3 title text-left p-0" >
-                                            {{fields.type}}
+                                            {{fields.fieldDataType}}
                                         </div>
                                     </div>
                         </perfect-scrollbar>

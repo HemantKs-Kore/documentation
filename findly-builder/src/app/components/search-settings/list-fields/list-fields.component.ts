@@ -1,4 +1,4 @@
-import { Component, IterableDiffers, OnInit, ViewChild } from '@angular/core';
+import { Component, IterableDiffers, OnInit, ViewChild,Output,Input,EventEmitter } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 import { isNgTemplate } from '@angular/compiler';
@@ -15,6 +15,8 @@ export class ListFieldsComponent implements OnInit {
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild(PerfectScrollbarComponent) perfectScroll?: PerfectScrollbarComponent;
   @ViewChild(PerfectScrollbarDirective) directiveRef?: PerfectScrollbarDirective;
+  @Input() tablefieldvalues;
+  @Input() popupfieldvalues;
   constructor(
     public dialog: MatDialog
   ) { }
@@ -357,6 +359,8 @@ export class ListFieldsComponent implements OnInit {
 
   ngOnInit(): void {
     this.modal_open=false;
+    console.log(this.tablefieldvalues);
+    console.log(this.popupfieldvalues);
   }
   /** On Perfect Scroll Event Y end */
   onYReachEnd(event){

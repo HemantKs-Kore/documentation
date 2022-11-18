@@ -23,8 +23,8 @@ export class PresentableComponent implements OnInit {
   limit:number=10;
   searchKey:any;
   allpresentableFields : any = [];
-  presentabletrueFields: any=[];
-  presentablefalseFields: any=[];
+  presentable = [];
+  nonPresentable = [];
   @Input() presentabledata;
   @Input() selectedcomponent
   constructor(
@@ -62,24 +62,15 @@ export class PresentableComponent implements OnInit {
   };
   this.service.invoke('get.presentableFields', quaryparms).subscribe(res => {
     this.allpresentableFields = res.data;
-<<<<<<< HEAD
-    let presentable = [];
-    let nonPresentable = [];
     this.allpresentableFields.forEach(element => {
       if(element.presentable){
-        presentable.push(element)
+        this.presentable.push(element)
       }else{
-        nonPresentable.push(element)
-=======
-    for(let i=0;i<this.allpresentableFields.length;i++){
-      if(this.allpresentableFields[i].presentable.value===true){
-        for(let j=0;j<=this.allpresentableFields.length;j++)
-        this.presentabletrueFields[j]=this.allpresentableFields[i]
->>>>>>> d737f6d12ec0ffc89568f04aebe96054953c0b16
+        this.nonPresentable.push(element)
       }
     });
-    console.log(presentable)
-    console.log(nonPresentable)
+    console.log(this.presentable)
+    console.log(this.nonPresentable)
   }, errRes => {
     this.notificationService.notify("Failed to get presentable fields",'error');
   });

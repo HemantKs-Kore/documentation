@@ -6,10 +6,10 @@
 
     <div class="highlighting-toggle">
         <label class="kr-sg-toggle with-label">
-            <input type="checkbox" checked="">
+            <input type="checkbox" [checked]="highlightdata.highlightdata">
             <div class="slider" id="sa_slider">
-                <span [ngClass]="{'no': !this.highlightdata.enable}">>{{"search_settings_disable" |translate}}</span>
-                <span [ngClass]="{'yes': this.highlightdata.enable}">{{"search_settings_enable" |translate}}</span>
+                <span class="no">{{"search_settings_disable" |translate}}</span>
+                <span class="yes">{{"search_settings_enable" |translate}}</span>
             </div>
         </label>
     </div>
@@ -79,7 +79,7 @@
 
     <div class="block-separate-line"></div>
 
-    <app-list-fields></app-list-fields>
+    <app-list-fields [tablefieldvalues]="highlight" [popupfieldvalues]="nonhighlight"></app-list-fields>
 
 </div>
 

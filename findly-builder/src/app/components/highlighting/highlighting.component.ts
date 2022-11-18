@@ -1,4 +1,4 @@
-import {   Component, OnInit,Output,Input,EventEmitter ,ViewChild } from '@angular/core';
+import {  Component, OnInit,Output,Input,EventEmitter ,ViewChild } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
@@ -32,8 +32,8 @@ export class HighlightingComponent implements OnInit {
    page:number=0;
    limit:number=10;
    allhighlightFields : any = [];
-   highlighttrueFields: any=[];
-   highlightfalseFields: any=[];
+   highlight: any=[];
+   nonhighlight: any=[];
   constructor(
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
@@ -75,23 +75,19 @@ export class HighlightingComponent implements OnInit {
     };
     this.service.invoke('get.highlightFields', quaryparms).subscribe(res => {
       this.allhighlightFields = res.data;
-      for(let i=0;i<this.allhighlightFields.length;i++){
-        if(this.allhighlightFields[i].highlight.value===true){
-          for(let j=0;j<=this.allhighlightFields.length;j++)
-          this.highlighttrueFields[j]=this.allhighlightFields[i]
+      this.allhighlightFields.forEach(element => {
+        if(element.presentable){
+          this.highlight.push(element)
+        }else{
+          this.nonhighlight.push(element)
         }
-        else{
-          for(let k=0;k<=this.allhighlightFields.length;k++)
-          this.highlightfalseFields[k]=this.allhighlightFields[i]
-        }
-      }
-      console.log(this.highlighttrueFields)
-      console.log(this.highlightfalseFields)
-      
+      });
+      console.log(this.highlight)
+      console.log(this.nonhighlight)
     }, errRes => {
-      this.notificationService.notify(errRes,'error');
+      this.notificationService.notify("Failed to get presentable fields",'error');
     });
-  }
+   }
 
   openModalPopup() {
     this.highlightAppearanceModalPopRef = this.highlightAppearanceModalPop.open();
