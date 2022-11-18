@@ -56,12 +56,13 @@ export class PresentableComponent implements OnInit {
     streamId:this.selectedApp._id,
     queryPipelineId:this.queryPipelineId,
     isSearchable:this.isSearchable,
-    page:1,
+    page:0,
     limit:this.limit,
     searchKey:''
   };
   this.service.invoke('get.presentableFields', quaryparms).subscribe(res => {
     this.allpresentableFields = res.data;
+<<<<<<< HEAD
     let presentable = [];
     let nonPresentable = [];
     this.allpresentableFields.forEach(element => {
@@ -69,6 +70,12 @@ export class PresentableComponent implements OnInit {
         presentable.push(element)
       }else{
         nonPresentable.push(element)
+=======
+    for(let i=0;i<this.allpresentableFields.length;i++){
+      if(this.allpresentableFields[i].presentable.value===true){
+        for(let j=0;j<=this.allpresentableFields.length;j++)
+        this.presentabletrueFields[j]=this.allpresentableFields[i]
+>>>>>>> d737f6d12ec0ffc89568f04aebe96054953c0b16
       }
     });
     console.log(presentable)
