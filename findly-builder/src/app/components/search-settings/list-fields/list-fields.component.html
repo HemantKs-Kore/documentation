@@ -111,7 +111,7 @@
                                     <div class="table_body row m-0" *ngFor="let fields of popupfieldvalues | filter : [search_value, 'fieldName'];let i = index" >
                                         <div class="col-3">
                                             <div class="kr-sg-checkbox" id="sa_checkbox" >
-                                                <input id="{{ fields._id }}"  class="checkbox-custom" type="checkbox" (click)="addRecord(fields,i,$event)">
+                                                <input id="{{ fields._id }}"  class="checkbox-custom" type="checkbox" (click)="addRecord(fields,$event)">
                                                 <label for="{{ fields._id }}" class="checkbox-custom-label"></label>
                                             </div>
                                         </div>
