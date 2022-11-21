@@ -46,4 +46,10 @@ export const EMPTY_SCREEN = {
     TITLE_SEARCH: 'No search results found',
     DESC_SEARCH: 'We couldn’t find the experiment you are looking for'
   },
+  MANAGE: {
+    IMG_NAME: 'no-content.svg',
+    TITLE_SEARCH_CHANNELS: 'No search results found',
+    DESC_SEARCH_CHANNELS: 'We couldn’t find the channel you are looking for'
+  },
+
 };
