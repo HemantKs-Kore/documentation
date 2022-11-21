@@ -73,7 +73,7 @@
               <div class="kr-sg-input-text mb-4">
                 <div class="label-text">{{"contentSource_source_url" | translate}}</div>
                 <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="{{'contentsource_https' | translate}}"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="{{'contentSource_https' | translate}}"
                   [(ngModel)]="newSourceObj.url" class="input-text">
               </div>
             </div>
@@ -261,9 +261,9 @@
                   <div class="input-url-block">
                     <div class="kr-sg-input-text">
                       <div class="label-text">{{"contentSource_enter_url" | translate}}<sup class="field-mandatory">*</sup></div>
-                      <input type="text" id="extractUrl" placeholder="{{'contentsource_https' | translate}}" class="input-text" autocomplete="off"
+                      <input type="text" id="extractUrl" placeholder="{{'contentSource_https' | translate}}" class="input-text" autocomplete="off"
                         name="url" (keyup)="urlChange()" (change)="urlChange();inputChanged('extractURL')"
-                        [disabled]="fileObj.fileId || fileObj.fileName" placeholder="{{'contentsource_https' | translate}}"
+                        [disabled]="fileObj.fileId || fileObj.fileName" placeholder="{{'contentSource_https' | translate}}"
                         [(ngModel)]="newSourceObj.url" class="input-text">
                       <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;"
                         height="12" width="12" />
@@ -328,7 +328,7 @@
                   </div>
                   <div class="kr-sg-input-text mar-bot-15">
                     <div class="label-text">{{"contentSource_source_url" | translate}}<sup class="field-mandatory">*</sup></div>
-                    <input type="text" id="contentURL" autocomplete="off" name="url" placeholder="{{'contentsource_https' | translate}}" class="input-text" [(ngModel)]="newSourceObj.url">
+                    <input type="text" id="contentURL" autocomplete="off" name="url" placeholder="{{'contentSource_https' | translate}}" class="input-text" [(ngModel)]="newSourceObj.url">
                   </div>
                 </div>
                 <div class="details-right">
@@ -380,7 +380,7 @@
                   <div class="crawl-opt-inp">
                     <div class="kr-sg-input-text mar-bot-15">
                       <div class="label-text no-label">{{"contentSource_source_url" | translate}}</div>
-                      <input type="text" autocomplete="off" name="url" id="{{'contentAllowId'+i}}" placeholder="{{'contentsource_https' | translate}}" class="input-text" [(ngModel)]="allow.url">
+                      <input type="text" autocomplete="off" name="url" id="{{'contentAllowId'+i}}" placeholder="{{'contentSource_https' | translate}}" class="input-text" [(ngModel)]="allow.url">
                     </div>
                   </div>
                   <div class="crawl-opt-cls" *ngIf="allowURLArray.length>1">
