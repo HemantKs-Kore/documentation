@@ -83,14 +83,14 @@ export class HighlightingComponent implements OnInit {
     this.service.invoke('get.highlightFields', quaryparms).subscribe(res => {
       this.allhighlightFields = res.data;
       this.allhighlightFields.forEach(element => {
-        if(element.presentable){
+        if(element.highlight.value){
           this.highlight.push(element)
         }else{
           this.nonhighlight.push(element)
         }
       });
     }, errRes => {
-      this.notificationService.notify("Failed to get presentable fields",'error');
+      this.notificationService.notify("Failed to get highlight fields",'error');
     });
    }
 
@@ -140,22 +140,7 @@ export class HighlightingComponent implements OnInit {
       this.notificationService.notify("Failed to update",'error');
     });   
     this.highlightAppearanceModalPopRef.close();
-    //this.getQuerypipeline()
   }
-  /**get query pipeline API */
-
-    // getQuerypipeline(){
-    //   const quaryparms: any = {
-    //     searchIndexID: this.serachIndexId,
-    //     queryPipelineId: this.queryPipelineId,
-    //     indexPipelineId: this.indexPipelineId
-    //   };
-    //   this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
-    //     this.highlightdata = res.settings.highlight;
-    //   },errRes => {
-    //     this.notificationService.notify('failed to get querypipeline details', 'error')
-    //   });
-    // }
   
    /** Emited Value for Operation (Add/Delete)  */
  getrecord(recordData : any){
@@ -195,10 +180,11 @@ export class HighlightingComponent implements OnInit {
  }
   /** Add to Prescentable */
  addRecords(addData){
-  this.service.invoke(addData.url.addData.quaryparms,addData.payload).subscribe(res => {
+  this.service.invoke(addData.url,addData.quaryparms,addData.payload).subscribe(res => {
     this.getHighlightFields();
+    this.notificationService.notify("Field added succesfully",'success');
   }, errRes => {
-    this.notificationService.notify("Failed to remove Fields",'error');
+    this.notificationService.notify("Failed to add Fields",'error');
   });
   // 
  }

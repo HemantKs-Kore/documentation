@@ -86,10 +86,11 @@ export class PresentableComponent implements OnInit {
  }
   /** Add to Prescentable */
  addRecords(addData){
-  this.service.invoke(addData.url.addData.quaryparms,addData.payload).subscribe(res => {
+  this.service.invoke(addData.url,addData.quaryparms,addData.payload).subscribe(res => {
    this.getPresentableFields();
+   this.notificationService.notify("Field added succesfully",'success');
   }, errRes => {
-    this.notificationService.notify("Failed to remove Fields",'error');
+    this.notificationService.notify("Failed to add Fields",'error');
   });
   // 
  }
