@@ -66,10 +66,19 @@ export class ListFieldsComponent implements OnInit {
   }
   add(){
     let record = [];
+    const filteredValues = this.popupfieldvalues.filter(item => item.isChecked);
+    filteredValues.forEach(element => {
+      record.push(element._id)      
+    }); 
+    console.log('HERE', this.popupfieldvalues)
     this.emitRecord.emit({
       record :record,
       type : 'add'
     });
+  }
+
+  addRecord(fields,i,$event) {
+    fields.isChecked = true;
   }
   deletefieldsDataPopup(record) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {

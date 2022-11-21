@@ -2,6 +2,11 @@ import {   Component, OnInit,Output,Input,EventEmitter ,ViewChild } from '@angul
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
+import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
+import { NotificationService } from '@kore.services/notification.service';
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+
 
 @Component({
   selector: 'app-spell-correction',
@@ -15,13 +20,23 @@ export class SpellCorrectionComponent implements OnInit {
   queryPipelineId: any;
   querySubscription : Subscription;
   more_options:boolean=false;
+  checksort:string='fieldName';
+  selectedSort:string='asc';
+  isSearchable:boolean=true;
+  limit:number=10;
+  allspellCorrect : any = [];
+  spellcorrect: any=[];
+  nonspellcorrect:any=[];
   max_threshold:number=0;
   min_threshold:number=0;
+  serachIndexId
   @Input() spellcorrectdata;
   @Input() selectedcomponent
   constructor(
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
+    private service: ServiceInvokerService,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -29,15 +44,113 @@ export class SpellCorrectionComponent implements OnInit {
     this.max_threshold=0;
     this.min_threshold=0;
     this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
-    //this.fetchPropeties();
+    this.getSpellcorrect(false);
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-      //this.fetchPropeties()
+    this.getSpellcorrect(false);
    })
   }
+
+  getSpellcorrect(isSelected?){
+    const quaryparms: any = {
+      isSelected:isSelected,
+      sortField: this.checksort,
+      orderType: this.selectedSort, //desc,
+      indexPipelineId:this.indexPipelineId,
+      streamId:this.selectedApp._id,
+      queryPipelineId:this.queryPipelineId,
+      isSearchable:this.isSearchable,
+      page:0,
+      limit:this.limit,
+      searchKey:''
+    };
+    this.service.invoke('get.spellcorrectFields', quaryparms).subscribe(res => {
+      this.allspellCorrect = res.data;
+      this.allspellCorrect.forEach(element => {
+        if(element.spellCorrect.value){
+          this.spellcorrect.push(element)
+        }else{
+          this.nonspellcorrect.push(element)
+        }
+      });
+    }, errRes => {
+      this.notificationService.notify("Failed to get Spellcorrect fields",'error');
+    });
+   }
+
+   /** Emited Value for Operation (Add/Delete)  */
+ getrecord(recordData : any){
+  let record = recordData.record;
+  if(record.length > 1){
+
+  }
+  let deleteData = {
+    url :'delete.spellcorrectFields',
+    quaryparms : {
+      streamId:this.selectedApp._id,
+      indexPipelineId:this.indexPipelineId,
+      queryPipelineId:this.queryPipelineId,
+      fieldId :  record[0]
+    }
+   }
+   let addData = {
+    url :'add.spellcorrectFields',
+    quaryparms : {
+      streamId:this.selectedApp._id,
+      indexPipelineId:this.indexPipelineId,
+      queryPipelineId:this.queryPipelineId,
+    },
+    payload : record
+   }
+   recordData.type == 'delete' ? this.removeRecord(deleteData) : this.addRecords(addData)
+   
+ }
+ /** remove fromPresentable */
+ removeRecord(deleteData){
+  const quaryparms: any = deleteData.quaryparms;
+  this.service.invoke(deleteData.url, quaryparms).subscribe(res => {
+   this.getSpellcorrect();
+  }, errRes => {
+    this.notificationService.notify("Failed to remove Fields",'error');
+  });
+ }
+  /** Add to Prescentable */
+ addRecords(addData){
+  this.service.invoke(addData.url,addData.quaryparms,addData.payload).subscribe(res => {
+    this.getSpellcorrect();
+    this.notificationService.notify("Field added succesfully",'success');
+  }, errRes => {
+    this.notificationService.notify("Failed to add Fields",'error');
+  });
+  // 
+ }
+ //**Spell Correct Slider change update query pipeline */
+ sildervaluechanged(event){
+    const quaryparms:any={
+      indexPipelineId:this.workflowService.selectedIndexPipeline(),
+      queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
+      searchIndexId:this.serachIndexId
+    }
+      var payload:any={
+        settings: {
+          spellCorrect: {
+            enable: event.currentTarget.checked
+        }
+      
+    }
+  }
+    this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
+      this.spellcorrectdata.enable=res.settings.spellcorrectdata.enable
+      this.notificationService.notify("updated successfully",'success');
+    }, errRes => {
+      this.notificationService.notify("Failed to update",'error');
+    });
+  
+}
 
   openContainer(){
     this.more_options=true;
@@ -50,6 +163,15 @@ export class SpellCorrectionComponent implements OnInit {
     if(this.max_threshold < 0){
       this.max_threshold=0;
     }
+    if(this.max_threshold > 0){
+      const quaryparms:any={
+        indexPipelineId:this.workflowService.selectedIndexPipeline(),
+        queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
+        searchIndexId:this.serachIndexId
+      }
+      
+    }
+    
   }
   maxincrementValue(){
     this.max_threshold=this.max_threshold+1;

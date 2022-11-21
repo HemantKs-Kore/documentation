@@ -6,7 +6,7 @@
 <div class="landing-page-block" id="sa-landing-page-block">
     <div class="landing-page-toggle" id="sa-landing-page-toggle">
         <label class="kr-sg-toggle with-label" id="kr-sg-toggle-with-label">
-            <input type="checkbox" checked="" id="sa_checkbox_1">
+            <input type="checkbox" [checked]="spellcorrectdata.enable" id="sa_checkbox_1" (change)="sildervaluechanged($event)">
             <div class="slider" id="sa_slider_1">
                 <span class="no" id="sa_no_1">{{"search_settings_disable" |translate}}</span>
                 <span class="yes" id="sa_yes_1">{{"search_settings_enable"|translate}}</span>
@@ -74,6 +74,6 @@
 
     <div class="block-separate-line"></div>
 
-    <app-list-fields></app-list-fields>
+    <app-list-fields [tablefieldvalues]="spellcorrect" [popupfieldvalues]="nonspellcorrect" (emitRecord)="getrecord($event)"></app-list-fields>
 
 </div>
