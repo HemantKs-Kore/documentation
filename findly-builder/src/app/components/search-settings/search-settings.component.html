@@ -1,86 +1,128 @@
-    <div class="searchSettingsComponent" id="sa_searchSettingsComponent">
-      <!-- common main Header -->
-      <div class="common_header" id="sa_common_header">
-        <div class="title" id="sa_title">{{"search_settings_title" |translate}}
-            <span class="module-topic" id="sa_module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='{{"sa_topic_guide" | translate}}'
-                placement="right-center">
-                <i class="si-topic-guide-1" id="sa_si-topic-guide-1"></i> <!-- Topic Guide yet to Impiment -->
-            </span>
-        </div>
-      </div>
-      <!-- common main Header end-->
-      <!-- search settings menu list -->
-      <div class="search-settings-main-block" id="sa_search-settings-main-block">
-        <div class="search-settings-left" id="sa_search-settings-left">
-          <perfect-scrollbar class="search-settings-left-menu-scroll" id="sa_search-settings-left-menu-scroll">
-            <ng-container *ngFor="let component of componentsArray">
-              <button (click)="selectedComponent=component.value" class="btn side-menu-tab-btn" id="sa_side-menu-tab-btn" [ngClass]="{'btn-active':(selectedComponent===component.value)}">{{component.key}}</button><br/>
-          </ng-container>
+<div class="searchSettingsComponent">
+  <!-- common main Header -->
+  <div class="common_header">
+    <div class="title">Search Settings
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide'
+        placement="right-center">
+        <i class="si-topic-guide-1"></i> <!-- Topic Guide yet to Impiment -->
+      </span>
+    </div>
+  </div>
+  <!-- common main Header end-->
+  <div class="search-settings-main-block">
+    <div class="search-settings-left">
+      <perfect-scrollbar class="search-settings-left-menu-scroll">
+        <ng-container *ngFor="let component of componentsArray">
+          <button (click)="selectedComponent=component.value" class="btn side-menu-tab-btn"
+            [ngClass]="{'btn-active':(selectedComponent===component.value)}">{{component.key}}</button><br />
+        </ng-container>
+      </perfect-scrollbar>
+    </div>
+    <div class="search-settings-right">
+      <div [ngSwitch]="selectedComponent">
+        <!--weights component-->
+        <ng-container *ngSwitchCase="'weights'">
+          <app-weights></app-weights>
+        </ng-container>
+
+        <!--Presentable component-->
+        <ng-container *ngSwitchCase="'presentable'">
+          <app-presentable></app-presentable>
+          <app-list-fields></app-list-fields>
+        </ng-container>
+
+        <!--Presentable component-->
+        <ng-container *ngSwitchCase="'highlighting'">
+          <perfect-scrollbar class="page-common-scroll">
+            <app-highlighting></app-highlighting>
+            <app-list-fields></app-list-fields>
           </perfect-scrollbar>
-        </div>
-        <!-- search settings menu list end -->
-        <div class="search-settings-right" id="search-settings_id">
-             <div [ngSwitch]="selectedComponent">
-                <!--weights component-->
-                <ng-container *ngSwitchCase="'weights'">
-                  <app-weights></app-weights>
-                </ng-container>
-    
-                 <!--Presentable component-->
-                 <ng-container *ngSwitchCase="'presentable'">
-                    <app-presentable [presentabledata]="pipeline.settings.presentable" [selectedcomponent]="selectedComponent"></app-presentable>                 
-                  </ng-container>
-    
-                  <!--highlighting component-->
-                 <ng-container *ngSwitchCase="'highlighting'">
-                  <perfect-scrollbar class="page-common-scroll">
-                    <app-highlighting [highlightdata]="pipeline.settings.highlight" [selectedcomponent]="selectedComponent"></app-highlighting>
-                  </perfect-scrollbar>
-                  </ng-container>
-    
-                  <!-- spell-correction component-->
-                 <ng-container *ngSwitchCase="'spell_correction'">
-                  <perfect-scrollbar class="page-common-scroll">
-                    <app-spell-correction [spellcorrectdata]="pipeline.settings.spellCorrect" [selectedcomponent]="selectedComponent"></app-spell-correction>
-                  </perfect-scrollbar>
-                  </ng-container>
-    
-                  <!--search_settings_Snippets_Component component-->
-                 <ng-container *ngSwitchCase="'snippets'">
-                  </ng-container>
-    
-                  <!--search-relevance component-->
-                 <ng-container *ngSwitchCase="'search_relevance'">
-                  <perfect-scrollbar class="page-common-scroll">
-                    <app-search-relevance></app-search-relevance>
-                  </perfect-scrollbar>
-                  </ng-container>
-    
-                  <!--synonyms component-->
-                 <ng-container *ngSwitchCase="'synonyms'">
-                    <app-synonyms></app-synonyms>
-                  </ng-container>
-    
-                  <!--stop-words component-->
-                 <ng-container *ngSwitchCase="'stop_words'">
-                    <app-stop-words></app-stop-words>
-                  </ng-container>
-    
-                  <!--bot_actions component-->
-                 <ng-container *ngSwitchCase="'bot_actions'">
-                  </ng-container>
-    
-                  <!--small_talk component-->
-                 <ng-container *ngSwitchCase="'small_talk'">
-                    <app-small-talk></app-small-talk>
-                  </ng-container>
-    
-                  <!--custom_configurations component-->
-                 <ng-container *ngSwitchCase="'custom_configurations'">
-                  </ng-container>
-             </div>
-        </div>
-    </div>
+        </ng-container>
+
+        <!--Presentable component-->
+        <ng-container *ngSwitchCase="'spell_correction'">
+          <perfect-scrollbar class="page-common-scroll">
+            <app-spell-correction></app-spell-correction>
+            <app-list-fields></app-list-fields>
+          </perfect-scrollbar>
+        </ng-container>
+
+        <!--Presentable component-->
+        <ng-container *ngSwitchCase="'snippets'">
+          Snippets Component
+        </ng-container>
+
+        <!--Presentable component-->
+        <ng-container *ngSwitchCase="'search_relevance'">
+          <perfect-scrollbar class="page-common-scroll">
+            <app-search-relevance></app-search-relevance>
+          </perfect-scrollbar>
+        </ng-container>
+
+        <!--Presentable component-->
+        <ng-container *ngSwitchCase="'synonyms'">
+          <app-synonyms></app-synonyms>
+        </ng-container>
+
+        <!--Presentable component-->
+        <ng-container *ngSwitchCase="'stop_words'">
+          <app-stop-words></app-stop-words>
+        </ng-container>
+
+        <!--Presentable component-->
+        <ng-container *ngSwitchCase="'bot_actions'">
+          <div class="bot-actions-block">
+            <div class="widget-header-block">
+              <div class="widget-header">Bot Actions</div>
+              <div class="widget-desc">Enable or disable Bot Actions to trigger an event during the conversation with a
+                virtual assistant </div>
+            </div>
+            <div class="landing-page-toggle">
+              <label class="kr-sg-toggle with-label">
+                <input type="checkbox" checked="">
+                <div class="slider">
+                  <span class="no">Disable</span>
+                  <span class="yes">Enable</span>
+                </div>
+              </label>
+            </div>
+            <div class="block-separate-line"></div>
+
+            <div class="widget-header-block second-header-block">
+              <div class="widget-header">Bot Action Behaviour</div>
+              <div class="widget-desc">Enable or disable the bot action behaviour to auto execute the winning intent or to have the action prompts as a part of the search results</div>
+            </div>
+
+            <div class="bot-actions-radio-grp-block">
+              <div class="group-radiobutton">
+                <div class="kr-sg-radiobutton d-block">
+                    <input id="auto_execute" name="radio" class="radio-custom" type="radio">
+                    <label for="auto_execute" class="radio-custom-label">Auto execute the winning intent</label>
+                </div> 
+                <div class="kr-sg-radiobutton d-block">
+                    <input id="do_not_auto_execute" name="radio" class="radio-custom" type="radio">
+                    <label for="do_not_auto_execute" class="radio-custom-label">Do not auto execute the winning intent</label>
+                </div> 
+            </div>
+            </div>
 
 
+          </div>
+        </ng-container>
+
+        <!--Presentable component-->
+        <ng-container *ngSwitchCase="'small_talk'">
+          <!-- Small talk Component -->
+          <app-small-talk></app-small-talk>
+        </ng-container>
+
+        <!--Presentable component-->
+        <ng-container *ngSwitchCase="'custom_configurations'">
+          Custom Configuration
+        </ng-container>
+      </div>
     </div>
+  </div>
+
+
+</div>

@@ -33,6 +33,8 @@ export class WeightsComponent implements OnInit, OnDestroy
   sliderMax = 10;
   currentEditIndex: any = -1
   fields: any = [];
+  weightsList = [];
+  fieldsList = [];
   field_name:string;
   searchModel;
   deleteFlag;
@@ -40,6 +42,7 @@ export class WeightsComponent implements OnInit, OnDestroy
   search_FieldName: any = '';
   searching;
   searchField;
+  payloadObj = {};
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   componentType: string = 'configure';
@@ -93,11 +96,10 @@ export class WeightsComponent implements OnInit, OnDestroy
     }
 
   }
-  selectedField(event)
-  {
+  selectedField(event) {
     this.addEditWeighObj.fieldName = event.fieldName;
     this.addEditWeighObj.fieldId = event._id;
-    this.addEditWeighObj.name = event.fieldName;
+    // this.addEditWeighObj.name = event.fieldName;
   }
   clearField()
   {
@@ -105,7 +107,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     this.addEditWeighObj.fieldId = '';
     this.addEditWeighObj.name = '';
   }
-  getFieldAutoComplete(query)
+  getFieldAutoComplete(query) // not using any where
   {
     if (/^\d+$/.test(this.searchField))
     {
@@ -124,25 +126,18 @@ export class WeightsComponent implements OnInit, OnDestroy
       this.errorToaster(errRes, 'Failed to get fields');
     })
   }
-  prepereWeights()
-  {
-    this.weights = [];
-    if (this.pipeline.weights)
-    {
-      this.pipeline.weights.forEach((element, i) =>
-      {
-        const name = (element.name || '').replace(/[^\w]/gi, '')
+  prepereWeights(){
+    this.weightsList = []
+    if (this.weights){
+      this.weights.forEach((element, i) => {
+        const name = (element.fieldName || '').replace(/[^\w]/gi, '')
         const obj = {
-          name: element.name,
-          desc: element.desc,
-          isField: element.isField,
-          fieldId: element.fieldId,
-          showFieldWarning: element.showFieldWarning,
-          sliderObj: new RangeSlider(0, 10, 1, element.value, name + i,'',true)
+          fieldName: element.fieldName,
+          fieldDataType: element.fieldDataType,
+          fieldId: element._id,
+          sliderObj: new RangeSlider(0, 10, 1,element.weight.value, name + i,'',true)
         }
-        this.weights.push(obj);
-        // console.log("weight noe ", this.weights);
-
+        this.weightsList.push(obj);
       });
     }
     this.loadingContent = false;
@@ -201,23 +196,26 @@ export class WeightsComponent implements OnInit, OnDestroy
         }
       })
   }
-  getWeights()
-  {
+  getWeights(){
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      pageNo: 1,
+      // pageNo: this.pageNumber,
+      noOfRecords: 10,
+      // noOfRecords: this.numberofweigths,
+      isSelected : true
     };
-    this.service.invoke('get.queryPipeline', quaryparms).subscribe(res =>
+    this.service.invoke('get.weightsList', quaryparms).subscribe(res =>
     {
-      this.pipeline = res.pipeline || {};
+      this.weights = res.data || {};
       this.prepereWeights();
       if (!this.inlineManual.checkVisibility('WEIGHTS'))
       {
         this.inlineManual.openHelp('WEIGHTS')
         this.inlineManual.visited('WEIGHTS')
       }
-      // this.mixpanel.postEvent('Enter Weights',{});
     }, errRes =>
     {
       this.loadingContent = false;
@@ -232,8 +230,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     }
     if(weight.sliderObj.default != val){
       weight.sliderObj.default = val;
-      this.sliderChange();
-      this.updatedSliderValue(weight);
+      this.sliderChange(weight);
     }
   }
   editWeight(weight, index)
@@ -245,36 +242,36 @@ export class WeightsComponent implements OnInit, OnDestroy
     // this.addEditWeighObj = editWeight;
     // this.openAddEditWeight();
   }
-  getAllFields()
-  {
+  getAllFields(){
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId,
-    },
-    payload ={
-      "sort": {
-          "fieldName": 1,
-      } 
-    }
-    // let serviceId = 'get.allFieldsData';
-    let serviceId = 'post.allField';
-    this.service.invoke(serviceId, quaryparms,payload).subscribe(res =>
-    {
-      this.fields = res.fields || [];
+      streamId: this.selectedApp._id,
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      // pageNo: 1,
+      // pageNo: this.pageNumber,
+      // noOfRecords: 10,
+      // noOfRecords: this.numberofweigths,
+      isSelected : false
+    };
+    this.service.invoke('get.weightsList', quaryparms).subscribe(res =>
+      {
+      this.fieldsList = res.data || [];
+      // this.fieldsList.forEach(element => {
+      //   this.fields.push(element.fieldName);
+      //   console.log(this.fields)
+      // });
     }, errRes =>
     {
       this.errorToaster(errRes, 'Failed to get fields');
     });
   }
-  openAddEditWeight()
-  {
+  openAddEditWeight(){
     this.searchModel = {};
     this.sliderOpen = true;
     this.submitted = false;
     this.getAllFields();
     this.addDditWeightPopRef = this.addDditWeightPop.open();
-    setTimeout(() =>
-    {
+    setTimeout(() =>{
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop();
     }, 500)
@@ -282,9 +279,10 @@ export class WeightsComponent implements OnInit, OnDestroy
   openAddNewWeight()
   {
     this.addEditWeighObj = {
-      name: '',
-      desc: '',
-      isField: true,
+      filedName: '',
+      // desc: '',
+      // isField: true,
+      fieldId:'',
       sliderObj: new RangeSlider(0, 10, 1, 2, 'editSlider','',true)
     };
     // this. getFieldAutoComplete(''); 
@@ -321,8 +319,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     }
   }
 
-  validateWeights()
-  {
+  validateWeights() {
     if (this.addEditWeighObj.fieldName && this.addEditWeighObj.fieldName.length)
     {
       this.submitted = false;
@@ -334,67 +331,62 @@ export class WeightsComponent implements OnInit, OnDestroy
     }
   }
 
-  addEditWeight()
-  {
+  addEditWeight(addEditWeighObj) {
     this.submitted = true;
     if (this.validateWeights())
     {
-      const weights = JSON.parse(JSON.stringify(this.weights));
-      if (this.currentEditIndex > -1)
-      {
-        weights[this.currentEditIndex] = this.addEditWeighObj;
-      } else
-      {
-        weights.push(this.addEditWeighObj);
-      }
-      this.addOrUpddate(weights, null, 'add');
+      // const weights = JSON.parse(JSON.stringify(this.weights));
+      this.addOrUpddate(addEditWeighObj, null, 'add');
     }
     else
     {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
-  getWeightsPayload(weights)
-  {
+  getWeightsPayload(weight) {
     const tempweights = [];
-    weights.forEach(weight =>
-    {
       const obj = {
-        name: weight.name,
+        fieldName: weight.fieldName,
+        fieldDataType: weight.fieldDataType ,
+        fieldId: weight._id,
         value: weight.sliderObj.default,
-        desc: weight.desc,
-        isField: weight.isField,
-        fieldId: weight.fieldId
       }
+      this
       tempweights.push(obj);
-    });
     return tempweights
   }
-  sliderChange(){
+  sliderChange(weight){
    if(this.sliderOpen){
     return
    }
    else {
-    const weights = JSON.parse(JSON.stringify(this.weights));
-    this.addOrUpddate(weights,null,'edit');
+    // const weights = JSON.parse(JSON.stringify(this.weights));
+    this.addOrUpddate(weight,null,'edit');
    }
   }
-  addOrUpddate(weights, dialogRef?, type?)
+  addOrUpddate(weight, dialogRef?, type?)
   {
-    weights = weights || this.weights;
+    // weights = weights || this.weightsList;
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      fieldId:weight.fieldId
     };
-    this.pipeline.weights = this.getWeightsPayload(weights);
-    const payload: any = {
-      pipeline: this.pipeline
+    if(type != 'delete'){
+      this.payloadObj  = {
+        weight:{
+          value:weight.sliderObj.default
+        }
+      }
     }
-    this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(res =>
+    else {
+      this.payloadObj = { }  
+    }
+    const payload = this.payloadObj
+    this.weightsList.push(this.getWeightsPayload(weight));
+    this.service.invoke('put.updateWeight', quaryparms,payload).subscribe(res =>
     {
-      this.currentEditIndex = -1;
-      this.pipeline = res.pipeline || {};
       this.prepereWeights();
       if (type == 'add')
       {
@@ -447,8 +439,8 @@ export class WeightsComponent implements OnInit, OnDestroy
       {
         if (result === 'yes')
         {
-          this.weights.splice(index, 1);
-          this.addOrUpddate(this.weights, dialogRef, 'delete');
+          this.weightsList.splice(index, 1);
+          this.addOrUpddate(record, dialogRef, 'delete');
           dialogRef.close();
         } else if (result === 'no')
         {
@@ -479,72 +471,6 @@ export class WeightsComponent implements OnInit, OnDestroy
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next();
   }
-  //getting List of Weigths 
-  getListOfweigts(){
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      pageNo: this.pageNumber,
-      noOfRecords: this.numberofweigths,
-      isSelected : this.selected
-    };
-    this.service.invoke('get.weightsList', quaryparms).subscribe(res =>
-      {
-        this.pipeline = res || {}; // list of the weights from the responce
-        this.prepereWeights();
-      }, errRes =>
-      {
-        this.loadingContent = false;
-        this.errorToaster(errRes, 'Failed to get weights');
-      });
-  }
-  //Slider change method 
-  updatedSliderValue(weight){
-    if(this.sliderOpen){
-     return
-    }
-    else {
-     this.addUpdateWeight(weight);
-    }
-   }
-  // update weight 
-  addUpdateWeight(weight){
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      fieldId:weight.fieldId
-    };
-    this.service.invoke('put.updateWeight', quaryparms).subscribe(res =>
-      {
-        this.notificationService.notify('Weight Updated Successfully', 'success');
-      }, errRes =>
-      {
-        this.loadingContent = false;
-        this.errorToaster(errRes, 'Failed to update weight');
-      }); 
-  }
-
-// deletes added field weight from only List of weights
-  deleteWeightFromList(weight){
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      fieldId:weight.fieldId
-    };
-    this.service.invoke('delete.weight', quaryparms).subscribe(res =>
-      {
-        this.notificationService.notify('Weight Deleted Successfully', 'success');
-        this.prepereWeights()
-      }, errRes =>
-      {
-        this.loadingContent = false;
-        this.errorToaster(errRes, 'Failed To Delete Weight');
-      });
-  }
-
   ngOnDestroy()
   {
     this.subscription ? this.subscription.unsubscribe() : false;

@@ -3545,9 +3545,11 @@
     "home_please_type_delete":"Please type DELETE to confirm",
     "home_welcome_to_search_assist":"Welcome to SearchAssist",
     "home_watch_a_quick_desc":"Watch a quick introductory video on the SearchAssist’s features.",
-    "index_Settings": "Index Settings",
     "Add_Stop_Words": "Add Stop Words",
     "How_would_you_like_to_start": "How would you like to start?",
+    "Add_defaults": "Add defaults",
+    "Add_defaults_eg": "Eg: If, Me, I, Can, Not, Won’t etc..",
+    "Get_Started": "Get Started",
 
 
     "10NOv":"10NOv  Not Added keys---------------------------------------------------------------------------------------------------------------",

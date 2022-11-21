@@ -212,22 +212,22 @@
             margin: 0 auto;
             padding: 0px 0px;
             .main_heading{
-                font-weight: 600;
-                font-size: 18px;
-                line-height: 14px;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 17px;
                 color: #423F3F;
                 margin-bottom: 12px;
                 text-align: left;
             }
             .desc_info{
-                font-weight: 500;
-                font-size: 12px;
-                line-height: 14px;
-                color: #423F3F;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 20px;
+                color: #777A80;
                 text-align: left;
             }
             .radio-sec{
-                padding: 30px 0;
+                padding: 20px 0;
                 .radio_block{
                     background: #fff;
                     border: 1px solid #FFF;
@@ -241,12 +241,12 @@
                         .radio-custom {
                             + .radio-custom-label{
                                 &::before{
-                                    top: 9px;
+                                    top: 3px;
                                 }
                             }
                         }
                         .radio-custom-label{
-                            padding-left: 44px;                       
+                            padding-left: 24px;                       
                             .label_heading{
                                 font-size: 14px;
                                 line-height: 14px;
@@ -357,7 +357,7 @@
 }
 
 .kr-sg-dropdowns.exportdropdown .dropdown-open .dropdown-input::before{
-    background-image: unset;
+    background-image: unset !important;
 }
 .kr-sg-input-text{
 	input.input-text.err-block{

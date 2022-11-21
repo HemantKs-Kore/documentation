@@ -50,28 +50,12 @@
                         <div class="heading">{{'weights_no_rankable_field_available'| translate}}</div>
                         <div class="desc">{{'weights_please_add_rankable_field'| translate}}</div>
                     </div>
-                    <div class="content-body" *ngFor="let weightModal of weights; let i = index">
-                        <div class="col-2 name text-truncate" ngbTooltip="{{weightModal.name}}">
-                            <div class="text-truncate">
-                                <img class="pr-1"
-                                    *ngIf="weightModal.showFieldWarning && (weightModal.showFieldWarning !== 'false')"
-                                    src="assets/icons/info-blue.svg" placement="left"
-                                    tooltipClass="{{modifyFieldWarningMsg(weightModal.showFieldWarning)?'my-custom-warning-class':'text-left-warning'}}"
-                                    container="body"
-                                    ngbTooltip='{{fieldWarnings[weightModal.showFieldWarning] || weightModal.showFieldWarning}}'>
-                                {{weightModal.name}}
-                            </div>
-                            <div class="pre_defined d-none" *ngIf="!weightModal.isField">{{'weights_SYSTEM-DEFINED'|
-                                translate}}</div>
-                            <!-- <div class="pre_defined" *ngIf="!weightModal.isField">{{'weights.PRE-DEFINED'| translate}}</div> -->
+                    <div class="content-body" *ngFor="let weightModal of weightsList; let i = index">
+                        <div class="col-2 name text-truncate">
+                            <div class="text-truncate">{{weightModal.fieldName}} </div>
                         </div>
                         <div class="col-6 desc text-truncate">
-                            <span *ngIf="currentEditIndex !== i">{{weightModal.desc}}</span>
-                            <div class="kr-sg-input-text-area" *ngIf="currentEditIndex === i">
-                                <textarea [(ngModel)]="weightModal.desc" (keyup)="disableCancle = false"
-                                    placeholder="Short Description" class="input-text weighDesc"
-                                    maxlength="250"></textarea>
-                            </div>
+                            <span>{{weightModal.fieldDataType}}</span>
                         </div>
                         <div class="col-4 sliderContainer">
                             <div class="range-slider">
@@ -79,21 +63,10 @@
                                     (valueEvent)="valueEvent($event,weightModal)"></app-range-slider>
                             </div>
                             <div class="sliderVal">{{weightModal.sliderObj.default}}</div>
-                            <div class="action_links" *ngIf="(currentEditIndex !== i)">
-                                <span class="actions-links pr-4 d-none" id="btn_editWeight"
-                                    (click)="editWeight(weightModal,i)"><img class="action_icon" [container]="'body'"
-                                        ngbTooltip='Edit' src="assets/images/edit-pencil.svg"></span>
+                            <div class="action_links">
                                 <span class="actions-links" id="btn_deleteWeight" ngbTooltip='Delete'
                                     [container]="'body'" (click)="deleteWeight(weightModal,$event,i)"><img
-                                        class="action_icon" src="assets/icons/delete.svg"></span>
-                            </div>
-                            <div class="action_links editBlock" *ngIf="currentEditIndex === i">
-                                <span class="actions-links pr-1" id="btn_confirmWeightEdit"
-                                    (click)="weightModal.desc = currentEditDesc;currentEditIndex = -1"><img
-                                        class="action_icon" src="assets/images/Gray-Close-withBorder.svg"></span>
-                                <span class="actions-links" id="btn_cancelWeightEdit"
-                                    (click)="currentEditIndex = -1"><img class="action_icon"
-                                        src="assets/images/Gray-tick-withBorder.svg"></span>
+                                    class="action_icon" src="assets/icons/delete.svg"></span>
                             </div>
                         </div>
                     </div>
@@ -142,10 +115,10 @@
                                 <perfect-scrollbar class="scroll-search-field h-178">
                                     <ng-container>
                                         <li ngbDropdownItem
-                                            *ngFor="let suggesition of fields | filter : [search_FieldName, 'fieldName']"
+                                            *ngFor="let suggesition of fieldsList | filter : [search_FieldName, 'fieldName']"
                                             (click)="addEditWeighObj.fieldName=suggesition.fieldName;selectedField(suggesition)"
-                                            [ngClass]="{'highlight':addEditWeighObj.fieldName == suggesition.fieldName}">
-                                            {{ suggesition.fieldName }}
+                                            [ngClass]="{'highlight':addEditWeighObj.fieldName == suggesition}">
+                                            {{ suggesition.fieldName}}
                                         </li>
                                     </ng-container>
                                 </perfect-scrollbar>
@@ -183,7 +156,7 @@
             *ngIf="currentEditIndex>-1"
             (click)="deleteWeight(addEditWeighObj,$event,currentEditIndex)">{{'sa_delete' | translate}}</button>
         <button id="btn_weightseditSave" type="button" class="kr-sg-button-primary btn_lg mr-0 float-right"
-            (click)="addEditWeight()">{{(currentEditIndex>-1)?'Update':'Add'}}</button>
+            (click)="addEditWeight(addEditWeighObj)">{{(currentEditIndex>-1)?'Update':'Add'}}</button>
         <!-- [disabled]="!addEditWeighObj.name" -->
         <button id="btn_weightsClose" type="button" class="kr-sg-button-secondary btn_lg float-right"
             (click)="closeAddEditWeight()">{{'sa_cancel'| translate}}</button>

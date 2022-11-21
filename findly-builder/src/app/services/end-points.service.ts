@@ -1385,7 +1385,7 @@ export class EndPointsService {
     }
     //API request for updating  Weight
     this.serviceList['put.updateWeight'] = {
-      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights/:fieldId',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights/field/:fieldId',
       method: 'put'
     }
     //API request for delete  Weight
