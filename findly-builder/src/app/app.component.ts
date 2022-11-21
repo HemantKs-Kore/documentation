@@ -66,7 +66,7 @@ export class AppComponent implements OnInit, OnDestroy {
   searchExperinceLoading: boolean = false;
   indexPipelineId: any;
   queryPipelineId: any;
-  isDemoApp: boolean = false;
+  // isDemoApp: boolean = false;
   selectedApp : any;
   @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(private router: Router,
@@ -137,7 +137,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.showHideTopDownSearch(false);
     });
     this.showSDKApp = this.appSelectionService.openSDKApp.subscribe(res => {
-      this.isDemoApp = true;
+      //this.isDemoApp = true;
       this.getSearchExperience();
     })
     this.inlineManual.loadAppscue();
@@ -324,7 +324,7 @@ export class AppComponent implements OnInit, OnDestroy {
   //open search SDK from header 
   searchSDKHeader() {
     if (this.searchExperienceConfig) {
-      this.isDemoApp = false;
+      //this.isDemoApp = false;
       if (this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')) {
         if (!this.headerService.isSDKCached || !$('.search-background-div').length) {
           if (!$('.search-background-div:visible').length) {
@@ -698,7 +698,7 @@ export class AppComponent implements OnInit, OnDestroy {
           _self.searchExperinceLoading = true;
           _self.headerService.updateSearchConfigurationValue(res);
           _self.headerService.searchConfiguration = res;
-          if (_self.isDemoApp) _self.searchSDKHeader();
+          //if (_self.isDemoApp) _self.searchSDKHeader();
         }, errRes => {
           // console.log("getSearchExperience failed happen");
           // console.log(errRes);
