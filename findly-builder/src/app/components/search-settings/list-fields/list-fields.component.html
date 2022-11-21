@@ -49,13 +49,13 @@
             
             <!-- Table Records/Body -->
             <perfect-scrollbar class="table_body_content" id="sa_table_body_ps" (psYReachStart)="onYReachStart()" (psYReachEnd)="onYReachEnd($event)">
-                        <div class="table_body row m-0" *ngFor="let fields of fieldsArr | filter : [search_value, 'field_name'];let i = index" >
+                        <div class="table_body row m-0" *ngFor="let fields of tablefieldvalues | filter : [search_value, 'fieldName'];let i = index" >
                      
                             <div class="col-5 title text-left text-truncate" title="">
-                                {{fields.field_name}}
+                                {{fields.fieldName}}
                             </div>
                             <div class="col-5 title text-left p-0">
-                                {{fields.type}}
+                                {{fields.fieldDataType}}
                             </div>
                             <div class="col-2 p-0 text-left">
                                 <div class="action_links">
@@ -67,158 +67,7 @@
                                     </span>
                                 </div>
                             </div>
-                         
                         </div>
-                        <!-- <div class="table_body row m-0">
-                            <div class="col-5 title text-left text-truncate" title="">
-                                Korean
-                            </div>
-                            <div class="col-5 title text-left p-0">
-                                ko
-                            </div>
-                            <div class="col-2 p-0 text-left">
-                                <div class="action_links">
-                                    <span class="action_link-icon link-delete">
-                                        <i class="si-delete1 mr-1"></i> Delete
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table_body row m-0">
-                            <div class="col-5 title text-left text-truncate" title="">
-                                Korean
-                            </div>
-                            <div class="col-5 title text-left p-0">
-                                ko
-                            </div>
-                            <div class="col-2 p-0 text-left">
-                                <div class="action_links">
-                                    <span class="action_link-icon link-delete">
-                                        <i class="si-delete1 mr-1"></i> Delete
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table_body row m-0">
-                            <div class="col-5 title text-left text-truncate" title="">
-                                Korean
-                            </div>
-                            <div class="col-5 title text-left p-0">
-                                ko
-                            </div>
-                            <div class="col-2 p-0 text-left">
-                                <div class="action_links">
-                                    <span class="action_link-icon link-delete">
-                                        <i class="si-delete1 mr-1"></i> Delete
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table_body row m-0">
-                            <div class="col-5 title text-left text-truncate" title="">
-                                Korean
-                            </div>
-                            <div class="col-5 title text-left p-0">
-                                ko
-                            </div>
-                            <div class="col-2 p-0 text-left">
-                                <div class="action_links">
-                                    <span class="action_link-icon link-delete">
-                                        <i class="si-delete1 mr-1"></i> Delete
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table_body row m-0">
-                            <div class="col-5 title text-left text-truncate" title="">
-                                Korean
-                            </div>
-                            <div class="col-5 title text-left p-0">
-                                ko
-                            </div>
-                            <div class="col-2 p-0 text-left">
-                                <div class="action_links">
-                                    <span class="action_link-icon link-delete">
-                                        <i class="si-delete1 mr-1"></i> Delete
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table_body row m-0">
-                            <div class="col-5 title text-left text-truncate" title="">
-                                Korean
-                            </div>
-                            <div class="col-5 title text-left p-0">
-                                ko
-                            </div>
-                            <div class="col-2 p-0 text-left">
-                                <div class="action_links">
-                                    <span class="action_link-icon link-delete">
-                                        <i class="si-delete1 mr-1"></i> Delete
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table_body row m-0">
-                            <div class="col-5 title text-left text-truncate" title="">
-                                Korean
-                            </div>
-                            <div class="col-5 title text-left p-0">
-                                ko
-                            </div>
-                            <div class="col-2 p-0 text-left">
-                                <div class="action_links">
-                                    <span class="action_link-icon link-delete">
-                                        <i class="si-delete1 mr-1"></i> Delete
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table_body row m-0">
-                            <div class="col-5 title text-left text-truncate" title="">
-                                Korean
-                            </div>
-                            <div class="col-5 title text-left p-0">
-                                ko
-                            </div>
-                            <div class="col-2 p-0 text-left">
-                                <div class="action_links">
-                                    <span class="action_link-icon link-delete">
-                                        <i class="si-delete1 mr-1"></i> Delete
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table_body row m-0">
-                            <div class="col-5 title text-left text-truncate" title="">
-                                Korean
-                            </div>
-                            <div class="col-5 title text-left p-0">
-                                ko
-                            </div>
-                            <div class="col-2 p-0 text-left">
-                                <div class="action_links">
-                                    <span class="action_link-icon link-delete">
-                                        <i class="si-delete1 mr-1"></i> Delete
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table_body row m-0">
-                            <div class="col-5 title text-left text-truncate" title="">
-                                faq_cond_answers
-                            </div>
-                            <div class="col-5 title text-left p-0">
-                                Array
-                            </div>
-                            <div class="col-2 p-0 text-left">
-                                <div class="action_links">
-                                    <span class="action_link-icon link-delete">
-                                        <i class="si-delete1 mr-1"></i> Delete
-                                    </span>
-                                </div>
-                            </div>
-                         </div> -->
             </perfect-scrollbar>
         </div>
     </div>
@@ -237,17 +86,6 @@
         
             <div class="modal-body">
                 <app-search-filter (searchkey)="getsearchvalue($event)"></app-search-filter>
-                <!-- <div class="search-field-bar" id="sa_search-field-bar">
-                        <div class="kr-sg-input-inline-search">                               
-                            <input type="text" placeholder="{{'sa_search' | translate}}" class="input-search">
-                            <span class="search-icon close-icon">
-                                <i class="si-close" id="sa_si-close"></i>
-                            </span>
-                            <span class="search-icon">
-                                <i class="si-search" id="sa-si-search"></i>
-                            </span>                                   
-                        </div>
-                </div> -->
                 <div class="index-config-lang-table" id="sa_index_config_lang_table">
                     <div class="table_data_content">
                         <div class="table_header row m-0" id="sa_table_data_content">
@@ -270,7 +108,7 @@
                             </div>
                         </div>
                         <perfect-scrollbar class="table_body_content" id="sa_table_body">
-                                    <div class="table_body row m-0" *ngFor="let fields of fieldsArr | filter : [search_value, 'field_name'];let i = index" >
+                                    <div class="table_body row m-0" *ngFor="let fields of popupfieldvalues | filter : [search_value, 'fieldName'];let i = index" >
                                         <div class="col-3">
                                             <div class="kr-sg-checkbox" id="sa_checkbox" >
                                                 <input id="{{ fields._id }}"  class="checkbox-custom" type="checkbox" (click)="addRecord(fields,i,$event)">
@@ -278,69 +116,21 @@
                                             </div>
                                         </div>
                                         <div class="col-6 title text-left p-0 text-truncate" title="" >
-                                            {{fields.field_name}} 
+                                            {{fields.fieldName}} 
                                         </div>
                                         <div class="col-3 title text-left p-0" >
-                                            {{fields.type}}
+                                            {{fields.fieldDataType}}
                                         </div>
                                     </div>
                         </perfect-scrollbar>
                     </div>
                 </div>
-                <!-- <div class="index-config-lang-table">
-                    <div class="table_data_content">
-                        <div class="table_header row m-0">
-                            <div class="col_ col-8 title d-flex align-items-center justify-content-start">
-                                <span class="d-flex align-items-center flex-column mr-2 filter-sort">
-                                    <i class="si-chev-up icon-up"></i>
-                                    <i class="si-chev-down icon-down"></i>
-                                </span>
-                                FIELD NAME
-                            </div>
-                            <div class="col_ col-4 title d-flex align-items-center justify-content-start"> 
-                                <span class="d-flex align-items-center flex-column mr-2 filter-sort">
-                                    <i class="si-chev-up icon-up"></i>
-                                    <i class="si-chev-down icon-down"></i>
-                                </span>
-                                TYPE 
-                            </div>
-                        </div>
-                        <perfect-scrollbar class="table_body_content">
-                                    <div class="table_body row m-0">
-                                        <div class="col-8 title text-left text-truncate">
-                                            <div class="kr-sg-checkbox">
-                                                <input id="checkbox-2" class="checkbox-custom" type="checkbox">
-                                                <label for="checkbox-2" class="checkbox-custom-label text-truncate" title="faq_question">faq_question faq_question faq_question faq_question</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-4 title text-left">
-                                            String
-                                        </div>
-                                    </div>
-                                    <div class="table_body row m-0">
-                                        <div class="col-8 title text-left text-truncate">
-                                            <div class="kr-sg-checkbox">
-                                                <input id="checkbox-3" class="checkbox-custom" type="checkbox">
-                                                <label for="checkbox-3" class="checkbox-custom-label text-truncate" title="faq_alt_questions">faq_alt_questions</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-4 title text-left">
-                                            Array
-                                        </div>
-                                    </div>
-                                   
-                        </perfect-scrollbar>
-                    </div>
-                </div> -->
             </div>
 
         <div class="modal-footer">
             <div class="modal-footer-with-selected-count" id="sa_selected-count">
-                <!-- <div class="slected-count" class="sa_slected-count">
-                    <span class="slected-count-num">{{this.recordArray.length}}</span> / <span class="slected-count-num">{{fieldsArr.length}}</span> {{"search_settings_Selected" |translate}}
-                </div> -->
                 <div>
-                    <button type="button" class="kr-sg-button-primary btn_lg float-right" id="sa_primary_button">{{"search_settings_add" |translate}}</button>
+                    <button type="button" class="kr-sg-button-primary btn_lg float-right" id="sa_primary_button" (click)="add()">{{"search_settings_add" |translate}}</button>
                     <button type="button" class="kr-sg-button-secondary btn_lg float-right" id="sa_secondary_button" (click)="closeModalPopup()">{{"search_settings__cancel" |translate}}</button>
                 </div>
             </div>

@@ -37,7 +37,7 @@ export class AppHeaderComponent implements OnInit {
   currentRouteData: any = "";
   displyStatusBar: boolean = true;
   onboardingOpened: boolean = false;
-  tourData: any;
+  tourData: any = [];
   browseWorkspaceRef: any;
   tourConfigData: any = [];
   checklistCount: any;

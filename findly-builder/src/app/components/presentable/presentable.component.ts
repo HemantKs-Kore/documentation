@@ -23,8 +23,8 @@ export class PresentableComponent implements OnInit {
   limit:number=10;
   searchKey:any;
   allpresentableFields : any = [];
-  presentabletrueFields: any=[];
-  presentablefalseFields: any=[];
+  presentable = [];
+  nonPresentable = [];
   @Input() presentabledata;
   @Input() selectedcomponent
   constructor(
@@ -39,47 +39,91 @@ export class PresentableComponent implements OnInit {
     console.log(this.presentabledata);
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
-    this.getPresentableFields();
+    //this.getPresentableFields(true);
+    this.getPresentableFields(false)
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-      this.getPresentableFields();
+      //this.getPresentableFields(true);
+      this.getPresentableFields(false)
    })
  }
+ /** Emited Value for Operation (Add/Delete)  */
+ getrecord(recordData : any){
+  let record = recordData.record;
+  if(record.length > 1){
+
+  }
+  let deleteData = {
+    url :'delete.presentableFields',
+    quaryparms : {
+      streamId:this.selectedApp._id,
+      indexPipelineId:this.indexPipelineId,
+      queryPipelineId:this.queryPipelineId,
+      fieldId :  record[0]
+    }
+   }
+   let addData = {
+    url :'add.presentableFields',
+    quaryparms : {
+      streamId:this.selectedApp._id,
+      indexPipelineId:this.indexPipelineId,
+      queryPipelineId:this.queryPipelineId,
+    },
+    payload : record
+   }
+   recordData.type == 'delete' ? this.removeRecord(deleteData) : this.addRecords(addData)
+   
+ }
+ /** remove fromPresentable */
+ removeRecord(deleteData){
+  const quaryparms: any = deleteData.quaryparms;
+  this.service.invoke(deleteData.url, quaryparms).subscribe(res => {
+   this.getPresentableFields();
+  }, errRes => {
+    this.notificationService.notify("Failed to remove Fields",'error');
+  });
+ }
+  /** Add to Prescentable */
+ addRecords(addData){
+  this.service.invoke(addData.url.addData.quaryparms,addData.payload).subscribe(res => {
+   this.getPresentableFields();
+  }, errRes => {
+    this.notificationService.notify("Failed to remove Fields",'error');
+  });
+  // 
+ }
+
  //** get api for retrieving the presentable Fields */
- getPresentableFields(){
+ getPresentableFields(selected?){
   const quaryparms: any = {
-    isSelected:this.selectionflag,
+    isSelected:selected,
     sortField: "fieldName",
     orderType: this.selectedSort, //desc,
     indexPipelineId:this.indexPipelineId,
     streamId:this.selectedApp._id,
     queryPipelineId:this.queryPipelineId,
     isSearchable:this.isSearchable,
-    page:1,
+    page:0,
     limit:this.limit,
     searchKey:''
   };
   this.service.invoke('get.presentableFields', quaryparms).subscribe(res => {
     this.allpresentableFields = res.data;
-    for(let i=0;i<this.allpresentableFields;i++){
-      if(this.allpresentableFields[i].presentable===true){
-        for(let j=0;j<=this.allpresentableFields.length;j++)
-        this.presentabletrueFields[j]=this.allpresentableFields[i]
+    this.allpresentableFields.forEach(element => {
+      if(element.presentable.value){
+        this.presentable.push(element)
+      }else{
+        this.nonPresentable.push(element)
       }
-      else{
-        for(let k=0;k<=this.allpresentableFields.length;k++)
-        this.presentablefalseFields[k]=this.allpresentableFields[i]
-      }
-    }
-    console.log(this.presentabletrueFields)
-    console.log(this.presentablefalseFields)
-    
+    });
   }, errRes => {
     this.notificationService.notify("Failed to get presentable fields",'error');
   });
  }
+ delete(){
 
+ }
   ngOnDestroy() {
     this.querySubscription ? this.querySubscription.unsubscribe() : false;
   }
