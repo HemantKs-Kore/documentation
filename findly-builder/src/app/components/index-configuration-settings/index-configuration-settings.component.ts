@@ -127,14 +127,17 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   addLanguage(index){
     this.languageList[index].selected = !this.languageList[index].selected
   }
+  addLang(){
+    let langArr = [];
+    this.languageList.forEach(element => {
+      if(element.selected){
+        langArr.push(element);
+      }
+    });
+    this.saveLanguage(langArr)
+  }
   //add or edit Language
-  saveLanguage(){
-        // this.languageList.forEach((element,index) => {
-        //   if(!element.selected){
-        //     this.languageList.splice(index,1)
-        //   }
-        // });
-        //this.saveLanguages = true;
+  saveLanguage(langArr){
         let queryParams = {
           streamId:this.selectedApp._id,
           indexPipelineId:this.indexPipelineId
@@ -142,7 +145,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
         let payload = {
             language: {
               enable: true ,
-              values: this.languageList
+              values: langArr
             }
         }
         let  url = 'put.indexLanguages'
@@ -161,20 +164,35 @@ export class IndexConfigurationSettingsComponent implements OnInit {
         );
     this.closeModalPopup();
   }
+  //selection and deselection method
+   unCheck(){
+    this.supportedLanguages.forEach(element => {
+      this.languageList.forEach(data => {
+        if(element.code == data.code){
+          data.selected = true
+        }
+        else{
+          data.selected = false
+        }
+      });
+    });
+   }
+   updateLangListFun(list){
+    let updateArr = [];
+    this.supportedLanguages.forEach((element,index) => {
+      if(element.code != list.code){
+       updateArr.push(element)
+      }
+    });
+    this.supportedLanguages = updateArr
+    return updateArr;
+   }
   //delete language
-  deleteLanguage(index){
-   // this.supportedLanguages.splice(index,1);
-    // this.supportedLanguages.forEach(element => {
-    //   this.languageList.forEach(data => {
-    //     if(element.code == data.code){
-    //       data.selected = true
-    //     }
-    //     else{
-    //       data.selected = false
-    //     }
-    //   });
-    // });
-    this.saveLanguage()
+  deleteLanguage(list){
+  // this.supportedLanguages.splice(index,1);
+    this.unCheck()
+    let updateArr = this.updateLangListFun(list)
+    this.saveLanguage(updateArr)
   }
   //Use a better Apporch so that we can restrict this call for IndexPipline - use Observable
   getIndexPipeline() {
@@ -189,7 +207,8 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
       res.forEach(element => {
         if(element._id == this.indexPipelineId){
-          this.supportedLanguages = element.settings.language.values; 
+          this.supportedLanguages = element.settings.language.values;
+          this.workflowService.getSettings(element.settings);
         }
       });
     }, errRes => {

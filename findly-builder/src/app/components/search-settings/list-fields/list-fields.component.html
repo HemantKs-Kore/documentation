@@ -48,7 +48,7 @@
             <!-- table header end from here -->
             
             <!-- Table Records/Body -->
-            <perfect-scrollbar class="table_body_content" id="sa_table_body_ps" (psYReachStart)="onYReachStart()" (psYReachEnd)="onYReachEnd($event)">
+            <perfect-scrollbar class="table_body_content" id="sa_table_body_ps" (psYReachStart)="onYReachStart($event)" (psYReachEnd)="onYReachEnd($event)">
                         <div class="table_body row m-0" *ngFor="let fields of tablefieldvalues | filter : [search_value, 'fieldName'];let i = index" >
                      
                             <div class="col-5 title text-left text-truncate" title="">
