@@ -15,6 +15,7 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 import { debounceTime, map, startWith } from 'rxjs/operators';
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 declare const $: any;
 @Component({
   selector: 'app-team-management',
@@ -22,7 +23,7 @@ declare const $: any;
   styleUrls: ['./team-management.component.scss']
 })
 export class TeamManagementComponent implements OnInit {
-  teamModalRef: any;
+  emptyScreen = EMPTY_SCREEN.MANAGE_TEAM;
   selectedApp;
   serachIndexId;
   indexPipelineId;

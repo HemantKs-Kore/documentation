@@ -57,5 +57,10 @@ export const EMPTY_SCREEN = {
     DESC: 'Rule is powerful tool to personalize and fine-tune search results. SearchAssist allows you to define rules based on Search , Page and User-contexts. Rules can also be used for merchandising and promotions.',
     TITLE_SEARCH: 'No search results found',
     DESC_SEARCH: 'We couldn’t find the credentials you are looking for'
+  },
+  MANAGE_TEAM: {
+    IMG_NAME: 'team.svg',
+    TITLE_SEARCH: 'No results found',
+    DESC_SEARCH: 'You have no listed Teams! Let’s change it...'
   }
 };
