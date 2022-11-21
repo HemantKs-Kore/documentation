@@ -115,10 +115,10 @@
                                 <perfect-scrollbar class="scroll-search-field h-178">
                                     <ng-container>
                                         <li ngbDropdownItem
-                                            *ngFor="let suggesition of fields | filter : [search_FieldName, 'fieldName']"
+                                            *ngFor="let suggesition of fieldsList | filter : [search_FieldName, 'fieldName']"
                                             (click)="addEditWeighObj.fieldName=suggesition.fieldName;selectedField(suggesition)"
-                                            [ngClass]="{'highlight':addEditWeighObj.fieldName == suggesition.fieldName}">
-                                            {{ suggesition.fieldName }}
+                                            [ngClass]="{'highlight':addEditWeighObj.fieldName == suggesition}">
+                                            {{ suggesition.fieldName}}
                                         </li>
                                     </ng-container>
                                 </perfect-scrollbar>
@@ -156,7 +156,7 @@
             *ngIf="currentEditIndex>-1"
             (click)="deleteWeight(addEditWeighObj,$event,currentEditIndex)">{{'sa_delete' | translate}}</button>
         <button id="btn_weightseditSave" type="button" class="kr-sg-button-primary btn_lg mr-0 float-right"
-            (click)="addEditWeight()">{{(currentEditIndex>-1)?'Update':'Add'}}</button>
+            (click)="addEditWeight(addEditWeighObj)">{{(currentEditIndex>-1)?'Update':'Add'}}</button>
         <!-- [disabled]="!addEditWeighObj.name" -->
         <button id="btn_weightsClose" type="button" class="kr-sg-button-secondary btn_lg float-right"
             (click)="closeAddEditWeight()">{{'sa_cancel'| translate}}</button>
